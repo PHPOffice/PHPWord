@@ -19,9 +19,10 @@ $PHPWord->addParagraphStyle('pStyle', array('align'=>'center', 'spaceAfter'=>100
 $section->addText('I am styled by two style definitions.', 'rStyle', 'pStyle');
 $section->addText('I have only a paragraph style definition.', null, 'pStyle');
 
-
-
 // Save File
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('Text.docx');
+
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
+$objWriter->save('Text.odt');
 ?>
