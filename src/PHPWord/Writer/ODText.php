@@ -32,7 +32,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 	*
 	* @var PHPWord
 	*/
-	private $_presentation;
+	private $_document;
 	
 	/**
 	* Private writer parts
@@ -80,6 +80,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 		$this->_writerParts['manifest'] = new PHPWord_Writer_ODText_Manifest();
 		$this->_writerParts['meta'] 	= new PHPWord_Writer_ODText_Meta();
 		$this->_writerParts['mimetype'] = new PHPWord_Writer_ODText_Mimetype();
+		$this->_writerParts['styles'] 	= new PHPWord_Writer_ODText_Styles();
 		
 		
 		// Assign parent IWriter
@@ -99,7 +100,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 	 */
 	public function save($pFilename = null)
 	{
-		if (!is_null($this->_presentation)) {
+		if (!is_null($this->_document)) {
 			// If $pFilename is php://output or php://stdout, make it a temporary file...
 			$originalFilename = $pFilename;
 			if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
@@ -123,16 +124,19 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 			
 			// Add mimetype to ZIP file
 			//@todo Not in ZIPARCHIVE::CM_STORE mode
-			$objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->_presentation));
+			$objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->_document));
 			
 			// Add content.xml to ZIP file
-			$objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->_presentation));
+			$objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->_document));
 
 			// Add meta.xml to ZIP file
-			$objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->_presentation));
+			$objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->_document));
+			
+			// Add styles.xml to ZIP file
+			$objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->_document));
 			
 			// Add META-INF/manifest.xml
-			$objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_presentation));
+			$objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_document));
 			
 			// Add media
 			for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
@@ -192,8 +196,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 	 * @throws Exception
 	 */
 	public function getPHPWord() {
-		if (!is_null($this->_presentation)) {
-			return $this->_presentation;
+		if (!is_null($this->_document)) {
+			return $this->_document;
 		} else {
 			throw new Exception("No PHPWord assigned.");
 		}
@@ -207,7 +211,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 	 * @return PHPWord_Writer_PowerPoint2007
 	 */
 	public function setPHPWord(PHPWord $pPHPWord = null) {
-		$this->_presentation = $pPHPWord;
+		$this->_document = $pPHPWord;
 		return $this;
 	}
 	

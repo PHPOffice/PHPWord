@@ -99,4 +99,28 @@ class PHPWord_Shared_Drawing
 			return 0;
 		}
 	}
+
+	/**
+	 * Convert pixels to centimeters
+	 *
+	 * @param 	int $pValue	Value in pixels
+	 * @return 	int			Value in centimeters
+	 */
+	public static function pixelsToCentimeters($pValue = 0) {
+		return $pValue * 0.028;
+	}
+	
+	/**
+	 * Convert centimeters width to pixels
+	 *
+	 * @param 	int $pValue	Value in centimeters
+	 * @return 	int			Value in pixels
+	 */
+	public static function centimetersToPixels($pValue = 0) {
+		if ($pValue != 0) {
+			return $pValue * 0.028;
+		} else {
+			return 0;
+		}
+	}
 }

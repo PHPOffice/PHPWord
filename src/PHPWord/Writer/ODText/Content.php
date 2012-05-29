@@ -89,22 +89,259 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
 		$objWriter->writeAttribute('xmlns:formx', 'urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0');
 		$objWriter->writeAttribute('xmlns:css3t', 'http://www.w3.org/TR/css3-text/');
 		$objWriter->writeAttribute('office:version', '1.2');
+	
+		// We firstly search all fonts used
+		$_sections = $pPHPWord->getSections();
+		$countSections = count($_sections);
+		if($countSections > 0) {
+			$pSection = 0;
+			$numPStyles = 0;
+			$numFStyles = 0;
+		
+			foreach($_sections as $section) {
+				$pSection++;
+				$_elements = $section->getElements();
+		
+				foreach($_elements as $element) {
+					if($element instanceof PHPWord_Section_Text) {
+						$fStyle = $element->getFontStyle();
+						$pStyle = $element->getParagraphStyle();
+							
+						if($fStyle instanceof PHPWord_Style_Font){
+							$numFStyles++;
+		
+							$arrStyle = array(
+								'color'=>$fStyle->getColor(),
+								'name' =>$fStyle->getName()
+							);
+							$pPHPWord->addFontStyle('T'.$numFStyles, $arrStyle);
+							$element->setFontStyle('T'.$numFStyles);
+						}
+						elseif($pStyle instanceof PHPWord_Style_Paragraph){
+							$numPStyles++;
+									
+							$pPHPWord->addParagraphStyle('P'.$numPStyles, array());
+							$element->setParagraph('P'.$numPStyles);
+						}
+					}
+				}
+			}
+		}
+		
+		// office:font-face-decls
+		$objWriter->startElement('office:font-face-decls');
+		$arrFonts = array();
 			
-			// office:automatic-styles
-			$objWriter->startElement('office:automatic-styles');
+		$styles = PHPWord_Style::getStyles();
+		$numFonts = 0;
+		if(count($styles) > 0) {
+			foreach($styles as $styleName => $style) {
+				// PHPWord_Style_Font
+				if($style instanceof PHPWord_Style_Font) {
+					$numFonts++;
+					$name = $style->getName();
+					if(!in_array($name, $arrFonts)){
+						$arrFonts[] = $name;
+
+						// style:font-face
+						$objWriter->startElement('style:font-face');
+						$objWriter->writeAttribute('style:name', $name);
+						$objWriter->writeAttribute('svg:font-family', $name);
+						$objWriter->endElement();
+					}
+				}
+			}
+			if(!in_array('Arial', $arrFonts)){
+				$objWriter->startElement('style:font-face');
+				$objWriter->writeAttribute('style:name', 'Arial');
+				$objWriter->writeAttribute('svg:font-family', 'Arial');
+				$objWriter->endElement();
+			}
+		}
+		$objWriter->endElement();
+		
+		$objWriter->startElement('office:automatic-styles');
+		$styles = PHPWord_Style::getStyles();
+		$numPStyles = 0;
+		if(count($styles) > 0) {
+			foreach($styles as $styleName => $style) {
+				if(preg_match('#^T[0-9]+$#', $styleName) != 0
+					|| preg_match('#^P[0-9]+$#', $styleName) != 0){
+					// PHPWord_Style_Font
+					if($style instanceof PHPWord_Style_Font) {
+						$objWriter->startElement('style:style');
+						$objWriter->writeAttribute('style:name', $styleName);
+						$objWriter->writeAttribute('style:family', 'text');
+							// style:text-properties
+							$objWriter->startElement('style:text-properties');
+							$objWriter->writeAttribute('fo:color', '#'.$style->getColor());
+							$objWriter->writeAttribute('style:font-name', $style->getName());
+							$objWriter->writeAttribute('style:font-name-complex', $style->getName());
+							$objWriter->endElement();
+						$objWriter->endElement();
+					}
+					if($style instanceof PHPWord_Style_Paragraph){
+						$numPStyles++;
+						// style:style
+						$objWriter->startElement('style:style');
+						$objWriter->writeAttribute('style:name', $styleName);
+						$objWriter->writeAttribute('style:family', 'paragraph');
+						$objWriter->writeAttribute('style:parent-style-name', 'Standard');
+						$objWriter->writeAttribute('style:master-page-name', 'Standard');
+							// style:paragraph-properties
+							$objWriter->startElement('style:paragraph-properties');
+							$objWriter->writeAttribute('style:page-number', 'auto');
+							$objWriter->endElement();
+						$objWriter->endElement();
+					}
+				}
+			}
 			
-			$objWriter->endElement();
-			
+			if($numPStyles == 0){
+				// style:style
+				$objWriter->startElement('style:style');
+				$objWriter->writeAttribute('style:name', 'P1');
+				$objWriter->writeAttribute('style:family', 'paragraph');
+				$objWriter->writeAttribute('style:parent-style-name', 'Standard');
+				$objWriter->writeAttribute('style:master-page-name', 'Standard');
+					// style:paragraph-properties
+					$objWriter->startElement('style:paragraph-properties');
+					$objWriter->writeAttribute('style:page-number', 'auto');
+					$objWriter->endElement();
+				$objWriter->endElement();
+			}
+		}
+		$objWriter->endElement();
+						
 			// office:body
 			$objWriter->startElement('office:body');
 				// office:text
 				$objWriter->startElement('office:text');
-				
+					// text:sequence-decls
+					$objWriter->startElement('text:sequence-decls');
+						// text:sequence-decl
+						$objWriter->startElement('text:sequence-decl');
+						$objWriter->writeAttribute('text:display-outline-level', 0);
+						$objWriter->writeAttribute('text:name', 'Illustration');
+						$objWriter->endElement();
+						// text:sequence-decl
+						$objWriter->startElement('text:sequence-decl');
+						$objWriter->writeAttribute('text:display-outline-level', 0);
+						$objWriter->writeAttribute('text:name', 'Table');
+						$objWriter->endElement();
+						// text:sequence-decl
+						$objWriter->startElement('text:sequence-decl');
+						$objWriter->writeAttribute('text:display-outline-level', 0);
+						$objWriter->writeAttribute('text:name', 'Text');
+						$objWriter->endElement();
+						// text:sequence-decl
+						$objWriter->startElement('text:sequence-decl');
+						$objWriter->writeAttribute('text:display-outline-level', 0);
+						$objWriter->writeAttribute('text:name', 'Drawing');
+						$objWriter->endElement();
+					$objWriter->endElement();
+					
+					$_sections = $pPHPWord->getSections();
+					$countSections = count($_sections);
+					$pSection = 0;
+					
+					if($countSections > 0) {
+						foreach($_sections as $section) {
+							$pSection++;
+					
+							$_elements = $section->getElements();
+					
+							foreach($_elements as $element) {
+								if($element instanceof PHPWord_Section_Text) {
+									$this->_writeText($objWriter, $element);
+								}/* elseif($element instanceof PHPWord_Section_TextRun) {
+									$this->_writeTextRun($objWriter, $element);
+								} elseif($element instanceof PHPWord_Section_Link) {
+									$this->_writeLink($objWriter, $element);
+								} elseif($element instanceof PHPWord_Section_Title) {
+									$this->_writeTitle($objWriter, $element);
+								}*/ elseif($element instanceof PHPWord_Section_TextBreak) {
+									$this->_writeTextBreak($objWriter);
+								}/* elseif($element instanceof PHPWord_Section_PageBreak) {
+									$this->_writePageBreak($objWriter);
+								} elseif($element instanceof PHPWord_Section_Table) {
+									$this->_writeTable($objWriter, $element);
+								} elseif($element instanceof PHPWord_Section_ListItem) {
+									$this->_writeListItem($objWriter, $element);
+								} elseif($element instanceof PHPWord_Section_Image ||
+								$element instanceof PHPWord_Section_MemoryImage) {
+									$this->_writeImage($objWriter, $element);
+								} elseif($element instanceof PHPWord_Section_Object) {
+									$this->_writeObject($objWriter, $element);
+								} elseif($element instanceof PHPWord_TOC) {
+									$this->_writeTOC($objWriter);
+								}*/
+								else {
+									print_r($element);
+									echo '<br />';
+								}
+							}
+					
+							if($pSection == $countSections) {
+								$this->_writeEndSection($objWriter, $section);
+							} else {
+								$this->_writeSection($objWriter, $section);
+							}
+						}
+					}
 				$objWriter->endElement();
 			$objWriter->endElement();
 		$objWriter->endElement();
 
 		// Return
 		return $objWriter->getData();
+	}
+	
+	protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false) {
+		$styleFont = $text->getFontStyle();
+		$styleParagraph = $text->getParagraphStyle();
+		
+		$SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+		
+		if($SfIsObject) {
+			// Don't never be the case, because I browse all sections for cleaning all styles not declared
+			die('PHPWord : $SfIsObject wouldn\'t be an object');
+		}
+		else {
+			// text:p
+			$objWriter->startElement('text:p');
+			if(empty($styleFont)){
+				if(empty($styleParagraph)){
+					$objWriter->writeAttribute('text:style-name', 'P1');
+				}
+				else {
+					$objWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+				}
+				$objWriter->writeRaw($text->getText());
+			}
+			else {
+				if(empty($styleParagraph)){
+					$objWriter->writeAttribute('text:style-name', 'Standard');
+				}
+				else {
+					$objWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+				}
+				// text:span
+				$objWriter->startElement('text:span');
+				$objWriter->writeAttribute('text:style-name', $styleFont);
+				$objWriter->writeRaw($text->getText());
+				$objWriter->endElement();
+			}
+			$objWriter->endElement();
+		}
+	}
+	protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null) {
+		$objWriter->startElement('text:p');
+		$objWriter->writeAttribute('text:style-name', 'Standard');
+		$objWriter->endElement();
+	}
+	
+	private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section) {
+		
 	}
 }

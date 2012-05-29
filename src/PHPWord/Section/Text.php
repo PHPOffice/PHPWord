@@ -65,32 +65,10 @@ class PHPWord_Section_Text {
 	 */
 	public function __construct($text = null, $styleFont = null, $styleParagraph = null) {
 		// Set font style
-		if(is_array($styleFont)) {
-			$this->_styleFont = new PHPWord_Style_Font('text');
-			
-			foreach($styleFont as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$this->_styleFont->setStyleValue($key, $value);
-			}
-		} else {
-			$this->_styleFont = $styleFont;
-		}
+		$this->setFontStyle($styleFont);
 		
 		// Set paragraph style
-		if(is_array($styleParagraph)) {
-			$this->_styleParagraph = new PHPWord_Style_Paragraph();
-			
-			foreach($styleParagraph as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$this->_styleParagraph->setStyleValue($key, $value);
-			}
-		} else {
-			$this->_styleParagraph = $styleParagraph;
-		}
+		$this->setParagraphStyle($styleParagraph);
 		
 		$this->_text = $text;
 		
@@ -107,12 +85,52 @@ class PHPWord_Section_Text {
 	}
 	
 	/**
+	 * Set Text style
+	 *
+	 * @return PHPWord_Style_Font
+	 */
+	public function setFontStyle($styleFont) {
+		if(is_array($styleFont)) {
+			$this->_styleFont = new PHPWord_Style_Font('text');
+			
+			foreach($styleFont as $key => $value) {
+				if(substr($key, 0, 1) != '_') {
+					$key = '_'.$key;
+				}
+				$this->_styleFont->setStyleValue($key, $value);
+			}
+		} else {
+			$this->_styleFont = $styleFont;
+		}
+	}
+	
+	/**
 	 * Get Paragraph style
 	 * 
 	 * @return PHPWord_Style_Paragraph
 	 */
 	public function getParagraphStyle() {
 		return $this->_styleParagraph;
+	}
+	
+	/**
+	 * Set Paragraph style
+	 *
+	 * @return PHPWord_Style_Paragraph
+	 */
+	public function setParagraphStyle($styleParagraph) {
+		if(is_array($styleParagraph)) {
+			$this->_styleParagraph = new PHPWord_Style_Paragraph();
+			
+			foreach($styleParagraph as $key => $value) {
+				if(substr($key, 0, 1) != '_') {
+					$key = '_'.$key;
+				}
+				$this->_styleParagraph->setStyleValue($key, $value);
+			}
+		} else {
+			$this->_styleParagraph = $styleParagraph;
+		}
 	}
 	
 	/**
