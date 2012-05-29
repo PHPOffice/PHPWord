@@ -42,8 +42,7 @@ class PHPWord_Writer_ODText_Meta extends PHPWord_Writer_ODText_WriterPart
 	 * @return 	string 						XML Output
 	 * @throws 	Exception
 	 */
-	public function writeMeta(PHPWord $pPHPWord = null)
-	{
+	public function writeMeta(PHPWord $pPHPWord = null) {
 		// Create XML writer
 		$objWriter = null;
 		if ($this->getParentWriter()->getUseDiskCaching()) {
@@ -96,5 +95,4 @@ class PHPWord_Writer_ODText_Meta extends PHPWord_Writer_ODText_WriterPart
 		// Return
 		return $objWriter->getData();
 	}
-
 }

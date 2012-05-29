@@ -340,8 +340,6 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
 		$objWriter->writeAttribute('text:style-name', 'Standard');
 		$objWriter->endElement();
 	}
-	
 	private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section) {
-		
 	}
 }
