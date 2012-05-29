@@ -39,6 +39,10 @@ echo date('H:i:s') , " Write to OpenDocumentText format" , EOL;
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
 $objWriter->save(str_replace('.php', '.odt', __FILE__));
 
+echo date('H:i:s') , " Write to RTF format" , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'RTF');
+$objWriter->save(str_replace('.php', '.rtf', __FILE__));
+
 
 // Echo memory peak usage
 echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
