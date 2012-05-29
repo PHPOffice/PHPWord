@@ -147,5 +147,19 @@ class PHPWord_Style {
 	public static function getStyles() {
 		return self::$_styleElements;
 	}
+	
+	/**
+	 * Get style
+	 * 
+	 * @param string 
+	 * @return PHPWord_Style
+	 */
+	public static function getStyle($styleName) {
+		if(array_key_exists($styleName, self::$_styleElements)){
+			return self::$_styleElements[$styleName];
+		} else {
+			return null;
+		}
+	}
 }
 ?>

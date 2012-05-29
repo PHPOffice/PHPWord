@@ -123,4 +123,32 @@ class PHPWord_Shared_Drawing
 			return 0;
 		}
 	}
+	
+	/**
+	 * Convert HTML hexadecimal to RGB
+	 *
+	 * @param 	str $pValue	HTML Color in hexadecimal
+	 * @return 	array		Value in RGB
+	 */
+	public static function htmlToRGB($pValue) {
+		if ($pValue[0] == '#'){
+			$pValue = substr($pValue, 1);
+		}
+		
+		if (strlen($pValue) == 6){
+			list($color_R, $color_G, $color_B) = array($pValue[0].$pValue[1],$pValue[2].$pValue[3],$pValue[4].$pValue[5]);
+		}
+		elseif (strlen($pValue) == 3){
+			list($color_R, $color_G, $color_B) = array($pValue[0].$pValue[0],$pValue[1].$pValue[1],$pValue[2].$pValue[2]);
+		}
+		else{
+			return false;
+		}
+		
+		$color_R = hexdec($color_R); 
+		$color_G = hexdec($color_G); 
+		$color_B = hexdec($color_B);
+		
+		return array($color_R, $color_G, $color_B);
+	}
 }
