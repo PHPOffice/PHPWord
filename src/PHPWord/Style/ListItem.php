@@ -37,6 +37,7 @@ class PHPWord_Style_ListItem {
 	
 	const TYPE_NUMBER           = 7;
 	const TYPE_NUMBER_NESTED    = 8;
+	const TYPE_ALPHANUM	    = 9;
 	const TYPE_BULLET_FILLED    = 3;
 	const TYPE_BULLET_EMPTY     = 5;
 	const TYPE_SQUARE_FILLED    = 1;
