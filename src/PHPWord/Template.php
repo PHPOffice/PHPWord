@@ -91,7 +91,14 @@ class PHPWord_Template {
         
         $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
     }
-    
+    /**
+     * Returns array of all variables in template
+     */
+    public function getVariables()
+    {
+        preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
+        return $matches[1];
+    }
     /**
      * Save Template
      * 
