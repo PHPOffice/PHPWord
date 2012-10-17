@@ -303,6 +303,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 		$fgColor = $style->getFgColor();
 		$striketrough = $style->getStrikethrough();
 		$underline = $style->getUnderline();
+		$subscript = $style->getSubscript();
+		$superscript = $style->getSuperscript();
 		
 		$objWriter->startElement('w:rPr');
 		
@@ -353,6 +355,20 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 		// Striketrough
 		if($striketrough) {
 			$objWriter->writeElement('w:strike', null);
+		}
+		
+		// Subscript
+		if($subscript) {
+			$objWriter->startElement('w:vertAlign');
+				$objWriter->writeAttribute('w:val', 'subscript');
+			$objWriter->endElement();
+		}
+		
+		// Superscript
+		if($superscript) {
+			$objWriter->startElement('w:vertAlign');
+				$objWriter->writeAttribute('w:val', 'superscript');
+			$objWriter->endElement();
 		}
 		
 		// Foreground-Color
