@@ -65,6 +65,14 @@ class PHPWord_Style_Paragraph {
 	
 	
 	/**
+	 * Indent by how much
+	 * 
+	 * @var int
+	 */
+	private $_indent;
+	
+	
+	/**
 	 * New Paragraph Style
 	 */
 	public function __construct() {
@@ -72,6 +80,7 @@ class PHPWord_Style_Paragraph {
 		$this->_spaceBefore     = null;
 		$this->_spaceAfter      = null;
 		$this->_spacing         = null;
+		$this->_indent          = null;
 	}
 	
 	/**
@@ -83,6 +92,9 @@ class PHPWord_Style_Paragraph {
 	public function setStyleValue($key, $value) {
 		if($key == '_spacing') {
 			$value += 240; // because line height of 1 matches 240 twips
+		}
+		if($key == '_indent') {
+            $value = (int)$value * 720; // 720 twips per indent
 		}
 		$this->$key = $value;
 	}
@@ -168,6 +180,26 @@ class PHPWord_Style_Paragraph {
 	 */
 	public function setSpacing($pValue = null) {
 	   $this->_spacing = $pValue;
+	   return $this;
+	}
+
+	/**
+	 * Get indentation
+	 * 
+	 * @return int
+	 */
+	public function getIndent() {
+		return $this->_indent;
+	}
+
+	/**
+	 * Set indentation
+	 * 
+	 * @param int $pValue
+	 * @return PHPWord_Style_Paragraph
+	 */
+	public function setIndent($pValue = null) {
+	   $this->_indent = $pValue;
 	   return $this;
 	}
 }
