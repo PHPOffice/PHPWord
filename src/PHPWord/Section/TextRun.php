@@ -80,7 +80,7 @@ class PHPWord_Section_TextRun {
 	 * @return PHPWord_Section_Text
 	 */
 	public function addText($text = null, $styleFont = null) {
-		$givenText = utf8_encode($text);
+		$givenText = $text;
 		$text = new PHPWord_Section_Text($givenText, $styleFont);
 		$this->_elementCollection[] = $text;
 		return $text;
@@ -95,11 +95,7 @@ class PHPWord_Section_TextRun {
 	 * @return PHPWord_Section_Link
 	 */
 	public function addLink($linkSrc, $linkName = null, $styleFont = null) {
-		$linkSrc = utf8_encode($linkSrc);
-		if(!is_null($linkName)) {
-			$linkName = utf8_encode($linkName);
-		}
-		
+
 		$link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
 		$rID = PHPWord_Media::addSectionLinkElement($linkSrc);
 		$link->setRelationId($rID);

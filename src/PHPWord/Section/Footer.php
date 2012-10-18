@@ -72,7 +72,7 @@ class PHPWord_Section_Footer {
 	 * @return PHPWord_Section_Text
 	 */
 	public function addText($text, $styleFont = null, $styleParagraph = null) {
-		$givenText = utf8_encode($text);
+		$givenText = $text;
 		$text = new PHPWord_Section_Text($givenText, $styleFont, $styleParagraph);
 		$this->_elementCollection[] = $text;
 		return $text;
@@ -162,7 +162,6 @@ class PHPWord_Section_Footer {
 	 * @return PHPWord_Section_Footer_PreserveText
 	 */
 	public function addPreserveText($text, $styleFont = null, $styleParagraph = null) {
-		$text = utf8_encode($text);
 		$ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);
 		$this->_elementCollection[] = $ptext;
 		return $ptext;

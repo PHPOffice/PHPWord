@@ -85,12 +85,10 @@ class PHPWord_Template {
             $search = '${'.$search.'}';
         }
         
-        if(!is_array($replace)) {
-            $replace = utf8_encode($replace);
-        }
         
         $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
     }
+    
     /**
      * Returns array of all variables in template
      */

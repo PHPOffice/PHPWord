@@ -195,7 +195,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 
 					$objWriter->startElement('w:t');
 						$objWriter->writeAttribute('xml:space', 'preserve'); // needed because of drawing spaces before and after text
-						$objWriter->writeRaw($linkName);
+						$objWriter->writeRaw(htmlspecialchars($linkName));
 					$objWriter->endElement();
 				$objWriter->endElement();
 
