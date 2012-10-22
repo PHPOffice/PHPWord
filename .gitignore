@@ -1,4 +1,5 @@
-
+*.docx
+*.xml
 /.settings
 /.buildpath
 /.project
