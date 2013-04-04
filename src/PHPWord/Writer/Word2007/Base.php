@@ -594,6 +594,20 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 				$objWriter->endElement();
 			}
 		}
+		$gridSpan = $style->getGridSpan();
+		if(!is_null($gridSpan))
+		{
+			$objWriter->startElement('w:gridSpan');
+			$objWriter->writeAttribute('w:val', $gridSpan);
+			$objWriter->endElement();
+		}
+		$vMerge = $style->getVMerge();
+		if(!is_null($vMerge))
+		{
+			$objWriter->startElement('w:vMerge');
+			$objWriter->writeAttribute('w:val', $vMerge);
+			$objWriter->endElement();
+		}
 	}
 
 	protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, $image) {
