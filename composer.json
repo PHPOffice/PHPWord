@@ -1,0 +1,37 @@
+{
+    "name": "phpoffice/phpword",
+      "description": "PHPWord - OpenXML - Read, Create and Write Spreadsheet documents in PHP - word processing",
+    "keywords": ["PHP","Word","OpenXML","docx","doc","word"],
+    "homepage": "http://phpword.codeplex.com",
+    "type": "library",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Maarten Balliauw",
+            "homepage": "http://blog.maartenballiauw.be"
+        },
+        {
+            "name": "Mark Baker"
+        },
+        {
+            "name": "Franck Lefevre",
+            "homepage": "http://blog.rootslabs.net"
+        },
+        {
+            "name": "Erik Tilt"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "ext-code": "*"
+    },
+    "recommend": {
+        "ext-zip": "*",
+        "ext-gd2": "*"
+    },
+
+    "autoload": {
+        "classmap": ["src/"]
+    }
+       
+}
