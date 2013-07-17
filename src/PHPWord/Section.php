@@ -57,11 +57,11 @@ class PHPWord_Section {
 	private $_elementCollection = array();
 	
 	/**
-	 * Section Header
+	 * Section Headers
 	 * 
-	 * @var PHPWord_Section_Header
+	 * @var array
 	 */
-	private $_header = null;
+	private $_headers = array();
 	
 	/**
 	 * Section Footer
@@ -335,17 +335,33 @@ class PHPWord_Section {
 	 */
 	public function createHeader() {
 		$header = new PHPWord_Section_Header($this->_sectionCount);
-		$this->_header = $header;
+		$this->_headers[] = $header;
 		return $header;
 	}
 	
 	/**
-	 * Get Header
+	 * Get Headers
 	 * 
-	 * @return PHPWord_Section_Header
+	 * @return array
 	 */
-	public function getHeader() {
-		return $this->_header;
+	public function getHeaders() {
+		return $this->_headers;
+	}
+
+	/**
+	 * Is there a header for this section that is for the first page only?
+	 *
+	 * If any of the PHPWord_Section_Header instances have a type of
+	 * PHPWord_Section_Header::FIRST then this method returns true. False
+	 * otherwise.
+	 *
+	 * @return Boolean
+	 */
+	public function hasDifferentFirstPage() {
+		$value = array_filter($this->_headers, function(PHPWord_Section_Header &$header) {
+			return $header->getType() == PHPWord_Section_Header::FIRST;
+		});
+		return count($value) > 0;
 	}
 	
 	/**

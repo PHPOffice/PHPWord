@@ -48,6 +48,35 @@ class PHPWord_Section_Header {
 	 * @var int
 	 */
 	private $_rId;
+
+	/**
+	 * Header type
+	 *
+	 * @var string
+	 * @link http://www.schemacentral.com/sc/ooxml/a-w_type-4.html Header or Footer Type
+	 */
+	private $_type = PHPWord_Section_Header::AUTO;
+
+	/**
+	 * Even Numbered Pages Only
+	 * @var string
+	 * @link http://www.schemacentral.com/sc/ooxml/a-w_type-4.html Header or Footer Type
+	 */
+	const EVEN  = 'even';
+
+	/**
+	 * Default Header or Footer
+	 * @var string
+	 * @link http://www.schemacentral.com/sc/ooxml/a-w_type-4.html Header or Footer Type
+	 */
+	const AUTO  = 'default'; // Did not use DEFAULT because it is a PHP keyword
+
+	/**
+	 * First Page Only
+	 * @var string
+	 * @link http://www.schemacentral.com/sc/ooxml/a-w_type-4.html Header or Footer Type
+	 */
+	const FIRST = 'first';
 	
 	/**
 	 * Header Element Collection
@@ -218,5 +247,34 @@ class PHPWord_Section_Header {
 	public function getHeaderCount() {
 		return $this->_headerCount;
 	}
+
+	/**
+	 * Get Header Type
+	 */
+	public function getType() {
+		return $this->_type;
+	}
+
+	/**
+	 * Reset back to default
+	 */
+	public function resetType() {
+		return $this->_type = PHPWord_Section_Header::AUTO;
+	}
+
+	/**
+	 * First page only header
+	 */
+	public function firstPage() {
+		return $this->_type = PHPWord_Section_Header::FIRST;
+	}
+
+	/**
+	 * Even numbered Pages only
+	 */
+	public function evenPage() {
+		return $this->_type = PHPWord_Section_Header::EVEN;
+	}
+
 }
 ?>

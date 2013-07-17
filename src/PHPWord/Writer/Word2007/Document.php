@@ -117,7 +117,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base {
 	
 	private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section) {
 		$_settings = $section->getSettings();
-		$_header = $section->getHeader();
+		$_headers = $section->getHeaders();
 		$_footer = $section->getFooter();
 		$pgSzW = $_settings->getPageSizeW();
 		$pgSzH = $_settings->getPageSizeH();
@@ -132,11 +132,16 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base {
 		
 		$objWriter->startElement('w:sectPr');
 			
-			if(!is_null($_header)) {
+			foreach ($_headers as &$_header) {
 				$rId = $_header->getRelationId();
 				$objWriter->startElement('w:headerReference');
-					$objWriter->writeAttribute('w:type', 'default');
+					$objWriter->writeAttribute('w:type', $_header->getType());
 					$objWriter->writeAttribute('r:id', 'rId'.$rId);
+				$objWriter->endElement();
+			}
+			
+			if($section->hasDifferentFirstPage()) {
+				$objWriter->startElement('w:titlePg');
 				$objWriter->endElement();
 			}
 			
