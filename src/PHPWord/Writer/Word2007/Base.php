@@ -113,9 +113,10 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 		$spaceBefore = $style->getSpaceBefore();
 		$spaceAfter = $style->getSpaceAfter();
 		$spacing = $style->getSpacing();
+		$tabs = $style->getTabs();
 
 
-		if(!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter)) {
+		if(!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($tabs)) {
 
             if(!$withoutPPR) {
                 $objWriter->startElement('w:pPr');
@@ -143,6 +144,10 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 					}
 
 				$objWriter->endElement();
+			}
+
+			if(!is_null($tabs)) {
+				$tabs->toXml($objWriter);
 			}
 
             if(!$withoutPPR) {
