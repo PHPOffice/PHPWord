@@ -223,7 +223,7 @@ class PHPWord {
             $template = new PHPWord_Template($strFilename);
             return $template;
         } else {
-            \trigger_error("Template file {$strFilename} not found.", \E_USER_ERROR);
+            trigger_error("Template file {$strFilename} not found.", E_USER_ERROR);
         }
     }
 }
