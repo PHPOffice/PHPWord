@@ -129,7 +129,7 @@ class PHPWord_Section_Footer {
 			$this->_elementCollection[] = $image;
 			return $image;
 		} else {
-			trigger_error('Src does not exist or invalid image type.', E_ERROR);
+			trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
 		}
 	}
 	
