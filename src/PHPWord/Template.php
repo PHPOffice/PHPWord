@@ -63,15 +63,19 @@ class PHPWord_Template {
      * @param string $strFilename
      */
     public function __construct($strFilename) {
-        $path = dirname($strFilename);
-        $this->_tempFileName = $path.DIRECTORY_SEPARATOR.time().'.docx';
-        
-        copy($strFilename, $this->_tempFileName); // Copy the source File to the temp File
+        $tempFilename = tempnam(sys_get_temp_dir(), 'POW'); // PHP Office Word
+        if ($tempFilename !== FALSE) {
+            $this->_tempFileName = $tempFilename;
 
-        $this->_objZip = new ZipArchive();
-        $this->_objZip->open($this->_tempFileName);
-        
-        $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+            copy($strFilename, $this->_tempFileName); // Copy the source File to the temp File
+
+            $this->_objZip = new ZipArchive();
+            $this->_objZip->open($this->_tempFileName);
+
+            $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+        } else {
+            throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
+        }
     }
     
     /**
