@@ -111,7 +111,11 @@ class PHPWord_Template {
             $search = '${'.$search.'}';
         }
         		
-		$tagPos 	 = strpos($this->_documentXML, $search);
+		$tagPos = strpos($this->_documentXML, $search);
+		if (!$tagPos) {
+			trigger_error("Can not clone row, template variable not found or variable contains markup.");
+			return false;
+		}
 		$rowStartPos = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $tagPos) * -1));
 		$rowEndPos   = strpos($this->_documentXML, "</w:tr>", $tagPos) + 7;
 
