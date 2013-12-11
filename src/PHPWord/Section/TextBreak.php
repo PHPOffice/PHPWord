@@ -33,13 +33,14 @@
  * @package    PHPWord_Section
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Section_TextBreak  {
-	
-	/**
-	 * Create a new TextBreak Element
-	 */
-	public function __construct() {
-		// nothing
-	}
+class PHPWord_Section_TextBreak
+{
+
+    /**
+     * Create a new TextBreak Element
+     */
+    public function __construct()
+    {
+        // nothing
+    }
 }
-?>

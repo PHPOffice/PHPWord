@@ -26,152 +26,155 @@
  */
 
 
-class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_WriterPart {
-	
-	public function writeDocumentRels($_relsCollection) {
-		// Create XML writer
-		$objWriter = null;
-		if ($this->getParentWriter()->getUseDiskCaching()) {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-		} else {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
-		}
-		
-		// XML header
-		$objWriter->startDocument('1.0','UTF-8','yes');
-		
-		// Relationships
-		$objWriter->startElement('Relationships');
-		$objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-			
-			// Relationship word/document.xml
-			$this->_writeRelationship(
-				$objWriter,
-				1,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
-				'styles.xml'
-			);
-			
-			// Relationship word/numbering.xml
-			$this->_writeRelationship(
-				$objWriter,
-				2,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering',
-				'numbering.xml'
-			);
-			
-			// Relationship word/settings.xml
-			$this->_writeRelationship(
-				$objWriter,
-				3,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings',
-				'settings.xml'
-			);
-			
-			// Relationship word/settings.xml
-			$this->_writeRelationship(
-				$objWriter,
-				4,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme',
-				'theme/theme1.xml'
-			);
-			
-			// Relationship word/settings.xml
-			$this->_writeRelationship(
-				$objWriter,
-				5,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings',
-				'webSettings.xml'
-			);
-			
-			// Relationship word/settings.xml
-			$this->_writeRelationship(
-				$objWriter,
-				6,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
-				'fontTable.xml'
-			);
-			
-			// Relationships to Images / Embeddings / Headers / Footers
-			foreach($_relsCollection as $relation) {
-				$relationType = $relation['type'];
-				$relationName = $relation['target'];
-				$relationId = $relation['rID'];
-				$targetMode = ($relationType == 'hyperlink') ? 'External' : '';
-				
-				$this->_writeRelationship(
-					$objWriter,
-					$relationId,
-					'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'.$relationType,
-					$relationName,
-					$targetMode
-				);
-			}
-			
+class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_WriterPart
+{
 
-		$objWriter->endElement();
+    public function writeDocumentRels($_relsCollection)
+    {
+        // Create XML writer
+        $objWriter = null;
+        if ($this->getParentWriter()->getUseDiskCaching()) {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+        } else {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+        }
 
-		// Return
-		return $objWriter->getData();
-	}
-	
-	public function writeHeaderFooterRels($_relsCollection) {
-		// Create XML writer
-		$objWriter = null;
-		if ($this->getParentWriter()->getUseDiskCaching()) {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-		} else {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
-		}
-		
-		// XML header
-		$objWriter->startDocument('1.0','UTF-8','yes');
-		
-		// Relationships
-		$objWriter->startElement('Relationships');
-		$objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-			
-			// Relationships to Images / Embeddings / Headers / Footers
-			foreach($_relsCollection as $relation) {
-				$relationType = $relation['type'];
-				$relationName = $relation['target'];
-				$relationId = $relation['rID'];
-				
-				$this->_writeRelationship(
-					$objWriter,
-					$relationId,
-					'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'.$relationType,
-					$relationName
-				);
-			}
-			
+        // XML header
+        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
 
-		$objWriter->endElement();
+        // Relationships
+        $objWriter->startElement('Relationships');
+        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
-		// Return
-		return $objWriter->getData();
-	}
-	
-	private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '') {
-		if($pType != '' && $pTarget != '') {
-			if(strpos($pId, 'rId') === false) {
-				$pId = 'rId' . $pId;
-			}
-			
-			// Write relationship
-			$objWriter->startElement('Relationship');
-			$objWriter->writeAttribute('Id', $pId);
-			$objWriter->writeAttribute('Type', $pType);
-			$objWriter->writeAttribute('Target', $pTarget);
+        // Relationship word/document.xml
+        $this->_writeRelationship(
+            $objWriter,
+            1,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
+            'styles.xml'
+        );
 
-			if($pTargetMode != '') {
-				$objWriter->writeAttribute('TargetMode', $pTargetMode);
-			}
+        // Relationship word/numbering.xml
+        $this->_writeRelationship(
+            $objWriter,
+            2,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering',
+            'numbering.xml'
+        );
 
-			$objWriter->endElement();
-		} else {
-			throw new Exception("Invalid parameters passed.");
-		}
-	}
+        // Relationship word/settings.xml
+        $this->_writeRelationship(
+            $objWriter,
+            3,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings',
+            'settings.xml'
+        );
+
+        // Relationship word/settings.xml
+        $this->_writeRelationship(
+            $objWriter,
+            4,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme',
+            'theme/theme1.xml'
+        );
+
+        // Relationship word/settings.xml
+        $this->_writeRelationship(
+            $objWriter,
+            5,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings',
+            'webSettings.xml'
+        );
+
+        // Relationship word/settings.xml
+        $this->_writeRelationship(
+            $objWriter,
+            6,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
+            'fontTable.xml'
+        );
+
+        // Relationships to Images / Embeddings / Headers / Footers
+        foreach ($_relsCollection as $relation) {
+            $relationType = $relation['type'];
+            $relationName = $relation['target'];
+            $relationId = $relation['rID'];
+            $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
+
+            $this->_writeRelationship(
+                $objWriter,
+                $relationId,
+                'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
+                $relationName,
+                $targetMode
+            );
+        }
+
+
+        $objWriter->endElement();
+
+        // Return
+        return $objWriter->getData();
+    }
+
+    public function writeHeaderFooterRels($_relsCollection)
+    {
+        // Create XML writer
+        $objWriter = null;
+        if ($this->getParentWriter()->getUseDiskCaching()) {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+        } else {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+        }
+
+        // XML header
+        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+
+        // Relationships
+        $objWriter->startElement('Relationships');
+        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+
+        // Relationships to Images / Embeddings / Headers / Footers
+        foreach ($_relsCollection as $relation) {
+            $relationType = $relation['type'];
+            $relationName = $relation['target'];
+            $relationId = $relation['rID'];
+
+            $this->_writeRelationship(
+                $objWriter,
+                $relationId,
+                'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
+                $relationName
+            );
+        }
+
+
+        $objWriter->endElement();
+
+        // Return
+        return $objWriter->getData();
+    }
+
+    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    {
+        if ($pType != '' && $pTarget != '') {
+            if (strpos($pId, 'rId') === false) {
+                $pId = 'rId' . $pId;
+            }
+
+            // Write relationship
+            $objWriter->startElement('Relationship');
+            $objWriter->writeAttribute('Id', $pId);
+            $objWriter->writeAttribute('Type', $pType);
+            $objWriter->writeAttribute('Target', $pTarget);
+
+            if ($pTargetMode != '') {
+                $objWriter->writeAttribute('TargetMode', $pTargetMode);
+            }
+
+            $objWriter->endElement();
+        } else {
+            throw new Exception("Invalid parameters passed.");
+        }
+    }
 }
-?>

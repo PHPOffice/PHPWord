@@ -26,58 +26,69 @@
  */
 
 
-class PHPWord_Style_Table {
-	
-	private $_cellMarginTop;
-	private $_cellMarginLeft;
-	private $_cellMarginRight;
-	private $_cellMarginBottom;
-	
-	public function __construct() {
-		$this->_cellMarginTop = null;
-		$this->_cellMarginLeft = null;
-		$this->_cellMarginRight = null;
-		$this->_cellMarginBottom = null;
-	}
-	
-	public function setStyleValue($key, $value) {
-		$this->$key = $value;
-	}
-	
-	public function setCellMarginTop($pValue = null) {
-		$this->_cellMarginTop = $pValue;
-	}
-	
-	public function getCellMarginTop() {
-		return $this->_cellMarginTop;
-	}
-	
-	public function setCellMarginLeft($pValue = null) {
-		$this->_cellMarginLeft = $pValue;
-	}
-	
-	public function getCellMarginLeft() {
-		return $this->_cellMarginLeft;
-	}
-	
-	public function setCellMarginRight($pValue = null) {
-		$this->_cellMarginRight = $pValue;
-	}
-	
-	public function getCellMarginRight() {
-		return $this->_cellMarginRight;
-	}
-	
-	public function setCellMarginBottom($pValue = null) {
-		$this->_cellMarginBottom = $pValue;
-	}
-	
-	public function getCellMarginBottom() {
-		return $this->_cellMarginBottom;
-	}
-	
-	public function getCellMargin() {
-		return array($this->_cellMarginTop, $this->_cellMarginLeft, $this->_cellMarginRight, $this->_cellMarginBottom);
-	}
+class PHPWord_Style_Table
+{
+
+    private $_cellMarginTop;
+    private $_cellMarginLeft;
+    private $_cellMarginRight;
+    private $_cellMarginBottom;
+
+    public function __construct()
+    {
+        $this->_cellMarginTop = null;
+        $this->_cellMarginLeft = null;
+        $this->_cellMarginRight = null;
+        $this->_cellMarginBottom = null;
+    }
+
+    public function setStyleValue($key, $value)
+    {
+        $this->$key = $value;
+    }
+
+    public function setCellMarginTop($pValue = null)
+    {
+        $this->_cellMarginTop = $pValue;
+    }
+
+    public function getCellMarginTop()
+    {
+        return $this->_cellMarginTop;
+    }
+
+    public function setCellMarginLeft($pValue = null)
+    {
+        $this->_cellMarginLeft = $pValue;
+    }
+
+    public function getCellMarginLeft()
+    {
+        return $this->_cellMarginLeft;
+    }
+
+    public function setCellMarginRight($pValue = null)
+    {
+        $this->_cellMarginRight = $pValue;
+    }
+
+    public function getCellMarginRight()
+    {
+        return $this->_cellMarginRight;
+    }
+
+    public function setCellMarginBottom($pValue = null)
+    {
+        $this->_cellMarginBottom = $pValue;
+    }
+
+    public function getCellMarginBottom()
+    {
+        return $this->_cellMarginBottom;
+    }
+
+    public function getCellMargin()
+    {
+        return array($this->_cellMarginTop, $this->_cellMarginLeft, $this->_cellMarginRight, $this->_cellMarginBottom);
+    }
 }
-?>

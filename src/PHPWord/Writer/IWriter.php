@@ -28,12 +28,11 @@
 
 interface PHPWord_Writer_IWriter
 {
-	/**
-	 * Save PHPWord to file
-	 *
-	 * @param     string         $pFileName
-	 * @throws     Exception
-	 */
-	public function save($pFilename = null);
+    /**
+     * Save PHPWord to file
+     *
+     * @param     string $pFileName
+     * @throws     Exception
+     */
+    public function save($pFilename = null);
 }
-?>

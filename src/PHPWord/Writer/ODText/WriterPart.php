@@ -35,34 +35,36 @@
  */
 abstract class PHPWord_Writer_ODText_WriterPart
 {
-	/**
-	 * Parent IWriter object
-	 *
-	 * @var PHPWord_Writer_IWriter
-	 */
-	private $_parentWriter;
+    /**
+     * Parent IWriter object
+     *
+     * @var PHPWord_Writer_IWriter
+     */
+    private $_parentWriter;
 
-	/**
-	 * Set parent IWriter object
-	 *
-	 * @param PHPWord_Writer_IWriter	$pWriter
-	 * @throws Exception
-	 */
-	public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null) {
-		$this->_parentWriter = $pWriter;
-	}
+    /**
+     * Set parent IWriter object
+     *
+     * @param PHPWord_Writer_IWriter $pWriter
+     * @throws Exception
+     */
+    public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null)
+    {
+        $this->_parentWriter = $pWriter;
+    }
 
-	/**
-	 * Get parent IWriter object
-	 *
-	 * @return PHPWord_Writer_IWriter
-	 * @throws Exception
-	 */
-	public function getParentWriter() {
-		if (!is_null($this->_parentWriter)) {
-			return $this->_parentWriter;
-		} else {
-			throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
-		}
-	}
+    /**
+     * Get parent IWriter object
+     *
+     * @return PHPWord_Writer_IWriter
+     * @throws Exception
+     */
+    public function getParentWriter()
+    {
+        if (!is_null($this->_parentWriter)) {
+            return $this->_parentWriter;
+        } else {
+            throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
+        }
+    }
 }

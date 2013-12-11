@@ -35,17 +35,17 @@
  */
 class PHPWord_Writer_ODText_Mimetype extends PHPWord_Writer_ODText_WriterPart
 {
-	/**
-	 * Write Mimetype to Text format
-	 *
-	 * @param 	PHPWord $pPHPWord
-	 * @return 	string 						Text Output
-	 * @throws 	Exception
-	 */
-	public function writeMimetype(PHPWord $pPHPWord = null)
-	{
-		
-		return 'application/vnd.oasis.opendocument.text';
-	}
+    /**
+     * Write Mimetype to Text format
+     *
+     * @param    PHPWord $pPHPWord
+     * @return    string                        Text Output
+     * @throws    Exception
+     */
+    public function writeMimetype(PHPWord $pPHPWord = null)
+    {
+
+        return 'application/vnd.oasis.opendocument.text';
+    }
 
 }

@@ -28,45 +28,51 @@
 
 class PHPWord_Shared_Font
 {
-	/**
-	 * Calculate an (approximate) pixel size, based on a font points size
-	 *
-	 * @param 	int		$fontSizeInPoints	Font size (in points)
-	 * @return 	int		Font size (in pixels)
-	 */
-	public static function fontSizeToPixels($fontSizeInPoints = 12) {
-		return ((16 / 12) * $fontSizeInPoints);
-	}
-	
-	/**
-	 * Calculate an (approximate) pixel size, based on inch size
-	 *
-	 * @param 	int		$sizeInInch	Font size (in inch)
-	 * @return 	int		Size (in pixels)
-	 */
-	public static function inchSizeToPixels($sizeInInch = 1) {
-		return ($sizeInInch * 96);
-	}
-	
-	/**
-	 * Calculate an (approximate) pixel size, based on centimeter size
-	 *
-	 * @param 	int		$sizeInCm	Font size (in centimeters)
-	 * @return 	int		Size (in pixels)
-	 */
-	public static function centimeterSizeToPixels($sizeInCm = 1) {
-		return ($sizeInCm * 37.795275591);
-	}
-	
-	public static function centimeterSizeToTwips($sizeInCm = 1) {
-		return ($sizeInCm * 565.217);
-	}
-	
-	public static function inchSizeToTwips($sizeInInch = 1) {
-		return self::centimeterSizeToTwips($sizeInInch * 2.54);
-	}
-	
-	public static function pixelSizeToTwips($sizeInPixel = 1) {
-		return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
-	}
+    /**
+     * Calculate an (approximate) pixel size, based on a font points size
+     *
+     * @param    int $fontSizeInPoints Font size (in points)
+     * @return    int        Font size (in pixels)
+     */
+    public static function fontSizeToPixels($fontSizeInPoints = 12)
+    {
+        return ((16 / 12) * $fontSizeInPoints);
+    }
+
+    /**
+     * Calculate an (approximate) pixel size, based on inch size
+     *
+     * @param    int $sizeInInch Font size (in inch)
+     * @return    int        Size (in pixels)
+     */
+    public static function inchSizeToPixels($sizeInInch = 1)
+    {
+        return ($sizeInInch * 96);
+    }
+
+    /**
+     * Calculate an (approximate) pixel size, based on centimeter size
+     *
+     * @param    int $sizeInCm Font size (in centimeters)
+     * @return    int        Size (in pixels)
+     */
+    public static function centimeterSizeToPixels($sizeInCm = 1)
+    {
+        return ($sizeInCm * 37.795275591);
+    }
+
+    public static function centimeterSizeToTwips($sizeInCm = 1)
+    {
+        return ($sizeInCm * 565.217);
+    }
+
+    public static function inchSizeToTwips($sizeInInch = 1)
+    {
+        return self::centimeterSizeToTwips($sizeInInch * 2.54);
+    }
+
+    public static function pixelSizeToTwips($sizeInPixel = 1)
+    {
+        return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
+    }
 }

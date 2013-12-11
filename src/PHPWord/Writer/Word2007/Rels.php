@@ -26,85 +26,88 @@
  */
 
 
-class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart {
-	
-	public function writeRelationships(PHPWord $pPHPWord = null) {
-		// Create XML writer
-		$objWriter = null;
-		if ($this->getParentWriter()->getUseDiskCaching()) {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-		} else {
-			$objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
-		}
+class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
+{
 
-		// XML header
-		$objWriter->startDocument('1.0','UTF-8','yes');
+    public function writeRelationships(PHPWord $pPHPWord = null)
+    {
+        // Create XML writer
+        $objWriter = null;
+        if ($this->getParentWriter()->getUseDiskCaching()) {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+        } else {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+        }
 
-		// Relationships
-		$objWriter->startElement('Relationships');
-		$objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-			
-			$relationId = 1;
-			
-			// Relationship word/document.xml
-			$this->_writeRelationship(
-				$objWriter,
-				$relationId,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument',
-				'word/document.xml'
-			);
-			
-			// Relationship docProps/core.xml
-			$this->_writeRelationship(
-				$objWriter,
-				++$relationId,
-				'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
-				'docProps/core.xml'
-			);
-			
-			// Relationship docProps/app.xml
-			$this->_writeRelationship(
-				$objWriter,
-				++$relationId,
-				'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties',
-				'docProps/app.xml'
-			);
+        // XML header
+        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
 
-		$objWriter->endElement();
+        // Relationships
+        $objWriter->startElement('Relationships');
+        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
-		// Return
-		return $objWriter->getData();
-	}
+        $relationId = 1;
 
-	/**
-	 * Write Override content type
-	 *
-	 * @param 	PHPWord_Shared_XMLWriter 	$objWriter 		XML Writer
-	 * @param 	int							$pId			Relationship ID. rId will be prepended!
-	 * @param 	string						$pType			Relationship type
-	 * @param 	string 						$pTarget		Relationship target
-	 * @param 	string 						$pTargetMode	Relationship target mode
-	 * @throws 	Exception
-	 */
-	private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '') {
-		if($pType != '' && $pTarget != '') {
-			if(strpos($pId, 'rId') === false) {
-				$pId = 'rId' . $pId;
-			}
-			
-			// Write relationship
-			$objWriter->startElement('Relationship');
-			$objWriter->writeAttribute('Id', 		$pId);
-			$objWriter->writeAttribute('Type', 		$pType);
-			$objWriter->writeAttribute('Target',	$pTarget);
+        // Relationship word/document.xml
+        $this->_writeRelationship(
+            $objWriter,
+            $relationId,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument',
+            'word/document.xml'
+        );
 
-			if($pTargetMode != '') {
-				$objWriter->writeAttribute('TargetMode',	$pTargetMode);
-			}
+        // Relationship docProps/core.xml
+        $this->_writeRelationship(
+            $objWriter,
+            ++$relationId,
+            'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
+            'docProps/core.xml'
+        );
 
-			$objWriter->endElement();
-		} else {
-			throw new Exception("Invalid parameters passed.");
-		}
-	}
+        // Relationship docProps/app.xml
+        $this->_writeRelationship(
+            $objWriter,
+            ++$relationId,
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties',
+            'docProps/app.xml'
+        );
+
+        $objWriter->endElement();
+
+        // Return
+        return $objWriter->getData();
+    }
+
+    /**
+     * Write Override content type
+     *
+     * @param    PHPWord_Shared_XMLWriter $objWriter XML Writer
+     * @param    int $pId Relationship ID. rId will be prepended!
+     * @param    string $pType Relationship type
+     * @param    string $pTarget Relationship target
+     * @param    string $pTargetMode Relationship target mode
+     * @throws    Exception
+     */
+    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    {
+        if ($pType != '' && $pTarget != '') {
+            if (strpos($pId, 'rId') === false) {
+                $pId = 'rId' . $pId;
+            }
+
+            // Write relationship
+            $objWriter->startElement('Relationship');
+            $objWriter->writeAttribute('Id', $pId);
+            $objWriter->writeAttribute('Type', $pType);
+            $objWriter->writeAttribute('Target', $pTarget);
+
+            if ($pTargetMode != '') {
+                $objWriter->writeAttribute('TargetMode', $pTargetMode);
+            }
+
+            $objWriter->endElement();
+        } else {
+            throw new Exception("Invalid parameters passed.");
+        }
+    }
 }

@@ -26,118 +26,123 @@
  */
 
 
-if(!defined('DATE_W3C')) {
-	define('DATE_W3C', 'Y-m-d\TH:i:sP');
+if (!defined('DATE_W3C')) {
+    define('DATE_W3C', 'Y-m-d\TH:i:sP');
 }
 
 
-class PHPWord_Shared_XMLWriter {
-	/** Temporary storage method */
-	const STORAGE_MEMORY = 1;
-	const STORAGE_DISK = 2;
+class PHPWord_Shared_XMLWriter
+{
+    /** Temporary storage method */
+    const STORAGE_MEMORY = 1;
+    const STORAGE_DISK = 2;
 
-	/**
-	 * Internal XMLWriter
-	 *
-	 * @var XMLWriter
-	 */
-	private $_xmlWriter;
+    /**
+     * Internal XMLWriter
+     *
+     * @var XMLWriter
+     */
+    private $_xmlWriter;
 
-	/**
-	 * Temporary filename
-	 *
-	 * @var string
-	 */
-	private $_tempFileName = '';
+    /**
+     * Temporary filename
+     *
+     * @var string
+     */
+    private $_tempFileName = '';
 
-	/**
-	 * Create a new PHPPowerPoint_Shared_XMLWriter instance
-	 *
-	 * @param int		$pTemporaryStorage			Temporary storage location
-	 * @param string	$pTemporaryStorageFolder	Temporary storage folder
-	 */
-	public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageFolder = './') {
-		// Create internal XMLWriter
-		$this->_xmlWriter = new XMLWriter();
+    /**
+     * Create a new PHPPowerPoint_Shared_XMLWriter instance
+     *
+     * @param int $pTemporaryStorage Temporary storage location
+     * @param string $pTemporaryStorageFolder Temporary storage folder
+     */
+    public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageFolder = './')
+    {
+        // Create internal XMLWriter
+        $this->_xmlWriter = new XMLWriter();
 
-		// Open temporary storage
-		if ($pTemporaryStorage == self::STORAGE_MEMORY) {
-			$this->_xmlWriter->openMemory();
-		} else {
-			// Create temporary filename
-			$this->_tempFileName = @tempnam($pTemporaryStorageFolder, 'xml');
+        // Open temporary storage
+        if ($pTemporaryStorage == self::STORAGE_MEMORY) {
+            $this->_xmlWriter->openMemory();
+        } else {
+            // Create temporary filename
+            $this->_tempFileName = @tempnam($pTemporaryStorageFolder, 'xml');
 
-			// Open storage
-			if ($this->_xmlWriter->openUri($this->_tempFileName) === false) {
-				// Fallback to memory...
-				$this->_xmlWriter->openMemory();
-			}
-		}
+            // Open storage
+            if ($this->_xmlWriter->openUri($this->_tempFileName) === false) {
+                // Fallback to memory...
+                $this->_xmlWriter->openMemory();
+            }
+        }
 
-		// Set default values
-		// proposed to be false in production version
-		$this->_xmlWriter->setIndent(true);
-		//$this->_xmlWriter->setIndent(false);
-		
-		// Set indent
-		// proposed to be '' in production version
-		$this->_xmlWriter->setIndentString('  ');
-		//$this->_xmlWriter->setIndentString('');
-	}
+        // Set default values
+        // proposed to be false in production version
+        $this->_xmlWriter->setIndent(true);
+        //$this->_xmlWriter->setIndent(false);
 
-	/**
-	 * Destructor
-	 */
-	public function __destruct() {
-		// Desctruct XMLWriter
-		unset($this->_xmlWriter);
+        // Set indent
+        // proposed to be '' in production version
+        $this->_xmlWriter->setIndentString('  ');
+        //$this->_xmlWriter->setIndentString('');
+    }
 
-		// Unlink temporary files
-		if ($this->_tempFileName != '') {
-			@unlink($this->_tempFileName);
-		}
-	}
+    /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        // Desctruct XMLWriter
+        unset($this->_xmlWriter);
 
-	/**
-	 * Get written data
-	 *
-	 * @return $data
-	 */
-	public function getData() {
-		if ($this->_tempFileName == '') {
-			return $this->_xmlWriter->outputMemory(true);
-		} else {
-			$this->_xmlWriter->flush();
-			return file_get_contents($this->_tempFileName);
-		}
-	}
+        // Unlink temporary files
+        if ($this->_tempFileName != '') {
+            @unlink($this->_tempFileName);
+        }
+    }
 
-	/**
-	 * Catch function calls (and pass them to internal XMLWriter)
-	 *
-	 * @param unknown_type $function
-	 * @param unknown_type $args
-	 */
-	public function __call($function, $args) {
-		try {
-			@call_user_func_array(array($this->_xmlWriter, $function), $args);
-		} catch (Exception $ex) {
-			// Do nothing!
-		}
-	}
+    /**
+     * Get written data
+     *
+     * @return $data
+     */
+    public function getData()
+    {
+        if ($this->_tempFileName == '') {
+            return $this->_xmlWriter->outputMemory(true);
+        } else {
+            $this->_xmlWriter->flush();
+            return file_get_contents($this->_tempFileName);
+        }
+    }
 
-	/**
-	 * Fallback method for writeRaw, introduced in PHP 5.2
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	public function writeRaw($text)
-	{
-		if (isset($this->_xmlWriter) && is_object($this->_xmlWriter) && (method_exists($this->_xmlWriter, 'writeRaw'))) {
-			return $this->_xmlWriter->writeRaw($text);
-		}
+    /**
+     * Catch function calls (and pass them to internal XMLWriter)
+     *
+     * @param unknown_type $function
+     * @param unknown_type $args
+     */
+    public function __call($function, $args)
+    {
+        try {
+            @call_user_func_array(array($this->_xmlWriter, $function), $args);
+        } catch (Exception $ex) {
+            // Do nothing!
+        }
+    }
 
-		return $this->text($text);
-	}
+    /**
+     * Fallback method for writeRaw, introduced in PHP 5.2
+     *
+     * @param string $text
+     * @return string
+     */
+    public function writeRaw($text)
+    {
+        if (isset($this->_xmlWriter) && is_object($this->_xmlWriter) && (method_exists($this->_xmlWriter, 'writeRaw'))) {
+            return $this->_xmlWriter->writeRaw($text);
+        }
+
+        return $this->text($text);
+    }
 }

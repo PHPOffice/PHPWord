@@ -26,18 +26,21 @@
  */
 
 
-abstract class PHPWord_Writer_Word2007_WriterPart {
-	private $_parentWriter;
-	
-	public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null) {
-		$this->_parentWriter = $pWriter;
-	}
-	
-	public function getParentWriter() {
-		if (!is_null($this->_parentWriter)) {
-			return $this->_parentWriter;
-		} else {
-			throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
-		}
-	}
+abstract class PHPWord_Writer_Word2007_WriterPart
+{
+    private $_parentWriter;
+
+    public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null)
+    {
+        $this->_parentWriter = $pWriter;
+    }
+
+    public function getParentWriter()
+    {
+        if (!is_null($this->_parentWriter)) {
+            return $this->_parentWriter;
+        } else {
+            throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
+        }
+    }
 }

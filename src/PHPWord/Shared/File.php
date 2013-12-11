@@ -28,64 +28,66 @@
 
 class PHPWord_Shared_File
 {
-	/**
-	  * Verify if a file exists
-	  *
-	  * @param 	string	$pFilename	Filename
-	  * @return bool
-	  */
-	public static function file_exists($pFilename) {
-		// Sick construction, but it seems that
-		// file_exists returns strange values when
-		// doing the original file_exists on ZIP archives...
-		if ( strtolower(substr($pFilename, 0, 3)) == 'zip' ) {
-			// Open ZIP file and verify if the file exists
-			$zipFile 		= substr($pFilename, 6, strpos($pFilename, '#') - 6);
-			$archiveFile 	= substr($pFilename, strpos($pFilename, '#') + 1);
+    /**
+     * Verify if a file exists
+     *
+     * @param    string $pFilename Filename
+     * @return bool
+     */
+    public static function file_exists($pFilename)
+    {
+        // Sick construction, but it seems that
+        // file_exists returns strange values when
+        // doing the original file_exists on ZIP archives...
+        if (strtolower(substr($pFilename, 0, 3)) == 'zip') {
+            // Open ZIP file and verify if the file exists
+            $zipFile = substr($pFilename, 6, strpos($pFilename, '#') - 6);
+            $archiveFile = substr($pFilename, strpos($pFilename, '#') + 1);
 
-			$zip = new ZipArchive();
-			if ($zip->open($zipFile) === true) {
-				$returnValue = ($zip->getFromName($archiveFile) !== false);
-				$zip->close();
-				return $returnValue;
-			} else {
-				return false;
-			}
-		} else {
-			// Regular file_exists
-			return file_exists($pFilename);
-		}
-	}
+            $zip = new ZipArchive();
+            if ($zip->open($zipFile) === true) {
+                $returnValue = ($zip->getFromName($archiveFile) !== false);
+                $zip->close();
+                return $returnValue;
+            } else {
+                return false;
+            }
+        } else {
+            // Regular file_exists
+            return file_exists($pFilename);
+        }
+    }
 
-	/**
-	 * Returns canonicalized absolute pathname, also for ZIP archives
-	 *
-	 * @param string $pFilename
-	 * @return string
-	 */
-	public static function realpath($pFilename) {
-		// Returnvalue
-		$returnValue = '';
+    /**
+     * Returns canonicalized absolute pathname, also for ZIP archives
+     *
+     * @param string $pFilename
+     * @return string
+     */
+    public static function realpath($pFilename)
+    {
+        // Returnvalue
+        $returnValue = '';
 
-		// Try using realpath()
-		$returnValue = realpath($pFilename);
+        // Try using realpath()
+        $returnValue = realpath($pFilename);
 
-		// Found something?
-		if ($returnValue == '' || is_null($returnValue)) {
-			$pathArray = split('/' , $pFilename);
-			while(in_array('..', $pathArray) && $pathArray[0] != '..') {
-				for ($i = 0; $i < count($pathArray); ++$i) {
-					if ($pathArray[$i] == '..' && $i > 0) {
-						unset($pathArray[$i]);
-						unset($pathArray[$i - 1]);
-						break;
-					}
-				}
-			}
-			$returnValue = implode('/', $pathArray);
-		}
+        // Found something?
+        if ($returnValue == '' || is_null($returnValue)) {
+            $pathArray = split('/', $pFilename);
+            while (in_array('..', $pathArray) && $pathArray[0] != '..') {
+                for ($i = 0; $i < count($pathArray); ++$i) {
+                    if ($pathArray[$i] == '..' && $i > 0) {
+                        unset($pathArray[$i]);
+                        unset($pathArray[$i - 1]);
+                        break;
+                    }
+                }
+            }
+            $returnValue = implode('/', $pathArray);
+        }
 
-		// Return
-		return $returnValue;
-	}
+        // Return
+        return $returnValue;
+    }
 }

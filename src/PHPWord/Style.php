@@ -33,133 +33,141 @@
  * @package    PHPWord_Style
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Style {
-	
-	/**
-	 * Style Elements
-	 *
-	 * @var array
-	 */
-	private static $_styleElements = array();
-	
-	
-	/**
-	 * Add a paragraph style
-	 * 
-	 * @param string $styleName
-	 * @param array $styles
-	 */
-	public static function addParagraphStyle($styleName, $styles) {
-		if(!array_key_exists($styleName, self::$_styleElements)) {
-			$style = new PHPWord_Style_Paragraph();
-			foreach($styles as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$style->setStyleValue($key, $value);
-			}
-			
-			self::$_styleElements[$styleName] = $style;
-		}
-	}
-	
-	/**
-	 * Add a font style
-	 * 
-	 * @param string $styleName
-	 * @param array $styleFont
-	 * @param array $styleParagraph
-	 */
-	public static function addFontStyle($styleName, $styleFont, $styleParagraph = null) {
-		if(!array_key_exists($styleName, self::$_styleElements)) {
-			$font = new PHPWord_Style_Font('text', $styleParagraph);
-			foreach($styleFont as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$font->setStyleValue($key, $value);
-			}
-			self::$_styleElements[$styleName] = $font;
-		}
-	}
-	
-	/**
-	 * Add a link style
-	 * 
-	 * @param string $styleName
-	 * @param array $styles
-	 */
-	public static function addLinkStyle($styleName, $styles) {
-		if(!array_key_exists($styleName, self::$_styleElements)) {
-			$style = new PHPWord_Style_Font('link');
-			foreach($styles as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$style->setStyleValue($key, $value);
-			}
-			
-			self::$_styleElements[$styleName] = $style;
-		}
-	}
-	
-	/**
-	 * Add a table style
-	 * 
-	 * @param string $styleName
-	 * @param array $styles
-	 */
-	public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null) {
-		if(!array_key_exists($styleName, self::$_styleElements)) {
-			$style = new PHPWord_Style_TableFull($styleTable, $styleFirstRow, $styleLastRow);
-			
-			self::$_styleElements[$styleName] = $style;
-		}
-	}
-	
-	/**
-	 * Add a title style
-	 * 
-	 * @param string $styleName
-	 * @param array $styleFont
-	 * @param array $styleParagraph
-	 */
-	public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null) {
-		$styleName = 'Heading_'.$titleCount;
-		if(!array_key_exists($styleName, self::$_styleElements)) {
-			$font = new PHPWord_Style_Font('title', $styleParagraph);
-			foreach($styleFont as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$font->setStyleValue($key, $value);
-			}
-			
-			self::$_styleElements[$styleName] = $font;
-		}
-	}
-	
-	/**
-	 * Get all styles
-	 * 
-	 * @return PHPWord_Style_Font[]
-	 */
-	public static function getStyles() {
-		return self::$_styleElements;
-	}
-	
-	/**
-	 * Get style
-	 * 
-	 * @param string 
-	 * @return PHPWord_Style
-	 */
-	public static function getStyle($styleName) {
-		if(array_key_exists($styleName, self::$_styleElements)){
-			return self::$_styleElements[$styleName];
-		} else {
-			return null;
-		}
-	}
+class PHPWord_Style
+{
+
+    /**
+     * Style Elements
+     *
+     * @var array
+     */
+    private static $_styleElements = array();
+
+
+    /**
+     * Add a paragraph style
+     *
+     * @param string $styleName
+     * @param array $styles
+     */
+    public static function addParagraphStyle($styleName, $styles)
+    {
+        if (!array_key_exists($styleName, self::$_styleElements)) {
+            $style = new PHPWord_Style_Paragraph();
+            foreach ($styles as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $style->setStyleValue($key, $value);
+            }
+
+            self::$_styleElements[$styleName] = $style;
+        }
+    }
+
+    /**
+     * Add a font style
+     *
+     * @param string $styleName
+     * @param array $styleFont
+     * @param array $styleParagraph
+     */
+    public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
+    {
+        if (!array_key_exists($styleName, self::$_styleElements)) {
+            $font = new PHPWord_Style_Font('text', $styleParagraph);
+            foreach ($styleFont as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $font->setStyleValue($key, $value);
+            }
+            self::$_styleElements[$styleName] = $font;
+        }
+    }
+
+    /**
+     * Add a link style
+     *
+     * @param string $styleName
+     * @param array $styles
+     */
+    public static function addLinkStyle($styleName, $styles)
+    {
+        if (!array_key_exists($styleName, self::$_styleElements)) {
+            $style = new PHPWord_Style_Font('link');
+            foreach ($styles as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $style->setStyleValue($key, $value);
+            }
+
+            self::$_styleElements[$styleName] = $style;
+        }
+    }
+
+    /**
+     * Add a table style
+     *
+     * @param string $styleName
+     * @param array $styles
+     */
+    public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null)
+    {
+        if (!array_key_exists($styleName, self::$_styleElements)) {
+            $style = new PHPWord_Style_TableFull($styleTable, $styleFirstRow, $styleLastRow);
+
+            self::$_styleElements[$styleName] = $style;
+        }
+    }
+
+    /**
+     * Add a title style
+     *
+     * @param string $styleName
+     * @param array $styleFont
+     * @param array $styleParagraph
+     */
+    public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
+    {
+        $styleName = 'Heading_' . $titleCount;
+        if (!array_key_exists($styleName, self::$_styleElements)) {
+            $font = new PHPWord_Style_Font('title', $styleParagraph);
+            foreach ($styleFont as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $font->setStyleValue($key, $value);
+            }
+
+            self::$_styleElements[$styleName] = $font;
+        }
+    }
+
+    /**
+     * Get all styles
+     *
+     * @return PHPWord_Style_Font[]
+     */
+    public static function getStyles()
+    {
+        return self::$_styleElements;
+    }
+
+    /**
+     * Get style
+     *
+     * @param string
+     * @return PHPWord_Style
+     */
+    public static function getStyle($styleName)
+    {
+        if (array_key_exists($styleName, self::$_styleElements)) {
+            return self::$_styleElements[$styleName];
+        } else {
+            return null;
+        }
+    }
 }
-?>
+

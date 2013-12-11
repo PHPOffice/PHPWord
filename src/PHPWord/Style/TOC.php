@@ -33,106 +33,114 @@
  * @package    PHPWord_Style
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Style_TOC {
-	
-	const TABLEADER_DOT         = 'dot';
-	const TABLEADER_UNDERSCORE  = 'underscore';
-	const TABLEADER_LINE        = 'hyphen';
-	const TABLEADER_NONE        = '';
-	
-	/**
-	 * Tab Leader
-	 * 
-	 * @var string
-	 */
-	private $_tabLeader;
-	
-	/**
-	 * Tab Position
-	 * 
-	 * @var int
-	 */
-	private $_tabPos;
-	
-	/**
-	 * Indent
-	 * 
-	 * @var int
-	 */
-	private $_indent;
-	
-	
-	/**
-	 * Create a new TOC Style
-	 */
-	public function __construct() {
-		$this->_tabPos      = 9062;
-		$this->_tabLeader   = PHPWord_Style_TOC::TABLEADER_DOT;
-		$this->_indent      = 200;
-	}
-	
-	/**
-	 * Get Tab Position
-	 * 
-	 * @return int
-	 */
-	public function getTabPos() {
-		return $this->_tabPos;
-	}
-	
-	/**
-	 * Set Tab Position
-	 * 
-	 * @param int $pValue
-	 */
-	public function setTabPos($pValue) {
-		$this->_tabLeader = $pValue;
-	}
-	
-	/**
-	 * Get Tab Leader
-	 * 
-	 * @return string
-	 */
-	public function getTabLeader() {
-		return $this->_tabLeader;
-	}
-	
-	/**
-	 * Set Tab Leader
-	 * 
-	 * @param string $pValue
-	 */
-	public function setTabLeader($pValue = PHPWord_Style_TOC::TABLEADER_DOT) {
-		$this->_tabLeader = $pValue;
-	}
-	
-	/**
-	 * Get Indent
-	 * 
-	 * @return int
-	 */
-	public function getIndent() {
-		return $this->_indent;
-	}
-	
-	/**
-	 * Set Indent
-	 * 
-	 * @param string $pValue
-	 */
-	public function setIndent($pValue) {
-		$this->_indent = $pValue;
-	}
-	
-	/**
-	 * Set style value
-	 * 
-	 * @param string $key
-	 * @param string $value
-	 */
-	public function setStyleValue($key, $value) {
-		$this->$key = $value;
-	}
+class PHPWord_Style_TOC
+{
+
+    const TABLEADER_DOT = 'dot';
+    const TABLEADER_UNDERSCORE = 'underscore';
+    const TABLEADER_LINE = 'hyphen';
+    const TABLEADER_NONE = '';
+
+    /**
+     * Tab Leader
+     *
+     * @var string
+     */
+    private $_tabLeader;
+
+    /**
+     * Tab Position
+     *
+     * @var int
+     */
+    private $_tabPos;
+
+    /**
+     * Indent
+     *
+     * @var int
+     */
+    private $_indent;
+
+
+    /**
+     * Create a new TOC Style
+     */
+    public function __construct()
+    {
+        $this->_tabPos = 9062;
+        $this->_tabLeader = PHPWord_Style_TOC::TABLEADER_DOT;
+        $this->_indent = 200;
+    }
+
+    /**
+     * Get Tab Position
+     *
+     * @return int
+     */
+    public function getTabPos()
+    {
+        return $this->_tabPos;
+    }
+
+    /**
+     * Set Tab Position
+     *
+     * @param int $pValue
+     */
+    public function setTabPos($pValue)
+    {
+        $this->_tabLeader = $pValue;
+    }
+
+    /**
+     * Get Tab Leader
+     *
+     * @return string
+     */
+    public function getTabLeader()
+    {
+        return $this->_tabLeader;
+    }
+
+    /**
+     * Set Tab Leader
+     *
+     * @param string $pValue
+     */
+    public function setTabLeader($pValue = PHPWord_Style_TOC::TABLEADER_DOT)
+    {
+        $this->_tabLeader = $pValue;
+    }
+
+    /**
+     * Get Indent
+     *
+     * @return int
+     */
+    public function getIndent()
+    {
+        return $this->_indent;
+    }
+
+    /**
+     * Set Indent
+     *
+     * @param string $pValue
+     */
+    public function setIndent($pValue)
+    {
+        $this->_indent = $pValue;
+    }
+
+    /**
+     * Set style value
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function setStyleValue($key, $value)
+    {
+        $this->$key = $value;
+    }
 }
-?>

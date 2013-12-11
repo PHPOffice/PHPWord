@@ -33,98 +33,110 @@
  * @package    PHPWord_Section
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Style_Image {
-	
-	private $_width;
-	private $_height;
-	private $_align;
-	
-	/**
-	 * Margin Top
-	 * 
-	 * @var int
-	 */
-	private $_marginTop;
-	
-	/**
-	 * Margin Left
-	 * 
-	 * @var int
-	 */
-	private $_marginLeft;
-	
-	public function __construct() {
-		$this->_width  = null;
-		$this->_height = null;
-		$this->_align = null;
-		$this->_marginTop = null;
-		$this->_marginLeft = null;
-	}
-	
-	public function setStyleValue($key, $value) {
-		$this->$key = $value;
-	}
-	
-	public function getWidth() {
-		return $this->_width;
-	}
-	
-	public function setWidth($pValue = null) {
-		$this->_width = $pValue;
-	}
-	
-	public function getHeight() {
-		return $this->_height;
-	}
-	
-	public function setHeight($pValue = null) {
-		$this->_height = $pValue;
-	}
-	
-	public function getAlign() {
-		return $this->_align;
-	}
-	
-	public function setAlign($pValue = null) {
-		$this->_align = $pValue;
-	}
-	
-	/**
-	 * Get Margin Top
-	 * 
-	 * @return int
-	 */
-	public function getMarginTop() {
-		return $this->_marginTop;
-	}
+class PHPWord_Style_Image
+{
 
-	/**
-	 * Set Margin Top
-	 * 
-	 * @param int $pValue
-	 */
-	public function setMarginTop($pValue = null) {
-		$this->_marginTop = $pValue;
-		return $this;
-	}
+    private $_width;
+    private $_height;
+    private $_align;
 
-	/**
-	 * Get Margin Left
-	 * 
-	 * @return int
-	 */
-	public function getMarginLeft() {
-		return $this->_marginLeft;
-	}
+    /**
+     * Margin Top
+     *
+     * @var int
+     */
+    private $_marginTop;
 
-	/**
-	 * Set Margin Left
-	 * 
-	 * @param int $pValue
-	 */
-	public function setMarginLeft($pValue = null) {
-		$this->_marginLeft = $pValue;
-		return $this;
-	}
+    /**
+     * Margin Left
+     *
+     * @var int
+     */
+    private $_marginLeft;
+
+    public function __construct()
+    {
+        $this->_width = null;
+        $this->_height = null;
+        $this->_align = null;
+        $this->_marginTop = null;
+        $this->_marginLeft = null;
+    }
+
+    public function setStyleValue($key, $value)
+    {
+        $this->$key = $value;
+    }
+
+    public function getWidth()
+    {
+        return $this->_width;
+    }
+
+    public function setWidth($pValue = null)
+    {
+        $this->_width = $pValue;
+    }
+
+    public function getHeight()
+    {
+        return $this->_height;
+    }
+
+    public function setHeight($pValue = null)
+    {
+        $this->_height = $pValue;
+    }
+
+    public function getAlign()
+    {
+        return $this->_align;
+    }
+
+    public function setAlign($pValue = null)
+    {
+        $this->_align = $pValue;
+    }
+
+    /**
+     * Get Margin Top
+     *
+     * @return int
+     */
+    public function getMarginTop()
+    {
+        return $this->_marginTop;
+    }
+
+    /**
+     * Set Margin Top
+     *
+     * @param int $pValue
+     */
+    public function setMarginTop($pValue = null)
+    {
+        $this->_marginTop = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get Margin Left
+     *
+     * @return int
+     */
+    public function getMarginLeft()
+    {
+        return $this->_marginLeft;
+    }
+
+    /**
+     * Set Margin Left
+     *
+     * @param int $pValue
+     */
+    public function setMarginLeft($pValue = null)
+    {
+        $this->_marginLeft = $pValue;
+        return $this;
+    }
 }
-?>
