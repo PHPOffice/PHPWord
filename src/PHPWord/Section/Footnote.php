@@ -27,39 +27,45 @@
 
 
 /**
- * PHPWord_Section_TextRun
+ * PHPWord_Section_Footnote
  *
  * @category   PHPWord
  * @package    PHPWord_Section
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Section_TextRun {
-	
+class PHPWord_Section_Footnote {
+
 	/**
 	 * Paragraph style
-	 * 
+	 *
 	 * @var PHPWord_Style_Font
 	 */
 	private $_styleParagraph;
-	
+
+	/**
+	 * Footnote Reference ID
+	 *
+	 * @var string
+	 */
+	private $_refId;
+
 	/**
 	 * Text collection
-	 * 
+	 *
 	 * @var array
 	 */
 	private $_elementCollection;
-	
-	
+
 	/**
-	 * Create a new TextRun Element
+	 * Create a new Footnote Element
 	 */
 	public function __construct($styleParagraph = null) {
 		$this->_elementCollection = array();
-		
+
 		// Set paragraph style
 		if(is_array($styleParagraph)) {
 			$this->_styleParagraph = new PHPWord_Style_Paragraph();
-			
+
 			foreach($styleParagraph as $key => $value) {
 				if(substr($key, 0, 1) != '_') {
 					$key = '_'.$key;
@@ -70,74 +76,76 @@ class PHPWord_Section_TextRun {
 			$this->_styleParagraph = $styleParagraph;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Add a Text Element
-	 * 
+	 *
 	 * @var string $text
 	 * @var mixed $styleFont
 	 * @return PHPWord_Section_Text
 	 */
 	public function addText($text = null, $styleFont = null) {
-		$givenText = utf8_encode($text);
+		$givenText = $text;
 		$text = new PHPWord_Section_Text($givenText, $styleFont);
 		$this->_elementCollection[] = $text;
 		return $text;
 	}
-	
+
 	/**
 	 * Add a Link Element
-	 * 
+	 *
 	 * @param string $linkSrc
 	 * @param string $linkName
 	 * @param mixed $styleFont
 	 * @return PHPWord_Section_Link
 	 */
 	public function addLink($linkSrc, $linkName = null, $styleFont = null) {
-		$linkSrc = utf8_encode($linkSrc);
-		if(!is_null($linkName)) {
-			$linkName = utf8_encode($linkName);
-		}
-		
+
 		$link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
-		$rID = PHPWord_Media::addSectionLinkElement($linkSrc);
+		$rID = PHPWord_Footnote::addFootnoteLinkElement($linkSrc);
 		$link->setRelationId($rID);
-		
+
 		$this->_elementCollection[] = $link;
 		return $link;
 	}
-	
-	/**
-	 * Create a new Footnote Element
-	 *
-	 * @param string $text
-	 * @return PHPWord_Section_Footnote
-	 */
-	public function createFootnote($styleParagraph = null) {
-		$footnote = new PHPWord_Section_Footnote($styleParagraph);
-		$refID = PHPWord_Footnote::addFootnoteElement($footnote);
-		$footnote->setReferenceId($refID);
-		$this->_elementCollection[] = $footnote;
-		return $footnote;
-	}
 
 	/**
-	 * Get TextRun content
-	 * 
+	 * Get Footnote content
+	 *
 	 * @return string
 	 */
 	public function getElements() {
 		return $this->_elementCollection;
 	}
-	
+
 	/**
 	 * Get Paragraph style
-	 * 
+	 *
 	 * @return PHPWord_Style_Paragraph
 	 */
 	public function getParagraphStyle() {
 		return $this->_styleParagraph;
 	}
+
+	/**
+	 * Get Footnote Reference ID
+	 *
+	 * @return int
+	 */
+	public function getReferenceId() {
+		return $this->_refId;
+	}
+
+	/**
+	 * Set Footnote Reference ID
+	 *
+	 * @param int $refId
+	 */
+	public function setReferenceId($refId) {
+		$this->_refId = $refId;
+	}
+	
+
 }
 ?>

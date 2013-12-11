@@ -48,6 +48,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter {
 		$this->_writerParts['styles'] = new PHPWord_Writer_Word2007_Styles();
 		$this->_writerParts['header'] = new PHPWord_Writer_Word2007_Header();
 		$this->_writerParts['footer'] = new PHPWord_Writer_Word2007_Footer();
+		$this->_writerParts['footnotes'] = new PHPWord_Writer_Word2007_Footnotes();
+		$this->_writerParts['footnotesrels'] = new PHPWord_Writer_Word2007_FootnotesRels();
 		
 		foreach($this->_writerParts as $writer) {
 			$writer->setParentWriter($this);
@@ -106,8 +108,12 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter {
 				}
 			}
 			
-			
-			
+            $footnoteLinks = array();
+            $_footnoteElements = PHPWord_Footnote::getFootnoteLinkElements();
+            foreach($_footnoteElements as $element) { // loop through footnote link elements
+              $footnoteLinks[] = $element;
+            }
+
 			$_cHdrs    = 0;
 			$_cFtrs    = 0;
 			$rID       = PHPWord_Media::countSectionMediaElements() + 6;
@@ -134,7 +140,17 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter {
 					$objZip->addFromString('word/'.$_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
 				}
 			}
-		
+
+            if (PHPWord_Footnote::countFootnoteElements() > 0) {
+              $_allFootnotesCollection = PHPWord_Footnote::getFootnoteElements();
+              $_footnoteFile = 'footnotes.xml';
+              $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
+              $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));
+              if (count($footnoteLinks) > 0) {
+                $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteLinks));
+              }
+            }
+
 			// build docx file
 			// Write dynamic files
             $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->_imageTypes, $this->_objectTypes, $_cHdrs, $_cFtrs));

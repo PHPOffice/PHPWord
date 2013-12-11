@@ -69,8 +69,7 @@ class PHPWord_Section {
 	 * @var PHPWord_Section_Footer
 	 */
 	private $_footer = null;
-	
-	
+
 	/**
 	 * Create a new Section
 	 * 
@@ -366,6 +365,20 @@ class PHPWord_Section {
 	 */
 	public function getFooter() {
 		return $this->_footer;
+	}
+
+	/**
+	 * Create a new Footnote Element
+	 *
+	 * @param string $text
+	 * @return PHPWord_Section_Footnote
+	 */
+	public function createFootnote($styleParagraph = null) {
+		$footnote = new PHPWord_Section_Footnote($styleParagraph);
+		$refID = PHPWord_Footnote::addFootnoteElement($footnote);
+		$footnote->setReferenceId($refID);
+		$this->_elementCollection[] = $footnote;
+		return $footnote;
 	}
 }
 ?>

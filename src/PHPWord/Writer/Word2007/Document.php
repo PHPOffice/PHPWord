@@ -89,6 +89,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base {
 						$this->_writeObject($objWriter, $element);
 					} elseif($element instanceof PHPWord_TOC) {
 						$this->_writeTOC($objWriter);
+					} elseif($element instanceof PHPWord_Section_Footnote) {
+                      $this->_writeFootnoteReference($objWriter, $element);
 					}
 				}
 				
