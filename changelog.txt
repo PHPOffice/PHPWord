@@ -1,0 +1,2 @@
+2013-12-11 (v1.0):
+- Feature:  (gavroche)  Added composer file

@@ -1,0 +1,22 @@
+{
+    "name": "phpoffice/phpword",
+    "description": "PHPWord - OpenXML - Read, Write and Create Word documents in PHP",
+    "keywords": ["PHP","Word","docx","doc"],
+    "homepage": "http://phpword.codeplex.com",
+    "type": "library",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Gabriel Bull",
+            "email": "gavroche.bull@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "PHPWord": "src/"
+        }
+    }
+}

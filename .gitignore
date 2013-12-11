@@ -1,4 +1,13 @@
-
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini
+.idea
+phpunit.xml
+composer.lock
+vendor
 /.settings
 /.buildpath
 /.project
