@@ -1,0 +1,16 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="test/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    <testsuites>
+        <testsuite name="PHPWord Test Suite">
+            <directory>./test/PHPWord/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

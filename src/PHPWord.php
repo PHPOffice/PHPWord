@@ -28,8 +28,8 @@
 /** PHPWORD_BASE_PATH */
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/');
-    require PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php';
-    PHPWord_Autoloader::Register();
+    require_once PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php';
+    PHPWord_Autoloader::register();
 }
 
 

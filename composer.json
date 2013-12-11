@@ -14,6 +14,9 @@
     "require": {
         "php": ">=5.2.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.28"
+    },
     "autoload": {
         "psr-0": {
             "PHPWord": "src/"

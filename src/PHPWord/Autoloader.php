@@ -25,6 +25,8 @@
  * @version    Beta 0.6.3, 08.07.2011
  */
 
+define('PHPWORD_BASE_PATH', realpath(__DIR__ . '/../'));
+
 class PHPWord_Autoloader
 {
     /**
@@ -45,17 +47,12 @@ class PHPWord_Autoloader
      */
     public static function load($strObjectName)
     {
-        if ((class_exists($strObjectName)) || (strpos($strObjectName, 'PHPWord') === false)) {
-            return null;
+        $strObjectFilePath = __DIR__ . '/../' . str_replace('_', '/', $strObjectName) . '.php';
+        if (file_exists($strObjectFilePath) && is_readable($strObjectFilePath)) {
+            require_once $strObjectFilePath;
+            return true;
         }
 
-        $strObjectFilePath = PHPWORD_BASE_PATH . str_replace('_', '/', $strObjectName) . '.php';
-
-        if ((file_exists($strObjectFilePath) === false) || (is_readable($strObjectFilePath) === false)) {
-            return null;
-        }
-
-        require_once $strObjectFilePath;
-        return true;
+        return null;
     }
 }
