@@ -92,6 +92,10 @@ class PHPWord_Section_Image
                 }
             }
 
+            if (isset($style['wrappingStyle'])) {
+                $this->_style->setWrappingStyle($style['wrappingStyle']);
+            }
+
             if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
                 $imgData = getimagesize($this->_src);
                 $this->_style->setWidth($imgData[0]);
@@ -174,4 +178,3 @@ class PHPWord_Section_Image
         $this->_isWatermark = $pValue;
     }
 }
-

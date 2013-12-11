@@ -608,7 +608,11 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, $image)
+    /**
+     * @param \PHPWord_Shared_XMLWriter $objWriter
+     * @param \PHPWord_Section_Image $image
+     */
+    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image)
     {
         $rId = $image->getRelationId();
 
@@ -616,6 +620,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $width = $style->getWidth();
         $height = $style->getHeight();
         $align = $style->getAlign();
+        $marginTop = $style->getMarginTop();
+        $marginLeft = $style->getMarginLeft();
+        $wrappingStyle = $style->getWrappingStyle();
 
         $objWriter->startElement('w:p');
 
@@ -633,7 +640,37 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
         $objWriter->startElement('v:shape');
         $objWriter->writeAttribute('type', '#_x0000_t75');
-        $objWriter->writeAttribute('style', 'width:' . $width . 'px;height:' . $height . 'px');
+
+        $imgStyle = '';
+        if (null !== $width) {
+            $imgStyle .= 'width:' . $width . 'px;';
+        }
+        if (null !== $height) {
+            $imgStyle .= 'height:' . $height . 'px;';
+        }
+        if (null !== $marginTop) {
+            $imgStyle .= 'margin-top:' . $marginTop . 'in;';
+        }
+        if (null !== $marginLeft) {
+            $imgStyle .= 'margin-left:' . $marginLeft . 'in;';
+        }
+
+        switch ($wrappingStyle) {
+            case PHPWord_Style_Image::WRAPPING_STYLE_BEHIND:
+                $imgStyle .= 'position:absolute;z-index:-251658752;';
+                break;
+            case PHPWord_Style_Image::WRAPPING_STYLE_SQUARE:
+                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                break;
+            case PHPWord_Style_Image::WRAPPING_STYLE_TIGHT:
+                $imgStyle .= 'position:absolute;z-index:251659264;mso-wrap-edited:f;mso-position-horizontal:absolute;mso-position-vertical:absolute';
+                break;
+            case PHPWord_Style_Image::WRAPPING_STYLE_INFRONT:
+                $imgStyle .= 'position:absolute;zz-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                break;
+        }
+
+        $objWriter->writeAttribute('style', $imgStyle);
 
         $objWriter->startElement('v:imagedata');
         $objWriter->writeAttribute('r:id', 'rId' . $rId);

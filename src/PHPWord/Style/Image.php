@@ -35,10 +35,16 @@
  */
 class PHPWord_Style_Image
 {
+    const WRAPPING_STYLE_INLINE = 'inline';
+    const WRAPPING_STYLE_SQUARE = 'square';
+    const WRAPPING_STYLE_TIGHT = 'tight';
+    const WRAPPING_STYLE_BEHIND = 'behind';
+    const WRAPPING_STYLE_INFRONT = 'infront';
 
     private $_width;
     private $_height;
     private $_align;
+    private $wrappingStyle;
 
     /**
      * Margin Top
@@ -61,6 +67,7 @@ class PHPWord_Style_Image
         $this->_align = null;
         $this->_marginTop = null;
         $this->_marginLeft = null;
+        $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
     }
 
     public function setStyleValue($key, $value)
@@ -112,6 +119,7 @@ class PHPWord_Style_Image
      * Set Margin Top
      *
      * @param int $pValue
+     * @return $this
      */
     public function setMarginTop($pValue = null)
     {
@@ -133,10 +141,41 @@ class PHPWord_Style_Image
      * Set Margin Left
      *
      * @param int $pValue
+     * @return $this
      */
     public function setMarginLeft($pValue = null)
     {
         $this->_marginLeft = $pValue;
         return $this;
+    }
+
+    /**
+     * @param string $wrappingStyle
+     * @throws InvalidArgumentException
+     * @return $this
+     */
+    public function setWrappingStyle($wrappingStyle)
+    {
+        switch ($wrappingStyle) {
+            case self::WRAPPING_STYLE_BEHIND:
+            case self::WRAPPING_STYLE_INFRONT:
+            case self::WRAPPING_STYLE_INLINE:
+            case self::WRAPPING_STYLE_SQUARE:
+            case self::WRAPPING_STYLE_TIGHT:
+                $this->wrappingStyle = $wrappingStyle;
+                break;
+            default:
+                throw new InvalidArgumentException('Wrapping style does not exists');
+                break;
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWrappingStyle()
+    {
+        return $this->wrappingStyle;
     }
 }

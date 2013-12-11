@@ -30,7 +30,16 @@ if (!defined('DATE_W3C')) {
     define('DATE_W3C', 'Y-m-d\TH:i:sP');
 }
 
-
+/**
+ * Class PHPWord_Shared_XMLWriter
+ *
+ * @category   PHPWord
+ * @package    PHPWord_Section
+ * @copyright  Copyright (c) 2011 PHPWord
+ * @method bool startElement(string $name)
+ * @method bool writeAttribute(string $name, string $value)
+ * @method bool endElement()
+ */
 class PHPWord_Shared_XMLWriter
 {
     /** Temporary storage method */

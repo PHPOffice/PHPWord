@@ -27,23 +27,35 @@
 
 class PHPWord_Autoloader
 {
-    public static function Register()
+    /**
+     * Register the autoloader
+     *
+     * @return void
+     */
+    public static function register()
     {
-        return spl_autoload_register(array('PHPWord_Autoloader', 'Load'));
+        spl_autoload_register(array('PHPWord_Autoloader', 'load'));
     }
 
-    public static function Load($strObjectName)
+    /**
+     * Autoloader
+     *
+     * @param string $strObjectName
+     * @return mixed
+     */
+    public static function load($strObjectName)
     {
         if ((class_exists($strObjectName)) || (strpos($strObjectName, 'PHPWord') === false)) {
-            return false;
+            return null;
         }
 
         $strObjectFilePath = PHPWORD_BASE_PATH . str_replace('_', '/', $strObjectName) . '.php';
 
         if ((file_exists($strObjectFilePath) === false) || (is_readable($strObjectFilePath) === false)) {
-            return false;
+            return null;
         }
 
-        require($strObjectFilePath);
+        require_once $strObjectFilePath;
+        return true;
     }
 }
