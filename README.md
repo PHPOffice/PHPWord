@@ -32,7 +32,6 @@ the following lines to your ``composer.json``.
 The following is a basic example of the PHPWord library.
 
 ```php
-// Create a new PHPWord Object
 $PHPWord = new PHPWord();
 
 // Every element you want to append to the word document is placed in a section. So you need a section:
@@ -59,3 +58,35 @@ $myTextElement->setSize(22);
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
+
+## Image
+
+You can add images easily using the following example.
+
+```php
+$section = $PHPWord->createSection();
+$section->addImage('mars.jpg');
+```
+
+Images settings include:
+ * ``width`` width in pixels
+ * ``height`` height in pixels
+ * ``align`` image alignment, __left__, __right__ or __center__
+ * ``marginTop`` top margin in inches, can be negative
+ * ``marginLeft`` left margin in inches, can be negative
+ * ``wrappingStyle`` can be inline, __square__, __tight__, __behind__, __infront__
+
+ To add an image with settings, consider the following example.
+
+ ```php
+$section->addImage(
+    'mars.jpg',
+    array(
+        'width' => 100,
+        'height' => 100,
+        'marginTop' => -1,
+        'marginLeft' => -1,
+        wrappingStyle => 'behind'
+    )
+);
+ ```

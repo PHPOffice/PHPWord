@@ -1,2 +1,3 @@
 2013-12-11 (v1.0):
 - Feature:  (gavroche)  Added composer file
+- Feature:  (gavroche)  Added support for image wrapping style
