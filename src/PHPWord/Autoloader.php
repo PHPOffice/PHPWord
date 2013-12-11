@@ -25,7 +25,7 @@
  * @version    Beta 0.6.3, 08.07.2011
  */
 
-define('PHPWORD_BASE_PATH', realpath(__DIR__ . '/../'));
+define('PHPWORD_BASE_PATH', realpath(__DIR__ . '/../') . '/');
 
 class PHPWord_Autoloader
 {
