@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2011 PHPWord
+ * Copyright (c) 2013 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,10 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 010 PHPWord
+ * @copyright  Copyright (c) 2013 PHPWord (http://www.codeplex.com/PHPWord)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    Beta 0.6.3, 08.07.2011
+ * @version    0.7.0
  */
-
 
 if (!defined('DATE_W3C')) {
     define('DATE_W3C', 'Y-m-d\TH:i:sP');
@@ -33,9 +32,6 @@ if (!defined('DATE_W3C')) {
 /**
  * Class PHPWord_Shared_XMLWriter
  *
- * @category   PHPWord
- * @package    PHPWord_Section
- * @copyright  Copyright (c) 2011 PHPWord
  * @method bool startElement(string $name)
  * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()

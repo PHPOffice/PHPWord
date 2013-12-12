@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2009 - 2010 PHPWord
+ * Copyright (c) 2013 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,18 +20,14 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2009 - 2010 PHPWord (http://www.codeplex.com/PHPWord)
+ * @copyright  Copyright (c) 2013 PHPWord (http://www.codeplex.com/PHPWord)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    0.7.0
  */
 
 
 /**
  * PHPWord_HashTable
- *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2009 - 2010 PHPWord (http://www.codeplex.com/PHPWord)
  */
 class PHPWord_HashTable
 {

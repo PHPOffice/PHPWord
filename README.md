@@ -9,7 +9,7 @@ Fork us!
 
 ## Requirements
 
-* PHP version 5.2.0 or higher
+* PHP version 5.3.0 or higher
 
 ## License
 PHPWord is licensed under [LGPL (GNU LESSER GENERAL PUBLIC LICENSE)](https://github.com/PHPOffice/PHPWord/blob/master/license.md)
