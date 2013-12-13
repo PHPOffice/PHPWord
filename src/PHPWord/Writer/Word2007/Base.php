@@ -119,10 +119,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $spaceBefore = $style->getSpaceBefore();
         $spaceAfter = $style->getSpaceAfter();
         $spacing = $style->getSpacing();
-        $indent = $style->getIndent();
 
 
-        if (!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($indent)) {
+        if (!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter)) {
 
             if (!$withoutPPR) {
                 $objWriter->startElement('w:pPr');
@@ -131,13 +130,6 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             if (!is_null($align)) {
                 $objWriter->startElement('w:jc');
                 $objWriter->writeAttribute('w:val', $align);
-                $objWriter->endElement();
-            }
-
-            if (!is_null($indent)) {
-                $objWriter->startElement('w:ind');
-                $objWriter->writeAttribute('w:firstLine', 0);
-                $objWriter->writeAttribute('w:left', $indent);
                 $objWriter->endElement();
             }
 
@@ -320,6 +312,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $fgColor = $style->getFgColor();
         $striketrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
+        $superscript = $style->getSuperScript();
+        $subscript = $style->getSubScript();
 
         $objWriter->startElement('w:rPr');
 
@@ -352,6 +346,20 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         // Bold
         if ($bold) {
             $objWriter->writeElement('w:b', null);
+        }
+
+        // Superscript
+        if ($superscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', 'superscript');
+            $objWriter->endElement();
+        }
+
+        // Subscript
+        if ($subscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', 'subscript');
+            $objWriter->endElement();
         }
 
         // Italic
@@ -609,7 +617,6 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             }
         }
     }
-
     /**
      * @param \PHPWord_Shared_XMLWriter $objWriter
      * @param \PHPWord_Section_Image $image
