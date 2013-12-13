@@ -10,9 +10,14 @@
             "name": "Mark Baker"
         },
         {
+            "name": "Gabriel Bull",
+            "email": "gavroche.bull@gmail.com"
+        },
+        {
             "name": "Franck Lefevre",
             "homepage": "http://blog.rootslabs.net"
         }
+        
     ],
     "require": {
         "php": ">=5.2.0",
