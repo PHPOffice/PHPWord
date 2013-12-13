@@ -1,0 +1,30 @@
+{
+    "name": "phpoffice/phpword",
+    "description": "PHPWord - Read, Create and Write Word documents in PHP",
+    "keywords": ["PHP","Word", "Writer", "docx","doc","rtf"],
+    "homepage": "http://phpoffice.github.io",
+    "type": "library",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Mark Baker"
+        },
+        {
+            "name": "Franck Lefevre",
+            "homepage": "http://blog.rootslabs.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "ext-xml": "*"
+    },
+    "recommend": {
+        "ext-zip": "*",
+        "ext-gd2": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "PHPWord": "src/"
+        }
+    }
+}
