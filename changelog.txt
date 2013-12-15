@@ -31,3 +31,4 @@ Fixed in branch for release 0.7 :
 - General:  (Progi1984)       GH-27             - Support for Composer
 - General:  (Progi1984)                         - Basic CI with Travis
 - General:  (Progi1984)                         - Added PHPWord_Exception and exception when could not copy the template
+- General:  (Progi1984)                         - IMPROVED : Moved examples out of Classes directory

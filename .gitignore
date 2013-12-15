@@ -3,3 +3,8 @@
 /.buildpath
 /.project
 /docs
+
+*.odt
+*.docx
+*.rtf
+*.txt

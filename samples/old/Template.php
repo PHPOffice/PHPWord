@@ -1,5 +1,5 @@
 <?php
-require_once '../PHPWord.php';
+require_once '../../Classes/PHPWord.php';
 
 $PHPWord = new PHPWord();
 
