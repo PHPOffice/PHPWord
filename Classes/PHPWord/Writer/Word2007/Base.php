@@ -114,13 +114,12 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 		$spaceAfter = $style->getSpaceAfter();
 		$spacing = $style->getSpacing();
 		$indent = $style->getIndent();
-		
+    $tabs = $style->getTabs();
         
-		if(!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($indent)) {
-			
-            if(!$withoutPPR) {
-                $objWriter->startElement('w:pPr');
-            }
+		if(!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($indent) || !is_null($tabs)) {
+      if(!$withoutPPR) {
+          $objWriter->startElement('w:pPr');
+      }
 			
 			if(!is_null($align)) {
 				$objWriter->startElement('w:jc');
@@ -136,26 +135,27 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 			}
 
 			if(!is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($spacing)) {
-				
 				$objWriter->startElement('w:spacing');
-				
-					if(!is_null($spaceBefore)) {
-						$objWriter->writeAttribute('w:before', $spaceBefore);
-					}
-					if(!is_null($spaceAfter)) {
-						$objWriter->writeAttribute('w:after', $spaceAfter);
-					}
-					if(!is_null($spacing)) {
-						$objWriter->writeAttribute('w:line', $spacing);
-						$objWriter->writeAttribute('w:lineRule', 'auto');
-					}
-
+        if(!is_null($spaceBefore)) {
+          $objWriter->writeAttribute('w:before', $spaceBefore);
+        }
+        if(!is_null($spaceAfter)) {
+          $objWriter->writeAttribute('w:after', $spaceAfter);
+        }
+        if(!is_null($spacing)) {
+          $objWriter->writeAttribute('w:line', $spacing);
+          $objWriter->writeAttribute('w:lineRule', 'auto');
+        }
 				$objWriter->endElement();
 			}
-			
-            if(!$withoutPPR) {
-			    $objWriter->endElement(); // w:pPr
-            }
+
+      if(!is_null($tabs)) {
+        $tabs->toXml($objWriter);
+      }
+
+      if(!$withoutPPR) {
+        $objWriter->endElement(); // w:pPr
+      }
 		}
 	}
 	

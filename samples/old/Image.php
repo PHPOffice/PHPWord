@@ -11,7 +11,7 @@ $section = $PHPWord->createSection();
 $section->addImage('_mars.jpg');
 $section->addTextBreak(2);
 
-$section->addImage('_earth.JPG', array('width'=>210, 'height'=>210, 'align'=>'center'));
+$section->addImage('_earth.jpg', array('width'=>210, 'height'=>210, 'align'=>'center'));
 $section->addTextBreak(2);
 
 $section->addImage('_mars.jpg', array('width'=>100, 'height'=>100, 'align'=>'right'));
