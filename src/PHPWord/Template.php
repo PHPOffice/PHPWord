@@ -65,8 +65,11 @@ class PHPWord_Template {
     public function __construct($strFilename) {
         $path = dirname($strFilename);
         $this->_tempFileName = $path.DIRECTORY_SEPARATOR.time().'.docx';
-        
-        copy($strFilename, $this->_tempFileName); // Copy the source File to the temp File
+
+        // Copy the source File to the temp File
+        if(!copy($strFilename, $this->_tempFileName)){
+          throw new PHPWord_Exception('Could not copy the template from '.$strFilename.' to '.$this->_tempFileName.'.');
+        }
 
         $this->_objZip = new ZipArchive();
         $this->_objZip->open($this->_tempFileName);
