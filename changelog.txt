@@ -34,3 +34,4 @@ Fixed in branch for release 0.7 :
 - General:  (Progi1984)                         - Basic CI with Travis
 - General:  (Progi1984)                         - Added PHPWord_Exception and exception when could not copy the template
 - General:  (Progi1984)                         - IMPROVED : Moved examples out of Classes directory
+- General:  (Esmeraldo)       CP-49             - IMPROVED : Advanced string replace in setValue for Template

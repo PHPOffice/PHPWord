@@ -84,6 +84,14 @@ class PHPWord_Template {
      * @param mixed $replace
      */
     public function setValue($search, $replace) {
+        $pattern = '|\$\{([^\}]+)\}|U';
+        preg_match_all($pattern, $this->_documentXML, $matches);
+        foreach ($matches[0] as $value) {
+          $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
+          $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
+          $this->_documentXML = str_replace($value, $valueCleaned, $this->_documentXML);
+        }
+
         if(substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${'.$search.'}';
         }
@@ -96,6 +104,7 @@ class PHPWord_Template {
         
         $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
     }
+
     /**
      * Returns array of all variables in template
      */
@@ -104,6 +113,7 @@ class PHPWord_Template {
         preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
         return $matches[1];
     }
+
     /**
      * Save Template
      * 
