@@ -13,3 +13,8 @@ vendor
 /.buildpath
 /.project
 /docs
+*.odt
+*.docx
+*.rtf
+*.txt
+*.xml

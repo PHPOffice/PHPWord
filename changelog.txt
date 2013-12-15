@@ -1,3 +1,42 @@
-2013-12-11 (v0.7.0):
+**************************************************************************************
+* PHPWord
+*
+* Copyright (c) 2011 - 2013 PHPWord
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation; either
+* version 2.1 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public
+* License along with this library; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+*
+* @copyright Copyright (c) 2011 - 2013 PHPWord (https://github.com/PHPOffice/PHPWord/)
+* @license http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+* @version ##VERSION##, ##DATE##
+**************************************************************************************
+
+Fixed in branch for release 0.7 :
+- Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
+- Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input
+- Bugfix:   (RomanSyroeshko)  GH-38             - Temporary files naming logic in PHPWord_Template can lead to a collision
+- Feature:  (Progi1984)       GH-1              - Implement RTF Writer
+- Feature:  (Progi1984)       GH-2              - Implement ODT Writer
+- Feature:  (kaystrobach)                       - Word2007 : Add rowspan and colspan to cells
+- Feature:  (RLovelett)                         - Word2007 : Support for tab stops
+- Feature:  (RLovelett)                         - Word2007 : Support Multiple headers
+- General:  (MarkBaker)                         - Add superscript/subscript styling in Excel2007 Writer
+- General:  (deds)                              - add indentation support to paragraphs
+- General:  (Progi1984)       GH-27             - Support for Composer
+- General:  (Progi1984)                         - Basic CI with Travis
+- General:  (Progi1984)                         - Added PHPWord_Exception and exception when could not copy the template
+- General:  (Progi1984)                         - IMPROVED : Moved examples out of Classes directory
+- General:  (Esmeraldo)       CP-49             - IMPROVED : Advanced string replace in setValue for Template
 - Feature:  (gavroche)  Added composer file
 - Feature:  (gavroche)  Added support for image wrapping style

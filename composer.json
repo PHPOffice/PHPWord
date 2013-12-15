@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-0": {
-            "PHPWord": "src/"
+            "PHPWord": "Classes/"
         }
     }
 }

@@ -9,7 +9,7 @@ else {
 	define('EOL', '<br />');
 }
 
-require_once '../src/PHPWord.php';
+require_once '../Classes/PHPWord.php';
 
 // New Word Document
 echo date('H:i:s') , " Create new PHPWord object" , EOL;
