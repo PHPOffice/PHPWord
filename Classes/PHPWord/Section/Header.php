@@ -131,7 +131,7 @@ class PHPWord_Section_Header {
 			$this->_elementCollection[] = $image;
 			return $image;
 		} else {
-			trigger_error('Src does not exist or invalid image type.', E_ERROR);
+			trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
 		}
 	}
 	
@@ -189,7 +189,7 @@ class PHPWord_Section_Header {
 			$this->_elementCollection[] = $image;
 			return $image;
 		} else {
-			trigger_error('Src does not exist or invalid image type.', E_ERROR);
+			trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
 		}
 	}
 	

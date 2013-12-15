@@ -24,6 +24,7 @@
 
 Fixed in branch for release 0.7 :
 - Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input
+- Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
 - Feature:  (Progi1984)       GH-1              - Implement RTF Writer
 - Feature:  (Progi1984)       GH-2              - Implement ODT Writer
 - Feature:  (kaystrobach)                       - Word2007 : Add rowspan and colspan to cells
