@@ -26,6 +26,7 @@ Fixed in branch for release 0.7 :
 - Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input
 - Feature:  (Progi1984)       GH-1              - Implement RTF Writer
 - Feature:  (Progi1984)       GH-2              - Implement ODT Writer
+- Feature:  (kaystrobach)                       - Word2007 : Add rowspan and colspan to cells
 - General:  (MarkBaker)                         - Add superscript/subscript styling in Excel2007 Writer
 - General:  (deds)                              - add indentation support to paragraphs
 - General:  (Progi1984)       GH-27             - Support for Composer

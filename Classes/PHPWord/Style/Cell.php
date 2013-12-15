@@ -121,7 +121,20 @@ class PHPWord_Style_Cell {
 	 * @var string
 	 */
 	private $_defaultBorderColor;
-	
+
+  /**
+   * colspan
+   *
+   * @var integer
+   */
+  private $_gridSpan = NULL;
+
+  /**
+   * rowspan
+   *
+   * @var integer
+   */
+  private $_vMerge   = NULL;
 	
 	/**
 	 * Create a new Cell Style
@@ -233,7 +246,6 @@ class PHPWord_Style_Cell {
 		return $this->_borderTopColor;
 	}
 
-	
 	public function setBorderLeftSize($pValue = null) {
 		$this->_borderLeftSize = $pValue;
 	}
@@ -249,8 +261,7 @@ class PHPWord_Style_Cell {
 	public function getBorderLeftColor() {
 		return $this->_borderLeftColor;
 	}
-	
-	
+
 	public function setBorderRightSize($pValue = null) {
 		$this->_borderRightSize = $pValue;
 	}
@@ -287,5 +298,21 @@ class PHPWord_Style_Cell {
 	public function getDefaultBorderColor() {
 		return $this->_defaultBorderColor;
 	}
+
+  public function setGridSpan($pValue = null) {
+    $this->_gridSpan = $pValue;
+  }
+
+  public function getGridSpan() {
+      return $this->_gridSpan;
+  }
+
+  public function setVMerge($pValue = null) {
+      $this->_vMerge = $pValue;
+  }
+
+  public function getVMerge() {
+      return $this->_vMerge;
+  }
 }
 ?>
