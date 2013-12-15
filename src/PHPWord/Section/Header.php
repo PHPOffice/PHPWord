@@ -72,8 +72,10 @@ class PHPWord_Section_Header {
 	 * @return PHPWord_Section_Text
 	 */
 	public function addText($text, $styleFont = null, $styleParagraph = null) {
-		$givenText = utf8_encode($text);
-		$text = new PHPWord_Section_Text($givenText, $styleFont, $styleParagraph);
+    if(!PHPWord_Shared_String::IsUTF8($text)){
+      $text = utf8_encode($text);
+    }
+		$text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
 		$this->_elementCollection[] = $text;
 		return $text;
 	}
@@ -162,7 +164,9 @@ class PHPWord_Section_Header {
 	 * @return PHPWord_Section_Footer_PreserveText
 	 */
 	public function addPreserveText($text, $styleFont = null, $styleParagraph = null) {
-		$text = utf8_encode($text);
+    if(!PHPWord_Shared_String::IsUTF8($text)){
+      $text = utf8_encode($text);
+    }
 		$ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);
 		$this->_elementCollection[] = $ptext;
 		return $ptext;

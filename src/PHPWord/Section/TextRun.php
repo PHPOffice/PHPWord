@@ -80,8 +80,10 @@ class PHPWord_Section_TextRun {
 	 * @return PHPWord_Section_Text
 	 */
 	public function addText($text = null, $styleFont = null) {
-		$givenText = utf8_encode($text);
-		$text = new PHPWord_Section_Text($givenText, $styleFont);
+    if(!PHPWord_Shared_String::IsUTF8($text)){
+      $text = utf8_encode($text);
+    }
+		$text = new PHPWord_Section_Text($text, $styleFont);
 		$this->_elementCollection[] = $text;
 		return $text;
 	}

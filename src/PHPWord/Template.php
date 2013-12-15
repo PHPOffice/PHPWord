@@ -86,7 +86,9 @@ class PHPWord_Template {
         }
         
         if(!is_array($replace)) {
-            $replace = utf8_encode($replace);
+            if(!PHPWord_Shared_String::IsUTF8($replace)){
+              $replace = utf8_encode($replace);
+            }
         }
         
         $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
