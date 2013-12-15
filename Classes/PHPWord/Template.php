@@ -63,18 +63,20 @@ class PHPWord_Template {
      * @param string $strFilename
      */
     public function __construct($strFilename) {
-        $path = dirname($strFilename);
-        $this->_tempFileName = $path.DIRECTORY_SEPARATOR.time().'.docx';
+        $this->_tempFileName = tempnam(sys_get_temp_dir(), '');
+        if ($this->_tempFileName !== false) {
+          // Copy the source File to the temp File
+          if(!copy($strFilename, $this->_tempFileName)){
+            throw new PHPWord_Exception('Could not copy the template from '.$strFilename.' to '.$this->_tempFileName.'.');
+          }
 
-        // Copy the source File to the temp File
-        if(!copy($strFilename, $this->_tempFileName)){
-          throw new PHPWord_Exception('Could not copy the template from '.$strFilename.' to '.$this->_tempFileName.'.');
+          $this->_objZip = new ZipArchive();
+          $this->_objZip->open($this->_tempFileName);
+
+          $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+        } else {
+          throw new PHPWord_Exception('Could not create temporary file with unique name in the default temporary directory.');
         }
-
-        $this->_objZip = new ZipArchive();
-        $this->_objZip->open($this->_tempFileName);
-        
-        $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
     }
     
     /**
