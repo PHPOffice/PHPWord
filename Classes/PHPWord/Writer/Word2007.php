@@ -114,12 +114,11 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter {
 			$_sections = $this->_document->getSections();
 			
 			foreach($_sections as $section) {
-				$_header = $section->getHeader();
-				if(!is_null($_header)) {
+				$_headers = $section->getHeaders();
+				foreach ($_headers as $index => &$_header) {
 					$_cHdrs++;
 					$_header->setRelationId(++$rID);
-					$_headerCount = $_header->getHeaderCount();
-					$_headerFile = 'header'.$_headerCount.'.xml';
+					$_headerFile = 'header'.$_cHdrs.'.xml';
 					$sectionElements[] = array('target'=>$_headerFile, 'type'=>'header', 'rID'=>$rID);
 					$objZip->addFromString('word/'.$_headerFile, $this->getWriterPart('header')->writeHeader($_header));
 				}
