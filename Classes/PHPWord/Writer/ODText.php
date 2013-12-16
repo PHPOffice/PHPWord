@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category   PHPWord
- * @package    PHPWord_Writer_PowerPoint2007
- * @copyright  Copyright (c) 2013 PHPWord (http://www.codeplex.com/PHPWord)
+ * @package    PHPWord
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    0.7.0
  */

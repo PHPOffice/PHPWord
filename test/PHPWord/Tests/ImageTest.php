@@ -4,8 +4,6 @@ namespace PHPWord\Tests;
 use PHPUnit_Framework_TestCase;
 use PHPWord;
 
-require_once __DIR__ . '/../../../src/PHPWord.php';
-
 class ImageTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()

@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2011 PHPWord
+ * Copyright (c) 2013 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,112 +20,112 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 010 PHPWord
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    Beta 0.6.3, 08.07.2011
+ * @version    0.7.0
  */
-
 
 /**
  * PHPWord_Section_TextRun
- *
- * @category   PHPWord
- * @package    PHPWord_Section
- * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Section_TextRun {
-	
-	/**
-	 * Paragraph style
-	 * 
-	 * @var PHPWord_Style_Font
-	 */
-	private $_styleParagraph;
-	
-	/**
-	 * Text collection
-	 * 
-	 * @var array
-	 */
-	private $_elementCollection;
-	
-	
-	/**
-	 * Create a new TextRun Element
-	 */
-	public function __construct($styleParagraph = null) {
-		$this->_elementCollection = array();
-		
-		// Set paragraph style
-		if(is_array($styleParagraph)) {
-			$this->_styleParagraph = new PHPWord_Style_Paragraph();
-			
-			foreach($styleParagraph as $key => $value) {
-				if(substr($key, 0, 1) != '_') {
-					$key = '_'.$key;
-				}
-				$this->_styleParagraph->setStyleValue($key, $value);
-			}
-		} else {
-			$this->_styleParagraph = $styleParagraph;
-		}
-	}
-	
-	
-	/**
-	 * Add a Text Element
-	 * 
-	 * @var string $text
-	 * @var mixed $styleFont
-	 * @return PHPWord_Section_Text
-	 */
-	public function addText($text = null, $styleFont = null) {
-    if(!PHPWord_Shared_String::IsUTF8($text)){
-      $text = utf8_encode($text);
+class PHPWord_Section_TextRun
+{
+
+    /**
+     * Paragraph style
+     *
+     * @var PHPWord_Style_Font
+     */
+    private $_styleParagraph;
+
+    /**
+     * Text collection
+     *
+     * @var array
+     */
+    private $_elementCollection;
+
+
+    /**
+     * Create a new TextRun Element
+     */
+    public function __construct($styleParagraph = null)
+    {
+        $this->_elementCollection = array();
+
+        // Set paragraph style
+        if (is_array($styleParagraph)) {
+            $this->_styleParagraph = new PHPWord_Style_Paragraph();
+
+            foreach ($styleParagraph as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $this->_styleParagraph->setStyleValue($key, $value);
+            }
+        } else {
+            $this->_styleParagraph = $styleParagraph;
+        }
     }
-		$text = new PHPWord_Section_Text($text, $styleFont);
-		$this->_elementCollection[] = $text;
-		return $text;
-	}
-	
-	/**
-	 * Add a Link Element
-	 * 
-	 * @param string $linkSrc
-	 * @param string $linkName
-	 * @param mixed $styleFont
-	 * @return PHPWord_Section_Link
-	 */
-	public function addLink($linkSrc, $linkName = null, $styleFont = null) {
-		$linkSrc = utf8_encode($linkSrc);
-		if(!is_null($linkName)) {
-			$linkName = utf8_encode($linkName);
-		}
-		
-		$link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
-		$rID = PHPWord_Media::addSectionLinkElement($linkSrc);
-		$link->setRelationId($rID);
-		
-		$this->_elementCollection[] = $link;
-		return $link;
-	}
-	
-	/**
-	 * Get TextRun content
-	 * 
-	 * @return string
-	 */
-	public function getElements() {
-		return $this->_elementCollection;
-	}
-	
-	/**
-	 * Get Paragraph style
-	 * 
-	 * @return PHPWord_Style_Paragraph
-	 */
-	public function getParagraphStyle() {
-		return $this->_styleParagraph;
-	}
+
+
+    /**
+     * Add a Text Element
+     *
+     * @var string $text
+     * @var mixed $styleFont
+     * @return PHPWord_Section_Text
+     */
+    public function addText($text = null, $styleFont = null)
+    {
+        if (!PHPWord_Shared_String::IsUTF8($text)) {
+            $text = utf8_encode($text);
+        }
+        $text = new PHPWord_Section_Text($text, $styleFont);
+        $this->_elementCollection[] = $text;
+        return $text;
+    }
+
+    /**
+     * Add a Link Element
+     *
+     * @param string $linkSrc
+     * @param string $linkName
+     * @param mixed $styleFont
+     * @return PHPWord_Section_Link
+     */
+    public function addLink($linkSrc, $linkName = null, $styleFont = null)
+    {
+        $linkSrc = utf8_encode($linkSrc);
+        if (!is_null($linkName)) {
+            $linkName = utf8_encode($linkName);
+        }
+
+        $link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
+        $rID = PHPWord_Media::addSectionLinkElement($linkSrc);
+        $link->setRelationId($rID);
+
+        $this->_elementCollection[] = $link;
+        return $link;
+    }
+
+    /**
+     * Get TextRun content
+     *
+     * @return string
+     */
+    public function getElements()
+    {
+        return $this->_elementCollection;
+    }
+
+    /**
+     * Get Paragraph style
+     *
+     * @return PHPWord_Style_Paragraph
+     */
+    public function getParagraphStyle()
+    {
+        return $this->_styleParagraph;
+    }
 }
-?>

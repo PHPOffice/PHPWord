@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord (http://www.codeplex.com/PHPWord)
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    0.7.0
  */

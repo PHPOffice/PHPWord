@@ -23,4 +23,3 @@ $section->addText('This section uses other margins.');
 // Save File
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('Section.docx');
-?>

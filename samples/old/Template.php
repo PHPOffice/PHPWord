@@ -20,4 +20,3 @@ $document->setValue('weekday', date('l'));
 $document->setValue('time', date('H:i'));
 
 $document->save('Solarsystem.docx');
-?>

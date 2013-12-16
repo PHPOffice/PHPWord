@@ -20,33 +20,30 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2009 - 2010 PHPWord (http://www.codeplex.com/PHPWord)
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    0.7.0
  */
-
 
 /**
- * PHPWord_Exception
- *
- * @category PHPWord
- * @package PHPWord
- * @copyright Copyright (c) 2006 - 2013 PHPWord (http://www.codeplex.com/PHPWord)
+ * Class PHPWord_Exception
  */
-class PHPWord_Exception extends Exception {
-  /**
-   * Error handler callback
-   *
-   * @param mixed $code
-   * @param mixed $string
-   * @param mixed $file
-   * @param mixed $line
-   * @param mixed $context
-   */
-  public static function errorHandlerCallback($code, $string, $file, $line, $context) {
-    $e = new self($string, $code);
-    $e->line = $line;
-    $e->file = $file;
-    throw $e;
-  }
+class PHPWord_Exception extends Exception
+{
+    /**
+     * Error handler callback
+     *
+     * @param mixed $code
+     * @param mixed $string
+     * @param mixed $file
+     * @param mixed $line
+     * @param mixed $context
+     */
+    public static function errorHandlerCallback($code, $string, $file, $line, $context)
+    {
+        $e = new self($string, $code);
+        $e->line = $line;
+        $e->file = $file;
+        throw $e;
+    }
 }

@@ -59,7 +59,7 @@ $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
 
-## Image
+## Images
 
 You can add images easily using the following example.
 

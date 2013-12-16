@@ -22,7 +22,7 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
-Fixed in branch for release 0.7 :
+Fixed in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
 - Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input
 - Bugfix:   (RomanSyroeshko)  GH-38             - Temporary files naming logic in PHPWord_Template can lead to a collision
@@ -38,5 +38,4 @@ Fixed in branch for release 0.7 :
 - General:  (Progi1984)                         - Added PHPWord_Exception and exception when could not copy the template
 - General:  (Progi1984)                         - IMPROVED : Moved examples out of Classes directory
 - General:  (Esmeraldo)       CP-49             - IMPROVED : Advanced string replace in setValue for Template
-- Feature:  (gavroche)  Added composer file
-- Feature:  (gavroche)  Added support for image wrapping style
+- Feature:  (gavroche)                          - Added support for image wrapping style
