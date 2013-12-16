@@ -31,6 +31,7 @@ Fixed in branch for release 0.7.0 :
 - Feature:  (kaystrobach)                       - Word2007 : Add rowspan and colspan to cells
 - Feature:  (RLovelett)                         - Word2007 : Support for tab stops
 - Feature:  (RLovelett)                         - Word2007 : Support Multiple headers
+- Feature:  (gavroche)                          - Word2007 : Wrapping Styles to Images
 - General:  (MarkBaker)                         - Add superscript/subscript styling in Excel2007 Writer
 - General:  (deds)                              - add indentation support to paragraphs
 - General:  (Progi1984)       GH-27             - Support for Composer
