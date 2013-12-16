@@ -121,6 +121,35 @@ class PHPWord_Template
         preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
         return $matches[1];
     }
+    
+    /**
+     * Clone a table row in a template document
+     * 
+     * @param mixed $search
+     * @param mixed $numberOfClones
+     */
+	public function cloneRow($search, $numberOfClones) {
+        if(substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+            $search = '${'.$search.'}';
+        }
+        		
+		$tagPos = strpos($this->_documentXML, $search);
+		if (!$tagPos) {
+			trigger_error("Can not clone row, template variable not found or variable contains markup.");
+			return false;
+		}
+		$rowStartPos = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $tagPos) * -1));
+		$rowEndPos   = strpos($this->_documentXML, "</w:tr>", $tagPos) + 7;
+
+		$result = substr($this->_documentXML, 0, $rowStartPos);
+		$xmlRow = substr($this->_documentXML, $rowStartPos, ($rowEndPos - $rowStartPos));
+		for ($i = 1; $i <= $numberOfClones; $i++) {
+			$result .= preg_replace('/\$\{(.*?)\}/','\${\\1#'.$i.'}', $xmlRow);
+		}
+		$result .= substr($this->_documentXML, $rowEndPos);
+
+		$this->_documentXML = $result;
+	}
 
     /**
      * Save Template
