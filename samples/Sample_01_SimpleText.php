@@ -49,4 +49,3 @@ echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 102
 
 // Echo done
 echo date('H:i:s') , " Done writing file" , EOL;
-?>

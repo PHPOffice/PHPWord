@@ -1,7 +1,7 @@
 {
     "name": "phpoffice/phpword",
     "description": "PHPWord - Read, Create and Write Word documents in PHP",
-    "keywords": ["PHP","Word", "Writer", "docx","doc","rtf"],
+    "keywords": ["PHP", "Word", "Writer", "docx", "doc", "rtf"],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
     "license": "LGPL",
@@ -17,7 +17,6 @@
             "name": "Franck Lefevre",
             "homepage": "http://blog.rootslabs.net"
         }
-        
     ],
     "require": {
         "php": ">=5.3.0",

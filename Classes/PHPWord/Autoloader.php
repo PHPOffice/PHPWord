@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2011 PHPWord
+ * Copyright (c) 2013 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,29 +20,44 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 010 PHPWord
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    Beta 0.6.3, 08.07.2011
+ * @version    0.7.0
  */
 
+if (!defined('PHPWORD_BASE_PATH')) {
+    define('PHPWORD_BASE_PATH', realpath(__DIR__ . '/../') . '/');
+}
+
+/**
+ * Class PHPWord_Autoloader
+ */
 class PHPWord_Autoloader
 {
-	public static function Register() {
-		return spl_autoload_register(array('PHPWord_Autoloader', 'Load'));
-	}
+    /**
+     * Register the autoloader
+     *
+     * @return void
+     */
+    public static function register()
+    {
+        spl_autoload_register(array('PHPWord_Autoloader', 'load'));
+    }
 
-	public static function Load($strObjectName) {
-		if((class_exists($strObjectName)) || (strpos($strObjectName, 'PHPWord') === false)) {
-			return false;
-		}
+    /**
+     * Autoloader
+     *
+     * @param string $strObjectName
+     * @return mixed
+     */
+    public static function load($strObjectName)
+    {
+        $strObjectFilePath = __DIR__ . '/../' . str_replace('_', '/', $strObjectName) . '.php';
+        if (file_exists($strObjectFilePath) && is_readable($strObjectFilePath)) {
+            require_once $strObjectFilePath;
+            return true;
+        }
 
-		$strObjectFilePath = PHPWORD_BASE_PATH . str_replace('_', '/', $strObjectName) . '.php';
-		
-		if((file_exists($strObjectFilePath) === false) || (is_readable($strObjectFilePath) === false)) {
-			return false;
-		}
-		
-		require($strObjectFilePath);
-	}
+        return null;
+    }
 }
-?>

@@ -29,4 +29,3 @@ $textrun->addLink('http://www.bing.com', null, 'NLink');
 // Save File
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('Textrun.docx');
-?>

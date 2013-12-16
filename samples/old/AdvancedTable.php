@@ -50,4 +50,3 @@ for($i = 1; $i <= 10; $i++) {
 // Save File
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('AdvancedTable.docx');
-?>

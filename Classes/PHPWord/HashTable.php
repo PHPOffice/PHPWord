@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2009 - 2010 PHPWord
+ * Copyright (c) 2013 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,18 +20,13 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2009 - 2010 PHPWord (http://www.codeplex.com/PHPWord)
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    0.7.0
  */
-
 
 /**
  * PHPWord_HashTable
- *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2009 - 2010 PHPWord (http://www.codeplex.com/PHPWord)
  */
 class PHPWord_HashTable
 {
@@ -52,25 +47,26 @@ class PHPWord_HashTable
     /**
      * Create a new PHPWord_HashTable
      *
-     * @param 	PHPWord_IComparable[] $pSource	Optional source array to create HashTable from
-     * @throws 	Exception
+     * @param    PHPWord_IComparable[] $pSource Optional source array to create HashTable from
+     * @throws    Exception
      */
     public function __construct($pSource = null)
     {
-    	if (!is_null($pSource)) {
-	        // Create HashTable
-	        $this->addFromSource($pSource);
-    	}
+        if (!is_null($pSource)) {
+            // Create HashTable
+            $this->addFromSource($pSource);
+        }
     }
 
     /**
      * Add HashTable items from source
      *
-     * @param 	PHPWord_IComparable[] $pSource	Source array to create HashTable from
-     * @throws 	Exception
+     * @param    PHPWord_IComparable[] $pSource Source array to create HashTable from
+     * @throws    Exception
      */
-    public function addFromSource($pSource = null) {
-    	// Check if an array was passed
+    public function addFromSource($pSource = null)
+    {
+        // Check if an array was passed
         if ($pSource == null) {
             return;
         } else if (!is_array($pSource)) {
@@ -85,63 +81,66 @@ class PHPWord_HashTable
     /**
      * Add HashTable item
      *
-     * @param 	PHPWord_IComparable $pSource	Item to add
-     * @throws 	Exception
+     * @param    PHPWord_IComparable $pSource Item to add
+     * @throws    Exception
      */
-    public function add(PHPWord_IComparable $pSource = null) {
-	    // Determine hashcode
-    	$hashCode 	= null;
-	    $hashIndex = $pSource->getHashIndex();
-	    if ( is_null ( $hashIndex ) ) {
-	        $hashCode = $pSource->getHashCode();
-	    } else if ( isset ( $this->_keyMap[$hashIndex] ) ) {
-	        $hashCode = $this->_keyMap[$hashIndex];
-	    } else {
-	        $hashCode = $pSource->getHashCode();
-	    }
+    public function add(PHPWord_IComparable $pSource = null)
+    {
+        // Determine hashcode
+        $hashCode = null;
+        $hashIndex = $pSource->getHashIndex();
+        if (is_null($hashIndex)) {
+            $hashCode = $pSource->getHashCode();
+        } else if (isset ($this->_keyMap[$hashIndex])) {
+            $hashCode = $this->_keyMap[$hashIndex];
+        } else {
+            $hashCode = $pSource->getHashCode();
+        }
 
-	    // Add value
-   		if (!isset($this->_items[ $hashCode ])) {
-            $this->_items[ $hashCode ] = $pSource;
+        // Add value
+        if (!isset($this->_items[$hashCode])) {
+            $this->_items[$hashCode] = $pSource;
             $index = count($this->_items) - 1;
-            $this->_keyMap[ $index  ] = $hashCode;
-            $pSource->setHashIndex( $index );
-   		} else {
-            $pSource->setHashIndex( $this->_items[ $hashCode ]->getHashIndex() );
-		}
+            $this->_keyMap[$index] = $hashCode;
+            $pSource->setHashIndex($index);
+        } else {
+            $pSource->setHashIndex($this->_items[$hashCode]->getHashIndex());
+        }
     }
 
     /**
      * Remove HashTable item
      *
-     * @param 	PHPWord_IComparable $pSource	Item to remove
-     * @throws 	Exception
+     * @param    PHPWord_IComparable $pSource Item to remove
+     * @throws    Exception
      */
-    public function remove(PHPWord_IComparable $pSource = null) {
-    	if (isset($this->_items[  $pSource->getHashCode()  ])) {
-	   		unset($this->_items[  $pSource->getHashCode()  ]);
+    public function remove(PHPWord_IComparable $pSource = null)
+    {
+        if (isset($this->_items[$pSource->getHashCode()])) {
+            unset($this->_items[$pSource->getHashCode()]);
 
-	   		$deleteKey = -1;
-	   		foreach ($this->_keyMap as $key => $value) {
-	   			if ($deleteKey >= 0) {
-	   				$this->_keyMap[$key - 1] = $value;
-	   			}
+            $deleteKey = -1;
+            foreach ($this->_keyMap as $key => $value) {
+                if ($deleteKey >= 0) {
+                    $this->_keyMap[$key - 1] = $value;
+                }
 
-	   			if ($value == $pSource->getHashCode()) {
-	   				$deleteKey = $key;
-	   			}
-	   		}
-	   		unset($this->_keyMap[ count($this->_keyMap) - 1 ]);
-    	}
+                if ($value == $pSource->getHashCode()) {
+                    $deleteKey = $key;
+                }
+            }
+            unset($this->_keyMap[count($this->_keyMap) - 1]);
+        }
     }
 
     /**
      * Clear HashTable
      *
      */
-    public function clear() {
-    	$this->_items = array();
-    	$this->_keyMap = array();
+    public function clear()
+    {
+        $this->_items = array();
+        $this->_keyMap = array();
     }
 
     /**
@@ -149,48 +148,52 @@ class PHPWord_HashTable
      *
      * @return int
      */
-    public function count() {
-    	return count($this->_items);
+    public function count()
+    {
+        return count($this->_items);
     }
 
     /**
      * Get index for hash code
      *
-     * @param 	string 	$pHashCode
-     * @return 	int 	Index
+     * @param    string $pHashCode
+     * @return    int    Index
      */
-    public function getIndexForHashCode($pHashCode = '') {
-    	return array_search($pHashCode, $this->_keyMap);
+    public function getIndexForHashCode($pHashCode = '')
+    {
+        return array_search($pHashCode, $this->_keyMap);
     }
 
     /**
      * Get by index
      *
-     * @param	int	$pIndex
-     * @return 	PHPWord_IComparable
+     * @param    int $pIndex
+     * @return    PHPWord_IComparable
      *
      */
-    public function getByIndex($pIndex = 0) {
-    	if (isset($this->_keyMap[$pIndex])) {
-    		return $this->getByHashCode( $this->_keyMap[$pIndex] );
-    	}
+    public function getByIndex($pIndex = 0)
+    {
+        if (isset($this->_keyMap[$pIndex])) {
+            return $this->getByHashCode($this->_keyMap[$pIndex]);
+        }
 
-    	return null;
+        return null;
     }
 
     /**
      * Get by hashcode
      *
-     * @param	string	$pHashCode
-     * @return 	PHPWord_IComparable
+     * @param    string $pHashCode
+     * @return    PHPWord_IComparable
      *
      */
-    public function getByHashCode($pHashCode = '') {
-    	if (isset($this->_items[$pHashCode])) {
-    		return $this->_items[$pHashCode];
-    	}
+    public function getByHashCode($pHashCode = '')
+    {
+        if (isset($this->_items[$pHashCode])) {
+            return $this->_items[$pHashCode];
+        }
 
-    	return null;
+        return null;
     }
 
     /**
@@ -198,19 +201,21 @@ class PHPWord_HashTable
      *
      * @return PHPWord_IComparable[]
      */
-    public function toArray() {
-    	return $this->_items;
+    public function toArray()
+    {
+        return $this->_items;
     }
 
-	/**
-	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
-	 */
-	public function __clone() {
-		$vars = get_object_vars($this);
-		foreach ($vars as $key => $value) {
-			if (is_object($value)) {
-				$this->$key = clone $value;
-			}
-		}
-	}
+    /**
+     * Implement PHP __clone to create a deep clone, not just a shallow copy.
+     */
+    public function __clone()
+    {
+        $vars = get_object_vars($this);
+        foreach ($vars as $key => $value) {
+            if (is_object($value)) {
+                $this->$key = clone $value;
+            }
+        }
+    }
 }
