@@ -32,4 +32,4 @@ $document->setValue('rowNumber#10', '10');
 $document->setValue('weekday', date('l'));
 $document->setValue('time', date('H:i'));
 
-$document->save('SolarsystemRepeatingRows.docx');
+$document->save('Sample_03_TemplateCloneRow_result.docx');
