@@ -4,7 +4,8 @@ php:
   - 5.3
   - 5.4
   - 5.5
-  - hhvm
+  ## Wait for solving this issue : https://github.com/travis-ci/travis-ci/issues/1749
+  # - hhvm
 
 before_script:
   ## Composer
