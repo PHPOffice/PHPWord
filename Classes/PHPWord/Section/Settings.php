@@ -152,6 +152,7 @@ class PHPWord_Section_Settings
 
 	private $_colsNum;
 	private $_colsSpace;
+	private $_breakType;
 
     /**
      * Create new Section Settings
@@ -174,7 +175,8 @@ class PHPWord_Section_Settings
         $this->_borderBottomSize = null;
         $this->_borderBottomColor = null;
         $this->_colsNum = 1;
-        $this->_colsSpace = 360;
+        $this->_colsSpace = 0.5 * 1440 / 2.54; // in twips: 1 twip = 1/1440 in; 1 cm = 2.54 in
+        $this->_breakType = null;
     }
 
     /**
@@ -560,6 +562,14 @@ class PHPWord_Section_Settings
 	}
 	public function setColsSpace($pValue = '') {
 		$this->_colsSpace = $pValue;
+		return $this;
+	}
+
+	public function getBreakType() {
+		return $this->_breakType;
+	}
+	public function setBreakType($pValue = null) {
+		$this->_breakType = $pValue;
 		return $this;
 	}
 }

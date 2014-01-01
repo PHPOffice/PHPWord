@@ -139,6 +139,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         $colsNum = $_settings->getColsNum();
         $colsSpace = $_settings->getColsSpace();
+        $breakType = $_settings->getBreakType();
 
         $objWriter->startElement('w:sectPr');
 
@@ -152,6 +153,13 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         if ($section->hasDifferentFirstPage()) {
             $objWriter->startElement('w:titlePg');
+            $objWriter->endElement();
+        }
+
+        // http://www.schemacentral.com/sc/ooxml/a-w_val-43.html
+        if (!is_null($breakType)) {
+            $objWriter->startElement('w:type');
+            $objWriter->writeAttribute('w:val', $breakType);
             $objWriter->endElement();
         }
 
