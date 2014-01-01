@@ -73,6 +73,12 @@ class PHPWord_Style_Paragraph
      */
     private $_indent;
 
+    /**
+     * Hanging by how much
+     *
+     * @var int
+     */
+    private $_hanging;
 
     /**
      * New Paragraph Style
@@ -85,6 +91,7 @@ class PHPWord_Style_Paragraph
         $this->_spacing = null;
         $this->_tabs = null;
         $this->_indent = null;
+        $this->_hanging = null;
     }
 
     /**
@@ -96,7 +103,10 @@ class PHPWord_Style_Paragraph
     public function setStyleValue($key, $value)
     {
         if ($key == '_indent') {
-            $value = (int)$value * 720; // 720 twips per indent
+            $value = $value * 1440 / 2.54; // Measured by cm
+        }
+        if ($key == '_hanging') {
+            $value = $value * 1440 / 2.54; // Measured by cm
         }
         if ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
@@ -218,6 +228,28 @@ class PHPWord_Style_Paragraph
     public function setIndent($pValue = null)
     {
         $this->_indent = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get hanging
+     *
+     * @return int
+     */
+    public function getHanging()
+    {
+        return $this->_hanging;
+    }
+
+    /**
+     * Set hanging
+     *
+     * @param int $pValue
+     * @return PHPWord_Style_Paragraph
+     */
+    public function setHanging($pValue = null)
+    {
+        $this->_hanging = $pValue;
         return $this;
     }
 

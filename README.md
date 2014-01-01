@@ -1,8 +1,16 @@
 # PHPWord - OpenXML - Read, Write and Create Word documents in PHP
 
-PHPWord is a library written in PHP that create word documents. 
+PHPWord is a library written in PHP that create word documents.
 No Windows operating system is needed for usage because the result are docx files (Office Open XML) that can be
 opened by all major office software.
+
+## Forked features by Ivan Lanin
+
+* Superscript/subscript `w:vertAlign`
+* Hanging
+* Section with column
+* Softbreak (SHIFT + ENTER) in Text Run
+* Redefine normal paragraph style and base all other style from it
 
 ## Want to contribute?
 Fork us!

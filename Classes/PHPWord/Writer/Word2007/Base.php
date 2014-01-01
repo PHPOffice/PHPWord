@@ -106,6 +106,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $this->_writeText($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Link) {
                     $this->_writeLink($objWriter, $element, true);
+                } elseif($element instanceof PHPWord_Section_TextBreak) {
+                    $objWriter->writeElement('w:br');
                 }
             }
         }
@@ -120,6 +122,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $spaceAfter = $style->getSpaceAfter();
         $spacing = $style->getSpacing();
         $indent = $style->getIndent();
+        $hanging = $style->getHanging();
         $tabs = $style->getTabs();
 
         if (!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($indent) || !is_null($tabs)) {
@@ -133,10 +136,15 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                 $objWriter->endElement();
             }
 
-            if (!is_null($indent)) {
+            if (!is_null($indent) || !is_null($hanging)) {
                 $objWriter->startElement('w:ind');
                 $objWriter->writeAttribute('w:firstLine', 0);
-                $objWriter->writeAttribute('w:left', $indent);
+                if (!is_null($indent)) {
+                    $objWriter->writeAttribute('w:left', $indent);
+                }
+                if (!is_null($hanging)) {
+                    $objWriter->writeAttribute('w:hanging', $hanging);
+                }
                 $objWriter->endElement();
             }
 
@@ -320,6 +328,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $fgColor = $style->getFgColor();
         $striketrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
+        $superscript = $style->getSuperScript();
+        $subscript = $style->getSubScript();
 
         $objWriter->startElement('w:rPr');
 
@@ -376,6 +386,13 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         if (!is_null($fgColor)) {
             $objWriter->startElement('w:highlight');
             $objWriter->writeAttribute('w:val', $fgColor);
+            $objWriter->endElement();
+        }
+
+        // Superscript/subscript
+        if ($superscript || $subscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', $superscript ? 'superscript' : 'subscript');
             $objWriter->endElement();
         }
 

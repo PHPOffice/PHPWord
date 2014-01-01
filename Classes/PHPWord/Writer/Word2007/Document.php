@@ -137,6 +137,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         $borders = $_settings->getBorderSize();
 
+        $colsNum = $_settings->getColsNum();
+        $colsSpace = $_settings->getColsSpace();
+
         $objWriter->startElement('w:sectPr');
 
         foreach ($_headers as &$_header) {
@@ -227,7 +230,10 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
 
         $objWriter->startElement('w:cols');
-        $objWriter->writeAttribute('w:space', '720');
+        if($colsNum > 1){
+            $objWriter->writeAttribute('w:num', $colsNum);
+        }
+        $objWriter->writeAttribute('w:space', $colsSpace);
         $objWriter->endElement();
 
 

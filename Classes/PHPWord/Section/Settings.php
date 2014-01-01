@@ -150,6 +150,9 @@ class PHPWord_Section_Settings
      */
     private $_borderBottomColor;
 
+	private $_colsNum;
+	private $_colsSpace;
+
     /**
      * Create new Section Settings
      */
@@ -170,6 +173,8 @@ class PHPWord_Section_Settings
         $this->_borderRightColor = null;
         $this->_borderBottomSize = null;
         $this->_borderBottomColor = null;
+        $this->_colsNum = 1;
+        $this->_colsSpace = 360;
     }
 
     /**
@@ -542,4 +547,19 @@ class PHPWord_Section_Settings
     {
         return $this->_borderBottomColor;
     }
+
+	public function getColsNum() {
+		return $this->_colsNum;
+	}
+	public function setColsNum($pValue = '') {
+		$this->_colsNum = $pValue;
+		return $this;
+	}
+	public function getColsSpace() {
+		return $this->_colsSpace;
+	}
+	public function setColsSpace($pValue = '') {
+		$this->_colsSpace = $pValue;
+		return $this;
+	}
 }
