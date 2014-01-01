@@ -240,8 +240,10 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->startElement('w:cols');
         if($colsNum > 1){
             $objWriter->writeAttribute('w:num', $colsNum);
+            $objWriter->writeAttribute('w:space', $colsSpace);
+        } else {
+            $objWriter->writeAttribute('w:space', '720');
         }
-        $objWriter->writeAttribute('w:space', $colsSpace);
         $objWriter->endElement();
 
 

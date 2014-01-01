@@ -56,27 +56,22 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         // Write DocDefaults
         $this->_writeDocDefaults($objWriter);
 
-        // Write Normal
-        // Start Hack
+        // Reset Normal Paragraph Style
         $objWriter->startElement('w:style');
         $objWriter->writeAttribute('w:type', 'paragraph');
         $objWriter->writeAttribute('w:default', '1');
         $objWriter->writeAttribute('w:styleId', 'Normal');
-
         $objWriter->startElement('w:name');
         $objWriter->writeAttribute('w:val', 'Normal');
-        $objWriter->endElement();
-
+        $objWriter->endElement(); // w:name
         $objWriter->startElement('w:pPr');
         $objWriter->startElement('w:spacing');
-        $objWriter->writeAttribute('w:before', 20 * 0);
-        $objWriter->writeAttribute('w:after', 20 * 0);
-        $objWriter->writeAttribute('w:line', 240 * 1);
-        $objWriter->endElement();
-        $objWriter->endElement();
-
-        $objWriter->endElement();
-        // End Hack
+        $objWriter->writeAttribute('w:before', 0);
+        $objWriter->writeAttribute('w:after', 0);
+        $objWriter->writeAttribute('w:line', 240);
+        $objWriter->endElement(); // w:spacing
+        $objWriter->endElement(); // w:pPr
+        $objWriter->endElement(); // w:style
 
         // Write Style Definitions
         $styles = PHPWord_Style::getStyles();
@@ -113,7 +108,6 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $objWriter->endElement();
 
                     if (!is_null($paragraphStyle)) {
-                        // 2013-12-31 11:34 IL
                         $objWriter->startElement('w:basedOn');
                         $objWriter->writeAttribute('w:val', 'Normal');
                         $objWriter->endElement();
@@ -134,7 +128,6 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $objWriter->writeAttribute('w:val', $styleName);
                     $objWriter->endElement();
 
-                    // 2013-12-31 11:34 IL
                     $objWriter->startElement('w:basedOn');
                     $objWriter->writeAttribute('w:val', 'Normal');
                     $objWriter->endElement();
