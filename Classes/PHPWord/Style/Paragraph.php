@@ -256,7 +256,7 @@ class PHPWord_Style_Paragraph
     /**
      * Get tabs
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PHPWord_Style_Tabs
      */
     public function getTabs()
     {
