@@ -66,6 +66,13 @@ class PHPWord_Section_Table
      */
     private $_pCount;
 
+    /**
+     * Table width
+     *
+     * @var int
+     */
+    private $_width = null;
+
 
     /**
      * Create a new table
@@ -113,7 +120,7 @@ class PHPWord_Section_Table
      * @param mixed $style
      * @return PHPWord_Section_Table_Cell
      */
-    public function addCell($width, $style = null)
+    public function addCell($width = null, $style = null)
     {
         $cell = new PHPWord_Section_Table_Cell($this->_insideOf, $this->_pCount, $width, $style);
         $i = count($this->_rows) - 1;
@@ -150,4 +157,25 @@ class PHPWord_Section_Table
     {
         return $this->_style;
     }
+
+    /**
+     * Set table width
+     *
+     * @var int $width
+     */
+    public function setWidth($width)
+    {
+        $this->_width = $width;
+    }
+
+    /**
+     * Get table width
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->_width;
+    }
+
 }

@@ -412,6 +412,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         if ($_cRows > 0) {
             $objWriter->startElement('w:tbl');
             $tblStyle = $table->getStyle();
+            $tblWidth = $table->getWidth();
             if ($tblStyle instanceof PHPWord_Style_Table) {
                 $this->_writeTableStyle($objWriter, $tblStyle);
             } else {
@@ -420,6 +421,12 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $objWriter->startElement('w:tblStyle');
                     $objWriter->writeAttribute('w:val', $tblStyle);
                     $objWriter->endElement();
+                    if (!is_null($tblWidth)) {
+                        $objWriter->startElement('w:tblW');
+                        $objWriter->writeAttribute('w:w', $tblWidth);
+                        $objWriter->writeAttribute('w:type', 'pct');
+                        $objWriter->endElement();
+                    }
                     $objWriter->endElement();
                 }
             }
