@@ -455,7 +455,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $objWriter->startElement('w:tcPr');
                     $objWriter->startElement('w:tcW');
                     $objWriter->writeAttribute('w:w', $width);
-                    $objWriter->writeAttribute('w:type', 'dxa');
+                    $objWriter->writeAttribute('w:type', 'pct');
                     $objWriter->endElement();
 
                     if ($cellStyle instanceof PHPWord_Style_Cell) {
