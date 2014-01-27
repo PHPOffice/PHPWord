@@ -128,7 +128,15 @@ class PHPWord_Template
      * @param mixed $offset
      */
     private function _findRowStart($offset) {
-        return strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
+		$rowStart = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
+		if (!$rowStart) {
+			$rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
+		}
+		if (!$rowStart) {
+			trigger_error("Can not find the start position of the row to clone.");
+			return false;
+		}
+        return $rowStart;
     }
 
     /**
@@ -137,7 +145,8 @@ class PHPWord_Template
      * @param mixed $offset
      */
     private function _findRowEnd($offset) {
-        return strpos($this->_documentXML, "</w:tr>", $offset) + 7;
+		$rowEnd = strpos($this->_documentXML, "</w:tr>", $offset) + 7;
+        return $rowEnd;
     }
 
     /**
