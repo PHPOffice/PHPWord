@@ -6,7 +6,10 @@ php:
   - 5.5
   ## @reference https://github.com/travis-ci/travis-ci/issues/1749
   - hhvm
-
+matrix:
+  allow_failures:
+    - php: hhvm
+    
 before_script:
   ## Composer
   - curl -s http://getcomposer.org/installer | php
