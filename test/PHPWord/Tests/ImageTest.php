@@ -14,7 +14,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
     public function testImageWrappingStyleBehind()
     {
         $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection(12240, 15840, 0, 0, 0, 0);
+        $section = $PHPWord->createSection();
 
         $section->addImage(
             __DIR__ . '/_files/images/earth.jpg',

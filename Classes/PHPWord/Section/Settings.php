@@ -150,6 +150,14 @@ class PHPWord_Section_Settings
      */
     private $_borderBottomColor;
 
+
+    /**
+     * Page Numbering Start
+     *
+     * @var int
+     */
+    private $pageNumberingStart;
+
     /**
      * Create new Section Settings
      */
@@ -541,5 +549,23 @@ class PHPWord_Section_Settings
     public function getBorderBottomColor()
     {
         return $this->_borderBottomColor;
+    }
+
+    /**
+     * @param null|int $pageNumberingStart
+     * @return $this
+     */
+    public function setPageNumberingStart($pageNumberingStart = null)
+    {
+        $this->pageNumberingStart = $pageNumberingStart;
+        return $this;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getPageNumberingStart()
+    {
+        return $this->pageNumberingStart;
     }
 }

@@ -22,6 +22,9 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
+Changes in branch for release 0.7.1 :
+- Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
+
 Fixed in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
 - Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input

@@ -1,18 +1,17 @@
-# PHPWord - OpenXML - Read, Write and Create Word documents in PHP
+# PHPWord
 
-PHPWord is a library written in PHP that create word documents. 
+__OpenXML - Read, Write and Create Word documents in PHP.__
+
+PHPWord is a library written in PHP that create word documents.
+
 No Windows operating system is needed for usage because the result are docx files (Office Open XML) that can be
 opened by all major office software.
 
-## Want to contribute?
-Fork us!
+__Want to contribute?__ Fork us!
 
 ## Requirements
 
 * PHP version 5.3.0 or higher
-
-## License
-PHPWord is licensed under [LGPL (GNU LESSER GENERAL PUBLIC LICENSE)](https://github.com/PHPOffice/PHPWord/blob/master/license.md)
 
 ## Installation
 
@@ -27,7 +26,17 @@ the following lines to your ``composer.json``.
 }
 ```
 
-## Usage
+## Documentation
+
+### Table of contents
+
+1. [Basic usage](#basic-usage)
+2. [Sections](#sections)
+    * [Change Section Page Numbering](#sections-page-numbering)
+3. [Images](#images)
+
+<a name="basic-usage"></a>
+#### Basic usage
 
 The following is a basic example of the PHPWord library.
 
@@ -59,7 +68,21 @@ $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
 
-## Images
+<a name="sections"></a>
+#### Sections
+
+<a name="sections-page-numbering"></a>
+##### Change Section Page Numbering
+
+You can change a section page numbering.
+
+```php
+$section = $PHPWord->createSection();
+$section->getSettings()->setPageNumberingStart(1);
+```
+
+<a name="images"></a>
+#### Images
 
 You can add images easily using the following example.
 
@@ -69,16 +92,16 @@ $section->addImage('mars.jpg');
 ```
 
 Images settings include:
- * ``width`` width in pixels
- * ``height`` height in pixels
- * ``align`` image alignment, __left__, __right__ or __center__
- * ``marginTop`` top margin in inches, can be negative
- * ``marginLeft`` left margin in inches, can be negative
- * ``wrappingStyle`` can be inline, __square__, __tight__, __behind__, __infront__
+* ``width`` width in pixels
+* ``height`` height in pixels
+* ``align`` image alignment, _left_, _right_ or _center_
+* ``marginTop`` top margin in inches, can be negative
+* ``marginLeft`` left margin in inches, can be negative
+* ``wrappingStyle`` can be _inline_, _square_, _tight_, _behind_, _infront_
 
- To add an image with settings, consider the following example.
+To add an image with settings, consider the following example.
 
- ```php
+```php
 $section->addImage(
     'mars.jpg',
     array(
@@ -86,7 +109,7 @@ $section->addImage(
         'height' => 100,
         'marginTop' => -1,
         'marginLeft' => -1,
-        wrappingStyle => 'behind'
+        'wrappingStyle' => 'behind'
     )
 );
  ```
