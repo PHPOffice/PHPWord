@@ -1,5 +1,7 @@
 # PHPWord
 
+[![Build Status](https://travis-ci.org/PHPOffice/PHPWord.png?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
+
 __OpenXML - Read, Write and Create Word documents in PHP.__
 
 PHPWord is a library written in PHP that create word documents.
