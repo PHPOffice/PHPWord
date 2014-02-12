@@ -12,7 +12,7 @@ class PageNumberingTest extends PHPUnit_Framework_TestCase
         TestHelper::clear();
     }
 
-    public function testImageWrappingStyleBehind()
+    public function testSectionPageNumbering()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
