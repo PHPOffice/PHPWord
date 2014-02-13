@@ -251,7 +251,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
-    private function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
+    public function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
         $text = $textObject->getText();
