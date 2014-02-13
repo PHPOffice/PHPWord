@@ -35,7 +35,9 @@ the following lines to your ``composer.json``.
 1. [Basic usage](#basic-usage)
 2. [Sections](#sections)
     * [Change Section Page Numbering](#sections-page-numbering)
-3. [Images](#images)
+3. [Tables](#tables)
+    * [Cell Style](#tables-cell-style)
+4. [Images](#images)
 
 <a name="basic-usage"></a>
 #### Basic usage
@@ -81,6 +83,29 @@ You can change a section page numbering.
 ```php
 $section = $PHPWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
+```
+
+<a name="tables"></a>
+#### Tables
+
+The following illustrates how to create a table.
+
+```php
+$table = $section->addTable();
+$table->addRow();
+$table->addCell();
+```
+
+<a name="tables-cell-style"></a>
+##### Cell Style
+
+###### Cell Span
+
+You can span a cell on multiple columms.
+
+```php
+$cell = $table->addCell(200);
+$cell->getStyle()->setGridSpan(5);
 ```
 
 <a name="images"></a>
