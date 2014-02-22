@@ -334,7 +334,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->startElement('w:rPr');
 
         // Font
-        if ($font != 'Arial') {
+        if ($font != PHPWord::DEFAULT_FONT_NAME) {
             $objWriter->startElement('w:rFonts');
             $objWriter->writeAttribute('w:ascii', $font);
             $objWriter->writeAttribute('w:hAnsi', $font);
@@ -350,7 +350,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
 
         // Size
-        if ($size != 20) {
+        if ($size != PHPWord::DEFAULT_FONT_SIZE) {
             $objWriter->startElement('w:sz');
             $objWriter->writeAttribute('w:val', $size);
             $objWriter->endElement();
