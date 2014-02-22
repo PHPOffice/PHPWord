@@ -431,22 +431,36 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                 }
             }
 
-            $_heights = $table->getRowHeights();
             for ($i = 0; $i < $_cRows; $i++) {
                 $row = $_rows[$i];
-                $height = $_heights[$i];
+                $height = $row->getHeight();
+                $rowStyle = $row->getStyle();
+                $tblHeader = $rowStyle->getTblHeader();
+                $cantSplit = $rowStyle->getCantSplit();
 
                 $objWriter->startElement('w:tr');
 
-                if (!is_null($height)) {
+                if (!is_null($height) || !is_null($tblHeader) || !is_null($cantSplit)) {
                     $objWriter->startElement('w:trPr');
-                    $objWriter->startElement('w:trHeight');
-                    $objWriter->writeAttribute('w:val', $height);
-                    $objWriter->endElement();
+                    if (!is_null($height)) {
+                        $objWriter->startElement('w:trHeight');
+                        $objWriter->writeAttribute('w:val', $height);
+                        $objWriter->endElement();
+                    }
+                    if (!is_null($tblHeader)) {
+                        $objWriter->startElement('w:tblHeader');
+                        $objWriter->writeAttribute('w:val', $tblHeader);
+                        $objWriter->endElement();
+                    }
+                    if (!is_null($cantSplit)) {
+                        $objWriter->startElement('w:cantSplit');
+                        $objWriter->writeAttribute('w:val', $cantSplit);
+                        $objWriter->endElement();
+                    }
                     $objWriter->endElement();
                 }
 
-                foreach ($row as $cell) {
+                foreach ($row->getCells() as $cell) {
                     $objWriter->startElement('w:tc');
 
                     $cellStyle = $cell->getStyle();
