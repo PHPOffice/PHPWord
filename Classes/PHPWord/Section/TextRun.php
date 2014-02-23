@@ -110,6 +110,16 @@ class PHPWord_Section_TextRun
     }
 
     /**
+    * Add a TextBreak Element
+    *
+    * @param int $count
+    */
+    public function addTextBreak($count = 1) {
+        for($i=1; $i<=$count; $i++) {
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+        }
+    }
+    /**
      * Get TextRun content
      *
      * @return string

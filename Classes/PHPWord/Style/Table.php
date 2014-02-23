@@ -30,6 +30,10 @@
  */
 class PHPWord_Style_Table
 {
+    const WIDTH_TYPE_NIL = 'nil'; // No Width
+    const WIDTH_TYPE_PERCENT = 'pct'; // Width in Fiftieths of a Percent
+    const WIDTH_TYPE_POINT = 'dxa'; // Width in Twentieths of a Point
+    const WIDTH_TYPE_AUTO = 'auto'; // Automatically Determined Width
 
     private $_cellMarginTop;
     private $_cellMarginLeft;

@@ -106,6 +106,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $this->_writeText($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Link) {
                     $this->_writeLink($objWriter, $element, true);
+                } elseif($element instanceof PHPWord_Section_TextBreak) {
+                    $objWriter->writeElement('w:br');
                 }
             }
         }
@@ -120,6 +122,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $spaceAfter = $style->getSpaceAfter();
         $spacing = $style->getSpacing();
         $indent = $style->getIndent();
+        $hanging = $style->getHanging();
         $tabs = $style->getTabs();
 
         if (!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) || !is_null($spaceAfter) || !is_null($indent) || !is_null($tabs)) {
@@ -133,10 +136,15 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                 $objWriter->endElement();
             }
 
-            if (!is_null($indent)) {
+            if (!is_null($indent) || !is_null($hanging)) {
                 $objWriter->startElement('w:ind');
                 $objWriter->writeAttribute('w:firstLine', 0);
-                $objWriter->writeAttribute('w:left', $indent);
+                if (!is_null($indent)) {
+                    $objWriter->writeAttribute('w:left', $indent);
+                }
+                if (!is_null($hanging)) {
+                    $objWriter->writeAttribute('w:hanging', $hanging);
+                }
                 $objWriter->endElement();
             }
 
@@ -320,11 +328,13 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $fgColor = $style->getFgColor();
         $striketrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
+        $superscript = $style->getSuperScript();
+        $subscript = $style->getSubScript();
 
         $objWriter->startElement('w:rPr');
 
         // Font
-        if ($font != 'Arial') {
+        if ($font != PHPWord::DEFAULT_FONT_NAME) {
             $objWriter->startElement('w:rFonts');
             $objWriter->writeAttribute('w:ascii', $font);
             $objWriter->writeAttribute('w:hAnsi', $font);
@@ -340,7 +350,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
 
         // Size
-        if ($size != 20) {
+        if ($size != PHPWord::DEFAULT_FONT_SIZE) {
             $objWriter->startElement('w:sz');
             $objWriter->writeAttribute('w:val', $size);
             $objWriter->endElement();
@@ -379,6 +389,13 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             $objWriter->endElement();
         }
 
+        // Superscript/subscript
+        if ($superscript || $subscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', $superscript ? 'superscript' : 'subscript');
+            $objWriter->endElement();
+        }
+
         $objWriter->endElement();
     }
 
@@ -395,6 +412,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         if ($_cRows > 0) {
             $objWriter->startElement('w:tbl');
             $tblStyle = $table->getStyle();
+            $tblWidth = $table->getWidth();
             if ($tblStyle instanceof PHPWord_Style_Table) {
                 $this->_writeTableStyle($objWriter, $tblStyle);
             } else {
@@ -403,26 +421,46 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $objWriter->startElement('w:tblStyle');
                     $objWriter->writeAttribute('w:val', $tblStyle);
                     $objWriter->endElement();
+                    if (!is_null($tblWidth)) {
+                        $objWriter->startElement('w:tblW');
+                        $objWriter->writeAttribute('w:w', $tblWidth);
+                        $objWriter->writeAttribute('w:type', 'pct');
+                        $objWriter->endElement();
+                    }
                     $objWriter->endElement();
                 }
             }
 
-            $_heights = $table->getRowHeights();
             for ($i = 0; $i < $_cRows; $i++) {
                 $row = $_rows[$i];
-                $height = $_heights[$i];
+                $height = $row->getHeight();
+                $rowStyle = $row->getStyle();
+                $tblHeader = $rowStyle->getTblHeader();
+                $cantSplit = $rowStyle->getCantSplit();
 
                 $objWriter->startElement('w:tr');
 
-                if (!is_null($height)) {
+                if (!is_null($height) || !is_null($tblHeader) || !is_null($cantSplit)) {
                     $objWriter->startElement('w:trPr');
-                    $objWriter->startElement('w:trHeight');
-                    $objWriter->writeAttribute('w:val', $height);
-                    $objWriter->endElement();
+                    if (!is_null($height)) {
+                        $objWriter->startElement('w:trHeight');
+                        $objWriter->writeAttribute('w:val', $height);
+                        $objWriter->endElement();
+                    }
+                    if (!is_null($tblHeader)) {
+                        $objWriter->startElement('w:tblHeader');
+                        $objWriter->writeAttribute('w:val', $tblHeader);
+                        $objWriter->endElement();
+                    }
+                    if (!is_null($cantSplit)) {
+                        $objWriter->startElement('w:cantSplit');
+                        $objWriter->writeAttribute('w:val', $cantSplit);
+                        $objWriter->endElement();
+                    }
                     $objWriter->endElement();
                 }
 
-                foreach ($row as $cell) {
+                foreach ($row->getCells() as $cell) {
                     $objWriter->startElement('w:tc');
 
                     $cellStyle = $cell->getStyle();
@@ -431,7 +469,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $objWriter->startElement('w:tcPr');
                     $objWriter->startElement('w:tcW');
                     $objWriter->writeAttribute('w:w', $width);
-                    $objWriter->writeAttribute('w:type', 'dxa');
+                    $objWriter->writeAttribute('w:type', 'pct');
                     $objWriter->endElement();
 
                     if ($cellStyle instanceof PHPWord_Style_Cell) {

@@ -151,6 +151,27 @@ class PHPWord_Section_Settings
     private $_borderBottomColor;
 
     /**
+     * Section Columns Count
+     *
+     * @var int
+     */
+	private $_colsNum;
+
+    /**
+     * Section Spacing Between Columns
+     *
+     * @var int
+     */
+	private $_colsSpace;
+
+    /**
+     * Section Break Type
+     *
+     * @var string
+     */
+	private $_breakType;
+
+    /**
      * Create new Section Settings
      */
     public function __construct()
@@ -170,6 +191,9 @@ class PHPWord_Section_Settings
         $this->_borderRightColor = null;
         $this->_borderBottomSize = null;
         $this->_borderBottomColor = null;
+        $this->_colsNum = 1;
+        $this->_colsSpace = 720;
+        $this->_breakType = null;
     }
 
     /**
@@ -542,4 +566,61 @@ class PHPWord_Section_Settings
     {
         return $this->_borderBottomColor;
     }
+
+    /**
+     * Set Section Columns Count
+     *
+     * @param in $pValue
+     */
+	public function setColsNum($pValue = '') {
+		$this->_colsNum = $pValue;
+		return $this;
+	}
+
+    /**
+     * Get Section Columns Count
+     *
+     * @return int
+     */
+	public function getColsNum() {
+		return $this->_colsNum;
+	}
+
+    /**
+     * Set Section Space Between Columns
+     *
+     * @param int $pValue
+     */
+	public function setColsSpace($pValue = '') {
+		$this->_colsSpace = $pValue;
+		return $this;
+	}
+
+    /**
+     * Get Section Space Between Columns
+     *
+     * @return int
+     */
+	public function getColsSpace() {
+		return $this->_colsSpace;
+	}
+
+    /**
+     * Set Break Type
+     *
+     * @param string $pValue
+     */
+	public function setBreakType($pValue = null) {
+		$this->_breakType = $pValue;
+		return $this;
+	}
+
+    /**
+     * Get Break Type
+     *
+     * @return string
+     */
+	public function getBreakType() {
+		return $this->_breakType;
+	}
 }
