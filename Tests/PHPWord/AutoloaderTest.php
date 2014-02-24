@@ -6,6 +6,12 @@ use PHPWord_Autoloader;
 
 class AutoloaderTest extends PHPUnit_Framework_TestCase
 {
+    public function testRegister()
+    {
+        PHPWord_Autoloader::register();
+        $this->assertContains(array('PHPWord_Autoloader', 'load'), spl_autoload_functions());
+    }
+
     public function testAutoload()
     {
         $this->assertNull(PHPWord_Autoloader::load('Foo'), 'PHPWord_Autoloader::load() is trying to load classes outside of the PHPWord namespace');

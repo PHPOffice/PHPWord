@@ -36,9 +36,11 @@ script:
   ## PHP Copy/Paste Detector
   - php phpcpd.phar --verbose Classes/
   ## PHP Mess Detector
-  - phpmd Classes/ text codesize,unusedcode,naming,design
+  - phpmd Classes/ text unusedcode,naming,design
   ## PHPLOC
   - php phploc.phar Classes/
+  ## PHPUnit
+  - phpunit -c ./Tests/ --coverage-text
 
 notifications:
   email:
