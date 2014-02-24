@@ -1,6 +1,5 @@
 language: php
 php:
-  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
@@ -15,7 +14,6 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --prefer-source
   ## PHP_CodeSniffer
-  - php pyrus.phar . set bin_dir ./bin
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
   ## PHP Copy/Paste Detector
