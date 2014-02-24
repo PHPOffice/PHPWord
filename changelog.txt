@@ -23,6 +23,7 @@
 **************************************************************************************
 
 Changes in branch for release 0.7.1 :
+- QA:       (Progi1984)                         - UnitTests
 - Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
