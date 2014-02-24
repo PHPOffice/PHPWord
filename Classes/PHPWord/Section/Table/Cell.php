@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -80,11 +80,10 @@ class PHPWord_Section_Table_Cell
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_width = $width;
+        $this->_style = new PHPWord_Style_Cell;
 
         if (!is_null($style)) {
             if (is_array($style)) {
-                $this->_style = new PHPWord_Style_Cell();
-
                 foreach ($style as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
                         $key = '_' . $key;

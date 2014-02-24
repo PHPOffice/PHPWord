@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -149,6 +149,14 @@ class PHPWord_Section_Settings
      * @var int
      */
     private $_borderBottomColor;
+
+
+    /**
+     * Page Numbering Start
+     *
+     * @var int
+     */
+    private $pageNumberingStart;
 
     /**
      * Create new Section Settings
@@ -541,5 +549,23 @@ class PHPWord_Section_Settings
     public function getBorderBottomColor()
     {
         return $this->_borderBottomColor;
+    }
+
+    /**
+     * @param null|int $pageNumberingStart
+     * @return $this
+     */
+    public function setPageNumberingStart($pageNumberingStart = null)
+    {
+        $this->pageNumberingStart = $pageNumberingStart;
+        return $this;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getPageNumberingStart()
+    {
+        return $this->pageNumberingStart;
     }
 }

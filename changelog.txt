@@ -1,7 +1,7 @@
 **************************************************************************************
 * PHPWord
 *
-* Copyright (c) 2011 - 2013 PHPWord
+* Copyright (c) 2011 - 2014 PHPWord
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -17,10 +17,15 @@
 * License along with this library; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 *
-* @copyright Copyright (c) 2011 - 2013 PHPWord (https://github.com/PHPOffice/PHPWord/)
+* @copyright Copyright (c) 2011 - 2014 PHPWord (https://github.com/PHPOffice/PHPWord/)
 * @license http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
+
+Changes in branch for release 0.7.1 :
+- Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
+- Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
+- Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
 
 Fixed in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
