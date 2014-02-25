@@ -23,10 +23,10 @@
 **************************************************************************************
 
 Changes in branch for release 0.7.1 :
-- QA:       (Progi1984)                         - UnitTests
-- Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
+- Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
+- QA:       (Progi1984)                         - UnitTests
 
 Fixed in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
