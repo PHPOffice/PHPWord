@@ -77,20 +77,20 @@ class PHPWord_Template
     }
     
     /**
-     * Applies XSL transformation to XML template.
+     * Applies XSL style sheet to XML template.
      *
      * @param DOMDocument &$xslDOMDocument
      * @param string $xslOptionsURI
      * @param array $xslOptions
      */
-    public function applyXSLT(&$xslDOMDocument, $xslOptionsURI = '', $xslOptions = [])
+    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptionsURI = '', $xslOptions = [])
     {
       $processor = new \XSLTProcessor();
 
       $processor->importStylesheet($xslDOMDocument);
 
       if ($processor->setParameter($xslOptionsURI, $xslOptions) === \FALSE) {
-          throw new \Exception('Could not set values for the given XSL stylesheet parameters.');
+          throw new \Exception('Could not set values for the given XSL style sheet parameters.');
       }
 
       $xmlDOMDocument = new \DOMDocument();
