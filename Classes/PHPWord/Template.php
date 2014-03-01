@@ -80,10 +80,10 @@ class PHPWord_Template
      * Applies XSL style sheet to XML template.
      *
      * @param DOMDocument &$xslDOMDocument
-     * @param string $xslOptionsURI
      * @param array $xslOptions
+     * @param string $xslOptionsURI = ''
      */
-    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptionsURI = '', $xslOptions = [])
+    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = [], $xslOptionsURI = '')
     {
       $processor = new \XSLTProcessor();
 
