@@ -3,8 +3,8 @@
 date_default_timezone_set('UTC');
 
 // Constantes
-if(!defined('PHPWORD_TESTS_DIR_ROOT')){
-  define('PHPWORD_TESTS_DIR_ROOT', __DIR__);
+if (!defined('PHPWORD_TESTS_DIR_ROOT')) {
+    define('PHPWORD_TESTS_DIR_ROOT', __DIR__);
 }
 
 // Includes
