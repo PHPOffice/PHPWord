@@ -26,7 +26,7 @@ Changes in branch for release 0.7.1 :
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
 - Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
-- Feature:  (gabrielbull)                       - Word2007 : Added support for line height
+- Feature:  (gabrielbull)                       - Word2007 : Added line height methods to mirror the line height settings in Word in the paragraph styling
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

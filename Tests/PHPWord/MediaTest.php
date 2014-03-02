@@ -4,7 +4,7 @@ namespace PHPWord\Tests;
 use PHPUnit_Framework_TestCase;
 use PHPWord_Media;
 
-class PHPWord_MediaTest extends \PHPUnit_Framework_TestCase
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSectionMediaElementsWithNull()
     {
@@ -26,4 +26,3 @@ class PHPWord_MediaTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(PHPWord_Media::getFooterMediaElements(), '_footerMedia', 'PHPWord_Media');
     }
 }
- 

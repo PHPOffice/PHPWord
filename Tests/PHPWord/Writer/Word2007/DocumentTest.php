@@ -1,17 +1,18 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Writer\Word2007;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord_Writer_Word2007;
 use PHPWord_Writer_Word2007_Document;
+use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class PHPWord_Writer_Word2007_DocumentTest
+ * Class DocumentTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Writer_Word2007_DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Executed before each method of the class
@@ -33,4 +34,3 @@ class PHPWord_Writer_Word2007_DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $element->getAttribute('w:start'));
     }
 }
- 
