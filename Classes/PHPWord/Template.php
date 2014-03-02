@@ -77,7 +77,7 @@ class PHPWord_Template
     }
     
     /**
-     * Applies XSL style sheet to XML template.
+     * Applies XSL style sheet to template's parts
      *
      * @param DOMDocument &$xslDOMDocument
      * @param array $xslOptions = []
