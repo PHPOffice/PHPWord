@@ -36,6 +36,8 @@ the following lines to your ``composer.json``.
 1. [Basic usage](#basic-usage)
 2. [Sections](#sections)
     * [Change Section Page Numbering](#sections-page-numbering)
+3. [Text](#text)
+    * [Attributes](#text-attributes)
 3. [Paragraph Style](#paragraph-style)
     * [Attributes](#paragraph-style-attributes)
 4. [Tables](#tables)
@@ -88,6 +90,33 @@ You can change a section page numbering.
 $section = $PHPWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
+
+<a name="text"></a>
+#### Text
+
+You can add text easily using the following example.
+
+```php
+$fontStyle = array();
+$paragraphStyle = array();
+$section = $PHPWord->createSection();
+$section->addText('My text', $fontStyle, $paragraphStyle);
+```
+
+<a name="text-attributes"></a>
+##### Attributes
+
+* ``size`` text size, e.g. _20_, _22_,
+* ``name`` font name, e.g. _Arial_
+* ``bold`` text is bold, _true_ or _false_
+* ``italic`` text is italic, _true_ or _false_
+* ``superScript`` text is super script, _true_ or _false_
+* ``subScript`` text is sub script, _true_ or _false_
+* ``underline`` text is underline, _true_ or _false_
+* ``strikethrough`` text is strikethrough, _true_ or _false_
+* ``color`` text color, e.g. _FF0000_
+* ``fgColor`` fgColor
+* ``line-height`` text line height, e.g. _1.0_, _1.5_, ect...
 
 <a name="paragraph-style"></a>
 #### Paragraph Style

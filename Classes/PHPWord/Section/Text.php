@@ -30,77 +30,95 @@
  */
 class PHPWord_Section_Text
 {
-
     /**
      * Text content
      *
      * @var string
      */
-    private $_text;
+    private $text;
 
     /**
      * Text style
      *
-     * @var PHPWord_Style_Font
+     * @var \PHPWord_Style_Font
      */
-    private $_styleFont;
+    private $fontStyle;
 
     /**
      * Paragraph style
      *
      * @var \PHPWord_Style_Paragraph
      */
-    private $_styleParagraph;
+    private $paragraphStyle;
 
 
     /**
      * Create a new Text Element
      *
-     * @var string $text
-     * @var mixed $style
+     * @param string $text
+     * @param null|array|\PHPWord_Style_Font $fontStyle
+     * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
      */
-    public function __construct($text = null, $styleFont = null, $styleParagraph = null)
+    public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
-        // Set font style
-        $this->setFontStyle($styleFont);
-
-        // Set paragraph style
-        $this->setParagraphStyle($styleParagraph);
-
-        $this->_text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get Text style
-     *
-     * @return PHPWord_Style_Font
-     */
-    public function getFontStyle()
-    {
-        return $this->_styleFont;
+        $this->setText($text);
+        $paragraphStyle = $this->setParagraphStyle($paragraphStyle);
+        $this->setFontStyle($fontStyle, $paragraphStyle);
     }
 
     /**
      * Set Text style
      *
+     * @param null|array|\PHPWord_Style_Font $style
+     * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
      * @return PHPWord_Style_Font
+     * @throws \Exception
      */
-    public function setFontStyle($styleFont)
+    public function setFontStyle($style = null, $paragraphStyle = null)
     {
-        if (is_array($styleFont)) {
-            $this->_styleFont = new PHPWord_Style_Font('text');
-
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleFont->setStyleValue($key, $value);
-            }
+        if ($style instanceof PHPWord_Style_Font) {
+            $this->fontStyle = $style;
+        } elseif (is_array($style)) {
+            $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
+            $this->fontStyle->setArrayStyle($style);
+        } elseif (null === $style) {
+            $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
         } else {
-            $this->_styleFont = $styleFont;
+            throw new Exception('Expected array or PHPWord_Style_Font');
         }
+        return $this->fontStyle;
+    }
+
+    /**
+     * Get Text style
+     *
+     * @return \PHPWord_Style_Font
+     */
+    public function getFontStyle()
+    {
+        return $this->fontStyle;
+    }
+
+    /**
+     * Set Paragraph style
+     *
+     * @param null|array|\PHPWord_Style_Paragraph $style
+     * @return null|\PHPWord_Style_Paragraph
+     * @throws \Exception
+     */
+    public function setParagraphStyle($style = null)
+    {
+        if (is_array($style)) {
+            $this->paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->paragraphStyle->setArrayStyle($style);
+        } elseif ($style instanceof PHPWord_Style_Paragraph) {
+            $this->paragraphStyle = $style;
+        } elseif (null === $style) {
+            $this->paragraphStyle = new PHPWord_Style_Paragraph;
+        } else {
+            throw new Exception('Expected array or PHPWord_Style_Paragraph');
+        }
+        return $this->paragraphStyle;
     }
 
     /**
@@ -110,35 +128,17 @@ class PHPWord_Section_Text
      */
     public function getParagraphStyle()
     {
-        return $this->_styleParagraph;
+        return $this->paragraphStyle;
     }
 
     /**
-     * Set Paragraph style
-     *
-     * @param array|\PHPWord_Style_Paragraph $styleParagraph
-     * @return \PHPWord_Style_Paragraph
-     * @throws \Exception
+     * @param string $text
+     * @return $this
      */
-    public function setParagraphStyle($styleParagraph)
+    public function setText($text)
     {
-        if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new PHPWord_Style_Paragraph();
-
-            foreach ($styleParagraph as $key => $value) {
-                if ($key === 'line-height') {
-                    null;
-                } elseif (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleParagraph->setStyleValue($key, $value);
-            }
-        } elseif ($styleParagraph instanceof PHPWord_Style_Paragraph) {
-            $this->_styleParagraph = $styleParagraph;
-        } else {
-            throw new Exception('Expected array or PHPWord_Style_Paragraph');
-        }
-        return $this->_styleParagraph;
+        $this->text = $text;
+        return $this;
     }
 
     /**
@@ -148,6 +148,6 @@ class PHPWord_Section_Text
      */
     public function getText()
     {
-        return $this->_text;
+        return $this->text;
     }
 }

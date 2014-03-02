@@ -25,6 +25,8 @@
  * @version    0.7.0
  */
 
+use PHPWord\Exceptions\InvalidStyleException;
+
 /**
  * Class PHPWord_Style_Font
  */
@@ -82,83 +84,98 @@ class PHPWord_Style_Font
     /**
      * @var int
      */
-    private $_size;
+    private $_size = 20;
 
     /**
      * @var string
      */
-    private $_name;
+    private $_name = 'Arial';
 
     /**
      * @var bool
      */
-    private $_bold;
+    private $_bold = false;
 
     /**
      * @var bool
      */
-    private $_italic;
+    private $_italic = false;
 
     /**
      * @var bool
      */
-    private $_superScript;
+    private $_superScript = false;
 
     /**
      * @var bool
      */
-    private $_subScript;
+    private $_subScript = false;
 
     /**
      * @var string
      */
-    private $_underline;
+    private $_underline = PHPWord_Style_Font::UNDERLINE_NONE;
 
     /**
      * @var bool
      */
-    private $_strikethrough;
+    private $_strikethrough = false;
 
     /**
      * @var string
      */
-    private $_color;
+    private $_color = '000000';
 
     /**
      * @var null
      */
-    private $_fgColor;
+    private $_fgColor = null;
+
+    /**
+     * Text line height
+     *
+     * @var int
+     */
+    private $lineHeight = 1.0;
 
     /**
      * @param string $type
-     * @param null $styleParagraph
+     * @param null|array|PHPWord_Style_Paragraph $paragraphStyle
+     * @throws \Exception
      */
-    public function __construct($type = 'text', $styleParagraph = null)
+    public function __construct($type = 'text', $paragraphStyle = null)
     {
         $this->_type = $type;
-        $this->_name = 'Arial';
-        $this->_size = 20;
-        $this->_bold = false;
-        $this->_italic = false;
-        $this->_superScript = false;
-        $this->_subScript = false;
-        $this->_underline = PHPWord_Style_Font::UNDERLINE_NONE;
-        $this->_strikethrough = false;
-        $this->_color = '000000';
-        $this->_fgColor = null;
 
-        if (!is_null($styleParagraph)) {
-            $paragraph = new PHPWord_Style_Paragraph();
-            foreach ($styleParagraph as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $paragraph->setStyleValue($key, $value);
-            }
-            $this->_paragraphStyle = $paragraph;
+        if ($paragraphStyle instanceof PHPWord_Style_Paragraph) {
+            $this->_paragraphStyle = $paragraphStyle;
+        } elseif (is_array($paragraphStyle)) {
+            $this->_paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->_paragraphStyle->setArrayStyle($paragraphStyle);
+        } elseif (null === $paragraphStyle) {
+            $this->_paragraphStyle = new PHPWord_Style_Paragraph;
         } else {
-            $this->_paragraphStyle = null;
+            throw new Exception('Expected array or PHPWord_Style_Paragraph');
         }
+    }
+
+    /**
+     * @param array $style
+     * @return $this
+     */
+    public function setArrayStyle(array $style = array())
+    {
+        foreach ($style as $key => $value) {
+            if ($key === 'line-height') {
+                $this->setLineHeight($value);
+                null;
+            } elseif (substr($key, 0, 1) !== '_') {
+                $key = '_' . $key;
+            }
+            $this->setStyleValue($key, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -395,5 +412,35 @@ class PHPWord_Style_Font
     public function getParagraphStyle()
     {
         return $this->_paragraphStyle;
+    }
+
+    /**
+     * Set the line height
+     *
+     * @param int|float|string $lineHeight
+     * @return $this
+     * @throws \PHPWord\Exceptions\InvalidStyleException
+     */
+    public function setLineHeight($lineHeight)
+    {
+        if (is_string($lineHeight)) {
+            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
+        }
+
+        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
+            throw new InvalidStyleException('Line height must be a valid number');
+        }
+
+        $this->lineHeight = $lineHeight;
+        $this->getParagraphStyle()->setLineHeight($lineHeight);
+        return $this;
+    }
+
+    /**
+     * @return int|float
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
     }
 }
