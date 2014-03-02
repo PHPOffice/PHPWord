@@ -145,8 +145,8 @@ class PHPWord_Style_Paragraph
     /**
      * Set Style value
      *
-     * @param   string  $key
-     * @param   mixed   $value
+     * @param   string $key
+     * @param   mixed $value
      */
     public function setStyleValue($key, $value)
     {
@@ -335,7 +335,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set parent style ID
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setBasedOn($pValue = 'Normal')
@@ -357,7 +357,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set style for next paragraph
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setNext($pValue = null)
@@ -379,7 +379,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setWidowControl($pValue = true)
@@ -404,7 +404,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setKeepNext($pValue = false)
@@ -429,7 +429,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep all lines on one page setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setKeepLines($pValue = false)
@@ -454,7 +454,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set start paragraph on next page setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setPageBreakBefore($pValue = false)

@@ -13,7 +13,6 @@ use PHPWord_Style_Tab;
  */
 class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test setting style values with null or empty value
      */
@@ -86,5 +85,4 @@ class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
         ));
         $this->assertInstanceOf('PHPWord_Style_Tabs', $object->getTabs());
     }
-
 }

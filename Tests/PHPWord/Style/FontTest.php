@@ -13,7 +13,6 @@ use PHPWord_Style_Font;
  */
 class PHPWord_Style_FontTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test initiation for style type and paragraph style
      */
@@ -78,5 +77,4 @@ class PHPWord_Style_FontTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
         }
     }
-
 }

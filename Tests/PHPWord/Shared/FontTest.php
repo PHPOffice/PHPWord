@@ -13,7 +13,6 @@ use PHPWord_Shared_Font;
  */
 class PHPWord_Writer_Shared_FontTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test various conversions
      */
@@ -44,5 +43,4 @@ class PHPWord_Writer_Shared_FontTest extends \PHPUnit_Framework_TestCase
         $result = PHPWord_Shared_Font::pointSizeToTwips($original);
         $this->assertEquals($original * 20, $result);
     }
-
 }

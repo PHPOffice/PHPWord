@@ -51,5 +51,4 @@ class PHPWord_Writer_Word2007_StylesTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement($path, $file);
         $this->assertEquals('Normal', $element->getAttribute('w:val'));
     }
-
 }
