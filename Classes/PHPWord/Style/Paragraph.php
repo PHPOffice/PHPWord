@@ -25,11 +25,21 @@
  * @version    0.7.0
  */
 
+use PHPWord\Exceptions\InvalidStyleException;
+
 /**
  * PHPWord_Style_Paragraph
  */
 class PHPWord_Style_Paragraph
 {
+    const LINE_HEIGHT = 240;
+
+    /*
+     * Text line height
+     *
+     * @var int
+     */
+    private $lineHeight;
 
     /**
      * Paragraph alignment
@@ -74,91 +84,26 @@ class PHPWord_Style_Paragraph
     private $_indent;
 
     /**
-     * Hanging by how much
-     *
-     * @var int
-     */
-    private $_hanging;
-
-    /**
-     * Parent style
-     *
-     * @var string
-     */
-    private $_basedOn;
-
-    /**
-     * Style for next paragraph
-     *
-     * @var string
-     */
-    private $_next;
-
-    /**
-     * Allow first/last line to display on a separate page
-     *
-     * @var bool
-     */
-    private $_widowControl;
-
-    /**
-     * Keep paragraph with next paragraph
-     *
-     * @var bool
-     */
-    private $_keepNext;
-
-    /**
-     * Keep all lines on one page
-     *
-     * @var bool
-     */
-    private $_keepLines;
-
-    /**
-     * Start paragraph on next page
-     *
-     * @var bool
-     */
-    private $_pageBreakBefore;
-
-    /**
-     * New Paragraph Style
-     */
-    public function __construct()
-    {
-        $this->_align = null;
-        $this->_spaceBefore = null;
-        $this->_spaceAfter = null;
-        $this->_spacing = null;
-        $this->_tabs = null;
-        $this->_indent = null;
-        $this->_hanging = null;
-        $this->_basedOn = 'Normal';
-        $this->_next = null;
-        $this->_widowControl = true;
-        $this->_keepNext = false;
-        $this->_keepLines = false;
-        $this->_pageBreakBefore = false;
-    }
-
-    /**
      * Set Style value
      *
-     * @param   string  $key
-     * @param   mixed   $value
+     * @param string $key
+     * @param mixed $value
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_indent' || $key == '_hanging') {
-            $value = $value * 720;
-        }
-        if ($key == '_spacing') {
+        if ($key == '_indent') {
+            $value = (int)$value * 720; // 720 twips per indent
+            $this->$key = $value;
+        } elseif ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
-        }
-        $method = 'set' . substr($key, 1);
-        if (method_exists($this, $method)) {
-            $this->$method($value);
+            $this->$key = $value;
+        } elseif ($key === '_tabs') {
+            $value = new PHPWord_Style_Tabs($value);
+            $this->$key = $value;
+        } elseif ($key === 'line-height') {
+            $this->setLineHeight($value);
+        } else {
+            $this->$key = $value;
         }
     }
 
@@ -277,28 +222,6 @@ class PHPWord_Style_Paragraph
     }
 
     /**
-     * Get hanging
-     *
-     * @return int
-     */
-    public function getHanging()
-    {
-        return $this->_hanging;
-    }
-
-    /**
-     * Set hanging
-     *
-     * @param int $pValue
-     * @return PHPWord_Style_Paragraph
-     */
-    public function setHanging($pValue = null)
-    {
-        $this->_hanging = $pValue;
-        return $this;
-    }
-
-    /**
      * Get tabs
      *
      * @return PHPWord_Style_Tabs
@@ -308,162 +231,33 @@ class PHPWord_Style_Paragraph
         return $this->_tabs;
     }
 
-    /*
-     * Set tabs
+    /**
+     * Set the line height
      *
-     * @param   array   $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @param int|float|string $lineHeight
+     * @return $this
+     * @throws \PHPWord\Exceptions\InvalidStyleException
      */
-    public function setTabs($pValue = null)
+    public function setLineHeight($lineHeight)
     {
-        if (is_array($pValue)) {
-            $this->_tabs = new PHPWord_Style_Tabs($pValue);
+        if (is_string($lineHeight)) {
+            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
         }
-        return $this;
-    }
 
-    /**
-     * Get parent style ID
-     *
-     * @return  string
-     */
-    public function getBasedOn()
-    {
-        return $this->_basedOn;
-    }
-
-    /**
-     * Set parent style ID
-     *
-     * @param   string  $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setBasedOn($pValue = 'Normal')
-    {
-        $this->_basedOn = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get style for next paragraph
-     *
-     * @return string
-     */
-    public function getNext()
-    {
-        return $this->_next;
-    }
-
-    /**
-     * Set style for next paragraph
-     *
-     * @param   string  $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setNext($pValue = null)
-    {
-        $this->_next = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get allow first/last line to display on a separate page setting
-     *
-     * @return  bool
-     */
-    public function getWidowControl()
-    {
-        return $this->_widowControl;
-    }
-
-    /**
-     * Set keep paragraph with next paragraph setting
-     *
-     * @param   bool    $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setWidowControl($pValue = true)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = true;
+        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
+            throw new InvalidStyleException('Line height must be a valid number');
         }
-        $this->_widowControl = $pValue;
+
+        $this->lineHeight = $lineHeight;
+        $this->setSpacing($lineHeight * self::LINE_HEIGHT);
         return $this;
     }
 
     /**
-     * Get keep paragraph with next paragraph setting
-     *
-     * @return  bool
+     * @return int
      */
-    public function getKeepNext()
+    public function getLineHeight()
     {
-        return $this->_keepNext;
+        return $this->lineHeight;
     }
-
-    /**
-     * Set keep paragraph with next paragraph setting
-     *
-     * @param   bool    $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setKeepNext($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_keepNext = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get keep all lines on one page setting
-     *
-     * @return  bool
-     */
-    public function getKeepLines()
-    {
-        return $this->_keepLines;
-    }
-
-    /**
-     * Set keep all lines on one page setting
-     *
-     * @param   bool    $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setKeepLines($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_keepLines = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get start paragraph on next page setting
-     *
-     * @return bool
-     */
-    public function getPageBreakBefore()
-    {
-        return $this->_pageBreakBefore;
-    }
-
-    /**
-     * Set start paragraph on next page setting
-     *
-     * @param   bool    $pValue
-     * @return  PHPWord_Style_Paragraph
-     */
-    public function setPageBreakBefore($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_pageBreakBefore = $pValue;
-        return $this;
-    }
-
 }

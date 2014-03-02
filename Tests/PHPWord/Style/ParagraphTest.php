@@ -1,90 +1,53 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Style;
 
 use PHPUnit_Framework_TestCase;
-use PHPWord_Style_Paragraph;
-use PHPWord_Style_Tab;
+use PHPWord;
+use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class PHPWord_Style_ParagraphTest
- *
+ * Class PHPWord_Writer_Word2007_BaseTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
+class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
-     * Test setting style values with null or empty value
+     * Executed before each method of the class
      */
-    public function testSetStyleValueWithNullOrEmpty()
+    public function tearDown()
     {
-        $object = new PHPWord_Style_Paragraph();
-
-        $attributes = array(
-            'tabs' => null,
-            'widowControl' => true,
-            'keepNext' => false,
-            'keepLines' => false,
-            'pageBreakBefore' => false,
-        );
-        foreach ($attributes as $key => $default) {
-            $get = "get{$key}";
-            $object->setStyleValue("_$key", null);
-            $this->assertEquals($default, $object->$get());
-            $object->setStyleValue("_$key", '');
-            $this->assertEquals($default, $object->$get());
-        }
+        TestHelperDOCX::clear();
     }
 
-    /**
-     * Test setting style values with normal value
-     */
-    public function testSetStyleValueNormal()
+    public function testLineHeight()
     {
-        $object = new PHPWord_Style_Paragraph();
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
 
-        $attributes = array(
-            'align' => 'justify',
-            'spaceAfter' => 240,
-            'spaceBefore' => 240,
-            'indent' => 1,
-            'hanging' => 1,
-            'spacing' => 120,
-            'basedOn' => 'Normal',
-            'next' => 'Normal',
-            'widowControl' => false,
-            'keepNext' => true,
-            'keepLines' => true,
-            'pageBreakBefore' => true,
-        );
-        foreach ($attributes as $key => $value) {
-            $get = "get{$key}";
-            $object->setStyleValue("_$key", $value);
-            if ($key == 'align') {
-                if ($value == 'justify') {
-                    $value = 'both';
-                }
-            } elseif ($key == 'indent' || $key == 'hanging') {
-                $value = $value * 720;
-            } elseif ($key == 'spacing') {
-                $value += 240;
-            }
-            $this->assertEquals($value, $object->$get());
-        }
-    }
-
-    /**
-     * Test tabs
-     */
-    public function testTabs()
-    {
-        $object = new PHPWord_Style_Paragraph();
-        $object->setTabs(array(
-            new PHPWord_Style_Tab('left', 1550),
-            new PHPWord_Style_Tab('right', 5300),
+        // Test style array
+        $text = $section->addText('This is a test', array(), array(
+            'line-height' => 2.0
         ));
-        $this->assertInstanceOf('PHPWord_Style_Tabs', $object->getTabs());
-    }
 
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
+
+        $lineHeight = $element->getAttribute('w:line');
+        $lineRule = $element->getAttribute('w:lineRule');
+
+        $this->assertEquals(480, $lineHeight);
+        $this->assertEquals('auto', $lineRule);
+
+        // Test setter
+        $text->getParagraphStyle()->setLineHeight(3.0);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
+
+        $lineHeight = $element->getAttribute('w:line');
+        $lineRule = $element->getAttribute('w:lineRule');
+
+        $this->assertEquals(720, $lineHeight);
+        $this->assertEquals('auto', $lineRule);
+    }
 }

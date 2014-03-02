@@ -48,7 +48,7 @@ class PHPWord_Section_Text
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Font
+     * @var \PHPWord_Style_Paragraph
      */
     private $_styleParagraph;
 
@@ -116,7 +116,9 @@ class PHPWord_Section_Text
     /**
      * Set Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @param array|\PHPWord_Style_Paragraph $styleParagraph
+     * @return \PHPWord_Style_Paragraph
+     * @throws \Exception
      */
     public function setParagraphStyle($styleParagraph)
     {
@@ -124,14 +126,19 @@ class PHPWord_Section_Text
             $this->_styleParagraph = new PHPWord_Style_Paragraph();
 
             foreach ($styleParagraph as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
+                if ($key === 'line-height') {
+                    null;
+                } elseif (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
                 $this->_styleParagraph->setStyleValue($key, $value);
             }
-        } else {
+        } elseif ($styleParagraph instanceof PHPWord_Style_Paragraph) {
             $this->_styleParagraph = $styleParagraph;
+        } else {
+            throw new Exception('Expected array or PHPWord_Style_Paragraph');
         }
+        return $this->_styleParagraph;
     }
 
     /**
