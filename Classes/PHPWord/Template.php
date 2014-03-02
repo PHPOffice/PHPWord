@@ -89,17 +89,17 @@ class PHPWord_Template
 
       $processor->importStylesheet($xslDOMDocument);
 
-      if ($processor->setParameter($xslOptionsURI, $xslOptions) === \FALSE) {
+      if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
           throw new \Exception('Could not set values for the given XSL style sheet parameters.');
       }
 
       $xmlDOMDocument = new \DOMDocument();
-      if ($xmlDOMDocument->loadXML($this->_documentXML) === \FALSE) {
+      if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
           throw new \Exception('Could not load XML from the given template.');
       }
 
       $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
-      if ($xmlTransformed === \FALSE) {
+      if ($xmlTransformed === false) {
           throw new \Exception('Could not transform the given XML document.');
       }
 
