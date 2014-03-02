@@ -12,7 +12,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @covers ::applyXslStyleSheet
      * @test
      */
-    final public function testXslStyleSheetCanBeApplied()
+    public function testXslStyleSheetCanBeApplied()
     {
         // TODO: implement after merge of the issue https://github.com/PHPOffice/PHPWord/issues/56
     }
@@ -23,7 +23,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
-    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
+    public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -45,7 +45,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not load XML from the given template.
      * @test
      */
-    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
+    public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -67,7 +67,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not transform the given XML document.
      * @test
      */
-    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfTransformation()
+    public function testXslStyleSheetCanNotBeAppliedOnFailureOfTransformation()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
