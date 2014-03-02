@@ -39,7 +39,7 @@ script:
   ## PHPLOC
   - php phploc.phar Classes/
   ## PHPUnit
-  - phpunit -c ./Tests/ --coverage-text
+  - phpunit -c ./ --coverage-text
 
 notifications:
   email:
