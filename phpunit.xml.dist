@@ -10,7 +10,7 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="PHPWord Unit Test Suite">
-            <directory>./PHPWord/</directory>
+            <directory>./Tests/PHPWord/</directory>
         </testsuite>
     </testsuites>
     <filter>
