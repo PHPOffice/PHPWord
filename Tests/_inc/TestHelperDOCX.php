@@ -25,7 +25,7 @@ class TestHelperDOCX
         $zip = new \ZipArchive;
         $res = $zip->open(self::$file);
         if ($res === true) {
-            $zip->extractTo(sys_get_temp_dir().'/PHPWord_Unit_Test/');
+            $zip->extractTo(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
             $zip->close();
         }
 
