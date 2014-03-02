@@ -141,7 +141,6 @@ class PHPWord_Style_Font
     /**
      * @param string $type
      * @param null|array|PHPWord_Style_Paragraph $paragraphStyle
-     * @throws \Exception
      */
     public function __construct($type = 'text', $paragraphStyle = null)
     {
@@ -155,7 +154,7 @@ class PHPWord_Style_Font
         } elseif (null === $paragraphStyle) {
             $this->_paragraphStyle = new PHPWord_Style_Paragraph;
         } else {
-            throw new Exception('Expected array or PHPWord_Style_Paragraph');
+            $this->_paragraphStyle = $paragraphStyle;
         }
     }
 
