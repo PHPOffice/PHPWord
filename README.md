@@ -39,9 +39,12 @@ the following lines to your ``composer.json``.
     * [Section settings](#section-settings)
     * [Section page numbering](#section-page-numbering)
 3. [Texts](#texts)
-4. [Tables](#tables)
+4. [Paragraph Style](#paragraph-style)
+    * [Attributes](#paragraph-style-attributes)
+5. [Tables](#tables)
     * [Cell Style](#tables-cell-style)
-5. [Images](#images)
+6. [Images](#images)
+    * [Attributes](#images-attributes)
 
 <a name="basic-usage"></a>
 #### Basic usage
@@ -176,10 +179,24 @@ $section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
 
 ```php
 $textrun = $section->createTextRun();
-$textrun->addText('I am bold', array('bold' => true)); 
+$textrun->addText('I am bold', array('bold' => true));
 $textrun->addText('I am italic, array('italic' => true));
 $textrun->addText('I am colored, array('color' => 'AACC00'));
 ```
+
+<a name="paragraph-style"></a>
+#### Paragraph Style
+
+<a name="paragraph-style-attributes"></a>
+##### Attributes
+
+* ``line-height`` text line height, e.g. _1.0_, _1.5_, ect...
+* ``align`` paragraph alignment, _left_, _right_ or _center_
+* ``spaceBefore`` space before Paragraph
+* ``spaceAfter`` space after Paragraph
+* ``tabs`` set of Custom Tab Stops
+* ``indent`` indent by how much
+
 <a name="tables"></a>
 #### Tables
 
@@ -213,7 +230,9 @@ $section = $PHPWord->createSection();
 $section->addImage('mars.jpg');
 ```
 
-Images settings include:
+<a name="images-attributes"></a>
+##### Attributes
+
 * ``width`` width in pixels
 * ``height`` height in pixels
 * ``align`` image alignment, _left_, _right_ or _center_
@@ -221,7 +240,7 @@ Images settings include:
 * ``marginLeft`` left margin in inches, can be negative
 * ``wrappingStyle`` can be _inline_, _square_, _tight_, _behind_, _infront_
 
-To add an image with settings, consider the following example.
+To add an image with attributes, consider the following example.
 
 ```php
 $section->addImage(
@@ -234,4 +253,4 @@ $section->addImage(
         'wrappingStyle' => 'behind'
     )
 );
- ```
+```
