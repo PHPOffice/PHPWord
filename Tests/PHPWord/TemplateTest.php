@@ -36,7 +36,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
-        $template->applyXslStyleSheet($xslDOMDocument, [1 => 'somevalue']);
+        $template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
     }
 
     /**
