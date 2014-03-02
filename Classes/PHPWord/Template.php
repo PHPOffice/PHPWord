@@ -95,12 +95,12 @@ class PHPWord_Template
 
       $xmlDOMDocument = new \DOMDocument();
       if ($xmlDOMDocument->loadXML($this->_documentXML) === \FALSE) {
-          throw new \Exception('Could not create DOM document for the given XML template.');
+          throw new \Exception('Could not load XML from the given template.');
       }
 
       $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
       if ($xmlTransformed === \FALSE) {
-          throw new \Exception('Could not apply XSLT to the given DOM document.');
+          throw new \Exception('Could not transform the given XML document.');
       }
 
       $this->_documentXML = $xmlTransformed;
