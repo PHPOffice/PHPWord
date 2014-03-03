@@ -28,6 +28,7 @@ Changes in branch for release 0.7.1 :
 - Feature:  (RomanSyroeshko)  GH-56 GH-57       - Template : Permit to save a template generated as a file (PHPWord_Template::saveAs())
 - Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
 - Feature:  (gabrielbull)                       - Word2007 : Added support for line height
+- Feature:  (JillElaine)      GH-5              - Word2007 : Added support for page header & page footer height
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

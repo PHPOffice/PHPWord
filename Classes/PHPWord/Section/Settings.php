@@ -159,6 +159,16 @@ class PHPWord_Section_Settings
     private $pageNumberingStart;
 
     /**
+     * @var int
+     */
+    private $headerHeight;
+
+    /**
+     * @var int
+     */
+    private $footerHeight;
+
+    /**
      * Create new Section Settings
      */
     public function __construct()
@@ -178,6 +188,8 @@ class PHPWord_Section_Settings
         $this->_borderRightColor = null;
         $this->_borderBottomSize = null;
         $this->_borderBottomColor = null;
+        $this->headerHeight = 720; // set default header and footer to 720 twips (.5 inches)
+        $this->footerHeight = 720;
     }
 
     /**
@@ -567,5 +579,43 @@ class PHPWord_Section_Settings
     public function getPageNumberingStart()
     {
         return $this->pageNumberingStart;
+    }
+
+    /**
+     * Get Header Height
+     *
+     * @return int
+     */
+    public function getHeaderHeight() {
+      return $this->headerHeight;
+    }
+
+    /**
+     * Set Header Height
+     *
+     * @param int $pValue
+     */
+    public function setHeaderHeight($pValue = '') {
+      $this->headerHeight = $pValue;
+      return $this;
+    }
+
+    /**
+     * Get Footer Height
+     *
+     * @return int
+     */
+    public function getFooterHeight() {
+      return $this->footerHeight;
+    }
+
+    /**
+     * Set Footer Height
+     *
+     * @param int $pValue
+     */
+    public function setFooterHeight($pValue = '') {
+      $this->footerHeight = $pValue;
+      return $this;
     }
 }
