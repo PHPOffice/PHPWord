@@ -60,26 +60,4 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
 
         @$template->applyXslStyleSheet($xslDOMDocument);
     }
-
-    /**
-     * @covers                   ::applyXslStyleSheet
-     * @expectedException        Exception
-     * @expectedExceptionMessage Could not transform the given XML document.
-     * @test
-     */
-    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfTransformation()
-    {
-        $template = new PHPWord_Template(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'empty_main_document_part.docx'))
-        );
-
-        $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
-        );
-
-        @$template->applyXslStyleSheet($xslDOMDocument);
-    }
 }
