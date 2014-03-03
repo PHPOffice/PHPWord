@@ -12,7 +12,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @covers ::applyXslStyleSheet
      * @test
      */
-    public function testXslStyleSheetCanBeApplied()
+    final public function testXslStyleSheetCanBeApplied()
     {
         // TODO: implement after merge of the issue https://github.com/PHPOffice/PHPWord/issues/56
     }
@@ -23,7 +23,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
-    public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
+    final public function testXsLStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -36,7 +36,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
-        $template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
+        @$template->applyXslStyleSheet($xslDOMDocument, [1 => 'somevalue']);
     }
 
     /**
@@ -45,7 +45,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not load XML from the given template.
      * @test
      */
-    public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
+    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -58,7 +58,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
-        $template->applyXslStyleSheet($xslDOMDocument);
+        @$template->applyXslStyleSheet($xslDOMDocument);
     }
 
     /**
@@ -67,7 +67,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not transform the given XML document.
      * @test
      */
-    public function testXslStyleSheetCanNotBeAppliedOnFailureOfTransformation()
+    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfTransformation()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -80,6 +80,6 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'blank.xsl'))
         );
 
-        $template->applyXslStyleSheet($xslDOMDocument);
+        @$template->applyXslStyleSheet($xslDOMDocument);
     }
 }
