@@ -117,14 +117,9 @@ class PHPWord_Template
     /**
      * Save Template
      *
-     * @param string $strFilename
+     * @return string
      */
-    public function save($strFilename)
-    {
-        if (file_exists($strFilename)) {
-            unlink($strFilename);
-        }
-
+    public function save() {
         $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
 
         // Close zip file
@@ -132,6 +127,21 @@ class PHPWord_Template
             throw new Exception('Could not close zip file.');
         }
 
-        rename($this->_tempFileName, $strFilename);
+        return $this->_tempFileName;
+    }
+
+    /**
+     * Save Template As...
+     *
+     * @param string $strFilename
+     */
+    public function saveAs($strFilename) {
+        $tempFilename = $this->save();
+
+        if (file_exists($strFilename)) {
+            unlink($strFilename);
+        }
+
+        rename($tempFilename, $strFilename);
     }
 }
