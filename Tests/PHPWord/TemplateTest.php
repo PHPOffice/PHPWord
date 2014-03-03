@@ -71,13 +71,13 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx'))
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'empty_main_document_part.docx'))
         );
 
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
             \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'blank.xsl'))
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
         @$template->applyXslStyleSheet($xslDOMDocument);
