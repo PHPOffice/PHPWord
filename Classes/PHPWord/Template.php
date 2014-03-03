@@ -64,7 +64,7 @@ class PHPWord_Template
         if ($this->_tempFileName !== false) {
             // Copy the source File to the temp File
             if (!copy($strFilename, $this->_tempFileName)) {
-                throw new PHPWord_Exception('Could not copy the template from ' . $strFilename . ' to ' . $this->_tempFileName . '.');
+                throw new PHPWord_Exception("Could not copy the template from {$strFilename} to {$this->_tempFileName}.");
             }
 
             $this->_objZip = new ZipArchive();
@@ -85,25 +85,25 @@ class PHPWord_Template
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
-      $processor = new \XSLTProcessor();
+        $processor = new \XSLTProcessor();
 
-      $processor->importStylesheet($xslDOMDocument);
+        $processor->importStylesheet($xslDOMDocument);
 
-      if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
-          throw new \Exception('Could not set values for the given XSL style sheet parameters.');
-      }
+        if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
+            throw new \Exception('Could not set values for the given XSL style sheet parameters.');
+        }
 
-      $xmlDOMDocument = new \DOMDocument();
-      if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
-          throw new \Exception('Could not load XML from the given template.');
-      }
+        $xmlDOMDocument = new \DOMDocument();
+        if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
+            throw new \Exception('Could not load XML from the given template.');
+        }
 
-      $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
-      if ($xmlTransformed === false) {
-          throw new \Exception('Could not transform the given XML document.');
-      }
+        $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
+        if ($xmlTransformed === false) {
+            throw new \Exception('Could not transform the given XML document.');
+        }
 
-      $this->_documentXML = $xmlTransformed;
+        $this->_documentXML = $xmlTransformed;
     }
 
     /**
