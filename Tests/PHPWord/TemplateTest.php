@@ -23,7 +23,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
-    final public function testXsLStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
+    final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
         $template = new PHPWord_Template(
             \join(\DIRECTORY_SEPARATOR,
@@ -36,7 +36,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
-        @$template->applyXslStyleSheet($xslDOMDocument, [1 => 'somevalue']);
+        @$template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
     }
 
     /**
