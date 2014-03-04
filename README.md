@@ -36,9 +36,14 @@ the following lines to your ``composer.json``.
 1. [Basic usage](#basic-usage)
 2. [Sections](#sections)
     * [Change Section Page Numbering](#sections-page-numbering)
-3. [Tables](#tables)
+3. [Text](#text)
+    * [Attributes](#text-attributes)
+3. [Paragraph Style](#paragraph-style)
+    * [Attributes](#paragraph-style-attributes)
+4. [Tables](#tables)
     * [Cell Style](#tables-cell-style)
-4. [Images](#images)
+5. [Images](#images)
+    * [Attributes](#images-attributes)
 
 <a name="basic-usage"></a>
 #### Basic usage
@@ -86,6 +91,46 @@ $section = $PHPWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
 
+<a name="text"></a>
+#### Text
+
+You can add text easily using the following example.
+
+```php
+$fontStyle = array();
+$paragraphStyle = array();
+$section = $PHPWord->createSection();
+$section->addText('My text', $fontStyle, $paragraphStyle);
+```
+
+<a name="text-attributes"></a>
+##### Attributes
+
+* ``size`` text size, e.g. _20_, _22_,
+* ``name`` font name, e.g. _Arial_
+* ``bold`` text is bold, _true_ or _false_
+* ``italic`` text is italic, _true_ or _false_
+* ``superScript`` text is super script, _true_ or _false_
+* ``subScript`` text is sub script, _true_ or _false_
+* ``underline`` text is underline, _true_ or _false_
+* ``strikethrough`` text is strikethrough, _true_ or _false_
+* ``color`` text color, e.g. _FF0000_
+* ``fgColor`` fgColor
+* ``line-height`` text line height, e.g. _1.0_, _1.5_, ect...
+
+<a name="paragraph-style"></a>
+#### Paragraph Style
+
+<a name="paragraph-style-attributes"></a>
+##### Attributes
+
+* ``line-height`` text line height, e.g. _1.0_, _1.5_, ect...
+* ``align`` paragraph alignment, _left_, _right_ or _center_
+* ``spaceBefore`` space before Paragraph
+* ``spaceAfter`` space after Paragraph
+* ``tabs`` set of Custom Tab Stops
+* ``indent`` indent by how much
+
 <a name="tables"></a>
 #### Tables
 
@@ -119,7 +164,9 @@ $section = $PHPWord->createSection();
 $section->addImage('mars.jpg');
 ```
 
-Images settings include:
+<a name="images-attributes"></a>
+##### Attributes
+
 * ``width`` width in pixels
 * ``height`` height in pixels
 * ``align`` image alignment, _left_, _right_ or _center_
@@ -127,7 +174,7 @@ Images settings include:
 * ``marginLeft`` left margin in inches, can be negative
 * ``wrappingStyle`` can be _inline_, _square_, _tight_, _behind_, _infront_
 
-To add an image with settings, consider the following example.
+To add an image with attributes, consider the following example.
 
 ```php
 $section->addImage(

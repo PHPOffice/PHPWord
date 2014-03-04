@@ -25,11 +25,21 @@
  * @version    0.7.0
  */
 
+use PHPWord\Exceptions\InvalidStyleException;
+
 /**
  * PHPWord_Style_Paragraph
  */
 class PHPWord_Style_Paragraph
 {
+    const LINE_HEIGHT = 240;
+
+    /**
+     * Text line height
+     *
+     * @var int
+     */
+    private $lineHeight;
 
     /**
      * Paragraph alignment
@@ -73,18 +83,22 @@ class PHPWord_Style_Paragraph
      */
     private $_indent;
 
-
     /**
-     * New Paragraph Style
+     * @param array $style
+     * @return $this
      */
-    public function __construct()
+    public function setArrayStyle(array $style = array())
     {
-        $this->_align = null;
-        $this->_spaceBefore = null;
-        $this->_spaceAfter = null;
-        $this->_spacing = null;
-        $this->_tabs = null;
-        $this->_indent = null;
+        foreach ($style as $key => $value) {
+            if ($key === 'line-height') {
+                null;
+            } elseif (substr($key, 0, 1) !== '_') {
+                $key = '_' . $key;
+            }
+            $this->setStyleValue($key, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -97,14 +111,18 @@ class PHPWord_Style_Paragraph
     {
         if ($key == '_indent') {
             $value = (int)$value * 720; // 720 twips per indent
-        }
-        if ($key == '_spacing') {
+            $this->$key = $value;
+        } elseif ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
-        }
-        if ($key === '_tabs') {
+            $this->$key = $value;
+        } elseif ($key === '_tabs') {
             $value = new PHPWord_Style_Tabs($value);
+            $this->$key = $value;
+        } elseif ($key === 'line-height') {
+            $this->setLineHeight($value);
+        } else {
+            $this->$key = $value;
         }
-        $this->$key = $value;
     }
 
     /**
@@ -229,5 +247,35 @@ class PHPWord_Style_Paragraph
     public function getTabs()
     {
         return $this->_tabs;
+    }
+
+    /**
+     * Set the line height
+     *
+     * @param int|float|string $lineHeight
+     * @return $this
+     * @throws \PHPWord\Exceptions\InvalidStyleException
+     */
+    public function setLineHeight($lineHeight)
+    {
+        if (is_string($lineHeight)) {
+            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
+        }
+
+        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
+            throw new InvalidStyleException('Line height must be a valid number');
+        }
+
+        $this->lineHeight = $lineHeight;
+        $this->setSpacing($lineHeight * self::LINE_HEIGHT);
+        return $this;
+    }
+
+    /**
+     * @return int|float
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
     }
 }
