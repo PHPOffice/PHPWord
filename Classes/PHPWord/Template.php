@@ -64,7 +64,7 @@ class PHPWord_Template
         if ($this->_tempFileName !== false) {
             // Copy the source File to the temp File
             if (!copy($strFilename, $this->_tempFileName)) {
-                throw new PHPWord_Exception('Could not copy the template from ' . $strFilename . ' to ' . $this->_tempFileName . '.');
+                throw new PHPWord_Exception("Could not copy the template from {$strFilename} to {$this->_tempFileName}.");
             }
 
             $this->_objZip = new ZipArchive();
@@ -74,6 +74,36 @@ class PHPWord_Template
         } else {
             throw new PHPWord_Exception('Could not create temporary file with unique name in the default temporary directory.');
         }
+    }
+    
+    /**
+     * Applies XSL style sheet to template's parts
+     *
+     * @param DOMDocument &$xslDOMDocument
+     * @param array $xslOptions = array()
+     * @param string $xslOptionsURI = ''
+     */
+    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
+    {
+        $processor = new \XSLTProcessor();
+
+        $processor->importStylesheet($xslDOMDocument);
+
+        if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
+            throw new \Exception('Could not set values for the given XSL style sheet parameters.');
+        }
+
+        $xmlDOMDocument = new \DOMDocument();
+        if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
+            throw new \Exception('Could not load XML from the given template.');
+        }
+
+        $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
+        if ($xmlTransformed === false) {
+            throw new \Exception('Could not transform the given XML document.');
+        }
+
+        $this->_documentXML = $xmlTransformed;
     }
 
     /**
