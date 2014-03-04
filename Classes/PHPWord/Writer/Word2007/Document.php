@@ -135,6 +135,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $marginRight = $settings->getMarginRight();
         $marginBottom = $settings->getMarginBottom();
 
+        $headerHeight = $settings->getHeaderHeight();
+        $footerHeight = $settings->getFooterHeight();
+
         $borders = $settings->getBorderSize();
 
         $objWriter->startElement('w:sectPr');
@@ -175,8 +178,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->writeAttribute('w:right', $marginRight);
         $objWriter->writeAttribute('w:bottom', $marginBottom);
         $objWriter->writeAttribute('w:left', $marginLeft);
-        $objWriter->writeAttribute('w:header', '720');
-        $objWriter->writeAttribute('w:footer', '720');
+        $objWriter->writeAttribute('w:header', $headerHeight);
+        $objWriter->writeAttribute('w:footer', $footerHeight);
         $objWriter->writeAttribute('w:gutter', '0');
         $objWriter->endElement();
 
