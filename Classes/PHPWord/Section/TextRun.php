@@ -110,6 +110,27 @@ class PHPWord_Section_TextRun
     }
 
     /**
+     * Add a Image Element
+     *
+     * @param string $imageSrc
+     * @param mixed $styleFont
+     * @return PHPWord_Section_Image
+     */
+    public function addImage($imageSrc, $style = null) {
+        $image = new PHPWord_Section_Image($imageSrc, $style);
+
+        if (!is_null($image->getSource())) {
+            $rID = PHPWord_Media::addSectionMediaElement($imageSrc, 'image');
+            $image->setRelationId($rID);
+
+            $this->_elementCollection[] = $image;
+            return $image;
+        } else {
+            trigger_error('Source does not exist or unsupported image type.');
+        }
+    }
+
+    /**
      * Get TextRun content
      *
      * @return string
