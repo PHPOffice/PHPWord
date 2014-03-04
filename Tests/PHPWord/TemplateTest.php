@@ -36,6 +36,10 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
+        /*
+         * We have to use error control below, because XSLTProcessor::setParameter omits warning on failure.
+         * This warning fails the test.
+         */
         @$template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
     }
 
@@ -58,6 +62,10 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
         );
 
+        /*
+         * We have to use error control below, because DOMDocument::loadXML omits warning on failure.
+         * This warning fails the test.
+         */
         @$template->applyXslStyleSheet($xslDOMDocument);
     }
 }
