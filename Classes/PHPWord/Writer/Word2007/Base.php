@@ -106,6 +106,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $this->_writeText($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Link) {
                     $this->_writeLink($objWriter, $element, true);
+                } elseif ($element instanceof PHPWord_Section_Image) {
+                    $this->_writeImage($objWriter, $element, true);
                 }
             }
         }
@@ -627,7 +629,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
      * @param \PHPWord_Shared_XMLWriter $objWriter
      * @param \PHPWord_Section_Image $image
      */
-    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image)
+    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image, $withoutP = false)
     {
         $rId = $image->getRelationId();
 
@@ -639,14 +641,16 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $marginLeft = $style->getMarginLeft();
         $wrappingStyle = $style->getWrappingStyle();
 
-        $objWriter->startElement('w:p');
+        if (!$withoutP) {
+            $objWriter->startElement('w:p');
 
-        if (!is_null($align)) {
-            $objWriter->startElement('w:pPr');
-            $objWriter->startElement('w:jc');
-            $objWriter->writeAttribute('w:val', $align);
-            $objWriter->endElement();
-            $objWriter->endElement();
+            if (!is_null($align)) {
+                $objWriter->startElement('w:pPr');
+                $objWriter->startElement('w:jc');
+                $objWriter->writeAttribute('w:val', $align);
+                $objWriter->endElement();
+                $objWriter->endElement();
+            }
         }
 
         $objWriter->startElement('w:r');
@@ -697,7 +701,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
         $objWriter->endElement();
 
-        $objWriter->endElement();
+        if (!$withoutP) {
+            $objWriter->endElement(); // w:p
+        }
     }
 
     protected function _writeWatermark(PHPWord_Shared_XMLWriter $objWriter = null, $image)
