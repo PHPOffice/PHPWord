@@ -25,11 +25,12 @@
 Changes in branch for release 0.7.1 :
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
-- Bugfix:   (bskrtich)        GH-6 GH-66 GH-84  - Add ability to manage line breaks after image insertion 
 - Feature:  (RomanSyroeshko)  GH-56 GH-57       - Template : Permit to save a template generated as a file (PHPWord_Template::saveAs())
 - Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
 - Feature:  (gabrielbull)                       - Word2007 : Added support for line height
 - Feature:  (JillElaine)      GH-5              - Word2007 : Added support for page header & page footer height
+- Feature:  (bskrtich)        GH-6 GH-66 GH-84  - General : Add ability to manage line breaks after image insertion
+- Feature:  (RomanSyroeshko)  GH-52 GH-53 GH-85 - Template : Ability to limit number of replacements performed by setValue() method of Template class
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :
