@@ -81,8 +81,9 @@ class PHPWord_Template
      *
      * @param mixed $search
      * @param mixed $replace
+     * @param integer $limit
      */
-    public function setValue($search, $replace)
+    public function setValue($search, $replace, $limit = -1)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $this->_documentXML, $matches);
@@ -102,7 +103,12 @@ class PHPWord_Template
             }
         }
 
-        $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
+        $regExpDelim = '/';
+        $escapedSearch = preg_quote($search, $regExpDelim);
+        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u",
+                                           $replace,
+                                           $this->_documentXML,
+                                           $limit);
     }
 
     /**
