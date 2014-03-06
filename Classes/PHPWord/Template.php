@@ -101,14 +101,16 @@ class PHPWord_Template
             if (!PHPWord_Shared_String::IsUTF8($replace)) {
                 $replace = utf8_encode($replace);
             }
-        }
+            $replace = htmlspecialchars($replace);
+        } else {
+            foreach($replace as $key=>$value) {
+                $replace[$key] = htmlspecialchars($value);
+            }
+         }
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
-        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u",
-                                           $replace,
-                                           $this->_documentXML,
-                                           $limit);
+        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $this->_documentXML, $limit);
     }
 
     /**
