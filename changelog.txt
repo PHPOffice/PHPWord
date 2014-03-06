@@ -23,11 +23,11 @@
 **************************************************************************************
 
 Changes in branch for release 0.7.1 :
-- Feature:  (ivanlanin)                         - Table row: Repeat as header row & allow row to break across pages
-- Feature:  (ivanlanin)                         - Table: Table width in percentage
-- Feature:  (ivanlanin)                         - Font: Superscript and subscript
-- Feature:  (ivanlanin)                         - Paragraph: Hanging paragraph
-- Feature:  (ivanlanin)                         - Section: Multicolumn and section break
+- Feature:  (ivanlanin)       GH-48 GH-86       - Table row: Repeat as header row & allow row to break across pages
+- Feature:  (ivanlanin)       GH-48 GH-86       - Table: Table width in percentage
+- Feature:  (ivanlanin)       GH-48 GH-86       - Font: Superscript and subscript
+- Feature:  (ivanlanin)       GH-48 GH-86       - Paragraph: Hanging paragraph
+- Feature:  (ivanlanin)       GH-48 GH-86       - Section: Multicolumn and section break
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
 - Feature:  (RomanSyroeshko)  GH-56 GH-57       - Template : Permit to save a template generated as a file (PHPWord_Template::saveAs())
