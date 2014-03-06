@@ -169,6 +169,34 @@ class PHPWord_Section_Settings
     private $footerHeight;
 
     /**
+     * Section columns count
+     *
+     * @var int
+     */
+    private $_colsNum;
+
+    /**
+     * Section spacing between columns
+     *
+     * @var int
+     */
+    private $_colsSpace;
+
+    /**
+     * Section break type
+     *
+     * Options:
+     * - nextPage: Next page section break
+     * - nextColumn: Column section break
+     * - continuous: Continuous section break
+     * - evenPage: Even page section break
+     * - oddPage: Odd page section break
+     *
+     * @var string
+     */
+    private $_breakType;
+
+    /**
      * Create new Section Settings
      */
     public function __construct()
@@ -190,6 +218,9 @@ class PHPWord_Section_Settings
         $this->_borderBottomColor = null;
         $this->headerHeight = 720; // set default header and footer to 720 twips (.5 inches)
         $this->footerHeight = 720;
+        $this->_colsNum = 1;
+        $this->_colsSpace = 720;
+        $this->_breakType = null;
     }
 
     /**
@@ -618,4 +649,62 @@ class PHPWord_Section_Settings
       $this->footerHeight = $pValue;
       return $this;
     }
+
+    /**
+     * Set Section Columns Count
+     *
+     * @param in $pValue
+     */
+    public function setColsNum($pValue = '') {
+        $this->_colsNum = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get Section Columns Count
+     *
+     * @return int
+     */
+    public function getColsNum() {
+        return $this->_colsNum;
+    }
+
+    /**
+     * Set Section Space Between Columns
+     *
+     * @param int $pValue
+     */
+    public function setColsSpace($pValue = '') {
+        $this->_colsSpace = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get Section Space Between Columns
+     *
+     * @return int
+     */
+    public function getColsSpace() {
+        return $this->_colsSpace;
+    }
+
+    /**
+     * Set Break Type
+     *
+     * @param string $pValue
+     */
+    public function setBreakType($pValue = null) {
+        $this->_breakType = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get Break Type
+     *
+     * @return string
+     */
+    public function getBreakType() {
+        return $this->_breakType;
+    }
+
 }

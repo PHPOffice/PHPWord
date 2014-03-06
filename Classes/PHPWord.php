@@ -39,8 +39,8 @@ if (!defined('PHPWORD_BASE_PATH')) {
 class PHPWord
 {
 
-    const DEFAULT_FONT_NAME = 'Times New Roman';
-    const DEFAULT_FONT_SIZE = 24;
+    const DEFAULT_FONT_NAME = 'Arial';
+    const DEFAULT_FONT_SIZE = 20;
 
     /**
      * Document properties

@@ -140,9 +140,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         $borders = $settings->getBorderSize();
 
-        $colsNum = $_settings->getColsNum();
-        $colsSpace = $_settings->getColsSpace();
-        $breakType = $_settings->getBreakType();
+        $colsNum = $settings->getColsNum();
+        $colsSpace = $settings->getColsSpace();
+        $breakType = $settings->getBreakType();
 
         $objWriter->startElement('w:sectPr');
 
@@ -159,7 +159,6 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
             $objWriter->endElement();
         }
 
-        // http://www.schemacentral.com/sc/ooxml/a-w_val-43.html
         if (!is_null($breakType)) {
             $objWriter->startElement('w:type');
             $objWriter->writeAttribute('w:val', $breakType);
@@ -247,12 +246,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         }
 
         $objWriter->startElement('w:cols');
-        if($colsNum > 1){
-            $objWriter->writeAttribute('w:num', $colsNum);
-            $objWriter->writeAttribute('w:space', $colsSpace);
-        } else {
-            $objWriter->writeAttribute('w:space', '720');
-        }
+        $objWriter->writeAttribute('w:num', $colsNum);
+        $objWriter->writeAttribute('w:space', $colsSpace);
         $objWriter->endElement();
 
 
