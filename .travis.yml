@@ -1,6 +1,5 @@
 language: php
 php:
-  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
@@ -13,7 +12,7 @@ matrix:
 before_script:
   ## Composer
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install
+  - php composer.phar install --prefer-source
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
@@ -36,9 +35,11 @@ script:
   ## PHP Copy/Paste Detector
   - php phpcpd.phar --verbose Classes/
   ## PHP Mess Detector
-  - phpmd Classes/ text codesize,unusedcode,naming,design
+  - phpmd Classes/ text unusedcode,naming,design
   ## PHPLOC
   - php phploc.phar Classes/
+  ## PHPUnit
+  - phpunit -c ./ --coverage-text
 
 notifications:
   email:

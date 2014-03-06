@@ -1,6 +1,6 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="test/bootstrap.php"
+         bootstrap="./Tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -9,8 +9,13 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="PHPWord Test Suite">
-            <directory>./test/PHPWord/</directory>
+        <testsuite name="PHPWord Unit Test Suite">
+            <directory>./Tests/PHPWord/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../Classes</directory>
+        </whitelist>
+    </filter>
 </phpunit>

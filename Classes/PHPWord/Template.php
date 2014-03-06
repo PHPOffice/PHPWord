@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -81,8 +81,9 @@ class PHPWord_Template
      *
      * @param mixed $search
      * @param mixed $replace
+     * @param integer $limit
      */
-    public function setValue($search, $replace)
+    public function setValue($search, $replace, $limit = -1)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $this->_documentXML, $matches);
@@ -102,7 +103,12 @@ class PHPWord_Template
             }
         }
 
-        $this->_documentXML = str_replace($search, $replace, $this->_documentXML);
+        $regExpDelim = '/';
+        $escapedSearch = preg_quote($search, $regExpDelim);
+        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u",
+                                           $replace,
+                                           $this->_documentXML,
+                                           $limit);
     }
 
     /**
@@ -117,14 +123,9 @@ class PHPWord_Template
     /**
      * Save Template
      *
-     * @param string $strFilename
+     * @return string
      */
-    public function save($strFilename)
-    {
-        if (file_exists($strFilename)) {
-            unlink($strFilename);
-        }
-
+    public function save() {
         $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
 
         // Close zip file
@@ -132,6 +133,21 @@ class PHPWord_Template
             throw new Exception('Could not close zip file.');
         }
 
-        rename($this->_tempFileName, $strFilename);
+        return $this->_tempFileName;
+    }
+
+    /**
+     * Save Template As...
+     *
+     * @param string $strFilename
+     */
+    public function saveAs($strFilename) {
+        $tempFilename = $this->save();
+
+        if (file_exists($strFilename)) {
+            unlink($strFilename);
+        }
+
+        rename($tempFilename, $strFilename);
     }
 }

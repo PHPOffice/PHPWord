@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -150,26 +150,23 @@ class PHPWord_Section_Settings
      */
     private $_borderBottomColor;
 
+
     /**
-     * Section Columns Count
+     * Page Numbering Start
      *
      * @var int
      */
-	private $_colsNum;
+    private $pageNumberingStart;
 
     /**
-     * Section Spacing Between Columns
-     *
      * @var int
      */
-	private $_colsSpace;
+    private $headerHeight;
 
     /**
-     * Section Break Type
-     *
-     * @var string
+     * @var int
      */
-	private $_breakType;
+    private $footerHeight;
 
     /**
      * Create new Section Settings
@@ -191,9 +188,8 @@ class PHPWord_Section_Settings
         $this->_borderRightColor = null;
         $this->_borderBottomSize = null;
         $this->_borderBottomColor = null;
-        $this->_colsNum = 1;
-        $this->_colsSpace = 720;
-        $this->_breakType = null;
+        $this->headerHeight = 720; // set default header and footer to 720 twips (.5 inches)
+        $this->footerHeight = 720;
     }
 
     /**
@@ -568,59 +564,58 @@ class PHPWord_Section_Settings
     }
 
     /**
-     * Set Section Columns Count
-     *
-     * @param in $pValue
+     * @param null|int $pageNumberingStart
+     * @return $this
      */
-	public function setColsNum($pValue = '') {
-		$this->_colsNum = $pValue;
-		return $this;
-	}
+    public function setPageNumberingStart($pageNumberingStart = null)
+    {
+        $this->pageNumberingStart = $pageNumberingStart;
+        return $this;
+    }
 
     /**
-     * Get Section Columns Count
+     * @return null|int
+     */
+    public function getPageNumberingStart()
+    {
+        return $this->pageNumberingStart;
+    }
+
+    /**
+     * Get Header Height
      *
      * @return int
      */
-	public function getColsNum() {
-		return $this->_colsNum;
-	}
+    public function getHeaderHeight() {
+      return $this->headerHeight;
+    }
 
     /**
-     * Set Section Space Between Columns
+     * Set Header Height
      *
      * @param int $pValue
      */
-	public function setColsSpace($pValue = '') {
-		$this->_colsSpace = $pValue;
-		return $this;
-	}
+    public function setHeaderHeight($pValue = '') {
+      $this->headerHeight = $pValue;
+      return $this;
+    }
 
     /**
-     * Get Section Space Between Columns
+     * Get Footer Height
      *
      * @return int
      */
-	public function getColsSpace() {
-		return $this->_colsSpace;
-	}
+    public function getFooterHeight() {
+      return $this->footerHeight;
+    }
 
     /**
-     * Set Break Type
+     * Set Footer Height
      *
-     * @param string $pValue
+     * @param int $pValue
      */
-	public function setBreakType($pValue = null) {
-		$this->_breakType = $pValue;
-		return $this;
-	}
-
-    /**
-     * Get Break Type
-     *
-     * @return string
-     */
-	public function getBreakType() {
-		return $this->_breakType;
-	}
+    public function setFooterHeight($pValue = '') {
+      $this->footerHeight = $pValue;
+      return $this;
+    }
 }

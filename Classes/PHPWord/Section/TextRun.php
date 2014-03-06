@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -110,15 +110,26 @@ class PHPWord_Section_TextRun
     }
 
     /**
-    * Add a TextBreak Element
-    *
-    * @param int $count
-    */
-    public function addTextBreak($count = 1) {
-        for($i=1; $i<=$count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+     * Add a Image Element
+     *
+     * @param string $imageSrc
+     * @param mixed $styleFont
+     * @return PHPWord_Section_Image
+     */
+    public function addImage($imageSrc, $style = null) {
+        $image = new PHPWord_Section_Image($imageSrc, $style);
+
+        if (!is_null($image->getSource())) {
+            $rID = PHPWord_Media::addSectionMediaElement($imageSrc, 'image');
+            $image->setRelationId($rID);
+
+            $this->_elementCollection[] = $image;
+            return $image;
+        } else {
+            trigger_error('Source does not exist or unsupported image type.');
         }
     }
+
     /**
      * Get TextRun content
      *

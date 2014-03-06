@@ -1,7 +1,7 @@
 **************************************************************************************
 * PHPWord
 *
-* Copyright (c) 2011 - 2013 PHPWord
+* Copyright (c) 2011 - 2014 PHPWord
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -17,12 +17,23 @@
 * License along with this library; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 *
-* @copyright Copyright (c) 2011 - 2013 PHPWord (https://github.com/PHPOffice/PHPWord/)
+* @copyright Copyright (c) 2011 - 2014 PHPWord (https://github.com/PHPOffice/PHPWord/)
 * @license http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
-Fixed in branch for release 0.7.0 :
+Changes in branch for release 0.7.1 :
+- Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
+- Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
+- Feature:  (RomanSyroeshko)  GH-56 GH-57       - Template : Permit to save a template generated as a file (PHPWord_Template::saveAs())
+- Feature:  (gabrielbull)                       - Word2007 : Support sections page numbering
+- Feature:  (gabrielbull)                       - Word2007 : Added support for line height
+- Feature:  (JillElaine)      GH-5              - Word2007 : Added support for page header & page footer height
+- Feature:  (bskrtich)        GH-6 GH-66 GH-84  - General : Add ability to manage line breaks after image insertion
+- Feature:  (RomanSyroeshko)  GH-52 GH-53 GH-85 - Template : Ability to limit number of replacements performed by setValue() method of Template class
+- QA:       (Progi1984)                         - UnitTests
+
+Changes in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
 - Bugfix:   (RomanSyroeshko)  GH-34             - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input
 - Bugfix:   (RomanSyroeshko)  GH-38             - Temporary files naming logic in PHPWord_Template can lead to a collision
@@ -31,7 +42,7 @@ Fixed in branch for release 0.7.0 :
 - Feature:  (kaystrobach)                       - Word2007 : Add rowspan and colspan to cells
 - Feature:  (RLovelett)                         - Word2007 : Support for tab stops
 - Feature:  (RLovelett)                         - Word2007 : Support Multiple headers
-- Feature:  (gavroche)                          - Word2007 : Wrapping Styles to Images
+- Feature:  (gabrielbull)                       - Word2007 : Wrapping Styles to Images
 - General:  (MarkBaker)                         - Add superscript/subscript styling in Excel2007 Writer
 - General:  (deds)                              - add indentation support to paragraphs
 - General:  (Progi1984)       GH-27             - Support for Composer
@@ -39,4 +50,4 @@ Fixed in branch for release 0.7.0 :
 - General:  (Progi1984)                         - Added PHPWord_Exception and exception when could not copy the template
 - General:  (Progi1984)                         - IMPROVED : Moved examples out of Classes directory
 - General:  (Esmeraldo)       CP-49             - IMPROVED : Advanced string replace in setValue for Template
-- Feature:  (gavroche)                          - Added support for image wrapping style
+- Feature:  (gabrielbull)                       - Added support for image wrapping style

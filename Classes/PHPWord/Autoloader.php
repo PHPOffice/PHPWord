@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -31,9 +31,13 @@ if (!defined('PHPWORD_BASE_PATH')) {
 
 /**
  * Class PHPWord_Autoloader
+ *
+ * TODO: remove legacy autoloader once everything is moved to namespaces
  */
 class PHPWord_Autoloader
 {
+    const PREFIX = 'PHPWord';
+
     /**
      * Register the autoloader
      *
@@ -41,7 +45,8 @@ class PHPWord_Autoloader
      */
     public static function register()
     {
-        spl_autoload_register(array('PHPWord_Autoloader', 'load'));
+        spl_autoload_register(array('PHPWord_Autoloader', 'load')); // Legacy
+        spl_autoload_register(array(new self, 'autoload')); // PSR-4
     }
 
     /**
@@ -59,5 +64,22 @@ class PHPWord_Autoloader
         }
 
         return null;
+    }
+
+    /**
+     * Autoloader
+     *
+     * @param string
+     */
+    public static function autoload($class)
+    {
+        $prefixLength = strlen(self::PREFIX);
+        if (0 === strncmp(self::PREFIX, $class, $prefixLength)) {
+            $file = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, $prefixLength));
+            $file = realpath(__DIR__ . (empty($file) ? '' : DIRECTORY_SEPARATOR) . $file . '.php');
+            if (file_exists($file)) {
+                require_once $file;
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2013 PHPWord
+ * Copyright (c) 2014 PHPWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2013 PHPWord
+ * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
@@ -123,19 +123,22 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
     private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
     {
-        $_settings = $section->getSettings();
+        $settings = $section->getSettings();
         $_headers = $section->getHeaders();
         $_footer = $section->getFooter();
-        $pgSzW = $_settings->getPageSizeW();
-        $pgSzH = $_settings->getPageSizeH();
-        $orientation = $_settings->getOrientation();
+        $pgSzW = $settings->getPageSizeW();
+        $pgSzH = $settings->getPageSizeH();
+        $orientation = $settings->getOrientation();
 
-        $marginTop = $_settings->getMarginTop();
-        $marginLeft = $_settings->getMarginLeft();
-        $marginRight = $_settings->getMarginRight();
-        $marginBottom = $_settings->getMarginBottom();
+        $marginTop = $settings->getMarginTop();
+        $marginLeft = $settings->getMarginLeft();
+        $marginRight = $settings->getMarginRight();
+        $marginBottom = $settings->getMarginBottom();
 
-        $borders = $_settings->getBorderSize();
+        $headerHeight = $settings->getHeaderHeight();
+        $footerHeight = $settings->getFooterHeight();
+
+        $borders = $settings->getBorderSize();
 
         $colsNum = $_settings->getColsNum();
         $colsSpace = $_settings->getColsSpace();
@@ -186,14 +189,14 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->writeAttribute('w:right', $marginRight);
         $objWriter->writeAttribute('w:bottom', $marginBottom);
         $objWriter->writeAttribute('w:left', $marginLeft);
-        $objWriter->writeAttribute('w:header', '720');
-        $objWriter->writeAttribute('w:footer', '720');
+        $objWriter->writeAttribute('w:header', $headerHeight);
+        $objWriter->writeAttribute('w:footer', $footerHeight);
         $objWriter->writeAttribute('w:gutter', '0');
         $objWriter->endElement();
 
 
         if (!is_null($borders[0]) || !is_null($borders[1]) || !is_null($borders[2]) || !is_null($borders[3])) {
-            $borderColor = $_settings->getBorderColor();
+            $borderColor = $settings->getBorderColor();
 
             $objWriter->startElement('w:pgBorders');
             $objWriter->writeAttribute('w:offsetFrom', 'page');
@@ -236,6 +239,12 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
             $objWriter->endElement();
         }
 
+        // Page numbering
+        if (null !== $settings->getPageNumberingStart()) {
+            $objWriter->startElement('w:pgNumType');
+            $objWriter->writeAttribute('w:start', $section->getSettings()->getPageNumberingStart());
+            $objWriter->endElement();
+        }
 
         $objWriter->startElement('w:cols');
         if($colsNum > 1){
@@ -261,7 +270,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
-    private function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
+    public function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
         $text = $textObject->getText();
