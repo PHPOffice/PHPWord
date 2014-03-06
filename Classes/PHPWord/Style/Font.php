@@ -94,8 +94,8 @@ class PHPWord_Style_Font
     public function __construct($type = 'text', $styleParagraph = null)
     {
         $this->_type = $type;
-        $this->_name = 'Arial';
-        $this->_size = 20;
+        $this->_name = PHPWord::DEFAULT_FONT_NAME;
+        $this->_size = PHPWord::DEFAULT_FONT_SIZE;
         $this->_bold = false;
         $this->_italic = false;
         $this->_superScript = false;
@@ -132,10 +132,10 @@ class PHPWord_Style_Font
         $this->$key = $value;
     }
 
-    public function setName($pValue = 'Arial')
+    public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
     {
         if ($pValue == '') {
-            $pValue = 'Arial';
+            $pValue = PHPWord::DEFAULT_FONT_NAME;
         }
         $this->_name = $pValue;
         return $this;
@@ -146,10 +146,10 @@ class PHPWord_Style_Font
         return $this->_size;
     }
 
-    public function setSize($pValue = 20)
+    public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
     {
         if ($pValue == '') {
-            $pValue = 20;
+            $pValue = PHPWord::DEFAULT_FONT_SIZE;
         }
         $this->_size = ($pValue * 2);
         return $this;

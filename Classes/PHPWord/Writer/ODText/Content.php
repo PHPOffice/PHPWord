@@ -145,10 +145,10 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                     }
                 }
             }
-            if (!in_array('Arial', $arrFonts)) {
+            if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
                 $objWriter->startElement('style:font-face');
-                $objWriter->writeAttribute('style:name', 'Arial');
-                $objWriter->writeAttribute('svg:font-family', 'Arial');
+                $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+                $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
                 $objWriter->endElement();
             }
         }

@@ -104,10 +104,10 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                 }
             }
         }
-        if (!in_array('Arial', $arrFonts)) {
+        if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
             $objWriter->startElement('style:font-face');
-            $objWriter->writeAttribute('style:name', 'Arial');
-            $objWriter->writeAttribute('svg:font-family', 'Arial');
+            $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+            $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
             $objWriter->endElement();
         }
         $objWriter->endElement();
@@ -132,7 +132,7 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
         // style:text-properties
         $objWriter->startElement('style:text-properties');
         $objWriter->writeAttribute('style:use-window-font-color', 'true');
-        $objWriter->writeAttribute('style:font-name', 'Arial');
+        $objWriter->writeAttribute('style:font-name', PHPWord::DEFAULT_FONT_NAME);
         $objWriter->writeAttribute('fo:font-size', '10pt');
         $objWriter->writeAttribute('fo:language', 'fr');
         $objWriter->writeAttribute('fo:country', 'FR');

@@ -30,6 +30,11 @@ $textrun = $section->createTextRun('pStyle');
 
 $textrun->addText('Each textrun can contain native text, link elements or an image.');
 $textrun->addText(' No break is placed after adding an element.', 'BoldText');
+$textrun->addText(' Both ');
+$textrun->addText('superscript', array('superScript' => true));
+$textrun->addText(' and ');
+$textrun->addText('subscript', array('subScript' => true));
+$textrun->addText(' are also available.');
 $textrun->addText(' All elements are placed inside a paragraph with the optionally given p-Style.', 'ColoredText');
 $textrun->addText(' Sample Link: ');
 $textrun->addLink('http://www.google.com', null, 'NLink');

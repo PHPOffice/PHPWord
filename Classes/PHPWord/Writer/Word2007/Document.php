@@ -140,6 +140,10 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         $borders = $settings->getBorderSize();
 
+        $colsNum = $settings->getColsNum();
+        $colsSpace = $settings->getColsSpace();
+        $breakType = $settings->getBreakType();
+
         $objWriter->startElement('w:sectPr');
 
         foreach ($_headers as &$_header) {
@@ -152,6 +156,12 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         if ($section->hasDifferentFirstPage()) {
             $objWriter->startElement('w:titlePg');
+            $objWriter->endElement();
+        }
+
+        if (!is_null($breakType)) {
+            $objWriter->startElement('w:type');
+            $objWriter->writeAttribute('w:val', $breakType);
             $objWriter->endElement();
         }
 
@@ -236,7 +246,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         }
 
         $objWriter->startElement('w:cols');
-        $objWriter->writeAttribute('w:space', '720');
+        $objWriter->writeAttribute('w:num', $colsNum);
+        $objWriter->writeAttribute('w:space', $colsSpace);
         $objWriter->endElement();
 
 

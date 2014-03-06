@@ -39,6 +39,9 @@ if (!defined('PHPWORD_BASE_PATH')) {
 class PHPWord
 {
 
+    const DEFAULT_FONT_NAME = 'Arial';
+    const DEFAULT_FONT_SIZE = 20;
+
     /**
      * Document properties
      *
@@ -74,8 +77,8 @@ class PHPWord
     public function __construct()
     {
         $this->_properties = new PHPWord_DocumentProperties();
-        $this->_defaultFontName = 'Arial';
-        $this->_defaultFontSize = 20;
+        $this->_defaultFontName = PHPWord::DEFAULT_FONT_NAME;
+        $this->_defaultFontSize = PHPWord::DEFAULT_FONT_SIZE;
     }
 
     /**

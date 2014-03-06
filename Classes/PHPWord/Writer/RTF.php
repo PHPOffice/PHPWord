@@ -191,8 +191,8 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         $pPHPWord = $this->_document;
 
         $arrFonts = array();
-        // Default font : Arial
-        $arrFonts[] = 'Arial';
+        // Default font : PHPWord::DEFAULT_FONT_NAME
+        $arrFonts[] = PHPWord::DEFAULT_FONT_NAME;
         // PHPWord object : $this->_document
 
         // Browse styles
