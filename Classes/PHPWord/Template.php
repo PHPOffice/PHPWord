@@ -153,6 +153,99 @@ class PHPWord_Template
     }
 
     /**
+     * Find the start position of the nearest table row before $offset
+     * 
+     * @param mixed $offset
+     */
+    private function _findRowStart($offset) {
+		$rowStart = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
+		if (!$rowStart) {
+			$rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
+		}
+		if (!$rowStart) {
+			trigger_error("Can not find the start position of the row to clone.");
+			return false;
+		}
+        return $rowStart;
+    }
+
+    /**
+     * Find the end position of the nearest table row after $offset
+     * 
+     * @param mixed $offset
+     */
+    private function _findRowEnd($offset) {
+		$rowEnd = strpos($this->_documentXML, "</w:tr>", $offset) + 7;
+        return $rowEnd;
+    }
+
+    /**
+     * Get a slice of a string
+     * 
+     * @param mixed $offset
+     */
+    private function _getSlice($startPosition, $endPosition = 0) {
+        if (!$endPosition) {
+            $endPosition = strlen($this->_documentXML);
+        }
+        return substr($this->_documentXML, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Clone a table row in a template document
+     * 
+     * @param mixed $search
+     * @param mixed $numberOfClones
+     */
+    public function cloneRow($search, $numberOfClones) {
+        if(substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+            $search = '${'.$search.'}';
+        }
+        		
+        $tagPos = strpos($this->_documentXML, $search);
+		if (!$tagPos) {
+			trigger_error("Can not clone row, template variable not found or variable contains markup.");
+			return false;
+		}
+    
+        $rowStart = $this->_findRowStart($tagPos);
+        $rowEnd   = $this->_findRowEnd($tagPos);
+        $xmlRow   = $this->_getSlice($rowStart, $rowEnd);
+    
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            $extraRowStart  = $rowEnd;
+            $extraRowEnd    = $rowEnd;
+            while(true) {
+                $extraRowStart  = $this->_findRowStart($extraRowEnd + 1);
+                $extraRowEnd    = $this->_findRowEnd($extraRowEnd + 1);
+                
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+                
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow  = $this->_getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                    break;
+                }
+                // This row was a spanned row, update $rowEnd and search for the next row.
+                $rowEnd = $extraRowEnd;
+            } 
+            $xmlRow = $this->_getSlice($rowStart, $rowEnd);
+        }
+    
+        $result = $this->_getSlice(0, $rowStart);
+		for ($i = 1; $i <= $numberOfClones; $i++) {
+            $result .= preg_replace('/\$\{(.*?)\}/','\${\\1#'.$i.'}', $xmlRow);
+		}
+		$result .= $this->_getSlice($rowEnd);
+    
+		$this->_documentXML = $result;
+    }
+
+    /**
      * Save Template
      *
      * @return string
