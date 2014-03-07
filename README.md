@@ -79,7 +79,7 @@ The base length unit in Open Office XML is twip. Twip means "TWentieth of an Inc
 
 You can use PHPWord helper functions to convert inches, centimeters, or points to twips.
 
-```
+```php
 // Paragraph with 6 points space after
 $PHPWord->addParagraphStyle('My Style', array(
     'spaceAfter' => PHPWord_Shared_Font::pointSizeToTwips(6))
