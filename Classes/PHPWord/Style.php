@@ -141,6 +141,16 @@ class PHPWord_Style
     }
 
     /**
+     * Set normal (default) paragraph style
+     *
+     * @param   array   $styles Paragraph style definition
+     */
+    public static function setNormalStyle($styles)
+    {
+        self::addParagraphStyle('Normal', $styles);
+    }
+
+    /**
      * Get all styles
      *
      * @return PHPWord_Style_Font[]
