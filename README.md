@@ -63,10 +63,12 @@ $PHPWord->addFontStyle('myOwnStyle', array('name'=>'Verdana', 'size'=>14, 'color
 $section->addText('Hello world! I am formatted by a user defined style', 'myOwnStyle');
 
 // You can also putthe appended element to local object an call functions like this:
+$fontStyle = new PHPWord_Style_Font();
+$fontStyle->setBold(true);
+$fontStyle->setName('Verdana');
+$fontStyle->setSize(22);
 $myTextElement = $section->addText('Hello World!');
-$myTextElement->setBold();
-$myTextElement->setName('Verdana');
-$myTextElement->setSize(22);
+$myTextElement->setFontStyle($fontStyle);
 
 // At least write the document to webspace:
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
