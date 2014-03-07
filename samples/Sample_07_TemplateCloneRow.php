@@ -3,7 +3,7 @@ require_once '../Classes/PHPWord.php';
 
 $PHPWord = new PHPWord();
 
-$document = $PHPWord->loadTemplate('Sample_03_TemplateCloneRow.docx');
+$document = $PHPWord->loadTemplate('Sample_07_TemplateCloneRow.docx');
 
 // Simple table
 $document->cloneRow('rowValue', 10);
