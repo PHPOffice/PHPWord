@@ -81,6 +81,20 @@ class PHPWord_Style_Paragraph
     private $_hanging;
 
     /**
+     * Parent style
+     *
+     * @var string
+     */
+    private $_basedOn;
+
+    /**
+     * Style for next paragraph
+     *
+     * @var string
+     */
+    private $_next;
+
+    /**
      * New Paragraph Style
      */
     public function __construct()
@@ -92,6 +106,8 @@ class PHPWord_Style_Paragraph
         $this->_tabs = null;
         $this->_indent = null;
         $this->_hanging = null;
+        $this->_basedOn = 'Normal';
+        $this->_next = null;
     }
 
     /**
@@ -232,6 +248,16 @@ class PHPWord_Style_Paragraph
     }
 
     /**
+     * Get hanging
+     *
+     * @return int
+     */
+    public function getHanging()
+    {
+        return $this->_hanging;
+    }
+
+    /**
      * Set hanging
      *
      * @param int $pValue
@@ -244,16 +270,6 @@ class PHPWord_Style_Paragraph
     }
 
     /**
-     * Get hanging
-     *
-     * @return int
-     */
-    public function getHanging()
-    {
-        return $this->_hanging;
-    }
-
-    /**
      * Get tabs
      *
      * @return PHPWord_Style_Tabs
@@ -262,4 +278,49 @@ class PHPWord_Style_Paragraph
     {
         return $this->_tabs;
     }
+
+    /**
+     * Get parent style ID
+     *
+     * @return  string
+     */
+    public function getBasedOn()
+    {
+        return $this->_basedOn;
+    }
+
+    /**
+     * Set parent style ID
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setBasedOn($pValue = 'Normal')
+    {
+        $this->_basedOn = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get style for next paragraph
+     *
+     * @return string
+     */
+    public function getNext()
+    {
+        return $this->_next;
+    }
+
+    /**
+     * Set style for next paragraph
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setNext($pValue = null)
+    {
+        $this->_next = $pValue;
+        return $this;
+    }
+
 }

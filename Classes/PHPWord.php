@@ -199,6 +199,16 @@ class PHPWord
     }
 
     /**
+     * Set default paragraph style definition to styles.xml
+     *
+     * @param   array   $styles Paragraph style definition
+     */
+    public function setDefaultParagraphStyle($styles)
+    {
+        PHPWord_Style::setDefaultParagraphStyle($styles);
+    }
+
+    /**
      * Adds a hyperlink style to styles.xml
      *
      * @param $styleName string

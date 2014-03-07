@@ -39,6 +39,9 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)       GH-48 GH-86       - Section: Multicolumn and section break
 - Feature:  (RomanSyroeshko)  GH-46 GH-47 GH-83 - Template : Ability to apply XSL style sheet to Template
 - QA:       (Progi1984)                         - UnitTests
+- Feature:  (ivanlanin)                         - General: PHPWord_Shared_Font::pointSizeToTwips() converter
+- Feature:  (ivanlanin)                         - Paragraph: Ability to define normal paragraph style with PHPWord::setNormalStyle()
+- Feature:  (ivanlanin)                         - Paragraph: Ability to define parent style (basedOn) and style for following paragraph (next)
 
 Changes in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found

@@ -73,6 +73,26 @@ $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
 
+##### Measurement units
+
+The base length unit in Open Office XML is twip. Twip means "TWentieth of an Inch Point", i.e. 1 twip = 1/1440 inch.
+
+You can use PHPWord helper functions to convert inches, centimeters, or points to twips.
+
+```php
+// Paragraph with 6 points space after
+$PHPWord->addParagraphStyle('My Style', array(
+    'spaceAfter' => PHPWord_Shared_Font::pointSizeToTwips(6))
+);
+
+$section = $PHPWord->createSection();
+$sectionStyle = $section->getSettings();
+// half inch left margin
+$sectionStyle->setMarginLeft(PHPWord_Shared_Font::inchSizeToTwips(.5));
+// 2 cm right margin
+$sectionStyle->setMarginRight(PHPWord_Shared_Font::centimeterSizeToTwips(2));
+```
+
 <a name="sections"></a>
 #### Sections
 
