@@ -199,13 +199,13 @@ class PHPWord
     }
 
     /**
-     * Set normal paragraph style definition to styles.xml
+     * Set default paragraph style definition to styles.xml
      *
      * @param   array   $styles Paragraph style definition
      */
-    public function setNormalStyle($styles)
+    public function setDefaultParagraphStyle($styles)
     {
-        PHPWord_Style::setNormalStyle($styles);
+        PHPWord_Style::setDefaultParagraphStyle($styles);
     }
 
     /**

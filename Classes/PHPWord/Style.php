@@ -141,11 +141,11 @@ class PHPWord_Style
     }
 
     /**
-     * Set normal (default) paragraph style
+     * Set default paragraph style
      *
      * @param   array   $styles Paragraph style definition
      */
-    public static function setNormalStyle($styles)
+    public static function setDefaultParagraphStyle($styles)
     {
         self::addParagraphStyle('Normal', $styles);
     }
