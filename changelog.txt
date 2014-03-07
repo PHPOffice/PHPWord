@@ -37,6 +37,7 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)       GH-48 GH-86       - Font: Superscript and subscript
 - Feature:  (ivanlanin)       GH-48 GH-86       - Paragraph: Hanging paragraph
 - Feature:  (ivanlanin)       GH-48 GH-86       - Section: Multicolumn and section break
+- Feature:  (RomanSyroeshko)  GH-46 GH-47 GH-83 - Template : Ability to apply XSL style sheet to Template
 - QA:       (Progi1984)                         - UnitTests
 - Feature:  (ivanlanin)                         - General: PHPWord_Shared_Font::pointSizeToTwips() converter
 - Feature:  (ivanlanin)                         - Paragraph: Ability to define normal paragraph style with PHPWord::setNormalStyle()
