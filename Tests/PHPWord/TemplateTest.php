@@ -53,7 +53,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             throw new \Exception('Could not close zip file "' . $expectedDocument . '".');
         }
         
-        $this->assertXmlStringEqualsXmlString(expectedXml, actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 
     /**
