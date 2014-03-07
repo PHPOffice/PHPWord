@@ -43,6 +43,7 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)       GH-87             - Paragraph: Ability to define normal paragraph style with PHPWord::setNormalStyle()
 - Feature:  (ivanlanin)       GH-87             - Paragraph: Ability to define parent style (basedOn) and style for following paragraph (next)
 - Feature:  (jeroenmoors)     GH-44 GH-88       - Clone table rows on the fly when using a template document
+- Feature:  (deds)            GH-16             - Initial addition of basic footnote support
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

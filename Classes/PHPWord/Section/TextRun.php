@@ -131,6 +131,20 @@ class PHPWord_Section_TextRun
     }
 
     /**
+     * Create a new Footnote Element
+     *
+     * @param string $text
+     * @return PHPWord_Section_Footnote
+     */
+    public function createFootnote($styleParagraph = null) {
+        $footnote = new PHPWord_Section_Footnote($styleParagraph);
+        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote->setReferenceId($refID);
+        $this->_elementCollection[] = $footnote;
+        return $footnote;
+    }
+
+    /**
      * Get TextRun content
      *
      * @return string

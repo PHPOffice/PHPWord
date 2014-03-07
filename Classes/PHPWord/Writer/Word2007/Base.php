@@ -108,6 +108,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $this->_writeLink($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Image) {
                     $this->_writeImage($objWriter, $element, true);
+                } elseif($element instanceof PHPWord_Section_Footnote) {
+                    $this->_writeFootnoteReference($objWriter, $element, true);
                 }
             }
         }
@@ -826,5 +828,57 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
 
         $objWriter->endElement();
+    }
+
+    protected function _writeFootnote(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote) {
+        $objWriter->startElement('w:footnote');
+        $objWriter->writeAttribute('w:id', $footnote->getReferenceId());
+
+        $styleParagraph = $footnote->getParagraphStyle();
+        $SpIsObject = ($styleParagraph instanceof PHPWord_Style_Paragraph) ? true : false;
+
+        $objWriter->startElement('w:p');
+
+        if($SpIsObject) {
+            $this->_writeParagraphStyle($objWriter, $styleParagraph);
+        } elseif(!$SpIsObject && !is_null($styleParagraph)) {
+            $objWriter->startElement('w:pPr');
+              $objWriter->startElement('w:pStyle');
+                $objWriter->writeAttribute('w:val', $styleParagraph);
+              $objWriter->endElement();
+            $objWriter->endElement();
+        }
+
+        $elements = $footnote->getElements();
+        if(count($elements) > 0) {
+            foreach($elements as $element) {
+                if($element instanceof PHPWord_Section_Text) {
+                    $this->_writeText($objWriter, $element, true);
+                } elseif($element instanceof PHPWord_Section_Link) {
+                    $this->_writeLink($objWriter, $element, true);
+                }
+            }
+        }
+
+        $objWriter->endElement(); // w:p
+        $objWriter->endElement(); // w:footnote
+    }
+
+    protected function _writeFootnoteReference(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote, $withoutP = false) {
+        if (!$withoutP) {
+            $objWriter->startElement('w:p');
+        }
+
+        $objWriter->startElement('w:r');
+
+        $objWriter->startElement('w:footnoteReference');
+        $objWriter->writeAttribute('w:id', $footnote->getReferenceId());
+        $objWriter->endElement(); // w:footnoteReference
+
+        $objWriter->endElement(); // w:r
+
+        if (!$withoutP) {
+            $objWriter->endElement(); // w:p
+        }
     }
 }
