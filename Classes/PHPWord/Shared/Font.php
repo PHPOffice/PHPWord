@@ -65,7 +65,7 @@ class PHPWord_Shared_Font
 
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return ($sizeInCm * 565.217);
+        return ($sizeInCm * 11906) / 20.99;
     }
 
     public static function inchSizeToTwips($sizeInInch = 1)

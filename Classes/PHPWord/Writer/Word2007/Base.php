@@ -320,6 +320,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $fgColor = $style->getFgColor();
         $striketrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
+        $superscript = $style->getSuperScript();
+        $subscript = $style->getSubScript();
 
         $objWriter->startElement('w:rPr');
 
@@ -352,6 +354,20 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         // Bold
         if ($bold) {
             $objWriter->writeElement('w:b', null);
+        }
+
+        // Superscript
+        if($superscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', 'superscript');
+            $objWriter->endElement();
+        }
+
+        // Subscript
+        if($subscript) {
+            $objWriter->startElement('w:vertAlign');
+            $objWriter->writeAttribute('w:val', 'subscript');
+            $objWriter->endElement();
         }
 
         // Italic
