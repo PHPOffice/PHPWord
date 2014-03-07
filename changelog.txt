@@ -38,6 +38,7 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)       GH-48 GH-86       - Paragraph: Hanging paragraph
 - Feature:  (ivanlanin)       GH-48 GH-86       - Section: Multicolumn and section break
 - QA:       (Progi1984)                         - UnitTests
+- Feature:  (ivanlanin)                         - General: PHPWord_Shared_Font::pointSizeToTwips converter
 
 Changes in branch for release 0.7.0 :
 - Bugfix:   (RomanSyroeshko)  GH-32             - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found
