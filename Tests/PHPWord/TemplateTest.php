@@ -14,7 +14,46 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanBeApplied()
     {
-        // TODO: implement after merge of the issue https://github.com/PHPOffice/PHPWord/issues/56
+        $template = new PHPWord_Template(
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
+            )
+        );
+        
+        $xslDOMDocument = new \DOMDocument();
+        $xslDOMDocument->load(
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'remove_tables_by_needle.xsl')
+            )
+        );
+        
+        foreach (array('${employee.', '${scoreboard.') as $needle) {
+            $template->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
+        }
+        
+        $actualDocument = $template->save();
+        $expectedDocument = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
+        );
+        
+        $actualZip = new ZipArchive();
+        $actualZip->open($actualDocument);
+        $actualXml = $zip->getFromName('word/document.xml');
+        if ($actualZip->close() === false) {
+            throw new \Exception('Could not close zip file "' . $actualDocument . '".');
+        }
+                
+        $expectedZip = new ZipArchive();
+        $expectedZip->open($expectedDocument);
+        $expectedXml = $zip->getFromName('word/document.xml');
+        if ($expectedZip->close() === false) {
+            throw new \Exception('Could not close zip file "' . $expectedDocument . '".');
+        }
+        
+        $this->assertXmlStringEqualsXmlString(expectedXml, actualXml);
     }
 
     /**
@@ -26,14 +65,18 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
         $template = new PHPWord_Template(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx'))
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx')
+            )
         );
 
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
+            )
         );
 
         /*
@@ -52,14 +95,18 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
         $template = new PHPWord_Template(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'corrupted_main_document_part.docx'))
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'corrupted_main_document_part.docx')
+            )
         );
 
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
-            \join(\DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl'))
+            \join(
+                \DIRECTORY_SEPARATOR,
+                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
+            )
         );
 
         /*
