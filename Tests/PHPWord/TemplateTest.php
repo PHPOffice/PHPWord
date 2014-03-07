@@ -41,14 +41,14 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
         
         $actualZip = new \ZipArchive();
         $actualZip->open($actualDocument);
-        $actualXml = $zip->getFromName('word/document.xml');
+        $actualXml = $actualZip->getFromName('word/document.xml');
         if ($actualZip->close() === false) {
             throw new \Exception('Could not close zip file "' . $actualDocument . '".');
         }
                 
         $expectedZip = new \ZipArchive();
         $expectedZip->open($expectedDocument);
-        $expectedXml = $zip->getFromName('word/document.xml');
+        $expectedXml = $expectedZip->getFromName('word/document.xml');
         if ($expectedZip->close() === false) {
             throw new \Exception('Could not close zip file "' . $expectedDocument . '".');
         }
