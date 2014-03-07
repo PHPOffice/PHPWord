@@ -51,4 +51,4 @@ $document->setValue('userFirstName#3', 'Michael');
 $document->setValue('userName#3', 'Ray');
 $document->setValue('userPhone#3', '+1 428 889 775');
 
-$document->save('Sample_03_TemplateCloneRow_result.docx');
+$document->saveAs('Sample_07_TemplateCloneRow_result.docx');
