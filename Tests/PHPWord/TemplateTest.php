@@ -39,14 +39,14 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
         );
         
-        $actualZip = new ZipArchive();
+        $actualZip = new \ZipArchive();
         $actualZip->open($actualDocument);
         $actualXml = $zip->getFromName('word/document.xml');
         if ($actualZip->close() === false) {
             throw new \Exception('Could not close zip file "' . $actualDocument . '".');
         }
                 
-        $expectedZip = new ZipArchive();
+        $expectedZip = new \ZipArchive();
         $expectedZip->open($expectedDocument);
         $expectedXml = $zip->getFromName('word/document.xml');
         if ($expectedZip->close() === false) {
