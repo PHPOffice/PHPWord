@@ -40,7 +40,8 @@ class PHPWord
 {
 
     const DEFAULT_FONT_NAME = 'Arial';
-    const DEFAULT_FONT_SIZE = 20;
+    const DEFAULT_FONT_SIZE = 10;
+    const DEFAULT_FONT_COLOR = '000000';
 
     /**
      * Document properties

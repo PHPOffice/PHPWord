@@ -80,17 +80,82 @@ class PHPWord_Style_Font
      */
     private $_paragraphStyle;
 
-    private $_size;
+    /**
+     * Font name
+     *
+     * @var int|float
+     */
     private $_name;
+
+    /**
+     * Font size
+     *
+     * @var int|float
+     */
+    private $_size;
+
+    /**
+     * Bold
+     *
+     * @var bool
+     */
     private $_bold;
+
+    /**
+     * Italics
+     *
+     * @var bool
+     */
     private $_italic;
+
+    /**
+     * Superscript
+     *
+     * @var bool
+     */
     private $_superScript;
+
+    /**
+     * Subscript
+     *
+     * @var bool
+     */
     private $_subScript;
+
+    /**
+     * Underline mode
+     *
+     * @var string
+     */
     private $_underline;
+
+    /**
+     * Strikethrough
+     *
+     * @var bool
+     */
     private $_strikethrough;
+
+    /**
+     * Font color
+     *
+     * @var string
+     */
     private $_color;
+
+    /**
+     * Foreground/highlight
+     *
+     * @var string
+     */
     private $_fgColor;
 
+    /**
+     * New font style
+     *
+     * @param   string  $type Type of font
+     * @param   array   $styleParagraph Paragraph styles definition
+     */
     public function __construct($type = 'text', $styleParagraph = null)
     {
         $this->_type = $type;
@@ -102,7 +167,7 @@ class PHPWord_Style_Font
         $this->_subScript = false;
         $this->_underline = PHPWord_Style_Font::UNDERLINE_NONE;
         $this->_strikethrough = false;
-        $this->_color = '000000';
+        $this->_color = PHPWord::DEFAULT_FONT_COLOR;
         $this->_fgColor = null;
 
         if (!is_null($styleParagraph)) {
@@ -119,78 +184,139 @@ class PHPWord_Style_Font
         }
     }
 
+    /**
+     * Set style value
+     *
+     * @param   string  $key
+     * @param   mixed   $value
+     */
+    public function setStyleValue($key, $value)
+    {
+        $method = 'set' . ucwords(substr($key, 1));
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+        }
+    }
+
+    /**
+     * Get font name
+     *
+     * @return  bool
+     */
     public function getName()
     {
         return $this->_name;
     }
 
-    public function setStyleValue($key, $value)
-    {
-        if ($key == '_size') {
-            $value *= 2;
-        }
-        $this->$key = $value;
-    }
-
+    /**
+     * Set font name
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
     {
-        if ($pValue == '') {
+        if (is_null($pValue) || $pValue == '') {
             $pValue = PHPWord::DEFAULT_FONT_NAME;
         }
         $this->_name = $pValue;
         return $this;
     }
 
+    /**
+     * Get font size
+     *
+     * @return  int|float
+     */
     public function getSize()
     {
         return $this->_size;
     }
 
+    /**
+     * Set font size
+     *
+     * @param   int|float   $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
     {
-        if ($pValue == '') {
+        if (!is_numeric($pValue)) {
             $pValue = PHPWord::DEFAULT_FONT_SIZE;
         }
-        $this->_size = ($pValue * 2);
+        $this->_size = $pValue;
         return $this;
     }
 
+    /**
+     * Get bold
+     *
+     * @return  bool
+     */
     public function getBold()
     {
         return $this->_bold;
     }
 
+    /**
+     * Set bold
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setBold($pValue = false)
     {
-        if ($pValue == '') {
+        if (!is_bool($pValue)) {
             $pValue = false;
         }
         $this->_bold = $pValue;
         return $this;
     }
 
+    /**
+     * Get italics
+     *
+     * @return  bool
+     */
     public function getItalic()
     {
         return $this->_italic;
     }
 
+    /**
+     * Set italics
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setItalic($pValue = false)
     {
-        if ($pValue == '') {
+        if (!is_bool($pValue)) {
             $pValue = false;
         }
         $this->_italic = $pValue;
         return $this;
     }
 
+    /**
+     * Get superscript
+     *
+     * @return  bool
+     */
     public function getSuperScript()
     {
         return $this->_superScript;
     }
 
+    /**
+     * Set superscript
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setSuperScript($pValue = false)
     {
-        if ($pValue == '') {
+        if (!is_bool($pValue)) {
             $pValue = false;
         }
         $this->_superScript = $pValue;
@@ -198,14 +324,25 @@ class PHPWord_Style_Font
         return $this;
     }
 
+    /**
+     * Get superscript
+     *
+     * @return  bool
+     */
     public function getSubScript()
     {
         return $this->_subScript;
     }
 
+    /**
+     * Set subscript
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setSubScript($pValue = false)
     {
-        if ($pValue == '') {
+        if (!is_bool($pValue)) {
             $pValue = false;
         }
         $this->_subScript = $pValue;
@@ -213,11 +350,22 @@ class PHPWord_Style_Font
         return $this;
     }
 
+    /**
+     * Get underline
+     *
+     * @return  string
+     */
     public function getUnderline()
     {
         return $this->_underline;
     }
 
+    /**
+     * Set underline
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setUnderline($pValue = PHPWord_Style_Font::UNDERLINE_NONE)
     {
         if ($pValue == '') {
@@ -227,49 +375,90 @@ class PHPWord_Style_Font
         return $this;
     }
 
+    /**
+     * Get strikethrough
+     *
+     * @return  bool
+     */
     public function getStrikethrough()
     {
         return $this->_strikethrough;
     }
 
+    /**
+     * Set strikethrough
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setStrikethrough($pValue = false)
     {
-        if ($pValue == '') {
+        if (!is_bool($pValue)) {
             $pValue = false;
         }
         $this->_strikethrough = $pValue;
         return $this;
     }
 
+    /**
+     * Get font color
+     *
+     * @return  string
+     */
     public function getColor()
     {
         return $this->_color;
     }
 
-    public function setColor($pValue = '000000')
+    /**
+     * Set font color
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Font
+     */
+    public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR)
     {
+        if (is_null($pValue) || $pValue == '') {
+            $pValue = PHPWord::DEFAULT_FONT_COLOR;
+        }
         $this->_color = $pValue;
         return $this;
     }
 
+    /**
+     * Get foreground/highlight color
+     *
+     * @return  bool
+     */
     public function getFgColor()
     {
         return $this->_fgColor;
     }
 
+    /**
+     * Set foreground/highlight color
+     *
+     * @param   string  $pValue
+     * @return  PHPWord_Style_Font
+     */
     public function setFgColor($pValue = null)
     {
         $this->_fgColor = $pValue;
         return $this;
     }
 
+    /**
+     * Get style type
+     *
+     * @return string
+     */
     public function getStyleType()
     {
         return $this->_type;
     }
 
     /**
-     * Get Paragraph style
+     * Get paragraph style
      *
      * @return PHPWord_Style_Paragraph
      */
