@@ -77,6 +77,36 @@ class PHPWord_Writer_Word2007_BaseTest extends \PHPUnit_Framework_TestCase {
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
 
         $this->assertEquals(5, $element->getAttribute('w:val'));
+  }
+
+    /**
+     * Test write paragraph pagination
+     */
+    public function testWriteParagraphStyle_Pagination()
+    {
+        // Create the doc
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+        $attributes = array(
+            'widowControl' => false,
+            'keepNext' => true,
+            'keepLines' => true,
+            'pageBreakBefore' => true,
+        );
+        foreach ($attributes as $attribute => $value) {
+            $section->addText('Test', null, array($attribute => $value));
+        }
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        // Test the attributes
+        $i = 0;
+        foreach ($attributes as $key => $value) {
+            $i++;
+            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$key}";
+            $element = $doc->getElement($path);
+            $expected = $value ? 1 : 0;
+            $this->assertEquals($expected, $element->getAttribute('w:val'));
+        }
     }
+
 }
- 

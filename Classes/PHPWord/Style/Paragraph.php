@@ -95,6 +95,34 @@ class PHPWord_Style_Paragraph
     private $_next;
 
     /**
+     * Allow first/last line to display on a separate page
+     *
+     * @var bool
+     */
+    private $_widowControl;
+
+    /**
+     * Keep paragraph with next paragraph
+     *
+     * @var bool
+     */
+    private $_keepNext;
+
+    /**
+     * Keep all lines on one page
+     *
+     * @var bool
+     */
+    private $_keepLines;
+
+    /**
+     * Start paragraph on next page
+     *
+     * @var bool
+     */
+    private $_pageBreakBefore;
+
+    /**
      * New Paragraph Style
      */
     public function __construct()
@@ -108,29 +136,30 @@ class PHPWord_Style_Paragraph
         $this->_hanging = null;
         $this->_basedOn = 'Normal';
         $this->_next = null;
+        $this->_widowControl = true;
+        $this->_keepNext = false;
+        $this->_keepLines = false;
+        $this->_pageBreakBefore = false;
     }
 
     /**
      * Set Style value
      *
-     * @param string $key
-     * @param mixed $value
+     * @param   string  $key
+     * @param   mixed   $value
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_indent') {
-            $value = $value * 720; // 720 twips per indent
-        }
-        if ($key == '_hanging') {
+        if ($key == '_indent' || $key == '_hanging') {
             $value = $value * 720;
         }
         if ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
         }
-        if ($key === '_tabs') {
-            $value = new PHPWord_Style_Tabs($value);
+        $method = 'set' . substr($key, 1);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
         }
-        $this->$key = $value;
     }
 
     /**
@@ -279,6 +308,20 @@ class PHPWord_Style_Paragraph
         return $this->_tabs;
     }
 
+    /*
+     * Set tabs
+     *
+     * @param   array   $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setTabs($pValue = null)
+    {
+        if (is_array($pValue)) {
+            $this->_tabs = new PHPWord_Style_Tabs($pValue);
+        }
+        return $this;
+    }
+
     /**
      * Get parent style ID
      *
@@ -320,6 +363,106 @@ class PHPWord_Style_Paragraph
     public function setNext($pValue = null)
     {
         $this->_next = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get allow first/last line to display on a separate page setting
+     *
+     * @return  bool
+     */
+    public function getWidowControl()
+    {
+        return $this->_widowControl;
+    }
+
+    /**
+     * Set keep paragraph with next paragraph setting
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setWidowControl($pValue = true)
+    {
+        if (!is_bool($pValue)) {
+            $pValue = true;
+        }
+        $this->_widowControl = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get keep paragraph with next paragraph setting
+     *
+     * @return  bool
+     */
+    public function getKeepNext()
+    {
+        return $this->_keepNext;
+    }
+
+    /**
+     * Set keep paragraph with next paragraph setting
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setKeepNext($pValue = false)
+    {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
+        $this->_keepNext = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get keep all lines on one page setting
+     *
+     * @return  bool
+     */
+    public function getKeepLines()
+    {
+        return $this->_keepLines;
+    }
+
+    /**
+     * Set keep all lines on one page setting
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setKeepLines($pValue = false)
+    {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
+        $this->_keepLines = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get start paragraph on next page setting
+     *
+     * @return bool
+     */
+    public function getPageBreakBefore()
+    {
+        return $this->_pageBreakBefore;
+    }
+
+    /**
+     * Set start paragraph on next page setting
+     *
+     * @param   bool    $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setPageBreakBefore($pValue = false)
+    {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
+        $this->_pageBreakBefore = $pValue;
         return $this;
     }
 
