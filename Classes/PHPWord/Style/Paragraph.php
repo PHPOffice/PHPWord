@@ -34,7 +34,7 @@ class PHPWord_Style_Paragraph
 {
     const LINE_HEIGHT = 240;
 
-    /*
+    /**
      * Text line height
      *
      * @var int
@@ -131,6 +131,24 @@ class PHPWord_Style_Paragraph
      * @var bool
      */
     private $_pageBreakBefore = false;
+
+    /**
+     * @param array $style
+     * @return $this
+     */
+    public function setArrayStyle(array $style = array())
+    {
+        foreach ($style as $key => $value) {
+            if ($key === 'line-height') {
+                null;
+            } elseif (substr($key, 0, 1) !== '_') {
+                $key = '_' . $key;
+            }
+            $this->setStyleValue($key, $value);
+        }
+
+        return $this;
+    }
 
     /**
      * Set Style value
@@ -482,7 +500,7 @@ class PHPWord_Style_Paragraph
     }
 
     /**
-     * @return int
+     * @return int|float
      */
     public function getLineHeight()
     {

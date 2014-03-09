@@ -89,8 +89,10 @@ class PHPWord_Section_Footer_PreserveText
             $this->_styleParagraph = $styleParagraph;
         }
 
-        $pattern = '/({.*?})/';
-        $this->_text = preg_split($pattern, $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        if (isset($matches[0])) {
+            $this->_text = $matches[0];
+        }
 
         return $this;
     }
