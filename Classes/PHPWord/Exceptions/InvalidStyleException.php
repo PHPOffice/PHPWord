@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Exceptions;
+namespace PhpOffice\PhpWord\Exceptions;
 
 use InvalidArgumentException;
 

@@ -25,8 +25,8 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase
         $declared = get_declared_classes();
         $declaredCount = count($declared);
         Autoloader::autoload('Foo');
-        $this->assertEquals($declaredCount, count(get_declared_classes()), 'PHPWord\\Autoloader::autoload() is trying to load classes outside of the PHPWord namespace');
-        Autoloader::autoload('PHPWord\\Exceptions\\InvalidStyleException'); // TODO change this class to the main PHPWord class when it is namespaced
-        $this->assertTrue(in_array('PHPWord\\Exceptions\\InvalidStyleException', get_declared_classes()), 'PHPWord\\Autoloader::autoload() failed to autoload the PHPWord\\Exceptions\\InvalidStyleException class');
+        $this->assertEquals($declaredCount, count(get_declared_classes()), 'PhpOffice\\PhpWord\\Autoloader::autoload() is trying to load classes outside of the PhpOffice\\PhpWord namespace');
+        Autoloader::autoload('PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException'); // TODO change this class to the main PHPWord class when it is namespaced
+        $this->assertTrue(in_array('PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException', get_declared_classes()), 'PhpOffice\\PhpWord\\Autoloader::autoload() failed to autoload the PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException class');
     }
 }

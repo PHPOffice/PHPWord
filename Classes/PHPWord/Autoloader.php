@@ -36,7 +36,7 @@ if (!defined('PHPWORD_BASE_PATH')) {
  */
 class PHPWord_Autoloader
 {
-    const PREFIX = 'PHPWord';
+    const PREFIX = 'PhpOffice\PhpWord';
 
     /**
      * Register the autoloader
