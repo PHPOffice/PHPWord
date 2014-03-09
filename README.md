@@ -38,9 +38,10 @@ the following lines to your ``composer.json``.
 2. [Sections](#sections)
     * [Section settings](#section-settings)
     * [Section page numbering](#section-page-numbering)
-3. [Tables](#tables)
+3. [Texts](#texts)
+4. [Tables](#tables)
     * [Cell Style](#tables-cell-style)
-4. [Images](#images)
+5. [Images](#images)
 
 <a name="basic-usage"></a>
 #### Basic usage
@@ -158,6 +159,27 @@ $section = $PHPWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
 
+<a name="texts"></a>
+#### Texts
+
+Text can be added by using `addText` and `createTextRun` method. `addText` is used for  creating simple paragraphs that only contain texts with the same style. `createTextRun` is used for creating complex paragraphs that contain text with different style (some bold, other italics, etc) or other elements, e.g. images or links.
+
+`addText` sample:
+
+```php
+$fontStyle = array('name' => 'Times New Roman', 'size' => 9);
+$paragraphStyle = array('align' => 'both');
+$section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
+```
+
+`createTextRun` sample:
+
+```php
+$textrun = $section->createTextRun();
+$textrun->addText('I am bold', array('bold' => true)); 
+$textrun->addText('I am italic, array('italic' => true));
+$textrun->addText('I am colored, array('color' => 'AACC00'));
+```
 <a name="tables"></a>
 #### Tables
 
