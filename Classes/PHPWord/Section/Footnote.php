@@ -62,7 +62,7 @@ class PHPWord_Section_Footnote {
   public function __construct($styleParagraph = null) {
     $this->_elementCollection = array();
 
-// Set paragraph style
+    // Set paragraph style
     if(is_array($styleParagraph)) {
       $this->_styleParagraph = new PHPWord_Style_Paragraph();
 
@@ -113,7 +113,7 @@ class PHPWord_Section_Footnote {
   /**
    * Get Footnote content
    *
-   * @return string
+   * @return array
    */
   public function getElements() {
     return $this->_elementCollection;

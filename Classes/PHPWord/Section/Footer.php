@@ -196,6 +196,7 @@ class PHPWord_Section_Footer
 
     /**
      * Get all Footer Elements
+     * @return array
      */
     public function getElements()
     {

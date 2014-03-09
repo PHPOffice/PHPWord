@@ -150,7 +150,6 @@ class PHPWord_Section_Settings
      */
     private $_borderBottomColor;
 
-
     /**
      * Page Numbering Start
      *
@@ -653,7 +652,7 @@ class PHPWord_Section_Settings
     /**
      * Set Section Columns Count
      *
-     * @param in $pValue
+     * @param int $pValue
      */
     public function setColsNum($pValue = '') {
         $this->_colsNum = $pValue;

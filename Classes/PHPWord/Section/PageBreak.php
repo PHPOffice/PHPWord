@@ -36,6 +36,5 @@ class PHPWord_Section_PageBreak
      */
     public function __construct()
     {
-        // nothing
     }
 }
