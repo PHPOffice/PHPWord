@@ -11,9 +11,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $oText = new PHPWord_Section_Text();
 
         $this->assertInstanceOf('PHPWord_Section_Text', $oText);
-        $this->assertEquals($oText->getText(), null);
-        $this->assertEquals($oText->getFontStyle(), null);
-        $this->assertEquals($oText->getParagraphStyle(), null);
+        $this->assertEquals(null, $oText->getText());
+        $this->assertInstanceOf('PHPWord_Style_Font', $oText->getFontStyle());
+        $this->assertInstanceOf('PHPWord_Style_Paragraph', $oText->getParagraphStyle());
     }
 
     public function testText()

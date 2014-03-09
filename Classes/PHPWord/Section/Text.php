@@ -51,7 +51,6 @@ class PHPWord_Section_Text
      */
     private $paragraphStyle;
 
-
     /**
      * Create a new Text Element
      *
@@ -72,19 +71,20 @@ class PHPWord_Section_Text
      * @param null|array|\PHPWord_Style_Font $style
      * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
      * @return PHPWord_Style_Font
-     * @throws \Exception
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
         if ($style instanceof PHPWord_Style_Font) {
             $this->fontStyle = $style;
+            $this->setParagraphStyle($paragraphStyle);
         } elseif (is_array($style)) {
             $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
             $this->fontStyle->setArrayStyle($style);
         } elseif (null === $style) {
             $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
         } else {
-            throw new Exception('Expected array or PHPWord_Style_Font');
+            $this->fontStyle = $style;
+            $this->setParagraphStyle($paragraphStyle);
         }
         return $this->fontStyle;
     }
@@ -104,7 +104,6 @@ class PHPWord_Section_Text
      *
      * @param null|array|\PHPWord_Style_Paragraph $style
      * @return null|\PHPWord_Style_Paragraph
-     * @throws \Exception
      */
     public function setParagraphStyle($style = null)
     {
@@ -116,7 +115,7 @@ class PHPWord_Section_Text
         } elseif (null === $style) {
             $this->paragraphStyle = new PHPWord_Style_Paragraph;
         } else {
-            throw new Exception('Expected array or PHPWord_Style_Paragraph');
+            $this->paragraphStyle = $style;
         }
         return $this->paragraphStyle;
     }
