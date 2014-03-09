@@ -198,11 +198,6 @@ class PHPWord_Style_Cell
         $this->_bgColor = $pValue;
     }
 
-    public function setHeight($pValue = null)
-    {
-        $this->_height = $pValue;
-    }
-
     public function setBorderSize($pValue = null)
     {
         $this->_borderTopSize = $pValue;
