@@ -77,4 +77,16 @@ class PHPWord_Shared_Font
     {
         return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
     }
+
+    /**
+     * Calculate twip based on point size, used mainly for paragraph spacing
+     *
+     * @param   int|float   $sizeInPoint Size in point
+     * @return  int|float   Size (in twips)
+     */
+    public static function pointSizeToTwips($sizeInPoint = 1)
+    {
+        return ($sizeInPoint * 20);
+    }
+
 }

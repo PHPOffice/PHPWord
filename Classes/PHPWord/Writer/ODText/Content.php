@@ -115,7 +115,7 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                             $numPStyles++;
 
                             $pPHPWord->addParagraphStyle('P' . $numPStyles, array());
-                            $element->setParagraph('P' . $numPStyles);
+                            $element->setParagraphStyle('P' . $numPStyles);
                         }
                     }
                 }
@@ -145,10 +145,10 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                     }
                 }
             }
-            if (!in_array('Arial', $arrFonts)) {
+            if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
                 $objWriter->startElement('style:font-face');
-                $objWriter->writeAttribute('style:name', 'Arial');
-                $objWriter->writeAttribute('svg:font-family', 'Arial');
+                $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+                $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
                 $objWriter->endElement();
             }
         }
@@ -336,6 +336,17 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     }
 
     private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
+    {
+    }
+
+    /**
+     * Dummy function just to make all samples produce ODT
+     *
+     * @todo Create the real function
+     */
+    private function _writeSection(
+        PHPWord_Shared_XMLWriter $objWriter = null,
+        PHPWord_Section $section)
     {
     }
 }

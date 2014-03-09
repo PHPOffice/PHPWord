@@ -94,6 +94,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
                         $this->_writeObject($objWriter, $element);
                     } elseif ($element instanceof PHPWord_TOC) {
                         $this->_writeTOC($objWriter);
+                    } elseif($element instanceof PHPWord_Section_Footnote) {
+                        $this->_writeFootnoteReference($objWriter, $element);
                     }
                 }
 
@@ -135,7 +137,14 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $marginRight = $settings->getMarginRight();
         $marginBottom = $settings->getMarginBottom();
 
+        $headerHeight = $settings->getHeaderHeight();
+        $footerHeight = $settings->getFooterHeight();
+
         $borders = $settings->getBorderSize();
+
+        $colsNum = $settings->getColsNum();
+        $colsSpace = $settings->getColsSpace();
+        $breakType = $settings->getBreakType();
 
         $objWriter->startElement('w:sectPr');
 
@@ -149,6 +158,12 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
         if ($section->hasDifferentFirstPage()) {
             $objWriter->startElement('w:titlePg');
+            $objWriter->endElement();
+        }
+
+        if (!is_null($breakType)) {
+            $objWriter->startElement('w:type');
+            $objWriter->writeAttribute('w:val', $breakType);
             $objWriter->endElement();
         }
 
@@ -175,8 +190,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->writeAttribute('w:right', $marginRight);
         $objWriter->writeAttribute('w:bottom', $marginBottom);
         $objWriter->writeAttribute('w:left', $marginLeft);
-        $objWriter->writeAttribute('w:header', '720');
-        $objWriter->writeAttribute('w:footer', '720');
+        $objWriter->writeAttribute('w:header', $headerHeight);
+        $objWriter->writeAttribute('w:footer', $footerHeight);
         $objWriter->writeAttribute('w:gutter', '0');
         $objWriter->endElement();
 
@@ -233,7 +248,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         }
 
         $objWriter->startElement('w:cols');
-        $objWriter->writeAttribute('w:space', '720');
+        $objWriter->writeAttribute('w:num', $colsNum);
+        $objWriter->writeAttribute('w:space', $colsSpace);
         $objWriter->endElement();
 
 

@@ -176,7 +176,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         // Point size (in half-points) above which to kern character pairs
         $sRTFContent .= '\kerning1';
         // Set the font size in half-points
-        $sRTFContent .= '\fs20';
+        $sRTFContent .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
         // Body
         $sRTFContent .= $this->_getDataContent();
 
@@ -191,8 +191,8 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         $pPHPWord = $this->_document;
 
         $arrFonts = array();
-        // Default font : Arial
-        $arrFonts[] = 'Arial';
+        // Default font : PHPWord::DEFAULT_FONT_NAME
+        $arrFonts[] = PHPWord::DEFAULT_FONT_NAME;
         // PHPWord object : $this->_document
 
         // Browse styles
@@ -252,10 +252,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 if ($style instanceof PHPWord_Style_Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (in_array($color, $arrColors) == FALSE && $color != '000000' && !empty($color)) {
+                    if (in_array($color, $arrColors) == FALSE && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
                         $arrColors[] = $color;
                     }
-                    if (in_array($fgcolor, $arrColors) == FALSE && $fgcolor != '000000' && !empty($fgcolor)) {
+                    if (in_array($fgcolor, $arrColors) == FALSE && $fgcolor != PHPWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
                         $arrColors[] = $fgcolor;
                     }
                 }
@@ -400,7 +400,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $sRTFText .= '\i';
             }
             if ($styleFont->getSize()) {
-                $sRTFText .= '\fs' . $styleFont->getSize();
+                $sRTFText .= '\fs' . ($styleFont->getSize() * 2);
             }
         }
         if ($this->_lastParagraphStyle != '' || $styleFont) {
@@ -419,7 +419,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $sRTFText .= '\i0';
             }
             if ($styleFont->getSize()) {
-                $sRTFText .= '\fs20';
+                $sRTFText .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
             }
         }
 

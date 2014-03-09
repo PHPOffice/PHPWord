@@ -20,68 +20,70 @@
  *
  * @category   PHPWord
  * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @copyright  Copyright (c) 2013 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
 
 /**
- * Class PHPWord_Section_Table
+ * PHPWord_Section_Table_Row
  */
-class PHPWord_Section_Table
+class PHPWord_Section_Table_Row
 {
 
     /**
-     * Table style
+     * Row height
      *
-     * @var PHPWord_Style_Table
+     * @var int
+     */
+    private $_height = null;
+
+    /**
+     * Row style
+     *
+     * @var PHPWord_Style_Row
      */
     private $_style;
 
     /**
-     * Table rows
+     * Row cells
      *
      * @var array
      */
-    private $_rows = array();
+    private $_cells = array();
 
     /**
      * Table holder
      *
      * @var string
      */
-    private $_insideOf = null;
+    private $_insideOf;
 
     /**
-     * Table holder count
-     *
-     * @var array
-     */
-    private $_pCount;
-
-    /**
-     * Table width
+     * Section/Header/Footer count
      *
      * @var int
      */
-    private $_width = null;
+    private $_pCount;
 
 
     /**
-     * Create a new table
+     * Create a new table row
      *
      * @param string $insideOf
      * @param int $pCount
+     * @param int $height
      * @param mixed $style
      */
-    public function __construct($insideOf, $pCount, $style = null)
+    public function __construct($insideOf, $pCount, $height = null, $style = null)
     {
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
+        $this->_height = $height;
+        $this->_style = new PHPWord_Style_Row();
 
         if (!is_null($style)) {
             if (is_array($style)) {
-                $this->_style = new PHPWord_Style_Table();
 
                 foreach ($style as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
@@ -89,22 +91,8 @@ class PHPWord_Section_Table
                     }
                     $this->_style->setStyleValue($key, $value);
                 }
-            } else {
-                $this->_style = $style;
             }
         }
-    }
-
-    /**
-     * Add a row
-     *
-     * @param int $height
-     */
-    public function addRow($height = null, $style = null)
-    {
-        $row = new PHPWord_Section_Table_Row($this->_insideOf, $this->_pCount, $height, $style);
-        $this->_rows[] = $row;
-        return $row;
     }
 
     /**
@@ -116,25 +104,25 @@ class PHPWord_Section_Table
      */
     public function addCell($width = null, $style = null)
     {
-        $i = count($this->_rows) - 1;
-        $cell = $this->_rows[$i]->addCell($width, $style);
+        $cell = new PHPWord_Section_Table_Cell($this->_insideOf, $this->_pCount, $width, $style);
+        $this->_cells[] = $cell;
         return $cell;
     }
 
     /**
-     * Get all rows
+     * Get all cells
      *
      * @return array
      */
-    public function getRows()
+    public function getCells()
     {
-        return $this->_rows;
+        return $this->_cells;
     }
 
     /**
-     * Get table style
+     * Get row style
      *
-     * @return PHPWord_Style_Table
+     * @return PHPWord_Style_Row
      */
     public function getStyle()
     {
@@ -142,23 +130,12 @@ class PHPWord_Section_Table
     }
 
     /**
-     * Set table width
-     *
-     * @var int $width
-     */
-    public function setWidth($width)
-    {
-        $this->_width = $width;
-    }
-
-    /**
-     * Get table width
+     * Get row height
      *
      * @return int
      */
-    public function getWidth()
+    public function getHeight()
     {
-        return $this->_width;
+        return $this->_height;
     }
-
 }
