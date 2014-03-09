@@ -1,17 +1,17 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Shared;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord_Shared_Font;
 
 /**
- * Class PHPWord_Writer_Shared_FontTest
+ * Class FontTest
  *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Writer_Shared_FontTest extends \PHPUnit_Framework_TestCase
+class FontTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test various conversions

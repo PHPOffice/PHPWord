@@ -6,7 +6,7 @@ use PHPWord_Template;
 /**
  * @coversDefaultClass PHPWord_Template
  */
-class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::applyXslStyleSheet

@@ -5,13 +5,14 @@ use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord_IOFactory;
 use PHPWord_Writer_Word2007;
+use Exception;
 
 /**
- * Class PHPWord_IOFactoryTest
+ * Class IOFactoryTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_IOFactoryTest extends \PHPUnit_Framework_TestCase
+class IOFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSearchLocations()
     {
@@ -25,7 +26,7 @@ class PHPWord_IOFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        Exception
+     * @expectedException Exception
      * @expectedExceptionMessage Invalid parameter passed.
      */
     public function testSetSearchLocationsWithNotArray()
@@ -41,7 +42,7 @@ class PHPWord_IOFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        Exception
+     * @expectedException Exception
      * @expectedExceptionMessage No IWriter found for type
      */
     public function testCreateWriterException()

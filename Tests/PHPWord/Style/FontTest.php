@@ -1,17 +1,17 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Style;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord_Style_Font;
 
 /**
- * Class PHPWord_Style_FontTest
+ * Class FontTest
  *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Style_FontTest extends \PHPUnit_Framework_TestCase
+class FontTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test initiation for style type and paragraph style

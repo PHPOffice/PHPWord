@@ -4,7 +4,7 @@ namespace PHPWord\Tests;
 use PHPUnit_Framework_TestCase;
 use PHPWord_Section;
 
-class PHPWord_SectionTest extends \PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSettings()
     {

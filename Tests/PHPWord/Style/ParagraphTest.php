@@ -1,17 +1,17 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Style;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord_Style_Paragraph;
 use PHPWord_Style_Tab;
 
 /**
- * Class PHPWord_Style_ParagraphTest
+ * Class ParagraphTest
  *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
+class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test setting style values with null or empty value
