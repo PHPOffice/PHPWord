@@ -44,7 +44,11 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)       GH-87             - Paragraph: Ability to define parent style (basedOn) and style for following paragraph (next)
 - Feature:  (jeroenmoors)     GH-44 GH-88       - Clone table rows on the fly when using a template document
 - Feature:  (deds)            GH-16             - Initial addition of basic footnote support
-- Feature:  (ivanlanin)       GH-91             - Paragraph: Ability to define paragraph pagination: widow control, keep next, keep lines, and page break before
+- Feature:  (ivanlanin)       GH-92             - Paragraph: Ability to define paragraph pagination: widow control, keep next, keep lines, and page break before
+- General:  (ivanlanin)       GH-93             - General: PHPWord_Style_Font refactoring
+- General:  (ivanlanin)       GH-93             - Font: Use points instead of halfpoints internally. Conversion to halfpoints done during XML Writing.
+- Bugfix:   (ivanlanin)       GH-94             - General: PHPWord_Shared_Drawing::centimetersToPixels() conversion
+- Feature:  (ivanlanin)                         - Paragraph: setTabs() function
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

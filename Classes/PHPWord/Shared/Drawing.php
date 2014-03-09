@@ -128,7 +128,7 @@ class PHPWord_Shared_Drawing
     public static function centimetersToPixels($pValue = 0)
     {
         if ($pValue != 0) {
-            return $pValue * 0.028;
+            return $pValue / 0.028;
         } else {
             return 0;
         }

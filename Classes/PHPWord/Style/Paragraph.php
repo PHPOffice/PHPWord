@@ -145,24 +145,21 @@ class PHPWord_Style_Paragraph
     /**
      * Set Style value
      *
-     * @param string $key
-     * @param mixed $value
+     * @param   string  $key
+     * @param   mixed   $value
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_indent') {
-            $value = $value * 720; // 720 twips per indent
-        }
-        if ($key == '_hanging') {
+        if ($key == '_indent' || $key == '_hanging') {
             $value = $value * 720;
         }
         if ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
         }
-        if ($key === '_tabs') {
-            $value = new PHPWord_Style_Tabs($value);
+        $method = 'set' . substr($key, 1);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
         }
-        $this->$key = $value;
     }
 
     /**
@@ -311,6 +308,20 @@ class PHPWord_Style_Paragraph
         return $this->_tabs;
     }
 
+    /*
+     * Set tabs
+     *
+     * @param   array   $pValue
+     * @return  PHPWord_Style_Paragraph
+     */
+    public function setTabs($pValue = null)
+    {
+        if (is_array($pValue)) {
+            $this->_tabs = new PHPWord_Style_Tabs($pValue);
+        }
+        return $this;
+    }
+
     /**
      * Get parent style ID
      *
@@ -374,7 +385,7 @@ class PHPWord_Style_Paragraph
     public function setWidowControl($pValue = true)
     {
         if (!is_bool($pValue)) {
-            $pValue = false;
+            $pValue = true;
         }
         $this->_widowControl = $pValue;
         return $this;
@@ -396,7 +407,7 @@ class PHPWord_Style_Paragraph
      * @param   bool    $pValue
      * @return  PHPWord_Style_Paragraph
      */
-    public function setKeepNext($pValue = true)
+    public function setKeepNext($pValue = false)
     {
         if (!is_bool($pValue)) {
             $pValue = false;
@@ -421,7 +432,7 @@ class PHPWord_Style_Paragraph
      * @param   bool    $pValue
      * @return  PHPWord_Style_Paragraph
      */
-    public function setKeepLines($pValue = true)
+    public function setKeepLines($pValue = false)
     {
         if (!is_bool($pValue)) {
             $pValue = false;
@@ -446,7 +457,7 @@ class PHPWord_Style_Paragraph
      * @param   bool    $pValue
      * @return  PHPWord_Style_Paragraph
      */
-    public function setPageBreakBefore($pValue = true)
+    public function setPageBreakBefore($pValue = false)
     {
         if (!is_bool($pValue)) {
             $pValue = false;

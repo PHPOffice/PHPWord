@@ -38,9 +38,10 @@ the following lines to your ``composer.json``.
 2. [Sections](#sections)
     * [Section settings](#section-settings)
     * [Section page numbering](#section-page-numbering)
-3. [Tables](#tables)
+3. [Texts](#texts)
+4. [Tables](#tables)
     * [Cell Style](#tables-cell-style)
-4. [Images](#images)
+5. [Images](#images)
 
 <a name="basic-usage"></a>
 #### Basic usage
@@ -50,21 +51,25 @@ The following is a basic example of the PHPWord library.
 ```php
 $PHPWord = new PHPWord();
 
-// Every element you want to append to the word document is placed in a section. So you need a section:
+// Every element you want to append to the word document is placed in a section.
+// To create a basic section:
 $section = $PHPWord->createSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');
 
 // You can directly style your text by giving the addText function an array:
-$section->addText('Hello world! I am formatted.', array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+$section->addText('Hello world! I am formatted.',
+    array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
 
-// If you often need the same style again you can create a user defined style to the word document
-// and give the addText function the name of the style:
-$PHPWord->addFontStyle('myOwnStyle', array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-$section->addText('Hello world! I am formatted by a user defined style', 'myOwnStyle');
+// If you often need the same style again you can create a user defined style
+// to the word document and give the addText function the name of the style:
+$PHPWord->addFontStyle('myOwnStyle',
+    array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
+$section->addText('Hello world! I am formatted by a user defined style',
+    'myOwnStyle');
 
-// You can also putthe appended element to local object an call functions like this:
+// You can also put the appended element to local object like this:
 $fontStyle = new PHPWord_Style_Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Verdana');
@@ -72,7 +77,7 @@ $fontStyle->setSize(22);
 $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
-// At least write the document to webspace:
+// Finally, write the document:
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
@@ -154,6 +159,27 @@ $section = $PHPWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
 
+<a name="texts"></a>
+#### Texts
+
+Text can be added by using `addText` and `createTextRun` method. `addText` is used for  creating simple paragraphs that only contain texts with the same style. `createTextRun` is used for creating complex paragraphs that contain text with different style (some bold, other italics, etc) or other elements, e.g. images or links.
+
+`addText` sample:
+
+```php
+$fontStyle = array('name' => 'Times New Roman', 'size' => 9);
+$paragraphStyle = array('align' => 'both');
+$section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
+```
+
+`createTextRun` sample:
+
+```php
+$textrun = $section->createTextRun();
+$textrun->addText('I am bold', array('bold' => true)); 
+$textrun->addText('I am italic, array('italic' => true));
+$textrun->addText('I am colored, array('color' => 'AACC00'));
+```
 <a name="tables"></a>
 #### Tables
 

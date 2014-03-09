@@ -45,11 +45,11 @@ class PHPWord_Style_FontTest extends \PHPUnit_Framework_TestCase
             'fgColor' => null,
         );
         foreach ($attributes as $key => $default) {
-            $method = 'get' . ucwords($key);
+            $get = "get{$key}";
             $object->setStyleValue("_$key", null);
-            $this->assertEquals($default, $object->$method());
+            $this->assertEquals($default, $object->$get());
             $object->setStyleValue("_$key", '');
-            $this->assertEquals($default, $object->$method());
+            $this->assertEquals($default, $object->$get());
         }
     }
 
@@ -73,9 +73,9 @@ class PHPWord_Style_FontTest extends \PHPUnit_Framework_TestCase
             'fgColor' => '999999',
         );
         foreach ($attributes as $key => $value) {
-            $method = 'get' . ucwords($key);
+            $get = "get{$key}";
             $object->setStyleValue("_$key", $value);
-            $this->assertEquals($value, $object->$method());
+            $this->assertEquals($value, $object->$get());
         }
     }
 

@@ -88,10 +88,10 @@ class PHPWord_Writer_Word2007_BaseTest extends \PHPUnit_Framework_TestCase {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
         $attributes = array(
-            'widowControl' => 0,
-            'keepNext' => 1,
-            'keepLines' => 1,
-            'pageBreakBefore' => 1,
+            'widowControl' => false,
+            'keepNext' => true,
+            'keepLines' => true,
+            'pageBreakBefore' => true,
         );
         foreach ($attributes as $attribute => $value) {
             $section->addText('Test', null, array($attribute => $value));
@@ -100,11 +100,12 @@ class PHPWord_Writer_Word2007_BaseTest extends \PHPUnit_Framework_TestCase {
 
         // Test the attributes
         $i = 0;
-        foreach ($attributes as $attribute => $value) {
+        foreach ($attributes as $key => $value) {
             $i++;
-            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$attribute}";
+            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$key}";
             $element = $doc->getElement($path);
-            $this->assertEquals($value, $element->getAttribute('w:val'));
+            $expected = $value ? 1 : 0;
+            $this->assertEquals($expected, $element->getAttribute('w:val'));
         }
     }
 
