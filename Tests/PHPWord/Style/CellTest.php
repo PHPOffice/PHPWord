@@ -12,6 +12,7 @@ use PHPWord_Style_Cell;
  */
 class CellTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Test setting style with normal value
      */
@@ -34,7 +35,6 @@ class CellTest extends \PHPUnit_Framework_TestCase
             'gridSpan' => 2,
             'vMerge' => 2,
         );
-        //'defaultBorderColor' => null,
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";

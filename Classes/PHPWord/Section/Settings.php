@@ -617,7 +617,7 @@ class PHPWord_Section_Settings
      * @return int
      */
     public function getHeaderHeight() {
-      return $this->headerHeight;
+        return $this->headerHeight;
     }
 
     /**
@@ -626,8 +626,11 @@ class PHPWord_Section_Settings
      * @param int $pValue
      */
     public function setHeaderHeight($pValue = '') {
-      $this->headerHeight = $pValue;
-      return $this;
+        if (!is_numeric($pValue)) {
+            $pValue = 720;
+        }
+        $this->headerHeight = $pValue;
+        return $this;
     }
 
     /**
@@ -636,7 +639,7 @@ class PHPWord_Section_Settings
      * @return int
      */
     public function getFooterHeight() {
-      return $this->footerHeight;
+        return $this->footerHeight;
     }
 
     /**
@@ -645,8 +648,11 @@ class PHPWord_Section_Settings
      * @param int $pValue
      */
     public function setFooterHeight($pValue = '') {
-      $this->footerHeight = $pValue;
-      return $this;
+        if (!is_numeric($pValue)) {
+            $pValue = 720;
+        }
+        $this->footerHeight = $pValue;
+        return $this;
     }
 
     /**
@@ -655,6 +661,9 @@ class PHPWord_Section_Settings
      * @param int $pValue
      */
     public function setColsNum($pValue = '') {
+        if (!is_numeric($pValue)) {
+            $pValue = 1;
+        }
         $this->_colsNum = $pValue;
         return $this;
     }
@@ -674,6 +683,9 @@ class PHPWord_Section_Settings
      * @param int $pValue
      */
     public function setColsSpace($pValue = '') {
+        if (!is_numeric($pValue)) {
+            $pValue = 720;
+        }
         $this->_colsSpace = $pValue;
         return $this;
     }

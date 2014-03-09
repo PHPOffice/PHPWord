@@ -217,7 +217,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iVal, $oSettings->getColsSpace());
 
         $this->assertInstanceOf('PHPWord_Section_Settings', $oSettings->setColsSpace());
-        $this->assertEquals(1, $oSettings->getColsSpace());
+        $this->assertEquals(720, $oSettings->getColsSpace());
     }
 
     public function testBreakType()

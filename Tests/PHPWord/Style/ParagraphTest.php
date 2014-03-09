@@ -123,4 +123,15 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(720, $lineHeight);
         $this->assertEquals('auto', $lineRule);
     }
+
+    /**
+     * Test setLineHeight validation
+     */
+    public function testLineHeightValidation()
+    {
+        $object = new PHPWord_Style_Paragraph();
+        $object->setLineHeight('12.5pt');
+        $this->assertEquals(12.5, $object->getLineHeight());
+    }
+
 }
