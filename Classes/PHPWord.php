@@ -39,8 +39,22 @@ if (!defined('PHPWORD_BASE_PATH')) {
 class PHPWord
 {
 
+    /**
+     * Default font name (Arial)
+     */
     const DEFAULT_FONT_NAME = 'Arial';
+
+    /**
+     * Default font size in points (10pt)
+     *
+     * OOXML defined font size values in halfpoints, i.e. twice of what PHPWord
+     * use, and the conversion will be conducted during XML writing.
+     */
     const DEFAULT_FONT_SIZE = 10;
+
+    /**
+     * Default font color (black)
+     */
     const DEFAULT_FONT_COLOR = '000000';
 
     /**
