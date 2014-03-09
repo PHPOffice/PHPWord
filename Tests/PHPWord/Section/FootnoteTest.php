@@ -1,58 +1,64 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Section;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord_Section_Footnote;
 
-class PHPWord_Section_FootnoteTest extends \PHPUnit_Framework_TestCase {
+class FootnoteTest extends \PHPUnit_Framework_TestCase
+{
+    public function testConstruct()
+    {
+        $oFootnote = new PHPWord_Section_Footnote();
 
-  public function testConstruct(){
-    $oFootnote = new PHPWord_Section_Footnote();
+        $this->assertInstanceOf('PHPWord_Section_Footnote', $oFootnote);
+        $this->assertCount(0, $oFootnote->getElements());
+        $this->assertEquals($oFootnote->getParagraphStyle(), null);
+    }
 
-    $this->assertInstanceOf('PHPWord_Section_Footnote', $oFootnote);
-    $this->assertCount(0, $oFootnote->getElements());
-    $this->assertEquals($oFootnote->getParagraphStyle(), null);
-  }
+    public function testConstructString()
+    {
+        $oFootnote = new PHPWord_Section_Footnote('pStyle');
 
-  public function testConstructString(){
-    $oFootnote = new PHPWord_Section_Footnote('pStyle');
+        $this->assertEquals($oFootnote->getParagraphStyle(), 'pStyle');
+    }
 
-    $this->assertEquals($oFootnote->getParagraphStyle(), 'pStyle');
-  }
+    public function testConstructArray()
+    {
+        $oFootnote = new PHPWord_Section_Footnote(array('spacing' => 100));
 
-  public function testConstructArray(){
-    $oFootnote = new PHPWord_Section_Footnote(array('spacing' => 100));
+        $this->assertInstanceOf('PHPWord_Style_Paragraph', $oFootnote->getParagraphStyle());
+    }
 
-    $this->assertInstanceOf('PHPWord_Style_Paragraph', $oFootnote->getParagraphStyle());
-  }
+    public function testAddText()
+    {
+        $oFootnote = new PHPWord_Section_Footnote();
+        $element = $oFootnote->addText('text');
 
-  public function testAddText(){
-    $oFootnote = new PHPWord_Section_Footnote();
-    $element = $oFootnote->addText('text');
+        $this->assertCount(1, $oFootnote->getElements());
+        $this->assertInstanceOf('PHPWord_Section_Text', $element);
+    }
 
-    $this->assertCount(1, $oFootnote->getElements());
-    $this->assertInstanceOf('PHPWord_Section_Text', $element);
-  }
+    public function testAddLink()
+    {
+        $oFootnote = new PHPWord_Section_Footnote();
+        $element = $oFootnote->addLink('http://www.google.fr');
 
-  public function testAddLink(){
-    $oFootnote = new PHPWord_Section_Footnote();
-    $element = $oFootnote->addLink('http://www.google.fr');
+        $this->assertCount(1, $oFootnote->getElements());
+        $this->assertInstanceOf('PHPWord_Section_Link', $element);
+    }
 
-    $this->assertCount(1, $oFootnote->getElements());
-    $this->assertInstanceOf('PHPWord_Section_Link', $element);
-  }
+    public function testReferenceId()
+    {
+        $oFootnote = new PHPWord_Section_Footnote();
 
-  public function testReferenceId(){
-    $oFootnote = new PHPWord_Section_Footnote();
+        $iVal = rand(1, 1000);
+        $oFootnote->setReferenceId($iVal);
+        $this->assertEquals($oFootnote->getReferenceId(), $iVal);
+    }
 
-    $iVal = rand(1, 1000);
-    $oFootnote->setReferenceId($iVal);
-    $this->assertEquals($oFootnote->getReferenceId(), $iVal);
-  }
-
-  public function testGetElements(){
-    $oFootnote = new PHPWord_Section_Footnote();
-    $this->assertInternalType('array', $oFootnote->getElements());
-  }
+    public function testGetElements()
+    {
+        $oFootnote = new PHPWord_Section_Footnote();
+        $this->assertInternalType('array', $oFootnote->getElements());
+    }
 }
- 
