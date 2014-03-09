@@ -50,21 +50,25 @@ The following is a basic example of the PHPWord library.
 ```php
 $PHPWord = new PHPWord();
 
-// Every element you want to append to the word document is placed in a section. So you need a section:
+// Every element you want to append to the word document is placed in a section.
+// To create a basic section:
 $section = $PHPWord->createSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');
 
 // You can directly style your text by giving the addText function an array:
-$section->addText('Hello world! I am formatted.', array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+$section->addText('Hello world! I am formatted.',
+    array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
 
-// If you often need the same style again you can create a user defined style to the word document
-// and give the addText function the name of the style:
-$PHPWord->addFontStyle('myOwnStyle', array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-$section->addText('Hello world! I am formatted by a user defined style', 'myOwnStyle');
+// If you often need the same style again you can create a user defined style
+// to the word document and give the addText function the name of the style:
+$PHPWord->addFontStyle('myOwnStyle',
+    array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
+$section->addText('Hello world! I am formatted by a user defined style',
+    'myOwnStyle');
 
-// You can also putthe appended element to local object an call functions like this:
+// You can also put the appended element to local object like this:
 $fontStyle = new PHPWord_Style_Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Verdana');
@@ -72,7 +76,7 @@ $fontStyle->setSize(22);
 $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
-// At least write the document to webspace:
+// Finally, write the document:
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
