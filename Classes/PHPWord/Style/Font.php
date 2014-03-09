@@ -192,7 +192,7 @@ class PHPWord_Style_Font
      */
     public function setStyleValue($key, $value)
     {
-        $method = 'set' . ucwords(substr($key, 1));
+        $method = 'set' . substr($key, 1);
         if (method_exists($this, $method)) {
             $this->$method($value);
         }

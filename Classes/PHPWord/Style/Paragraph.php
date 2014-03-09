@@ -156,7 +156,7 @@ class PHPWord_Style_Paragraph
         if ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
         }
-        $method = 'set' . ucwords(substr($key, 1));
+        $method = 'set' . substr($key, 1);
         if (method_exists($this, $method)) {
             $this->$method($value);
         }

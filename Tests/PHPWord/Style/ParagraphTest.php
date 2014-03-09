@@ -29,11 +29,11 @@ class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
             'pageBreakBefore' => false,
         );
         foreach ($attributes as $key => $default) {
-            $method = 'get' . ucwords($key);
+            $get = "get{$key}";
             $object->setStyleValue("_$key", null);
-            $this->assertEquals($default, $object->$method());
+            $this->assertEquals($default, $object->$get());
             $object->setStyleValue("_$key", '');
-            $this->assertEquals($default, $object->$method());
+            $this->assertEquals($default, $object->$get());
         }
     }
 
@@ -59,7 +59,7 @@ class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
             'pageBreakBefore' => true,
         );
         foreach ($attributes as $key => $value) {
-            $method = 'get' . ucwords($key);
+            $get = "get{$key}";
             $object->setStyleValue("_$key", $value);
             if ($key == 'align') {
                 if ($value == 'justify') {
@@ -70,7 +70,7 @@ class PHPWord_Style_ParagraphTest extends \PHPUnit_Framework_TestCase
             } elseif ($key == 'spacing') {
                 $value += 240;
             }
-            $this->assertEquals($value, $object->$method());
+            $this->assertEquals($value, $object->$get());
         }
     }
 
