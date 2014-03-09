@@ -25,7 +25,7 @@
  * @version    0.7.0
  */
 
-use PHPWord\Exceptions\InvalidStyleException;
+use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
 /**
  * Class PHPWord_Style_Font
@@ -488,7 +488,7 @@ class PHPWord_Style_Font
      *
      * @param int|float|string $lineHeight
      * @return $this
-     * @throws \PHPWord\Exceptions\InvalidStyleException
+     * @throws InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {
