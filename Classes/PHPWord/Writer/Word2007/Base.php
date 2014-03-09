@@ -373,7 +373,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $color = $style->getColor();
         $size = $style->getSize();
         $fgColor = $style->getFgColor();
-        $striketrough = $style->getStrikethrough();
+        $strikethrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
         $superscript = $style->getSuperScript();
         $subscript = $style->getSubScript();
@@ -390,7 +390,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
 
         // Color
-        if ($color != '000000') {
+        if ($color != PHPWord::DEFAULT_FONT_COLOR) {
             $objWriter->startElement('w:color');
             $objWriter->writeAttribute('w:val', $color);
             $objWriter->endElement();
@@ -399,10 +399,10 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         // Size
         if ($size != PHPWord::DEFAULT_FONT_SIZE) {
             $objWriter->startElement('w:sz');
-            $objWriter->writeAttribute('w:val', $size);
+            $objWriter->writeAttribute('w:val', $size * 2);
             $objWriter->endElement();
             $objWriter->startElement('w:szCs');
-            $objWriter->writeAttribute('w:val', $size);
+            $objWriter->writeAttribute('w:val', $size * 2);
             $objWriter->endElement();
         }
 
@@ -424,8 +424,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             $objWriter->endElement();
         }
 
-        // Striketrough
-        if ($striketrough) {
+        // Strikethrough
+        if ($strikethrough) {
             $objWriter->writeElement('w:strike', null);
         }
 

@@ -380,11 +380,11 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
 
         $objWriter->startElement('w:sz');
-        $objWriter->writeAttribute('w:val', $fontSize);
+        $objWriter->writeAttribute('w:val', $fontSize * 2);
         $objWriter->endElement();
 
         $objWriter->startElement('w:szCs');
-        $objWriter->writeAttribute('w:val', $fontSize);
+        $objWriter->writeAttribute('w:val', $fontSize * 2);
         $objWriter->endElement();
 
         $objWriter->endElement();
