@@ -21,19 +21,19 @@ class PHPWord_Style_CellTest extends \PHPUnit_Framework_TestCase
         $object = new PHPWord_Style_Cell();
 
         $attributes = array(
-            'valign' => null,
-            'textDirection' => null,
-            'bgColor' => null,
-            'borderTopSize' => null,
-            'borderTopColor' => null,
-            'borderLeftSize' => null,
-            'borderLeftColor' => null,
-            'borderRightSize' => null,
-            'borderRightColor' => null,
-            'borderBottomSize' => null,
-            'borderBottomColor' => null,
-            'gridSpan' => null,
-            'vMerge' => null,
+            'valign' => 'left',
+            'textDirection' => PHPWord_Style_Cell::TEXT_DIR_BTLR,
+            'bgColor' => 'FFFF00',
+            'borderTopSize' => 120,
+            'borderTopColor' => 'FFFF00',
+            'borderLeftSize' => 120,
+            'borderLeftColor' => 'FFFF00',
+            'borderRightSize' => 120,
+            'borderRightColor' => 'FFFF00',
+            'borderBottomSize' => 120,
+            'borderBottomColor' => 'FFFF00',
+            'gridSpan' => 2,
+            'vMerge' => 2,
         );
             //'defaultBorderColor' => null,
         foreach ($attributes as $key => $value) {
