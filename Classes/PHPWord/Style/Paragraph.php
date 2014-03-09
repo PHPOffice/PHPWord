@@ -25,11 +25,21 @@
  * @version    0.7.0
  */
 
+use PHPWord\Exceptions\InvalidStyleException;
+
 /**
  * PHPWord_Style_Paragraph
  */
 class PHPWord_Style_Paragraph
 {
+    const LINE_HEIGHT = 240;
+
+    /*
+     * Text line height
+     *
+     * @var int
+     */
+    private $lineHeight;
 
     /**
      * Paragraph alignment
@@ -85,7 +95,7 @@ class PHPWord_Style_Paragraph
      *
      * @var string
      */
-    private $_basedOn;
+    private $_basedOn = 'Normal';
 
     /**
      * Style for next paragraph
@@ -99,63 +109,46 @@ class PHPWord_Style_Paragraph
      *
      * @var bool
      */
-    private $_widowControl;
+    private $_widowControl = true;
 
     /**
      * Keep paragraph with next paragraph
      *
      * @var bool
      */
-    private $_keepNext;
+    private $_keepNext = false;
 
     /**
      * Keep all lines on one page
      *
      * @var bool
      */
-    private $_keepLines;
+    private $_keepLines = false;
 
     /**
      * Start paragraph on next page
      *
      * @var bool
      */
-    private $_pageBreakBefore;
-
-    /**
-     * New Paragraph Style
-     */
-    public function __construct()
-    {
-        $this->_align = null;
-        $this->_spaceBefore = null;
-        $this->_spaceAfter = null;
-        $this->_spacing = null;
-        $this->_tabs = null;
-        $this->_indent = null;
-        $this->_hanging = null;
-        $this->_basedOn = 'Normal';
-        $this->_next = null;
-        $this->_widowControl = true;
-        $this->_keepNext = false;
-        $this->_keepLines = false;
-        $this->_pageBreakBefore = false;
-    }
+    private $_pageBreakBefore = false;
 
     /**
      * Set Style value
      *
-     * @param   string  $key
-     * @param   mixed   $value
+     * @param string $key
+     * @param mixed $value
      */
     public function setStyleValue($key, $value)
     {
         if ($key == '_indent' || $key == '_hanging') {
             $value = $value * 720;
-        }
-        if ($key == '_spacing') {
+        } elseif ($key == '_spacing') {
             $value += 240; // because line height of 1 matches 240 twips
+        } elseif ($key === 'line-height') {
+            $this->setLineHeight($value);
+            return;
         }
+        $this->$key = $value;
         $method = 'set' . substr($key, 1);
         if (method_exists($this, $method)) {
             $this->$method($value);
@@ -335,7 +328,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set parent style ID
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setBasedOn($pValue = 'Normal')
@@ -357,7 +350,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set style for next paragraph
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setNext($pValue = null)
@@ -379,7 +372,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setWidowControl($pValue = true)
@@ -404,7 +397,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setKeepNext($pValue = false)
@@ -429,7 +422,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set keep all lines on one page setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setKeepLines($pValue = false)
@@ -454,7 +447,7 @@ class PHPWord_Style_Paragraph
     /**
      * Set start paragraph on next page setting
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Paragraph
      */
     public function setPageBreakBefore($pValue = false)
@@ -466,4 +459,33 @@ class PHPWord_Style_Paragraph
         return $this;
     }
 
+    /**
+     * Set the line height
+     *
+     * @param int|float|string $lineHeight
+     * @return $this
+     * @throws \PHPWord\Exceptions\InvalidStyleException
+     */
+    public function setLineHeight($lineHeight)
+    {
+        if (is_string($lineHeight)) {
+            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
+        }
+
+        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
+            throw new InvalidStyleException('Line height must be a valid number');
+        }
+
+        $this->lineHeight = $lineHeight;
+        $this->setSpacing($lineHeight * self::LINE_HEIGHT);
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
+    }
 }

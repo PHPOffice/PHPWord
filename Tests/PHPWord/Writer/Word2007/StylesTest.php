@@ -1,16 +1,16 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Writer\Word2007;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord;
-use PHPWord_Writer_Word2007_Styles;
+use PHPWord\Tests\TestHelperDOCX;
 
 /**
  * Class PHPWord_Writer_Word2007_StylesTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Writer_Word2007_StylesTest extends \PHPUnit_Framework_TestCase
+class StylesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Executed before each method of the class
@@ -51,5 +51,4 @@ class PHPWord_Writer_Word2007_StylesTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement($path, $file);
         $this->assertEquals('Normal', $element->getAttribute('w:val'));
     }
-
 }

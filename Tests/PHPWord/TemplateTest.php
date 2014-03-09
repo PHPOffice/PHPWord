@@ -6,7 +6,7 @@ use PHPWord_Template;
 /**
  * @coversDefaultClass PHPWord_Template
  */
-class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::applyXslStyleSheet
@@ -20,7 +20,7 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
                 array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
             )
         );
-        
+
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
             \join(
@@ -28,31 +28,31 @@ class PHPWord_TemplateTest extends \PHPUnit_Framework_TestCase
                 array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'remove_tables_by_needle.xsl')
             )
         );
-        
+
         foreach (array('${employee.', '${scoreboard.') as $needle) {
             $template->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
         }
-        
+
         $actualDocument = $template->save();
         $expectedDocument = \join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
         );
-        
+
         $actualZip = new \ZipArchive();
         $actualZip->open($actualDocument);
         $actualXml = $actualZip->getFromName('word/document.xml');
         if ($actualZip->close() === false) {
             throw new \Exception('Could not close zip file "' . $actualDocument . '".');
         }
-                
+
         $expectedZip = new \ZipArchive();
         $expectedZip->open($expectedDocument);
         $expectedXml = $expectedZip->getFromName('word/document.xml');
         if ($expectedZip->close() === false) {
             throw new \Exception('Could not close zip file "' . $expectedDocument . '".');
         }
-        
+
         $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 

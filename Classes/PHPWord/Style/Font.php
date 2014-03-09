@@ -30,7 +30,6 @@
  */
 class PHPWord_Style_Font
 {
-
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
@@ -153,8 +152,8 @@ class PHPWord_Style_Font
     /**
      * New font style
      *
-     * @param   string  $type Type of font
-     * @param   array   $styleParagraph Paragraph styles definition
+     * @param   string $type Type of font
+     * @param   array $styleParagraph Paragraph styles definition
      */
     public function __construct($type = 'text', $styleParagraph = null)
     {
@@ -187,8 +186,8 @@ class PHPWord_Style_Font
     /**
      * Set style value
      *
-     * @param   string  $key
-     * @param   mixed   $value
+     * @param   string $key
+     * @param   mixed $value
      */
     public function setStyleValue($key, $value)
     {
@@ -211,7 +210,7 @@ class PHPWord_Style_Font
     /**
      * Set font name
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
     public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
@@ -236,7 +235,7 @@ class PHPWord_Style_Font
     /**
      * Set font size
      *
-     * @param   int|float   $pValue
+     * @param   int|float $pValue
      * @return  PHPWord_Style_Font
      */
     public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
@@ -261,7 +260,7 @@ class PHPWord_Style_Font
     /**
      * Set bold
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
     public function setBold($pValue = false)
@@ -286,7 +285,7 @@ class PHPWord_Style_Font
     /**
      * Set italics
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
     public function setItalic($pValue = false)
@@ -311,7 +310,7 @@ class PHPWord_Style_Font
     /**
      * Set superscript
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
     public function setSuperScript($pValue = false)
@@ -337,7 +336,7 @@ class PHPWord_Style_Font
     /**
      * Set subscript
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
     public function setSubScript($pValue = false)
@@ -363,7 +362,7 @@ class PHPWord_Style_Font
     /**
      * Set underline
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
     public function setUnderline($pValue = PHPWord_Style_Font::UNDERLINE_NONE)
@@ -388,7 +387,7 @@ class PHPWord_Style_Font
     /**
      * Set strikethrough
      *
-     * @param   bool    $pValue
+     * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
     public function setStrikethrough($pValue = false)
@@ -413,7 +412,7 @@ class PHPWord_Style_Font
     /**
      * Set font color
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
     public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR)
@@ -438,7 +437,7 @@ class PHPWord_Style_Font
     /**
      * Set foreground/highlight color
      *
-     * @param   string  $pValue
+     * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
     public function setFgColor($pValue = null)

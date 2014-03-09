@@ -1,18 +1,17 @@
 <?php
-namespace PHPWord\Tests;
+namespace PHPWord\Tests\Style;
 
 use PHPUnit_Framework_TestCase;
 use PHPWord_Style_Cell;
 
 /**
- * Class PHPWord_Style_CellTest
+ * Class CellTest
  *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class PHPWord_Style_CellTest extends \PHPUnit_Framework_TestCase
+class CellTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test setting style with normal value
      */
@@ -35,7 +34,7 @@ class PHPWord_Style_CellTest extends \PHPUnit_Framework_TestCase
             'gridSpan' => 2,
             'vMerge' => 2,
         );
-            //'defaultBorderColor' => null,
+        //'defaultBorderColor' => null,
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
@@ -76,5 +75,4 @@ class PHPWord_Style_CellTest extends \PHPUnit_Framework_TestCase
         $object->setStyleValue('_borderSize', $value);
         $this->assertEquals($expected, $object->getBorderSize());
     }
-
 }
