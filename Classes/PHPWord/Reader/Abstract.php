@@ -36,9 +36,9 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      *
      * @var boolean
      */
-    protected $_readDataOnly = FALSE;
+    protected $readDataOnly = TRUE;
 
-    protected $_fileHandle = NULL;
+    protected $fileHandle = NULL;
 
 
     /**
@@ -47,7 +47,8 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      * @return  boolean
      */
     public function getReadDataOnly() {
-        return $this->_readDataOnly;
+        // return $this->readDataOnly;
+        return TRUE;
     }
 
     /**
@@ -56,8 +57,8 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      * @param   boolean $pValue
      * @return  PHPWord_Reader_IReader
      */
-    public function setReadDataOnly($pValue = FALSE) {
-        $this->_readDataOnly = $pValue;
+    public function setReadDataOnly($pValue = TRUE) {
+        $this->readDataOnly = $pValue;
         return $this;
     }
 
@@ -65,20 +66,20 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      * Open file for reading
      *
      * @param string $pFilename
-     * @throws  PHPWord_Reader_Exception
+     * @throws  PHPWord_Exception
      * @return resource
      */
-    protected function _openFile($pFilename)
+    protected function openFile($pFilename)
     {
         // Check if file exists
         if (!file_exists($pFilename) || !is_readable($pFilename)) {
-            throw new PHPWord_Reader_Exception("Could not open " . $pFilename . " for reading! File does not exist.");
+            throw new PHPWord_Exception("Could not open " . $pFilename . " for reading! File does not exist.");
         }
 
         // Open file
-        $this->_fileHandle = fopen($pFilename, 'r');
-        if ($this->_fileHandle === FALSE) {
-            throw new PHPWord_Reader_Exception("Could not open file " . $pFilename . " for reading.");
+        $this->fileHandle = fopen($pFilename, 'r');
+        if ($this->fileHandle === FALSE) {
+            throw new PHPWord_Exception("Could not open file " . $pFilename . " for reading.");
         }
     }
 
@@ -87,19 +88,17 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      *
      * @param   string      $pFilename
      * @return boolean
-     * @throws PHPWord_Reader_Exception
+     * @throws PHPWord_Exception
      */
     public function canRead($pFilename)
     {
         // Check if file exists
         try {
-            $this->_openFile($pFilename);
+            $this->openFile($pFilename);
         } catch (Exception $e) {
             return FALSE;
         }
-
-        $readable = $this->_isValidFormat();
-        fclose ($this->_fileHandle);
+        fclose ($this->fileHandle);
         return $readable;
     }
 

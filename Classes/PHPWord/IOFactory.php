@@ -143,4 +143,15 @@ class PHPWord_IOFactory
         throw new PHPExcel_Reader_Exception("No $searchType found for type $readerType");
     }
 
+    /**
+     * Loads PHPWord from file
+     *
+     * @param   string  $pFilename The name of the file
+     * @return  PHPWord
+     */
+    public static function load($pFilename, $readerType = 'Word2007') {
+        $reader = self::createReader($readerType);
+        return $reader->load($pFilename);
+    }
+
 }
