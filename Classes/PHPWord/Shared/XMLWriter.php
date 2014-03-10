@@ -57,7 +57,7 @@ class PHPWord_Shared_XMLWriter
     private $_tempFileName = '';
 
     /**
-     * Create a new PHPPowerPoint_Shared_XMLWriter instance
+     * Create a new PHPWord_Shared_XMLWriter instance
      *
      * @param int $pTemporaryStorage Temporary storage location
      * @param string $pTemporaryStorageFolder Temporary storage folder

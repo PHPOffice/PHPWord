@@ -172,7 +172,7 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
     /**
      * Write Override content type
      *
-     * @param    PHPPowerPoint_Shared_XMLWriter $objWriter XML Writer
+     * @param    PHPWord_Shared_XMLWriter $objWriter XML Writer
      * @param    string $pPartname Part name
      * @param    string $pContentType Content type
      * @throws    Exception

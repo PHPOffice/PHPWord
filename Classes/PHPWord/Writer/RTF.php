@@ -117,7 +117,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
      *
      * @param    PHPWord $pPHPWord PHPWord object
      * @throws    Exception
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_RTF
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
