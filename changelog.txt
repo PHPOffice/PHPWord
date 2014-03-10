@@ -49,6 +49,7 @@ Changes in branch for release 0.7.1 :
 - General:  (ivanlanin)       GH-93             - Font: Use points instead of halfpoints internally. Conversion to halfpoints done during XML Writing.
 - Bugfix:   (ivanlanin)       GH-94             - General: PHPWord_Shared_Drawing::centimetersToPixels() conversion
 - Feature:  (ivanlanin)                         - Paragraph: setTabs() function
+- Feature:  (ivanlanin)       GH-99             - General: Basic support for TextRun on ODT and RTF
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :
