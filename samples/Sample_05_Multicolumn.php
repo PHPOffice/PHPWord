@@ -50,13 +50,13 @@ echo date('H:i:s') , " Write to Word2007 format" , EOL;
 $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save(str_replace('.php', '.docx', __FILE__));
 
-// echo date('H:i:s') , " Write to OpenDocumentText format" , EOL;
-// $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
-// $objWriter->save(str_replace('.php', '.odt', __FILE__));
+echo date('H:i:s') , " Write to OpenDocumentText format" , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
+$objWriter->save(str_replace('.php', '.odt', __FILE__));
 
-// echo date('H:i:s') , " Write to RTF format" , EOL;
-// $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'RTF');
-// $objWriter->save(str_replace('.php', '.rtf', __FILE__));
+echo date('H:i:s') , " Write to RTF format" , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'RTF');
+$objWriter->save(str_replace('.php', '.rtf', __FILE__));
 
 
 // Echo memory peak usage
