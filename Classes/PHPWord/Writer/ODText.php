@@ -212,7 +212,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      *
      * @param    PHPWord $pPHPWord PHPWord object
      * @throws    Exception
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_ODText
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
@@ -261,7 +261,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * @param    boolean $pValue
      * @param    string $pDirectory Disk caching directory
      * @throws    Exception    Exception when directory does not exist
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
