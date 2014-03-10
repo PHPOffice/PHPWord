@@ -35,7 +35,7 @@ class PHPWord_Style_Cell
     const TEXT_DIR_TBRL = 'tbRl';
 
     /**
-     * Vertical align
+     * Vertical align (top, center, both, bottom)
      *
      * @var string
      */
@@ -126,9 +126,12 @@ class PHPWord_Style_Cell
     private $_gridSpan = NULL;
 
     /**
-     * rowspan
+     * rowspan (restart, continue)
      *
-     * @var integer
+     * - restart: Start/restart merged region
+     * - continue: Continue merged region
+     *
+     * @var string
      */
     private $_vMerge = NULL;
 
