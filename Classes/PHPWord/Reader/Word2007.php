@@ -48,8 +48,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
      * Can the current PHPWord_Reader_IReader read the file?
      *
      * @param   string      $pFilename
-     * @return  boolean
-     * @throws PHPWord_Exception
+     * @return  bool
      */
     public function canRead($pFilename)
     {
@@ -117,6 +116,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
      * Loads PHPWord from file
      *
      * @param   string      $pFilename
+     * @return  PHPWord
      */
     public function load($pFilename)
     {
@@ -189,7 +189,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
                     $archive = "$dir/_rels/" . basename($rel["Target"]) . ".rels";
                     $relsDoc = simplexml_load_string($this->getFromZipArchive($zip, $archive));
                     $relsDoc->registerXPathNamespace("rel", "http://schemas.openxmlformats.org/package/2006//relationships");
-                    $xpath = self::array_item($relsDoc->xpath("rel:Relationship[@Type='" . "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles']"));
+                    $xpath = self::array_item($relsDoc->xpath("rel:Relationship[@Type='" .
+                        "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles']"));
                     $xmlDoc = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}"));
                     if ($xmlDoc->body) {
                         $section = $word->createSection();
@@ -219,12 +220,18 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
                     break;
             }
         }
-
         $zip->close();
 
         return $word;
     }
 
+    /**
+     * Get array item
+     *
+     * @param   array   $array
+     * @param   mixed   $key
+     * @return  mixed|null
+     */
     private static function array_item($array, $key = 0) {
         return (isset($array[$key]) ? $array[$key] : null);
     }

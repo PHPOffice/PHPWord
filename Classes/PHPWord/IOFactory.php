@@ -38,7 +38,7 @@ class PHPWord_IOFactory
      */
     private static $_searchLocations = array(
         array('type' => 'IWriter', 'path' => 'PHPWord/Writer/{0}.php', 'class' => 'PHPWord_Writer_{0}'),
-        array( 'type' => 'IReader', 'path' => 'PHPWord/Reader/{0}.php', 'class' => 'PHPWord_Reader_{0}' ),
+        array('type' => 'IReader', 'path' => 'PHPWord/Reader/{0}.php', 'class' => 'PHPWord_Reader_{0}' ),
     );
 
     /**
@@ -140,7 +140,7 @@ class PHPWord_IOFactory
             }
         }
 
-        throw new PHPExcel_Reader_Exception("No $searchType found for type $readerType");
+        throw new PHPWord_Exception("No $searchType found for type $readerType");
     }
 
     /**
