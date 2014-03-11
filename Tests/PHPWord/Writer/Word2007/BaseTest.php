@@ -108,4 +108,19 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($expected, $element->getAttribute('w:val'));
         }
     }
+
+    public function testWritePreserveText()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+        $footer = $section->createFooter();
+
+        $footer->addPreserveText('{PAGE}');
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
+
+        $this->assertEquals('PAGE', $preserve->nodeValue);
+        $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
+    }
 }
