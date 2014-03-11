@@ -25,12 +25,14 @@
  * @version    0.7.0
  */
 
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
+
 /**
  * Class PHPWord_Section_Image
  */
 class PHPWord_Section_Image
 {
-
     /**
      * Image Src
      *
@@ -64,42 +66,43 @@ class PHPWord_Section_Image
      * Create a new Image
      *
      * @param string $src
-     * @param mixed style
+     * @param mixed $style
+     * @param bool $isWatermark
+     * @throws InvalidImageException|UnsupportedImageTypeException
      */
     public function __construct($src, $style = null, $isWatermark = false)
     {
-        $_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff');
+        $supportedImageTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM);
 
-        $inf = pathinfo($src);
-        $ext = strtolower($inf['extension']);
+        if (!file_exists($src)) {
+            throw new InvalidImageException;
+        }
 
-        if (file_exists($src) && in_array($ext, $_supportedImageTypes)) {
-            $this->_src = $src;
-            $this->_isWatermark = $isWatermark;
-            $this->_style = new PHPWord_Style_Image();
+        if (!in_array(exif_imagetype($src), $supportedImageTypes)) {
+            throw new UnsupportedImageTypeException;
+        }
 
-            if (!is_null($style) && is_array($style)) {
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->_style->setStyleValue($key, $value);
+        $this->_src = $src;
+        $this->_isWatermark = $isWatermark;
+        $this->_style = new PHPWord_Style_Image();
+
+        if (!is_null($style) && is_array($style)) {
+            foreach ($style as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
                 }
+                $this->_style->setStyleValue($key, $value);
             }
+        }
 
-            if (isset($style['wrappingStyle'])) {
-                $this->_style->setWrappingStyle($style['wrappingStyle']);
-            }
+        if (isset($style['wrappingStyle'])) {
+            $this->_style->setWrappingStyle($style['wrappingStyle']);
+        }
 
-            if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
-                $imgData = getimagesize($this->_src);
-                $this->_style->setWidth($imgData[0]);
-                $this->_style->setHeight($imgData[1]);
-            }
-
-            return $this;
-        } else {
-            return false;
+        if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
+            $imgData = getimagesize($this->_src);
+            $this->_style->setWidth($imgData[0]);
+            $this->_style->setHeight($imgData[1]);
         }
     }
 
