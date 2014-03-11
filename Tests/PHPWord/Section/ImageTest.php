@@ -33,6 +33,32 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PHPWord_Style_Image', $oImage->getStyle());
     }
 
+    public function testValidImageTypes()
+    {
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg");
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif");
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png");
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp");
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif");
+    }
+
+    /**
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
+     */
+    public function testImageNotFound()
+    {
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/thisisnotarealimage");
+    }
+
+    /**
+     * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
+     */
+    public function testInvalidImageTypes()
+    {
+        new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/alexz-johnson.pcx");
+    }
+
     public function testStyle()
     {
         $oImage = new PHPWord_Section_Image(\join(
