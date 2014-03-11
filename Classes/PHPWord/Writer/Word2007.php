@@ -115,7 +115,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
             $footnoteLinks = array();
             $_footnoteElements = PHPWord_Footnote::getFootnoteLinkElements();
-            foreach($_footnoteElements as $element) { // loop through footnote link elements
+            // loop through footnote link elements
+            foreach ($_footnoteElements as $element) {
                 $footnoteLinks[] = $element;
             }
 
@@ -204,8 +205,9 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $imagetype = image_type_to_mime_type($imagedata[2]);
             $imageext = image_type_to_extension($imagedata[2]);
             $imageext = str_replace('.', '', $imageext);
-            if ($imageext == 'jpeg') $imageext = 'jpg';
-
+            if ($imageext == 'jpeg') {
+                $imageext = 'jpg';
+            }
             if (!in_array($imagetype, $this->_imageTypes)) {
                 $this->_imageTypes[$imageext] = $imagetype;
             }

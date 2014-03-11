@@ -33,93 +33,99 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2011 PHPWord
  */
-class PHPWord_Footnote {
+class PHPWord_Footnote
+{
 
-  /**
-   * Footnote Elements
-   *
-   * @var array
-   */
-  private static $_footnoteCollection = array();
+    /**
+     * Footnote Elements
+     *
+     * @var array
+     */
+    private static $_footnoteCollection = array();
 
-  /**
-   * Footnote Link Elements
-   *
-   * @var array
-   */
-  private static $_footnoteLink = array();
+    /**
+     * Footnote Link Elements
+     *
+     * @var array
+     */
+    private static $_footnoteLink = array();
 
-  /**
-   * Add new Footnote Element
-   *
-   * @param string $linkSrc
-   * @param string $linkName
-   *
-   * @return mixed
-   */
-  public static function addFootnoteElement(PHPWord_Section_Footnote $footnote) {
-    $refID = self::countFootnoteElements() + 2;
+    /**
+     * Add new Footnote Element
+     *
+     * @param string $linkSrc
+     * @param string $linkName
+     *
+     * @return mixed
+     */
+    public static function addFootnoteElement(PHPWord_Section_Footnote $footnote)
+    {
+        $refID = self::countFootnoteElements() + 2;
 
-    self::$_footnoteCollection[] = $footnote;
+        self::$_footnoteCollection[] = $footnote;
 
-    return $refID;
-  }
+        return $refID;
+    }
 
-  /**
-   * Get Footnote Elements
-   *
-   * @return array
-   */
-  public static function getFootnoteElements() {
-    return self::$_footnoteCollection;
-  }
+    /**
+     * Get Footnote Elements
+     *
+     * @return array
+     */
+    public static function getFootnoteElements()
+    {
+        return self::$_footnoteCollection;
+    }
 
-  /**
-   * Get Footnote Elements Count
-   *
-   * @return int
-   */
-  public static function countFootnoteElements() {
-    return count(self::$_footnoteCollection);
-  }
+    /**
+     * Get Footnote Elements Count
+     *
+     * @return int
+     */
+    public static function countFootnoteElements()
+    {
+        return count(self::$_footnoteCollection);
+    }
 
-  /**
-   * Add new Footnote Link Element
-   *
-   * @param string $src
-   * @param string $type
-   *
-   * @return mixed
-   */
-  public static function addFootnoteLinkElement($linkSrc) {
-    $rID = self::countFootnoteLinkElements() + 1;
+    /**
+     * Add new Footnote Link Element
+     *
+     * @param string $src
+     * @param string $type
+     *
+     * @return mixed
+     */
+    public static function addFootnoteLinkElement($linkSrc)
+    {
+        $rID = self::countFootnoteLinkElements() + 1;
 
-    $link = array();
-    $link['target'] = $linkSrc;
-    $link['rID'] = $rID;
-    $link['type'] = 'hyperlink';
+        $link = array();
+        $link['target'] = $linkSrc;
+        $link['rID'] = $rID;
+        $link['type'] = 'hyperlink';
 
-    self::$_footnoteLink[] = $link;
+        self::$_footnoteLink[] = $link;
 
-    return $rID;
-  }
+        return $rID;
+    }
 
-  /**
-   * Get Footnote Link Elements
-   *
-   * @return array
-   */
-  public static function getFootnoteLinkElements() {
-    return self::$_footnoteLink;
-  }
+    /**
+     * Get Footnote Link Elements
+     *
+     * @return array
+     */
+    public static function getFootnoteLinkElements()
+    {
+        return self::$_footnoteLink;
+    }
 
-  /**
-   * Get Footnote Link Elements Count
-   *
-   * @return int
-   */
-  public static function countFootnoteLinkElements() {
-    return count(self::$_footnoteLink);
-  }
-
+    /**
+     * Get Footnote Link Elements Count
+     *
+     * @return int
+     */
+    public static function countFootnoteLinkElements()
+    {
+        return count(self::$_footnoteLink);
+    }
 }

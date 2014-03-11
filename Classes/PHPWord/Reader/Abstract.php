@@ -36,9 +36,9 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      *
      * @var boolean
      */
-    protected $readDataOnly = TRUE;
+    protected $readDataOnly = true;
 
-    protected $fileHandle = NULL;
+    protected $fileHandle = true;
 
 
     /**
@@ -46,9 +46,10 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      *
      * @return  boolean
      */
-    public function getReadDataOnly() {
+    public function getReadDataOnly()
+    {
         // return $this->readDataOnly;
-        return TRUE;
+        return true;
     }
 
     /**
@@ -57,7 +58,8 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      * @param   boolean $pValue
      * @return  PHPWord_Reader_IReader
      */
-    public function setReadDataOnly($pValue = TRUE) {
+    public function setReadDataOnly($pValue = true)
+    {
         $this->readDataOnly = $pValue;
         return $this;
     }
@@ -78,7 +80,7 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
 
         // Open file
         $this->fileHandle = fopen($pFilename, 'r');
-        if ($this->fileHandle === FALSE) {
+        if ($this->fileHandle === false) {
             throw new PHPWord_Exception("Could not open file " . $pFilename . " for reading.");
         }
     }
@@ -96,10 +98,9 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
         try {
             $this->openFile($pFilename);
         } catch (Exception $e) {
-            return FALSE;
+            return false;
         }
-        fclose ($this->fileHandle);
+        fclose($this->fileHandle);
         return $readable;
     }
-
 }

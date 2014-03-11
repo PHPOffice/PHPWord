@@ -616,7 +616,8 @@ class PHPWord_Section_Settings
      *
      * @return int
      */
-    public function getHeaderHeight() {
+    public function getHeaderHeight()
+    {
         return $this->headerHeight;
     }
 
@@ -625,7 +626,8 @@ class PHPWord_Section_Settings
      *
      * @param int $pValue
      */
-    public function setHeaderHeight($pValue = '') {
+    public function setHeaderHeight($pValue = '')
+    {
         if (!is_numeric($pValue)) {
             $pValue = 720;
         }
@@ -638,7 +640,8 @@ class PHPWord_Section_Settings
      *
      * @return int
      */
-    public function getFooterHeight() {
+    public function getFooterHeight()
+    {
         return $this->footerHeight;
     }
 
@@ -647,7 +650,8 @@ class PHPWord_Section_Settings
      *
      * @param int $pValue
      */
-    public function setFooterHeight($pValue = '') {
+    public function setFooterHeight($pValue = '')
+    {
         if (!is_numeric($pValue)) {
             $pValue = 720;
         }
@@ -660,7 +664,8 @@ class PHPWord_Section_Settings
      *
      * @param int $pValue
      */
-    public function setColsNum($pValue = '') {
+    public function setColsNum($pValue = '')
+    {
         if (!is_numeric($pValue)) {
             $pValue = 1;
         }
@@ -673,7 +678,8 @@ class PHPWord_Section_Settings
      *
      * @return int
      */
-    public function getColsNum() {
+    public function getColsNum()
+    {
         return $this->_colsNum;
     }
 
@@ -682,7 +688,8 @@ class PHPWord_Section_Settings
      *
      * @param int $pValue
      */
-    public function setColsSpace($pValue = '') {
+    public function setColsSpace($pValue = '')
+    {
         if (!is_numeric($pValue)) {
             $pValue = 720;
         }
@@ -695,7 +702,8 @@ class PHPWord_Section_Settings
      *
      * @return int
      */
-    public function getColsSpace() {
+    public function getColsSpace()
+    {
         return $this->_colsSpace;
     }
 
@@ -704,7 +712,8 @@ class PHPWord_Section_Settings
      *
      * @param string $pValue
      */
-    public function setBreakType($pValue = null) {
+    public function setBreakType($pValue = null)
+    {
         $this->_breakType = $pValue;
         return $this;
     }
@@ -714,8 +723,8 @@ class PHPWord_Section_Settings
      *
      * @return string
      */
-    public function getBreakType() {
+    public function getBreakType()
+    {
         return $this->_breakType;
     }
-
 }

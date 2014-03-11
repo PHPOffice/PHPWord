@@ -236,7 +236,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * @param    string $pPartName Writer part name
      * @return    PHPWord_Writer_ODText_WriterPart
      */
-    function getWriterPart($pPartName = '')
+    public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
             return $this->_writerParts[strtolower($pPartName)];

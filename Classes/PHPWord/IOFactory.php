@@ -126,7 +126,8 @@ class PHPWord_IOFactory
      * @param   string $readerType  Example: Word2007
      * @return  PHPWord_Reader_IReader
      */
-    public static function createReader($readerType = '') {
+    public static function createReader($readerType = '')
+    {
         $searchType = 'IReader';
 
         foreach (self::$_searchLocations as $searchLocation) {
@@ -134,7 +135,7 @@ class PHPWord_IOFactory
                 $className = str_replace('{0}', $readerType, $searchLocation['class']);
 
                 $instance = new $className();
-                if ($instance !== NULL) {
+                if ($instance !== null) {
                     return $instance;
                 }
             }
@@ -149,9 +150,9 @@ class PHPWord_IOFactory
      * @param   string  $pFilename The name of the file
      * @return  PHPWord
      */
-    public static function load($pFilename, $readerType = 'Word2007') {
+    public static function load($pFilename, $readerType = 'Word2007')
+    {
         $reader = self::createReader($readerType);
         return $reader->load($pFilename);
     }
-
 }

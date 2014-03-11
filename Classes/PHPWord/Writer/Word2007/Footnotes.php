@@ -26,8 +26,10 @@
  */
 
 
-class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base {
-    public function writeFootnotes($allFootnotesCollection) {
+class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base
+{
+    public function writeFootnotes($allFootnotesCollection)
+    {
         // Create XML writer
         $objWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
@@ -40,8 +42,8 @@ class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base {
         $objWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         $objWriter->startElement('w:footnotes');
-        $objWriter->writeAttribute('xmlns:r','http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $objWriter->writeAttribute('xmlns:w','http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $objWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
 
         // write separator and continuation separator
         $objWriter->startElement('w:footnote');
@@ -67,8 +69,8 @@ class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base {
         $objWriter->endElement(); // w:footnote
 
 
-        foreach($allFootnotesCollection as $footnote) {
-            if($footnote instanceof PHPWord_Section_Footnote) {
+        foreach ($allFootnotesCollection as $footnote) {
+            if ($footnote instanceof PHPWord_Section_Footnote) {
                 $this->_writeFootnote($objWriter, $footnote);
             }
         }
