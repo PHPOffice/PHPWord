@@ -12,7 +12,6 @@ use PHPWord_Style_Cell;
  */
 class CellTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test setting style with normal value
      */

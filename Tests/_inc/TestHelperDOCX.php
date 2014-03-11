@@ -15,8 +15,8 @@ class TestHelperDOCX
     public static function getDocument(PHPWord $PHPWord)
     {
         self::$file = tempnam(sys_get_temp_dir(), 'PHPWord');
-        if(!is_dir(sys_get_temp_dir().'/PHPWord_Unit_Test/')){
-          mkdir(sys_get_temp_dir().'/PHPWord_Unit_Test/');
+        if (!is_dir(sys_get_temp_dir() . '/PHPWord_Unit_Test/')) {
+            mkdir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
         }
 
         $objWriter = \PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
@@ -29,16 +29,16 @@ class TestHelperDOCX
             $zip->close();
         }
 
-        return new Xml_Document(sys_get_temp_dir().'/PHPWord_Unit_Test/');
+        return new Xml_Document(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
     }
 
     public static function clear()
     {
-        if(file_exists(self::$file)){
-          unlink(self::$file);
+        if (file_exists(self::$file)) {
+            unlink(self::$file);
         }
-        if(is_dir(sys_get_temp_dir().'/PHPWord_Unit_Test/')){
-          self::deleteDir(sys_get_temp_dir().'/PHPWord_Unit_Test/');
+        if (is_dir(sys_get_temp_dir() . '/PHPWord_Unit_Test/')) {
+            self::deleteDir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
         }
     }
 
@@ -94,9 +94,9 @@ class Xml_Document
         }
 
         $this->xpath = null;
-        $this->file = $file;
+        $this->file  = $file;
 
-        $file = $this->path . '/' . $file;
+        $file      = $this->path . '/' . $file;
         $this->dom = new DOMDocument();
         $this->dom->load($file);
         return $this->dom;

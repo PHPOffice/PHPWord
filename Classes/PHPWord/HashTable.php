@@ -69,7 +69,7 @@ class PHPWord_HashTable
         // Check if an array was passed
         if ($pSource == null) {
             return;
-        } else if (!is_array($pSource)) {
+        } elseif (!is_array($pSource)) {
             throw new Exception('Invalid array parameter passed.');
         }
 
@@ -91,7 +91,7 @@ class PHPWord_HashTable
         $hashIndex = $pSource->getHashIndex();
         if (is_null($hashIndex)) {
             $hashCode = $pSource->getHashCode();
-        } else if (isset ($this->_keyMap[$hashIndex])) {
+        } elseif (isset ($this->_keyMap[$hashIndex])) {
             $hashCode = $this->_keyMap[$hashIndex];
         } else {
             $hashCode = $pSource->getHashCode();

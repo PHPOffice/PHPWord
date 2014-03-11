@@ -12,7 +12,6 @@ use PHPWord_Style_TableFull;
  */
 class TableFullTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test class construction
      *
@@ -132,5 +131,4 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals($values, $object->getCellMargin());
     }
-
 }

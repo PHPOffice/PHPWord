@@ -12,7 +12,6 @@ use PHPWord_Shared_Drawing;
  */
 class DrawingTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test unit conversion functions with various numbers
      */
@@ -65,5 +64,4 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value[1], $result);
         }
     }
-
 }

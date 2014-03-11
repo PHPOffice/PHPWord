@@ -12,7 +12,6 @@ use PHPWord_Style_ListItem;
  */
 class ListItemTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test construct
      */
@@ -47,5 +46,4 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
         $object->setListType($value);
         $this->assertEquals($value, $object->getListType());
     }
-
 }

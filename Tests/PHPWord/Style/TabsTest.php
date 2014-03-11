@@ -42,5 +42,4 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1440, $element->getAttribute('w:pos'));
         $this->assertEquals('dot', $element->getAttribute('w:leader'));
     }
-
 }

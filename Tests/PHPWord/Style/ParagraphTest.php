@@ -133,5 +133,4 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object->setLineHeight('12.5pt');
         $this->assertEquals(12.5, $object->getLineHeight());
     }
-
 }
