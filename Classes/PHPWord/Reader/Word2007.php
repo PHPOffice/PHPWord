@@ -38,7 +38,6 @@ if (!defined('PHPWORD_BASE_PATH')) {
 class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
     PHPWord_Reader_IReader
 {
-
     /**
      * Create a new PHPWord_Reader_Word2007 instance
      */
@@ -57,8 +56,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
         // Check if file exists
         if (!file_exists($pFilename)) {
             throw new PHPWord_Exception(
-                "Could not open " . $pFilename .
-                " for reading! File does not exist."
+                "Could not open {$pFilename} for reading! File does not exist."
             );
         }
 
@@ -123,16 +121,13 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
      * Loads PHPWord from file
      *
      * @param   string      $pFilename
-     * @return  PHPWord
+     * @return  PHPWord|null
      */
     public function load($pFilename)
     {
-        // Check if file exists
-        if (!file_exists($pFilename)) {
-            throw new PHPWord_Exception(
-                "Could not open " . $pFilename .
-                " for reading! File does not exist."
-            );
+        // Check if file exists and can be read
+        if (!$this->canRead($pFilename)) {
+            return;
         }
 
         // Initialisations
@@ -211,7 +206,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                         foreach ($xmlDoc->body->children() as $elm) {
                             $elmName = $elm->getName();
                             if ($elmName == 'p') { // Paragraph/section
-                                // Create new section if section section found
+                                // Create new section if section setting found
                                 if ($elm->pPr->sectPr) {
                                     $section->setSettings($this->loadSectionSettings($elm->pPr));
                                     $section = $word->createSection();
@@ -262,8 +257,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                             }
                             unset($pStyle);
                             unset($fStyle);
-                            $hasParagraphStyle = $elm->pPr && ($elm->pPr != '');
-                            $hasFontStyle = $elm->rPr && ($elm->rPr != '');
+                            $hasParagraphStyle = isset($elm->pPr);
+                            $hasFontStyle = isset($elm->rPr);
                             $styleName = (string)$elm->name['val'];
                             if ($hasParagraphStyle) {
                                 $pStyle = $this->loadParagraphStyle($elm);

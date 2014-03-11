@@ -411,7 +411,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         if ($this->_lastParagraphStyle != '' || $styleFont) {
             $sRTFText .= ' ';
         }
-        $sRTFText .= $text->getDataContentText();
+        $sRTFText .= $text->getText();
 
         if ($styleFont) {
             $sRTFText .= '\cf0';
