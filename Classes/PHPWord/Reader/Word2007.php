@@ -35,7 +35,8 @@ if (!defined('PHPWORD_BASE_PATH')) {
 /**
  * PHPWord_Reader_Word2007
  */
-class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
+class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
+    PHPWord_Reader_IReader
 {
 
     /**
@@ -54,7 +55,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
     {
         // Check if file exists
         if (!file_exists($pFilename)) {
-            throw new PHPWord_Exception("Could not open " . $pFilename . " for reading! File does not exist.");
+            throw new PHPWord_Exception("Could not open " . $pFilename .
+                " for reading! File does not exist.");
         }
 
         $return = false;
@@ -86,9 +88,13 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
      *
      * @param   ZipArchive  $archive
      * @param   string      $fileName
+     * @param   bool        $removeNamespace
      */
-    public function getFromZipArchive($archive, $fileName = '')
-    {
+    public function getFromZipArchive(
+        $archive,
+        $fileName = '',
+        $removeNamespace = false
+    ) {
         // Root-relative paths
         if (strpos($fileName, '//') !== false)
         {
@@ -103,9 +109,9 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
             $contents = $archive->getFromName(substr($fileName, 1));
         }
 
-        // Stupid hack for namespace
-        if ($contents != '' && $fileName = 'word/document.xml') {
-            $contents = preg_replace('~(</?)w:~is', '$1', $contents);
+        // Remove namespaces from elements and attributes name
+        if ($removeNamespace) {
+            $contents = preg_replace('~(</?|\s)w:~is', '$1', $contents);
         }
 
         return $contents;
@@ -122,7 +128,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
     {
         // Check if file exists
         if (!file_exists($pFilename)) {
-            throw new PHPWord_Exception("Could not open " . $pFilename . " for reading! File does not exist.");
+            throw new PHPWord_Exception("Could not open " . $pFilename .
+                " for reading! File does not exist.");
         }
 
         // Initialisations
@@ -130,17 +137,17 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
         $zip = new ZipArchive;
         $zip->open($pFilename);
 
-        // Read relationships
+        // Read properties and documents
         $rels = simplexml_load_string($this->getFromZipArchive($zip, "_rels/.rels"));
         foreach ($rels->Relationship as $rel) {
             switch ($rel["Type"]) {
                 // Core properties
-                case "http://schemas.openxmlformats.org/package/2006//relationships/metadata/core-properties":
+                case "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties":
                     $xmlCore = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}"));
                     if (is_object($xmlCore)) {
                         $xmlCore->registerXPathNamespace("dc", "http://purl.org/dc/elements/1.1/");
                         $xmlCore->registerXPathNamespace("dcterms", "http://purl.org/dc/terms/");
-                        $xmlCore->registerXPathNamespace("cp", "http://schemas.openxmlformats.org/package/2006//metadata/core-properties");
+                        $xmlCore->registerXPathNamespace("cp", "http://schemas.openxmlformats.org/package/2006/metadata/core-properties");
                         $docProps = $word->getProperties();
                         $docProps->setCreator((string) self::array_item($xmlCore->xpath("dc:creator")));
                         $docProps->setLastModifiedBy((string) self::array_item($xmlCore->xpath("cp:lastModifiedBy")));
@@ -188,32 +195,75 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
                     $dir = dirname($rel["Target"]);
                     $archive = "$dir/_rels/" . basename($rel["Target"]) . ".rels";
                     $relsDoc = simplexml_load_string($this->getFromZipArchive($zip, $archive));
-                    $relsDoc->registerXPathNamespace("rel", "http://schemas.openxmlformats.org/package/2006//relationships");
+                    $relsDoc->registerXPathNamespace("rel", "http://schemas.openxmlformats.org/package/2006/relationships");
                     $xpath = self::array_item($relsDoc->xpath("rel:Relationship[@Type='" .
                         "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles']"));
-                    $xmlDoc = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}"));
-                    if ($xmlDoc->body) {
+                    $xmlDoc = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}", true));
+                    if (is_object($xmlDoc)) {
                         $section = $word->createSection();
-                        foreach ($xmlDoc->body->children() as $element) {
-                            switch ($element->getName()) {
-                                case 'p':
-                                    if ($element->pPr->sectPr) {
-                                        $section = $word->createSection();
-                                        continue;
-                                    }
-                                    if ($element->r) {
-                                        if (count($element->r) == 1) {
-                                            $section->addText($element->r->t);
-                                        } else {
-                                            $textRun = $section->createTextRun();
-                                            foreach ($element->r as $r) {
-                                                $textRun->addText($r->t);
-                                            }
-                                        }
+
+                        foreach ($xmlDoc->body->children() as $elm) {
+                            $elmName = $elm->getName();
+                            if ($elmName == 'p') { // Paragraph/section
+                                // Create new section if section section found
+                                if ($elm->pPr->sectPr) {
+                                    $section->setSettings($this->loadSectionSettings($elm->pPr));
+                                    $section = $word->createSection();
+                                    continue;
+                                }
+                                // Has w:r? It's either text or textrun
+                                if ($elm->r) {
+                                    // w:r = 1? It's a plain paragraph
+                                    if (count($elm->r) == 1) {
+                                        $section->addText($elm->r->t,
+                                            $this->loadFontStyle($elm->r));
+                                    // w:r more than 1? It's a textrun
                                     } else {
-                                        $section->addTextBreak();
+                                        $textRun = $section->createTextRun();
+                                        foreach ($elm->r as $r) {
+                                            $textRun->addText($r->t,
+                                                $this->loadFontStyle($r));
+                                        }
                                     }
-                                    break;
+                                // No, it's a textbreak
+                                } else {
+                                    $section->addTextBreak();
+                                }
+                            } elseif ($elmName == 'sectPr') {
+                                // Last section setting
+                                $section->setSettings($this->loadSectionSettings($xmlDoc->body));
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        //  Read styles
+        $docRels = simplexml_load_string($this->getFromZipArchive($zip, "word/_rels/document.xml.rels"));
+        foreach ($docRels->Relationship as $rel) {
+            switch ($rel["Type"]) {
+                case "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles":
+                    $xmlStyle = simplexml_load_string($this->getFromZipArchive($zip, "word/{$rel['Target']}", true));
+                    if (is_object($xmlStyle)) {
+                        foreach ($xmlStyle->children() as $elm) {
+                            if ($elm->getName() != 'style') {
+                                continue;
+                            }
+                            unset($pStyle);
+                            unset($fStyle);
+                            $hasParagraphStyle = $elm->pPr && ($elm->pPr != '');
+                            $hasFontStyle = $elm->rPr && ($elm->rPr != '');
+                            $styleName = (string)$elm->name['val'];
+                            if ($hasParagraphStyle) {
+                                $pStyle = $this->loadParagraphStyle($elm);
+                                if (!$hasFontStyle) {
+                                    $word->addParagraphStyle($styleName, $pStyle);
+                                }
+                            }
+                            if ($hasFontStyle) {
+                                $fStyle = $this->loadFontStyle($elm);
+                                $word->addFontStyle($styleName, $fStyle, $pStyle);
                             }
                         }
                     }
@@ -223,6 +273,181 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
         $zip->close();
 
         return $word;
+    }
+
+    /**
+     * Load section settings from SimpleXMLElement
+     *
+     * @param   SimpleXMLElement    $elm
+     * @return  array|string|null
+     *
+     * @todo    Implement gutter
+     */
+    private function loadSectionSettings($elm)
+    {
+        if ($xml = $elm->sectPr) {
+            $setting = array();
+            if ($xml->type) {
+                $setting['breakType'] = (string)$xml->type['val'];
+            }
+            if ($xml->pgSz) {
+                if (isset($xml->pgSz['w'])) {
+                    $setting['pageSizeW'] = (int)$xml->pgSz['w'];
+                }
+                if (isset($xml->pgSz['h'])) {
+                    $setting['pageSizeH'] = (int)$xml->pgSz['h'];
+                }
+                if (isset($xml->pgSz['orient'])) {
+                    $setting['orientation'] = (string)$xml->pgSz['orient'];
+                }
+            }
+            if ($xml->pgMar) {
+                if (isset($xml->pgMar['top'])) {
+                    $setting['topMargin'] = (int)$xml->pgMar['top'];
+                }
+                if (isset($xml->pgMar['left'])) {
+                    $setting['leftMargin'] = (int)$xml->pgMar['left'];
+                }
+                if (isset($xml->pgMar['bottom'])) {
+                    $setting['bottomMargin'] = (int)$xml->pgMar['bottom'];
+                }
+                if (isset($xml->pgMar['right'])) {
+                    $setting['rightMargin'] = (int)$xml->pgMar['right'];
+                }
+                if (isset($xml->pgMar['header'])) {
+                    $setting['headerHeight'] = (int)$xml->pgMar['header'];
+                }
+                if (isset($xml->pgMar['footer'])) {
+                    $setting['footerHeight'] = (int)$xml->pgMar['footer'];
+                }
+                if (isset($xml->pgMar['gutter'])) {
+                    // $setting['gutter'] = (int)$xml->pgMar['gutter'];
+                }
+            }
+            if ($xml->cols) {
+                if (isset($xml->cols['num'])) {
+                    $setting['colsNum'] = (int)$xml->cols['num'];
+                }
+                if (isset($xml->cols['space'])) {
+                    $setting['colsSpace'] = (int)$xml->cols['space'];
+                }
+            }
+            return $setting;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Load paragraph style from SimpleXMLElement
+     *
+     * @param   SimpleXMLElement    $elm
+     * @return  array|string|null
+     */
+    private function loadParagraphStyle($elm)
+    {
+        if ($xml = $elm->pPr) {
+            if ($xml->pStyle) {
+                return (string)$xml->pStyle['val'];
+            }
+            $style = array();
+            if ($xml->jc) {
+                $style['align'] = (string)$xml->jc['val'];
+            }
+            if ($xml->ind) {
+                if (isset($xml->ind->left)) {
+                    $style['indent'] = (int)$xml->ind->left;
+                }
+                if (isset($xml->ind->hanging)) {
+                    $style['hanging'] = (int)$xml->ind->hanging;
+                }
+                if (isset($xml->ind->line)) {
+                    $style['spacing'] = (int)$xml->ind->line;
+                }
+            }
+            if ($xml->spacing) {
+                if (isset($xml->spacing['after'])) {
+                    $style['spaceAfter'] = (int)$xml->spacing['after'];
+                }
+                if (isset($xml->spacing['before'])) {
+                    $style['spaceBefore'] = (int)$xml->spacing['before'];
+                }
+                if (isset($xml->spacing['line'])) {
+                    $style['spacing'] = (int)$xml->spacing['line'];
+                }
+            }
+            if ($xml->basedOn) {
+                $style['basedOn'] = (string)$xml->basedOn['val'];
+            }
+            if ($xml->next) {
+                $style['next'] = (string)$xml->next['val'];
+            }
+            if ($xml->widowControl) {
+                $style['widowControl'] = false;
+            }
+            if ($xml->keepNext) {
+                $style['keepNext'] = true;
+            }
+            if ($xml->keepLines) {
+                $style['keepLines'] = true;
+            }
+            if ($xml->pageBreakBefore) {
+                $style['pageBreakBefore'] = true;
+            }
+            return $style;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Load font style from SimpleXMLElement
+     *
+     * @param   SimpleXMLElement    $elm
+     * @return  array|string|null
+     */
+    private function loadFontStyle($elm)
+    {
+        if ($xml = $elm->rPr) {
+            if ($xml->rStyle) {
+                return (string)$xml->rStyle['val'];
+            }
+            $style = array();
+            if ($xml->rFonts) {
+                $style['name'] = (string)$xml->rFonts['ascii'];
+            }
+            if ($xml->sz) {
+                $style['size'] = (int)$xml->sz['val'] / 2;
+            }
+            if ($xml->color) {
+                $style['color'] = (string)$xml->color['val'];
+            }
+            if ($xml->b) {
+                $style['bold'] = true;
+            }
+            if ($xml->i) {
+                $style['italic'] = true;
+            }
+            if ($xml->u) {
+                $style['underline'] = (string)$xml->u['val'];
+            }
+            if ($xml->strike) {
+                $style['strikethrough'] = true;
+            }
+            if ($xml->highlight) {
+                $style['fgColor'] = (string)$xml->highlight['val'];
+            }
+            if ($xml->vertAlign) {
+                if ($xml->vertAlign['val'] == 'superscript') {
+                    $style['superScript'] = true;
+                } else {
+                    $style['subScript'] = true;
+                }
+            }
+            return $style;
+        } else {
+            return null;
+        }
     }
 
     /**

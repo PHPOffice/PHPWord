@@ -77,7 +77,16 @@ class PHPWord_Section
     {
         $this->_sectionCount = $sectionCount;
         $this->_settings = new PHPWord_Section_Settings();
+        $this->setSettings($settings);
+    }
 
+    /**
+     * Set Section Settings
+     *
+     * @param   array   $settings
+     */
+    public function setSettings($settings = null)
+    {
         if (!is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
                 if (substr($key, 0, 1) != '_') {

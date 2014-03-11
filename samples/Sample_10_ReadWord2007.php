@@ -5,74 +5,29 @@ define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 require_once '../Classes/PHPWord.php';
 
-$files = array(
-    "Sample_01_SimpleText.docx",
-    "Sample_02_TabStops.docx",
-    "Sample_03_Sections.docx",
-    "Sample_04_Textrun.docx",
-    "Sample_05_Multicolumn.docx",
-    "Sample_06_Footnote.docx",
-    "Sample_07_TemplateCloneRow.docx",
-    "Sample_08_ParagraphPagination.docx",
-    "Sample_09_Tables.docx",
-);
+// Read contents
+$sample = 'Sample_10_ReadWord2007';
+$source = "resources/{$sample}.docx";
+$target = "results/{$sample}";
+echo '<p><strong>', date('H:i:s'), " Reading contents from `{$source}`</strong></p>";
+$PHPWord = PHPWord_IOFactory::load($source);
 
-foreach ($files as $file) {
-    echo '<hr />';
-    echo '<p><strong>', date('H:i:s'), " Load from {$file} with contents:</strong></p>";
-    unset($PHPWord);
-    try {
-        $PHPWord = PHPWord_IOFactory::load($file);
-    } catch (Exception $e) {
-        echo '<p style="color: red;">Caught exception: ',  $e->getMessage(), '</p>';
-        continue;
-    }
-    $sections = $PHPWord->getSections();
-    $countSections = count($sections);
-    $pSection = 0;
+// Rewrite contents
+echo date('H:i:s') , " Write to Word2007 format" , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
+$objWriter->save("{$sample}.docx");
+rename("{$sample}.docx", "{$target}.docx");
 
-    if ($countSections > 0) {
-        foreach ($sections as $section) {
-            $pSection++;
-            echo "<p><strong>Section {$pSection}:</strong></p>";
-            $elements = $section->getElements();
-            foreach ($elements as $element) {
-                if ($element instanceof PHPWord_Section_Text) {
-                    echo '<p>' . htmlspecialchars($element->getText()) . '</p>';
-                } elseif ($element instanceof PHPWord_Section_TextRun) {
-                    $subelements = $element->getElements();
-                    echo '<p>';
-                    if (count($subelements) > 0) {
-                        foreach ($subelements as $subelement) {
-                            if ($subelement instanceof PHPWord_Section_Text) {
-                                echo htmlspecialchars($subelement->getText());
-                            }
-                        }
-                    }
-                    echo '</p>';
-                } elseif ($element instanceof PHPWord_Section_Link) {
-                    echo '<p style="color: red;">Link not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_Section_Title) {
-                    echo '<p style="color: red;">Title not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                    echo '<br />';
-                } elseif ($element instanceof PHPWord_Section_PageBreak) {
-                    echo '<p style="color: red;">Page break not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_Section_Table) {
-                    echo '<p style="color: red;">Table not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_Section_ListItem) {
-                    echo '<p style="color: red;">List item not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_Section_Image ||
-                    $element instanceof PHPWord_Section_MemoryImage
-                ) {
-                    echo '<p style="color: red;">Image not yet supported.</p>';
-                } elseif ($element instanceof PHPWord_TOC) {
-                    echo '<p style="color: red;">TOC not yet supported.</p>';
-                } elseif($element instanceof PHPWord_Section_Footnote) {
-                    echo '<p style="color: red;">Footnote not yet supported.</p>';
-                }
-            }
-        }
-    }
-}
+echo date('H:i:s') , ' Write to OpenDocumentText format' , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
+$objWriter->save("{$sample}.odt");
+rename("{$sample}.odt", "{$target}.odt");
 
+echo date('H:i:s') , ' Write to RTF format' , EOL;
+$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'RTF');
+$objWriter->save("{$sample}.rtf");
+rename("{$sample}.rtf", "{$target}.rtf");
+
+// Echo memory peak usage
+echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
+echo date('H:i:s') , " Done writing file" , EOL;

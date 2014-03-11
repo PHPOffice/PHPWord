@@ -128,8 +128,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
     protected function _writeParagraphStyle(
         PHPWord_Shared_XMLWriter $objWriter = null,
         PHPWord_Style_Paragraph $style,
-        $withoutPPR = false)
-    {
+        $withoutPPR = false
+    ) {
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
         $spaceBefore = $style->getSpaceBefore();
