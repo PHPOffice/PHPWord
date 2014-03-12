@@ -59,4 +59,12 @@ class TestHelperDOCX
 
         rmdir($dir);
     }
+
+    /**
+     * @return string
+     */
+    public static function getFile()
+    {
+        return self::$file;
+    }
 }
