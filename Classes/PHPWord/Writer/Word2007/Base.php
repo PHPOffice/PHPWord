@@ -108,8 +108,10 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $this->_writeLink($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Image) {
                     $this->_writeImage($objWriter, $element, true);
-                } elseif($element instanceof PHPWord_Section_Footnote) {
+                } elseif ($element instanceof PHPWord_Section_Footnote) {
                     $this->_writeFootnoteReference($objWriter, $element, true);
+                } elseif ($element instanceof PHPWord_Section_TextBreak) {
+                    $objWriter->writeElement('w:br');
                 }
             }
         }
