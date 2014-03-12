@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Section\Table;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Section_Table_Cell;
 
 class CellTest extends \PHPUnit_Framework_TestCase
