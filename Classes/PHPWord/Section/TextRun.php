@@ -132,6 +132,17 @@ class PHPWord_Section_TextRun
     }
 
     /**
+     * Add a Text Break
+     *
+     * @param int $count
+     */
+    public function addTextBreak($count = 1) {
+        for ($i=1; $i<=$count; $i++) {
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+        }
+    }
+
+    /**
      * Create a new Footnote Element
      *
      * @param string $text
