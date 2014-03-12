@@ -12,7 +12,6 @@ use PHPWord_Shared_String;
  */
 class StringTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test getIsMbstringEnabled() and getIsIconvEnabled()
      */
@@ -41,5 +40,4 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $returned = PHPWord_Shared_String::FormatNumber('1022.1234');
         $this->assertEquals($expected, $returned);
     }
-
 }

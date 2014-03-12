@@ -20,29 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
-    public function testWriteImage_Position()
-    {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
-        $section->addImage(
-            PHPWORD_TESTS_DIR_ROOT . '/_files/images/earth.jpg',
-            array(
-                'marginTop' => -1,
-                'marginLeft' => -1,
-                'wrappingStyle' => 'behind'
-            )
-        );
-
-        $doc = TestHelperDOCX::getDocument($PHPWord);
-        $element = $doc->getElement('/w:document/w:body/w:p/w:r/w:pict/v:shape');
-
-        $style = $element->getAttribute('style');
-
-        $this->assertRegExp('/z\-index:\-[0-9]*/', $style);
-        $this->assertRegExp('/position:absolute;/', $style);
-    }
-
-    public function testWriteParagraphStyle_Align()
+    public function testWriteParagraphStyleAlign()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
@@ -55,34 +33,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('right', $element->getAttribute('w:val'));
     }
 
-    public function testWriteCellStyle_CellGridSpan()
-    {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
-
-        $table = $section->addTable();
-
-        $table->addRow();
-        $cell = $table->addCell(200);
-        $cell->getStyle()->setGridSpan(5);
-
-        $table->addRow();
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-
-        $doc = TestHelperDOCX::getDocument($PHPWord);
-        $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
-
-        $this->assertEquals(5, $element->getAttribute('w:val'));
-    }
-
     /**
      * Test write paragraph pagination
      */
-    public function testWriteParagraphStyle_Pagination()
+    public function testWriteParagraphStylePagination()
     {
         // Create the doc
         $PHPWord = new PHPWord();
@@ -107,6 +61,52 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $expected = $value ? 1 : 0;
             $this->assertEquals($expected, $element->getAttribute('w:val'));
         }
+    }
+
+    public function testWriteCellStyleCellGridSpan()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+
+        $table = $section->addTable();
+
+        $table->addRow();
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setGridSpan(5);
+
+        $table->addRow();
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
+
+        $this->assertEquals(5, $element->getAttribute('w:val'));
+    }
+
+    public function testWriteImagePosition()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+        $section->addImage(
+            PHPWORD_TESTS_DIR_ROOT . '/_files/images/earth.jpg',
+            array(
+                'marginTop' => -1,
+                'marginLeft' => -1,
+                'wrappingStyle' => 'behind'
+            )
+        );
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:p/w:r/w:pict/v:shape');
+
+        $style = $element->getAttribute('style');
+
+        $this->assertRegExp('/z\-index:\-[0-9]*/', $style);
+        $this->assertRegExp('/position:absolute;/', $style);
     }
 
     public function testWritePreserveText()

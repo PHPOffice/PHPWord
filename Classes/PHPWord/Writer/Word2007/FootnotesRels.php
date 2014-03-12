@@ -26,64 +26,61 @@
  */
 
 
-class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_WriterPart {
-  public function writeFootnotesRels($_relsCollection) {
-    // Create XML writer
-    $objWriter = null;
-    if ($this->getParentWriter()->getUseDiskCaching()) {
-      $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-    } else {
-      $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_WriterPart
+{
+    public function writeFootnotesRels($_relsCollection)
+    {
+        // Create XML writer
+        $objWriter = null;
+        if ($this->getParentWriter()->getUseDiskCaching()) {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+        } else {
+            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+        }
+
+        // XML header
+        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+
+        // Relationships
+        $objWriter->startElement('Relationships');
+        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+
+        // Relationships to Links
+        foreach ($_relsCollection as $relation) {
+            $relationType = $relation['type'];
+            $relationName = $relation['target'];
+            $relationId   = $relation['rID'];
+            $targetMode   = ($relationType == 'hyperlink') ? 'External' : '';
+
+            $this->_writeRelationship($objWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
+        }
+
+        $objWriter->endElement();
+
+        // Return
+        return $objWriter->getData();
     }
 
-    // XML header
-    $objWriter->startDocument('1.0','UTF-8','yes');
+    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    {
+        if ($pType != '' && $pTarget != '') {
+            if (strpos($pId, 'rId') === false) {
+                $pId = 'rId' . $pId;
+            }
 
-    // Relationships
-    $objWriter->startElement('Relationships');
-    $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+            // Write relationship
+            $objWriter->startElement('Relationship');
+            $objWriter->writeAttribute('Id', $pId);
+            $objWriter->writeAttribute('Type', $pType);
+            $objWriter->writeAttribute('Target', $pTarget);
 
-    // Relationships to Links
-    foreach($_relsCollection as $relation) {
-      $relationType = $relation['type'];
-      $relationName = $relation['target'];
-      $relationId = $relation['rID'];
-      $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
+            if ($pTargetMode != '') {
+                $objWriter->writeAttribute('TargetMode', $pTargetMode);
+            }
 
-      $this->_writeRelationship(
-        $objWriter,
-        $relationId,
-        'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'.$relationType,
-        $relationName,
-        $targetMode
-      );
+            $objWriter->endElement();
+        } else {
+            throw new Exception("Invalid parameters passed.");
+        }
     }
-
-    $objWriter->endElement();
-
-    // Return
-    return $objWriter->getData();
-  }
-
-  private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '') {
-    if($pType != '' && $pTarget != '') {
-      if(strpos($pId, 'rId') === false) {
-        $pId = 'rId' . $pId;
-      }
-
-      // Write relationship
-      $objWriter->startElement('Relationship');
-      $objWriter->writeAttribute('Id', $pId);
-      $objWriter->writeAttribute('Type', $pType);
-      $objWriter->writeAttribute('Target', $pTarget);
-
-      if($pTargetMode != '') {
-        $objWriter->writeAttribute('TargetMode', $pTargetMode);
-      }
-
-      $objWriter->endElement();
-    } else {
-      throw new Exception("Invalid parameters passed.");
-    }
-  }
 }

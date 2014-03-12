@@ -123,7 +123,7 @@ class PHPWord_Style_Cell
      *
      * @var integer
      */
-    private $_gridSpan = NULL;
+    private $_gridSpan = null;
 
     /**
      * rowspan (restart, continue)
@@ -133,7 +133,7 @@ class PHPWord_Style_Cell
      *
      * @var string
      */
-    private $_vMerge = NULL;
+    private $_vMerge = null;
 
     /**
      * Create a new Cell Style

@@ -116,7 +116,8 @@ class PHPWord_Section_TextRun
      * @param mixed $styleFont
      * @return PHPWord_Section_Image
      */
-    public function addImage($imageSrc, $style = null) {
+    public function addImage($imageSrc, $style = null)
+    {
         $image = new PHPWord_Section_Image($imageSrc, $style);
 
         if (!is_null($image->getSource())) {
@@ -135,7 +136,8 @@ class PHPWord_Section_TextRun
      *
      * @param int $count
      */
-    public function addTextBreak($count = 1) {
+    public function addTextBreak($count = 1)
+    {
         for ($i=1; $i<=$count; $i++) {
             $this->_elementCollection[] = new PHPWord_Section_TextBreak();
         }
@@ -147,7 +149,8 @@ class PHPWord_Section_TextRun
      * @param string $text
      * @return PHPWord_Section_Footnote
      */
-    public function createFootnote($styleParagraph = null) {
+    public function createFootnote($styleParagraph = null)
+    {
         $footnote = new PHPWord_Section_Footnote($styleParagraph);
         $refID = PHPWord_Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);

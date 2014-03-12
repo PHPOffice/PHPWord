@@ -12,7 +12,6 @@ use PHPWord_Style_Table;
  */
 class TableTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test set style value
      */
@@ -50,5 +49,4 @@ class TableTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals($values, $object->getCellMargin());
     }
-
 }

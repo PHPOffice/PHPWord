@@ -81,5 +81,4 @@ class PHPWord_Style_Row
     {
         return $this->_cantSplit ? 1 : 0;
     }
-
 }

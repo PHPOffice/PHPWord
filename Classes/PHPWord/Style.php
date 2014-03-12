@@ -175,4 +175,3 @@ class PHPWord_Style
         }
     }
 }
-

@@ -83,7 +83,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddMemoryImage()
     {
         $oHeader = new PHPWord_Section_Header(1);
-        $element = $oHeader->addMemoryImage('https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png');
+        $element = $oHeader->addMemoryImage(
+            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+        );
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PHPWord_Section_MemoryImage', $element);

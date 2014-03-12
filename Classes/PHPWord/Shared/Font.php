@@ -88,5 +88,4 @@ class PHPWord_Shared_Font
     {
         return ($sizeInPoint * 20);
     }
-
 }

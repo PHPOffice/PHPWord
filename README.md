@@ -15,6 +15,7 @@ __Want to contribute?__ Fork us!
 ## Requirements
 
 * PHP version 5.3.0 or higher
+* PHP extension [php_zip](http://php.net/manual/en/book.zip.php) enabled
 
 ## Installation
 

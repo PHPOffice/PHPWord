@@ -182,8 +182,8 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                         }
                         $objWriter->endElement();
                         $objWriter->endElement();
-                    } // PHPWord_Style_Paragraph
-                    elseif ($style instanceof PHPWord_Style_Paragraph) {
+                    } elseif ($style instanceof PHPWord_Style_Paragraph) {
+                        // PHPWord_Style_Paragraph
                         // style:style
                         $objWriter->startElement('style:style');
                         $objWriter->writeAttribute('style:name', $styleName);
@@ -197,9 +197,8 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                         $objWriter->endElement();
 
                         $objWriter->endElement();
-
-                    } // PHPWord_Style_TableFull
-                    elseif ($style instanceof PHPWord_Style_TableFull) {
+                    } elseif ($style instanceof PHPWord_Style_TableFull) {
+                        // PHPWord_Style_TableFull
                     }
                 }
             }

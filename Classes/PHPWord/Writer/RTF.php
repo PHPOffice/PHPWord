@@ -81,7 +81,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             }
 
             $hFile = fopen($pFilename, 'w') or die("can't open file");
-            fwrite($hFile, $this->_getData());
+            fwrite($hFile, $this->getData());
             fclose($hFile);
 
             // If a temporary file was used, copy it to the correct file stream
@@ -135,11 +135,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $this->_drawingHashTable;
     }
 
-    private function _getData()
+    private function getData()
     {
         // PHPWord object : $this->_document
-        $this->_fontTable = $this->_getDataFont();
-        $this->_colorTable = $this->_getDataColor();
+        $this->_fontTable = $this->getDataFont();
+        $this->_colorTable = $this->getDataColor();
 
         $sRTFContent = '{\rtf1';
         // Set the default character set
@@ -180,7 +180,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         $sRTFContent .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
         $sRTFContent .= PHP_EOL;
         // Body
-        $sRTFContent .= $this->_getDataContent();
+        $sRTFContent .= $this->getDataContent();
 
 
         $sRTFContent .= '}';
@@ -188,7 +188,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $sRTFContent;
     }
 
-    private function _getDataFont()
+    private function getDataFont()
     {
         $pPHPWord = $this->_document;
 
@@ -204,7 +204,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             foreach ($styles as $styleName => $style) {
                 // PHPWord_Style_Font
                 if ($style instanceof PHPWord_Style_Font) {
-                    if (in_array($style->getName(), $arrFonts) == FALSE) {
+                    if (in_array($style->getName(), $arrFonts) == false) {
                         $arrFonts[] = $style->getName();
                     }
                 }
@@ -226,7 +226,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $fStyle = $element->getFontStyle();
 
                         if ($fStyle instanceof PHPWord_Style_Font) {
-                            if (in_array($fStyle->getName(), $arrFonts) == FALSE) {
+                            if (in_array($fStyle->getName(), $arrFonts) == false) {
                                 $arrFonts[] = $fStyle->getName();
                             }
                         }
@@ -238,7 +238,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrFonts;
     }
 
-    private function _getDataColor()
+    private function getDataColor()
     {
         $pPHPWord = $this->_document;
 
@@ -254,10 +254,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 if ($style instanceof PHPWord_Style_Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (in_array($color, $arrColors) == FALSE && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
+                    if (in_array($color, $arrColors) == false && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
                         $arrColors[] = $color;
                     }
-                    if (in_array($fgcolor, $arrColors) == FALSE && $fgcolor != PHPWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
+                    if (in_array($fgcolor, $arrColors) == false && $fgcolor != PHPWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
                         $arrColors[] = $fgcolor;
                     }
                 }
@@ -279,10 +279,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $fStyle = $element->getFontStyle();
 
                         if ($fStyle instanceof PHPWord_Style_Font) {
-                            if (in_array($fStyle->getColor(), $arrColors) == FALSE) {
+                            if (in_array($fStyle->getColor(), $arrColors) == false) {
                                 $arrColors[] = $fStyle->getColor();
                             }
-                            if (in_array($fStyle->getFgColor(), $arrColors) == FALSE) {
+                            if (in_array($fStyle->getFgColor(), $arrColors) == false) {
                                 $arrColors[] = $fStyle->getFgColor();
                             }
                         }
@@ -294,7 +294,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrColors;
     }
 
-    private function _getDataContent()
+    private function getDataContent()
     {
         $pPHPWord = $this->_document;
         $sRTFBody = '';
@@ -309,11 +309,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $_elements = $section->getElements();
                 foreach ($_elements as $element) {
                     if ($element instanceof PHPWord_Section_Text) {
-                        $sRTFBody .= $this->_getDataContent_writeText($element);
+                        $sRTFBody .= $this->getDataContentText($element);
                     } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                        $sRTFBody .= $this->_getDataContent_writeTextBreak();
+                        $sRTFBody .= $this->getDataContentTextBreak();
                     } elseif ($element instanceof PHPWord_Section_TextRun) {
-                        $sRTFBody .= $this->_getDataContent_writeTextRun($element);
+                        $sRTFBody .= $this->getDataContentTextRun($element);
                     /*
                     } elseif($element instanceof PHPWord_Section_Link) {
                         $this->_writeLink($objWriter, $element);
@@ -346,7 +346,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Get text
      */
-    private function _getDataContent_writeText(PHPWord_Section_Text $text, $withoutP = false)
+    private function getDataContentText(PHPWord_Section_Text $text, $withoutP = false)
     {
         $sRTFText = '';
 
@@ -384,7 +384,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         if ($styleFont) {
             if ($styleFont->getColor() != null) {
                 $idxColor = array_search($styleFont->getColor(), $this->_colorTable);
-                if ($idxColor !== FALSE) {
+                if ($idxColor !== false) {
                     $sRTFText .= '\cf' . ($idxColor + 1);
                 }
             } else {
@@ -392,7 +392,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             }
             if ($styleFont->getName() != null) {
                 $idxFont = array_search($styleFont->getName(), $this->_fontTable);
-                if ($idxFont !== FALSE) {
+                if ($idxFont !== false) {
                     $sRTFText .= '\f' . $idxFont;
                 }
             } else {
@@ -437,7 +437,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Get text run content
      */
-    private function _getDataContent_writeTextRun(PHPWord_Section_TextRun $textrun)
+    private function getDataContentTextRun(PHPWord_Section_TextRun $textrun)
     {
         $sRTFText = '';
         $elements = $textrun->getElements();
@@ -446,7 +446,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             foreach ($elements as $element) {
                 if ($element instanceof PHPWord_Section_Text) {
                     $sRTFText .= '{';
-                    $sRTFText .= $this->_getDataContent_writeText($element, true);
+                    $sRTFText .= $this->getDataContentText($element, true);
                     $sRTFText .= '}' . PHP_EOL;
                 }
             }
@@ -455,12 +455,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $sRTFText;
     }
 
-    private function _getDataContent_writeTextBreak()
+    private function getDataContentTextBreak()
     {
         $this->_lastParagraphStyle = '';
 
         return '\par' . PHP_EOL;
     }
-
-
 }

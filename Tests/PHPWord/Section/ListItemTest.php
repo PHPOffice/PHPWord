@@ -16,7 +16,12 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
 
     public function testStyle()
     {
-        $oListItem = new PHPWord_Section_ListItem('text', 1, null, array('listType' => PHPWord_Style_ListItem::TYPE_NUMBER));
+        $oListItem = new PHPWord_Section_ListItem(
+            'text',
+            1,
+            null,
+            array('listType' => PHPWord_Style_ListItem::TYPE_NUMBER)
+        );
 
         $this->assertInstanceOf('PHPWord_Style_ListItem', $oListItem->getStyle());
         $this->assertEquals($oListItem->getStyle()->getListType(), PHPWord_Style_ListItem::TYPE_NUMBER);

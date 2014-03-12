@@ -121,7 +121,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Read stream
      */
-    function stream_read($count)
+    public function stream_read($count)
     {
         $ret = substr($this->_data, $this->_position, $count);
         $this->_position += strlen($ret);
