@@ -136,7 +136,8 @@ class PHPWord_Section_TextRun
      *
      * @param int $count
      */
-    public function addTextBreak($count = 1) {
+    public function addTextBreak($count = 1)
+    {
         for ($i=1; $i<=$count; $i++) {
             $this->_elementCollection[] = new PHPWord_Section_TextBreak();
         }
