@@ -66,23 +66,28 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testCheckContentTypes()
     {
+        $images = array(
+            'mars_noext_jpg'    => '1.jpg',
+            'mars.jpg'          => '2.jpg',
+            'mario.gif'         => '3.gif',
+            'firefox.png'       => '4.png',
+            'duke_nukem.bmp'    => '5.bmp',
+            'angela_merkel.tif' => '6.tif',
+        );
         $phpWord = new PHPWord();
         $section = $phpWord->createSection();
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif");
+        foreach ($images as $source => $target) {
+            $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/{$source}");
+        }
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $mediaPath = $doc->getPath() . "/word/media";
 
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg", $mediaPath . "/section_image1.jpg");
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg", $mediaPath . "/section_image2.jpg");
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif", $mediaPath . "/section_image3.gif");
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png", $mediaPath . "/section_image4.png");
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp", $mediaPath . "/section_image5.bmp");
-        $this->assertFileEquals(PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif", $mediaPath . "/section_image6.tif");
+        foreach ($images as $source => $target) {
+            $this->assertFileEquals(
+                PHPWORD_TESTS_DIR_ROOT . "/_files/images/{$source}",
+                $mediaPath . "/section_image{$target}"
+            );
+        }
     }
 }

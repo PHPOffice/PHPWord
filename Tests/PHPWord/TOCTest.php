@@ -6,7 +6,11 @@ use PHPWord_TOC;
 use PHPWord_Style_TOC;
 
 /**
- * @covers PHPWord_TOC
+ * Class TOCTest
+ *
+ * @package PHPWord\Tests
+ * @covers  PHPWord_TOC
+ * @runTestsInSeparateProcesses
  */
 class TOCTest extends PHPUnit_Framework_TestCase
 {
@@ -46,7 +50,7 @@ class TOCTest extends PHPUnit_Framework_TestCase
         // Prepare variables
         $titleCount = 3;
         $anchor = '_Toc' . (252634154 + $titleCount);
-        $bookmark = $titleCount - 1; // zero based
+        $bookmark = $titleCount - 1;
         $titles = array(
             'Heading 1' => 1,
             'Heading 2' => 2,
