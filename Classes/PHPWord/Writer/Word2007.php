@@ -199,8 +199,6 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
      */
     private function checkContentTypes($src)
     {
-        $supportedImageTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM);
-
         $extension = null;
         if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
@@ -219,7 +217,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             }
         }
 
-        if (in_array($extension, $supportedImageTypes)) {
+        if (isset($extension)) {
             $imageData = getimagesize($src);
             $imageType = image_type_to_mime_type($imageData[2]);
             $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
