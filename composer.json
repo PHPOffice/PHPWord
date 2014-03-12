@@ -24,7 +24,7 @@
         "ext-xml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.28"
+        "phpunit/phpunit": "3.7.*"
     },
     "recommend": {
         "ext-zip": "*",

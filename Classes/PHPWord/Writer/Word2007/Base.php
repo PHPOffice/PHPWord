@@ -285,6 +285,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $SpIsObject = ($styleParagraph instanceof PHPWord_Style_Paragraph) ? true : false;
 
         $arrText = $textrun->getText();
+        if (!is_array($arrText)) {
+            $arrText = array($arrText);
+        }
 
         $objWriter->startElement('w:p');
 

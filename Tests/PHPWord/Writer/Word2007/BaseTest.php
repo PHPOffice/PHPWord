@@ -20,7 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
-    public function testWriteImagePosition()
+    public function testWriteImage_Position()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
@@ -42,7 +42,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/position:absolute;/', $style);
     }
 
-    public function testWriteParagraphStyleAlign()
+    public function testWriteParagraphStyle_Align()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
@@ -55,10 +55,34 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('right', $element->getAttribute('w:val'));
     }
 
+    public function testWriteCellStyle_CellGridSpan()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+
+        $table = $section->addTable();
+
+        $table->addRow();
+        $cell = $table->addCell(200);
+        $cell->getStyle()->setGridSpan(5);
+
+        $table->addRow();
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+        $table->addCell(40);
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
+
+        $this->assertEquals(5, $element->getAttribute('w:val'));
+    }
+
     /**
      * Test write paragraph pagination
      */
-    public function testWriteParagraphStylePagination()
+    public function testWriteParagraphStyle_Pagination()
     {
         // Create the doc
         $PHPWord = new PHPWord();
@@ -85,27 +109,18 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testWriteCellStyleCellGridSpan()
+    public function testWritePreserveText()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();
+        $footer = $section->createFooter();
 
-        $table = $section->addTable();
-
-        $table->addRow();
-        $cell = $table->addCell(200);
-        $cell->getStyle()->setGridSpan(5);
-
-        $table->addRow();
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
-        $table->addCell(40);
+        $footer->addPreserveText('{PAGE}');
 
         $doc = TestHelperDOCX::getDocument($PHPWord);
-        $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
+        $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
 
-        $this->assertEquals(5, $element->getAttribute('w:val'));
+        $this->assertEquals('PAGE', $preserve->nodeValue);
+        $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
     }
 }
