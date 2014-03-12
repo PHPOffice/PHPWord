@@ -26,12 +26,13 @@
  */
 
 /** PHPWORD_BASE_PATH */
+// @codeCoverageIgnoreStart
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/');
     require PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php';
     PHPWord_Autoloader::Register();
 }
-
+// @codeCoverageIgnoreEnd
 
 /**
  * PHPWord
@@ -151,7 +152,7 @@ class PHPWord
     }
 
     /**
-     * Get default Font size
+     * Get default Font size (in points)
      * @return string
      */
     public function getDefaultFontSize()
@@ -160,13 +161,22 @@ class PHPWord
     }
 
     /**
-     * Set default Font size
+     * Set default Font size (in points)
      * @param int $pValue
      */
     public function setDefaultFontSize($pValue)
     {
-        $pValue = $pValue * 2;
         $this->_defaultFontSize = $pValue;
+    }
+
+    /**
+     * Set default paragraph style definition to styles.xml
+     *
+     * @param   array   $styles Paragraph style definition
+     */
+    public function setDefaultParagraphStyle($styles)
+    {
+        PHPWord_Style::setDefaultParagraphStyle($styles);
     }
 
     /**
@@ -214,16 +224,6 @@ class PHPWord
     }
 
     /**
-     * Set default paragraph style definition to styles.xml
-     *
-     * @param   array   $styles Paragraph style definition
-     */
-    public function setDefaultParagraphStyle($styles)
-    {
-        PHPWord_Style::setDefaultParagraphStyle($styles);
-    }
-
-    /**
      * Adds a hyperlink style to styles.xml
      *
      * @param $styleName string
@@ -244,15 +244,6 @@ class PHPWord
     }
 
     /**
-     * Get section count
-     * @return int
-     */
-    private function _countSections()
-    {
-        return count($this->_sectionCollection);
-    }
-
-    /**
      * Load a Template File
      *
      * @param string $strFilename
@@ -264,7 +255,18 @@ class PHPWord
             $template = new PHPWord_Template($strFilename);
             return $template;
         } else {
-            trigger_error('Template file ' . $strFilename . ' not found.', E_USER_ERROR);
+            throw new PHPWord_Exception(
+                "Template file {$strFilename} not found."
+            );
         }
+    }
+
+    /**
+     * Get section count
+     * @return int
+     */
+    private function _countSections()
+    {
+        return count($this->_sectionCollection);
     }
 }
