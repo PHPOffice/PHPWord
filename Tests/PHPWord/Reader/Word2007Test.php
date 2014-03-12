@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Reader;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Reader_Word2007;
 use PHPWord_IOFactory;
 

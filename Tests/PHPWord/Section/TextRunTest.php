@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Section_TextRun;
 
 class TextRunTest extends \PHPUnit_Framework_TestCase

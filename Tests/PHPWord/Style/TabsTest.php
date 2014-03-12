@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord_Style_Tab;
 use PHPWord_Style_Tabs;

@@ -1,11 +1,10 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Autoloader;
 use PHPWord_Autoloader as Autoloader;
 
-class AutoloaderTest extends PHPUnit_Framework_TestCase
+class AutoloaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegister()
     {

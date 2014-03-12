@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Section_Settings;
 
 class SettingsTest extends \PHPUnit_Framework_TestCase

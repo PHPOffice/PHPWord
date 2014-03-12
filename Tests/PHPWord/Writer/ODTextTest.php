@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Writer;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Writer_ODText;
 use PHPWord;
 
