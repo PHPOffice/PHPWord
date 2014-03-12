@@ -314,28 +314,25 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $sRTFBody .= $this->getDataContentTextBreak();
                     } elseif ($element instanceof PHPWord_Section_TextRun) {
                         $sRTFBody .= $this->getDataContentTextRun($element);
-                    /*
                     } elseif($element instanceof PHPWord_Section_Link) {
-                        $this->_writeLink($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('link');
                     } elseif($element instanceof PHPWord_Section_Title) {
-                        $this->_writeTitle($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('title');
                     } elseif($element instanceof PHPWord_Section_PageBreak) {
-                        $this->_writePageBreak($objWriter);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('page break');
                     } elseif($element instanceof PHPWord_Section_Table) {
-                        $this->_writeTable($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('table');
                     } elseif($element instanceof PHPWord_Section_ListItem) {
-                        $this->_writeListItem($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('list item');
                     } elseif($element instanceof PHPWord_Section_Image ||
                         $element instanceof PHPWord_Section_MemoryImage) {
-                        $this->_writeImage($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('image');
                     } elseif($element instanceof PHPWord_Section_Object) {
-                        $this->_writeObject($objWriter, $element);
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('object');
                     } elseif($element instanceof PHPWord_TOC) {
-                        $this->_writeTOC($objWriter);
-                    */
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('TOC');
                     } else {
-                        print_r($element);
-                        echo '<br />';
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('other');
                     }
                 }
             }
@@ -381,7 +378,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             $this->_lastParagraphStyle = '';
         }
 
-        if ($styleFont) {
+        if ($styleFont instanceof PHPWord_Style_Font) {
             if ($styleFont->getColor() != null) {
                 $idxColor = array_search($styleFont->getColor(), $this->_colorTable);
                 if ($idxColor !== false) {
@@ -413,7 +410,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
         $sRTFText .= $text->getText();
 
-        if ($styleFont) {
+        if ($styleFont instanceof PHPWord_Style_Font) {
             $sRTFText .= '\cf0';
             $sRTFText .= '\f0';
 
@@ -460,5 +457,20 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         $this->_lastParagraphStyle = '';
 
         return '\par' . PHP_EOL;
+    }
+
+    /**
+     * Write unsupported element
+     *
+     * @param   string  $element
+     */
+    private function getDataContentUnsupportedElement($element)
+    {
+        $sRTFText = '';
+        $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
+        $sRTFText .= "Cannot write content. This version of PHPWord has not supported {$element} element in RTF.";
+        $sRTFText .= '\par' . PHP_EOL;
+
+        return $sRTFText;
     }
 }
