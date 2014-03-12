@@ -25,7 +25,6 @@
  * @version    0.7.0
  */
 
-
 /** PHPWord root directory */
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/../../');

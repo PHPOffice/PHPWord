@@ -25,7 +25,6 @@
  * @version    0.7.0
  */
 
-
 /**
  * PHPWord_Reader_Abstract
  */
