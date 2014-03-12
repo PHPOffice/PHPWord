@@ -110,6 +110,55 @@ class PHPWord_Section_TextRun
     }
 
     /**
+     * Add a Image Element
+     *
+     * @param string $imageSrc
+     * @param mixed $styleFont
+     * @return PHPWord_Section_Image
+     */
+    public function addImage($imageSrc, $style = null)
+    {
+        $image = new PHPWord_Section_Image($imageSrc, $style);
+
+        if (!is_null($image->getSource())) {
+            $rID = PHPWord_Media::addSectionMediaElement($imageSrc, 'image');
+            $image->setRelationId($rID);
+
+            $this->_elementCollection[] = $image;
+            return $image;
+        } else {
+            trigger_error('Source does not exist or unsupported image type.');
+        }
+    }
+
+    /**
+     * Add a Text Break
+     *
+     * @param int $count
+     */
+    public function addTextBreak($count = 1)
+    {
+        for ($i=1; $i<=$count; $i++) {
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+        }
+    }
+
+    /**
+     * Create a new Footnote Element
+     *
+     * @param string $text
+     * @return PHPWord_Section_Footnote
+     */
+    public function createFootnote($styleParagraph = null)
+    {
+        $footnote = new PHPWord_Section_Footnote($styleParagraph);
+        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote->setReferenceId($refID);
+        $this->_elementCollection[] = $footnote;
+        return $footnote;
+    }
+
+    /**
      * Get TextRun content
      *
      * @return string

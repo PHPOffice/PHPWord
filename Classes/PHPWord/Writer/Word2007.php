@@ -52,6 +52,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         $this->_writerParts['styles'] = new PHPWord_Writer_Word2007_Styles();
         $this->_writerParts['header'] = new PHPWord_Writer_Word2007_Header();
         $this->_writerParts['footer'] = new PHPWord_Writer_Word2007_Footer();
+        $this->_writerParts['footnotes'] = new PHPWord_Writer_Word2007_Footnotes();
+        $this->_writerParts['footnotesrels'] = new PHPWord_Writer_Word2007_FootnotesRels();
 
         foreach ($this->_writerParts as $writer) {
             $writer->setParentWriter($this);
@@ -111,6 +113,12 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
             }
 
+            $footnoteLinks = array();
+            $_footnoteElements = PHPWord_Footnote::getFootnoteLinkElements();
+            // loop through footnote link elements
+            foreach ($_footnoteElements as $element) {
+                $footnoteLinks[] = $element;
+            }
 
             $_cHdrs = 0;
             $_cFtrs = 0;
@@ -135,6 +143,16 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                     $_footerFile = 'footer' . $_footerCount . '.xml';
                     $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
                     $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
+                }
+            }
+
+            if (PHPWord_Footnote::countFootnoteElements() > 0) {
+                $_allFootnotesCollection = PHPWord_Footnote::getFootnoteElements();
+                $_footnoteFile = 'footnotes.xml';
+                $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
+                $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));
+                if (count($footnoteLinks) > 0) {
+                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteLinks));
                 }
             }
 
@@ -187,8 +205,9 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $imagetype = image_type_to_mime_type($imagedata[2]);
             $imageext = image_type_to_extension($imagedata[2]);
             $imageext = str_replace('.', '', $imageext);
-            if ($imageext == 'jpeg') $imageext = 'jpg';
-
+            if ($imageext == 'jpeg') {
+                $imageext = 'jpg';
+            }
             if (!in_array($imagetype, $this->_imageTypes)) {
                 $this->_imageTypes[$imageext] = $imagetype;
             }

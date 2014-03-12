@@ -104,10 +104,10 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                 }
             }
         }
-        if (!in_array('Arial', $arrFonts)) {
+        if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
             $objWriter->startElement('style:font-face');
-            $objWriter->writeAttribute('style:name', 'Arial');
-            $objWriter->writeAttribute('svg:font-family', 'Arial');
+            $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+            $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
             $objWriter->endElement();
         }
         $objWriter->endElement();
@@ -132,17 +132,17 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
         // style:text-properties
         $objWriter->startElement('style:text-properties');
         $objWriter->writeAttribute('style:use-window-font-color', 'true');
-        $objWriter->writeAttribute('style:font-name', 'Arial');
-        $objWriter->writeAttribute('fo:font-size', '10pt');
+        $objWriter->writeAttribute('style:font-name', PHPWord::DEFAULT_FONT_NAME);
+        $objWriter->writeAttribute('fo:font-size', PHPWord::DEFAULT_FONT_SIZE . 'pt');
         $objWriter->writeAttribute('fo:language', 'fr');
         $objWriter->writeAttribute('fo:country', 'FR');
         $objWriter->writeAttribute('style:letter-kerning', 'true');
-        $objWriter->writeAttribute('style:font-name-asian', 'Arial2');
-        $objWriter->writeAttribute('style:font-size-asian', '10pt');
+        $objWriter->writeAttribute('style:font-name-asian', PHPWord::DEFAULT_FONT_NAME . '2');
+        $objWriter->writeAttribute('style:font-size-asian', PHPWord::DEFAULT_FONT_SIZE . 'pt');
         $objWriter->writeAttribute('style:language-asian', 'zh');
         $objWriter->writeAttribute('style:country-asian', 'CN');
-        $objWriter->writeAttribute('style:font-name-complex', 'Arial2');
-        $objWriter->writeAttribute('style:font-size-complex', '10pt');
+        $objWriter->writeAttribute('style:font-name-complex', PHPWord::DEFAULT_FONT_NAME . '2');
+        $objWriter->writeAttribute('style:font-size-complex', PHPWord::DEFAULT_FONT_SIZE . 'pt');
         $objWriter->writeAttribute('style:language-complex', 'hi');
         $objWriter->writeAttribute('style:country-complex', 'IN');
         $objWriter->writeAttribute('fo:hyphenate', 'false');
@@ -168,9 +168,9 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
 
                         // style:text-properties
                         $objWriter->startElement('style:text-properties');
-                        $objWriter->writeAttribute('fo:font-size', ($style->getSize() / 2) . 'pt');
-                        $objWriter->writeAttribute('style:font-size-asian', ($style->getSize() / 2) . 'pt');
-                        $objWriter->writeAttribute('style:font-size-complex', ($style->getSize() / 2) . 'pt');
+                        $objWriter->writeAttribute('fo:font-size', ($style->getSize()) . 'pt');
+                        $objWriter->writeAttribute('style:font-size-asian', ($style->getSize()) . 'pt');
+                        $objWriter->writeAttribute('style:font-size-complex', ($style->getSize()) . 'pt');
                         if ($style->getItalic()) {
                             $objWriter->writeAttribute('fo:font-style', 'italic');
                             $objWriter->writeAttribute('style:font-style-asian', 'italic');
@@ -182,8 +182,8 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                         }
                         $objWriter->endElement();
                         $objWriter->endElement();
-                    } // PHPWord_Style_Paragraph
-                    elseif ($style instanceof PHPWord_Style_Paragraph) {
+                    } elseif ($style instanceof PHPWord_Style_Paragraph) {
+                        // PHPWord_Style_Paragraph
                         // style:style
                         $objWriter->startElement('style:style');
                         $objWriter->writeAttribute('style:name', $styleName);
@@ -197,9 +197,8 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                         $objWriter->endElement();
 
                         $objWriter->endElement();
-
-                    } // PHPWord_Style_TableFull
-                    elseif ($style instanceof PHPWord_Style_TableFull) {
+                    } elseif ($style instanceof PHPWord_Style_TableFull) {
+                        // PHPWord_Style_TableFull
                     }
                 }
             }

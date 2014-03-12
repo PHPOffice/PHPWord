@@ -9,6 +9,7 @@ phpunit.xml
 composer.lock
 composer.phar
 vendor
+/report
 /.settings
 /.buildpath
 /.project

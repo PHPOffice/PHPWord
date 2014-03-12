@@ -76,7 +76,7 @@ class PHPWord_Shared_File
 
         // Found something?
         if ($returnValue == '' || is_null($returnValue)) {
-            $pathArray = split('/', $pFilename);
+            $pathArray = explode('/', $pFilename);
             while (in_array('..', $pathArray) && $pathArray[0] != '..') {
                 for ($i = 0; $i < count($pathArray); ++$i) {
                     if ($pathArray[$i] == '..' && $i > 0) {

@@ -40,6 +40,24 @@ class PHPWord
 {
 
     /**
+     * Default font name (Arial)
+     */
+    const DEFAULT_FONT_NAME = 'Arial';
+
+    /**
+     * Default font size in points (10pt)
+     *
+     * OOXML defined font size values in halfpoints, i.e. twice of what PHPWord
+     * use, and the conversion will be conducted during XML writing.
+     */
+    const DEFAULT_FONT_SIZE = 10;
+
+    /**
+     * Default font color (black)
+     */
+    const DEFAULT_FONT_COLOR = '000000';
+
+    /**
      * Document properties
      *
      * @var PHPWord_DocumentProperties
@@ -74,8 +92,8 @@ class PHPWord
     public function __construct()
     {
         $this->_properties = new PHPWord_DocumentProperties();
-        $this->_defaultFontName = 'Arial';
-        $this->_defaultFontSize = 20;
+        $this->_defaultFontName = PHPWord::DEFAULT_FONT_NAME;
+        $this->_defaultFontSize = PHPWord::DEFAULT_FONT_SIZE;
     }
 
     /**
@@ -193,6 +211,16 @@ class PHPWord
     public function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
         PHPWord_Style::addTitleStyle($titleCount, $styleFont, $styleParagraph);
+    }
+
+    /**
+     * Set default paragraph style definition to styles.xml
+     *
+     * @param   array   $styles Paragraph style definition
+     */
+    public function setDefaultParagraphStyle($styles)
+    {
+        PHPWord_Style::setDefaultParagraphStyle($styles);
     }
 
     /**

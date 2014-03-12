@@ -51,7 +51,7 @@ class PHPWord_Style_Tabs
      *
      * @param PHPWord_Shared_XMLWriter $objWriter
      */
-    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = NULL)
+    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = null)
     {
         if (isset($objWriter)) {
             $objWriter->startElement("w:tabs");

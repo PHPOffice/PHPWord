@@ -330,4 +330,3 @@ class PHPWord_Media
         return self::$_footerMedia;
     }
 }
-

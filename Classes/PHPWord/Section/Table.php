@@ -46,13 +46,6 @@ class PHPWord_Section_Table
     private $_rows = array();
 
     /**
-     * Row heights
-     *
-     * @var array
-     */
-    private $_rowHeights = array();
-
-    /**
      * Table holder
      *
      * @var string
@@ -65,6 +58,13 @@ class PHPWord_Section_Table
      * @var array
      */
     private $_pCount;
+
+    /**
+     * Table width
+     *
+     * @var int
+     */
+    private $_width = null;
 
 
     /**
@@ -100,10 +100,11 @@ class PHPWord_Section_Table
      *
      * @param int $height
      */
-    public function addRow($height = null)
+    public function addRow($height = null, $style = null)
     {
-        $this->_rows[] = array();
-        $this->_rowHeights[] = $height;
+        $row = new PHPWord_Section_Table_Row($this->_insideOf, $this->_pCount, $height, $style);
+        $this->_rows[] = $row;
+        return $row;
     }
 
     /**
@@ -113,11 +114,10 @@ class PHPWord_Section_Table
      * @param mixed $style
      * @return PHPWord_Section_Table_Cell
      */
-    public function addCell($width, $style = null)
+    public function addCell($width = null, $style = null)
     {
-        $cell = new PHPWord_Section_Table_Cell($this->_insideOf, $this->_pCount, $width, $style);
         $i = count($this->_rows) - 1;
-        $this->_rows[$i][] = $cell;
+        $cell = $this->_rows[$i]->addCell($width, $style);
         return $cell;
     }
 
@@ -132,16 +132,6 @@ class PHPWord_Section_Table
     }
 
     /**
-     * Get all row heights
-     *
-     * @return array
-     */
-    public function getRowHeights()
-    {
-        return $this->_rowHeights;
-    }
-
-    /**
      * Get table style
      *
      * @return PHPWord_Style_Table
@@ -149,5 +139,25 @@ class PHPWord_Section_Table
     public function getStyle()
     {
         return $this->_style;
+    }
+
+    /**
+     * Set table width
+     *
+     * @var int $width
+     */
+    public function setWidth($width)
+    {
+        $this->_width = $width;
+    }
+
+    /**
+     * Get table width
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->_width;
     }
 }

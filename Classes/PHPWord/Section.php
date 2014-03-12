@@ -77,7 +77,16 @@ class PHPWord_Section
     {
         $this->_sectionCount = $sectionCount;
         $this->_settings = new PHPWord_Section_Settings();
+        $this->setSettings($settings);
+    }
 
+    /**
+     * Set Section Settings
+     *
+     * @param   array   $settings
+     */
+    public function setSettings($settings = null)
+    {
         if (!is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -408,5 +417,20 @@ class PHPWord_Section
     public function getFooter()
     {
         return $this->_footer;
+    }
+
+    /**
+     * Create a new Footnote Element
+     *
+     * @param string $text
+     * @return PHPWord_Section_Footnote
+     */
+    public function createFootnote($styleParagraph = null)
+    {
+        $footnote = new PHPWord_Section_Footnote($styleParagraph);
+        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote->setReferenceId($refID);
+        $this->_elementCollection[] = $footnote;
+        return $footnote;
     }
 }
