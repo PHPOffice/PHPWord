@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Media;
 use PHPWord_Section;
 

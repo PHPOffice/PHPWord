@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Shared;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Shared_String;
 
 /**

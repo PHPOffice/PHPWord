@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Writer\Word2007;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord;
 use PHPWord\Tests\TestHelperDOCX;
 
