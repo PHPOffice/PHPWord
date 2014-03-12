@@ -26,7 +26,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
     public function testStyleArray()
     {
-        $oTable = new PHPWord_Section_Table('section', 1, array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80));
+        $oTable = new PHPWord_Section_Table(
+            'section',
+            1,
+            array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80)
+        );
 
         $this->assertInstanceOf('PHPWord_Style_Table', $oTable->getStyle());
     }

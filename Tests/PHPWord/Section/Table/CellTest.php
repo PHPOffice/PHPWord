@@ -130,7 +130,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddMemoryImageSection()
     {
         $oCell = new PHPWord_Section_Table_Cell('section', 1);
-        $element = $oCell->addMemoryImage('https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png');
+        $element = $oCell->addMemoryImage(
+            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+        );
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PHPWord_Section_MemoryImage', $element);
@@ -139,7 +141,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddMemoryImageHeader()
     {
         $oCell = new PHPWord_Section_Table_Cell('header', 1);
-        $element = $oCell->addMemoryImage('https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png');
+        $element = $oCell->addMemoryImage(
+            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+        );
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PHPWord_Section_MemoryImage', $element);
@@ -148,7 +152,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddMemoryImageFooter()
     {
         $oCell = new PHPWord_Section_Table_Cell('footer', 1);
-        $element = $oCell->addMemoryImage('https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png');
+        $element = $oCell->addMemoryImage(
+            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+        );
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PHPWord_Section_MemoryImage', $element);

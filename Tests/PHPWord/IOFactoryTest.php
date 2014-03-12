@@ -16,7 +16,11 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSearchLocations()
     {
-        $this->assertAttributeEquals(PHPWord_IOFactory::getSearchLocations(), '_searchLocations', 'PHPWord_IOFactory');
+        $this->assertAttributeEquals(
+            PHPWord_IOFactory::getSearchLocations(),
+            '_searchLocations',
+            'PHPWord_IOFactory'
+        );
     }
 
     public function testSetSearchLocationsWithArray()
@@ -38,7 +42,11 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
     {
         PHPWord_IOFactory::setSearchLocations(array());
         PHPWord_IOFactory::addSearchLocation('type', 'location', 'classname');
-        $this->assertAttributeEquals(array(array('type' => 'type', 'path' => 'location', 'class' => 'classname')), '_searchLocations', 'PHPWord_IOFactory');
+        $this->assertAttributeEquals(
+            array(array('type' => 'type', 'path' => 'location', 'class' => 'classname')),
+            '_searchLocations',
+            'PHPWord_IOFactory'
+        );
     }
 
     /**
@@ -57,6 +65,9 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $oPHPWord = new PHPWord();
 
-        $this->assertEquals(PHPWord_IOFactory::createWriter($oPHPWord, 'Word2007'), new PHPWord_Writer_Word2007($oPHPWord));
+        $this->assertEquals(
+            PHPWord_IOFactory::createWriter($oPHPWord, 'Word2007'),
+            new PHPWord_Writer_Word2007($oPHPWord)
+        );
     }
 }

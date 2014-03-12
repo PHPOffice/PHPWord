@@ -36,9 +36,9 @@ class XmlDocument
         }
 
         $this->xpath = null;
-        $this->file  = $file;
+        $this->file = $file;
 
-        $file      = $this->path . '/' . $file;
+        $file = $this->path . '/' . $file;
         $this->dom = new DOMDocument();
         $this->dom->load($file);
         return $this->dom;

@@ -87,7 +87,9 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddMemoryImage()
     {
         $oFooter = new PHPWord_Section_Footer(1);
-        $element = $oFooter->addMemoryImage('https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png');
+        $element = $oFooter->addMemoryImage(
+            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+        );
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PHPWord_Section_MemoryImage', $element);

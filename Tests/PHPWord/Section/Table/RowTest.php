@@ -22,7 +22,12 @@ class RowTest extends \PHPUnit_Framework_TestCase
     {
         $iVal = rand(1, 1000);
         $iVal2 = rand(1, 1000);
-        $oRow = new PHPWord_Section_Table_Row('section', $iVal, $iVal2, array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'));
+        $oRow = new PHPWord_Section_Table_Row(
+            'section',
+            $iVal,
+            $iVal2,
+            array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF')
+        );
 
         $this->assertEquals($oRow->getHeight(), $iVal2);
         $this->assertInstanceOf('PHPWord_Style_Row', $oRow->getStyle());
