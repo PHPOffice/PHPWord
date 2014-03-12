@@ -63,4 +63,20 @@ class XmlDocument
         $elements = $this->xpath->query($path);
         return $elements->item(0);
     }
+
+    /**
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 }

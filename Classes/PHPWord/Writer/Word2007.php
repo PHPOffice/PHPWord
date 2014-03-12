@@ -25,6 +25,9 @@
  * @version    0.7.0
  */
 
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
+
 /**
  * Class PHPWord_Writer_Word2007
  */
@@ -191,25 +194,40 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
-    private function _chkContentTypes($src)
+    /**
+     * @param string $src
+     */
+    private function checkContentTypes($src)
     {
-        $srcInfo = pathinfo($src);
-        $extension = strtolower($srcInfo['extension']);
-        if (substr($extension, 0, 3) == 'php') {
-            $extension = 'php';
-        }
-        $_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff', 'php');
+        $supportedImageTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM);
 
-        if (in_array($extension, $_supportedImageTypes)) {
-            $imagedata = getimagesize($src);
-            $imagetype = image_type_to_mime_type($imagedata[2]);
-            $imageext = image_type_to_extension($imagedata[2]);
-            $imageext = str_replace('.', '', $imageext);
-            if ($imageext == 'jpeg') {
-                $imageext = 'jpg';
+        $extension = null;
+        if (stripos(strrev($src), strrev('.php')) === 0) {
+            $extension = 'php';
+        } else {
+            $imageType = exif_imagetype($src);
+            if ($imageType === IMAGETYPE_JPEG) {
+                $extension = 'jpg';
+            } elseif ($imageType === IMAGETYPE_GIF) {
+                $extension = 'gif';
+            } elseif ($imageType === IMAGETYPE_PNG) {
+                $extension = 'png';
+            } elseif ($imageType === IMAGETYPE_BMP) {
+                $extension = 'bmp';
+            } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
+                $extension = 'tif';
             }
-            if (!in_array($imagetype, $this->_imageTypes)) {
-                $this->_imageTypes[$imageext] = $imagetype;
+        }
+
+        if (in_array($extension, $supportedImageTypes)) {
+            $imageData = getimagesize($src);
+            $imageType = image_type_to_mime_type($imageData[2]);
+            $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
+            if ($imageExtension === 'jpeg') {
+                $imageExtension = 'jpg';
+            }
+            if (!in_array($imageType, $this->_imageTypes)) {
+                $this->_imageTypes[$imageExtension] = $imageType;
             }
         } else {
             if (!in_array($extension, $this->_objectTypes)) {
@@ -258,10 +276,10 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $objZip->addFromString('word/' . $element['target'], $imageContents);
             imagedestroy($image);
 
-            $this->_chkContentTypes($element['source']);
+            $this->checkContentTypes($element['source']);
         } else {
             $objZip->addFile($element['source'], 'word/' . $element['target']);
-            $this->_chkContentTypes($element['source']);
+            $this->checkContentTypes($element['source']);
         }
     }
 }
