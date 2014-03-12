@@ -52,7 +52,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEquals($documentXml, $templateXml);
 
-        return $document;
+        return $documentFqfn;
     }
 
     /**
@@ -60,28 +60,28 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test
      */
-    final public function testXslStyleSheetCanBeApplied(PHPWord_Template $actualDocument)
+    final public function testXslStyleSheetCanBeApplied($actualDocumentFqfn)
     {
-        $expectedDocument = \join(
+        $expectedDocumentFqfn = \join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
         );
 
-        $actualZip = new \ZipArchive();
-        $actualZip->open($actualDocument);
-        $actualXml = $actualZip->getFromName('word/document.xml');
-        if ($actualZip->close() === false) {
-            throw new \Exception("Could not close zip file \"{$actualDocument}\".");
+        $actualDocumentZip = new \ZipArchive();
+        $actualDocumentZip->open($actualDocumentFqfn);
+        $actualDocumentXml = $actualDocumentZip->getFromName('word/document.xml');
+        if ($actualDocumentZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$actualDocumentFqfn}\".");
         }
 
-        $expectedZip = new \ZipArchive();
-        $expectedZip->open($expectedDocument);
-        $expectedXml = $expectedZip->getFromName('word/document.xml');
-        if ($expectedZip->close() === false) {
-            throw new \Exception("Could not close zip file \"{$expectedDocument}\".");
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($expectedDocumentFqfn);
+        $expectedDocumentXml = $expectedDocumentZip->getFromName('word/document.xml');
+        if ($expectedDocumentZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedDocumentXml, $actualDocumentXml);
     }
 
     /**
