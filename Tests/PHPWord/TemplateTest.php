@@ -60,7 +60,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test
      */
-    final public function testXslStyleSheetCanBeApplied(&$actualDocument)
+    final public function testXslStyleSheetCanBeApplied(PHPWord_Template $actualDocument)
     {
         $expectedDocument = \join(
             \DIRECTORY_SEPARATOR,
