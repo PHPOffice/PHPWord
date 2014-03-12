@@ -37,6 +37,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PHPWord_Style_Image', $oImage->getStyle());
     }
 
+    /**
+     * @covers PHPWord_Section_Image::__construct
+     */
     public function testValidImageTypes()
     {
         new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
@@ -49,6 +52,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
+     * @covers PHPWord_Section_Image::__construct
      */
     public function testImageNotFound()
     {
@@ -57,6 +61,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
+     * @covers PHPWord_Section_Image::__construct
      */
     public function testInvalidImageTypes()
     {
