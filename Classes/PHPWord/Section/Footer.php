@@ -133,7 +133,7 @@ class PHPWord_Section_Footer
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
+            throw new Exception('Src does not exist or invalid image type.');
         }
     }
 
@@ -154,7 +154,7 @@ class PHPWord_Section_Footer
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new Exception('Unsupported image type.');
         }
     }
 

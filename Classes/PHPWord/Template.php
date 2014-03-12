@@ -164,7 +164,7 @@ class PHPWord_Template
             $rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
         }
         if (!$rowStart) {
-            trigger_error("Can not find the start position of the row to clone.");
+            throw new Exception("Can not find the start position of the row to clone.");
             return false;
         }
         return $rowStart;
@@ -208,7 +208,7 @@ class PHPWord_Template
 
         $tagPos = strpos($this->_documentXML, $search);
         if (!$tagPos) {
-            trigger_error("Can not clone row, template variable not found or variable contains markup.");
+            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
             return false;
         }
 
