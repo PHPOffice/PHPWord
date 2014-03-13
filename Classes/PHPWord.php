@@ -43,7 +43,11 @@ class PHPWord
      * Default font name (Arial)
      */
     const DEFAULT_FONT_NAME = 'Arial';
-
+    /**
+     * Default Font Content Type(default)
+     * default|eastAsia|cs
+     */
+    const DEFAULT_FONT_CONTENT_TYPE='default';
     /**
      * Default font size in points (10pt)
      *
