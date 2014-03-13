@@ -500,14 +500,14 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
                         $objWriter->writeAttribute('w:val', $height);
                         $objWriter->endElement();
                     }
-                    if (!is_null($tblHeader)) {
+                    if ($tblHeader) {
                         $objWriter->startElement('w:tblHeader');
-                        $objWriter->writeAttribute('w:val', $tblHeader);
+                        $objWriter->writeAttribute('w:val', '1');
                         $objWriter->endElement();
                     }
-                    if (!is_null($cantSplit)) {
+                    if ($cantSplit) {
                         $objWriter->startElement('w:cantSplit');
-                        $objWriter->writeAttribute('w:val', $cantSplit);
+                        $objWriter->writeAttribute('w:val', '1');
                         $objWriter->endElement();
                     }
                     $objWriter->endElement();
