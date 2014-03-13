@@ -126,14 +126,11 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
      * @return  void
      */
     protected function _writeParagraphStyle(
-<<<<<<< HEAD
-    PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Paragraph $style, $withoutPPR = false) {
-=======
         PHPWord_Shared_XMLWriter $objWriter = null,
         PHPWord_Style_Paragraph $style,
         $withoutPPR = false
     ) {
->>>>>>> 5e0fc7a2d815c96de6f6cdd081404df61e8ed886
+
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
         $spaceBefore = $style->getSpaceBefore();
@@ -932,8 +929,4 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
             $objWriter->endElement(); // w:p
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 5e0fc7a2d815c96de6f6cdd081404df61e8ed886
 }
