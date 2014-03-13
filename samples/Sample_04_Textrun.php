@@ -32,7 +32,7 @@ $textrun->addText(' All elements are placed inside a paragraph with the optional
 $textrun->addText(' Sample Link: ');
 $textrun->addLink('http://www.google.com', null, 'NLink');
 $textrun->addText(' Sample Image: ');
-$textrun->addImage('old/_earth.jpg', array('width'=>18, 'height'=>18));
+$textrun->addImage('resources/_earth.jpg', array('width'=>18, 'height'=>18));
 $textrun->addText(' Here is some more text. ');
 
 // Save file

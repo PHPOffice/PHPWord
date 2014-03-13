@@ -45,7 +45,7 @@ $section->addLink('http://www.google.com', null, 'NLink');
 $section->addTextBreak();
 
 // Image
-$section->addImage('old/_earth.jpg', array('width'=>18, 'height'=>18));
+$section->addImage('resources/_earth.jpg', array('width'=>18, 'height'=>18));
 
 // Save file
 $name = basename(__FILE__, '.php');
