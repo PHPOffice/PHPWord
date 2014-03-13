@@ -28,7 +28,8 @@
 /**
  * PHPWord_Settings
  */
-class PHPWord_Settings {
+class PHPWord_Settings
+{
     /**
      * Compatibility option for XMLWriter
      *
@@ -42,12 +43,13 @@ class PHPWord_Settings {
      * @param boolean $compatibility  This sets the setIndent and setIndentString for better compatibility
      * @return  boolean Success or failure
      */
-    public static function setCompatibility($compatibility) {
+    public static function setCompatibility($compatibility)
+    {
         if (is_bool($compatibility)) {
             self::$_xmlWriterCompatibility = $compatibility;
-            return TRUE;
+            return true;
         }
-        return FALSE;
+        return false;
     } // function setCompatibility()
 
 
@@ -56,7 +58,8 @@ class PHPWord_Settings {
      *
      * @return boolean Compatibility
      */
-    public static function getCompatibility() {
+    public static function getCompatibility()
+    {
         return self::$_xmlWriterCompatibility;
     } // function getCompatibility()
 }

@@ -7,7 +7,11 @@ use PHPWord_Section;
 use PHPWord_Style;
 
 /**
- * @covers PHPWord
+ * Class PHPWordTest
+ *
+ * @package PHPWord\Tests
+ * @covers  PHPWord
+ * @runTestsInSeparateProcesses
  */
 class PHPWordTest extends \PHPUnit_Framework_TestCase
 {

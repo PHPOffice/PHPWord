@@ -4,16 +4,13 @@ error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 require_once '../Classes/PHPWord.php';
 
-// New Word Document
-echo date('H:i:s') , ' Create new PHPWord object' , EOL;
-$PHPWord = new PHPWord();
-$section = $PHPWord->createSection();
-$header = array('size' => 16, 'bold' => true);
-//1.Use EastAisa FontStyle
-$section->addText('中文楷体样式测试',array('name' => '楷体', 'size' => 16, 'color' => '1B2232'));
-
-// Save file
+// Read contents
 $name = basename(__FILE__, '.php');
+$source = "resources/{$name}.docx";
+echo date('H:i:s'), " Reading contents from `{$source}`", EOL;
+$PHPWord = PHPWord_IOFactory::load($source);
+
+// (Re)write contents
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;

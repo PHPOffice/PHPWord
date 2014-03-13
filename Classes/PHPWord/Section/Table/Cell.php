@@ -140,7 +140,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $link;
             return $link;
         } else {
-            trigger_error('Unsupported Link header / footer reference');
+            throw new Exception('Unsupported Link header / footer reference');
             return false;
         }
     }
@@ -198,7 +198,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Source does not exist or unsupported image type.');
+            throw new Exception('Source does not exist or unsupported image type.');
         }
     }
 
@@ -225,7 +225,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new Exception('Unsupported image type.');
         }
     }
 
@@ -266,7 +266,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            trigger_error('Source does not exist or unsupported object type.');
+            throw new Exception('Source does not exist or unsupported object type.');
         }
     }
 
@@ -288,7 +288,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $ptext;
             return $ptext;
         } else {
-            trigger_error('addPreserveText only supported in footer/header.');
+            throw new Exception('addPreserveText only supported in footer/header.');
         }
     }
 

@@ -127,7 +127,7 @@ class PHPWord_Section_TextRun
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Source does not exist or unsupported image type.');
+            throw new Exception('Source does not exist or unsupported image type.');
         }
     }
 

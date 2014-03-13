@@ -7,6 +7,7 @@ use PHPWord_Style_TOC;
  * Class TOCTest
  *
  * @package PHPWord\Tests
+ * @covers  PHPWord_Style_TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase

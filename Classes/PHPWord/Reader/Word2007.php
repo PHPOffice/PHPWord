@@ -254,8 +254,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                             if ($elm->getName() != 'style') {
                                 continue;
                             }
-                            unset($pStyle);
-                            unset($fStyle);
+                            $pStyle = null;
+                            $fStyle = null;
                             $hasParagraphStyle = isset($elm->pPr);
                             $hasFontStyle = isset($elm->rPr);
                             $styleName = (string)$elm->name['val'];

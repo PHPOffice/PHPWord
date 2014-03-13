@@ -243,7 +243,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            trigger_error('Source does not exist or unsupported object type.');
+            throw new PHPWord_Exception(
+                'Source does not exist or unsupported object type.'
+            );
         }
     }
 
@@ -265,7 +267,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Source does not exist or unsupported image type.');
+            throw new PHPWord_Exception(
+                'Source does not exist or unsupported image type.'
+            );
         }
     }
 
@@ -286,7 +290,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new PHPWord_Exception(
+                'Unsupported image type.'
+            );
         }
     }
 
