@@ -138,6 +138,13 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
             'application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml'
         );
 
+        // Footnotes
+        $this->_writeOverrideContentType(
+            $objWriter,
+            '/word/footnotes.xml',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml'
+        );
+
         for ($i = 1; $i <= $_cHdrs; $i++) {
             $this->_writeOverrideContentType(
                 $objWriter,
