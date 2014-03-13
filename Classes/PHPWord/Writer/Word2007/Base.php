@@ -751,9 +751,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
     /**
      * @param \PHPWord_Shared_XMLWriter $objWriter
-     * @param \PHPWord_Section_Image $image
+     * @param \PHPWord_Section_Image|\PHPWord_Section_MemoryImage $image
      */
-    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image, $withoutP = false)
+    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, $image, $withoutP = false)
     {
         $rId = $image->getRelationId();
 
