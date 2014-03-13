@@ -6,21 +6,20 @@ use PHPWord_Template;
 /**
  * @coversDefaultClass PHPWord_Template
  */
-class TemplateTest extends \PHPUnit_Framework_TestCase
+final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::applyXslStyleSheet
+     * @covers ::save
      * @test
      */
-    final public function testXslStyleSheetCanBeApplied()
+    final public function testTemplateCanBeSavedInTemporaryLocation()
     {
-        $template = new PHPWord_Template(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
-            )
+        $templateFqfn = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
         );
 
+        $document = new PHPWord_Template($templateFqfn);
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
             \join(
@@ -28,32 +27,61 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'remove_tables_by_needle.xsl')
             )
         );
-
         foreach (array('${employee.', '${scoreboard.') as $needle) {
-            $template->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
+            $document->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
         }
 
-        $actualDocument = $template->save();
-        $expectedDocument = \join(
+        $documentFqfn = $document->save();
+
+        $this->assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
+        $this->assertFileExists($documentFqfn, "The saved document \"{$documentFqfn}\" doesn't exist.");
+
+        $templateZip = new \ZipArchive();
+        $templateZip->open($templateFqfn);
+        $templateXml = $templateZip->getFromName('word/document.xml');
+        if ($templateZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$templateZip}\".");
+        }
+
+        $documentZip = new \ZipArchive();
+        $documentZip->open($documentFqfn);
+        $documentXml = $documentZip->getFromName('word/document.xml');
+        if ($documentZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$documentZip}\".");
+        }
+
+        $this->assertNotEquals($documentXml, $templateXml);
+
+        return $documentFqfn;
+    }
+
+    /**
+     * @covers ::applyXslStyleSheet
+     * @depends testTemplateCanBeSavedInTemporaryLocation
+     * @test
+     */
+    final public function testXslStyleSheetCanBeApplied($actualDocumentFqfn)
+    {
+        $expectedDocumentFqfn = \join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
         );
 
-        $actualZip = new \ZipArchive();
-        $actualZip->open($actualDocument);
-        $actualXml = $actualZip->getFromName('word/document.xml');
-        if ($actualZip->close() === false) {
-            throw new \Exception('Could not close zip file "' . $actualDocument . '".');
+        $actualDocumentZip = new \ZipArchive();
+        $actualDocumentZip->open($actualDocumentFqfn);
+        $actualDocumentXml = $actualDocumentZip->getFromName('word/document.xml');
+        if ($actualDocumentZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$actualDocumentFqfn}\".");
         }
 
-        $expectedZip = new \ZipArchive();
-        $expectedZip->open($expectedDocument);
-        $expectedXml = $expectedZip->getFromName('word/document.xml');
-        if ($expectedZip->close() === false) {
-            throw new \Exception('Could not close zip file "' . $expectedDocument . '".');
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($expectedDocumentFqfn);
+        $expectedDocumentXml = $expectedDocumentZip->getFromName('word/document.xml');
+        if ($expectedDocumentZip->close() === false) {
+            throw new \Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
-        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
+        $this->assertXmlStringEqualsXmlString($expectedDocumentXml, $actualDocumentXml);
     }
 
     /**
