@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPWord
  *
@@ -28,11 +29,9 @@
 /**
  * Class PHPWord_Writer_Word2007_Base
  */
-class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
-{
+class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
 
-    protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false)
-    {
+    protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false) {
         $styleFont = $text->getFontStyle();
 
         $SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
@@ -81,8 +80,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun)
-    {
+    protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun) {
         $elements = $textrun->getElements();
         $styleParagraph = $textrun->getParagraphStyle();
 
@@ -132,6 +130,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         PHPWord_Style_Paragraph $style,
         $withoutPPR = false
     ) {
+
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
         $spaceBefore = $style->getSpaceBefore();
@@ -145,9 +144,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $pageBreakBefore = $style->getPageBreakBefore();
 
         if (!is_null($align) || !is_null($spacing) || !is_null($spaceBefore) ||
-            !is_null($spaceAfter) || !is_null($indent) || !is_null($hanging) ||
-            !is_null($tabs) || !is_null($widowControl) || !is_null($keepNext) ||
-            !is_null($keepLines) || !is_null($pageBreakBefore)) {
+                !is_null($spaceAfter) || !is_null($indent) || !is_null($hanging) ||
+                !is_null($tabs) || !is_null($widowControl) || !is_null($keepNext) ||
+                !is_null($keepLines) || !is_null($pageBreakBefore)) {
             if (!$withoutPPR) {
                 $objWriter->startElement('w:pPr');
             }
@@ -174,7 +173,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
             // Spacing
             if (!is_null($spaceBefore) || !is_null($spaceAfter) ||
-                !is_null($spacing)) {
+                    !is_null($spacing)) {
                 $objWriter->startElement('w:spacing');
                 if (!is_null($spaceBefore)) {
                     $objWriter->writeAttribute('w:before', $spaceBefore);
@@ -222,8 +221,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeLink(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Link $link, $withoutP = false)
-    {
+    protected function _writeLink(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Link $link, $withoutP = false) {
         $rID = $link->getRelationId();
         $linkName = $link->getLinkName();
         if (is_null($linkName)) {
@@ -278,8 +276,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writePreserveText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footer_PreserveText $textrun)
-    {
+    protected function _writePreserveText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footer_PreserveText $textrun) {
         $styleFont = $textrun->getFontStyle();
         $styleParagraph = $textrun->getParagraphStyle();
 
@@ -370,8 +367,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement(); // p
     }
 
-    protected function _writeTextStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Font $style)
-    {
+    protected function _writeTextStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Font $style) {
         $font = $style->getName();
         $bold = $style->getBold();
         $italic = $style->getItalic();
@@ -382,6 +378,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $underline = $style->getUnderline();
         $superscript = $style->getSuperScript();
         $subscript = $style->getSubScript();
+        $hint = $style->getHint();
 
         $objWriter->startElement('w:rPr');
 
@@ -390,9 +387,15 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             $objWriter->startElement('w:rFonts');
             $objWriter->writeAttribute('w:ascii', $font);
             $objWriter->writeAttribute('w:hAnsi', $font);
+            $objWriter->writeAttribute('w:eastAsia', $font);
             $objWriter->writeAttribute('w:cs', $font);
+            //Font Content Type
+            if ($hint != PHPWord::DEFAULT_FONT_CONTENT_TYPE) {
+                $objWriter->writeAttribute('w:hint', $hint);
+            }
             $objWriter->endElement();
         }
+
 
         // Color
         if ($color != PHPWord::DEFAULT_FONT_COLOR) {
@@ -451,13 +454,11 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
     }
 
-    protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null)
-    {
+    protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null) {
         $objWriter->writeElement('w:p', null);
     }
 
-    protected function _writeTable(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Table $table)
-    {
+    protected function _writeTable(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Table $table) {
         $_rows = $table->getRows();
         $_cRows = count($_rows);
 
@@ -544,7 +545,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                             } elseif ($element instanceof PHPWord_Section_ListItem) {
                                 $this->_writeListItem($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_Image ||
-                                $element instanceof PHPWord_Section_MemoryImage
+                                    $element instanceof PHPWord_Section_MemoryImage
                             ) {
                                 $this->_writeImage($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_Object) {
@@ -565,8 +566,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Table $style = null)
-    {
+    protected function _writeTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Table $style = null) {
         $margins = $style->getCellMargin();
         $mTop = (!is_null($margins[0])) ? true : false;
         $mLeft = (!is_null($margins[1])) ? true : false;
@@ -610,8 +610,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeCellStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Cell $style = null)
-    {
+    protected function _writeCellStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Cell $style = null) {
         $bgColor = $style->getBgColor();
         $valign = $style->getVAlign();
         $textDir = $style->getTextDirection();
@@ -717,8 +716,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
      * @param \PHPWord_Shared_XMLWriter $objWriter
      * @param \PHPWord_Section_Image $image
      */
-    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image, $withoutP = false)
-    {
+    protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Image $image, $withoutP = false) {
         $rId = $image->getRelationId();
 
         $style = $image->getStyle();
@@ -794,8 +792,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
-    protected function _writeWatermark(PHPWord_Shared_XMLWriter $objWriter = null, $image)
-    {
+    protected function _writeWatermark(PHPWord_Shared_XMLWriter $objWriter = null, $image) {
         $rId = $image->getRelationId();
 
         $style = $image->getStyle();
@@ -838,8 +835,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
     }
 
-    protected function _writeTitle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Title $title)
-    {
+    protected function _writeTitle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Title $title) {
         $text = htmlspecialchars($title->getText());
         $text = PHPWord_Shared_String::ControlCharacterPHP2OOXML($text);
         $anchor = $title->getAnchor();
