@@ -29,6 +29,6 @@ class FootnotesTest extends \PHPUnit_Framework_TestCase
         $footnote->addLink('http://google.com');
         $doc = TestHelperDOCX::getDocument($PHPWord);
 
-        $this->assertTrue($doc->elementExists("/w:document/w:body/w:p/w:r/w:footnoteReference']"));
+        $this->assertTrue($doc->elementExists("/w:document/w:body/w:p/w:r/w:footnoteReference"));
     }
 }
