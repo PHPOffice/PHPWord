@@ -7,7 +7,9 @@ use PHPWord\Tests\TestHelperDOCX;
 
 /**
  * Class BaseTest
- * @package PHPWord\Tests
+ *
+ * @package             PHPWord\Tests
+ * @coversDefaultClass  PHPWord_Writer_Word2007_Base
  * @runTestsInSeparateProcesses
  */
 class BaseTest extends \PHPUnit_Framework_TestCase
@@ -20,6 +22,54 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    public function testWriteText()
+    {
+        $rStyle = 'rStyle';
+        $pStyle = 'pStyle';
+
+        $PHPWord = new PHPWord();
+        $PHPWord->addFontStyle($rStyle, array('bold' => true));
+        $PHPWord->addParagraphStyle($pStyle, array('align' => 'justify'));
+        $section = $PHPWord->createSection();
+        $section->addText('Test', $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $element = "/w:document/w:body/w:p/w:r/w:rPr/w:rStyle";
+        $this->assertEquals($rStyle, $doc->getElementAttribute($element, 'w:val'));
+        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
+        $this->assertEquals($pStyle, $doc->getElementAttribute($element, 'w:val'));
+    }
+
+    /**
+     * Write text run
+     */
+    public function testWriteTextRun()
+    {
+        $pStyle = 'pStyle';
+        $aStyle = array('align' => 'justify');
+        $imageSrc = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+        );
+
+        $PHPWord = new PHPWord();
+        $PHPWord->addParagraphStyle($pStyle, $aStyle);
+        $section = $PHPWord->createSection('Test');
+        $textrun = $section->createTextRun($pStyle);
+        $textrun->addText('Test');
+        $textrun->addTextBreak();
+        $textrun = $section->createTextRun($aStyle);
+        $textrun->addLink('http://test.com');
+        $textrun->addImage($imageSrc);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $parent = "/w:document/w:body/w:p";
+        $this->assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
+    }
+
+    /**
+     * Write paragraph style: Alignment
+     */
     public function testWriteParagraphStyleAlign()
     {
         $PHPWord = new PHPWord();
@@ -34,7 +84,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test write paragraph pagination
+     * Write paragraph style: Pagination
      */
     public function testWriteParagraphStylePagination()
     {
@@ -63,6 +113,116 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * covers   ::_writeTextStyle
+     */
+    public function testWriteFontStyle()
+    {
+        $PHPWord = new PHPWord();
+        $styles['name'] = 'Verdana';
+        $styles['size'] = 14;
+        $styles['bold'] = true;
+        $styles['italic'] = true;
+        $styles['underline'] = 'dash';
+        $styles['strikethrough'] = true;
+        $styles['superScript'] = true;
+        $styles['color'] = 'FF0000';
+        $styles['fgColor'] = 'yellow';
+
+        $section = $PHPWord->createSection();
+        $section->addText('Test', $styles);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $parent = '/w:document/w:body/w:p/w:r/w:rPr';
+        $this->assertEquals($styles['name'], $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii'));
+        $this->assertEquals($styles['size'] * 2, $doc->getElementAttribute("{$parent}/w:sz", 'w:val'));
+        $this->assertTrue($doc->elementExists("{$parent}/w:b"));
+        $this->assertTrue($doc->elementExists("{$parent}/w:i"));
+        $this->assertEquals($styles['underline'], $doc->getElementAttribute("{$parent}/w:u", 'w:val'));
+        $this->assertTrue($doc->elementExists("{$parent}/w:strike"));
+        $this->assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
+        $this->assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
+        $this->assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
+    }
+
+    /**
+     * Write link
+     */
+    public function testWriteLink()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+
+        $expected = 'PHPWord';
+        $section->addLink('http://github.com/phpoffice/phpword', $expected);
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
+
+        $this->assertEquals($expected, $element->nodeValue);
+    }
+
+    /**
+     * Write table
+     */
+    public function testWriteTableStyle()
+    {
+        $PHPWord = new PHPWord();
+        $tWidth = 120;
+        $rHeight = 120;
+        $cWidth = 120;
+        $tStyles["cellMarginTop"] = 120;
+        $tStyles["cellMarginRight"] = 120;
+        $tStyles["cellMarginBottom"] = 120;
+        $tStyles["cellMarginLeft"] = 120;
+        $rStyles["tblHeader"] = true;
+        $rStyles["cantSplit"] = true;
+        $cStyles["valign"] = 'top';
+        $cStyles["textDirection"] = 'btLr';
+        $cStyles["bgColor"] = 'FF0000';
+        $cStyles["borderTopSize"] = 120;
+        $cStyles["borderBottomSize"] = 120;
+        $cStyles["borderLeftSize"] = 120;
+        $cStyles["borderRightSize"] = 120;
+        $cStyles["borderTopColor"] = 'FF0000';
+        $cStyles["borderBottomColor"] = 'FF0000';
+        $cStyles["borderLeftColor"] = 'FF0000';
+        $cStyles["borderRightColor"] = 'FF0000';
+
+        $section = $PHPWord->createSection();
+        $table = $section->addTable($tStyles);
+        $table->setWidth = 100;
+        $table->addRow($rHeight, $rStyles);
+        $cell = $table->addCell($cWidth, $cStyles);
+        $cell->addText('Test');
+        $cell->addTextBreak();
+        $cell->addLink('http://google.com');
+        $cell->addListItem('Test');
+        $textrun = $cell->createTextRun();
+        $textrun->addText('Test');
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
+        $this->assertEquals($tStyles['cellMarginTop'], $doc->getElementAttribute("{$parent}/w:top", 'w:w'));
+        $this->assertEquals($tStyles['cellMarginRight'], $doc->getElementAttribute("{$parent}/w:right", 'w:w'));
+        $this->assertEquals($tStyles['cellMarginBottom'], $doc->getElementAttribute("{$parent}/w:bottom", 'w:w'));
+        $this->assertEquals($tStyles['cellMarginLeft'], $doc->getElementAttribute("{$parent}/w:right", 'w:w'));
+
+        $parent = '/w:document/w:body/w:tbl/w:tr/w:trPr';
+        $this->assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));
+        $this->assertEquals($rStyles['tblHeader'], $doc->getElementAttribute("{$parent}/w:tblHeader", 'w:val'));
+        $this->assertEquals($rStyles['cantSplit'], $doc->getElementAttribute("{$parent}/w:cantSplit", 'w:val'));
+
+        $parent = '/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr';
+        $this->assertEquals($cWidth, $doc->getElementAttribute("{$parent}/w:tcW", 'w:w'));
+        $this->assertEquals($cStyles['valign'], $doc->getElementAttribute("{$parent}/w:vAlign", 'w:val'));
+        $this->assertEquals($cStyles['textDirection'], $doc->getElementAttribute("{$parent}/w:textDirection", 'w:val'));
+    }
+
+    /**
+     * Write cell style
+     */
     public function testWriteCellStyleCellGridSpan()
     {
         $PHPWord = new PHPWord();
@@ -87,6 +247,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $element->getAttribute('w:val'));
     }
 
+    /**
+     * Write image
+     */
     public function testWriteImagePosition()
     {
         $PHPWord = new PHPWord();
@@ -109,6 +272,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/position:absolute;/', $style);
     }
 
+    /**
+     * Write preserve text
+     */
     public function testWritePreserveText()
     {
         $PHPWord = new PHPWord();

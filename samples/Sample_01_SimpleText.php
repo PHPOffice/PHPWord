@@ -7,21 +7,43 @@ require_once '../Classes/PHPWord.php';
 // New Word Document
 echo date('H:i:s') , " Create new PHPWord object" , EOL;
 $PHPWord = new PHPWord();
+$PHPWord->addFontStyle('rStyle', array('bold'=>true, 'italic'=>true, 'size'=>16));
+$PHPWord->addParagraphStyle('pStyle', array('align'=>'center', 'spaceAfter'=>100));
 
 // New portrait section
 $section = $PHPWord->createSection();
 
-// Add text elements
+// Simple text
 $section->addText('Hello World!');
+
+// Two text break
 $section->addTextBreak(2);
 
-$section->addText('I am inline styled.', array('name'=>'Verdana', 'color'=>'006699'));
-$section->addTextBreak(2);
+// Defined style
+$section->addText('I am styled by a font style definition.', 'rStyle');
+$section->addText('I am styled by a paragraph style definition.', null, 'pStyle');
+$section->addText('I am styled by both font and paragraph style.', 'rStyle', 'pStyle');
+$section->addTextBreak();
 
-$PHPWord->addFontStyle('rStyle', array('bold'=>true, 'italic'=>true, 'size'=>16));
-$PHPWord->addParagraphStyle('pStyle', array('align'=>'center', 'spaceAfter'=>100));
-$section->addText('I am styled by two style definitions.', 'rStyle', 'pStyle');
-$section->addText('I have only a paragraph style definition.', null, 'pStyle');
+// Inline font style
+$fontStyle['name'] = 'Times New Roman';
+$fontStyle['size'] = 20;
+$fontStyle['bold'] = true;
+$fontStyle['italic'] = true;
+$fontStyle['underline'] = 'dash';
+$fontStyle['strikethrough'] = true;
+$fontStyle['superScript'] = true;
+$fontStyle['color'] = 'FF0000';
+$fontStyle['fgColor'] = 'yellow';
+$section->addText('I am inline styled.', $fontStyle);
+$section->addTextBreak();
+
+// Link
+$section->addLink('http://www.google.com', null, 'NLink');
+$section->addTextBreak();
+
+// Image
+$section->addImage('old/_earth.jpg', array('width'=>18, 'height'=>18));
 
 // Save file
 $name = basename(__FILE__, '.php');

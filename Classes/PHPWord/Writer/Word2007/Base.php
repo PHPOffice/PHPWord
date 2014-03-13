@@ -31,6 +31,9 @@
 class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 {
 
+    /**
+     * Write text
+     */
     protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false)
     {
         $styleFont = $text->getFontStyle();
@@ -81,6 +84,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write text run
+     */
     protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun)
     {
         $elements = $textrun->getElements();
@@ -222,6 +228,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write table
+     */
     protected function _writeLink(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Link $link, $withoutP = false)
     {
         $rID = $link->getRelationId();
@@ -278,6 +287,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write preserve text
+     */
     protected function _writePreserveText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footer_PreserveText $textrun)
     {
         $styleFont = $textrun->getFontStyle();
@@ -370,6 +382,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement(); // p
     }
 
+    /**
+     * Write text style
+     */
     protected function _writeTextStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Font $style)
     {
         $font = $style->getName();
@@ -451,11 +466,17 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
     }
 
+    /**
+     * Write text break
+     */
     protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $objWriter->writeElement('w:p', null);
     }
 
+    /**
+     * Write table
+     */
     protected function _writeTable(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Table $table)
     {
         $_rows = $table->getRows();
@@ -499,14 +520,14 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                         $objWriter->writeAttribute('w:val', $height);
                         $objWriter->endElement();
                     }
-                    if (!is_null($tblHeader)) {
+                    if ($tblHeader) {
                         $objWriter->startElement('w:tblHeader');
-                        $objWriter->writeAttribute('w:val', $tblHeader);
+                        $objWriter->writeAttribute('w:val', '1');
                         $objWriter->endElement();
                     }
-                    if (!is_null($cantSplit)) {
+                    if ($cantSplit) {
                         $objWriter->startElement('w:cantSplit');
-                        $objWriter->writeAttribute('w:val', $cantSplit);
+                        $objWriter->writeAttribute('w:val', '1');
                         $objWriter->endElement();
                     }
                     $objWriter->endElement();
@@ -565,6 +586,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write table style
+     */
     protected function _writeTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Table $style = null)
     {
         $margins = $style->getCellMargin();
@@ -610,6 +634,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write cell style
+     */
     protected function _writeCellStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Cell $style = null)
     {
         $bgColor = $style->getBgColor();
@@ -794,6 +821,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         }
     }
 
+    /**
+     * Write watermark
+     */
     protected function _writeWatermark(PHPWord_Shared_XMLWriter $objWriter = null, $image)
     {
         $rId = $image->getRelationId();
@@ -838,6 +868,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
     }
 
+    /**
+     * Write title
+     */
     protected function _writeTitle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Title $title)
     {
         $text = htmlspecialchars($title->getText());
@@ -880,6 +913,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement();
     }
 
+    /**
+     * Write footnote
+     */
     protected function _writeFootnote(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote)
     {
         $objWriter->startElement('w:footnote');
@@ -915,6 +951,9 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $objWriter->endElement(); // w:footnote
     }
 
+    /**
+     * Write footnote reference
+     */
     protected function _writeFootnoteReference(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote, $withoutP = false)
     {
         if (!$withoutP) {

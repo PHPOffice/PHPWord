@@ -45,11 +45,11 @@ class XmlDocument
     }
 
     /**
-     * @param string $path
-     * @param string $file
-     * @return \DOMElement
+     * @param   string  $path
+     * @param   string  $file
+     * @return  \DOMNodeList
      */
-    public function getElement($path, $file = 'word/document.xml')
+    public function getNodeList($path, $file = 'word/document.xml')
     {
         if ($this->dom === null || $file !== $this->file) {
             $this->getFileDom($file);
@@ -60,7 +60,18 @@ class XmlDocument
 
         }
 
-        $elements = $this->xpath->query($path);
+        return $this->xpath->query($path);
+    }
+
+    /**
+     * @param   string $path
+     * @param   string $file
+     * @return  \DOMElement
+     */
+    public function getElement($path, $file = 'word/document.xml')
+    {
+        $elements = $this->getNodeList($path, $file);
+
         return $elements->item(0);
     }
 
@@ -78,5 +89,27 @@ class XmlDocument
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * @param   string  $path
+     * @param   string  $attribute
+     * @param   string  $file
+     * @return  string
+     */
+    public function getElementAttribute($path, $attribute, $file = 'word/document.xml')
+    {
+        return $this->getElement($path, $file)->getAttribute($attribute);
+    }
+
+    /**
+     * @param   string  $path
+     * @param   string  $file
+     * @return  string
+     */
+    public function elementExists($path, $file = 'word/document.xml')
+    {
+        $nodeList = $this->getNodeList($path, $file);
+        return !($nodeList->length == 0);
     }
 }

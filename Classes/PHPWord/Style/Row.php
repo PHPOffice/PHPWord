@@ -36,22 +36,20 @@ class PHPWord_Style_Row
      *
      * @var bool
      */
-    private $_tblHeader;
+    private $_tblHeader = false;
 
     /**
      * Table row cannot break across pages
      *
      * @var bool
      */
-    private $_cantSplit;
+    private $_cantSplit = false;
 
     /**
      * Create a new row style
      */
     public function __construct()
     {
-        $this->_tblHeader = null;
-        $this->_cantSplit = null;
     }
 
     /**
@@ -62,23 +60,31 @@ class PHPWord_Style_Row
         $this->$key = $value;
     }
 
-    public function setTblHeader($pValue = null)
+    public function setTblHeader($pValue = false)
     {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
         $this->_tblHeader = $pValue;
+        return $this;
     }
 
     public function getTblHeader()
     {
-        return $this->_tblHeader ? 1 : 0;
+        return $this->_tblHeader;
     }
 
-    public function setCantSplit($pValue = null)
+    public function setCantSplit($pValue = false)
     {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
         $this->_cantSplit = $pValue;
+        return $this;
     }
 
     public function getCantSplit()
     {
-        return $this->_cantSplit ? 1 : 0;
+        return $this->_cantSplit;
     }
 }

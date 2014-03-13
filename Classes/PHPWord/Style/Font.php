@@ -173,8 +173,6 @@ class PHPWord_Style_Font
         } elseif (is_array($paragraphStyle)) {
             $this->_paragraphStyle = new PHPWord_Style_Paragraph;
             $this->_paragraphStyle->setArrayStyle($paragraphStyle);
-        } elseif (null === $paragraphStyle) {
-            $this->_paragraphStyle = new PHPWord_Style_Paragraph;
         } else {
             $this->_paragraphStyle = $paragraphStyle;
         }
