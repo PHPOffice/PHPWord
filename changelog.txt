@@ -51,6 +51,7 @@ Changes in branch for release 0.7.1 :
 - Feature:  (ivanlanin)                         - Paragraph: setTabs() function
 - Feature:  (ivanlanin)       GH-99             - General: Basic support for TextRun on ODT and RTF
 - Feature:  (ivanlanin)                         - Reader: Initial effort for Word2007
+- Feature:  (ivanlanin)                         - MemoryImage: Allow remote image when allow_url_open = on
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

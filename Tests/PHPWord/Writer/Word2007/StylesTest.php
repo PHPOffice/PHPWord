@@ -26,13 +26,31 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     {
         $PHPWord = new PHPWord();
 
-        $defaultStyle = array('align' => 'both');
-        $baseStyle = array('basedOn' => 'Normal');
-        $newStyle = array('basedOn' => 'Base Style', 'next' => 'Normal');
-        $PHPWord->setDefaultParagraphStyle($defaultStyle);
-        $PHPWord->addParagraphStyle('Base Style', $baseStyle);
-        $PHPWord->addParagraphStyle('New Style', $newStyle);
+        $pStyle = array('align' => 'both');
+        $pBase = array('basedOn' => 'Normal');
+        $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
+        $rStyle = array('size' => 20);
+        $tStyle = array(
+            'bgColor' => 'FF0000',
+            'cellMarginTop' => 120,
+            'cellMarginBottom' => 120,
+            'cellMarginLeft' => 120,
+            'cellMarginRight' => 120,
+            'borderTopSize' => 120,
+            'borderBottomSize' => 120,
+            'borderLeftSize' => 120,
+            'borderRightSize' => 120,
+            'borderInsideHSize' => 120,
+            'borderInsideVSize' => 120,
+        );
+        $PHPWord->setDefaultParagraphStyle($pStyle);
+        $PHPWord->addParagraphStyle('Base Style', $pBase);
+        $PHPWord->addParagraphStyle('New Style', $pNew);
+        $PHPWord->addFontStyle('New Style', $rStyle, $pStyle);
+        $PHPWord->addTableStyle('Table Style', $tStyle, $tStyle);
+        $PHPWord->addTitleStyle(1, $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($PHPWord);
+
         $file = 'word/styles.xml';
 
         // Normal style generated?

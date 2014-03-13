@@ -1,10 +1,18 @@
 <?php
-require_once '../../Classes/PHPWord.php';
+/**
+ * Generic template for creating PHPWord samples
+ */
 
-// New Word Document
+// Init
+error_reporting(E_ALL);
+define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+require_once '../Classes/PHPWord.php';
+
+// New Word document
+echo date('H:i:s'), " Create new PHPWord object", EOL;
 $PHPWord = new PHPWord();
 
-// New portrait section
+// Begin code
 $section = $PHPWord->createSection();
 
 // Define the TOC font style
@@ -41,8 +49,19 @@ $section->addTextBreak(2);
 $section->addTitle('I am a Subtitle of Title 3', 2);
 $section->addText('Again and again, more text...');
 
-echo 'Note: The pagenumbers in the TOC doesnt refresh automatically.';
+echo date('H:i:s'), " Note: Please refresh TOC manually.", EOL;
+// End code
 
-// Save File
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
-$objWriter->save('TitleTOC.docx');
+// Save file
+$name = basename(__FILE__, '.php');
+$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
+foreach ($writers as $writer => $extension) {
+    echo date('H:i:s'), " Write to {$writer} format", EOL;
+    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
+    $objWriter->save("{$name}.{$extension}");
+    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+}
+
+// Done
+echo date('H:i:s'), " Done writing file(s)", EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;

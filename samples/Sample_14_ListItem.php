@@ -1,10 +1,18 @@
 <?php
-require_once '../../Classes/PHPWord.php';
+/**
+ * List item sample
+ */
 
-// New Word Document
+// Init
+error_reporting(E_ALL);
+define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+require_once '../Classes/PHPWord.php';
+
+// New Word document
+echo date('H:i:s'), " Create new PHPWord object", EOL;
 $PHPWord = new PHPWord();
 
-// New portrait section
+// Begin code
 $section = $PHPWord->createSection();
 
 // Add listitem elements
@@ -41,6 +49,18 @@ $section->addListItem('List Item 5', 2, 'myOwnStyle', $listStyle, 'P-Style');
 $section->addListItem('List Item 6', 1, 'myOwnStyle', $listStyle, 'P-Style');
 $section->addListItem('List Item 7', 0, 'myOwnStyle', $listStyle, 'P-Style');
 
-// Save File
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
-$objWriter->save('ListItem.docx');
+// End code
+
+// Save file
+$name = basename(__FILE__, '.php');
+$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
+foreach ($writers as $writer => $extension) {
+    echo date('H:i:s'), " Write to {$writer} format", EOL;
+    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
+    $objWriter->save("{$name}.{$extension}");
+    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+}
+
+// Done
+echo date('H:i:s'), " Done writing file(s)", EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;

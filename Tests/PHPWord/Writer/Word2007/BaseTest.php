@@ -21,6 +21,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    /**
+     * covers   ::_writeText
+     */
     public function testWriteText()
     {
         $rStyle = 'rStyle';
@@ -40,7 +43,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write text run
+     * covers   ::_writeTextRun
      */
     public function testWriteTextRun()
     {
@@ -67,7 +70,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write link
+     * covers   ::_writeLink
      */
     public function testWriteLink()
     {
@@ -84,7 +87,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write preserve text
+     * covers   ::_writePreserveText
      */
     public function testWritePreserveText()
     {
@@ -102,7 +105,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write paragraph style: Alignment
+     * covers   ::_writeParagraphStyle
      */
     public function testWriteParagraphStyleAlign()
     {
@@ -118,7 +121,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write paragraph style: Pagination
+     * covers   ::_writeParagraphStyle
      */
     public function testWriteParagraphStylePagination()
     {
@@ -180,7 +183,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write table
+     * covers   ::_writeTableStyle
      */
     public function testWriteTableStyle()
     {
@@ -238,7 +241,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write cell style
+     * covers   ::_writeCellStyle
      */
     public function testWriteCellStyleCellGridSpan()
     {
@@ -265,7 +268,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write image
+     * covers   ::_writeImage
      */
     public function testWriteImagePosition()
     {
@@ -290,7 +293,27 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write title
+     * covers   ::_writeWatermark
+     */
+    public function testWriteWatermark()
+    {
+        $imageSrc = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+        );
+
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+        $header = $section->createHeader();
+        $header->addWatermark($imageSrc);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $element = $doc->getElement("/w:document/w:body/w:sectPr/w:headerReference");
+        $this->assertStringStartsWith("rId", $element->getAttribute('r:id'));
+    }
+
+    /**
+     * covers   ::_writeTitle
      */
     public function testWriteTitle()
     {

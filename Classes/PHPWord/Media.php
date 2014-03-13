@@ -86,11 +86,14 @@ class PHPWord_Media
             $file = null;
             if ($type === 'image') {
                 $cImg++;
+                //Detect if it's a memory image first by php ext and second by regex
                 $isMemImage = false;
                 if (stripos(strrev($src), strrev('.php')) === 0) {
                     $isMemImage = true;
                 }
-
+                if (!$isMemImage) {
+                    $isMemImage = (filter_var($src, FILTER_VALIDATE_URL) !== false);
+                }
                 $extension = '';
                 if ($isMemImage) {
                     $extension = $memoryImage->getImageExtension();

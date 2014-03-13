@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Style;
 
 /**
@@ -11,7 +10,7 @@ use PHPWord_Style;
  * @covers  PHPWord_Style
  * @runTestsInSeparateProcesses
  */
-class StyleTest extends PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers PHPWord_Style::addParagraphStyle
