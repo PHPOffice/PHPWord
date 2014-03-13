@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_TOC;
 use PHPWord_Style_TOC;
 
@@ -12,7 +11,7 @@ use PHPWord_Style_TOC;
  * @covers  PHPWord_TOC
  * @runTestsInSeparateProcesses
  */
-class TOCTest extends PHPUnit_Framework_TestCase
+class TOCTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers PHPWord_TOC::__construct

@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Section\Footer;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Section_Footer_PreserveText;
 
 class PreserveTextTest extends \PHPUnit_Framework_TestCase

@@ -1,7 +1,6 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPUnit_Framework_TestCase;
 use PHPWord_Section_Footnote;
 
 class FootnoteTest extends \PHPUnit_Framework_TestCase
