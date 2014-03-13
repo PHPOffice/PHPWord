@@ -28,7 +28,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $PHPWord = new PHPWord();
         $PHPWord->addFontStyle($rStyle, array('bold' => true));
-        $PHPWord->addParagraphStyle($pStyle, array('align' => 'justify'));
+        $PHPWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
         $section = $PHPWord->createSection();
         $section->addText('Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($PHPWord);
@@ -45,7 +45,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteTextRun()
     {
         $pStyle = 'pStyle';
-        $aStyle = array('align' => 'justify');
+        $aStyle = array('align' => 'justify', 'spaceBefore' => 120, 'spaceAfter' => 120);
         $imageSrc = join(
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
@@ -64,6 +64,41 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $parent = "/w:document/w:body/w:p";
         $this->assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
+    }
+
+    /**
+     * Write link
+     */
+    public function testWriteLink()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+
+        $expected = 'PHPWord';
+        $section->addLink('http://github.com/phpoffice/phpword', $expected);
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
+
+        $this->assertEquals($expected, $element->nodeValue);
+    }
+
+    /**
+     * Write preserve text
+     */
+    public function testWritePreserveText()
+    {
+        $PHPWord = new PHPWord();
+        $section = $PHPWord->createSection();
+        $footer = $section->createFooter();
+
+        $footer->addPreserveText('{PAGE}');
+
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
+
+        $this->assertEquals('PAGE', $preserve->nodeValue);
+        $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
     }
 
     /**
@@ -142,23 +177,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
         $this->assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
         $this->assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
-    }
-
-    /**
-     * Write link
-     */
-    public function testWriteLink()
-    {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
-
-        $expected = 'PHPWord';
-        $section->addLink('http://github.com/phpoffice/phpword', $expected);
-
-        $doc = TestHelperDOCX::getDocument($PHPWord);
-        $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
-
-        $this->assertEquals($expected, $element->nodeValue);
     }
 
     /**
@@ -272,20 +290,18 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Write preserve text
+     * Write title
      */
-    public function testWritePreserveText()
+    public function testWriteTitle()
     {
         $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
-        $footer = $section->createFooter();
-
-        $footer->addPreserveText('{PAGE}');
-
+        $PHPWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
+        $PHPWord->createSection()->addTitle('Test', 1);
         $doc = TestHelperDOCX::getDocument($PHPWord);
-        $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
 
-        $this->assertEquals('PAGE', $preserve->nodeValue);
-        $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
+        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
+        $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
+        $element = "/w:document/w:body/w:p/w:r/w:fldChar";
+        $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
     }
 }

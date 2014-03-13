@@ -314,22 +314,22 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $sRTFBody .= $this->getDataContentTextBreak();
                     } elseif ($element instanceof PHPWord_Section_TextRun) {
                         $sRTFBody .= $this->getDataContentTextRun($element);
-                    } elseif($element instanceof PHPWord_Section_Link) {
+                    } elseif ($element instanceof PHPWord_Section_Link) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('link');
-                    } elseif($element instanceof PHPWord_Section_Title) {
+                    } elseif ($element instanceof PHPWord_Section_Title) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('title');
-                    } elseif($element instanceof PHPWord_Section_PageBreak) {
+                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('page break');
-                    } elseif($element instanceof PHPWord_Section_Table) {
+                    } elseif ($element instanceof PHPWord_Section_Table) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('table');
-                    } elseif($element instanceof PHPWord_Section_ListItem) {
+                    } elseif ($element instanceof PHPWord_Section_ListItem) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('list item');
-                    } elseif($element instanceof PHPWord_Section_Image ||
+                    } elseif ($element instanceof PHPWord_Section_Image ||
                         $element instanceof PHPWord_Section_MemoryImage) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('image');
-                    } elseif($element instanceof PHPWord_Section_Object) {
+                    } elseif ($element instanceof PHPWord_Section_Object) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('object');
-                    } elseif($element instanceof PHPWord_TOC) {
+                    } elseif ($element instanceof PHPWord_TOC) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('TOC');
                     } else {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('other');

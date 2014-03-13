@@ -7,13 +7,15 @@ require_once '../Classes/PHPWord.php';
 // New Word Document
 echo date('H:i:s') , " Create new PHPWord object" , EOL;
 $PHPWord = new PHPWord();
-$PHPWord->addFontStyle('rStyle', array('bold'=>true, 'italic'=>true, 'size'=>16));
-$PHPWord->addParagraphStyle('pStyle', array('align'=>'center', 'spaceAfter'=>100));
+$PHPWord->addFontStyle('rStyle', array('bold' => true, 'italic' => true, 'size' => 16));
+$PHPWord->addParagraphStyle('pStyle', array('align' => 'center', 'spaceAfter' => 100));
+$PHPWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
 
 // New portrait section
 $section = $PHPWord->createSection();
 
 // Simple text
+$section->addTitle('Welcome to PHPWord', 1);
 $section->addText('Hello World!');
 
 // Two text break
