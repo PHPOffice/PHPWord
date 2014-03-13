@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPWord
  *
@@ -24,14 +25,13 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.7.0
  */
-
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
 /**
  * Class PHPWord_Style_Font
  */
-class PHPWord_Style_Font
-{
+class PHPWord_Style_Font {
+
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
@@ -50,7 +50,6 @@ class PHPWord_Style_Font
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
-
     const FGCOLOR_YELLOW = 'yellow';
     const FGCOLOR_LIGHTGREEN = 'green';
     const FGCOLOR_CYAN = 'cyan';
@@ -159,13 +158,19 @@ class PHPWord_Style_Font
     private $lineHeight = 1.0;
 
     /**
+     * Font Content Type
+     *
+     * @var string
+     */
+    private $_hint = PHPWord::DEFAULT_FONT_CONTENT_TYPE;
+
+    /**
      * New font style
      *
      * @param string $type Type of font
      * @param array $paragraphStyle Paragraph styles definition
      */
-    public function __construct($type = 'text', $paragraphStyle = null)
-    {
+    public function __construct($type = 'text', $paragraphStyle = null) {
         $this->_type = $type;
 
         if ($paragraphStyle instanceof PHPWord_Style_Paragraph) {
@@ -182,8 +187,7 @@ class PHPWord_Style_Font
      * @param array $style
      * @return $this
      */
-    public function setArrayStyle(array $style = array())
-    {
+    public function setArrayStyle(array $style = array()) {
         foreach ($style as $key => $value) {
             if ($key === 'line-height') {
                 $this->setLineHeight($value);
@@ -203,8 +207,7 @@ class PHPWord_Style_Font
      * @param   string $key
      * @param   mixed $value
      */
-    public function setStyleValue($key, $value)
-    {
+    public function setStyleValue($key, $value) {
         $method = 'set' . substr($key, 1);
         if (method_exists($this, $method)) {
             $this->$method($value);
@@ -216,8 +219,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->_name;
     }
 
@@ -227,22 +229,21 @@ class PHPWord_Style_Font
      * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
-    {
+    public function setName($pValue = PHPWord::DEFAULT_FONT_NAME) {
         if (is_null($pValue) || $pValue == '') {
             $pValue = PHPWord::DEFAULT_FONT_NAME;
         }
         $this->_name = $pValue;
         return $this;
     }
+    
 
     /**
      * Get font size
      *
      * @return  int|float
      */
-    public function getSize()
-    {
+    public function getSize() {
         return $this->_size;
     }
 
@@ -252,8 +253,7 @@ class PHPWord_Style_Font
      * @param   int|float $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
-    {
+    public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE) {
         if (!is_numeric($pValue)) {
             $pValue = PHPWord::DEFAULT_FONT_SIZE;
         }
@@ -266,8 +266,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getBold()
-    {
+    public function getBold() {
         return $this->_bold;
     }
 
@@ -277,8 +276,7 @@ class PHPWord_Style_Font
      * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setBold($pValue = false)
-    {
+    public function setBold($pValue = false) {
         if (!is_bool($pValue)) {
             $pValue = false;
         }
@@ -291,8 +289,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getItalic()
-    {
+    public function getItalic() {
         return $this->_italic;
     }
 
@@ -302,8 +299,7 @@ class PHPWord_Style_Font
      * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setItalic($pValue = false)
-    {
+    public function setItalic($pValue = false) {
         if (!is_bool($pValue)) {
             $pValue = false;
         }
@@ -316,8 +312,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getSuperScript()
-    {
+    public function getSuperScript() {
         return $this->_superScript;
     }
 
@@ -327,8 +322,7 @@ class PHPWord_Style_Font
      * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setSuperScript($pValue = false)
-    {
+    public function setSuperScript($pValue = false) {
         if (!is_bool($pValue)) {
             $pValue = false;
         }
@@ -342,8 +336,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getSubScript()
-    {
+    public function getSubScript() {
         return $this->_subScript;
     }
 
@@ -353,8 +346,7 @@ class PHPWord_Style_Font
      * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setSubScript($pValue = false)
-    {
+    public function setSubScript($pValue = false) {
         if (!is_bool($pValue)) {
             $pValue = false;
         }
@@ -368,8 +360,7 @@ class PHPWord_Style_Font
      *
      * @return  string
      */
-    public function getUnderline()
-    {
+    public function getUnderline() {
         return $this->_underline;
     }
 
@@ -379,8 +370,7 @@ class PHPWord_Style_Font
      * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setUnderline($pValue = PHPWord_Style_Font::UNDERLINE_NONE)
-    {
+    public function setUnderline($pValue = PHPWord_Style_Font::UNDERLINE_NONE) {
         if ($pValue == '') {
             $pValue = PHPWord_Style_Font::UNDERLINE_NONE;
         }
@@ -393,8 +383,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getStrikethrough()
-    {
+    public function getStrikethrough() {
         return $this->_strikethrough;
     }
 
@@ -404,8 +393,7 @@ class PHPWord_Style_Font
      * @param   bool $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setStrikethrough($pValue = false)
-    {
+    public function setStrikethrough($pValue = false) {
         if (!is_bool($pValue)) {
             $pValue = false;
         }
@@ -418,8 +406,7 @@ class PHPWord_Style_Font
      *
      * @return  string
      */
-    public function getColor()
-    {
+    public function getColor() {
         return $this->_color;
     }
 
@@ -429,8 +416,7 @@ class PHPWord_Style_Font
      * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR)
-    {
+    public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR) {
         if (is_null($pValue) || $pValue == '') {
             $pValue = PHPWord::DEFAULT_FONT_COLOR;
         }
@@ -443,8 +429,7 @@ class PHPWord_Style_Font
      *
      * @return  bool
      */
-    public function getFgColor()
-    {
+    public function getFgColor() {
         return $this->_fgColor;
     }
 
@@ -454,8 +439,7 @@ class PHPWord_Style_Font
      * @param   string $pValue
      * @return  PHPWord_Style_Font
      */
-    public function setFgColor($pValue = null)
-    {
+    public function setFgColor($pValue = null) {
         $this->_fgColor = $pValue;
         return $this;
     }
@@ -465,8 +449,7 @@ class PHPWord_Style_Font
      *
      * @return string
      */
-    public function getStyleType()
-    {
+    public function getStyleType() {
         return $this->_type;
     }
 
@@ -475,11 +458,9 @@ class PHPWord_Style_Font
      *
      * @return PHPWord_Style_Paragraph
      */
-    public function getParagraphStyle()
-    {
+    public function getParagraphStyle() {
         return $this->_paragraphStyle;
     }
-
 
     /**
      * Set the line height
@@ -488,8 +469,7 @@ class PHPWord_Style_Font
      * @return $this
      * @throws InvalidStyleException
      */
-    public function setLineHeight($lineHeight)
-    {
+    public function setLineHeight($lineHeight) {
         if (is_string($lineHeight)) {
             $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
         }
@@ -506,8 +486,28 @@ class PHPWord_Style_Font
     /**
      * @return int|float
      */
-    public function getLineHeight()
-    {
+    public function getLineHeight() {
         return $this->lineHeight;
+    }
+    /**
+     * Get Font Content Type
+     *
+     * @return  bool
+     */
+    public function getHint() {
+        return $this->_hint;
+    }
+    /**
+     * Set Font Content Type
+     *
+     * @param   string $pValue
+     * @return  PHPWord_Style_Font
+     */
+    public function setHint($pValue = PHPWord::DEFAULT_FONT_CONTENT_TYPE) {
+        if (is_null($pValue) || $pValue == '') {
+            $pValue = PHPWord::DEFAULT_FONT_CONTENT_TYPE;
+        }
+        $this->_hint = $pValue;
+        return $this;
     }
 }
