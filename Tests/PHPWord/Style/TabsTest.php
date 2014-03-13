@@ -16,8 +16,8 @@ use PHPWord\Tests\TestHelperDOCX;
 class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-    * Executed before each method of the class
-    */
+     * Executed before each method of the class
+     */
     public function tearDown()
     {
         TestHelperDOCX::clear();
@@ -42,5 +42,4 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1440, $element->getAttribute('w:pos'));
         $this->assertEquals('dot', $element->getAttribute('w:leader'));
     }
-
 }

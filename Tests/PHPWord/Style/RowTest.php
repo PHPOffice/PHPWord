@@ -12,7 +12,6 @@ use PHPWord_Style_Row;
  */
 class RowTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test properties with normal value
      */
@@ -39,5 +38,4 @@ class RowTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($expected, $object->$get());
         }
     }
-
 }

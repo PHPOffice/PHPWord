@@ -108,6 +108,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
                     $this->_writeImage($objWriter, $element, true);
                 } elseif ($element instanceof PHPWord_Section_Footnote) {
                     $this->_writeFootnoteReference($objWriter, $element, true);
+                } elseif ($element instanceof PHPWord_Section_TextBreak) {
+                    $objWriter->writeElement('w:br');
                 }
             }
         }
@@ -124,7 +126,14 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
      * @return  void
      */
     protected function _writeParagraphStyle(
+<<<<<<< HEAD
     PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Paragraph $style, $withoutPPR = false) {
+=======
+        PHPWord_Shared_XMLWriter $objWriter = null,
+        PHPWord_Style_Paragraph $style,
+        $withoutPPR = false
+    ) {
+>>>>>>> 5e0fc7a2d815c96de6f6cdd081404df61e8ed886
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
         $spaceBefore = $style->getSpaceBefore();
@@ -870,7 +879,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
         $objWriter->endElement();
     }
 
-    protected function _writeFootnote(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote) {
+    protected function _writeFootnote(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote)
+    {
         $objWriter->startElement('w:footnote');
         $objWriter->writeAttribute('w:id', $footnote->getReferenceId());
 
@@ -904,7 +914,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
         $objWriter->endElement(); // w:footnote
     }
 
-    protected function _writeFootnoteReference(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote, $withoutP = false) {
+    protected function _writeFootnoteReference(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote, $withoutP = false)
+    {
         if (!$withoutP) {
             $objWriter->startElement('w:p');
         }
@@ -921,5 +932,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart {
             $objWriter->endElement(); // w:p
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e0fc7a2d815c96de6f6cdd081404df61e8ed886
 }

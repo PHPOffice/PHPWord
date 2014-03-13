@@ -50,6 +50,7 @@ Changes in branch for release 0.7.1 :
 - Bugfix:   (ivanlanin)       GH-94             - General: PHPWord_Shared_Drawing::centimetersToPixels() conversion
 - Feature:  (ivanlanin)                         - Paragraph: setTabs() function
 - Feature:  (ivanlanin)       GH-99             - General: Basic support for TextRun on ODT and RTF
+- Feature:  (ivanlanin)                         - Reader: Initial effort for Word2007
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :

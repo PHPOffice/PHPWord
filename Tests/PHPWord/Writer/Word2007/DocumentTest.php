@@ -22,7 +22,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
-    public function testWriteEndSection_PageNumbering()
+    public function testWriteEndSectionPageNumbering()
     {
         $PHPWord = new PHPWord();
         $section = $PHPWord->createSection();

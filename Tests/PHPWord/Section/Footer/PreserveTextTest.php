@@ -26,7 +26,11 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithArray()
     {
-        $oPreserveText = new PHPWord_Section_Footer_PreserveText('text', array('align' => 'center'), array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600));
+        $oPreserveText = new PHPWord_Section_Footer_PreserveText(
+            'text',
+            array('align' => 'center'),
+            array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
+        );
         $this->assertInstanceOf('PHPWord_Style_Font', $oPreserveText->getFontStyle());
         $this->assertInstanceOf('PHPWord_Style_Paragraph', $oPreserveText->getParagraphStyle());
     }

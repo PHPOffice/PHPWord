@@ -30,7 +30,6 @@
  */
 class PHPWord_Section_MemoryImage
 {
-
     /**
      * Image Src
      *
@@ -85,7 +84,7 @@ class PHPWord_Section_MemoryImage
      * Create a new Image
      *
      * @param string $src
-     * @param mixed style
+     * @param mixed $style
      */
     public function __construct($src, $style = null)
     {
@@ -113,10 +112,6 @@ class PHPWord_Section_MemoryImage
             }
 
             $this->_setFunctions();
-
-            return $this;
-        } else {
-            return false;
         }
     }
 
@@ -144,7 +139,6 @@ class PHPWord_Section_MemoryImage
                 break;
         }
     }
-
 
     /**
      * Get Image style

@@ -266,5 +266,4 @@ class PHPWord_Shared_String
         $count = strlen($value);
         return $count;
     }
-
 }

@@ -12,3 +12,4 @@ require_once __DIR__ . '/../Classes/PHPWord/Autoloader.php';
 PHPWord_Autoloader::Register();
 
 require_once __DIR__ . '/_inc/TestHelperDOCX.php';
+require_once __DIR__ . '/_inc/XmlDocument.php';

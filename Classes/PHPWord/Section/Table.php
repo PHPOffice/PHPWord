@@ -160,5 +160,4 @@ class PHPWord_Section_Table
     {
         return $this->_width;
     }
-
 }

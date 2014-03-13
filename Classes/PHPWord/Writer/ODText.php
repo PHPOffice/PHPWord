@@ -161,7 +161,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
                     }
 
                     $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
-                } else if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
+                } elseif ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
                     ob_start();
                     call_user_func(
                         $this->getDrawingHashTable()->getByIndex($i)->getRenderingFunction(),
@@ -236,7 +236,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * @param    string $pPartName Writer part name
      * @return    PHPWord_Writer_ODText_WriterPart
      */
-    function getWriterPart($pPartName = '')
+    public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
             return $this->_writerParts[strtolower($pPartName)];

@@ -292,5 +292,4 @@ class PHPWord_Section_Header
     {
         return $this->_type = PHPWord_Section_Header::EVEN;
     }
-
 }

@@ -30,15 +30,16 @@
  */
 class PHPWord_Media
 {
-
     /**
      * Section Media Elements
      *
      * @var array
      */
-    private static $_sectionMedia = array('images' => array(),
+    private static $_sectionMedia = array(
+        'images' => array(),
         'embeddings' => array(),
-        'links' => array());
+        'links' => array()
+    );
 
     /**
      * Header Media Elements
@@ -61,18 +62,18 @@ class PHPWord_Media
      */
     private static $_objectId = 1325353440;
 
-
     /**
      * Add new Section Media Element
      *
      * @param string $src
      * @param string $type
+     * @param PHPWord_Section_MemoryImage|null $memoryImage
      * @return mixed
      */
     public static function addSectionMediaElement($src, $type, PHPWord_Section_MemoryImage $memoryImage = null)
     {
         $mediaId = md5($src);
-        $key = ($type == 'image') ? 'images' : 'embeddings';
+        $key = ($type === 'image') ? 'images' : 'embeddings';
 
         if (!array_key_exists($mediaId, self::$_sectionMedia[$key])) {
             $cImg = self::countSectionMediaElements('images');
@@ -81,26 +82,39 @@ class PHPWord_Media
 
             $media = array();
 
-            if ($type == 'image') {
+            $folder = null;
+            $file = null;
+            if ($type === 'image') {
                 $cImg++;
-                $inf = pathinfo($src);
-                $isMemImage = (substr(strtolower($inf['extension']), 0, 3) == 'php' && $type == 'image') ? true : false;
+                $isMemImage = false;
+                if (stripos(strrev($src), strrev('.php')) === 0) {
+                    $isMemImage = true;
+                }
 
+                $extension = '';
                 if ($isMemImage) {
-                    $ext = $memoryImage->getImageExtension();
+                    $extension = $memoryImage->getImageExtension();
                     $media['isMemImage'] = true;
                     $media['createfunction'] = $memoryImage->getImageCreateFunction();
                     $media['imagefunction'] = $memoryImage->getImageFunction();
                 } else {
-                    $ext = $inf['extension'];
-                    if ($ext == 'jpeg') { // Office crashes when adding a jpEg Image, so rename to jpg
-                        $ext = 'jpg';
+                    $imageType = exif_imagetype($src);
+                    if ($imageType === IMAGETYPE_JPEG) {
+                        $extension = 'jpg';
+                    } elseif ($imageType === IMAGETYPE_GIF) {
+                        $extension = 'gif';
+                    } elseif ($imageType === IMAGETYPE_PNG) {
+                        $extension = 'png';
+                    } elseif ($imageType === IMAGETYPE_BMP) {
+                        $extension = 'bmp';
+                    } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
+                        $extension = 'tif';
                     }
                 }
 
                 $folder = 'media';
-                $file = $type . $cImg . '.' . strtolower($ext);
-            } elseif ($type == 'oleObject') {
+                $file = $type . $cImg . '.' . strtolower($extension);
+            } elseif ($type === 'oleObject') {
                 $cObj++;
                 $folder = 'embedding';
                 $file = $type . $cObj . '.bin';
@@ -113,27 +127,24 @@ class PHPWord_Media
 
             self::$_sectionMedia[$key][$mediaId] = $media;
 
-            if ($type == 'oleObject') {
+            if ($type === 'oleObject') {
                 return array($rID, ++self::$_objectId);
-            } else {
-                return $rID;
             }
-        } else {
-            if ($type == 'oleObject') {
-                $rID = self::$_sectionMedia[$key][$mediaId]['rID'];
-                return array($rID, ++self::$_objectId);
-            } else {
-                return self::$_sectionMedia[$key][$mediaId]['rID'];
-            }
+
+            return $rID;
         }
+
+        if ($type === 'oleObject') {
+            $rID = self::$_sectionMedia[$key][$mediaId]['rID'];
+            return array($rID, ++self::$_objectId);
+        }
+        return self::$_sectionMedia[$key][$mediaId]['rID'];
     }
 
     /**
      * Add new Section Link Element
      *
      * @param string $linkSrc
-     * @param string $linkName
-     *
      * @return mixed
      */
     public static function addSectionLinkElement($linkSrc)
@@ -160,12 +171,12 @@ class PHPWord_Media
     {
         if (!is_null($key)) {
             return self::$_sectionMedia[$key];
-        } else {
-            $arrImages = self::$_sectionMedia['images'];
-            $arrObjects = self::$_sectionMedia['embeddings'];
-            $arrLinks = self::$_sectionMedia['links'];
-            return array_merge($arrImages, $arrObjects, $arrLinks);
         }
+
+        $arrImages = self::$_sectionMedia['images'];
+        $arrObjects = self::$_sectionMedia['embeddings'];
+        $arrLinks = self::$_sectionMedia['links'];
+        return array_merge($arrImages, $arrObjects, $arrLinks);
     }
 
     /**
@@ -178,12 +189,12 @@ class PHPWord_Media
     {
         if (!is_null($key)) {
             return count(self::$_sectionMedia[$key]);
-        } else {
-            $cImages = count(self::$_sectionMedia['images']);
-            $cObjects = count(self::$_sectionMedia['embeddings']);
-            $cLinks = count(self::$_sectionMedia['links']);
-            return ($cImages + $cObjects + $cLinks);
         }
+
+        $cImages = count(self::$_sectionMedia['images']);
+        $cObjects = count(self::$_sectionMedia['embeddings']);
+        $cLinks = count(self::$_sectionMedia['links']);
+        return ($cImages + $cObjects + $cLinks);
     }
 
     /**
@@ -191,6 +202,7 @@ class PHPWord_Media
      *
      * @param int $headerCount
      * @param string $src
+     * @param PHPWord_Section_MemoryImage|null $memoryImage
      * @return int
      */
     public static function addHeaderMediaElement($headerCount, $src, PHPWord_Section_MemoryImage $memoryImage = null)
@@ -232,9 +244,8 @@ class PHPWord_Media
             self::$_headerMedia[$key][$mediaId] = $media;
 
             return $rID;
-        } else {
-            return self::$_headerMedia[$key][$mediaId]['rID'];
         }
+        return self::$_headerMedia[$key][$mediaId]['rID'];
     }
 
     /**
@@ -263,6 +274,7 @@ class PHPWord_Media
      *
      * @param int $footerCount
      * @param string $src
+     * @param PHPWord_Section_MemoryImage|null $memoryImage
      * @return int
      */
     public static function addFooterMediaElement($footerCount, $src, PHPWord_Section_MemoryImage $memoryImage = null)
@@ -304,9 +316,8 @@ class PHPWord_Media
             self::$_footerMedia[$key][$mediaId] = $media;
 
             return $rID;
-        } else {
-            return self::$_footerMedia[$key][$mediaId]['rID'];
         }
+        return self::$_footerMedia[$key][$mediaId]['rID'];
     }
 
     /**
@@ -330,4 +341,3 @@ class PHPWord_Media
         return self::$_footerMedia;
     }
 }
-

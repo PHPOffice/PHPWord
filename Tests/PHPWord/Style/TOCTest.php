@@ -12,7 +12,6 @@ use PHPWord_Style_TOC;
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test properties with normal value
      */
@@ -37,5 +36,4 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(null, $object->$get());
         }
     }
-
 }

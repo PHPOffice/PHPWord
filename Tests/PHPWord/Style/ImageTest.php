@@ -12,7 +12,6 @@ use PHPWord_Style_Image;
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test setting style with normal value
      */
@@ -67,5 +66,4 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $object = new PHPWord_Style_Image();
         $object->setWrappingStyle('foo');
     }
-
 }

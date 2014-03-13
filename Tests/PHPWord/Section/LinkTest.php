@@ -20,7 +20,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithParamsArray()
     {
-        $oLink = new PHPWord_Section_Link('http://www.google.com', 'Search Engine', array('color' => '0000FF', 'underline' => PHPWord_Style_Font::UNDERLINE_SINGLE), array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600));
+        $oLink = new PHPWord_Section_Link(
+            'http://www.google.com',
+            'Search Engine',
+            array('color' => '0000FF', 'underline' => PHPWord_Style_Font::UNDERLINE_SINGLE),
+            array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
+        );
 
         $this->assertInstanceOf('PHPWord_Section_Link', $oLink);
         $this->assertEquals($oLink->getLinkSrc(), 'http://www.google.com');

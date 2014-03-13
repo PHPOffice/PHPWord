@@ -28,11 +28,18 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'firefox.png')
         );
-        $oImage = new PHPWord_Section_Image($src, array('width' => 210, 'height' => 210, 'align' => 'center', 'wrappingStyle' => \PHPWord_Style_Image::WRAPPING_STYLE_BEHIND));
+        $oImage = new PHPWord_Section_Image(
+            $src,
+            array('width' => 210, 'height' => 210, 'align' => 'center',
+                'wrappingStyle' => \PHPWord_Style_Image::WRAPPING_STYLE_BEHIND)
+        );
 
         $this->assertInstanceOf('PHPWord_Style_Image', $oImage->getStyle());
     }
 
+    /**
+     * @covers PHPWord_Section_Image::__construct
+     */
     public function testValidImageTypes()
     {
         new PHPWord_Section_Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
@@ -45,6 +52,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
+     * @covers PHPWord_Section_Image::__construct
      */
     public function testImageNotFound()
     {
@@ -53,6 +61,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
+     * @covers PHPWord_Section_Image::__construct
      */
     public function testInvalidImageTypes()
     {

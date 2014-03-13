@@ -249,27 +249,27 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                 foreach ($_elements as $element) {
                     if ($element instanceof PHPWord_Section_Text) {
                         $this->_writeText($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_TextRun) {
+                    } elseif ($element instanceof PHPWord_Section_TextRun) {
                         $this->_writeTextRun($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_TextBreak) {
                         $this->_writeTextBreak($objWriter);
                     /*
-                    } elseif($element instanceof PHPWord_Section_Link) {
+                    } elseif ($element instanceof PHPWord_Section_Link) {
                         $this->_writeLink($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_Title) {
+                    } elseif ($element instanceof PHPWord_Section_Title) {
                         $this->_writeTitle($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_PageBreak) {
+                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
                         $this->_writePageBreak($objWriter);
-                    } elseif($element instanceof PHPWord_Section_Table) {
+                    } elseif ($element instanceof PHPWord_Section_Table) {
                         $this->_writeTable($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_ListItem) {
+                    } elseif ($element instanceof PHPWord_Section_ListItem) {
                         $this->_writeListItem($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_Image ||
+                    } elseif ($element instanceof PHPWord_Section_Image ||
                     $element instanceof PHPWord_Section_MemoryImage) {
                         $this->_writeImage($objWriter, $element);
-                    } elseif($element instanceof PHPWord_Section_Object) {
+                    } elseif ($element instanceof PHPWord_Section_Object) {
                         $this->_writeObject($objWriter, $element);
-                    } elseif($element instanceof PHPWord_TOC) {
+                    } elseif ($element instanceof PHPWord_TOC) {
                         $this->_writeTOC($objWriter);
                     */
                     } else {
@@ -303,8 +303,8 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     protected function _writeText(
         PHPWord_Shared_XMLWriter $objWriter = null,
         PHPWord_Section_Text $text,
-        $withoutP = false)
-    {
+        $withoutP = false
+    ) {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
 
@@ -351,9 +351,7 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
      * @param   PHPWord_Section_TextRun     $textrun
      * @todo    Enable all other section types
      */
-    protected function _writeTextRun(
-        PHPWord_Shared_XMLWriter $objWriter = null,
-        PHPWord_Section_TextRun $textrun)
+    protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun)
     {
         $elements = $textrun->getElements();
         $objWriter->startElement('text:p');
@@ -377,7 +375,7 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
         $objWriter->endElement();
     }
 
-    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
+    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
     {
     }
 
@@ -386,9 +384,7 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
      *
      * @todo Create the real function
      */
-    private function _writeSection(
-        PHPWord_Shared_XMLWriter $objWriter = null,
-        PHPWord_Section $section)
+    private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
     {
     }
 }
