@@ -141,7 +141,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
             // Add META-INF/manifest.xml
             $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_document));
 
-            // Add media
+            // Add media. Has not used yet. Legacy from PHPExcel.
+            // @codeCoverageIgnoreStart
             for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
                 if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                     $imageContents = null;
