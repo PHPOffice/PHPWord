@@ -139,14 +139,12 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
 
                 $_footer = $section->getFooter();
-                if (!is_null($_footer)) {
-                    $_cFtrs++;
-                    $_footer->setRelationId(++$rID);
-                    $_footerCount = $_footer->getFooterCount();
-                    $_footerFile = 'footer' . $_footerCount . '.xml';
-                    $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
-                    $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
-                }
+                $_cFtrs++;
+                $_footer->setRelationId(++$rID);
+                $_footerCount = $_footer->getFooterCount();
+                $_footerFile = 'footer' . $_footerCount . '.xml';
+                $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
+                $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
             }
 
             if (PHPWord_Footnote::countFootnoteElements() > 0) {
