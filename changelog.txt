@@ -22,7 +22,7 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
-Changes in branch for release 0.7.1 :
+Changes in branch for release 0.8.0 :
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
 - Bugfix:   (SiebelsTim)      GH-51             - Adding a value that contains "&" in a template breaks it
