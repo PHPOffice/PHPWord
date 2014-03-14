@@ -79,7 +79,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
                     } elseif ($element instanceof PHPWord_Section_Title) {
                         $this->_writeTitle($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                        $this->_writeTextBreak($objWriter);
+                        $this->_writeTextBreak($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_PageBreak) {
                         $this->_writePageBreak($objWriter);
                     } elseif ($element instanceof PHPWord_Section_Table) {

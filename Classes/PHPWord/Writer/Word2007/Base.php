@@ -477,10 +477,51 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
     /**
      * Write text break
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section_TextBreak   $element
      */
-    protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null)
+    protected function _writeTextBreak($objWriter, $element = null)
     {
-        $objWriter->writeElement('w:p', null);
+        $hasStyle = false;
+        if (!is_null($element)) {
+            $fontStyle = $element->getFontStyle();
+            $sfIsObject = ($fontStyle instanceof PHPWord_Style_Font) ? true : false;
+            $paragraphStyle = $element->getParagraphStyle();
+            $spIsObject = ($paragraphStyle instanceof PHPWord_Style_Paragraph) ? true : false;
+            $hasStyle = !is_null($fontStyle) || !is_null($paragraphStyle);
+        }
+        if ($hasStyle) {
+            // Paragraph style
+            $objWriter->startElement('w:p');
+            if ($spIsObject) {
+                $this->_writeParagraphStyle($objWriter, $paragraphStyle);
+            } elseif (!$spIsObject && !is_null($paragraphStyle)) {
+                $objWriter->startElement('w:pPr');
+                $objWriter->startElement('w:pStyle');
+                $objWriter->writeAttribute('w:val', $paragraphStyle);
+                $objWriter->endElement(); // w:pStyle
+                $objWriter->endElement(); // w:pPr
+            }
+            // Font style
+            if (!is_null($fontStyle)) {
+                $objWriter->startElement('w:pPr');
+                if ($sfIsObject) {
+                    $this->_writeTextStyle($objWriter, $fontStyle);
+                } elseif (!$sfIsObject && !is_null($fontStyle)) {
+                    $objWriter->startElement('w:rPr');
+                    $objWriter->startElement('w:rStyle');
+                    $objWriter->writeAttribute('w:val', $fontStyle);
+                    $objWriter->endElement(); // w:rStyle
+                    $objWriter->endElement(); // w:rPr
+                }
+                $objWriter->endElement(); // w:pPr
+            }
+            $objWriter->endElement(); // w:p
+        } else {
+            // Null element. No paragraph nor font style
+            $objWriter->writeElement('w:p', null);
+        }
     }
 
     /**
@@ -570,7 +611,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                             } elseif ($element instanceof PHPWord_Section_Link) {
                                 $this->_writeLink($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                                $this->_writeTextBreak($objWriter);
+                                $this->_writeTextBreak($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_ListItem) {
                                 $this->_writeListItem($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_Image ||

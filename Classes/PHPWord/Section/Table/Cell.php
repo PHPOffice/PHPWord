@@ -146,13 +146,17 @@ class PHPWord_Section_Table_Cell
     }
 
     /**
-     * Add a TextBreak Element
+     * Add TextBreak
      *
-     * @param int $count
+     * @param   int $count
+     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
+     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
      */
-    public function addTextBreak()
+    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+        for ($i = 1; $i <= $count; $i++) {
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+        }
     }
 
     /**

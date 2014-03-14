@@ -50,9 +50,14 @@ Changes in branch for release 0.8.0 :
 - Bugfix:   (ivanlanin)       GH-94             - General: PHPWord_Shared_Drawing::centimetersToPixels() conversion
 - Feature:  (ivanlanin)                         - Paragraph: setTabs() function
 - Feature:  (ivanlanin)       GH-99             - General: Basic support for TextRun on ODT and RTF
-- Feature:  (ivanlanin)                         - Reader: Initial effort for Word2007
-- Feature:  (ivanlanin)                         - MemoryImage: Allow remote image when allow_url_open = on
-- Bugfix:   (ivanlanin)                         - Footnote: Corrupt DOCX reported by MS Word when sections > 1 and not every sections have footnote
+- Feature:  (ivanlanin)       GH-104            - Reader: Basic Reader for Word2007
+- Feature:  (bskrtich )       GH-109            - TextRun: Allow Text Break in Text Run
+- Feature:  (jhfangying)      GH-111 GH-118     - General: Support for East Asian fontstyle
+- Feature:  (gabrielbull)     GH-114            - Image: Use exif_imagetype to check image format instead of extension name
+- Feature:  (bskrtich )       GH-103            - General: Setting for XMLWriter Compatibility option
+- Feature:  (ivanlanin)       GH-122            - MemoryImage: Allow remote image when allow_url_open = on
+- Bugfix:   (ivanlanin)       GH-125            - Footnote: Corrupt DOCX reported by MS Word when sections > 1 and not every sections have footnote
+- Feature:  (ivanlanin)       GH-18             - TextBreak: Allow style for font break
 - QA:       (Progi1984)                         - UnitTests
 
 Changes in branch for release 0.7.0 :
