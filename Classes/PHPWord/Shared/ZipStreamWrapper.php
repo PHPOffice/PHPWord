@@ -25,11 +25,10 @@
  * @version    0.7.0
  */
 
-/** Register new zip wrapper */
-PHPWord_Shared_ZipStreamWrapper::register();
-
 /**
  * Class PHPWord_Shared_ZipStreamWrapper
+ *
+ * @codeCoverageIgnore  Legacy from PHPExcel
  */
 class PHPWord_Shared_ZipStreamWrapper
 {

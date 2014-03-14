@@ -2,6 +2,7 @@
 namespace PHPWord\Tests\Writer\Word2007;
 
 use PHPWord;
+use PHPWord_Style;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
@@ -102,6 +103,30 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('PAGE', $preserve->nodeValue);
         $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
+    }
+    /**
+     * covers   ::_writeTextBreak
+     */
+    public function testWriteTextBreak()
+    {
+        $fArray = array('size' => 12);
+        $pArray = array('spacing' => 240);
+        $fName = 'fStyle';
+        $pName = 'pStyle';
+
+        $PHPWord = new PHPWord();
+        $PHPWord->addFontStyle($fName, $fArray);
+        $PHPWord->addParagraphStyle($pName, $pArray);
+        $section = $PHPWord->createSection();
+        $section->addTextBreak();
+        $section->addTextBreak(1, $fArray, $pArray);
+        $section->addTextBreak(1, $fName, $pName);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:rPr/w:rStyle');
+        $this->assertEquals($fName, $element->getAttribute('w:val'));
+        $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:pStyle');
+        $this->assertEquals($pName, $element->getAttribute('w:val'));
     }
 
     /**

@@ -77,6 +77,8 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
         $objWriter->writeAttribute('manifest:full-path', 'styles.xml');
         $objWriter->endElement();
 
+        // Not used yet. Legacy from PHPExcel
+        // @codeCoverageIgnoreStart
         for ($i = 0; $i < $this->getParentWriter()->getDrawingHashTable()->count(); ++$i) {
             if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
