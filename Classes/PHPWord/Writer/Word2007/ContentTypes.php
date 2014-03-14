@@ -31,7 +31,7 @@
 class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_WriterPart
 {
 
-    public function writeContentTypes($_imageTypes, $_objectTypes, $_cHdrs, $footers)
+    public function writeContentTypes($imageTypes, $objectTypes, $_cHdrs, $footers)
     {
         // Create XML writer
         $objWriter = null;
@@ -49,27 +49,27 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
 
         // Rels
-        $this->_writeDefaultContentType(
+        $this->writeDefaultContentType(
             $objWriter,
             'rels',
             'application/vnd.openxmlformats-package.relationships+xml'
         );
 
         // XML
-        $this->_writeDefaultContentType(
+        $this->writeDefaultContentType(
             $objWriter,
             'xml',
             'application/xml'
         );
 
         // Add media content-types
-        foreach ($_imageTypes as $key => $value) {
-            $this->_writeDefaultContentType($objWriter, $key, $value);
+        foreach ($imageTypes as $key => $value) {
+            $this->writeDefaultContentType($objWriter, $key, $value);
         }
 
         // Add embedding content-types
-        if (count($_objectTypes) > 0) {
-            $this->_writeDefaultContentType(
+        if (count($objectTypes) > 0) {
+            $this->writeDefaultContentType(
                 $objWriter,
                 'bin',
                 'application/vnd.openxmlformats-officedocument.oleObject'
@@ -77,76 +77,76 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
         }
 
         // DocProps
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/docProps/app.xml',
             'application/vnd.openxmlformats-officedocument.extended-properties+xml'
         );
 
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/docProps/core.xml',
             'application/vnd.openxmlformats-package.core-properties+xml'
         );
 
         // Document
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/document.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml'
         );
 
         // Styles
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/styles.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml'
         );
 
         // Numbering
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/numbering.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml'
         );
 
         // Settings
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/settings.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml'
         );
 
         // Theme1
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/theme/theme1.xml',
             'application/vnd.openxmlformats-officedocument.theme+xml'
         );
 
         // WebSettings
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/webSettings.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml'
         );
 
         // Font Table
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/fontTable.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml'
         );
 
         // Footnotes
-        $this->_writeOverrideContentType(
+        $this->writeOverrideContentType(
             $objWriter,
             '/word/footnotes.xml',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml'
         );
 
         for ($i = 1; $i <= $_cHdrs; $i++) {
-            $this->_writeOverrideContentType(
+            $this->writeOverrideContentType(
                 $objWriter,
                 '/word/header' . $i . '.xml',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml'
@@ -155,7 +155,7 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
 
         for ($i = 1; $i <= count($footers); $i++) {
             if (!is_null($footers[$i])) {
-                $this->_writeOverrideContentType(
+                $this->writeOverrideContentType(
                     $objWriter,
                     '/word/footer' . $i . '.xml',
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml'
@@ -177,7 +177,7 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
      * @return    string    Mime Type
      * @throws    Exception
      */
-    private function _getImageMimeType($pFile = '')
+    private function getImageMimeType($pFile = '')
     {
         if (PHPWord_Shared_File::fileExists($pFile)) {
             $image = getimagesize($pFile);
@@ -195,7 +195,7 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
      * @param    string $pContentType Content type
      * @throws    Exception
      */
-    private function _writeDefaultContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
+    private function writeDefaultContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
     {
         if ($pPartname != '' && $pContentType != '') {
             // Write content type
@@ -216,7 +216,7 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
      * @param    string $pContentType Content type
      * @throws    Exception
      */
-    private function _writeOverrideContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
+    private function writeOverrideContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
     {
         if ($pPartname != '' && $pContentType != '') {
             // Write content type

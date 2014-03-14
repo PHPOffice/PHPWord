@@ -50,7 +50,7 @@ class PHPWord_Template
      *
      * @var string
      */
-    private $_documentXML;
+    private $documentXML;
 
 
     /**
@@ -70,7 +70,7 @@ class PHPWord_Template
             $this->_objZip = new ZipArchive();
             $this->_objZip->open($this->_tempFileName);
 
-            $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+            $this->documentXML = $this->_objZip->getFromName('word/document.xml');
         } else {
             throw new PHPWord_Exception('Could not create temporary file with unique name in the default temporary directory.');
         }
@@ -94,7 +94,7 @@ class PHPWord_Template
         }
 
         $xmlDOMDocument = new \DOMDocument();
-        if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
+        if ($xmlDOMDocument->loadXML($this->documentXML) === false) {
             throw new \Exception('Could not load XML from the given template.');
         }
 
@@ -103,7 +103,7 @@ class PHPWord_Template
             throw new \Exception('Could not transform the given XML document.');
         }
 
-        $this->_documentXML = $xmlTransformed;
+        $this->documentXML = $xmlTransformed;
     }
 
     /**
@@ -116,11 +116,11 @@ class PHPWord_Template
     public function setValue($search, $replace, $limit = -1)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
-        preg_match_all($pattern, $this->_documentXML, $matches);
+        preg_match_all($pattern, $this->documentXML, $matches);
         foreach ($matches[0] as $value) {
             $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
             $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
-            $this->_documentXML = str_replace($value, $valueCleaned, $this->_documentXML);
+            $this->documentXML = str_replace($value, $valueCleaned, $this->documentXML);
         }
 
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
@@ -140,7 +140,7 @@ class PHPWord_Template
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
-        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $this->_documentXML, $limit);
+        $this->documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $this->documentXML, $limit);
     }
 
     /**
@@ -148,7 +148,7 @@ class PHPWord_Template
      */
     public function getVariables()
     {
-        preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
+        preg_match_all('/\$\{(.*?)}/i', $this->documentXML, $matches);
         return $matches[1];
     }
 
@@ -159,9 +159,9 @@ class PHPWord_Template
      */
     private function _findRowStart($offset)
     {
-        $rowStart = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
+        $rowStart = strrpos($this->documentXML, "<w:tr ", ((strlen($this->documentXML) - $offset) * -1));
         if (!$rowStart) {
-            $rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
+            $rowStart = strrpos($this->documentXML, "<w:tr>", ((strlen($this->documentXML) - $offset) * -1));
         }
         if (!$rowStart) {
             throw new Exception("Can not find the start position of the row to clone.");
@@ -177,7 +177,7 @@ class PHPWord_Template
      */
     private function _findRowEnd($offset)
     {
-        $rowEnd = strpos($this->_documentXML, "</w:tr>", $offset) + 7;
+        $rowEnd = strpos($this->documentXML, "</w:tr>", $offset) + 7;
         return $rowEnd;
     }
 
@@ -189,9 +189,9 @@ class PHPWord_Template
     private function _getSlice($startPosition, $endPosition = 0)
     {
         if (!$endPosition) {
-            $endPosition = strlen($this->_documentXML);
+            $endPosition = strlen($this->documentXML);
         }
-        return substr($this->_documentXML, $startPosition, ($endPosition - $startPosition));
+        return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
     }
 
     /**
@@ -206,7 +206,7 @@ class PHPWord_Template
             $search = '${'.$search.'}';
         }
 
-        $tagPos = strpos($this->_documentXML, $search);
+        $tagPos = strpos($this->documentXML, $search);
         if (!$tagPos) {
             throw new Exception("Can not clone row, template variable not found or variable contains markup.");
             return false;
@@ -246,7 +246,7 @@ class PHPWord_Template
         }
         $result .= $this->_getSlice($rowEnd);
 
-        $this->_documentXML = $result;
+        $this->documentXML = $result;
     }
 
     /**
@@ -256,7 +256,7 @@ class PHPWord_Template
      */
     public function save()
     {
-        $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
+        $this->_objZip->addFromString('word/document.xml', $this->documentXML);
 
         // Close zip file
         if ($this->_objZip->close() === false) {

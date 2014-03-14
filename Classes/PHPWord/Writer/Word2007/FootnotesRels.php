@@ -52,7 +52,7 @@ class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_Writ
             $relationId   = $relation['rID'];
             $targetMode   = ($relationType == 'hyperlink') ? 'External' : '';
 
-            $this->_writeRelationship($objWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
+            $this->writeRelationship($objWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
         }
 
         $objWriter->endElement();
@@ -61,7 +61,7 @@ class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_Writ
         return $objWriter->getData();
     }
 
-    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    private function writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {
             if (strpos($pId, 'rId') === false) {
