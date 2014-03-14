@@ -11,32 +11,22 @@ use PHPWord_Shared_String;
  */
 class StringTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Test getIsMbstringEnabled() and getIsIconvEnabled()
-     */
-    public function testGetIsMbstringAndIconvEnabled()
+    public function testIsUTF8()
     {
-        $features = array(
-            'mbstring' => 'mb_convert_encoding',
-            'iconv' => 'iconv',
-        );
-        foreach ($features as $key => $val) {
-            $expected = function_exists($val);
-            $get = "getIs{$key}Enabled";
-            $firstResult = PHPWord_Shared_String::$get();
-            $this->assertEquals($expected, $firstResult);
-            $secondResult = PHPWord_Shared_String::$get();
-            $this->assertEquals($firstResult, $secondResult);
-        }
+      $this->assertTrue(PHPWord_Shared_String::IsUTF8(''));
+      $this->assertTrue(PHPWord_Shared_String::IsUTF8('éééé'));
+      $this->assertFalse(PHPWord_Shared_String::IsUTF8(utf8_decode('éééé')));
     }
 
-    /**
-     * Test FormatNumber()
-     */
-    public function testFormatNumber()
-    {
-        $expected = '1022.12';
-        $returned = PHPWord_Shared_String::FormatNumber('1022.1234');
-        $this->assertEquals($expected, $returned);
-    }
+  public function testControlCharacterOOXML2PHP()
+  {
+    $this->assertEquals('', PHPWord_Shared_String::ControlCharacterOOXML2PHP(''));
+    $this->assertEquals(chr(0x08), PHPWord_Shared_String::ControlCharacterOOXML2PHP('_x0008_'));
+  }
+
+  public function testControlCharacterPHP2OOXML()
+  {
+    $this->assertEquals('', PHPWord_Shared_String::ControlCharacterPHP2OOXML(''));
+    $this->assertEquals('_x0008_', PHPWord_Shared_String::ControlCharacterPHP2OOXML(chr(0x08)));
+  }
 }

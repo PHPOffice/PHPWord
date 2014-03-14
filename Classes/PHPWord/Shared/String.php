@@ -38,20 +38,6 @@ class PHPWord_Shared_String
     private static $_controlCharacters = array();
 
     /**
-     * Is mbstring extension avalable?
-     *
-     * @var boolean
-     */
-    private static $_isMbstringEnabled;
-
-    /**
-     * Is iconv extension avalable?
-     *
-     * @var boolean
-     */
-    private static $_isIconvEnabled;
-
-    /**
      * Build control characters array
      */
     private static function _buildControlCharacters()
@@ -63,40 +49,6 @@ class PHPWord_Shared_String
                 self::$_controlCharacters[$find] = $replace;
             }
         }
-    }
-
-    /**
-     * Get whether mbstring extension is available
-     *
-     * @return boolean
-     */
-    public static function getIsMbstringEnabled()
-    {
-        if (isset(self::$_isMbstringEnabled)) {
-            return self::$_isMbstringEnabled;
-        }
-
-        self::$_isMbstringEnabled = function_exists('mb_convert_encoding') ?
-            true : false;
-
-        return self::$_isMbstringEnabled;
-    }
-
-    /**
-     * Get whether iconv extension is available
-     *
-     * @return boolean
-     */
-    public static function getIsIconvEnabled()
-    {
-        if (isset(self::$_isIconvEnabled)) {
-            return self::$_isIconvEnabled;
-        }
-
-        self::$_isIconvEnabled = function_exists('iconv') ?
-            true : false;
-
-        return self::$_isIconvEnabled;
     }
 
     /**
@@ -154,116 +106,5 @@ class PHPWord_Shared_String
     public static function IsUTF8($value = '')
     {
         return $value === '' || preg_match('/^./su', $value) === 1;
-    }
-
-    /**
-     * Formats a numeric value as a string for output in various output writers
-     *
-     * @param mixed $value
-     * @return string
-     */
-    public static function FormatNumber($value)
-    {
-        return number_format($value, 2, '.', '');
-    }
-
-    /**
-     * Converts a UTF-8 string into BIFF8 Unicode string data (8-bit string length)
-     * Writes the string using uncompressed notation, no rich text, no Asian phonetics
-     * If mbstring extension is not available, ASCII is assumed, and compressed notation is used
-     * although this will give wrong results for non-ASCII strings
-     * see OpenOffice.org's Documentation of the Microsoft Excel File Format, sect. 2.5.3
-     *
-     * @param string $value UTF-8 encoded string
-     * @return string
-     */
-    public static function UTF8toBIFF8UnicodeShort($value)
-    {
-        // character count
-        $ln = self::CountCharacters($value, 'UTF-8');
-
-        // option flags
-        $opt = (self::getIsMbstringEnabled() || self::getIsIconvEnabled()) ?
-            0x0001 : 0x0000;
-
-        // characters
-        $chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
-
-        $data = pack('CC', $ln, $opt) . $chars;
-        return $data;
-    }
-
-    /**
-     * Converts a UTF-8 string into BIFF8 Unicode string data (16-bit string length)
-     * Writes the string using uncompressed notation, no rich text, no Asian phonetics
-     * If mbstring extension is not available, ASCII is assumed, and compressed notation is used
-     * although this will give wrong results for non-ASCII strings
-     * see OpenOffice.org's Documentation of the Microsoft Excel File Format, sect. 2.5.3
-     *
-     * @param string $value UTF-8 encoded string
-     * @return string
-     */
-    public static function UTF8toBIFF8UnicodeLong($value)
-    {
-        // character count
-        $ln = self::CountCharacters($value, 'UTF-8');
-
-        // option flags
-        $opt = (self::getIsMbstringEnabled() || self::getIsIconvEnabled()) ?
-            0x0001 : 0x0000;
-
-        // characters
-        $chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
-
-        $data = pack('vC', $ln, $opt) . $chars;
-        return $data;
-    }
-
-    /**
-     * Convert string from one encoding to another. First try mbstring, then iconv, or no convertion
-     *
-     * @param string $value
-     * @param string $to Encoding to convert to, e.g. 'UTF-8'
-     * @param string $from Encoding to convert from, e.g. 'UTF-16LE'
-     * @return string
-     */
-    public static function ConvertEncoding($value, $to, $from)
-    {
-        if (self::getIsMbstringEnabled()) {
-            $value = mb_convert_encoding($value, $to, $from);
-            return $value;
-        }
-
-        if (self::getIsIconvEnabled()) {
-            $value = iconv($from, $to, $value);
-            return $value;
-        }
-
-        // else, no conversion
-        return $value;
-    }
-
-    /**
-     * Get character count. First try mbstring, then iconv, finally strlen
-     *
-     * @param string $value
-     * @param string $enc Encoding
-     * @return int Character count
-     */
-    public static function CountCharacters($value, $enc = 'UTF-8')
-    {
-        if (self::getIsMbstringEnabled()) {
-            $count = mb_strlen($value, $enc);
-            return $count;
-        }
-
-        if (self::getIsIconvEnabled()) {
-            $count = iconv_strlen($value, $enc);
-            return $count;
-        }
-
-        // else strlen
-        $count = strlen($value);
-        return $count;
     }
 }

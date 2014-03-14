@@ -38,26 +38,8 @@ class PHPWord_Shared_File
      */
     public static function file_exists($pFilename)
     {
-        // Sick construction, but it seems that
-        // file_exists returns strange values when
-        // doing the original file_exists on ZIP archives...
-        if (strtolower(substr($pFilename, 0, 3)) == 'zip') {
-            // Open ZIP file and verify if the file exists
-            $zipFile = substr($pFilename, 6, strpos($pFilename, '#') - 6);
-            $archiveFile = substr($pFilename, strpos($pFilename, '#') + 1);
-
-            $zip = new ZipArchive();
-            if ($zip->open($zipFile) === true) {
-                $returnValue = ($zip->getFromName($archiveFile) !== false);
-                $zip->close();
-                return $returnValue;
-            } else {
-                return false;
-            }
-        } else {
-            // Regular file_exists
-            return file_exists($pFilename);
-        }
+        // Regular file_exists
+        return file_exists($pFilename);
     }
 
     /**
