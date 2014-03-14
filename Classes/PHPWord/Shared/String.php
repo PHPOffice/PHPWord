@@ -113,7 +113,7 @@ class PHPWord_Shared_String
      * @param    string $value Value to unescape
      * @return    string
      */
-    public static function ControlCharacterOOXML2PHP($value = '')
+    public static function controlCharacterOOXML2PHP($value = '')
     {
         if (empty(self::$_controlCharacters)) {
             self::_buildControlCharacters();
@@ -136,7 +136,7 @@ class PHPWord_Shared_String
      * @param    string $value Value to escape
      * @return    string
      */
-    public static function ControlCharacterPHP2OOXML($value = '')
+    public static function controlCharacterPHP2OOXML($value = '')
     {
         if (empty(self::$_controlCharacters)) {
             self::_buildControlCharacters();
@@ -151,7 +151,7 @@ class PHPWord_Shared_String
      * @param string $value
      * @return boolean
      */
-    public static function IsUTF8($value = '')
+    public static function isUTF8($value = '')
     {
         return $value === '' || preg_match('/^./su', $value) === 1;
     }
@@ -162,7 +162,7 @@ class PHPWord_Shared_String
      * @param mixed $value
      * @return string
      */
-    public static function FormatNumber($value)
+    public static function formatNumber($value)
     {
         return number_format($value, 2, '.', '');
     }
@@ -180,14 +180,14 @@ class PHPWord_Shared_String
     public static function UTF8toBIFF8UnicodeShort($value)
     {
         // character count
-        $ln = self::CountCharacters($value, 'UTF-8');
+        $ln = self::countCharacters($value, 'UTF-8');
 
         // option flags
         $opt = (self::getIsMbstringEnabled() || self::getIsIconvEnabled()) ?
             0x0001 : 0x0000;
 
         // characters
-        $chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
+        $chars = self::convertEncoding($value, 'UTF-16LE', 'UTF-8');
 
         $data = pack('CC', $ln, $opt) . $chars;
         return $data;
@@ -206,14 +206,14 @@ class PHPWord_Shared_String
     public static function UTF8toBIFF8UnicodeLong($value)
     {
         // character count
-        $ln = self::CountCharacters($value, 'UTF-8');
+        $ln = self::countCharacters($value, 'UTF-8');
 
         // option flags
         $opt = (self::getIsMbstringEnabled() || self::getIsIconvEnabled()) ?
             0x0001 : 0x0000;
 
         // characters
-        $chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
+        $chars = self::convertEncoding($value, 'UTF-16LE', 'UTF-8');
 
         $data = pack('vC', $ln, $opt) . $chars;
         return $data;
@@ -227,7 +227,7 @@ class PHPWord_Shared_String
      * @param string $from Encoding to convert from, e.g. 'UTF-16LE'
      * @return string
      */
-    public static function ConvertEncoding($value, $to, $from)
+    public static function convertEncoding($value, $to, $from)
     {
         if (self::getIsMbstringEnabled()) {
             $value = mb_convert_encoding($value, $to, $from);
@@ -250,7 +250,7 @@ class PHPWord_Shared_String
      * @param string $enc Encoding
      * @return int Character count
      */
-    public static function CountCharacters($value, $enc = 'UTF-8')
+    public static function countCharacters($value, $enc = 'UTF-8')
     {
         if (self::getIsMbstringEnabled()) {
             $count = mb_strlen($value, $enc);

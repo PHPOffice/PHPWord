@@ -30,6 +30,8 @@ PHPWord_Shared_ZipStreamWrapper::register();
 
 /**
  * Class PHPWord_Shared_ZipStreamWrapper
+ *
+ * @codeCoverageIgnore  Legacy from PHPExcel
  */
 class PHPWord_Shared_ZipStreamWrapper
 {
@@ -73,7 +75,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Open stream
      */
-    public function stream_open($path, $mode, $options, &$opened_path)
+    public function streamOpen($path, $mode, $options, &$opened_path)
     {
         // Check for mode
         if ($mode{0} != 'r') {
@@ -113,7 +115,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Stat stream
      */
-    public function stream_stat()
+    public function streamStat()
     {
         return $this->_archive->statName($this->_fileNameInArchive);
     }
@@ -121,7 +123,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Read stream
      */
-    public function stream_read($count)
+    public function streamRead($count)
     {
         $ret = substr($this->_data, $this->_position, $count);
         $this->_position += strlen($ret);
@@ -131,7 +133,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Tell stream
      */
-    public function stream_tell()
+    public function streamTell()
     {
         return $this->_position;
     }
@@ -139,7 +141,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * EOF stream
      */
-    public function stream_eof()
+    public function streamEOF()
     {
         return $this->_position >= strlen($this->_data);
     }
@@ -147,7 +149,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Seek stream
      */
-    public function stream_seek($offset, $whence)
+    public function streamSeek($offset, $whence)
     {
         switch ($whence) {
             case SEEK_SET:

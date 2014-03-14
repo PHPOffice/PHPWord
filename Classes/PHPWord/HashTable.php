@@ -27,6 +27,8 @@
 
 /**
  * PHPWord_HashTable
+ *
+ * @codeCoverageIgnore  Legacy from PHPExcel
  */
 class PHPWord_HashTable
 {

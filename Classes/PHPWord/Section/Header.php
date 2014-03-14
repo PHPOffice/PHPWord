@@ -99,7 +99,7 @@ class PHPWord_Section_Header
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
@@ -197,7 +197,7 @@ class PHPWord_Section_Header
      */
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);

@@ -59,23 +59,23 @@ class PHPWord_Writer_Word2007_Header extends PHPWord_Writer_Word2007_Base
 
         foreach ($_elements as $element) {
             if ($element instanceof PHPWord_Section_Text) {
-                $this->_writeText($objWriter, $element);
+                $this->writeText($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_TextRun) {
-                $this->_writeTextRun($objWriter, $element);
+                $this->writeTextRun($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                $this->_writeTextBreak($objWriter);
+                $this->writeTextBreak($objWriter);
             } elseif ($element instanceof PHPWord_Section_Table) {
-                $this->_writeTable($objWriter, $element);
+                $this->writeTable($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_Image ||
                 $element instanceof PHPWord_Section_MemoryImage
             ) {
                 if (!$element->getIsWatermark()) {
-                    $this->_writeImage($objWriter, $element);
+                    $this->writeImage($objWriter, $element);
                 } else {
-                    $this->_writeWatermark($objWriter, $element);
+                    $this->writeWatermark($objWriter, $element);
                 }
             } elseif ($element instanceof PHPWord_Section_Footer_PreserveText) {
-                $this->_writePreserveText($objWriter, $element);
+                $this->writePreserveText($objWriter, $element);
             }
         }
 

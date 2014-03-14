@@ -49,7 +49,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         // Relationship word/document.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             1,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
@@ -57,7 +57,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         );
 
         // Relationship word/numbering.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             2,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering',
@@ -65,7 +65,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             3,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings',
@@ -73,7 +73,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             4,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme',
@@ -81,7 +81,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             5,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings',
@@ -89,7 +89,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $objWriter,
             6,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
@@ -103,7 +103,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
             $relationId = $relation['rID'];
             $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
 
-            $this->_writeRelationship(
+            $this->writeRelationship(
                 $objWriter,
                 $relationId,
                 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
@@ -142,7 +142,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
             $relationName = $relation['target'];
             $relationId = $relation['rID'];
 
-            $this->_writeRelationship(
+            $this->writeRelationship(
                 $objWriter,
                 $relationId,
                 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
@@ -157,7 +157,7 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         return $objWriter->getData();
     }
 
-    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    private function writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {
             if (strpos($pId, 'rId') === false) {

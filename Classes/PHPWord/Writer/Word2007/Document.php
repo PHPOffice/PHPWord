@@ -30,8 +30,12 @@
  */
 class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 {
-
-    public function writeDocument(PHPWord $pPHPWord = null)
+    /**
+     * Write document
+     *
+     * @param   PHPWord $pPHPWord
+     */
+    public function writeDocument(PHPWord $pPHPWord)
     {
         // Create XML writer
 
@@ -71,38 +75,38 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 
                 foreach ($_elements as $element) {
                     if ($element instanceof PHPWord_Section_Text) {
-                        $this->_writeText($objWriter, $element);
+                        $this->writeText($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_TextRun) {
-                        $this->_writeTextRun($objWriter, $element);
+                        $this->writeTextRun($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Link) {
-                        $this->_writeLink($objWriter, $element);
+                        $this->writeLink($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Title) {
-                        $this->_writeTitle($objWriter, $element);
+                        $this->writeTitle($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                        $this->_writeTextBreak($objWriter);
+                        $this->writeTextBreak($objWriter);
                     } elseif ($element instanceof PHPWord_Section_PageBreak) {
-                        $this->_writePageBreak($objWriter);
+                        $this->writePageBreak($objWriter);
                     } elseif ($element instanceof PHPWord_Section_Table) {
-                        $this->_writeTable($objWriter, $element);
+                        $this->writeTable($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_ListItem) {
-                        $this->_writeListItem($objWriter, $element);
+                        $this->writeListItem($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Image ||
                         $element instanceof PHPWord_Section_MemoryImage
                     ) {
-                        $this->_writeImage($objWriter, $element);
+                        $this->writeImage($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Object) {
-                        $this->_writeObject($objWriter, $element);
+                        $this->writeObject($objWriter, $element);
                     } elseif ($element instanceof PHPWord_TOC) {
-                        $this->_writeTOC($objWriter);
+                        $this->writeTOC($objWriter);
                     } elseif ($element instanceof PHPWord_Section_Footnote) {
-                        $this->_writeFootnoteReference($objWriter, $element);
+                        $this->writeFootnoteReference($objWriter, $element);
                     }
                 }
 
                 if ($pSection == $countSections) {
-                    $this->_writeEndSection($objWriter, $section);
+                    $this->writeEndSection($objWriter, $section);
                 } else {
-                    $this->_writeSection($objWriter, $section);
+                    $this->writeSection($objWriter, $section);
                 }
             }
         }
@@ -114,17 +118,33 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         return $objWriter->getData();
     }
 
-    private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
-    {
+    /**
+     * Write section
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section             $section
+     */
+    private function writeSection(
+        PHPWord_Shared_XMLWriter $objWriter,
+        PHPWord_Section $section
+    ) {
         $objWriter->startElement('w:p');
         $objWriter->startElement('w:pPr');
-        $this->_writeEndSection($objWriter, $section, 3);
+        $this->writeEndSection($objWriter, $section, 3);
         $objWriter->endElement();
         $objWriter->endElement();
     }
 
-    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
-    {
+    /**
+     * Write end section
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section             $section
+     */
+    private function writeEndSection(
+        PHPWord_Shared_XMLWriter $objWriter,
+        PHPWord_Section $section
+    ) {
         $settings = $section->getSettings();
         $_headers = $section->getHeaders();
         $_footer = $section->getFooter();
@@ -256,8 +276,14 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
-    private function _writePageBreak(PHPWord_Shared_XMLWriter $objWriter = null)
-    {
+    /**
+     * Write page break
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     */
+    private function writePageBreak(
+        PHPWord_Shared_XMLWriter $objWriter
+    ) {
         $objWriter->startElement('w:p');
         $objWriter->startElement('w:r');
         $objWriter->startElement('w:br');
@@ -267,8 +293,16 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
-    public function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
-    {
+    /**
+     * Write list item
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section_ListItem    $listItem
+     */
+    public function writeListItem(
+        PHPWord_Shared_XMLWriter $objWriter,
+        PHPWord_Section_ListItem $listItem
+    ) {
         $textObject = $listItem->getTextObject();
         $text = $textObject->getText();
         $styleParagraph = $textObject->getParagraphStyle();
@@ -281,7 +315,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->startElement('w:pPr');
 
         if ($SpIsObject) {
-            $this->_writeParagraphStyle($objWriter, $styleParagraph, true);
+            $this->writeParagraphStyle($objWriter, $styleParagraph, true);
         } elseif (!$SpIsObject && !is_null($styleParagraph)) {
             $objWriter->startElement('w:pStyle');
             $objWriter->writeAttribute('w:val', $styleParagraph);
@@ -301,13 +335,21 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
         $objWriter->endElement();
 
-        $this->_writeText($objWriter, $textObject, true);
+        $this->writeText($objWriter, $textObject, true);
 
         $objWriter->endElement();
     }
 
-    protected function _writeObject(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Object $object)
-    {
+    /**
+     * Write object
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section_Object      $object
+     */
+    protected function writeObject(
+        PHPWord_Shared_XMLWriter $objWriter,
+        PHPWord_Section_Object $object
+    ) {
         $rIdObject = $object->getRelationId();
         $rIdImage = $object->getImageRelationId();
         $shapeId = md5($rIdObject . '_' . $rIdImage);
@@ -365,7 +407,12 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement(); // w:p
     }
 
-    private function _writeTOC(PHPWord_Shared_XMLWriter $objWriter = null)
+    /**
+     * Write TOC
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     */
+    private function writeTOC(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $titles = PHPWord_TOC::getTitles();
         $styleFont = PHPWord_TOC::getStyleFont();
@@ -386,7 +433,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
             $objWriter->startElement('w:pPr');
 
             if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $this->_writeParagraphStyle($objWriter, $styleFont->getParagraphStyle());
+                $this->writeParagraphStyle($objWriter, $styleFont->getParagraphStyle());
             }
 
             if ($indent > 0) {
@@ -444,7 +491,7 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
             $objWriter->startElement('w:r');
 
             if ($isObject) {
-                $this->_writeTextStyle($objWriter, $styleFont);
+                $this->writeTextStyle($objWriter, $styleFont);
             }
 
             $objWriter->startElement('w:t');

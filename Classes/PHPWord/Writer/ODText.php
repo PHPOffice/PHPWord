@@ -35,35 +35,35 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      *
      * @var PHPWord
      */
-    private $_document;
+    private $document;
 
     /**
      * Private writer parts
      *
      * @var PHPWord_Writer_ODText_WriterPart[]
      */
-    private $_writerParts;
+    private $writerParts;
 
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
      * @var PHPWord_HashTable
      */
-    private $_drawingHashTable;
+    private $drawingHashTable;
 
     /**
      * Use disk caching where possible?
      *
      * @var boolean
      */
-    private $_useDiskCaching = false;
+    private $useDiskCaching = false;
 
     /**
      * Disk caching directory
      *
      * @var string
      */
-    private $_diskCachingDirectory;
+    private $diskCachingDirectory;
 
     /**
      * Create a new PHPWord_Writer_ODText
@@ -76,23 +76,23 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
         $this->setPHPWord($pPHPWord);
 
         // Set up disk caching location
-        $this->_diskCachingDirectory = './';
+        $this->diskCachingDirectory = './';
 
         // Initialise writer parts
-        $this->_writerParts['content'] = new PHPWord_Writer_ODText_Content();
-        $this->_writerParts['manifest'] = new PHPWord_Writer_ODText_Manifest();
-        $this->_writerParts['meta'] = new PHPWord_Writer_ODText_Meta();
-        $this->_writerParts['mimetype'] = new PHPWord_Writer_ODText_Mimetype();
-        $this->_writerParts['styles'] = new PHPWord_Writer_ODText_Styles();
+        $this->writerParts['content'] = new PHPWord_Writer_ODText_Content();
+        $this->writerParts['manifest'] = new PHPWord_Writer_ODText_Manifest();
+        $this->writerParts['meta'] = new PHPWord_Writer_ODText_Meta();
+        $this->writerParts['mimetype'] = new PHPWord_Writer_ODText_Mimetype();
+        $this->writerParts['styles'] = new PHPWord_Writer_ODText_Styles();
 
 
         // Assign parent IWriter
-        foreach ($this->_writerParts as $writer) {
+        foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
 
         // Set HashTable variables
-        $this->_drawingHashTable = new PHPWord_HashTable();
+        $this->drawingHashTable = new PHPWord_HashTable();
     }
 
     /**
@@ -103,7 +103,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function save($pFilename = null)
     {
-        if (!is_null($this->_document)) {
+        if (!is_null($this->document)) {
             // If $pFilename is php://output or php://stdout, make it a temporary file...
             $originalFilename = $pFilename;
             if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
@@ -127,19 +127,19 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
 
             // Add mimetype to ZIP file
             //@todo Not in ZIPARCHIVE::CM_STORE mode
-            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->_document));
+            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->document));
 
             // Add content.xml to ZIP file
-            $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->_document));
+            $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->document));
 
             // Add meta.xml to ZIP file
-            $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->_document));
+            $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->document));
 
             // Add styles.xml to ZIP file
-            $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->_document));
+            $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->document));
 
             // Add META-INF/manifest.xml
-            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_document));
+            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->document));
 
             // Add media
             for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
@@ -200,8 +200,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function getPHPWord()
     {
-        if (!is_null($this->_document)) {
-            return $this->_document;
+        if (!is_null($this->document)) {
+            return $this->document;
         } else {
             throw new Exception("No PHPWord assigned.");
         }
@@ -216,7 +216,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
-        $this->_document = $pPHPWord;
+        $this->document = $pPHPWord;
         return $this;
     }
 
@@ -227,7 +227,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function getDrawingHashTable()
     {
-        return $this->_drawingHashTable;
+        return $this->drawingHashTable;
     }
 
     /**
@@ -238,8 +238,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function getWriterPart($pPartName = '')
     {
-        if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
-            return $this->_writerParts[strtolower($pPartName)];
+        if ($pPartName != '' && isset($this->writerParts[strtolower($pPartName)])) {
+            return $this->writerParts[strtolower($pPartName)];
         } else {
             return null;
         }
@@ -252,7 +252,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function getUseDiskCaching()
     {
-        return $this->_useDiskCaching;
+        return $this->useDiskCaching;
     }
 
     /**
@@ -265,11 +265,11 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
-        $this->_useDiskCaching = $pValue;
+        $this->useDiskCaching = $pValue;
 
         if (!is_null($pDirectory)) {
             if (is_dir($pDirectory)) {
-                $this->_diskCachingDirectory = $pDirectory;
+                $this->diskCachingDirectory = $pDirectory;
             } else {
                 throw new Exception("Directory does not exist: $pDirectory");
             }
@@ -285,6 +285,6 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      */
     public function getDiskCachingDirectory()
     {
-        return $this->_diskCachingDirectory;
+        return $this->diskCachingDirectory;
     }
 }

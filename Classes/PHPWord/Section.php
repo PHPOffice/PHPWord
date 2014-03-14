@@ -117,7 +117,7 @@ class PHPWord_Section
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
@@ -136,11 +136,11 @@ class PHPWord_Section
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($linkSrc)) {
+        if (!PHPWord_Shared_String::isUTF8($linkSrc)) {
             $linkSrc = utf8_encode($linkSrc);
         }
         if (!is_null($linkName)) {
-            if (!PHPWord_Shared_String::IsUTF8($linkName)) {
+            if (!PHPWord_Shared_String::isUTF8($linkName)) {
                 $linkName = utf8_encode($linkName);
             }
         }
@@ -198,7 +198,7 @@ class PHPWord_Section
      */
     public function addListItem($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $listItem = new PHPWord_Section_ListItem($text, $depth, $styleFont, $styleList, $styleParagraph);
@@ -319,7 +319,7 @@ class PHPWord_Section
      */
     public function addTitle($text, $depth = 1)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $styles = PHPWord_Style::getStyles();
