@@ -128,6 +128,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $rID = PHPWord_Media::countSectionMediaElements() + 6;
             $_sections = $this->_document->getSections();
 
+            $footers = array();
             foreach ($_sections as $section) {
                 $_headers = $section->getHeaders();
                 foreach ($_headers as $index => &$_header) {
@@ -139,8 +140,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
 
                 $_footer = $section->getFooter();
+                $footers[++$_cFtrs] = $_footer;
                 if (!is_null($_footer)) {
-                    $_cFtrs++;
                     $_footer->setRelationId(++$rID);
                     $_footerCount = $_footer->getFooterCount();
                     $_footerFile = 'footer' . $_footerCount . '.xml';
@@ -161,7 +162,15 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
             // build docx file
             // Write dynamic files
-            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->_imageTypes, $this->_objectTypes, $_cHdrs, $_cFtrs));
+            $objZip->addFromString(
+                '[Content_Types].xml',
+                $this->getWriterPart('contenttypes')->writeContentTypes(
+                    $this->_imageTypes,
+                    $this->_objectTypes,
+                    $_cHdrs,
+                    $footers
+                )
+            );
             $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeRelationships($this->_document));
             $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->_document));
             $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docprops')->writeDocPropsCore($this->_document));
