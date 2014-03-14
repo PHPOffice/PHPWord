@@ -31,7 +31,7 @@
 class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_WriterPart
 {
 
-    public function writeContentTypes($_imageTypes, $_objectTypes, $_cHdrs, $_cFtrs)
+    public function writeContentTypes($_imageTypes, $_objectTypes, $_cHdrs, $footers)
     {
         // Create XML writer
         $objWriter = null;
@@ -153,12 +153,14 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
             );
         }
 
-        for ($i = 1; $i <= $_cFtrs; $i++) {
-            $this->_writeOverrideContentType(
-                $objWriter,
-                '/word/footer' . $i . '.xml',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml'
-            );
+        for ($i = 1; $i <= count($footers); $i++) {
+            if (!is_null($footers[$i])) {
+                $this->_writeOverrideContentType(
+                    $objWriter,
+                    '/word/footer' . $i . '.xml',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml'
+                );
+            }
         }
 
 

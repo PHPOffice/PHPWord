@@ -422,9 +422,6 @@ class PHPWord_Section
      */
     public function getFooter()
     {
-        if (!($this->_footer instanceOf PHPWord_Section_Footer)) {
-            $this->_footer = new PHPWord_Section_Footer($this->_sectionCount);
-        }
         return $this->_footer;
     }
 
