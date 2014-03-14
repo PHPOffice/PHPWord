@@ -116,7 +116,7 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
      */
     private function _getImageMimeType($pFile = '')
     {
-        if (PHPWord_Shared_File::file_exists($pFile)) {
+        if (PHPWord_Shared_File::fileExists($pFile)) {
             $image = getimagesize($pFile);
             return image_type_to_mime_type($image[2]);
         } else {

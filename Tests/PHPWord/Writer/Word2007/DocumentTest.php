@@ -34,11 +34,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTOC
-     * covers   ::_writePageBreak
-     * covers   ::_writeListItem
-     * covers   ::_writeTitle
-     * covers   ::_writeObject
+     * covers   ::writeTOC
+     * covers   ::writePageBreak
+     * covers   ::writeListItem
+     * covers   ::writeTitle
+     * covers   ::writeObject
      */
     public function testElements()
     {

@@ -128,7 +128,7 @@ class PHPWord_Template
         }
 
         if (!is_array($replace)) {
-            if (!PHPWord_Shared_String::IsUTF8($replace)) {
+            if (!PHPWord_Shared_String::isUTF8($replace)) {
                 $replace = utf8_encode($replace);
             }
             $replace = htmlspecialchars($replace);

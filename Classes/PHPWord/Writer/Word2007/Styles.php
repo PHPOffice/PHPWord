@@ -30,10 +30,19 @@
  */
 class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
 {
+    /**
+     * PHPWord object
+     *
+     * @var PHPWord
+     */
+    private $document;
 
-    private $_document;
-
-    public function writeStyles(PHPWord $pPHPWord = null)
+    /**
+     * Write styles
+     *
+     * @param   PHPWord $pPHPWord
+     */
+    public function writeStyles(PHPWord $pPHPWord)
     {
         // Create XML writer
         $objWriter = null;
@@ -43,7 +52,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
             $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
         }
 
-        $this->_document = $pPHPWord;
+        $this->document = $pPHPWord;
 
         // XML header
         $objWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -54,7 +63,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         $objWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
 
         // Write DocDefaults
-        $this->_writeDocDefaults($objWriter);
+        $this->writeDocDefaults($objWriter);
 
 
         // Write Style Definitions
@@ -73,7 +82,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         $objWriter->writeAttribute('w:val', 'Normal');
         $objWriter->endElement();
         if (!is_null($normalStyle)) {
-            $this->_writeParagraphStyle($objWriter, $normalStyle);
+            $this->writeParagraphStyle($objWriter, $normalStyle);
         }
         $objWriter->endElement();
 
@@ -118,10 +127,10 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                         $objWriter->startElement('w:basedOn');
                         $objWriter->writeAttribute('w:val', 'Normal');
                         $objWriter->endElement();
-                        $this->_writeParagraphStyle($objWriter, $paragraphStyle);
+                        $this->writeParagraphStyle($objWriter, $paragraphStyle);
                     }
 
-                    $this->_writeTextStyle($objWriter, $style);
+                    $this->writeTextStyle($objWriter, $style);
 
                     $objWriter->endElement();
 
@@ -151,7 +160,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                         $objWriter->endElement();
                     }
 
-                    $this->_writeParagraphStyle($objWriter, $style);
+                    $this->writeParagraphStyle($objWriter, $style);
                     $objWriter->endElement();
 
                 } elseif ($style instanceof PHPWord_Style_TableFull) {
@@ -168,7 +177,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $objWriter->writeAttribute('w:val', '99');
                     $objWriter->endElement();
 
-                    $this->_writeFullTableStyle($objWriter, $style);
+                    $this->writeTableFullStyle($objWriter, $style);
 
                     $objWriter->endElement();
                 }
@@ -181,9 +190,16 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         return $objWriter->getData();
     }
 
-    private function _writeFullTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_TableFull $style)
-    {
-
+    /**
+     * Write full table style
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Style_TableFull     $style
+     */
+    private function writeTableFullStyle(
+        PHPWord_Shared_XMLWriter $objWriter,
+        PHPWord_Style_TableFull $style
+    ) {
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();
         $bgColor = $style->getBgColor();
@@ -298,12 +314,22 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         // First Row
         $firstRow = $style->getFirstRow();
         if (!is_null($firstRow)) {
-            $this->_writeRowStyle($objWriter, 'firstRow', $firstRow);
+            $this->writeTableFirstRowStyle($objWriter, 'firstRow', $firstRow);
         }
     }
 
-    private function _writeRowStyle(PHPWord_Shared_XMLWriter $objWriter = null, $type, PHPWord_Style_TableFull $style)
-    {
+    /**
+     * Write row style for the first row
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   string                      $type
+     * @param   PHPWord_Style_TableFull     $style
+     */
+    private function writeTableFirstRowStyle(
+        PHPWord_Shared_XMLWriter $objWriter,
+        $type,
+        PHPWord_Style_TableFull $style
+    ) {
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();
         $bgColor = $style->getBgColor();
@@ -363,10 +389,15 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
     }
 
 
-    private function _writeDocDefaults(PHPWord_Shared_XMLWriter $objWriter = null)
+    /**
+     * Write document defaults
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     */
+    private function writeDocDefaults(PHPWord_Shared_XMLWriter $objWriter)
     {
-        $fontName = $this->_document->getDefaultFontName();
-        $fontSize = $this->_document->getDefaultFontSize();
+        $fontName = $this->document->getDefaultFontName();
+        $fontSize = $this->document->getDefaultFontSize();
 
         $objWriter->startElement('w:docDefaults');
         $objWriter->startElement('w:rPrDefault');

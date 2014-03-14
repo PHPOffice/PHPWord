@@ -36,7 +36,7 @@ class PHPWord_Shared_File
      * @param    string $pFilename Filename
      * @return bool
      */
-    public static function file_exists($pFilename)
+    public static function fileExists($pFilename)
     {
         // Sick construction, but it seems that
         // file_exists returns strange values when

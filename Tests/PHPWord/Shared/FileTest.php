@@ -12,7 +12,7 @@ use PHPWord_Shared_File;
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test file_exists()
+     * covers   ::fileExists
      */
     public function testFileExists()
     {
@@ -21,7 +21,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates')
         );
         chdir($dir);
-        $this->assertTrue(PHPWord_Shared_File::file_exists('blank.docx'));
+        $this->assertTrue(PHPWord_Shared_File::fileExists('blank.docx'));
     }
 
     /**

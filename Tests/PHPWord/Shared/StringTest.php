@@ -36,7 +36,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
     public function testFormatNumber()
     {
         $expected = '1022.12';
-        $returned = PHPWord_Shared_String::FormatNumber('1022.1234');
+        $returned = PHPWord_Shared_String::formatNumber('1022.1234');
         $this->assertEquals($expected, $returned);
     }
 }

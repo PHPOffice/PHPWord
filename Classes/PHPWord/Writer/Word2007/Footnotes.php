@@ -71,7 +71,7 @@ class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base
 
         foreach ($allFootnotesCollection as $footnote) {
             if ($footnote instanceof PHPWord_Section_Footnote) {
-                $this->_writeFootnote($objWriter, $footnote);
+                $this->writeFootnote($objWriter, $footnote);
             }
         }
 

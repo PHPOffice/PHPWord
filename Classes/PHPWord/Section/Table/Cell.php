@@ -105,7 +105,7 @@ class PHPWord_Section_Table_Cell
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
@@ -124,11 +124,11 @@ class PHPWord_Section_Table_Cell
     public function addLink($linkSrc, $linkName = null, $style = null)
     {
         if ($this->_insideOf == 'section') {
-            if (!PHPWord_Shared_String::IsUTF8($linkSrc)) {
+            if (!PHPWord_Shared_String::isUTF8($linkSrc)) {
                 $linkSrc = utf8_encode($linkSrc);
             }
             if (!is_null($linkName)) {
-                if (!PHPWord_Shared_String::IsUTF8($linkName)) {
+                if (!PHPWord_Shared_String::isUTF8($linkName)) {
                     $linkName = utf8_encode($linkName);
                 }
             }
@@ -166,7 +166,7 @@ class PHPWord_Section_Table_Cell
      */
     public function addListItem($text, $depth = 0, $styleText = null, $styleList = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $listItem = new PHPWord_Section_ListItem($text, $depth, $styleText, $styleList);
@@ -281,7 +281,7 @@ class PHPWord_Section_Table_Cell
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
         if ($this->_insideOf == 'footer' || $this->_insideOf == 'header') {
-            if (!PHPWord_Shared_String::IsUTF8($text)) {
+            if (!PHPWord_Shared_String::isUTF8($text)) {
                 $text = utf8_encode($text);
             }
             $ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);

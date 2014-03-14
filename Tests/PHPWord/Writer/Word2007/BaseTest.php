@@ -22,7 +22,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeText
+     * covers   ::writeText
      */
     public function testWriteText()
     {
@@ -43,7 +43,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTextRun
+     * covers   ::writeTextRun
      */
     public function testWriteTextRun()
     {
@@ -70,7 +70,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeLink
+     * covers   ::writeLink
      */
     public function testWriteLink()
     {
@@ -87,7 +87,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writePreserveText
+     * covers   ::writePreserveText
      */
     public function testWritePreserveText()
     {
@@ -105,7 +105,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeParagraphStyle
+     * covers   ::writeParagraphStyle
      */
     public function testWriteParagraphStyleAlign()
     {
@@ -121,7 +121,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeParagraphStyle
+     * covers   ::writeParagraphStyle
      */
     public function testWriteParagraphStylePagination()
     {
@@ -151,7 +151,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTextStyle
+     * covers   ::writeTextStyle
      */
     public function testWriteFontStyle()
     {
@@ -183,7 +183,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTableStyle
+     * covers   ::writeTableStyle
      */
     public function testWriteTableStyle()
     {
@@ -241,7 +241,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeCellStyle
+     * covers   ::writeCellStyle
      */
     public function testWriteCellStyleCellGridSpan()
     {
@@ -268,7 +268,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeImage
+     * covers   ::writeImage
      */
     public function testWriteImagePosition()
     {
@@ -293,7 +293,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeWatermark
+     * covers   ::writeWatermark
      */
     public function testWriteWatermark()
     {
@@ -313,7 +313,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTitle
+     * covers   ::writeTitle
      */
     public function testWriteTitle()
     {

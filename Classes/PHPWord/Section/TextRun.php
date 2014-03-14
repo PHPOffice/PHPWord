@@ -78,7 +78,7 @@ class PHPWord_Section_TextRun
      */
     public function addText($text = null, $styleFont = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!PHPWord_Shared_String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $text = new PHPWord_Section_Text($text, $styleFont);
