@@ -5,12 +5,32 @@
 
 __OpenXML - Read, Write and Create Word documents in PHP.__
 
-PHPWord is a library written in PHP that create word documents.
+PHPWord is a library written in pure PHP and providing a set of classes that allow you to write to and read from different document file formats, like Word (.docx), WordPad (.rtf), Libre/OpenOffice Writer (.odt).
 
-No Windows operating system is needed for usage because the result are docx files (Office Open XML) that can be
-opened by all major office software.
+No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major [word processing softwares](http://en.wikipedia.org/wiki/List_of_word_processors).
+
+PHPWord is an open source project licensed under [LGPL](license.md). PHPWord is unit tested to make sure that the released versions are stable.
 
 __Want to contribute?__ Fork us!
+
+## Features
+
+* Set document properties, e.g. title, subject, and creator.
+* Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering
+* Create header and footer for each sections
+* Set default font type, font size, and paragraph style
+* Use UTF-8 and East Asia fonts/characters
+* Define custom font styles (e.g. bold, italic, color) and paragraph styles (e.g. centered, multicolumns, spacing) either as named style or inline in text
+* Insert paragraphs, either as a simple text or complex one (a text run) that contains other elements
+* Insert titles (headers) and table of contents
+* Insert text breaks and page breaks
+* Insert and format images, either local, remote, or as page watermarks
+* Insert binary OLE Objects such as Excel or Visio
+* Insert and format table with customized properties for each rows (e.g. repeat as header row) and cells (e.g. background color, rowspan, colspan)
+* Insert list items as bulleted, numbered, or multilevel
+* Insert hyperlinks
+* Create document from templates
+* ... and many more features on progress
 
 ## Requirements
 
@@ -33,6 +53,8 @@ the following lines to your ``composer.json``.
 
 ## Documentation
 
+We're reorganizing our documentation. Below are some of the most important things that you needed to get PHPWord creates document for you in no time.
+
 ### Table of contents
 
 1. [Basic usage](#basic-usage)
@@ -52,7 +74,7 @@ the following lines to your ``composer.json``.
 <a name="basic-usage"></a>
 #### Basic usage
 
-The following is a basic example of the PHPWord library.
+The following is a basic example of the PHPWord library. More examples are provided in the (sample folder)[samples/].
 
 ```php
 $PHPWord = new PHPWord();
