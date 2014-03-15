@@ -2,9 +2,10 @@
 namespace PHPWord\Tests;
 
 use PHPWord_Template;
+use PHPWord;
 
 /**
- * @coversDefaultClass PHPWord_Template
+ * @coversDefaultClass  PHPWord_Template
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -142,5 +143,33 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
          * This warning fails the test.
          */
         @$template->applyXslStyleSheet($xslDOMDocument);
+    }
+
+    /**
+     * @covers  ::setValue
+     * @covers  ::getVariables
+     * @covers  ::cloneRow
+     * @covers  ::saveAs
+     */
+    public function testCloneRow()
+    {
+        $template = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'clone-row.docx')
+        );
+        $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
+        $docName = 'clone-test-result.docx';
+
+        $PHPWord = new PHPWord();
+        $document = $PHPWord->loadTemplate($template);
+        $actualVar = $document->getVariables();
+        $document->cloneRow('userId', 1);
+        $document->setValue('userId#1', 'Test');
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
     }
 }

@@ -27,6 +27,8 @@
 
 /**
  * PHPWord_Reader_Abstract
+ *
+ * @codeCoverageIgnore  Abstract class
  */
 abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
 {
