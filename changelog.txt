@@ -22,6 +22,9 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
+Changes in branch for release 0.9.0 :
+- QA:       (Progi1984)                         - Documentation
+
 Changes in branch for release 0.8.0 :
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
