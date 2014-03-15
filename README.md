@@ -30,13 +30,18 @@ __Want to contribute?__ Fork us!
 * Insert list items as bulleted, numbered, or multilevel
 * Insert hyperlinks
 * Create document from templates
+* Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress
 
 ## Requirements
+* PHP 5.3+
+* PHP [Zip](http://php.net/manual/en/book.zip.php) extension
+* PHP [XML Parser](http://www.php.net/manual/en/xml.installation.php) extension
 
-* PHP version 5.3.0 or higher
-* PHP extension [ZipArchive](http://php.net/manual/en/book.zip.php)
-* PHP extension [XMLWriter](http://php.net/manual/en/book.xmlwriter.php)
+## Optional PHP extensions
+* [GD](http://php.net/manual/en/book.image.php)
+* [XMLWriter](http://php.net/manual/en/book.xmlwriter.php)
+* [XSL](http://php.net/manual/en/book.xsl.php)
 
 ## Installation
 
