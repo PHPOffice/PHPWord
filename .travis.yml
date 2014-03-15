@@ -1,12 +1,15 @@
 language: php
+
 php:
   - 5.3
   - 5.4
   - 5.5
-  ## @reference https://github.com/travis-ci/travis-ci/issues/1749
+  - 5.6
   - hhvm
+
 matrix:
   allow_failures:
+    - php: 5.6
     - php: hhvm
     
 before_script:
@@ -30,8 +33,8 @@ before_script:
 
 script:
   ## PHP_CodeSniffer
-  - phpcs --standard=PSR1 Classes/
-  - phpcs --standard=PSR2 Classes/
+  ## - phpcs --standard=PSR1 Classes/
+  ## - phpcs --standard=PSR2 Classes/
   ## PHP Copy/Paste Detector
   - php phpcpd.phar --verbose Classes/
   ## PHP Mess Detector
@@ -40,7 +43,3 @@ script:
   - php phploc.phar Classes/
   ## PHPUnit
   - phpunit -c ./ --coverage-text
-
-notifications:
-  email:
-    - progi1984@gmail.com
