@@ -85,7 +85,7 @@ class PHPWord_Style_TOC
      */
     public function setTabPos($pValue)
     {
-        $this->_tabLeader = $pValue;
+        $this->_tabPos = $pValue;
     }
 
     /**

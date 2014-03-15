@@ -141,7 +141,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
             // Add META-INF/manifest.xml
             $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_document));
 
-            // Add media
+            // Add media. Has not used yet. Legacy from PHPExcel.
+            // @codeCoverageIgnoreStart
             for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
                 if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                     $imageContents = null;
@@ -161,7 +162,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
                     }
 
                     $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
-                } else if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
+                } elseif ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
                     ob_start();
                     call_user_func(
                         $this->getDrawingHashTable()->getByIndex($i)->getRenderingFunction(),
@@ -173,6 +174,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
                     $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
                 }
             }
+            // @codeCoverageIgnoreEnd
 
             // Close file
             if ($objZip->close() === false) {
@@ -212,7 +214,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      *
      * @param    PHPWord $pPHPWord PHPWord object
      * @throws    Exception
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_ODText
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
@@ -236,7 +238,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * @param    string $pPartName Writer part name
      * @return    PHPWord_Writer_ODText_WriterPart
      */
-    function getWriterPart($pPartName = '')
+    public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
             return $this->_writerParts[strtolower($pPartName)];
@@ -261,7 +263,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * @param    boolean $pValue
      * @param    string $pDirectory Disk caching directory
      * @throws    Exception    Exception when directory does not exist
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {

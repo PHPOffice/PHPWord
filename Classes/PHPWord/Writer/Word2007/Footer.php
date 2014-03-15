@@ -63,7 +63,7 @@ class PHPWord_Writer_Word2007_Footer extends PHPWord_Writer_Word2007_Base
             } elseif ($element instanceof PHPWord_Section_TextRun) {
                 $this->_writeTextRun($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                $this->_writeTextBreak($objWriter);
+                $this->_writeTextBreak($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_Table) {
                 $this->_writeTable($objWriter, $element);
             } elseif ($element instanceof PHPWord_Section_Image ||
