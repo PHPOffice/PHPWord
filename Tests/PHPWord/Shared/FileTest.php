@@ -6,7 +6,8 @@ use PHPWord_Shared_File;
 /**
  * Class FileTest
  *
- * @package PHPWord\Tests
+ * @package             PHPWord\Tests
+ * @coversDefaultClass  PHPWord_Shared_File
  * @runTestsInSeparateProcesses
  */
 class FileTest extends \PHPUnit_Framework_TestCase
@@ -16,24 +17,26 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileExists()
     {
-      $dir = join(
-        DIRECTORY_SEPARATOR,
-        array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates')
-      );
-      chdir($dir);
-      $this->assertTrue(PHPWord_Shared_File::file_exists('blank.docx'));
+        $dir = join(DIRECTORY_SEPARATOR, array(
+            PHPWORD_TESTS_DIR_ROOT,
+            '_files',
+            'templates'
+        ));
+        chdir($dir);
+        $this->assertTrue(PHPWord_Shared_File::file_exists('blank.docx'));
     }
     /**
      * Test file_exists()
      */
     public function testNoFileExists()
     {
-      $dir = join(
-        DIRECTORY_SEPARATOR,
-        array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates')
-      );
-      chdir($dir);
-      $this->assertFalse(PHPWord_Shared_File::file_exists('404.docx'));
+        $dir = join(DIRECTORY_SEPARATOR, array(
+            PHPWORD_TESTS_DIR_ROOT,
+            '_files',
+            'templates'
+        ));
+        chdir($dir);
+        $this->assertFalse(PHPWord_Shared_File::file_exists('404.docx'));
     }
 
     /**
@@ -41,13 +44,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testRealpath()
     {
-      $dir = join(
-        DIRECTORY_SEPARATOR,
-        array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates')
-      );
-      chdir($dir);
-      $file = 'blank.docx';
-      $expected = $dir . DIRECTORY_SEPARATOR . $file;
-      $this->assertEquals($expected, PHPWord_Shared_File::realpath($file));
+        $dir = join(DIRECTORY_SEPARATOR, array(
+            PHPWORD_TESTS_DIR_ROOT,
+            '_files',
+            'templates'
+        ));
+        chdir($dir);
+        $file     = 'blank.docx';
+        $expected = $dir . DIRECTORY_SEPARATOR . $file;
+        $this->assertEquals($expected, PHPWord_Shared_File::realpath($file));
     }
 }

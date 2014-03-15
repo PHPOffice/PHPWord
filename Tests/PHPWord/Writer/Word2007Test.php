@@ -103,7 +103,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetUseDiskCaching()
     {
-        $object = new PHPWord_Writer_Word2007($phpWord);
+        $object = new PHPWord_Writer_Word2007();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
 
         $this->assertTrue($object->getUseDiskCaching());
@@ -120,7 +120,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
         );
 
-        $object = new PHPWord_Writer_Word2007($phpWord);
+        $object = new PHPWord_Writer_Word2007();
         $object->setUseDiskCaching(true, $dir);
     }
 }

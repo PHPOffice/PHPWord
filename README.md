@@ -79,7 +79,7 @@ We're reorganizing our documentation. Below are some of the most important thing
 <a name="basic-usage"></a>
 #### Basic usage
 
-The following is a basic example of the PHPWord library. More examples are provided in the (sample folder)[samples/].
+The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
 
 ```php
 $PHPWord = new PHPWord();
