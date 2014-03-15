@@ -1,8 +1,5 @@
 <?php
-// Init
-error_reporting(E_ALL);
-define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PHPWord object' , EOL;
@@ -22,6 +19,4 @@ foreach ($writers as $writer => $extension) {
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 
-// Done
-echo date('H:i:s'), " Done writing file(s)", EOL;
-echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;
+include_once 'Sample_Footer.php';
