@@ -11,5 +11,18 @@ if (!CLI) {
 </p>
 </div>
 <?
+$requirements = array(
+    'php' => array('PHP 5.3.0', version_compare(phpversion(), '5.3.0', '>=')),
+    'zip' => array('PHP extension ZipArchive', extension_loaded('zip')),
+    'xml' => array('PHP extension XML', extension_loaded('xml')),
+    'gd'  => array('PHP extension GD (optional)', extension_loaded('gd')),
+);
+echo "<h3>Requirements</h3>";
+echo "<ul>";
+foreach ($requirements as $key => $value) {
+    $status = $value[1] ? 'passed' : 'failed';
+    echo "<li>{$value[0]} ... <span class='{$status}'>{$status}</span></li>";
 }
+echo "</ul>";
+} // if (!CLI)
 include_once 'Sample_Footer.php';
