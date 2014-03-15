@@ -12,14 +12,14 @@ class TestHelperDOCX
      * @param \PHPWord $PHPWord
      * @return \PHPWord\Tests\XmlDocument
      */
-    public static function getDocument(PHPWord $PHPWord)
+    public static function getDocument(PHPWord $PHPWord, $writer = 'Word2007')
     {
         self::$file = tempnam(sys_get_temp_dir(), 'PHPWord');
         if (!is_dir(sys_get_temp_dir() . '/PHPWord_Unit_Test/')) {
             mkdir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
         }
 
-        $objWriter = \PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
+        $objWriter = \PHPWord_IOFactory::createWriter($PHPWord, $writer);
         $objWriter->save(self::$file);
 
         $zip = new \ZipArchive;

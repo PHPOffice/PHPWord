@@ -315,24 +315,24 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                     } elseif ($element instanceof PHPWord_Section_TextRun) {
                         $sRTFBody .= $this->getDataContentTextRun($element);
                     } elseif ($element instanceof PHPWord_Section_Link) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('link');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Link');
                     } elseif ($element instanceof PHPWord_Section_Title) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('title');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Title');
                     } elseif ($element instanceof PHPWord_Section_PageBreak) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('page break');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Page Break');
                     } elseif ($element instanceof PHPWord_Section_Table) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('table');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Table');
                     } elseif ($element instanceof PHPWord_Section_ListItem) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('list item');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('List Item');
                     } elseif ($element instanceof PHPWord_Section_Image ||
                         $element instanceof PHPWord_Section_MemoryImage) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('image');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Image');
                     } elseif ($element instanceof PHPWord_Section_Object) {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('object');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Object');
                     } elseif ($element instanceof PHPWord_TOC) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('TOC');
                     } else {
-                        $sRTFBody .= $this->getDataContentUnsupportedElement('other');
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Other');
                     }
                 }
             }
@@ -468,7 +468,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     {
         $sRTFText = '';
         $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
-        $sRTFText .= "Cannot write content. This version of PHPWord has not supported {$element} element in RTF.";
+        $sRTFText .= "{$element}";
         $sRTFText .= '\par' . PHP_EOL;
 
         return $sRTFText;
