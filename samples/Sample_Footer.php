@@ -22,6 +22,7 @@ if (CLI) {
             }
         }
         echo '</p>';
+    } else {
 ?>
 </div>
 <script src="bootstrap/js/jquery.min.js"></script>
