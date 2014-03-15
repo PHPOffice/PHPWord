@@ -174,6 +174,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
                     $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
                 }
             }
+            // @codeCoverageIgnoreEnd
 
             // Close file
             if ($objZip->close() === false) {

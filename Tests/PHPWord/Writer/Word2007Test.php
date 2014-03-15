@@ -8,7 +8,8 @@ use PHPWord\Tests\TestHelperDOCX;
 /**
  * Class Word2007Test
  *
- * @package PHPWord\Tests
+ * @package             PHPWord\Tests
+ * @coversDefaultClass  PHPWord_Writer_Word2007
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
@@ -18,6 +19,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    /**
+     * covers  ::__construct
+     */
     public function testConstruct()
     {
         $object = new PHPWord_Writer_Word2007(new PHPWord());
@@ -37,6 +41,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @covers  ::save
+     */
     public function testSave()
     {
         $phpWord = new PHPWord();
@@ -51,9 +58,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $textrun->addText('Test 3');
 
         $writer = new PHPWord_Writer_Word2007($phpWord);
-        $file = join(
-            DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.docx')
+        $file = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.docx')
         );
         $writer->save($file);
         $this->assertTrue(file_exists($file));
@@ -61,7 +68,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord_Writer_Word2007::checkContentTypes
+     * @covers  ::checkContentTypes
      */
     public function testCheckContentTypes()
     {
@@ -88,5 +95,32 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
                 $mediaPath . "/section_image{$target}"
             );
         }
+    }
+
+    /**
+     * @covers  ::setUseDiskCaching
+     * @covers  ::getUseDiskCaching
+     */
+    public function testSetGetUseDiskCaching()
+    {
+        $object = new PHPWord_Writer_Word2007($phpWord);
+        $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
+
+        $this->assertTrue($object->getUseDiskCaching());
+    }
+
+    /**
+     * @covers              ::setUseDiskCaching
+     * @expectedException   Exception
+     */
+    public function testSetUseDiskCachingException()
+    {
+        $dir = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
+        );
+
+        $object = new PHPWord_Writer_Word2007($phpWord);
+        $object->setUseDiskCaching(true, $dir);
     }
 }

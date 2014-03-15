@@ -101,6 +101,7 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
                 $objWriter->endElement();
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $objWriter->endElement();
 
