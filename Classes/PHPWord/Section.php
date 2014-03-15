@@ -25,12 +25,13 @@
  * @version    0.8.0
  */
 
+use PhpOffice\PhpWord\Exceptions\Exception;
+
 /**
  * Class PHPWord_Section
  */
 class PHPWord_Section
 {
-
     /**
      * Section count
      *
@@ -83,7 +84,7 @@ class PHPWord_Section
     /**
      * Set Section Settings
      *
-     * @param   array   $settings
+     * @param   array $settings
      */
     public function setSettings($settings = null)
     {
@@ -157,8 +158,8 @@ class PHPWord_Section
      * Add a TextBreak Element
      *
      * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param   null|string|array|PHPWord_Style_Font $fontStyle
+     * @param   null|string|array|PHPWord_Style_Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -214,6 +215,7 @@ class PHPWord_Section
      * @param string $src
      * @param mixed $style
      * @return PHPWord_Section_Object
+     * @throws Exception
      */
     public function addObject($src, $style = null)
     {
@@ -244,11 +246,8 @@ class PHPWord_Section
 
             $this->_elementCollection[] = $object;
             return $object;
-        } else {
-            throw new PHPWord_Exception(
-                'Source does not exist or unsupported object type.'
-            );
         }
+        throw new Exception('Source does not exist or unsupported object type.');
     }
 
     /**
@@ -257,6 +256,7 @@ class PHPWord_Section
      * @param string $src
      * @param mixed $style
      * @return PHPWord_Section_Image
+     * @throws Exception
      */
     public function addImage($src, $style = null)
     {
@@ -268,11 +268,8 @@ class PHPWord_Section
 
             $this->_elementCollection[] = $image;
             return $image;
-        } else {
-            throw new PHPWord_Exception(
-                'Source does not exist or unsupported image type.'
-            );
         }
+        throw new Exception('Source does not exist or unsupported image type.');
     }
 
     /**
@@ -281,6 +278,7 @@ class PHPWord_Section
      * @param string $link
      * @param mixed $style
      * @return PHPWord_Section_MemoryImage
+     * @throws Exception
      */
     public function addMemoryImage($link, $style = null)
     {
@@ -291,11 +289,8 @@ class PHPWord_Section
 
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
-        } else {
-            throw new PHPWord_Exception(
-                'Unsupported image type.'
-            );
         }
+        throw new Exception('Unsupported image type.');
     }
 
     /**
@@ -347,6 +342,7 @@ class PHPWord_Section
     /**
      * Create a new TextRun
      *
+     * @param mixed $styleParagraph
      * @return PHPWord_Section_TextRun
      */
     public function createTextRun($styleParagraph = null)
@@ -430,7 +426,7 @@ class PHPWord_Section
     /**
      * Create a new Footnote Element
      *
-     * @param string $text
+     * @param mixed $styleParagraph
      * @return PHPWord_Section_Footnote
      */
     public function createFootnote($styleParagraph = null)

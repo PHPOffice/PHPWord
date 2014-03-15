@@ -28,15 +28,6 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(array(), '_searchLocations', 'PHPWord_IOFactory');
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Invalid parameter passed.
-     */
-    public function testSetSearchLocationsWithNotArray()
-    {
-        PHPWord_IOFactory::setSearchLocations('String');
-    }
-
     public function testAddSearchLocation()
     {
         PHPWord_IOFactory::setSearchLocations(array());

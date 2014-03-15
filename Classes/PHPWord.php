@@ -34,6 +34,8 @@ if (!defined('PHPWORD_BASE_PATH')) {
 }
 // @codeCoverageIgnoreEnd
 
+use PhpOffice\PhpWord\Exceptions\Exception;
+
 /**
  * PHPWord
  */
@@ -252,17 +254,15 @@ class PHPWord
      *
      * @param string $strFilename
      * @return PHPWord_Template
+     * @throws Exception
      */
     public function loadTemplate($strFilename)
     {
         if (file_exists($strFilename)) {
             $template = new PHPWord_Template($strFilename);
             return $template;
-        } else {
-            throw new PHPWord_Exception(
-                "Template file {$strFilename} not found."
-            );
         }
+        throw new Exception("Template file {$strFilename} not found.");
     }
 
     /**

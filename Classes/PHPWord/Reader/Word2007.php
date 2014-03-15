@@ -31,32 +31,25 @@ if (!defined('PHPWORD_BASE_PATH')) {
     require(PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php');
 }
 
+use PhpOffice\PhpWord\Exceptions\Exception;
+
 /**
  * PHPWord_Reader_Word2007
  */
-class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
-    PHPWord_Reader_IReader
+class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
 {
-    /**
-     * Create a new PHPWord_Reader_Word2007 instance
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * Can the current PHPWord_Reader_IReader read the file?
      *
-     * @param   string      $pFilename
-     * @return  bool
+     * @param string $pFilename
+     * @return bool
+     * @throws Exception
      */
     public function canRead($pFilename)
     {
         // Check if file exists
         if (!file_exists($pFilename)) {
-            throw new PHPWord_Exception(
-                "Could not open {$pFilename} for reading! File does not exist."
-            );
+            throw new Exception("Could not open {$pFilename} for reading! File does not exist.");
         }
 
         $return = false;
@@ -86,15 +79,13 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
     /**
      * Get from zip archive
      *
-     * @param   ZipArchive  $archive
-     * @param   string      $fileName
-     * @param   bool        $removeNamespace
+     * @param ZipArchive $archive
+     * @param string $fileName
+     * @param bool $removeNamespace
+     * @return mixed
      */
-    public function getFromZipArchive(
-        $archive,
-        $fileName = '',
-        $removeNamespace = false
-    ) {
+    public function getFromZipArchive($archive, $fileName = '', $removeNamespace = false)
+    {
         // Root-relative paths
         if (strpos($fileName, '//') !== false) {
             $fileName = substr($fileName, strpos($fileName, '//') + 1);
@@ -115,18 +106,17 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
         return $contents;
     }
 
-
     /**
      * Loads PHPWord from file
      *
-     * @param   string      $pFilename
-     * @return  PHPWord|null
+     * @param string $pFilename
+     * @return PHPWord|null
      */
     public function load($pFilename)
     {
         // Check if file exists and can be read
         if (!$this->canRead($pFilename)) {
-            return;
+            return null;
         }
 
         // Initialisations
@@ -146,15 +136,15 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                         $xmlCore->registerXPathNamespace("dcterms", "http://purl.org/dc/terms/");
                         $xmlCore->registerXPathNamespace("cp", "http://schemas.openxmlformats.org/package/2006/metadata/core-properties");
                         $docProps = $word->getProperties();
-                        $docProps->setCreator((string) self::arrayItem($xmlCore->xpath("dc:creator")));
-                        $docProps->setLastModifiedBy((string) self::arrayItem($xmlCore->xpath("cp:lastModifiedBy")));
+                        $docProps->setCreator((string)self::arrayItem($xmlCore->xpath("dc:creator")));
+                        $docProps->setLastModifiedBy((string)self::arrayItem($xmlCore->xpath("cp:lastModifiedBy")));
                         $docProps->setCreated(strtotime(self::arrayItem($xmlCore->xpath("dcterms:created"))));
                         $docProps->setModified(strtotime(self::arrayItem($xmlCore->xpath("dcterms:modified"))));
-                        $docProps->setTitle((string) self::arrayItem($xmlCore->xpath("dc:title")));
-                        $docProps->setDescription((string) self::arrayItem($xmlCore->xpath("dc:description")));
-                        $docProps->setSubject((string) self::arrayItem($xmlCore->xpath("dc:subject")));
-                        $docProps->setKeywords((string) self::arrayItem($xmlCore->xpath("cp:keywords")));
-                        $docProps->setCategory((string) self::arrayItem($xmlCore->xpath("cp:category")));
+                        $docProps->setTitle((string)self::arrayItem($xmlCore->xpath("dc:title")));
+                        $docProps->setDescription((string)self::arrayItem($xmlCore->xpath("dc:description")));
+                        $docProps->setSubject((string)self::arrayItem($xmlCore->xpath("dc:subject")));
+                        $docProps->setKeywords((string)self::arrayItem($xmlCore->xpath("cp:keywords")));
+                        $docProps->setCategory((string)self::arrayItem($xmlCore->xpath("cp:category")));
                     }
                     break;
                 // Extended properties
@@ -163,10 +153,10 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                     if (is_object($xmlCore)) {
                         $docProps = $word->getProperties();
                         if (isset($xmlCore->Company)) {
-                            $docProps->setCompany((string) $xmlCore->Company);
+                            $docProps->setCompany((string)$xmlCore->Company);
                         }
                         if (isset($xmlCore->Manager)) {
-                            $docProps->setManager((string) $xmlCore->Manager);
+                            $docProps->setManager((string)$xmlCore->Manager);
                         }
                     }
                     break;
@@ -178,10 +168,10 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                         foreach ($xmlCore as $xmlProperty) {
                             $cellDataOfficeAttributes = $xmlProperty->attributes();
                             if (isset($cellDataOfficeAttributes['name'])) {
-                                $propertyName = (string) $cellDataOfficeAttributes['name'];
+                                $propertyName = (string)$cellDataOfficeAttributes['name'];
                                 $cellDataOfficeChildren = $xmlProperty->children("http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
                                 $attributeType = $cellDataOfficeChildren->getName();
-                                $attributeValue = (string) $cellDataOfficeChildren->{$attributeType};
+                                $attributeValue = (string)$cellDataOfficeChildren->{$attributeType};
                                 $attributeValue = PHPWord_DocumentProperties::convertProperty($attributeValue, $attributeType);
                                 $attributeType = PHPWord_DocumentProperties::convertPropertyType($attributeType);
                                 $docProps->setCustomProperty($propertyName, $attributeValue, $attributeType);
@@ -219,7 +209,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                                             $elm->r->t,
                                             $this->loadFontStyle($elm->r)
                                         );
-                                    // w:r more than 1? It's a textrun
+                                        // w:r more than 1? It's a textrun
                                     } else {
                                         $textRun = $section->createTextRun();
                                         foreach ($elm->r as $r) {
@@ -229,7 +219,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                                             );
                                         }
                                     }
-                                // No, it's a textbreak
+                                    // No, it's a textbreak
                                 } else {
                                     $section->addTextBreak();
                                 }
@@ -282,8 +272,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
     /**
      * Load section settings from SimpleXMLElement
      *
-     * @param   SimpleXMLElement    $elm
-     * @return  array|string|null
+     * @param SimpleXMLElement $elm
+     * @return array|string|null
      *
      * @todo    Implement gutter
      */
@@ -337,16 +327,15 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                 }
             }
             return $setting;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Load paragraph style from SimpleXMLElement
      *
-     * @param   SimpleXMLElement    $elm
-     * @return  array|string|null
+     * @param SimpleXMLElement $elm
+     * @return array|string|null
      */
     private function loadParagraphStyle($elm)
     {
@@ -399,16 +388,15 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                 $style['pageBreakBefore'] = true;
             }
             return $style;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Load font style from SimpleXMLElement
      *
-     * @param   SimpleXMLElement    $elm
-     * @return  array|string|null
+     * @param SimpleXMLElement $elm
+     * @return array|string|null
      */
     private function loadFontStyle($elm)
     {
@@ -449,17 +437,16 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements
                 }
             }
             return $style;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Get array item
      *
-     * @param   array   $array
-     * @param   mixed   $key
-     * @return  mixed|null
+     * @param array $array
+     * @param mixed $key
+     * @return mixed|null
      */
     private static function arrayItem($array, $key = 0)
     {

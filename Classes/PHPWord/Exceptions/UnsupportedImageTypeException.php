@@ -1,8 +1,6 @@
 <?php
 namespace PhpOffice\PhpWord\Exceptions;
 
-use Exception;
-
 /**
  * UnsupportedImageTypeException
  *

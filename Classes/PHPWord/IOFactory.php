@@ -25,12 +25,13 @@
  * @version    0.8.0
  */
 
+use PhpOffice\PhpWord\Exceptions\Exception;
+
 /**
  * Class PHPWord_IOFactory
  */
 class PHPWord_IOFactory
 {
-
     /**
      * Search locations
      *
@@ -73,13 +74,9 @@ class PHPWord_IOFactory
      * @param array $value
      * @throws Exception
      */
-    public static function setSearchLocations($value)
+    public static function setSearchLocations(array $value)
     {
-        if (is_array($value)) {
-            self::$_searchLocations = $value;
-        } else {
-            throw new Exception('Invalid parameter passed.');
-        }
+        self::$_searchLocations = $value;
     }
 
     /**
@@ -100,6 +97,7 @@ class PHPWord_IOFactory
      * @param PHPWord $PHPWord
      * @param string $writerType Example: Word2007
      * @return PHPWord_Writer_IWriter
+     * @throws Exception
      */
     public static function createWriter(PHPWord $PHPWord, $writerType = '')
     {
@@ -123,8 +121,9 @@ class PHPWord_IOFactory
     /**
      * Create PHPWord_Reader_IReader
      *
-     * @param   string $readerType  Example: Word2007
-     * @return  PHPWord_Reader_IReader
+     * @param string $readerType  Example: Word2007
+     * @return PHPWord_Reader_IReader
+     * @throws Exception
      */
     public static function createReader($readerType = '')
     {
@@ -141,14 +140,15 @@ class PHPWord_IOFactory
             }
         }
 
-        throw new PHPWord_Exception("No $searchType found for type $readerType");
+        throw new Exception("No $searchType found for type $readerType");
     }
 
     /**
      * Loads PHPWord from file
      *
-     * @param   string  $pFilename The name of the file
-     * @return  PHPWord
+     * @param string $pFilename The name of the file
+     * @param string $readerType
+     * @return PHPWord
      */
     public static function load($pFilename, $readerType = 'Word2007')
     {
