@@ -212,7 +212,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
         } else {
-            $imageType = exif_imagetype($src);
+            $imageType = PHPWord_Shared_File::imagetype($src);
             if ($imageType === IMAGETYPE_JPEG) {
                 $extension = 'jpg';
             } elseif ($imageType === IMAGETYPE_GIF) {
