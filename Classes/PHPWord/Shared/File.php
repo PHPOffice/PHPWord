@@ -33,12 +33,11 @@ class PHPWord_Shared_File
     /**
      * Verify if a file exists
      *
-     * @param    string $pFilename Filename
+     * @param string $pFilename Filename
      * @return bool
      */
     public static function file_exists($pFilename)
     {
-        // Regular file_exists
         return file_exists($pFilename);
     }
 
@@ -50,18 +49,13 @@ class PHPWord_Shared_File
      */
     public static function realpath($pFilename)
     {
-        // Returnvalue
-        $returnValue = '';
-
-        // Try using realpath()
         $returnValue = realpath($pFilename);
 
-        // Found something?
-        if ($returnValue == '' || is_null($returnValue)) {
+        if (!$returnValue) {
             $pathArray = explode('/', $pFilename);
-            while (in_array('..', $pathArray) && $pathArray[0] != '..') {
+            while (in_array('..', $pathArray) && $pathArray[0] !== '..') {
                 for ($i = 0; $i < count($pathArray); ++$i) {
-                    if ($pathArray[$i] == '..' && $i > 0) {
+                    if ($pathArray[$i] === '..' && $i > 0) {
                         unset($pathArray[$i]);
                         unset($pathArray[$i - 1]);
                         break;
@@ -71,7 +65,36 @@ class PHPWord_Shared_File
             $returnValue = implode('/', $pathArray);
         }
 
-        // Return
         return $returnValue;
+    }
+
+    /**
+     * PHP Words version of exif_imagetype to return the Image Type from a file
+     *
+     * @param string $filename
+     * @return int|bool
+     */
+    public static function PHPWord_imagetype($filename)
+    {
+        if ((list($width, $height, $type, $attr) = getimagesize($filename)) !== false) {
+            return $type;
+        }
+        return false;
+    }
+
+    /**
+     * Return the Image Type from a file
+     *
+     * @param string $filename
+     * @return int|bool
+     */
+    public static function imagetype($filename)
+    {
+        if (function_exists('exif_imagetype')) {
+            return exif_imagetype($filename);
+        } else {
+            return self::PHPWord_imagetype($filename);
+        }
+        return false;
     }
 }

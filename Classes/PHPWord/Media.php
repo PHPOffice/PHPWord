@@ -101,7 +101,7 @@ class PHPWord_Media
                     $media['createfunction'] = $memoryImage->getImageCreateFunction();
                     $media['imagefunction'] = $memoryImage->getImageFunction();
                 } else {
-                    $imageType = exif_imagetype($src);
+                    $imageType = PHPWord_Shared_File::imagetype($src);
                     if ($imageType === IMAGETYPE_JPEG) {
                         $extension = 'jpg';
                     } elseif ($imageType === IMAGETYPE_GIF) {
