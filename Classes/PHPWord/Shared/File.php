@@ -30,6 +30,12 @@
  */
 class PHPWord_Shared_File
 {
+    const IMAGETYPE_JPEG = 'jpg';
+    const IMAGETYPE_GIF = 'gif';
+    const IMAGETYPE_PNG = 'png';
+    const IMAGETYPE_BMP = 'bmp';
+    const IMAGETYPE_TIFF = 'tif';
+
     /**
      * Verify if a file exists
      *
@@ -74,10 +80,20 @@ class PHPWord_Shared_File
      * @param string $filename
      * @return int|bool
      */
-    public static function PHPWord_imagetype($filename)
+    private static function fallbackImagetype($filename)
     {
         if ((list($width, $height, $type, $attr) = getimagesize($filename)) !== false) {
-            return $type;
+            if ($type === 2) {
+                return self::IMAGETYPE_JPEG;
+            } elseif ($type === 1) {
+                return self::IMAGETYPE_GIF;
+            } elseif ($type === 3) {
+                return self::IMAGETYPE_PNG;
+            } elseif ($type === 6) {
+                return self::IMAGETYPE_BMP;
+            } elseif ($type === 7 || $type === 8) {
+                return self::IMAGETYPE_TIFF;
+            }
         }
         return false;
     }
@@ -86,14 +102,26 @@ class PHPWord_Shared_File
      * Return the Image Type from a file
      *
      * @param string $filename
+     * @param bool $userFallbackFunction
      * @return int|bool
      */
-    public static function imagetype($filename)
+    public static function imagetype($filename, $userFallbackFunction = false)
     {
-        if (function_exists('exif_imagetype')) {
-            return exif_imagetype($filename);
-        } else {
-            return self::PHPWord_imagetype($filename);
+        if ($userFallbackFunction || !function_exists('exif_imagetype')) {
+            return self::fallbackImagetype($filename);
+        }
+
+        $imagetype = exif_imagetype($filename);
+        if ($imagetype === IMAGETYPE_JPEG) {
+            return self::IMAGETYPE_JPEG;
+        } elseif ($imagetype === IMAGETYPE_GIF) {
+            return self::IMAGETYPE_GIF;
+        } elseif ($imagetype === IMAGETYPE_PNG) {
+            return self::IMAGETYPE_PNG;
+        } elseif ($imagetype === IMAGETYPE_BMP) {
+            return self::IMAGETYPE_BMP;
+        } elseif ($imagetype === IMAGETYPE_TIFF_II || $imagetype === IMAGETYPE_TIFF_MM) {
+            return self::IMAGETYPE_TIFF;
         }
         return false;
     }

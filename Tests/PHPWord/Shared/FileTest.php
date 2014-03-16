@@ -54,4 +54,39 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $expected = $dir . DIRECTORY_SEPARATOR . $file;
         $this->assertEquals($expected, PHPWord_Shared_File::realpath($file));
     }
+
+    /**
+     * @covers PHPWord_Shared_File::imagetype
+     * @covers PHPWord_Shared_File::fallbackImagetype
+     */
+    public function testImagetype()
+    {
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_JPEG, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_JPEG, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_JPEG, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_JPEG, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_GIF, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_GIF, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_PNG, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_PNG, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_BMP, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_BMP, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif";
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_TIFF, PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertEquals(PHPWord_Shared_File::IMAGETYPE_TIFF, PHPWord_Shared_File::imagetype($filename));
+
+        $filename = PHPWORD_TESTS_DIR_ROOT . "/_files/images/alexz-johnson.pcx";
+        $this->assertFalse(PHPWord_Shared_File::imagetype($filename, true));
+        $this->assertFalse(PHPWord_Shared_File::imagetype($filename));
+    }
 }

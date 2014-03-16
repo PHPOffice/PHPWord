@@ -22,6 +22,9 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
+Changes in branch for release 0.8.1 :
+- Feature:  (bskrtich, gabrielbull)             - Added fallback for computers that do not have exif_imagetype
+
 Changes in branch for release 0.8.0 :
 - Bugfix:   (gabrielbull)                       - Fixed bug with cell styling
 - Bugfix:   (gabrielbull)                       - Fixed bug list items inside of cells
