@@ -77,11 +77,23 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             }
 
             // Create new ZIP file and open it for writing
-            $objZip = new ZipArchive();
+            $zipClass = PHPWord_Settings::getZipClass();
+            $objZip = new $zipClass();
+
+            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
+            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
+            $ro = new ReflectionObject($objZip);
+            $zipOverWrite = $ro->getConstant('OVERWRITE');
+            $zipCreate = $ro->getConstant('CREATE');
+
+            // Remove any existing file
+            if (file_exists($pFilename)) {
+                unlink($pFilename);
+            }
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, ZIPARCHIVE::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, ZIPARCHIVE::CREATE) !== true) {
+            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
+                if ($objZip->open($pFilename, $zipCreate) !== true) {
                     throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }

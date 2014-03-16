@@ -30,11 +30,39 @@
  */
 class PHPWord_Shared_File
 {
+    /*
+     * Use Temp or File Upload Temp for temporary files
+     *
+     * @protected
+     * @var boolean
+     */
+    protected static $_useUploadTempDirectory = FALSE;
+
+
+    /**
+     * Set the flag indicating whether the File Upload Temp directory should be used for temporary files
+     *
+     * @param boolean $useUploadTempDir Use File Upload Temporary directory (true or false)
+     */
+    public static function setUseUploadTempDirectory($useUploadTempDir = FALSE) {
+        self::$_useUploadTempDirectory = (boolean) $useUploadTempDir;
+    } // function setUseUploadTempDirectory()
+
+
+    /**
+     * Get the flag indicating whether the File Upload Temp directory should be used for temporary files
+     *
+     * @return boolean Use File Upload Temporary directory (true or false)
+     */
+    public static function getUseUploadTempDirectory() {
+        return self::$_useUploadTempDirectory;
+    } // function getUseUploadTempDirectory()
+
     /**
      * Verify if a file exists
      *
-     * @param    string $pFilename Filename
-     * @return bool
+     * @param  string  $pFilename Filename
+     * @return boolean
      */
     public static function file_exists($pFilename)
     {
@@ -45,7 +73,7 @@ class PHPWord_Shared_File
     /**
      * Returns canonicalized absolute pathname, also for ZIP archives
      *
-     * @param string $pFilename
+     * @param  string $pFilename
      * @return string
      */
     public static function realpath($pFilename)
@@ -74,4 +102,70 @@ class PHPWord_Shared_File
         // Return
         return $returnValue;
     }
+
+    /**
+     * Return the Image Type from a file
+     *
+     * @param  string $filename
+     * @return return
+     */
+    public static function imagetype($filename) {
+        if (function_exists('exif_imagetype')) {
+            return exif_imagetype($filename);
+        } else {
+            if ((list($width, $height, $type, $attr) = getimagesize( $filename )) !== false) {
+                return $type;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the systems temporary directory.
+     *
+     * @return string
+     */
+    public static function sys_get_temp_dir()
+    {
+        if (self::$_useUploadTempDirectory) {
+            //  use upload-directory when defined to allow running on environments having very restricted
+            //      open_basedir configs
+            if (ini_get('upload_tmp_dir') !== FALSE) {
+                if ($temp = ini_get('upload_tmp_dir')) {
+                    if (file_exists($temp))
+                        return realpath($temp);
+                }
+            }
+        }
+
+        // sys_get_temp_dir is only available since PHP 5.2.1
+        // http://php.net/manual/en/function.sys-get-temp-dir.php#94119
+        if ( !function_exists('sys_get_temp_dir')) {
+            if ($temp = getenv('TMP') ) {
+                if ((!empty($temp)) && (file_exists($temp))) { return realpath($temp); }
+            }
+            if ($temp = getenv('TEMP') ) {
+                if ((!empty($temp)) && (file_exists($temp))) { return realpath($temp); }
+            }
+            if ($temp = getenv('TMPDIR') ) {
+                if ((!empty($temp)) && (file_exists($temp))) { return realpath($temp); }
+            }
+
+            // trick for creating a file in system's temporary dir
+            // without knowing the path of the system's temporary dir
+            $temp = tempnam(__FILE__, '');
+            if (file_exists($temp)) {
+                unlink($temp);
+                return realpath(dirname($temp));
+            }
+
+            return null;
+        }
+
+        // use ordinary built-in PHP function
+        //  There should be no problem with the 5.2.4 Suhosin realpath() bug, because this line should only
+        //      be called if we're running 5.2.1 or earlier
+        return realpath(sys_get_temp_dir());
+    }
+
 }

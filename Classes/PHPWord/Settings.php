@@ -30,6 +30,12 @@
  */
 class PHPWord_Settings
 {
+    /**    constants */
+
+    /**    Available Zip library classes */
+    const PCLZIP     = 'PHPWord_Shared_ZipArchive';
+    const ZIPARCHIVE = 'ZipArchive';
+
     /**
      * Compatibility option for XMLWriter
      *
@@ -38,10 +44,19 @@ class PHPWord_Settings
     private static $_xmlWriterCompatibility = true;
 
     /**
+     * Name of the class used for Zip file management
+     *  e.g.
+     *      ZipArchive
+     *
+     * @var string
+     */
+    private static $_zipClass = self::ZIPARCHIVE;
+
+    /**
      * Set the compatibility option used by the XMLWriter
      *
-     * @param boolean $compatibility  This sets the setIndent and setIndentString for better compatibility
-     * @return  boolean Success or failure
+     * @param  boolean $compatibility  This sets the setIndent and setIndentString for better compatibility
+     * @return boolean Success or failure
      */
     public static function setCompatibility($compatibility)
     {
@@ -50,7 +65,7 @@ class PHPWord_Settings
             return true;
         }
         return false;
-    }
+    } // function setCompatibility()
 
     /**
      * Return the compatibility option used by the XMLWriter
@@ -60,5 +75,36 @@ class PHPWord_Settings
     public static function getCompatibility()
     {
         return self::$_xmlWriterCompatibility;
-    }
+    } // function getCompatibility()
+
+    /**
+     * Set the Zip handler Class that PHPWord should use for Zip file management (PCLZip or ZipArchive)
+     *
+     * @param  string $zipClass  The Zip handler class that PHPWord should use for Zip file management
+     *   e.g. PHPWord_Settings::PCLZip or PHPWord_Settings::ZipArchive
+     * @return boolean Success or failure
+     */
+    public static function setZipClass($zipClass)
+    {
+        if (($zipClass === self::PCLZIP) ||
+            ($zipClass === self::ZIPARCHIVE)) {
+            self::$_zipClass = $zipClass;
+            return TRUE;
+        }
+        return FALSE;
+    } // function setZipClass()
+
+    /**
+     * Return the name of the Zip handler Class that PHPWord is configured to use (PCLZip or ZipArchive)
+     *  or Zip file management
+     *
+     * @return string Name of the Zip handler Class that PHPWord is configured to use
+     *  for Zip file management
+     *  e.g. PHPWord_Settings::PCLZip or PHPWord_Settings::ZipArchive
+     */
+    public static function getZipClass()
+    {
+        return self::$_zipClass;
+    } // function getZipClass()
 }
+
