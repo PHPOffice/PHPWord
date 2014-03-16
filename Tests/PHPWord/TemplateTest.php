@@ -146,16 +146,42 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers  PHPWord_Template
+     */
+    public function testConstruct()
+    {
+        $template = \join(
+            \DIRECTORY_SEPARATOR,
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'clone-row.docx')
+        );
+        $expectedVar = array('tableHeader', 'userId', 'userName');
+        $document = new PHPWord_Template($template);
+        $actualVar = $document->getVariables();
+        $document->cloneRow('userId', 9);
+        $document->setValue('userId#1', utf8_decode('ééé'));
+        $document->setValue('userId#2', 'a');
+        $document->setValue('userId#3', 'a');
+        $document->setValue('userId#3', 'a');
+        $document->setValue('userId#4', 'a');
+        $document->setValue('userId#5', 'a');
+        $document->setValue('userId#6', 'a');
+        $document->setValue('userId#7', 'a');
+        $document->setValue('userId#8', 'a');
+        $document->cloneRow('userId#9', 'a');
+        $this->assertEquals($expectedVar, $actualVar);
+    }
+
+    /**
      * @covers  ::setValue
      * @covers  ::getVariables
      * @covers  ::cloneRow
      * @covers  ::saveAs
      */
-    public function testCloneRow()
+    public function testCloneMergedRow()
     {
         $template = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'clone-row.docx')
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'clone-merge.docx')
         );
         $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
         $docName = 'clone-test-result.docx';

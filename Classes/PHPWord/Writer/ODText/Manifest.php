@@ -113,9 +113,10 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
     /**
      * Get image mime type
      *
-     * @param    string $pFile Filename
-     * @return    string    Mime Type
-     * @throws    Exception
+     * @param   string $pFile Filename
+     * @return  string Mime Type
+     * @throws  Exception
+     * @codeCoverageIgnore Image is not yet handled by ODText
      */
     private function _getImageMimeType($pFile = '')
     {

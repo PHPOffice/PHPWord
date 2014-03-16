@@ -93,19 +93,6 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::save
-     * @todo    Haven't got any method to test this
-     */
-    public function testSavePhpOutput()
-    {
-        $phpWord = new PHPWord();
-        $section = $phpWord->createSection();
-        $section->addText('Test');
-        $writer = new PHPWord_Writer_ODText($phpWord);
-        $writer->save('php://output');
-    }
-
-    /**
      * @covers                      ::save
      * @expectedException           Exception
      * @expectedExceptionMessage    PHPWord object unassigned.
