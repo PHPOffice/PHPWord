@@ -212,21 +212,10 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
         } else {
-            $imageType = exif_imagetype($src);
-            if ($imageType === IMAGETYPE_JPEG) {
-                $extension = 'jpg';
-            } elseif ($imageType === IMAGETYPE_GIF) {
-                $extension = 'gif';
-            } elseif ($imageType === IMAGETYPE_PNG) {
-                $extension = 'png';
-            } elseif ($imageType === IMAGETYPE_BMP) {
-                $extension = 'bmp';
-            } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
-                $extension = 'tif';
-            }
+            $extension = PHPWord_Shared_File::imagetype($src);
         }
 
-        if (isset($extension)) {
+        if (isset($extension) && $extension) {
             $imageData = getimagesize($src);
             $imageType = image_type_to_mime_type($imageData[2]);
             $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
@@ -236,10 +225,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             if (!in_array($imageType, $this->_imageTypes)) {
                 $this->_imageTypes[$imageExtension] = $imageType;
             }
-        } else {
-            if (!in_array($extension, $this->_objectTypes)) {
-                $this->_objectTypes[] = $extension;
-            }
+        } elseif (!in_array($extension, $this->_objectTypes)) {
+            $this->_objectTypes[] = $extension;
         }
     }
 

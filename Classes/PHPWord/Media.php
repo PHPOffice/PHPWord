@@ -94,25 +94,13 @@ class PHPWord_Media
                 if (!$isMemImage) {
                     $isMemImage = (filter_var($src, FILTER_VALIDATE_URL) !== false);
                 }
-                $extension = '';
                 if ($isMemImage) {
                     $extension = $memoryImage->getImageExtension();
                     $media['isMemImage'] = true;
                     $media['createfunction'] = $memoryImage->getImageCreateFunction();
                     $media['imagefunction'] = $memoryImage->getImageFunction();
                 } else {
-                    $imageType = exif_imagetype($src);
-                    if ($imageType === IMAGETYPE_JPEG) {
-                        $extension = 'jpg';
-                    } elseif ($imageType === IMAGETYPE_GIF) {
-                        $extension = 'gif';
-                    } elseif ($imageType === IMAGETYPE_PNG) {
-                        $extension = 'png';
-                    } elseif ($imageType === IMAGETYPE_BMP) {
-                        $extension = 'bmp';
-                    } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
-                        $extension = 'tif';
-                    }
+                    $extension = PHPWord_Shared_File::imagetype($src);
                 }
 
                 $folder = 'media';

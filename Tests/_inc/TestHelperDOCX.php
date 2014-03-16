@@ -5,11 +5,14 @@ use PHPWord;
 
 class TestHelperDOCX
 {
-    /** @var string $file */
-    static protected $file;
+    /**
+     * @var string
+     */
+    protected static $file;
 
     /**
      * @param \PHPWord $PHPWord
+     * @param string $writer
      * @return \PHPWord\Tests\XmlDocument
      */
     public static function getDocument(PHPWord $PHPWord, $writer = 'Word2007')
