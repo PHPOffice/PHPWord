@@ -36,19 +36,6 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::save
-     * @todo    Haven't got any method to test this
-     */
-    public function testSavePhpOutput()
-    {
-        $phpWord = new PHPWord();
-        $section = $phpWord->createSection();
-        $section->addText('Test');
-        $writer = new PHPWord_Writer_RTF($phpWord);
-        $writer->save('php://output');
-    }
-
-    /**
      * @covers                      ::save
      * @expectedException           Exception
      * @expectedExceptionMessage    PHPWord object unassigned.
@@ -78,13 +65,15 @@ class RTFTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.rtf')
         );
 
+        $fontStyle = array('name' => 'Verdana', 'size' => 11, 'bold' => true, 'italic' => true, 'color' => 'F29101', 'fgColor' => '123456');
+        $paragraphStyle = array('align' => 'center', 'spaceAfter' => 120);
         $phpWord = new PHPWord();
-        $phpWord->addFontStyle('Font', array('size' => 11));
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addFontStyle('Font', $fontStyle);
+        $phpWord->addParagraphStyle('Paragraph', $paragraphStyle);
         $section = $phpWord->createSection();
         $section->addText('Test 1', 'Font');
+        $section->addText('Test 2', array('name' => 'Tahoma'), 'Paragraph');
         $section->addTextBreak();
-        $section->addText('Test 2', null, 'Paragraph');
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();

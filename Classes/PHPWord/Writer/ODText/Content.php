@@ -33,9 +33,9 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     /**
      * Write content file to XML format
      *
-     * @param    PHPWord $pPHPWord
-     * @return    string                        XML Output
-     * @throws    Exception
+     * @param   PHPWord $pPHPWord
+     * @return  string XML Output
+     * @throws  Exception
      */
     public function writeContent(PHPWord $pPHPWord = null)
     {

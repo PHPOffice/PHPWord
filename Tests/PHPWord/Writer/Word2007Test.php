@@ -68,6 +68,26 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers                      ::save
+     * @expectedException           Exception
+     * @expectedExceptionMessage    PHPWord object unassigned.
+     */
+    public function testSaveException()
+    {
+        $writer = new PHPWord_Writer_Word2007();
+        $writer->save();
+    }
+
+    /**
+     * @covers  ::getWriterPart
+     */
+    public function testGetWriterPartNull()
+    {
+        $object = new PHPWord_Writer_Word2007();
+        $this->assertNull($object->getWriterPart('foo'));
+    }
+
+    /**
      * @covers  ::checkContentTypes
      */
     public function testCheckContentTypes()
@@ -100,13 +120,14 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     /**
      * @covers  ::setUseDiskCaching
      * @covers  ::getUseDiskCaching
+     * @covers  ::getDiskCachingDirectory
      */
     public function testSetGetUseDiskCaching()
     {
         $object = new PHPWord_Writer_Word2007();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
-
         $this->assertTrue($object->getUseDiskCaching());
+        $this->assertEquals(PHPWORD_TESTS_DIR_ROOT, $object->getDiskCachingDirectory());
     }
 
     /**
