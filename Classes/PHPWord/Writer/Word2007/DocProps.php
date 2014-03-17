@@ -30,7 +30,12 @@
  */
 class PHPWord_Writer_Word2007_DocProps extends PHPWord_Writer_Word2007_WriterPart
 {
-
+    /**
+     * Write app.xml
+     *
+     * @param PHPWord $pPHPWord
+     * @return string XML data
+     */
     public function writeDocPropsApp(PHPWord $pPHPWord = null)
     {
         // Create XML writer
@@ -122,7 +127,12 @@ class PHPWord_Writer_Word2007_DocProps extends PHPWord_Writer_Word2007_WriterPar
         return $objWriter->getData();
     }
 
-
+    /**
+     * Write core.xml
+     *
+     * @param PHPWord $pPHPWord
+     * @return string XML data
+     */
     public function writeDocPropsCore(PHPWord $pPHPWord = null)
     {
         // Create XML writer

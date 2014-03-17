@@ -69,7 +69,7 @@ class PHPWord_Autoloader
     /**
      * Autoloader
      *
-     * @param string
+     * @param string $class
      */
     public static function autoload($class)
     {

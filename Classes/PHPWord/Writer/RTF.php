@@ -44,14 +44,31 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
      */
     private $_drawingHashTable;
 
+    /**
+     * Color table
+     *
+     * @var array
+     */
     private $_colorTable;
+
+    /**
+     * Font table
+     *
+     * @var array
+     */
     private $_fontTable;
+
+    /**
+     * Last paragraph style
+     *
+     * @var PHPWord_Style_Paragraph
+     */
     private $_lastParagraphStyle;
 
     /**
      * Create a new PHPWord_Writer_ODText
      *
-     * @param    PHPWord $pPHPWord
+     * @param PHPWord $pPHPWord
      */
     public function __construct(PHPWord $pPHPWord = null)
     {
@@ -65,8 +82,8 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Save PHPWord to file
      *
-     * @param    string $pFileName
-     * @throws    Exception
+     * @param string $pFilename
+     * @throws Exception
      */
     public function save($pFilename = null)
     {
@@ -115,8 +132,8 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Get PHPWord object
      *
-     * @param    PHPWord $pPHPWord PHPWord object
-     * @throws    Exception
+     * @param PHPWord $pPHPWord PHPWord object
+     * @throws Exception
      * @return PHPWord_Writer_RTF
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
@@ -129,12 +146,18 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
      * @return PHPWord_HashTable
+     * @codeCoverageIgnore
      */
     public function getDrawingHashTable()
     {
         return $this->_drawingHashTable;
     }
 
+    /**
+     * Get document data
+     *
+     * @return string
+     */
     private function getData()
     {
         // PHPWord object : $this->_document
@@ -188,6 +211,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $sRTFContent;
     }
 
+    /**
+     * Get font table
+     *
+     * @return array
+     */
     private function getDataFont()
     {
         $pPHPWord = $this->_document;
@@ -238,6 +266,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrFonts;
     }
 
+    /**
+     * Get color tables
+     *
+     * @return array
+     */
     private function getDataColor()
     {
         $pPHPWord = $this->_document;
@@ -294,6 +327,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrColors;
     }
 
+    /**
+     * Get content
+     *
+     * @return string
+     */
     private function getDataContent()
     {
         $pPHPWord = $this->_document;
@@ -342,6 +380,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
 
     /**
      * Get text
+     *
+     * @param PHPWord_Section_Text $text
+     * @param boolean $withoutP
+     * @return string
      */
     private function getDataContentText(PHPWord_Section_Text $text, $withoutP = false)
     {
@@ -428,11 +470,15 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         if (!$withoutP) {
             $sRTFText .= '\par' . PHP_EOL;
         }
+
         return $sRTFText;
     }
 
     /**
      * Get text run content
+     *
+     * @param PHPWord_Section_TextRun $textrun
+     * @return string
      */
     private function getDataContentTextRun(PHPWord_Section_TextRun $textrun)
     {
@@ -449,9 +495,15 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             }
             $sRTFText .= '\par' . PHP_EOL;
         }
+
         return $sRTFText;
     }
 
+    /**
+     * Get text break
+     *
+     * @return string
+     */
     private function getDataContentTextBreak()
     {
         $this->_lastParagraphStyle = '';
@@ -463,6 +515,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
      * Write unsupported element
      *
      * @param   string  $element
+     * @return string
      */
     private function getDataContentUnsupportedElement($element)
     {

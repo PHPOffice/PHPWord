@@ -131,6 +131,8 @@ class PHPWord_Section_Text
     }
 
     /**
+     * Set text content
+     *
      * @param string $text
      * @return $this
      */

@@ -30,7 +30,12 @@
  */
 class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_WriterPart
 {
-
+    /**
+     * Write word/_rels/document.xml.rels
+     *
+     * @param array $_relsCollection
+     * @return string XML data
+     */
     public function writeDocumentRels($_relsCollection)
     {
         // Create XML writer
@@ -119,6 +124,12 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
         return $objWriter->getData();
     }
 
+    /**
+     * Write word/_rels/(header|footer)(\d).xml.rels
+     *
+     * @param array $_relsCollection
+     * @return string XML data
+     */
     public function writeHeaderFooterRels($_relsCollection)
     {
         // Create XML writer
@@ -150,13 +161,21 @@ class PHPWord_Writer_Word2007_DocumentRels extends PHPWord_Writer_Word2007_Write
             );
         }
 
-
         $objWriter->endElement();
 
         // Return
         return $objWriter->getData();
     }
 
+    /**
+     * Write individual relations
+     *
+     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param int $pId
+     * @param string $pType
+     * @param string $pTarget
+     * @param string $pTargetMode
+     */
     private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {

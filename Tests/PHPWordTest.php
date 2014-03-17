@@ -172,7 +172,7 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers PHPWord::loadTemplate
-     * @expectedException PHPWord_Exception
+     * @expectedException Exception
      */
     public function testLoadTemplateException()
     {

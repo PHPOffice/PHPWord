@@ -30,7 +30,12 @@
  */
 class PHPWord_Writer_Word2007_Footer extends PHPWord_Writer_Word2007_Base
 {
-
+    /**
+     * Write footer
+     *
+     * @param PHPWord_Section_Footer $footer
+     * @return string XML data
+     */
     public function writeFooter(PHPWord_Section_Footer $footer)
     {
         // Create XML writer

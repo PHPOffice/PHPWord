@@ -109,7 +109,7 @@ class PHPWord_Shared_XMLWriter
     /**
      * Get written data
      *
-     * @return $data
+     * @return string XML data
      */
     public function getData()
     {
@@ -124,8 +124,8 @@ class PHPWord_Shared_XMLWriter
     /**
      * Catch function calls (and pass them to internal XMLWriter)
      *
-     * @param unknown_type $function
-     * @param unknown_type $args
+     * @param mixed $function
+     * @param mixed $args
      */
     public function __call($function, $args)
     {

@@ -42,6 +42,8 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
     protected $readDataOnly = true;
 
     /**
+     * File pointer
+     *
      * @var bool|resource
      */
     protected $fileHandle = true;

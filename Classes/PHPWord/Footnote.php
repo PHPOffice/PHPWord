@@ -86,8 +86,7 @@ class PHPWord_Footnote
     /**
      * Add new Footnote Link Element
      *
-     * @param string $src
-     * @param string $type
+     * @param string $linkSrc
      *
      * @return mixed
      */

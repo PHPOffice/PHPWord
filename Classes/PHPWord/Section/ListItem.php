@@ -58,8 +58,9 @@ class PHPWord_Section_ListItem
      *
      * @param string $text
      * @param int $depth
-     * @param mixed $styleText
+     * @param mixed $styleFont
      * @param mixed $styleList
+     * @param mixed $styleParagraph
      */
     public function __construct($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {

@@ -158,11 +158,15 @@ class PHPWord_Section_Settings
     private $pageNumberingStart;
 
     /**
+     * Header height
+     *
      * @var int
      */
     private $headerHeight;
 
     /**
+     * Footer height
+     *
      * @var int
      */
     private $footerHeight;
@@ -594,6 +598,8 @@ class PHPWord_Section_Settings
     }
 
     /**
+     * Set page numbering start
+     *
      * @param null|int $pageNumberingStart
      * @return $this
      */
@@ -604,6 +610,8 @@ class PHPWord_Section_Settings
     }
 
     /**
+     * Get page numbering start
+     *
      * @return null|int
      */
     public function getPageNumberingStart()

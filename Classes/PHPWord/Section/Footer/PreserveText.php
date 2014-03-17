@@ -56,8 +56,10 @@ class PHPWord_Section_Footer_PreserveText
     /**
      * Create a new Preserve Text Element
      *
-     * @var string $text
-     * @var mixed $style
+     * @param string $text
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
+     * @return PHPWord_Section_Footer_PreserveText
      */
     public function __construct($text = null, $styleFont = null, $styleParagraph = null)
     {

@@ -70,10 +70,10 @@ class PHPWord_Section_Link
     /**
      * Create a new Link Element
      *
-     * @var string $linkSrc
-     * @var string $linkName
-     * @var mixed $styleFont
-     * @var mixed $styleParagraph
+     * @param string $linkSrc
+     * @param string $linkName
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
      */
     public function __construct($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
     {

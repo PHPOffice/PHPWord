@@ -33,9 +33,9 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     /**
      * Write content file to XML format
      *
-     * @param    PHPWord $pPHPWord
-     * @return    string                        XML Output
-     * @throws    Exception
+     * @param   PHPWord $pPHPWord
+     * @return  string XML Output
+     * @throws  Exception
      */
     public function writeContent(PHPWord $pPHPWord = null)
     {
@@ -344,9 +344,9 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     /**
      * Write TextRun section
      *
-     * @param   PHPWord_Shared_XMLWriter    $objWriter
-     * @param   PHPWord_Section_TextRun     $textrun
-     * @todo    Enable all other section types
+     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param PHPWord_Section_TextRun $textrun
+     * @todo Enable all other section types
      */
     protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun)
     {
@@ -364,6 +364,8 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
 
     /**
      * Write TextBreak
+     *
+     * @param PHPWord_Shared_XMLWriter $objWriter
      */
     protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null)
     {
@@ -373,10 +375,22 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
     }
 
     // @codeCoverageIgnoreStart
+    /**
+     * Write end section
+     *
+     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param PHPWord_Section $section
+     */
     private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
     {
     }
 
+    /**
+     * Write section
+     *
+     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param PHPWord_Section $section
+     */
     private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
     {
     }

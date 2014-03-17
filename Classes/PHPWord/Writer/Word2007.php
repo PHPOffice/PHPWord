@@ -24,7 +24,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
-
 use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
@@ -33,15 +32,54 @@ use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
  */
 class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 {
-
+    /**
+     * PHPWord object
+     *
+     * @var PHPWord
+     */
     private $_document;
+
+    /**
+     * Writer parts
+     *
+     * @var array
+     */
     private $_writerParts;
+
+    /**
+     * Directory for caching
+     *
+     * @var string
+     */
     private $_diskCachingDirectory;
+
+    /**
+     * Use disk caching
+     *
+     * @var boolean
+     */
     private $_useDiskCaching = false;
+
+    /**
+     * Image types
+     *
+     * @var array
+     */
     private $_imageTypes = array();
+
+    /**
+     * Object types
+     *
+     * @var array
+     */
     private $_objectTypes = array();
 
-    public function __construct(PHPWord $PHPWord = null)
+    /**
+     * Constructor
+     *
+     * @param PHPWord $PHPWord
+     */
+   public function __construct(PHPWord $PHPWord = null)
     {
         $this->_document = $PHPWord;
 
@@ -63,6 +101,11 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
+    /**
+     * Save
+     *
+     * @param string $pFilename
+     */
     public function save($pFilename = null)
     {
         if (!is_null($this->_document)) {
@@ -204,6 +247,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
     }
 
     /**
+     * Check content types
+     *
      * @param string $src
      */
     private function checkContentTypes($src)
@@ -212,21 +257,10 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
         } else {
-            $imageType = exif_imagetype($src);
-            if ($imageType === IMAGETYPE_JPEG) {
-                $extension = 'jpg';
-            } elseif ($imageType === IMAGETYPE_GIF) {
-                $extension = 'gif';
-            } elseif ($imageType === IMAGETYPE_PNG) {
-                $extension = 'png';
-            } elseif ($imageType === IMAGETYPE_BMP) {
-                $extension = 'bmp';
-            } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
-                $extension = 'tif';
-            }
+            $extension = PHPWord_Shared_File::imagetype($src);
         }
 
-        if (isset($extension)) {
+        if (isset($extension) && $extension) {
             $imageData = getimagesize($src);
             $imageType = image_type_to_mime_type($imageData[2]);
             $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
@@ -236,13 +270,16 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             if (!in_array($imageType, $this->_imageTypes)) {
                 $this->_imageTypes[$imageExtension] = $imageType;
             }
-        } else {
-            if (!in_array($extension, $this->_objectTypes)) {
-                $this->_objectTypes[] = $extension;
-            }
+        } elseif (!in_array($extension, $this->_objectTypes)) {
+            $this->_objectTypes[] = $extension;
         }
     }
 
+    /**
+     * Get writer part
+     *
+     * @param string $pPartName
+     */
     public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
@@ -252,11 +289,20 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
+    /**
+     * Get use disk catching setting
+     */
     public function getUseDiskCaching()
     {
         return $this->_useDiskCaching;
     }
 
+    /**
+     * Set use disk catching setting
+     *
+     * @param boolean $pValue
+     * @param string $pDirectory
+     */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
         $this->_useDiskCaching = $pValue;
@@ -272,6 +318,12 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         return $this;
     }
 
+    /**
+     * Add file to package
+     *
+     * @param mixed $objZip
+     * @param array $element
+     */
     private function _addFileToPackage($objZip, $element)
     {
         if (isset($element['isMemImage']) && $element['isMemImage']) {
@@ -288,5 +340,15 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $objZip->addFile($element['source'], 'word/' . $element['target']);
             $this->checkContentTypes($element['source']);
         }
+    }
+
+    /**
+     * Get disk caching directory
+     *
+     * @return string
+     */
+    public function getDiskCachingDirectory()
+    {
+        return $this->_diskCachingDirectory;
     }
 }

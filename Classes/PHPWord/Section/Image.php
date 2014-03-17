@@ -61,7 +61,6 @@ class PHPWord_Section_Image
      */
     private $_isWatermark;
 
-
     /**
      * Create a new Image
      *
@@ -72,13 +71,11 @@ class PHPWord_Section_Image
      */
     public function __construct($src, $style = null, $isWatermark = false)
     {
-        $supportedImageTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM);
-
         if (!file_exists($src)) {
             throw new InvalidImageException;
         }
 
-        if (!in_array(exif_imagetype($src), $supportedImageTypes)) {
+        if (!PHPWord_Shared_File::imagetype($src)) {
             throw new UnsupportedImageTypeException;
         }
 
