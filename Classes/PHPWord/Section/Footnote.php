@@ -25,16 +25,16 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_Footnote
- */
-class PHPWord_Section_Footnote
-{
+namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class Footnote
+{
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -61,7 +61,7 @@ class PHPWord_Section_Footnote
 
         // Set paragraph style
         if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new PHPWord_Style_Paragraph();
+            $this->_styleParagraph = new Paragraph();
 
             foreach ($styleParagraph as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -80,12 +80,12 @@ class PHPWord_Section_Footnote
      *
      * @var string $text
      * @var mixed $styleFont
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
     {
         $givenText                  = $text;
-        $text                       = new PHPWord_Section_Text($givenText, $styleFont);
+        $text                       = new Text($givenText, $styleFont);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -96,13 +96,13 @@ class PHPWord_Section_Footnote
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $styleFont
-     * @return PHPWord_Section_Link
+     * @return PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null)
     {
 
-        $link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
-        $rID  = PHPWord_Footnote::addFootnoteLinkElement($linkSrc);
+        $link = new Link($linkSrc, $linkName, $styleFont);
+        $rID = PhpOffice\PhpWord\Footnote::addFootnoteLinkElement($linkSrc);
         $link->setRelationId($rID);
 
         $this->_elementCollection[] = $link;
@@ -122,7 +122,7 @@ class PHPWord_Section_Footnote
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

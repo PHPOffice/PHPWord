@@ -25,16 +25,18 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_TextRun
- */
-class PHPWord_Section_TextRun
-{
+namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class TextRun
+{
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -55,7 +57,7 @@ class PHPWord_Section_TextRun
 
         // Set paragraph style
         if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new PHPWord_Style_Paragraph();
+            $this->_styleParagraph = new Paragraph();
 
             foreach ($styleParagraph as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -74,14 +76,14 @@ class PHPWord_Section_TextRun
      *
      * @var string $text
      * @var mixed $styleFont
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new PHPWord_Section_Text($text, $styleFont);
+        $text = new Text($text, $styleFont);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -92,7 +94,7 @@ class PHPWord_Section_TextRun
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $styleFont
-     * @return PHPWord_Section_Link
+     * @return PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null)
     {
@@ -101,8 +103,8 @@ class PHPWord_Section_TextRun
             $linkName = utf8_encode($linkName);
         }
 
-        $link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont);
-        $rID = PHPWord_Media::addSectionLinkElement($linkSrc);
+        $link = new Link($linkSrc, $linkName, $styleFont);
+        $rID = Media::addSectionLinkElement($linkSrc);
         $link->setRelationId($rID);
 
         $this->_elementCollection[] = $link;
@@ -114,14 +116,14 @@ class PHPWord_Section_TextRun
      *
      * @param string $imageSrc
      * @param mixed $styleFont
-     * @return PHPWord_Section_Image
+     * @return PhpOffice\PhpWord\Section\Image
      */
     public function addImage($imageSrc, $style = null)
     {
-        $image = new PHPWord_Section_Image($imageSrc, $style);
+        $image = new Image($imageSrc, $style);
 
         if (!is_null($image->getSource())) {
-            $rID = PHPWord_Media::addSectionMediaElement($imageSrc, 'image');
+            $rID = Media::addSectionMediaElement($imageSrc, 'image');
             $image->setRelationId($rID);
 
             $this->_elementCollection[] = $image;
@@ -134,14 +136,14 @@ class PHPWord_Section_TextRun
     /**
      * Add TextBreak
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param int $count
+     * @param null|string|array|PhpOffice\PhpWord\Style\Font      $fontStyle
+     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
@@ -149,12 +151,12 @@ class PHPWord_Section_TextRun
      * Create a new Footnote Element
      *
      * @param string $text
-     * @return PHPWord_Section_Footnote
+     * @return PhpOffice\PhpWord\Section\Footnote
      */
     public function createFootnote($styleParagraph = null)
     {
-        $footnote = new PHPWord_Section_Footnote($styleParagraph);
-        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote = new PhpOffice\PhpWord\Section\Footnote($styleParagraph);
+        $refID = PhpOffice\PhpWord\Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->_elementCollection[] = $footnote;
         return $footnote;
@@ -173,7 +175,7 @@ class PHPWord_Section_TextRun
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

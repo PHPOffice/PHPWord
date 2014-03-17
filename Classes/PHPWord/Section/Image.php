@@ -25,13 +25,12 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Section;
+
 use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
-/**
- * Class PHPWord_Section_Image
- */
-class PHPWord_Section_Image
+class Image
 {
     /**
      * Image Src
@@ -43,7 +42,7 @@ class PHPWord_Section_Image
     /**
      * Image Style
      *
-     * @var PHPWord_Style_Image
+     * @var PhpOffice\PhpWord\Style\Image
      */
     private $_style;
 
@@ -84,7 +83,7 @@ class PHPWord_Section_Image
 
         $this->_src = $src;
         $this->_isWatermark = $isWatermark;
-        $this->_style = new PHPWord_Style_Image();
+        $this->_style = new PhpOffice\PhpWord\Style\Image();
 
         if (!is_null($style) && is_array($style)) {
             foreach ($style as $key => $value) {
@@ -109,7 +108,7 @@ class PHPWord_Section_Image
     /**
      * Get Image style
      *
-     * @return PHPWord_Style_Image
+     * @return PhpOffice\PhpWord\Style\Image
      */
     public function getStyle()
     {

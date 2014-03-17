@@ -25,12 +25,14 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_Footer
- */
-class PHPWord_Section_Footer
-{
+namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Section\Footer\PreserveText;
+use PhpOffice\PhpWord\Shared\String;
+
+class Footer
+{
     /**
      * Footer Count
      *
@@ -66,14 +68,14 @@ class PHPWord_Section_Footer
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
+        $text = new Text($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -81,25 +83,25 @@ class PHPWord_Section_Footer
     /**
      * Add TextBreak
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param int $count
+     * @param null|string|array|PhpOffice\PhpWord\Style\Font      $fontStyle
+     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
     /**
      * Create a new TextRun
      *
-     * @return PHPWord_Section_TextRun
+     * @return PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
-        $textRun = new PHPWord_Section_TextRun($styleParagraph);
+        $textRun = new TextRun($styleParagraph);
         $this->_elementCollection[] = $textRun;
         return $textRun;
     }
@@ -108,11 +110,11 @@ class PHPWord_Section_Footer
      * Add a Table Element
      *
      * @param mixed $style
-     * @return PHPWord_Section_Table
+     * @return PhpOffice\PhpWord\Section\Table
      */
     public function addTable($style = null)
     {
-        $table = new PHPWord_Section_Table('footer', $this->_footerCount, $style);
+        $table = new Table('footer', $this->_footerCount, $style);
         $this->_elementCollection[] = $table;
         return $table;
     }
@@ -122,14 +124,14 @@ class PHPWord_Section_Footer
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Image
+     * @return Image
      */
     public function addImage($src, $style = null)
     {
-        $image = new PHPWord_Section_Image($src, $style);
+        $image = new Image($src, $style);
 
         if (!is_null($image->getSource())) {
-            $rID = PHPWord_Media::addFooterMediaElement($this->_footerCount, $src);
+            $rID = Media::addFooterMediaElement($this->_footerCount, $src);
             $image->setRelationId($rID);
 
             $this->_elementCollection[] = $image;
@@ -144,13 +146,13 @@ class PHPWord_Section_Footer
      *
      * @param string $link
      * @param mixed $style
-     * @return PHPWord_Section_MemoryImage
+     * @return PhpOffice\PhpWord\Section\MemoryImage
      */
     public function addMemoryImage($link, $style = null)
     {
-        $memoryImage = new PHPWord_Section_MemoryImage($link, $style);
+        $memoryImage = new MemoryImage($link, $style);
         if (!is_null($memoryImage->getSource())) {
-            $rID = PHPWord_Media::addFooterMediaElement($this->_footerCount, $link, $memoryImage);
+            $rID = Media::addFooterMediaElement($this->_footerCount, $link, $memoryImage);
             $memoryImage->setRelationId($rID);
 
             $this->_elementCollection[] = $memoryImage;
@@ -166,14 +168,14 @@ class PHPWord_Section_Footer
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Footer_PreserveText
+     * @return PhpOffice\PhpWord\Section\Footer\PreserveText
      */
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);
+        $ptext = new PreserveText($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $ptext;
         return $ptext;
     }

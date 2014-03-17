@@ -25,10 +25,11 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_MemoryImage
- */
-class PHPWord_Section_MemoryImage
+namespace PhpOffice\PhpWord\Section;
+
+use PhpOffice\PhpWord\Style\Image;
+
+class MemoryImage
 {
     /**
      * Image Src
@@ -40,7 +41,7 @@ class PHPWord_Section_MemoryImage
     /**
      * Image Style
      *
-     * @var PHPWord_Style_Image
+     * @var PhpOffice\PhpWord\Style\Image
      */
     private $_style;
 
@@ -95,7 +96,7 @@ class PHPWord_Section_MemoryImage
 
         if (in_array($this->_imageType, $_supportedImageTypes)) {
             $this->_src = $src;
-            $this->_style = new PHPWord_Style_Image();
+            $this->_style = new Image();
 
             if (!is_null($style) && is_array($style)) {
                 foreach ($style as $key => $value) {
@@ -143,7 +144,7 @@ class PHPWord_Section_MemoryImage
     /**
      * Get Image style
      *
-     * @return PHPWord_Style_Image
+     * @return PhpOffice\PhpWord\Style\Image
      */
     public function getStyle()
     {

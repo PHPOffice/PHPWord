@@ -25,12 +25,12 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord;
+
 /**
- * PHPWord_HashTable
- *
- * @codeCoverageIgnore  Legacy from PHPExcel
+ * @codeCoverageIgnore Legacy from PHPExcel
  */
-class PHPWord_HashTable
+class HashTable
 {
     /**
      * HashTable elements
@@ -47,15 +47,12 @@ class PHPWord_HashTable
     public $_keyMap = array();
 
     /**
-     * Create a new PHPWord_HashTable
-     *
-     * @param    PHPWord_IComparable[] $pSource Optional source array to create HashTable from
-     * @throws    Exception
+     * @param PhpOffice\PhpWord\IComparable[] $pSource Optional source array to create HashTable from
+     * @throws Exception
      */
     public function __construct($pSource = null)
     {
         if (!is_null($pSource)) {
-            // Create HashTable
             $this->addFromSource($pSource);
         }
     }
@@ -63,8 +60,8 @@ class PHPWord_HashTable
     /**
      * Add HashTable items from source
      *
-     * @param    PHPWord_IComparable[] $pSource Source array to create HashTable from
-     * @throws    Exception
+     * @param PhpOffice\PhpWord\IComparable[] $pSource Source array to create HashTable from
+     * @throws Exception
      */
     public function addFromSource($pSource = null)
     {
@@ -83,10 +80,10 @@ class PHPWord_HashTable
     /**
      * Add HashTable item
      *
-     * @param    PHPWord_IComparable $pSource Item to add
-     * @throws    Exception
+     * @param PhpOffice\PhpWord\IComparable $pSource Item to add
+     * @throws Exception
      */
-    public function add(PHPWord_IComparable $pSource = null)
+    public function add(IComparable $pSource = null)
     {
         // Determine hashcode
         $hashCode = null;
@@ -113,10 +110,10 @@ class PHPWord_HashTable
     /**
      * Remove HashTable item
      *
-     * @param    PHPWord_IComparable $pSource Item to remove
-     * @throws    Exception
+     * @param PhpOffice\PhpWord\IComparable $pSource Item to remove
+     * @throws Exception
      */
-    public function remove(PHPWord_IComparable $pSource = null)
+    public function remove(IComparable $pSource = null)
     {
         if (isset($this->_items[$pSource->getHashCode()])) {
             unset($this->_items[$pSource->getHashCode()]);
@@ -146,8 +143,6 @@ class PHPWord_HashTable
     }
 
     /**
-     * Count
-     *
      * @return int
      */
     public function count()
@@ -156,10 +151,8 @@ class PHPWord_HashTable
     }
 
     /**
-     * Get index for hash code
-     *
-     * @param    string $pHashCode
-     * @return    int    Index
+     * @param string $pHashCode
+     * @return int Index
      */
     public function getIndexForHashCode($pHashCode = '')
     {
@@ -167,11 +160,8 @@ class PHPWord_HashTable
     }
 
     /**
-     * Get by index
-     *
-     * @param    int $pIndex
-     * @return    PHPWord_IComparable
-     *
+     * @param int $pIndex
+     * @return PhpOffice\PhpWord\IComparable
      */
     public function getByIndex($pIndex = 0)
     {
@@ -183,10 +173,8 @@ class PHPWord_HashTable
     }
 
     /**
-     * Get by hashcode
-     *
-     * @param    string $pHashCode
-     * @return    PHPWord_IComparable
+     * @param string $pHashCode
+     * @return PhpOffice\PhpWord\IComparable
      *
      */
     public function getByHashCode($pHashCode = '')
@@ -199,9 +187,7 @@ class PHPWord_HashTable
     }
 
     /**
-     * HashTable to array
-     *
-     * @return PHPWord_IComparable[]
+     * @return PhpOffice\PhpWord\IComparable[]
      */
     public function toArray()
     {

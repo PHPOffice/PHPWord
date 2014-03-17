@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Shared_Drawing
- */
-class PHPWord_Shared_Drawing
+namespace PhpOffice\PhpWord\Shared;
+
+class Drawing
 {
     /**
      * Convert pixels to EMU

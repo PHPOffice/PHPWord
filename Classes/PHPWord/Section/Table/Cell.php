@@ -25,12 +25,22 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_Table_Cell
- */
-class PHPWord_Section_Table_Cell
-{
+namespace PhpOffice\PhpWord\Section\Table;
 
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Section\Footer\PreserveText;
+use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\Link;
+use PhpOffice\PhpWord\Section\ListItem;
+use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Object;
+use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Shared\String;
+
+class Cell
+{
     /**
      * Cell Width
      *
@@ -41,7 +51,7 @@ class PHPWord_Section_Table_Cell
     /**
      * Cell Style
      *
-     * @var PHPWord_Style_Cell
+     * @var PhpOffice\PhpWord\Style\Cell
      */
     private $_style;
 
@@ -80,7 +90,7 @@ class PHPWord_Section_Table_Cell
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_width = $width;
-        $this->_style = new PHPWord_Style_Cell;
+        $this->_style = new PhpOffice\PhpWord\Style\Cell();
 
         if (!is_null($style)) {
             if (is_array($style)) {
@@ -101,14 +111,14 @@ class PHPWord_Section_Table_Cell
      *
      * @param string $text
      * @param mixed $style
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
+        $text = new Text($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -119,22 +129,22 @@ class PHPWord_Section_Table_Cell
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $style
-     * @return PHPWord_Section_Link
+     * @return PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $style = null)
     {
         if ($this->_insideOf == 'section') {
-            if (!PHPWord_Shared_String::IsUTF8($linkSrc)) {
+            if (!String::IsUTF8($linkSrc)) {
                 $linkSrc = utf8_encode($linkSrc);
             }
             if (!is_null($linkName)) {
-                if (!PHPWord_Shared_String::IsUTF8($linkName)) {
+                if (!String::IsUTF8($linkName)) {
                     $linkName = utf8_encode($linkName);
                 }
             }
 
-            $link = new PHPWord_Section_Link($linkSrc, $linkName, $style);
-            $rID = PHPWord_Media::addSectionLinkElement($linkSrc);
+            $link = new Link($linkSrc, $linkName, $style);
+            $rID = Media::addSectionLinkElement($linkSrc);
             $link->setRelationId($rID);
 
             $this->_elementCollection[] = $link;
@@ -148,14 +158,14 @@ class PHPWord_Section_Table_Cell
     /**
      * Add TextBreak
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param int $count
+     * @param null|string|array|PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
@@ -166,14 +176,14 @@ class PHPWord_Section_Table_Cell
      * @param int $depth
      * @param mixed $styleText
      * @param mixed $styleList
-     * @return PHPWord_Section_ListItem
+     * @return PhpOffice\PhpWord\Section\ListItem
      */
     public function addListItem($text, $depth = 0, $styleText = null, $styleList = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $listItem = new PHPWord_Section_ListItem($text, $depth, $styleText, $styleList);
+        $listItem = new ListItem($text, $depth, $styleText, $styleList);
         $this->_elementCollection[] = $listItem;
         return $listItem;
     }
@@ -183,19 +193,19 @@ class PHPWord_Section_Table_Cell
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Image
+     * @return PhpOffice\PhpWord\Section\Image
      */
     public function addImage($src, $style = null)
     {
-        $image = new PHPWord_Section_Image($src, $style);
+        $image = new Image($src, $style);
 
         if (!is_null($image->getSource())) {
             if ($this->_insideOf == 'section') {
-                $rID = PHPWord_Media::addSectionMediaElement($src, 'image');
+                $rID = Media::addSectionMediaElement($src, 'image');
             } elseif ($this->_insideOf == 'header') {
-                $rID = PHPWord_Media::addHeaderMediaElement($this->_pCount, $src);
+                $rID = Media::addHeaderMediaElement($this->_pCount, $src);
             } elseif ($this->_insideOf == 'footer') {
-                $rID = PHPWord_Media::addFooterMediaElement($this->_pCount, $src);
+                $rID = Media::addFooterMediaElement($this->_pCount, $src);
             }
             $image->setRelationId($rID);
 
@@ -211,18 +221,18 @@ class PHPWord_Section_Table_Cell
      *
      * @param string $link
      * @param mixed $style
-     * @return PHPWord_Section_MemoryImage
+     * @return PhpOffice\PhpWord\Section\MemoryImage
      */
     public function addMemoryImage($link, $style = null)
     {
-        $memoryImage = new PHPWord_Section_MemoryImage($link, $style);
+        $memoryImage = new MemoryImage($link, $style);
         if (!is_null($memoryImage->getSource())) {
             if ($this->_insideOf == 'section') {
-                $rID = PHPWord_Media::addSectionMediaElement($link, 'image', $memoryImage);
+                $rID = Media::addSectionMediaElement($link, 'image', $memoryImage);
             } elseif ($this->_insideOf == 'header') {
-                $rID = PHPWord_Media::addHeaderMediaElement($this->_pCount, $link, $memoryImage);
+                $rID = Media::addHeaderMediaElement($this->_pCount, $link, $memoryImage);
             } elseif ($this->_insideOf == 'footer') {
-                $rID = PHPWord_Media::addFooterMediaElement($this->_pCount, $link, $memoryImage);
+                $rID = Media::addFooterMediaElement($this->_pCount, $link, $memoryImage);
             }
             $memoryImage->setRelationId($rID);
 
@@ -238,11 +248,11 @@ class PHPWord_Section_Table_Cell
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Object
+     * @return PhpOffice\PhpWord\Section\Object
      */
     public function addObject($src, $style = null)
     {
-        $object = new PHPWord_Section_Object($src, $style);
+        $object = new Object($src, $style);
 
         if (!is_null($object->getSource())) {
             $inf = pathinfo($src);
@@ -258,8 +268,8 @@ class PHPWord_Section_Table_Cell
                 $iconSrc .= '_' . $ext . '.png';
             }
 
-            $rIDimg = PHPWord_Media::addSectionMediaElement($iconSrc, 'image');
-            $data = PHPWord_Media::addSectionMediaElement($src, 'oleObject');
+            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image');
+            $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
 
@@ -280,15 +290,15 @@ class PHPWord_Section_Table_Cell
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Footer_PreserveText
+     * @return PhpOffice\PhpWord\Section\Footer\PreserveText
      */
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
         if ($this->_insideOf == 'footer' || $this->_insideOf == 'header') {
-            if (!PHPWord_Shared_String::IsUTF8($text)) {
+            if (!String::IsUTF8($text)) {
                 $text = utf8_encode($text);
             }
-            $ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);
+            $ptext = new PreserveText($text, $styleFont, $styleParagraph);
             $this->_elementCollection[] = $ptext;
             return $ptext;
         } else {
@@ -299,11 +309,11 @@ class PHPWord_Section_Table_Cell
     /**
      * Create a new TextRun
      *
-     * @return PHPWord_Section_TextRun
+     * @return PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
-        $textRun = new PHPWord_Section_TextRun($styleParagraph);
+        $textRun = new TextRun($styleParagraph);
         $this->_elementCollection[] = $textRun;
         return $textRun;
     }
@@ -321,7 +331,7 @@ class PHPWord_Section_Table_Cell
     /**
      * Get Cell Style
      *
-     * @return PHPWord_Style_Cell
+     * @return PhpOffice\PhpWord\Style\Cell
      */
     public function getStyle()
     {

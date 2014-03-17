@@ -25,12 +25,26 @@
  * @version    0.8.0
  */
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+namespace PhpOffice\PhpWord;
 
-/**
- * Class PHPWord_Section
- */
-class PHPWord_Section
+use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Section\Footer;
+use PhpOffice\PhpWord\Section\Footnote;
+use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\Link;
+use PhpOffice\PhpWord\Section\ListItem;
+use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Object;
+use PhpOffice\PhpWord\Section\PageBreak;
+use PhpOffice\PhpWord\Section\Settings;
+use PhpOffice\PhpWord\Section\Table;
+use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Shared\String;
+
+class Section
 {
     /**
      * Section count
@@ -42,7 +56,7 @@ class PHPWord_Section
     /**
      * Section settings
      *
-     * @var PHPWord_Section_Settings
+     * @var PhpOffice\PhpWord\Section\Settings
      */
     private $_settings;
 
@@ -63,7 +77,7 @@ class PHPWord_Section
     /**
      * Section Footer
      *
-     * @var PHPWord_Section_Footer
+     * @var PhpOffice\PhpWord\Section\Footer
      */
     private $_footer = null;
 
@@ -77,7 +91,7 @@ class PHPWord_Section
     public function __construct($sectionCount, $settings = null)
     {
         $this->_sectionCount = $sectionCount;
-        $this->_settings = new PHPWord_Section_Settings();
+        $this->_settings = new Settings();
         $this->setSettings($settings);
     }
 
@@ -101,7 +115,7 @@ class PHPWord_Section
     /**
      * Get Section Settings
      *
-     * @return PHPWord_Section_Settings
+     * @return PhpOffice\PhpWord\Section\Settings
      */
     public function getSettings()
     {
@@ -114,14 +128,14 @@ class PHPWord_Section
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
+        $text = new Text($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -133,21 +147,21 @@ class PHPWord_Section
      * @param string $linkName
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Link
+     * @return PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($linkSrc)) {
+        if (!String::IsUTF8($linkSrc)) {
             $linkSrc = utf8_encode($linkSrc);
         }
         if (!is_null($linkName)) {
-            if (!PHPWord_Shared_String::IsUTF8($linkName)) {
+            if (!String::IsUTF8($linkName)) {
                 $linkName = utf8_encode($linkName);
             }
         }
 
-        $link = new PHPWord_Section_Link($linkSrc, $linkName, $styleFont, $styleParagraph);
-        $rID = PHPWord_Media::addSectionLinkElement($linkSrc);
+        $link = new Link($linkSrc, $linkName, $styleFont, $styleParagraph);
+        $rID = Media::addSectionLinkElement($linkSrc);
         $link->setRelationId($rID);
 
         $this->_elementCollection[] = $link;
@@ -157,14 +171,14 @@ class PHPWord_Section
     /**
      * Add a TextBreak Element
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph $paragraphStyle
+     * @param int $count
+     * @param null|string|array|PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
@@ -173,18 +187,18 @@ class PHPWord_Section
      */
     public function addPageBreak()
     {
-        $this->_elementCollection[] = new PHPWord_Section_PageBreak();
+        $this->_elementCollection[] = new PageBreak();
     }
 
     /**
      * Add a Table Element
      *
      * @param mixed $style
-     * @return PHPWord_Section_Table
+     * @return PhpOffice\PhpWord\Section\Table
      */
     public function addTable($style = null)
     {
-        $table = new PHPWord_Section_Table('section', $this->_sectionCount, $style);
+        $table = new Table('section', $this->_sectionCount, $style);
         $this->_elementCollection[] = $table;
         return $table;
     }
@@ -197,14 +211,14 @@ class PHPWord_Section
      * @param mixed $styleFont
      * @param mixed $styleList
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_ListItem
+     * @return PhpOffice\PhpWord\Section\ListItem
      */
     public function addListItem($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $listItem = new PHPWord_Section_ListItem($text, $depth, $styleFont, $styleList, $styleParagraph);
+        $listItem = new ListItem($text, $depth, $styleFont, $styleList, $styleParagraph);
         $this->_elementCollection[] = $listItem;
         return $listItem;
     }
@@ -214,12 +228,12 @@ class PHPWord_Section
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Object
+     * @return PhpOffice\PhpWord\Section\Object
      * @throws Exception
      */
     public function addObject($src, $style = null)
     {
-        $object = new PHPWord_Section_Object($src, $style);
+        $object = new Object($src, $style);
 
         if (!is_null($object->getSource())) {
             $inf = pathinfo($src);
@@ -235,8 +249,8 @@ class PHPWord_Section
                 $iconSrc .= '_' . $ext . '.png';
             }
 
-            $rIDimg = PHPWord_Media::addSectionMediaElement($iconSrc, 'image');
-            $data = PHPWord_Media::addSectionMediaElement($src, 'oleObject');
+            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image');
+            $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
 
@@ -255,15 +269,15 @@ class PHPWord_Section
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Image
+     * @return PhpOffice\PhpWord\Section\Image
      * @throws Exception
      */
     public function addImage($src, $style = null)
     {
-        $image = new PHPWord_Section_Image($src, $style);
+        $image = new Image($src, $style);
 
         if (!is_null($image->getSource())) {
-            $rID = PHPWord_Media::addSectionMediaElement($src, 'image');
+            $rID = Media::addSectionMediaElement($src, 'image');
             $image->setRelationId($rID);
 
             $this->_elementCollection[] = $image;
@@ -277,14 +291,14 @@ class PHPWord_Section
      *
      * @param string $link
      * @param mixed $style
-     * @return PHPWord_Section_MemoryImage
+     * @return PhpOffice\PhpWord\Section\MemoryImage
      * @throws Exception
      */
     public function addMemoryImage($link, $style = null)
     {
-        $memoryImage = new PHPWord_Section_MemoryImage($link, $style);
+        $memoryImage = new MemoryImage($link, $style);
         if (!is_null($memoryImage->getSource())) {
-            $rID = PHPWord_Media::addSectionMediaElement($link, 'image', $memoryImage);
+            $rID = Media::addSectionMediaElement($link, 'image', $memoryImage);
             $memoryImage->setRelationId($rID);
 
             $this->_elementCollection[] = $memoryImage;
@@ -298,11 +312,11 @@ class PHPWord_Section
      *
      * @param mixed $styleFont
      * @param mixed $styleTOC
-     * @return PHPWord_TOC
+     * @return PhpOffice\PhpWord\TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null)
     {
-        $toc = new PHPWord_TOC($styleFont, $styleTOC);
+        $toc = new TOC($styleFont, $styleTOC);
         $this->_elementCollection[] = $toc;
         return $toc;
     }
@@ -312,23 +326,23 @@ class PHPWord_Section
      *
      * @param string $text
      * @param int $depth
-     * @return PHPWord_Section_Title
+     * @return PhpOffice\PhpWord\Section\Title
      */
     public function addTitle($text, $depth = 1)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $styles = PHPWord_Style::getStyles();
+        $styles = Style::getStyles();
         if (array_key_exists('Heading_' . $depth, $styles)) {
             $style = 'Heading' . $depth;
         } else {
             $style = null;
         }
 
-        $title = new PHPWord_Section_Title($text, $depth, $style);
+        $title = new Title($text, $depth, $style);
 
-        $data = PHPWord_TOC::addTitle($text, $depth);
+        $data = TOC::addTitle($text, $depth);
         $anchor = $data[0];
         $bookmarkId = $data[1];
 
@@ -343,11 +357,11 @@ class PHPWord_Section
      * Create a new TextRun
      *
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_TextRun
+     * @return PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
-        $textRun = new PHPWord_Section_TextRun($styleParagraph);
+        $textRun = new TextRun($styleParagraph);
         $this->_elementCollection[] = $textRun;
         return $textRun;
     }
@@ -365,11 +379,11 @@ class PHPWord_Section
     /**
      * Create a new Header
      *
-     * @return PHPWord_Section_Header
+     * @return PhpOffice\PhpWord\Section\Header
      */
     public function createHeader()
     {
-        $header = new PHPWord_Section_Header($this->_sectionCount);
+        $header = new Header($this->_sectionCount);
         $this->_headers[] = $header;
         return $header;
     }
@@ -387,16 +401,15 @@ class PHPWord_Section
     /**
      * Is there a header for this section that is for the first page only?
      *
-     * If any of the PHPWord_Section_Header instances have a type of
-     * PHPWord_Section_Header::FIRST then this method returns true. False
-     * otherwise.
+     * If any of the Header instances have a type of Header::FIRST then this method returns true.
+     * False otherwise.
      *
      * @return Boolean
      */
     public function hasDifferentFirstPage()
     {
-        $value = array_filter($this->_headers, function (PHPWord_Section_Header &$header) {
-            return $header->getType() == PHPWord_Section_Header::FIRST;
+        $value = array_filter($this->_headers, function (Header &$header) {
+            return $header->getType() == Header::FIRST;
         });
         return count($value) > 0;
     }
@@ -404,11 +417,11 @@ class PHPWord_Section
     /**
      * Create a new Footer
      *
-     * @return PHPWord_Section_Footer
+     * @return PhpOffice\PhpWord\Section\Footer
      */
     public function createFooter()
     {
-        $footer = new PHPWord_Section_Footer($this->_sectionCount);
+        $footer = new Footer($this->_sectionCount);
         $this->_footer = $footer;
         return $footer;
     }
@@ -416,7 +429,7 @@ class PHPWord_Section
     /**
      * Get Footer
      *
-     * @return PHPWord_Section_Footer
+     * @return PhpOffice\PhpWord\Section\Footer
      */
     public function getFooter()
     {
@@ -427,12 +440,12 @@ class PHPWord_Section
      * Create a new Footnote Element
      *
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Footnote
+     * @return PhpOffice\PhpWord\Section\Footnote
      */
     public function createFootnote($styleParagraph = null)
     {
-        $footnote = new PHPWord_Section_Footnote($styleParagraph);
-        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote = new Footnote($styleParagraph);
+        $refID = Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->_elementCollection[] = $footnote;
         return $footnote;

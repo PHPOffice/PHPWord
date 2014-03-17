@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_PageBreak
- */
-class PHPWord_Section_PageBreak
-{
+namespace PhpOffice\PhpWord\Section;
 
+class PageBreak
+{
     /**
      * Create a new PageBreak Element
      */

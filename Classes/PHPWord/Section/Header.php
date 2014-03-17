@@ -25,12 +25,14 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_Header
- */
-class PHPWord_Section_Header
-{
+namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Section\Footer\PreserveText;
+use PhpOffice\PhpWord\Shared\String;
+
+class Header
+{
     /**
      * Header Count
      *
@@ -51,7 +53,7 @@ class PHPWord_Section_Header
      * @var string
      * @link http://www.schemacentral.com/sc/ooxml/a-w_type-4.html Header or Footer Type
      */
-    private $_type = PHPWord_Section_Header::AUTO;
+    private $_type = self::AUTO;
 
     /**
      * Even Numbered Pages Only
@@ -95,14 +97,14 @@ class PHPWord_Section_Header
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Text
+     * @return PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
+        $text = new Text($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $text;
         return $text;
     }
@@ -110,25 +112,25 @@ class PHPWord_Section_Header
     /**
      * Add TextBreak
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param int $count
+     * @param null|string|array|PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
     /**
      * Create a new TextRun
      *
-     * @return PHPWord_Section_TextRun
+     * @return PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
-        $textRun = new PHPWord_Section_TextRun($styleParagraph);
+        $textRun = new TextRun($styleParagraph);
         $this->_elementCollection[] = $textRun;
         return $textRun;
     }
@@ -137,11 +139,11 @@ class PHPWord_Section_Header
      * Add a Table Element
      *
      * @param mixed $style
-     * @return PHPWord_Section_Table
+     * @return PhpOffice\PhpWord\Section\Table
      */
     public function addTable($style = null)
     {
-        $table = new PHPWord_Section_Table('header', $this->_headerCount, $style);
+        $table = new Table('header', $this->_headerCount, $style);
         $this->_elementCollection[] = $table;
         return $table;
     }
@@ -151,14 +153,14 @@ class PHPWord_Section_Header
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Image
+     * @return PhpOffice\PhpWord\Section\Image
      */
     public function addImage($src, $style = null)
     {
-        $image = new PHPWord_Section_Image($src, $style);
+        $image = new Image($src, $style);
 
         if (!is_null($image->getSource())) {
-            $rID = PHPWord_Media::addHeaderMediaElement($this->_headerCount, $src);
+            $rID = Media::addHeaderMediaElement($this->_headerCount, $src);
             $image->setRelationId($rID);
 
             $this->_elementCollection[] = $image;
@@ -173,13 +175,13 @@ class PHPWord_Section_Header
      *
      * @param string $link
      * @param mixed $style
-     * @return PHPWord_Section_MemoryImage
+     * @return PhpOffice\PhpWord\Section\MemoryImage
      */
     public function addMemoryImage($link, $style = null)
     {
-        $memoryImage = new PHPWord_Section_MemoryImage($link, $style);
+        $memoryImage = new MemoryImage($link, $style);
         if (!is_null($memoryImage->getSource())) {
-            $rID = PHPWord_Media::addHeaderMediaElement($this->_headerCount, $link, $memoryImage);
+            $rID = Media::addHeaderMediaElement($this->_headerCount, $link, $memoryImage);
             $memoryImage->setRelationId($rID);
 
             $this->_elementCollection[] = $memoryImage;
@@ -195,14 +197,14 @@ class PHPWord_Section_Header
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Footer_PreserveText
+     * @return PhpOffice\PhpWord\Section\Footer\PreserveText
      */
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!PHPWord_Shared_String::IsUTF8($text)) {
+        if (!String::IsUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $ptext = new PHPWord_Section_Footer_PreserveText($text, $styleFont, $styleParagraph);
+        $ptext = new PreserveText($text, $styleFont, $styleParagraph);
         $this->_elementCollection[] = $ptext;
         return $ptext;
     }
@@ -212,14 +214,14 @@ class PHPWord_Section_Header
      *
      * @param string $src
      * @param mixed $style
-     * @return PHPWord_Section_Image
+     * @return PhpOffice\PhpWord\Section\Image
      */
     public function addWatermark($src, $style = null)
     {
-        $image = new PHPWord_Section_Image($src, $style, true);
+        $image = new Image($src, $style, true);
 
         if (!is_null($image->getSource())) {
-            $rID = PHPWord_Media::addHeaderMediaElement($this->_headerCount, $src);
+            $rID = Media::addHeaderMediaElement($this->_headerCount, $src);
             $image->setRelationId($rID);
 
             $this->_elementCollection[] = $image;
@@ -276,7 +278,7 @@ class PHPWord_Section_Header
      */
     public function resetType()
     {
-        return $this->_type = PHPWord_Section_Header::AUTO;
+        return $this->_type = self::AUTO;
     }
 
     /**
@@ -284,7 +286,7 @@ class PHPWord_Section_Header
      */
     public function firstPage()
     {
-        return $this->_type = PHPWord_Section_Header::FIRST;
+        return $this->_type = self::FIRST;
     }
 
     /**
@@ -292,6 +294,6 @@ class PHPWord_Section_Header
      */
     public function evenPage()
     {
-        return $this->_type = PHPWord_Section_Header::EVEN;
+        return $this->_type = self::EVEN;
     }
 }

@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Settings
- */
-class PHPWord_Settings
+namespace PhpOffice\PhpWord;
+
+class Settings
 {
     /**
      * Compatibility option for XMLWriter

@@ -25,13 +25,10 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord;
 
-/**
- * PHPWord_Footnote
- */
-class PHPWord_Footnote
+class Footnote
 {
-
     /**
      * Footnote Elements
      *
@@ -54,7 +51,7 @@ class PHPWord_Footnote
      *
      * @return mixed
      */
-    public static function addFootnoteElement(PHPWord_Section_Footnote $footnote)
+    public static function addFootnoteElement(PhpOffice\PhpWord\Section\Footnote $footnote)
     {
         $refID = self::countFootnoteElements() + 2;
 

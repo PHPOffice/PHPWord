@@ -25,6 +25,13 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice;
+
+use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Template;
+
 /** PHPWORD_BASE_PATH */
 // @codeCoverageIgnoreStart
 if (!defined('PHPWORD_BASE_PATH')) {
@@ -36,12 +43,8 @@ if (!defined('PHPWORD_BASE_PATH')) {
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 
-/**
- * PHPWord
- */
-class PHPWord
+class PhpWord
 {
-
     /**
      * Default font name (Arial)
      */
@@ -67,7 +70,7 @@ class PHPWord
     /**
      * Document properties
      *
-     * @var PHPWord_DocumentProperties
+     * @var PhpOffice\PhpWord\DocumentProperties
      */
     private $_properties;
 
@@ -98,14 +101,14 @@ class PHPWord
      */
     public function __construct()
     {
-        $this->_properties = new PHPWord_DocumentProperties();
+        $this->_properties = new DocumentProperties();
         $this->_defaultFontName = PHPWord::DEFAULT_FONT_NAME;
         $this->_defaultFontSize = PHPWord::DEFAULT_FONT_SIZE;
     }
 
     /**
      * Get properties
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function getProperties()
     {
@@ -115,10 +118,10 @@ class PHPWord
     /**
      * Set properties
      *
-     * @param PHPWord_DocumentProperties $value
-     * @return PHPWord
+     * @param PhpOffice\PhpWord\DocumentProperties $value
+     * @return PhpOffice\PHPWord
      */
-    public function setProperties(PHPWord_DocumentProperties $value)
+    public function setProperties(DocumentProperties $value)
     {
         $this->_properties = $value;
         return $this;
@@ -127,14 +130,14 @@ class PHPWord
     /**
      * Create a new Section
      *
-     * @param PHPWord_Section_Settings $settings
-     * @return PHPWord_Section
+     * @param PhpOffice\PhpWord\Section\Settings $settings
+     * @return PhpOffice\PhpWord\Section
      */
     public function createSection($settings = null)
     {
         $sectionCount = $this->_countSections() + 1;
 
-        $section = new PHPWord_Section($sectionCount, $settings);
+        $section = new Section($sectionCount, $settings);
         $this->_sectionCollection[] = $section;
         return $section;
     }
@@ -182,7 +185,7 @@ class PHPWord
      */
     public function setDefaultParagraphStyle($styles)
     {
-        PHPWord_Style::setDefaultParagraphStyle($styles);
+        Style::setDefaultParagraphStyle($styles);
     }
 
     /**
@@ -193,7 +196,7 @@ class PHPWord
      */
     public function addParagraphStyle($styleName, $styles)
     {
-        PHPWord_Style::addParagraphStyle($styleName, $styles);
+        Style::addParagraphStyle($styleName, $styles);
     }
 
     /**
@@ -204,7 +207,7 @@ class PHPWord
      */
     public function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
-        PHPWord_Style::addFontStyle($styleName, $styleFont, $styleParagraph);
+        Style::addFontStyle($styleName, $styleFont, $styleParagraph);
     }
 
     /**
@@ -215,7 +218,7 @@ class PHPWord
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        PHPWord_Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
+        Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
     }
 
     /**
@@ -226,7 +229,7 @@ class PHPWord
      */
     public function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
-        PHPWord_Style::addTitleStyle($titleCount, $styleFont, $styleParagraph);
+        Style::addTitleStyle($titleCount, $styleFont, $styleParagraph);
     }
 
     /**
@@ -237,12 +240,12 @@ class PHPWord
      */
     public function addLinkStyle($styleName, $styles)
     {
-        PHPWord_Style::addLinkStyle($styleName, $styles);
+        Style::addLinkStyle($styleName, $styles);
     }
 
     /**
      * Get sections
-     * @return PHPWord_Section[]
+     * @return PhpOffice\PhpWord\Section[]
      */
     public function getSections()
     {
@@ -253,14 +256,13 @@ class PHPWord
      * Load a Template File
      *
      * @param string $strFilename
-     * @return PHPWord_Template
+     * @return PhpOffice\PhpWord\Template
      * @throws Exception
      */
     public function loadTemplate($strFilename)
     {
         if (file_exists($strFilename)) {
-            $template = new PHPWord_Template($strFilename);
-            return $template;
+            return new Template($strFilename);
         }
         throw new Exception("Template file {$strFilename} not found.");
     }

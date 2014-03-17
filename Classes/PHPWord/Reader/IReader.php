@@ -25,13 +25,12 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Reader_IReader
- */
-interface PHPWord_Reader_IReader
+namespace PhpOffice\PhpWord\Reader;
+
+interface IReader
 {
     /**
-     * Can the current PHPWord_Reader_IReader read the file?
+     * Can the current IReader read the file?
      *
      * @param   string      $pFilename
      * @return  boolean

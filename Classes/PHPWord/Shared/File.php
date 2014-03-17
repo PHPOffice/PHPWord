@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Shared_File
- */
-class PHPWord_Shared_File
+namespace PhpOffice\PhpWord\Shared;
+
+class File
 {
     /**
      * Verify if a file exists

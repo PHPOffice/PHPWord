@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_Settings
- */
-class PHPWord_Section_Settings
-{
+namespace PhpOffice\PhpWord\Section;
 
+class Settings
+{
     /**
      * Default Page Size Width
      *

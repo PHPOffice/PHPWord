@@ -25,23 +25,21 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_ListItem
- */
-class PHPWord_Section_ListItem
-{
+namespace PhpOffice\PhpWord\Section;
 
+class ListItem
+{
     /**
      * ListItem Style
      *
-     * @var PHPWord_Style_ListItem
+     * @var PhpOffice\PhpWord\Style\ListItem
      */
     private $_style;
 
     /**
      * Textrun
      *
-     * @var PHPWord_Section_Text
+     * @var PhpOffice\PhpWord\Section\Text
      */
     private $_textObject;
 
@@ -63,8 +61,8 @@ class PHPWord_Section_ListItem
      */
     public function __construct($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
-        $this->_style = new PHPWord_Style_ListItem();
-        $this->_textObject = new PHPWord_Section_Text($text, $styleFont, $styleParagraph);
+        $this->_style = new PhpOffice\PhpWord\Style\ListItem();
+        $this->_textObject = new Text($text, $styleFont, $styleParagraph);
         $this->_depth = $depth;
 
         if (!is_null($styleList) && is_array($styleList)) {

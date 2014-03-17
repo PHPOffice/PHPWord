@@ -25,30 +25,27 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style
- */
-class PHPWord_Style
-{
+namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\TableFull;
+
+class Style
+{
     /**
-     * Style Elements
-     *
      * @var array
      */
     private static $_styleElements = array();
 
-
     /**
-     * Add a paragraph style
-     *
      * @param string $styleName
      * @param array $styles
      */
     public static function addParagraphStyle($styleName, $styles)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new PHPWord_Style_Paragraph();
+            $style = new Paragraph();
             foreach ($styles as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
@@ -61,8 +58,6 @@ class PHPWord_Style
     }
 
     /**
-     * Add a font style
-     *
      * @param string $styleName
      * @param array $styleFont
      * @param array $styleParagraph
@@ -70,7 +65,7 @@ class PHPWord_Style
     public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new PHPWord_Style_Font('text', $styleParagraph);
+            $font = new Font('text', $styleParagraph);
             foreach ($styleFont as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
@@ -82,15 +77,13 @@ class PHPWord_Style
     }
 
     /**
-     * Add a link style
-     *
      * @param string $styleName
      * @param array $styles
      */
     public static function addLinkStyle($styleName, $styles)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new PHPWord_Style_Font('link');
+            $style = new Font('link');
             foreach ($styles as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
@@ -103,23 +96,19 @@ class PHPWord_Style
     }
 
     /**
-     * Add a table style
-     *
      * @param string $styleName
      * @param array $styles
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new PHPWord_Style_TableFull($styleTable, $styleFirstRow, $styleLastRow);
+            $style = new TableFull($styleTable, $styleFirstRow, $styleLastRow);
 
             self::$_styleElements[$styleName] = $style;
         }
     }
 
     /**
-     * Add a title style
-     *
      * @param string $styleName
      * @param array $styleFont
      * @param array $styleParagraph
@@ -128,7 +117,7 @@ class PHPWord_Style
     {
         $styleName = 'Heading_' . $titleCount;
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new PHPWord_Style_Font('title', $styleParagraph);
+            $font = new Font('title', $styleParagraph);
             foreach ($styleFont as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
@@ -141,9 +130,7 @@ class PHPWord_Style
     }
 
     /**
-     * Set default paragraph style
-     *
-     * @param   array   $styles Paragraph style definition
+     * @param array $styles Paragraph style definition
      */
     public static function setDefaultParagraphStyle($styles)
     {
@@ -153,7 +140,7 @@ class PHPWord_Style
     /**
      * Get all styles
      *
-     * @return PHPWord_Style_Font[]
+     * @return PhpOffice\PhpWord\Style\Font[]
      */
     public static function getStyles()
     {
@@ -161,10 +148,7 @@ class PHPWord_Style
     }
 
     /**
-     * Get style
-     *
      * @param string
-     * @return PHPWord_Style
      */
     public static function getStyle($styleName)
     {

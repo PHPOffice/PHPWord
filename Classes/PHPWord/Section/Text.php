@@ -25,10 +25,12 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_Text
- */
-class PHPWord_Section_Text
+namespace PhpOffice\PhpWord\Section;
+
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class Text
 {
     /**
      * Text content
@@ -40,14 +42,14 @@ class PHPWord_Section_Text
     /**
      * Text style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Paragraph
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -55,8 +57,8 @@ class PHPWord_Section_Text
      * Create a new Text Element
      *
      * @param string $text
-     * @param null|array|\PHPWord_Style_Font $fontStyle
-     * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
+     * @param null|array|PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -68,20 +70,20 @@ class PHPWord_Section_Text
     /**
      * Set Text style
      *
-     * @param null|array|\PHPWord_Style_Font $style
-     * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
-     * @return PHPWord_Style_Font
+     * @param null|array|PhpOffice\PhpWord\Style\Font $style
+     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
-        if ($style instanceof PHPWord_Style_Font) {
+        if ($style instanceof Font) {
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
         } elseif (is_array($style)) {
-            $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
+            $this->fontStyle = new Font('text', $paragraphStyle);
             $this->fontStyle->setArrayStyle($style);
         } elseif (null === $style) {
-            $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
+            $this->fontStyle = new Font('text', $paragraphStyle);
         } else {
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
@@ -92,7 +94,7 @@ class PHPWord_Section_Text
     /**
      * Get Text style
      *
-     * @return PHPWord_Style_Font
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -102,18 +104,18 @@ class PHPWord_Section_Text
     /**
      * Set Paragraph style
      *
-     * @param null|array|\PHPWord_Style_Paragraph $style
-     * @return null|\PHPWord_Style_Paragraph
+     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $style
+     * @return null|PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->paragraphStyle = new Paragraph;
             $this->paragraphStyle->setArrayStyle($style);
-        } elseif ($style instanceof PHPWord_Style_Paragraph) {
+        } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } elseif (null === $style) {
-            $this->paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->paragraphStyle = new Paragraph;
         } else {
             $this->paragraphStyle = $style;
         }
@@ -123,7 +125,7 @@ class PHPWord_Section_Text
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

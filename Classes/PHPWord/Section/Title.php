@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_Title
- */
-class PHPWord_Section_Title
-{
+namespace PhpOffice\PhpWord\Section;
 
+class Title
+{
     /**
      * Title Text content
      *

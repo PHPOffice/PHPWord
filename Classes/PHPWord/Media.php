@@ -25,10 +25,11 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Media
- */
-class PHPWord_Media
+namespace PhpOffice\PhpWord;
+
+use PhpOffice\PhpWord\Section\MemoryImage;
+
+class Media
 {
     /**
      * Section Media Elements
@@ -67,10 +68,10 @@ class PHPWord_Media
      *
      * @param string $src
      * @param string $type
-     * @param PHPWord_Section_MemoryImage|null $memoryImage
+     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return mixed
      */
-    public static function addSectionMediaElement($src, $type, PHPWord_Section_MemoryImage $memoryImage = null)
+    public static function addSectionMediaElement($src, $type, MemoryImage $memoryImage = null)
     {
         $mediaId = md5($src);
         $key = ($type === 'image') ? 'images' : 'embeddings';
@@ -205,10 +206,10 @@ class PHPWord_Media
      *
      * @param int $headerCount
      * @param string $src
-     * @param PHPWord_Section_MemoryImage|null $memoryImage
+     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return int
      */
-    public static function addHeaderMediaElement($headerCount, $src, PHPWord_Section_MemoryImage $memoryImage = null)
+    public static function addHeaderMediaElement($headerCount, $src, MemoryImage $memoryImage = null)
     {
         $mediaId = md5($src);
         $key = 'header' . $headerCount;
@@ -277,10 +278,10 @@ class PHPWord_Media
      *
      * @param int $footerCount
      * @param string $src
-     * @param PHPWord_Section_MemoryImage|null $memoryImage
+     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return int
      */
-    public static function addFooterMediaElement($footerCount, $src, PHPWord_Section_MemoryImage $memoryImage = null)
+    public static function addFooterMediaElement($footerCount, $src, MemoryImage $memoryImage = null)
     {
         $mediaId = md5($src);
         $key = 'footer' . $footerCount;

@@ -25,18 +25,20 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Shared;
+
+use PhpOffice\PhpWord\Settings;
+
 if (!defined('DATE_W3C')) {
     define('DATE_W3C', 'Y-m-d\TH:i:sP');
 }
 
 /**
- * Class PHPWord_Shared_XMLWriter
- *
  * @method bool startElement(string $name)
  * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
  */
-class PHPWord_Shared_XMLWriter
+class XMLWriter
 {
     /** Temporary storage method */
     const STORAGE_MEMORY = 1;
@@ -57,7 +59,7 @@ class PHPWord_Shared_XMLWriter
     private $_tempFileName = '';
 
     /**
-     * Create a new PHPWord_Shared_XMLWriter instance
+     * Create a new XMLWriter instance
      *
      * @param int $pTemporaryStorage Temporary storage location
      * @param string $pTemporaryStorageFolder Temporary storage folder
@@ -82,7 +84,7 @@ class PHPWord_Shared_XMLWriter
         }
 
         // Set xml Compatibility
-        $compatibility = PHPWord_Settings::getCompatibility();
+        $compatibility = Settings::getCompatibility();
         if ($compatibility) {
             $this->_xmlWriter->setIndent(false);
             $this->_xmlWriter->setIndentString('');

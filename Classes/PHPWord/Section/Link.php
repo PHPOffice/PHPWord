@@ -25,12 +25,13 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_Link
- */
-class PHPWord_Section_Link
-{
+namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class Link
+{
     /**
      * Link source
      *
@@ -55,14 +56,14 @@ class PHPWord_Section_Link
     /**
      * Link style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Font
      */
     private $_styleFont;
 
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -82,7 +83,7 @@ class PHPWord_Section_Link
 
         // Set font style
         if (is_array($styleFont)) {
-            $this->_styleFont = new PHPWord_Style_Font('text');
+            $this->_styleFont = new Font('text');
 
             foreach ($styleFont as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -96,7 +97,7 @@ class PHPWord_Section_Link
 
         // Set paragraph style
         if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new PHPWord_Style_Paragraph();
+            $this->_styleParagraph = new Paragraph();
 
             foreach ($styleParagraph as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -154,7 +155,7 @@ class PHPWord_Section_Link
     /**
      * Get Text style
      *
-     * @return PHPWord_Style_Font
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -164,7 +165,7 @@ class PHPWord_Section_Link
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

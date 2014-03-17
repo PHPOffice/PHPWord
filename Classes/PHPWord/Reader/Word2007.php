@@ -25,21 +25,22 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Reader;
+
+use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Shared\File;
+
 /** PHPWord root directory */
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/../../');
     require(PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php');
 }
 
-use PhpOffice\PhpWord\Exceptions\Exception;
-
-/**
- * PHPWord_Reader_Word2007
- */
-class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
+class Word2007 extends AbstractReader implements IReader
 {
     /**
-     * Can the current PHPWord_Reader_IReader read the file?
+     * Can the current IReader read the file?
      *
      * @param string $pFilename
      * @return bool
@@ -90,7 +91,7 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
         if (strpos($fileName, '//') !== false) {
             $fileName = substr($fileName, strpos($fileName, '//') + 1);
         }
-        $fileName = PHPWord_Shared_File::realpath($fileName);
+        $fileName = File::realpath($fileName);
 
         // Apache POI fixes
         $contents = $archive->getFromName($fileName);
@@ -172,8 +173,8 @@ class PHPWord_Reader_Word2007 extends PHPWord_Reader_Abstract implements PHPWord
                                 $cellDataOfficeChildren = $xmlProperty->children("http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
                                 $attributeType = $cellDataOfficeChildren->getName();
                                 $attributeValue = (string)$cellDataOfficeChildren->{$attributeType};
-                                $attributeValue = PHPWord_DocumentProperties::convertProperty($attributeValue, $attributeType);
-                                $attributeType = PHPWord_DocumentProperties::convertPropertyType($attributeType);
+                                $attributeValue = DocumentProperties::convertProperty($attributeValue, $attributeType);
+                                $attributeType = DocumentProperties::convertPropertyType($attributeType);
                                 $docProps->setCustomProperty($propertyName, $attributeValue, $attributeType);
                             }
                         }

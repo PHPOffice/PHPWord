@@ -25,12 +25,12 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Shared;
+
 /**
- * Class PHPWord_Shared_ZipStreamWrapper
- *
  * @codeCoverageIgnore  Legacy from PHPExcel
  */
-class PHPWord_Shared_ZipStreamWrapper
+class ZipStreamWrapper
 {
     /**
      * Internal ZipAcrhive

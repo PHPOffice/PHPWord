@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Shared_Font
- */
-class PHPWord_Shared_Font
+namespace PhpOffice\PhpWord\Shared;
+
+class Font
 {
     /**
      * Calculate an (approximate) pixel size, based on a font points size

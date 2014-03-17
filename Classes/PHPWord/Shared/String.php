@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Shared_String
- */
-class PHPWord_Shared_String
+namespace PhpOffice\PhpWord\Shared;
+
+class String
 {
     /**
      * Control characters array

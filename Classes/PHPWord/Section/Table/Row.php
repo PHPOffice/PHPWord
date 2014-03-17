@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Section_Table_Row
- */
-class PHPWord_Section_Table_Row
-{
+namespace PhpOffice\PhpWord\Section\Table;
 
+class Row
+{
     /**
      * Row height
      *
@@ -41,7 +39,7 @@ class PHPWord_Section_Table_Row
     /**
      * Row style
      *
-     * @var PHPWord_Style_Row
+     * @var PhpOffice\PhpWord\Style\Row
      */
     private $_style;
 
@@ -80,7 +78,7 @@ class PHPWord_Section_Table_Row
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_height = $height;
-        $this->_style = new PHPWord_Style_Row();
+        $this->_style = new PhpOffice\PhpWord\Style\Row();
 
         if (!is_null($style)) {
             if (is_array($style)) {
@@ -100,11 +98,11 @@ class PHPWord_Section_Table_Row
      *
      * @param int $width
      * @param mixed $style
-     * @return PHPWord_Section_Table_Cell
+     * @return PhpOffice\PhpWord\Section\Table\Cell
      */
     public function addCell($width = null, $style = null)
     {
-        $cell = new PHPWord_Section_Table_Cell($this->_insideOf, $this->_pCount, $width, $style);
+        $cell = new Cell($this->_insideOf, $this->_pCount, $width, $style);
         $this->_cells[] = $cell;
         return $cell;
     }
@@ -122,7 +120,7 @@ class PHPWord_Section_Table_Row
     /**
      * Get row style
      *
-     * @return PHPWord_Style_Row
+     * @return PhpOffice\PhpWord\Style\Row
      */
     public function getStyle()
     {

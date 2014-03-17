@@ -25,12 +25,13 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_Footer_PreserveText
- */
-class PHPWord_Section_Footer_PreserveText
-{
+namespace PhpOffice\PhpWord\Section\Footer;
 
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class PreserveText
+{
     /**
      * Text content
      *
@@ -41,14 +42,14 @@ class PHPWord_Section_Footer_PreserveText
     /**
      * Text style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Font
      */
     private $_styleFont;
 
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -63,7 +64,7 @@ class PHPWord_Section_Footer_PreserveText
     {
         // Set font style
         if (is_array($styleFont)) {
-            $this->_styleFont = new PHPWord_Style_Font('text');
+            $this->_styleFont = new Font('text');
 
             foreach ($styleFont as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -77,7 +78,7 @@ class PHPWord_Section_Footer_PreserveText
 
         // Set paragraph style
         if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new PHPWord_Style_Paragraph();
+            $this->_styleParagraph = new Paragraph();
 
             foreach ($styleParagraph as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -100,7 +101,7 @@ class PHPWord_Section_Footer_PreserveText
     /**
      * Get Text style
      *
-     * @return PHPWord_Style_Font
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -110,7 +111,7 @@ class PHPWord_Section_Footer_PreserveText
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

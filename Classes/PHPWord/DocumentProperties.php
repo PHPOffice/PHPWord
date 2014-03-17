@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_DocumentProperties
- */
-class PHPWord_DocumentProperties
+namespace PhpOffice\PhpWord;
+
+class DocumentProperties
 {
     /** Constants */
     const PROPERTY_TYPE_BOOLEAN = 'b';
@@ -123,7 +122,7 @@ class PHPWord_DocumentProperties
     private $_customProperties = array();
 
     /**
-     * Create new PHPWord_DocumentProperties
+     * Create new DocumentProperties
      */
     public function __construct()
     {
@@ -154,7 +153,7 @@ class PHPWord_DocumentProperties
      * Set Creator
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setCreator($pValue = '')
     {
@@ -176,7 +175,7 @@ class PHPWord_DocumentProperties
      * Set Last Modified By
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setLastModifiedBy($pValue = '')
     {
@@ -198,7 +197,7 @@ class PHPWord_DocumentProperties
      * Set Created
      *
      * @param datetime $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setCreated($pValue = null)
     {
@@ -223,7 +222,7 @@ class PHPWord_DocumentProperties
      * Set Modified
      *
      * @param datetime $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setModified($pValue = null)
     {
@@ -248,7 +247,7 @@ class PHPWord_DocumentProperties
      * Set Title
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setTitle($pValue = '')
     {
@@ -270,7 +269,7 @@ class PHPWord_DocumentProperties
      * Set Description
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setDescription($pValue = '')
     {
@@ -292,7 +291,7 @@ class PHPWord_DocumentProperties
      * Set Subject
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setSubject($pValue = '')
     {
@@ -314,7 +313,7 @@ class PHPWord_DocumentProperties
      * Set Keywords
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setKeywords($pValue = '')
     {
@@ -336,7 +335,7 @@ class PHPWord_DocumentProperties
      * Set Category
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setCategory($pValue = '')
     {
@@ -358,7 +357,7 @@ class PHPWord_DocumentProperties
      * Set Company
      *
      * @param string $pValue
-     * @return PHPWord_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setCompany($pValue = '')
     {
@@ -380,7 +379,7 @@ class PHPWord_DocumentProperties
      * Set Manager
      *
      * @param string $pValue
-     * @return PHPExcel_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setManager($pValue = '')
     {
@@ -448,7 +447,7 @@ class PHPWord_DocumentProperties
      *   's': String
      *   'd': Date/Time
      *   'b': Boolean
-     * @return PHPExcel_DocumentProperties
+     * @return PhpOffice\PhpWord\DocumentProperties
      */
     public function setCustomProperty($propertyName, $propertyValue = '', $propertyType = null)
     {

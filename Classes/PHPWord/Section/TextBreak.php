@@ -25,22 +25,24 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Section_TextBreak
- */
-class PHPWord_Section_TextBreak
+namespace PhpOffice\PhpWord\Section;
+
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
+class TextBreak
 {
     /**
      * Paragraph style
      *
-     * @var PHPWord_Style_Pagaraph
+     * @var PhpOffice\PhpWord\Style\Pagaraph
      */
     private $paragraphStyle = null;
 
     /**
      * Text style
      *
-     * @var PHPWord_Style_Font
+     * @var PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle = null;
 
@@ -60,17 +62,17 @@ class PHPWord_Section_TextBreak
     /**
      * Set Text style
      *
-     * @param null|array|\PHPWord_Style_Font $style
-     * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
-     * @return PHPWord_Style_Font
+     * @param null|array|PhpOffice\PhpWord\Style\Font $style
+     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
-        if ($style instanceof PHPWord_Style_Font) {
+        if ($style instanceof Font) {
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
         } elseif (is_array($style)) {
-            $this->fontStyle = new PHPWord_Style_Font('text', $paragraphStyle);
+            $this->fontStyle = new Font('text', $paragraphStyle);
             $this->fontStyle->setArrayStyle($style);
         } else {
             $this->fontStyle = $style;
@@ -82,7 +84,7 @@ class PHPWord_Section_TextBreak
     /**
      * Get Text style
      *
-     * @return PHPWord_Style_Font
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -92,15 +94,15 @@ class PHPWord_Section_TextBreak
     /**
      * Set Paragraph style
      *
-     * @param   null|array|\PHPWord_Style_Paragraph $style
-     * @return  null|\PHPWord_Style_Paragraph
+     * @param   null|array|PhpOffice\PhpWord\Style\Paragraph $style
+     * @return  null|PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->paragraphStyle = new Paragraph;
             $this->paragraphStyle->setArrayStyle($style);
-        } elseif ($style instanceof PHPWord_Style_Paragraph) {
+        } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } else {
             $this->paragraphStyle = $style;
@@ -111,7 +113,7 @@ class PHPWord_Section_TextBreak
     /**
      * Get Paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {
