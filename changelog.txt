@@ -22,6 +22,9 @@
 * @version ##VERSION##, ##DATE##
 **************************************************************************************
 
+Changes in branch for release 0.9.0 :
+- QA:       (Progi1984)                         - Documentation
+
 Changes in branch for release 0.8.1 :
 - Feature:  (bskrtich, gabrielbull)             - Added fallback for computers that do not have exif_imagetype
 
