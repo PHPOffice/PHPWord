@@ -93,7 +93,7 @@ class PHPWord_Section_Footer_PreserveText
 
         $matches = preg_split('/({.*?})/', $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
-            $this->_text = $matches[0];
+            $this->_text = $matches;
         }
 
         return $this;

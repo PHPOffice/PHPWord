@@ -188,7 +188,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PHPWord_Section_Footer_PreserveText', $element);
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals($element->getText(), array('ééé'));
     }
 
     public function testCreateTextRun()

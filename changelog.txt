@@ -23,6 +23,7 @@
 **************************************************************************************
 
 Changes in branch for release 0.9.0 :
+- Bugfix:   (ivanlanin)                         - Preserve text doesn't render correctly when the text is not the first word, e.g. 'Page {PAGE}'
 - QA:       (Progi1984)                         - Documentation
 
 Changes in branch for release 0.8.1 :

@@ -25,7 +25,7 @@ $subsequent->addText("Subsequent pages in Section 1 will Have this!");
 
 // Add footer
 $footer = $section->createFooter();
-$footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', array('align' => 'center'));
+$footer->addPreserveText('Page {PAGE} of {NUMPAGES}', array('color' => 'FF0000'), array('align' => 'center'));
 
 // Write some text
 $section->addTextBreak();

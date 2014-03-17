@@ -18,7 +18,7 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithString()
     {
         $oPreserveText = new PHPWord_Section_Footer_PreserveText('text', 'styleFont', 'styleParagraph');
-        $this->assertEquals($oPreserveText->getText(), 'text');
+        $this->assertEquals($oPreserveText->getText(), array('text'));
         $this->assertEquals($oPreserveText->getFontStyle(), 'styleFont');
         $this->assertEquals($oPreserveText->getParagraphStyle(), 'styleParagraph');
     }
