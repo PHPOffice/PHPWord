@@ -163,7 +163,7 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $this->_writeParagraphStyle($objWriter, $style);
                     $objWriter->endElement();
 
-                } elseif ($style instanceof PHPWord_Style_TableFull) {
+                } elseif ($style instanceof PHPWord_Style_Table) {
                     $objWriter->startElement('w:style');
                     $objWriter->writeAttribute('w:type', 'table');
                     $objWriter->writeAttribute('w:customStyle', '1');
@@ -194,9 +194,9 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
      * Write style
      *
      * @param PHPWord_Shared_XMLWriter $objWriter
-     * @param PHPWord_Style_TableFull $style
+     * @param PHPWord_Style_Table $style
      */
-    private function _writeFullTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_TableFull $style)
+    private function _writeFullTableStyle(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Style_Table $style)
     {
 
         $brdSz = $style->getBorderSize();
@@ -322,9 +322,9 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
      *
      * @param PHPWord_Shared_XMLWriter $objWriter
      * @param string $type
-     * @param PHPWord_Style_TableFull $style
+     * @param PHPWord_Style_Table $style
      */
-    private function _writeRowStyle(PHPWord_Shared_XMLWriter $objWriter = null, $type, PHPWord_Style_TableFull $style)
+    private function _writeRowStyle(PHPWord_Shared_XMLWriter $objWriter = null, $type, PHPWord_Style_Table $style)
     {
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();

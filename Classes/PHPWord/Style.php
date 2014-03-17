@@ -113,7 +113,7 @@ class PHPWord_Style
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new PHPWord_Style_TableFull($styleTable, $styleFirstRow, $styleLastRow);
+            $style = new PHPWord_Style_Table($styleTable, $styleFirstRow, $styleLastRow);
 
             self::$_styleElements[$styleName] = $style;
         }

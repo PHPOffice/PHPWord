@@ -24,7 +24,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
         $font = array('italic' => true);
         $table = array('bgColor' => 'CCCCCC');
         $styles = array('Paragraph' => 'Paragraph', 'Font' => 'Font',
-            'Link' => 'Font', 'Table' => 'TableFull',
+            'Link' => 'Font', 'Table' => 'Table',
             'Heading_1' => 'Font', 'Normal' => 'Paragraph');
         $elementCount = 6;
         PHPWord_Style::addParagraphStyle('Paragraph', $paragraph);

@@ -125,7 +125,7 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
     {
         $object = new PHPWord();
         $styles = array('Paragraph' => 'Paragraph', 'Font' => 'Font',
-            'Table' => 'TableFull', 'Link' => 'Font');
+            'Table' => 'Table', 'Link' => 'Font');
         foreach ($styles as $key => $value) {
             $method = "add{$key}Style";
             $styleId = "{$key} Style";
