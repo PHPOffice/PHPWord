@@ -30,7 +30,12 @@
  */
 class PHPWord_Writer_Word2007_Header extends PHPWord_Writer_Word2007_Base
 {
-
+    /**
+     * Write header
+     *
+     * @param PHPWord_Section_Header $header
+     * @return string XML data
+     */
     public function writeHeader(PHPWord_Section_Header $header)
     {
         // Create XML writer

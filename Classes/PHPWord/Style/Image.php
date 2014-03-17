@@ -36,9 +36,32 @@ class PHPWord_Style_Image
     const WRAPPING_STYLE_BEHIND = 'behind';
     const WRAPPING_STYLE_INFRONT = 'infront';
 
+    /**
+     * Image width
+     *
+     * @var int
+     */
     private $_width;
+
+    /**
+     * Image width
+     *
+     * @var int
+     */
     private $_height;
+
+    /**
+     * Alignment
+     *
+     * @var string
+     */
     private $_align;
+
+    /**
+     * Wrapping style
+     *
+     * @var string
+     */
     private $wrappingStyle;
 
     /**
@@ -55,6 +78,9 @@ class PHPWord_Style_Image
      */
     private $_marginLeft;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_width = null;
@@ -65,36 +91,66 @@ class PHPWord_Style_Image
         $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
     }
 
+    /**
+     * Set style value
+     *
+     * @param string $key
+     * @param mixed $value
+     */
     public function setStyleValue($key, $value)
     {
         $this->$key = $value;
     }
 
+    /**
+     * Get width
+     */
     public function getWidth()
     {
         return $this->_width;
     }
 
+    /**
+     * Set width
+     *
+     * @param int $pValue
+     */
     public function setWidth($pValue = null)
     {
         $this->_width = $pValue;
     }
 
+    /**
+     * Get height
+     */
     public function getHeight()
     {
         return $this->_height;
     }
 
+    /**
+     * Set height
+     *
+     * @param int $pValue
+     */
     public function setHeight($pValue = null)
     {
         $this->_height = $pValue;
     }
 
+    /**
+     * Get alignment
+     */
     public function getAlign()
     {
         return $this->_align;
     }
 
+    /**
+     * Set alignment
+     *
+     * @param string $pValue
+     */
     public function setAlign($pValue = null)
     {
         $this->_align = $pValue;
@@ -145,6 +201,8 @@ class PHPWord_Style_Image
     }
 
     /**
+     * Set wrapping style
+     *
      * @param string $wrappingStyle
      * @throws InvalidArgumentException
      * @return $this
@@ -167,6 +225,8 @@ class PHPWord_Style_Image
     }
 
     /**
+     * Get wrapping style
+     *
      * @return string
      */
     public function getWrappingStyle()

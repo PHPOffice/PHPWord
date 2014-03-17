@@ -54,6 +54,8 @@ class PHPWord_Section_Footer
 
     /**
      * Create a new Footer
+     *
+     * @param int $sectionCount
      */
     public function __construct($sectionCount)
     {
@@ -95,6 +97,7 @@ class PHPWord_Section_Footer
     /**
      * Create a new TextRun
      *
+     * @param null|string|array|PHPWord_Style_Paragraph $styleParagraph
      * @return PHPWord_Section_TextRun
      */
     public function createTextRun($styleParagraph = null)

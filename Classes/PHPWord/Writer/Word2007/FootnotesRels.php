@@ -25,9 +25,16 @@
  * @version    0.8.0
  */
 
-
+/**
+ * Class PHPWord_Writer_Word2007_FootnotesRels
+ */
 class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_WriterPart
 {
+    /**
+     * Write footnotes relationships
+     *
+     * @param array $_relsCollection
+     */
     public function writeFootnotesRels($_relsCollection)
     {
         // Create XML writer
@@ -61,6 +68,15 @@ class PHPWord_Writer_Word2007_FootnotesRels extends PHPWord_Writer_Word2007_Writ
         return $objWriter->getData();
     }
 
+    /**
+     * Write individual relations
+     *
+     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param int $pId
+     * @param string $pType
+     * @param string $pTarget
+     * @param string $pTargetMode
+     */
     private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {

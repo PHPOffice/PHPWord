@@ -68,7 +68,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Create a new PHPWord_Writer_ODText
      *
-     * @param    PHPWord $pPHPWord
+     * @param PHPWord $pPHPWord
      */
     public function __construct(PHPWord $pPHPWord = null)
     {
@@ -98,8 +98,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Save PHPWord to file
      *
-     * @param    string $pFileName
-     * @throws    Exception
+     * @param string $pFilename
+     * @throws Exception
      */
     public function save($pFilename = null)
     {
@@ -212,8 +212,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Get PHPWord object
      *
-     * @param    PHPWord $pPHPWord PHPWord object
-     * @throws    Exception
+     * @param PHPWord $pPHPWord PHPWord object
+     * @throws Exception
      * @return PHPWord_Writer_ODText
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
@@ -226,6 +226,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
      * @return PHPWord_HashTable
+     * @codeCoverageIgnore
      */
     public function getDrawingHashTable()
     {
@@ -235,8 +236,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Get writer part
      *
-     * @param    string $pPartName Writer part name
-     * @return    PHPWord_Writer_ODText_WriterPart
+     * @param string $pPartName Writer part name
+     * @return PHPWord_Writer_ODText_WriterPart
      */
     public function getWriterPart($pPartName = '')
     {
@@ -260,9 +261,9 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Set use disk caching where possible?
      *
-     * @param    boolean $pValue
-     * @param    string $pDirectory Disk caching directory
-     * @throws    Exception    Exception when directory does not exist
+     * @param boolean $pValue
+     * @param string $pDirectory Disk caching directory
+     * @throws Exception    Exception when directory does not exist
      * @return PHPWord_Writer_ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)

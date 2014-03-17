@@ -24,7 +24,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
-
 use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
@@ -33,15 +32,54 @@ use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
  */
 class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 {
-
+    /**
+     * PHPWord object
+     *
+     * @var PHPWord
+     */
     private $_document;
+
+    /**
+     * Writer parts
+     *
+     * @var array
+     */
     private $_writerParts;
+
+    /**
+     * Directory for caching
+     *
+     * @var string
+     */
     private $_diskCachingDirectory;
+
+    /**
+     * Use disk caching
+     *
+     * @var boolean
+     */
     private $_useDiskCaching = false;
+
+    /**
+     * Image types
+     *
+     * @var array
+     */
     private $_imageTypes = array();
+
+    /**
+     * Object types
+     *
+     * @var array
+     */
     private $_objectTypes = array();
 
-    public function __construct(PHPWord $PHPWord = null)
+    /**
+     * Constructor
+     *
+     * @param PHPWord $PHPWord
+     */
+   public function __construct(PHPWord $PHPWord = null)
     {
         $this->_document = $PHPWord;
 
@@ -63,6 +101,11 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
+    /**
+     * Save
+     *
+     * @param string $pFilename
+     */
     public function save($pFilename = null)
     {
         if (!is_null($this->_document)) {
@@ -204,6 +247,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
     }
 
     /**
+     * Check content types
+     *
      * @param string $src
      */
     private function checkContentTypes($src)
@@ -230,6 +275,11 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
+    /**
+     * Get writer part
+     *
+     * @param string $pPartName
+     */
     public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
@@ -239,11 +289,20 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
+    /**
+     * Get use disk catching setting
+     */
     public function getUseDiskCaching()
     {
         return $this->_useDiskCaching;
     }
 
+    /**
+     * Set use disk catching setting
+     *
+     * @param boolean $pValue
+     * @param string $pDirectory
+     */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
         $this->_useDiskCaching = $pValue;
@@ -259,6 +318,12 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         return $this;
     }
 
+    /**
+     * Add file to package
+     *
+     * @param mixed $objZip
+     * @param array $element
+     */
     private function _addFileToPackage($objZip, $element)
     {
         if (isset($element['isMemImage']) && $element['isMemImage']) {

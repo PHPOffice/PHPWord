@@ -39,6 +39,7 @@ class PHPWord_Style_Tabs
     private $_tabs;
 
     /**
+     * Constructor
      *
      * @param array $tabs
      */
@@ -48,6 +49,7 @@ class PHPWord_Style_Tabs
     }
 
     /**
+     * Convert to XML
      *
      * @param PHPWord_Shared_XMLWriter $objWriter
      */

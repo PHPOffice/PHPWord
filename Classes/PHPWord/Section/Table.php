@@ -99,6 +99,7 @@ class PHPWord_Section_Table
      * Add a row
      *
      * @param int $height
+     * @param mixed $style
      */
     public function addRow($height = null, $style = null)
     {
@@ -144,7 +145,7 @@ class PHPWord_Section_Table
     /**
      * Set table width
      *
-     * @var int $width
+     * @param int $width
      */
     public function setWidth($width)
     {

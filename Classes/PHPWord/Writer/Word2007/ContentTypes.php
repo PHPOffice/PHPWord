@@ -30,7 +30,15 @@
  */
 class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_WriterPart
 {
-
+    /**
+     * Write contenttypes.xml
+     *
+     * @param array $_imageTypes
+     * @param array $_objectTypes
+     * @param int $_cHdrs
+     * @param array $footers
+     * @return string XML data
+     */
     public function writeContentTypes($_imageTypes, $_objectTypes, $_cHdrs, $footers)
     {
         // Create XML writer
@@ -163,7 +171,6 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
             }
         }
 
-
         $objWriter->endElement();
 
         // Return
@@ -173,9 +180,9 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
     /**
      * Get image mime type
      *
-     * @param    string $pFile Filename
-     * @return    string    Mime Type
-     * @throws    Exception
+     * @param string $pFile Filename
+     * @return string    Mime Type
+     * @throws Exception
      */
     private function _getImageMimeType($pFile = '')
     {
@@ -190,10 +197,10 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
     /**
      * Write Default content type
      *
-     * @param    PHPWord_Shared_XMLWriter $objWriter XML Writer
-     * @param    string $pPartname Part name
-     * @param    string $pContentType Content type
-     * @throws    Exception
+     * @param PHPWord_Shared_XMLWriter $objWriter XML Writer
+     * @param string $pPartname Part name
+     * @param string $pContentType Content type
+     * @throws Exception
      */
     private function _writeDefaultContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
     {
@@ -211,10 +218,10 @@ class PHPWord_Writer_Word2007_ContentTypes extends PHPWord_Writer_Word2007_Write
     /**
      * Write Override content type
      *
-     * @param    PHPWord_Shared_XMLWriter $objWriter XML Writer
-     * @param    string $pPartname Part name
-     * @param    string $pContentType Content type
-     * @throws    Exception
+     * @param PHPWord_Shared_XMLWriter $objWriter XML Writer
+     * @param string $pPartname Part name
+     * @param string $pContentType Content type
+     * @throws Exception
      */
     private function _writeOverrideContentType(PHPWord_Shared_XMLWriter $objWriter = null, $pPartname = '', $pContentType = '')
     {

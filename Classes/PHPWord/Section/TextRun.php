@@ -48,6 +48,8 @@ class PHPWord_Section_TextRun
 
     /**
      * Create a new TextRun Element
+     *
+     * @param mixed $styleParagraph
      */
     public function __construct($styleParagraph = null)
     {
@@ -72,8 +74,8 @@ class PHPWord_Section_TextRun
     /**
      * Add a Text Element
      *
-     * @var string $text
-     * @var mixed $styleFont
+     * @param string $text
+     * @param mixed $styleFont
      * @return PHPWord_Section_Text
      */
     public function addText($text = null, $styleFont = null)
@@ -113,7 +115,7 @@ class PHPWord_Section_TextRun
      * Add a Image Element
      *
      * @param string $imageSrc
-     * @param mixed $styleFont
+     * @param mixed $style
      * @return PHPWord_Section_Image
      */
     public function addImage($imageSrc, $style = null)
@@ -134,9 +136,9 @@ class PHPWord_Section_TextRun
     /**
      * Add TextBreak
      *
-     * @param   int $count
-     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
-     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
+     * @param int $count
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -148,7 +150,7 @@ class PHPWord_Section_TextRun
     /**
      * Create a new Footnote Element
      *
-     * @param string $text
+     * @param mixed $styleParagraph
      * @return PHPWord_Section_Footnote
      */
     public function createFootnote($styleParagraph = null)

@@ -100,7 +100,8 @@ class PHPWord_Section_Table_Cell
      * Add a Text Element
      *
      * @param string $text
-     * @param mixed $style
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
      * @return PHPWord_Section_Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
@@ -299,6 +300,7 @@ class PHPWord_Section_Table_Cell
     /**
      * Create a new TextRun
      *
+     * @param mixed $styleParagraph
      * @return PHPWord_Section_TextRun
      */
     public function createTextRun($styleParagraph = null)

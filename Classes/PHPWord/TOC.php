@@ -105,6 +105,8 @@ class PHPWord_TOC
     /**
      * Add a Title
      *
+     * @param string $text
+     * @param int $depth
      * @return array
      */
     public static function addTitle($text, $depth = 0)

@@ -33,8 +33,8 @@ interface PHPWord_Writer_IWriter
     /**
      * Save PHPWord to file
      *
-     * @param     string $pFileName
-     * @throws     Exception
+     * @param string $pFilename
+     * @throws Exception
      */
     public function save($pFilename = null);
 }

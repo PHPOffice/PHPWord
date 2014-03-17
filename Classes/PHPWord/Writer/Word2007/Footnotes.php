@@ -25,9 +25,17 @@
  * @version    0.8.0
  */
 
-
+/**
+ * Class PHPWord_Writer_Word2007_Footnotes
+ */
 class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base
 {
+    /**
+     * Write footnotes.xml
+     *
+     * @param array $allFootnotesCollection
+     * @return string XML data
+     */
     public function writeFootnotes($allFootnotesCollection)
     {
         // Create XML writer

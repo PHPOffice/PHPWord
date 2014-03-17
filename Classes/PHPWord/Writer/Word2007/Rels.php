@@ -30,7 +30,11 @@
  */
 class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
 {
-
+    /**
+     * Write _rels/.rels
+     *
+     * @param PHPWord $pPHPWord
+     */
     public function writeRelationships(PHPWord $pPHPWord = null)
     {
         // Create XML writer

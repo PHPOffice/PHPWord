@@ -44,8 +44,8 @@ class PHPWord_Shared_Font
     /**
      * Calculate an (approximate) pixel size, based on inch size
      *
-     * @param    int $sizeInInch Font size (in inch)
-     * @return    int        Size (in pixels)
+     * @param int $sizeInInch Font size (in inch)
+     * @return int Size (in pixels)
      */
     public static function inchSizeToPixels($sizeInInch = 1)
     {
@@ -55,24 +55,42 @@ class PHPWord_Shared_Font
     /**
      * Calculate an (approximate) pixel size, based on centimeter size
      *
-     * @param    int $sizeInCm Font size (in centimeters)
-     * @return    int        Size (in pixels)
+     * @param int $sizeInCm Font size (in centimeters)
+     * @return int Size (in pixels)
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
         return ($sizeInCm * 37.795275591);
     }
 
+    /**
+     * Convert centimeter to twip
+     *
+     * @param int $sizeInCm
+     * @return int
+     */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
         return ($sizeInCm * 565.217);
     }
 
+    /**
+     * Convert inch to twip
+     *
+     * @param int $sizeInInch
+     * @return int
+     */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
         return self::centimeterSizeToTwips($sizeInInch * 2.54);
     }
 
+    /**
+     * Convert pixel to twip
+     *
+     * @param int $sizeInPixel
+     * @return int
+     */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
         return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);

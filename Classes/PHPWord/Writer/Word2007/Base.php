@@ -31,9 +31,10 @@
  */
 class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 {
-
     /**
      * Write text
+     *
+     * @param boolean $withoutP
      */
     protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false)
     {
@@ -232,6 +233,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
     /**
      * Write link
+     *
+     * @param boolean $withoutP
      */
     protected function _writeLink(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Link $link, $withoutP = false)
     {
@@ -791,8 +794,11 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
     }
 
     /**
+     * Write image
+     *
      * @param \PHPWord_Shared_XMLWriter $objWriter
      * @param \PHPWord_Section_Image|\PHPWord_Section_MemoryImage $image
+     * @param boolean $withoutP
      */
     protected function _writeImage(PHPWord_Shared_XMLWriter $objWriter = null, $image, $withoutP = false)
     {
@@ -873,6 +879,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
     /**
      * Write watermark
+     *
+     * @param PHP_Section_Image|PHP_Section_MemoryImage $image
      */
     protected function _writeWatermark(PHPWord_Shared_XMLWriter $objWriter = null, $image)
     {
@@ -1003,6 +1011,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
     /**
      * Write footnote reference
+     *
+     * @param boolean $withoutP
      */
     protected function _writeFootnoteReference(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footnote $footnote, $withoutP = false)
     {

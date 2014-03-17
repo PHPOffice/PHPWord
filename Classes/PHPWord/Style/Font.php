@@ -185,6 +185,8 @@ class PHPWord_Style_Font
     }
 
     /**
+     * Set style using associative array
+     *
      * @param array $style
      * @return $this
      */
@@ -510,6 +512,8 @@ class PHPWord_Style_Font
     }
 
     /**
+     * Get line height
+     *
      * @return int|float
      */
     public function getLineHeight()

@@ -188,8 +188,8 @@ class PHPWord
     /**
      * Adds a paragraph style definition to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param array $styles
      */
     public function addParagraphStyle($styleName, $styles)
     {
@@ -199,8 +199,9 @@ class PHPWord
     /**
      * Adds a font style definition to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param array $styleFont
+     * @param array $styleParagraph
      */
     public function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
@@ -210,8 +211,9 @@ class PHPWord
     /**
      * Adds a table style definition to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param array $styleTable
+     * @param array $styleFirstRow
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
@@ -221,8 +223,9 @@ class PHPWord
     /**
      * Adds a heading style definition to styles.xml
      *
-     * @param $titleCount int
-     * @param $styles array
+     * @param int $titleCount
+     * @param array $styleFont
+     * @param array $styleParagraph
      */
     public function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
@@ -232,8 +235,8 @@ class PHPWord
     /**
      * Adds a hyperlink style to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param array $styles
      */
     public function addLinkStyle($styleName, $styles)
     {

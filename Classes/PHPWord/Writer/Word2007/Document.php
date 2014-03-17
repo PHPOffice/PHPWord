@@ -30,7 +30,9 @@
  */
 class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
 {
-
+    /**
+     * Write document.xml
+     */
     public function writeDocument(PHPWord $pPHPWord = null)
     {
         // Create XML writer
@@ -114,6 +116,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         return $objWriter->getData();
     }
 
+    /**
+     * Write section start
+     */
     private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
     {
         $objWriter->startElement('w:p');
@@ -123,6 +128,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
+    /**
+     * Write section end
+     */
     private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
     {
         $settings = $section->getSettings();
@@ -256,6 +264,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
+    /**
+     * Write page break element
+     */
     private function _writePageBreak(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $objWriter->startElement('w:p');
@@ -267,6 +278,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
+    /**
+     * Write list item element
+     */
     public function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
@@ -306,6 +320,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
     }
 
+    /**
+     * Write object element
+     */
     protected function _writeObject(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Object $object)
     {
         $rIdObject = $object->getRelationId();
@@ -365,6 +382,9 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement(); // w:p
     }
 
+    /**
+     * Write TOC element
+     */
     private function _writeTOC(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $titles = PHPWord_TOC::getTitles();

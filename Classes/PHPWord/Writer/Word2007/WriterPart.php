@@ -30,13 +30,28 @@
  */
 abstract class PHPWord_Writer_Word2007_WriterPart
 {
+    /**
+     * Parent writer object
+     *
+     * @var PHPWord_Writer_Word2007
+     */
     private $_parentWriter;
 
+    /**
+     * Set parent writer
+     *
+     * @param PHPWord_Writer_IWriter
+     */
     public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null)
     {
         $this->_parentWriter = $pWriter;
     }
 
+    /**
+     * Get parent writer
+     *
+     * @return PHPWord_Writer_IWriter
+     */
     public function getParentWriter()
     {
         if (!is_null($this->_parentWriter)) {

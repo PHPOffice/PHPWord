@@ -71,6 +71,11 @@ class PHPWord_Shared_ZipStreamWrapper
 
     /**
      * Open stream
+     *
+     * @param string $path
+     * @param string $mode
+     * @param string $options
+     * @param string $opened_path
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
@@ -119,6 +124,8 @@ class PHPWord_Shared_ZipStreamWrapper
 
     /**
      * Read stream
+     *
+     * @param int $count
      */
     public function stream_read($count)
     {
@@ -145,6 +152,9 @@ class PHPWord_Shared_ZipStreamWrapper
 
     /**
      * Seek stream
+     *
+     * @param int $offset
+     * @param mixed $whence
      */
     public function stream_seek($offset, $whence)
     {

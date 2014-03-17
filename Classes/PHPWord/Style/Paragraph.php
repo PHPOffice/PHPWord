@@ -133,6 +133,8 @@ class PHPWord_Style_Paragraph
     private $_pageBreakBefore = false;
 
     /**
+     * Set style using associative array
+     *
      * @param array $style
      * @return $this
      */
@@ -319,11 +321,11 @@ class PHPWord_Style_Paragraph
         return $this->_tabs;
     }
 
-    /*
+    /**
      * Set tabs
      *
-     * @param   array   $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @param array $pValue
+     * @return PHPWord_Style_Paragraph
      */
     public function setTabs($pValue = null)
     {
@@ -500,6 +502,8 @@ class PHPWord_Style_Paragraph
     }
 
     /**
+     * Get line height
+     *
      * @return int|float
      */
     public function getLineHeight()

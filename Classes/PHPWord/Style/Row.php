@@ -54,12 +54,21 @@ class PHPWord_Style_Row
 
     /**
      * Set style value
+     *
+     * @param string $key
+     * @param mixed $value
      */
     public function setStyleValue($key, $value)
     {
         $this->$key = $value;
     }
 
+    /**
+     * Set tblHeader
+     *
+     * @param boolean $pValue
+     * @return PHPWord_Style_Row
+     */
     public function setTblHeader($pValue = false)
     {
         if (!is_bool($pValue)) {
@@ -69,11 +78,22 @@ class PHPWord_Style_Row
         return $this;
     }
 
+    /**
+     * Get tblHeader
+     *
+     * @return boolean
+     */
     public function getTblHeader()
     {
         return $this->_tblHeader;
     }
 
+    /**
+     * Set cantSplit
+     *
+     * @param boolean $pValue
+     * @return PHPWord_Style_Row
+     */
     public function setCantSplit($pValue = false)
     {
         if (!is_bool($pValue)) {
@@ -83,6 +103,11 @@ class PHPWord_Style_Row
         return $this;
     }
 
+    /**
+     * Get cantSplit
+     *
+     * @return boolean
+     */
     public function getCantSplit()
     {
         return $this->_cantSplit;

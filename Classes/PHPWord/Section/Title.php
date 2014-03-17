@@ -70,8 +70,9 @@ class PHPWord_Section_Title
     /**
      * Create a new Title Element
      *
-     * @var string $text
-     * @var int $depth
+     * @param string $text
+     * @param int $depth
+     * @param mixed $style
      */
     public function __construct($text, $depth = 1, $style = null)
     {
@@ -88,7 +89,7 @@ class PHPWord_Section_Title
     /**
      * Set Anchor
      *
-     * @var int $anchor
+     * @param int $anchor
      */
     public function setAnchor($anchor)
     {
@@ -108,7 +109,7 @@ class PHPWord_Section_Title
     /**
      * Set Bookmark ID
      *
-     * @var int $bookmarkId
+     * @param int $bookmarkId
      */
     public function setBookmarkId($bookmarkId)
     {

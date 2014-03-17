@@ -106,7 +106,9 @@ class PHPWord_Style
      * Add a table style
      *
      * @param string $styleName
-     * @param array $styles
+     * @param array $styleTable
+     * @param null|array $styleFirstRow
+     * @param null|array $styleLastRow
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null)
     {
@@ -120,9 +122,9 @@ class PHPWord_Style
     /**
      * Add a title style
      *
-     * @param string $styleName
+     * @param int $titleCount
      * @param array $styleFont
-     * @param array $styleParagraph
+     * @param nullarray $styleParagraph
      */
     public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
@@ -143,7 +145,7 @@ class PHPWord_Style
     /**
      * Set default paragraph style
      *
-     * @param   array   $styles Paragraph style definition
+     * @param array $styles Paragraph style definition
      */
     public static function setDefaultParagraphStyle($styles)
     {
@@ -153,7 +155,7 @@ class PHPWord_Style
     /**
      * Get all styles
      *
-     * @return PHPWord_Style_Font[]
+     * @return array
      */
     public static function getStyles()
     {
@@ -163,8 +165,8 @@ class PHPWord_Style
     /**
      * Get style
      *
-     * @param string
-     * @return PHPWord_Style
+     * @param string $styleName
+     * @return null|PHPWord_Style
      */
     public static function getStyle($styleName)
     {
