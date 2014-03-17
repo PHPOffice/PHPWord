@@ -17,29 +17,29 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --prefer-source
   ## PHP_CodeSniffer
-  - pyrus install pear/PHP_CodeSniffer
-  - phpenv rehash
+  #- pyrus install pear/PHP_CodeSniffer
+  #- phpenv rehash
   ## PHP Copy/Paste Detector
-  - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
+  #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
   ## PHP Mess Detector
-  - pear config-set preferred_state beta
-  - printf "\n" | pecl install imagick
-  - pear channel-discover pear.phpmd.org
-  - pear channel-discover pear.pdepend.org
-  - pear install --alldeps phpmd/PHP_PMD
-  - phpenv rehash
+  #- pear config-set preferred_state beta
+  #- printf "\n" | pecl install imagick
+  #- pear channel-discover pear.phpmd.org
+  #- pear channel-discover pear.pdepend.org
+  #- pear install --alldeps phpmd/PHP_PMD
+  #- phpenv rehash
   ## PHPLOC
-  - curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+  #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
 
 script:
   ## PHP_CodeSniffer
   ## - phpcs --standard=PSR1 Classes/
   ## - phpcs --standard=PSR2 Classes/
   ## PHP Copy/Paste Detector
-  - php phpcpd.phar --verbose Classes/
+  #- php phpcpd.phar --verbose Classes/
   ## PHP Mess Detector
-  - phpmd Classes/ text unusedcode,naming,design
+  #- phpmd Classes/ text unusedcode,naming,design
   ## PHPLOC
-  - php phploc.phar Classes/
+  #- php phploc.phar Classes/
   ## PHPUnit
   - phpunit -c ./ --coverage-text

@@ -102,12 +102,12 @@ class PHPWord_Shared_File
      * Return the Image Type from a file
      *
      * @param string $filename
-     * @param bool $userFallbackFunction
+     * @param bool $useFallbackFunction
      * @return int|bool
      */
-    public static function imagetype($filename, $userFallbackFunction = false)
+    public static function imagetype($filename, $useFallbackFunction = false)
     {
-        if ($userFallbackFunction || !function_exists('exif_imagetype')) {
+        if ($useFallbackFunction || !function_exists('exif_imagetype')) {
             return self::fallbackImagetype($filename);
         }
 
