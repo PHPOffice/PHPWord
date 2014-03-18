@@ -568,6 +568,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             for ($i = 0; $i < $_cRows; $i++) {
                 $row = $_rows[$i];
                 $height = $row->getHeight();
+				$heightRules = $row->getHeightRules();
                 $rowStyle = $row->getStyle();
                 $tblHeader = $rowStyle->getTblHeader();
                 $cantSplit = $rowStyle->getCantSplit();
@@ -578,6 +579,11 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                     $objWriter->startElement('w:trPr');
                     if (!is_null($height)) {
                         $objWriter->startElement('w:trHeight');
+						if(!is_null($heightRules)) {
+                            $objWriter->startAttribute('w:hRule');
+                            $objWriter->text($heightRules);
+                            $objWriter->endAttribute();
+                        }
                         $objWriter->writeAttribute('w:val', $height);
                         $objWriter->endElement();
                     }
