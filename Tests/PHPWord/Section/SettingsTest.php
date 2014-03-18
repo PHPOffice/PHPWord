@@ -1,7 +1,7 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPWord_Section_Settings;
+use PhpOffice\PhpWord\Section\Settings;
 
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testSettingValue()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $oSettings->setSettingValue('_orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
@@ -46,7 +46,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testMargin()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $iVal = rand(1, 1000);
         $oSettings->setMarginTop($iVal);
@@ -68,7 +68,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testOrientationLandscape()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
@@ -79,7 +79,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testOrientationPortrait()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $oSettings->setPortrait();
         $this->assertNull($oSettings->getOrientation());
@@ -90,7 +90,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testBorderSize()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $iVal = rand(1, 1000);
         $oSettings->setBorderSize($iVal);
@@ -120,7 +120,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testBorderColor()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $oSettings->setBorderColor('FF00AA');
         $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
@@ -145,7 +145,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testNumberingStart()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $this->assertNull($oSettings->getPageNumberingStart());
 
@@ -160,7 +160,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testHeader()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $this->assertEquals(720, $oSettings->getHeaderHeight());
 
@@ -175,7 +175,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testFooter()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $this->assertEquals(720, $oSettings->getFooterHeight());
 
@@ -190,7 +190,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testColumnsNum()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         // Default
         $this->assertEquals(1, $oSettings->getColsNum());
@@ -206,23 +206,23 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testColumnsSpace()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         // Default
         $this->assertEquals(720, $oSettings->getColsSpace());
 
         $iVal = rand(1, 1000);
-        $this->assertInstanceOf('PHPWord_Section_Settings', $oSettings->setColsSpace($iVal));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Settings', $oSettings->setColsSpace($iVal));
         $this->assertEquals($iVal, $oSettings->getColsSpace());
 
-        $this->assertInstanceOf('PHPWord_Section_Settings', $oSettings->setColsSpace());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Settings', $oSettings->setColsSpace());
         $this->assertEquals(720, $oSettings->getColsSpace());
     }
 
     public function testBreakType()
     {
         // Section Settings
-        $oSettings = new PHPWord_Section_Settings();
+        $oSettings = new Settings();
 
         $this->assertNull($oSettings->getBreakType());
 

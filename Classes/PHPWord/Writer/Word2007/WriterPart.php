@@ -25,14 +25,15 @@
  * @version    0.8.0
  */
 
-/**
- * Abstract Class PHPWord_Writer_Word2007_WriterPart
- */
-abstract class PHPWord_Writer_Word2007_WriterPart
+namespace PhpOffice\PhpWord\Writer\Word2007;
+
+use PhpOffice\PhpWord\Writer\IWriter;
+
+abstract class WriterPart
 {
     private $_parentWriter;
 
-    public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null)
+    public function setParentWriter(IWriter $pWriter = null)
     {
         $this->_parentWriter = $pWriter;
     }
@@ -42,7 +43,7 @@ abstract class PHPWord_Writer_Word2007_WriterPart
         if (!is_null($this->_parentWriter)) {
             return $this->_parentWriter;
         } else {
-            throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
+            throw new Exception("No parent IWriter assigned.");
         }
     }
 }

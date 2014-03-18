@@ -25,10 +25,27 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_RTF
- */
-class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
+namespace PhpOffice\PhpWord\Writer;
+
+use PhpOffice\PhpWord\HashTable;
+use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\Link;
+use PhpOffice\PhpWord\Section\ListItem;
+use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Object;
+use PhpOffice\PhpWord\Section\PageBreak;
+use PhpOffice\PhpWord\Section\Table;
+use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Shared\Drawing;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\TOC;
+
+class RTF implements IWriter
 {
     /**
      * Private PHPWord
@@ -40,7 +57,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var PHPWord_HashTable
+     * @var PhpOffice\PhpWord\HashTable
      */
     private $_drawingHashTable;
 
@@ -49,17 +66,15 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     private $_lastParagraphStyle;
 
     /**
-     * Create a new PHPWord_Writer_ODText
-     *
-     * @param    PHPWord $pPHPWord
+     * @param PHPWord $phpWord
      */
-    public function __construct(PHPWord $pPHPWord = null)
+    public function __construct(PHPWord $phpWord = null)
     {
         // Assign PHPWord
-        $this->setPHPWord($pPHPWord);
+        $this->setPHPWord($phpWord);
 
         // Set HashTable variables
-        $this->_drawingHashTable = new PHPWord_HashTable();
+        $this->_drawingHashTable = new HashTable();
     }
 
     /**
@@ -113,22 +128,20 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     }
 
     /**
-     * Get PHPWord object
-     *
-     * @param    PHPWord $pPHPWord PHPWord object
-     * @throws    Exception
-     * @return PHPWord_Writer_RTF
+     * @param PHPWord $phpWord PHPWord object
+     * @throws Exception
+     * @return PhpOffice\PhpWord\Writer\RTF
      */
-    public function setPHPWord(PHPWord $pPHPWord = null)
+    public function setPHPWord(PHPWord $phpWord = null)
     {
-        $this->_document = $pPHPWord;
+        $this->_document = $phpWord;
         return $this;
     }
 
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return PHPWord_HashTable
+     * @return PhpOffice\PhpWord\HashTable
      */
     public function getDrawingHashTable()
     {
@@ -158,7 +171,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         // Set the color tbl group
         $sRTFContent .= '{\colortbl ';
         foreach ($this->_colorTable as $idx => $color) {
-            $arrColor = PHPWord_Shared_Drawing::htmlToRGB($color);
+            $arrColor = Drawing::htmlToRGB($color);
             $sRTFContent .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }
         $sRTFContent .= ';}' . PHP_EOL;
@@ -190,7 +203,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
 
     private function getDataFont()
     {
-        $pPHPWord = $this->_document;
+        $phpWord = $this->_document;
 
         $arrFonts = array();
         // Default font : PHPWord::DEFAULT_FONT_NAME
@@ -198,12 +211,12 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         // PHPWord object : $this->_document
 
         // Browse styles
-        $styles = PHPWord_Style::getStyles();
+        $styles = Style::getStyles();
         $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PHPWord_Style_Font
-                if ($style instanceof PHPWord_Style_Font) {
+                // PhpOffice\PhpWord\Style\Font
+                if ($style instanceof Font) {
                     if (in_array($style->getName(), $arrFonts) == false) {
                         $arrFonts[] = $style->getName();
                     }
@@ -212,7 +225,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
 
         // Search all fonts used
-        $_sections = $pPHPWord->getSections();
+        $_sections = $phpWord->getSections();
         $countSections = count($_sections);
         if ($countSections > 0) {
             $pSection = 0;
@@ -222,10 +235,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $_elements = $section->getElements();
 
                 foreach ($_elements as $element) {
-                    if ($element instanceof PHPWord_Section_Text) {
+                    if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
-                        if ($fStyle instanceof PHPWord_Style_Font) {
+                        if ($fStyle instanceof Font) {
                             if (in_array($fStyle->getName(), $arrFonts) == false) {
                                 $arrFonts[] = $fStyle->getName();
                             }
@@ -240,18 +253,18 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
 
     private function getDataColor()
     {
-        $pPHPWord = $this->_document;
+        $phpWord = $this->_document;
 
         $arrColors = array();
         // PHPWord object : $this->_document
 
         // Browse styles
-        $styles = PHPWord_Style::getStyles();
+        $styles = Style::getStyles();
         $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PHPWord_Style_Font
-                if ($style instanceof PHPWord_Style_Font) {
+                // Font
+                if ($style instanceof Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
                     if (in_array($color, $arrColors) == false && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
@@ -265,7 +278,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
 
         // Search all fonts used
-        $_sections = $pPHPWord->getSections();
+        $_sections = $phpWord->getSections();
         $countSections = count($_sections);
         if ($countSections > 0) {
             $pSection = 0;
@@ -275,10 +288,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $_elements = $section->getElements();
 
                 foreach ($_elements as $element) {
-                    if ($element instanceof PHPWord_Section_Text) {
+                    if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
-                        if ($fStyle instanceof PHPWord_Style_Font) {
+                        if ($fStyle instanceof Font) {
                             if (in_array($fStyle->getColor(), $arrColors) == false) {
                                 $arrColors[] = $fStyle->getColor();
                             }
@@ -296,10 +309,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
 
     private function getDataContent()
     {
-        $pPHPWord = $this->_document;
+        $phpWord = $this->_document;
         $sRTFBody = '';
 
-        $_sections = $pPHPWord->getSections();
+        $_sections = $phpWord->getSections();
         $countSections = count($_sections);
         $pSection = 0;
 
@@ -308,28 +321,28 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $pSection++;
                 $_elements = $section->getElements();
                 foreach ($_elements as $element) {
-                    if ($element instanceof PHPWord_Section_Text) {
+                    if ($element instanceof Text) {
                         $sRTFBody .= $this->getDataContentText($element);
-                    } elseif ($element instanceof PHPWord_Section_TextBreak) {
+                    } elseif ($element instanceof TextBreak) {
                         $sRTFBody .= $this->getDataContentTextBreak();
-                    } elseif ($element instanceof PHPWord_Section_TextRun) {
+                    } elseif ($element instanceof TextRun) {
                         $sRTFBody .= $this->getDataContentTextRun($element);
-                    } elseif ($element instanceof PHPWord_Section_Link) {
+                    } elseif ($element instanceof Link) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Link');
-                    } elseif ($element instanceof PHPWord_Section_Title) {
+                    } elseif ($element instanceof Title) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Title');
-                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
+                    } elseif ($element instanceof PageBreak) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Page Break');
-                    } elseif ($element instanceof PHPWord_Section_Table) {
+                    } elseif ($element instanceof Table) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Table');
-                    } elseif ($element instanceof PHPWord_Section_ListItem) {
+                    } elseif ($element instanceof ListItem) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('List Item');
-                    } elseif ($element instanceof PHPWord_Section_Image ||
-                        $element instanceof PHPWord_Section_MemoryImage) {
+                    } elseif ($element instanceof Image ||
+                        $element instanceof MemoryImage) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Image');
-                    } elseif ($element instanceof PHPWord_Section_Object) {
+                    } elseif ($element instanceof Object) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Object');
-                    } elseif ($element instanceof PHPWord_TOC) {
+                    } elseif ($element instanceof TOC) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('TOC');
                     } else {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Other');
@@ -343,20 +356,20 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Get text
      */
-    private function getDataContentText(PHPWord_Section_Text $text, $withoutP = false)
+    private function getDataContentText(Text $text, $withoutP = false)
     {
         $sRTFText = '';
 
         $styleFont = $text->getFontStyle();
-        $SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+        $SfIsObject = ($styleFont instanceof Font) ? true : false;
         if (!$SfIsObject) {
-            $styleFont = PHPWord_Style::getStyle($styleFont);
+            $styleFont = Style::getStyle($styleFont);
         }
 
         $styleParagraph = $text->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof PHPWord_Style_Paragraph) ? true : false;
+        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
         if (!$SpIsObject) {
-            $styleParagraph = PHPWord_Style::getStyle($styleParagraph);
+            $styleParagraph = Style::getStyle($styleParagraph);
         }
 
         if ($styleParagraph && !$withoutP) {
@@ -378,7 +391,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             $this->_lastParagraphStyle = '';
         }
 
-        if ($styleFont instanceof PHPWord_Style_Font) {
+        if ($styleFont instanceof Font) {
             if ($styleFont->getColor() != null) {
                 $idxColor = array_search($styleFont->getColor(), $this->_colorTable);
                 if ($idxColor !== false) {
@@ -410,7 +423,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
         $sRTFText .= $text->getText();
 
-        if ($styleFont instanceof PHPWord_Style_Font) {
+        if ($styleFont instanceof Font) {
             $sRTFText .= '\cf0';
             $sRTFText .= '\f0';
 
@@ -434,14 +447,14 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
     /**
      * Get text run content
      */
-    private function getDataContentTextRun(PHPWord_Section_TextRun $textrun)
+    private function getDataContentTextRun(TextRun $textrun)
     {
         $sRTFText = '';
         $elements = $textrun->getElements();
         if (count($elements) > 0) {
             $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
             foreach ($elements as $element) {
-                if ($element instanceof PHPWord_Section_Text) {
+                if ($element instanceof Text) {
                     $sRTFText .= '{';
                     $sRTFText .= $this->getDataContentText($element, true);
                     $sRTFText .= '}' . PHP_EOL;

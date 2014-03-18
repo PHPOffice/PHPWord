@@ -35,11 +35,11 @@ class Manifest extends WriterPart
     /**
      * Write Manifest file to XML format
      *
-     * @param    PHPWord $pPHPWord
-     * @return    string                        XML Output
-     * @throws    Exception
+     * @param PHPWord $phpWord
+     * @return string XML Output
+     * @throws Exception
      */
-    public function writeManifest(PHPWord $pPHPWord = null)
+    public function writeManifest(PHPWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;

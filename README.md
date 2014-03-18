@@ -103,7 +103,7 @@ $section->addText('Hello world! I am formatted by a user defined style',
     'myOwnStyle');
 
 // You can also put the appended element to local object like this:
-$fontStyle = new PHPWord_Style_Font();
+$fontStyle = new PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Verdana');
 $fontStyle->setSize(22);
@@ -111,8 +111,8 @@ $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
 // Finally, write the document:
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
-$objWriter->save('helloWorld.docx');
+$xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, 'Word2007');
+$xmlWriter->save('helloWorld.docx');
 ```
 
 <a name="measurement-units"></a>
@@ -125,15 +125,15 @@ You can use PHPWord helper functions to convert inches, centimeters, or points t
 ```php
 // Paragraph with 6 points space after
 $PHPWord->addParagraphStyle('My Style', array(
-    'spaceAfter' => PHPWord_Shared_Font::pointSizeToTwips(6))
+    'spaceAfter' => PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
 );
 
 $section = $PHPWord->createSection();
 $sectionStyle = $section->getSettings();
 // half inch left margin
-$sectionStyle->setMarginLeft(PHPWord_Shared_Font::inchSizeToTwips(.5));
+$sectionStyle->setMarginLeft(PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
 // 2 cm right margin
-$sectionStyle->setMarginRight(PHPWord_Shared_Font::centimeterSizeToTwips(2));
+$sectionStyle->setMarginRight(PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
 ```
 
 <a name="sections"></a>

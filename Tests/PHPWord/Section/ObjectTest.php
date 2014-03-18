@@ -1,7 +1,7 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPWord_Section_Object;
+use PhpOffice\PhpWord\Section\Object;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,10 +11,10 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
-        $oObject = new PHPWord_Section_Object($src);
+        $oObject = new Object($src);
 
-        $this->assertInstanceOf('PHPWord_Section_Object', $oObject);
-        $this->assertInstanceOf('PHPWord_Style_Image', $oObject->getStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         $this->assertEquals($oObject->getSource(), $src);
     }
 
@@ -24,9 +24,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
         );
-        $oObject = new PHPWord_Section_Object($src);
+        $oObject = new Object($src);
 
-        $this->assertInstanceOf('PHPWord_Section_Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
         $this->assertEquals($oObject->getSource(), null);
         $this->assertEquals($oObject->getStyle(), null);
     }
@@ -37,10 +37,10 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
-        $oObject = new PHPWord_Section_Object($src, array('width' => '230px'));
+        $oObject = new Object($src, array('width' => '230px'));
 
-        $this->assertInstanceOf('PHPWord_Section_Object', $oObject);
-        $this->assertInstanceOf('PHPWord_Style_Image', $oObject->getStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         $this->assertEquals($oObject->getSource(), $src);
     }
 
@@ -50,7 +50,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
-        $oObject = new PHPWord_Section_Object($src);
+        $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
         $oObject->setRelationId($iVal);
@@ -63,7 +63,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
-        $oObject = new PHPWord_Section_Object($src);
+        $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
         $oObject->setImageRelationId($iVal);
@@ -76,7 +76,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
-        $oObject = new PHPWord_Section_Object($src);
+        $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
         $oObject->setObjectId($iVal);

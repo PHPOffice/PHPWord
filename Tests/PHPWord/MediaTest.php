@@ -1,39 +1,47 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord_Media;
-use PHPWord_Section;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Section;
 
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSectionMediaElementsWithNull()
     {
-        $this->assertEquals(PHPWord_Media::getSectionMediaElements(), array());
+        $this->assertEquals(Media::getSectionMediaElements(), array());
     }
 
     public function testCountSectionMediaElementsWithNull()
     {
-        $this->assertEquals(PHPWord_Media::countSectionMediaElements(), 0);
+        $this->assertEquals(Media::countSectionMediaElements(), 0);
     }
 
     public function testGetHeaderMediaElements()
     {
-        $this->assertAttributeEquals(PHPWord_Media::getHeaderMediaElements(), '_headerMedia', 'PHPWord_Media');
+        $this->assertAttributeEquals(
+            Media::getHeaderMediaElements(),
+            '_headerMedia',
+            'PhpOffice\\PhpWord\\Media'
+        );
     }
 
     public function testGetFooterMediaElements()
     {
-        $this->assertAttributeEquals(PHPWord_Media::getFooterMediaElements(), '_footerMedia', 'PHPWord_Media');
+        $this->assertAttributeEquals(
+            Media::getFooterMediaElements(),
+            '_footerMedia',
+            'PhpOffice\\PhpWord\\Media'
+        );
     }
 
     /**
      * Todo: add memory image to this test
      *
-     * @covers PHPWord_Media::addSectionMediaElement
+     * @covers PhpOffice\PhpWord\Media::addSectionMediaElement
      */
     public function testAddSectionMediaElement()
     {
-        $section = new PHPWord_Section(0);
+        $section = new Section(0);
         $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
         $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg");
         $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif");
@@ -44,7 +52,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $elements = $section->getElements();
         $this->assertEquals(6, count($elements));
         foreach ($elements as $element) {
-            $this->assertInstanceOf('PHPWord_Section_Image', $element);
+            $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
         }
     }
 }

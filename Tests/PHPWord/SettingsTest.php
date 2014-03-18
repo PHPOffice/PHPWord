@@ -1,26 +1,24 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord_Settings;
+use PhpOffice\PhpWord\Settings;
 
 /**
- * Class TOCTest
- *
- * @package PHPWord\Tests
- * @covers  PHPWord_Settings
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Settings
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers PHPWord_Settings::setCompatibility
-     * @covers PHPWord_Settings::getCompatibility
+     * @covers ::setCompatibility
+     * @covers ::getCompatibility
      */
     public function testGetSetCompatibility()
     {
-        $this->assertTrue(PHPWord_Settings::getCompatibility());
-        $this->assertTrue(PHPWord_Settings::setCompatibility(false));
-        $this->assertFalse(PHPWord_Settings::getCompatibility());
-        $this->assertFalse(PHPWord_Settings::setCompatibility('Non boolean'));
+        $this->assertTrue(Settings::getCompatibility());
+        $this->assertTrue(Settings::setCompatibility(false));
+        $this->assertFalse(Settings::getCompatibility());
+        $this->assertFalse(Settings::setCompatibility('Non boolean'));
     }
 }

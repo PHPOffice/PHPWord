@@ -25,161 +25,161 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_Word2007_DocProps
- */
-class PHPWord_Writer_Word2007_DocProps extends PHPWord_Writer_Word2007_WriterPart
-{
+namespace PhpOffice\PhpWord\Writer\Word2007;
 
-    public function writeDocPropsApp(PHPWord $pPHPWord = null)
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class DocProps extends WriterPart
+{
+    public function writeDocPropsApp(PHPWord $phpWord = null)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         // Properties
-        $objWriter->startElement('Properties');
-        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties');
-        $objWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
+        $xmlWriter->startElement('Properties');
+        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties');
+        $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
 
         // Application
-        $objWriter->writeElement('Application', 'Microsoft Office Word');
+        $xmlWriter->writeElement('Application', 'Microsoft Office Word');
 
         // ScaleCrop
-        $objWriter->writeElement('ScaleCrop', 'false');
+        $xmlWriter->writeElement('ScaleCrop', 'false');
 
         // HeadingPairs
-        $objWriter->startElement('HeadingPairs');
+        $xmlWriter->startElement('HeadingPairs');
 
         // Vector
-        $objWriter->startElement('vt:vector');
-        $objWriter->writeAttribute('size', '4');
-        $objWriter->writeAttribute('baseType', 'variant');
+        $xmlWriter->startElement('vt:vector');
+        $xmlWriter->writeAttribute('size', '4');
+        $xmlWriter->writeAttribute('baseType', 'variant');
 
         // Variant
-        $objWriter->startElement('vt:variant');
-        $objWriter->writeElement('vt:lpstr', 'Theme');
-        $objWriter->endElement();
+        $xmlWriter->startElement('vt:variant');
+        $xmlWriter->writeElement('vt:lpstr', 'Theme');
+        $xmlWriter->endElement();
 
         // Variant
-        $objWriter->startElement('vt:variant');
-        $objWriter->writeElement('vt:i4', '1');
-        $objWriter->endElement();
+        $xmlWriter->startElement('vt:variant');
+        $xmlWriter->writeElement('vt:i4', '1');
+        $xmlWriter->endElement();
 
         // Variant
-        $objWriter->startElement('vt:variant');
-        $objWriter->writeElement('vt:lpstr', 'Slide Titles');
-        $objWriter->endElement();
+        $xmlWriter->startElement('vt:variant');
+        $xmlWriter->writeElement('vt:lpstr', 'Slide Titles');
+        $xmlWriter->endElement();
 
         // Variant
-        $objWriter->startElement('vt:variant');
-        $objWriter->writeElement('vt:i4', '1');
-        $objWriter->endElement();
+        $xmlWriter->startElement('vt:variant');
+        $xmlWriter->writeElement('vt:i4', '1');
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // TitlesOfParts
-        $objWriter->startElement('TitlesOfParts');
+        $xmlWriter->startElement('TitlesOfParts');
 
         // Vector
-        $objWriter->startElement('vt:vector');
-        $objWriter->writeAttribute('size', '1');
-        $objWriter->writeAttribute('baseType', 'lpstr');
+        $xmlWriter->startElement('vt:vector');
+        $xmlWriter->writeAttribute('size', '1');
+        $xmlWriter->writeAttribute('baseType', 'lpstr');
 
-        $objWriter->writeElement('vt:lpstr', 'Office Theme');
+        $xmlWriter->writeElement('vt:lpstr', 'Office Theme');
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Company
-        $objWriter->writeElement('Company', $pPHPWord->getProperties()->getCompany());
+        $xmlWriter->writeElement('Company', $phpWord->getProperties()->getCompany());
 
         // LinksUpToDate
-        $objWriter->writeElement('LinksUpToDate', 'false');
+        $xmlWriter->writeElement('LinksUpToDate', 'false');
 
         // SharedDoc
-        $objWriter->writeElement('SharedDoc', 'false');
+        $xmlWriter->writeElement('SharedDoc', 'false');
 
         // HyperlinksChanged
-        $objWriter->writeElement('HyperlinksChanged', 'false');
+        $xmlWriter->writeElement('HyperlinksChanged', 'false');
 
         // AppVersion
-        $objWriter->writeElement('AppVersion', '12.0000');
+        $xmlWriter->writeElement('AppVersion', '12.0000');
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 
 
-    public function writeDocPropsCore(PHPWord $pPHPWord = null)
+    public function writeDocPropsCore(PHPWord $phpWord = null)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         // cp:coreProperties
-        $objWriter->startElement('cp:coreProperties');
-        $objWriter->writeAttribute('xmlns:cp', 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties');
-        $objWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-        $objWriter->writeAttribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
-        $objWriter->writeAttribute('xmlns:dcmitype', 'http://purl.org/dc/dcmitype/');
-        $objWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $xmlWriter->startElement('cp:coreProperties');
+        $xmlWriter->writeAttribute('xmlns:cp', 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties');
+        $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+        $xmlWriter->writeAttribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
+        $xmlWriter->writeAttribute('xmlns:dcmitype', 'http://purl.org/dc/dcmitype/');
+        $xmlWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
 
         // dc:creator
-        $objWriter->writeElement('dc:creator', $pPHPWord->getProperties()->getCreator());
+        $xmlWriter->writeElement('dc:creator', $phpWord->getProperties()->getCreator());
 
         // cp:lastModifiedBy
-        $objWriter->writeElement('cp:lastModifiedBy', $pPHPWord->getProperties()->getLastModifiedBy());
+        $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getProperties()->getLastModifiedBy());
 
         // dcterms:created
-        $objWriter->startElement('dcterms:created');
-        $objWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $objWriter->writeRaw(date(DATE_W3C, $pPHPWord->getProperties()->getCreated()));
-        $objWriter->endElement();
+        $xmlWriter->startElement('dcterms:created');
+        $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
+        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getProperties()->getCreated()));
+        $xmlWriter->endElement();
 
         // dcterms:modified
-        $objWriter->startElement('dcterms:modified');
-        $objWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $objWriter->writeRaw(date(DATE_W3C, $pPHPWord->getProperties()->getModified()));
-        $objWriter->endElement();
+        $xmlWriter->startElement('dcterms:modified');
+        $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
+        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getProperties()->getModified()));
+        $xmlWriter->endElement();
 
         // dc:title
-        $objWriter->writeElement('dc:title', $pPHPWord->getProperties()->getTitle());
+        $xmlWriter->writeElement('dc:title', $phpWord->getProperties()->getTitle());
 
         // dc:description
-        $objWriter->writeElement('dc:description', $pPHPWord->getProperties()->getDescription());
+        $xmlWriter->writeElement('dc:description', $phpWord->getProperties()->getDescription());
 
         // dc:subject
-        $objWriter->writeElement('dc:subject', $pPHPWord->getProperties()->getSubject());
+        $xmlWriter->writeElement('dc:subject', $phpWord->getProperties()->getSubject());
 
         // cp:keywords
-        $objWriter->writeElement('cp:keywords', $pPHPWord->getProperties()->getKeywords());
+        $xmlWriter->writeElement('cp:keywords', $phpWord->getProperties()->getKeywords());
 
         // cp:category
-        $objWriter->writeElement('cp:category', $pPHPWord->getProperties()->getCategory());
+        $xmlWriter->writeElement('cp:category', $phpWord->getProperties()->getCategory());
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 }

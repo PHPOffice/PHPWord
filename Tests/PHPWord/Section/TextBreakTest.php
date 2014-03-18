@@ -1,13 +1,13 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPWord_Section_TextBreak;
-use PHPWord_Style_Paragraph;
-use PHPWord_Style_Font;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Section_TextBreak
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Section\TextBreak
  * @runTestsInSeparateProcesses
  */
 class TextBreakTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +17,7 @@ class TextBreakTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $object = new PHPWord_Section_TextBreak();
+        $object = new TextBreak();
         $this->assertNull($object->getFontStyle());
         $this->assertNull($object->getParagraphStyle());
     }
@@ -27,9 +27,9 @@ class TextBreakTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithStyleObject()
     {
-        $fStyle = new PHPWord_Style_Font();
-        $pStyle = new PHPWord_Style_Paragraph();
-        $object = new PHPWord_Section_TextBreak($fStyle, $pStyle);
+        $fStyle = new Font();
+        $pStyle = new Paragraph();
+        $object = new TextBreak($fStyle, $pStyle);
         $this->assertEquals($fStyle, $object->getFontStyle());
         $this->assertEquals($pStyle, $object->getParagraphStyle());
     }
@@ -41,9 +41,9 @@ class TextBreakTest extends \PHPUnit_Framework_TestCase
     {
         $fStyle = array('size' => 12);
         $pStyle = array('spacing' => 240);
-        $object = new PHPWord_Section_TextBreak($fStyle, $pStyle);
-        $this->assertInstanceOf('PHPWord_Style_Font', $object->getFontStyle());
-        $this->assertInstanceOf('PHPWord_Style_Paragraph', $object->getParagraphStyle());
+        $object = new TextBreak($fStyle, $pStyle);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $object->getFontStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
     }
 
     /**
@@ -53,7 +53,7 @@ class TextBreakTest extends \PHPUnit_Framework_TestCase
     {
         $fStyle = 'fStyle';
         $pStyle = 'pStyle';
-        $object = new PHPWord_Section_TextBreak($fStyle, $pStyle);
+        $object = new TextBreak($fStyle, $pStyle);
         $this->assertEquals($fStyle, $object->getFontStyle());
         $this->assertEquals($pStyle, $object->getParagraphStyle());
     }

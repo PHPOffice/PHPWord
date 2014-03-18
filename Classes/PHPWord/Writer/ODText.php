@@ -72,12 +72,12 @@ class ODText implements IWriter
     private $_diskCachingDirectory;
 
     /**
-     * @param PHPWord $pPHPWord
+     * @param PHPWord $phpWord
      */
-    public function __construct(PHPWord $pPHPWord = null)
+    public function __construct(PHPWord $phpWord = null)
     {
         // Assign PHPWord
-        $this->setPHPWord($pPHPWord);
+        $this->setPHPWord($phpWord);
 
         // Set up disk caching location
         $this->_diskCachingDirectory = './';
@@ -216,13 +216,13 @@ class ODText implements IWriter
     /**
      * Get PHPWord object
      *
-     * @param PHPWord $pPHPWord PHPWord object
+     * @param PHPWord $phpWord PHPWord object
      * @throws Exception
      * @return PhpOffice\PhpWord\Writer\ODText
      */
-    public function setPHPWord(PHPWord $pPHPWord = null)
+    public function setPHPWord(PHPWord $phpWord = null)
     {
-        $this->_document = $pPHPWord;
+        $this->_document = $phpWord;
         return $this;
     }
 

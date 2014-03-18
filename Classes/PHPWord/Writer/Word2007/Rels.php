@@ -25,34 +25,34 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_Word2007_Rels
- */
-class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
-{
+namespace PhpOffice\PhpWord\Writer\Word2007;
 
-    public function writeRelationships(PHPWord $pPHPWord = null)
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Rels extends WriterPart
+{
+    public function writeRelationships(PHPWord $phpWord = null)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         // Relationships
-        $objWriter->startElement('Relationships');
-        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+        $xmlWriter->startElement('Relationships');
+        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         $relationId = 1;
 
         // Relationship word/document.xml
         $this->_writeRelationship(
-            $objWriter,
+            $xmlWriter,
             $relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument',
             'word/document.xml'
@@ -60,7 +60,7 @@ class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
 
         // Relationship docProps/core.xml
         $this->_writeRelationship(
-            $objWriter,
+            $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
             'docProps/core.xml'
@@ -68,29 +68,28 @@ class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
 
         // Relationship docProps/app.xml
         $this->_writeRelationship(
-            $objWriter,
+            $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties',
             'docProps/app.xml'
         );
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 
     /**
      * Write Override content type
      *
-     * @param    PHPWord_Shared_XMLWriter $objWriter XML Writer
+     * @param    PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param    int $pId Relationship ID. rId will be prepended!
      * @param    string $pType Relationship type
      * @param    string $pTarget Relationship target
      * @param    string $pTargetMode Relationship target mode
      * @throws    Exception
      */
-    private function _writeRelationship(PHPWord_Shared_XMLWriter $objWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
+    private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {
             if (strpos($pId, 'rId') === false) {
@@ -98,16 +97,16 @@ class PHPWord_Writer_Word2007_Rels extends PHPWord_Writer_Word2007_WriterPart
             }
 
             // Write relationship
-            $objWriter->startElement('Relationship');
-            $objWriter->writeAttribute('Id', $pId);
-            $objWriter->writeAttribute('Type', $pType);
-            $objWriter->writeAttribute('Target', $pTarget);
+            $xmlWriter->startElement('Relationship');
+            $xmlWriter->writeAttribute('Id', $pId);
+            $xmlWriter->writeAttribute('Type', $pType);
+            $xmlWriter->writeAttribute('Target', $pTarget);
 
             if ($pTargetMode != '') {
-                $objWriter->writeAttribute('TargetMode', $pTargetMode);
+                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
             }
 
-            $objWriter->endElement();
+            $xmlWriter->endElement();
         } else {
             throw new Exception("Invalid parameters passed.");
         }

@@ -25,59 +25,63 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Writer\Word2007;
 
-class PHPWord_Writer_Word2007_Footnotes extends PHPWord_Writer_Word2007_Base
+use PhpOffice\PhpWord\Section\Footnote;
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Footnotes extends Base
 {
     public function writeFootnotes($allFootnotesCollection)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
-        $objWriter->startElement('w:footnotes');
-        $objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $objWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->startElement('w:footnotes');
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
 
         // write separator and continuation separator
-        $objWriter->startElement('w:footnote');
-        $objWriter->writeAttribute('w:id', 0);
-        $objWriter->writeAttribute('w:type', 'separator');
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:r');
-        $objWriter->startElement('w:separator');
-        $objWriter->endElement(); // w:separator
-        $objWriter->endElement(); // w:r
-        $objWriter->endElement(); // w:p
-        $objWriter->endElement(); // w:footnote
+        $xmlWriter->startElement('w:footnote');
+        $xmlWriter->writeAttribute('w:id', 0);
+        $xmlWriter->writeAttribute('w:type', 'separator');
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:separator');
+        $xmlWriter->endElement(); // w:separator
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:p
+        $xmlWriter->endElement(); // w:footnote
 
-        $objWriter->startElement('w:footnote');
-        $objWriter->writeAttribute('w:id', 1);
-        $objWriter->writeAttribute('w:type', 'continuationSeparator');
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:r');
-        $objWriter->startElement('w:continuationSeparator');
-        $objWriter->endElement(); // w:continuationSeparator
-        $objWriter->endElement(); // w:r
-        $objWriter->endElement(); // w:p
-        $objWriter->endElement(); // w:footnote
+        $xmlWriter->startElement('w:footnote');
+        $xmlWriter->writeAttribute('w:id', 1);
+        $xmlWriter->writeAttribute('w:type', 'continuationSeparator');
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:continuationSeparator');
+        $xmlWriter->endElement(); // w:continuationSeparator
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:p
+        $xmlWriter->endElement(); // w:footnote
 
 
         foreach ($allFootnotesCollection as $footnote) {
-            if ($footnote instanceof PHPWord_Section_Footnote) {
-                $this->_writeFootnote($objWriter, $footnote);
+            if ($footnote instanceof Footnote) {
+                $this->_writeFootnote($xmlWriter, $footnote);
             }
         }
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 }

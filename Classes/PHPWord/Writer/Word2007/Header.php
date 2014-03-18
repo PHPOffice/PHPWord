@@ -25,63 +25,70 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_Word2007_Header
- */
-class PHPWord_Writer_Word2007_Header extends PHPWord_Writer_Word2007_Base
-{
+namespace PhpOffice\PhpWord\Writer\Word2007;
 
-    public function writeHeader(PHPWord_Section_Header $header)
+use PhpOffice\PhpWord\Section\Footer\PreserveText;
+use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Table;
+use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Header extends Base
+{
+    public function writeHeader(PhpOffice\PhpWord\Section\Header $header)
     {
         // Create XML writer
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
-        $objWriter->startElement('w:hdr');
-        $objWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
-        $objWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
-        $objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $objWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
-        $objWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $objWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
-        $objWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
-        $objWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-        $objWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
+        $xmlWriter->startElement('w:hdr');
+        $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
+        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
+        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
 
         $_elements = $header->getElements();
 
         foreach ($_elements as $element) {
-            if ($element instanceof PHPWord_Section_Text) {
-                $this->_writeText($objWriter, $element);
-            } elseif ($element instanceof PHPWord_Section_TextRun) {
-                $this->_writeTextRun($objWriter, $element);
-            } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                $this->_writeTextBreak($objWriter, $element);
-            } elseif ($element instanceof PHPWord_Section_Table) {
-                $this->_writeTable($objWriter, $element);
-            } elseif ($element instanceof PHPWord_Section_Image ||
-                $element instanceof PHPWord_Section_MemoryImage
+            if ($element instanceof Text) {
+                $this->_writeText($xmlWriter, $element);
+            } elseif ($element instanceof TextRun) {
+                $this->_writeTextRun($xmlWriter, $element);
+            } elseif ($element instanceof TextBreak) {
+                $this->_writeTextBreak($xmlWriter, $element);
+            } elseif ($element instanceof Table) {
+                $this->_writeTable($xmlWriter, $element);
+            } elseif ($element instanceof Image ||
+                $element instanceof MemoryImage
             ) {
                 if (!$element->getIsWatermark()) {
-                    $this->_writeImage($objWriter, $element);
+                    $this->_writeImage($xmlWriter, $element);
                 } else {
-                    $this->_writeWatermark($objWriter, $element);
+                    $this->_writeWatermark($xmlWriter, $element);
                 }
-            } elseif ($element instanceof PHPWord_Section_Footer_PreserveText) {
-                $this->_writePreserveText($objWriter, $element);
+            } elseif ($element instanceof PreserveText) {
+                $this->_writePreserveText($xmlWriter, $element);
             }
         }
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 }

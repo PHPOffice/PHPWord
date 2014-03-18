@@ -1,15 +1,15 @@
 <?php
 namespace PHPWord\Tests\Section\Footer;
 
-use PHPWord_Section_Footer_PreserveText;
+use PhpOffice\PhpWord\Section\Footer\PreserveText;
 
 class PreserveTextTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
-        $oPreserveText = new PHPWord_Section_Footer_PreserveText();
+        $oPreserveText = new PreserveText();
 
-        $this->assertInstanceOf('PHPWord_Section_Footer_PreserveText', $oPreserveText);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Footer\\PreserveText', $oPreserveText);
         $this->assertEquals($oPreserveText->getText(), null);
         $this->assertEquals($oPreserveText->getFontStyle(), null);
         $this->assertEquals($oPreserveText->getParagraphStyle(), null);
@@ -17,7 +17,7 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithString()
     {
-        $oPreserveText = new PHPWord_Section_Footer_PreserveText('text', 'styleFont', 'styleParagraph');
+        $oPreserveText = new PreserveText('text', 'styleFont', 'styleParagraph');
         $this->assertEquals($oPreserveText->getText(), 'text');
         $this->assertEquals($oPreserveText->getFontStyle(), 'styleFont');
         $this->assertEquals($oPreserveText->getParagraphStyle(), 'styleParagraph');
@@ -25,12 +25,15 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithArray()
     {
-        $oPreserveText = new PHPWord_Section_Footer_PreserveText(
+        $oPreserveText = new PreserveText(
             'text',
             array('align' => 'center'),
             array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
         );
-        $this->assertInstanceOf('PHPWord_Style_Font', $oPreserveText->getFontStyle());
-        $this->assertInstanceOf('PHPWord_Style_Paragraph', $oPreserveText->getParagraphStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
+        $this->assertInstanceOf(
+            'PhpOffice\\PhpWord\\Style\\Paragraph',
+            $oPreserveText->getParagraphStyle()
+        );
     }
 }

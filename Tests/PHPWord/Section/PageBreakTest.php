@@ -1,7 +1,7 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPWord_Section_PageBreak;
+use PhpOffice\PhpWord\Section\PageBreak;
 
 class PageBreakTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +11,8 @@ class PageBreakTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         // Section Settings
-        $oPageBreak = new PHPWord_Section_PageBreak();
+        $oPageBreak = new PageBreak();
 
-        $this->assertInstanceOf('PHPWord_Section_PageBreak', $oPageBreak);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\PageBreak', $oPageBreak);
     }
 }

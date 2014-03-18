@@ -25,15 +25,23 @@
  * @version    0.8.0
  */
 
-use PhpOffice\PhpWord\Exceptions\InvalidImageException;
-use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
+namespace PhpOffice\PhpWord\Writer;
 
-/**
- * Class PHPWord_Writer_Word2007
- */
-class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
+use PhpOffice\PhpWord\Footnote;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
+use PhpOffice\PhpWord\Writer\Word2007\DocProps;
+use PhpOffice\PhpWord\Writer\Word2007\Document;
+use PhpOffice\PhpWord\Writer\Word2007\DocumentRels;
+use PhpOffice\PhpWord\Writer\Word2007\Footer;
+use PhpOffice\PhpWord\Writer\Word2007\Footnotes;
+use PhpOffice\PhpWord\Writer\Word2007\FootnotesRels;
+use PhpOffice\PhpWord\Writer\Word2007\Header;
+use PhpOffice\PhpWord\Writer\Word2007\Rels;
+use PhpOffice\PhpWord\Writer\Word2007\Styles;
+
+class Word2007 implements IWriter
 {
-
     private $_document;
     private $_writerParts;
     private $_diskCachingDirectory;
@@ -47,16 +55,16 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
         $this->_diskCachingDirectory = './';
 
-        $this->_writerParts['contenttypes'] = new PHPWord_Writer_Word2007_ContentTypes();
-        $this->_writerParts['rels'] = new PHPWord_Writer_Word2007_Rels();
-        $this->_writerParts['docprops'] = new PHPWord_Writer_Word2007_DocProps();
-        $this->_writerParts['documentrels'] = new PHPWord_Writer_Word2007_DocumentRels();
-        $this->_writerParts['document'] = new PHPWord_Writer_Word2007_Document();
-        $this->_writerParts['styles'] = new PHPWord_Writer_Word2007_Styles();
-        $this->_writerParts['header'] = new PHPWord_Writer_Word2007_Header();
-        $this->_writerParts['footer'] = new PHPWord_Writer_Word2007_Footer();
-        $this->_writerParts['footnotes'] = new PHPWord_Writer_Word2007_Footnotes();
-        $this->_writerParts['footnotesrels'] = new PHPWord_Writer_Word2007_FootnotesRels();
+        $this->_writerParts['contenttypes'] = new ContentTypes();
+        $this->_writerParts['rels'] = new Rels();
+        $this->_writerParts['docprops'] = new DocProps();
+        $this->_writerParts['documentrels'] = new DocumentRels();
+        $this->_writerParts['document'] = new Document();
+        $this->_writerParts['styles'] = new Styles();
+        $this->_writerParts['header'] = new Header();
+        $this->_writerParts['footer'] = new Footer();
+        $this->_writerParts['footnotes'] = new Footnotes();
+        $this->_writerParts['footnotesrels'] = new FootnotesRels();
 
         foreach ($this->_writerParts as $writer) {
             $writer->setParentWriter($this);
@@ -88,7 +96,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
 
             $sectionElements = array();
-            $_secElements = PHPWord_Media::getSectionMediaElements();
+            $_secElements = Media::getSectionMediaElements();
             foreach ($_secElements as $element) { // loop through section media elements
                 if ($element['type'] != 'hyperlink') {
                     $this->_addFileToPackage($objZip, $element);
@@ -96,7 +104,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 $sectionElements[] = $element;
             }
 
-            $_hdrElements = PHPWord_Media::getHeaderMediaElements();
+            $_hdrElements = Media::getHeaderMediaElements();
             foreach ($_hdrElements as $_headerFile => $_hdrMedia) { // loop through headers
                 if (count($_hdrMedia) > 0) {
                     $objZip->addFromString('word/_rels/' . $_headerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_hdrMedia));
@@ -106,7 +114,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
             }
 
-            $_ftrElements = PHPWord_Media::getFooterMediaElements();
+            $_ftrElements = Media::getFooterMediaElements();
             foreach ($_ftrElements as $_footerFile => $_ftrMedia) { // loop through footers
                 if (count($_ftrMedia) > 0) {
                     $objZip->addFromString('word/_rels/' . $_footerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_ftrMedia));
@@ -117,7 +125,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             }
 
             $footnoteLinks = array();
-            $_footnoteElements = PHPWord_Footnote::getFootnoteLinkElements();
+            $_footnoteElements = Footnote::getFootnoteLinkElements();
             // loop through footnote link elements
             foreach ($_footnoteElements as $element) {
                 $footnoteLinks[] = $element;
@@ -125,7 +133,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
             $_cHdrs = 0;
             $_cFtrs = 0;
-            $rID = PHPWord_Media::countSectionMediaElements() + 6;
+            $rID = Media::countSectionMediaElements() + 6;
             $_sections = $this->_document->getSections();
 
             $footers = array();
@@ -150,8 +158,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
             }
 
-            if (PHPWord_Footnote::countFootnoteElements() > 0) {
-                $_allFootnotesCollection = PHPWord_Footnote::getFootnoteElements();
+            if (Footnote::countFootnoteElements() > 0) {
+                $_allFootnotesCollection = Footnote::getFootnoteElements();
                 $_footnoteFile = 'footnotes.xml';
                 $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
                 $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));

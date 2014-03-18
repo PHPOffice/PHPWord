@@ -1,7 +1,7 @@
 <?php
 namespace PHPWord\Tests\Section;
 
-use PHPWord_Section_MemoryImage;
+use PhpOffice\PhpWord\Section\MemoryImage;
 
 class MemoryImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,9 +11,9 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'firefox.png')
         );
-        $oMemoryImage = new PHPWord_Section_MemoryImage($src);
+        $oMemoryImage = new MemoryImage($src);
 
-        $this->assertInstanceOf('PHPWord_Section_MemoryImage', $oMemoryImage);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
         $this->assertEquals($oMemoryImage->getSource(), $src);
         $this->assertEquals($oMemoryImage->getMediaId(), md5($src));
         $this->assertEquals($oMemoryImage->getImageCreateFunction(), 'imagecreatefrompng');
@@ -28,9 +28,9 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'mario.gif')
         );
-        $oMemoryImage = new PHPWord_Section_MemoryImage($src);
+        $oMemoryImage = new MemoryImage($src);
 
-        $this->assertInstanceOf('PHPWord_Section_MemoryImage', $oMemoryImage);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
         $this->assertEquals($oMemoryImage->getSource(), $src);
         $this->assertEquals($oMemoryImage->getMediaId(), md5($src));
         $this->assertEquals($oMemoryImage->getImageCreateFunction(), 'imagecreatefromgif');
@@ -45,9 +45,9 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
         );
-        $oMemoryImage = new PHPWord_Section_MemoryImage($src);
+        $oMemoryImage = new MemoryImage($src);
 
-        $this->assertInstanceOf('PHPWord_Section_MemoryImage', $oMemoryImage);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
         $this->assertEquals($oMemoryImage->getSource(), $src);
         $this->assertEquals($oMemoryImage->getMediaId(), md5($src));
         $this->assertEquals($oMemoryImage->getImageCreateFunction(), 'imagecreatefromjpeg');
@@ -58,12 +58,12 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testBMP()
     {
-        $oMemoryImage = new PHPWord_Section_MemoryImage(\join(
+        $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'duke_nukem.bmp')
         ));
 
-        $this->assertInstanceOf('PHPWord_Section_MemoryImage', $oMemoryImage);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
         $this->assertEquals($oMemoryImage->getImageCreateFunction(), null);
         $this->assertEquals($oMemoryImage->getImageFunction(), null);
         $this->assertEquals($oMemoryImage->getImageExtension(), null);
@@ -72,17 +72,17 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testStyle()
     {
-        $oMemoryImage = new PHPWord_Section_MemoryImage(\join(
+        $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
         ), array('width' => 210, 'height' => 210, 'align' => 'center'));
 
-        $this->assertInstanceOf('PHPWord_Style_Image', $oMemoryImage->getStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oMemoryImage->getStyle());
     }
 
     public function testRelationID()
     {
-        $oMemoryImage = new PHPWord_Section_MemoryImage(\join(
+        $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
         ));

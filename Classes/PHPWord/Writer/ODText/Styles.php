@@ -38,11 +38,11 @@ class Styles extends WriterPart
     /**
      * Write Styles file to XML format
      *
-     * @param    PHPWord $pPHPWord
-     * @return    string                        XML Output
-     * @throws    Exception
+     * @param PHPWord $phpWord
+     * @return string XML Output
+     * @throws Exception
      */
-    public function writeStyles(PHPWord $pPHPWord = null)
+    public function writeStyles(PHPWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;

@@ -99,10 +99,10 @@ class Style
      * @param string $styleName
      * @param array $styles
      */
-    public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null, $styleLastRow = null)
+    public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new TableFull($styleTable, $styleFirstRow, $styleLastRow);
+            $style = new TableFull($styleTable, $styleFirstRow);
 
             self::$_styleElements[$styleName] = $style;
         }

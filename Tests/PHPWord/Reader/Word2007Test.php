@@ -1,12 +1,10 @@
 <?php
 namespace PHPWord\Tests\Reader;
 
-use PHPWord_Reader_Word2007;
-use PHPWord_IOFactory;
+use PhpOffice\PhpWord\Reader\Word2007;
+use PhpOffice\PhpWord\IOFactory;
 
 /**
- * Class Word2007Test
- *
  * @package PHPWord\Tests
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
@@ -30,7 +28,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
         );
-        $object = new PHPWord_Reader_Word2007;
+        $object = new Word2007;
         $file = $dir . DIRECTORY_SEPARATOR . 'reader.docx';
         $this->assertTrue($object->canRead($file));
     }
@@ -46,10 +44,10 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
         );
-        $object = new PHPWord_Reader_Word2007;
+        $object = new Word2007;
         $file = $dir . DIRECTORY_SEPARATOR . 'foo.docx';
         $this->assertFalse($object->canRead($file));
-        $object = PHPWord_IOFactory::load($file);
+        $object = IOFactory::load($file);
     }
 
     /**
@@ -62,7 +60,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
         );
         $file = $dir . DIRECTORY_SEPARATOR . 'reader.docx';
-        $object = PHPWord_IOFactory::load($file);
-        $this->assertInstanceOf('PHPWord', $object);
+        $object = IOFactory::load($file);
+        $this->assertInstanceOf('PhpOffice\\PHPWord', $object);
     }
 }

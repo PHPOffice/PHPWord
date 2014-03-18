@@ -25,41 +25,55 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_Word2007_Document
- */
-class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
-{
+namespace PhpOffice\PhpWord\Writer\Word2007;
 
-    public function writeDocument(PHPWord $pPHPWord = null)
+use PhpOffice\PhpWord\Section\Footnote;
+use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\Link;
+use PhpOffice\PhpWord\Section\ListItem;
+use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Object;
+use PhpOffice\PhpWord\Section\PageBreak;
+use PhpOffice\PhpWord\Section\Table;
+use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\TOC;
+
+class Document extends Base
+{
+    public function writeDocument(PHPWord $phpWord = null)
     {
         // Create XML writer
-
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         // w:document
-        $objWriter->startElement('w:document');
+        $xmlWriter->startElement('w:document');
 
-        $objWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
-        $objWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
-        $objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $objWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
-        $objWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $objWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
-        $objWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
-        $objWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-        $objWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
+        $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
+        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
+        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
-        $objWriter->startElement('w:body');
+        $xmlWriter->startElement('w:body');
 
-        $_sections = $pPHPWord->getSections();
+        $_sections = $phpWord->getSections();
         $countSections = count($_sections);
         $pSection = 0;
 
@@ -70,60 +84,60 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
                 $_elements = $section->getElements();
 
                 foreach ($_elements as $element) {
-                    if ($element instanceof PHPWord_Section_Text) {
-                        $this->_writeText($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_TextRun) {
-                        $this->_writeTextRun($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_Link) {
-                        $this->_writeLink($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_Title) {
-                        $this->_writeTitle($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_TextBreak) {
-                        $this->_writeTextBreak($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
-                        $this->_writePageBreak($objWriter);
-                    } elseif ($element instanceof PHPWord_Section_Table) {
-                        $this->_writeTable($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_ListItem) {
-                        $this->_writeListItem($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_Image ||
-                        $element instanceof PHPWord_Section_MemoryImage
+                    if ($element instanceof Text) {
+                        $this->_writeText($xmlWriter, $element);
+                    } elseif ($element instanceof TextRun) {
+                        $this->_writeTextRun($xmlWriter, $element);
+                    } elseif ($element instanceof Link) {
+                        $this->_writeLink($xmlWriter, $element);
+                    } elseif ($element instanceof Title) {
+                        $this->_writeTitle($xmlWriter, $element);
+                    } elseif ($element instanceof TextBreak) {
+                        $this->_writeTextBreak($xmlWriter, $element);
+                    } elseif ($element instanceof PageBreak) {
+                        $this->_writePageBreak($xmlWriter);
+                    } elseif ($element instanceof Table) {
+                        $this->_writeTable($xmlWriter, $element);
+                    } elseif ($element instanceof ListItem) {
+                        $this->_writeListItem($xmlWriter, $element);
+                    } elseif ($element instanceof Image ||
+                        $element instanceof MemoryImage
                     ) {
-                        $this->_writeImage($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_Section_Object) {
-                        $this->_writeObject($objWriter, $element);
-                    } elseif ($element instanceof PHPWord_TOC) {
-                        $this->_writeTOC($objWriter);
-                    } elseif ($element instanceof PHPWord_Section_Footnote) {
-                        $this->_writeFootnoteReference($objWriter, $element);
+                        $this->_writeImage($xmlWriter, $element);
+                    } elseif ($element instanceof Object) {
+                        $this->_writeObject($xmlWriter, $element);
+                    } elseif ($element instanceof TOC) {
+                        $this->_writeTOC($xmlWriter);
+                    } elseif ($element instanceof Footnote) {
+                        $this->_writeFootnoteReference($xmlWriter, $element);
                     }
                 }
 
                 if ($pSection == $countSections) {
-                    $this->_writeEndSection($objWriter, $section);
+                    $this->_writeEndSection($xmlWriter, $section);
                 } else {
-                    $this->_writeSection($objWriter, $section);
+                    $this->_writeSection($xmlWriter, $section);
                 }
             }
         }
 
-        $objWriter->endElement(); // End w:body
-        $objWriter->endElement(); // End w:document
+        $xmlWriter->endElement(); // End w:body
+        $xmlWriter->endElement(); // End w:document
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 
-    private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
+    private function _writeSection(XMLWriter $xmlWriter = null, Section $section)
     {
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:pPr');
-        $this->_writeEndSection($objWriter, $section, 3);
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:pPr');
+        $this->_writeEndSection($xmlWriter, $section, 3);
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 
-    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
+    private function _writeEndSection(XMLWriter $xmlWriter = null, Section $section)
     {
         $settings = $section->getSettings();
         $_headers = $section->getHeaders();
@@ -146,167 +160,167 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $colsSpace = $settings->getColsSpace();
         $breakType = $settings->getBreakType();
 
-        $objWriter->startElement('w:sectPr');
+        $xmlWriter->startElement('w:sectPr');
 
         foreach ($_headers as &$_header) {
             $rId = $_header->getRelationId();
-            $objWriter->startElement('w:headerReference');
-            $objWriter->writeAttribute('w:type', $_header->getType());
-            $objWriter->writeAttribute('r:id', 'rId' . $rId);
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:headerReference');
+            $xmlWriter->writeAttribute('w:type', $_header->getType());
+            $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+            $xmlWriter->endElement();
         }
 
         if ($section->hasDifferentFirstPage()) {
-            $objWriter->startElement('w:titlePg');
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:titlePg');
+            $xmlWriter->endElement();
         }
 
         if (!is_null($breakType)) {
-            $objWriter->startElement('w:type');
-            $objWriter->writeAttribute('w:val', $breakType);
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:type');
+            $xmlWriter->writeAttribute('w:val', $breakType);
+            $xmlWriter->endElement();
         }
 
         if (!is_null($_footer)) {
             $rId = $_footer->getRelationId();
-            $objWriter->startElement('w:footerReference');
-            $objWriter->writeAttribute('w:type', 'default');
-            $objWriter->writeAttribute('r:id', 'rId' . $rId);
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:footerReference');
+            $xmlWriter->writeAttribute('w:type', 'default');
+            $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+            $xmlWriter->endElement();
         }
 
-        $objWriter->startElement('w:pgSz');
-        $objWriter->writeAttribute('w:w', $pgSzW);
-        $objWriter->writeAttribute('w:h', $pgSzH);
+        $xmlWriter->startElement('w:pgSz');
+        $xmlWriter->writeAttribute('w:w', $pgSzW);
+        $xmlWriter->writeAttribute('w:h', $pgSzH);
 
         if (!is_null($orientation) && strtolower($orientation) != 'portrait') {
-            $objWriter->writeAttribute('w:orient', $orientation);
+            $xmlWriter->writeAttribute('w:orient', $orientation);
         }
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->startElement('w:pgMar');
-        $objWriter->writeAttribute('w:top', $marginTop);
-        $objWriter->writeAttribute('w:right', $marginRight);
-        $objWriter->writeAttribute('w:bottom', $marginBottom);
-        $objWriter->writeAttribute('w:left', $marginLeft);
-        $objWriter->writeAttribute('w:header', $headerHeight);
-        $objWriter->writeAttribute('w:footer', $footerHeight);
-        $objWriter->writeAttribute('w:gutter', '0');
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:pgMar');
+        $xmlWriter->writeAttribute('w:top', $marginTop);
+        $xmlWriter->writeAttribute('w:right', $marginRight);
+        $xmlWriter->writeAttribute('w:bottom', $marginBottom);
+        $xmlWriter->writeAttribute('w:left', $marginLeft);
+        $xmlWriter->writeAttribute('w:header', $headerHeight);
+        $xmlWriter->writeAttribute('w:footer', $footerHeight);
+        $xmlWriter->writeAttribute('w:gutter', '0');
+        $xmlWriter->endElement();
 
 
         if (!is_null($borders[0]) || !is_null($borders[1]) || !is_null($borders[2]) || !is_null($borders[3])) {
             $borderColor = $settings->getBorderColor();
 
-            $objWriter->startElement('w:pgBorders');
-            $objWriter->writeAttribute('w:offsetFrom', 'page');
+            $xmlWriter->startElement('w:pgBorders');
+            $xmlWriter->writeAttribute('w:offsetFrom', 'page');
 
             if (!is_null($borders[0])) {
-                $objWriter->startElement('w:top');
-                $objWriter->writeAttribute('w:val', 'single');
-                $objWriter->writeAttribute('w:sz', $borders[0]);
-                $objWriter->writeAttribute('w:space', '24');
-                $objWriter->writeAttribute('w:color', $borderColor[0]);
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:top');
+                $xmlWriter->writeAttribute('w:val', 'single');
+                $xmlWriter->writeAttribute('w:sz', $borders[0]);
+                $xmlWriter->writeAttribute('w:space', '24');
+                $xmlWriter->writeAttribute('w:color', $borderColor[0]);
+                $xmlWriter->endElement();
             }
 
             if (!is_null($borders[1])) {
-                $objWriter->startElement('w:left');
-                $objWriter->writeAttribute('w:val', 'single');
-                $objWriter->writeAttribute('w:sz', $borders[1]);
-                $objWriter->writeAttribute('w:space', '24');
-                $objWriter->writeAttribute('w:color', $borderColor[1]);
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:left');
+                $xmlWriter->writeAttribute('w:val', 'single');
+                $xmlWriter->writeAttribute('w:sz', $borders[1]);
+                $xmlWriter->writeAttribute('w:space', '24');
+                $xmlWriter->writeAttribute('w:color', $borderColor[1]);
+                $xmlWriter->endElement();
             }
 
             if (!is_null($borders[2])) {
-                $objWriter->startElement('w:right');
-                $objWriter->writeAttribute('w:val', 'single');
-                $objWriter->writeAttribute('w:sz', $borders[2]);
-                $objWriter->writeAttribute('w:space', '24');
-                $objWriter->writeAttribute('w:color', $borderColor[2]);
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:right');
+                $xmlWriter->writeAttribute('w:val', 'single');
+                $xmlWriter->writeAttribute('w:sz', $borders[2]);
+                $xmlWriter->writeAttribute('w:space', '24');
+                $xmlWriter->writeAttribute('w:color', $borderColor[2]);
+                $xmlWriter->endElement();
             }
 
             if (!is_null($borders[3])) {
-                $objWriter->startElement('w:bottom');
-                $objWriter->writeAttribute('w:val', 'single');
-                $objWriter->writeAttribute('w:sz', $borders[3]);
-                $objWriter->writeAttribute('w:space', '24');
-                $objWriter->writeAttribute('w:color', $borderColor[3]);
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:bottom');
+                $xmlWriter->writeAttribute('w:val', 'single');
+                $xmlWriter->writeAttribute('w:sz', $borders[3]);
+                $xmlWriter->writeAttribute('w:space', '24');
+                $xmlWriter->writeAttribute('w:color', $borderColor[3]);
+                $xmlWriter->endElement();
             }
-            $objWriter->endElement();
+            $xmlWriter->endElement();
         }
 
         // Page numbering
         if (null !== $settings->getPageNumberingStart()) {
-            $objWriter->startElement('w:pgNumType');
-            $objWriter->writeAttribute('w:start', $section->getSettings()->getPageNumberingStart());
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:pgNumType');
+            $xmlWriter->writeAttribute('w:start', $section->getSettings()->getPageNumberingStart());
+            $xmlWriter->endElement();
         }
 
-        $objWriter->startElement('w:cols');
-        $objWriter->writeAttribute('w:num', $colsNum);
-        $objWriter->writeAttribute('w:space', $colsSpace);
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:cols');
+        $xmlWriter->writeAttribute('w:num', $colsNum);
+        $xmlWriter->writeAttribute('w:space', $colsSpace);
+        $xmlWriter->endElement();
 
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
     }
 
-    private function _writePageBreak(PHPWord_Shared_XMLWriter $objWriter = null)
+    private function _writePageBreak(XMLWriter $xmlWriter = null)
     {
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:r');
-        $objWriter->startElement('w:br');
-        $objWriter->writeAttribute('w:type', 'page');
-        $objWriter->endElement();
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:br');
+        $xmlWriter->writeAttribute('w:type', 'page');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 
-    public function _writeListItem(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_ListItem $listItem)
+    public function _writeListItem(XMLWriter $xmlWriter = null, ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
         $text = $textObject->getText();
         $styleParagraph = $textObject->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof PHPWord_Style_Paragraph) ? true : false;
+        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         $depth = $listItem->getDepth();
         $listType = $listItem->getStyle()->getListType();
 
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:pPr');
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:pPr');
 
         if ($SpIsObject) {
-            $this->_writeParagraphStyle($objWriter, $styleParagraph, true);
+            $this->_writeParagraphStyle($xmlWriter, $styleParagraph, true);
         } elseif (!$SpIsObject && !is_null($styleParagraph)) {
-            $objWriter->startElement('w:pStyle');
-            $objWriter->writeAttribute('w:val', $styleParagraph);
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:pStyle');
+            $xmlWriter->writeAttribute('w:val', $styleParagraph);
+            $xmlWriter->endElement();
         }
 
-        $objWriter->startElement('w:numPr');
+        $xmlWriter->startElement('w:numPr');
 
-        $objWriter->startElement('w:ilvl');
-        $objWriter->writeAttribute('w:val', $depth);
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:ilvl');
+        $xmlWriter->writeAttribute('w:val', $depth);
+        $xmlWriter->endElement();
 
-        $objWriter->startElement('w:numId');
-        $objWriter->writeAttribute('w:val', $listType);
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:numId');
+        $xmlWriter->writeAttribute('w:val', $listType);
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->_writeText($objWriter, $textObject, true);
+        $this->_writeText($xmlWriter, $textObject, true);
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
     }
 
-    protected function _writeObject(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Object $object)
+    protected function _writeObject(XMLWriter $xmlWriter = null, Object $object)
     {
         $rIdObject = $object->getRelationId();
         $rIdImage = $object->getImageRelationId();
@@ -320,172 +334,172 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
         $align = $style->getAlign();
 
 
-        $objWriter->startElement('w:p');
+        $xmlWriter->startElement('w:p');
 
         if (!is_null($align)) {
-            $objWriter->startElement('w:pPr');
-            $objWriter->startElement('w:jc');
-            $objWriter->writeAttribute('w:val', $align);
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:jc');
+            $xmlWriter->writeAttribute('w:val', $align);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
         }
 
-        $objWriter->startElement('w:r');
+        $xmlWriter->startElement('w:r');
 
-        $objWriter->startElement('w:object');
-        $objWriter->writeAttribute('w:dxaOrig', '249');
-        $objWriter->writeAttribute('w:dyaOrig', '160');
+        $xmlWriter->startElement('w:object');
+        $xmlWriter->writeAttribute('w:dxaOrig', '249');
+        $xmlWriter->writeAttribute('w:dyaOrig', '160');
 
-        $objWriter->startElement('v:shape');
-        $objWriter->writeAttribute('id', $shapeId);
-        $objWriter->writeAttribute('type', '#_x0000_t75');
-        $objWriter->writeAttribute('style', 'width:104px;height:67px');
-        $objWriter->writeAttribute('o:ole', '');
+        $xmlWriter->startElement('v:shape');
+        $xmlWriter->writeAttribute('id', $shapeId);
+        $xmlWriter->writeAttribute('type', '#_x0000_t75');
+        $xmlWriter->writeAttribute('style', 'width:104px;height:67px');
+        $xmlWriter->writeAttribute('o:ole', '');
 
-        $objWriter->startElement('v:imagedata');
-        $objWriter->writeAttribute('r:id', 'rId' . $rIdImage);
-        $objWriter->writeAttribute('o:title', '');
-        $objWriter->endElement();
+        $xmlWriter->startElement('v:imagedata');
+        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdImage);
+        $xmlWriter->writeAttribute('o:title', '');
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->startElement('o:OLEObject');
-        $objWriter->writeAttribute('Type', 'Embed');
-        $objWriter->writeAttribute('ProgID', 'Package');
-        $objWriter->writeAttribute('ShapeID', $shapeId);
-        $objWriter->writeAttribute('DrawAspect', 'Icon');
-        $objWriter->writeAttribute('ObjectID', '_' . $objectId);
-        $objWriter->writeAttribute('r:id', 'rId' . $rIdObject);
-        $objWriter->endElement();
+        $xmlWriter->startElement('o:OLEObject');
+        $xmlWriter->writeAttribute('Type', 'Embed');
+        $xmlWriter->writeAttribute('ProgID', 'Package');
+        $xmlWriter->writeAttribute('ShapeID', $shapeId);
+        $xmlWriter->writeAttribute('DrawAspect', 'Icon');
+        $xmlWriter->writeAttribute('ObjectID', '_' . $objectId);
+        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdObject);
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:r
 
-        $objWriter->endElement(); // w:p
+        $xmlWriter->endElement(); // w:p
     }
 
-    private function _writeTOC(PHPWord_Shared_XMLWriter $objWriter = null)
+    private function _writeTOC(XMLWriter $xmlWriter = null)
     {
-        $titles = PHPWord_TOC::getTitles();
-        $styleFont = PHPWord_TOC::getStyleFont();
+        $titles = TOC::getTitles();
+        $styleFont = TOC::getStyleFont();
 
-        $styleTOC = PHPWord_TOC::getStyleTOC();
+        $styleTOC = TOC::getStyleTOC();
         $fIndent = $styleTOC->getIndent();
         $tabLeader = $styleTOC->getTabLeader();
         $tabPos = $styleTOC->getTabPos();
 
-        $isObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+        $isObject = ($styleFont instanceof Font) ? true : false;
 
         for ($i = 0; $i < count($titles); $i++) {
             $title = $titles[$i];
             $indent = ($title['depth'] - 1) * $fIndent;
 
-            $objWriter->startElement('w:p');
+            $xmlWriter->startElement('w:p');
 
-            $objWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:pPr');
 
             if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $this->_writeParagraphStyle($objWriter, $styleFont->getParagraphStyle());
+                $this->_writeParagraphStyle($xmlWriter, $styleFont->getParagraphStyle());
             }
 
             if ($indent > 0) {
-                $objWriter->startElement('w:ind');
-                $objWriter->writeAttribute('w:left', $indent);
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:ind');
+                $xmlWriter->writeAttribute('w:left', $indent);
+                $xmlWriter->endElement();
             }
 
             if (!empty($styleFont) && !$isObject) {
-                $objWriter->startElement('w:pPr');
-                $objWriter->startElement('w:pStyle');
-                $objWriter->writeAttribute('w:val', $styleFont);
-                $objWriter->endElement();
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:pStyle');
+                $xmlWriter->writeAttribute('w:val', $styleFont);
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
 
-            $objWriter->startElement('w:tabs');
-            $objWriter->startElement('w:tab');
-            $objWriter->writeAttribute('w:val', 'right');
+            $xmlWriter->startElement('w:tabs');
+            $xmlWriter->startElement('w:tab');
+            $xmlWriter->writeAttribute('w:val', 'right');
             if (!empty($tabLeader)) {
-                $objWriter->writeAttribute('w:leader', $tabLeader);
+                $xmlWriter->writeAttribute('w:leader', $tabLeader);
             }
-            $objWriter->writeAttribute('w:pos', $tabPos);
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->writeAttribute('w:pos', $tabPos);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
 
-            $objWriter->endElement(); // w:pPr
+            $xmlWriter->endElement(); // w:pPr
 
 
             if ($i == 0) {
-                $objWriter->startElement('w:r');
-                $objWriter->startElement('w:fldChar');
-                $objWriter->writeAttribute('w:fldCharType', 'begin');
-                $objWriter->endElement();
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:fldChar');
+                $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
 
-                $objWriter->startElement('w:r');
-                $objWriter->startElement('w:instrText');
-                $objWriter->writeAttribute('xml:space', 'preserve');
-                $objWriter->writeRaw('TOC \o "1-9" \h \z \u');
-                $objWriter->endElement();
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:instrText');
+                $xmlWriter->writeAttribute('xml:space', 'preserve');
+                $xmlWriter->writeRaw('TOC \o "1-9" \h \z \u');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
 
-                $objWriter->startElement('w:r');
-                $objWriter->startElement('w:fldChar');
-                $objWriter->writeAttribute('w:fldCharType', 'separate');
-                $objWriter->endElement();
-                $objWriter->endElement();
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:fldChar');
+                $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
 
-            $objWriter->startElement('w:hyperlink');
-            $objWriter->writeAttribute('w:anchor', $title['anchor']);
-            $objWriter->writeAttribute('w:history', '1');
+            $xmlWriter->startElement('w:hyperlink');
+            $xmlWriter->writeAttribute('w:anchor', $title['anchor']);
+            $xmlWriter->writeAttribute('w:history', '1');
 
-            $objWriter->startElement('w:r');
+            $xmlWriter->startElement('w:r');
 
             if ($isObject) {
-                $this->_writeTextStyle($objWriter, $styleFont);
+                $this->_writeTextStyle($xmlWriter, $styleFont);
             }
 
-            $objWriter->startElement('w:t');
-            $objWriter->writeRaw($title['text']);
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->writeRaw($title['text']);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
 
-            $objWriter->startElement('w:r');
-            $objWriter->writeElement('w:tab', null);
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->writeElement('w:tab', null);
+            $xmlWriter->endElement();
 
-            $objWriter->startElement('w:r');
-            $objWriter->startElement('w:fldChar');
-            $objWriter->writeAttribute('w:fldCharType', 'begin');
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
 
-            $objWriter->startElement('w:r');
-            $objWriter->startElement('w:instrText');
-            $objWriter->writeAttribute('xml:space', 'preserve');
-            $objWriter->writeRaw('PAGEREF ' . $title['anchor'] . ' \h');
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:instrText');
+            $xmlWriter->writeAttribute('xml:space', 'preserve');
+            $xmlWriter->writeRaw('PAGEREF ' . $title['anchor'] . ' \h');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
 
-            $objWriter->startElement('w:r');
-            $objWriter->startElement('w:fldChar');
-            $objWriter->writeAttribute('w:fldCharType', 'end');
-            $objWriter->endElement();
-            $objWriter->endElement();
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'end');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
 
-            $objWriter->endElement(); // w:hyperlink
+            $xmlWriter->endElement(); // w:hyperlink
 
-            $objWriter->endElement(); // w:p
+            $xmlWriter->endElement(); // w:p
         }
 
-        $objWriter->startElement('w:p');
-        $objWriter->startElement('w:r');
-        $objWriter->startElement('w:fldChar');
-        $objWriter->writeAttribute('w:fldCharType', 'end');
-        $objWriter->endElement();
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 }

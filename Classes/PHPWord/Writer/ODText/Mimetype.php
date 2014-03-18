@@ -32,11 +32,11 @@ class Mimetype extends WriterPart
     /**
      * Write Mimetype to Text format
      *
-     * @param    PHPWord $pPHPWord
-     * @return    string                        Text Output
-     * @throws    Exception
+     * @param PHPWord $phpWord
+     * @return string Text Output
+     * @throws Exception
      */
-    public function writeMimetype(PHPWord $pPHPWord = null)
+    public function writeMimetype(PHPWord $phpWord = null)
     {
 
         return 'application/vnd.oasis.opendocument.text';

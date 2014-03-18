@@ -1,27 +1,27 @@
 <?php
 namespace PHPWord\Tests\Section\Table;
 
-use PHPWord_Section_Table_Row;
+use PhpOffice\PhpWord\Section\Table\Row;
 
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $iVal = rand(1, 1000);
-        $oRow = new PHPWord_Section_Table_Row('section', $iVal);
+        $oRow = new Row('section', $iVal);
 
-        $this->assertInstanceOf('PHPWord_Section_Table_Row', $oRow);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Table\\Row', $oRow);
         $this->assertEquals($oRow->getHeight(), null);
         $this->assertInternalType('array', $oRow->getCells());
         $this->assertCount(0, $oRow->getCells());
-        $this->assertInstanceOf('PHPWord_Style_Row', $oRow->getStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
     public function testConstructWithParams()
     {
         $iVal = rand(1, 1000);
         $iVal2 = rand(1, 1000);
-        $oRow = new PHPWord_Section_Table_Row(
+        $oRow = new Row(
             'section',
             $iVal,
             $iVal2,
@@ -29,15 +29,15 @@ class RowTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($oRow->getHeight(), $iVal2);
-        $this->assertInstanceOf('PHPWord_Style_Row', $oRow->getStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
     public function testAddCell()
     {
-        $oRow = new PHPWord_Section_Table_Row('section', 1);
+        $oRow = new Row('section', 1);
         $element = $oRow->addCell();
 
-        $this->assertInstanceOf('PHPWord_Section_Table_Cell', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Table\\Cell', $element);
         $this->assertCount(1, $oRow->getCells());
     }
 }
