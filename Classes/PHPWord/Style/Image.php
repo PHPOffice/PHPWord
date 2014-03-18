@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style_Image
- */
-class PHPWord_Style_Image
+namespace PhpOffice\PhpWord\Style;
+
+class Image
 {
     const WRAPPING_STYLE_INLINE = 'inline';
     const WRAPPING_STYLE_SQUARE = 'square';

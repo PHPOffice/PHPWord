@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style_TOC
- */
-class PHPWord_Style_TOC
-{
+namespace PhpOffice\PhpWord\Style;
 
+class TOC
+{
     const TABLEADER_DOT = 'dot';
     const TABLEADER_UNDERSCORE = 'underscore';
     const TABLEADER_LINE = 'hyphen';
@@ -64,7 +62,7 @@ class PHPWord_Style_TOC
     public function __construct()
     {
         $this->_tabPos = 9062;
-        $this->_tabLeader = PHPWord_Style_TOC::TABLEADER_DOT;
+        $this->_tabLeader = self::TABLEADER_DOT;
         $this->_indent = 200;
     }
 
@@ -103,7 +101,7 @@ class PHPWord_Style_TOC
      *
      * @param string $pValue
      */
-    public function setTabLeader($pValue = PHPWord_Style_TOC::TABLEADER_DOT)
+    public function setTabLeader($pValue = self::TABLEADER_DOT)
     {
         $this->_tabLeader = $pValue;
     }

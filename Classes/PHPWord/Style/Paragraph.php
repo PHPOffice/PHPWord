@@ -25,12 +25,11 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Style;
+
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
-/**
- * PHPWord_Style_Paragraph
- */
-class PHPWord_Style_Paragraph
+class Paragraph
 {
     const LINE_HEIGHT = 240;
 
@@ -187,7 +186,7 @@ class PHPWord_Style_Paragraph
      * Set Paragraph Alignment
      *
      * @param string $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setAlign($pValue = null)
     {
@@ -213,7 +212,7 @@ class PHPWord_Style_Paragraph
      * Set Space before Paragraph
      *
      * @param int $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpaceBefore($pValue = null)
     {
@@ -235,7 +234,7 @@ class PHPWord_Style_Paragraph
      * Set Space after Paragraph
      *
      * @param int $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpaceAfter($pValue = null)
     {
@@ -257,7 +256,7 @@ class PHPWord_Style_Paragraph
      * Set Spacing between breaks
      *
      * @param int $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpacing($pValue = null)
     {
@@ -279,7 +278,7 @@ class PHPWord_Style_Paragraph
      * Set indentation
      *
      * @param int $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setIndent($pValue = null)
     {
@@ -301,7 +300,7 @@ class PHPWord_Style_Paragraph
      * Set hanging
      *
      * @param int $pValue
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function setHanging($pValue = null)
     {
@@ -312,7 +311,7 @@ class PHPWord_Style_Paragraph
     /**
      * Get tabs
      *
-     * @return PHPWord_Style_Tabs
+     * @return PhpOffice\PhpWord\Style\Tabs
      */
     public function getTabs()
     {
@@ -323,12 +322,12 @@ class PHPWord_Style_Paragraph
      * Set tabs
      *
      * @param   array   $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setTabs($pValue = null)
     {
         if (is_array($pValue)) {
-            $this->_tabs = new PHPWord_Style_Tabs($pValue);
+            $this->_tabs = new Tabs($pValue);
         }
         return $this;
     }
@@ -347,7 +346,7 @@ class PHPWord_Style_Paragraph
      * Set parent style ID
      *
      * @param   string $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setBasedOn($pValue = 'Normal')
     {
@@ -369,7 +368,7 @@ class PHPWord_Style_Paragraph
      * Set style for next paragraph
      *
      * @param   string $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setNext($pValue = null)
     {
@@ -391,7 +390,7 @@ class PHPWord_Style_Paragraph
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setWidowControl($pValue = true)
     {
@@ -416,7 +415,7 @@ class PHPWord_Style_Paragraph
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setKeepNext($pValue = false)
     {
@@ -441,7 +440,7 @@ class PHPWord_Style_Paragraph
      * Set keep all lines on one page setting
      *
      * @param   bool $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setKeepLines($pValue = false)
     {
@@ -466,7 +465,7 @@ class PHPWord_Style_Paragraph
      * Set start paragraph on next page setting
      *
      * @param   bool $pValue
-     * @return  PHPWord_Style_Paragraph
+     * @return  PhpOffice\PhpWord\Style\Paragraph
      */
     public function setPageBreakBefore($pValue = false)
     {

@@ -25,12 +25,12 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_TOC
- */
-class PHPWord_TOC
-{
+namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Style\Font;
+
+class TOC
+{
     /**
      * Title Elements
      *
@@ -75,7 +75,7 @@ class PHPWord_TOC
      */
     public function __construct($styleFont = null, $styleTOC = null)
     {
-        self::$_styleTOC = new PHPWord_Style_TOC();
+        self::$_styleTOC = new PhpOffice\PhpWord\Style\TOC();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
@@ -88,7 +88,7 @@ class PHPWord_TOC
 
         if (!is_null($styleFont)) {
             if (is_array($styleFont)) {
-                self::$_styleFont = new PHPWord_Style_Font();
+                self::$_styleFont = new Font();
 
                 foreach ($styleFont as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
@@ -136,7 +136,7 @@ class PHPWord_TOC
     /**
      * Get TOC Style
      *
-     * @return PHPWord_Style_TOC
+     * @return PhpOffice\PhpWord\Style\TOC
      */
     public static function getStyleTOC()
     {
@@ -146,7 +146,7 @@ class PHPWord_TOC
     /**
      * Get Font Style
      *
-     * @return PHPWord_Style_Font
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public static function getStyleFont()
     {

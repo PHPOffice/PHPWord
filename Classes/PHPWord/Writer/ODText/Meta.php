@@ -25,10 +25,11 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_ODText_Meta
- */
-class PHPWord_Writer_ODText_Meta extends PHPWord_Writer_ODText_WriterPart
+namespace PhpOffice\PhpWord\Writer\ODText;
+
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Meta extends WriterPart
 {
     /**
      * Write Meta file to XML format
@@ -40,55 +41,55 @@ class PHPWord_Writer_ODText_Meta extends PHPWord_Writer_ODText_WriterPart
     public function writeMeta(PHPWord $pPHPWord = null)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startDocument('1.0', 'UTF-8');
 
         // office:document-meta
-        $objWriter->startElement('office:document-meta');
-        $objWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
-        $objWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-        $objWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-        $objWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
-        $objWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
-        $objWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
-        $objWriter->writeAttribute('office:version', '1.2');
+        $xmlWriter->startElement('office:document-meta');
+        $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
+        $xmlWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+        $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
+        $xmlWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
+        $xmlWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
+        $xmlWriter->writeAttribute('office:version', '1.2');
 
         // office:meta
-        $objWriter->startElement('office:meta');
+        $xmlWriter->startElement('office:meta');
 
         // dc:creator
-        $objWriter->writeElement('dc:creator', $pPHPWord->getProperties()->getLastModifiedBy());
+        $xmlWriter->writeElement('dc:creator', $pPHPWord->getProperties()->getLastModifiedBy());
         // dc:date
-        $objWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $pPHPWord->getProperties()->getModified()));
+        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $pPHPWord->getProperties()->getModified()));
         // dc:description
-        $objWriter->writeElement('dc:description', $pPHPWord->getProperties()->getDescription());
+        $xmlWriter->writeElement('dc:description', $pPHPWord->getProperties()->getDescription());
         // dc:subject
-        $objWriter->writeElement('dc:subject', $pPHPWord->getProperties()->getSubject());
+        $xmlWriter->writeElement('dc:subject', $pPHPWord->getProperties()->getSubject());
         // dc:title
-        $objWriter->writeElement('dc:title', $pPHPWord->getProperties()->getTitle());
+        $xmlWriter->writeElement('dc:title', $pPHPWord->getProperties()->getTitle());
         // meta:creation-date
-        $objWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $pPHPWord->getProperties()->getCreated()));
+        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $pPHPWord->getProperties()->getCreated()));
         // meta:initial-creator
-        $objWriter->writeElement('meta:initial-creator', $pPHPWord->getProperties()->getCreator());
+        $xmlWriter->writeElement('meta:initial-creator', $pPHPWord->getProperties()->getCreator());
         // meta:keyword
-        $objWriter->writeElement('meta:keyword', $pPHPWord->getProperties()->getKeywords());
+        $xmlWriter->writeElement('meta:keyword', $pPHPWord->getProperties()->getKeywords());
 
         // @todo : Where these properties are written ?
         // $pPHPWord->getProperties()->getCategory()
         // $pPHPWord->getProperties()->getCompany()
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 }

@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_ODText_Mimetype
- */
-class PHPWord_Writer_ODText_Mimetype extends PHPWord_Writer_ODText_WriterPart
+namespace PhpOffice\PhpWord\Writer\ODText;
+
+class Mimetype extends WriterPart
 {
     /**
      * Write Mimetype to Text format

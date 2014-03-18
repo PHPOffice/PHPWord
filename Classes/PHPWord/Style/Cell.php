@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Style_Cell
- */
-class PHPWord_Style_Cell
-{
+namespace PhpOffice\PhpWord\Style;
 
+class Cell
+{
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';
 

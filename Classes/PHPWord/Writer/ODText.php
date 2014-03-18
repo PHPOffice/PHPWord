@@ -25,10 +25,16 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_ODText
- */
-class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
+namespace PhpOffice\PhpWord\Writer;
+
+use PhpOffice\PhpWord\HashTable;
+use PhpOffice\PhpWord\Writer\ODText\Content;
+use PhpOffice\PhpWord\Writer\ODText\Manifest;
+use PhpOffice\PhpWord\Writer\ODText\Meta;
+use PhpOffice\PhpWord\Writer\ODText\Mimetype;
+use PhpOffice\PhpWord\Writer\ODText\Styles;
+
+class ODText implements IWriter
 {
     /**
      * Private PHPWord
@@ -40,14 +46,14 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Private writer parts
      *
-     * @var PHPWord_Writer_ODText_WriterPart[]
+     * @var PhpOffice\PhpWord\Writer\ODText\WriterPart[]
      */
     private $_writerParts;
 
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var PHPWord_HashTable
+     * @var PhpOffice\PhpWord\HashTable
      */
     private $_drawingHashTable;
 
@@ -66,9 +72,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     private $_diskCachingDirectory;
 
     /**
-     * Create a new PHPWord_Writer_ODText
-     *
-     * @param    PHPWord $pPHPWord
+     * @param PHPWord $pPHPWord
      */
     public function __construct(PHPWord $pPHPWord = null)
     {
@@ -79,11 +83,11 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
         $this->_diskCachingDirectory = './';
 
         // Initialise writer parts
-        $this->_writerParts['content'] = new PHPWord_Writer_ODText_Content();
-        $this->_writerParts['manifest'] = new PHPWord_Writer_ODText_Manifest();
-        $this->_writerParts['meta'] = new PHPWord_Writer_ODText_Meta();
-        $this->_writerParts['mimetype'] = new PHPWord_Writer_ODText_Mimetype();
-        $this->_writerParts['styles'] = new PHPWord_Writer_ODText_Styles();
+        $this->_writerParts['content'] = new Content();
+        $this->_writerParts['manifest'] = new Manifest();
+        $this->_writerParts['meta'] = new Meta();
+        $this->_writerParts['mimetype'] = new Mimetype();
+        $this->_writerParts['styles'] = new Styles();
 
 
         // Assign parent IWriter
@@ -92,7 +96,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
         }
 
         // Set HashTable variables
-        $this->_drawingHashTable = new PHPWord_HashTable();
+        $this->_drawingHashTable = new HashTable();
     }
 
     /**
@@ -212,9 +216,9 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Get PHPWord object
      *
-     * @param    PHPWord $pPHPWord PHPWord object
-     * @throws    Exception
-     * @return PHPWord_Writer_ODText
+     * @param PHPWord $pPHPWord PHPWord object
+     * @throws Exception
+     * @return PhpOffice\PhpWord\Writer\ODText
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
@@ -225,7 +229,7 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return PHPWord_HashTable
+     * @return PhpOffice\PhpWord\HashTable
      */
     public function getDrawingHashTable()
     {
@@ -235,8 +239,8 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Get writer part
      *
-     * @param    string $pPartName Writer part name
-     * @return    PHPWord_Writer_ODText_WriterPart
+     * @param string $pPartName Writer part name
+     * @return PhpOffice\PhpWord\Writer\ODText\WriterPart
      */
     public function getWriterPart($pPartName = '')
     {
@@ -260,10 +264,10 @@ class PHPWord_Writer_ODText implements PHPWord_Writer_IWriter
     /**
      * Set use disk caching where possible?
      *
-     * @param    boolean $pValue
-     * @param    string $pDirectory Disk caching directory
-     * @throws    Exception    Exception when directory does not exist
-     * @return PHPWord_Writer_ODText
+     * @param boolean $pValue
+     * @param string $pDirectory Disk caching directory
+     * @throws Exception Exception when directory does not exist
+     * @return PhpOffice\PhpWord\Writer\ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {

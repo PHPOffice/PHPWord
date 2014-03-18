@@ -25,14 +25,13 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord;
+
 use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Shared\String;
 
-/**
- * PHPWord_DocumentProperties
- */
-class PHPWord_Template
+class Template
 {
-
     /**
      * ZipArchive
      *
@@ -132,7 +131,7 @@ class PHPWord_Template
         }
 
         if (!is_array($replace)) {
-            if (!PHPWord_Shared_String::IsUTF8($replace)) {
+            if (!String::IsUTF8($replace)) {
                 $replace = utf8_encode($replace);
             }
             $replace = htmlspecialchars($replace);

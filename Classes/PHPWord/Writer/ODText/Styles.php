@@ -25,10 +25,15 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_ODText_Styles
- */
-class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
+namespace PhpOffice\PhpWord\Writer\ODText;
+
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\TableFull;
+
+class Styles extends WriterPart
 {
     /**
      * Write Styles file to XML format
@@ -40,228 +45,228 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
     public function writeStyles(PHPWord $pPHPWord = null)
     {
         // Create XML writer
-        $objWriter = null;
+        $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
         } else {
-            $objWriter = new PHPWord_Shared_XMLWriter(PHPWord_Shared_XMLWriter::STORAGE_MEMORY);
+            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
 
         // XML header
-        $objWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startDocument('1.0', 'UTF-8');
 
         // Styles:Styles
-        $objWriter->startElement('office:document-styles');
-        $objWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
-        $objWriter->writeAttribute('xmlns:style', 'urn:oasis:names:tc:opendocument:xmlns:style:1.0');
-        $objWriter->writeAttribute('xmlns:text', 'urn:oasis:names:tc:opendocument:xmlns:text:1.0');
-        $objWriter->writeAttribute('xmlns:table', 'urn:oasis:names:tc:opendocument:xmlns:table:1.0');
-        $objWriter->writeAttribute('xmlns:draw', 'urn:oasis:names:tc:opendocument:xmlns:drawing:1.0');
-        $objWriter->writeAttribute('xmlns:fo', 'urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0');
-        $objWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-        $objWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-        $objWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
-        $objWriter->writeAttribute('xmlns:number', 'urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0');
-        $objWriter->writeAttribute('xmlns:svg', 'urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0');
-        $objWriter->writeAttribute('xmlns:chart', 'urn:oasis:names:tc:opendocument:xmlns:chart:1.0');
-        $objWriter->writeAttribute('xmlns:dr3d', 'urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0');
-        $objWriter->writeAttribute('xmlns:math', 'http://www.w3.org/1998/Math/MathML');
-        $objWriter->writeAttribute('xmlns:form', 'urn:oasis:names:tc:opendocument:xmlns:form:1.0');
-        $objWriter->writeAttribute('xmlns:script', 'urn:oasis:names:tc:opendocument:xmlns:script:1.0');
-        $objWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
-        $objWriter->writeAttribute('xmlns:ooow', 'http://openoffice.org/2004/writer');
-        $objWriter->writeAttribute('xmlns:oooc', 'http://openoffice.org/2004/calc');
-        $objWriter->writeAttribute('xmlns:dom', 'http://www.w3.org/2001/xml-events');
-        $objWriter->writeAttribute('xmlns:rpt', 'http://openoffice.org/2005/report');
-        $objWriter->writeAttribute('xmlns:of', 'urn:oasis:names:tc:opendocument:xmlns:of:1.2');
-        $objWriter->writeAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
-        $objWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
-        $objWriter->writeAttribute('xmlns:tableooo', 'http://openoffice.org/2009/table');
-        $objWriter->writeAttribute('xmlns:css3t', 'http://www.w3.org/TR/css3-text/');
-        $objWriter->writeAttribute('office:version', '1.2');
+        $xmlWriter->startElement('office:document-styles');
+        $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
+        $xmlWriter->writeAttribute('xmlns:style', 'urn:oasis:names:tc:opendocument:xmlns:style:1.0');
+        $xmlWriter->writeAttribute('xmlns:text', 'urn:oasis:names:tc:opendocument:xmlns:text:1.0');
+        $xmlWriter->writeAttribute('xmlns:table', 'urn:oasis:names:tc:opendocument:xmlns:table:1.0');
+        $xmlWriter->writeAttribute('xmlns:draw', 'urn:oasis:names:tc:opendocument:xmlns:drawing:1.0');
+        $xmlWriter->writeAttribute('xmlns:fo', 'urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0');
+        $xmlWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+        $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
+        $xmlWriter->writeAttribute('xmlns:number', 'urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0');
+        $xmlWriter->writeAttribute('xmlns:svg', 'urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0');
+        $xmlWriter->writeAttribute('xmlns:chart', 'urn:oasis:names:tc:opendocument:xmlns:chart:1.0');
+        $xmlWriter->writeAttribute('xmlns:dr3d', 'urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0');
+        $xmlWriter->writeAttribute('xmlns:math', 'http://www.w3.org/1998/Math/MathML');
+        $xmlWriter->writeAttribute('xmlns:form', 'urn:oasis:names:tc:opendocument:xmlns:form:1.0');
+        $xmlWriter->writeAttribute('xmlns:script', 'urn:oasis:names:tc:opendocument:xmlns:script:1.0');
+        $xmlWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
+        $xmlWriter->writeAttribute('xmlns:ooow', 'http://openoffice.org/2004/writer');
+        $xmlWriter->writeAttribute('xmlns:oooc', 'http://openoffice.org/2004/calc');
+        $xmlWriter->writeAttribute('xmlns:dom', 'http://www.w3.org/2001/xml-events');
+        $xmlWriter->writeAttribute('xmlns:rpt', 'http://openoffice.org/2005/report');
+        $xmlWriter->writeAttribute('xmlns:of', 'urn:oasis:names:tc:opendocument:xmlns:of:1.2');
+        $xmlWriter->writeAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
+        $xmlWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
+        $xmlWriter->writeAttribute('xmlns:tableooo', 'http://openoffice.org/2009/table');
+        $xmlWriter->writeAttribute('xmlns:css3t', 'http://www.w3.org/TR/css3-text/');
+        $xmlWriter->writeAttribute('office:version', '1.2');
 
 
         // office:font-face-decls
-        $objWriter->startElement('office:font-face-decls');
+        $xmlWriter->startElement('office:font-face-decls');
         $arrFonts = array();
-        $styles = PHPWord_Style::getStyles();
+        $styles = Style::getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PHPWord_Style_Font
-                if ($style instanceof PHPWord_Style_Font) {
+                // PhpOffice\PhpWord\Style\Font
+                if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
                     if (!in_array($name, $arrFonts)) {
                         $arrFonts[] = $name;
 
                         // style:font-face
-                        $objWriter->startElement('style:font-face');
-                        $objWriter->writeAttribute('style:name', $name);
-                        $objWriter->writeAttribute('svg:font-family', $name);
-                        $objWriter->endElement();
+                        $xmlWriter->startElement('style:font-face');
+                        $xmlWriter->writeAttribute('style:name', $name);
+                        $xmlWriter->writeAttribute('svg:font-family', $name);
+                        $xmlWriter->endElement();
                     }
                 }
             }
         }
         if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
-            $objWriter->startElement('style:font-face');
-            $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
-            $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
-            $objWriter->endElement();
+            $xmlWriter->startElement('style:font-face');
+            $xmlWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+            $xmlWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
+            $xmlWriter->endElement();
         }
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // office:styles
-        $objWriter->startElement('office:styles');
+        $xmlWriter->startElement('office:styles');
 
         // style:default-style
-        $objWriter->startElement('style:default-style');
-        $objWriter->writeAttribute('style:family', 'paragraph');
+        $xmlWriter->startElement('style:default-style');
+        $xmlWriter->writeAttribute('style:family', 'paragraph');
 
         // style:paragraph-properties
-        $objWriter->startElement('style:paragraph-properties');
-        $objWriter->writeAttribute('fo:hyphenation-ladder-count', 'no-limit');
-        $objWriter->writeAttribute('style:text-autospace', 'ideograph-alpha');
-        $objWriter->writeAttribute('style:punctuation-wrap', 'hanging');
-        $objWriter->writeAttribute('style:line-break', 'strict');
-        $objWriter->writeAttribute('style:tab-stop-distance', '1.249cm');
-        $objWriter->writeAttribute('style:writing-mode', 'page');
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:paragraph-properties');
+        $xmlWriter->writeAttribute('fo:hyphenation-ladder-count', 'no-limit');
+        $xmlWriter->writeAttribute('style:text-autospace', 'ideograph-alpha');
+        $xmlWriter->writeAttribute('style:punctuation-wrap', 'hanging');
+        $xmlWriter->writeAttribute('style:line-break', 'strict');
+        $xmlWriter->writeAttribute('style:tab-stop-distance', '1.249cm');
+        $xmlWriter->writeAttribute('style:writing-mode', 'page');
+        $xmlWriter->endElement();
 
         // style:text-properties
-        $objWriter->startElement('style:text-properties');
-        $objWriter->writeAttribute('style:use-window-font-color', 'true');
-        $objWriter->writeAttribute('style:font-name', PHPWord::DEFAULT_FONT_NAME);
-        $objWriter->writeAttribute('fo:font-size', PHPWord::DEFAULT_FONT_SIZE . 'pt');
-        $objWriter->writeAttribute('fo:language', 'fr');
-        $objWriter->writeAttribute('fo:country', 'FR');
-        $objWriter->writeAttribute('style:letter-kerning', 'true');
-        $objWriter->writeAttribute('style:font-name-asian', PHPWord::DEFAULT_FONT_NAME . '2');
-        $objWriter->writeAttribute('style:font-size-asian', PHPWord::DEFAULT_FONT_SIZE . 'pt');
-        $objWriter->writeAttribute('style:language-asian', 'zh');
-        $objWriter->writeAttribute('style:country-asian', 'CN');
-        $objWriter->writeAttribute('style:font-name-complex', PHPWord::DEFAULT_FONT_NAME . '2');
-        $objWriter->writeAttribute('style:font-size-complex', PHPWord::DEFAULT_FONT_SIZE . 'pt');
-        $objWriter->writeAttribute('style:language-complex', 'hi');
-        $objWriter->writeAttribute('style:country-complex', 'IN');
-        $objWriter->writeAttribute('fo:hyphenate', 'false');
-        $objWriter->writeAttribute('fo:hyphenation-remain-char-count', '2');
-        $objWriter->writeAttribute('fo:hyphenation-push-char-count', '2');
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:text-properties');
+        $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
+        $xmlWriter->writeAttribute('style:font-name', PHPWord::DEFAULT_FONT_NAME);
+        $xmlWriter->writeAttribute('fo:font-size', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('fo:language', 'fr');
+        $xmlWriter->writeAttribute('fo:country', 'FR');
+        $xmlWriter->writeAttribute('style:letter-kerning', 'true');
+        $xmlWriter->writeAttribute('style:font-name-asian', PHPWord::DEFAULT_FONT_NAME . '2');
+        $xmlWriter->writeAttribute('style:font-size-asian', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:language-asian', 'zh');
+        $xmlWriter->writeAttribute('style:country-asian', 'CN');
+        $xmlWriter->writeAttribute('style:font-name-complex', PHPWord::DEFAULT_FONT_NAME . '2');
+        $xmlWriter->writeAttribute('style:font-size-complex', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:language-complex', 'hi');
+        $xmlWriter->writeAttribute('style:country-complex', 'IN');
+        $xmlWriter->writeAttribute('fo:hyphenate', 'false');
+        $xmlWriter->writeAttribute('fo:hyphenation-remain-char-count', '2');
+        $xmlWriter->writeAttribute('fo:hyphenation-push-char-count', '2');
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Write Style Definitions
-        $styles = PHPWord_Style::getStyles();
+        $styles = Style::getStyles();
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 if (preg_match('#^T[0-9]+$#', $styleName) == 0
                     && preg_match('#^P[0-9]+$#', $styleName) == 0
                 ) {
-                    // PHPWord_Style_Font
-                    if ($style instanceof PHPWord_Style_Font) {
+                    // PhpOffice\PhpWord\Style\Font
+                    if ($style instanceof Font) {
                         // style:style
-                        $objWriter->startElement('style:style');
-                        $objWriter->writeAttribute('style:name', $styleName);
-                        $objWriter->writeAttribute('style:family', 'text');
+                        $xmlWriter->startElement('style:style');
+                        $xmlWriter->writeAttribute('style:name', $styleName);
+                        $xmlWriter->writeAttribute('style:family', 'text');
 
                         // style:text-properties
-                        $objWriter->startElement('style:text-properties');
-                        $objWriter->writeAttribute('fo:font-size', ($style->getSize()) . 'pt');
-                        $objWriter->writeAttribute('style:font-size-asian', ($style->getSize()) . 'pt');
-                        $objWriter->writeAttribute('style:font-size-complex', ($style->getSize()) . 'pt');
+                        $xmlWriter->startElement('style:text-properties');
+                        $xmlWriter->writeAttribute('fo:font-size', ($style->getSize()) . 'pt');
+                        $xmlWriter->writeAttribute('style:font-size-asian', ($style->getSize()) . 'pt');
+                        $xmlWriter->writeAttribute('style:font-size-complex', ($style->getSize()) . 'pt');
                         if ($style->getItalic()) {
-                            $objWriter->writeAttribute('fo:font-style', 'italic');
-                            $objWriter->writeAttribute('style:font-style-asian', 'italic');
-                            $objWriter->writeAttribute('style:font-style-complex', 'italic');
+                            $xmlWriter->writeAttribute('fo:font-style', 'italic');
+                            $xmlWriter->writeAttribute('style:font-style-asian', 'italic');
+                            $xmlWriter->writeAttribute('style:font-style-complex', 'italic');
                         }
                         if ($style->getBold()) {
-                            $objWriter->writeAttribute('fo:font-weight', 'bold');
-                            $objWriter->writeAttribute('style:font-weight-asian', 'bold');
+                            $xmlWriter->writeAttribute('fo:font-weight', 'bold');
+                            $xmlWriter->writeAttribute('style:font-weight-asian', 'bold');
                         }
-                        $objWriter->endElement();
-                        $objWriter->endElement();
-                    } elseif ($style instanceof PHPWord_Style_Paragraph) {
-                        // PHPWord_Style_Paragraph
+                        $xmlWriter->endElement();
+                        $xmlWriter->endElement();
+                    } elseif ($style instanceof Paragraph) {
+                        // PhpOffice\PhpWord\Style\Paragraph
                         // style:style
-                        $objWriter->startElement('style:style');
-                        $objWriter->writeAttribute('style:name', $styleName);
-                        $objWriter->writeAttribute('style:family', 'paragraph');
+                        $xmlWriter->startElement('style:style');
+                        $xmlWriter->writeAttribute('style:name', $styleName);
+                        $xmlWriter->writeAttribute('style:family', 'paragraph');
 
                         //style:paragraph-properties
-                        $objWriter->startElement('style:paragraph-properties');
-                        $objWriter->writeAttribute('fo:margin-top', ((is_null($style->getSpaceBefore())) ? '0' : round(17.6 / $style->getSpaceBefore(), 2)) . 'cm');
-                        $objWriter->writeAttribute('fo:margin-bottom', ((is_null($style->getSpaceAfter())) ? '0' : round(17.6 / $style->getSpaceAfter(), 2)) . 'cm');
-                        $objWriter->writeAttribute('fo:text-align', $style->getAlign());
-                        $objWriter->endElement();
+                        $xmlWriter->startElement('style:paragraph-properties');
+                        $xmlWriter->writeAttribute('fo:margin-top', ((is_null($style->getSpaceBefore())) ? '0' : round(17.6 / $style->getSpaceBefore(), 2)) . 'cm');
+                        $xmlWriter->writeAttribute('fo:margin-bottom', ((is_null($style->getSpaceAfter())) ? '0' : round(17.6 / $style->getSpaceAfter(), 2)) . 'cm');
+                        $xmlWriter->writeAttribute('fo:text-align', $style->getAlign());
+                        $xmlWriter->endElement();
 
-                        $objWriter->endElement();
-                    } elseif ($style instanceof PHPWord_Style_TableFull) {
-                        // PHPWord_Style_TableFull
+                        $xmlWriter->endElement();
+                    } elseif ($style instanceof TableFull) {
+                        // PhpOffice\PhpWord\Style\TableFull
                     }
                 }
             }
         }
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // office:automatic-styles
-        $objWriter->startElement('office:automatic-styles');
+        $xmlWriter->startElement('office:automatic-styles');
         // style:page-layout
-        $objWriter->startElement('style:page-layout');
-        $objWriter->writeAttribute('style:name', 'Mpm1');
+        $xmlWriter->startElement('style:page-layout');
+        $xmlWriter->writeAttribute('style:name', 'Mpm1');
         // style:page-layout-properties
-        $objWriter->startElement('style:page-layout-properties');
-        $objWriter->writeAttribute('fo:page-width', "21.001cm");
-        $objWriter->writeAttribute('fo:page-height', '29.7cm');
-        $objWriter->writeAttribute('style:num-format', '1');
-        $objWriter->writeAttribute('style:print-orientation', 'portrait');
-        $objWriter->writeAttribute('fo:margin-top', '2.501cm');
-        $objWriter->writeAttribute('fo:margin-bottom', '2cm');
-        $objWriter->writeAttribute('fo:margin-left', '2.501cm');
-        $objWriter->writeAttribute('fo:margin-right', '2.501cm');
-        $objWriter->writeAttribute('style:writing-mode', 'lr-tb');
-        $objWriter->writeAttribute('style:layout-grid-color', '#c0c0c0');
-        $objWriter->writeAttribute('style:layout-grid-lines', '25199');
-        $objWriter->writeAttribute('style:layout-grid-base-height', '0.423cm');
-        $objWriter->writeAttribute('style:layout-grid-ruby-height', '0cm');
-        $objWriter->writeAttribute('style:layout-grid-mode', 'none');
-        $objWriter->writeAttribute('style:layout-grid-ruby-below', 'false');
-        $objWriter->writeAttribute('style:layout-grid-print', 'false');
-        $objWriter->writeAttribute('style:layout-grid-display', 'false');
-        $objWriter->writeAttribute('style:layout-grid-base-width', '0.37cm');
-        $objWriter->writeAttribute('style:layout-grid-snap-to', 'true');
-        $objWriter->writeAttribute('style:footnote-max-height', '0cm');
+        $xmlWriter->startElement('style:page-layout-properties');
+        $xmlWriter->writeAttribute('fo:page-width', "21.001cm");
+        $xmlWriter->writeAttribute('fo:page-height', '29.7cm');
+        $xmlWriter->writeAttribute('style:num-format', '1');
+        $xmlWriter->writeAttribute('style:print-orientation', 'portrait');
+        $xmlWriter->writeAttribute('fo:margin-top', '2.501cm');
+        $xmlWriter->writeAttribute('fo:margin-bottom', '2cm');
+        $xmlWriter->writeAttribute('fo:margin-left', '2.501cm');
+        $xmlWriter->writeAttribute('fo:margin-right', '2.501cm');
+        $xmlWriter->writeAttribute('style:writing-mode', 'lr-tb');
+        $xmlWriter->writeAttribute('style:layout-grid-color', '#c0c0c0');
+        $xmlWriter->writeAttribute('style:layout-grid-lines', '25199');
+        $xmlWriter->writeAttribute('style:layout-grid-base-height', '0.423cm');
+        $xmlWriter->writeAttribute('style:layout-grid-ruby-height', '0cm');
+        $xmlWriter->writeAttribute('style:layout-grid-mode', 'none');
+        $xmlWriter->writeAttribute('style:layout-grid-ruby-below', 'false');
+        $xmlWriter->writeAttribute('style:layout-grid-print', 'false');
+        $xmlWriter->writeAttribute('style:layout-grid-display', 'false');
+        $xmlWriter->writeAttribute('style:layout-grid-base-width', '0.37cm');
+        $xmlWriter->writeAttribute('style:layout-grid-snap-to', 'true');
+        $xmlWriter->writeAttribute('style:footnote-max-height', '0cm');
         //style:footnote-sep
-        $objWriter->startElement('style:footnote-sep');
-        $objWriter->writeAttribute('style:width', '0.018cm');
-        $objWriter->writeAttribute('style:line-style', 'solid');
-        $objWriter->writeAttribute('style:adjustment', 'left');
-        $objWriter->writeAttribute('style:rel-width', '25%');
-        $objWriter->writeAttribute('style:color', '#000000');
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:footnote-sep');
+        $xmlWriter->writeAttribute('style:width', '0.018cm');
+        $xmlWriter->writeAttribute('style:line-style', 'solid');
+        $xmlWriter->writeAttribute('style:adjustment', 'left');
+        $xmlWriter->writeAttribute('style:rel-width', '25%');
+        $xmlWriter->writeAttribute('style:color', '#000000');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
         // style:header-style
-        $objWriter->startElement('style:header-style');
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:header-style');
+        $xmlWriter->endElement();
         // style:footer-style
-        $objWriter->startElement('style:footer-style');
-        $objWriter->endElement();
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:footer-style');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
         // office:master-styles
-        $objWriter->startElement('office:master-styles');
+        $xmlWriter->startElement('office:master-styles');
         // style:master-page
-        $objWriter->startElement('style:master-page');
-        $objWriter->writeAttribute('style:name', 'Standard');
-        $objWriter->writeAttribute('style:page-layout-name', 'Mpm1');
-        $objWriter->endElement();
-        $objWriter->endElement();
+        $xmlWriter->startElement('style:master-page');
+        $xmlWriter->writeAttribute('style:name', 'Standard');
+        $xmlWriter->writeAttribute('style:page-layout-name', 'Mpm1');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $objWriter->endElement();
+        $xmlWriter->endElement();
 
         // Return
-        return $objWriter->getData();
+        return $xmlWriter->getData();
     }
 }

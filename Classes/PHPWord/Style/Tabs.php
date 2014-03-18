@@ -25,12 +25,12 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Style_Tabs
- */
-class PHPWord_Style_Tabs
-{
+namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Tabs
+{
     /**
      * Tabs
      *
@@ -48,17 +48,16 @@ class PHPWord_Style_Tabs
     }
 
     /**
-     *
-     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param PhpOffice\PhpWord\Shared\XMLWriter &$xmlWriter
      */
-    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = null)
+    public function toXml(XMLWriter &$xmlWriter = null)
     {
-        if (isset($objWriter)) {
-            $objWriter->startElement("w:tabs");
+        if (isset($xmlWriter)) {
+            $xmlWriter->startElement("w:tabs");
             foreach ($this->_tabs as &$tab) {
-                $tab->toXml($objWriter);
+                $tab->toXml($xmlWriter);
             }
-            $objWriter->endElement();
+            $xmlWriter->endElement();
         }
     }
 }

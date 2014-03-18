@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPWord
  *
@@ -25,12 +24,12 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
+
+namespace PhpOffice\PhpWord\Style;
+
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
-/**
- * Class PHPWord_Style_Font
- */
-class PHPWord_Style_Font
+class Font
 {
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
@@ -76,7 +75,7 @@ class PHPWord_Style_Font
     /**
      * Paragraph Style
      *
-     * @var PHPWord_Style_Paragraph
+     * @var PhpOffice\PhpWord\Style\Paragraph
      */
     private $_paragraphStyle;
 
@@ -127,7 +126,7 @@ class PHPWord_Style_Font
      *
      * @var string
      */
-    private $_underline = PHPWord_Style_Font::UNDERLINE_NONE;
+    private $_underline = self::UNDERLINE_NONE;
 
     /**
      * Strikethrough
@@ -174,10 +173,10 @@ class PHPWord_Style_Font
     {
         $this->_type = $type;
 
-        if ($paragraphStyle instanceof PHPWord_Style_Paragraph) {
+        if ($paragraphStyle instanceof Paragraph) {
             $this->_paragraphStyle = $paragraphStyle;
         } elseif (is_array($paragraphStyle)) {
-            $this->_paragraphStyle = new PHPWord_Style_Paragraph;
+            $this->_paragraphStyle = new Paragraph;
             $this->_paragraphStyle->setArrayStyle($paragraphStyle);
         } else {
             $this->_paragraphStyle = $paragraphStyle;
@@ -230,8 +229,8 @@ class PHPWord_Style_Font
     /**
      * Set font name
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param  string $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
     {
@@ -256,8 +255,8 @@ class PHPWord_Style_Font
     /**
      * Set font size
      *
-     * @param   int|float $pValue
-     * @return  PHPWord_Style_Font
+     * @param  int|float $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
     {
@@ -281,8 +280,8 @@ class PHPWord_Style_Font
     /**
      * Set bold
      *
-     * @param   bool $pValue
-     * @return  PHPWord_Style_Font
+     * @param  bool $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setBold($pValue = false)
     {
@@ -306,8 +305,8 @@ class PHPWord_Style_Font
     /**
      * Set italics
      *
-     * @param   bool $pValue
-     * @return  PHPWord_Style_Font
+     * @param  bool $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setItalic($pValue = false)
     {
@@ -331,8 +330,8 @@ class PHPWord_Style_Font
     /**
      * Set superscript
      *
-     * @param   bool $pValue
-     * @return  PHPWord_Style_Font
+     * @param  bool $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setSuperScript($pValue = false)
     {
@@ -357,8 +356,8 @@ class PHPWord_Style_Font
     /**
      * Set subscript
      *
-     * @param   bool $pValue
-     * @return  PHPWord_Style_Font
+     * @param  bool $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setSubScript($pValue = false)
     {
@@ -383,13 +382,13 @@ class PHPWord_Style_Font
     /**
      * Set underline
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param  string $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
-    public function setUnderline($pValue = PHPWord_Style_Font::UNDERLINE_NONE)
+    public function setUnderline($pValue = self::UNDERLINE_NONE)
     {
         if ($pValue == '') {
-            $pValue = PHPWord_Style_Font::UNDERLINE_NONE;
+            $pValue = self::UNDERLINE_NONE;
         }
         $this->_underline = $pValue;
         return $this;
@@ -408,8 +407,8 @@ class PHPWord_Style_Font
     /**
      * Set strikethrough
      *
-     * @param   bool $pValue
-     * @return  PHPWord_Style_Font
+     * @param  bool $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setStrikethrough($pValue = false)
     {
@@ -433,8 +432,8 @@ class PHPWord_Style_Font
     /**
      * Set font color
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param  string $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR)
     {
@@ -458,8 +457,8 @@ class PHPWord_Style_Font
     /**
      * Set foreground/highlight color
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param  string $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setFgColor($pValue = null)
     {
@@ -480,7 +479,7 @@ class PHPWord_Style_Font
     /**
      * Get paragraph style
      *
-     * @return PHPWord_Style_Paragraph
+     * @return PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {
@@ -530,8 +529,8 @@ class PHPWord_Style_Font
     /**
      * Set Font Content Type
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param  string $pValue
+     * @return PhpOffice\PhpWord\Style\Font
      */
     public function setHint($pValue = PHPWord::DEFAULT_FONT_CONTENT_TYPE)
     {

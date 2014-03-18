@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style_Table
- */
-class PHPWord_Style_Table
-{
+namespace PhpOffice\PhpWord\Style;
 
+class Table
+{
     private $_cellMarginTop;
     private $_cellMarginLeft;
     private $_cellMarginRight;

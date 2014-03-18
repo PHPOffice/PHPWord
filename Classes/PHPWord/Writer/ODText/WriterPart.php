@@ -25,25 +25,26 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Writer_ODText_WriterPart
- */
-abstract class PHPWord_Writer_ODText_WriterPart
+namespace PhpOffice\PhpWord\Writer\ODText;
+
+use PhpOffice\PhpWord\Writer\IWriter;
+
+abstract class WriterPart
 {
     /**
      * Parent IWriter object
      *
-     * @var PHPWord_Writer_IWriter
+     * @var PhpOffice\PhpWord\Writer\IWriter
      */
     private $_parentWriter;
 
     /**
      * Set parent IWriter object
      *
-     * @param PHPWord_Writer_IWriter $pWriter
+     * @param PhpOffice\PhpWord\Writer\IWriter $pWriter
      * @throws Exception
      */
-    public function setParentWriter(PHPWord_Writer_IWriter $pWriter = null)
+    public function setParentWriter(IWriter $pWriter = null)
     {
         $this->_parentWriter = $pWriter;
     }
@@ -51,7 +52,7 @@ abstract class PHPWord_Writer_ODText_WriterPart
     /**
      * Get parent IWriter object
      *
-     * @return PHPWord_Writer_IWriter
+     * @return PhpOffice\PhpWord\Writer\IWriter
      * @throws Exception
      */
     public function getParentWriter()
@@ -59,7 +60,7 @@ abstract class PHPWord_Writer_ODText_WriterPart
         if (!is_null($this->_parentWriter)) {
             return $this->_parentWriter;
         } else {
-            throw new Exception("No parent PHPWord_Writer_IWriter assigned.");
+            throw new Exception("No parent IWriter assigned.");
         }
     }
 }

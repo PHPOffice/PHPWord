@@ -25,12 +25,12 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Style_Tabs
- */
-class PHPWord_Style_Tab
-{
+namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
+class Tab
+{
     /**
      * Tab Stop Type
      *
@@ -84,7 +84,7 @@ class PHPWord_Style_Tab
     );
 
     /**
-     * Create a new instance of PHPWord_Style_Tab. Both $val and $leader
+     * Create a new instance of Tab. Both $val and $leader
      * must conform to the values put forth in the schema. If they do not
      * they will be changed to default values.
      *
@@ -105,20 +105,20 @@ class PHPWord_Style_Tab
     }
 
     /**
-     * Creates the XML DOM for the instance of PHPWord_Style_Tab.
+     * Creates the XML DOM for the instance of Tab.
      *
-     * @param PHPWord_Shared_XMLWriter $objWriter
+     * @param PhpOffice\PhpWord\Shared\XMLWriter &$xmlWriter
      */
-    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = null)
+    public function toXml(XMLWriter &$xmlWriter = null)
     {
-        if (isset($objWriter)) {
-            $objWriter->startElement("w:tab");
-            $objWriter->writeAttribute("w:val", $this->_val);
+        if (isset($xmlWriter)) {
+            $xmlWriter->startElement("w:tab");
+            $xmlWriter->writeAttribute("w:val", $this->_val);
             if (!is_null($this->_leader)) {
-                $objWriter->writeAttribute("w:leader", $this->_leader);
+                $xmlWriter->writeAttribute("w:leader", $this->_leader);
             }
-            $objWriter->writeAttribute("w:pos", $this->_position);
-            $objWriter->endElement();
+            $xmlWriter->writeAttribute("w:pos", $this->_position);
+            $xmlWriter->endElement();
         }
     }
 

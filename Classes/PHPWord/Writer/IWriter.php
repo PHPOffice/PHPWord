@@ -25,10 +25,9 @@
  * @version    0.8.0
  */
 
-/**
- * Interface PHPWord_Writer_IWriter
- */
-interface PHPWord_Writer_IWriter
+namespace PhpOffice\PhpWord\Writer;
+
+interface IWriter
 {
     /**
      * Save PHPWord to file

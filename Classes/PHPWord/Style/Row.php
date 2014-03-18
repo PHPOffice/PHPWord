@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * PHPWord_Style_Row
- */
-class PHPWord_Style_Row
-{
+namespace PhpOffice\PhpWord\Style;
 
+class Row
+{
     /**
      * Repeat table row on every new page
      *

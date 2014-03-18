@@ -25,145 +25,104 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style_TableFull
- */
-class PHPWord_Style_TableFull
-{
+namespace PhpOffice\PhpWord\Style;
 
+class TableFull
+{
     /**
      * Style for first row
      *
-     * @var PHPWord_Style_Table
+     * @var PhpOffice\PhpWord\Style\TableFull
      */
     private $_firstRow = null;
 
     /**
-     * Cell Margin Top
-     *
      * @var int
      */
     private $_cellMarginTop = null;
 
     /**
-     * Cell Margin Left
-     *
      * @var int
      */
     private $_cellMarginLeft = null;
 
     /**
-     * Cell Margin Right
-     *
      * @var int
      */
     private $_cellMarginRight = null;
 
     /**
-     * Cell Margin Bottom
-     *
      * @var int
      */
     private $_cellMarginBottom = null;
 
     /**
-     * Background-Color
-     *
      * @var string
      */
     private $_bgColor;
 
     /**
-     * Border Top Size
-     *
      * @var int
      */
     private $_borderTopSize;
 
     /**
-     * Border Top Color
-     *
      * @var string
      */
     private $_borderTopColor;
 
     /**
-     * Border Left Size
-     *
      * @var int
      */
     private $_borderLeftSize;
 
     /**
-     * Border Left Color
-     *
      * @var string
      */
     private $_borderLeftColor;
 
     /**
-     * Border Right Size
-     *
      * @var int
      */
     private $_borderRightSize;
 
     /**
-     * Border Right Color
-     *
      * @var string
      */
     private $_borderRightColor;
 
     /**
-     * Border Bottom Size
-     *
      * @var int
      */
     private $_borderBottomSize;
 
     /**
-     * Border Bottom Color
-     *
      * @var string
      */
     private $_borderBottomColor;
 
     /**
-     * Border InsideH Size
-     *
      * @var int
      */
     private $_borderInsideHSize;
 
     /**
-     * Border InsideH Color
-     *
      * @var string
      */
     private $_borderInsideHColor;
 
     /**
-     * Border InsideV Size
-     *
      * @var int
      */
     private $_borderInsideVSize;
 
     /**
-     * Border InsideV Color
-     *
      * @var string
      */
     private $_borderInsideVColor;
 
-
-    /**
-     * Create a new TableFull Font
-     */
-    public function __construct($styleTable = null, $styleFirstRow = null, $styleLastRow = null)
+    public function __construct($styleTable = null, $styleFirstRow = null)
     {
-
         if (!is_null($styleFirstRow) && is_array($styleFirstRow)) {
             $this->_firstRow = clone $this;
 
@@ -196,8 +155,6 @@ class PHPWord_Style_TableFull
     }
 
     /**
-     * Set style value
-     *
      * @param string $key
      * @param mixed $value
      */
@@ -217,7 +174,7 @@ class PHPWord_Style_TableFull
     /**
      * Get First Row Style
      *
-     * @return PHPWord_Style_TableFull
+     * @return PhpOffice\PhpWord\Style\TableFull
      */
     public function getFirstRow()
     {
@@ -227,7 +184,7 @@ class PHPWord_Style_TableFull
     /**
      * Get Last Row Style
      *
-     * @return PHPWord_Style_TableFull
+     * @return PhpOffice\PhpWord\Style\TableFull
      */
     public function getLastRow()
     {

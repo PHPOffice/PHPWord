@@ -25,12 +25,10 @@
  * @version    0.8.0
  */
 
-/**
- * Class PHPWord_Style_ListItem
- */
-class PHPWord_Style_ListItem
-{
+namespace PhpOffice\PhpWord\Style;
 
+class ListItem
+{
     const TYPE_NUMBER = 7;
     const TYPE_NUMBER_NESTED = 8;
     const TYPE_ALPHANUM = 9;
@@ -48,7 +46,7 @@ class PHPWord_Style_ListItem
      */
     public function __construct()
     {
-        $this->_listType = PHPWord_Style_ListItem::TYPE_BULLET_FILLED;
+        $this->_listType = self::TYPE_BULLET_FILLED;
     }
 
     /**
@@ -67,7 +65,7 @@ class PHPWord_Style_ListItem
      *
      * @param int $pValue
      */
-    public function setListType($pValue = PHPWord_Style_ListItem::TYPE_BULLET_FILLED)
+    public function setListType($pValue = self::TYPE_BULLET_FILLED)
     {
         $this->_listType = $pValue;
     }
