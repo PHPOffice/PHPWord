@@ -33,6 +33,54 @@ __Want to contribute?__ Fork us!
 * Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress
 
+### File formats support
+
+Below are the supported features for each file formats.
+
+#### Writers
+
+| No | Element       | DOCX | ODT | RTF |
+|----|---------------|:----:|:---:|:---:|
+| 1  | Text          |   v  |  v  |  v  |
+| 2  | Text Run      |   v  |  v  |  v  |
+| 3  | Title         |   v  |     |     |
+| 4  | Link          |   v  |     |     |
+| 5  | Preserve Text |   v  |     |     |
+| 6  | Text Break    |   v  |  v  |  v  |
+| 7  | Page Break    |   v  |     |     |
+| 8  | List          |   v  |     |     |
+| 9  | Table         |   v  |     |     |
+| 10 | Image         |   v  |     |     |
+| 11 | MemoryImage   |   v  |     |     |
+| 12 | Object        |   v  |     |     |
+| 13 | Watermark     |   v  |     |     |
+| 14 | TOC           |   v  |     |     |
+| 15 | Header        |   v  |     |     |
+| 16 | Footer        |   v  |     |     |
+| 17 | Footnote      |   v  |     |     |
+
+#### Readers
+
+| No | Element       | DOCX | ODT | RTF |
+|----|---------------|:----:|:---:|:---:|
+| 1  | Text          |   v  |     |     |
+| 2  | Text Run      |   v  |     |     |
+| 3  | Title         |      |     |     |
+| 4  | Link          |      |     |     |
+| 5  | Preserve Text |      |     |     |
+| 6  | Text Break    |   v  |     |     |
+| 7  | Page Break    |      |     |     |
+| 8  | List          |      |     |     |
+| 9  | Table         |      |     |     |
+| 10 | Image         |      |     |     |
+| 11 | MemoryImage   |      |     |     |
+| 12 | Object        |      |     |     |
+| 13 | Watermark     |      |     |     |
+| 14 | TOC           |      |     |     |
+| 15 | Header        |      |     |     |
+| 16 | Footer        |      |     |     |
+| 17 | Footnote      |      |     |     |
+
 ## Requirements
 * PHP 5.3+
 * PHP [Zip](http://php.net/manual/en/book.zip.php) extension
