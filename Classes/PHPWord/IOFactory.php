@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -37,7 +37,8 @@ class PHPWord_IOFactory
      * @var array
      */
     private static $_searchLocations = array(
-        array('type' => 'IWriter', 'path' => 'PHPWord/Writer/{0}.php', 'class' => 'PHPWord_Writer_{0}')
+        array('type' => 'IWriter', 'path' => 'PHPWord/Writer/{0}.php', 'class' => 'PHPWord_Writer_{0}'),
+        array('type' => 'IReader', 'path' => 'PHPWord/Reader/{0}.php', 'class' => 'PHPWord_Reader_{0}' ),
     );
 
     /**
@@ -117,5 +118,41 @@ class PHPWord_IOFactory
         }
 
         throw new Exception("No $searchType found for type $writerType");
+    }
+
+    /**
+     * Create PHPWord_Reader_IReader
+     *
+     * @param   string $readerType  Example: Word2007
+     * @return  PHPWord_Reader_IReader
+     */
+    public static function createReader($readerType = '')
+    {
+        $searchType = 'IReader';
+
+        foreach (self::$_searchLocations as $searchLocation) {
+            if ($searchLocation['type'] == $searchType) {
+                $className = str_replace('{0}', $readerType, $searchLocation['class']);
+
+                $instance = new $className();
+                if ($instance !== null) {
+                    return $instance;
+                }
+            }
+        }
+
+        throw new PHPWord_Exception("No $searchType found for type $readerType");
+    }
+
+    /**
+     * Loads PHPWord from file
+     *
+     * @param   string  $pFilename The name of the file
+     * @return  PHPWord
+     */
+    public static function load($pFilename, $readerType = 'Word2007')
+    {
+        $reader = self::createReader($readerType);
+        return $reader->load($pFilename);
     }
 }

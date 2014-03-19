@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -42,5 +42,4 @@ class PHPWord_Writer_ODText_Mimetype extends PHPWord_Writer_ODText_WriterPart
 
         return 'application/vnd.oasis.opendocument.text';
     }
-
 }

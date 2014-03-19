@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -140,19 +140,23 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $link;
             return $link;
         } else {
-            trigger_error('Unsupported Link header / footer reference');
+            throw new Exception('Unsupported Link header / footer reference');
             return false;
         }
     }
 
     /**
-     * Add a TextBreak Element
+     * Add TextBreak
      *
-     * @param int $count
+     * @param   int $count
+     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
+     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
      */
-    public function addTextBreak()
+    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+        for ($i = 1; $i <= $count; $i++) {
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
+        }
     }
 
     /**
@@ -198,7 +202,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Source does not exist or unsupported image type.');
+            throw new Exception('Source does not exist or unsupported image type.');
         }
     }
 
@@ -225,7 +229,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new Exception('Unsupported image type.');
         }
     }
 
@@ -266,7 +270,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            trigger_error('Source does not exist or unsupported object type.');
+            throw new Exception('Source does not exist or unsupported object type.');
         }
     }
 
@@ -288,7 +292,7 @@ class PHPWord_Section_Table_Cell
             $this->_elementCollection[] = $ptext;
             return $ptext;
         } else {
-            trigger_error('addPreserveText only supported in footer/header.');
+            throw new Exception('addPreserveText only supported in footer/header.');
         }
     }
 

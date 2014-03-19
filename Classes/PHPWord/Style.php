@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -141,6 +141,16 @@ class PHPWord_Style
     }
 
     /**
+     * Set default paragraph style
+     *
+     * @param   array   $styles Paragraph style definition
+     */
+    public static function setDefaultParagraphStyle($styles)
+    {
+        self::addParagraphStyle('Normal', $styles);
+    }
+
+    /**
      * Get all styles
      *
      * @return PHPWord_Style_Font[]
@@ -165,4 +175,3 @@ class PHPWord_Style
         }
     }
 }
-

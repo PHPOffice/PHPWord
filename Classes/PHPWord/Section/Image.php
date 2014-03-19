@@ -22,15 +22,17 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
+
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
 /**
  * Class PHPWord_Section_Image
  */
 class PHPWord_Section_Image
 {
-
     /**
      * Image Src
      *
@@ -59,47 +61,45 @@ class PHPWord_Section_Image
      */
     private $_isWatermark;
 
-
     /**
      * Create a new Image
      *
      * @param string $src
-     * @param mixed style
+     * @param mixed $style
+     * @param bool $isWatermark
+     * @throws InvalidImageException|UnsupportedImageTypeException
      */
     public function __construct($src, $style = null, $isWatermark = false)
     {
-        $_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff');
+        if (!file_exists($src)) {
+            throw new InvalidImageException;
+        }
 
-        $inf = pathinfo($src);
-        $ext = strtolower($inf['extension']);
+        if (!PHPWord_Shared_File::imagetype($src)) {
+            throw new UnsupportedImageTypeException;
+        }
 
-        if (file_exists($src) && in_array($ext, $_supportedImageTypes)) {
-            $this->_src = $src;
-            $this->_isWatermark = $isWatermark;
-            $this->_style = new PHPWord_Style_Image();
+        $this->_src = $src;
+        $this->_isWatermark = $isWatermark;
+        $this->_style = new PHPWord_Style_Image();
 
-            if (!is_null($style) && is_array($style)) {
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->_style->setStyleValue($key, $value);
+        if (!is_null($style) && is_array($style)) {
+            foreach ($style as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
                 }
+                $this->_style->setStyleValue($key, $value);
             }
+        }
 
-            if (isset($style['wrappingStyle'])) {
-                $this->_style->setWrappingStyle($style['wrappingStyle']);
-            }
+        if (isset($style['wrappingStyle'])) {
+            $this->_style->setWrappingStyle($style['wrappingStyle']);
+        }
 
-            if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
-                $imgData = getimagesize($this->_src);
-                $this->_style->setWidth($imgData[0]);
-                $this->_style->setHeight($imgData[1]);
-            }
-
-            return $this;
-        } else {
-            return false;
+        if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
+            $imgData = getimagesize($this->_src);
+            $this->_style->setWidth($imgData[0]);
+            $this->_style->setHeight($imgData[1]);
         }
     }
 

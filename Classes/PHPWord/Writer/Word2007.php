@@ -22,8 +22,11 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
+
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
 /**
  * Class PHPWord_Writer_Word2007
@@ -52,6 +55,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         $this->_writerParts['styles'] = new PHPWord_Writer_Word2007_Styles();
         $this->_writerParts['header'] = new PHPWord_Writer_Word2007_Header();
         $this->_writerParts['footer'] = new PHPWord_Writer_Word2007_Footer();
+        $this->_writerParts['footnotes'] = new PHPWord_Writer_Word2007_Footnotes();
+        $this->_writerParts['footnotesrels'] = new PHPWord_Writer_Word2007_FootnotesRels();
 
         foreach ($this->_writerParts as $writer) {
             $writer->setParentWriter($this);
@@ -111,12 +116,19 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
             }
 
+            $footnoteLinks = array();
+            $_footnoteElements = PHPWord_Footnote::getFootnoteLinkElements();
+            // loop through footnote link elements
+            foreach ($_footnoteElements as $element) {
+                $footnoteLinks[] = $element;
+            }
 
             $_cHdrs = 0;
             $_cFtrs = 0;
             $rID = PHPWord_Media::countSectionMediaElements() + 6;
             $_sections = $this->_document->getSections();
 
+            $footers = array();
             foreach ($_sections as $section) {
                 $_headers = $section->getHeaders();
                 foreach ($_headers as $index => &$_header) {
@@ -128,8 +140,8 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
 
                 $_footer = $section->getFooter();
+                $footers[++$_cFtrs] = $_footer;
                 if (!is_null($_footer)) {
-                    $_cFtrs++;
                     $_footer->setRelationId(++$rID);
                     $_footerCount = $_footer->getFooterCount();
                     $_footerFile = 'footer' . $_footerCount . '.xml';
@@ -138,9 +150,27 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
                 }
             }
 
+            if (PHPWord_Footnote::countFootnoteElements() > 0) {
+                $_allFootnotesCollection = PHPWord_Footnote::getFootnoteElements();
+                $_footnoteFile = 'footnotes.xml';
+                $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
+                $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));
+                if (count($footnoteLinks) > 0) {
+                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteLinks));
+                }
+            }
+
             // build docx file
             // Write dynamic files
-            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->_imageTypes, $this->_objectTypes, $_cHdrs, $_cFtrs));
+            $objZip->addFromString(
+                '[Content_Types].xml',
+                $this->getWriterPart('contenttypes')->writeContentTypes(
+                    $this->_imageTypes,
+                    $this->_objectTypes,
+                    $_cHdrs,
+                    $footers
+                )
+            );
             $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeRelationships($this->_document));
             $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->_document));
             $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docprops')->writeDocPropsCore($this->_document));
@@ -173,29 +203,30 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
         }
     }
 
-    private function _chkContentTypes($src)
+    /**
+     * @param string $src
+     */
+    private function checkContentTypes($src)
     {
-        $srcInfo = pathinfo($src);
-        $extension = strtolower($srcInfo['extension']);
-        if (substr($extension, 0, 3) == 'php') {
+        $extension = null;
+        if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
-        }
-        $_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff', 'php');
-
-        if (in_array($extension, $_supportedImageTypes)) {
-            $imagedata = getimagesize($src);
-            $imagetype = image_type_to_mime_type($imagedata[2]);
-            $imageext = image_type_to_extension($imagedata[2]);
-            $imageext = str_replace('.', '', $imageext);
-            if ($imageext == 'jpeg') $imageext = 'jpg';
-
-            if (!in_array($imagetype, $this->_imageTypes)) {
-                $this->_imageTypes[$imageext] = $imagetype;
-            }
         } else {
-            if (!in_array($extension, $this->_objectTypes)) {
-                $this->_objectTypes[] = $extension;
+            $extension = PHPWord_Shared_File::imagetype($src);
+        }
+
+        if (isset($extension) && $extension) {
+            $imageData = getimagesize($src);
+            $imageType = image_type_to_mime_type($imageData[2]);
+            $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
+            if ($imageExtension === 'jpeg') {
+                $imageExtension = 'jpg';
             }
+            if (!in_array($imageType, $this->_imageTypes)) {
+                $this->_imageTypes[$imageExtension] = $imageType;
+            }
+        } elseif (!in_array($extension, $this->_objectTypes)) {
+            $this->_objectTypes[] = $extension;
         }
     }
 
@@ -239,10 +270,10 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             $objZip->addFromString('word/' . $element['target'], $imageContents);
             imagedestroy($image);
 
-            $this->_chkContentTypes($element['source']);
+            $this->checkContentTypes($element['source']);
         } else {
             $objZip->addFile($element['source'], 'word/' . $element['target']);
-            $this->_chkContentTypes($element['source']);
+            $this->checkContentTypes($element['source']);
         }
     }
 }

@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -115,7 +115,7 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                             $numPStyles++;
 
                             $pPHPWord->addParagraphStyle('P' . $numPStyles, array());
-                            $element->setParagraph('P' . $numPStyles);
+                            $element->setParagraphStyle('P' . $numPStyles);
                         }
                     }
                 }
@@ -145,10 +145,10 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                     }
                 }
             }
-            if (!in_array('Arial', $arrFonts)) {
+            if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
                 $objWriter->startElement('style:font-face');
-                $objWriter->writeAttribute('style:name', 'Arial');
-                $objWriter->writeAttribute('svg:font-family', 'Arial');
+                $objWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
+                $objWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
                 $objWriter->endElement();
             }
         }
@@ -249,31 +249,29 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                 foreach ($_elements as $element) {
                     if ($element instanceof PHPWord_Section_Text) {
                         $this->_writeText($objWriter, $element);
-                    } /* elseif($element instanceof PHPWord_Section_TextRun) {
-									$this->_writeTextRun($objWriter, $element);
-								} elseif($element instanceof PHPWord_Section_Link) {
-									$this->_writeLink($objWriter, $element);
-								} elseif($element instanceof PHPWord_Section_Title) {
-									$this->_writeTitle($objWriter, $element);
-								}*/ elseif ($element instanceof PHPWord_Section_TextBreak) {
+                    } elseif ($element instanceof PHPWord_Section_TextRun) {
+                        $this->_writeTextRun($objWriter, $element);
+                    } elseif ($element instanceof PHPWord_Section_TextBreak) {
                         $this->_writeTextBreak($objWriter);
-                    } /* elseif($element instanceof PHPWord_Section_PageBreak) {
-									$this->_writePageBreak($objWriter);
-								} elseif($element instanceof PHPWord_Section_Table) {
-									$this->_writeTable($objWriter, $element);
-								} elseif($element instanceof PHPWord_Section_ListItem) {
-									$this->_writeListItem($objWriter, $element);
-								} elseif($element instanceof PHPWord_Section_Image ||
-								$element instanceof PHPWord_Section_MemoryImage) {
-									$this->_writeImage($objWriter, $element);
-								} elseif($element instanceof PHPWord_Section_Object) {
-									$this->_writeObject($objWriter, $element);
-								} elseif($element instanceof PHPWord_TOC) {
-									$this->_writeTOC($objWriter);
-								}*/
-                    else {
-                        print_r($element);
-                        echo '<br />';
+                    } elseif ($element instanceof PHPWord_Section_Link) {
+                        $this->writeUnsupportedElement($objWriter, 'Link');
+                    } elseif ($element instanceof PHPWord_Section_Title) {
+                        $this->writeUnsupportedElement($objWriter, 'Title');
+                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
+                        $this->writeUnsupportedElement($objWriter, 'Page Break');
+                    } elseif ($element instanceof PHPWord_Section_Table) {
+                        $this->writeUnsupportedElement($objWriter, 'Table');
+                    } elseif ($element instanceof PHPWord_Section_ListItem) {
+                        $this->writeUnsupportedElement($objWriter, 'List Item');
+                    } elseif ($element instanceof PHPWord_Section_Image ||
+                    $element instanceof PHPWord_Section_MemoryImage) {
+                        $this->writeUnsupportedElement($objWriter, 'Image');
+                    } elseif ($element instanceof PHPWord_Section_Object) {
+                        $this->writeUnsupportedElement($objWriter, 'Object');
+                    } elseif ($element instanceof PHPWord_TOC) {
+                        $this->writeUnsupportedElement($objWriter, 'TOC');
+                    } else {
+                        $this->writeUnsupportedElement($objWriter, 'Element');
                     }
                 }
 
@@ -292,19 +290,32 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
         return $objWriter->getData();
     }
 
-    protected function _writeText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Text $text, $withoutP = false)
-    {
+    /**
+     * Write text
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section_Text        $text
+     * @param   bool                        $withoutP
+     */
+    protected function _writeText(
+        PHPWord_Shared_XMLWriter $objWriter = null,
+        PHPWord_Section_Text $text,
+        $withoutP = false
+    ) {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
 
-        $SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+        // @todo Commented for TextRun. Should really checkout this value
+        // $SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+        $SfIsObject = false;
 
         if ($SfIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
             die('PHPWord : $SfIsObject wouldn\'t be an object');
         } else {
-            // text:p
-            $objWriter->startElement('text:p');
+            if (!$withoutP) {
+                $objWriter->startElement('text:p'); // text:p
+            }
             if (empty($styleFont)) {
                 if (empty($styleParagraph)) {
                     $objWriter->writeAttribute('text:style-name', 'P1');
@@ -324,10 +335,36 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
                 $objWriter->writeRaw($text->getText());
                 $objWriter->endElement();
             }
-            $objWriter->endElement();
+            if (!$withoutP) {
+                $objWriter->endElement(); // text:p
+            }
         }
     }
 
+    /**
+     * Write TextRun section
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   PHPWord_Section_TextRun     $textrun
+     * @todo    Enable all other section types
+     */
+    protected function _writeTextRun(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_TextRun $textrun)
+    {
+        $elements = $textrun->getElements();
+        $objWriter->startElement('text:p');
+        if (count($elements) > 0) {
+            foreach ($elements as $element) {
+                if ($element instanceof PHPWord_Section_Text) {
+                    $this->_writeText($objWriter, $element, true);
+                }
+            }
+        }
+        $objWriter->endElement();
+    }
+
+    /**
+     * Write TextBreak
+     */
     protected function _writeTextBreak(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $objWriter->startElement('text:p');
@@ -335,7 +372,26 @@ class PHPWord_Writer_ODText_Content extends PHPWord_Writer_ODText_WriterPart
         $objWriter->endElement();
     }
 
-    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section)
+    // @codeCoverageIgnoreStart
+    private function _writeEndSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
     {
+    }
+
+    private function _writeSection(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section $section = null)
+    {
+    }
+    // @codeCoverageIgnoreEnd
+
+    /**
+     * Write unsupported element
+     *
+     * @param   PHPWord_Shared_XMLWriter    $objWriter
+     * @param   string                      $element
+     */
+    private function writeUnsupportedElement($objWriter, $element)
+    {
+        $objWriter->startElement('text:p');
+        $objWriter->writeRaw("{$element}");
+        $objWriter->endElement();
     }
 }

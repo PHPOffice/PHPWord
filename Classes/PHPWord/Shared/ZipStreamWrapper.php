@@ -22,14 +22,13 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
-
-/** Register new zip wrapper */
-PHPWord_Shared_ZipStreamWrapper::register();
 
 /**
  * Class PHPWord_Shared_ZipStreamWrapper
+ *
+ * @codeCoverageIgnore  Legacy from PHPExcel
  */
 class PHPWord_Shared_ZipStreamWrapper
 {
@@ -121,7 +120,7 @@ class PHPWord_Shared_ZipStreamWrapper
     /**
      * Read stream
      */
-    function stream_read($count)
+    public function stream_read($count)
     {
         $ret = substr($this->_data, $this->_position, $count);
         $this->_position += strlen($ret);

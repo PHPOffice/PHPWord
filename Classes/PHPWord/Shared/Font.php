@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -76,5 +76,16 @@ class PHPWord_Shared_Font
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
         return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
+    }
+
+    /**
+     * Calculate twip based on point size, used mainly for paragraph spacing
+     *
+     * @param   int|float   $sizeInPoint Size in point
+     * @return  int|float   Size (in twips)
+     */
+    public static function pointSizeToTwips($sizeInPoint = 1)
+    {
+        return ($sizeInPoint * 20);
     }
 }

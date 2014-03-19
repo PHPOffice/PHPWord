@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -59,8 +59,30 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
 
         // Write Style Definitions
         $styles = PHPWord_Style::getStyles();
+
+        // Write normal paragraph style
+        $normalStyle = null;
+        if (array_key_exists('Normal', $styles)) {
+            $normalStyle = $styles['Normal'];
+        }
+        $objWriter->startElement('w:style');
+        $objWriter->writeAttribute('w:type', 'paragraph');
+        $objWriter->writeAttribute('w:default', '1');
+        $objWriter->writeAttribute('w:styleId', 'Normal');
+        $objWriter->startElement('w:name');
+        $objWriter->writeAttribute('w:val', 'Normal');
+        $objWriter->endElement();
+        if (!is_null($normalStyle)) {
+            $this->_writeParagraphStyle($objWriter, $normalStyle);
+        }
+        $objWriter->endElement();
+
+        // Write other styles
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
+                if ($styleName == 'Normal') {
+                    continue;
+                }
                 if ($style instanceof PHPWord_Style_Font) {
 
                     $paragraphStyle = $style->getParagraphStyle();
@@ -92,6 +114,10 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $objWriter->endElement();
 
                     if (!is_null($paragraphStyle)) {
+                        // Point parent style to Normal
+                        $objWriter->startElement('w:basedOn');
+                        $objWriter->writeAttribute('w:val', 'Normal');
+                        $objWriter->endElement();
                         $this->_writeParagraphStyle($objWriter, $paragraphStyle);
                     }
 
@@ -108,6 +134,22 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
                     $objWriter->startElement('w:name');
                     $objWriter->writeAttribute('w:val', $styleName);
                     $objWriter->endElement();
+
+                    // Parent style
+                    $basedOn = $style->getBasedOn();
+                    if (!is_null($basedOn)) {
+                        $objWriter->startElement('w:basedOn');
+                        $objWriter->writeAttribute('w:val', $basedOn);
+                        $objWriter->endElement();
+                    }
+
+                    // Next paragraph style
+                    $next = $style->getNext();
+                    if (!is_null($next)) {
+                        $objWriter->startElement('w:next');
+                        $objWriter->writeAttribute('w:val', $next);
+                        $objWriter->endElement();
+                    }
 
                     $this->_writeParagraphStyle($objWriter, $style);
                     $objWriter->endElement();
@@ -338,11 +380,11 @@ class PHPWord_Writer_Word2007_Styles extends PHPWord_Writer_Word2007_Base
         $objWriter->endElement();
 
         $objWriter->startElement('w:sz');
-        $objWriter->writeAttribute('w:val', $fontSize);
+        $objWriter->writeAttribute('w:val', $fontSize * 2);
         $objWriter->endElement();
 
         $objWriter->startElement('w:szCs');
-        $objWriter->writeAttribute('w:val', $fontSize);
+        $objWriter->writeAttribute('w:val', $fontSize * 2);
         $objWriter->endElement();
 
         $objWriter->endElement();

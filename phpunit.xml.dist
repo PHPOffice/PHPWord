@@ -15,7 +15,7 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">../Classes</directory>
+            <directory suffix=".php">./Classes</directory>
         </whitelist>
     </filter>
 </phpunit>

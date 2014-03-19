@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -108,14 +108,16 @@ class PHPWord_Section_Header
     }
 
     /**
-     * Add a TextBreak Element
+     * Add TextBreak
      *
-     * @param int $count
+     * @param   int $count
+     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
+     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
      */
-    public function addTextBreak($count = 1)
+    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
@@ -162,7 +164,7 @@ class PHPWord_Section_Header
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
+            throw new Exception('Src does not exist or invalid image type.');
         }
     }
 
@@ -183,7 +185,7 @@ class PHPWord_Section_Header
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new Exception('Unsupported image type.');
         }
     }
 
@@ -223,7 +225,7 @@ class PHPWord_Section_Header
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Src does not exist or invalid image type.', E_USER_ERROR);
+            throw new Exception('Src does not exist or invalid image type.');
         }
     }
 
@@ -292,5 +294,4 @@ class PHPWord_Section_Header
     {
         return $this->_type = PHPWord_Section_Header::EVEN;
     }
-
 }

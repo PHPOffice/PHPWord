@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -81,7 +81,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             }
 
             $hFile = fopen($pFilename, 'w') or die("can't open file");
-            fwrite($hFile, $this->_getData());
+            fwrite($hFile, $this->getData());
             fclose($hFile);
 
             // If a temporary file was used, copy it to the correct file stream
@@ -117,7 +117,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
      *
      * @param    PHPWord $pPHPWord PHPWord object
      * @throws    Exception
-     * @return PHPWord_Writer_PowerPoint2007
+     * @return PHPWord_Writer_RTF
      */
     public function setPHPWord(PHPWord $pPHPWord = null)
     {
@@ -135,11 +135,11 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $this->_drawingHashTable;
     }
 
-    private function _getData()
+    private function getData()
     {
         // PHPWord object : $this->_document
-        $this->_fontTable = $this->_getDataFont();
-        $this->_colorTable = $this->_getDataColor();
+        $this->_fontTable = $this->getDataFont();
+        $this->_colorTable = $this->getDataColor();
 
         $sRTFContent = '{\rtf1';
         // Set the default character set
@@ -148,6 +148,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         $sRTFContent .= '\deff0';
         // Set the default tab size (720 twips)
         $sRTFContent .= '\deftab720';
+        $sRTFContent .= PHP_EOL;
         // Set the font tbl group
         $sRTFContent .= '{\fonttbl';
         foreach ($this->_fontTable as $idx => $font) {
@@ -162,7 +163,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
         $sRTFContent .= ';}' . PHP_EOL;
         // Set the generator
-        $sRTFContent .= '{\*\generator PHPWord;}';
+        $sRTFContent .= '{\*\generator PHPWord;}' . PHP_EOL;
         // Set the view mode of the document
         $sRTFContent .= '\viewkind4';
         // Set the numberof bytes that follows a unicode character
@@ -176,9 +177,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         // Point size (in half-points) above which to kern character pairs
         $sRTFContent .= '\kerning1';
         // Set the font size in half-points
-        $sRTFContent .= '\fs20';
+        $sRTFContent .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
+        $sRTFContent .= PHP_EOL;
         // Body
-        $sRTFContent .= $this->_getDataContent();
+        $sRTFContent .= $this->getDataContent();
 
 
         $sRTFContent .= '}';
@@ -186,13 +188,13 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $sRTFContent;
     }
 
-    private function _getDataFont()
+    private function getDataFont()
     {
         $pPHPWord = $this->_document;
 
         $arrFonts = array();
-        // Default font : Arial
-        $arrFonts[] = 'Arial';
+        // Default font : PHPWord::DEFAULT_FONT_NAME
+        $arrFonts[] = PHPWord::DEFAULT_FONT_NAME;
         // PHPWord object : $this->_document
 
         // Browse styles
@@ -202,7 +204,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             foreach ($styles as $styleName => $style) {
                 // PHPWord_Style_Font
                 if ($style instanceof PHPWord_Style_Font) {
-                    if (in_array($style->getName(), $arrFonts) == FALSE) {
+                    if (in_array($style->getName(), $arrFonts) == false) {
                         $arrFonts[] = $style->getName();
                     }
                 }
@@ -224,7 +226,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $fStyle = $element->getFontStyle();
 
                         if ($fStyle instanceof PHPWord_Style_Font) {
-                            if (in_array($fStyle->getName(), $arrFonts) == FALSE) {
+                            if (in_array($fStyle->getName(), $arrFonts) == false) {
                                 $arrFonts[] = $fStyle->getName();
                             }
                         }
@@ -236,7 +238,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrFonts;
     }
 
-    private function _getDataColor()
+    private function getDataColor()
     {
         $pPHPWord = $this->_document;
 
@@ -252,10 +254,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 if ($style instanceof PHPWord_Style_Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (in_array($color, $arrColors) == FALSE && $color != '000000' && !empty($color)) {
+                    if (in_array($color, $arrColors) == false && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
                         $arrColors[] = $color;
                     }
-                    if (in_array($fgcolor, $arrColors) == FALSE && $fgcolor != '000000' && !empty($fgcolor)) {
+                    if (in_array($fgcolor, $arrColors) == false && $fgcolor != PHPWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
                         $arrColors[] = $fgcolor;
                     }
                 }
@@ -277,10 +279,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                         $fStyle = $element->getFontStyle();
 
                         if ($fStyle instanceof PHPWord_Style_Font) {
-                            if (in_array($fStyle->getColor(), $arrColors) == FALSE) {
+                            if (in_array($fStyle->getColor(), $arrColors) == false) {
                                 $arrColors[] = $fStyle->getColor();
                             }
-                            if (in_array($fStyle->getFgColor(), $arrColors) == FALSE) {
+                            if (in_array($fStyle->getFgColor(), $arrColors) == false) {
                                 $arrColors[] = $fStyle->getFgColor();
                             }
                         }
@@ -292,7 +294,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $arrColors;
     }
 
-    private function _getDataContent()
+    private function getDataContent()
     {
         $pPHPWord = $this->_document;
         $sRTFBody = '';
@@ -307,33 +309,30 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $_elements = $section->getElements();
                 foreach ($_elements as $element) {
                     if ($element instanceof PHPWord_Section_Text) {
-                        $sRTFBody .= $this->_getDataContent_writeText($element);
-                    } /* elseif($element instanceof PHPWord_Section_TextRun) {
-					$this->_writeTextRun($objWriter, $element);
-					} elseif($element instanceof PHPWord_Section_Link) {
-					$this->_writeLink($objWriter, $element);
-					} elseif($element instanceof PHPWord_Section_Title) {
-					$this->_writeTitle($objWriter, $element);
-					}*/
-                    elseif ($element instanceof PHPWord_Section_TextBreak) {
-                        $sRTFBody .= $this->_getDataContent_writeTextBreak();
-                    } /* elseif($element instanceof PHPWord_Section_PageBreak) {
-					$this->_writePageBreak($objWriter);
-					} elseif($element instanceof PHPWord_Section_Table) {
-					$this->_writeTable($objWriter, $element);
-					} elseif($element instanceof PHPWord_Section_ListItem) {
-					$this->_writeListItem($objWriter, $element);
-					} elseif($element instanceof PHPWord_Section_Image ||
-					$element instanceof PHPWord_Section_MemoryImage) {
-					$this->_writeImage($objWriter, $element);
-					} elseif($element instanceof PHPWord_Section_Object) {
-					$this->_writeObject($objWriter, $element);
-					} elseif($element instanceof PHPWord_TOC) {
-					$this->_writeTOC($objWriter);
-					}*/
-                    else {
-                        print_r($element);
-                        echo '<br />';
+                        $sRTFBody .= $this->getDataContentText($element);
+                    } elseif ($element instanceof PHPWord_Section_TextBreak) {
+                        $sRTFBody .= $this->getDataContentTextBreak();
+                    } elseif ($element instanceof PHPWord_Section_TextRun) {
+                        $sRTFBody .= $this->getDataContentTextRun($element);
+                    } elseif ($element instanceof PHPWord_Section_Link) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Link');
+                    } elseif ($element instanceof PHPWord_Section_Title) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Title');
+                    } elseif ($element instanceof PHPWord_Section_PageBreak) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Page Break');
+                    } elseif ($element instanceof PHPWord_Section_Table) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Table');
+                    } elseif ($element instanceof PHPWord_Section_ListItem) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('List Item');
+                    } elseif ($element instanceof PHPWord_Section_Image ||
+                        $element instanceof PHPWord_Section_MemoryImage) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Image');
+                    } elseif ($element instanceof PHPWord_Section_Object) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Object');
+                    } elseif ($element instanceof PHPWord_TOC) {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('TOC');
+                    } else {
+                        $sRTFBody .= $this->getDataContentUnsupportedElement('Other');
                     }
                 }
             }
@@ -341,7 +340,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         return $sRTFBody;
     }
 
-    private function _getDataContent_writeText(PHPWord_Section_Text $text)
+    /**
+     * Get text
+     */
+    private function getDataContentText(PHPWord_Section_Text $text, $withoutP = false)
     {
         $sRTFText = '';
 
@@ -357,7 +359,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             $styleParagraph = PHPWord_Style::getStyle($styleParagraph);
         }
 
-        if ($styleParagraph) {
+        if ($styleParagraph && !$withoutP) {
             if ($this->_lastParagraphStyle != $text->getParagraphStyle()) {
                 $sRTFText .= '\pard\nowidctlpar';
                 if ($styleParagraph->getSpaceAfter() != null) {
@@ -376,10 +378,10 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             $this->_lastParagraphStyle = '';
         }
 
-        if ($styleFont) {
+        if ($styleFont instanceof PHPWord_Style_Font) {
             if ($styleFont->getColor() != null) {
                 $idxColor = array_search($styleFont->getColor(), $this->_colorTable);
-                if ($idxColor !== FALSE) {
+                if ($idxColor !== false) {
                     $sRTFText .= '\cf' . ($idxColor + 1);
                 }
             } else {
@@ -387,7 +389,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
             }
             if ($styleFont->getName() != null) {
                 $idxFont = array_search($styleFont->getName(), $this->_fontTable);
-                if ($idxFont !== FALSE) {
+                if ($idxFont !== false) {
                     $sRTFText .= '\f' . $idxFont;
                 }
             } else {
@@ -400,7 +402,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $sRTFText .= '\i';
             }
             if ($styleFont->getSize()) {
-                $sRTFText .= '\fs' . $styleFont->getSize();
+                $sRTFText .= '\fs' . ($styleFont->getSize() * 2);
             }
         }
         if ($this->_lastParagraphStyle != '' || $styleFont) {
@@ -408,7 +410,7 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
         }
         $sRTFText .= $text->getText();
 
-        if ($styleFont) {
+        if ($styleFont instanceof PHPWord_Style_Font) {
             $sRTFText .= '\cf0';
             $sRTFText .= '\f0';
 
@@ -419,20 +421,56 @@ class PHPWord_Writer_RTF implements PHPWord_Writer_IWriter
                 $sRTFText .= '\i0';
             }
             if ($styleFont->getSize()) {
-                $sRTFText .= '\fs20';
+                $sRTFText .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
             }
         }
 
-        $sRTFText .= '\par' . PHP_EOL;
+        if (!$withoutP) {
+            $sRTFText .= '\par' . PHP_EOL;
+        }
         return $sRTFText;
     }
 
-    private function _getDataContent_writeTextBreak()
+    /**
+     * Get text run content
+     */
+    private function getDataContentTextRun(PHPWord_Section_TextRun $textrun)
+    {
+        $sRTFText = '';
+        $elements = $textrun->getElements();
+        if (count($elements) > 0) {
+            $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
+            foreach ($elements as $element) {
+                if ($element instanceof PHPWord_Section_Text) {
+                    $sRTFText .= '{';
+                    $sRTFText .= $this->getDataContentText($element, true);
+                    $sRTFText .= '}' . PHP_EOL;
+                }
+            }
+            $sRTFText .= '\par' . PHP_EOL;
+        }
+        return $sRTFText;
+    }
+
+    private function getDataContentTextBreak()
     {
         $this->_lastParagraphStyle = '';
 
         return '\par' . PHP_EOL;
     }
 
+    /**
+     * Write unsupported element
+     *
+     * @param   string  $element
+     */
+    private function getDataContentUnsupportedElement($element)
+    {
+        $sRTFText = '';
+        $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
+        $sRTFText .= "{$element}";
+        $sRTFText .= '\par' . PHP_EOL;
 
+        return $sRTFText;
+    }
 }

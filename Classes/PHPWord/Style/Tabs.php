@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -51,7 +51,7 @@ class PHPWord_Style_Tabs
      *
      * @param PHPWord_Shared_XMLWriter $objWriter
      */
-    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = NULL)
+    public function toXml(PHPWord_Shared_XMLWriter &$objWriter = null)
     {
         if (isset($objWriter)) {
             $objWriter->startElement("w:tabs");

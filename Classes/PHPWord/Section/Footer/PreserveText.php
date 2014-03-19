@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -89,8 +89,10 @@ class PHPWord_Section_Footer_PreserveText
             $this->_styleParagraph = $styleParagraph;
         }
 
-        $pattern = '/({.*?})/';
-        $this->_text = preg_split($pattern, $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        if (isset($matches[0])) {
+            $this->_text = $matches[0];
+        }
 
         return $this;
     }

@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -77,6 +77,8 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
         $objWriter->writeAttribute('manifest:full-path', 'styles.xml');
         $objWriter->endElement();
 
+        // Not used yet. Legacy from PHPExcel
+        // @codeCoverageIgnoreStart
         for ($i = 0; $i < $this->getParentWriter()->getDrawingHashTable()->count(); ++$i) {
             if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
@@ -86,7 +88,7 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
                 $objWriter->writeAttribute('manifest:media-type', $mimeType);
                 $objWriter->writeAttribute('manifest:full-path', 'Pictures/' . str_replace(' ', '_', $this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()));
                 $objWriter->endElement();
-            } else if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
+            } elseif ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getMimeType());
                 $extension = explode('/', $extension);
                 $extension = $extension[1];
@@ -99,6 +101,7 @@ class PHPWord_Writer_ODText_Manifest extends PHPWord_Writer_ODText_WriterPart
                 $objWriter->endElement();
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $objWriter->endElement();
 

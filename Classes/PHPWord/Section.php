@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -77,7 +77,16 @@ class PHPWord_Section
     {
         $this->_sectionCount = $sectionCount;
         $this->_settings = new PHPWord_Section_Settings();
+        $this->setSettings($settings);
+    }
 
+    /**
+     * Set Section Settings
+     *
+     * @param   array   $settings
+     */
+    public function setSettings($settings = null)
+    {
         if (!is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
@@ -147,12 +156,14 @@ class PHPWord_Section
     /**
      * Add a TextBreak Element
      *
-     * @param int $count
+     * @param   int $count
+     * @param   null|string|array|PHPWord_Style_Font        $fontStyle
+     * @param   null|string|array|PHPWord_Style_Paragraph   $paragraphStyle
      */
-    public function addTextBreak($count = 1)
+    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
         for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new PHPWord_Section_TextBreak();
+            $this->_elementCollection[] = new PHPWord_Section_TextBreak($fontStyle, $paragraphStyle);
         }
     }
 
@@ -234,7 +245,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            trigger_error('Source does not exist or unsupported object type.');
+            throw new PHPWord_Exception(
+                'Source does not exist or unsupported object type.'
+            );
         }
     }
 
@@ -256,7 +269,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            trigger_error('Source does not exist or unsupported image type.');
+            throw new PHPWord_Exception(
+                'Source does not exist or unsupported image type.'
+            );
         }
     }
 
@@ -277,7 +292,9 @@ class PHPWord_Section
             $this->_elementCollection[] = $memoryImage;
             return $memoryImage;
         } else {
-            trigger_error('Unsupported image type.');
+            throw new PHPWord_Exception(
+                'Unsupported image type.'
+            );
         }
     }
 
@@ -408,5 +425,20 @@ class PHPWord_Section
     public function getFooter()
     {
         return $this->_footer;
+    }
+
+    /**
+     * Create a new Footnote Element
+     *
+     * @param string $text
+     * @return PHPWord_Section_Footnote
+     */
+    public function createFootnote($styleParagraph = null)
+    {
+        $footnote = new PHPWord_Section_Footnote($styleParagraph);
+        $refID = PHPWord_Footnote::addFootnoteElement($footnote);
+        $footnote->setReferenceId($refID);
+        $this->_elementCollection[] = $footnote;
+        return $footnote;
     }
 }

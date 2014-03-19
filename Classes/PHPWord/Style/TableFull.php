@@ -22,7 +22,7 @@
  * @package    PHPWord
  * @copyright  Copyright (c) 2014 PHPWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.7.0
+ * @version    0.8.0
  */
 
 /**
@@ -247,7 +247,7 @@ class PHPWord_Style_TableFull
     /**
      * Set TLRBVH Border Size
      *
-     * @param int $pValue
+     * @param   int     $pValue Border size in eighths of a point (1/8 point)
      */
     public function setBorderSize($pValue = null)
     {
@@ -466,6 +466,11 @@ class PHPWord_Style_TableFull
         return $this->_cellMarginBottom;
     }
 
+    /**
+     * Set TLRB cell margin
+     *
+     * @param   int     $pValue Margin in twips
+     */
     public function setCellMargin($pValue = null)
     {
         $this->_cellMarginTop = $pValue;
