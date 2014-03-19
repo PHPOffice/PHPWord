@@ -13,8 +13,10 @@ Contents:
 
    intro
    setup
+   general
    containers
    elements
+   templates
    recipes
    faq
    credits
