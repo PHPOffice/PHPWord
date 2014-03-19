@@ -2,6 +2,7 @@
 namespace PHPWord\Tests;
 
 use PHPWord;
+use PhpOffice\PhpWord\IOFactory;
 
 class TestHelperDOCX
 {
@@ -19,8 +20,8 @@ class TestHelperDOCX
             mkdir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
         }
 
-        $objWriter = \PHPWord_IOFactory::createWriter($PHPWord, $writer);
-        $objWriter->save(self::$file);
+        $xmlWriter = IOFactory::createWriter($PHPWord, $writer);
+        $xmlWriter->save(self::$file);
 
         $zip = new \ZipArchive;
         $res = $zip->open(self::$file);

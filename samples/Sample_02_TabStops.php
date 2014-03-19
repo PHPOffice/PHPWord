@@ -11,19 +11,19 @@ $PHPWord = new PHPWord();
 // Ads styles
 $PHPWord->addParagraphStyle('multipleTab', array(
   'tabs' => array(
-    new PHPWord_Style_Tab('left', 1550),
-    new PHPWord_Style_Tab('center', 3200),
-    new PHPWord_Style_Tab('right', 5300)
+    new PhpOffice\PhpWord\Style\Tab('left', 1550),
+    new PhpOffice\PhpWord\Style\Tab('center', 3200),
+    new PhpOffice\PhpWord\Style\Tab('right', 5300)
   )
 ));
 $PHPWord->addParagraphStyle('rightTab', array(
   'tabs' => array(
-    new PHPWord_Style_Tab('right', 9090)
+    new PhpOffice\PhpWord\Style\Tab('right', 9090)
   )
 ));
 $PHPWord->addParagraphStyle('centerTab', array(
   'tabs' => array(
-    new PHPWord_Style_Tab('center', 4680)
+    new PhpOffice\PhpWord\Style\Tab('center', 4680)
   )
 ));
 
@@ -40,8 +40,8 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 

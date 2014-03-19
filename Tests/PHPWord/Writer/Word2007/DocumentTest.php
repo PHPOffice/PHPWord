@@ -2,12 +2,9 @@
 namespace PHPWord\Tests\Writer\Word2007;
 
 use PHPWord;
-use PHPWord_Writer_Word2007;
-use PHPWord_Writer_Word2007_Document;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class DocumentTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -34,11 +31,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTOC
-     * covers   ::_writePageBreak
-     * covers   ::_writeListItem
-     * covers   ::_writeTitle
-     * covers   ::_writeObject
+     * covers ::_writeTOC
+     * covers ::_writePageBreak
+     * covers ::_writeListItem
+     * covers ::_writeTitle
+     * covers ::_writeObject
      */
     public function testElements()
     {

@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_Cell;
+use PhpOffice\PhpWord\Style\Cell;
 
 /**
- * Class CellTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -16,11 +14,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetNormal()
     {
-        $object = new PHPWord_Style_Cell();
+        $object = new Cell();
 
         $attributes = array(
             'valign' => 'left',
-            'textDirection' => PHPWord_Style_Cell::TEXT_DIR_BTLR,
+            'textDirection' => Cell::TEXT_DIR_BTLR,
             'bgColor' => 'FFFF00',
             'borderTopSize' => 120,
             'borderTopColor' => 'FFFF00',
@@ -46,7 +44,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testBorderColor()
     {
-        $object = new PHPWord_Style_Cell();
+        $object = new Cell();
 
         $default = '000000';
         $value = 'FF0000';
@@ -66,7 +64,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testBorderSize()
     {
-        $object = new PHPWord_Style_Cell();
+        $object = new Cell();
 
         $value = 120;
         $expected = array($value, $value, $value, $value);

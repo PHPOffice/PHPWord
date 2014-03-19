@@ -1,13 +1,11 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_TOC;
+use PhpOffice\PhpWord\Style\TOC;
 
 /**
- * Class TOCTest
- *
- * @package PHPWord\Tests
- * @covers  PHPWord_Style_TOC
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Style\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
@@ -17,11 +15,11 @@ class TOCTest extends \PHPUnit_Framework_TestCase
      */
     public function testProperties()
     {
-        $object = new PHPWord_Style_TOC();
+        $object = new TOC();
 
         $properties = array(
             'tabPos' => 9062,
-            'tabLeader' => PHPWord_Style_TOC::TABLEADER_DOT,
+            'tabLeader' => TOC::TABLEADER_DOT,
             'indent' => 200,
         );
         foreach ($properties as $key => $value) {

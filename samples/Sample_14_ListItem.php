@@ -31,7 +31,7 @@ $section->addListItem('List Item 1.3.2', 2);
 $section->addTextBreak(2);
 
 // Add listitem elements
-$listStyle = array('listType'=>PHPWord_Style_ListItem::TYPE_NUMBER);
+$listStyle = array('listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER);
 $section->addListItem('List Item 1', 0, null, $listStyle);
 $section->addListItem('List Item 2', 0, null, $listStyle);
 $section->addListItem('List Item 3', 0, null, $listStyle);
@@ -40,7 +40,7 @@ $section->addTextBreak(2);
 // Add listitem elements
 $PHPWord->addFontStyle('myOwnStyle', array('color'=>'FF0000'));
 $PHPWord->addParagraphStyle('P-Style', array('spaceAfter'=>95));
-$listStyle = array('listType'=>PHPWord_Style_ListItem::TYPE_NUMBER_NESTED);
+$listStyle = array('listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
 $section->addListItem('List Item 1', 0, 'myOwnStyle', $listStyle, 'P-Style');
 $section->addListItem('List Item 2', 0, 'myOwnStyle', $listStyle, 'P-Style');
 $section->addListItem('List Item 3', 1, 'myOwnStyle', $listStyle, 'P-Style');
@@ -56,8 +56,8 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 

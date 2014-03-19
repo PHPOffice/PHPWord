@@ -2,14 +2,11 @@
 namespace PHPWord\Tests\Writer\ODText;
 
 use PHPWord;
-use PHPWord_Style;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class ContentTest
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Writer_ODText_Content
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText\Content
  * @runTestsInSeparateProcesses
  */
 class ContentTest extends \PHPUnit_Framework_TestCase
@@ -23,8 +20,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::writeContent
-     * covers   <private>
+     * covers ::writeContent
+     * covers <private>
      */
     public function testWriteContent()
     {

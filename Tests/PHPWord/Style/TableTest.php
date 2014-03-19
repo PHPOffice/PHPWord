@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_Table;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
- * Class TableTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -16,7 +14,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValue()
     {
-        $object = new PHPWord_Style_Table();
+        $object = new Table();
         $parts = array('Top', 'Left', 'Right', 'Bottom');
 
         $value = 240; // In twips
@@ -33,7 +31,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCellMargin()
     {
-        $object = new PHPWord_Style_Table();
+        $object = new Table();
         $parts = array('Top', 'Left', 'Right', 'Bottom');
 
         // Set cell margin and test if each part has the same margin

@@ -1,38 +1,35 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord_TOC;
-use PHPWord_Style_TOC;
+use PhpOffice\PhpWord\TOC;
 
 /**
- * Class TOCTest
- *
- * @package PHPWord\Tests
- * @covers  PHPWord_TOC
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers PHPWord_TOC::__construct
-     * @covers PHPWord_TOC::getStyleTOC
-     * @covers PHPWord_TOC::getStyleFont
+     * @covers ::__construct
+     * @covers ::getStyleTOC
+     * @covers ::getStyleFont
      */
     public function testConstruct()
     {
         $expected = array(
             'tabPos' => 9062,
-            'tabLeader' => PHPWord_Style_TOC::TABLEADER_DOT,
+            'tabLeader' => PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
             'indent' => 200,
         );
-        $object = new PHPWord_TOC(
+        $object = new TOC(
             array('size' => 11),
             array('tabPos' => $expected['tabPos'])
         );
         $tocStyle = $object->getStyleTOC();
 
-        $this->assertInstanceOf('PHPWord_Style_TOC', $tocStyle);
-        $this->assertInstanceOf('PHPWord_Style_Font', $object->getStyleFont());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $object->getStyleFont());
 
         foreach ($expected as $key => $value) {
             $method = "get{$key}";
@@ -41,8 +38,8 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord_TOC::addTitle
-     * @covers PHPWord_TOC::getTitles
+     * @covers ::addTitle
+     * @covers ::getTitles
      */
     public function testAddAndGetTitle()
     {
@@ -56,16 +53,16 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             'Heading 3' => 3,
         );
 
-        // @covers PHPWord_TOC::addTitle
+        // @covers ::addTitle
         foreach ($titles as $text => $depth) {
-            $response = PHPWord_TOC::addTitle($text, $depth);
+            $response = TOC::addTitle($text, $depth);
         }
         $this->assertEquals($anchor, $response[0]);
         $this->assertEquals($bookmark, $response[1]);
 
-        // @covers PHPWord_TOC::getTitles
+        // @covers ::getTitles
         $i = 0;
-        $savedTitles = PHPWord_TOC::getTitles();
+        $savedTitles = TOC::getTitles();
         foreach ($titles as $text => $depth) {
             $this->assertEquals($text, $savedTitles[$i]['text']);
             $this->assertEquals($depth, $savedTitles[$i]['depth']);

@@ -1,38 +1,33 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord;
-use PHPWord_DocumentProperties;
-use PHPWord_Section;
-use PHPWord_Style;
+use PhpOffice\PHPWord;
+use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Style;
 
 /**
- * Class PHPWordTest
- *
- * @package PHPWord\Tests
- * @covers  PHPWord
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PHPWord
  * @runTestsInSeparateProcesses
  */
 class PHPWordTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPWord
+     * @var PhpOffice\PHPWord
      */
     protected $object;
 
     /**
-     * @covers PHPWord::__construct
-     * @covers PHPWord::getProperties
-     * @covers PHPWord::getDefaultFontName
-     * @covers PHPWord::getDefaultFontSize
+     * @covers ::__construct
+     * @covers ::getProperties
+     * @covers ::getDefaultFontName
+     * @covers ::getDefaultFontSize
      */
     public function testConstruct()
     {
         $object = new PHPWord();
-        $this->assertEquals(
-            new PHPWord_DocumentProperties(),
-            $object->getProperties()
-        );
+        $this->assertEquals(new DocumentProperties(), $object->getProperties());
         $this->assertEquals(
             PHPWord::DEFAULT_FONT_NAME,
             $object->getDefaultFontName()
@@ -44,8 +39,8 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord::setProperties
-     * @covers PHPWord::getProperties
+     * @covers ::setProperties
+     * @covers ::getProperties
      */
     public function testSetGetProperties()
     {
@@ -58,20 +53,20 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord::createSection
-     * @covers PHPWord::getSections
+     * @covers ::createSection
+     * @covers ::getSections
      */
     public function testCreateGetSections()
     {
         $object = new PHPWord();
-        $this->assertEquals(new PHPWord_Section(1), $object->createSection());
+        $this->assertEquals(new Section(1), $object->createSection());
         $object->createSection();
         $this->assertEquals(2, count($object->getSections()));
     }
 
     /**
-     * @covers PHPWord::setDefaultFontName
-     * @covers PHPWord::getDefaultFontName
+     * @covers ::setDefaultFontName
+     * @covers ::getDefaultFontName
      */
     public function testSetGetDefaultFontName()
     {
@@ -86,8 +81,8 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord::setDefaultFontSize
-     * @covers PHPWord::getDefaultFontSize
+     * @covers ::setDefaultFontSize
+     * @covers ::getDefaultFontSize
      */
     public function testSetGetDefaultFontSize()
     {
@@ -102,45 +97,42 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PHPWord::setDefaultParagraphStyle
-     * @covers PHPWord::loadTemplate
+     * @covers ::setDefaultParagraphStyle
+     * @covers ::loadTemplate
      */
     public function testSetDefaultParagraphStyle()
     {
         $object = new PHPWord();
         $object->setDefaultParagraphStyle(array());
-        $this->assertInstanceOf(
-            'PHPWord_Style_Paragraph',
-            PHPWord_Style::getStyle('Normal')
-        );
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
     }
 
     /**
-     * @covers PHPWord::addParagraphStyle
-     * @covers PHPWord::addFontStyle
-     * @covers PHPWord::addTableStyle
-     * @covers PHPWord::addLinkStyle
+     * @covers ::addParagraphStyle
+     * @covers ::addFontStyle
+     * @covers ::addTableStyle
+     * @covers ::addLinkStyle
      */
     public function testAddStyles()
     {
         $object = new PHPWord();
-        $styles = array('Paragraph' => 'Paragraph', 'Font' => 'Font',
-            'Table' => 'TableFull', 'Link' => 'Font');
+        $styles = array(
+            'Paragraph' => 'Paragraph',
+            'Font' => 'Font',
+            'Table' => 'TableFull',
+            'Link' => 'Font',
+        );
         foreach ($styles as $key => $value) {
             $method = "add{$key}Style";
             $styleId = "{$key} Style";
-            $styleType = "PHPWord_Style_{$value}";
             $object->$method($styleId, array());
-            $this->assertInstanceOf(
-                $styleType,
-                PHPWord_Style::getStyle($styleId)
-            );
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
 
     }
 
     /**
-     * @covers PHPWord::addTitleStyle
+     * @covers ::addTitleStyle
      */
     public function testAddTitleStyle()
     {
@@ -148,14 +140,11 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
         $titleLevel = 1;
         $titleName = "Heading_{$titleLevel}";
         $object->addTitleStyle($titleLevel, array());
-        $this->assertInstanceOf(
-            'PHPWord_Style_Font',
-            PHPWord_Style::getStyle($titleName)
-        );
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($titleName));
     }
 
     /**
-     * @covers PHPWord::loadTemplate
+     * @covers ::loadTemplate
      */
     public function testLoadTemplate()
     {
@@ -164,15 +153,12 @@ class PHPWordTest extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx')
         );
         $object = new PHPWord();
-        $this->assertInstanceOf(
-            'PHPWord_Template',
-            $object->loadTemplate($file)
-        );
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Template', $object->loadTemplate($file));
     }
 
     /**
-     * @covers PHPWord::loadTemplate
-     * @expectedException PHPWord_Exception
+     * @covers            ::loadTemplate
+     * @expectedException PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testLoadTemplateException()
     {

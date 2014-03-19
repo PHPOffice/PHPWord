@@ -2,14 +2,11 @@
 namespace PHPWord\Tests\Writer\Word2007;
 
 use PHPWord;
-use PHPWord_Style;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class BaseTest
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Writer_Word2007_Base
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007\Base
  * @runTestsInSeparateProcesses
  */
 class BaseTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeText
+     * covers ::_writeText
      */
     public function testWriteText()
     {
@@ -44,7 +41,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTextRun
+     * covers ::_writeTextRun
      */
     public function testWriteTextRun()
     {
@@ -71,7 +68,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeLink
+     * covers ::_writeLink
      */
     public function testWriteLink()
     {
@@ -88,7 +85,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writePreserveText
+     * covers ::_writePreserveText
      */
     public function testWritePreserveText()
     {
@@ -104,8 +101,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('PAGE', $preserve->nodeValue);
         $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
     }
+
     /**
-     * covers   ::_writeTextBreak
+     * covers ::_writeTextBreak
      */
     public function testWriteTextBreak()
     {
@@ -130,7 +128,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeParagraphStyle
+     * covers ::_writeParagraphStyle
      */
     public function testWriteParagraphStyleAlign()
     {
@@ -146,7 +144,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeParagraphStyle
+     * covers ::_writeParagraphStyle
      */
     public function testWriteParagraphStylePagination()
     {
@@ -176,7 +174,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTextStyle
+     * covers ::_writeTextStyle
      */
     public function testWriteFontStyle()
     {
@@ -208,7 +206,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTableStyle
+     * covers ::_writeTableStyle
      */
     public function testWriteTableStyle()
     {
@@ -266,7 +264,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeCellStyle
+     * covers ::_writeCellStyle
      */
     public function testWriteCellStyleCellGridSpan()
     {
@@ -293,7 +291,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeImage
+     * covers ::_writeImage
      */
     public function testWriteImagePosition()
     {
@@ -318,7 +316,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeWatermark
+     * covers ::_writeWatermark
      */
     public function testWriteWatermark()
     {
@@ -338,7 +336,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers   ::_writeTitle
+     * covers ::_writeTitle
      */
     public function testWriteTitle()
     {

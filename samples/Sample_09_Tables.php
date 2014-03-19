@@ -32,7 +32,7 @@ $section->addText("Fancy table", $header);
 $styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
 $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
 $styleCell = array('valign' => 'center');
-$styleCellBTLR = array('valign' => 'center', 'textDirection' => PHPWord_Style_Cell::TEXT_DIR_BTLR);
+$styleCellBTLR = array('valign' => 'center', 'textDirection' => PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
 $fontStyle = array('bold' => true, 'align' => 'center');
 $PHPWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
 $table = $section->addTable('Fancy Table');
@@ -81,8 +81,8 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 

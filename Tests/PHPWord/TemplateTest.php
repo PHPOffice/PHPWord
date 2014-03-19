@@ -1,11 +1,11 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord_Template;
+use PhpOffice\PhpWord\Template;
 use PHPWord;
 
 /**
- * @coversDefaultClass  PHPWord_Template
+ * @coversDefaultClass PhpOffice\PhpWord\Template
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
         );
 
-        $document = new PHPWord_Template($templateFqfn);
+        $document = new Template($templateFqfn);
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(
             \join(
@@ -93,7 +93,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
-        $template = new PHPWord_Template(
+        $template = new Template(
             \join(
                 \DIRECTORY_SEPARATOR,
                 array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx')
@@ -123,7 +123,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
-        $template = new PHPWord_Template(
+        $template = new Template(
             \join(
                 \DIRECTORY_SEPARATOR,
                 array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'corrupted_main_document_part.docx')

@@ -25,14 +25,14 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord\Reader;
+
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
- * PHPWord_Reader_Abstract
- *
- * @codeCoverageIgnore  Abstract class
+ * @codeCoverageIgnore Abstract class
  */
-abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
+abstract class AbstractReader implements IReader
 {
     /**
      * Read data only?
@@ -61,7 +61,7 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
      * Set read data only
      *
      * @param bool $pValue
-     * @return PHPWord_Reader_IReader
+     * @return PhpOffice\PhpWord\Reader\IReader
      */
     public function setReadDataOnly($pValue = true)
     {
@@ -91,7 +91,7 @@ abstract class PHPWord_Reader_Abstract implements PHPWord_Reader_IReader
     }
 
     /**
-     * Can the current PHPWord_Reader_IReader read the file?
+     * Can the current IReader read the file?
      *
      * @param string $pFilename
      * @return bool

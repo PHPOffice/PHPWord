@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Shared;
 
-use PHPWord_Shared_Drawing;
+use PhpOffice\PhpWord\Shared\Drawing;
 
 /**
- * Class DrawingTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -21,28 +19,28 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
         $values[] = rand(1, 100); // integer
 
         foreach ($values as $value) {
-            $result = PHPWord_Shared_Drawing::pixelsToEMU($value);
+            $result = Drawing::pixelsToEMU($value);
             $this->assertEquals(round($value * 9525), $result);
 
-            $result = PHPWord_Shared_Drawing::EMUToPixels($value);
+            $result = Drawing::EMUToPixels($value);
             $this->assertEquals(round($value / 9525), $result);
 
-            $result = PHPWord_Shared_Drawing::pixelsToPoints($value);
+            $result = Drawing::pixelsToPoints($value);
             $this->assertEquals($value * 0.67777777, $result);
 
-            $result = PHPWord_Shared_Drawing::pointsToPixels($value);
+            $result = Drawing::pointsToPixels($value);
             $this->assertEquals($value * 1.333333333, $result);
 
-            $result = PHPWord_Shared_Drawing::degreesToAngle($value);
+            $result = Drawing::degreesToAngle($value);
             $this->assertEquals((int)round($value * 60000), $result);
 
-            $result = PHPWord_Shared_Drawing::angleToDegrees($value);
+            $result = Drawing::angleToDegrees($value);
             $this->assertEquals(round($value / 60000), $result);
 
-            $result = PHPWord_Shared_Drawing::pixelsToCentimeters($value);
+            $result = Drawing::pixelsToCentimeters($value);
             $this->assertEquals($value * 0.028, $result);
 
-            $result = PHPWord_Shared_Drawing::centimetersToPixels($value);
+            $result = Drawing::centimetersToPixels($value);
             $this->assertEquals($value / 0.028, $result);
         }
     }
@@ -59,7 +57,7 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
         $values[] = array('0F9D', false); // 4 characters
         // Conduct test
         foreach ($values as $value) {
-            $result = PHPWord_Shared_Drawing::htmlToRGB($value[0]);
+            $result = Drawing::htmlToRGB($value[0]);
             $this->assertEquals($value[1], $result);
         }
     }

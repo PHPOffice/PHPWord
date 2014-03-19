@@ -2,13 +2,11 @@
 namespace PHPWord\Tests\Style;
 
 use PHPWord;
-use PHPWord_Style_Paragraph;
-use PHPWord_Style_Tab;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Tab;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class ParagraphTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -24,7 +22,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValueWithNullOrEmpty()
     {
-        $object = new PHPWord_Style_Paragraph();
+        $object = new Paragraph();
 
         $attributes = array(
             'tabs' => null,
@@ -47,7 +45,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValueNormal()
     {
-        $object = new PHPWord_Style_Paragraph();
+        $object = new Paragraph();
 
         $attributes = array(
             'align' => 'justify',
@@ -84,12 +82,9 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
      */
     public function testTabs()
     {
-        $object = new PHPWord_Style_Paragraph();
-        $object->setTabs(array(
-            new PHPWord_Style_Tab('left', 1550),
-            new PHPWord_Style_Tab('right', 5300),
-        ));
-        $this->assertInstanceOf('PHPWord_Style_Tabs', $object->getTabs());
+        $object = new Paragraph();
+        $object->setTabs(array(new Tab('left', 1550), new Tab('right', 5300)));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Tabs', $object->getTabs());
     }
 
     public function testLineHeight()
@@ -128,7 +123,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
      */
     public function testLineHeightValidation()
     {
-        $object = new PHPWord_Style_Paragraph();
+        $object = new Paragraph();
         $object->setLineHeight('12.5pt');
         $this->assertEquals(12.5, $object->getLineHeight());
     }

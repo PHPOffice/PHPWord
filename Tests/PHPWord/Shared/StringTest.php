@@ -1,33 +1,31 @@
 <?php
 namespace PHPWord\Tests\Shared;
 
-use PHPWord_Shared_String;
+use PhpOffice\PhpWord\Shared\String;
 
 /**
- * Class StringTest
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Shared_String
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Shared\String
  * @runTestsInSeparateProcesses
  */
 class StringTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsUTF8()
     {
-        $this->assertTrue(PHPWord_Shared_String::IsUTF8(''));
-        $this->assertTrue(PHPWord_Shared_String::IsUTF8('éééé'));
-        $this->assertFalse(PHPWord_Shared_String::IsUTF8(utf8_decode('éééé')));
+        $this->assertTrue(String::IsUTF8(''));
+        $this->assertTrue(String::IsUTF8('éééé'));
+        $this->assertFalse(String::IsUTF8(utf8_decode('éééé')));
     }
 
     public function testControlCharacterOOXML2PHP()
     {
-        $this->assertEquals('', PHPWord_Shared_String::ControlCharacterOOXML2PHP(''));
-        $this->assertEquals(chr(0x08), PHPWord_Shared_String::ControlCharacterOOXML2PHP('_x0008_'));
+        $this->assertEquals('', String::ControlCharacterOOXML2PHP(''));
+        $this->assertEquals(chr(0x08), String::ControlCharacterOOXML2PHP('_x0008_'));
     }
 
     public function testControlCharacterPHP2OOXML()
     {
-        $this->assertEquals('', PHPWord_Shared_String::ControlCharacterPHP2OOXML(''));
-        $this->assertEquals('_x0008_', PHPWord_Shared_String::ControlCharacterPHP2OOXML(chr(0x08)));
+        $this->assertEquals('', String::ControlCharacterPHP2OOXML(''));
+        $this->assertEquals('_x0008_', String::ControlCharacterPHP2OOXML(chr(0x08)));
     }
 }

@@ -1,22 +1,20 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord_Style;
+use PhpOffice\PhpWord\Style;
 
 /**
- * Class StyleTest
- *
- * @package PHPWord\Tests
- * @covers  PHPWord_Style
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Style
  * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers PHPWord_Style::addParagraphStyle
-     * @covers PHPWord_Style::addFontStyle
-     * @covers PHPWord_Style::addLinkStyle
-     * @covers PHPWord_Style::addTitleStyle
+     * @covers ::addParagraphStyle
+     * @covers ::addFontStyle
+     * @covers ::addLinkStyle
+     * @covers ::addTitleStyle
      */
     public function testStyles()
     {
@@ -27,18 +25,17 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             'Link' => 'Font', 'Table' => 'TableFull',
             'Heading_1' => 'Font', 'Normal' => 'Paragraph');
         $elementCount = 6;
-        PHPWord_Style::addParagraphStyle('Paragraph', $paragraph);
-        PHPWord_Style::addFontStyle('Font', $font);
-        PHPWord_Style::addLinkStyle('Link', $font);
-        PHPWord_Style::addTableStyle('Table', $table);
-        PHPWord_Style::addTitleStyle(1, $font);
-        PHPWord_Style::setDefaultParagraphStyle($paragraph);
+        Style::addParagraphStyle('Paragraph', $paragraph);
+        Style::addFontStyle('Font', $font);
+        Style::addLinkStyle('Link', $font);
+        Style::addTableStyle('Table', $table);
+        Style::addTitleStyle(1, $font);
+        Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertEquals($elementCount, count(PHPWord_Style::getStyles()));
+        $this->assertEquals($elementCount, count(Style::getStyles()));
         foreach ($styles as $name => $style) {
-            $expected = "PHPWord_Style_{$style}";
-            $this->assertInstanceOf($expected, PHPWord_Style::getStyle($name));
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
-        $this->assertNull(PHPWord_Style::getStyle('Unknown'));
+        $this->assertNull(Style::getStyle('Unknown'));
     }
 }

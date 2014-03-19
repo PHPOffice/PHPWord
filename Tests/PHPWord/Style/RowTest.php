@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_Row;
+use PhpOffice\PhpWord\Style\Row;
 
 /**
- * Class RowTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -16,7 +14,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     public function testProperties()
     {
-        $object = new PHPWord_Style_Row();
+        $object = new Row();
 
         $properties = array(
             'tblHeader' => true,

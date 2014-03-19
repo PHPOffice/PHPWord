@@ -1,15 +1,13 @@
 <?php
 namespace PHPWord\Tests\Writer;
 
-use PHPWord_Writer_Word2007;
+use PhpOffice\PhpWord\Writer\Word2007;
 use PHPWord;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class Word2007Test
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Writer_Word2007
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
@@ -20,29 +18,38 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers  ::__construct
+     * covers ::__construct
      */
     public function testConstruct()
     {
-        $object = new PHPWord_Writer_Word2007(new PHPWord());
+        $object = new Word2007(new PHPWord());
 
-        $writerParts = array('ContentTypes', 'Rels', 'DocProps',
-            'DocumentRels', 'Document', 'Styles', 'Header', 'Footer',
-            'Footnotes', 'FootnotesRels');
+        $writerParts = array(
+            'ContentTypes',
+            'Rels',
+            'DocProps',
+            'DocumentRels',
+            'Document',
+            'Styles',
+            'Header',
+            'Footer',
+            'Footnotes',
+            'FootnotesRels',
+        );
         foreach ($writerParts as $part) {
             $this->assertInstanceOf(
-                "PHPWord_Writer_Word2007_{$part}",
+                "PhpOffice\\PhpWord\\Writer\\Word2007\\{$part}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(
-                "PHPWord_Writer_Word2007",
+                'PhpOffice\\PhpWord\\Writer\\Word2007',
                 $object->getWriterPart($part)->getParentWriter()
             );
         }
     }
 
     /**
-     * @covers  ::save
+     * @covers ::save
      */
     public function testSave()
     {
@@ -57,7 +64,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $textrun = $section->createTextRun();
         $textrun->addText('Test 3');
 
-        $writer = new PHPWord_Writer_Word2007($phpWord);
+        $writer = new Word2007($phpWord);
         $file = \join(
             \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.docx')
@@ -68,7 +75,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::checkContentTypes
+     * @covers ::checkContentTypes
      */
     public function testCheckContentTypes()
     {
@@ -98,20 +105,20 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::setUseDiskCaching
-     * @covers  ::getUseDiskCaching
+     * @covers ::setUseDiskCaching
+     * @covers ::getUseDiskCaching
      */
     public function testSetGetUseDiskCaching()
     {
-        $object = new PHPWord_Writer_Word2007();
+        $object = new Word2007();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
 
         $this->assertTrue($object->getUseDiskCaching());
     }
 
     /**
-     * @covers              ::setUseDiskCaching
-     * @expectedException   Exception
+     * @covers             ::setUseDiskCaching
+     * @expectedException  Exception
      */
     public function testSetUseDiskCachingException()
     {
@@ -120,7 +127,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
         );
 
-        $object = new PHPWord_Writer_Word2007();
+        $object = new Word2007();
         $object->setUseDiskCaching(true, $dir);
     }
 }

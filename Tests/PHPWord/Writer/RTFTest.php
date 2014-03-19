@@ -1,67 +1,65 @@
 <?php
 namespace PHPWord\Tests\Writer;
 
-use PHPWord_Writer_RTF;
+use PhpOffice\PhpWord\Writer\RTF;
 use PHPWord;
 
 /**
- * Class RTFTest
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Writer_RTF
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Writer\RTF
  * @runTestsInSeparateProcesses
  */
 class RTFTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * covers   ::construct
+     * covers ::construct
      */
     public function testConstruct()
     {
-        $object = new PHPWord_Writer_RTF(new PHPWord);
+        $object = new RTF(new PHPWord);
 
-        $this->assertInstanceOf('PHPWord', $object->getPHPWord());
-        $this->assertInstanceOf("PHPWord_HashTable", $object->getDrawingHashTable());
+        $this->assertInstanceOf('PhpOffice\\PHPWord', $object->getPHPWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
     }
 
     /**
-     * covers                       ::__construct
-     * @expectedException           Exception
-     * @expectedExceptionMessage    No PHPWord assigned.
+     * covers                    ::__construct
+     * @expectedException        Exception
+     * @expectedExceptionMessage No PHPWord assigned.
      */
     public function testConstructWithNull()
     {
-        $object = new PHPWord_Writer_RTF();
+        $object = new RTF();
         $object->getPHPWord();
     }
 
     /**
-     * @covers  ::save
-     * @todo    Haven't got any method to test this
+     * @covers ::save
+     * @todo   Haven't got any method to test this
      */
     public function testSavePhpOutput()
     {
         $phpWord = new PHPWord();
         $section = $phpWord->createSection();
         $section->addText('Test');
-        $writer = new PHPWord_Writer_RTF($phpWord);
+        $writer = new RTF($phpWord);
         $writer->save('php://output');
     }
 
     /**
-     * @covers                      ::save
-     * @expectedException           Exception
-     * @expectedExceptionMessage    PHPWord object unassigned.
+     * @covers                   ::save
+     * @expectedException        Exception
+     * @expectedExceptionMessage PHPWord object unassigned.
      */
     public function testSaveException()
     {
-        $writer = new PHPWord_Writer_RTF();
+        $writer = new RTF();
         $writer->save();
     }
 
     /**
-     * @covers  ::save
-     * @covers  ::<private>
+     * @covers ::save
+     * @covers ::<private>
      */
     public function testSave()
     {
@@ -97,7 +95,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $textrun = $section->createTextRun();
         $textrun->addText('Test 3');
         $textrun->addTextBreak();
-        $writer = new PHPWord_Writer_RTF($phpWord);
+        $writer = new RTF($phpWord);
         $writer->save($file);
 
         $this->assertTrue(file_exists($file));

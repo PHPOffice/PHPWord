@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_Image;
+use PhpOffice\PhpWord\Style\Image;
 
 /**
- * Class ImageTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -16,7 +14,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetNormal()
     {
-        $object = new PHPWord_Style_Image();
+        $object = new Image();
 
         $properties = array(
             'width' => 200,
@@ -39,7 +37,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValue()
     {
-        $object = new PHPWord_Style_Image();
+        $object = new Image();
 
         $properties = array(
             'width' => 200,
@@ -62,7 +60,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetWrappingStyleException()
     {
-        $object = new PHPWord_Style_Image();
+        $object = new Image();
         $object->setWrappingStyle('foo');
     }
 }

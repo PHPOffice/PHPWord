@@ -1,14 +1,12 @@
 <?php
 namespace PHPWord\Tests\Writer;
 
-use PHPWord_Writer_ODText;
+use PhpOffice\PhpWord\Writer\ODText;
 use PHPWord;
 
 /**
- * Class ODTextTest
- *
- * @package             PHPWord\Tests
- * @coversDefaultClass  PHPWord_Writer_ODText
+ * @package                     PHPWord\Tests
+ * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText
  * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit_Framework_TestCase
@@ -18,38 +16,37 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $object = new PHPWord_Writer_ODText(new PHPWord());
+        $object = new ODText(new PHPWord());
 
-        $this->assertInstanceOf('PHPWord', $object->getPHPWord());
-        $this->assertInstanceOf("PHPWord_HashTable", $object->getDrawingHashTable());
+        $this->assertInstanceOf('PhpOffice\\PHPWord', $object->getPHPWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
 
         $this->assertEquals('./', $object->getDiskCachingDirectory());
-        $writerParts = array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles');
-        foreach ($writerParts as $part) {
+        foreach (array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles') as $part) {
             $this->assertInstanceOf(
-                "PHPWord_Writer_ODText_{$part}",
+                "PhpOffice\\PhpWord\\Writer\\ODText\\{$part}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(
-                "PHPWord_Writer_ODText",
+                'PhpOffice\\PhpWord\\Writer\\ODText',
                 $object->getWriterPart($part)->getParentWriter()
             );
         }
     }
 
     /**
-     * @covers                      ::getPHPWord
-     * @expectedException           Exception
-     * @expectedExceptionMessage    No PHPWord assigned.
+     * @covers                    ::getPHPWord
+     * @expectedException         Exception
+     * @expectedExceptionMessage  No PHPWord assigned.
      */
     public function testConstructWithNull()
     {
-        $object = new PHPWord_Writer_ODText();
+        $object = new ODText();
         $object->getPHPWord();
     }
 
     /**
-     * @covers  ::save
+     * @covers ::save
      */
     public function testSave()
     {
@@ -84,7 +81,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->createSection();
         $textrun = $section->createTextRun();
         $textrun->addText('Test 3');
-        $writer = new PHPWord_Writer_ODText($phpWord);
+        $writer = new ODText($phpWord);
         $writer->save($file);
 
         $this->assertTrue(file_exists($file));
@@ -93,53 +90,53 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::save
-     * @todo    Haven't got any method to test this
+     * @covers ::save
+     * @todo   Haven't got any method to test this
      */
     public function testSavePhpOutput()
     {
         $phpWord = new PHPWord();
         $section = $phpWord->createSection();
         $section->addText('Test');
-        $writer = new PHPWord_Writer_ODText($phpWord);
+        $writer = new ODText($phpWord);
         $writer->save('php://output');
     }
 
     /**
-     * @covers                      ::save
-     * @expectedException           Exception
-     * @expectedExceptionMessage    PHPWord object unassigned.
+     * @covers                   ::save
+     * @expectedException        Exception
+     * @expectedExceptionMessage PHPWord object unassigned.
      */
     public function testSaveException()
     {
-        $writer = new PHPWord_Writer_ODText();
+        $writer = new ODText();
         $writer->save();
     }
 
     /**
-     * @covers  ::getWriterPart
+     * @covers ::getWriterPart
      */
     public function testGetWriterPartNull()
     {
-        $object = new PHPWord_Writer_ODText();
+        $object = new ODText();
         $this->assertNull($object->getWriterPart('foo'));
     }
 
     /**
-     * @covers  ::setUseDiskCaching
-     * @covers  ::getUseDiskCaching
+     * @covers ::setUseDiskCaching
+     * @covers ::getUseDiskCaching
      */
     public function testSetGetUseDiskCaching()
     {
-        $object = new PHPWord_Writer_ODText();
+        $object = new ODText();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
         $this->assertTrue($object->getUseDiskCaching());
         $this->assertEquals(PHPWORD_TESTS_DIR_ROOT, $object->getDiskCachingDirectory());
     }
 
     /**
-     * @covers              ::setUseDiskCaching
-     * @expectedException   Exception
+     * @covers            ::setUseDiskCaching
+     * @expectedException Exception
      */
     public function testSetUseDiskCachingException()
     {
@@ -148,7 +145,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
         );
 
-        $object = new PHPWord_Writer_ODText($phpWord);
+        $object = new ODText($phpWord);
         $object->setUseDiskCaching(true, $dir);
     }
 }

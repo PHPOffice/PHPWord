@@ -2,12 +2,10 @@
 namespace PHPWord\Tests\Style;
 
 use PHPWord;
-use PHPWord_Style_Font;
+use PhpOffice\PhpWord\Style\Font;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class FontTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -23,10 +21,10 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitiation()
     {
-        $object = new PHPWord_Style_Font('text', array('align' => 'both'));
+        $object = new Font('text', array('align' => 'both'));
 
         $this->assertEquals('text', $object->getStyleType());
-        $this->assertInstanceOf('PHPWord_Style_Paragraph', $object->getParagraphStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
     }
 
     /**
@@ -34,7 +32,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValueWithNullOrEmpty()
     {
-        $object = new PHPWord_Style_Font();
+        $object = new Font();
 
         $attributes = array(
             'name' => PHPWord::DEFAULT_FONT_NAME,
@@ -43,7 +41,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'italic' => false,
             'superScript' => false,
             'subScript' => false,
-            'underline' => PHPWord_Style_Font::UNDERLINE_NONE,
+            'underline' => Font::UNDERLINE_NONE,
             'strikethrough' => false,
             'color' => PHPWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
@@ -62,7 +60,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStyleValueNormal()
     {
-        $object = new PHPWord_Style_Font();
+        $object = new Font();
 
         $attributes = array(
             'name' => 'Times New Roman',
@@ -71,7 +69,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'italic' => true,
             'superScript' => true,
             'subScript' => true,
-            'underline' => PHPWord_Style_Font::UNDERLINE_HEAVY,
+            'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
             'color' => '999999',
             'fgColor' => '999999',

@@ -5,7 +5,6 @@ use PHPWord;
 use PHPWord\Tests\TestHelperDOCX;
 
 /**
- * Class PHPWord_Writer_Word2007_FootnotesTest
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */

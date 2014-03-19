@@ -107,8 +107,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             // 'Title', 'TextRun');
         // $i = 0;
         // foreach ($elementTypes as $elementType) {
-            // $objectType = "PHPWord_Section_{$elementType}";
-            // $this->assertInstanceOf($objectType, $elementCollection[$i]);
+            // $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[$i]);
             // $i++;
         // }
     }

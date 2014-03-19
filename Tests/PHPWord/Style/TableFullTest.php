@@ -1,11 +1,9 @@
 <?php
 namespace PHPWord\Tests\Style;
 
-use PHPWord_Style_TableFull;
+use PhpOffice\PhpWord\Style\TableFull;
 
 /**
- * Class TableFullTest
- *
  * @package PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
@@ -24,11 +22,11 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
         $styleTable = array('bgColor' => 'FF0000');
         $styleFirstRow = array('borderBottomSize' => 3);
 
-        $object = new PHPWord_Style_TableFull($styleTable, $styleFirstRow);
+        $object = new TableFull($styleTable, $styleFirstRow);
         $this->assertEquals('FF0000', $object->getBgColor());
 
         $firstRow = $object->getFirstRow();
-        $this->assertInstanceOf('PHPWord_Style_TableFull', $firstRow);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TableFull', $firstRow);
         $this->assertEquals(3, $firstRow->getBorderBottomSize());
     }
 
@@ -37,7 +35,7 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetNormal()
     {
-        $object = new PHPWord_Style_TableFull();
+        $object = new TableFull();
 
         $attributes = array(
             'bgColor' => 'FF0000',
@@ -74,7 +72,7 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
      */
     public function testBorderColor()
     {
-        $object = new PHPWord_Style_TableFull();
+        $object = new TableFull();
         $parts = array('Top', 'Left', 'Right', 'Bottom', 'InsideH', 'InsideV');
 
         $value = 'FF0000';
@@ -96,7 +94,7 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
      */
     public function testBorderSize()
     {
-        $object = new PHPWord_Style_TableFull();
+        $object = new TableFull();
         $parts = array('Top', 'Left', 'Right', 'Bottom', 'InsideH', 'InsideV');
 
         $value = 4;
@@ -118,7 +116,7 @@ class TableFullTest extends \PHPUnit_Framework_TestCase
      */
     public function testCellMargin()
     {
-        $object = new PHPWord_Style_TableFull();
+        $object = new TableFull();
         $parts = array('Top', 'Left', 'Right', 'Bottom');
 
         $value = 240;

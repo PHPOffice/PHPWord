@@ -15,7 +15,7 @@ $section = $PHPWord->createSection();
 $PHPWord->addParagraphStyle('pStyle', array('spacing'=>100));
 $PHPWord->addFontStyle('BoldText', array('bold'=>true));
 $PHPWord->addFontStyle('ColoredText', array('color'=>'FF8080'));
-$PHPWord->addLinkStyle('NLink', array('color'=>'0000FF', 'underline'=>PHPWord_Style_Font::UNDERLINE_SINGLE));
+$PHPWord->addLinkStyle('NLink', array('color'=>'0000FF', 'underline' => PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
 
 // Add text elements
 $textrun = $section->createTextRun('pStyle');
@@ -41,8 +41,8 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 
