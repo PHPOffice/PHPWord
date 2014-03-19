@@ -1,59 +1,55 @@
 <?php
 namespace PHPWord\Tests;
 
-use PHPWord;
+use PhpOffice\PHPWord;
 use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Writer\Word2007;
-use Exception;
 
 /**
+ * @@coversDefaultClass         PhpOffice\PhpWord\IOFactory
  * @package                     PHPWord\Tests
  * @runTestsInSeparateProcesses
  */
-class IOFactoryTest extends \PHPUnit_Framework_TestCase
+final class IOFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetSearchLocations()
+    /**
+     * @covers ::createWriter
+     */
+    final public function testExistingWriterCanBeCreated()
     {
-        $this->assertAttributeEquals(
-            IOFactory::getSearchLocations(),
-            '_searchLocations',
-            'PhpOffice\\PhpWord\\IOFactory'
-        );
-    }
-
-    public function testSetSearchLocationsWithArray()
-    {
-        IOFactory::setSearchLocations(array());
-        $this->assertAttributeEquals(array(), '_searchLocations', 'PhpOffice\\PhpWord\\IOFactory');
-    }
-
-    public function testAddSearchLocation()
-    {
-        IOFactory::setSearchLocations(array());
-        IOFactory::addSearchLocation('interface', 'classname');
-        $this->assertAttributeEquals(
-            array(array('interface' => 'interface', 'class' => 'classname')),
-            '_searchLocations',
-            'PhpOffice\\PhpWord\\IOFactory'
+        $this->assertInstanceOf(
+            'PhpOffice\\PhpWord\\Writer\\Word2007',
+            IOFactory::createWriter(new PHPWord(), 'Word2007')
         );
     }
 
     /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage No IWriter found for type
+     * @covers                   ::createWriter
+     * @expectedException        PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedExceptionMessage Could not instantiate "Word2006" class.
      */
-    public function testCreateWriterException()
+    final public function testNonexistentWriterCanNotBeCreated()
     {
-        $oPHPWord = new PHPWord();
-
-        IOFactory::setSearchLocations(array());
-        IOFactory::createWriter($oPHPWord);
+        IOFactory::createWriter(new PHPWord(), 'Word2006');
     }
 
-    public function testCreateWriter()
+    /**
+     * @covers ::createReader
+     */
+    final public function testExistingReaderCanBeCreated()
     {
-        $oPHPWord = new PHPWord();
+        $this->assertInstanceOf(
+            'PhpOffice\\PhpWord\\Reader\\Word2007',
+            IOFactory::createReader('Word2007')
+        );
+    }
 
-        $this->assertEquals(IOFactory::createWriter($oPHPWord, 'Word2007'), new Word2007($oPHPWord));
+    /**
+     * @covers                   ::createReader
+     * @expectedException        PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedExceptionMessage Could not instantiate "Word2006" class.
+     */
+    final public function testNonexistentReaderCanNotBeCreated()
+    {
+        IOFactory::createReader('Word2006');
     }
 }

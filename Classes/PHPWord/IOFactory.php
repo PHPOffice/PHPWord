@@ -25,134 +25,55 @@
  * @version    0.8.0
  */
 
+namespace PhpOffice\PhpWord;
+
 use PhpOffice\PhpWord\Exceptions\Exception;
 
-/**
- * Class PHPWord_IOFactory
- */
-class PHPWord_IOFactory
+abstract class IOFactory
 {
     /**
-     * Search locations
-     *
-     * @var array
+     * @param PHPWord $phpWord
+     * @param string $name
+     * @return PhpOffice\PhpWord\Writer\IWriter
+     * @throws PhpOffice\PhpWord\Exceptions\Exception
      */
-    private static $_searchLocations = array(
-        array('type' => 'IWriter', 'path' => 'PHPWord/Writer/{0}.php', 'class' => 'PHPWord_Writer_{0}'),
-        array('type' => 'IReader', 'path' => 'PHPWord/Reader/{0}.php', 'class' => 'PHPWord_Reader_{0}' ),
-    );
-
-    /**
-     * Autoresolve classes
-     *
-     * @var array
-     */
-    private static $_autoResolveClasses = array(
-        'Serialized'
-    );
-
-    /**
-     * Private constructor for PHPWord_IOFactory
-     */
-    private function __construct()
+    public static function createWriter(PHPWord $phpWord, $name)
     {
-    }
+        try {
+            $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
 
-    /**
-     * Get search locations
-     *
-     * @return array
-     */
-    public static function getSearchLocations()
-    {
-        return self::$_searchLocations;
-    }
-
-    /**
-     * Set search locations
-     *
-     * @param array $value
-     * @throws Exception
-     */
-    public static function setSearchLocations(array $value)
-    {
-        self::$_searchLocations = $value;
-    }
-
-    /**
-     * Add search location
-     *
-     * @param string $type Example: IWriter
-     * @param string $location Example: PHPWord/Writer/{0}.php
-     * @param string $classname Example: PHPWord_Writer_{0}
-     */
-    public static function addSearchLocation($type = '', $location = '', $classname = '')
-    {
-        self::$_searchLocations[] = array('type' => $type, 'path' => $location, 'class' => $classname);
-    }
-
-    /**
-     * Create PHPWord_Writer_IWriter
-     *
-     * @param PHPWord $PHPWord
-     * @param string $writerType Example: Word2007
-     * @return PHPWord_Writer_IWriter
-     * @throws Exception
-     */
-    public static function createWriter(PHPWord $PHPWord, $writerType = '')
-    {
-        $searchType = 'IWriter';
-
-        foreach (self::$_searchLocations as $searchLocation) {
-            if ($searchLocation['type'] == $searchType) {
-                $className = str_replace('{0}', $writerType, $searchLocation['class']);
-                $classFile = str_replace('{0}', $writerType, $searchLocation['path']);
-
-                $instance = new $className($PHPWord);
-                if (!is_null($instance)) {
-                    return $instance;
-                }
-            }
+            return new $fqName($phpWord);
+        } catch (\Exception $ex) {
+            throw new Exception("Could not instantiate \"{$name}\" class.");
         }
-
-        throw new Exception("No $searchType found for type $writerType");
     }
 
     /**
-     * Create PHPWord_Reader_IReader
-     *
-     * @param string $readerType  Example: Word2007
-     * @return PHPWord_Reader_IReader
-     * @throws Exception
+     * @param string $name
+     * @return PhpOffice\PhpWord\Reader\IReader
+     * @throws PhpOffice\PhpWord\Exceptions\Exception
      */
-    public static function createReader($readerType = '')
+    public static function createReader($name)
     {
-        $searchType = 'IReader';
+        try {
+            $fqName = "PhpOffice\\PhpWord\\Reader\\{$name}";
 
-        foreach (self::$_searchLocations as $searchLocation) {
-            if ($searchLocation['type'] == $searchType) {
-                $className = str_replace('{0}', $readerType, $searchLocation['class']);
-
-                $instance = new $className();
-                if ($instance !== null) {
-                    return $instance;
-                }
-            }
+            return new $fqName();
+        } catch (\Exception $ex) {
+            throw new Exception("Could not instantiate \"{$name}\" class.");
         }
-
-        throw new Exception("No $searchType found for type $readerType");
     }
 
     /**
-     * Loads PHPWord from file
+     * Loads PhpWord from file
      *
-     * @param string $pFilename The name of the file
-     * @param string $readerType
-     * @return PHPWord
+     * @param string $filename The name of the file
+     * @param string $readerName
+     * @return PhpOffice\PHPWord
      */
-    public static function load($pFilename, $readerType = 'Word2007')
+    public static function load($filename, $readerName = 'Word2007')
     {
-        $reader = self::createReader($readerType);
-        return $reader->load($pFilename);
+        $reader = self::createReader($readerName);
+        return $reader->load($filename);
     }
 }
