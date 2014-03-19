@@ -197,8 +197,8 @@ class PHPWord_Writer_ODText_Styles extends PHPWord_Writer_ODText_WriterPart
                         $objWriter->endElement();
 
                         $objWriter->endElement();
-                    } elseif ($style instanceof PHPWord_Style_TableFull) {
-                        // PHPWord_Style_TableFull
+                    } elseif ($style instanceof PHPWord_Style_Table) {
+                        // PHPWord_Style_Table
                     }
                 }
             }
