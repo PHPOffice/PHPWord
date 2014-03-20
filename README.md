@@ -34,7 +34,7 @@ __Want to contribute?__ Fork us!
 * ... and many more features on progress
 
 ## Requirements
-* PHP 5.3+
+* PHP 5.3.3+
 * PHP [Zip](http://php.net/manual/en/book.zip.php) extension
 * PHP [XML Parser](http://www.php.net/manual/en/xml.installation.php) extension
 
