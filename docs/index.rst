@@ -23,10 +23,10 @@ Format (RTF).
    containers
    elements
    templates
-   references
    recipes
    faq
    credits
+   references
 
 Indices and tables
 ==================
