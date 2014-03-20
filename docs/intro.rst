@@ -5,35 +5,32 @@ Introduction
 
 PHPWord is a library written in pure PHP that provides a set of classes
 to write to and read from different document file formats. The current
-version of PHPWord supports Microsoft `Office Open XML`_ (OOXML or
-OpenXML), OASIS `Open Document Format for Office Applications`_
-(OpenDocument or ODF), and `Rich Text Format`_ (RTF).
+version of PHPWord supports Microsoft `Office Open
+XML <http://en.wikipedia.org/wiki/Office_Open_XML>`__ (OOXML or
+OpenXML), OASIS `Open Document Format for Office
+Applications <http://en.wikipedia.org/wiki/OpenDocument>`__
+(OpenDocument or ODF), and `Rich Text
+Format <http://en.wikipedia.org/wiki/Rich_Text_Format>`__ (RTF).
 
 No Windows operating system is needed for usage because the resulting
 DOCX, ODT, or RTF files can be opened by all major `word processing
-softwares`_.
+softwares <http://en.wikipedia.org/wiki/List_of_word_processors>`__.
 
-PHPWord is an open source project licensed under `LGPL`_. PHPWord is
-`unit tested`_ to make sure that the released versions are stable.
+PHPWord is an open source project licensed under `LGPL <license.md>`__.
+PHPWord is `unit tested <https://travis-ci.org/PHPOffice/PHPWord>`__ to
+make sure that the released versions are stable.
 
-**Want to contribute?** `Fork us`_ or `submit`_ your bug reports or
-feature requests to us.
-
-.. _Office Open XML: http://en.wikipedia.org/wiki/Office_Open_XML
-.. _Open Document Format for Office Applications: http://en.wikipedia.org/wiki/OpenDocument
-.. _Rich Text Format: http://en.wikipedia.org/wiki/Rich_Text_Format
-.. _word processing softwares: http://en.wikipedia.org/wiki/List_of_word_processors
-.. _LGPL: license.md
-.. _unit tested: https://travis-ci.org/PHPOffice/PHPWord
-.. _Fork us: https://github.com/PHPOffice/PHPWord/fork
-.. _submit: https://github.com/PHPOffice/PHPWord/issues
+**Want to contribute?** `Fork
+us <https://github.com/PHPOffice/PHPWord/fork>`__ or
+`submit <https://github.com/PHPOffice/PHPWord/issues>`__ your bug
+reports or feature requests to us.
 
 Features
 --------
 
 -  Set document properties, e.g. title, subject, and creator.
--  Create document sections with different settings,
-   e.g. portrait/landscape, page size, and page numbering
+-  Create document sections with different settings, e.g.
+   portrait/landscape, page size, and page numbering
 -  Create header and footer for each sections
 -  Set default font type, font size, and paragraph style
 -  Use UTF-8 and East Asia fonts/characters
@@ -54,7 +51,7 @@ Features
 -  Create document from templates
 -  Use XSL 1.0 style sheets to transform main document part of OOXML
    template
--  … and many more features on progress
+-  ... and many more features on progress
 
 File formats
 ------------

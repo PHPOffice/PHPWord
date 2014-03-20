@@ -3,6 +3,11 @@
 Containers
 ==========
 
+Containers are objects where you can put elements (texts, lists, tables,
+etc). There are 3 main containers, i.e. sections, headers, and footers.
+There are 3 elements that can also act as containers, i.e. textruns,
+table cells, and footnotes.
+
 Sections
 --------
 
@@ -29,8 +34,8 @@ Section settings
 
 Below are the available settings for section:
 
--  ``orientation`` Page orientation, i.e. ‘portrait’ (default) or
-   ‘landscape’
+-  ``orientation`` Page orientation, i.e. 'portrait' (default) or
+   'landscape'
 -  ``marginTop`` Page margin top in twips
 -  ``marginLeft`` Page margin left in twips
 -  ``marginRight`` Page margin right in twips
@@ -51,20 +56,41 @@ Below are the available settings for section:
    evenPage, oddPage)
 
 The following two settings are automatically set by the use of the
-``orientation`` setting. You can alter them but that’s not recommended.
+``orientation`` setting. You can alter them but that's not recommended.
 
 -  ``pageSizeW`` Page width in twips
 -  ``pageSizeH`` Page height in twips
 
-Section page numbering
-~~~~~~~~~~~~~~~~~~~~~~
+Page number
+~~~~~~~~~~~
 
-You can change a section page numbering.
+You can change a section page number by using the ``pageNumberingStart``
+property of the section.
 
 .. code:: php
 
+    // Method 1
+    $section = $phpWord->createSection(array('pageNumberingStart' => 1));
+
+    // Method 2
     $section = $phpWord->createSection();
     $section->getSettings()->setPageNumberingStart(1);
+
+Multicolumn
+~~~~~~~~~~~
+
+You can change a section layout to multicolumn (like in a newspaper) by
+using the ``breakType`` and ``colsNum`` property of the section.
+
+.. code:: php
+
+    // Method 1
+    $section = $phpWord->createSection(array('breakType' => 'continuous', 'colsNum' => 2));
+
+    // Method 2
+    $section = $phpWord->createSection();
+    $section->getSettings()->setBreakType('continuous');
+    $section->getSettings()->setColsNum(2);
 
 Headers
 -------
@@ -77,9 +103,9 @@ the ``createHeader`` method:
     $header = $section->createHeader();
 
 Be sure to save the result in a local object. You can use all elements
-that are available for the footer. See “Footer” section for detail.
+that are available for the footer. See "Footer" section for detail.
 Additionally, only inside of the header reference you can add watermarks
-or background pictures. See “Watermarks” section.
+or background pictures. See "Watermarks" section.
 
 Footers
 -------
@@ -100,4 +126,11 @@ footer. You can add the following elements to footers:
 -  Tables
 -  Preserve text
 
-See the “Elements” section for the detail of each elements.
+See the "Elements" section for the detail of each elements.
+
+Other containers
+----------------
+
+Textruns, table cells, and footnotes are elements that can also act as
+containers. See the corresponding "Elements" section for the detail of
+each elements.

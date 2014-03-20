@@ -18,3 +18,7 @@ Example:
     $template = $PHPWord->loadTemplate('Template.docx');
     $template->setValue('Name', 'Somebody someone');
     $template->setValue('Street', 'Coming-Undone-Street 32');
+
+See ``Sample_07_TemplateCloneRow.php`` for more code sample, including
+how to create multirow from a single row in a template by using
+``cloneRow``.

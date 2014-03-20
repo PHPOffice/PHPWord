@@ -1,7 +1,7 @@
 .. _setup:
 
-Installing
-==========
+Installing/Configuring
+======================
 
 Requirements
 ------------
@@ -9,29 +9,26 @@ Requirements
 Mandatory:
 
 -  PHP 5.3+
--  PHP `Zip`_ extension
--  PHP `XML Parser`_ extension
+-  PHP `Zip <http://php.net/manual/en/book.zip.php>`__ extension
+-  PHP `XML
+   Parser <http://www.php.net/manual/en/xml.installation.php>`__
+   extension
 
 Optional PHP extensions:
 
--  `GD`_
--  `XMLWriter`_
--  `XSL`_
-
-.. _Zip: http://php.net/manual/en/book.zip.php
-.. _XML Parser: http://www.php.net/manual/en/xml.installation.php
-.. _GD: http://php.net/manual/en/book.image.php
-.. _XMLWriter: http://php.net/manual/en/book.xmlwriter.php
-.. _XSL: http://php.net/manual/en/book.xsl.php
+-  `GD <http://php.net/manual/en/book.image.php>`__
+-  `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__
+-  `XSL <http://php.net/manual/en/book.xsl.php>`__
 
 Installation
 ------------
 
-There are two ways to install PHPWord, i.e. via `Composer`_ or manually
-by downloading the library.
+There are two ways to install PHPWord, i.e. via
+`Composer <http://getcomposer.org/>`__ or manually by downloading the
+library.
 
-Composer
-~~~~~~~~
+Using Composer
+~~~~~~~~~~~~~~
 
 To install via Composer, add the following lines to your
 ``composer.json``:
@@ -44,25 +41,22 @@ To install via Composer, add the following lines to your
         }
     }
 
-.. _Composer: http://getcomposer.org/
+Manual install
+~~~~~~~~~~~~~~
 
-Manual installation
-~~~~~~~~~~~~~~~~~~~
-
-To install manually, `download PHPWord package from github`_. Extract
-the package and put the contents to your machine. To use the library,
-include ``Classes/PHPWord.php`` in your script like below.
+To install manually, `download PHPWord package from
+github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
+Extract the package and put the contents to your machine. To use the
+library, include ``Classes/PHPWord.php`` in your script like below.
 
 .. code:: php
 
     require_once '/path/to/PHPWord/Classes/PHPWord.php';
 
-.. _download PHPWord package from github: https://github.com/PHPOffice/PHPWord/archive/master.zip
-
 Using samples
 -------------
 
-After installation, you can browse and use the samples that we’ve
+After installation, you can browse and use the samples that we've
 provided, either by command line or using browser. If you can access
 your PHPWord library folder using browser, point your browser to the
 ``samples`` folder, e.g. ``http://localhost/PHPWord/samples/``.

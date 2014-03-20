@@ -18,6 +18,9 @@ syntaxes are as follow:
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->createTextRun([$paragraphStyle]);
 
+Text styles
+~~~~~~~~~~~
+
 You can use the ``$fontStyle`` and ``$paragraphStyle`` variable to
 define text formatting. There are 2 options to style the inserted text
 elements, i.e. inline style by using array or defined style by adding
@@ -49,7 +52,7 @@ Defined style examples:
     $text = $section->addText('Hello world!', 'pStyle');
 
 Font style
-~~~~~~~~~~
+^^^^^^^^^^
 
 Available font styles:
 
@@ -66,7 +69,7 @@ Available font styles:
 -  ``fgColor`` Font highlight color, e.g. *yellow*, *green*, *blue*
 
 Paragraph style
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 Available paragraph styles:
 
@@ -82,7 +85,7 @@ Available paragraph styles:
 -  ``keepNext`` Keep paragraph with next paragraph, *true* or *false*
 -  ``keepLines`` Keep all lines on one page, *true* or *false*
 -  ``pageBreakBefore`` Start paragraph on next page, *true* or *false*
--  ``lineHeight`` text line height, e.g. *1.0*, *1.5*, ect…
+-  ``lineHeight`` text line height, e.g. *1.0*, *1.5*, ect...
 -  ``tabs`` Set of custom tab stops
 
 Titles
@@ -98,7 +101,7 @@ need titles or headings. To add a title to the document, use the
     $section->addTitle($text, [$depth]);
 
 Its necessary to add a title style to your document because otherwise
-the title won’t be detected as a real title.
+the title won't be detected as a real title.
 
 Links
 ~~~~~
@@ -111,8 +114,8 @@ You can add Hyperlinks to the document by using the function addLink:
 
 -  ``$linkSrc`` The URL of the link.
 -  ``$linkName`` Placeholder of the URL that appears in the document.
--  ``$fontStyle`` See “Font style” section.
--  ``$paragraphStyle`` See “Paragraph style” section.
+-  ``$fontStyle`` See "Font style" section.
+-  ``$paragraphStyle`` See "Paragraph style" section.
 
 Preserve texts
 ~~~~~~~~~~~~~~
@@ -138,8 +141,8 @@ syntax. All paramaters are optional.
     $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 
 -  ``$breakCount`` How many lines
--  ``$fontStyle`` See “Font style” section.
--  ``$paragraphStyle`` See “Paragraph style” section.
+-  ``$fontStyle`` See "Font style" section.
+-  ``$paragraphStyle`` See "Paragraph style" section.
 
 Page breaks
 ~~~~~~~~~~~
@@ -162,11 +165,11 @@ To add a list item use the function ``addListItem``.
 
 -  ``$text`` Text that appears in the document.
 -  ``$depth`` Depth of list item.
--  ``$fontStyle`` See “Font style” section.
+-  ``$fontStyle`` See "Font style" section.
 -  ``$listStyle`` List style of the current element TYPE\_NUMBER,
    TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in
    PHPWord\_Style\_ListItem.
--  ``$paragraphStyle`` See “Paragraph style” section.
+-  ``$paragraphStyle`` See "Paragraph style" section.
 
 Tables
 ------
@@ -193,12 +196,15 @@ Table style can be defined with ``addTableStyle``:
     $PHPWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
     $table = $section->addTable('myTable');
 
+Table, row, and cell styles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Table styles:
 
 -  ``$width`` Table width in percent
--  ``$bgColor`` Background color, e.g. ‘9966CC’
+-  ``$bgColor`` Background color, e.g. '9966CC'
 -  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. ‘9966CC’
+-  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
 -  ``$cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
 
 Row styles:
@@ -211,21 +217,24 @@ Cell styles:
 -  ``$width`` Cell width in twips
 -  ``$valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
 -  ``$textDirection`` Direction of text
--  ``$bgColor`` Background color, e.g. ‘9966CC’
+-  ``$bgColor`` Background color, e.g. '9966CC'
 -  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. ‘9966CC’
+-  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
 -  ``$gridSpan`` Number of columns spanned
 -  ``$vMerge`` *restart* or *continue*
 
 Cell span
 ~~~~~~~~~
 
-You can span a cell on multiple columms.
+You can span a cell on multiple columns by using ``gridSpan`` or
+multiple rows by using ``vMerge``.
 
 .. code:: php
 
     $cell = $table->addCell(200);
     $cell->getStyle()->setGridSpan(5);
+
+See ``Sample_09_Tables.php`` for more code sample.
 
 Images
 ------
@@ -302,7 +311,7 @@ Table of contents
 
 To add a table of contents (TOC), you can use the ``addTOC`` method.
 Your TOC can only be generated if you have add at least one title (See
-“Titles”).
+"Titles").
 
 .. code:: php
 
@@ -317,7 +326,7 @@ Your TOC can only be generated if you have add at least one title (See
 Footnotes
 ---------
 
-You can create footnotes in texts or textruns, but it’s recommended to
+You can create footnotes in texts or textruns, but it's recommended to
 use textrun to have better layout.
 
 On textrun:

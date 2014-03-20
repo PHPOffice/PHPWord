@@ -7,7 +7,7 @@ Basic example
 -------------
 
 The following is a basic example of the PHPWord library. More examples
-are provided in the `samples folder`.
+are provided in the `samples folder <samples/>`__.
 
 .. code:: php
 
@@ -77,8 +77,8 @@ name. Use the following functions:
 Measurement units
 -----------------
 
-The base length unit in Open Office XML is twip. Twip means “TWentieth
-of an Inch Point”, i.e. 1 twip = 1/1440 inch.
+The base length unit in Open Office XML is twip. Twip means "TWentieth
+of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
 You can use PHPWord helper functions to convert inches, centimeters, or
 points to twips.
