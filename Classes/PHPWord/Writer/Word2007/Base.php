@@ -290,6 +290,118 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
     }
 
     /**
+     * Write CheckBox
+     */
+    protected function _writeCheckbox(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_CheckBox $Checkbox, $withoutP = false, $checkState = false)
+    {
+    	$cbCount = 1;
+		$_elements = $Checkbox->getElements();
+		if (count($_elements) > 1) {
+			$cbCount = $cbCount + 1;
+		}
+                    		
+		$styleFont = $Checkbox->getFontStyle();
+		$SfIsObject = ($styleFont instanceof PHPWord_Style_Font) ? true : false;
+
+		if (!$withoutP) {
+	 		$objWriter->startElement('w:p');
+
+	 		$styleParagraph = $Checkbox->getParagraphStyle();
+	 		$SpIsObject = ($styleParagraph instanceof PHPWord_Style_Paragraph) ? true : false;
+
+	 		if ($SpIsObject) {
+		  		$this->_writeParagraphStyle($objWriter, $styleParagraph);
+	 		} elseif (!$SpIsObject && !is_null($styleParagraph)) {
+		  		$objWriter->startElement('w:pPr');
+		  		$objWriter->startElement('w:pStyle');
+		  		$objWriter->writeAttribute('w:val', $styleParagraph);
+		  		$objWriter->endElement();
+		  		$objWriter->endElement();
+	 		}
+		}
+        
+		$strName = htmlspecialchars($Checkbox->getName());
+		$strName = PHPWord_Shared_String::ControlCharacterPHP2OOXML($strName);
+		
+		$strText = htmlspecialchars($Checkbox->getText());
+		$strText = PHPWord_Shared_String::ControlCharacterPHP2OOXML($strText);
+
+		$objWriter->startElement('w:r');
+			$objWriter->startElement('w:fldChar');
+				$objWriter->writeAttribute('w:fldCharType', 'begin');
+				$objWriter->startElement('w:ffData');
+					$objWriter->startElement('w:name');
+						$objWriter->writeAttribute('w:val', $strName);
+					$objWriter->endElement(); //w:name					
+					
+					$objWriter->writeAttribute('w:enabled', '');
+					$objWriter->startElement('w:calcOnExit');
+						$objWriter->writeAttribute('w:val', '0');
+					$objWriter->endElement(); //w:calcOnExit
+
+					$objWriter->startElement('w:checkBox');
+        				$objWriter->writeAttribute('w:sizeAuto', '');
+        				$objWriter->startElement('w:default');
+        					if($checkState){
+		  						$objWriter->writeAttribute('w:val', '1');
+		  					}else{
+		  						$objWriter->writeAttribute('w:val', '0');
+		  					}
+        				$objWriter->endElement(); //w:default        				
+        			$objWriter->endElement(); //w:checkbox
+				$objWriter->endElement(); // w:ffData
+			$objWriter->endElement(); // w:fldChar
+		$objWriter->endElement(); // w:r
+		
+		$objWriter->startElement('w:bookmarkStart');
+			$objWriter->writeAttribute('w:name', $strName);
+			$objWriter->writeAttribute('w:id', $cbCount);
+			$objWriter->startElement('w:r');
+				$objWriter->startElement('w:instrText');
+					$objWriter->writeAttribute('xml:space', 'preserve'); // needed because of drawing spaces before and after text
+					$objWriter->writeRaw(' FORMCHECKBOX ');
+				$objWriter->endElement();// w:instrText
+			$objWriter->endElement(); // w:r
+			$objWriter->startElement('w:r');
+				$objWriter->startElement('w:fldChar');
+					$objWriter->writeAttribute('w:fldCharType', 'seperate'); 
+				$objWriter->endElement();// w:fldChar
+			$objWriter->endElement(); // w:r
+			$objWriter->startElement('w:r');
+				$objWriter->startElement('w:fldChar');
+					$objWriter->writeAttribute('w:fldCharType', 'end'); 
+				$objWriter->endElement();// w:fldChar
+			$objWriter->endElement(); // w:r
+		$objWriter->endElement(); // w:bookmarkStart
+		$objWriter->startElement('w:bookmarkEnd');
+			$objWriter->writeAttribute('w:id', $cbCount);
+		$objWriter->endElement();// w:bookmarkEnd
+		
+		$objWriter->startElement('w:r');
+
+		if ($SfIsObject) {
+	 		$this->_writeTextStyle($objWriter, $styleFont);
+		} elseif (!$SfIsObject && !is_null($styleFont)) {
+	 		$objWriter->startElement('w:rPr');
+	 		$objWriter->startElement('w:rStyle');
+	 		$objWriter->writeAttribute('w:val', $styleFont);
+	 		$objWriter->endElement();
+	 		$objWriter->endElement();
+		}
+
+		$objWriter->startElement('w:t');
+			$objWriter->writeAttribute('xml:space', 'preserve'); // needed because of drawing spaces before and after text
+			$objWriter->writeRaw($strText);
+		$objWriter->endElement();
+
+		$objWriter->endElement(); // w:r		
+        
+		if (!$withoutP) {
+	 		$objWriter->endElement(); // w:p
+		}
+    }
+
+    /**
      * Write preserve text
      */
     protected function _writePreserveText(PHPWord_Shared_XMLWriter $objWriter = null, PHPWord_Section_Footer_PreserveText $textrun)
@@ -610,6 +722,8 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
                                 $this->_writeTextRun($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_Link) {
                                 $this->_writeLink($objWriter, $element);
+                            } elseif ($element instanceof PHPWord_Section_CheckBox) {
+                                $this->_writeCheckbox($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_TextBreak) {
                                 $this->_writeTextBreak($objWriter, $element);
                             } elseif ($element instanceof PHPWord_Section_ListItem) {
