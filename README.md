@@ -1,11 +1,32 @@
-![PHPWord](https://raw.github.com/PHPOffice/PHPWord/master/samples/resources/PHPWord.png "PHPWord")
-
-# PHPWord
+![PHPWord](https://raw.github.com/PHPOffice/PHPWord/develop/docs/images/phpword.png "PHPWord")
 
 [![Build Status](https://travis-ci.org/PHPOffice/PHPWord.png?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword) [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword) [![Latest Unstable Version](https://poser.pugx.org/phpoffice/phpword/v/unstable.png)](https://packagist.org/packages/phpoffice/phpword) [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
 
-## Introduction
+<a name="contents"></a>
+# Contents
+
+- [Introduction](#introduction)
+- [Installing](#installing)
+- [General usage](#general-usage)
+- [Containers](#containers)
+    - [Sections](#sections)
+    - [Headers](#headers)
+    - [Footers](#footers)
+- [Elements](#elements)
+    - [Texts](#texts)
+    - [Breaks](#breaks)
+    - [Lists](#lists)
+    - [Tables](#tables)
+    - [Images](#images)
+    - [Objects](#images)
+    - [Table of contents](#toc)
+    - [Footnotes](#footnotes)
+- [Templates](#templates)
+- [References](#references)
+
+<a name="introduction"></a>
+# Introduction
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), and [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF).
 
@@ -15,7 +36,7 @@ PHPWord is an open source project licensed under [LGPL](license.md). PHPWord is 
 
 __Want to contribute?__ [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
 
-### Features
+## Features
 
 * Set document properties, e.g. title, subject, and creator.
 * Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering
@@ -35,11 +56,11 @@ __Want to contribute?__ [Fork us](https://github.com/PHPOffice/PHPWord/fork) or 
 * Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress
 
-### File formats
+## File formats
 
 Below are the supported features for each file formats.
 
-#### Writers
+### Writers
 
 | No | Element       | DOCX | ODT | RTF |
 |----|---------------|:----:|:---:|:---:|
@@ -61,7 +82,7 @@ Below are the supported features for each file formats.
 | 16 | Footer        |   v  |     |     |
 | 17 | Footnote      |   v  |     |     |
 
-#### Readers
+### Readers
 
 | No | Element       | DOCX | ODT | RTF |
 |----|---------------|:----:|:---:|:---:|
@@ -84,9 +105,10 @@ Below are the supported features for each file formats.
 | 17 | Footnote      |      |     |     |
 
 
-## Installing
+<a name="installing"></a>
+# Installing/Configuring
 
-### Requirements
+## Requirements
 
 Mandatory:
 
@@ -100,11 +122,11 @@ Optional PHP extensions:
 * [XMLWriter](http://php.net/manual/en/book.xmlwriter.php)
 * [XSL](http://php.net/manual/en/book.xsl.php)
 
-### Installation
+## Installation
 
 There are two ways to install PHPWord, i.e. via [Composer](http://getcomposer.org/) or manually by downloading the library.
 
-#### Composer
+### Using Composer
 
 To install via Composer, add the following lines to your ``composer.json``:
 
@@ -116,7 +138,7 @@ To install via Composer, add the following lines to your ``composer.json``:
 }
 ```
 
-#### Manual installation
+### Manual install
 
 To install manually, [download PHPWord package from github](https://github.com/PHPOffice/PHPWord/archive/master.zip). Extract the package and put the contents to your machine. To use the library, include `Classes/PHPWord.php` in your script like below.
 
@@ -124,32 +146,14 @@ To install manually, [download PHPWord package from github](https://github.com/P
 require_once '/path/to/PHPWord/Classes/PHPWord.php';
 ```
 
-### Using samples
+## Using samples
 
 After installation, you can browse and use the samples that we've provided, either by command line or using browser. If you can access your PHPWord library folder using browser, point your browser to the `samples` folder, e.g. `http://localhost/PHPWord/samples/`.
 
-## User manual
-
-- [General usage](#general-usage)
-- [Containers](#containers)
-    - [Sections](#sections)
-    - [Headers](#headers)
-    - [Footers](#footers)
-- [Elements](#elements)
-    - [Texts](#texts)
-    - [Breaks](#breaks)
-    - [Lists](#lists)
-    - [Tables](#tables)
-    - [Images](#images)
-    - [Objects](#images)
-    - [Table of contents](#toc)
-    - [Footnotes](#footnotes)
-- [Templates](#templates)
-
 <a name="general-usage"></a>
-## General usage
+# General usage
 
-### Basic example
+## Basic example
 
 The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
 
@@ -187,7 +191,7 @@ $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 ```
 
-### Default font
+## Default font
 
 By default, every text appears in Arial 10 point. You can alter the default font by using the following two functions:
 
@@ -196,7 +200,7 @@ $phpWord->setDefaultFontName('Times New Roman');
 $phpWord->setDefaultFontSize(12);
 ```
 
-### Document properties
+## Document properties
 
 You can set the document properties such as title, creator, and company name. Use the following functions:
 
@@ -215,7 +219,7 @@ $properties->setKeywords('my, key, word');
 ```
 
 <a name="measurement-units"></a>
-### Measurement units
+## Measurement units
 
 The base length unit in Open Office XML is twip. Twip means "TWentieth of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
@@ -235,10 +239,13 @@ $sectionStyle->setMarginLeft(PHPWord_Shared_Font::inchSizeToTwips(.5));
 $sectionStyle->setMarginRight(PHPWord_Shared_Font::centimeterSizeToTwips(2));
 ```
 
-## Containers
+<a name="containers"></a>
+# Containers
+
+Containers are objects where you can put elements (texts, lists, tables, etc). There are 3 main containers, i.e. sections, headers, and footers. There are 3 elements that can also act as containers, i.e. textruns, table cells, and footnotes.
 
 <a name="sections"></a>
-### Sections
+## Sections
 
 Every visible element in word is placed inside of a section. To create a section, use the following code:
 
@@ -255,7 +262,7 @@ $sectionSettings = array(
 );
 ```
 <a name="section-settings"></a>
-#### Section settings
+### Section settings
 
 Below are the available settings for section:
 
@@ -283,18 +290,37 @@ The following two settings are automatically set by the use of the `orientation`
 * `pageSizeW` Page width in twips
 * `pageSizeH` Page height in twips
 
-<a name="section-page-numbering"></a>
-#### Section page numbering
+<a name="page-numbering"></a>
+### Page number
 
-You can change a section page numbering.
+You can change a section page number by using the `pageNumberingStart` property of the section.
 
 ```php
+// Method 1
+$section = $phpWord->createSection(array('pageNumberingStart' => 1));
+
+// Method 2
 $section = $phpWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
 
+<a name="multicolumn"></a>
+### Multicolumn
+
+You can change a section layout to multicolumn (like in a newspaper) by using the `breakType` and `colsNum` property of the section.
+
+```php
+// Method 1
+$section = $phpWord->createSection(array('breakType' => 'continuous', 'colsNum' => 2));
+
+// Method 2
+$section = $phpWord->createSection();
+$section->getSettings()->setBreakType('continuous');
+$section->getSettings()->setColsNum(2);
+```
+
 <a name="headers"></a>
-### Headers
+## Headers
 
 Each section can have its own header reference. To create a header use the `createHeader` method:
 
@@ -305,7 +331,7 @@ $header = $section->createHeader();
 Be sure to save the result in a local object. You can use all elements that are available for the footer. See "Footer" section for detail. Additionally, only inside of the header reference you can add watermarks or background pictures. See "Watermarks" section.
 
 <a name="footers"></a>
-### Footers
+## Footers
 
 Each section can have its own footer reference. To create a footer, use the `createFooter` method:
 
@@ -323,11 +349,16 @@ Be sure to save the result in a local object to add elements to a footer. You ca
 
 See the "Elements" section for the detail of each elements.
 
+<a name="other-containers"></a>
+## Other containers
+
+Textruns, table cells, and footnotes are elements that can also act as containers. See the corresponding "Elements" section for the detail of each elements.
+
 <a name="elements"></a>
-## Elements
+# Elements
 
 <a name="texts"></a>
-### Texts
+## Texts
 
 Text can be added by using `addText` and `createTextRun` method. `addText` is used for creating simple paragraphs that only contain texts with the same style. `createTextRun` is used for creating complex paragraphs that contain text with different style (some bold, other italics, etc) or other elements, e.g. images or links. The syntaxes are as follow:
 
@@ -335,6 +366,8 @@ Text can be added by using `addText` and `createTextRun` method. `addText` is us
 $section->addText($text, [$fontStyle], [$paragraphStyle]);
 $textrun = $section->createTextRun([$paragraphStyle]);
 ```
+
+### Text styles
 
 You can use the `$fontStyle` and `$paragraphStyle` variable to define text formatting. There are 2 options to style the inserted text elements, i.e. inline style by using array or defined style by adding style definition.
 
@@ -400,7 +433,7 @@ Available paragraph styles:
 * ``tabs`` Set of custom tab stops
 
 <a name="titles"></a>
-#### Titles
+### Titles
 
 If you want to structure your document or build table of contents, you need titles or headings. To add a title to the document, use the `addTitleStyle` and `addTitle` method.
 
@@ -412,7 +445,7 @@ $section->addTitle($text, [$depth]);
 Its necessary to add a title style to your document because otherwise the title won't be detected as a real title.
 
 <a name="links"></a>
-#### Links
+### Links
 
 You can add Hyperlinks to the document by using the function addLink:
 
@@ -425,7 +458,7 @@ $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle]);
 * ``$fontStyle`` See "Font style" section.
 * ``$paragraphStyle`` See "Paragraph style" section.
 
-#### Preserve texts
+### Preserve texts
 
 The `addPreserveText` method is used to add a page number or page count to headers or footers.
 
@@ -434,9 +467,9 @@ $footer->addPreserveText('Page {PAGE} of {NUMPAGES}.');
 ```
 
 <a name="breaks"></a>
-### Breaks
+## Breaks
 
-#### Text breaks
+### Text breaks
 
 Text breaks are empty new lines. To add text breaks, use the following syntax. All paramaters are optional.
 
@@ -448,7 +481,7 @@ $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 * ``$fontStyle`` See "Font style" section.
 * ``$paragraphStyle`` See "Paragraph style" section.
 
-#### Page breaks
+### Page breaks
 
 There are two ways to insert a page breaks, using the `addPageBreak` method or using the `pageBreakBefore` style of paragraph.
 
@@ -457,7 +490,7 @@ $section->addPageBreak();
 ```
 
 <a name="lists"></a>
-### Lists
+## Lists
 
 To add a list item use the function `addListItem`.
 
@@ -472,7 +505,7 @@ $section->addListItem($text, [$depth], [$fontStyle], [$listStyle], [$paragraphSt
 * ``$paragraphStyle`` See "Paragraph style" section.
 
 <a name="tables"></a>
-### Tables
+## Tables
 
 To add tables, rows, and cells, use the `addTable`, `addRow`, and `addCell` methods:
 
@@ -494,6 +527,8 @@ $firstRowStyle = array('bgColor' => '66BBFF');
 $PHPWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
 $table = $section->addTable('myTable');
 ```
+
+### Table, row, and cell styles
 
 Table styles:
 
@@ -519,17 +554,19 @@ Cell styles:
 * ``$gridSpan `` Number of columns spanned
 * ``$vMerge `` _restart_ or _continue_
 
-#### Cell Span
+### Cell span
 
-You can span a cell on multiple columms.
+You can span a cell on multiple columns by using `gridSpan` or multiple rows by using `vMerge`.
 
 ```php
 $cell = $table->addCell(200);
 $cell->getStyle()->setGridSpan(5);
 ```
 
+See `Sample_09_Tables.php` for more code sample.
+
 <a name="images"></a>
-### Images
+## Images
 
 To add an image, use the `addImage` or `addMemoryImage` method. The first one is used when your source is stored locally, the later is used when your source is a remote URL, either another script that create image or an image on the internet.
 
@@ -559,7 +596,7 @@ $section->addMemoryImage('http://example.com/image.php');
 $section->addMemoryImage('http://php.net/logo.jpg');
 ```
 
-#### Image styles
+### Image styles
 
 Available image styles:
 
@@ -570,7 +607,7 @@ Available image styles:
 * ``marginLeft`` Left margin in inches, can be negative
 * ``wrappingStyle`` Wrapping style, _inline_, _square_, _tight_, _behind_, or _infront_
 
-#### Watermarks
+### Watermarks
 
 To add a watermark (or page background image), your section needs a header reference. After creating a header, you can use the `addWatermark` method to add a watermark.
 
@@ -581,7 +618,7 @@ $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginL
 ```
 
 <a name="objects"></a>
-### Objects
+## Objects
 
 You can add OLE embeddings, such as Excel spreadsheets or PowerPoint presentations to the document by using `addObject` method.
 
@@ -590,7 +627,7 @@ $section->addObject($src, [$style]);
 ```
 
 <a name="toc"></a>
-### Table of contents
+## Table of contents
 
 To add a table of contents (TOC), you can use the `addTOC` method. Your TOC can only be generated if you have add at least one title (See "Titles").
 
@@ -603,7 +640,7 @@ $section->addTOC([$fontStyle], [$tocStyle]);
 * ``indent`` The indent factor of the titles in twips.
 
 <a name="footnotes"></a>
-### Footnotes
+## Footnotes
 
 You can create footnotes in texts or textruns, but it's recommended to use textrun to have better layout.
 
@@ -625,7 +662,8 @@ $footnote = $section->createFootnote();
 $footnote->addText('Footnote text.');
 ```
 
-## Templates
+<a name="templates"></a>
+# Templates
 
 You can create a docx template with included search-patterns that can be replaced by any value you wish. Only single-line values can be replaced. To load a template file, use the `loadTemplate` method. After loading the docx template, you can use the `setValue` method to change the value of a search pattern. The search-pattern model is: `${search-pattern}`. It is not possible to add new PHPWord elements to a loaded template file.
 
@@ -636,3 +674,18 @@ $template = $PHPWord->loadTemplate('Template.docx');
 $template->setValue('Name', 'Somebody someone');
 $template->setValue('Street', 'Coming-Undone-Street 32');
 ```
+
+See `Sample_07_TemplateCloneRow.php` for more code sample, including how to create multirow from a single row in a template by using `cloneRow`.
+
+<a name="references"></a>
+# References
+
+## Formal specifications
+
+* [Office Open XML (OOXML) (ECMA-376) Schema](http://www.schemacentral.com/sc/ooxml/ss.html)
+* [Oasis OpenDocument Standard Version 1.2](http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os.html)
+* [Rich Text Format (RTF) Specification, version 1.9.1](http://www.microsoft.com/en-us/download/details.aspx?id=10725)
+
+## Other resources
+
+* [DocumentFormat.OpenXml.Wordprocessing Namespace on MSDN](http://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing%28v=office.14%29.aspx)
