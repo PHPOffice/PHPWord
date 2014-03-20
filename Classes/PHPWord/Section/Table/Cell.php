@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
@@ -261,7 +261,7 @@ class Cell
                 $ext = substr($ext, 0, -1);
             }
 
-            $iconSrc = PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/';
+            $iconSrc = PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/';
             if (!file_exists($iconSrc . '_' . $ext . '.png')) {
                 $iconSrc = $iconSrc . '_default.png';
             } else {

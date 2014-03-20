@@ -2,12 +2,12 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word Document
-echo date('H:i:s') , ' Create new PHPWord object' , EOL;
-$PHPWord = new PHPWord();
-$section = $PHPWord->createSection();
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+$phpWord = new PhpOffice\PhpWord();
+$section = $phpWord->createSection();
 $header = array('size' => 16, 'bold' => true);
 
 // 1. Basic table
@@ -34,7 +34,7 @@ $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF'
 $styleCell = array('valign' => 'center');
 $styleCellBTLR = array('valign' => 'center', 'textDirection' => PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
 $fontStyle = array('bold' => true, 'align' => 'center');
-$PHPWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
+$phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
 $table = $section->addTable('Fancy Table');
 $table->addRow(900);
 $table->addCell(2000, $styleCell)->addText('Row 1', $fontStyle);
@@ -64,7 +64,7 @@ $cellColSpan = array('gridSpan' => 2, 'valign' => 'center');
 $cellHCentered = array('align' => 'center');
 $cellVCentered = array('valign' => 'center');
 
-$PHPWord->addTableStyle('Colspan Rowspan', $styleTable);
+$phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
 $table->addRow();
 $table->addCell(2000, $cellRowSpan)->addText('A', null, $cellHCentered);
@@ -81,7 +81,7 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

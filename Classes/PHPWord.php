@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
@@ -28,6 +28,7 @@
 namespace PhpOffice;
 
 use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
@@ -36,114 +37,83 @@ use PhpOffice\PhpWord\Template;
 // @codeCoverageIgnoreStart
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/');
-    require PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php';
+    require PHPWORD_BASE_PATH . 'PhpWord/Autoloader.php';
     PHPWord_Autoloader::Register();
 }
 // @codeCoverageIgnoreEnd
 
-use PhpOffice\PhpWord\Exceptions\Exception;
-
 class PhpWord
 {
+    const DEFAULT_FONT_COLOR        = '000000';  // HEX
+    const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
+    const DEFAULT_FONT_NAME         = 'Arial';
     /**
-     * Default font name (Arial)
-     */
-    const DEFAULT_FONT_NAME = 'Arial';
-    /**
-     * Default Font Content Type(default)
-     * default|eastAsia|cs
-     */
-    const DEFAULT_FONT_CONTENT_TYPE='default';
-    /**
-     * Default font size in points (10pt)
+     * Default font size, in points.
      *
-     * OOXML defined font size values in halfpoints, i.e. twice of what PHPWord
+     * OOXML defined font size values in halfpoints, i.e. twice of what PhpWord
      * use, and the conversion will be conducted during XML writing.
      */
     const DEFAULT_FONT_SIZE = 10;
 
     /**
-     * Default font color (black)
-     */
-    const DEFAULT_FONT_COLOR = '000000';
-
-    /**
-     * Document properties
-     *
      * @var PhpOffice\PhpWord\DocumentProperties
      */
-    private $_properties;
+    private $_documentProperties;
 
     /**
-     * Default Font Name
-     *
      * @var string
      */
     private $_defaultFontName;
 
     /**
-     * Default Font Size
-     *
      * @var int
      */
     private $_defaultFontSize;
 
     /**
-     * Collection of section elements
-     *
-     * @var array
+     * @var PhpOffice\PhpWord\Section[]
      */
-    private $_sectionCollection = array();
+    private $_sections = array();
 
-
-    /**
-     * Create a new PHPWord Document
-     */
     public function __construct()
     {
-        $this->_properties = new DocumentProperties();
-        $this->_defaultFontName = PHPWord::DEFAULT_FONT_NAME;
-        $this->_defaultFontSize = PHPWord::DEFAULT_FONT_SIZE;
+        $this->_documentProperties = new DocumentProperties();
+        $this->_defaultFontName = self::DEFAULT_FONT_NAME;
+        $this->_defaultFontSize = self::DEFAULT_FONT_SIZE;
     }
 
     /**
-     * Get properties
      * @return PhpOffice\PhpWord\DocumentProperties
      */
-    public function getProperties()
+    public function getDocumentProperties()
     {
-        return $this->_properties;
+        return $this->_documentProperties;
     }
 
     /**
-     * Set properties
-     *
-     * @param PhpOffice\PhpWord\DocumentProperties $value
-     * @return PhpOffice\PHPWord
+     * @param  PhpOffice\PhpWord\DocumentProperties $documentProperties
+     * @return PhpOffice\PhpWord
      */
-    public function setProperties(DocumentProperties $value)
+    public function setDocumentProperties(DocumentProperties $documentProperties)
     {
-        $this->_properties = $value;
+        $this->_documentProperties = $documentProperties;
+
         return $this;
     }
 
     /**
-     * Create a new Section
-     *
-     * @param PhpOffice\PhpWord\Section\Settings $settings
+     * @param  PhpOffice\PhpWord\Section\Settings $settings
      * @return PhpOffice\PhpWord\Section
      */
     public function createSection($settings = null)
     {
-        $sectionCount = $this->_countSections() + 1;
+        $section = new Section(\count($this->_sections) + 1, $settings);
+        $this->_sections[] = $section;
 
-        $section = new Section($sectionCount, $settings);
-        $this->_sectionCollection[] = $section;
         return $section;
     }
 
     /**
-     * Get default Font name
      * @return string
      */
     public function getDefaultFontName()
@@ -152,16 +122,14 @@ class PhpWord
     }
 
     /**
-     * Set default Font name
-     * @param string $pValue
+     * @param string $fontName
      */
-    public function setDefaultFontName($pValue)
+    public function setDefaultFontName($fontName)
     {
-        $this->_defaultFontName = $pValue;
+        $this->_defaultFontName = $fontName;
     }
 
     /**
-     * Get default Font size (in points)
      * @return string
      */
     public function getDefaultFontSize()
@@ -170,18 +138,17 @@ class PhpWord
     }
 
     /**
-     * Set default Font size (in points)
-     * @param int $pValue
+     * @param int $fontSize
      */
-    public function setDefaultFontSize($pValue)
+    public function setDefaultFontSize($fontSize)
     {
-        $this->_defaultFontSize = $pValue;
+        $this->_defaultFontSize = $fontSize;
     }
 
     /**
      * Set default paragraph style definition to styles.xml
      *
-     * @param   array   $styles Paragraph style definition
+     * @param array $styles Paragraph style definition
      */
     public function setDefaultParagraphStyle($styles)
     {
@@ -244,35 +211,24 @@ class PhpWord
     }
 
     /**
-     * Get sections
      * @return PhpOffice\PhpWord\Section[]
      */
     public function getSections()
     {
-        return $this->_sectionCollection;
+        return $this->_sections;
     }
 
     /**
-     * Load a Template File
-     *
-     * @param string $strFilename
+     * @param  string $filename Fully qualified filename.
      * @return PhpOffice\PhpWord\Template
-     * @throws Exception
+     * @throws PhpOffice\PhpWord\Exceptions\Exception
      */
-    public function loadTemplate($strFilename)
+    public function loadTemplate($filename)
     {
-        if (file_exists($strFilename)) {
-            return new Template($strFilename);
+        if (\file_exists($filename)) {
+            return new Template($filename);
+        } else {
+            throw new Exception("Template file {$filename} not found.");
         }
-        throw new Exception("Template file {$strFilename} not found.");
-    }
-
-    /**
-     * Get section count
-     * @return int
-     */
-    private function _countSections()
-    {
-        return count($this->_sectionCollection);
     }
 }

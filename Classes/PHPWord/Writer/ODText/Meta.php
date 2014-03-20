@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 class Meta extends WriterPart
@@ -34,11 +35,11 @@ class Meta extends WriterPart
     /**
      * Write Meta file to XML format
      *
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      * @return string XML Output
      * @throws Exception
      */
-    public function writeMeta(PHPWord $phpWord = null)
+    public function writeMeta(PhpWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;
@@ -65,25 +66,25 @@ class Meta extends WriterPart
         $xmlWriter->startElement('office:meta');
 
         // dc:creator
-        $xmlWriter->writeElement('dc:creator', $phpWord->getProperties()->getLastModifiedBy());
+        $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()->getLastModifiedBy());
         // dc:date
-        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getProperties()->getModified()));
+        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getDocumentProperties()->getModified()));
         // dc:description
-        $xmlWriter->writeElement('dc:description', $phpWord->getProperties()->getDescription());
+        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
         // dc:subject
-        $xmlWriter->writeElement('dc:subject', $phpWord->getProperties()->getSubject());
+        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
         // dc:title
-        $xmlWriter->writeElement('dc:title', $phpWord->getProperties()->getTitle());
+        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
         // meta:creation-date
-        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getProperties()->getCreated()));
+        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getDocumentProperties()->getCreated()));
         // meta:initial-creator
-        $xmlWriter->writeElement('meta:initial-creator', $phpWord->getProperties()->getCreator());
+        $xmlWriter->writeElement('meta:initial-creator', $phpWord->getDocumentProperties()->getCreator());
         // meta:keyword
-        $xmlWriter->writeElement('meta:keyword', $phpWord->getProperties()->getKeywords());
+        $xmlWriter->writeElement('meta:keyword', $phpWord->getDocumentProperties()->getKeywords());
 
         // @todo : Where these properties are written ?
-        // $phpWord->getProperties()->getCategory()
-        // $phpWord->getProperties()->getCompany()
+        // $phpWord->getDocumentProperties()->getCategory()
+        // $phpWord->getDocumentProperties()->getCompany()
 
         $xmlWriter->endElement();
 

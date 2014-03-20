@@ -1,12 +1,12 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
-use PhpOffice\PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
  * @@coversDefaultClass         PhpOffice\PhpWord\IOFactory
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 final class IOFactoryTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +18,7 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'PhpOffice\\PhpWord\\Writer\\Word2007',
-            IOFactory::createWriter(new PHPWord(), 'Word2007')
+            IOFactory::createWriter(new PhpWord(), 'Word2007')
         );
     }
 
@@ -29,7 +29,7 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
      */
     final public function testNonexistentWriterCanNotBeCreated()
     {
-        IOFactory::createWriter(new PHPWord(), 'Word2006');
+        IOFactory::createWriter(new PhpWord(), 'Word2006');
     }
 
     /**

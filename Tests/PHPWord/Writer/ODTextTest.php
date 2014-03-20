@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer;
+namespace PhpWord\Tests\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Writer\ODText;
-use PHPWord;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText
  * @runTestsInSeparateProcesses
  */
@@ -16,9 +16,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $object = new ODText(new PHPWord());
+        $object = new ODText(new PhpWord());
 
-        $this->assertInstanceOf('PhpOffice\\PHPWord', $object->getPHPWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord', $object->getPhpWord());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
 
         $this->assertEquals('./', $object->getDiskCachingDirectory());
@@ -35,14 +35,14 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                    ::getPHPWord
+     * @covers                    ::getPhpWord
      * @expectedException         Exception
-     * @expectedExceptionMessage  No PHPWord assigned.
+     * @expectedExceptionMessage  No PhpWord assigned.
      */
     public function testConstructWithNull()
     {
         $object = new ODText();
-        $object->getPHPWord();
+        $object->getPhpWord();
     }
 
     /**
@@ -52,7 +52,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PHPWord.png')
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
         );
         $objectSrc = \join(
             \DIRECTORY_SEPARATOR,
@@ -63,7 +63,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.odt')
         );
 
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->createSection();
@@ -95,7 +95,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSavePhpOutput()
     {
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $section->addText('Test');
         $writer = new ODText($phpWord);
@@ -105,7 +105,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers                   ::save
      * @expectedException        Exception
-     * @expectedExceptionMessage PHPWord object unassigned.
+     * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
     {

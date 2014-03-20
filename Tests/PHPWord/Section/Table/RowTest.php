@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests\Section\Table;
+namespace PhpWord\Tests\Section\Table;
 
 use PhpOffice\PhpWord\Section\Table\Row;
 

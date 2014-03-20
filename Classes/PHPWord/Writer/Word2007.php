@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
@@ -49,9 +50,9 @@ class Word2007 implements IWriter
     private $_imageTypes = array();
     private $_objectTypes = array();
 
-    public function __construct(PHPWord $PHPWord = null)
+    public function __construct(PhpWord $phpWord = null)
     {
-        $this->_document = $PHPWord;
+        $this->_document = $phpWord;
 
         $this->_diskCachingDirectory = './';
 
@@ -187,11 +188,11 @@ class Word2007 implements IWriter
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->_document));
 
             // Write static files
-            $objZip->addFile(PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/numbering.xml', 'word/numbering.xml');
-            $objZip->addFile(PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/settings.xml', 'word/settings.xml');
-            $objZip->addFile(PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
-            $objZip->addFile(PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/webSettings.xml', 'word/webSettings.xml');
-            $objZip->addFile(PHPWORD_BASE_PATH . 'PHPWord/_staticDocParts/fontTable.xml', 'word/fontTable.xml');
+            $objZip->addFile(PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/numbering.xml', 'word/numbering.xml');
+            $objZip->addFile(PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/settings.xml', 'word/settings.xml');
+            $objZip->addFile(PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
+            $objZip->addFile(PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/webSettings.xml', 'word/webSettings.xml');
+            $objZip->addFile(PHPWORD_BASE_PATH . 'PhpWord/_staticDocParts/fontTable.xml', 'word/fontTable.xml');
 
 
             // Close file
@@ -207,7 +208,7 @@ class Word2007 implements IWriter
                 @unlink($pFilename);
             }
         } else {
-            throw new Exception("PHPWord object unassigned.");
+            throw new Exception("PhpWord object unassigned.");
         }
     }
 

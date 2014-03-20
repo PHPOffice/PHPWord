@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Section\Footnote;
 use PhpOffice\PhpWord\Section\Image;
@@ -402,14 +403,14 @@ class Base extends WriterPart
         $xmlWriter->startElement('w:rPr');
 
         // Font
-        if ($font != PHPWord::DEFAULT_FONT_NAME) {
+        if ($font != PhpWord::DEFAULT_FONT_NAME) {
             $xmlWriter->startElement('w:rFonts');
             $xmlWriter->writeAttribute('w:ascii', $font);
             $xmlWriter->writeAttribute('w:hAnsi', $font);
             $xmlWriter->writeAttribute('w:eastAsia', $font);
             $xmlWriter->writeAttribute('w:cs', $font);
             //Font Content Type
-            if ($hint != PHPWord::DEFAULT_FONT_CONTENT_TYPE) {
+            if ($hint != PhpWord::DEFAULT_FONT_CONTENT_TYPE) {
                 $xmlWriter->writeAttribute('w:hint', $hint);
             }
             $xmlWriter->endElement();
@@ -417,14 +418,14 @@ class Base extends WriterPart
 
 
         // Color
-        if ($color != PHPWord::DEFAULT_FONT_COLOR) {
+        if ($color != PhpWord::DEFAULT_FONT_COLOR) {
             $xmlWriter->startElement('w:color');
             $xmlWriter->writeAttribute('w:val', $color);
             $xmlWriter->endElement();
         }
 
         // Size
-        if ($size != PHPWord::DEFAULT_FONT_SIZE) {
+        if ($size != PhpWord::DEFAULT_FONT_SIZE) {
             $xmlWriter->startElement('w:sz');
             $xmlWriter->writeAttribute('w:val', $size * 2);
             $xmlWriter->endElement();

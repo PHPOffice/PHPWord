@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# PHPWord documentation build configuration file, created by
+# PhpWord documentation build configuration file, created by
 # sphinx-quickstart on Fri Mar 14 23:09:26 2014.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PHPWord'
+project = u'PhpWord'
 copyright = u'2014, Progi1984'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -164,7 +164,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PHPWorddoc'
+htmlhelp_basename = 'PhpWorddoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -183,8 +183,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PHPWord.tex', u'PHPWord Documentation',
-   u'The PHPWord Team', 'manual'),
+  ('index', 'PhpWord.tex', u'PhpWord Documentation',
+   u'The PhpWord Team', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'phpword', u'PHPWord Documentation',
-     [u'The PHPWord Team'], 1)
+    ('index', 'PhpWord', u'PhpWord Documentation',
+     [u'The PhpWord Team'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -227,8 +227,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PHPWord', u'PHPWord Documentation',
-   u'The PHPWord Team', 'PHPWord', 'One line description of project.',
+  ('index', 'PhpWord', u'PhpWord Documentation',
+   u'The PhpWord Team', 'PhpWord', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -244,9 +244,9 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'PHPWord'
-epub_author = u'The PHPWord Team'
-epub_publisher = u'The PHPWord Team'
+epub_title = u'PhpWord'
+epub_author = u'The PhpWord Team'
+epub_publisher = u'The PhpWord Team'
 epub_copyright = copyright
 
 # The language of the text. It defaults to the language option

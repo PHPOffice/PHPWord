@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -38,11 +39,11 @@ class Styles extends WriterPart
     /**
      * Write Styles file to XML format
      *
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      * @return string XML Output
      * @throws Exception
      */
-    public function writeStyles(PHPWord $phpWord = null)
+    public function writeStyles(PhpWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;
@@ -109,10 +110,10 @@ class Styles extends WriterPart
                 }
             }
         }
-        if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
+        if (!in_array(PhpWord::DEFAULT_FONT_NAME, $arrFonts)) {
             $xmlWriter->startElement('style:font-face');
-            $xmlWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
-            $xmlWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
+            $xmlWriter->writeAttribute('style:name', PhpWord::DEFAULT_FONT_NAME);
+            $xmlWriter->writeAttribute('svg:font-family', PhpWord::DEFAULT_FONT_NAME);
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement();
@@ -137,17 +138,17 @@ class Styles extends WriterPart
         // style:text-properties
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
-        $xmlWriter->writeAttribute('style:font-name', PHPWord::DEFAULT_FONT_NAME);
-        $xmlWriter->writeAttribute('fo:font-size', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name', PhpWord::DEFAULT_FONT_NAME);
+        $xmlWriter->writeAttribute('fo:font-size', PhpWord::DEFAULT_FONT_SIZE . 'pt');
         $xmlWriter->writeAttribute('fo:language', 'fr');
         $xmlWriter->writeAttribute('fo:country', 'FR');
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
-        $xmlWriter->writeAttribute('style:font-name-asian', PHPWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-asian', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-asian', PhpWord::DEFAULT_FONT_NAME . '2');
+        $xmlWriter->writeAttribute('style:font-size-asian', PhpWord::DEFAULT_FONT_SIZE . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', 'zh');
         $xmlWriter->writeAttribute('style:country-asian', 'CN');
-        $xmlWriter->writeAttribute('style:font-name-complex', PHPWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-complex', PHPWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-complex', PhpWord::DEFAULT_FONT_NAME . '2');
+        $xmlWriter->writeAttribute('style:font-size-complex', PhpWord::DEFAULT_FONT_SIZE . 'pt');
         $xmlWriter->writeAttribute('style:language-complex', 'hi');
         $xmlWriter->writeAttribute('style:country-complex', 'IN');
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');

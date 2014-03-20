@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer\Word2007;
+namespace PhpWord\Tests\Writer\Word2007;
 
-use PHPWord;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007\Base
  * @runTestsInSeparateProcesses
  */
@@ -27,12 +27,12 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $rStyle = 'rStyle';
         $pStyle = 'pStyle';
 
-        $PHPWord = new PHPWord();
-        $PHPWord->addFontStyle($rStyle, array('bold' => true));
-        $PHPWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle($rStyle, array('bold' => true));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $section = $phpWord->createSection();
         $section->addText('Test', $rStyle, $pStyle);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = "/w:document/w:body/w:p/w:r/w:rPr/w:rStyle";
         $this->assertEquals($rStyle, $doc->getElementAttribute($element, 'w:val'));
@@ -52,16 +52,16 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
         );
 
-        $PHPWord = new PHPWord();
-        $PHPWord->addParagraphStyle($pStyle, $aStyle);
-        $section = $PHPWord->createSection('Test');
+        $phpWord = new PhpWord();
+        $phpWord->addParagraphStyle($pStyle, $aStyle);
+        $section = $phpWord->createSection('Test');
         $textrun = $section->createTextRun($pStyle);
         $textrun->addText('Test');
         $textrun->addTextBreak();
         $textrun = $section->createTextRun($aStyle);
         $textrun->addLink('http://test.com');
         $textrun->addImage($imageSrc);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = "/w:document/w:body/w:p";
         $this->assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
@@ -72,13 +72,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteLink()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
 
-        $expected = 'PHPWord';
+        $expected = 'PhpWord';
         $section->addLink('http://github.com/phpoffice/phpword', $expected);
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
 
         $this->assertEquals($expected, $element->nodeValue);
@@ -89,13 +89,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWritePreserveText()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
         $footer = $section->createFooter();
 
         $footer->addPreserveText('{PAGE}');
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
 
         $this->assertEquals('PAGE', $preserve->nodeValue);
@@ -112,14 +112,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $fName = 'fStyle';
         $pName = 'pStyle';
 
-        $PHPWord = new PHPWord();
-        $PHPWord->addFontStyle($fName, $fArray);
-        $PHPWord->addParagraphStyle($pName, $pArray);
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle($fName, $fArray);
+        $phpWord->addParagraphStyle($pName, $pArray);
+        $section = $phpWord->createSection();
         $section->addTextBreak();
         $section->addTextBreak(1, $fArray, $pArray);
         $section->addTextBreak(1, $fName, $pName);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:rPr/w:rStyle');
         $this->assertEquals($fName, $element->getAttribute('w:val'));
@@ -132,12 +132,12 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteParagraphStyleAlign()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
 
         $section->addText('This is my text', null, array('align' => 'right'));
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:jc');
 
         $this->assertEquals('right', $element->getAttribute('w:val'));
@@ -149,8 +149,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteParagraphStylePagination()
     {
         // Create the doc
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
         $attributes = array(
             'widowControl' => false,
             'keepNext' => true,
@@ -160,7 +160,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $attribute => $value) {
             $section->addText('Test', null, array($attribute => $value));
         }
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         // Test the attributes
         $i = 0;
@@ -178,7 +178,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteFontStyle()
     {
-        $PHPWord = new PHPWord();
+        $phpWord = new PhpWord();
         $styles['name'] = 'Verdana';
         $styles['size'] = 14;
         $styles['bold'] = true;
@@ -189,9 +189,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $styles['color'] = 'FF0000';
         $styles['fgColor'] = 'yellow';
 
-        $section = $PHPWord->createSection();
+        $section = $phpWord->createSection();
         $section->addText('Test', $styles);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:p/w:r/w:rPr';
         $this->assertEquals($styles['name'], $doc->getElementAttribute("{$parent}/w:rFonts", 'w:ascii'));
@@ -210,7 +210,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteTableStyle()
     {
-        $PHPWord = new PHPWord();
+        $phpWord = new PhpWord();
         $tWidth = 120;
         $rHeight = 120;
         $cWidth = 120;
@@ -232,7 +232,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cStyles["borderLeftColor"] = 'FF0000';
         $cStyles["borderRightColor"] = 'FF0000';
 
-        $section = $PHPWord->createSection();
+        $section = $phpWord->createSection();
         $table = $section->addTable($tStyles);
         $table->setWidth = 100;
         $table->addRow($rHeight, $rStyles);
@@ -244,7 +244,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $textrun = $cell->createTextRun();
         $textrun->addText('Test');
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
         $this->assertEquals($tStyles['cellMarginTop'], $doc->getElementAttribute("{$parent}/w:top", 'w:w'));
@@ -268,8 +268,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteCellStyleCellGridSpan()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
 
         $table = $section->addTable();
 
@@ -284,7 +284,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $table->addCell(40);
         $table->addCell(40);
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
 
         $this->assertEquals(5, $element->getAttribute('w:val'));
@@ -295,8 +295,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteImagePosition()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
         $section->addImage(
             PHPWORD_TESTS_DIR_ROOT . '/_files/images/earth.jpg',
             array(
@@ -306,7 +306,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:r/w:pict/v:shape');
 
         $style = $element->getAttribute('style');
@@ -325,11 +325,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
         );
 
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
         $header = $section->createHeader();
         $header->addWatermark($imageSrc);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = $doc->getElement("/w:document/w:body/w:sectPr/w:headerReference");
         $this->assertStringStartsWith("rId", $element->getAttribute('r:id'));
@@ -340,10 +340,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteTitle()
     {
-        $PHPWord = new PHPWord();
-        $PHPWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
-        $PHPWord->createSection()->addTitle('Test', 1);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
+        $phpWord->createSection()->addTitle('Test', 1);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
         $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));

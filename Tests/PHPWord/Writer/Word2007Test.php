@@ -1,12 +1,12 @@
 <?php
-namespace PHPWord\Tests\Writer;
+namespace PhpWord\Tests\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007;
-use PHPWord;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007
  * @runTestsInSeparateProcesses
  */
@@ -22,7 +22,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $object = new Word2007(new PHPWord());
+        $object = new Word2007(new PhpWord());
 
         $writerParts = array(
             'ContentTypes',
@@ -53,7 +53,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->createSection();
@@ -87,7 +87,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             'duke_nukem.bmp'    => '5.bmp',
             'angela_merkel.tif' => '6.tif',
         );
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         foreach ($images as $source => $target) {
             $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/{$source}");

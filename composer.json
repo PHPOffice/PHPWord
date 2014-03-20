@@ -1,7 +1,11 @@
 {
     "name": "phpoffice/phpword",
-    "description": "PHPWord - Read, Create and Write Word documents in PHP",
-    "keywords": ["PHP", "Word", "Writer", "docx", "doc", "rtf"],
+    "description": "PhpWord - Read, Create and Write Word documents in PHP",
+    "keywords": [
+        "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
+        "docx", "OOXML", "OpenXML", "Office Open XML", "ISO/IEC 29500", "WordprocessingML",
+        "RTF", "Rich Text Format", "doc"
+    ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
     "license": "LGPL",
@@ -36,7 +40,7 @@
     },
     "autoload": {
         "psr-0": {
-            "PHPWord": "Classes/"
+            "PhpWord": "Classes/"
         }
     }
 }

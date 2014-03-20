@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer\ODText;
+namespace PhpWord\Tests\Writer\ODText;
 
-use PHPWord;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText\Content
  * @runTestsInSeparateProcesses
  */
@@ -27,7 +27,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PHPWord.png')
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
         );
         $objectSrc = \join(
             \DIRECTORY_SEPARATOR,
@@ -35,11 +35,11 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         );
         $expected = 'Expected';
 
-        $PHPWord = new PHPWord();
-        $PHPWord->setDefaultFontName('Verdana');
-        $PHPWord->addFontStyle('Font', array('size' => 11));
-        $PHPWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $phpWord->setDefaultFontName('Verdana');
+        $phpWord->addFontStyle('Font', array('size' => 11));
+        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $section = $phpWord->createSection();
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
@@ -54,7 +54,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $section->addTOC();
         $textrun = $section->createTextRun();
         $textrun->addText('Test text run');
-        $doc = TestHelperDOCX::getDocument($PHPWord, 'ODText');
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
         $element = "/office:document-content/office:body/office:text/text:p";
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);

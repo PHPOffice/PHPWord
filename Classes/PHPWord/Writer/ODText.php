@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Writer\ODText\Manifest;
@@ -37,15 +38,11 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
 class ODText implements IWriter
 {
     /**
-     * Private PHPWord
-     *
-     * @var PHPWord
+     * @var PhpOffice\PhpWord
      */
     private $_document;
 
     /**
-     * Private writer parts
-     *
      * @var PhpOffice\PhpWord\Writer\ODText\WriterPart[]
      */
     private $_writerParts;
@@ -65,19 +62,17 @@ class ODText implements IWriter
     private $_useDiskCaching = false;
 
     /**
-     * Disk caching directory
-     *
      * @var string
      */
     private $_diskCachingDirectory;
 
     /**
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      */
-    public function __construct(PHPWord $phpWord = null)
+    public function __construct(PhpWord $phpWord = null)
     {
-        // Assign PHPWord
-        $this->setPHPWord($phpWord);
+        // Assign PhpWord
+        $this->setPhpWord($phpWord);
 
         // Set up disk caching location
         $this->_diskCachingDirectory = './';
@@ -100,10 +95,10 @@ class ODText implements IWriter
     }
 
     /**
-     * Save PHPWord to file
+     * Save PhpWord to file
      *
-     * @param    string $pFileName
-     * @throws    Exception
+     * @param  string $pFileName
+     * @throws \Exception
      */
     public function save($pFilename = null)
     {
@@ -125,7 +120,7 @@ class ODText implements IWriter
             // Try opening the ZIP file
             if ($objZip->open($pFilename, ZIPARCHIVE::OVERWRITE) !== true) {
                 if ($objZip->open($pFilename, ZIPARCHIVE::CREATE) !== true) {
-                    throw new Exception("Could not open " . $pFilename . " for writing.");
+                    throw new \Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
 
@@ -182,45 +177,40 @@ class ODText implements IWriter
 
             // Close file
             if ($objZip->close() === false) {
-                throw new Exception("Could not close zip file $pFilename.");
+                throw new \Exception("Could not close zip file $pFilename.");
             }
 
             // If a temporary file was used, copy it to the correct file stream
             if ($originalFilename != $pFilename) {
                 if (copy($pFilename, $originalFilename) === false) {
-                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
+                    throw new \Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
                 }
                 @unlink($pFilename);
             }
 
         } else {
-            throw new Exception("PHPWord object unassigned.");
+            throw new \Exception("PhpWord object unassigned.");
         }
     }
 
     /**
-     * Get PHPWord object
-     *
-     * @return PHPWord
-     * @throws Exception
+     * @return PhpOffice\PhpWord
+     * @throws \Exception
      */
-    public function getPHPWord()
+    public function getPhpWord()
     {
         if (!is_null($this->_document)) {
             return $this->_document;
         } else {
-            throw new Exception("No PHPWord assigned.");
+            throw new \Exception("No PhpWord assigned.");
         }
     }
 
     /**
-     * Get PHPWord object
-     *
-     * @param PHPWord $phpWord PHPWord object
-     * @throws Exception
+     * @param  PhpOffice\PhpWord $phpWord
      * @return PhpOffice\PhpWord\Writer\ODText
      */
-    public function setPHPWord(PHPWord $phpWord = null)
+    public function setPhpWord(PhpWord $phpWord = null)
     {
         $this->_document = $phpWord;
         return $this;
@@ -237,8 +227,6 @@ class ODText implements IWriter
     }
 
     /**
-     * Get writer part
-     *
      * @param string $pPartName Writer part name
      * @return PhpOffice\PhpWord\Writer\ODText\WriterPart
      */
@@ -266,7 +254,7 @@ class ODText implements IWriter
      *
      * @param boolean $pValue
      * @param string $pDirectory Disk caching directory
-     * @throws Exception Exception when directory does not exist
+     * @throws \Exception Exception when directory does not exist
      * @return PhpOffice\PhpWord\Writer\ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
@@ -277,7 +265,7 @@ class ODText implements IWriter
             if (is_dir($pDirectory)) {
                 $this->_diskCachingDirectory = $pDirectory;
             } else {
-                throw new Exception("Directory does not exist: $pDirectory");
+                throw new \Exception("Directory does not exist: $pDirectory");
             }
         }
 
@@ -285,8 +273,6 @@ class ODText implements IWriter
     }
 
     /**
-     * Get disk caching directory
-     *
      * @return string
      */
     public function getDiskCachingDirectory()

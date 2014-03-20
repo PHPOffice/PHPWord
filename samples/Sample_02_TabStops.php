@@ -2,33 +2,33 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word Document
-echo date('H:i:s') , ' Create new PHPWord object' , EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+$phpWord = new PhpOffice\PhpWord();
 
 // Ads styles
-$PHPWord->addParagraphStyle('multipleTab', array(
+$phpWord->addParagraphStyle('multipleTab', array(
   'tabs' => array(
     new PhpOffice\PhpWord\Style\Tab('left', 1550),
     new PhpOffice\PhpWord\Style\Tab('center', 3200),
     new PhpOffice\PhpWord\Style\Tab('right', 5300)
   )
 ));
-$PHPWord->addParagraphStyle('rightTab', array(
+$phpWord->addParagraphStyle('rightTab', array(
   'tabs' => array(
     new PhpOffice\PhpWord\Style\Tab('right', 9090)
   )
 ));
-$PHPWord->addParagraphStyle('centerTab', array(
+$phpWord->addParagraphStyle('centerTab', array(
   'tabs' => array(
     new PhpOffice\PhpWord\Style\Tab('center', 4680)
   )
 ));
 
 // New portrait section
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 
 // Add listitem elements
 $section->addText("Multiple Tabs:\tOne\tTwo\tThree", NULL, 'multipleTab');
@@ -40,7 +40,7 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

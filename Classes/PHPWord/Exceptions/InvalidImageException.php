@@ -6,7 +6,7 @@ namespace PhpOffice\PhpWord\Exceptions;
  *
  * Exception used for when an image is not found
  *
- * @package PHPWord
+ * @package PhpWord
  */
 class InvalidImageException extends Exception
 {

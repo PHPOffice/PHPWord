@@ -1,13 +1,13 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
-use PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Tab;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit_Framework_TestCase
@@ -89,15 +89,15 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
 
     public function testLineHeight()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
 
         // Test style array
         $text = $section->addText('This is a test', array(), array(
             'line-height' => 2.0
         ));
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
 
         $lineHeight = $element->getAttribute('w:line');
@@ -108,7 +108,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
 
         // Test setter
         $text->getParagraphStyle()->setLineHeight(3.0);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
 
         $lineHeight = $element->getAttribute('w:line');

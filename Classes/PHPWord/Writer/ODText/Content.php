@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
@@ -50,11 +51,11 @@ class Content extends WriterPart
     /**
      * Write content file to XML format
      *
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      * @return string XML Output
      * @throws Exception
      */
-    public function writeContent(PHPWord $phpWord = null)
+    public function writeContent(PhpWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;
@@ -162,10 +163,10 @@ class Content extends WriterPart
                     }
                 }
             }
-            if (!in_array(PHPWord::DEFAULT_FONT_NAME, $arrFonts)) {
+            if (!in_array(PhpWord::DEFAULT_FONT_NAME, $arrFonts)) {
                 $xmlWriter->startElement('style:font-face');
-                $xmlWriter->writeAttribute('style:name', PHPWord::DEFAULT_FONT_NAME);
-                $xmlWriter->writeAttribute('svg:font-family', PHPWord::DEFAULT_FONT_NAME);
+                $xmlWriter->writeAttribute('style:name', PhpWord::DEFAULT_FONT_NAME);
+                $xmlWriter->writeAttribute('svg:font-family', PhpWord::DEFAULT_FONT_NAME);
                 $xmlWriter->endElement();
             }
         }
@@ -325,7 +326,7 @@ class Content extends WriterPart
 
         if ($SfIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
-            die('PHPWord : $SfIsObject wouldn\'t be an object');
+            die('PhpWord : $SfIsObject wouldn\'t be an object');
         } else {
             if (!$withoutP) {
                 $xmlWriter->startElement('text:p'); // text:p

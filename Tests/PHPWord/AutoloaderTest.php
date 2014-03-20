@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use PHPWord_Autoloader;
 use PHPWord_Autoloader as Autoloader;
@@ -17,11 +17,11 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull(
             PHPWord_Autoloader::load('Foo'),
-            'PHPWord_Autoloader::load() is trying to load classes outside of the PHPWord namespace'
+            'PHPWord_Autoloader::load() is trying to load classes outside of the PhpWord namespace'
         );
         $this->assertTrue(
-            PHPWord_Autoloader::load('PHPWord'),
-            'PHPWord_Autoloader::load() failed to autoload the PHPWord class'
+            PHPWord_Autoloader::load('PhpWord'),
+            'PHPWord_Autoloader::load() failed to autoload the PhpWord class'
         );
     }
 
@@ -36,7 +36,7 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
             'PhpOffice\\PhpWord\\Autoloader::autoload() is trying to load classes ' .
             'outside of the PhpOffice\\PhpWord namespace'
         );
-        // TODO change this class to the main PHPWord class when it is namespaced
+        // TODO change this class to the main PhpWord class when it is namespaced
         Autoloader::autoload(
             'PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException'
         );

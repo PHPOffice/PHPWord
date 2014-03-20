@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use PhpOffice\PhpWord\DocumentProperties;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\DocumentProperties
  * @runTestsInSeparateProcesses
  */

@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Cell;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class CellTest extends \PHPUnit_Framework_TestCase

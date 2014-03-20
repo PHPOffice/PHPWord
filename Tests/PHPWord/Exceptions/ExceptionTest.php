@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests\Exceptions;
+namespace PhpWord\Tests\Exceptions;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 

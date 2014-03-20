@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\ListItem;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ListItemTest extends \PHPUnit_Framework_TestCase

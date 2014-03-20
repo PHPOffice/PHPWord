@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Image;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit_Framework_TestCase

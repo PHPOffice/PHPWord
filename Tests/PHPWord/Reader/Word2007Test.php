@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Reader;
+namespace PhpWord\Tests\Reader;
 
 use PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
 {
@@ -61,6 +61,6 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         );
         $file = $dir . DIRECTORY_SEPARATOR . 'reader.docx';
         $object = IOFactory::load($file);
-        $this->assertInstanceOf('PhpOffice\\PHPWord', $object);
+        $this->assertInstanceOf('PhpOffice\\PhpWord', $object);
     }
 }

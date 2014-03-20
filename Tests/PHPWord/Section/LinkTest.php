@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests\Section;
+namespace PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Style\Font;

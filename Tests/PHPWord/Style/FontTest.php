@@ -1,12 +1,12 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
-use PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase
@@ -35,15 +35,15 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $object = new Font();
 
         $attributes = array(
-            'name' => PHPWord::DEFAULT_FONT_NAME,
-            'size' => PHPWord::DEFAULT_FONT_SIZE,
+            'name' => PhpWord::DEFAULT_FONT_NAME,
+            'size' => PhpWord::DEFAULT_FONT_SIZE,
             'bold' => false,
             'italic' => false,
             'superScript' => false,
             'subScript' => false,
             'underline' => Font::UNDERLINE_NONE,
             'strikethrough' => false,
-            'color' => PHPWord::DEFAULT_FONT_COLOR,
+            'color' => PhpWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
         );
         foreach ($attributes as $key => $default) {
@@ -83,15 +83,15 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
     public function testLineHeight()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
 
         // Test style array
         $text = $section->addText('This is a test', array(
             'line-height' => 2.0
         ));
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
 
         $lineHeight = $element->getAttribute('w:line');
@@ -102,7 +102,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         // Test setter
         $text->getFontStyle()->setLineHeight(3.0);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');
 
         $lineHeight = $element->getAttribute('w:line');

@@ -1,12 +1,12 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
-use PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Style\Tab;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class TabsTest extends \PHPUnit_Framework_TestCase
@@ -24,9 +24,9 @@ class TabsTest extends \PHPUnit_Framework_TestCase
      */
     public function testTabsStyle()
     {
-        $PHPWord = new PHPWord();
-        $PHPWord->addParagraphStyle('tabbed', array('tabs' => array(new Tab('left', 1440, 'dot'))));
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $phpWord = new PhpWord();
+        $phpWord->addParagraphStyle('tabbed', array('tabs' => array(new Tab('left', 1440, 'dot'))));
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $file = 'word/styles.xml';
         $path = '/w:styles/w:style[@w:styleId="tabbed"]/w:pPr/w:tabs/w:tab[1]';
         $element = $doc->getElement($path, $file);

@@ -1,15 +1,15 @@
-# PHPWord
+# PhpWord
 
-[![Build Status](https://travis-ci.org/PHPOffice/PHPWord.png?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
+[![Build Status](https://travis-ci.org/PHPOffice/PhpWord.png?branch=master)](https://travis-ci.org/PHPOffice/PhpWord)
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword) [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword) [![Latest Unstable Version](https://poser.pugx.org/phpoffice/phpword/v/unstable.png)](https://packagist.org/packages/phpoffice/phpword) [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
 
 __OpenXML - Read, Write and Create Word documents in PHP.__
 
-PHPWord is a library written in pure PHP and providing a set of classes that allow you to write to and read from different document file formats, like Word (.docx), WordPad (.rtf), Libre/OpenOffice Writer (.odt).
+PhpWord is a library written in pure PHP and providing a set of classes that allow you to write to and read from different document file formats, like Word (.docx), WordPad (.rtf), Libre/OpenOffice Writer (.odt).
 
 No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major [word processing softwares](http://en.wikipedia.org/wiki/List_of_word_processors).
 
-PHPWord is an open source project licensed under [LGPL](license.md). PHPWord is unit tested to make sure that the released versions are stable.
+PhpWord is an open source project licensed under [LGPL](license.md). PhpWord is unit tested to make sure that the released versions are stable.
 
 __Want to contribute?__ Fork us!
 
@@ -45,7 +45,7 @@ __Want to contribute?__ Fork us!
 
 ## Installation
 
-It is recommended that you install the PHPWord library [through composer](http://getcomposer.org/). To do so, add
+It is recommended that you install the PhpWord library [through composer](http://getcomposer.org/). To do so, add
 the following lines to your ``composer.json``.
 
 ```json
@@ -58,7 +58,7 @@ the following lines to your ``composer.json``.
 
 ## Documentation
 
-We're reorganizing our documentation. Below are some of the most important things that you needed to get PHPWord creates document for you in no time.
+We're reorganizing our documentation. Below are some of the most important things that you needed to get PhpWord creates document for you in no time.
 
 ### Table of contents
 
@@ -79,14 +79,14 @@ We're reorganizing our documentation. Below are some of the most important thing
 <a name="basic-usage"></a>
 #### Basic usage
 
-The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
+The following is a basic example of the PhpWord library. More examples are provided in the [samples folder](samples/).
 
 ```php
-$PHPWord = new PHPWord();
+$phpWord = new PhpOffice\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
 // To create a basic section:
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');
@@ -97,7 +97,7 @@ $section->addText('Hello world! I am formatted.',
 
 // If you often need the same style again you can create a user defined style
 // to the word document and give the addText function the name of the style:
-$PHPWord->addFontStyle('myOwnStyle',
+$phpWord->addFontStyle('myOwnStyle',
     array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
 $section->addText('Hello world! I am formatted by a user defined style',
     'myOwnStyle');
@@ -111,7 +111,7 @@ $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
 // Finally, write the document:
-$xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, 'Word2007');
+$xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 $xmlWriter->save('helloWorld.docx');
 ```
 
@@ -120,15 +120,15 @@ $xmlWriter->save('helloWorld.docx');
 
 The base length unit in Open Office XML is twip. Twip means "TWentieth of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
-You can use PHPWord helper functions to convert inches, centimeters, or points to twips.
+You can use PhpWord helper functions to convert inches, centimeters, or points to twips.
 
 ```php
 // Paragraph with 6 points space after
-$PHPWord->addParagraphStyle('My Style', array(
+$phpWord->addParagraphStyle('My Style', array(
     'spaceAfter' => PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
 );
 
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 $sectionStyle = $section->getSettings();
 // half inch left margin
 $sectionStyle->setMarginLeft(PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
@@ -142,7 +142,7 @@ $sectionStyle->setMarginRight(PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwi
 Every visible element in word is placed inside of a section. To create a section, use the following code:
 
 ```php
-$section = $PHPWord->createSection($sectionSettings);
+$section = $phpWord->createSection($sectionSettings);
 ```
 The `$sectionSettings` is an optional associative array that sets the section. Example:
 
@@ -188,7 +188,7 @@ The following two settings are automatically set by the use of the `orientation`
 You can change a section page numbering.
 
 ```php
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 $section->getSettings()->setPageNumberingStart(1);
 ```
 
@@ -271,7 +271,7 @@ $cell->getStyle()->setGridSpan(5);
 You can add images easily using the following example.
 
 ```php
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 $section->addImage('mars.jpg');
 ```
 

@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer\Word2007;
+namespace PhpWord\Tests\Writer\Word2007;
 
-use PHPWord;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -20,11 +20,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteEndSectionPageNumbering()
     {
-        $PHPWord = new PHPWord();
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
         $section->getSettings()->setPageNumberingStart(2);
 
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
 
         $this->assertEquals(2, $element->getAttribute('w:start'));
@@ -44,20 +44,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
         );
 
-        $PHPWord = new PHPWord();
-        $PHPWord->addTitleStyle(1, array('color' => '333333', 'bold'=>true));
-        $PHPWord->addTitleStyle(2, array('color'=>'666666'));
-        $section = $PHPWord->createSection();
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold'=>true));
+        $phpWord->addTitleStyle(2, array('color'=>'666666'));
+        $section = $phpWord->createSection();
         $section->addTOC();
         $section->addPageBreak();
         $section->addTitle('Title 1', 1);
         $section->addListItem('List Item 1', 0);
         $section->addListItem('List Item 2', 0);
         $section->addListItem('List Item 3', 0);
-        $section = $PHPWord->createSection();
+        $section = $phpWord->createSection();
         $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         // TOC
         $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:tabs/w:tab');

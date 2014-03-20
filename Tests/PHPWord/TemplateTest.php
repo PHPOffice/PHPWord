@@ -1,8 +1,8 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Template;
-use PHPWord;
 
 /**
  * @coversDefaultClass PhpOffice\PhpWord\Template
@@ -160,8 +160,8 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
         $docName = 'clone-test-result.docx';
 
-        $PHPWord = new PHPWord();
-        $document = $PHPWord->loadTemplate($template);
+        $phpWord = new PhpWord();
+        $document = $phpWord->loadTemplate($template);
         $actualVar = $document->getVariables();
         $document->cloneRow('userId', 1);
         $document->setValue('userId#1', 'Test');

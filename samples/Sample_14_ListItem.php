@@ -6,14 +6,14 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PHPWord object", EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s'), " Create new PhpWord object", EOL;
+$phpWord = new PhpOffice\PhpWord();
 
 // Begin code
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 
 // Add listitem elements
 $section->addListItem('List Item 1', 0);
@@ -38,8 +38,8 @@ $section->addListItem('List Item 3', 0, null, $listStyle);
 $section->addTextBreak(2);
 
 // Add listitem elements
-$PHPWord->addFontStyle('myOwnStyle', array('color'=>'FF0000'));
-$PHPWord->addParagraphStyle('P-Style', array('spaceAfter'=>95));
+$phpWord->addFontStyle('myOwnStyle', array('color'=>'FF0000'));
+$phpWord->addParagraphStyle('P-Style', array('spaceAfter'=>95));
 $listStyle = array('listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
 $section->addListItem('List Item 1', 0, 'myOwnStyle', $listStyle, 'P-Style');
 $section->addListItem('List Item 2', 0, 'myOwnStyle', $listStyle, 'P-Style');
@@ -56,7 +56,7 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

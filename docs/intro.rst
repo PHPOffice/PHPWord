@@ -3,15 +3,15 @@
 Introduction
 ============
 
-PHPWord is a library written in pure PHP and providing a set of classes that allow you to write to and read from different document file formats, like Word (.docx), WordPad (.rtf), Libre/OpenOffice Writer (.odt).
+PhpWord is a library written in pure PHP and providing a set of classes that allow you to write to and read from different document file formats, like Word (.docx), WordPad (.rtf), Libre/OpenOffice Writer (.odt).
 No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major word processing softwares.
-PHPWord is an open source project licensed under LGPL. PHPWord is unit tested to make sure that the released versions are stable.
+PhpWord is an open source project licensed under LGPL. PhpWord is unit tested to make sure that the released versions are stable.
 
 
 Supported features
 ------------------
 
-Currently PHPWord can:
+Currently PhpWord can:
 
 * Set document properties, e.g. title, subject, and creator.
 * Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering

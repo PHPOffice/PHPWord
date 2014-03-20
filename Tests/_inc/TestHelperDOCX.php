@@ -1,7 +1,7 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
-use PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 class TestHelperDOCX
@@ -10,27 +10,27 @@ class TestHelperDOCX
     static protected $file;
 
     /**
-     * @param \PHPWord $PHPWord
-     * @return \PHPWord\Tests\XmlDocument
+     * @param PhpOffice\PhpWord $phpWord
+     * @return PhpWord\Tests\XmlDocument
      */
-    public static function getDocument(PHPWord $PHPWord, $writerName = 'Word2007')
+    public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {
-        self::$file = tempnam(sys_get_temp_dir(), 'PHPWord');
-        if (!is_dir(sys_get_temp_dir() . '/PHPWord_Unit_Test/')) {
-            mkdir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
+        self::$file = tempnam(sys_get_temp_dir(), 'PhpWord');
+        if (!is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {
+            mkdir(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
         }
 
-        $xmlWriter = IOFactory::createWriter($PHPWord, $writerName);
+        $xmlWriter = IOFactory::createWriter($phpWord, $writerName);
         $xmlWriter->save(self::$file);
 
         $zip = new \ZipArchive;
         $res = $zip->open(self::$file);
         if ($res === true) {
-            $zip->extractTo(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
+            $zip->extractTo(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
             $zip->close();
         }
 
-        return new XmlDocument(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
+        return new XmlDocument(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
     }
 
     public static function clear()
@@ -38,8 +38,8 @@ class TestHelperDOCX
         if (file_exists(self::$file)) {
             unlink(self::$file);
         }
-        if (is_dir(sys_get_temp_dir() . '/PHPWord_Unit_Test/')) {
-            self::deleteDir(sys_get_temp_dir() . '/PHPWord_Unit_Test/');
+        if (is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {
+            self::deleteDir(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
         }
     }
 

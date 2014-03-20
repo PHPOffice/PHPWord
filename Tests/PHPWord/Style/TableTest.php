@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Style;
+namespace PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Table;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit_Framework_TestCase

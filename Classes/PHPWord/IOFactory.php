@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,26 +18,27 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 abstract class IOFactory
 {
     /**
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      * @param string $name
      * @return PhpOffice\PhpWord\Writer\IWriter
      * @throws PhpOffice\PhpWord\Exceptions\Exception
      */
-    public static function createWriter(PHPWord $phpWord, $name)
+    public static function createWriter(PhpWord $phpWord, $name)
     {
         try {
             $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
@@ -69,7 +70,7 @@ abstract class IOFactory
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return PhpOffice\PHPWord
+     * @return PhpOffice\PhpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {

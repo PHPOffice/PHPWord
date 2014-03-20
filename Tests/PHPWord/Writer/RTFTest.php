@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer;
+namespace PhpWord\Tests\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Writer\RTF;
-use PHPWord;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Writer\RTF
  * @runTestsInSeparateProcesses
  */
@@ -16,21 +16,21 @@ class RTFTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $object = new RTF(new PHPWord);
+        $object = new RTF(new PhpWord);
 
-        $this->assertInstanceOf('PhpOffice\\PHPWord', $object->getPHPWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord', $object->getPhpWord());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
     }
 
     /**
      * covers                    ::__construct
      * @expectedException        Exception
-     * @expectedExceptionMessage No PHPWord assigned.
+     * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
     {
         $object = new RTF();
-        $object->getPHPWord();
+        $object->getPhpWord();
     }
 
     /**
@@ -39,7 +39,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
      */
     public function testSavePhpOutput()
     {
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $section->addText('Test');
         $writer = new RTF($phpWord);
@@ -49,7 +49,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers                   ::save
      * @expectedException        Exception
-     * @expectedExceptionMessage PHPWord object unassigned.
+     * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
     {
@@ -65,7 +65,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PHPWord.png')
+            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
         );
         $objectSrc = \join(
             \DIRECTORY_SEPARATOR,
@@ -76,7 +76,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.rtf')
         );
 
-        $phpWord = new PHPWord();
+        $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->createSection();

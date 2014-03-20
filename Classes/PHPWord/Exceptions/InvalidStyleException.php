@@ -8,7 +8,7 @@ use InvalidArgumentException;
  *
  * Exception used for when a style value is invalid
  *
- * @package PHPWord
+ * @package PhpWord
  */
 class InvalidStyleException extends InvalidArgumentException
 {

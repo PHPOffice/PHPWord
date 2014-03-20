@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests\Section\Footer;
+namespace PhpWord\Tests\Section\Footer;
 
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 

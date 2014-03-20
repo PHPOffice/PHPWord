@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use PhpOffice\PhpWord\Section;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Section
  * @runTestsInSeparateProcesses
  */
@@ -80,7 +80,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         );
         $imageSource = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PHPWord.png')
+            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
         );
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 

@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use PhpOffice\PhpWord\TOC;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\TOC
  * @runTestsInSeparateProcesses
  */

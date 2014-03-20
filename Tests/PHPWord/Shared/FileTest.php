@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Shared;
+namespace PhpWord\Tests\Shared;
 
 use PhpOffice\PhpWord\Shared\File;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Shared\File
  * @runTestsInSeparateProcesses
  */

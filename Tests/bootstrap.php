@@ -8,7 +8,7 @@ if (!defined('PHPWORD_TESTS_DIR_ROOT')) {
 }
 
 // Includes
-require_once __DIR__ . '/../Classes/PHPWord/Autoloader.php';
+require_once __DIR__ . '/../Classes/PhpWord/Autoloader.php';
 PHPWord_Autoloader::Register();
 
 require_once __DIR__ . '/_inc/TestHelperDOCX.php';

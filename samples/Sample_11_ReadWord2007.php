@@ -2,19 +2,19 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // Read contents
 $name = basename(__FILE__, '.php');
 $source = "resources/{$name}.docx";
 echo date('H:i:s'), " Reading contents from `{$source}`", EOL;
-$PHPWord = PhpOffice\PhpWord\IOFactory::load($source);
+$phpWord = PhpOffice\PhpWord\IOFactory::load($source);
 
 // (Re)write contents
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

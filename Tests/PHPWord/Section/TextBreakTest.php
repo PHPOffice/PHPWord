@@ -1,12 +1,12 @@
 <?php
-namespace PHPWord\Tests\Section;
+namespace PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Section\TextBreak
  * @runTestsInSeparateProcesses
  */

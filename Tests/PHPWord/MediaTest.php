@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section;

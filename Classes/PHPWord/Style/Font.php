@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
 class Font
@@ -84,14 +85,14 @@ class Font
      *
      * @var int|float
      */
-    private $_name = PHPWord::DEFAULT_FONT_NAME;
+    private $_name = PhpWord::DEFAULT_FONT_NAME;
 
     /**
      * Font size
      *
      * @var int|float
      */
-    private $_size = PHPWord::DEFAULT_FONT_SIZE;
+    private $_size = PhpWord::DEFAULT_FONT_SIZE;
 
     /**
      * Bold
@@ -140,7 +141,7 @@ class Font
      *
      * @var string
      */
-    private $_color = PHPWord::DEFAULT_FONT_COLOR;
+    private $_color = PhpWord::DEFAULT_FONT_COLOR;
 
     /**
      * Foreground/highlight
@@ -161,7 +162,7 @@ class Font
      *
      * @var string
      */
-    private $_hint = PHPWord::DEFAULT_FONT_CONTENT_TYPE;
+    private $_hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
      * New font style
@@ -232,10 +233,10 @@ class Font
      * @param  string $pValue
      * @return PhpOffice\PhpWord\Style\Font
      */
-    public function setName($pValue = PHPWord::DEFAULT_FONT_NAME)
+    public function setName($pValue = PhpWord::DEFAULT_FONT_NAME)
     {
         if (is_null($pValue) || $pValue == '') {
-            $pValue = PHPWord::DEFAULT_FONT_NAME;
+            $pValue = PhpWord::DEFAULT_FONT_NAME;
         }
         $this->_name = $pValue;
         return $this;
@@ -258,10 +259,10 @@ class Font
      * @param  int|float $pValue
      * @return PhpOffice\PhpWord\Style\Font
      */
-    public function setSize($pValue = PHPWord::DEFAULT_FONT_SIZE)
+    public function setSize($pValue = PhpWord::DEFAULT_FONT_SIZE)
     {
         if (!is_numeric($pValue)) {
-            $pValue = PHPWord::DEFAULT_FONT_SIZE;
+            $pValue = PhpWord::DEFAULT_FONT_SIZE;
         }
         $this->_size = $pValue;
         return $this;
@@ -435,10 +436,10 @@ class Font
      * @param  string $pValue
      * @return PhpOffice\PhpWord\Style\Font
      */
-    public function setColor($pValue = PHPWord::DEFAULT_FONT_COLOR)
+    public function setColor($pValue = PhpWord::DEFAULT_FONT_COLOR)
     {
         if (is_null($pValue) || $pValue == '') {
-            $pValue = PHPWord::DEFAULT_FONT_COLOR;
+            $pValue = PhpWord::DEFAULT_FONT_COLOR;
         }
         $this->_color = $pValue;
         return $this;
@@ -532,10 +533,10 @@ class Font
      * @param  string $pValue
      * @return PhpOffice\PhpWord\Style\Font
      */
-    public function setHint($pValue = PHPWord::DEFAULT_FONT_CONTENT_TYPE)
+    public function setHint($pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
     {
         if (is_null($pValue) || $pValue == '') {
-            $pValue = PHPWord::DEFAULT_FONT_CONTENT_TYPE;
+            $pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
         }
         $this->_hint = $pValue;
         return $this;

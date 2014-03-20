@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,20 +18,21 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 class DocProps extends WriterPart
 {
-    public function writeDocPropsApp(PHPWord $phpWord = null)
+    public function writeDocPropsApp(PhpWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;
@@ -102,7 +103,7 @@ class DocProps extends WriterPart
         $xmlWriter->endElement();
 
         // Company
-        $xmlWriter->writeElement('Company', $phpWord->getProperties()->getCompany());
+        $xmlWriter->writeElement('Company', $phpWord->getDocumentProperties()->getCompany());
 
         // LinksUpToDate
         $xmlWriter->writeElement('LinksUpToDate', 'false');
@@ -123,7 +124,7 @@ class DocProps extends WriterPart
     }
 
 
-    public function writeDocPropsCore(PHPWord $phpWord = null)
+    public function writeDocPropsCore(PhpWord $phpWord = null)
     {
         // Create XML writer
         $xmlWriter = null;
@@ -145,37 +146,37 @@ class DocProps extends WriterPart
         $xmlWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
 
         // dc:creator
-        $xmlWriter->writeElement('dc:creator', $phpWord->getProperties()->getCreator());
+        $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()->getCreator());
 
         // cp:lastModifiedBy
-        $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getProperties()->getLastModifiedBy());
+        $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getDocumentProperties()->getLastModifiedBy());
 
         // dcterms:created
         $xmlWriter->startElement('dcterms:created');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getProperties()->getCreated()));
+        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getDocumentProperties()->getCreated()));
         $xmlWriter->endElement();
 
         // dcterms:modified
         $xmlWriter->startElement('dcterms:modified');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getProperties()->getModified()));
+        $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getDocumentProperties()->getModified()));
         $xmlWriter->endElement();
 
         // dc:title
-        $xmlWriter->writeElement('dc:title', $phpWord->getProperties()->getTitle());
+        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
 
         // dc:description
-        $xmlWriter->writeElement('dc:description', $phpWord->getProperties()->getDescription());
+        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
 
         // dc:subject
-        $xmlWriter->writeElement('dc:subject', $phpWord->getProperties()->getSubject());
+        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
 
         // cp:keywords
-        $xmlWriter->writeElement('cp:keywords', $phpWord->getProperties()->getKeywords());
+        $xmlWriter->writeElement('cp:keywords', $phpWord->getDocumentProperties()->getKeywords());
 
         // cp:category
-        $xmlWriter->writeElement('cp:category', $phpWord->getProperties()->getCategory());
+        $xmlWriter->writeElement('cp:category', $phpWord->getDocumentProperties()->getCategory());
 
         $xmlWriter->endElement();
 

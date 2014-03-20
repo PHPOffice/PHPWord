@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Shared;
+namespace PhpWord\Tests\Shared;
 
-use PHPWord;
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Shared\Font;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +15,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testConversions()
     {
-        $PHPWord = new PHPWord();
+        $phpWord = new PhpWord();
 
         $original = 1;
 

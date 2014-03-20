@@ -2,28 +2,28 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word Document
-echo date('H:i:s') , ' Create new PHPWord object' , EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+$phpWord = new PhpOffice\PhpWord();
 
 // New portrait section
-$section = $PHPWord->createSection(array('borderColor' => '00FF00', 'borderSize' => 12));
+$section = $phpWord->createSection(array('borderColor' => '00FF00', 'borderSize' => 12));
 $section->addText('I am placed on a default section.');
 
 // New landscape section
-$section = $PHPWord->createSection(array('orientation' => 'landscape'));
+$section = $phpWord->createSection(array('orientation' => 'landscape'));
 $section->addText('I am placed on a landscape section. Every page starting from this section will be landscape style.');
 $section->addPageBreak();
 $section->addPageBreak();
 
 // New portrait section
-$section = $PHPWord->createSection(array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600));
+$section = $phpWord->createSection(array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600));
 $section->addText('This section uses other margins.');
 
 // New portrait section with Header & Footer
-$section = $PHPWord->createSection(array('marginLeft' => 200, 'marginRight' => 200, 'marginTop' => 200, 'marginBottom' => 200, 'headerHeight' => 50, 'footerHeight' => 50,));
+$section = $phpWord->createSection(array('marginLeft' => 200, 'marginRight' => 200, 'marginTop' => 200, 'marginBottom' => 200, 'headerHeight' => 50, 'footerHeight' => 50,));
 $section->addText('This section and we play with header/footer height.');
 $section->createHeader()->addText('Header');
 $section->createFooter()->addText('Footer');
@@ -33,7 +33,7 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

@@ -1,5 +1,5 @@
 <?php
-namespace PHPWord\Tests;
+namespace PhpWord\Tests;
 
 use DOMDocument;
 

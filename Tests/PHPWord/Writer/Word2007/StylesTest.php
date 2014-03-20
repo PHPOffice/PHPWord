@@ -1,11 +1,11 @@
 <?php
-namespace PHPWord\Tests\Writer\Word2007;
+namespace PhpWord\Tests\Writer\Word2007;
 
-use PHPWord;
-use PHPWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord;
+use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PHPWord\Tests
+ * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class StylesTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +23,7 @@ class StylesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteStyles()
     {
-        $PHPWord = new PHPWord();
+        $phpWord = new PhpWord();
 
         $pStyle = array('align' => 'both');
         $pBase = array('basedOn' => 'Normal');
@@ -42,13 +42,13 @@ class StylesTest extends \PHPUnit_Framework_TestCase
             'borderInsideHSize' => 120,
             'borderInsideVSize' => 120,
         );
-        $PHPWord->setDefaultParagraphStyle($pStyle);
-        $PHPWord->addParagraphStyle('Base Style', $pBase);
-        $PHPWord->addParagraphStyle('New Style', $pNew);
-        $PHPWord->addFontStyle('New Style', $rStyle, $pStyle);
-        $PHPWord->addTableStyle('Table Style', $tStyle, $tStyle);
-        $PHPWord->addTitleStyle(1, $rStyle, $pStyle);
-        $doc = TestHelperDOCX::getDocument($PHPWord);
+        $phpWord->setDefaultParagraphStyle($pStyle);
+        $phpWord->addParagraphStyle('Base Style', $pBase);
+        $phpWord->addParagraphStyle('New Style', $pNew);
+        $phpWord->addFontStyle('New Style', $rStyle, $pStyle);
+        $phpWord->addTableStyle('Table Style', $tStyle, $tStyle);
+        $phpWord->addTitleStyle(1, $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord);
 
         $file = 'word/styles.xml';
 

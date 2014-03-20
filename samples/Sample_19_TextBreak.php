@@ -1,25 +1,25 @@
 <?php
 /**
- * Generic template for creating PHPWord samples
+ * Generic template for creating PhpWord samples
  */
 
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PHPWord object", EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s'), " Create new PhpWord object", EOL;
+$phpWord = new PhpOffice\PhpWord();
 
 // Begin code
 $fontStyle = array('size' => 24);
 $paragraphStyle = array('spacing' => 240, 'size' => 24);
-$PHPWord->addFontStyle('fontStyle', array('size' => 9));
-$PHPWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
+$phpWord->addFontStyle('fontStyle', array('size' => 9));
+$phpWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
 $fontStyle = array('size' => 24);
 
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 $section->addText('Text break with no style:');
 $section->addTextBreak();
 $section->addText('Text break with defined font style:');
@@ -39,7 +39,7 @@ $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
     echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($PHPWord, $writer);
+    $xmlWriter = PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }

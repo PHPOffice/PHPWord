@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,23 +18,24 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\File;
 
-/** PHPWord root directory */
+/** PhpWord root directory */
 if (!defined('PHPWORD_BASE_PATH')) {
     define('PHPWORD_BASE_PATH', dirname(__FILE__) . '/../../');
-    require(PHPWORD_BASE_PATH . 'PHPWord/Autoloader.php');
+    require(PHPWORD_BASE_PATH . 'PhpWord/Autoloader.php');
 }
 
 class Word2007 extends AbstractReader implements IReader
@@ -44,7 +45,7 @@ class Word2007 extends AbstractReader implements IReader
      *
      * @param string $pFilename
      * @return bool
-     * @throws Exception
+     * @throws PhpOffice\PhpWord\Exceptions\Exception
      */
     public function canRead($pFilename)
     {
@@ -55,7 +56,7 @@ class Word2007 extends AbstractReader implements IReader
 
         $return = false;
         // Load file
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
         if ($zip->open($pFilename) === true) {
             // check if it is an OOXML archive
             $rels = simplexml_load_string($this->getFromZipArchive($zip, "_rels/.rels"));
@@ -78,8 +79,6 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
-     * Get from zip archive
-     *
      * @param ZipArchive $archive
      * @param string $fileName
      * @param bool $removeNamespace
@@ -108,10 +107,10 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
-     * Loads PHPWord from file
+     * Loads PhpWord from file
      *
      * @param string $pFilename
-     * @return PHPWord|null
+     * @return PhpOffice\PhpWord|null
      */
     public function load($pFilename)
     {
@@ -121,8 +120,8 @@ class Word2007 extends AbstractReader implements IReader
         }
 
         // Initialisations
-        $word = new PHPWord;
-        $zip = new ZipArchive;
+        $word = new PhpWord();
+        $zip = new ZipArchive();
         $zip->open($pFilename);
 
         // Read properties and documents
@@ -136,7 +135,7 @@ class Word2007 extends AbstractReader implements IReader
                         $xmlCore->registerXPathNamespace("dc", "http://purl.org/dc/elements/1.1/");
                         $xmlCore->registerXPathNamespace("dcterms", "http://purl.org/dc/terms/");
                         $xmlCore->registerXPathNamespace("cp", "http://schemas.openxmlformats.org/package/2006/metadata/core-properties");
-                        $docProps = $word->getProperties();
+                        $docProps = $word->getDocumentProperties();
                         $docProps->setCreator((string)self::arrayItem($xmlCore->xpath("dc:creator")));
                         $docProps->setLastModifiedBy((string)self::arrayItem($xmlCore->xpath("cp:lastModifiedBy")));
                         $docProps->setCreated(strtotime(self::arrayItem($xmlCore->xpath("dcterms:created"))));
@@ -152,7 +151,7 @@ class Word2007 extends AbstractReader implements IReader
                 case "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties":
                     $xmlCore = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}"));
                     if (is_object($xmlCore)) {
-                        $docProps = $word->getProperties();
+                        $docProps = $word->getDocumentProperties();
                         if (isset($xmlCore->Company)) {
                             $docProps->setCompany((string)$xmlCore->Company);
                         }
@@ -165,7 +164,7 @@ class Word2007 extends AbstractReader implements IReader
                 case "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties":
                     $xmlCore = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}"));
                     if (is_object($xmlCore)) {
-                        $docProps = $word->getProperties();
+                        $docProps = $word->getDocumentProperties();
                         foreach ($xmlCore as $xmlProperty) {
                             $cellDataOfficeAttributes = $xmlProperty->attributes();
                             if (isset($cellDataOfficeAttributes['name'])) {
@@ -276,7 +275,7 @@ class Word2007 extends AbstractReader implements IReader
      * @param SimpleXMLElement $elm
      * @return array|string|null
      *
-     * @todo    Implement gutter
+     * @todo Implement gutter
      */
     private function loadSectionSettings($elm)
     {
@@ -443,8 +442,6 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
-     * Get array item
-     *
      * @param array $array
      * @param mixed $key
      * @return mixed|null

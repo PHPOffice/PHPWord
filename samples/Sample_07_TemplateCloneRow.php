@@ -2,13 +2,13 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+require_once '../Classes/PhpWord.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PHPWord object" , EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s') , " Create new PhpWord object" , EOL;
+$phpWord = new PhpOffice\PhpWord();
 
-$document = $PHPWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
+$document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
 
 // Simple table
 $document->cloneRow('rowValue', 10);

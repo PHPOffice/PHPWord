@@ -1,8 +1,8 @@
 <?php
 /**
- * PHPWord
+ * PhpWord
  *
- * Copyright (c) 2014 PHPWord
+ * Copyright (c) 2014 PhpWord
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,15 +18,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PHPWord
- * @package    PHPWord
- * @copyright  Copyright (c) 2014 PHPWord
+ * @category   PhpWord
+ * @package    PhpWord
+ * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
@@ -48,9 +49,9 @@ use PhpOffice\PhpWord\TOC;
 class RTF implements IWriter
 {
     /**
-     * Private PHPWord
+     * Private PhpWord
      *
-     * @var PHPWord
+     * @var PhpOffice\PhpWord
      */
     private $_document;
 
@@ -66,22 +67,22 @@ class RTF implements IWriter
     private $_lastParagraphStyle;
 
     /**
-     * @param PHPWord $phpWord
+     * @param PhpOffice\PhpWord $phpWord
      */
-    public function __construct(PHPWord $phpWord = null)
+    public function __construct(PhpWord $phpWord = null)
     {
-        // Assign PHPWord
-        $this->setPHPWord($phpWord);
+        // Assign PhpWord
+        $this->setPhpWord($phpWord);
 
         // Set HashTable variables
         $this->_drawingHashTable = new HashTable();
     }
 
     /**
-     * Save PHPWord to file
+     * Save PhpWord to file
      *
-     * @param    string $pFileName
-     * @throws    Exception
+     * @param string $pFileName
+     * @throws \Exception
      */
     public function save($pFilename = null)
     {
@@ -102,37 +103,35 @@ class RTF implements IWriter
             // If a temporary file was used, copy it to the correct file stream
             if ($originalFilename != $pFilename) {
                 if (copy($pFilename, $originalFilename) === false) {
-                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
+                    throw new \Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
                 }
                 @unlink($pFilename);
             }
 
         } else {
-            throw new Exception("PHPWord object unassigned.");
+            throw new \Exception("PhpWord object unassigned.");
         }
     }
 
     /**
-     * Get PHPWord object
-     *
-     * @return PHPWord
-     * @throws Exception
+     * @return PhpOffice\PhpWord
+     * @throws \Exception
      */
-    public function getPHPWord()
+    public function getPhpWord()
     {
         if (!is_null($this->_document)) {
             return $this->_document;
         } else {
-            throw new Exception("No PHPWord assigned.");
+            throw new \Exception("No PhpWord assigned.");
         }
     }
 
     /**
-     * @param PHPWord $phpWord PHPWord object
-     * @throws Exception
+     * @param PhpOffice\PhpWord $phpWord
+     * @throws \Exception
      * @return PhpOffice\PhpWord\Writer\RTF
      */
-    public function setPHPWord(PHPWord $phpWord = null)
+    public function setPhpWord(PhpWord $phpWord = null)
     {
         $this->_document = $phpWord;
         return $this;
@@ -150,7 +149,7 @@ class RTF implements IWriter
 
     private function getData()
     {
-        // PHPWord object : $this->_document
+        // PhpWord object : $this->_document
         $this->_fontTable = $this->getDataFont();
         $this->_colorTable = $this->getDataColor();
 
@@ -176,7 +175,7 @@ class RTF implements IWriter
         }
         $sRTFContent .= ';}' . PHP_EOL;
         // Set the generator
-        $sRTFContent .= '{\*\generator PHPWord;}' . PHP_EOL;
+        $sRTFContent .= '{\*\generator PhpWord;}' . PHP_EOL;
         // Set the view mode of the document
         $sRTFContent .= '\viewkind4';
         // Set the numberof bytes that follows a unicode character
@@ -190,7 +189,7 @@ class RTF implements IWriter
         // Point size (in half-points) above which to kern character pairs
         $sRTFContent .= '\kerning1';
         // Set the font size in half-points
-        $sRTFContent .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
+        $sRTFContent .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
         $sRTFContent .= PHP_EOL;
         // Body
         $sRTFContent .= $this->getDataContent();
@@ -206,9 +205,9 @@ class RTF implements IWriter
         $phpWord = $this->_document;
 
         $arrFonts = array();
-        // Default font : PHPWord::DEFAULT_FONT_NAME
-        $arrFonts[] = PHPWord::DEFAULT_FONT_NAME;
-        // PHPWord object : $this->_document
+        // Default font : PhpWord::DEFAULT_FONT_NAME
+        $arrFonts[] = PhpWord::DEFAULT_FONT_NAME;
+        // PhpWord object : $this->_document
 
         // Browse styles
         $styles = Style::getStyles();
@@ -256,7 +255,7 @@ class RTF implements IWriter
         $phpWord = $this->_document;
 
         $arrColors = array();
-        // PHPWord object : $this->_document
+        // PhpWord object : $this->_document
 
         // Browse styles
         $styles = Style::getStyles();
@@ -267,10 +266,10 @@ class RTF implements IWriter
                 if ($style instanceof Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (in_array($color, $arrColors) == false && $color != PHPWord::DEFAULT_FONT_COLOR && !empty($color)) {
+                    if (in_array($color, $arrColors) == false && $color != PhpWord::DEFAULT_FONT_COLOR && !empty($color)) {
                         $arrColors[] = $color;
                     }
-                    if (in_array($fgcolor, $arrColors) == false && $fgcolor != PHPWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
+                    if (in_array($fgcolor, $arrColors) == false && $fgcolor != PhpWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
                         $arrColors[] = $fgcolor;
                     }
                 }
@@ -353,9 +352,6 @@ class RTF implements IWriter
         return $sRTFBody;
     }
 
-    /**
-     * Get text
-     */
     private function getDataContentText(Text $text, $withoutP = false)
     {
         $sRTFText = '';
@@ -434,7 +430,7 @@ class RTF implements IWriter
                 $sRTFText .= '\i0';
             }
             if ($styleFont->getSize()) {
-                $sRTFText .= '\fs' . (PHPWord::DEFAULT_FONT_SIZE * 2);
+                $sRTFText .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
             }
         }
 
@@ -444,9 +440,6 @@ class RTF implements IWriter
         return $sRTFText;
     }
 
-    /**
-     * Get text run content
-     */
     private function getDataContentTextRun(TextRun $textrun)
     {
         $sRTFText = '';

@@ -1,10 +1,10 @@
 <?php
-namespace PHPWord\Tests\Shared;
+namespace PhpWord\Tests\Shared;
 
 use PhpOffice\PhpWord\Shared\String;
 
 /**
- * @package                     PHPWord\Tests
+ * @package                     PhpWord\Tests
  * @coversDefaultClass          PhpOffice\PhpWord\Shared\String
  * @runTestsInSeparateProcesses
  */
