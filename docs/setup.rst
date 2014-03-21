@@ -33,7 +33,7 @@ Using Composer
 To install via Composer, add the following lines to your
 ``composer.json``:
 
-.. code:: json
+.. code-block:: json
 
     {
         "require": {
@@ -49,7 +49,7 @@ github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
 Extract the package and put the contents to your machine. To use the
 library, include ``Classes/PHPWord.php`` in your script like below.
 
-.. code:: php
+.. code-block:: php
 
     require_once '/path/to/PHPWord/Classes/PHPWord.php';
 
