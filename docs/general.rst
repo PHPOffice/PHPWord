@@ -9,7 +9,7 @@ Basic example
 The following is a basic example of the PHPWord library. More examples
 are provided in the `samples folder <samples/>`__.
 
-.. code:: php
+.. code-block:: php
 
     $PHPWord = new PHPWord();
 
@@ -49,7 +49,7 @@ Default font
 By default, every text appears in Arial 10 point. You can alter the
 default font by using the following two functions:
 
-.. code:: php
+.. code-block:: php
 
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
@@ -60,7 +60,7 @@ Document properties
 You can set the document properties such as title, creator, and company
 name. Use the following functions:
 
-.. code:: php
+.. code-block:: php
 
     $properties = $PHPWord->getProperties();
     $properties->setCreator('My name');
@@ -83,7 +83,7 @@ of an Inch Point", i.e. 1 twip = 1/1440 inch.
 You can use PHPWord helper functions to convert inches, centimeters, or
 points to twips.
 
-.. code:: php
+.. code-block:: php
 
     // Paragraph with 6 points space after
     $phpWord->addParagraphStyle('My Style', array(
