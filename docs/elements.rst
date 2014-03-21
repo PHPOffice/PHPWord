@@ -13,7 +13,7 @@ complex paragraphs that contain text with different style (some bold,
 other italics, etc) or other elements, e.g. images or links. The
 syntaxes are as follow:
 
-.. code:: php
+.. code-block:: php
 
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->createTextRun([$paragraphStyle]);
@@ -28,7 +28,7 @@ style definition.
 
 Inline style examples:
 
-.. code:: php
+.. code-block:: php
 
     $fontStyle = array('name' => 'Times New Roman', 'size' => 9);
     $paragraphStyle = array('align' => 'both');
@@ -41,7 +41,7 @@ Inline style examples:
 
 Defined style examples:
 
-.. code:: php
+.. code-block:: php
 
     $fontStyle = array('color' => '006699', 'size' => 18, 'bold' => true);
     $PHPWord->addFontStyle('fStyle', $fontStyle);
@@ -95,7 +95,7 @@ If you want to structure your document or build table of contents, you
 need titles or headings. To add a title to the document, use the
 ``addTitleStyle`` and ``addTitle`` method.
 
-.. code:: php
+.. code-block:: php
 
     $PHPWord->addTitleStyle($depth, [$fontStyle], [$paragraphStyle]);
     $section->addTitle($text, [$depth]);
@@ -108,7 +108,7 @@ Links
 
 You can add Hyperlinks to the document by using the function addLink:
 
-.. code:: php
+.. code-block:: php
 
     $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle]);
 
@@ -123,7 +123,7 @@ Preserve texts
 The ``addPreserveText`` method is used to add a page number or page
 count to headers or footers.
 
-.. code:: php
+.. code-block:: php
 
     $footer->addPreserveText('Page {PAGE} of {NUMPAGES}.');
 
@@ -136,7 +136,7 @@ Text breaks
 Text breaks are empty new lines. To add text breaks, use the following
 syntax. All paramaters are optional.
 
-.. code:: php
+.. code-block:: php
 
     $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 
@@ -150,7 +150,7 @@ Page breaks
 There are two ways to insert a page breaks, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-::
+:: code-block:: php
 
     $section->addPageBreak();
 
@@ -159,7 +159,7 @@ Lists
 
 To add a list item use the function ``addListItem``.
 
-.. code:: php
+.. code-block:: php
 
     $section->addListItem($text, [$depth], [$fontStyle], [$listStyle], [$paragraphStyle]);
 
@@ -177,7 +177,7 @@ Tables
 To add tables, rows, and cells, use the ``addTable``, ``addRow``, and
 ``addCell`` methods:
 
-.. code:: php
+.. code-block:: php
 
     $table = $section->addTable([$tableStyle]);
     $table->addRow([$height], [$rowStyle]);
@@ -185,7 +185,7 @@ To add tables, rows, and cells, use the ``addTable``, ``addRow``, and
 
 Table style can be defined with ``addTableStyle``:
 
-.. code:: php
+.. code-block:: php
 
     $tableStyle = array(
         'borderColor' => '006699',
@@ -229,7 +229,7 @@ Cell span
 You can span a cell on multiple columns by using ``gridSpan`` or
 multiple rows by using ``vMerge``.
 
-.. code:: php
+.. code-block:: php
 
     $cell = $table->addCell(200);
     $cell->getStyle()->setGridSpan(5);
@@ -246,14 +246,14 @@ image or an image on the internet.
 
 Syntax:
 
-.. code:: php
+.. code-block:: php
 
     $section->addImage($src, [$style]);
     $section->addMemoryImage($link, [$style]);
 
 Examples:
 
-.. code:: php
+.. code-block:: php
 
     $section = $phpWord->createSection();
     $section->addImage(
@@ -290,7 +290,7 @@ To add a watermark (or page background image), your section needs a
 header reference. After creating a header, you can use the
 ``addWatermark`` method to add a watermark.
 
-.. code:: php
+.. code-block:: php
 
     $section = $PHPWord->createSection();
     $header = $section->createHeader();
@@ -302,7 +302,7 @@ Objects
 You can add OLE embeddings, such as Excel spreadsheets or PowerPoint
 presentations to the document by using ``addObject`` method.
 
-.. code:: php
+.. code-block:: php
 
     $section->addObject($src, [$style]);
 
@@ -313,7 +313,7 @@ To add a table of contents (TOC), you can use the ``addTOC`` method.
 Your TOC can only be generated if you have add at least one title (See
 "Titles").
 
-.. code:: php
+.. code-block:: php
 
     $section->addTOC([$fontStyle], [$tocStyle]);
 
@@ -331,7 +331,7 @@ use textrun to have better layout.
 
 On textrun:
 
-.. code:: php
+.. code-block:: php
 
     $textrun = $section->createTextRun();
     $textrun->addText('Lead text.');
@@ -341,7 +341,7 @@ On textrun:
 
 On text:
 
-.. code:: php
+.. code-block:: php
 
     $section->addText('Lead text.');
     $footnote = $section->createFootnote();
