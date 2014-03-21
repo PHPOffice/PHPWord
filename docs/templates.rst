@@ -13,7 +13,7 @@ a loaded template file.
 
 Example:
 
-.. code:: php
+.. code-block:: php
 
     $template = $PHPWord->loadTemplate('Template.docx');
     $template->setValue('Name', 'Somebody someone');
