@@ -14,14 +14,14 @@ Sections
 Every visible element in word is placed inside of a section. To create a
 section, use the following code:
 
-.. code:: php
+.. code-block:: php
 
     $section = $phpWord->createSection($sectionSettings);
 
 The ``$sectionSettings`` is an optional associative array that sets the
 section. Example:
 
-.. code:: php
+.. code-block:: php
 
     $sectionSettings = array(
         'orientation' => 'landscape',
@@ -67,7 +67,7 @@ Page number
 You can change a section page number by using the ``pageNumberingStart``
 property of the section.
 
-.. code:: php
+.. code-block:: php
 
     // Method 1
     $section = $phpWord->createSection(array('pageNumberingStart' => 1));
@@ -82,7 +82,7 @@ Multicolumn
 You can change a section layout to multicolumn (like in a newspaper) by
 using the ``breakType`` and ``colsNum`` property of the section.
 
-.. code:: php
+.. code-block:: php
 
     // Method 1
     $section = $phpWord->createSection(array('breakType' => 'continuous', 'colsNum' => 2));
@@ -98,7 +98,7 @@ Headers
 Each section can have its own header reference. To create a header use
 the ``createHeader`` method:
 
-.. code:: php
+.. code-block:: php
 
     $header = $section->createHeader();
 
@@ -113,7 +113,7 @@ Footers
 Each section can have its own footer reference. To create a footer, use
 the ``createFooter`` method:
 
-.. code:: php
+.. code-block:: php
 
     $footer = $section->createFooter();
 
