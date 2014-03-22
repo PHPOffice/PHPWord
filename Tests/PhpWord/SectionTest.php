@@ -76,11 +76,11 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $objectSource = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $imageSource = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'PhpWord.png')
         );
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 

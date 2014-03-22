@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007;
 use PhpWord\Tests\TestHelperDOCX;
 
@@ -67,7 +67,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $writer = new Word2007($phpWord);
         $file = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'temp.docx')
         );
         $writer->save($file);
         $this->assertTrue(file_exists($file));
@@ -90,7 +90,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         foreach ($images as $source => $target) {
-            $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/{$source}");
+            $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/{$source}");
         }
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -98,7 +98,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
 
         foreach ($images as $source => $target) {
             $this->assertFileEquals(
-                PHPWORD_TESTS_DIR_ROOT . "/_files/images/{$source}",
+                \PHPWORD_TESTS_BASE_DIR . "/_files/images/{$source}",
                 $mediaPath . "/section_image{$target}"
             );
         }
@@ -111,7 +111,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     public function testSetGetUseDiskCaching()
     {
         $object = new Word2007();
-        $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
+        $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
 
         $this->assertTrue($object->getUseDiskCaching());
     }
@@ -124,7 +124,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $dir = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
+            array(\PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
         $object = new Word2007();

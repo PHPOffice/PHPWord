@@ -9,7 +9,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oObject = new Object($src);
 
@@ -22,7 +22,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'xsl', 'passthrough.xsl')
         );
         $oObject = new Object($src);
 
@@ -35,7 +35,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oObject = new Object($src, array('width' => '230px'));
 
@@ -48,7 +48,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oObject = new Object($src);
 
@@ -61,7 +61,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oObject = new Object($src);
 
@@ -74,7 +74,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oObject = new Object($src);
 

@@ -91,7 +91,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
         $oCell = new Cell('section', 1);
         $element = $oCell->addImage($src);
@@ -104,7 +104,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
         $oCell = new Cell('header', 1);
         $element = $oCell->addImage($src);
@@ -117,7 +117,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
         $oCell = new Cell('footer', 1);
         $element = $oCell->addImage($src);
@@ -163,7 +163,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $oCell = new Cell('section', 1);
         $element = $oCell->addObject($src);

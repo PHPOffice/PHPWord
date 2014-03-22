@@ -42,12 +42,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testAddSectionMediaElement()
     {
         $section = new Section(0);
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp");
-        $section->addImage(PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mars_noext_jpg");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mars.jpg");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mario.gif");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/firefox.png");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/duke_nukem.bmp");
+        $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/_files/images/angela_merkel.tif");
 
         $elements = $section->getElements();
         $this->assertEquals(6, count($elements));

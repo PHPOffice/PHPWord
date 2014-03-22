@@ -6,7 +6,7 @@
 // Init
 error_reporting(E_ALL);
 define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PhpWord.php';
+require_once '../src/PhpWord.php';
 
 // New Word document
 echo date('H:i:s'), " Create new PhpWord object", EOL;

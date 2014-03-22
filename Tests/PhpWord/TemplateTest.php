@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Template;
 
 /**
@@ -17,7 +17,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $templateFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'with_table_macros.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'with_table_macros.docx')
         );
 
         $document = new Template($templateFqfn);
@@ -25,7 +25,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $xslDOMDocument->load(
             \join(
                 \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'remove_tables_by_needle.xsl')
+                array(\PHPWORD_TESTS_BASE_DIR, '_files', 'xsl', 'remove_tables_by_needle.xsl')
             )
         );
         foreach (array('${employee.', '${scoreboard.') as $needle) {
@@ -65,7 +65,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $expectedDocumentFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'without_table_macros.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'without_table_macros.docx')
         );
 
         $actualDocumentZip = new \ZipArchive();
@@ -96,7 +96,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $template = new Template(
             \join(
                 \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx')
+                array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'blank.docx')
             )
         );
 
@@ -104,7 +104,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $xslDOMDocument->load(
             \join(
                 \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
+                array(\PHPWORD_TESTS_BASE_DIR, '_files', 'xsl', 'passthrough.xsl')
             )
         );
 
@@ -126,7 +126,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $template = new Template(
             \join(
                 \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'corrupted_main_document_part.docx')
+                array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'corrupted_main_document_part.docx')
             )
         );
 
@@ -134,7 +134,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $xslDOMDocument->load(
             \join(
                 \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'xsl', 'passthrough.xsl')
+                array(\PHPWORD_TESTS_BASE_DIR, '_files', 'xsl', 'passthrough.xsl')
             )
         );
 
@@ -155,7 +155,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'clone-row.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'clone-row.docx')
         );
         $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
         $docName = 'clone-test-result.docx';

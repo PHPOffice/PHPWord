@@ -26,7 +26,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $dir = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents')
         );
         $object = new Word2007;
         $file = $dir . DIRECTORY_SEPARATOR . 'reader.docx';
@@ -42,7 +42,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $dir = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents')
         );
         $object = new Word2007;
         $file = $dir . DIRECTORY_SEPARATOR . 'foo.docx';
@@ -57,10 +57,10 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $dir = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents')
         );
         $file = $dir . DIRECTORY_SEPARATOR . 'reader.docx';
         $object = IOFactory::load($file);
-        $this->assertInstanceOf('PhpOffice\\PhpWord', $object);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object);
     }
 }

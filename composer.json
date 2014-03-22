@@ -39,8 +39,8 @@
         "ext-xsl": "*"
     },
     "autoload": {
-        "psr-0": {
-            "PhpWord": "Classes/"
+        "psr-4": {
+            "PhpOffice\\PhpWord\\": "src/"
         }
     }
 }

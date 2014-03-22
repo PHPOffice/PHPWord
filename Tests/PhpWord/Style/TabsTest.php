@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Tab;
 use PhpWord\Tests\TestHelperDOCX;
 

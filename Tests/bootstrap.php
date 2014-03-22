@@ -1,15 +1,14 @@
 <?php
+\date_default_timezone_set('UTC');
 
-date_default_timezone_set('UTC');
-
-// Constantes
-if (!defined('PHPWORD_TESTS_DIR_ROOT')) {
-    define('PHPWORD_TESTS_DIR_ROOT', __DIR__);
+// defining base dir for tests
+if (!\defined('PHPWORD_TESTS_BASE_DIR')) {
+    \define('PHPWORD_TESTS_BASE_DIR', __DIR__);
 }
 
-// Includes
-require_once __DIR__ . '/../Classes/PhpWord/Autoloader.php';
-PHPWord_Autoloader::Register();
+// loading classes with PSR-4 autoloader
+require_once __DIR__ . '/../src/Autoloader.php';
+PhpOffice\PhpWord\Autoloader::register();
 
 require_once __DIR__ . '/_inc/TestHelperDOCX.php';
 require_once __DIR__ . '/_inc/XmlDocument.php';

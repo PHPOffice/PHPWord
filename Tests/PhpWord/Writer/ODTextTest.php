@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\ODText;
 
 /**
@@ -18,7 +18,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $object = new ODText(new PhpWord());
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord', $object->getPhpWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
 
         $this->assertEquals('./', $object->getDiskCachingDirectory());
@@ -52,15 +52,15 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'PhpWord.png')
         );
         $objectSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $file = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.odt')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'temp.odt')
         );
 
         $phpWord = new PhpWord();
@@ -129,9 +129,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     public function testSetGetUseDiskCaching()
     {
         $object = new ODText();
-        $object->setUseDiskCaching(true, PHPWORD_TESTS_DIR_ROOT);
+        $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
         $this->assertTrue($object->getUseDiskCaching());
-        $this->assertEquals(PHPWORD_TESTS_DIR_ROOT, $object->getDiskCachingDirectory());
+        $this->assertEquals(\PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
     }
 
     /**
@@ -142,7 +142,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $dir = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, 'foo')
+            array(\PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
         $object = new ODText($phpWord);

@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Shared;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Font;
 
 /**

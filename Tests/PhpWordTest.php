@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
@@ -133,7 +133,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $templateFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blank.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'blank.docx')
         );
         $phpWord = new PhpWord();
         $this->assertInstanceOf(
@@ -150,7 +150,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $templateFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'templates', 'blanks.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates', 'blanks.docx')
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);

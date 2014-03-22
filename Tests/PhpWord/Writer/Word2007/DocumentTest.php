@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer\Word2007;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -41,7 +41,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $objectSrc = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
 
         $phpWord = new PhpWord();

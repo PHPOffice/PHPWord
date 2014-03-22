@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer\Word2007;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $aStyle = array('align' => 'justify', 'spaceBefore' => 120, 'spaceAfter' => 120);
         $imageSrc = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
 
         $phpWord = new PhpWord();
@@ -298,7 +298,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $section->addImage(
-            PHPWORD_TESTS_DIR_ROOT . '/_files/images/earth.jpg',
+            \PHPWORD_TESTS_BASE_DIR . '/_files/images/earth.jpg',
             array(
                 'marginTop' => -1,
                 'marginLeft' => -1,
@@ -322,7 +322,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
 
         $phpWord = new PhpWord();

@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 /**

@@ -9,7 +9,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'firefox.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'firefox.png')
         );
         $oMemoryImage = new MemoryImage($src);
 
@@ -26,7 +26,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'mario.gif')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'mario.gif')
         );
         $oMemoryImage = new MemoryImage($src);
 
@@ -43,7 +43,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
         $oMemoryImage = new MemoryImage($src);
 
@@ -60,7 +60,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'duke_nukem.bmp')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'duke_nukem.bmp')
         ));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
@@ -74,7 +74,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         ), array('width' => 210, 'height' => 210, 'align' => 'center'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oMemoryImage->getStyle());
@@ -84,7 +84,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
     {
         $oMemoryImage = new MemoryImage(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         ));
 
         $iVal = rand(1, 1000);

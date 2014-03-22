@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\RTF;
 
 /**
@@ -18,7 +18,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     {
         $object = new RTF(new PhpWord);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord', $object->getPhpWord());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
     }
 
@@ -65,15 +65,15 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'PhpWord.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'PhpWord.png')
         );
         $objectSrc = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'documents', 'sheet.xls')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $file = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'temp.rtf')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'temp.rtf')
         );
 
         $phpWord = new PhpWord();

@@ -9,13 +9,13 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="PhpWord Unit Test Suite">
+        <testsuite name="PhpWord Test Suite">
             <directory>./Tests/PhpWord/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">./Classes</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 </phpunit>

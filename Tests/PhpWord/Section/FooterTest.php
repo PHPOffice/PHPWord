@@ -74,7 +74,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
         $oFooter = new Footer(1);
         $element = $oFooter->addImage($src);

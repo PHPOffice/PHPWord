@@ -12,7 +12,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'firefox.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'firefox.png')
         );
         $oImage = new Image($src);
 
@@ -27,7 +27,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $src = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'firefox.png')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'firefox.png')
         );
         $oImage = new Image(
             $src,
@@ -43,12 +43,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidImageTypes()
     {
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars_noext_jpg");
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mars.jpg");
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/mario.gif");
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/firefox.png");
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/duke_nukem.bmp");
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/angela_merkel.tif");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mars_noext_jpg");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mars.jpg");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/mario.gif");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/firefox.png");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/duke_nukem.bmp");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/angela_merkel.tif");
     }
 
     /**
@@ -57,7 +57,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testImageNotFound()
     {
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/thisisnotarealimage");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/thisisnotarealimage");
     }
 
     /**
@@ -66,14 +66,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidImageTypes()
     {
-        new Image(PHPWORD_TESTS_DIR_ROOT . "/_files/images/alexz-johnson.pcx");
+        new Image(\PHPWORD_TESTS_BASE_DIR . "/_files/images/alexz-johnson.pcx");
     }
 
     public function testStyle()
     {
         $oImage = new Image(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         ), array('width' => 210, 'height' => 210, 'align' => 'center'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
@@ -83,7 +83,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $oImage = new Image(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         ));
 
         $iVal = rand(1, 1000);
@@ -95,7 +95,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $oImage = new Image(\join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_DIR_ROOT, '_files', 'images', 'earth.jpg')
+            array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         ));
 
         $oImage->setIsWatermark(true);

@@ -1,7 +1,7 @@
 <?php
 namespace PhpWord\Tests\Writer\Word2007;
 
-use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
