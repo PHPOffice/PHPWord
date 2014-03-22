@@ -6,7 +6,7 @@ require_once '../src/PhpWord.php';
 
 // New Word document
 echo date('H:i:s') , " Create new PhpWord object" , EOL;
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $phpWord->setDefaultParagraphStyle(array(
     'align' => 'both',
     'spaceAfter' => PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(12),

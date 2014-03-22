@@ -6,7 +6,7 @@ require_once '../src/PhpWord.php';
 
 // New Word Document
 echo date('H:i:s') , " Create new PhpWord object" , EOL;
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $filler = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' .
     'Nulla fermentum, tortor id adipiscing adipiscing, tortor turpis commodo. ' .
     'Donec vulputate iaculis metus, vel luctus dolor hendrerit ac. ' .

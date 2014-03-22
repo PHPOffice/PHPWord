@@ -6,7 +6,7 @@ require_once '../src/PhpWord.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->createSection();
 $header = array('size' => 16, 'bold' => true);
 //1.Use EastAisa FontStyle

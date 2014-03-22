@@ -10,7 +10,7 @@ require_once '../src/PhpWord.php';
 
 // New Word document
 echo date('H:i:s'), " Create new PhpWord object", EOL;
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->createSection();

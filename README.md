@@ -82,7 +82,7 @@ We're reorganizing our documentation. Below are some of the most important thing
 The following is a basic example of the PhpWord library. More examples are provided in the [samples folder](samples/).
 
 ```php
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
 // To create a basic section:

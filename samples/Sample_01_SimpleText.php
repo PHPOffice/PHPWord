@@ -6,7 +6,7 @@ require_once '../src/PhpWord.php';
 
 // New Word Document
 echo date('H:i:s') , " Create new PhpWord object" , EOL;
-$phpWord = new PhpOffice\PhpWord();
+$phpWord = new PhpOffice\PhpWord\PhpWord();
 $phpWord->addFontStyle('rStyle', array('bold' => true, 'italic' => true, 'size' => 16));
 $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'spaceAfter' => 100));
 $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
