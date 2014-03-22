@@ -78,6 +78,8 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
                         $this->_writeTextRun($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Link) {
                         $this->_writeLink($objWriter, $element);
+						 } elseif ($element instanceof PHPWord_Section_CheckBox) {
+							  $this->_writeCheckbox($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_Title) {
                         $this->_writeTitle($objWriter, $element);
                     } elseif ($element instanceof PHPWord_Section_TextBreak) {
@@ -270,11 +272,11 @@ class PHPWord_Writer_Word2007_Document extends PHPWord_Writer_Word2007_Base
     private function _writePageBreak(PHPWord_Shared_XMLWriter $objWriter = null)
     {
         $objWriter->startElement('w:p');
-        $objWriter->startElement('w:r');
-        $objWriter->startElement('w:br');
-        $objWriter->writeAttribute('w:type', 'page');
-        $objWriter->endElement();
-        $objWriter->endElement();
+        	$objWriter->startElement('w:r');
+        		$objWriter->startElement('w:br');
+        			$objWriter->writeAttribute('w:type', 'page');
+        		$objWriter->endElement();
+        	$objWriter->endElement();
         $objWriter->endElement();
     }
 

@@ -127,6 +127,26 @@ class PHPWord_Section
     }
 
     /**
+     * Add a CheckBox Element
+     *
+     * @param string $text
+     * @param mixed $style
+     * @return PHPWord_Section_CheckBox
+     */
+    public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
+    {
+        if (!PHPWord_Shared_String::IsUTF8($name)) {
+            $name = utf8_encode($name);
+        }
+        if (!PHPWord_Shared_String::IsUTF8($text)) {
+            $text = utf8_encode($text);
+        }
+        $text = new PHPWord_Section_CheckBox($name, $text, $styleFont, $styleParagraph);
+        $this->_elementCollection[] = $text;
+        return $text;
+    }
+
+    /**
      * Add a Link Element
      *
      * @param string $linkSrc
