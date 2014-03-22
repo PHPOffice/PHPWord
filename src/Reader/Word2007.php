@@ -55,7 +55,7 @@ class Word2007 extends AbstractReader implements IReader
 
         $return = false;
         // Load file
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
         if ($zip->open($pFilename) === true) {
             // check if it is an OOXML archive
             $rels = simplexml_load_string($this->getFromZipArchive($zip, "_rels/.rels"));
@@ -120,7 +120,7 @@ class Word2007 extends AbstractReader implements IReader
 
         // Initialisations
         $word = new PhpWord();
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
         $zip->open($pFilename);
 
         // Read properties and documents

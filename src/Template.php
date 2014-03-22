@@ -35,7 +35,7 @@ class Template
     /**
      * ZipArchive
      *
-     * @var ZipArchive
+     * @var \ZipArchive
      */
     private $_objZip;
 
@@ -72,7 +72,7 @@ class Template
             throw new Exception("Could not copy the template from {$strFilename} to {$this->_tempFileName}.");
         }
 
-        $this->_objZip = new ZipArchive();
+        $this->_objZip = new \ZipArchive();
         $this->_objZip->open($this->_tempFileName);
 
         $this->_documentXML = $this->_objZip->getFromName('word/document.xml');

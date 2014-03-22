@@ -99,7 +99,7 @@ class ZipStreamWrapper
         }
 
         // Open archive
-        $this->_archive = new ZipArchive();
+        $this->_archive = new \ZipArchive();
         $this->_archive->open($url['host']);
 
         $this->_fileNameInArchive = $url['fragment'];

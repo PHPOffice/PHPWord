@@ -115,17 +115,17 @@ class ODText implements IWriter
             // Create drawing dictionary
 
             // Create new ZIP file and open it for writing
-            $objZip = new ZipArchive();
+            $objZip = new \ZipArchive();
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, ZIPARCHIVE::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, ZIPARCHIVE::CREATE) !== true) {
+            if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
+                if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
                     throw new \Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
 
             // Add mimetype to ZIP file
-            //@todo Not in ZIPARCHIVE::CM_STORE mode
+            //@todo Not in \ZipArchive::CM_STORE mode
             $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->_document));
 
             // Add content.xml to ZIP file
@@ -151,7 +151,7 @@ class ODText implements IWriter
                         $imagePath = substr($imagePath, 6);
                         $imagePathSplitted = explode('#', $imagePath);
 
-                        $imageZip = new ZipArchive();
+                        $imageZip = new \ZipArchive();
                         $imageZip->open($imagePathSplitted[0]);
                         $imageContents = $imageZip->getFromName($imagePathSplitted[1]);
                         $imageZip->close();

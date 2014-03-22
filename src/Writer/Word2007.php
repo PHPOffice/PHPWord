@@ -86,11 +86,11 @@ class Word2007 implements IWriter
             }
 
             // Create new ZIP file and open it for writing
-            $objZip = new ZipArchive();
+            $objZip = new \ZipArchive();
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, ZIPARCHIVE::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, ZIPARCHIVE::CREATE) !== true) {
+            if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
+                if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
                     throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
