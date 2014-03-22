@@ -7,7 +7,7 @@ Basic example
 -------------
 
 The following is a basic example of the PHPWord library. More examples
-are provided in the `samples folder <samples/>`__.
+are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
 .. code-block:: php
 

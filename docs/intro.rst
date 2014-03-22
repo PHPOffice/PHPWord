@@ -16,7 +16,7 @@ No Windows operating system is needed for usage because the resulting
 DOCX, ODT, or RTF files can be opened by all major `word processing
 softwares <http://en.wikipedia.org/wiki/List_of_word_processors>`__.
 
-PHPWord is an open source project licensed under `LGPL <license.md>`__.
+PHPWord is an open source project licensed under LGPL.
 PHPWord is `unit tested <https://travis-ci.org/PHPOffice/PHPWord>`__ to
 make sure that the released versions are stable.
 

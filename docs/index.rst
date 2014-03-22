@@ -35,4 +35,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. |PHPWord| image:: https://raw.github.com/PHPOffice/PHPWord/develop/docs/images/phpword.png
+.. |PHPWord| image:: images/phpword.png
