@@ -25,7 +25,7 @@
  * @version    0.8.0
  */
 
-namespace PhpOffice\PhpWord\Autoloader;
+namespace PhpOffice\PhpWord;
 
 if (!\defined('PHPWORD_BASE_DIR')) {
     \define('PHPWORD_BASE_DIR', \realpath(__DIR__) . \DIRECTORY_SEPARATOR);
