@@ -149,7 +149,13 @@ class PHPWord_Style_Font
      * @var string
      */
     private $_fgColor = null;
-
+	
+	/**
+     * Background color
+     *
+     * @var string
+     */
+    private $_bgColor = null;
     /**
      * Text line height
      *
@@ -464,6 +470,28 @@ class PHPWord_Style_Font
     public function setFgColor($pValue = null)
     {
         $this->_fgColor = $pValue;
+        return $this;
+    }
+	
+	/**
+     * Get background color
+     *
+     * @return  string
+     */
+    public function getBgColor()
+    {
+        return $this->_bgColor;
+    }
+
+    /**
+     * Set background color
+     *
+     * @param   string $pValue
+     * @return  PHPWord_Style_Font
+     */
+    public function setBgColor($pValue = null)
+    {
+        $this->_bgColor = $pValue;
         return $this;
     }
 
