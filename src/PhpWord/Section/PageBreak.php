@@ -25,8 +25,14 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+/**
+ * Page break element
+ */
 class PageBreak
 {
+    /**
+     * Create new page break
+     */
     public function __construct()
     {
     }

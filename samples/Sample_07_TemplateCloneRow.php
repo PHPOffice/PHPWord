@@ -53,7 +53,7 @@ $document->setValue('userFirstName#3', 'Michael');
 $document->setValue('userName#3', 'Ray');
 $document->setValue('userPhone#3', '+1 428 889 775');
 
-$name = 'Sample_07_TemplateCloneRow_result.docx';
+$name = 'Sample_07_TemplateCloneRow.docx';
 echo date('H:i:s'), " Write to Word2007 format", \EOL;
 $document->saveAs($name);
 rename($name, "results/{$name}");

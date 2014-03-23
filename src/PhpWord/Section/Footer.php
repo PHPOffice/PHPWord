@@ -30,6 +30,9 @@ use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Shared\String;
 
+/**
+ * Footer element
+ */
 class Footer
 {
     /**
@@ -55,6 +58,8 @@ class Footer
 
     /**
      * Create a new Footer
+     *
+     * @param int $sectionCount
      */
     public function __construct($sectionCount)
     {
@@ -96,6 +101,7 @@ class Footer
     /**
      * Create a new TextRun
      *
+     * @param mixed $styleParagraph
      * @return \PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)

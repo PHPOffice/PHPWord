@@ -38,6 +38,9 @@ use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Shared\String;
 
+/**
+ * Table cell element
+ */
 class Cell
 {
     /**
@@ -109,7 +112,8 @@ class Cell
      * Add a Text Element
      *
      * @param string $text
-     * @param mixed $style
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
      * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
@@ -261,7 +265,7 @@ class Cell
             }
 
             $iconSrc = __DIR__ . '/../../_staticDocParts/';
-            if (!file_exists($iconSrc . '_' . $ext . '.png')) {
+            if (!\file_exists($iconSrc . '_' . $ext . '.png')) {
                 $iconSrc = $iconSrc . '_default.png';
             } else {
                 $iconSrc .= '_' . $ext . '.png';
@@ -308,6 +312,7 @@ class Cell
     /**
      * Create a new TextRun
      *
+     * @param mixed $styleParagraph
      * @return \PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)

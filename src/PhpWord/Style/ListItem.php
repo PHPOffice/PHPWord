@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * List item style
+ */
 class ListItem
 {
     const TYPE_NUMBER = 7;

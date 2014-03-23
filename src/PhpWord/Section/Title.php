@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+/**
+ * Title element
+ */
 class Title
 {
     /**

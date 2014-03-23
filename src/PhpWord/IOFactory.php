@@ -27,9 +27,14 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 
+/**
+ * IO factory
+ */
 abstract class IOFactory
 {
     /**
+     * Create new writer
+     *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $name
      * @return \PhpOffice\PhpWord\Writer\IWriter
@@ -46,6 +51,8 @@ abstract class IOFactory
     }
 
     /**
+     * Create new reader
+     *
      * @param string $name
      * @return \PhpOffice\PhpWord\Reader\IReader
      * @throws \PhpOffice\PhpWord\Exceptions\Exception

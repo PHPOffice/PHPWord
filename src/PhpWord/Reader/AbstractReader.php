@@ -28,6 +28,8 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
+ * Reader abstract class
+ *
  * @codeCoverageIgnore Abstract class
  */
 abstract class AbstractReader implements IReader
@@ -79,7 +81,7 @@ abstract class AbstractReader implements IReader
     protected function openFile($pFilename)
     {
         // Check if file exists
-        if (!file_exists($pFilename) || !is_readable($pFilename)) {
+        if (!\file_exists($pFilename) || !is_readable($pFilename)) {
             throw new Exception("Could not open " . $pFilename . " for reading! File does not exist.");
         }
 

@@ -45,6 +45,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TOC;
 
+/**
+ * RTF writer
+ */
 class RTF implements IWriter
 {
     /**
@@ -61,11 +64,29 @@ class RTF implements IWriter
      */
     private $_drawingHashTable;
 
+    /**
+     * Color register
+     *
+     * @var array
+     */
     private $_colorTable;
+
+    /**
+     * Font register
+     *
+     * @var array
+     */
     private $_fontTable;
+
+    /**
+     * Last paragraph style
+     *
+     * @var mixed
+     */
     private $_lastParagraphStyle;
 
     /**
+     * Create new RTF writer
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
@@ -80,7 +101,7 @@ class RTF implements IWriter
     /**
      * Save PhpWord to file
      *
-     * @param string $pFileName
+     * @param string $pFilename
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function save($pFilename = null)
@@ -113,6 +134,8 @@ class RTF implements IWriter
     }
 
     /**
+     * Get PhpWord object
+     *
      * @return \PhpOffice\PhpWord\PhpWord
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
@@ -126,6 +149,8 @@ class RTF implements IWriter
     }
 
     /**
+     * Set PhpWord object
+     *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return \PhpOffice\PhpWord\Writer\RTF
      */
@@ -145,6 +170,11 @@ class RTF implements IWriter
         return $this->_drawingHashTable;
     }
 
+    /**
+     * Get all data
+     *
+     * @return string
+     */
     private function getData()
     {
         // PhpWord object : $this->_document
@@ -198,6 +228,11 @@ class RTF implements IWriter
         return $sRTFContent;
     }
 
+    /**
+     * Get all fonts
+     *
+     * @return array
+     */
     private function getDataFont()
     {
         $phpWord = $this->_document;
@@ -248,6 +283,11 @@ class RTF implements IWriter
         return $arrFonts;
     }
 
+    /**
+     * Get all colors
+     *
+     * @return array
+     */
     private function getDataColor()
     {
         $phpWord = $this->_document;
@@ -304,6 +344,11 @@ class RTF implements IWriter
         return $arrColors;
     }
 
+    /**
+     * Get content data
+     *
+     * @return string
+     */
     private function getDataContent()
     {
         $phpWord = $this->_document;
@@ -350,6 +395,12 @@ class RTF implements IWriter
         return $sRTFBody;
     }
 
+    /**
+     * Get text element content
+     *
+     * @param boolean $withoutP
+     * @return string
+     */
     private function getDataContentText(Text $text, $withoutP = false)
     {
         $sRTFText = '';
@@ -438,6 +489,11 @@ class RTF implements IWriter
         return $sRTFText;
     }
 
+    /**
+     * Get textrun content
+     *
+     * @return string
+     */
     private function getDataContentTextRun(TextRun $textrun)
     {
         $sRTFText = '';
@@ -456,6 +512,11 @@ class RTF implements IWriter
         return $sRTFText;
     }
 
+    /**
+     * Get text break content
+     *
+     * @return string
+     */
     private function getDataContentTextBreak()
     {
         $this->_lastParagraphStyle = '';
@@ -464,7 +525,7 @@ class RTF implements IWriter
     }
 
     /**
-     * Write unsupported element
+     * Get unsupported element content
      *
      * @param   string  $element
      */

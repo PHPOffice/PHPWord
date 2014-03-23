@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+/**
+ * Common drawing functions
+ */
 class Drawing
 {
     /**

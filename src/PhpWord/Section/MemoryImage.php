@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+/**
+ * Memory image element
+ */
 class MemoryImage
 {
     /**

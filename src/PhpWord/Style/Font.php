@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
+/**
+ * Font style
+ */
 class Font
 {
     const UNDERLINE_NONE = 'none';
@@ -72,6 +75,8 @@ class Font
     private $_type;
 
     /**
+     * Paragraph style
+     *
      * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $_paragraphStyle;
@@ -91,31 +96,43 @@ class Font
     private $_size = PhpWord::DEFAULT_FONT_SIZE;
 
     /**
+     * Bold
+     *
      * @var bool
      */
     private $_bold = false;
 
     /**
+     * Italic
+     *
      * @var bool
      */
     private $_italic = false;
 
     /**
+     * Superscript
+     *
      * @var bool
      */
     private $_superScript = false;
 
     /**
+     * Subscript
+     *
      * @var bool
      */
     private $_subScript = false;
 
     /**
+     * Undeline
+     *
      * @var string
      */
     private $_underline = self::UNDERLINE_NONE;
 
     /**
+     * Strikethrough
+     *
      * @var bool
      */
     private $_strikethrough = false;
@@ -149,6 +166,8 @@ class Font
     private $_hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
+     * Create new font style
+     *
      * @param string $type Type of font
      * @param array $paragraphStyle Paragraph styles definition
      */
@@ -188,6 +207,8 @@ class Font
     }
 
     /**
+     * Set style value
+     *
      * @param string $key
      * @param mixed $value
      */
@@ -251,6 +272,8 @@ class Font
     }
 
     /**
+     * Get bold
+     *
      * @return bool
      */
     public function getBold()
@@ -259,6 +282,8 @@ class Font
     }
 
     /**
+     * Set bold
+     *
      * @param  bool $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -272,6 +297,8 @@ class Font
     }
 
     /**
+     * Get italic
+     *
      * @return bool
      */
     public function getItalic()
@@ -280,6 +307,8 @@ class Font
     }
 
     /**
+     * Set italic
+     *
      * @param  bool $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -293,6 +322,8 @@ class Font
     }
 
     /**
+     * Get superscript
+     *
      * @return bool
      */
     public function getSuperScript()
@@ -301,6 +332,8 @@ class Font
     }
 
     /**
+     * Set superscript
+     *
      * @param  bool $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -315,6 +348,8 @@ class Font
     }
 
     /**
+     * Get subscript
+     *
      * @return bool
      */
     public function getSubScript()
@@ -323,6 +358,8 @@ class Font
     }
 
     /**
+     * Set subscript
+     *
      * @param  bool $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -337,6 +374,8 @@ class Font
     }
 
     /**
+     * Get underline
+     *
      * @return string
      */
     public function getUnderline()
@@ -345,6 +384,8 @@ class Font
     }
 
     /**
+     * Set underline
+     *
      * @param  string $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -358,6 +399,8 @@ class Font
     }
 
     /**
+     * Get strikethrough
+     *
      * @return bool
      */
     public function getStrikethrough()
@@ -366,6 +409,8 @@ class Font
     }
 
     /**
+     * Set strikethrough
+     *
      * @param  bool $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -389,6 +434,8 @@ class Font
     }
 
     /**
+     * Set font color
+     *
      * @param  string $pValue
      * @return \PhpOffice\PhpWord\Style\Font
      */
@@ -424,6 +471,8 @@ class Font
     }
 
     /**
+     * Get style type
+     *
      * @return string
      */
     public function getStyleType()
@@ -432,6 +481,8 @@ class Font
     }
 
     /**
+     * Get paragraph style
+     *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
@@ -440,6 +491,8 @@ class Font
     }
 
     /**
+     * Set lineheight
+     *
      * @param  int|float|string $lineHeight
      * @return $this
      * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException

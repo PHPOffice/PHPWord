@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord\Section;
 
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Footnote element
+ */
 class Footnote
 {
     /**
@@ -52,6 +55,8 @@ class Footnote
 
     /**
      * Create a new Footnote Element
+     *
+     * @param mixed $styleParagraph
      */
     public function __construct($styleParagraph = null)
     {
@@ -76,8 +81,8 @@ class Footnote
     /**
      * Add a Text Element
      *
-     * @var string $text
-     * @var mixed $styleFont
+     * @param string $text
+     * @param mixed $styleFont
      * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
@@ -118,6 +123,8 @@ class Footnote
     }
 
     /**
+     * Get paragraph style
+     *
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()

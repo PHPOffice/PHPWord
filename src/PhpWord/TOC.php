@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\Font;
 
+/**
+ * Table of contents
+ */
 class TOC
 {
     /**

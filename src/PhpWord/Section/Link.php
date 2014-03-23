@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Link element
+ */
 class Link
 {
     /**

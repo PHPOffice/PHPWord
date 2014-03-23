@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 
+/**
+ * Image element
+ */
 class Image
 {
     /**
@@ -72,7 +75,7 @@ class Image
     {
         $supportedImageTypes = array(\IMAGETYPE_JPEG, \IMAGETYPE_GIF, \IMAGETYPE_PNG, \IMAGETYPE_BMP, \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM);
 
-        if (!file_exists($src)) {
+        if (!\file_exists($src)) {
             throw new InvalidImageException;
         }
 

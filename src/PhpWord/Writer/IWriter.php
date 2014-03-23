@@ -25,12 +25,15 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+/**
+ * Writer interface
+ */
 interface IWriter
 {
     /**
      * Save PhpWord to file
      *
-     * @param string $pFileName
+     * @param string $pFilename
      */
     public function save($pFilename = null);
 }

@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Tabs style
+ */
 class Tabs
 {
     /**
@@ -37,6 +40,7 @@ class Tabs
     private $_tabs;
 
     /**
+     * Create new tab collection style
      *
      * @param array $tabs
      */
@@ -46,6 +50,8 @@ class Tabs
     }
 
     /**
+     * Return XML
+     *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter &$xmlWriter
      */
     public function toXml(XMLWriter &$xmlWriter = null)

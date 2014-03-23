@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
+/**
+ * Reader interface
+ */
 interface IReader
 {
     /**

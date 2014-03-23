@@ -28,6 +28,8 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
+ * Zip stream wrapper
+ *
  * @codeCoverageIgnore  Legacy from PHPExcel
  */
 class ZipStreamWrapper
@@ -77,7 +79,7 @@ class ZipStreamWrapper
      * @param string $options
      * @param string $opened_path
      */
-    public function stream_open($path, $mode, $options, &$opened_path)
+    public function streamOpen($path, $mode, $options, &$opened_path)
     {
         // Check for mode
         if ($mode{0} != 'r') {
@@ -117,7 +119,7 @@ class ZipStreamWrapper
     /**
      * Stat stream
      */
-    public function stream_stat()
+    public function streamStat()
     {
         return $this->_archive->statName($this->_fileNameInArchive);
     }
@@ -127,7 +129,7 @@ class ZipStreamWrapper
      *
      * @param int $count
      */
-    public function stream_read($count)
+    public function streamRead($count)
     {
         $ret = substr($this->_data, $this->_position, $count);
         $this->_position += strlen($ret);
@@ -137,7 +139,7 @@ class ZipStreamWrapper
     /**
      * Tell stream
      */
-    public function stream_tell()
+    public function streamTell()
     {
         return $this->_position;
     }
@@ -145,7 +147,7 @@ class ZipStreamWrapper
     /**
      * EOF stream
      */
-    public function stream_eof()
+    public function streamEof()
     {
         return $this->_position >= strlen($this->_data);
     }
@@ -156,7 +158,7 @@ class ZipStreamWrapper
      * @param int $offset
      * @param mixed $whence
      */
-    public function stream_seek($offset, $whence)
+    public function streamSeek($offset, $whence)
     {
         switch ($whence) {
             case \SEEK_SET:

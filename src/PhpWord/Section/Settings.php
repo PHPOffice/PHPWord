@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+/**
+ * Section settings
+ */
 class Settings
 {
     /**

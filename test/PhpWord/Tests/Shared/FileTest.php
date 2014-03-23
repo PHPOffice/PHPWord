@@ -16,7 +16,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $dir = __DIR__ . "/../_files/templates";
         chdir($dir);
-        $this->assertTrue(File::file_exists('blank.docx'));
+        $this->assertTrue(File::fileExists('blank.docx'));
     }
     /**
      * Test file_exists()
@@ -25,7 +25,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $dir = __DIR__ . "/../_files/templates";
         chdir($dir);
-        $this->assertFalse(File::file_exists('404.docx'));
+        $this->assertFalse(File::fileExists('404.docx'));
     }
 
     /**

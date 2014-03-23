@@ -66,7 +66,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $writer = new Word2007($phpWord);
         $file = __DIR__ . "/../_files/temp.docx";
         $writer->save($file);
-        $this->assertTrue(file_exists($file));
+        $this->assertTrue(\file_exists($file));
         unlink($file);
     }
 

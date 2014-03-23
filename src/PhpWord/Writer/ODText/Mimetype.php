@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
 
+/**
+ * ODText mimetype part writer
+ */
 class Mimetype extends WriterPart
 {
     /**

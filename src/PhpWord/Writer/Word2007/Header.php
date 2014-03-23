@@ -34,8 +34,16 @@ use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 header part writer
+ */
 class Header extends Base
 {
+    /**
+     * Write word/headerx.xml
+     *
+     * @param PhpOffice\PhpWord\Section\Header $header
+     */
     public function writeHeader(\PhpOffice\PhpWord\Section\Header $header)
     {
         // Create XML writer

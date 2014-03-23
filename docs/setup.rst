@@ -47,11 +47,13 @@ Manual install
 To install manually, `download PHPWord package from
 github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
 Extract the package and put the contents to your machine. To use the
-library, include ``src/PhpWord/PhpWord.php`` in your script like below.
+library, include ``src/PhpWord/Autoloader.php`` in your script and
+invoke ``Autoloader::register``.
 
 .. code-block:: php
 
-    require_once '/path/to/src/PhpWord/PhpWord.php';
+    require_once '/path/to/src/PhpWord/Autoloader.php';
+    PhpOffice\PhpWord\Autoloader::register();
 
 Using samples
 -------------

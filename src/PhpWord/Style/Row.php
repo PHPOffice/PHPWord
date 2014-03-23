@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * Table row style
+ */
 class Row
 {
     /**

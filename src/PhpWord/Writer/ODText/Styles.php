@@ -32,6 +32,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\TableFull;
 
+/**
+ * ODText styloes part writer
+ */
 class Styles extends WriterPart
 {
     /**

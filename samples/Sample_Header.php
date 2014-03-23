@@ -5,7 +5,10 @@
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
-require_once '../src/PhpWord/PhpWord.php';
+
+require_once '../src/PhpWord/Autoloader.php';
+PhpOffice\PhpWord\Autoloader::register();
+
 // Return to the caller script when runs by CLI
 if (CLI) {
     return;

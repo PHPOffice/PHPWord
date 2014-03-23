@@ -28,8 +28,16 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 footnotes rel part writer
+ */
 class FootnotesRels extends WriterPart
 {
+    /**
+     * Write word/_rels/footnotes.xml.rels
+     *
+     * @param mixed $_relsCollection
+     */
     public function writeFootnotesRels($_relsCollection)
     {
         // Create XML writer
@@ -63,6 +71,15 @@ class FootnotesRels extends WriterPart
         return $xmlWriter->getData();
     }
 
+    /**
+     * Write individual rels entry
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param int $pId Relationship ID
+     * @param string $pType Relationship type
+     * @param string $pTarget Relationship target
+     * @param string $pTargetMode Relationship target mode
+     */
     private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {
         if ($pType != '' && $pTarget != '') {

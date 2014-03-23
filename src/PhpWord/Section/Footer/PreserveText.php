@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Section\Footer;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Preserve text/field element
+ */
 class PreserveText
 {
     /**

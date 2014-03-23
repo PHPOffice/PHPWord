@@ -34,14 +34,21 @@ use PhpOffice\PhpWord\Writer\ODText\Meta;
 use PhpOffice\PhpWord\Writer\ODText\Mimetype;
 use PhpOffice\PhpWord\Writer\ODText\Styles;
 
+/**
+ * ODText writer
+ */
 class ODText implements IWriter
 {
     /**
+     * PhpWord object
+     *
      * @var \PhpOffice\PhpWord\PhpWord
      */
     private $_document;
 
     /**
+     * Individual writers
+     *
      * @var \PhpOffice\PhpWord\Writer\ODText\WriterPart[]
      */
     private $_writerParts;
@@ -61,11 +68,14 @@ class ODText implements IWriter
     private $_useDiskCaching = false;
 
     /**
+     * Disk caching directory
+     *
      * @var string
      */
     private $_diskCachingDirectory;
 
     /**
+     * Create new ODText writer
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
@@ -96,7 +106,7 @@ class ODText implements IWriter
     /**
      * Save PhpWord to file
      *
-     * @param  string $pFileName
+     * @param  string $pFilename
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function save($pFilename = null)
@@ -193,6 +203,8 @@ class ODText implements IWriter
     }
 
     /**
+     * Get PhpWord object
+     *
      * @return \PhpOffice\PhpWord\PhpWord
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
@@ -206,6 +218,8 @@ class ODText implements IWriter
     }
 
     /**
+     * Set PhpWord object
+     *
      * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return \PhpOffice\PhpWord\Writer\ODText
      */
@@ -226,6 +240,8 @@ class ODText implements IWriter
     }
 
     /**
+     * Get writer part
+     *
      * @param string $pPartName Writer part name
      * @return \PhpOffice\PhpWord\Writer\ODText\WriterPart
      */
@@ -272,6 +288,8 @@ class ODText implements IWriter
     }
 
     /**
+     * Get disk caching directory
+     *
      * @return string
      */
     public function getDiskCachingDirectory()

@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * Image and memory image style
+ */
 class Image
 {
     const WRAPPING_STYLE_INLINE = 'inline';
@@ -76,7 +79,7 @@ class Image
     private $_marginLeft;
 
     /**
-     * Constructor
+     * Create new image style
      */
     public function __construct()
     {

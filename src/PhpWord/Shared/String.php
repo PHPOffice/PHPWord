@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+/**
+ * Common string functions
+ */
 class String
 {
     /**

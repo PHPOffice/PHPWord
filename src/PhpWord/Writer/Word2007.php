@@ -40,15 +40,58 @@ use PhpOffice\PhpWord\Writer\Word2007\Header;
 use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
+/**
+ * Word2007 writer
+ */
 class Word2007 implements IWriter
 {
+    /**
+     * PhpWord object
+     *
+     * @var PhpOffice\PhpWord\PhpWord
+     */
     private $_document;
+
+    /**
+     * Individual writers
+     *
+     * @var PhpOffice\PhpWord\Writer\Word2007\WriterPart
+     */
     private $_writerParts;
+
+    /**
+     * Disk caching directory
+     *
+     * @var string
+     */
     private $_diskCachingDirectory;
+
+    /**
+     * Use disk caching
+     *
+     * @var boolean
+     */
     private $_useDiskCaching = false;
+
+    /**
+     * Types of images
+     *
+     * @var array
+     */
     private $_imageTypes = array();
+
+    /**
+     * Types of objects
+     *
+     * @var array
+     */
     private $_objectTypes = array();
 
+    /**
+     * Create new Word2007 writer
+     *
+     * @param PhpOffice\PhpWord\PhpWord
+     */
     public function __construct(PhpWord $phpWord = null)
     {
         $this->_document = $phpWord;
@@ -71,6 +114,11 @@ class Word2007 implements IWriter
         }
     }
 
+    /**
+     * Save document by name
+     *
+     * @param string $pFilename
+     */
     public function save($pFilename = null)
     {
         if (!is_null($this->_document)) {
@@ -212,6 +260,8 @@ class Word2007 implements IWriter
     }
 
     /**
+     * Check content types
+     *
      * @param string $src
      */
     private function checkContentTypes($src)
@@ -251,6 +301,12 @@ class Word2007 implements IWriter
         }
     }
 
+    /**
+     * Get writer part
+     *
+     * @param string $pPartName Writer part name
+     * @return \PhpOffice\PhpWord\Writer\ODText\WriterPart
+     */
     public function getWriterPart($pPartName = '')
     {
         if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
@@ -260,11 +316,22 @@ class Word2007 implements IWriter
         }
     }
 
+    /**
+     * Get use disk caching status
+     *
+     * @return boolean
+     */
     public function getUseDiskCaching()
     {
         return $this->_useDiskCaching;
     }
 
+    /**
+     * Set use disk caching status
+     *
+     * @param boolean $pValue
+     * @param string $pDirectory
+     */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
         $this->_useDiskCaching = $pValue;
@@ -281,6 +348,8 @@ class Word2007 implements IWriter
     }
 
     /**
+     * Get disk caching directory
+     *
      * @return string
      */
     public function getDiskCachingDirectory()
@@ -288,6 +357,12 @@ class Word2007 implements IWriter
         return $this->_diskCachingDirectory;
     }
 
+    /**
+     * Check content types
+     *
+     * @param mixed $objZip
+     * @param mixed $element
+     */
     private function _addFileToPackage($objZip, $element)
     {
         if (isset($element['isMemImage']) && $element['isMemImage']) {

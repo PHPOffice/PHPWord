@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord;
 
+/**
+ * Document properties
+ */
 class DocumentProperties
 {
     /** Constants */

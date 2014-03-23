@@ -28,8 +28,16 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Section\Footnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 footnotes part writer
+ */
 class Footnotes extends Base
 {
+    /**
+     * Write word/footnotes.xml
+     *
+     * @param array $allFootnotesCollection
+     */
     public function writeFootnotes($allFootnotesCollection)
     {
         // Create XML writer

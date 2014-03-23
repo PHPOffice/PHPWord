@@ -28,6 +28,8 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
+ * Hash table
+ *
  * @codeCoverageIgnore Legacy from PHPExcel
  */
 class HashTable
@@ -47,6 +49,8 @@ class HashTable
     public $_keyMap = array();
 
     /**
+     * Create new
+     *
      * @param \PhpOffice\PhpWord\IComparable[] $pSource Optional source array to create HashTable from
      */
     public function __construct($pSource = null)
@@ -140,6 +144,8 @@ class HashTable
     }
 
     /**
+     * Get item count
+     *
      * @return int
      */
     public function count()
@@ -148,6 +154,8 @@ class HashTable
     }
 
     /**
+     * Get hash code index
+     *
      * @param string $pHashCode
      * @return int Index
      */
@@ -157,6 +165,8 @@ class HashTable
     }
 
     /**
+     * Get by index
+     *
      * @param int $pIndex
      * @return \PhpOffice\PhpWord\IComparable
      */
@@ -170,6 +180,7 @@ class HashTable
     }
 
     /**
+     * Get by hashcode
      * @param string $pHashCode
      * @return \PhpOffice\PhpWord\IComparable
      *
@@ -184,6 +195,8 @@ class HashTable
     }
 
     /**
+     * Convert to array
+     *
      * @return \PhpOffice\PhpWord\IComparable[]
      */
     public function toArray()

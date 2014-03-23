@@ -34,8 +34,16 @@ use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 footer part writer
+ */
 class Footer extends Base
 {
+    /**
+     * Write word/footnotes.xml
+     *
+     * @param PhpOffice\PhpWord\Section\Footer $footer
+     */
     public function writeFooter(\PhpOffice\PhpWord\Section\Footer $footer)
     {
         // Create XML writer

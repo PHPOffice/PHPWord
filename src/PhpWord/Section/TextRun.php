@@ -30,6 +30,9 @@ use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Textrun/paragraph element
+ */
 class TextRun
 {
     /**
@@ -49,6 +52,8 @@ class TextRun
 
     /**
      * Create a new TextRun Element
+     *
+     * @param mixed $styleParagraph
      */
     public function __construct($styleParagraph = null)
     {
@@ -73,8 +78,8 @@ class TextRun
     /**
      * Add a Text Element
      *
-     * @var string $text
-     * @var mixed $styleFont
+     * @param string $text
+     * @param mixed $styleFont
      * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
@@ -114,7 +119,7 @@ class TextRun
      * Add a Image Element
      *
      * @param string $imageSrc
-     * @param mixed $styleFont
+     * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Image
      */
     public function addImage($imageSrc, $style = null)
@@ -149,7 +154,7 @@ class TextRun
     /**
      * Create a new Footnote Element
      *
-     * @param string $text
+     * @param mixed $styleParagraph
      * @return \PhpOffice\PhpWord\Section\Footnote
      */
     public function createFootnote($styleParagraph = null)

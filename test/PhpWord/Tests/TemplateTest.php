@@ -132,7 +132,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $document->cloneRow('userId', 1);
         $document->setValue('userId#1', 'Test');
         $document->saveAs($docName);
-        $docFound = file_exists($docName);
+        $docFound = \file_exists($docName);
         unlink($docName);
 
         $this->assertEquals($expectedVar, $actualVar);

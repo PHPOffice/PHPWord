@@ -30,6 +30,9 @@ use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\File;
 
+/**
+ * Reader for Word2007
+ */
 class Word2007 extends AbstractReader implements IReader
 {
     /**
@@ -42,7 +45,7 @@ class Word2007 extends AbstractReader implements IReader
     public function canRead($pFilename)
     {
         // Check if file exists
-        if (!file_exists($pFilename)) {
+        if (!\file_exists($pFilename)) {
             throw new Exception("Could not open {$pFilename} for reading! File does not exist.");
         }
 
@@ -71,6 +74,8 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
+     * Get zip content
+     *
      * @param \ZipArchive $archive
      * @param string $fileName
      * @param bool $removeNamespace
@@ -434,6 +439,8 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
+     * Return item of array
+     *
      * @param array $array
      * @param mixed $key
      * @return mixed|null

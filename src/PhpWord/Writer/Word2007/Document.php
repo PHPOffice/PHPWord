@@ -44,8 +44,16 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TOC;
 
+/**
+ * Word2007 document part writer
+ */
 class Document extends Base
 {
+    /**
+     * Write word/document.xml
+     *
+     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     */
     public function writeDocument(PhpWord $phpWord = null)
     {
         // Create XML writer
@@ -128,6 +136,12 @@ class Document extends Base
         return $xmlWriter->getData();
     }
 
+    /**
+     * Write begin section
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     private function _writeSection(XMLWriter $xmlWriter, Section $section)
     {
         $xmlWriter->startElement('w:p');
@@ -137,6 +151,12 @@ class Document extends Base
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write end section
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     private function _writeEndSection(XMLWriter $xmlWriter, Section $section)
     {
         $settings = $section->getSettings();
@@ -270,6 +290,11 @@ class Document extends Base
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write page break element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     */
     private function _writePageBreak(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('w:p');
@@ -281,6 +306,12 @@ class Document extends Base
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write list item element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\ListItem $listItem
+     */
     public function _writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
@@ -320,6 +351,12 @@ class Document extends Base
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write object element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Object $object
+     */
     protected function _writeObject(XMLWriter $xmlWriter, Object $object)
     {
         $rIdObject = $object->getRelationId();
@@ -379,6 +416,11 @@ class Document extends Base
         $xmlWriter->endElement(); // w:p
     }
 
+    /**
+     * Write TOC element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     */
     private function _writeTOC(XMLWriter $xmlWriter)
     {
         $titles = TOC::getTitles();

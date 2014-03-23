@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord;
 
+/**
+ * Settings
+ */
 class Settings
 {
     /**

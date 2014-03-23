@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Text break element
+ */
 class TextBreak
 {
     /**
@@ -46,6 +49,9 @@ class TextBreak
 
     /**
      * Create a new TextBreak Element
+     *
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function __construct($fontStyle = null, $paragraphStyle = null)
     {

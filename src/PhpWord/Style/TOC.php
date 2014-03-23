@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * TOC style
+ */
 class TOC
 {
     const TABLEADER_DOT = 'dot';

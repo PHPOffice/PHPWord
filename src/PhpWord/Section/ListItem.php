@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+/**
+ * List item element
+ */
 class ListItem
 {
     /**

@@ -36,7 +36,7 @@ class TestHelperDOCX
 
     public static function clear()
     {
-        if (file_exists(self::$file)) {
+        if (\file_exists(self::$file)) {
             unlink(self::$file);
         }
         if (is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {

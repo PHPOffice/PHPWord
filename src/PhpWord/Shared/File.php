@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+/**
+ * Common file functions
+ */
 class File
 {
     /**
@@ -33,10 +36,10 @@ class File
      * @param  string $pFilename Filename
      * @return bool
      */
-    public static function file_exists($pFilename)
+    public static function fileExists($pFilename)
     {
         // Regular file_exists
-        return file_exists($pFilename);
+        return \file_exists($pFilename);
     }
 
     /**

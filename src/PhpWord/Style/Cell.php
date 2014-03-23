@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * Table cell style
+ */
 class Cell
 {
     const TEXT_DIR_BTLR = 'btLr';

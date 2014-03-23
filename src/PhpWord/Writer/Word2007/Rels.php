@@ -29,8 +29,16 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 rels part writer
+ */
 class Rels extends WriterPart
 {
+    /**
+     * Write _rels/.rels
+     *
+     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     */
     public function writeRelationships(PhpWord $phpWord = null)
     {
         // Create XML writer

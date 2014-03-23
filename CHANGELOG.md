@@ -8,7 +8,7 @@ This release marked the transformation to namespaces (PHP 5.3+).
 
 ### Features
 
-None yet
+None yet.
 
 ### Bugfixes
 
@@ -16,7 +16,11 @@ None yet
 
 ### Miscellaneous
 
-- Documentation - @Progi1984
+- Move documentation to [Read The Docs](http://phpword.readthedocs.org/en/develop/) - @Progi1984 @ivanlanin GH-82
+- Reorganize and redesign samples folder - @ivanlanin GH-137
+- Use `PhpOffice\PhpWord` namespace for PSR compliance - @RomanSyroeshko @gabrielbull GH-159 GH-58
+- Restructure folders and change folder name `Classes` to `src` and `Tests` to `test` for PSR compliance - @RomanSyroeshko @gabrielbull
+- Compliance to phpDocumentor - @ivanlanin
 
 ## 0.8.1 - 17 Mar 2014
 

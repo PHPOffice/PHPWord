@@ -28,6 +28,9 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Writer\IWriter;
 
+/**
+ * ODText writer part abstract
+ */
 abstract class WriterPart
 {
     /**

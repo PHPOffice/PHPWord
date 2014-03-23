@@ -28,19 +28,28 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\String;
 
+/**
+ * Template
+ */
 class Template
 {
     /**
+     * ZipArchive object
+     *
      * @var \ZipArchive
      */
     private $_objZip;
 
     /**
+     * Temporary file name
+     *
      * @var string
      */
     private $_tempFileName;
 
     /**
+     * Document XML
+     *
      * @var string
      */
     private $_documentXML;
@@ -249,6 +258,8 @@ class Template
     }
 
     /**
+     * Save XML to temporary file
+     *
      * @return string
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
@@ -265,13 +276,15 @@ class Template
     }
 
     /**
+     * Save XML to defined name
+     *
      * @param string $strFilename
      */
     public function saveAs($strFilename)
     {
         $tempFilename = $this->save();
 
-        if (file_exists($strFilename)) {
+        if (\file_exists($strFilename)) {
             unlink($strFilename);
         }
 

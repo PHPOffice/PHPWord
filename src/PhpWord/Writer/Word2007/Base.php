@@ -44,8 +44,20 @@ use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
+/**
+ * Word2007 base part writer
+ *
+ * Write common parts of document.xml, headerx.xml, and footerx.xml
+ */
 class Base extends WriterPart
 {
+    /**
+     * Write text element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Text $text
+     * @param boolean $withoutP
+     */
     protected function _writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
     {
         $styleFont = $text->getFontStyle();
@@ -96,6 +108,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write textrun  element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     protected function _writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
     {
         $elements = $textrun->getElements();
@@ -135,10 +153,11 @@ class Base extends WriterPart
     }
 
     /**
+     * Write paragraph style
+     *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @param bool $withoutPPR
-     * @return void
      */
     protected function _writeParagraphStyle(
         XMLWriter $xmlWriter,
@@ -236,6 +255,13 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write link element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Link $link
+     * @param boolean $withoutP
+     */
     protected function _writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
     {
         $rID = $link->getRelationId();
@@ -292,6 +318,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write preserve text element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\TextRun $textrun
+     */
     protected function _writePreserveText(XMLWriter $xmlWriter, PreserveText $textrun)
     {
         $styleFont = $textrun->getFontStyle();
@@ -384,6 +416,12 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // p
     }
 
+    /**
+     * Write footnote reference element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     protected function _writeTextStyle(XMLWriter $xmlWriter, Font $style)
     {
         $font = $style->getName();
@@ -473,6 +511,8 @@ class Base extends WriterPart
     }
 
     /**
+     * Write text break element
+     *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Section\TextBreak $element
      */
@@ -519,6 +559,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write footnote reference element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Table $table
+     */
     protected function _writeTable(XMLWriter $xmlWriter, Table $table)
     {
         $_rows = $table->getRows();
@@ -628,6 +674,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write table style
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Style\Table $style
+     */
     protected function _writeTableStyle(
         XMLWriter $xmlWriter,
         \PhpOffice\PhpWord\Style\Table $style = null
@@ -675,6 +727,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write footnote reference element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Style\Cell $style
+     */
     protected function _writeCellStyle(XMLWriter $xmlWriter, Cell $style = null)
     {
         $bgColor = $style->getBgColor();
@@ -779,8 +837,11 @@ class Base extends WriterPart
     }
 
     /**
+     * Write image element
+     *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Section\Image|\PhpOffice\PhpWord\Section\MemoryImage $image
+     * @param mixed $image
+     * @param boolean $withoutP
      */
     protected function _writeImage(XMLWriter $xmlWriter, $image, $withoutP = false)
     {
@@ -859,6 +920,12 @@ class Base extends WriterPart
         }
     }
 
+    /**
+     * Write footnote reference element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param mixed $image
+     */
     protected function _writeWatermark(XMLWriter $xmlWriter, $image)
     {
         $rId = $image->getRelationId();
@@ -903,6 +970,12 @@ class Base extends WriterPart
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write title element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Title $title
+     */
     protected function _writeTitle(XMLWriter $xmlWriter, Title $title)
     {
         $text = htmlspecialchars($title->getText());
@@ -945,6 +1018,12 @@ class Base extends WriterPart
         $xmlWriter->endElement();
     }
 
+    /**
+     * Write footnote element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Footnote $footnote
+     */
     protected function _writeFootnote(XMLWriter $xmlWriter, Footnote $footnote)
     {
         $xmlWriter->startElement('w:footnote');
@@ -980,6 +1059,13 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // w:footnote
     }
 
+    /**
+     * Write footnote reference element
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section\Footnote $footnote
+     * @param boolean $withoutP
+     */
     protected function _writeFootnoteReference(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
     {
         if (!$withoutP) {

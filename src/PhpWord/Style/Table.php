@@ -25,13 +25,42 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+/**
+ * Table style
+ */
 class Table
 {
-    private $_cellMarginTop;
-    private $_cellMarginLeft;
-    private $_cellMarginRight;
-    private $_cellMarginBottom;
+    /**
+     * Cell margin top
+     *
+     * @var int
+     */
+    private $_cellMarginTop = null;
 
+    /**
+     * Cell margin left
+     *
+     * @var int
+     */
+    private $_cellMarginLeft = null;
+
+    /**
+     * Cell margin right
+     *
+     * @var int
+     */
+    private $_cellMarginRight = null;
+
+    /**
+     * Cell margin bottom
+     *
+     * @var int
+     */
+    private $_cellMarginBottom = null;
+
+    /**
+     * Create new table style
+     */
     public function __construct()
     {
         $this->_cellMarginTop = null;
@@ -40,51 +69,115 @@ class Table
         $this->_cellMarginBottom = null;
     }
 
+    /**
+     * Set style value
+     *
+     * @param string $key
+     * @param mixed $value
+     */
     public function setStyleValue($key, $value)
     {
         $this->$key = $value;
     }
 
+    /**
+     * Set cell margin top
+     *
+     * @param int $pValue
+     */
     public function setCellMarginTop($pValue = null)
     {
         $this->_cellMarginTop = $pValue;
     }
 
+    /**
+     * Get cell margin top
+     *
+     * @return int
+     */
     public function getCellMarginTop()
     {
         return $this->_cellMarginTop;
     }
 
+    /**
+     * Set cell margin left
+     *
+     * @param int $pValue
+     */
     public function setCellMarginLeft($pValue = null)
     {
         $this->_cellMarginLeft = $pValue;
     }
 
+    /**
+     * Get cell margin left
+     *
+     * @return int
+     */
     public function getCellMarginLeft()
     {
         return $this->_cellMarginLeft;
     }
 
+    /**
+     * Set cell margin right
+     *
+     * @param int $pValue
+     */
     public function setCellMarginRight($pValue = null)
     {
         $this->_cellMarginRight = $pValue;
     }
 
+    /**
+     * Get cell margin right
+     *
+     * @return int
+     */
     public function getCellMarginRight()
     {
         return $this->_cellMarginRight;
     }
 
+    /**
+     * Set cell margin bottom
+     *
+     * @param int $pValue
+     */
     public function setCellMarginBottom($pValue = null)
     {
         $this->_cellMarginBottom = $pValue;
     }
 
+    /**
+     * Get cell margin bottom
+     *
+     * @return int
+     */
     public function getCellMarginBottom()
     {
         return $this->_cellMarginBottom;
     }
 
+    /**
+     * Set TLRB cell margin
+     *
+     * @param int $pValue Margin in twips
+     */
+    public function setCellMargin($pValue = null)
+    {
+        $this->_cellMarginTop = $pValue;
+        $this->_cellMarginLeft = $pValue;
+        $this->_cellMarginRight = $pValue;
+        $this->_cellMarginBottom = $pValue;
+    }
+
+    /**
+     * Get cell margin
+     *
+     * @return array
+     */
     public function getCellMargin()
     {
         return array($this->_cellMarginTop, $this->_cellMarginLeft, $this->_cellMarginRight, $this->_cellMarginBottom);

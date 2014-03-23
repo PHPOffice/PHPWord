@@ -32,6 +32,8 @@ if (!defined('DATE_W3C')) {
 }
 
 /**
+ * XMLWriter wrapper
+ *
  * @method bool startElement(string $name)
  * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
@@ -57,6 +59,8 @@ class XMLWriter
     private $_tempFileName = '';
 
     /**
+     * Create new XMLWriter
+     *
      * @param int $pTemporaryStorage Temporary storage location
      * @param string $pTemporaryStorageFolder Temporary storage folder
      */

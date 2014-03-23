@@ -32,10 +32,23 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\TableFull;
 
+/**
+ * Word2007 styles part writer
+ */
 class Styles extends Base
 {
+    /**
+     * PhpWord object
+     *
+     * @var PhpWord
+     */
     private $_document;
 
+    /**
+     * Write word/styles.xml
+     *
+     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     */
     public function writeStyles(PhpWord $phpWord = null)
     {
         // Create XML writer
@@ -184,6 +197,12 @@ class Styles extends Base
         return $xmlWriter->getData();
     }
 
+    /**
+     * Write table style
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Style\TableFull $style
+     */
     private function _writeFullTableStyle(XMLWriter $xmlWriter, TableFull $style)
     {
 
@@ -304,6 +323,13 @@ class Styles extends Base
         }
     }
 
+    /**
+     * Write first row style
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $type
+     * @param PhpOffice\PhpWord\Style\TableFull $style
+     */
     private function _writeRowStyle(XMLWriter $xmlWriter, $type, TableFull $style)
     {
         $brdSz = $style->getBorderSize();
@@ -365,6 +391,11 @@ class Styles extends Base
     }
 
 
+    /**
+     * Write document defaults
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     */
     private function _writeDocDefaults(XMLWriter $xmlWriter)
     {
         $fontName = $this->_document->getDefaultFontName();

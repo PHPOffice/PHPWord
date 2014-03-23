@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Section\MemoryImage;
 
+/**
+ * Media
+ */
 class Media
 {
     /**

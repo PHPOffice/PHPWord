@@ -27,6 +27,9 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 
+/**
+ * Paragraph style
+ */
 class Paragraph
 {
     const LINE_HEIGHT = 240;
@@ -130,6 +133,8 @@ class Paragraph
     private $_pageBreakBefore = false;
 
     /**
+     * Set style by array
+     *
      * @param array $style
      * @return $this
      */
@@ -316,11 +321,11 @@ class Paragraph
         return $this->_tabs;
     }
 
-    /*
+    /**
      * Set tabs
      *
-     * @param   array   $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @param array $pValue
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setTabs($pValue = null)
     {
@@ -497,6 +502,8 @@ class Paragraph
     }
 
     /**
+     * Get line height
+     *
      * @return int|float
      */
     public function getLineHeight()

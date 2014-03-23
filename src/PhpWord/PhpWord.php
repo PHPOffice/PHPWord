@@ -31,6 +31,9 @@ use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
 
+/**
+ * PhpWord main class
+ */
 class PhpWord
 {
     const DEFAULT_FONT_COLOR        = '000000';  // HEX
@@ -45,25 +48,35 @@ class PhpWord
     const DEFAULT_FONT_SIZE = 10;
 
     /**
+     * Document properties object
+     *
      * @var \PhpOffice\PhpWord\DocumentProperties
      */
     private $_documentProperties;
 
     /**
+     * Default font name
+     *
      * @var string
      */
     private $_defaultFontName;
 
     /**
+     * Default font size
      * @var int
      */
     private $_defaultFontSize;
 
     /**
+     * Collection of sections
+     *
      * @var \PhpOffice\PhpWord\Section[]
      */
     private $_sections = array();
 
+    /**
+     * Create new
+     */
     public function __construct()
     {
         $this->_documentProperties = new DocumentProperties();
@@ -72,6 +85,8 @@ class PhpWord
     }
 
     /**
+     * Get document properties object
+     *
      * @return \PhpOffice\PhpWord\DocumentProperties
      */
     public function getDocumentProperties()
@@ -80,6 +95,8 @@ class PhpWord
     }
 
     /**
+     * Set document properties object
+     *
      * @param  \PhpOffice\PhpWord\DocumentProperties $documentProperties
      * @return \PhpOffice\PhpWord\PhpWord
      */
@@ -91,6 +108,8 @@ class PhpWord
     }
 
     /**
+     * Create new section
+     *
      * @param  \PhpOffice\PhpWord\Section\Settings $settings
      * @return \PhpOffice\PhpWord\Section
      */
@@ -103,6 +122,8 @@ class PhpWord
     }
 
     /**
+     * Get default font name
+     *
      * @return string
      */
     public function getDefaultFontName()
@@ -111,6 +132,8 @@ class PhpWord
     }
 
     /**
+     * Set default font name
+     *
      * @param string $fontName
      */
     public function setDefaultFontName($fontName)
@@ -119,6 +142,8 @@ class PhpWord
     }
 
     /**
+     * Get default font size
+     *
      * @return string
      */
     public function getDefaultFontSize()
@@ -127,6 +152,8 @@ class PhpWord
     }
 
     /**
+     * Set default font size
+     *
      * @param int $fontSize
      */
     public function setDefaultFontSize($fontSize)
@@ -159,7 +186,8 @@ class PhpWord
      * Adds a font style definition to styles.xml
      *
      * @param $styleName string
-     * @param $styles array
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
      */
     public function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
@@ -169,8 +197,9 @@ class PhpWord
     /**
      * Adds a table style definition to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param mixed $styleTable
+     * @param mixed $styleFirstRow
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
@@ -180,8 +209,9 @@ class PhpWord
     /**
      * Adds a heading style definition to styles.xml
      *
-     * @param $titleCount int
-     * @param $styles array
+     * @param int $titleCount
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
      */
     public function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
@@ -191,8 +221,8 @@ class PhpWord
     /**
      * Adds a hyperlink style to styles.xml
      *
-     * @param $styleName string
-     * @param $styles array
+     * @param string $styleName
+     * @param mixed $styles
      */
     public function addLinkStyle($styleName, $styles)
     {
@@ -200,6 +230,8 @@ class PhpWord
     }
 
     /**
+     * Get all sections
+     *
      * @return \PhpOffice\PhpWord\Section[]
      */
     public function getSections()
@@ -208,6 +240,8 @@ class PhpWord
     }
 
     /**
+     * Load template by filename
+     *
      * @param  string $filename Fully qualified filename.
      * @return \PhpOffice\PhpWord\Template
      * @throws \PhpOffice\PhpWord\Exceptions\Exception

@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord;
 
+/**
+ *  Footnote
+ */
 class Footnote
 {
     /**

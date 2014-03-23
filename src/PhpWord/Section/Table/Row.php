@@ -25,6 +25,9 @@
 
 namespace PhpOffice\PhpWord\Section\Table;
 
+/**
+ * Table row element
+ */
 class Row
 {
     /**

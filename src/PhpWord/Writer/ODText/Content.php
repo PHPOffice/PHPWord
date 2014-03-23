@@ -44,6 +44,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TOC;
 
+/**
+ * ODText content part writer
+ */
 class Content extends WriterPart
 {
     /**
@@ -376,6 +379,8 @@ class Content extends WriterPart
 
     /**
      * Write TextBreak
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     protected function _writeTextBreak(XMLWriter $xmlWriter = null)
     {
@@ -385,10 +390,22 @@ class Content extends WriterPart
     }
 
     // @codeCoverageIgnoreStart
+    /**
+     * Write end section
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     private function _writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }
 
+    /**
+     * Write section
+     *
+     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param PhpOffice\PhpWord\Section $section
+     */
     private function _writeSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }

@@ -29,14 +29,21 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\TableFull;
 
+/**
+ * Style
+ */
 class Style
 {
     /**
+     * Style register
+     *
      * @var array
      */
     private static $_styleElements = array();
 
     /**
+     * Add paragraph style
+     *
      * @param string $styleName
      * @param array $styles
      */
@@ -56,6 +63,8 @@ class Style
     }
 
     /**
+     * Add font style
+     *
      * @param string $styleName
      * @param array $styleFont
      * @param array $styleParagraph
@@ -75,6 +84,8 @@ class Style
     }
 
     /**
+     * Add link style
+     *
      * @param string $styleName
      * @param array $styles
      */
@@ -94,8 +105,11 @@ class Style
     }
 
     /**
+     * Add table style
+     *
      * @param string $styleName
-     * @param array $styles
+     * @param array $styleTable
+     * @param array $styleFirstRow
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
@@ -107,7 +121,9 @@ class Style
     }
 
     /**
-     * @param string $styleName
+     * Add title style
+     *
+     * @param int $titleCount
      * @param array $styleFont
      * @param array $styleParagraph
      */
@@ -128,6 +144,8 @@ class Style
     }
 
     /**
+     * Set default paragraph style
+     *
      * @param array $styles Paragraph style definition
      */
     public static function setDefaultParagraphStyle($styles)
@@ -146,7 +164,9 @@ class Style
     }
 
     /**
-     * @param string
+     * Get style by name
+     *
+     * @param string $styleName
      */
     public static function getStyle($styleName)
     {

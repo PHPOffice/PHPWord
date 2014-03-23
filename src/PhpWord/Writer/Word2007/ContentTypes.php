@@ -29,8 +29,18 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\File;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
+/**
+ * Word2007 contenttypes part writer
+ */
 class ContentTypes extends WriterPart
 {
+    /**
+     * Write [Content_Types].xml
+     * @param array $_imageTypes
+     * @param array $_objectTypes
+     * @param int $_cHdrs
+     * @param array $footers
+     */
     public function writeContentTypes($_imageTypes, $_objectTypes, $_cHdrs, $footers)
     {
         // Create XML writer
@@ -179,7 +189,7 @@ class ContentTypes extends WriterPart
      */
     private function _getImageMimeType($pFile = '')
     {
-        if (File::file_exists($pFile)) {
+        if (File::fileExists($pFile)) {
             $image = getimagesize($pFile);
             return image_type_to_mime_type($image[2]);
         } else {
@@ -188,6 +198,8 @@ class ContentTypes extends WriterPart
     }
 
     /**
+     * Write Default XML element
+     *
      * @param  \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param  string $pPartname Part name
      * @param  string $pContentType Content type
@@ -207,6 +219,8 @@ class ContentTypes extends WriterPart
     }
 
     /**
+     * Write Override XML element
+     *
      * @param  \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param  string $pPartname Part name
      * @param  string $pContentType Content type

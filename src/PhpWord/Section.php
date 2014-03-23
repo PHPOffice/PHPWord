@@ -42,6 +42,9 @@ use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Section\Title;
 use PhpOffice\PhpWord\Shared\String;
 
+/**
+ * Section
+ */
 class Section
 {
     /**
@@ -241,7 +244,7 @@ class Section
             }
 
             $iconSrc = __DIR__ . '/_staticDocParts/';
-            if (!file_exists($iconSrc . '_' . $ext . '.png')) {
+            if (!\file_exists($iconSrc . '_' . $ext . '.png')) {
                 $iconSrc = $iconSrc . '_default.png';
             } else {
                 $iconSrc .= '_' . $ext . '.png';
@@ -425,6 +428,8 @@ class Section
     }
 
     /**
+     * Get footer element
+     *
      * @return \PhpOffice\PhpWord\Section\Footer
      */
     public function getFooter()

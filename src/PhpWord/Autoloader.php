@@ -25,11 +25,16 @@
 
 namespace PhpOffice\PhpWord;
 
+/**
+ * Autoloader
+ */
 class Autoloader
 {
     const NAMESPACE_PREFIX = 'PhpOffice\\PhpWord\\';
 
     /**
+     * Register
+     *
      * @return void
      */
     public static function register()
@@ -38,6 +43,8 @@ class Autoloader
     }
 
     /**
+     * Autoload
+     *
      * @param string $class
      */
     public static function autoload($class)
