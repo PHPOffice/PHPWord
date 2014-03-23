@@ -144,7 +144,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
             array(\PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
-        $object = new ODText($phpWord);
+        $object = new ODText();
         $object->setUseDiskCaching(true, $dir);
     }
 }

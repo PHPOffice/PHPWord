@@ -14,13 +14,12 @@ matrix:
     - php: hhvm
 
 before_script:
+  - phpenv rehash > /dev/null
   ## Composer
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --prefer-source
   - composer selfupdate --quiet
+  - composer install --prefer-source
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
-  - phpenv rehash
   ## PHP Copy/Paste Detector
   #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
   ## PHP Mess Detector
