@@ -20,7 +20,7 @@ before_script:
   - composer install --prefer-source
   - composer selfupdate --quiet
   ## PHP_CodeSniffer
-  # - pyrus install pear/PHP_CodeSniffer
+  - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
   ## PHP Copy/Paste Detector
   #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
