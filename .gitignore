@@ -14,8 +14,3 @@ vendor
 /.settings
 /.buildpath
 /.project
-*.odt
-*.docx
-*.rtf
-*.txt
-*.xml
