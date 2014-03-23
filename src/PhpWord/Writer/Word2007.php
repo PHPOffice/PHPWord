@@ -187,11 +187,11 @@ class Word2007 implements IWriter
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->_document));
 
             // Write static files
-            $objZip->addFile(\PHPWORD_BASE_DIR . '_staticDocParts/numbering.xml', 'word/numbering.xml');
-            $objZip->addFile(\PHPWORD_BASE_DIR . '_staticDocParts/settings.xml', 'word/settings.xml');
-            $objZip->addFile(\PHPWORD_BASE_DIR . '_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
-            $objZip->addFile(\PHPWORD_BASE_DIR . '_staticDocParts/webSettings.xml', 'word/webSettings.xml');
-            $objZip->addFile(\PHPWORD_BASE_DIR . '_staticDocParts/fontTable.xml', 'word/fontTable.xml');
+            $objZip->addFile(__DIR__ . '/../_staticDocParts/numbering.xml', 'word/numbering.xml');
+            $objZip->addFile(__DIR__ . '/../_staticDocParts/settings.xml', 'word/settings.xml');
+            $objZip->addFile(__DIR__ . '/../_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
+            $objZip->addFile(__DIR__ . '/../_staticDocParts/webSettings.xml', 'word/webSettings.xml');
+            $objZip->addFile(__DIR__ . '/../_staticDocParts/fontTable.xml', 'word/fontTable.xml');
 
 
             // Close file

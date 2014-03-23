@@ -260,7 +260,7 @@ class Cell
                 $ext = substr($ext, 0, -1);
             }
 
-            $iconSrc = \PHPWORD_BASE_DIR . '_staticDocParts/';
+            $iconSrc = __DIR__ . '/../../_staticDocParts/';
             if (!file_exists($iconSrc . '_' . $ext . '.png')) {
                 $iconSrc = $iconSrc . '_default.png';
             } else {

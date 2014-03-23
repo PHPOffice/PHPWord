@@ -25,10 +25,6 @@
 
 namespace PhpOffice\PhpWord;
 
-if (!\defined('PHPWORD_BASE_DIR')) {
-    \define('PHPWORD_BASE_DIR', \realpath(__DIR__) . \DIRECTORY_SEPARATOR);
-}
-
 class Autoloader
 {
     const NAMESPACE_PREFIX = 'PhpOffice\\PhpWord\\';
@@ -38,26 +34,20 @@ class Autoloader
      */
     public static function register()
     {
-        \spl_autoload_register(array(new self, 'autoload'));
+        spl_autoload_register(array(new self, 'autoload'));
     }
 
     /**
-     * @param string $fqClassName
+     * @param string $class
      */
-    public static function autoload($fqClassName)
+    public static function autoload($class)
     {
-        $namespacePrefixLength = \strlen(self::NAMESPACE_PREFIX);
-        $className = \substr($fqClassName, $namespacePrefixLength);
-
-        if (0 === \strncmp(self::NAMESPACE_PREFIX, $fqClassName, $namespacePrefixLength)) {
-            $fqFilename = \PHPWORD_BASE_DIR
-                        . \str_replace('\\', \DIRECTORY_SEPARATOR, $className)
-                        . '.php';
-
-            if (\file_exists($fqFilename)) {
-                require_once $fqFilename;
-            } else {
-                throw new \Exception("Could not instantiate class.");
+        $prefixLength = strlen(self::NAMESPACE_PREFIX);
+        if (0 === strncmp(self::NAMESPACE_PREFIX, $class, $prefixLength)) {
+            $file = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, $prefixLength));
+            $file = realpath(__DIR__ . (empty($file) ? '' : DIRECTORY_SEPARATOR) . $file . '.php');
+            if (file_exists($file)) {
+                require_once $file;
             }
         }
     }

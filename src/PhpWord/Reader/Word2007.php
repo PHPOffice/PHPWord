@@ -30,11 +30,6 @@ use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Shared\File;
 
-if (!defined('PHPWORD_BASE_DIR')) {
-    define('PHPWORD_BASE_DIR', \dirname(__FILE__) . '/../../');
-    require(PHPWORD_BASE_DIR . 'Autoloader.php');
-}
-
 class Word2007 extends AbstractReader implements IReader
 {
     /**

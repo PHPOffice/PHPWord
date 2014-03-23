@@ -31,14 +31,6 @@ use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
 
-// @codeCoverageIgnoreStart
-if (!defined('PHPWORD_BASE_DIR')) {
-    define('PHPWORD_BASE_DIR', \realpath(__DIR__) . \DIRECTORY_SEPARATOR);
-    require \PHPWORD_BASE_DIR . 'Autoloader.php';
-    \PhpOffice\PhpWord\Autoloader::register();
-}
-// @codeCoverageIgnoreEnd
-
 class PhpWord
 {
     const DEFAULT_FONT_COLOR        = '000000';  // HEX
