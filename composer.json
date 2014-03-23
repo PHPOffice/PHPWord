@@ -3,12 +3,12 @@
     "description": "PhpWord - Read, Create, and Write DOCX, ODT, and RTF documents in PHP",
     "keywords": [
         "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
-        "docx", "OOXML", "OpenXML", "Office Open XML", "ISO/IEC 29500", "WordprocessingML",
+        "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
         "RTF", "Rich Text Format", "doc", "odt", "OpenDocument"
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
-    "license": "LGPL",
+    "license": "LGPL-3.0+",
     "authors": [
         {
             "name": "Mark Baker"
@@ -35,10 +35,8 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
-    "recommend": {
-        "ext-gd2": "*"
-    },
     "suggest": {
+        "ext-gd2": "*",
         "ext-xmlwriter": "*",
         "ext-xsl": "*"
     },
