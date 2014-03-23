@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -34,7 +32,7 @@ class Footnote
     /**
      * Paragraph style
      *
-     * @var PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -80,7 +78,7 @@ class Footnote
      *
      * @var string $text
      * @var mixed $styleFont
-     * @return PhpOffice\PhpWord\Section\Text
+     * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
     {
@@ -96,13 +94,13 @@ class Footnote
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $styleFont
-     * @return PhpOffice\PhpWord\Section\Link
+     * @return \PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null)
     {
 
         $link = new Link($linkSrc, $linkName, $styleFont);
-        $rID = PhpOffice\PhpWord\Footnote::addFootnoteLinkElement($linkSrc);
+        $rID = \PhpOffice\PhpWord\Footnote::addFootnoteLinkElement($linkSrc);
         $link->setRelationId($rID);
 
         $this->_elementCollection[] = $link;
@@ -120,9 +118,7 @@ class Footnote
     }
 
     /**
-     * Get Paragraph style
-     *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

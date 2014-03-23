@@ -7,8 +7,7 @@ use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord
+ * @coversDefaultClass          \PhpOffice\PhpWord\PhpWord
  * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit_Framework_TestCase
@@ -144,7 +143,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers            ::loadTemplate
-     * @expectedException PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testLoadTemplateException()
     {

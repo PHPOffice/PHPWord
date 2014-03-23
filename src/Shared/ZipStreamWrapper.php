@@ -18,14 +18,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord\Shared;
+
+use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
  * @codeCoverageIgnore  Legacy from PHPExcel
@@ -35,7 +35,7 @@ class ZipStreamWrapper
     /**
      * Internal ZipAcrhive
      *
-     * @var ZipAcrhive
+     * @var \ZipAcrhive
      */
     private $_archive;
 
@@ -149,7 +149,7 @@ class ZipStreamWrapper
     public function stream_seek($offset, $whence)
     {
         switch ($whence) {
-            case SEEK_SET:
+            case \SEEK_SET:
                 if ($offset < strlen($this->_data) && $offset >= 0) {
                     $this->_position = $offset;
                     return true;
@@ -158,7 +158,7 @@ class ZipStreamWrapper
                 }
                 break;
 
-            case SEEK_CUR:
+            case \SEEK_CUR:
                 if ($offset >= 0) {
                     $this->_position += $offset;
                     return true;
@@ -167,7 +167,7 @@ class ZipStreamWrapper
                 }
                 break;
 
-            case SEEK_END:
+            case \SEEK_END:
                 if (strlen($this->_data) + $offset >= 0) {
                     $this->_position = strlen($this->_data) + $offset;
                     return true;

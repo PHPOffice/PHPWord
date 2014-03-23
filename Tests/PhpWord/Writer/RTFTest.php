@@ -5,8 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\RTF;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Writer\RTF
+ * @coversDefaultClass          \PhpOffice\PhpWord\Writer\RTF
  * @runTestsInSeparateProcesses
  */
 class RTFTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +23,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
 
     /**
      * covers                    ::__construct
-     * @expectedException        Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -48,7 +47,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::save
-     * @expectedException        Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()

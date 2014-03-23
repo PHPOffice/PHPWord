@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -137,8 +135,8 @@ class Base extends WriterPart
     }
 
     /**
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Style\Paragraph $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @param bool $withoutPPR
      * @return void
      */
@@ -475,8 +473,8 @@ class Base extends WriterPart
     }
 
     /**
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\TextBreak $element
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Section\TextBreak $element
      */
     protected function _writeTextBreak($xmlWriter, $element = null)
     {
@@ -632,7 +630,7 @@ class Base extends WriterPart
 
     protected function _writeTableStyle(
         XMLWriter $xmlWriter = null,
-        PhpOffice\PhpWord\Style\Table $style = null
+        \PhpOffice\PhpWord\Style\Table $style = null
     ) {
         $margins = $style->getCellMargin();
         $mTop = (!is_null($margins[0])) ? true : false;
@@ -781,8 +779,8 @@ class Base extends WriterPart
     }
 
     /**
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\Image|PhpOffice\PhpWord\Section\MemoryImage $image
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Section\Image|\PhpOffice\PhpWord\Section\MemoryImage $image
      */
     protected function _writeImage(XMLWriter $xmlWriter = null, $image, $withoutP = false)
     {
@@ -830,16 +828,16 @@ class Base extends WriterPart
         }
 
         switch ($wrappingStyle) {
-            case PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND:
+            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND:
                 $imgStyle .= 'position:absolute;z-index:-251658752;';
                 break;
-            case PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE:
+            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE:
                 $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
-            case PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_TIGHT:
+            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_TIGHT:
                 $imgStyle .= 'position:absolute;z-index:251659264;mso-wrap-edited:f;mso-position-horizontal:absolute;mso-position-vertical:absolute';
                 break;
-            case PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_INFRONT:
+            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_INFRONT:
                 $imgStyle .= 'position:absolute;zz-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
         }

@@ -5,7 +5,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class StylesTest extends \PHPUnit_Framework_TestCase

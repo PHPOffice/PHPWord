@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -32,7 +30,7 @@ class TableFull
     /**
      * Style for first row
      *
-     * @var PhpOffice\PhpWord\Style\TableFull
+     * @var \PhpOffice\PhpWord\Style\TableFull
      */
     private $_firstRow = null;
 
@@ -174,7 +172,7 @@ class TableFull
     /**
      * Get First Row Style
      *
-     * @return PhpOffice\PhpWord\Style\TableFull
+     * @return \PhpOffice\PhpWord\Style\TableFull
      */
     public function getFirstRow()
     {
@@ -184,7 +182,7 @@ class TableFull
     /**
      * Get Last Row Style
      *
-     * @return PhpOffice\PhpWord\Style\TableFull
+     * @return \PhpOffice\PhpWord\Style\TableFull
      */
     public function getLastRow()
     {

@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\File;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -36,9 +35,8 @@ class Manifest extends WriterPart
     /**
      * Write Manifest file to XML format
      *
-     * @param PhpOffice\PhpWord $phpWord
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string XML Output
-     * @throws Exception
      */
     public function writeManifest(PhpWord $phpWord = null)
     {
@@ -116,9 +114,9 @@ class Manifest extends WriterPart
     /**
      * Get image mime type
      *
-     * @param    string $pFile Filename
-     * @return    string    Mime Type
-     * @throws    Exception
+     * @param string $pFile Filename
+     * @return string Mime Type
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     private function _getImageMimeType($pFile = '')
     {

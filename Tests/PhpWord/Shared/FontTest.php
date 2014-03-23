@@ -5,7 +5,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Font;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase

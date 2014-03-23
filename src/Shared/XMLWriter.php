@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -47,7 +45,7 @@ class XMLWriter
     /**
      * Internal XMLWriter
      *
-     * @var XMLWriter
+     * @var \XMLWriter
      */
     private $_xmlWriter;
 
@@ -59,15 +57,13 @@ class XMLWriter
     private $_tempFileName = '';
 
     /**
-     * Create a new XMLWriter instance
-     *
      * @param int $pTemporaryStorage Temporary storage location
      * @param string $pTemporaryStorageFolder Temporary storage folder
      */
     public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageFolder = './')
     {
         // Create internal XMLWriter
-        $this->_xmlWriter = new XMLWriter();
+        $this->_xmlWriter = new \XMLWriter();
 
         // Open temporary storage
         if ($pTemporaryStorage == self::STORAGE_MEMORY) {
@@ -133,7 +129,7 @@ class XMLWriter
     {
         try {
             @call_user_func_array(array($this->_xmlWriter, $function), $args);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             // Do nothing!
         }
     }

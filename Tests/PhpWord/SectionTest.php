@@ -4,8 +4,7 @@ namespace PhpWord\Tests;
 use PhpOffice\PhpWord\Section;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Section
+ * @coversDefaultClass          \PhpOffice\PhpWord\Section
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit_Framework_TestCase
@@ -75,11 +74,11 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testAddElements()
     {
         $objectSource = join(
-            DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
         $imageSource = join(
-            DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'PhpWord.png')
         );
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';

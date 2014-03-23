@@ -5,8 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText\Content
+ * @coversDefaultClass          \PhpOffice\PhpWord\Writer\ODText\Content
  * @runTestsInSeparateProcesses
  */
 class ContentTest extends \PHPUnit_Framework_TestCase

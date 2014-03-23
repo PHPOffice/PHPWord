@@ -5,7 +5,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class FootnotesTest extends \PHPUnit_Framework_TestCase

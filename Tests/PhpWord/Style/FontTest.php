@@ -6,7 +6,6 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase

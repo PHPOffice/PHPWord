@@ -4,7 +4,6 @@ namespace PhpWord\Tests\Style;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit_Framework_TestCase

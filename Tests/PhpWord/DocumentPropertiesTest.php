@@ -4,8 +4,7 @@ namespace PhpWord\Tests;
 use PhpOffice\PhpWord\DocumentProperties;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\DocumentProperties
+ * @coversDefaultClass          \PhpOffice\PhpWord\DocumentProperties
  * @runTestsInSeparateProcesses
  */
 class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase

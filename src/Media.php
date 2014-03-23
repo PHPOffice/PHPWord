@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -37,9 +35,9 @@ class Media
      * @var array
      */
     private static $_sectionMedia = array(
-        'images' => array(),
+        'images'     => array(),
         'embeddings' => array(),
-        'links' => array()
+        'links'      => array()
     );
 
     /**
@@ -66,9 +64,9 @@ class Media
     /**
      * Add new Section Media Element
      *
-     * @param string $src
-     * @param string $type
-     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  string $src
+     * @param  string $type
+     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return mixed
      */
     public static function addSectionMediaElement($src, $type, MemoryImage $memoryImage = null)
@@ -93,7 +91,7 @@ class Media
                     $isMemImage = true;
                 }
                 if (!$isMemImage) {
-                    $isMemImage = (filter_var($src, FILTER_VALIDATE_URL) !== false);
+                    $isMemImage = (filter_var($src, \FILTER_VALIDATE_URL) !== false);
                 }
                 $extension = '';
                 if ($isMemImage) {
@@ -103,15 +101,15 @@ class Media
                     $media['imagefunction'] = $memoryImage->getImageFunction();
                 } else {
                     $imageType = exif_imagetype($src);
-                    if ($imageType === IMAGETYPE_JPEG) {
+                    if ($imageType === \IMAGETYPE_JPEG) {
                         $extension = 'jpg';
-                    } elseif ($imageType === IMAGETYPE_GIF) {
+                    } elseif ($imageType === \IMAGETYPE_GIF) {
                         $extension = 'gif';
-                    } elseif ($imageType === IMAGETYPE_PNG) {
+                    } elseif ($imageType === \IMAGETYPE_PNG) {
                         $extension = 'png';
-                    } elseif ($imageType === IMAGETYPE_BMP) {
+                    } elseif ($imageType === \IMAGETYPE_BMP) {
                         $extension = 'bmp';
-                    } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
+                    } elseif ($imageType === \IMAGETYPE_TIFF_II || $imageType === \IMAGETYPE_TIFF_MM) {
                         $extension = 'tif';
                     }
                 }
@@ -204,9 +202,9 @@ class Media
     /**
      * Add new Header Media Element
      *
-     * @param int $headerCount
-     * @param string $src
-     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  int $headerCount
+     * @param  string $src
+     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return int
      */
     public static function addHeaderMediaElement($headerCount, $src, MemoryImage $memoryImage = null)
@@ -276,9 +274,9 @@ class Media
     /**
      * Add new Footer Media Element
      *
-     * @param int $footerCount
-     * @param string $src
-     * @param PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  int $footerCount
+     * @param  string $src
+     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
      * @return int
      */
     public static function addFooterMediaElement($footerCount, $src, MemoryImage $memoryImage = null)

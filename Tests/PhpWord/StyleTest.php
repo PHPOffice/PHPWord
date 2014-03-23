@@ -4,8 +4,7 @@ namespace PhpWord\Tests;
 use PhpOffice\PhpWord\Style;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Style
+ * @coversDefaultClass          \PhpOffice\PhpWord\Style
  * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit_Framework_TestCase

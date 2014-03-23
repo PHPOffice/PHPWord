@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -51,9 +49,8 @@ class Content extends WriterPart
     /**
      * Write content file to XML format
      *
-     * @param PhpOffice\PhpWord $phpWord
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string XML Output
-     * @throws Exception
      */
     public function writeContent(PhpWord $phpWord = null)
     {
@@ -125,7 +122,7 @@ class Content extends WriterPart
 
                             $arrStyle = array(
                                 'color' => $fStyle->getColor(),
-                                'name' => $fStyle->getName()
+                                'name'  => $fStyle->getName()
                             );
                             $phpWord->addFontStyle('T' . $numFStyles, $arrStyle);
                             $element->setFontStyle('T' . $numFStyles);
@@ -311,8 +308,8 @@ class Content extends WriterPart
     /**
      * Write text
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\Text $text
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Section\Text $text
      * @param bool $withoutP
      */
     protected function _writeText(XMLWriter $xmlWriter = null, Text $text, $withoutP = false)
@@ -359,8 +356,8 @@ class Content extends WriterPart
     /**
      * Write TextRun section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\TextRun $textrun
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Section\TextRun $textrun
      * @todo Enable all other section types
      */
     protected function _writeTextRun(XMLWriter $xmlWriter = null, TextRun $textrun)
@@ -400,7 +397,7 @@ class Content extends WriterPart
     /**
      * Write unsupported element
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $element
      */
     private function writeUnsupportedElement($xmlWriter, $element)

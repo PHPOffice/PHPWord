@@ -4,7 +4,6 @@ namespace PhpWord\Tests\Style;
 use PhpOffice\PhpWord\Style\ListItem;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ListItemTest extends \PHPUnit_Framework_TestCase

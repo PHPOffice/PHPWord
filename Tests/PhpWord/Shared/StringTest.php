@@ -4,8 +4,7 @@ namespace PhpWord\Tests\Shared;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Shared\String
+ * @coversDefaultClass          \PhpOffice\PhpWord\Shared\String
  * @runTestsInSeparateProcesses
  */
 class StringTest extends \PHPUnit_Framework_TestCase

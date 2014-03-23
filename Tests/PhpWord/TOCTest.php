@@ -4,8 +4,7 @@ namespace PhpWord\Tests;
 use PhpOffice\PhpWord\TOC;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\TOC
+ * @coversDefaultClass          \PhpOffice\PhpWord\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
@@ -18,14 +17,11 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $expected = array(
-            'tabPos' => 9062,
-            'tabLeader' => PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
-            'indent' => 200,
+            'tabPos'    => 9062,
+            'tabLeader' => \PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
+            'indent'    => 200,
         );
-        $object = new TOC(
-            array('size' => 11),
-            array('tabPos' => $expected['tabPos'])
-        );
+        $object = new TOC(array('size' => 11), array('tabPos' => $expected['tabPos']));
         $tocStyle = $object->getStyleTOC();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);

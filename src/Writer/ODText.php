@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Writer\ODText\Content;
@@ -38,19 +37,19 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
 class ODText implements IWriter
 {
     /**
-     * @var PhpOffice\PhpWord
+     * @var \PhpOffice\PhpWord\PhpWord
      */
     private $_document;
 
     /**
-     * @var PhpOffice\PhpWord\Writer\ODText\WriterPart[]
+     * @var \PhpOffice\PhpWord\Writer\ODText\WriterPart[]
      */
     private $_writerParts;
 
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var PhpOffice\PhpWord\HashTable
+     * @var \PhpOffice\PhpWord\HashTable
      */
     private $_drawingHashTable;
 
@@ -67,7 +66,7 @@ class ODText implements IWriter
     private $_diskCachingDirectory;
 
     /**
-     * @param PhpOffice\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -98,7 +97,7 @@ class ODText implements IWriter
      * Save PhpWord to file
      *
      * @param  string $pFileName
-     * @throws \Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function save($pFilename = null)
     {
@@ -120,7 +119,7 @@ class ODText implements IWriter
             // Try opening the ZIP file
             if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
                 if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
-                    throw new \Exception("Could not open " . $pFilename . " for writing.");
+                    throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
 
@@ -177,38 +176,38 @@ class ODText implements IWriter
 
             // Close file
             if ($objZip->close() === false) {
-                throw new \Exception("Could not close zip file $pFilename.");
+                throw new Exception("Could not close zip file $pFilename.");
             }
 
             // If a temporary file was used, copy it to the correct file stream
             if ($originalFilename != $pFilename) {
                 if (copy($pFilename, $originalFilename) === false) {
-                    throw new \Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
+                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
                 }
                 @unlink($pFilename);
             }
 
         } else {
-            throw new \Exception("PhpWord object unassigned.");
+            throw new Exception("PhpWord object unassigned.");
         }
     }
 
     /**
-     * @return PhpOffice\PhpWord
-     * @throws \Exception
+     * @return \PhpOffice\PhpWord\PhpWord
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function getPhpWord()
     {
         if (!is_null($this->_document)) {
             return $this->_document;
         } else {
-            throw new \Exception("No PhpWord assigned.");
+            throw new Exception("No PhpWord assigned.");
         }
     }
 
     /**
-     * @param  PhpOffice\PhpWord $phpWord
-     * @return PhpOffice\PhpWord\Writer\ODText
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return \PhpOffice\PhpWord\Writer\ODText
      */
     public function setPhpWord(PhpWord $phpWord = null)
     {
@@ -219,7 +218,7 @@ class ODText implements IWriter
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return PhpOffice\PhpWord\HashTable
+     * @return \PhpOffice\PhpWord\HashTable
      */
     public function getDrawingHashTable()
     {
@@ -228,7 +227,7 @@ class ODText implements IWriter
 
     /**
      * @param string $pPartName Writer part name
-     * @return PhpOffice\PhpWord\Writer\ODText\WriterPart
+     * @return \PhpOffice\PhpWord\Writer\ODText\WriterPart
      */
     public function getWriterPart($pPartName = '')
     {
@@ -254,8 +253,8 @@ class ODText implements IWriter
      *
      * @param boolean $pValue
      * @param string $pDirectory Disk caching directory
-     * @throws \Exception Exception when directory does not exist
-     * @return PhpOffice\PhpWord\Writer\ODText
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception Exception when directory does not exist
+     * @return \PhpOffice\PhpWord\Writer\ODText
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
@@ -265,7 +264,7 @@ class ODText implements IWriter
             if (is_dir($pDirectory)) {
                 $this->_diskCachingDirectory = $pDirectory;
             } else {
-                throw new \Exception("Directory does not exist: $pDirectory");
+                throw new Exception("Directory does not exist: $pDirectory");
             }
         }
 

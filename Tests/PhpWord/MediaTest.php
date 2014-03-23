@@ -37,7 +37,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     /**
      * Todo: add memory image to this test
      *
-     * @covers PhpOffice\PhpWord\Media::addSectionMediaElement
+     * @covers \PhpOffice\PhpWord\Media::addSectionMediaElement
      */
     public function testAddSectionMediaElement()
     {

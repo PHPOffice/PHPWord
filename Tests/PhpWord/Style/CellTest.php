@@ -4,7 +4,6 @@ namespace PhpWord\Tests\Style;
 use PhpOffice\PhpWord\Style\Cell;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class CellTest extends \PHPUnit_Framework_TestCase

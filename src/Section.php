@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -29,8 +27,8 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Section\Footer;
-use PhpOffice\PhpWord\Section\Footnote;
 use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Section\Header;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
 use PhpOffice\PhpWord\Section\MemoryImage;
@@ -56,7 +54,7 @@ class Section
     /**
      * Section settings
      *
-     * @var PhpOffice\PhpWord\Section\Settings
+     * @var \PhpOffice\PhpWord\Section\Settings
      */
     private $_settings;
 
@@ -77,7 +75,7 @@ class Section
     /**
      * Section Footer
      *
-     * @var PhpOffice\PhpWord\Section\Footer
+     * @var \PhpOffice\PhpWord\Section\Footer
      */
     private $_footer = null;
 
@@ -115,7 +113,7 @@ class Section
     /**
      * Get Section Settings
      *
-     * @return PhpOffice\PhpWord\Section\Settings
+     * @return \PhpOffice\PhpWord\Section\Settings
      */
     public function getSettings()
     {
@@ -128,7 +126,7 @@ class Section
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\Text
+     * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
@@ -147,7 +145,7 @@ class Section
      * @param string $linkName
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\Link
+     * @return \PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
     {
@@ -172,8 +170,8 @@ class Section
      * Add a TextBreak Element
      *
      * @param int $count
-     * @param null|string|array|PhpOffice\PhpWord\Style\Font $fontStyle
-     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -194,7 +192,7 @@ class Section
      * Add a Table Element
      *
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Table
+     * @return \PhpOffice\PhpWord\Section\Table
      */
     public function addTable($style = null)
     {
@@ -211,7 +209,7 @@ class Section
      * @param mixed $styleFont
      * @param mixed $styleList
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\ListItem
+     * @return \PhpOffice\PhpWord\Section\ListItem
      */
     public function addListItem($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
@@ -228,8 +226,8 @@ class Section
      *
      * @param string $src
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Object
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Section\Object
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function addObject($src, $style = null)
     {
@@ -269,8 +267,8 @@ class Section
      *
      * @param string $src
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Image
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Section\Image
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function addImage($src, $style = null)
     {
@@ -291,8 +289,8 @@ class Section
      *
      * @param string $link
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\MemoryImage
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Section\MemoryImage
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function addMemoryImage($link, $style = null)
     {
@@ -312,7 +310,7 @@ class Section
      *
      * @param mixed $styleFont
      * @param mixed $styleTOC
-     * @return PhpOffice\PhpWord\TOC
+     * @return \PhpOffice\PhpWord\TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null)
     {
@@ -326,7 +324,7 @@ class Section
      *
      * @param string $text
      * @param int $depth
-     * @return PhpOffice\PhpWord\Section\Title
+     * @return \PhpOffice\PhpWord\Section\Title
      */
     public function addTitle($text, $depth = 1)
     {
@@ -357,7 +355,7 @@ class Section
      * Create a new TextRun
      *
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\TextRun
+     * @return \PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
@@ -379,7 +377,7 @@ class Section
     /**
      * Create a new Header
      *
-     * @return PhpOffice\PhpWord\Section\Header
+     * @return \PhpOffice\PhpWord\Section\Header
      */
     public function createHeader()
     {
@@ -417,7 +415,7 @@ class Section
     /**
      * Create a new Footer
      *
-     * @return PhpOffice\PhpWord\Section\Footer
+     * @return \PhpOffice\PhpWord\Section\Footer
      */
     public function createFooter()
     {
@@ -427,9 +425,7 @@ class Section
     }
 
     /**
-     * Get Footer
-     *
-     * @return PhpOffice\PhpWord\Section\Footer
+     * @return \PhpOffice\PhpWord\Section\Footer
      */
     public function getFooter()
     {
@@ -440,11 +436,11 @@ class Section
      * Create a new Footnote Element
      *
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\Footnote
+     * @return \PhpOffice\PhpWord\Section\Footnote
      */
     public function createFootnote($styleParagraph = null)
     {
-        $footnote = new Footnote($styleParagraph);
+        $footnote = new \PhpOffice\PhpWord\Section\Footnote($styleParagraph);
         $refID = Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->_elementCollection[] = $footnote;

@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -42,14 +40,14 @@ class Text
     /**
      * Text style
      *
-     * @var PhpOffice\PhpWord\Style\Font
+     * @var \PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -57,8 +55,8 @@ class Text
      * Create a new Text Element
      *
      * @param string $text
-     * @param null|array|PhpOffice\PhpWord\Style\Font $fontStyle
-     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param null|array|\PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -70,9 +68,9 @@ class Text
     /**
      * Set Text style
      *
-     * @param null|array|PhpOffice\PhpWord\Style\Font $style
-     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
-     * @return PhpOffice\PhpWord\Style\Font
+     * @param null|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -94,7 +92,7 @@ class Text
     /**
      * Get Text style
      *
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -104,8 +102,8 @@ class Text
     /**
      * Set Paragraph style
      *
-     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $style
-     * @return null|PhpOffice\PhpWord\Style\Paragraph
+     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return null|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -125,7 +123,7 @@ class Text
     /**
      * Get Paragraph style
      *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

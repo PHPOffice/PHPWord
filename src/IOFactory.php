@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,16 +25,15 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
 abstract class IOFactory
 {
     /**
-     * @param PhpOffice\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $name
-     * @return PhpOffice\PhpWord\Writer\IWriter
-     * @throws PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Writer\IWriter
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public static function createWriter(PhpWord $phpWord, $name)
     {
@@ -51,8 +48,8 @@ abstract class IOFactory
 
     /**
      * @param string $name
-     * @return PhpOffice\PhpWord\Reader\IReader
-     * @throws PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Reader\IReader
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public static function createReader($name)
     {
@@ -70,7 +67,7 @@ abstract class IOFactory
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return PhpOffice\PhpWord
+     * @return \PhpOffice\PhpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {

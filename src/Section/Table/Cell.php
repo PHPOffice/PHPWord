@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Section\Table;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Section\Image;
@@ -51,7 +50,7 @@ class Cell
     /**
      * Cell Style
      *
-     * @var PhpOffice\PhpWord\Style\Cell
+     * @var \PhpOffice\PhpWord\Style\Cell
      */
     private $_style;
 
@@ -90,7 +89,7 @@ class Cell
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_width = $width;
-        $this->_style = new PhpOffice\PhpWord\Style\Cell();
+        $this->_style = new \PhpOffice\PhpWord\Style\Cell();
 
         if (!is_null($style)) {
             if (is_array($style)) {
@@ -111,7 +110,7 @@ class Cell
      *
      * @param string $text
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Text
+     * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
@@ -129,7 +128,7 @@ class Cell
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Link
+     * @return \PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $style = null)
     {
@@ -159,8 +158,8 @@ class Cell
      * Add TextBreak
      *
      * @param int $count
-     * @param null|string|array|PhpOffice\PhpWord\Style\Font $fontStyle
-     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Font $fontStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -176,7 +175,7 @@ class Cell
      * @param int $depth
      * @param mixed $styleText
      * @param mixed $styleList
-     * @return PhpOffice\PhpWord\Section\ListItem
+     * @return \PhpOffice\PhpWord\Section\ListItem
      */
     public function addListItem($text, $depth = 0, $styleText = null, $styleList = null)
     {
@@ -193,7 +192,7 @@ class Cell
      *
      * @param string $src
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Image
+     * @return \PhpOffice\PhpWord\Section\Image
      */
     public function addImage($src, $style = null)
     {
@@ -221,7 +220,7 @@ class Cell
      *
      * @param string $link
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\MemoryImage
+     * @return \PhpOffice\PhpWord\Section\MemoryImage
      */
     public function addMemoryImage($link, $style = null)
     {
@@ -248,7 +247,7 @@ class Cell
      *
      * @param string $src
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Object
+     * @return \PhpOffice\PhpWord\Section\Object
      */
     public function addObject($src, $style = null)
     {
@@ -290,7 +289,7 @@ class Cell
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PhpOffice\PhpWord\Section\Footer\PreserveText
+     * @return \PhpOffice\PhpWord\Section\Footer\PreserveText
      */
     public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
     {
@@ -309,7 +308,7 @@ class Cell
     /**
      * Create a new TextRun
      *
-     * @return PhpOffice\PhpWord\Section\TextRun
+     * @return \PhpOffice\PhpWord\Section\TextRun
      */
     public function createTextRun($styleParagraph = null)
     {
@@ -331,7 +330,7 @@ class Cell
     /**
      * Get Cell Style
      *
-     * @return PhpOffice\PhpWord\Style\Cell
+     * @return \PhpOffice\PhpWord\Style\Cell
      */
     public function getStyle()
     {

@@ -4,7 +4,6 @@ namespace PhpWord\Tests\Shared;
 use PhpOffice\PhpWord\Shared\Drawing;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class DrawingTest extends \PHPUnit_Framework_TestCase

@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -35,14 +33,14 @@ class TextBreak
     /**
      * Paragraph style
      *
-     * @var PhpOffice\PhpWord\Style\Pagaraph
+     * @var \PhpOffice\PhpWord\Style\Pagaraph
      */
     private $paragraphStyle = null;
 
     /**
      * Text style
      *
-     * @var PhpOffice\PhpWord\Style\Font
+     * @var \PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle = null;
 
@@ -62,9 +60,9 @@ class TextBreak
     /**
      * Set Text style
      *
-     * @param null|array|PhpOffice\PhpWord\Style\Font $style
-     * @param null|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
-     * @return PhpOffice\PhpWord\Style\Font
+     * @param null|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -84,7 +82,7 @@ class TextBreak
     /**
      * Get Text style
      *
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -94,8 +92,8 @@ class TextBreak
     /**
      * Set Paragraph style
      *
-     * @param   null|array|PhpOffice\PhpWord\Style\Paragraph $style
-     * @return  null|PhpOffice\PhpWord\Style\Paragraph
+     * @param   null|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return  null|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -113,7 +111,7 @@ class TextBreak
     /**
      * Get Paragraph style
      *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

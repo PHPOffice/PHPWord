@@ -5,7 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Template;
 
 /**
- * @coversDefaultClass PhpOffice\PhpWord\Template
+ * @coversDefaultClass \PhpOffice\PhpWord\Template
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -87,7 +87,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
@@ -109,7 +109,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         /*
-         * We have to use error control below, because XSLTProcessor::setParameter omits warning on failure.
+         * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
          * This warning fails the test.
          */
         @$template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
@@ -117,7 +117,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not load XML from the given template.
      * @test
      */
@@ -139,7 +139,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         /*
-         * We have to use error control below, because DOMDocument::loadXML omits warning on failure.
+         * We have to use error control below, because \DOMDocument::loadXML omits warning on failure.
          * This warning fails the test.
          */
         @$template->applyXslStyleSheet($xslDOMDocument);

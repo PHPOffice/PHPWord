@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
@@ -222,15 +221,15 @@ class Word2007 implements IWriter
             $extension = 'php';
         } else {
             $imageType = exif_imagetype($src);
-            if ($imageType === IMAGETYPE_JPEG) {
+            if ($imageType === \IMAGETYPE_JPEG) {
                 $extension = 'jpg';
-            } elseif ($imageType === IMAGETYPE_GIF) {
+            } elseif ($imageType === \IMAGETYPE_GIF) {
                 $extension = 'gif';
-            } elseif ($imageType === IMAGETYPE_PNG) {
+            } elseif ($imageType === \IMAGETYPE_PNG) {
                 $extension = 'png';
-            } elseif ($imageType === IMAGETYPE_BMP) {
+            } elseif ($imageType === \IMAGETYPE_BMP) {
                 $extension = 'bmp';
-            } elseif ($imageType === IMAGETYPE_TIFF_II || $imageType === IMAGETYPE_TIFF_MM) {
+            } elseif ($imageType === \IMAGETYPE_TIFF_II || $imageType === \IMAGETYPE_TIFF_MM) {
                 $extension = 'tif';
             }
         }

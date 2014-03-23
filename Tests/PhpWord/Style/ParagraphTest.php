@@ -7,7 +7,6 @@ use PhpOffice\PhpWord\Style\Tab;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit_Framework_TestCase

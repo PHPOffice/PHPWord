@@ -5,7 +5,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -40,7 +39,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testElements()
     {
         $objectSrc = join(
-            DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'sheet.xls')
         );
 

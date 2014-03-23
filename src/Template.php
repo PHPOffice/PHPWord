@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -33,22 +31,16 @@ use PhpOffice\PhpWord\Shared\String;
 class Template
 {
     /**
-     * ZipArchive
-     *
      * @var \ZipArchive
      */
     private $_objZip;
 
     /**
-     * Temporary Filename
-     *
      * @var string
      */
     private $_tempFileName;
 
     /**
-     * Document XML
-     *
      * @var string
      */
     private $_documentXML;
@@ -58,7 +50,7 @@ class Template
      * Create a new Template Object
      *
      * @param string $strFilename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function __construct($strFilename)
     {
@@ -81,14 +73,14 @@ class Template
     /**
      * Applies XSL style sheet to template's parts
      *
-     * @param DOMDocument $xslDOMDocument
+     * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
-        $processor = new XSLTProcessor();
+        $processor = new \XSLTProcessor();
 
         $processor->importStylesheet($xslDOMDocument);
 
@@ -96,7 +88,7 @@ class Template
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
 
-        $xmlDOMDocument = new DOMDocument();
+        $xmlDOMDocument = new \DOMDocument();
         if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
             throw new Exception('Could not load XML from the given template.');
         }
@@ -160,7 +152,7 @@ class Template
      *
      * @param int $offset
      * @return int
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     private function _findRowStart($offset)
     {
@@ -206,7 +198,7 @@ class Template
      *
      * @param string $search
      * @param int $numberOfClones
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function cloneRow($search, $numberOfClones)
     {
@@ -257,10 +249,8 @@ class Template
     }
 
     /**
-     * Save Template
-     *
      * @return string
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function save()
     {
@@ -275,8 +265,6 @@ class Template
     }
 
     /**
-     * Save Template As...
-     *
      * @param string $strFilename
      */
     public function saveAs($strFilename)

@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Section\Image;
@@ -51,14 +50,14 @@ class RTF implements IWriter
     /**
      * Private PhpWord
      *
-     * @var PhpOffice\PhpWord
+     * @var \PhpOffice\PhpWord\PhpWord
      */
     private $_document;
 
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var PhpOffice\PhpWord\HashTable
+     * @var \PhpOffice\PhpWord\HashTable
      */
     private $_drawingHashTable;
 
@@ -67,7 +66,7 @@ class RTF implements IWriter
     private $_lastParagraphStyle;
 
     /**
-     * @param PhpOffice\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -82,7 +81,7 @@ class RTF implements IWriter
      * Save PhpWord to file
      *
      * @param string $pFileName
-     * @throws \Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function save($pFilename = null)
     {
@@ -103,33 +102,32 @@ class RTF implements IWriter
             // If a temporary file was used, copy it to the correct file stream
             if ($originalFilename != $pFilename) {
                 if (copy($pFilename, $originalFilename) === false) {
-                    throw new \Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
+                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
                 }
                 @unlink($pFilename);
             }
 
         } else {
-            throw new \Exception("PhpWord object unassigned.");
+            throw new Exception("PhpWord object unassigned.");
         }
     }
 
     /**
-     * @return PhpOffice\PhpWord
-     * @throws \Exception
+     * @return \PhpOffice\PhpWord\PhpWord
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function getPhpWord()
     {
         if (!is_null($this->_document)) {
             return $this->_document;
         } else {
-            throw new \Exception("No PhpWord assigned.");
+            throw new Exception("No PhpWord assigned.");
         }
     }
 
     /**
-     * @param PhpOffice\PhpWord $phpWord
-     * @throws \Exception
-     * @return PhpOffice\PhpWord\Writer\RTF
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return \PhpOffice\PhpWord\Writer\RTF
      */
     public function setPhpWord(PhpWord $phpWord = null)
     {
@@ -140,7 +138,7 @@ class RTF implements IWriter
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return PhpOffice\PhpWord\HashTable
+     * @return \PhpOffice\PhpWord\HashTable
      */
     public function getDrawingHashTable()
     {
@@ -160,22 +158,22 @@ class RTF implements IWriter
         $sRTFContent .= '\deff0';
         // Set the default tab size (720 twips)
         $sRTFContent .= '\deftab720';
-        $sRTFContent .= PHP_EOL;
+        $sRTFContent .= \PHP_EOL;
         // Set the font tbl group
         $sRTFContent .= '{\fonttbl';
         foreach ($this->_fontTable as $idx => $font) {
             $sRTFContent .= '{\f' . $idx . '\fnil\fcharset0 ' . $font . ';}';
         }
-        $sRTFContent .= '}' . PHP_EOL;
+        $sRTFContent .= '}' . \PHP_EOL;
         // Set the color tbl group
         $sRTFContent .= '{\colortbl ';
         foreach ($this->_colorTable as $idx => $color) {
             $arrColor = Drawing::htmlToRGB($color);
             $sRTFContent .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }
-        $sRTFContent .= ';}' . PHP_EOL;
+        $sRTFContent .= ';}' . \PHP_EOL;
         // Set the generator
-        $sRTFContent .= '{\*\generator PhpWord;}' . PHP_EOL;
+        $sRTFContent .= '{\*\generator PhpWord;}' . \PHP_EOL;
         // Set the view mode of the document
         $sRTFContent .= '\viewkind4';
         // Set the numberof bytes that follows a unicode character
@@ -190,7 +188,7 @@ class RTF implements IWriter
         $sRTFContent .= '\kerning1';
         // Set the font size in half-points
         $sRTFContent .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
-        $sRTFContent .= PHP_EOL;
+        $sRTFContent .= \PHP_EOL;
         // Body
         $sRTFContent .= $this->getDataContent();
 
@@ -435,7 +433,7 @@ class RTF implements IWriter
         }
 
         if (!$withoutP) {
-            $sRTFText .= '\par' . PHP_EOL;
+            $sRTFText .= '\par' . \PHP_EOL;
         }
         return $sRTFText;
     }
@@ -445,15 +443,15 @@ class RTF implements IWriter
         $sRTFText = '';
         $elements = $textrun->getElements();
         if (count($elements) > 0) {
-            $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
+            $sRTFText .= '\pard\nowidctlpar' . \PHP_EOL;
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
                     $sRTFText .= '{';
                     $sRTFText .= $this->getDataContentText($element, true);
-                    $sRTFText .= '}' . PHP_EOL;
+                    $sRTFText .= '}' . \PHP_EOL;
                 }
             }
-            $sRTFText .= '\par' . PHP_EOL;
+            $sRTFText .= '\par' . \PHP_EOL;
         }
         return $sRTFText;
     }
@@ -462,7 +460,7 @@ class RTF implements IWriter
     {
         $this->_lastParagraphStyle = '';
 
-        return '\par' . PHP_EOL;
+        return '\par' . \PHP_EOL;
     }
 
     /**
@@ -473,9 +471,9 @@ class RTF implements IWriter
     private function getDataContentUnsupportedElement($element)
     {
         $sRTFText = '';
-        $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
+        $sRTFText .= '\pard\nowidctlpar' . \PHP_EOL;
         $sRTFText .= "{$element}";
-        $sRTFText .= '\par' . PHP_EOL;
+        $sRTFText .= '\par' . \PHP_EOL;
 
         return $sRTFText;
     }

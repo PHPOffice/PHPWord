@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -32,14 +30,14 @@ class ListItem
     /**
      * ListItem Style
      *
-     * @var PhpOffice\PhpWord\Style\ListItem
+     * @var \PhpOffice\PhpWord\Style\ListItem
      */
     private $_style;
 
     /**
      * Textrun
      *
-     * @var PhpOffice\PhpWord\Section\Text
+     * @var \PhpOffice\PhpWord\Section\Text
      */
     private $_textObject;
 
@@ -61,7 +59,7 @@ class ListItem
      */
     public function __construct($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
-        $this->_style = new PhpOffice\PhpWord\Style\ListItem();
+        $this->_style = new \PhpOffice\PhpWord\Style\ListItem();
         $this->_textObject = new Text($text, $styleFont, $styleParagraph);
         $this->_depth = $depth;
 

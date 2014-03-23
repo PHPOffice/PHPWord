@@ -1,8 +1,6 @@
 <?php
 namespace PhpWord\Tests;
 
-use DOMDocument;
-
 class XmlDocument
 {
     /** @var string $path */
@@ -39,7 +37,7 @@ class XmlDocument
         $this->file = $file;
 
         $file = $this->path . '/' . $file;
-        $this->dom = new DOMDocument();
+        $this->dom = new \DOMDocument();
         $this->dom->load($file);
         return $this->dom;
     }

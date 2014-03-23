@@ -5,8 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\ODText;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Writer\ODText
+ * @coversDefaultClass          \PhpOffice\PhpWord\Writer\ODText
  * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit_Framework_TestCase
@@ -36,7 +35,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                    ::getPhpWord
-     * @expectedException         Exception
+     * @expectedException         \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage  No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -104,7 +103,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::save
-     * @expectedException        Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
@@ -136,7 +135,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers            ::setUseDiskCaching
-     * @expectedException Exception
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testSetUseDiskCachingException()
     {

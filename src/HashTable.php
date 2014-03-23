@@ -18,14 +18,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
  */
 
 namespace PhpOffice\PhpWord;
+
+use PhpOffice\PhpWord\Exceptions\Exception;
 
 /**
  * @codeCoverageIgnore Legacy from PHPExcel
@@ -47,8 +47,7 @@ class HashTable
     public $_keyMap = array();
 
     /**
-     * @param PhpOffice\PhpWord\IComparable[] $pSource Optional source array to create HashTable from
-     * @throws Exception
+     * @param \PhpOffice\PhpWord\IComparable[] $pSource Optional source array to create HashTable from
      */
     public function __construct($pSource = null)
     {
@@ -60,8 +59,8 @@ class HashTable
     /**
      * Add HashTable items from source
      *
-     * @param PhpOffice\PhpWord\IComparable[] $pSource Source array to create HashTable from
-     * @throws Exception
+     * @param  \PhpOffice\PhpWord\IComparable[] $pSource Source array to create HashTable from
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function addFromSource($pSource = null)
     {
@@ -80,8 +79,7 @@ class HashTable
     /**
      * Add HashTable item
      *
-     * @param PhpOffice\PhpWord\IComparable $pSource Item to add
-     * @throws Exception
+     * @param \PhpOffice\PhpWord\IComparable $pSource Item to add
      */
     public function add(IComparable $pSource = null)
     {
@@ -110,8 +108,7 @@ class HashTable
     /**
      * Remove HashTable item
      *
-     * @param PhpOffice\PhpWord\IComparable $pSource Item to remove
-     * @throws Exception
+     * @param \PhpOffice\PhpWord\IComparable $pSource Item to remove
      */
     public function remove(IComparable $pSource = null)
     {
@@ -161,7 +158,7 @@ class HashTable
 
     /**
      * @param int $pIndex
-     * @return PhpOffice\PhpWord\IComparable
+     * @return \PhpOffice\PhpWord\IComparable
      */
     public function getByIndex($pIndex = 0)
     {
@@ -174,7 +171,7 @@ class HashTable
 
     /**
      * @param string $pHashCode
-     * @return PhpOffice\PhpWord\IComparable
+     * @return \PhpOffice\PhpWord\IComparable
      *
      */
     public function getByHashCode($pHashCode = '')
@@ -187,7 +184,7 @@ class HashTable
     }
 
     /**
-     * @return PhpOffice\PhpWord\IComparable[]
+     * @return \PhpOffice\PhpWord\IComparable[]
      */
     public function toArray()
     {

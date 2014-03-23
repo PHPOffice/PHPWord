@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -42,7 +40,7 @@ class Image
     /**
      * Image Style
      *
-     * @var PhpOffice\PhpWord\Style\Image
+     * @var \PhpOffice\PhpWord\Style\Image
      */
     private $_style;
 
@@ -67,11 +65,12 @@ class Image
      * @param string $src
      * @param mixed $style
      * @param bool $isWatermark
-     * @throws InvalidImageException|UnsupportedImageTypeException
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidImageException
+     * @throws \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
      */
     public function __construct($src, $style = null, $isWatermark = false)
     {
-        $supportedImageTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM);
+        $supportedImageTypes = array(\IMAGETYPE_JPEG, \IMAGETYPE_GIF, \IMAGETYPE_PNG, \IMAGETYPE_BMP, \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM);
 
         if (!file_exists($src)) {
             throw new InvalidImageException;
@@ -83,7 +82,7 @@ class Image
 
         $this->_src = $src;
         $this->_isWatermark = $isWatermark;
-        $this->_style = new PhpOffice\PhpWord\Style\Image();
+        $this->_style = new \PhpOffice\PhpWord\Style\Image();
 
         if (!is_null($style) && is_array($style)) {
             foreach ($style as $key => $value) {
@@ -108,7 +107,7 @@ class Image
     /**
      * Get Image style
      *
-     * @return PhpOffice\PhpWord\Style\Image
+     * @return \PhpOffice\PhpWord\Style\Image
      */
     public function getStyle()
     {

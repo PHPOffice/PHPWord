@@ -6,8 +6,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007
+ * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
@@ -118,7 +117,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers             ::setUseDiskCaching
-     * @expectedException  Exception
+     * @expectedException  \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testSetUseDiskCachingException()
     {

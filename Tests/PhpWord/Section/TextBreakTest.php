@@ -6,8 +6,7 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Section\TextBreak
+ * @coversDefaultClass          \PhpOffice\PhpWord\Section\TextBreak
  * @runTestsInSeparateProcesses
  */
 class TextBreakTest extends \PHPUnit_Framework_TestCase

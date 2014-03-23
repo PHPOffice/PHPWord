@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2013 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -39,7 +37,7 @@ class Row
     /**
      * Row style
      *
-     * @var PhpOffice\PhpWord\Style\Row
+     * @var \PhpOffice\PhpWord\Style\Row
      */
     private $_style;
 
@@ -78,7 +76,7 @@ class Row
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_height = $height;
-        $this->_style = new PhpOffice\PhpWord\Style\Row();
+        $this->_style = new \PhpOffice\PhpWord\Style\Row();
 
         if (!is_null($style)) {
             if (is_array($style)) {
@@ -98,7 +96,7 @@ class Row
      *
      * @param int $width
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Table\Cell
+     * @return \PhpOffice\PhpWord\Section\Table\Cell
      */
     public function addCell($width = null, $style = null)
     {
@@ -120,7 +118,7 @@ class Row
     /**
      * Get row style
      *
-     * @return PhpOffice\PhpWord\Style\Row
+     * @return \PhpOffice\PhpWord\Style\Row
      */
     public function getStyle()
     {

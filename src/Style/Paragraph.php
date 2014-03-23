@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -186,7 +184,7 @@ class Paragraph
      * Set Paragraph Alignment
      *
      * @param string $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setAlign($pValue = null)
     {
@@ -212,7 +210,7 @@ class Paragraph
      * Set Space before Paragraph
      *
      * @param int $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpaceBefore($pValue = null)
     {
@@ -234,7 +232,7 @@ class Paragraph
      * Set Space after Paragraph
      *
      * @param int $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpaceAfter($pValue = null)
     {
@@ -256,7 +254,7 @@ class Paragraph
      * Set Spacing between breaks
      *
      * @param int $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setSpacing($pValue = null)
     {
@@ -278,7 +276,7 @@ class Paragraph
      * Set indentation
      *
      * @param int $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setIndent($pValue = null)
     {
@@ -300,7 +298,7 @@ class Paragraph
      * Set hanging
      *
      * @param int $pValue
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setHanging($pValue = null)
     {
@@ -311,7 +309,7 @@ class Paragraph
     /**
      * Get tabs
      *
-     * @return PhpOffice\PhpWord\Style\Tabs
+     * @return \PhpOffice\PhpWord\Style\Tabs
      */
     public function getTabs()
     {
@@ -322,7 +320,7 @@ class Paragraph
      * Set tabs
      *
      * @param   array   $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setTabs($pValue = null)
     {
@@ -346,7 +344,7 @@ class Paragraph
      * Set parent style ID
      *
      * @param   string $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setBasedOn($pValue = 'Normal')
     {
@@ -368,7 +366,7 @@ class Paragraph
      * Set style for next paragraph
      *
      * @param   string $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setNext($pValue = null)
     {
@@ -390,7 +388,7 @@ class Paragraph
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setWidowControl($pValue = true)
     {
@@ -415,7 +413,7 @@ class Paragraph
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setKeepNext($pValue = false)
     {
@@ -440,7 +438,7 @@ class Paragraph
      * Set keep all lines on one page setting
      *
      * @param   bool $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setKeepLines($pValue = false)
     {
@@ -465,7 +463,7 @@ class Paragraph
      * Set start paragraph on next page setting
      *
      * @param   bool $pValue
-     * @return  PhpOffice\PhpWord\Style\Paragraph
+     * @return  \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setPageBreakBefore($pValue = false)
     {
@@ -481,7 +479,7 @@ class Paragraph
      *
      * @param int|float|string $lineHeight
      * @return $this
-     * @throws InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {

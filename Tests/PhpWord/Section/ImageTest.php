@@ -4,7 +4,7 @@ namespace PhpWord\Tests\Section;
 use PhpOffice\PhpWord\Section\Image;
 
 /**
- * @coversDefaultClass PhpOffice\PhpWord\Section\Image
+ * @coversDefaultClass \PhpOffice\PhpWord\Section\Image
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $oImage = new Image(
             $src,
             array('width' => 210, 'height' => 210, 'align' => 'center',
-                'wrappingStyle' => PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND)
+                'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
@@ -52,7 +52,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException PhpOffice\PhpWord\Exceptions\InvalidImageException
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
      * @covers            ::__construct
      */
     public function testImageNotFound()
@@ -61,7 +61,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
+     * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
      * @covers            ::__construct
      */
     public function testInvalidImageTypes()

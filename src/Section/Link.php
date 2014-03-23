@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -56,14 +54,14 @@ class Link
     /**
      * Link style
      *
-     * @var PhpOffice\PhpWord\Style\Font
+     * @var \PhpOffice\PhpWord\Style\Font
      */
     private $_styleFont;
 
     /**
      * Paragraph style
      *
-     * @var PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -155,7 +153,7 @@ class Link
     /**
      * Get Text style
      *
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -165,7 +163,7 @@ class Link
     /**
      * Get Paragraph style
      *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

@@ -8,7 +8,7 @@ if (!\defined('PHPWORD_TESTS_BASE_DIR')) {
 
 // loading classes with PSR-4 autoloader
 require_once __DIR__ . '/../src/Autoloader.php';
-PhpOffice\PhpWord\Autoloader::register();
+\PhpOffice\PhpWord\Autoloader::register();
 
 require_once __DIR__ . '/_inc/TestHelperDOCX.php';
 require_once __DIR__ . '/_inc/XmlDocument.php';

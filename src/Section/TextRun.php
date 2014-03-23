@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Section;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -36,7 +35,7 @@ class TextRun
     /**
      * Paragraph style
      *
-     * @var PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $_styleParagraph;
 
@@ -76,7 +75,7 @@ class TextRun
      *
      * @var string $text
      * @var mixed $styleFont
-     * @return PhpOffice\PhpWord\Section\Text
+     * @return \PhpOffice\PhpWord\Section\Text
      */
     public function addText($text = null, $styleFont = null)
     {
@@ -94,7 +93,7 @@ class TextRun
      * @param string $linkSrc
      * @param string $linkName
      * @param mixed $styleFont
-     * @return PhpOffice\PhpWord\Section\Link
+     * @return \PhpOffice\PhpWord\Section\Link
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null)
     {
@@ -116,7 +115,7 @@ class TextRun
      *
      * @param string $imageSrc
      * @param mixed $styleFont
-     * @return PhpOffice\PhpWord\Section\Image
+     * @return \PhpOffice\PhpWord\Section\Image
      */
     public function addImage($imageSrc, $style = null)
     {
@@ -137,8 +136,8 @@ class TextRun
      * Add TextBreak
      *
      * @param int $count
-     * @param null|string|array|PhpOffice\PhpWord\Style\Font      $fontStyle
-     * @param null|string|array|PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Font      $fontStyle
+     * @param null|string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -151,12 +150,12 @@ class TextRun
      * Create a new Footnote Element
      *
      * @param string $text
-     * @return PhpOffice\PhpWord\Section\Footnote
+     * @return \PhpOffice\PhpWord\Section\Footnote
      */
     public function createFootnote($styleParagraph = null)
     {
-        $footnote = new PhpOffice\PhpWord\Section\Footnote($styleParagraph);
-        $refID = PhpOffice\PhpWord\Footnote::addFootnoteElement($footnote);
+        $footnote = new \PhpOffice\PhpWord\Section\Footnote($styleParagraph);
+        $refID = \PhpOffice\PhpWord\Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->_elementCollection[] = $footnote;
         return $footnote;
@@ -175,7 +174,7 @@ class TextRun
     /**
      * Get Paragraph style
      *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

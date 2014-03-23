@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Writer\IWriter;
 
 abstract class WriterPart
@@ -34,15 +33,14 @@ abstract class WriterPart
     /**
      * Parent IWriter object
      *
-     * @var PhpOffice\PhpWord\Writer\IWriter
+     * @var \PhpOffice\PhpWord\Writer\IWriter
      */
     private $_parentWriter;
 
     /**
      * Set parent IWriter object
      *
-     * @param PhpOffice\PhpWord\Writer\IWriter $pWriter
-     * @throws Exception
+     * @param \PhpOffice\PhpWord\Writer\IWriter $pWriter
      */
     public function setParentWriter(IWriter $pWriter = null)
     {
@@ -52,8 +50,8 @@ abstract class WriterPart
     /**
      * Get parent IWriter object
      *
-     * @return PhpOffice\PhpWord\Writer\IWriter
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Writer\IWriter
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function getParentWriter()
     {

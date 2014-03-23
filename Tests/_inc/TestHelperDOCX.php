@@ -10,8 +10,8 @@ class TestHelperDOCX
     static protected $file;
 
     /**
-     * @param PhpOffice\PhpWord $phpWord
-     * @return PhpWord\Tests\XmlDocument
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return \PhpWord\Tests\XmlDocument
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {

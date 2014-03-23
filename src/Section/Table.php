@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -34,7 +32,7 @@ class Table
     /**
      * Table style
      *
-     * @var PhpOffice\PhpWord\Style\Table
+     * @var \PhpOffice\PhpWord\Style\Table
      */
     private $_style;
 
@@ -81,7 +79,7 @@ class Table
 
         if (!is_null($style)) {
             if (is_array($style)) {
-                $this->_style = new PhpOffice\PhpWord\Style\Table();
+                $this->_style = new \PhpOffice\PhpWord\Style\Table();
 
                 foreach ($style as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
@@ -112,7 +110,7 @@ class Table
      *
      * @param int $width
      * @param mixed $style
-     * @return PhpOffice\PhpWord\Section\Table\Cell
+     * @return \PhpOffice\PhpWord\Section\Table\Cell
      */
     public function addCell($width = null, $style = null)
     {
@@ -134,7 +132,7 @@ class Table
     /**
      * Get table style
      *
-     * @return PhpOffice\PhpWord\Style\Table
+     * @return \PhpOffice\PhpWord\Style\Table
      */
     public function getStyle()
     {

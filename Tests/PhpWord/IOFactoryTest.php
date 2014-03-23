@@ -5,8 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * @@coversDefaultClass         PhpOffice\PhpWord\IOFactory
- * @package                     PhpWord\Tests
+ * @coversDefaultClass         \PhpOffice\PhpWord\IOFactory
  * @runTestsInSeparateProcesses
  */
 final class IOFactoryTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +23,7 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::createWriter
-     * @expectedException        PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not instantiate "Word2006" class.
      */
     final public function testNonexistentWriterCanNotBeCreated()
@@ -45,7 +44,7 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers                   ::createReader
-     * @expectedException        PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not instantiate "Word2006" class.
      */
     final public function testNonexistentReaderCanNotBeCreated()

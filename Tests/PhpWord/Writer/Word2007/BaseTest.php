@@ -5,8 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Writer\Word2007\Base
+ * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007\Base
  * @runTestsInSeparateProcesses
  */
 class BaseTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +47,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $pStyle = 'pStyle';
         $aStyle = array('align' => 'justify', 'spaceBefore' => 120, 'spaceAfter' => 120);
         $imageSrc = join(
-            DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
 
@@ -321,7 +320,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteWatermark()
     {
         $imageSrc = join(
-            DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR,
             array(\PHPWORD_TESTS_BASE_DIR, '_files', 'images', 'earth.jpg')
         );
 

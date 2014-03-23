@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -27,6 +25,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -83,12 +82,12 @@ class Rels extends WriterPart
     /**
      * Write Override content type
      *
-     * @param    PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param    int $pId Relationship ID. rId will be prepended!
-     * @param    string $pType Relationship type
-     * @param    string $pTarget Relationship target
-     * @param    string $pTargetMode Relationship target mode
-     * @throws    Exception
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param int $pId Relationship ID. rId will be prepended!
+     * @param string $pType Relationship type
+     * @param string $pTarget Relationship target
+     * @param string $pTargetMode Relationship target mode
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
     {

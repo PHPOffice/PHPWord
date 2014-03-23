@@ -4,7 +4,6 @@ namespace PhpWord\Tests\Style;
 use PhpOffice\PhpWord\Style\Image;
 
 /**
- * @package PhpWord\Tests
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
@@ -56,7 +55,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     /**
      * Test setWrappingStyle exception
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetWrappingStyleException()
     {

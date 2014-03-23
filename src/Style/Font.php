@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -74,9 +72,7 @@ class Font
     private $_type;
 
     /**
-     * Paragraph Style
-     *
-     * @var PhpOffice\PhpWord\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $_paragraphStyle;
 
@@ -95,43 +91,31 @@ class Font
     private $_size = PhpWord::DEFAULT_FONT_SIZE;
 
     /**
-     * Bold
-     *
      * @var bool
      */
     private $_bold = false;
 
     /**
-     * Italics
-     *
      * @var bool
      */
     private $_italic = false;
 
     /**
-     * Superscript
-     *
      * @var bool
      */
     private $_superScript = false;
 
     /**
-     * Subscript
-     *
      * @var bool
      */
     private $_subScript = false;
 
     /**
-     * Underline mode
-     *
      * @var string
      */
     private $_underline = self::UNDERLINE_NONE;
 
     /**
-     * Strikethrough
-     *
      * @var bool
      */
     private $_strikethrough = false;
@@ -165,8 +149,6 @@ class Font
     private $_hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
-     * New font style
-     *
      * @param string $type Type of font
      * @param array $paragraphStyle Paragraph styles definition
      */
@@ -204,10 +186,8 @@ class Font
     }
 
     /**
-     * Set style value
-     *
-     * @param   string $key
-     * @param   mixed $value
+     * @param string $key
+     * @param mixed $value
      */
     public function setStyleValue($key, $value)
     {
@@ -220,7 +200,7 @@ class Font
     /**
      * Get font name
      *
-     * @return  bool
+     * @return bool
      */
     public function getName()
     {
@@ -231,7 +211,7 @@ class Font
      * Set font name
      *
      * @param  string $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setName($pValue = PhpWord::DEFAULT_FONT_NAME)
     {
@@ -257,7 +237,7 @@ class Font
      * Set font size
      *
      * @param  int|float $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setSize($pValue = PhpWord::DEFAULT_FONT_SIZE)
     {
@@ -269,9 +249,7 @@ class Font
     }
 
     /**
-     * Get bold
-     *
-     * @return  bool
+     * @return bool
      */
     public function getBold()
     {
@@ -279,10 +257,8 @@ class Font
     }
 
     /**
-     * Set bold
-     *
      * @param  bool $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setBold($pValue = false)
     {
@@ -294,9 +270,7 @@ class Font
     }
 
     /**
-     * Get italics
-     *
-     * @return  bool
+     * @return bool
      */
     public function getItalic()
     {
@@ -304,10 +278,8 @@ class Font
     }
 
     /**
-     * Set italics
-     *
      * @param  bool $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setItalic($pValue = false)
     {
@@ -319,9 +291,7 @@ class Font
     }
 
     /**
-     * Get superscript
-     *
-     * @return  bool
+     * @return bool
      */
     public function getSuperScript()
     {
@@ -329,10 +299,8 @@ class Font
     }
 
     /**
-     * Set superscript
-     *
      * @param  bool $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setSuperScript($pValue = false)
     {
@@ -345,9 +313,7 @@ class Font
     }
 
     /**
-     * Get superscript
-     *
-     * @return  bool
+     * @return bool
      */
     public function getSubScript()
     {
@@ -355,10 +321,8 @@ class Font
     }
 
     /**
-     * Set subscript
-     *
      * @param  bool $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setSubScript($pValue = false)
     {
@@ -371,9 +335,7 @@ class Font
     }
 
     /**
-     * Get underline
-     *
-     * @return  string
+     * @return string
      */
     public function getUnderline()
     {
@@ -381,10 +343,8 @@ class Font
     }
 
     /**
-     * Set underline
-     *
      * @param  string $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setUnderline($pValue = self::UNDERLINE_NONE)
     {
@@ -396,9 +356,7 @@ class Font
     }
 
     /**
-     * Get strikethrough
-     *
-     * @return  bool
+     * @return bool
      */
     public function getStrikethrough()
     {
@@ -406,10 +364,8 @@ class Font
     }
 
     /**
-     * Set strikethrough
-     *
      * @param  bool $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setStrikethrough($pValue = false)
     {
@@ -423,7 +379,7 @@ class Font
     /**
      * Get font color
      *
-     * @return  string
+     * @return string
      */
     public function getColor()
     {
@@ -431,10 +387,8 @@ class Font
     }
 
     /**
-     * Set font color
-     *
      * @param  string $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setColor($pValue = PhpWord::DEFAULT_FONT_COLOR)
     {
@@ -448,7 +402,7 @@ class Font
     /**
      * Get foreground/highlight color
      *
-     * @return  bool
+     * @return bool
      */
     public function getFgColor()
     {
@@ -459,7 +413,7 @@ class Font
      * Set foreground/highlight color
      *
      * @param  string $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setFgColor($pValue = null)
     {
@@ -468,8 +422,6 @@ class Font
     }
 
     /**
-     * Get style type
-     *
      * @return string
      */
     public function getStyleType()
@@ -478,9 +430,7 @@ class Font
     }
 
     /**
-     * Get paragraph style
-     *
-     * @return PhpOffice\PhpWord\Style\Paragraph
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {
@@ -488,11 +438,9 @@ class Font
     }
 
     /**
-     * Set the line height
-     *
-     * @param int|float|string $lineHeight
+     * @param  int|float|string $lineHeight
      * @return $this
-     * @throws InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {
@@ -531,7 +479,7 @@ class Font
      * Set Font Content Type
      *
      * @param  string $pValue
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function setHint($pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
     {

@@ -4,8 +4,7 @@ namespace PhpWord\Tests\Shared;
 use PhpOffice\PhpWord\Shared\File;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Shared\File
+ * @coversDefaultClass          \PhpOffice\PhpWord\Shared\File
  * @runTestsInSeparateProcesses
  */
 class FileTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +14,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileExists()
     {
-        $dir = join(DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
+        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
         chdir($dir);
         $this->assertTrue(File::file_exists('blank.docx'));
     }
@@ -24,7 +23,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoFileExists()
     {
-        $dir = join(DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
+        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
         chdir($dir);
         $this->assertFalse(File::file_exists('404.docx'));
     }
@@ -34,10 +33,10 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testRealpath()
     {
-        $dir = join(DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
+        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, '_files', 'templates'));
         chdir($dir);
         $file     = 'blank.docx';
-        $expected = $dir . DIRECTORY_SEPARATOR . $file;
+        $expected = $dir . \DIRECTORY_SEPARATOR . $file;
         $this->assertEquals($expected, File::realpath($file));
     }
 }

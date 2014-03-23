@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -75,7 +73,7 @@ class TOC
      */
     public function __construct($styleFont = null, $styleTOC = null)
     {
-        self::$_styleTOC = new PhpOffice\PhpWord\Style\TOC();
+        self::$_styleTOC = new \PhpOffice\PhpWord\Style\TOC();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
@@ -136,7 +134,7 @@ class TOC
     /**
      * Get TOC Style
      *
-     * @return PhpOffice\PhpWord\Style\TOC
+     * @return \PhpOffice\PhpWord\Style\TOC
      */
     public static function getStyleTOC()
     {
@@ -146,7 +144,7 @@ class TOC
     /**
      * Get Font Style
      *
-     * @return PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function getStyleFont()
     {

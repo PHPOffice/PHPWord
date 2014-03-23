@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -37,7 +35,7 @@ use PhpOffice\PhpWord\Template;
 if (!defined('PHPWORD_BASE_DIR')) {
     define('PHPWORD_BASE_DIR', \realpath(__DIR__) . \DIRECTORY_SEPARATOR);
     require \PHPWORD_BASE_DIR . 'Autoloader.php';
-    Autoloader::register();
+    \PhpOffice\PhpWord\Autoloader::register();
 }
 // @codeCoverageIgnoreEnd
 
@@ -55,7 +53,7 @@ class PhpWord
     const DEFAULT_FONT_SIZE = 10;
 
     /**
-     * @var PhpOffice\PhpWord\DocumentProperties
+     * @var \PhpOffice\PhpWord\DocumentProperties
      */
     private $_documentProperties;
 
@@ -70,7 +68,7 @@ class PhpWord
     private $_defaultFontSize;
 
     /**
-     * @var PhpOffice\PhpWord\Section[]
+     * @var \PhpOffice\PhpWord\Section[]
      */
     private $_sections = array();
 
@@ -82,7 +80,7 @@ class PhpWord
     }
 
     /**
-     * @return PhpOffice\PhpWord\DocumentProperties
+     * @return \PhpOffice\PhpWord\DocumentProperties
      */
     public function getDocumentProperties()
     {
@@ -90,8 +88,8 @@ class PhpWord
     }
 
     /**
-     * @param  PhpOffice\PhpWord\DocumentProperties $documentProperties
-     * @return PhpOffice\PhpWord
+     * @param  \PhpOffice\PhpWord\DocumentProperties $documentProperties
+     * @return \PhpOffice\PhpWord\PhpWord
      */
     public function setDocumentProperties(DocumentProperties $documentProperties)
     {
@@ -101,8 +99,8 @@ class PhpWord
     }
 
     /**
-     * @param  PhpOffice\PhpWord\Section\Settings $settings
-     * @return PhpOffice\PhpWord\Section
+     * @param  \PhpOffice\PhpWord\Section\Settings $settings
+     * @return \PhpOffice\PhpWord\Section
      */
     public function createSection($settings = null)
     {
@@ -210,7 +208,7 @@ class PhpWord
     }
 
     /**
-     * @return PhpOffice\PhpWord\Section[]
+     * @return \PhpOffice\PhpWord\Section[]
      */
     public function getSections()
     {
@@ -219,8 +217,8 @@ class PhpWord
 
     /**
      * @param  string $filename Fully qualified filename.
-     * @return PhpOffice\PhpWord\Template
-     * @throws PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Template
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function loadTemplate($filename)
     {

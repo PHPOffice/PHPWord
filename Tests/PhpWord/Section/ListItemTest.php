@@ -18,7 +18,7 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
             'text',
             1,
             null,
-            array('listType' => PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER)
+            array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItem->getStyle());

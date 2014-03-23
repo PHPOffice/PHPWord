@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -61,7 +59,7 @@ abstract class AbstractReader implements IReader
      * Set read data only
      *
      * @param bool $pValue
-     * @return PhpOffice\PhpWord\Reader\IReader
+     * @return \PhpOffice\PhpWord\Reader\IReader
      */
     public function setReadDataOnly($pValue = true)
     {
@@ -74,7 +72,7 @@ abstract class AbstractReader implements IReader
      *
      * @param string $pFilename
      * @return resource
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     protected function openFile($pFilename)
     {

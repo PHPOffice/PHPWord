@@ -18,8 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category   PhpWord
- * @package    PhpWord
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
  * @version    0.8.0
@@ -44,7 +42,7 @@ class Word2007 extends AbstractReader implements IReader
      *
      * @param string $pFilename
      * @return bool
-     * @throws PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function canRead($pFilename)
     {
@@ -78,7 +76,7 @@ class Word2007 extends AbstractReader implements IReader
     }
 
     /**
-     * @param ZipArchive $archive
+     * @param \ZipArchive $archive
      * @param string $fileName
      * @param bool $removeNamespace
      * @return mixed
@@ -109,7 +107,7 @@ class Word2007 extends AbstractReader implements IReader
      * Loads PhpWord from file
      *
      * @param string $pFilename
-     * @return PhpOffice\PhpWord|null
+     * @return \PhpOffice\PhpWord\PhpWord|null
      */
     public function load($pFilename)
     {
@@ -271,7 +269,7 @@ class Word2007 extends AbstractReader implements IReader
     /**
      * Load section settings from SimpleXMLElement
      *
-     * @param SimpleXMLElement $elm
+     * @param  \SimpleXMLElement $elm
      * @return array|string|null
      *
      * @todo Implement gutter
@@ -333,7 +331,7 @@ class Word2007 extends AbstractReader implements IReader
     /**
      * Load paragraph style from SimpleXMLElement
      *
-     * @param SimpleXMLElement $elm
+     * @param  \SimpleXMLElement $elm
      * @return array|string|null
      */
     private function loadParagraphStyle($elm)
@@ -394,7 +392,7 @@ class Word2007 extends AbstractReader implements IReader
     /**
      * Load font style from SimpleXMLElement
      *
-     * @param SimpleXMLElement $elm
+     * @param  \SimpleXMLElement $elm
      * @return array|string|null
      */
     private function loadFontStyle($elm)

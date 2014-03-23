@@ -4,8 +4,7 @@ namespace PhpWord\Tests\Style;
 use PhpOffice\PhpWord\Style\TOC;
 
 /**
- * @package                     PhpWord\Tests
- * @coversDefaultClass          PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass          \PhpOffice\PhpWord\Style\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
@@ -18,9 +17,9 @@ class TOCTest extends \PHPUnit_Framework_TestCase
         $object = new TOC();
 
         $properties = array(
-            'tabPos' => 9062,
+            'tabPos'    => 9062,
             'tabLeader' => TOC::TABLEADER_DOT,
-            'indent' => 200,
+            'indent'    => 200,
         );
         foreach ($properties as $key => $value) {
             // set/get
