@@ -21,8 +21,8 @@ before_script:
   - composer install --prefer-source
   - composer selfupdate --quiet
   ## PHP_CodeSniffer
-  #- pyrus install pear/PHP_CodeSniffer
-  #- phpenv rehash
+  - pyrus install pear/PHP_CodeSniffer
+  - phpenv rehash
   ## PHP Copy/Paste Detector
   #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
   ## PHP Mess Detector
@@ -37,8 +37,8 @@ before_script:
 
 script:
   ## PHP_CodeSniffer
-  #- phpcs --standard=PSR1 -n src/
-  #- phpcs --standard=PSR2 -n src/
+  - phpcs --standard=PSR2 -n src/
+  - phpcs --standard=PSR2 -n test/
   ## PHP Copy/Paste Detector
   #- php phpcpd.phar --verbose src/
   ## PHP Mess Detector
