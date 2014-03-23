@@ -47,11 +47,11 @@ Manual install
 To install manually, `download PHPWord package from
 github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
 Extract the package and put the contents to your machine. To use the
-library, include ``Classes/PHPWord.php`` in your script like below.
+library, include ``src/PhpWord/PhpWord.php`` in your script like below.
 
 .. code-block:: php
 
-    require_once '/path/to/PHPWord/Classes/PHPWord.php';
+    require_once '/path/to/src/PhpWord/PhpWord.php';
 
 Using samples
 -------------
@@ -59,4 +59,4 @@ Using samples
 After installation, you can browse and use the samples that we've
 provided, either by command line or using browser. If you can access
 your PHPWord library folder using browser, point your browser to the
-``samples`` folder, e.g. ``http://localhost/PHPWord/samples/``.
+``samples`` folder, e.g. ``http://localhost/PhpWord/samples/``.

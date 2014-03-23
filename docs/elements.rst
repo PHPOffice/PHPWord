@@ -44,11 +44,11 @@ Defined style examples:
 .. code-block:: php
 
     $fontStyle = array('color' => '006699', 'size' => 18, 'bold' => true);
-    $PHPWord->addFontStyle('fStyle', $fontStyle);
+    $phpWord->addFontStyle('fStyle', $fontStyle);
     $text = $section->addText('Hello world!', 'fStyle');
 
     $paragraphStyle = array('align' => 'center');
-    $PHPWord->addParagraphStyle('pStyle', $paragraphStyle);
+    $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
     $text = $section->addText('Hello world!', 'pStyle');
 
 Font style
@@ -97,7 +97,7 @@ need titles or headings. To add a title to the document, use the
 
 .. code-block:: php
 
-    $PHPWord->addTitleStyle($depth, [$fontStyle], [$paragraphStyle]);
+    $phpWord->addTitleStyle($depth, [$fontStyle], [$paragraphStyle]);
     $section->addTitle($text, [$depth]);
 
 Its necessary to add a title style to your document because otherwise
@@ -193,7 +193,7 @@ Table style can be defined with ``addTableStyle``:
         'cellMargin' => 50
     );
     $firstRowStyle = array('bgColor' => '66BBFF');
-    $PHPWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+    $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
     $table = $section->addTable('myTable');
 
 Table, row, and cell styles
@@ -292,7 +292,7 @@ header reference. After creating a header, you can use the
 
 .. code-block:: php
 
-    $section = $PHPWord->createSection();
+    $section = $phpWord->createSection();
     $header = $section->createHeader();
     $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
 

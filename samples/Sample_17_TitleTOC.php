@@ -1,22 +1,19 @@
 <?php
-/**
- * Titles and TOC
- */
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PHPWord object", EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s'), " Create new PhpWord object", \EOL;
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 
 // Define the TOC font style
 $fontStyle = array('spaceAfter'=>60, 'size'=>12);
 
 // Add title styles
-$PHPWord->addTitleStyle(1, array('size'=>20, 'color'=>'333333', 'bold'=>true));
-$PHPWord->addTitleStyle(2, array('size'=>16, 'color'=>'666666'));
+$phpWord->addTitleStyle(1, array('size'=>20, 'color'=>'333333', 'bold'=>true));
+$phpWord->addTitleStyle(2, array('size'=>16, 'color'=>'666666'));
 
 // Add text elements
 $section->addText('Table of contents:');
@@ -45,16 +42,16 @@ $section->addTextBreak(2);
 $section->addTitle('I am a Subtitle of Title 3', 2);
 $section->addText('Again and again, more text...');
 
-echo date('H:i:s'), " Note: Please refresh TOC manually.", EOL;
+echo date('H:i:s'), " Note: Please refresh TOC manually.", \EOL;
 // End code
 
 // Save file
 $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    echo date('H:i:s'), " Write to {$writer} format", \EOL;
+    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 

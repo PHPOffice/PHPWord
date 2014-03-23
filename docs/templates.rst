@@ -15,7 +15,7 @@ Example:
 
 .. code-block:: php
 
-    $template = $PHPWord->loadTemplate('Template.docx');
+    $template = $phpWord->loadTemplate('Template.docx');
     $template->setValue('Name', 'Somebody someone');
     $template->setValue('Street', 'Coming-Undone-Street 32');
 

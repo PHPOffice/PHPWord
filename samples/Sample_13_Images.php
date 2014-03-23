@@ -1,15 +1,12 @@
 <?php
-/**
- * Image creation
- */
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PHPWord object", EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s'), " Create new PhpWord object", \EOL;
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 $section->addText('Local image without any styles:');
 $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);
@@ -27,9 +24,9 @@ $section->addMemoryImage($source);
 $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $objWriter = PHPWord_IOFactory::createWriter($PHPWord, $writer);
-    $objWriter->save("{$name}.{$extension}");
+    echo date('H:i:s'), " Write to {$writer} format", \EOL;
+    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
+    $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
 }
 
