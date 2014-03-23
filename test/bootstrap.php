@@ -10,5 +10,15 @@ if (!\defined('PHPWORD_TESTS_BASE_DIR')) {
 require_once __DIR__ . '/../../src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
-require_once __DIR__ . '/TestHelperDOCX.php';
-require_once __DIR__ . '/XmlDocument.php';
+spl_autoload_register(function ($class) {
+    $class = ltrim($class, '\\');
+    $prefix = 'PhpOffice\\PhpWord\\Tests';
+    if (strpos($class, $prefix) === 0) {
+        $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+        $class = 'PhpWord' . DIRECTORY_SEPARATOR . 'Tests' . DIRECTORY_SEPARATOR . '_includes' . substr($class, strlen($prefix));
+        $file = __DIR__ . DIRECTORY_SEPARATOR . $class . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    }
+});
