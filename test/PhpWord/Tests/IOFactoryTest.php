@@ -24,7 +24,6 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers                   ::createWriter
      * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
-     * @expectedExceptionMessage Could not instantiate "Word2006" class.
      */
     final public function testNonexistentWriterCanNotBeCreated()
     {
@@ -45,7 +44,6 @@ final class IOFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers                   ::createReader
      * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
-     * @expectedExceptionMessage Could not instantiate "Word2006" class.
      */
     final public function testNonexistentReaderCanNotBeCreated()
     {

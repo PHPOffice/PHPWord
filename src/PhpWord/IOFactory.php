@@ -37,13 +37,12 @@ abstract class IOFactory
      */
     public static function createWriter(PhpWord $phpWord, $name)
     {
-        try {
-            $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
-
-            return new $fqName($phpWord);
-        } catch (\Exception $ex) {
-            throw new Exception("Could not instantiate \"{$name}\" class.");
+        if ($name !== 'IWriter' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
+            throw new Exception("\"{$name}\" is not a valid writer.");
         }
+
+        $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
+        return new $fqName($phpWord);
     }
 
     /**
@@ -53,13 +52,12 @@ abstract class IOFactory
      */
     public static function createReader($name)
     {
-        try {
-            $fqName = "PhpOffice\\PhpWord\\Reader\\{$name}";
-
-            return new $fqName();
-        } catch (\Exception $ex) {
-            throw new Exception("Could not instantiate \"{$name}\" class.");
+        if ($name !== 'IReader' && $name !== 'Word2007') {
+            throw new Exception("\"{$name}\" is not a valid reader.");
         }
+
+        $fqName = "PhpOffice\\PhpWord\\Reader\\{$name}";
+        return new $fqName();
     }
 
     /**
