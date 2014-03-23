@@ -68,10 +68,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImage()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oHeader = new Header(1);
         $element = $oHeader->addImage($src);
 
@@ -111,10 +108,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
     public function testAddWatermark()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oHeader = new Header(1);
         $element = $oHeader->addWatermark($src);
 

@@ -2,7 +2,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @coversDefaultClass          \PhpOffice\PhpWord\Writer\ODText\Content
@@ -24,14 +24,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteContent()
     {
-        $imageSrc = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'PhpWord.png')
-        );
-        $objectSrc = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $imageSrc = __DIR__ . "/../../_files/images/PhpWord.png";
+        $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
         $expected = 'Expected';
 
         $phpWord = new PhpWord();

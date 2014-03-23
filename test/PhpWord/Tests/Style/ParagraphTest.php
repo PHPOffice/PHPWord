@@ -4,7 +4,7 @@ namespace PhpOffice\PhpWord\Tests\Style;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Tab;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @runTestsInSeparateProcesses

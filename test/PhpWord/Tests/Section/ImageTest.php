@@ -10,10 +10,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'firefox.png')
-        );
+        $src = __DIR__ . "/../_files/images/firefox.png";
         $oImage = new Image($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
@@ -25,10 +22,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithStyle()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'firefox.png')
-        );
+        $src = __DIR__ . "/../_files/images/firefox.png";
         $oImage = new Image(
             $src,
             array('width' => 210, 'height' => 210, 'align' => 'center',
@@ -43,12 +37,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidImageTypes()
     {
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/mars_noext_jpg");
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/mars.jpg");
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/mario.gif");
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/firefox.png");
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/duke_nukem.bmp");
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/angela_merkel.tif");
+        new Image(__DIR__ . "/../_files/images/mars_noext_jpg");
+        new Image(__DIR__ . "/../_files/images/mars.jpg");
+        new Image(__DIR__ . "/../_files/images/mario.gif");
+        new Image(__DIR__ . "/../_files/images/firefox.png");
+        new Image(__DIR__ . "/../_files/images/duke_nukem.bmp");
+        new Image(__DIR__ . "/../_files/images/angela_merkel.tif");
     }
 
     /**
@@ -57,7 +51,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testImageNotFound()
     {
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/thisisnotarealimage");
+        new Image(__DIR__ . "/../_files/images/thisisnotarealimage");
     }
 
     /**
@@ -66,26 +60,22 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidImageTypes()
     {
-        new Image(\PHPWORD_TESTS_BASE_DIR . "/data/images/alexz-johnson.pcx");
+        new Image(__DIR__ . "/../_files/images/alexz-johnson.pcx");
     }
 
     public function testStyle()
     {
-        $oImage = new Image(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        ), array('width' => 210, 'height' => 210, 'align' => 'center'));
+        $oImage = new Image(
+            __DIR__ . "/../_files/images/earth.jpg",
+            array('width' => 210, 'height' => 210, 'align' => 'center')
+        );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
     public function testRelationID()
     {
-        $oImage = new Image(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        ));
-
+        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
         $iVal = rand(1, 1000);
         $oImage->setRelationId($iVal);
         $this->assertEquals($oImage->getRelationId(), $iVal);
@@ -93,11 +83,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function testWatermark()
     {
-        $oImage = new Image(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        ));
-
+        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
         $oImage->setIsWatermark(true);
         $this->assertEquals($oImage->getIsWatermark(), true);
     }

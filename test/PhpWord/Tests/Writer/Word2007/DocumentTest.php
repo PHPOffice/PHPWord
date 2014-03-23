@@ -2,7 +2,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @runTestsInSeparateProcesses
@@ -38,10 +38,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testElements()
     {
-        $objectSrc = join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
 
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, array('color' => '333333', 'bold'=>true));

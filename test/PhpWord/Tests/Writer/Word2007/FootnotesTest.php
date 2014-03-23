@@ -2,7 +2,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @runTestsInSeparateProcesses

@@ -14,7 +14,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileExists()
     {
-        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates'));
+        $dir = __DIR__ . "/../_files/templates";
         chdir($dir);
         $this->assertTrue(File::file_exists('blank.docx'));
     }
@@ -23,7 +23,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoFileExists()
     {
-        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates'));
+        $dir = __DIR__ . "/../_files/templates";
         chdir($dir);
         $this->assertFalse(File::file_exists('404.docx'));
     }
@@ -33,7 +33,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testRealpath()
     {
-        $dir = join(\DIRECTORY_SEPARATOR, array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates'));
+        $dir = realpath(__DIR__ . "/../_files/templates");
         chdir($dir);
         $file     = 'blank.docx';
         $expected = $dir . \DIRECTORY_SEPARATOR . $file;

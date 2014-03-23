@@ -49,18 +49,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $imageSrc = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'PhpWord.png')
-        );
-        $objectSrc = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
-        $file = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'temp.odt')
-        );
+        $imageSrc = __DIR__ . "/../_files/images/PhpWord.png";
+        $objectSrc = __DIR__ . "/../_files/documents/sheet.xls";
+        $file = __DIR__ . "/../_files/temp.odt";
 
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));

@@ -75,10 +75,8 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImage()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../_files/images/earth.jpg";
+
         $oTextRun = new TextRun();
         $element = $oTextRun->addImage($src);
 

@@ -89,10 +89,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImageSection()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../../_files/images/earth.jpg";
         $oCell = new Cell('section', 1);
         $element = $oCell->addImage($src);
 
@@ -102,10 +99,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImageHeader()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../../_files/images/earth.jpg";
         $oCell = new Cell('header', 1);
         $element = $oCell->addImage($src);
 
@@ -115,10 +109,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImageFooter()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../../_files/images/earth.jpg";
         $oCell = new Cell('footer', 1);
         $element = $oCell->addImage($src);
 
@@ -161,10 +152,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
     public function testAddObjectXLS()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../../_files/documents/sheet.xls";
         $oCell = new Cell('section', 1);
         $element = $oCell->addObject($src);
 

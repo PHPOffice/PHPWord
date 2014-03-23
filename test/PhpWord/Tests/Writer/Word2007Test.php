@@ -3,7 +3,7 @@ namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007
@@ -64,10 +64,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $textrun->addText('Test 3');
 
         $writer = new Word2007($phpWord);
-        $file = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'temp.docx')
-        );
+        $file = __DIR__ . "/../_files/temp.docx";
         $writer->save($file);
         $this->assertTrue(file_exists($file));
         unlink($file);
@@ -89,7 +86,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         foreach ($images as $source => $target) {
-            $section->addImage(\PHPWORD_TESTS_BASE_DIR . "/data/images/{$source}");
+            $section->addImage(__DIR__ . "/../_files/images/{$source}");
         }
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -97,7 +94,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
 
         foreach ($images as $source => $target) {
             $this->assertFileEquals(
-                \PHPWORD_TESTS_BASE_DIR . "/data/images/{$source}",
+                __DIR__ . "/../_files/images/{$source}",
                 $mediaPath . "/section_image{$target}"
             );
         }

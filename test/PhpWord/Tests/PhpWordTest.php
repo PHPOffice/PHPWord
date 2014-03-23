@@ -130,10 +130,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadTemplate()
     {
-        $templateFqfn = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'blank.docx')
-        );
+        $templateFqfn = __DIR__ . "/_files/templates/blank.docx";
+
         $phpWord = new PhpWord();
         $this->assertInstanceOf(
             'PhpOffice\\PhpWord\\Template',

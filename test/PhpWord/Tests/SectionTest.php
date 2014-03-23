@@ -73,14 +73,8 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddElements()
     {
-        $objectSource = join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
-        $imageSource = join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'PhpWord.png')
-        );
+        $objectSource = __DIR__ . "/_files/documents/sheet.xls";
+        $imageSource = __DIR__ . "/_files/images/PhpWord.png";
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);

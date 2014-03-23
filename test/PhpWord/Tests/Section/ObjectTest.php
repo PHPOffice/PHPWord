@@ -7,10 +7,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructWithSupportedFiles()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oObject = new Object($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
@@ -20,10 +17,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithNotSupportedFiles()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'xsl', 'passthrough.xsl')
-        );
+        $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
         $oObject = new Object($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
@@ -33,10 +27,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructWithSupportedFilesAndStyle()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oObject = new Object($src, array('width' => '230px'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $oObject);
@@ -46,10 +37,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testRelationId()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
@@ -59,10 +47,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testImageRelationId()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
@@ -72,10 +57,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testObjectId()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'sheet.xls')
-        );
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oObject = new Object($src);
 
         $iVal = rand(1, 1000);

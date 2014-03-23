@@ -2,7 +2,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007\Base
@@ -46,10 +46,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $pStyle = 'pStyle';
         $aStyle = array('align' => 'justify', 'spaceBefore' => 120, 'spaceAfter' => 120);
-        $imageSrc = join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle($pStyle, $aStyle);
@@ -297,7 +294,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $section->addImage(
-            \PHPWORD_TESTS_BASE_DIR . '/data/images/earth.jpg',
+            __DIR__ . "/../../_files/images/earth.jpg",
             array(
                 'marginTop' => -1,
                 'marginLeft' => -1,
@@ -319,10 +316,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteWatermark()
     {
-        $imageSrc = join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
 
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();

@@ -3,7 +3,7 @@ namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
 use PhpOffice\PhpWord\Writer\Word2007;
-use PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * Class FooterTest
@@ -19,10 +19,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteFooter()
     {
-        $imageSrc = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'PhpWord.png')
-        );
+        $imageSrc = __DIR__ . "/../../_files/images/PhpWord.png";
         $container = new \PhpOffice\PhpWord\Section\Footer(1);
         $container->addText('');
         $container->addPreserveText('');

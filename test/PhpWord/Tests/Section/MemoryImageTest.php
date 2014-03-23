@@ -7,10 +7,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 {
     public function testPNG()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'firefox.png')
-        );
+        $src = __DIR__ . "/../_files/images/firefox.png";
         $oMemoryImage = new MemoryImage($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
@@ -24,10 +21,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testGIF()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'mario.gif')
-        );
+        $src = __DIR__ . "/../_files/images/mario.gif";
         $oMemoryImage = new MemoryImage($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
@@ -41,10 +35,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testJPG()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oMemoryImage = new MemoryImage($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
@@ -58,10 +49,7 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testBMP()
     {
-        $oMemoryImage = new MemoryImage(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'duke_nukem.bmp')
-        ));
+        $oMemoryImage = new MemoryImage(__DIR__ . "/../_files/images/duke_nukem.bmp");
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $oMemoryImage);
         $this->assertEquals($oMemoryImage->getImageCreateFunction(), null);
@@ -72,20 +60,16 @@ class MemoryImageTest extends \PHPUnit_Framework_TestCase
 
     public function testStyle()
     {
-        $oMemoryImage = new MemoryImage(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        ), array('width' => 210, 'height' => 210, 'align' => 'center'));
-
+        $oMemoryImage = new MemoryImage(
+            __DIR__ . "/../_files/images/earth.jpg",
+            array('width' => 210, 'height' => 210, 'align' => 'center')
+        );
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oMemoryImage->getStyle());
     }
 
     public function testRelationID()
     {
-        $oMemoryImage = new MemoryImage(\join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        ));
+        $oMemoryImage = new MemoryImage(__DIR__ . "/../_files/images/earth.jpg");
 
         $iVal = rand(1, 1000);
         $oMemoryImage->setRelationId($iVal);

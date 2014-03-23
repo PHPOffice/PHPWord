@@ -15,19 +15,11 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testTemplateCanBeSavedInTemporaryLocation()
     {
-        $templateFqfn = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'with_table_macros.docx')
-        );
+        $templateFqfn = __DIR__ . "/_files/templates/with_table_macros.docx";
 
         $document = new Template($templateFqfn);
         $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_BASE_DIR, 'data', 'xsl', 'remove_tables_by_needle.xsl')
-            )
-        );
+        $xslDOMDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
         foreach (array('${employee.', '${scoreboard.') as $needle) {
             $document->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
         }
@@ -63,10 +55,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanBeApplied($actualDocumentFqfn)
     {
-        $expectedDocumentFqfn = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'documents', 'without_table_macros.docx')
-        );
+        $expectedDocumentFqfn = __DIR__ . "/_files/documents/without_table_macros.docx";
 
         $actualDocumentZip = new \ZipArchive();
         $actualDocumentZip->open($actualDocumentFqfn);
@@ -93,20 +82,10 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
-        $template = new Template(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'blank.docx')
-            )
-        );
+        $template = new Template(__DIR__ . "/_files/templates/blank.docx");
 
         $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_BASE_DIR, 'data', 'xsl', 'passthrough.xsl')
-            )
-        );
+        $xslDOMDocument->load(__DIR__ . "/_files/xsl/passthrough.xsl");
 
         /*
          * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
@@ -123,20 +102,10 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
-        $template = new Template(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'corrupted_main_document_part.docx')
-            )
-        );
+        $template = new Template(__DIR__ . "/_files/templates/corrupted_main_document_part.docx");
 
         $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(
-            \join(
-                \DIRECTORY_SEPARATOR,
-                array(\PHPWORD_TESTS_BASE_DIR, 'data', 'xsl', 'passthrough.xsl')
-            )
-        );
+        $xslDOMDocument->load(__DIR__ . "/_files/xsl/passthrough.xsl");
 
         /*
          * We have to use error control below, because \DOMDocument::loadXML omits warning on failure.
@@ -153,10 +122,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testCloneRow()
     {
-        $template = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'clone-merge.docx')
-        );
+        $template = __DIR__ . "/_files/templates/clone-merge.docx";
         $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
         $docName = 'clone-test-result.docx';
 

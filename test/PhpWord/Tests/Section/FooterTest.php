@@ -30,7 +30,6 @@ class FooterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Text', $element);
-
     }
 
     public function testAddTextNotUTF8()
@@ -72,10 +71,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
 
     public function testAddImage()
     {
-        $src = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'images', 'earth.jpg')
-        );
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oFooter = new Footer(1);
         $element = $oFooter->addImage($src);
 
