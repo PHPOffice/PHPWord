@@ -398,6 +398,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
         $color = $style->getColor();
         $size = $style->getSize();
         $fgColor = $style->getFgColor();
+		$bgColor = $style->getBgColor();
         $strikethrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
         $superscript = $style->getSuperScript();
@@ -467,6 +468,15 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
             $objWriter->writeAttribute('w:val', $fgColor);
             $objWriter->endElement();
         }
+		
+		// Background-Color
+		if (!is_null($bgColor)) {
+			$objWriter->startElement('w:shd');
+			$objWriter->writeAttribute('w:val', "clear");
+			$objWriter->writeAttribute('w:color', "auto");
+			$objWriter->writeAttribute('w:fill', $bgColor);
+			$objWriter->endElement();
+		}
 
         // Superscript/subscript
         if ($superscript || $subscript) {
