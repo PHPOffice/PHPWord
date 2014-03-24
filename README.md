@@ -1,4 +1,4 @@
-# ![PHPWord](https://raw.github.com/PHPOffice/PHPWord/develop/docs/images/phpword.png "PHPWord")
+# ![PHPWord](https://raw.githubusercontent.com/PHPOffice/PHPWord/develop/docs/images/phpword.svg "PHPWord")
 
 [![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=develop)](https://travis-ci.org/PHPOffice/PHPWord)
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword)
