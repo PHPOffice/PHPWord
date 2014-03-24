@@ -113,7 +113,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
             // If $pFilename is php://output or php://stdout, make it a temporary file...
             $originalFilename = $pFilename;
             if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
-                $pFilename = @tempnam('./', 'phppttmp');
+                $pFilename = @tempnam(sys_get_temp_dir(), 'phpword_');// temp files should go to system temp directory (if a user cancels a download, the file stays)
                 if ($pFilename == '') {
                     $pFilename = $originalFilename;
                 }
@@ -236,6 +236,7 @@ class PHPWord_Writer_Word2007 implements PHPWord_Writer_IWriter
 
             // If a temporary file was used, copy it to the correct file stream
             if ($originalFilename != $pFilename) {
+				header('Content-Length: '.filesize($pFilename));// if php://output, we want to know the total file size when downloading
                 if (copy($pFilename, $originalFilename) === false) {
                     throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
                 }
