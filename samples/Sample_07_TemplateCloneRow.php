@@ -1,14 +1,11 @@
 <?php
-// Init
-error_reporting(E_ALL);
-define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-require_once '../Classes/PHPWord.php';
+include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PHPWord object" , EOL;
-$PHPWord = new PHPWord();
+echo date('H:i:s') , " Create new PhpWord object" , \EOL;
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-$document = $PHPWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
+$document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
 
 // Simple table
 $document->cloneRow('rowValue', 10);
@@ -56,11 +53,9 @@ $document->setValue('userFirstName#3', 'Michael');
 $document->setValue('userName#3', 'Ray');
 $document->setValue('userPhone#3', '+1 428 889 775');
 
-$name = 'Sample_07_TemplateCloneRow_result.docx';
-echo date('H:i:s'), " Write to Word2007 format", EOL;
+$name = 'Sample_07_TemplateCloneRow.docx';
+echo date('H:i:s'), " Write to Word2007 format", \EOL;
 $document->saveAs($name);
 rename($name, "results/{$name}");
 
-// Done
-echo date('H:i:s'), " Done writing file(s)", EOL;
-echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;
+include_once 'Sample_Footer.php';

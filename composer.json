@@ -1,10 +1,14 @@
 {
     "name": "phpoffice/phpword",
-    "description": "PHPWord - Read, Create and Write Word documents in PHP",
-    "keywords": ["PHP", "Word", "Writer", "docx", "doc", "rtf"],
+    "description": "PhpWord - Read, Create, and Write DOCX, ODT, and RTF documents in PHP",
+    "keywords": [
+        "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
+        "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
+        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument"
+    ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
-    "license": "LGPL",
+    "license": "LGPL-3.0+",
     "authors": [
         {
             "name": "Mark Baker"
@@ -17,26 +21,28 @@
         {
             "name": "Franck Lefevre",
             "homepage": "http://blog.rootslabs.net"
+        },
+        {
+            "name": "Ivan Lanin",
+            "homepage": "http://ivan.lanin.org"
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.3",
         "ext-xml": "*",
         "ext-zip": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
-    "recommend": {
-        "ext-gd2": "*"
-    },
     "suggest": {
+        "ext-gd2": "*",
         "ext-xmlwriter": "*",
         "ext-xsl": "*"
     },
     "autoload": {
-        "psr-0": {
-            "PHPWord": "Classes/"
+        "psr-4": {
+            "PhpOffice\\PhpWord\\": "src/"
         }
     }
 }
