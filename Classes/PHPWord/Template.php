@@ -57,6 +57,7 @@ class PHPWord_Template
      * Create a new Template Object
      *
      * @param string $strFilename
+     * @throws PHPWord_Exception
      */
     public function __construct($strFilename)
     {
@@ -82,6 +83,7 @@ class PHPWord_Template
      * @param DOMDocument &$xslDOMDocument
      * @param array $xslOptions = array()
      * @param string $xslOptionsURI = ''
+     * @throws Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
@@ -156,6 +158,7 @@ class PHPWord_Template
      * Find the start position of the nearest table row before $offset
      *
      * @param mixed $offset
+     * @return bool|int
      */
     private function _findRowStart($offset)
     {
@@ -174,6 +177,7 @@ class PHPWord_Template
      * Find the end position of the nearest table row after $offset
      *
      * @param mixed $offset
+     * @return int
      */
     private function _findRowEnd($offset)
     {
@@ -184,7 +188,10 @@ class PHPWord_Template
     /**
      * Get a slice of a string
      *
-     * @param mixed $offset
+     * @param $startPosition
+     * @param int $endPosition
+     * @internal param mixed $offset
+     * @return string
      */
     private function _getSlice($startPosition, $endPosition = 0)
     {
@@ -199,6 +206,8 @@ class PHPWord_Template
      *
      * @param mixed $search
      * @param mixed $numberOfClones
+     * @throws Exception
+     * @return bool
      */
     public function cloneRow($search, $numberOfClones)
     {
@@ -250,8 +259,73 @@ class PHPWord_Template
     }
 
     /**
+     * Clone a block
+     *
+     * @param mixed $blockname
+     * @param int $clones
+     * @param bool $replace
+     * @return null
+     */
+    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    {
+        $xmlBlock = null;
+        preg_match('/(<\?xml.*)(<w:p.*>\${'.$blockname.'}<\/w:.*?p>)(.*)(<w:p.*\${\/'.$blockname.'}<\/w:.*?p>)/is', $this->_documentXML, $matchs);
+
+        if (isset($matchs[3])) {
+            $xmlBlock = $matchs[3];
+            $cloned = array();
+            for($i = 1; $i <= $clones; $i++) {
+                $cloned[] = $xmlBlock;
+            }
+
+            if ($replace) {
+                $this->_documentXML = str_replace($matchs[2].$matchs[3].$matchs[4], implode('', $cloned), $this->_documentXML);
+            }
+        }
+        return $xmlBlock;
+    }
+
+    /**
+     * Replace a block
+     *
+     * @param mixed $blockname
+     * @param $replacement
+     */
+    public function replaceBlock($blockname, $replacement)
+    {
+        $this->deleteTemplateBlock($blockname, $replacement);
+    }
+
+    public function xmlpretty($xml)
+    {
+        $domxml = new DOMDocument('1.0');
+        $domxml->preserveWhiteSpace = false;
+        $domxml->formatOutput = true;
+        $domxml->loadXML($xml);
+        $xml_string = $domxml->saveXML();
+        return $xml_string;
+    }
+
+    /**
+     * Delete a block of text
+     *
+     * @param mixed $blockname
+     * @param string $replacement
+     */
+    public function deleteTemplateBlock($blockname, $replacement = '')
+    {
+        $xmlBlock = null;
+        preg_match('/(<\?xml.*)(<w:p.*>\${'.$blockname.'}<\/w:.*?p>)(.*)(<w:p.*\${\/'.$blockname.'}<\/w:.*?p>)/is', $this->_documentXML, $matchs);
+
+        if (isset($matchs[3])) {
+            $this->_documentXML = str_replace($matchs[2].$matchs[3].$matchs[4], $replacement, $this->_documentXML);
+        }
+    }
+
+    /**
      * Save Template
      *
+     * @throws Exception
      * @return string
      */
     public function save()
