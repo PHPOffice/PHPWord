@@ -21,6 +21,7 @@ None yet.
 - Use `PhpOffice\PhpWord` namespace for PSR compliance - @RomanSyroeshko @gabrielbull GH-159 GH-58
 - Restructure folders and change folder name `Classes` to `src` and `Tests` to `test` for PSR compliance - @RomanSyroeshko @gabrielbull
 - Compliance to phpDocumentor - @ivanlanin
+- Merge Style\TableFull into Style\Table - @ivanlanin GH-160
 
 ## 0.8.1 - 17 Mar 2014
 

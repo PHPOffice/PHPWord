@@ -27,7 +27,7 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style\TableFull;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * Style
@@ -114,7 +114,7 @@ class Style
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
         if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new TableFull($styleTable, $styleFirstRow);
+            $style = new Table($styleTable, $styleFirstRow);
 
             self::$_styleElements[$styleName] = $style;
         }

@@ -30,7 +30,6 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style\TableFull;
 
 /**
  * Word2007 styles part writer
@@ -71,7 +70,6 @@ class Styles extends Base
 
         // Write DocDefaults
         $this->_writeDocDefaults($xmlWriter);
-
 
         // Write Style Definitions
         $styles = Style::getStyles();
@@ -170,7 +168,7 @@ class Styles extends Base
                     $this->_writeParagraphStyle($xmlWriter, $style);
                     $xmlWriter->endElement();
 
-                } elseif ($style instanceof TableFull) {
+                } elseif ($style instanceof \PhpOffice\PhpWord\Style\Table) {
                     $xmlWriter->startElement('w:style');
                     $xmlWriter->writeAttribute('w:type', 'table');
                     $xmlWriter->writeAttribute('w:customStyle', '1');
@@ -184,9 +182,9 @@ class Styles extends Base
                     $xmlWriter->writeAttribute('w:val', '99');
                     $xmlWriter->endElement();
 
-                    $this->_writeFullTableStyle($xmlWriter, $style);
+                    $this->_writeTableStyle($xmlWriter, $style);
 
-                    $xmlWriter->endElement();
+                    $xmlWriter->endElement(); // w:style
                 }
             }
         }
@@ -196,200 +194,6 @@ class Styles extends Base
         // Return
         return $xmlWriter->getData();
     }
-
-    /**
-     * Write table style
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Style\TableFull $style
-     */
-    private function _writeFullTableStyle(XMLWriter $xmlWriter, TableFull $style)
-    {
-
-        $brdSz = $style->getBorderSize();
-        $brdCol = $style->getBorderColor();
-        $bgColor = $style->getBgColor();
-        $cellMargin = $style->getCellMargin();
-
-        $bTop = (!is_null($brdSz[0])) ? true : false;
-        $bLeft = (!is_null($brdSz[1])) ? true : false;
-        $bRight = (!is_null($brdSz[2])) ? true : false;
-        $bBottom = (!is_null($brdSz[3])) ? true : false;
-        $bInsH = (!is_null($brdSz[4])) ? true : false;
-        $bInsV = (!is_null($brdSz[5])) ? true : false;
-        $borders = ($bTop || $bLeft || $bRight || $bBottom || $bInsH || $bInsV) ? true : false;
-
-        $mTop = (!is_null($cellMargin[0])) ? true : false;
-        $mLeft = (!is_null($cellMargin[1])) ? true : false;
-        $mRight = (!is_null($cellMargin[2])) ? true : false;
-        $mBottom = (!is_null($cellMargin[3])) ? true : false;
-        $margins = ($mTop || $mLeft || $mRight || $mBottom) ? true : false;
-
-        $xmlWriter->startElement('w:tblPr');
-
-        if ($margins) {
-            $xmlWriter->startElement('w:tblCellMar');
-            if ($mTop) {
-                echo $margins[0];
-                $xmlWriter->startElement('w:top');
-                $xmlWriter->writeAttribute('w:w', $cellMargin[0]);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
-                $xmlWriter->endElement();
-            }
-            if ($mLeft) {
-                $xmlWriter->startElement('w:left');
-                $xmlWriter->writeAttribute('w:w', $cellMargin[1]);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
-                $xmlWriter->endElement();
-            }
-            if ($mRight) {
-                $xmlWriter->startElement('w:right');
-                $xmlWriter->writeAttribute('w:w', $cellMargin[2]);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
-                $xmlWriter->endElement();
-            }
-            if ($mBottom) {
-                $xmlWriter->startElement('w:bottom');
-                $xmlWriter->writeAttribute('w:w', $cellMargin[3]);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement();
-        }
-
-        if ($borders) {
-            $xmlWriter->startElement('w:tblBorders');
-            if ($bTop) {
-                $xmlWriter->startElement('w:top');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[0]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[0]);
-                $xmlWriter->endElement();
-            }
-            if ($bLeft) {
-                $xmlWriter->startElement('w:left');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[1]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[1]);
-                $xmlWriter->endElement();
-            }
-            if ($bRight) {
-                $xmlWriter->startElement('w:right');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[2]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[2]);
-                $xmlWriter->endElement();
-            }
-            if ($bBottom) {
-                $xmlWriter->startElement('w:bottom');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[3]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[3]);
-                $xmlWriter->endElement();
-            }
-            if ($bInsH) {
-                $xmlWriter->startElement('w:insideH');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[4]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[4]);
-                $xmlWriter->endElement();
-            }
-            if ($bInsV) {
-                $xmlWriter->startElement('w:insideV');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $brdSz[5]);
-                $xmlWriter->writeAttribute('w:color', $brdCol[5]);
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement();
-        }
-
-        $xmlWriter->endElement();
-
-        if (!is_null($bgColor)) {
-            $xmlWriter->startElement('w:tcPr');
-            $xmlWriter->startElement('w:shd');
-            $xmlWriter->writeAttribute('w:val', 'clear');
-            $xmlWriter->writeAttribute('w:color', 'auto');
-            $xmlWriter->writeAttribute('w:fill', $bgColor);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
-
-        // First Row
-        $firstRow = $style->getFirstRow();
-        if (!is_null($firstRow)) {
-            $this->_writeRowStyle($xmlWriter, 'firstRow', $firstRow);
-        }
-    }
-
-    /**
-     * Write first row style
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $type
-     * @param PhpOffice\PhpWord\Style\TableFull $style
-     */
-    private function _writeRowStyle(XMLWriter $xmlWriter, $type, TableFull $style)
-    {
-        $brdSz = $style->getBorderSize();
-        $brdCol = $style->getBorderColor();
-        $bgColor = $style->getBgColor();
-
-        $bTop = (!is_null($brdSz[0])) ? true : false;
-        $bLeft = (!is_null($brdSz[1])) ? true : false;
-        $bRight = (!is_null($brdSz[2])) ? true : false;
-        $bBottom = (!is_null($brdSz[3])) ? true : false;
-        $borders = ($bTop || $bLeft || $bRight || $bBottom) ? true : false;
-
-        $xmlWriter->startElement('w:tblStylePr');
-        $xmlWriter->writeAttribute('w:type', $type);
-
-        $xmlWriter->startElement('w:tcPr');
-        if (!is_null($bgColor)) {
-            $xmlWriter->startElement('w:shd');
-            $xmlWriter->writeAttribute('w:val', 'clear');
-            $xmlWriter->writeAttribute('w:color', 'auto');
-            $xmlWriter->writeAttribute('w:fill', $bgColor);
-            $xmlWriter->endElement();
-        }
-
-        $xmlWriter->startElement('w:tcBorders');
-        if ($bTop) {
-            $xmlWriter->startElement('w:top');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[0]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[0]);
-            $xmlWriter->endElement();
-        }
-        if ($bLeft) {
-            $xmlWriter->startElement('w:left');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[1]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[1]);
-            $xmlWriter->endElement();
-        }
-        if ($bRight) {
-            $xmlWriter->startElement('w:right');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[2]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[2]);
-            $xmlWriter->endElement();
-        }
-        if ($bBottom) {
-            $xmlWriter->startElement('w:bottom');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[3]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[3]);
-            $xmlWriter->endElement();
-        }
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-    }
-
 
     /**
      * Write document defaults
