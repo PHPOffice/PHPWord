@@ -27,7 +27,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
@@ -79,9 +78,7 @@ class Header extends Base
                 $this->_writeTextBreak($xmlWriter, $element);
             } elseif ($element instanceof Table) {
                 $this->_writeTable($xmlWriter, $element);
-            } elseif ($element instanceof Image ||
-                $element instanceof MemoryImage
-            ) {
+            } elseif ($element instanceof Image) {
                 if (!$element->getIsWatermark()) {
                     $this->_writeImage($xmlWriter, $element);
                 } else {

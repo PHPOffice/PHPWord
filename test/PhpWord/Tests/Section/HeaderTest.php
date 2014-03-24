@@ -76,15 +76,15 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddMemoryImage()
+    public function testAddImageByUrl()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addMemoryImage(
+        $element = $oHeader->addImage(
             'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
         );
 
         $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
     public function testAddPreserveText()

@@ -31,7 +31,6 @@ use PhpOffice\PhpWord\Section\Footnote;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
@@ -652,9 +651,7 @@ class Base extends WriterPart
                                 $this->_writeTextBreak($xmlWriter, $element);
                             } elseif ($element instanceof ListItem) {
                                 $this->_writeListItem($xmlWriter, $element);
-                            } elseif ($element instanceof Image ||
-                                    $element instanceof MemoryImage
-                            ) {
+                            } elseif ($element instanceof Image) {
                                 $this->_writeImage($xmlWriter, $element);
                             } elseif ($element instanceof Object) {
                                 $this->_writeObject($xmlWriter, $element);

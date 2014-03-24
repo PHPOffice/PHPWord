@@ -30,7 +30,6 @@ use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\PageBreak;
 use PhpOffice\PhpWord\Section\Table;
@@ -281,8 +280,7 @@ class Content extends WriterPart
                         $this->writeUnsupportedElement($xmlWriter, 'Table');
                     } elseif ($element instanceof ListItem) {
                         $this->writeUnsupportedElement($xmlWriter, 'List Item');
-                    } elseif ($element instanceof Image ||
-                    $element instanceof MemoryImage) {
+                    } elseif ($element instanceof Image) {
                         $this->writeUnsupportedElement($xmlWriter, 'Image');
                     } elseif ($element instanceof Object) {
                         $this->writeUnsupportedElement($xmlWriter, 'Object');

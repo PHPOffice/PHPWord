@@ -31,7 +31,6 @@ use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Header;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\PageBreak;
 use PhpOffice\PhpWord\Section\Settings;
@@ -250,7 +249,7 @@ class Section
                 $iconSrc .= '_' . $ext . '.png';
             }
 
-            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image');
+            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image', new Image($iconSrc));
             $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
@@ -276,15 +275,14 @@ class Section
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addSectionMediaElement($src, 'image');
+            $rID = Media::addSectionMediaElement($src, 'image', $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
+        } else {
+            throw new Exception('Source does not exist or unsupported image type.');
         }
-        throw new Exception('Source does not exist or unsupported image type.');
     }
 
     /**
@@ -292,20 +290,11 @@ class Section
      *
      * @param string $link
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Section\MemoryImage
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @deprecated
      */
-    public function addMemoryImage($link, $style = null)
+    public function addMemoryImage($src, $style = null)
     {
-        $memoryImage = new MemoryImage($link, $style);
-        if (!is_null($memoryImage->getSource())) {
-            $rID = Media::addSectionMediaElement($link, 'image', $memoryImage);
-            $memoryImage->setRelationId($rID);
-
-            $this->_elementCollection[] = $memoryImage;
-            return $memoryImage;
-        }
-        throw new Exception('Unsupported image type.');
+        return $this->addImage($src, $style);
     }
 
     /**

@@ -117,37 +117,37 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddMemoryImageSection()
+    public function testAddSectionImageByUrl()
     {
         $oCell = new Cell('section', 1);
-        $element = $oCell->addMemoryImage(
+        $element = $oCell->addImage(
             'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
         );
 
         $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddMemoryImageHeader()
+    public function testAddHeaderImageByUrl()
     {
         $oCell = new Cell('header', 1);
-        $element = $oCell->addMemoryImage(
+        $element = $oCell->addImage(
             'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
         );
 
         $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddMemoryImageFooter()
+    public function testAddFooterImageByUrl()
     {
         $oCell = new Cell('footer', 1);
-        $element = $oCell->addMemoryImage(
+        $element = $oCell->addImage(
             'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
         );
 
         $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
     public function testAddObjectXLS()

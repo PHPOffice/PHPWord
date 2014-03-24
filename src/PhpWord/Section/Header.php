@@ -163,15 +163,13 @@ class Header
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addHeaderMediaElement($this->_headerCount, $src);
+            $rID = Media::addHeaderMediaElement($this->_headerCount, $src, $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Src does not exist or invalid image type.');
+            throw new Exception('Source does not exist or unsupported image type.');
         }
     }
 
@@ -180,20 +178,11 @@ class Header
      *
      * @param string $link
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Section\MemoryImage
+     * @deprecated
      */
-    public function addMemoryImage($link, $style = null)
+    public function addMemoryImage($src, $style = null)
     {
-        $memoryImage = new MemoryImage($link, $style);
-        if (!is_null($memoryImage->getSource())) {
-            $rID = Media::addHeaderMediaElement($this->_headerCount, $link, $memoryImage);
-            $memoryImage->setRelationId($rID);
-
-            $this->_elementCollection[] = $memoryImage;
-            return $memoryImage;
-        } else {
-            throw new Exception('Unsupported image type.');
-        }
+        return $this->addImage($src, $style);
     }
 
     /**
@@ -224,11 +213,9 @@ class Header
     public function addWatermark($src, $style = null)
     {
         $image = new Image($src, $style, true);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addHeaderMediaElement($this->_headerCount, $src);
+            $rID = Media::addHeaderMediaElement($this->_headerCount, $src, $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
         } else {

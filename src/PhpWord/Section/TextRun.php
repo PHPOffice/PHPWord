@@ -125,11 +125,9 @@ class TextRun
     public function addImage($imageSrc, $style = null)
     {
         $image = new Image($imageSrc, $style);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addSectionMediaElement($imageSrc, 'image');
+            $rID = Media::addSectionMediaElement($imageSrc, 'image', $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
         } else {

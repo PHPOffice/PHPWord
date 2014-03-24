@@ -31,7 +31,6 @@ use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\PageBreak;
 use PhpOffice\PhpWord\Section\Table;
@@ -379,8 +378,7 @@ class RTF implements IWriter
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Table');
                     } elseif ($element instanceof ListItem) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('List Item');
-                    } elseif ($element instanceof Image ||
-                        $element instanceof MemoryImage) {
+                    } elseif ($element instanceof Image) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Image');
                     } elseif ($element instanceof Object) {
                         $sRTFBody .= $this->getDataContentUnsupportedElement('Object');

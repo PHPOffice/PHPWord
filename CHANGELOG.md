@@ -8,7 +8,8 @@ This release marked the transformation to namespaces (PHP 5.3+).
 
 ### Features
 
-None yet.
+- Image: Ability to use remote or GD images using `addImage()` on sections, headers, footer, cells, and textruns - @ivanlanin
+- Header: Ability to use remote or GD images using `addWatermark()` - @ivanlanin
 
 ### Bugfixes
 
@@ -21,7 +22,8 @@ None yet.
 - Use `PhpOffice\PhpWord` namespace for PSR compliance - @RomanSyroeshko @gabrielbull GH-159 GH-58
 - Restructure folders and change folder name `Classes` to `src` and `Tests` to `test` for PSR compliance - @RomanSyroeshko @gabrielbull
 - Compliance to phpDocumentor - @ivanlanin
-- Merge Style\TableFull into Style\Table - @ivanlanin GH-160
+- Merge Style\TableFull into Style\Table. Style\TableFull is deprecated - @ivanlanin GH-160
+- Merge Section\MemoryImage into Section\Image. Section\Image is deprecated - @ivanlanin GH-160
 
 ## 0.8.1 - 17 Mar 2014
 
