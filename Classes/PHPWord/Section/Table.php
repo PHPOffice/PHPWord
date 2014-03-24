@@ -101,9 +101,9 @@ class PHPWord_Section_Table
      * @param int $height
      * @param mixed $style
      */
-    public function addRow($height = null, $style = null)
+    public function addRow($height = null, $style = null, $hRules = null)
     {
-        $row = new PHPWord_Section_Table_Row($this->_insideOf, $this->_pCount, $height, $style);
+        $row = new PHPWord_Section_Table_Row($this->_insideOf, $this->_pCount, $height, $style, $hRules);
         $this->_rows[] = $row;
         return $row;
     }
