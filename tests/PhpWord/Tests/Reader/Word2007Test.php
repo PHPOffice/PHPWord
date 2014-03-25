@@ -18,10 +18,12 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testCanRead()
     {
-        $dir = __DIR__ . "/../_files/documents";
-        $object = new Word2007;
-        $file = $dir . \DIRECTORY_SEPARATOR . 'reader.docx';
-        $this->assertTrue($object->canRead($file));
+        $object = new Word2007();
+        $fqFilename = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'reader.docx')
+        );
+        $this->assertTrue($object->canRead($fqFilename));
     }
 
     /**
@@ -29,21 +31,22 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testCanReadFailed()
     {
-        $dir = __DIR__ . "/../_files/documents";
-        $object = new Word2007;
-        $file = $dir . \DIRECTORY_SEPARATOR . 'foo.docx';
-        $this->assertFalse($object->canRead($file));
-        $object = IOFactory::load($file);
+        $object = new Word2007();
+        $fqFilename = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'foo.docx')
+        );
+        $this->assertFalse($object->canRead($fqFilename));
+        $object = IOFactory::load($fqFilename);
     }
 
-    /**
-     * Test load document
-     */
     public function testLoad()
     {
-        $dir = __DIR__ . "/../_files/documents";
-        $file = $dir . \DIRECTORY_SEPARATOR . 'reader.docx';
-        $object = IOFactory::load($file);
+        $fqFilename = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, '_files', 'documents', 'reader.docx')
+        );
+        $object = IOFactory::load($fqFilename);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object);
     }
 }
