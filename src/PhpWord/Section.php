@@ -25,7 +25,8 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\InvalidObjectException;
 use PhpOffice\PhpWord\Section\Footer;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Header;
@@ -229,7 +230,7 @@ class Section
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Object
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidObjectException
      */
     public function addObject($src, $style = null)
     {
@@ -260,8 +261,9 @@ class Section
 
             $this->_elementCollection[] = $object;
             return $object;
+        } else {
+            throw new InvalidObjectException;
         }
-        throw new Exception('Source does not exist or unsupported object type.');
     }
 
     /**
@@ -270,7 +272,7 @@ class Section
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Image
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidImageException
      */
     public function addImage($src, $style = null)
     {
@@ -281,7 +283,7 @@ class Section
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Source does not exist or unsupported image type.');
+            throw new InvalidImageException;
         }
     }
 

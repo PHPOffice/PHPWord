@@ -25,7 +25,7 @@
 
 namespace PhpOffice\PhpWord\Section;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Shared\String;
@@ -169,7 +169,7 @@ class Header
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Source does not exist or unsupported image type.');
+            throw new InvalidImageException;
         }
     }
 
@@ -219,7 +219,7 @@ class Header
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Src does not exist or invalid image type.');
+            throw new InvalidImageException;
         }
     }
 

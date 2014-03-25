@@ -26,6 +26,8 @@
 namespace PhpOffice\PhpWord\Section\Table;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidObjectException;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Section\Image;
@@ -212,7 +214,7 @@ class Cell
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Source does not exist or unsupported image type.');
+            throw new InvalidImageException;
         }
     }
 
@@ -265,7 +267,7 @@ class Cell
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            throw new Exception('Source does not exist or unsupported object type.');
+            throw new InvalidObjectException;
         }
     }
 
