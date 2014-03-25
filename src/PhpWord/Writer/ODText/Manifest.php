@@ -27,7 +27,6 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\File;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -123,7 +122,7 @@ class Manifest extends WriterPart
      */
     private function _getImageMimeType($pFile = '')
     {
-        if (File::fileExists($pFile)) {
+        if (file_exists($pFile)) {
             $image = getimagesize($pFile);
             return image_type_to_mime_type($image[2]);
         } else {

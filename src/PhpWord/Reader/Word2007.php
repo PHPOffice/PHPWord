@@ -28,7 +28,6 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exceptions\Exception;
-use PhpOffice\PhpWord\Shared\File;
 
 /**
  * Reader for Word2007
@@ -87,7 +86,7 @@ class Word2007 extends AbstractReader implements IReader
         if (strpos($fileName, '//') !== false) {
             $fileName = substr($fileName, strpos($fileName, '//') + 1);
         }
-        $fileName = File::realpath($fileName);
+        $fileName = realpath($fileName);
 
         // Apache POI fixes
         $contents = $archive->getFromName($fileName);
