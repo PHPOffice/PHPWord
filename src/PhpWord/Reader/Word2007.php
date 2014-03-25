@@ -83,10 +83,10 @@ class Word2007 extends AbstractReader implements IReader
     public function getFromZipArchive($archive, $fileName = '', $removeNamespace = false)
     {
         // Root-relative paths
-        if (strpos($fileName, '//') !== false) {
-            $fileName = substr($fileName, strpos($fileName, '//') + 1);
-        }
-        $fileName = realpath($fileName);
+        // if (strpos($fileName, '//') !== false) {
+        //     $fileName = substr($fileName, strpos($fileName, '//') + 1);
+        // }
+        // $fileName = realpath($fileName);
 
         // Apache POI fixes
         $contents = $archive->getFromName($fileName);
