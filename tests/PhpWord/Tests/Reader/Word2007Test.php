@@ -21,7 +21,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $object = new Word2007();
         $fqFilename = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_BASE_DIR, 'Tests', '_files', 'documents', 'reader.docx')
+            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'documents', 'reader.docx')
         );
         $this->assertTrue($object->canRead($fqFilename));
     }
@@ -34,7 +34,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $object = new Word2007();
         $fqFilename = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_BASE_DIR, 'Tests', '_files', 'documents', 'foo.docx')
+            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'documents', 'foo.docx')
         );
         $this->assertFalse($object->canRead($fqFilename));
         $object = IOFactory::load($fqFilename);
@@ -44,7 +44,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $fqFilename = join(
             DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_BASE_DIR, 'Tests', '_files', 'documents', 'reader.docx')
+            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'documents', 'reader.docx')
         );
         $object = IOFactory::load($fqFilename);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object);
