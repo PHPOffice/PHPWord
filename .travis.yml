@@ -38,7 +38,7 @@ before_script:
 script:
   ## PHP_CodeSniffer
   - phpcs --standard=PSR2 -n src/
-  - phpcs --standard=PSR2 -n test/
+  - phpcs --standard=PSR2 -n tests/
   ## PHP Copy/Paste Detector
   #- php phpcpd.phar --verbose src/
   ## PHP Mess Detector
