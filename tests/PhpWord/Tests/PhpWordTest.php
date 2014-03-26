@@ -101,7 +101,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
         $styles = array(
             'Paragraph' => 'Paragraph',
             'Font'      => 'Font',
-            'Table'     => 'TableFull',
+            'Table'     => 'Table',
             'Link'      => 'Font',
         );
         foreach ($styles as $key => $value) {

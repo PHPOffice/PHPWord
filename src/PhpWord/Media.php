@@ -25,7 +25,7 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Section\MemoryImage;
+use PhpOffice\PhpWord\Section\Image;
 
 /**
  * Media
@@ -69,54 +69,33 @@ class Media
      *
      * @param  string $src
      * @param  string $type
-     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  \PhpOffice\PhpWord\Section\Image $image
      * @return mixed
      */
-    public static function addSectionMediaElement($src, $type, MemoryImage $memoryImage = null)
+    public static function addSectionMediaElement($src, $type, Image $image = null)
     {
         $mediaId = md5($src);
         $key = ($type === 'image') ? 'images' : 'embeddings';
-
         if (!array_key_exists($mediaId, self::$_sectionMedia[$key])) {
             $cImg = self::countSectionMediaElements('images');
             $cObj = self::countSectionMediaElements('embeddings');
             $rID = self::countSectionMediaElements() + 7;
-
             $media = array();
-
             $folder = null;
             $file = null;
             if ($type === 'image') {
                 $cImg++;
-                //Detect if it's a memory image first by php ext and second by regex
-                $isMemImage = false;
-                if (stripos(strrev($src), strrev('.php')) === 0) {
-                    $isMemImage = true;
-                }
-                if (!$isMemImage) {
-                    $isMemImage = (filter_var($src, \FILTER_VALIDATE_URL) !== false);
-                }
-                $extension = '';
-                if ($isMemImage) {
-                    $extension = $memoryImage->getImageExtension();
-                    $media['isMemImage'] = true;
-                    $media['createfunction'] = $memoryImage->getImageCreateFunction();
-                    $media['imagefunction'] = $memoryImage->getImageFunction();
+                if (!is_null($image)) {
+                    $isMemImage = $image->getIsMemImage();
+                    $extension = $image->getImageExtension();
                 } else {
-                    $imageType = exif_imagetype($src);
-                    if ($imageType === \IMAGETYPE_JPEG) {
-                        $extension = 'jpg';
-                    } elseif ($imageType === \IMAGETYPE_GIF) {
-                        $extension = 'gif';
-                    } elseif ($imageType === \IMAGETYPE_PNG) {
-                        $extension = 'png';
-                    } elseif ($imageType === \IMAGETYPE_BMP) {
-                        $extension = 'bmp';
-                    } elseif ($imageType === \IMAGETYPE_TIFF_II || $imageType === \IMAGETYPE_TIFF_MM) {
-                        $extension = 'tif';
-                    }
+                    $isMemImage = false;
                 }
-
+                if ($isMemImage) {
+                    $media['isMemImage'] = true;
+                    $media['createfunction'] = $image->getImageCreateFunction();
+                    $media['imagefunction'] = $image->getImageFunction();
+                }
                 $folder = 'media';
                 $file = $type . $cImg . '.' . strtolower($extension);
             } elseif ($type === 'oleObject') {
@@ -124,26 +103,22 @@ class Media
                 $folder = 'embedding';
                 $file = $type . $cObj . '.bin';
             }
-
             $media['source'] = $src;
             $media['target'] = "$folder/section_$file";
             $media['type'] = $type;
             $media['rID'] = $rID;
-
             self::$_sectionMedia[$key][$mediaId] = $media;
-
             if ($type === 'oleObject') {
                 return array($rID, ++self::$_objectId);
             }
-
             return $rID;
+        } else {
+            if ($type === 'oleObject') {
+                $rID = self::$_sectionMedia[$key][$mediaId]['rID'];
+                return array($rID, ++self::$_objectId);
+            }
+            return self::$_sectionMedia[$key][$mediaId]['rID'];
         }
-
-        if ($type === 'oleObject') {
-            $rID = self::$_sectionMedia[$key][$mediaId]['rID'];
-            return array($rID, ++self::$_objectId);
-        }
-        return self::$_sectionMedia[$key][$mediaId]['rID'];
     }
 
     /**
@@ -207,50 +182,42 @@ class Media
      *
      * @param  int $headerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  \PhpOffice\PhpWord\Section\Image $image
      * @return int
      */
-    public static function addHeaderMediaElement($headerCount, $src, MemoryImage $memoryImage = null)
+    public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
     {
         $mediaId = md5($src);
         $key = 'header' . $headerCount;
-
         if (!array_key_exists($key, self::$_headerMedia)) {
             self::$_headerMedia[$key] = array();
         }
-
         if (!array_key_exists($mediaId, self::$_headerMedia[$key])) {
             $cImg = self::countHeaderMediaElements($key);
             $rID = $cImg + 1;
-
             $cImg++;
-            $inf = pathinfo($src);
-            $isMemImage = (substr(strtolower($inf['extension']), 0, 3) == 'php') ? true : false;
-
             $media = array();
-            if ($isMemImage) {
-                $ext = $memoryImage->getImageExtension();
-                $media['isMemImage'] = true;
-                $media['createfunction'] = $memoryImage->getImageCreateFunction();
-                $media['imagefunction'] = $memoryImage->getImageFunction();
+            if (!is_null($image)) {
+                $isMemImage = $image->getIsMemImage();
+                $extension = $image->getImageExtension();
             } else {
-                $ext = $inf['extension'];
-                if ($ext == 'jpeg') { // Office crashes when adding a jpEg Image, so rename to jpg
-                    $ext = 'jpg';
-                }
+                $isMemImage = false;
             }
-            $file = 'image' . $cImg . '.' . strtolower($ext);
-
+            if ($isMemImage) {
+                $media['isMemImage'] = true;
+                $media['createfunction'] = $image->getImageCreateFunction();
+                $media['imagefunction'] = $image->getImageFunction();
+            }
+            $file = 'image' . $cImg . '.' . strtolower($extension);
             $media['source'] = $src;
             $media['target'] = 'media/' . $key . '_' . $file;
             $media['type'] = 'image';
             $media['rID'] = $rID;
-
             self::$_headerMedia[$key][$mediaId] = $media;
-
             return $rID;
+        } else {
+            return self::$_headerMedia[$key][$mediaId]['rID'];
         }
-        return self::$_headerMedia[$key][$mediaId]['rID'];
     }
 
     /**
@@ -279,50 +246,41 @@ class Media
      *
      * @param  int $footerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\MemoryImage|null $memoryImage
+     * @param  \PhpOffice\PhpWord\Section\Image $image
      * @return int
      */
-    public static function addFooterMediaElement($footerCount, $src, MemoryImage $memoryImage = null)
+    public static function addFooterMediaElement($footerCount, $src, Image $image = null)
     {
         $mediaId = md5($src);
         $key = 'footer' . $footerCount;
-
         if (!array_key_exists($key, self::$_footerMedia)) {
             self::$_footerMedia[$key] = array();
         }
-
         if (!array_key_exists($mediaId, self::$_footerMedia[$key])) {
             $cImg = self::countFooterMediaElements($key);
             $rID = $cImg + 1;
-
             $cImg++;
-            $inf = pathinfo($src);
-            $isMemImage = (substr(strtolower($inf['extension']), 0, 3) == 'php') ? true : false;
-
-            $media = array();
-            if ($isMemImage) {
-                $ext = $memoryImage->getImageExtension();
-                $media['isMemImage'] = true;
-                $media['createfunction'] = $memoryImage->getImageCreateFunction();
-                $media['imagefunction'] = $memoryImage->getImageFunction();
+            if (!is_null($image)) {
+                $isMemImage = $image->getIsMemImage();
+                $extension = $image->getImageExtension();
             } else {
-                $ext = $inf['extension'];
-                if ($ext == 'jpeg') { // Office crashes when adding a jpEg Image, so rename to jpg
-                    $ext = 'jpg';
-                }
+                $isMemImage = false;
             }
-            $file = 'image' . $cImg . '.' . strtolower($ext);
-
+            if ($isMemImage) {
+                $media['isMemImage'] = true;
+                $media['createfunction'] = $image->getImageCreateFunction();
+                $media['imagefunction'] = $image->getImageFunction();
+            }
+            $file = 'image' . $cImg . '.' . strtolower($extension);
             $media['source'] = $src;
             $media['target'] = 'media/' . $key . '_' . $file;
             $media['type'] = 'image';
             $media['rID'] = $rID;
-
             self::$_footerMedia[$key][$mediaId] = $media;
-
             return $rID;
+        } else {
+            return self::$_footerMedia[$key][$mediaId]['rID'];
         }
-        return self::$_footerMedia[$key][$mediaId]['rID'];
     }
 
     /**

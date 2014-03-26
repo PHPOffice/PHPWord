@@ -30,7 +30,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style\TableFull;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * ODText styloes part writer
@@ -203,8 +203,8 @@ class Styles extends WriterPart
                         $xmlWriter->endElement();
 
                         $xmlWriter->endElement();
-                    } elseif ($style instanceof TableFull) {
-                        // PhpOffice\PhpWord\Style\TableFull
+                    } elseif ($style instanceof Table) {
+                        // PhpOffice\PhpWord\Style\Table
                     }
                 }
             }

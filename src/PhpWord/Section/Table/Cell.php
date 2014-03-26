@@ -26,12 +26,13 @@
 namespace PhpOffice\PhpWord\Section\Table;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidObjectException;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
@@ -201,21 +202,19 @@ class Cell
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-
         if (!is_null($image->getSource())) {
             if ($this->_insideOf == 'section') {
-                $rID = Media::addSectionMediaElement($src, 'image');
+                $rID = Media::addSectionMediaElement($src, 'image', $image);
             } elseif ($this->_insideOf == 'header') {
-                $rID = Media::addHeaderMediaElement($this->_pCount, $src);
+                $rID = Media::addHeaderMediaElement($this->_pCount, $src, $image);
             } elseif ($this->_insideOf == 'footer') {
-                $rID = Media::addFooterMediaElement($this->_pCount, $src);
+                $rID = Media::addFooterMediaElement($this->_pCount, $src, $image);
             }
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Source does not exist or unsupported image type.');
+            throw new InvalidImageException;
         }
     }
 
@@ -224,26 +223,11 @@ class Cell
      *
      * @param string $link
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Section\MemoryImage
+     * @deprecated
      */
-    public function addMemoryImage($link, $style = null)
+    public function addMemoryImage($src, $style = null)
     {
-        $memoryImage = new MemoryImage($link, $style);
-        if (!is_null($memoryImage->getSource())) {
-            if ($this->_insideOf == 'section') {
-                $rID = Media::addSectionMediaElement($link, 'image', $memoryImage);
-            } elseif ($this->_insideOf == 'header') {
-                $rID = Media::addHeaderMediaElement($this->_pCount, $link, $memoryImage);
-            } elseif ($this->_insideOf == 'footer') {
-                $rID = Media::addFooterMediaElement($this->_pCount, $link, $memoryImage);
-            }
-            $memoryImage->setRelationId($rID);
-
-            $this->_elementCollection[] = $memoryImage;
-            return $memoryImage;
-        } else {
-            throw new Exception('Unsupported image type.');
-        }
+        return $this->addImage($src, $style);
     }
 
     /**
@@ -271,7 +255,7 @@ class Cell
                 $iconSrc .= '_' . $ext . '.png';
             }
 
-            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image');
+            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image', new Image($iconSrc));
             $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
@@ -283,7 +267,7 @@ class Cell
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            throw new Exception('Source does not exist or unsupported object type.');
+            throw new InvalidObjectException;
         }
     }
 

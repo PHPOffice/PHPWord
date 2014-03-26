@@ -5,6 +5,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Template;
 
 /**
+ * @covers \PhpOffice\PhpWord\Template
  * @coversDefaultClass \PhpOffice\PhpWord\Template
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
@@ -115,8 +116,8 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::setValue
      * @covers  ::getVariables
+     * @covers  ::setValue
      * @covers  ::cloneRow
      * @covers  ::saveAs
      */
@@ -126,13 +127,13 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
         $docName = 'clone-test-result.docx';
 
-        $phpWord = new PhpWord();
-        $document = $phpWord->loadTemplate($template);
+        $document = new Template($template);
         $actualVar = $document->getVariables();
+        $document->setValue('tableHeader', utf8_decode('ééé'));
         $document->cloneRow('userId', 1);
         $document->setValue('userId#1', 'Test');
         $document->saveAs($docName);
-        $docFound = \file_exists($docName);
+        $docFound = file_exists($docName);
         unlink($docName);
 
         $this->assertEquals($expectedVar, $actualVar);

@@ -79,15 +79,15 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddMemoryImage()
+    public function testAddImageByUrl()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addMemoryImage(
+        $element = $oFooter->addImage(
             'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
         );
 
         $this->assertCount(1, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\MemoryImage', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
     public function testAddPreserveText()

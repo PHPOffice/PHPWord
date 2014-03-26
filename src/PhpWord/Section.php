@@ -25,13 +25,13 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
+use PhpOffice\PhpWord\Exceptions\InvalidObjectException;
 use PhpOffice\PhpWord\Section\Footer;
 use PhpOffice\PhpWord\Section\Image;
 use PhpOffice\PhpWord\Section\Header;
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\MemoryImage;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\PageBreak;
 use PhpOffice\PhpWord\Section\Settings;
@@ -230,7 +230,7 @@ class Section
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Object
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidObjectException
      */
     public function addObject($src, $style = null)
     {
@@ -250,7 +250,7 @@ class Section
                 $iconSrc .= '_' . $ext . '.png';
             }
 
-            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image');
+            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image', new Image($iconSrc));
             $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
@@ -261,8 +261,9 @@ class Section
 
             $this->_elementCollection[] = $object;
             return $object;
+        } else {
+            throw new InvalidObjectException;
         }
-        throw new Exception('Source does not exist or unsupported object type.');
     }
 
     /**
@@ -271,20 +272,19 @@ class Section
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Image
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exceptions\InvalidImageException
      */
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addSectionMediaElement($src, 'image');
+            $rID = Media::addSectionMediaElement($src, 'image', $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
+        } else {
+            throw new InvalidImageException;
         }
-        throw new Exception('Source does not exist or unsupported image type.');
     }
 
     /**
@@ -292,20 +292,11 @@ class Section
      *
      * @param string $link
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Section\MemoryImage
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @deprecated
      */
-    public function addMemoryImage($link, $style = null)
+    public function addMemoryImage($src, $style = null)
     {
-        $memoryImage = new MemoryImage($link, $style);
-        if (!is_null($memoryImage->getSource())) {
-            $rID = Media::addSectionMediaElement($link, 'image', $memoryImage);
-            $memoryImage->setRelationId($rID);
-
-            $this->_elementCollection[] = $memoryImage;
-            return $memoryImage;
-        }
-        throw new Exception('Unsupported image type.');
+        return $this->addImage($src, $style);
     }
 
     /**

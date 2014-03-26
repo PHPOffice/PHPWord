@@ -87,4 +87,56 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $oImage->setIsWatermark(true);
         $this->assertEquals($oImage->getIsWatermark(), true);
     }
+    public function testPNG()
+    {
+        $src = __DIR__ . "/../_files/images/firefox.png";
+        $oImage = new Image($src);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
+        $this->assertEquals($oImage->getSource(), $src);
+        $this->assertEquals($oImage->getMediaId(), md5($src));
+        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefrompng');
+        $this->assertEquals($oImage->getImageFunction(), 'imagepng');
+        $this->assertEquals($oImage->getImageExtension(), 'png');
+        $this->assertEquals($oImage->getImageType(), 'image/png');
+    }
+
+    public function testGIF()
+    {
+        $src = __DIR__ . "/../_files/images/mario.gif";
+        $oImage = new Image($src);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
+        $this->assertEquals($oImage->getSource(), $src);
+        $this->assertEquals($oImage->getMediaId(), md5($src));
+        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefromgif');
+        $this->assertEquals($oImage->getImageFunction(), 'imagegif');
+        $this->assertEquals($oImage->getImageExtension(), 'gif');
+        $this->assertEquals($oImage->getImageType(), 'image/gif');
+    }
+
+    public function testJPG()
+    {
+        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $oImage = new Image($src);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
+        $this->assertEquals($oImage->getSource(), $src);
+        $this->assertEquals($oImage->getMediaId(), md5($src));
+        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefromjpeg');
+        $this->assertEquals($oImage->getImageFunction(), 'imagejpeg');
+        $this->assertEquals($oImage->getImageExtension(), 'jpg');
+        $this->assertEquals($oImage->getImageType(), 'image/jpeg');
+    }
+
+    public function testBMP()
+    {
+        $oImage = new Image(__DIR__ . "/../_files/images/duke_nukem.bmp");
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
+        $this->assertEquals($oImage->getImageCreateFunction(), null);
+        $this->assertEquals($oImage->getImageFunction(), null);
+        $this->assertEquals($oImage->getImageExtension(), 'bmp');
+        $this->assertEquals($oImage->getImageType(), 'image/bmp');
+    }
 }

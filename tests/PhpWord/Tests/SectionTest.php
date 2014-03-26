@@ -65,7 +65,6 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      * @covers ::addListItem
      * @covers ::addObject
      * @covers ::addImage
-     * @covers ::addMemoryImage
      * @covers ::addTOC
      * @covers ::addTitle
      * @covers ::createTextRun
@@ -86,7 +85,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addListItem(utf8_decode('ä'));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addMemoryImage($imageUrl);
+        $section->addImage($imageUrl);
         $section->addTOC();
         $section->addTitle(utf8_decode('ä'), 1);
         $section->createTextRun();
@@ -96,7 +95,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $elementType = 'Link';
         $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[1]);
         // $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
-            // 'Table', 'ListItem', 'Object', 'Image', 'MemoryImage', 'TOC',
+            // 'Table', 'ListItem', 'Object', 'Image', 'Image', 'TOC',
             // 'Title', 'TextRun');
         // $i = 0;
         // foreach ($elementTypes as $elementType) {

@@ -239,17 +239,15 @@ See ``Sample_09_Tables.php`` for more code sample.
 Images
 ------
 
-To add an image, use the ``addImage`` or ``addMemoryImage`` method. The
-first one is used when your source is stored locally, the later is used
-when your source is a remote URL, either another script that create
-image or an image on the internet.
-
-Syntax:
+To add an image, use the ``addImage`` method to sections, headers, footers,
+textruns, or table cells.
 
 .. code-block:: php
 
     $section->addImage($src, [$style]);
-    $section->addMemoryImage($link, [$style]);
+
+- `source` String path to a local image or URL of a remote image
+- `styles` Array fo styles for the image. See below.
 
 Examples:
 
@@ -266,9 +264,10 @@ Examples:
             'wrappingStyle' => 'behind'
         )
     );
-
-    $section->addMemoryImage('http://example.com/image.php');
-    $section->addMemoryImage('http://php.net/logo.jpg');
+    $footer = $section->createFooter();
+    $footer->addImage('http://example.com/image.php');
+    $textrun = $section->createTextRun();
+    $textrun->addImage('http://php.net/logo.jpg');
 
 Image styles
 ~~~~~~~~~~~~

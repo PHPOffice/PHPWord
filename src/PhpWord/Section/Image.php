@@ -34,77 +34,131 @@ use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 class Image
 {
     /**
-     * Image Src
+     * Image source
      *
      * @var string
      */
-    private $_src;
+    private $source;
 
     /**
-     * Image Style
+     * Image style
      *
      * @var \PhpOffice\PhpWord\Style\Image
      */
-    private $_style;
+    private $style;
 
     /**
-     * Image Relation ID
+     * Image relation ID specific only for DOCX
      *
      * @var string
      */
-    private $_rId;
+    private $rId;
 
     /**
-     * Is Watermark
+     * Is watermark
      *
      * @var bool
      */
-    private $_isWatermark;
-
+    private $isWatermark;
 
     /**
-     * Create a new Image
+     * Image type
      *
-     * @param string $src
+     * @var string
+     */
+    private $imageType;
+
+    /**
+     * Image create function
+     *
+     * @var string
+     */
+    private $imageCreateFunc;
+
+    /**
+     * Image function
+     *
+     * @var string
+     */
+    private $imageFunc;
+
+    /**
+     * Image extension
+     *
+     * @var string
+     */
+    private $imageExtension;
+
+    /**
+     * Is memory image
+     *
+     * @var string
+     */
+    private $isMemImage;
+
+    /**
+     * Create new image element
+     *
+     * @param string $source
      * @param mixed $style
      * @param bool $isWatermark
      * @throws \PhpOffice\PhpWord\Exceptions\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
      */
-    public function __construct($src, $style = null, $isWatermark = false)
+    public function __construct($source, $style = null, $isWatermark = false)
     {
-        $supportedImageTypes = array(\IMAGETYPE_JPEG, \IMAGETYPE_GIF, \IMAGETYPE_PNG, \IMAGETYPE_BMP, \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM);
-
-        if (!\file_exists($src)) {
-            throw new InvalidImageException;
+        // Detect if it's a memory image, by .php ext or by URL
+        if (stripos(strrev($source), strrev('.php')) === 0) {
+            $this->isMemImage = true;
+        } else {
+            $this->isMemImage = (filter_var($source, \FILTER_VALIDATE_URL) !== false);
         }
 
-        if (!in_array(exif_imagetype($src), $supportedImageTypes)) {
-            throw new UnsupportedImageTypeException;
+        // Check supported types
+        if ($this->isMemImage) {
+            $supportedTypes = array('image/jpeg', 'image/gif', 'image/png');
+            $imgData = getimagesize($source);
+            $this->imageType = $imgData['mime']; // string
+            if (!in_array($this->imageType, $supportedTypes)) {
+                throw new UnsupportedImageTypeException;
+            }
+        } else {
+            $supportedTypes = array(
+                \IMAGETYPE_JPEG, \IMAGETYPE_GIF,
+                \IMAGETYPE_PNG, \IMAGETYPE_BMP,
+                \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM
+            );
+            if (!\file_exists($source)) {
+                throw new InvalidImageException;
+            }
+            $imgData = getimagesize($source);
+            $this->imageType = exif_imagetype($source);
+            if (!in_array($this->imageType, $supportedTypes)) {
+                throw new UnsupportedImageTypeException;
+            }
+            $this->imageType = \image_type_to_mime_type($this->imageType);
         }
 
-        $this->_src = $src;
-        $this->_isWatermark = $isWatermark;
-        $this->_style = new \PhpOffice\PhpWord\Style\Image();
-
+        // Set private properties
+        $this->source = $source;
+        $this->isWatermark = $isWatermark;
+        $this->style = new \PhpOffice\PhpWord\Style\Image();
         if (!is_null($style) && is_array($style)) {
             foreach ($style as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
-                $this->_style->setStyleValue($key, $value);
+                $this->style->setStyleValue($key, $value);
             }
         }
-
         if (isset($style['wrappingStyle'])) {
-            $this->_style->setWrappingStyle($style['wrappingStyle']);
+            $this->style->setWrappingStyle($style['wrappingStyle']);
         }
-
-        if ($this->_style->getWidth() == null && $this->_style->getHeight() == null) {
-            $imgData = getimagesize($this->_src);
-            $this->_style->setWidth($imgData[0]);
-            $this->_style->setHeight($imgData[1]);
+        if ($this->style->getWidth() == null && $this->style->getHeight() == null) {
+            $this->style->setWidth($imgData[0]);
+            $this->style->setHeight($imgData[1]);
         }
+        $this->setImageFunctions();
     }
 
     /**
@@ -114,66 +168,149 @@ class Image
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     /**
-     * Get Image Relation ID
+     * Get image relation ID
      *
      * @return int
      */
     public function getRelationId()
     {
-        return $this->_rId;
+        return $this->rId;
     }
 
     /**
-     * Set Image Relation ID
+     * Set image relation ID
      *
      * @param int $rId
      */
     public function setRelationId($rId)
     {
-        $this->_rId = $rId;
+        $this->rId = $rId;
     }
 
     /**
-     * Get Image Source
+     * Get image source
      *
      * @return string
      */
     public function getSource()
     {
-        return $this->_src;
+        return $this->source;
     }
 
     /**
-     * Get Image Media ID
+     * Get image media ID
      *
      * @return string
      */
     public function getMediaId()
     {
-        return md5($this->_src);
+        return md5($this->source);
     }
 
     /**
-     * Get IsWatermark
+     * Get is watermark
      *
      * @return int
      */
     public function getIsWatermark()
     {
-        return $this->_isWatermark;
+        return $this->isWatermark;
     }
 
     /**
-     * Set IsWatermark
+     * Set is watermark
      *
      * @param bool $pValue
      */
     public function setIsWatermark($pValue)
     {
-        $this->_isWatermark = $pValue;
+        $this->isWatermark = $pValue;
+    }
+
+    /**
+     * Get image type
+     *
+     * @return string
+     */
+    public function getImageType()
+    {
+        return $this->imageType;
+    }
+
+    /**
+     * Get image create function
+     *
+     * @return string
+     */
+    public function getImageCreateFunction()
+    {
+        return $this->imageCreateFunc;
+    }
+
+    /**
+     * Get image function
+     *
+     * @return string
+     */
+    public function getImageFunction()
+    {
+        return $this->imageFunc;
+    }
+
+    /**
+     * Get image extension
+     *
+     * @return string
+     */
+    public function getImageExtension()
+    {
+        return $this->imageExtension;
+    }
+
+    /**
+     * Get is memory image
+     *
+     * @return boolean
+     */
+    public function getIsMemImage()
+    {
+        return $this->isMemImage;
+    }
+
+    /**
+     * Set image functions
+     */
+    private function setImageFunctions()
+    {
+        switch ($this->imageType) {
+            case 'image/png':
+                $this->imageCreateFunc = 'imagecreatefrompng';
+                $this->imageFunc = 'imagepng';
+                $this->imageExtension = 'png';
+                break;
+            case 'image/gif':
+                $this->imageCreateFunc = 'imagecreatefromgif';
+                $this->imageFunc = 'imagegif';
+                $this->imageExtension = 'gif';
+                break;
+            case 'image/jpeg':
+            case 'image/jpg':
+                $this->imageCreateFunc = 'imagecreatefromjpeg';
+                $this->imageFunc = 'imagejpeg';
+                $this->imageExtension = 'jpg';
+                break;
+            case 'image/x-ms-bmp':
+            case 'image/bmp':
+                $this->imageType = 'image/bmp';
+                $this->imageExtension = 'bmp';
+                break;
+            case 'image/tiff':
+                $this->imageExtension = 'tif';
+                break;
+        }
     }
 }

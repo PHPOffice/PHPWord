@@ -25,7 +25,7 @@
 
 namespace PhpOffice\PhpWord\Section;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section\Footer\PreserveText;
 use PhpOffice\PhpWord\Shared\String;
@@ -134,15 +134,13 @@ class Footer
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-
         if (!is_null($image->getSource())) {
-            $rID = Media::addFooterMediaElement($this->_footerCount, $src);
+            $rID = Media::addFooterMediaElement($this->_footerCount, $src, $image);
             $image->setRelationId($rID);
-
             $this->_elementCollection[] = $image;
             return $image;
         } else {
-            throw new Exception('Src does not exist or invalid image type.');
+            throw new InvalidImageException;
         }
     }
 
@@ -151,20 +149,11 @@ class Footer
      *
      * @param string $link
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Section\MemoryImage
+     * @deprecated
      */
-    public function addMemoryImage($link, $style = null)
+    public function addMemoryImage($src, $style = null)
     {
-        $memoryImage = new MemoryImage($link, $style);
-        if (!is_null($memoryImage->getSource())) {
-            $rID = Media::addFooterMediaElement($this->_footerCount, $link, $memoryImage);
-            $memoryImage->setRelationId($rID);
-
-            $this->_elementCollection[] = $memoryImage;
-            return $memoryImage;
-        } else {
-            throw new Exception('Unsupported image type.');
-        }
+        return $this->addImage($src, $style);
     }
 
     /**
