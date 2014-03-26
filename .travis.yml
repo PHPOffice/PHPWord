@@ -1,46 +1,49 @@
 language: php
+
 php:
+  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
-  ## @reference https://github.com/travis-ci/travis-ci/issues/1749
+  - 5.6
   - hhvm
+
 matrix:
   allow_failures:
+    - php: 5.3.3
+    - php: 5.6
     - php: hhvm
-    
+
 before_script:
   ## Composer
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --prefer-source
+  # - curl -s http://getcomposer.org/installer | php
+  # - php composer.phar install --prefer-source
+  - composer install --prefer-source
+  - composer selfupdate --quiet
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
   ## PHP Copy/Paste Detector
-  - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
+  #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
   ## PHP Mess Detector
-  - pear config-set preferred_state beta
-  - printf "\n" | pecl install imagick
+  #- pear config-set preferred_state beta
+  #- printf "\n" | pecl install imagick
   #- pear channel-discover pear.phpmd.org
   #- pear channel-discover pear.pdepend.org
   #- pear install --alldeps phpmd/PHP_PMD
-  - phpenv rehash
+  #- phpenv rehash
   ## PHPLOC
-  - curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+  #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
 
 script:
   ## PHP_CodeSniffer
-  - phpcs --standard=PSR1 Classes/
-  - phpcs --standard=PSR2 Classes/
+  - phpcs --standard=PSR2 -n src/
+  - phpcs --standard=PSR2 -n tests/
   ## PHP Copy/Paste Detector
-  - php phpcpd.phar --verbose Classes/
+  #- php phpcpd.phar --verbose src/
   ## PHP Mess Detector
-  #- phpmd Classes/ text unusedcode,naming,design
+  #- phpmd src/ text unusedcode,naming,design
   ## PHPLOC
-  - php phploc.phar Classes/
+  #- php phploc.phar src/
   ## PHPUnit
   - phpunit -c ./ --coverage-text
-
-notifications:
-  email:
-    - progi1984@gmail.com

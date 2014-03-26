@@ -5,6 +5,7 @@
 Thumbs.db
 Desktop.ini
 .idea
+_build
 phpunit.xml
 composer.lock
 composer.phar
@@ -13,9 +14,3 @@ vendor
 /.settings
 /.buildpath
 /.project
-/docs
-*.odt
-*.docx
-*.rtf
-*.txt
-*.xml
