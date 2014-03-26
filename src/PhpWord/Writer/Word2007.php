@@ -20,7 +20,7 @@
  *
  * @copyright  Copyright (c) 2014 PhpWord
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.8.0
+ * @version    0.9.0
  */
 
 namespace PhpOffice\PhpWord\Writer;

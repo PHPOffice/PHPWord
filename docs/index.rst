@@ -3,14 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PHPWord's documentation
+Welcome to PhpWord's documentation
 ==================================
 
-|PHPWord|
+|PhpWord|
 
-PHPWord is a library written in pure PHP that provides a set of classes to
+PhpWord is a library written in pure PHP that provides a set of classes to
 write to and read from different document file formats. The current version of
-PHPWord supports Microsoft Office Open XML (OOXML or OpenXML), OASIS Open
+PhpWord supports Microsoft Office Open XML (OOXML or OpenXML), OASIS Open
 Document Format for Office Applications (OpenDocument or ODF), and Rich Text
 Format (RTF).
 
@@ -35,4 +35,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. |PHPWord| image:: images/phpword.png
+.. |PhpWord| image:: images/phpword.png

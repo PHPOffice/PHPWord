@@ -23,7 +23,7 @@ Optional PHP extensions:
 Installation
 ------------
 
-There are two ways to install PHPWord, i.e. via
+There are two ways to install PhpWord, i.e. via
 `Composer <http://getcomposer.org/>`__ or manually by downloading the
 library.
 
@@ -44,7 +44,7 @@ To install via Composer, add the following lines to your
 Manual install
 ~~~~~~~~~~~~~~
 
-To install manually, `download PHPWord package from
+To install manually, `download PhpWord package from
 github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
 Extract the package and put the contents to your machine. To use the
 library, include ``src/PhpWord/Autoloader.php`` in your script and
@@ -60,5 +60,5 @@ Using samples
 
 After installation, you can browse and use the samples that we've
 provided, either by command line or using browser. If you can access
-your PHPWord library folder using browser, point your browser to the
+your PhpWord library folder using browser, point your browser to the
 ``samples`` folder, e.g. ``http://localhost/PhpWord/samples/``.
