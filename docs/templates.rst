@@ -8,7 +8,7 @@ replaced by any value you wish. Only single-line values can be replaced.
 To load a template file, use the ``loadTemplate`` method. After loading
 the docx template, you can use the ``setValue`` method to change the
 value of a search pattern. The search-pattern model is:
-``${search-pattern}``. It is not possible to add new PhpWord elements to
+``${search-pattern}``. It is not possible to add new PHPWord elements to
 a loaded template file.
 
 Example:
