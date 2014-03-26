@@ -101,4 +101,4 @@ $objWriter->save('helloWorld.rtf');
 
 __Want to contribute?__ [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
 
-__Want to know more?__ Read the full documentation of PHPWord on [Read The Docs](http://phpword.readthedocs.org/en/develop/).
+__Want to know more?__ Read the full documentation of PHPWord on [Read The Docs](http://phpword.readthedocs.org/).
