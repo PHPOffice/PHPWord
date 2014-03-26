@@ -3,7 +3,7 @@ date_default_timezone_set('UTC');
 
 // defining base dir for tests
 if (!defined('PHPWORD_TESTS_BASE_DIR')) {
-    define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__ . '/..'));
+    define('PHPWORD_TESTS_BASE_DIR', realpath(__DIR__));
 }
 
 $vendor = realpath(__DIR__ . '/../vendor');

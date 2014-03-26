@@ -147,7 +147,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $templateFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'data', 'templates', 'blanks.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', 'data', 'templates', 'blanks.docx')
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
