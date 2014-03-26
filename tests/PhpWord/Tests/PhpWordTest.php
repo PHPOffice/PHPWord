@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHPWord
+ *
+ * PHP version 5.3
+ *
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @version     0.9.0
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -7,13 +17,16 @@ use PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Style;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\PhpWord
+ * Test for PHPWord main class
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\PhpWord
  * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::__construct
+     * Test object creation
+     *
      * @covers ::getDocumentProperties
      * @covers ::getDefaultFontName
      * @covers ::getDefaultFontSize
@@ -27,6 +40,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test set/get document properties
+     *
      * @covers ::setDocumentProperties
      * @covers ::getDocumentProperties
      */
@@ -41,6 +56,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test create/get section
+     *
      * @covers ::createSection
      * @covers ::getSections
      */
@@ -53,6 +70,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test set/get default font name
+     *
      * @covers ::setDefaultFontName
      * @covers ::getDefaultFontName
      */
@@ -66,6 +85,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test set/get default font size
+     *
      * @covers ::setDefaultFontSize
      * @covers ::getDefaultFontSize
      */
@@ -79,6 +100,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test set default paragraph style
+     *
      * @covers ::setDefaultParagraphStyle
      * @covers ::loadTemplate
      */
@@ -90,6 +113,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test add styles
+     *
      * @covers ::addParagraphStyle
      * @covers ::addFontStyle
      * @covers ::addTableStyle
@@ -114,6 +139,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test add title style
+     *
      * @covers ::addTitleStyle
      */
     public function testAddTitleStyle()
@@ -126,6 +153,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test load template
+     *
      * @covers ::loadTemplate
      */
     public function testLoadTemplate()
@@ -140,14 +169,16 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            ::loadTemplate
+     * Test load template exception
+     *
+     * @covers ::loadTemplate
      * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testLoadTemplateException()
     {
         $templateFqfn = \join(
             \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', 'data', 'templates', 'blanks.docx')
+            array(\PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
