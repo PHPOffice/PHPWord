@@ -57,11 +57,14 @@ the following lines to your ``composer.json``.
 The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
 
 ```php
-$PHPWord = new PHPWord();
+require_once 'src/PhpWord/Autoloader.php';
+PhpOffice\PhpWord\Autoloader::register();
+
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
 // To create a basic section:
-$section = $PHPWord->createSection();
+$section = $phpWord->createSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');
@@ -72,13 +75,13 @@ $section->addText('Hello world! I am formatted.',
 
 // If you often need the same style again you can create a user defined style
 // to the word document and give the addText function the name of the style:
-$PHPWord->addFontStyle('myOwnStyle',
+$phpWord->addFontStyle('myOwnStyle',
     array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
 $section->addText('Hello world! I am formatted by a user defined style',
     'myOwnStyle');
 
 // You can also put the appended element to local object like this:
-$fontStyle = new PHPWord_Style_Font();
+$fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Verdana');
 $fontStyle->setSize(22);
@@ -86,13 +89,13 @@ $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
 // Finally, write the document:
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'ODText');
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
 $objWriter->save('helloWorld.odt');
 
-$objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'RTF');
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
 $objWriter->save('helloWorld.rtf');
 ```
 

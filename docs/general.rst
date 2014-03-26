@@ -6,12 +6,13 @@ General usage
 Basic example
 -------------
 
-The following is a basic example of the PHPWord library. More examples
+The following is a basic example of the PhpWord library. More examples
 are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
 .. code-block:: php
 
-    require_once '../src/PhpWord/PhpWord.php';
+    require_once 'src/PhpWord/Autoloader.php';
+    PhpOffice\PhpWord\Autoloader::register();
 
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
@@ -34,7 +35,7 @@ are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/m
         'myOwnStyle');
 
     // You can also put the appended element to local object like this:
-    $fontStyle = new PHPWord_Style_Font();
+    $fontStyle = new \PhpOffice\PhpWord\Style\Font();
     $fontStyle->setBold(true);
     $fontStyle->setName('Verdana');
     $fontStyle->setSize(22);
@@ -42,8 +43,14 @@ are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/m
     $myTextElement->setFontStyle($fontStyle);
 
     // Finally, write the document:
-    $objWriter = PHPWord_IOFactory::createWriter($phpWord, 'Word2007');
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     $objWriter->save('helloWorld.docx');
+
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
+    $objWriter->save('helloWorld.odt');
+
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
+    $objWriter->save('helloWorld.rtf');
 
 Default font
 ------------
@@ -82,19 +89,19 @@ Measurement units
 The base length unit in Open Office XML is twip. Twip means "TWentieth
 of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
-You can use PHPWord helper functions to convert inches, centimeters, or
+You can use PhpWord helper functions to convert inches, centimeters, or
 points to twips.
 
 .. code-block:: php
 
     // Paragraph with 6 points space after
     $phpWord->addParagraphStyle('My Style', array(
-        'spaceAfter' => PHPWord_Shared_Font::pointSizeToTwips(6))
+        'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
     );
 
     $section = $phpWord->createSection();
     $sectionStyle = $section->getSettings();
     // half inch left margin
-    $sectionStyle->setMarginLeft(PHPWord_Shared_Font::inchSizeToTwips(.5));
+    $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
     // 2 cm right margin
-    $sectionStyle->setMarginRight(PHPWord_Shared_Font::centimeterSizeToTwips(2));
+    $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
