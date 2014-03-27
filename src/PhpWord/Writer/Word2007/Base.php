@@ -571,6 +571,30 @@ class Base extends WriterPart
 
         if ($_cRows > 0) {
             $xmlWriter->startElement('w:tbl');
+            
+            $cellWidths = array();
+            for($i=0; $i<$_cRows; $i++)
+            {
+                $row = $_rows[$i];
+                $cells = $row->getCells();
+                if(count($cells) <= count($cellWidths))
+                    continue;
+                
+                $cellWidths = array();
+                foreach ($cells as $cell)
+                    $cellWidths[] = $cell->getWidth();
+            }
+            
+            $xmlWriter->startElement('w:tblGrid');
+            foreach($cellWidths as $width)
+            {
+                $xmlWriter->startElement('w:gridCol');
+                $xmlWriter->writeAttribute('w:w', $width);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->endElement();
+            }
+            $xmlWriter->endElement();
+            
             $tblStyle = $table->getStyle();
             $tblWidth = $table->getWidth();
             if ($tblStyle instanceof PhpOffice\PhpWord\Style\Table) {
