@@ -29,6 +29,8 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 * Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress
 
+__Want to contribute?__ [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
+
 ## Requirements
 * PHP 5.3+
 * PHP [Zip](http://php.net/manual/en/book.zip.php) extension
@@ -52,14 +54,19 @@ the following lines to your ``composer.json``.
 }
 ```
 
+Alternatively, you can download the latest release from the [releases page](https://github.com/PHPOffice/PHPWord/releases).
+In this case, you will have to register the autoloader.
+
+```php
+require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
+PhpOffice\PhpWord\Autoloader::register();
+```
+
 ## Basic usage
 
 The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
 
 ```php
-require_once 'src/PhpWord/Autoloader.php';
-PhpOffice\PhpWord\Autoloader::register();
-
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
@@ -99,6 +106,6 @@ $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
 $objWriter->save('helloWorld.rtf');
 ```
 
-__Want to contribute?__ [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
+## Documentation
 
 __Want to know more?__ Read the full documentation of PHPWord on [Read The Docs](http://phpword.readthedocs.org/).
