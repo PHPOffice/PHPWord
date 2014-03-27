@@ -42,7 +42,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PhpOffice\\PhpWord\\": "src/"
+            "PhpOffice\\PhpWord\\": "src/PhpWord"
         }
     }
 }
