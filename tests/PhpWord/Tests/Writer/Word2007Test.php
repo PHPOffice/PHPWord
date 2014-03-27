@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
 namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -6,7 +13,9 @@ use PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007
+ * Test class for PhpOffice\PhpWord\Writer\Word2007
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase

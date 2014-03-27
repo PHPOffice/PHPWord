@@ -1,10 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\TOC;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\TOC
+ * Test class for PhpOffice\PhpWord\TOC
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase

@@ -1,4 +1,12 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\TextBreak;
@@ -6,7 +14,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\Section\TextBreak
+ * Test class for PhpOffice\PhpWord\Section\TextBreak
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Section\TextBreak
  * @runTestsInSeparateProcesses
  */
 class TextBreakTest extends \PHPUnit_Framework_TestCase

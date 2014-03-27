@@ -1,14 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
 namespace PhpOffice\PhpWord\Tests\Writer\ODText;
 
 use PhpOffice\PhpWord\Writer\ODText;
 use PhpWord\Tests\TestHelperDOCX;
 
 /**
- * Class WriterPartTest
+ * Test class for PhpOffice\PhpWord\Writer\ODText\WriterPart
  *
- * @package             PhpWord\Tests
- * @coversDefaultClass  PhpWord_Writer_ODText_WriterPart
+ * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\WriterPart
  * @runTestsInSeparateProcesses
  */
 class WriterPartTest extends \PHPUnit_Framework_TestCase

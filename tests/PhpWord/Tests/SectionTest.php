@@ -1,10 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Section;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\Section
+ * Test class for PhpOffice\PhpWord\Section
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Section
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit_Framework_TestCase

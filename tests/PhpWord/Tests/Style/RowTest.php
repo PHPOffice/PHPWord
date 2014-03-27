@@ -1,9 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Row;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Row
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Row
  * @runTestsInSeparateProcesses
  */
 class RowTest extends \PHPUnit_Framework_TestCase

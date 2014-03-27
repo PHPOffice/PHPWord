@@ -1,9 +1,23 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Style\Font;
 
+/**
+ * Test class for PhpOffice\PhpWord\Section\Link
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Section\Link
+ * @runTestsInSeparateProcesses
+ */
 class LinkTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructDefault()

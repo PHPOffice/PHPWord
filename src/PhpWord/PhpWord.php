@@ -2,11 +2,9 @@
 /**
  * PHPWord
  *
- * PHP version 5.3
- *
+ * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
- * @version     0.9.0
  */
 
 namespace PhpOffice\PhpWord;

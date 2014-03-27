@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
@@ -6,10 +13,9 @@ use PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
- * Class FooterTest
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Footer
  *
- * @package             PhpWord\Tests
- * @coversDefaultClass  PhpOffice\PhpWord\Writer\Word2007\Footer
+ * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Footer
  * @runTestsInSeparateProcesses
  */
 class FooterTest extends \PHPUnit_Framework_TestCase

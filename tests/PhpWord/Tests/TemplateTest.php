@@ -1,12 +1,22 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Template;
 
 /**
- * @covers \PhpOffice\PhpWord\Template
+ * Test class for PhpOffice\PhpWord\Template
+ *
  * @coversDefaultClass \PhpOffice\PhpWord\Template
+ * @runTestsInSeparateProcesses
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {

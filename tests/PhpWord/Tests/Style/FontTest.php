@@ -1,4 +1,12 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -6,6 +14,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Font
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Font
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase

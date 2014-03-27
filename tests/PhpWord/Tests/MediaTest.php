@@ -1,9 +1,23 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section;
 
+/**
+ * Test class for PhpOffice\PhpWord\Media
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Media
+ * @runTestsInSeparateProcesses
+ */
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSectionMediaElementsWithNull()
