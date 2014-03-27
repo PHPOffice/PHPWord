@@ -1,11 +1,21 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * @coversDefaultClass         \PhpOffice\PhpWord\IOFactory
+ * Test class for PhpOffice\PhpWord\IOFactory
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\IOFactory
  * @runTestsInSeparateProcesses
  */
 final class IOFactoryTest extends \PHPUnit_Framework_TestCase

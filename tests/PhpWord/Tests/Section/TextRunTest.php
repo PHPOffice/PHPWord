@@ -1,8 +1,22 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\TextRun;
 
+/**
+ * Test class for PhpOffice\PhpWord\Section\TextRun
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Section\TextRun
+ * @runTestsInSeparateProcesses
+ */
 class TextRunTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructNull()

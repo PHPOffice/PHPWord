@@ -1,8 +1,22 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\Header;
 
+/**
+ * Test class for PhpOffice\PhpWord\Section\Header
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Section\Header
+ * @runTestsInSeparateProcesses
+ */
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructDefault()

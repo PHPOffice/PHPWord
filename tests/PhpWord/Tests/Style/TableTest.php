@@ -1,9 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Table;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Table
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Table
  * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit_Framework_TestCase
