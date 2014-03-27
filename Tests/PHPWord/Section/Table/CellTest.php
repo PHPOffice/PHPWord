@@ -40,6 +40,15 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PHPWord_Section_Text', $element);
     }
 
+    public function testaddCheckBox()
+    {
+        $oCell = new PHPWord_Section_Table_Cell('section', 1);
+        $element = $oCell->addCheckBox('check1', 'text');
+
+        $this->assertCount(1, $oCell->getElements());
+        $this->assertInstanceOf('PHPWord_Section_CheckBox', $element);
+    }
+
     public function testAddTextNotUTF8()
     {
         $oCell = new PHPWord_Section_Table_Cell('section', 1);

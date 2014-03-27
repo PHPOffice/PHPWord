@@ -139,7 +139,7 @@ class PHPWord_Section_Text
         $this->text = $text;
         return $this;
     }
-
+    
     /**
      * Get Text content
      *

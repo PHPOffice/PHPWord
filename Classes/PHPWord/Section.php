@@ -128,6 +128,7 @@ class PHPWord_Section
     /**
      * Add a CheckBox Element
      *
+     * @param string $name
      * @param string $text
      * @param mixed $style
      * @return PHPWord_Section_CheckBox

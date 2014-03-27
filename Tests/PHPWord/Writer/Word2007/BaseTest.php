@@ -44,6 +44,26 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * covers   ::_writeCheckbox
+     */
+    public function testWriteCheckbox()
+    {
+        $rStyle = 'rStyle';
+        $pStyle = 'pStyle';
+
+        $PHPWord = new PHPWord();
+        $PHPWord->addFontStyle($rStyle, array('bold' => true));
+        $PHPWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $section = $PHPWord->createSection();
+        $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($PHPWord);
+
+        $element = $doc->getElement('/w:document/w:body/w:p/w:checkbox/w:r/w:t');
+
+        $this->assertEquals($expected, $element->nodeValue);
+    }
+
+    /**
      * covers   ::_writeTextRun
      */
     public function testWriteTextRun()

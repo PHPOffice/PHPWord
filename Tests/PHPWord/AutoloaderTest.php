@@ -1,6 +1,7 @@
 <?php
 namespace PHPWord\Tests;
 
+use PHPWord;
 use PHPWord_Autoloader;
 use PHPWord_Autoloader as Autoloader;
 

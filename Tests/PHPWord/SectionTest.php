@@ -61,6 +61,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers PHPWord_Section::addText
+     * @covers PHPWord_Section::addCheckBox
      * @covers PHPWord_Section::addLink
      * @covers PHPWord_Section::addTextBreak
      * @covers PHPWord_Section::addPageBreak
@@ -88,6 +89,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         $section = new PHPWord_Section(0);
         $section->addText(utf8_decode('ä'));
+        $section->addCheckBox('check1', utf8_decode('ä'));
         $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
         $section->addPageBreak();

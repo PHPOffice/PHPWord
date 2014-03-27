@@ -68,6 +68,7 @@ class PHPWord_Section_CheckBox
     /**
      * Create a new Text Element
      *
+     * @param string $name
      * @param string $text
      * @param null|array|\PHPWord_Style_Font $fontStyle
      * @param null|array|\PHPWord_Style_Paragraph $paragraphStyle
@@ -149,9 +150,9 @@ class PHPWord_Section_CheckBox
      * @param string $name
      * @return $this
      */
-    public function setName($text)
+    public function setName($name)
     {
-        $this->name = $text;
+        $this->name = $name;
         return $this;
     }
 
