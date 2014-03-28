@@ -37,7 +37,7 @@ class PHPWord_Section_Table_Row
      * @var int
      */
     private $_height = null;
-	
+
     /**
      * Row style
      *
