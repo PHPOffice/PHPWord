@@ -46,11 +46,11 @@ class PHPWord_Style_Row
     private $_cantSplit = false;
 
      /**
-     * Table row height rule (auto, exact, atLeast)
+     * Table row exact height
      *
-     * @var String
+     * @var bool
      */
-    private $_heightRule = null;
+    private $_exactHeight = false;
 
     /**
      * Create a new row style
@@ -121,27 +121,27 @@ class PHPWord_Style_Row
     }
 
     /**
-     * Set heightRule
+     * Set exactHeight
      *
-     * @param String $pValue
+     * @param bool $pValue
      * @return PHPWord_Style_Row
      */
-    public function setHeightRule($pValue = false)
+    public function setExactHeight($pValue = false)
     {
-        if (!is_string($pValue)) {
-            $pValue = null;
+        if (!is_bool($pValue)) {
+            $pValue = false;
         }
-        $this->_heightRule = $pValue;
+        $this->_exactHeight = $pValue;
         return $this;
     }
 
     /**
-     * Get heightRule
+     * Get exactHeight
      *
-     * @return heightRule
+     * @return boolean
      */
-    public function getHeightRule()
+    public function getExactHeight()
     {
-        return $this->_heightRule;
+        return $this->_exactHeight;
     }
 }

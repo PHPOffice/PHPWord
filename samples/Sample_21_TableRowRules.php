@@ -19,17 +19,16 @@ $cell1 = $table1->addCell(null, array("valign" => "top", "borderSize" => 30, "bo
 $cell1->addImage("./resources/_earth.jpg", array("width" => 250, "height" => 250, "align" => "center"));
 
 $section->addTextBreak();
-$section->addText("But if we set the rowStyle hRule \"exact\", the real row height is used, removing the textbreak:");
+$section->addText("But if we set the rowStyle 'exactHeight' to true, the real row height is used, removing the textbreak:");
 
 $table2 = $section->addTable(array("cellMargin"=> 0, "cellMarginRight"=> 0, "cellMarginBottom"=> 0, "cellMarginLeft"=> 0));
-$table2->addRow(3750, array("heightRule"=>"exact"));
+$table2->addRow(3750, array("exactHeight"=>));
 $cell2 = $table2->addCell(null, array("valign" => "top", "borderSize" => 30, "borderColor" => "00ff00"));
 $cell2->addImage("./resources/_earth.jpg", array("width" => 250, "height" => 250, "align" => "center"));
 
 $section->addTextBreak();
 $section->addText("In this example, image is 250px height. Rows are calculated in twips, and 1px = 15twips.");
-$section->addText("So: $"."table2->addRow(3750, array('heightRule'=>'exact'));");
-$section->addText("heightRule defaults to 'atLeast' when the row has an height set, and default to 'auto' otherwise");
+$section->addText("So: $"."table2->addRow(3750, array('exactHeight'=>true));");
 
 // Save file
 $name = basename(__FILE__, '.php');
