@@ -2,6 +2,21 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+## 0.9.2 - Not yet released
+
+### Features
+
+- Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
+- Table: Add tblGrid element for Libre/Open Office table sizing - @gianis6 GH-183
+
+### Bugfixes
+
+-
+
+### Miscellaneous
+
+- Documentation: Simplify page level docblock - @ivanlanin GH-179
+
 ## 0.9.1 - 27 Mar 2014
 
 This is a bugfix release for PSR-4 compatibility.
