@@ -569,7 +569,7 @@ class PHPWord_Writer_Word2007_Base extends PHPWord_Writer_Word2007_WriterPart
 
             for ($i = 0; $i < $_cRows; $i++) {
                 $row = $_rows[$i];
-                $height = $row->getHeight();				
+                $height = $row->getHeight();
                 $rowStyle = $row->getStyle();
                 $tblHeader = $rowStyle->getTblHeader();
                 $cantSplit = $rowStyle->getCantSplit();
