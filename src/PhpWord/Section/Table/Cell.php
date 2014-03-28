@@ -205,7 +205,7 @@ class Cell
     /**
      * Add a by PHP created Image Element
      *
-     * @param string $link
+     * @param string $src
      * @param mixed $style
      * @deprecated
      */

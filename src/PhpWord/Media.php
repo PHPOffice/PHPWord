@@ -69,11 +69,10 @@ class Media
             $file = null;
             if ($type === 'image') {
                 $cImg++;
+                $isMemImage = false;
                 if (!is_null($image)) {
                     $isMemImage = $image->getIsMemImage();
                     $extension = $image->getImageExtension();
-                } else {
-                    $isMemImage = false;
                 }
                 if ($isMemImage) {
                     $media['isMemImage'] = true;
@@ -181,11 +180,10 @@ class Media
             $rID = $cImg + 1;
             $cImg++;
             $media = array();
+            $isMemImage = false;
             if (!is_null($image)) {
                 $isMemImage = $image->getIsMemImage();
                 $extension = $image->getImageExtension();
-            } else {
-                $isMemImage = false;
             }
             if ($isMemImage) {
                 $media['isMemImage'] = true;
@@ -244,11 +242,10 @@ class Media
             $cImg = self::countFooterMediaElements($key);
             $rID = $cImg + 1;
             $cImg++;
+            $isMemImage = false;
             if (!is_null($image)) {
                 $isMemImage = $image->getIsMemImage();
                 $extension = $image->getImageExtension();
-            } else {
-                $isMemImage = false;
             }
             if ($isMemImage) {
                 $media['isMemImage'] = true;

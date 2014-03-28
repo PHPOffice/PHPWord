@@ -14,16 +14,12 @@ use PhpOffice\PhpWord\Style;
 /**
  * Test class for PhpOffice\PhpWord\Style
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style
  * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::addParagraphStyle
-     * @covers ::addFontStyle
-     * @covers ::addLinkStyle
-     * @covers ::addTitleStyle
+     * Add and get paragraph, font, link, title, and table styles
      */
     public function testStyles()
     {
@@ -34,6 +30,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             'Link' => 'Font', 'Table' => 'Table',
             'Heading_1' => 'Font', 'Normal' => 'Paragraph');
         $elementCount = 6;
+
         Style::addParagraphStyle('Paragraph', $paragraph);
         Style::addFontStyle('Font', $font);
         Style::addLinkStyle('Link', $font);
@@ -46,5 +43,17 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
         $this->assertNull(Style::getStyle('Unknown'));
+    }
+
+    /**
+     * Set default paragraph style
+     */
+    public function testDefaultParagraphStyle()
+    {
+        $paragraph = array('align' => 'center');
+
+        Style::setDefaultParagraphStyle($paragraph);
+
+        $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\Paragraph", Style::getStyle('Normal'));
     }
 }

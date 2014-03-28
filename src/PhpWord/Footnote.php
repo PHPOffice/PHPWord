@@ -31,10 +31,7 @@ class Footnote
     /**
      * Add new Footnote Element
      *
-     * @param string $linkSrc
-     * @param string $linkName
-     *
-     * @return mixed
+     * @return int Reference ID
      */
     public static function addFootnoteElement(\PhpOffice\PhpWord\Section\Footnote $footnote)
     {
@@ -70,7 +67,7 @@ class Footnote
      *
      * @param string $linkSrc
      *
-     * @return mixed
+     * @return int Reference ID
      */
     public static function addFootnoteLinkElement($linkSrc)
     {

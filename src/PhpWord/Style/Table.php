@@ -209,16 +209,6 @@ class Table
     }
 
     /**
-     * Get Last Row Style
-     *
-     * @return \PhpOffice\PhpWord\Style\Table
-     */
-    public function getLastRow()
-    {
-        return $this->_lastRow;
-    }
-
-    /**
      * Get background
      *
      * @return \PhpOffice\PhpWord\Style\Table

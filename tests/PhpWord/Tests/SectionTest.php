@@ -10,17 +10,17 @@
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\Section
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::getSettings
+     * Get settings
      */
     public function testGetSettings()
     {
@@ -29,7 +29,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getElements
+     * Get elements
      */
     public function testGetElements()
     {
@@ -38,7 +38,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getFooter
+     * Get footer
      */
     public function testGetFooter()
     {
@@ -47,7 +47,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getHeaders
+     * Get headers
      */
     public function testGetHeaders()
     {
@@ -56,7 +56,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setSettings
+     * Set settings
      */
     public function testSetSettings()
     {
@@ -67,22 +67,11 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::addText
-     * @covers ::addLink
-     * @covers ::addTextBreak
-     * @covers ::addPageBreak
-     * @covers ::addTable
-     * @covers ::addListItem
-     * @covers ::addObject
-     * @covers ::addImage
-     * @covers ::addTOC
-     * @covers ::addTitle
-     * @covers ::createTextRun
-     * @covers ::createFootnote
+     * Add elements
      */
     public function testAddElements()
     {
-        $objectSource = __DIR__ . "/_files/documents/sheet.xls";
+        $objectSource = __DIR__ . "/_files/documents/reader.docx";
         $imageSource = __DIR__ . "/_files/images/PhpWord.png";
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
@@ -95,36 +84,61 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addListItem(utf8_decode('ä'));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addImage($imageUrl);
-        $section->addTOC();
+        $section->addMemoryImage($imageUrl);
         $section->addTitle(utf8_decode('ä'), 1);
         $section->createTextRun();
         $section->createFootnote();
+        $section->addTOC();
 
         $elementCollection = $section->getElements();
-        $elementType = 'Link';
-        $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[1]);
-        // $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
-            // 'Table', 'ListItem', 'Object', 'Image', 'Image', 'TOC',
-            // 'Title', 'TextRun');
-        // $i = 0;
-        // foreach ($elementTypes as $elementType) {
-            // $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[$i]);
-            // $i++;
-        // }
+        $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
+            'Table', 'ListItem', 'Object', 'Image', 'Image',
+            'Title', 'TextRun', 'Footnote');
+        $i = 0;
+        foreach ($elementTypes as $elementType) {
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[$i]);
+            $i++;
+        }
+        $this->assertInstanceOf("PhpOffice\\PhpWord\\TOC", $elementCollection[$i]);
     }
 
     /**
-     * @covers ::createHeader
-     * @covers ::createFooter
+     * Test add object exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidObjectException
+     */
+    public function testAddObjectException()
+    {
+        $source = __DIR__ . "/_files/xsl/passthrough.xsl";
+        $section = new Section(0);
+        $section->addObject($source);
+    }
+
+    /**
+     * Add title with predefined style
+     */
+    public function testAddTitleWithStyle()
+    {
+        Style::addTitleStyle(1, array('size' => 14));
+        $section = new Section(0);
+        $section->addTitle('Test', 1);
+        $elementCollection = $section->getElements();
+
+        $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\Title", $elementCollection[0]);
+    }
+
+    /**
+     * Create header footer
      */
     public function testCreateHeaderFooter()
     {
         $object = new Section(0);
         $elements = array('Header', 'Footer');
+
         foreach ($elements as $element) {
             $method = "create{$element}";
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$element}", $object->$method());
         }
+        $this->assertFalse($object->hasDifferentFirstPage());
     }
 }

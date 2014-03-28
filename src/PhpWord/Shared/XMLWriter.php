@@ -11,9 +11,11 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Settings;
 
+// @codeCoverageIgnoreStart
 if (!defined('DATE_W3C')) {
     define('DATE_W3C', 'Y-m-d\TH:i:sP');
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * XMLWriter wrapper

@@ -15,12 +15,15 @@ use PhpOffice\PhpWord\Template;
 /**
  * Test class for PhpOffice\PhpWord\Template
  *
+ * @covers \PhpOffice\PhpWord\Template
  * @coversDefaultClass \PhpOffice\PhpWord\Template
  * @runTestsInSeparateProcesses
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Template can be saved in temporary location
+     *
      * @covers ::save
      * @test
      */
@@ -60,6 +63,8 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet can be applied
+     *
      * @covers ::applyXslStyleSheet
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test
@@ -86,6 +91,8 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet cannot be applied on failure in setting parameter value
+     *
      * @covers                   ::applyXslStyleSheet
      * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
@@ -106,6 +113,8 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet can be applied on failure of loading XML from template
+     *
      * @covers                   ::applyXslStyleSheet
      * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage Could not load XML from the given template.
@@ -126,10 +135,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::getVariables
-     * @covers  ::setValue
-     * @covers  ::cloneRow
-     * @covers  ::saveAs
+     * Get variables and clone row
      */
     public function testCloneRow()
     {

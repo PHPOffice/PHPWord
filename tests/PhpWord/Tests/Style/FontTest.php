@@ -55,6 +55,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'strikethrough' => false,
             'color' => PhpWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
+            'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
         );
         foreach ($attributes as $key => $default) {
             $get = "get{$key}";
@@ -78,19 +79,23 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'bold' => true,
             'italic' => true,
             'superScript' => true,
-            'subScript' => true,
+            'subScript' => false,
             'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
             'color' => '999999',
             'fgColor' => '999999',
+            'hint' => 'eastAsia',
         );
+        $object->setArrayStyle($attributes);
         foreach ($attributes as $key => $value) {
             $get = "get{$key}";
-            $object->setStyleValue("_$key", $value);
             $this->assertEquals($value, $object->$get());
         }
     }
 
+    /**
+     * Test set line height
+     */
     public function testLineHeight()
     {
         $phpWord = new PhpWord();
@@ -120,5 +125,26 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(720, $lineHeight);
         $this->assertEquals('auto', $lineRule);
+    }
+
+    /**
+     * Test line height floatval
+     */
+    public function testLineHeightFloatval()
+    {
+        $object = new Font(null, array('align' => 'center'));
+        $object->setLineHeight('1.5pt');
+        $this->assertEquals(1.5, $object->getLineHeight());
+    }
+
+    /**
+     * Test line height exception by using nonnumeric value
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     */
+    public function testLineHeightException()
+    {
+        $object = new Font();
+        $object->setLineHeight('a');
     }
 }

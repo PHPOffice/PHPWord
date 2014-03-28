@@ -436,13 +436,14 @@ class DocumentProperties
      */
     public function setCustomProperty($propertyName, $propertyValue = '', $propertyType = null)
     {
-        if (($propertyType === null) || (!in_array($propertyType, array(
+        $propertyTypes = array(
             self::PROPERTY_TYPE_INTEGER,
             self::PROPERTY_TYPE_FLOAT,
             self::PROPERTY_TYPE_STRING,
             self::PROPERTY_TYPE_DATE,
             self::PROPERTY_TYPE_BOOLEAN
-        )))) {
+        );
+        if (($propertyType === null) || (!in_array($propertyType, $propertyTypes))) {
             if ($propertyValue === null) {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             } elseif (is_float($propertyValue)) {

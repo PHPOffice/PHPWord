@@ -14,17 +14,14 @@ use PhpOffice\PhpWord\TOC;
 /**
  * Test class for PhpOffice\PhpWord\TOC
  *
- * @coversDefaultClass \PhpOffice\PhpWord\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getStyleTOC
-     * @covers ::getStyleFont
+     * Construct with font and TOC style in array format
      */
-    public function testConstruct()
+    public function testConstructWithStyleArray()
     {
         $expected = array(
             'tabPos'    => 9062,
@@ -44,12 +41,21 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::addTitle
-     * @covers ::getTitles
+     * Construct with named font style
+     */
+    public function testConstructWithStyleName()
+    {
+        $object = new TOC('Font Style');
+        $tocStyle = $object->getStyleTOC();
+
+        $this->assertEquals('Font Style', $object->getStyleFont());
+    }
+
+    /**
+     * Add and get title
      */
     public function testAddAndGetTitle()
     {
-        // Prepare variables
         $titleCount = 3;
         $anchor = '_Toc' . (252634154 + $titleCount);
         $bookmark = $titleCount - 1;
@@ -59,14 +65,12 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             'Heading 3' => 3,
         );
 
-        // @covers ::addTitle
         foreach ($titles as $text => $depth) {
             $response = TOC::addTitle($text, $depth);
         }
         $this->assertEquals($anchor, $response[0]);
         $this->assertEquals($bookmark, $response[1]);
 
-        // @covers ::getTitles
         $i = 0;
         $savedTitles = TOC::getTitles();
         foreach ($titles as $text => $depth) {

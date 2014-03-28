@@ -58,7 +58,7 @@ class Object
      */
     public function __construct($src, $style = null)
     {
-        $_supportedObjectTypes = array('xls', 'doc', 'ppt');
+        $_supportedObjectTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
         $inf = pathinfo($src);
 
         if (\file_exists($src) && in_array($inf['extension'], $_supportedObjectTypes)) {

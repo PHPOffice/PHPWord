@@ -17,37 +17,37 @@ use PhpOffice\PhpWord\Style\Font;
 class TOC
 {
     /**
-     * Title Elements
+     * Title elements
      *
      * @var array
      */
     private static $_titles = array();
 
     /**
-     * TOC Style
+     * TOC style
      *
-     * @var array
+     * @var PhpOffice\PhpWord\Style\TOC
      */
     private static $_styleTOC;
 
     /**
-     * Font Style
+     * Font style
      *
-     * @var array
+     * @var PhpOffice\PhpWord\Style\Font|array|string
      */
     private static $_styleFont;
 
     /**
-     * Title Anchor
+     * Title anchor
      *
-     * @var array
+     * @var int
      */
     private static $_anchor = 252634154;
 
     /**
-     * Title Bookmark
+     * Title bookmark
      *
-     * @var array
+     * @var int
      */
     private static $_bookmarkId = 0;
 
@@ -55,7 +55,7 @@ class TOC
     /**
      * Create a new Table-of-Contents Element
      *
-     * @param array $styleFont
+     * @param mixed $styleFont
      * @param array $styleTOC
      */
     public function __construct($styleFont = null, $styleTOC = null)
@@ -74,7 +74,6 @@ class TOC
         if (!is_null($styleFont)) {
             if (is_array($styleFont)) {
                 self::$_styleFont = new Font();
-
                 foreach ($styleFont as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
                         $key = '_' . $key;

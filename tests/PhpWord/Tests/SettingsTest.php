@@ -14,14 +14,12 @@ use PhpOffice\PhpWord\Settings;
 /**
  * Test class for PhpOffice\PhpWord\Settings
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Settings
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::setCompatibility
-     * @covers ::getCompatibility
+     * Get and set compatibity option
      */
     public function testGetSetCompatibility()
     {

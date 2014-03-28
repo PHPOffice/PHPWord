@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Exceptions\InvalidObjectException;
 use PhpOffice\PhpWord\Section\Footer;
 use PhpOffice\PhpWord\Section\Image;
@@ -211,72 +210,61 @@ class Section
     /**
      * Add a OLE-Object Element
      *
+     * All exceptions should be handled by PhpOffice\PhpWord\Section\Object
+     *
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Object
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidObjectException
      */
     public function addObject($src, $style = null)
     {
         $object = new Object($src, $style);
-
         if (!is_null($object->getSource())) {
             $inf = pathinfo($src);
             $ext = $inf['extension'];
             if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
                 $ext = substr($ext, 0, -1);
             }
-
-            $iconSrc = __DIR__ . '/_staticDocParts/';
-            if (!\file_exists($iconSrc . '_' . $ext . '.png')) {
-                $iconSrc = $iconSrc . '_default.png';
-            } else {
-                $iconSrc .= '_' . $ext . '.png';
-            }
-
-            $rIDimg = Media::addSectionMediaElement($iconSrc, 'image', new Image($iconSrc));
+            $icon = __DIR__ . "/_staticDocParts/_{$ext}.png";
+            $rIDimg = Media::addSectionMediaElement($icon, 'image', new Image($icon));
             $data = Media::addSectionMediaElement($src, 'oleObject');
             $rID = $data[0];
             $objectId = $data[1];
-
             $object->setRelationId($rID);
             $object->setObjectId($objectId);
             $object->setImageRelationId($rIDimg);
-
             $this->_elementCollection[] = $object;
             return $object;
         } else {
-            throw new InvalidObjectException;
+            throw new InvalidObjectException();
         }
     }
 
     /**
-     * Add a Image Element
+     * Add image element
+     *
+     * All exceptions should be handled by PhpOffice\PhpWord\Section\Image
      *
      * @param string $src
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Section\Image
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidImageException
      */
     public function addImage($src, $style = null)
     {
         $image = new Image($src, $style);
-        if (!is_null($image->getSource())) {
-            $rID = Media::addSectionMediaElement($src, 'image', $image);
-            $image->setRelationId($rID);
-            $this->_elementCollection[] = $image;
-            return $image;
-        } else {
-            throw new InvalidImageException;
-        }
+        $rID = Media::addSectionMediaElement($src, 'image', $image);
+        $image->setRelationId($rID);
+        $this->_elementCollection[] = $image;
+        return $image;
     }
 
     /**
-     * Add a by PHP created Image Element
+     * Add memory image element
      *
-     * @param string $link
-     * @param mixed $style
      * @deprecated
+     *
+     * @param string $src
+     * @param mixed $style
      */
     public function addMemoryImage($src, $style = null)
     {

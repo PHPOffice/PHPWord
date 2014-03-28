@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\DocumentProperties;
 /**
  * Test class for PhpOffice\PhpWord\DocumentProperties
  *
- * @coversDefaultClass \PhpOffice\PhpWord\DocumentProperties
  * @runTestsInSeparateProcesses
  */
 class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Creator
+     */
     public function testCreator()
     {
         $oProperties = new DocumentProperties();
@@ -29,6 +31,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getCreator());
     }
 
+    /**
+     * Last modified by
+     */
     public function testLastModifiedBy()
     {
         $oProperties = new DocumentProperties();
@@ -39,6 +44,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getLastModifiedBy());
     }
 
+    /**
+     * Created
+     */
     public function testCreated()
     {
         $oProperties = new DocumentProperties();
@@ -50,6 +58,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iTime, $oProperties->getCreated());
     }
 
+    /**
+     * Modified
+     */
     public function testModified()
     {
         $oProperties = new DocumentProperties();
@@ -61,6 +72,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iTime, $oProperties->getModified());
     }
 
+    /**
+     * Title
+     */
     public function testTitle()
     {
         $oProperties = new DocumentProperties();
@@ -71,6 +85,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getTitle());
     }
 
+    /**
+     * Description
+     */
     public function testDescription()
     {
         $oProperties = new DocumentProperties();
@@ -81,6 +98,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getDescription());
     }
 
+    /**
+     * Subject
+     */
     public function testSubject()
     {
         $oProperties = new DocumentProperties();
@@ -91,6 +111,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getSubject());
     }
 
+    /**
+     * Keywords
+     */
     public function testKeywords()
     {
         $oProperties = new DocumentProperties();
@@ -101,6 +124,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getKeywords());
     }
 
+    /**
+     * Category
+     */
     public function testCategory()
     {
         $oProperties = new DocumentProperties();
@@ -111,6 +137,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getCategory());
     }
 
+    /**
+     * Company
+     */
     public function testCompany()
     {
         $oProperties = new DocumentProperties();
@@ -121,6 +150,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getCompany());
     }
 
+    /**
+     * Manager
+     */
     public function testManager()
     {
         $oProperties = new DocumentProperties();
@@ -131,6 +163,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AAA', $oProperties->getManager());
     }
 
+    /**
+     * Custom properties
+     */
     public function testCustomProperty()
     {
         $oProperties = new DocumentProperties();
@@ -177,6 +212,9 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
         ), $oProperties->getCustomProperties());
     }
 
+    /**
+     * Convert property
+     */
     public function testConvertProperty()
     {
         $this->assertEquals('', DocumentProperties::convertProperty('a', 'empty'));

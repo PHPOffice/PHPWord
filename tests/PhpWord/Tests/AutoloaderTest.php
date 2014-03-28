@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Autoloader;
 /**
  * Test class for PhpOffice\PhpWord\Autoloader
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Autoloader
  * @runTestsInSeparateProcesses
  */
 class AutoloaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Register
+     */
     public function testRegister()
     {
         Autoloader::register();
@@ -28,6 +30,9 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Autoload
+     */
     public function testAutoload()
     {
         $declared = \get_declared_classes();

@@ -20,9 +20,9 @@ use PhpOffice\PhpWord\Style\Row;
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test properties with normal value
+     * Test properties with boolean value
      */
-    public function testProperties()
+    public function testBooleanValue()
     {
         $object = new Row();
 
@@ -43,6 +43,25 @@ class RowTest extends \PHPUnit_Framework_TestCase
             $expected = $value ? 1 : 0;
             $object->setStyleValue("_{$key}", $value);
             $this->assertEquals($expected, $object->$get());
+        }
+    }
+
+    /**
+     * Test properties with nonboolean values, which will return default value
+     */
+    public function testNonBooleanValue()
+    {
+        $object = new Row();
+
+        $properties = array(
+            'tblHeader' => 'a',
+            'cantSplit' => 'b',
+        );
+        foreach ($properties as $key => $value) {
+            $set = "set{$key}";
+            $get = "get{$key}";
+            $object->$set($value);
+            $this->assertFalse($object->$get());
         }
     }
 }

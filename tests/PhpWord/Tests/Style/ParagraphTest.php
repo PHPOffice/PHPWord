@@ -137,4 +137,15 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object->setLineHeight('12.5pt');
         $this->assertEquals(12.5, $object->getLineHeight());
     }
+
+    /**
+     * Test line height exception by using nonnumeric value
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     */
+    public function testLineHeightException()
+    {
+        $object = new Paragraph();
+        $object->setLineHeight('a');
+    }
 }

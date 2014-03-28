@@ -11,25 +11,34 @@ namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Section\Image;
 
 /**
  * Test class for PhpOffice\PhpWord\Media
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Media
  * @runTestsInSeparateProcesses
  */
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Get section media elements
+     */
     public function testGetSectionMediaElementsWithNull()
     {
         $this->assertEquals(Media::getSectionMediaElements(), array());
     }
 
+    /**
+     * Count section media elements
+     */
     public function testCountSectionMediaElementsWithNull()
     {
         $this->assertEquals(Media::countSectionMediaElements(), 0);
     }
 
+    /**
+     * Get header media elements
+     */
     public function testGetHeaderMediaElements()
     {
         $this->assertAttributeEquals(
@@ -39,6 +48,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Get footer media elements
+     */
     public function testGetFooterMediaElements()
     {
         $this->assertAttributeEquals(
@@ -49,24 +61,60 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Todo: add memory image to this test
-     *
-     * @covers \PhpOffice\PhpWord\Media::addSectionMediaElement
+     * Add section media element
      */
     public function testAddSectionMediaElement()
     {
-        $section = new Section(0);
-        $section->addImage(__DIR__ . "/_files/images/mars_noext_jpg");
-        $section->addImage(__DIR__ . "/_files/images/mars.jpg");
-        $section->addImage(__DIR__ . "/_files/images/mario.gif");
-        $section->addImage(__DIR__ . "/_files/images/firefox.png");
-        $section->addImage(__DIR__ . "/_files/images/duke_nukem.bmp");
-        $section->addImage(__DIR__ . "/_files/images/angela_merkel.tif");
+        $local = __DIR__ . "/_files/images/mars.jpg";
+        $object = __DIR__ . "/_files/documents/sheet.xls";
+        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        Media::addSectionMediaElement($local, 'image');
+        Media::addSectionMediaElement($local, 'image');
+        Media::addSectionMediaElement($remote, 'image', new Image($remote));
+        Media::addSectionMediaElement($object, 'oleObject');
+        Media::addSectionMediaElement($object, 'oleObject');
 
-        $elements = $section->getElements();
-        $this->assertEquals(6, count($elements));
-        foreach ($elements as $element) {
-            $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
-        }
+        $this->assertEquals(3, Media::countSectionMediaElements());
+    }
+
+    /**
+     * Add section link
+     */
+    public function testAddSectionLinkElement()
+    {
+        $expected = Media::countSectionMediaElements() + 7;
+        $actual = Media::addSectionLinkElement('http://test.com');
+
+        $this->assertEquals($expected, $actual);
+        $this->assertEquals(1, Media::countSectionMediaElements('links'));
+        $this->assertEquals(1, count(Media::getSectionMediaElements('links')));
+    }
+
+    /**
+     * Add header media element
+     */
+    public function testAddHeaderMediaElement()
+    {
+        $local = __DIR__ . "/_files/images/mars.jpg";
+        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        Media::addHeaderMediaElement(1, $local);
+        Media::addHeaderMediaElement(1, $local);
+        Media::addHeaderMediaElement(1, $remote, new Image($remote));
+
+        $this->assertEquals(2, Media::countHeaderMediaElements('header1'));
+    }
+
+    /**
+     * Add footer media element
+     */
+    public function testAddFooterMediaElement()
+    {
+        $local = __DIR__ . "/_files/images/mars.jpg";
+        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        Media::addFooterMediaElement(1, $local);
+        Media::addFooterMediaElement(1, $local);
+        Media::addFooterMediaElement(1, $remote, new Image($remote));
+
+        $this->assertEquals(2, Media::countFooterMediaElements('footer1'));
     }
 }
