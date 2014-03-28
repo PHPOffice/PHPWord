@@ -68,8 +68,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $local = __DIR__ . "/_files/images/mars.jpg";
         $object = __DIR__ . "/_files/documents/sheet.xls";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addSectionMediaElement($local, 'image');
-        Media::addSectionMediaElement($local, 'image');
+        Media::addSectionMediaElement($local, 'image', new Image($local));
+        Media::addSectionMediaElement($local, 'image', new Image($local));
         Media::addSectionMediaElement($remote, 'image', new Image($remote));
         Media::addSectionMediaElement($object, 'oleObject');
         Media::addSectionMediaElement($object, 'oleObject');
@@ -97,8 +97,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addHeaderMediaElement(1, $local);
-        Media::addHeaderMediaElement(1, $local);
+        Media::addHeaderMediaElement(1, $local, new Image($local));
+        Media::addHeaderMediaElement(1, $local, new Image($local));
         Media::addHeaderMediaElement(1, $remote, new Image($remote));
 
         $this->assertEquals(2, Media::countHeaderMediaElements('header1'));
@@ -111,8 +111,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addFooterMediaElement(1, $local);
-        Media::addFooterMediaElement(1, $local);
+        Media::addFooterMediaElement(1, $local, new Image($local));
+        Media::addFooterMediaElement(1, $local, new Image($local));
         Media::addFooterMediaElement(1, $remote, new Image($remote));
 
         $this->assertEquals(2, Media::countFooterMediaElements('footer1'));
