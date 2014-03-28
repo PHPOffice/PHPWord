@@ -78,6 +78,20 @@ class Footnote
     }
 
     /**
+     * Add TextBreak
+     *
+     * @param int $count
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
+     */
+    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
+    {
+        for ($i = 1; $i <= $count; $i++) {
+            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
+        }
+    }
+
+    /**
      * Add a Link Element
      *
      * @param string $linkSrc

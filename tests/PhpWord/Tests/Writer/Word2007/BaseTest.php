@@ -79,9 +79,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
+        $fontStyleArray = array('bold' => true);
+        $fontStyleName = 'Test';
 
         $expected = 'PhpWord';
         $section->addLink('http://github.com/phpoffice/phpword', $expected);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleArray);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
@@ -97,8 +101,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $footer = $section->createFooter();
+        $fontStyleArray = array('bold' => true);
+        $fontStyleName = 'Font';
+        $paragraphStyleArray = array('align' => 'right');
+        $paragraphStyleName = 'Paragraph';
 
-        $footer->addPreserveText('{PAGE}');
+        $footer->addPreserveText('Page {PAGE}');
+        $footer->addPreserveText('{PAGE}', $fontStyleArray, $paragraphStyleArray);
+        $footer->addPreserveText('{PAGE}', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
@@ -193,6 +203,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $styles['superScript'] = true;
         $styles['color'] = 'FF0000';
         $styles['fgColor'] = 'yellow';
+        $styles['hint'] = 'eastAsia';
 
         $section = $phpWord->createSection();
         $section->addText('Test', $styles);

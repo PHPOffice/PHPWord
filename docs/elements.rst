@@ -326,7 +326,8 @@ Footnotes
 ---------
 
 You can create footnotes in texts or textruns, but it's recommended to
-use textrun to have better layout.
+use textrun to have better layout. You can use ``addText``, ``addLink``,
+and ``addTextBreak`` on a footnote.
 
 On textrun:
 
@@ -335,7 +336,11 @@ On textrun:
     $textrun = $section->createTextRun();
     $textrun->addText('Lead text.');
     $footnote = $textrun->createFootnote();
-    $footnote->addText('Footnote text.');
+    $footnote->addText('Footnote text can have ');
+    $footnote->addLink('http://test.com', 'links');
+    $footnote->addText('.');
+    $footnote->addTextBreak();
+    $footnote->addText('And text break.');
     $textrun->addText('Trailing text.');
 
 On text:
@@ -345,3 +350,8 @@ On text:
     $section->addText('Lead text.');
     $footnote = $section->createFootnote();
     $footnote->addText('Footnote text.');
+
+The footnote reference number will be displayed with decimal number starting
+from 1. This number use ``FooterReference`` style which you can redefine by
+``addFontStyle`` method. Default value for this style is
+``array('superScript' => true)``;

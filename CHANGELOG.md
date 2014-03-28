@@ -8,10 +8,12 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 - Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
 - Table: Add tblGrid element for Libre/Open Office table sizing - @gianis6 GH-183
+- Footnote: Ability to insert textbreak in footnote `$footnote->addTextBreak()` - @ivanlanin
+- Footnote: Ability to style footnote reference mark by using `FootnoteReference` style - @ivanlanin
 
 ### Bugfixes
 
--
+- Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
 
 ### Miscellaneous
 

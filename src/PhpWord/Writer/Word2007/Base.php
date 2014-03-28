@@ -125,7 +125,7 @@ class Base extends WriterPart
                 } elseif ($element instanceof Image) {
                     $this->_writeImage($xmlWriter, $element, true);
                 } elseif ($element instanceof Footnote) {
-                    $this->_writeFootnoteReference($xmlWriter, $element, true);
+                    $this->_writeFootnote($xmlWriter, $element, true);
                 } elseif ($element instanceof TextBreak) {
                     $xmlWriter->writeElement('w:br');
                 }
@@ -1172,61 +1172,24 @@ class Base extends WriterPart
     }
 
     /**
-     * Write footnote element
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\Footnote $footnote
-     */
-    protected function _writeFootnote(XMLWriter $xmlWriter, Footnote $footnote)
-    {
-        $xmlWriter->startElement('w:footnote');
-        $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
-
-        $styleParagraph = $footnote->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
-
-        $xmlWriter->startElement('w:p');
-
-        if ($SpIsObject) {
-            $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
-        } elseif (!$SpIsObject && !is_null($styleParagraph)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $styleParagraph);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
-
-        $elements = $footnote->getElements();
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                if ($element instanceof Text) {
-                    $this->_writeText($xmlWriter, $element, true);
-                } elseif ($element instanceof Link) {
-                    $this->_writeLink($xmlWriter, $element, true);
-                }
-            }
-        }
-
-        $xmlWriter->endElement(); // w:p
-        $xmlWriter->endElement(); // w:footnote
-    }
-
-    /**
-     * Write footnote reference element
+     * Write footnote element which links to the actual content in footnotes.xml
      *
      * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param PhpOffice\PhpWord\Section\Footnote $footnote
      * @param boolean $withoutP
      */
-    protected function _writeFootnoteReference(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
+    protected function _writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
     {
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
         }
 
         $xmlWriter->startElement('w:r');
-
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:rStyle');
+        $xmlWriter->writeAttribute('w:val', 'FootnoteReference');
+        $xmlWriter->endElement(); // w:rStyle
+        $xmlWriter->endElement(); // w:rPr
         $xmlWriter->startElement('w:footnoteReference');
         $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
         $xmlWriter->endElement(); // w:footnoteReference

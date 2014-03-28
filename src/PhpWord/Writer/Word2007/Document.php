@@ -98,7 +98,7 @@ class Document extends Base
                     } elseif ($element instanceof TOC) {
                         $this->_writeTOC($xmlWriter);
                     } elseif ($element instanceof Footnote) {
-                        $this->_writeFootnoteReference($xmlWriter, $element);
+                        $this->_writeFootnote($xmlWriter, $element);
                     }
                 }
 

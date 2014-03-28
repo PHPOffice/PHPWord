@@ -21,11 +21,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Styles extends Base
 {
     /**
-     * PHPWord object
+     * PhpWord object
      *
      * @var PhpWord
      */
-    private $_document;
+    private $phpWord;
 
     /**
      * Write word/styles.xml
@@ -37,44 +37,28 @@ class Styles extends Base
         // Create XML writer
         $xmlWriter = null;
         if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
+            $xmlWriter = new XMLWriter(
+                XMLWriter::STORAGE_DISK,
+                $this->getParentWriter()->getDiskCachingDirectory()
+            );
         } else {
             $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
-
-        $this->_document = $phpWord;
-
+        $this->phpWord = $phpWord;
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
         $xmlWriter->startElement('w:styles');
-
-        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-
-        // Write DocDefaults
-        $this->_writeDocDefaults($xmlWriter);
-
-        // Write Style Definitions
+        $xmlWriter->writeAttribute(
+            'xmlns:r',
+            'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+        );
+        $xmlWriter->writeAttribute(
+            'xmlns:w',
+            'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+        );
+        // Write default styles
         $styles = Style::getStyles();
-
-        // Write normal paragraph style
-        $normalStyle = null;
-        if (array_key_exists('Normal', $styles)) {
-            $normalStyle = $styles['Normal'];
-        }
-        $xmlWriter->startElement('w:style');
-        $xmlWriter->writeAttribute('w:type', 'paragraph');
-        $xmlWriter->writeAttribute('w:default', '1');
-        $xmlWriter->writeAttribute('w:styleId', 'Normal');
-        $xmlWriter->startElement('w:name');
-        $xmlWriter->writeAttribute('w:val', 'Normal');
-        $xmlWriter->endElement();
-        if (!is_null($normalStyle)) {
-            $this->_writeParagraphStyle($xmlWriter, $normalStyle);
-        }
-        $xmlWriter->endElement();
-
+        $this->writeDefaultStyles($xmlWriter, $styles);
         // Write other styles
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
@@ -180,36 +164,65 @@ class Styles extends Base
     }
 
     /**
-     * Write document defaults
+     * Write default font and other default styles
      *
      * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param array $styles
      */
-    private function _writeDocDefaults(XMLWriter $xmlWriter)
+    private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
-        $fontName = $this->_document->getDefaultFontName();
-        $fontSize = $this->_document->getDefaultFontSize();
+        $fontName = $this->phpWord->getDefaultFontName();
+        $fontSize = $this->phpWord->getDefaultFontSize();
 
+        // Default font
         $xmlWriter->startElement('w:docDefaults');
         $xmlWriter->startElement('w:rPrDefault');
         $xmlWriter->startElement('w:rPr');
-
         $xmlWriter->startElement('w:rFonts');
         $xmlWriter->writeAttribute('w:ascii', $fontName);
         $xmlWriter->writeAttribute('w:hAnsi', $fontName);
         $xmlWriter->writeAttribute('w:eastAsia', $fontName);
         $xmlWriter->writeAttribute('w:cs', $fontName);
-        $xmlWriter->endElement();
-
+        $xmlWriter->endElement(); // w:rFonts
         $xmlWriter->startElement('w:sz');
         $xmlWriter->writeAttribute('w:val', $fontSize * 2);
-        $xmlWriter->endElement();
-
+        $xmlWriter->endElement(); // w:sz
         $xmlWriter->startElement('w:szCs');
         $xmlWriter->writeAttribute('w:val', $fontSize * 2);
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:szCs
+        $xmlWriter->endElement(); // w:rPr
+        $xmlWriter->endElement(); // w:rPrDefault
+        $xmlWriter->endElement(); // w:docDefaults
 
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        // Normal style
+        $xmlWriter->startElement('w:style');
+        $xmlWriter->writeAttribute('w:type', 'paragraph');
+        $xmlWriter->writeAttribute('w:default', '1');
+        $xmlWriter->writeAttribute('w:styleId', 'Normal');
+        $xmlWriter->startElement('w:name');
+        $xmlWriter->writeAttribute('w:val', 'Normal');
+        $xmlWriter->endElement(); // w:name
+        if (array_key_exists('Normal', $styles)) {
+            $this->_writeParagraphStyle($xmlWriter, $styles['Normal']);
+        }
+        $xmlWriter->endElement(); // w:style
+
+        // FootnoteReference style
+        if (!array_key_exists('FootnoteReference', $styles)) {
+            $xmlWriter->startElement('w:style');
+            $xmlWriter->writeAttribute('w:type', 'character');
+            $xmlWriter->writeAttribute('w:styleId', 'FootnoteReference');
+            $xmlWriter->startElement('w:name');
+            $xmlWriter->writeAttribute('w:val', 'Footnote Reference');
+            $xmlWriter->endElement(); // w:name
+            $xmlWriter->writeElement('w:semiHidden');
+            $xmlWriter->writeElement('w:unhideWhenUsed');
+            $xmlWriter->startElement('w:rPr');
+            $xmlWriter->startElement('w:vertAlign');
+            $xmlWriter->writeAttribute('w:val', 'superscript');
+            $xmlWriter->endElement(); // w:vertAlign
+            $xmlWriter->endElement(); // w:rPr
+            $xmlWriter->endElement(); // w:style
+        }
     }
 }

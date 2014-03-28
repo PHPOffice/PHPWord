@@ -19,6 +19,11 @@ use PhpOffice\PhpWord\Section\Footnote;
  */
 class FootnoteTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance without parameter
+     *
+     * @covers ::__construct
+     */
     public function testConstruct()
     {
         $oFootnote = new Footnote();
@@ -28,6 +33,11 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oFootnote->getParagraphStyle(), null);
     }
 
+    /**
+     * New instance with string parameter
+     *
+     * @covers ::__construct
+     */
     public function testConstructString()
     {
         $oFootnote = new Footnote('pStyle');
@@ -35,6 +45,11 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oFootnote->getParagraphStyle(), 'pStyle');
     }
 
+    /**
+     * New instance with array parameter
+     *
+     * @covers ::__construct
+     */
     public function testConstructArray()
     {
         $oFootnote = new Footnote(array('spacing' => 100));
@@ -45,6 +60,11 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Add text element
+     *
+     * @covers ::addText
+     */
     public function testAddText()
     {
         $oFootnote = new Footnote();
@@ -54,6 +74,24 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Text', $element);
     }
 
+    /**
+     * Add text break element
+     *
+     * @covers ::addTextBreak
+     */
+    public function testAddTextBreak()
+    {
+        $oFootnote = new Footnote();
+        $oFootnote->addTextBreak(2);
+
+        $this->assertCount(2, $oFootnote->getElements());
+    }
+
+    /**
+     * Add link element
+     *
+     * @covers ::addLink
+     */
     public function testAddLink()
     {
         $oFootnote = new Footnote();
@@ -63,6 +101,12 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Link', $element);
     }
 
+    /**
+     * Set/get reference Id
+     *
+     * @covers ::setReferenceId
+     * @covers ::getReferenceId
+     */
     public function testReferenceId()
     {
         $oFootnote = new Footnote();
@@ -72,6 +116,11 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oFootnote->getReferenceId(), $iVal);
     }
 
+    /**
+     * Get elements
+     *
+     * @covers ::getElements
+     */
     public function testGetElements()
     {
         $oFootnote = new Footnote();
