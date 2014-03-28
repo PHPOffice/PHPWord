@@ -16,6 +16,9 @@
     <filter>
         <whitelist>
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>

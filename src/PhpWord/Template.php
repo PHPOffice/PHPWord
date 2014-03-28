@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
@@ -57,7 +58,8 @@ class Template
             throw new Exception("Could not copy the template from {$strFilename} to {$this->_tempFileName}.");
         }
 
-        $this->_objZip = new \ZipArchive();
+        $zipClass = Settings::getZipClass();
+        $this->_objZip = new $zipClass();
         $this->_objZip->open($this->_tempFileName);
 
         $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
