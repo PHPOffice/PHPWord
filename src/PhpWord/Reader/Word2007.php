@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exceptions\Exception;
 
@@ -34,7 +35,8 @@ class Word2007 extends AbstractReader implements IReader
 
         $return = false;
         // Load file
-        $zip = new \ZipArchive();
+        $zipClass = Settings::getZipClass();
+        $zip = new $zipClass();
         if ($zip->open($pFilename) === true) {
             // check if it is an OOXML archive
             $rels = simplexml_load_string($this->getFromZipArchive($zip, "_rels/.rels"));
@@ -59,7 +61,7 @@ class Word2007 extends AbstractReader implements IReader
     /**
      * Get zip content
      *
-     * @param \ZipArchive $archive
+     * @param mixed $archive
      * @param string $fileName
      * @param bool $removeNamespace
      * @return mixed
@@ -101,7 +103,8 @@ class Word2007 extends AbstractReader implements IReader
 
         // Initialisations
         $word = new PhpWord();
-        $zip = new \ZipArchive();
+        $zipClass = Settings::getZipClass();
+        $zip = new $zipClass();
         $zip->open($pFilename);
 
         // Read properties and documents

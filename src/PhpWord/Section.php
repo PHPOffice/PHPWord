@@ -17,7 +17,6 @@ use PhpOffice\PhpWord\Section\Link;
 use PhpOffice\PhpWord\Section\ListItem;
 use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\PageBreak;
-use PhpOffice\PhpWord\Section\Settings;
 use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
@@ -75,7 +74,7 @@ class Section
     public function __construct($sectionCount, $settings = null)
     {
         $this->_sectionCount = $sectionCount;
-        $this->_settings = new Settings();
+        $this->_settings = new \PhpOffice\PhpWord\Section\Settings();
         $this->setSettings($settings);
     }
 

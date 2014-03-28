@@ -12,6 +12,7 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\HashTable;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Writer\ODText\Manifest;
 use PhpOffice\PhpWord\Writer\ODText\Meta;
@@ -108,11 +109,23 @@ class ODText implements IWriter
             // Create drawing dictionary
 
             // Create new ZIP file and open it for writing
-            $objZip = new \ZipArchive();
+            $zipClass = Settings::getZipClass();
+            $objZip = new $zipClass();
+
+            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
+            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
+            $ro = new \ReflectionObject($objZip);
+            $zipOverWrite = $ro->getConstant('OVERWRITE');
+            $zipCreate = $ro->getConstant('CREATE');
+
+            // Remove any existing file
+            if (file_exists($pFilename)) {
+                unlink($pFilename);
+            }
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
+            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
+                if ($objZip->open($pFilename, $zipCreate) !== true) {
                     throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
@@ -144,7 +157,8 @@ class ODText implements IWriter
                         $imagePath = substr($imagePath, 6);
                         $imagePathSplitted = explode('#', $imagePath);
 
-                        $imageZip = new \ZipArchive();
+                        $zipClass = Settings::getZipClass();
+                        $imageZip = new $zipClass();
                         $imageZip->open($imagePathSplitted[0]);
                         $imageContents = $imageZip->getFromName($imagePathSplitted[1]);
                         $imageZip->close();

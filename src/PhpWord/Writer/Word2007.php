@@ -13,6 +13,7 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
@@ -117,15 +118,26 @@ class Word2007 implements IWriter
             }
 
             // Create new ZIP file and open it for writing
-            $objZip = new \ZipArchive();
+            $zipClass = Settings::getZipClass();
+            $objZip = new $zipClass();
+
+            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
+            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
+            $ro = new \ReflectionObject($objZip);
+            $zipOverWrite = $ro->getConstant('OVERWRITE');
+            $zipCreate = $ro->getConstant('CREATE');
+
+            // Remove any existing file
+            if (file_exists($pFilename)) {
+                unlink($pFilename);
+            }
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
+            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
+                if ($objZip->open($pFilename, $zipCreate) !== true) {
                     throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
-
 
             $sectionElements = array();
             $_secElements = Media::getSectionMediaElements();

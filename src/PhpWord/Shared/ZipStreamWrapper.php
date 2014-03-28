@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Zip stream wrapper
@@ -90,7 +91,8 @@ class ZipStreamWrapper
         }
 
         // Open archive
-        $this->_archive = new \ZipArchive();
+        $zipClass = Settings::getZipClass();
+        $this->_archive = new $zipClass();
         $this->_archive->open($url['host']);
 
         $this->_fileNameInArchive = $url['fragment'];
