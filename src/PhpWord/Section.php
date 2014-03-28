@@ -304,11 +304,13 @@ class Section
      *
      * @param mixed $styleFont
      * @param mixed $styleTOC
+     * @param int $minDepth
+     * @param int $maxDepth
      * @return \PhpOffice\PhpWord\TOC
      */
-    public function addTOC($styleFont = null, $styleTOC = null)
+    public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
-        $toc = new TOC($styleFont, $styleTOC);
+        $toc = new TOC($styleFont, $styleTOC, $minDepth, $maxDepth);
         $this->_elementCollection[] = $toc;
         return $toc;
     }
