@@ -116,7 +116,12 @@ class Image
                 throw new InvalidImageException;
             }
             $imgData = getimagesize($source);
-            $this->imageType = exif_imagetype($source);
+            if (function_exists('exif_imagetype')) {
+                $this->imageType = exif_imagetype($source);
+            } else {
+                $tmp = getimagesize($source);
+                $this->imageType = $tmp[2];
+            }
             if (!in_array($this->imageType, $supportedTypes)) {
                 throw new UnsupportedImageTypeException;
             }

@@ -254,7 +254,12 @@ class Word2007 implements IWriter
         if (stripos(strrev($src), strrev('.php')) === 0) {
             $extension = 'php';
         } else {
-            $imageType = exif_imagetype($src);
+            if (function_exists('exif_imagetype')) {
+                $imageType = exif_imagetype($src);
+            } else {
+                $tmp = getimagesize($src);
+                $imageType = $tmp[2];
+            }
             if ($imageType === \IMAGETYPE_JPEG) {
                 $extension = 'jpg';
             } elseif ($imageType === \IMAGETYPE_GIF) {
