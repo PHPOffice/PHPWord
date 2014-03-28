@@ -38,13 +38,6 @@ class PHPWord_Section_Table_Row
      */
     private $_height = null;
 	
-	/**
-     * Row heightRules
-     *
-     * @var array
-     */
-    private $_heightRules = array();
-	
     /**
      * Row style
      *
@@ -82,12 +75,11 @@ class PHPWord_Section_Table_Row
      * @param int $height
      * @param mixed $style
      */
-    public function __construct($insideOf, $pCount, $height = null, $style = null, $hRules = null)
+    public function __construct($insideOf, $pCount, $height = null, $style = null)
     {
         $this->_insideOf = $insideOf;
         $this->_pCount = $pCount;
         $this->_height = $height;
-		$this->_heightRules = $hRules;
         $this->_style = new PHPWord_Style_Row();
 
         if (!is_null($style)) {
@@ -145,15 +137,5 @@ class PHPWord_Section_Table_Row
     public function getHeight()
     {
         return $this->_height;
-    }
-	
-	/**
-     * Get all row height rules
-     *
-     * @return array
-     */
-    public function getHeightRules()
-	{
-        return $this->_heightRules;
     }
 }

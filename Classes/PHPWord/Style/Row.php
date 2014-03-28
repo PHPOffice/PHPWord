@@ -45,6 +45,13 @@ class PHPWord_Style_Row
      */
     private $_cantSplit = false;
 
+     /**
+     * Table row height rule (auto, exact, atLeast)
+     *
+     * @var String
+     */
+    private $_heightRule = null;
+
     /**
      * Create a new row style
      */
@@ -111,5 +118,30 @@ class PHPWord_Style_Row
     public function getCantSplit()
     {
         return $this->_cantSplit;
+    }
+
+    /**
+     * Set heightRule
+     *
+     * @param String $pValue
+     * @return PHPWord_Style_Row
+     */
+    public function setHeightRule($pValue = false)
+    {
+        if (!is_string($pValue)) {
+            $pValue = null;
+        }
+        $this->_heightRule = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get heightRule
+     *
+     * @return heightRule
+     */
+    public function getHeightRule()
+    {
+        return $this->_heightRule;
     }
 }
