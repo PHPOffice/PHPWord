@@ -14,13 +14,12 @@ use PhpOffice\PhpWord\Writer\RTF;
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\RTF
  * @runTestsInSeparateProcesses
  */
 class RTFTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * covers ::construct
+     * Construct
      */
     public function testConstruct()
     {
@@ -31,8 +30,9 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers                    ::__construct
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * Construct with null
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -42,32 +42,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::save
-     * @todo   Haven't got any method to test this
-     */
-    public function testSavePhpOutput()
-    {
-        $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
-        $section->addText('Test');
-        $writer = new RTF($phpWord);
-        $writer->save('php://output');
-    }
-
-    /**
-     * @covers                   ::save
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new RTF();
-        $writer->save();
-    }
-
-    /**
-     * @covers ::save
-     * @covers ::<private>
+     * Save
      */
     public function testSave()
     {
@@ -76,12 +51,12 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $file = __DIR__ . "/../_files/temp.rtf";
 
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('Font', array('size' => 11));
+        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000'));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->createSection();
-        $section->addText('Test 1', 'Font');
+        $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
-        $section->addText('Test 2', null, 'Paragraph');
+        $section->addText('Test 2', array('name' => 'Tahoma', 'bold' => true, 'italic' => true));
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();
@@ -100,5 +75,31 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(\file_exists($file));
 
         unlink($file);
+    }
+
+    /**
+     * Save
+     *
+     * @todo   Haven't got any method to test this
+     */
+    public function testSavePhpOutput()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
+        $section->addText('Test');
+        $writer = new RTF($phpWord);
+        $writer->save('php://output');
+    }
+
+    /**
+     * Save with no PhpWord object assigned
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedExceptionMessage PhpWord object unassigned.
+     */
+    public function testSaveException()
+    {
+        $writer = new RTF();
+        $writer->save();
     }
 }

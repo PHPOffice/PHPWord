@@ -14,7 +14,6 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Document
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Document
  * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -27,6 +26,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    /**
+     * Write end section page numbering
+     */
     public function testWriteEndSectionPageNumbering()
     {
         $phpWord = new PhpWord();
@@ -40,11 +42,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeTOC
-     * covers ::_writePageBreak
-     * covers ::_writeListItem
-     * covers ::_writeTitle
-     * covers ::_writeObject
+     * Write elements
      */
     public function testElements()
     {

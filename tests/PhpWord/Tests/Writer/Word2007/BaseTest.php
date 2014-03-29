@@ -65,7 +65,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $textrun->addTextBreak();
         $textrun = $section->createTextRun($aStyle);
         $textrun->addLink('http://test.com');
-        $textrun->addImage($imageSrc);
+        $textrun->addImage($imageSrc, array('align' => 'top'));
+        $textrun->createFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = "/w:document/w:body/w:p";
@@ -80,12 +81,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $fontStyleArray = array('bold' => true);
-        $fontStyleName = 'Test';
+        $fontStyleName = 'Font Style';
+        $paragraphStyleArray = array('align' => 'center');
+        $paragraphStyleName = 'Paragraph Style';
 
         $expected = 'PhpWord';
         $section->addLink('http://github.com/phpoffice/phpword', $expected);
-        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleArray);
-        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleName);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleArray, $paragraphStyleArray);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
@@ -230,6 +233,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $tWidth = 120;
         $rHeight = 120;
         $cWidth = 120;
+        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
+        $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
+
+        $tStyles["width"] = 50;
         $tStyles["cellMarginTop"] = 120;
         $tStyles["cellMarginRight"] = 120;
         $tStyles["cellMarginBottom"] = 120;
@@ -247,6 +254,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cStyles["borderBottomColor"] = 'FF0000';
         $cStyles["borderLeftColor"] = 'FF0000';
         $cStyles["borderRightColor"] = 'FF0000';
+        $cStyles["vMerge"] = 'restart';
 
         $section = $phpWord->createSection();
         $table = $section->addTable($tStyles);
@@ -257,6 +265,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cell->addTextBreak();
         $cell->addLink('http://google.com');
         $cell->addListItem('Test');
+        $cell->addImage($imageSrc);
+        $cell->addObject($objectSrc);
         $textrun = $cell->createTextRun();
         $textrun->addText('Test');
 

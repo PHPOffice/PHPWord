@@ -438,7 +438,7 @@ class RTF implements IWriter
             if ($styleFont->getBold()) {
                 $sRTFText .= '\b';
             }
-            if ($styleFont->getBold()) {
+            if ($styleFont->getItalic()) {
                 $sRTFText .= '\i';
             }
             if ($styleFont->getSize()) {
