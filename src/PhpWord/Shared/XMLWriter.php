@@ -20,6 +20,7 @@ if (!defined('DATE_W3C')) {
 /**
  * XMLWriter wrapper
  *
+ * @method bool writeElement(string $name, string $content = null)
  * @method bool startElement(string $name)
  * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()

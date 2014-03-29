@@ -17,7 +17,7 @@ $section->addTextBreak(2);
 
 $source = 'http://php.net/images/logos/php-med-trans-light.gif';
 $section->addText("Remote image from: {$source}");
-$section->addMemoryImage($source);
+$section->addImage($source);
 // End code
 
 // Save file
