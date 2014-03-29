@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Section\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Cell;
@@ -45,17 +46,17 @@ class Base extends WriterPart
     {
         $styleFont = $text->getFontStyle();
 
-        $SfIsObject = ($styleFont instanceof Font) ? true : false;
+        $sfIsObject = ($styleFont instanceof Font) ? true : false;
 
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
 
             $styleParagraph = $text->getParagraphStyle();
-            $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
+            $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
-            if ($SpIsObject) {
+            if ($spIsObject) {
                 $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
-            } elseif (!$SpIsObject && !is_null($styleParagraph)) {
+            } elseif (!$spIsObject && !is_null($styleParagraph)) {
                 $xmlWriter->startElement('w:pPr');
                 $xmlWriter->startElement('w:pStyle');
                 $xmlWriter->writeAttribute('w:val', $styleParagraph);
@@ -69,9 +70,9 @@ class Base extends WriterPart
 
         $xmlWriter->startElement('w:r');
 
-        if ($SfIsObject) {
+        if ($sfIsObject) {
             $this->_writeTextStyle($xmlWriter, $styleFont);
-        } elseif (!$SfIsObject && !is_null($styleFont)) {
+        } elseif (!$sfIsObject && !is_null($styleFont)) {
             $xmlWriter->startElement('w:rPr');
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $styleFont);
@@ -102,13 +103,13 @@ class Base extends WriterPart
         $elements = $textrun->getElements();
         $styleParagraph = $textrun->getParagraphStyle();
 
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
+        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         $xmlWriter->startElement('w:p');
 
-        if ($SpIsObject) {
+        if ($spIsObject) {
             $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
-        } elseif (!$SpIsObject && !is_null($styleParagraph)) {
+        } elseif (!$spIsObject && !is_null($styleParagraph)) {
             $xmlWriter->startElement('w:pPr');
             $xmlWriter->startElement('w:pStyle');
             $xmlWriter->writeAttribute('w:val', $styleParagraph);
@@ -254,17 +255,17 @@ class Base extends WriterPart
         }
 
         $styleFont = $link->getFontStyle();
-        $SfIsObject = ($styleFont instanceof Font) ? true : false;
+        $sfIsObject = ($styleFont instanceof Font) ? true : false;
 
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
 
             $styleParagraph = $link->getParagraphStyle();
-            $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
+            $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
-            if ($SpIsObject) {
+            if ($spIsObject) {
                 $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
-            } elseif (!$SpIsObject && !is_null($styleParagraph)) {
+            } elseif (!$spIsObject && !is_null($styleParagraph)) {
                 $xmlWriter->startElement('w:pPr');
                 $xmlWriter->startElement('w:pStyle');
                 $xmlWriter->writeAttribute('w:val', $styleParagraph);
@@ -278,9 +279,9 @@ class Base extends WriterPart
         $xmlWriter->writeAttribute('w:history', '1');
 
         $xmlWriter->startElement('w:r');
-        if ($SfIsObject) {
+        if ($sfIsObject) {
             $this->_writeTextStyle($xmlWriter, $styleFont);
-        } elseif (!$SfIsObject && !is_null($styleFont)) {
+        } elseif (!$sfIsObject && !is_null($styleFont)) {
             $xmlWriter->startElement('w:rPr');
             $xmlWriter->startElement('w:rStyle');
             $xmlWriter->writeAttribute('w:val', $styleFont);
@@ -312,8 +313,8 @@ class Base extends WriterPart
         $styleFont = $textrun->getFontStyle();
         $styleParagraph = $textrun->getParagraphStyle();
 
-        $SfIsObject = ($styleFont instanceof Font) ? true : false;
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
+        $sfIsObject = ($styleFont instanceof Font) ? true : false;
+        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         $arrText = $textrun->getText();
         if (!is_array($arrText)) {
@@ -322,9 +323,9 @@ class Base extends WriterPart
 
         $xmlWriter->startElement('w:p');
 
-        if ($SpIsObject) {
+        if ($spIsObject) {
             $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
-        } elseif (!$SpIsObject && !is_null($styleParagraph)) {
+        } elseif (!$spIsObject && !is_null($styleParagraph)) {
             $xmlWriter->startElement('w:pPr');
             $xmlWriter->startElement('w:pStyle');
             $xmlWriter->writeAttribute('w:val', $styleParagraph);
@@ -345,9 +346,9 @@ class Base extends WriterPart
 
                 $xmlWriter->startElement('w:r');
 
-                if ($SfIsObject) {
+                if ($sfIsObject) {
                     $this->_writeTextStyle($xmlWriter, $styleFont);
-                } elseif (!$SfIsObject && !is_null($styleFont)) {
+                } elseif (!$sfIsObject && !is_null($styleFont)) {
                     $xmlWriter->startElement('w:rPr');
                     $xmlWriter->startElement('w:rStyle');
                     $xmlWriter->writeAttribute('w:val', $styleFont);
@@ -378,9 +379,9 @@ class Base extends WriterPart
 
                 $xmlWriter->startElement('w:r');
 
-                if ($SfIsObject) {
+                if ($sfIsObject) {
                     $this->_writeTextStyle($xmlWriter, $styleFont);
-                } elseif (!$SfIsObject && !is_null($styleFont)) {
+                } elseif (!$sfIsObject && !is_null($styleFont)) {
                     $xmlWriter->startElement('w:rPr');
                     $xmlWriter->startElement('w:rStyle');
                     $xmlWriter->writeAttribute('w:val', $styleFont);
@@ -680,6 +681,8 @@ class Base extends WriterPart
                                 $this->_writeObject($xmlWriter, $element);
                             } elseif ($element instanceof PreserveText) {
                                 $this->_writePreserveText($xmlWriter, $element);
+                            } elseif ($element instanceof CheckBox) {
+                                $this->_writeCheckBox($xmlWriter, $element);
                             }
                         }
                     } else {
@@ -1208,6 +1211,104 @@ class Base extends WriterPart
         $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
         $xmlWriter->endElement(); // w:footnoteReference
 
+        $xmlWriter->endElement(); // w:r
+
+        if (!$withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
+     * Write CheckBox
+     */
+    protected function _writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
+    {
+        $count = 1;
+        $_elements = $checkbox->getElements();
+        if (count($_elements) > 1) {
+            $count = $count + 1;
+        }
+        $name = htmlspecialchars($checkbox->getName());
+        $name = String::controlCharacterPHP2OOXML($name);
+        $text = htmlspecialchars($checkbox->getText());
+        $text = String::controlCharacterPHP2OOXML($text);
+
+        $styleFont = $checkbox->getFontStyle();
+        $sfIsObject = ($styleFont instanceof Font) ? true : false;
+        if (!$withoutP) {
+            $xmlWriter->startElement('w:p');
+            $styleParagraph = $checkbox->getParagraphStyle();
+            $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
+            if ($spIsObject) {
+                $this->_writeParagraphStyle($xmlWriter, $styleParagraph);
+            } elseif (!$spIsObject && !is_null($styleParagraph)) {
+                $xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:pStyle');
+                $xmlWriter->writeAttribute('w:val', $styleParagraph);
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+            }
+        }
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->startElement('w:ffData');
+        $xmlWriter->startElement('w:name');
+        $xmlWriter->writeAttribute('w:val', $name);
+        $xmlWriter->endElement(); //w:name
+        $xmlWriter->writeAttribute('w:enabled', '');
+        $xmlWriter->startElement('w:calcOnExit');
+        $xmlWriter->writeAttribute('w:val', '0');
+        $xmlWriter->endElement(); //w:calcOnExit
+        $xmlWriter->startElement('w:checkBox');
+        $xmlWriter->writeAttribute('w:sizeAuto', '');
+        $xmlWriter->startElement('w:default');
+        $xmlWriter->writeAttribute('w:val', ($checkState ? '1' : '0'));
+        $xmlWriter->endElement(); //w:default
+        $xmlWriter->endElement(); //w:checkbox
+        $xmlWriter->endElement(); // w:ffData
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
+        $xmlWriter->startElement('w:bookmarkStart');
+        $xmlWriter->writeAttribute('w:name', $name);
+        $xmlWriter->writeAttribute('w:id', $count);
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw(' FORMCHECKBOX ');
+        $xmlWriter->endElement();// w:instrText
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'seperate');
+        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:bookmarkStart
+        $xmlWriter->startElement('w:bookmarkEnd');
+        $xmlWriter->writeAttribute('w:id', $count);
+        $xmlWriter->endElement();// w:bookmarkEnd
+
+        $xmlWriter->startElement('w:r');
+        if ($sfIsObject) {
+            $this->_writeTextStyle($xmlWriter, $styleFont);
+        } elseif (!$sfIsObject && !is_null($styleFont)) {
+            $xmlWriter->startElement('w:rPr');
+            $xmlWriter->startElement('w:rStyle');
+            $xmlWriter->writeAttribute('w:val', $styleFont);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+        }
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw($text);
+        $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
         if (!$withoutP) {

@@ -357,3 +357,18 @@ The footnote reference number will be displayed with decimal number starting
 from 1. This number use ``FooterReference`` style which you can redefine by
 ``addFontStyle`` method. Default value for this style is
 ``array('superScript' => true)``;
+
+Checkboxes
+----------
+
+Checkbox elements can be added to sections or table cells by using
+``addCheckBox``.
+
+.. code-block:: php
+
+    $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
+
+-  ``$name`` Name of the check box.
+-  ``$text`` Text following the check box
+-  ``$fontStyle`` See "Font style" section.
+-  ``$paragraphStyle`` See "Paragraph style" section.

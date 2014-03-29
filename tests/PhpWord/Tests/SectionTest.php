@@ -88,12 +88,13 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addTitle(utf8_decode('ä'), 1);
         $section->createTextRun();
         $section->createFootnote();
+        $section->addCheckBox('check1', utf8_decode('ä'));
         $section->addTOC();
 
         $elementCollection = $section->getElements();
         $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
             'Table', 'ListItem', 'Object', 'Image', 'Image',
-            'Title', 'TextRun', 'Footnote');
+            'Title', 'TextRun', 'Footnote', 'CheckBox');
         $i = 0;
         foreach ($elementTypes as $elementType) {
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Section\\{$elementType}", $elementCollection[$i]);

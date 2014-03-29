@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Section\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -73,7 +74,6 @@ class Document extends Base
                 $pSection++;
 
                 $_elements = $section->getElements();
-
                 foreach ($_elements as $element) {
                     if ($element instanceof Text) {
                         $this->_writeText($xmlWriter, $element);
@@ -99,6 +99,8 @@ class Document extends Base
                         $this->_writeTOC($xmlWriter);
                     } elseif ($element instanceof Footnote) {
                         $this->_writeFootnote($xmlWriter, $element);
+                    } elseif ($element instanceof CheckBox) {
+                        $this->_writeCheckBox($xmlWriter, $element);
                     }
                 }
 

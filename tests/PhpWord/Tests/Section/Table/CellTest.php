@@ -202,6 +202,16 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\TextRun', $element);
     }
 
+    public function testAddCheckBox()
+    {
+        $oCell = new Cell('section', 1);
+        $element = $oCell->addCheckBox('check1', 'text');
+
+        $this->assertCount(1, $oCell->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\CheckBox', $element);
+    }
+
+
     public function testGetElements()
     {
         $oCell = new Cell('section', 1);

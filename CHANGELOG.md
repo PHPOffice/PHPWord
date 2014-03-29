@@ -12,6 +12,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Footnote: Ability to style footnote reference mark by using `FootnoteReference` style - @ivanlanin
 - Font: Add `bgColor` to font style to define background using HEX color - @jcarignan GH-168
 - Table: Add `exactHeight` to row style to define whether row height should be exact or atLeast - @jcarignan GH-168
+- Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
 
 ### Bugfixes
 
