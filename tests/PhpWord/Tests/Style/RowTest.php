@@ -29,6 +29,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'tblHeader' => true,
             'cantSplit' => false,
+            'exactHeight' => true,
         );
         foreach ($properties as $key => $value) {
             // set/get
@@ -56,6 +57,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'tblHeader' => 'a',
             'cantSplit' => 'b',
+            'exactHeight' => 'c',
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";

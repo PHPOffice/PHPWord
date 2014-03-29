@@ -29,6 +29,13 @@ class Row
     private $_cantSplit = false;
 
     /**
+     * Table row exact height
+     *
+     * @var bool
+     */
+    private $_exactHeight = false;
+
+    /**
      * Create a new row style
      */
     public function __construct()
@@ -94,5 +101,30 @@ class Row
     public function getCantSplit()
     {
         return $this->_cantSplit;
+    }
+
+    /**
+     * Set exactHeight
+     *
+     * @param bool $pValue
+     * @return PHPWord_Style_Row
+     */
+    public function setExactHeight($pValue = false)
+    {
+        if (!is_bool($pValue)) {
+            $pValue = false;
+        }
+        $this->_exactHeight = $pValue;
+        return $this;
+    }
+
+    /**
+     * Get exactHeight
+     *
+     * @return boolean
+     */
+    public function getExactHeight()
+    {
+        return $this->_exactHeight;
     }
 }

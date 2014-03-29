@@ -55,6 +55,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'strikethrough' => false,
             'color' => PhpWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
+            'bgColor' => null,
             'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
         );
         foreach ($attributes as $key => $default) {
@@ -83,7 +84,8 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
             'color' => '999999',
-            'fgColor' => '999999',
+            'fgColor' => Font::FGCOLOR_YELLOW,
+            'bgColor' => 'FFFF00',
             'hint' => 'eastAsia',
         );
         $object->setArrayStyle($attributes);

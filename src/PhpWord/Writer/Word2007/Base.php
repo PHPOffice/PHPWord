@@ -413,6 +413,7 @@ class Base extends WriterPart
         $color = $style->getColor();
         $size = $style->getSize();
         $fgColor = $style->getFgColor();
+        $bgColor = $style->getBgColor();
         $strikethrough = $style->getStrikethrough();
         $underline = $style->getUnderline();
         $superscript = $style->getSuperScript();
@@ -480,6 +481,15 @@ class Base extends WriterPart
         if (!is_null($fgColor)) {
             $xmlWriter->startElement('w:highlight');
             $xmlWriter->writeAttribute('w:val', $fgColor);
+            $xmlWriter->endElement();
+        }
+
+        // Background-Color
+        if (!is_null($bgColor)) {
+            $xmlWriter->startElement('w:shd');
+            $xmlWriter->writeAttribute('w:val', "clear");
+            $xmlWriter->writeAttribute('w:color', "auto");
+            $xmlWriter->writeAttribute('w:fill', $bgColor);
             $xmlWriter->endElement();
         }
 
@@ -572,8 +582,10 @@ class Base extends WriterPart
             $xmlWriter->startElement('w:tblGrid');
             foreach ($cellWidths as $width) {
                 $xmlWriter->startElement('w:gridCol');
-                $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
+                if (!is_null($width)) {
+                    $xmlWriter->writeAttribute('w:w', $width);
+                    $xmlWriter->writeAttribute('w:type', 'dxa');
+                }
                 $xmlWriter->endElement();
             }
             $xmlWriter->endElement(); // w:tblGrid
@@ -581,7 +593,7 @@ class Base extends WriterPart
             // Table style
             $tblStyle = $table->getStyle();
             $tblWidth = $table->getWidth();
-            if ($tblStyle instanceof PhpOffice\PhpWord\Style\Table) {
+            if ($tblStyle instanceof \PhpOffice\PhpWord\Style\Table) {
                 $this->_writeTableStyle($xmlWriter, $tblStyle, false);
             } else {
                 if (!empty($tblStyle)) {
@@ -606,6 +618,7 @@ class Base extends WriterPart
                 $rowStyle = $row->getStyle();
                 $tblHeader = $rowStyle->getTblHeader();
                 $cantSplit = $rowStyle->getCantSplit();
+                $exactHeight = $rowStyle->getExactHeight();
 
                 $xmlWriter->startElement('w:tr');
 
@@ -614,6 +627,7 @@ class Base extends WriterPart
                     if (!is_null($height)) {
                         $xmlWriter->startElement('w:trHeight');
                         $xmlWriter->writeAttribute('w:val', $height);
+                        $xmlWriter->writeAttribute('w:hRule', ($exactHeight ? 'exact' : 'atLeast'));
                         $xmlWriter->endElement();
                     }
                     if ($tblHeader) {

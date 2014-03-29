@@ -206,6 +206,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $styles['superScript'] = true;
         $styles['color'] = 'FF0000';
         $styles['fgColor'] = 'yellow';
+        $styles['bgColor'] = 'FFFF00';
         $styles['hint'] = 'eastAsia';
 
         $section = $phpWord->createSection();

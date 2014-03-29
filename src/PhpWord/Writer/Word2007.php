@@ -110,7 +110,7 @@ class Word2007 implements IWriter
             // If $pFilename is php://output or php://stdout, make it a temporary file...
             $originalFilename = $pFilename;
             if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
-                $pFilename = @tempnam('./', 'phppttmp');
+                $pFilename = @tempnam(sys_get_temp_dir(), 'phpword_');
                 if ($pFilename == '') {
                     $pFilename = $originalFilename;
                 }
