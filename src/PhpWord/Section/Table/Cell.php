@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Section\Object;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
@@ -288,6 +289,27 @@ class Cell
         $textRun = new TextRun($styleParagraph);
         $this->_elementCollection[] = $textRun;
         return $textRun;
+    }
+
+    /**
+     * Add a CheckBox Element
+     *
+     * @param string $name
+     * @param string $text
+     * @param mixed $style
+     * @return PHPWord_Section_CheckBox
+     */
+    public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
+    {
+        if (!String::isUTF8($name)) {
+            $name = utf8_encode($name);
+        }
+        if (!String::isUTF8($text)) {
+            $text = utf8_encode($text);
+        }
+        $text = new CheckBox($name, $text, $styleFont, $styleParagraph);
+        $this->_elementCollection[] = $text;
+        return $text;
     }
 
     /**

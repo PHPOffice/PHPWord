@@ -374,4 +374,23 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $element = "/w:document/w:body/w:p/w:r/w:fldChar";
         $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
     }
+
+    /**
+     * covers ::_writeCheckbox
+     */
+    public function testWriteCheckbox()
+    {
+        $rStyle = 'rStyle';
+        $pStyle = 'pStyle';
+
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle($rStyle, array('bold' => true));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $section = $phpWord->createSection();
+        $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
+        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
+    }
 }
