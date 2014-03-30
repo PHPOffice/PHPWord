@@ -16,11 +16,13 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Style\Font
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\Font
  * @runTestsInSeparateProcesses
  */
 class FontTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Tear down after each test
+     */
     public function tearDown()
     {
         TestHelperDOCX::clear();

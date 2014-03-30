@@ -20,6 +20,8 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Throw new exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      * @covers            \PhpOffice\PhpWord\Exceptions\Exception
      */

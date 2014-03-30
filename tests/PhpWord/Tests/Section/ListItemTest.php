@@ -19,6 +19,9 @@ use PhpOffice\PhpWord\Section\ListItem;
  */
 class ListItemTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Get text object
+     */
     public function testText()
     {
         $oListItem = new ListItem('text');
@@ -26,6 +29,9 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Text', $oListItem->getTextObject());
     }
 
+    /**
+     * Get style
+     */
     public function testStyle()
     {
         $oListItem = new ListItem(
@@ -42,6 +48,9 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Get depth
+     */
     public function testDepth()
     {
         $iVal = rand(1, 1000);

@@ -17,11 +17,13 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Style\Paragraph
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\Paragraph
  * @runTestsInSeparateProcesses
  */
 class ParagraphTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Tear down after each test
+     */
     public function tearDown()
     {
         TestHelperDOCX::clear();
@@ -97,6 +99,9 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Tabs', $object->getTabs());
     }
 
+    /**
+     * Line height
+     */
     public function testLineHeight()
     {
         $phpWord = new PhpWord();

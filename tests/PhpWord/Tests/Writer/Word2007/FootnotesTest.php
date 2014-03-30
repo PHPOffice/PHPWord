@@ -27,6 +27,9 @@ class FootnotesTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    /**
+     * Write footnotes
+     */
     public function testWriteFootnotes()
     {
         $phpWord = new PhpWord();

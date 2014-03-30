@@ -20,6 +20,8 @@ use PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException;
 class UnsupportedImageTypeExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Throw new exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
      * @covers            \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
      */

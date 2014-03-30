@@ -57,6 +57,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iVal, $oSettings->getHeaderHeight());
     }
 
+    /**
+     * Set/get margin
+     */
     public function testMargin()
     {
         // Section Settings
@@ -79,6 +82,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iVal, $oSettings->getMarginRight());
     }
 
+    /**
+     * Set/get landscape orientation
+     */
     public function testOrientationLandscape()
     {
         // Section Settings
@@ -90,6 +96,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(11906, $oSettings->getPageSizeH());
     }
 
+    /**
+     * Set/get portrait orientation
+     */
     public function testOrientationPortrait()
     {
         // Section Settings
@@ -101,6 +110,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(16838, $oSettings->getPageSizeH());
     }
 
+    /**
+     * Set/get border size
+     */
     public function testBorderSize()
     {
         // Section Settings
@@ -131,6 +143,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iVal, $oSettings->getBorderTopSize());
     }
 
+    /**
+     * Set/get border color
+     */
     public function testBorderColor()
     {
         // Section Settings
@@ -156,6 +171,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('22FF33', $oSettings->getBorderTopColor());
     }
 
+    /**
+     * Set/get page numbering start
+     */
     public function testNumberingStart()
     {
         // Section Settings
@@ -171,9 +189,11 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($oSettings->getPageNumberingStart());
     }
 
+    /**
+     * Set/get header height
+     */
     public function testHeader()
     {
-        // Section Settings
         $oSettings = new Settings();
 
         $this->assertEquals(720, $oSettings->getHeaderHeight());
@@ -186,6 +206,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(720, $oSettings->getHeaderHeight());
     }
 
+    /**
+     * Set/get footer height
+     */
     public function testFooter()
     {
         // Section Settings
@@ -201,6 +224,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(720, $oSettings->getFooterHeight());
     }
 
+    /**
+     * Set/get column number
+     */
     public function testColumnsNum()
     {
         // Section Settings
@@ -217,6 +243,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $oSettings->getColsNum());
     }
 
+    /**
+     * Set/get column spacing
+     */
     public function testColumnsSpace()
     {
         // Section Settings
@@ -233,6 +262,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(720, $oSettings->getColsSpace());
     }
 
+    /**
+     * Set/get break type
+     */
     public function testBreakType()
     {
         // Section Settings

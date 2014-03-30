@@ -421,8 +421,9 @@ class Section
      *
      * @param string $name
      * @param string $text
-     * @param mixed $style
-     * @return PHPWord_Section_CheckBox
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
+     * @return \PhpOffice\PhpWord\Section\CheckBox
      */
     public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
     {

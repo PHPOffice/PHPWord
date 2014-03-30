@@ -21,6 +21,8 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 class FooterTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Write footer
+     *
      * @covers  ::writeFooter
      */
     public function testWriteFooter()

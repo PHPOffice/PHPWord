@@ -129,6 +129,8 @@ class CheckBox
     }
 
     /**
+     * Set name content
+     *
      * @param string $name
      * @return $this
      */
@@ -149,6 +151,8 @@ class CheckBox
     }
 
     /**
+     * Set text content
+     *
      * @param string $text
      * @return $this
      */
@@ -159,7 +163,7 @@ class CheckBox
     }
 
     /**
-     * Get Text content
+     * Get text content
      *
      * @return string
      */

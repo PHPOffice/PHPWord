@@ -20,6 +20,8 @@ use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
 class InvalidStyleExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Throw new exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidStyleException
      * @covers            \PhpOffice\PhpWord\Exceptions\InvalidStyleException
      */

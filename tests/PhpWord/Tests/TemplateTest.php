@@ -65,6 +65,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     /**
      * XSL stylesheet can be applied
      *
+     * @param string $actualDocumentFqfn
      * @covers ::applyXslStyleSheet
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test

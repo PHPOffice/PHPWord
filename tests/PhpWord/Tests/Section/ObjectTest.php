@@ -19,6 +19,9 @@ use PhpOffice\PhpWord\Section\Object;
  */
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance with supported files
+     */
     public function testConstructWithSupportedFiles()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";
@@ -29,6 +32,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oObject->getSource(), $src);
     }
 
+    /**
+     * Create new instance with non-supported files
+     */
     public function testConstructWithNotSupportedFiles()
     {
         $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
@@ -39,6 +45,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oObject->getStyle(), null);
     }
 
+    /**
+     * Create with style
+     */
     public function testConstructWithSupportedFilesAndStyle()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";
@@ -49,6 +58,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oObject->getSource(), $src);
     }
 
+    /**
+     * Set/get relation Id
+     */
     public function testRelationId()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";
@@ -59,6 +71,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oObject->getRelationId(), $iVal);
     }
 
+    /**
+     * Set/get image relation Id
+     */
     public function testImageRelationId()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";
@@ -69,6 +84,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oObject->getImageRelationId(), $iVal);
     }
 
+    /**
+     * Set/get object relation Id
+     */
     public function testObjectId()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";

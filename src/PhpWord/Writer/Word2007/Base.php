@@ -1220,6 +1220,9 @@ class Base extends WriterPart
 
     /**
      * Write CheckBox
+     *
+     * @param boolean $withoutP
+     * @param boolean $checkState
      */
     protected function _writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
     {
