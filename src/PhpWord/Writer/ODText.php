@@ -26,13 +26,13 @@ class ODText extends Writer implements IWriter
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var \PhpOffice\PhpWord\HashTable
+     * @var HashTable
      */
     private $drawingHashTable;
 
     /**
      * Create new ODText writer
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -57,7 +57,7 @@ class ODText extends Writer implements IWriter
      * Save PhpWord to file
      *
      * @param  string $pFilename
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     public function save($pFilename = null)
     {
@@ -139,7 +139,7 @@ class ODText extends Writer implements IWriter
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return \PhpOffice\PhpWord\HashTable
+     * @return HashTable
      */
     public function getDrawingHashTable()
     {

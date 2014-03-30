@@ -35,7 +35,7 @@ class Content extends WriterPart
     /**
      * Write content file to XML format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param  PhpWord $phpWord
      * @return string XML Output
      */
     public function writeContent(PhpWord $phpWord = null)
@@ -126,7 +126,7 @@ class Content extends WriterPart
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PhpOffice\PhpWord\Style\Font
+                // Font
                 if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
@@ -158,7 +158,7 @@ class Content extends WriterPart
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
                     || preg_match('#^P[0-9]+$#', $styleName) != 0
                 ) {
-                    // PhpOffice\PhpWord\Style\Font
+                    // Font
                     if ($style instanceof Font) {
                         $xmlWriter->startElement('style:style');
                         $xmlWriter->writeAttribute('style:name', $styleName);
@@ -288,8 +288,8 @@ class Content extends WriterPart
     /**
      * Write text
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Section\Text $text
+     * @param XMLWriter $xmlWriter
+     * @param Text $text
      * @param bool $withoutP
      */
     protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
@@ -336,8 +336,8 @@ class Content extends WriterPart
     /**
      * Write TextRun section
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Section\TextRun $textrun
+     * @param XMLWriter $xmlWriter
+     * @param TextRun $textrun
      * @todo Enable all other section types
      */
     protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
@@ -357,7 +357,7 @@ class Content extends WriterPart
     /**
      * Write TextBreak
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
     protected function writeTextBreak(XMLWriter $xmlWriter = null)
     {
@@ -370,8 +370,8 @@ class Content extends WriterPart
     /**
      * Write end section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
     private function writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
@@ -380,8 +380,8 @@ class Content extends WriterPart
     /**
      * Write section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
     private function writeSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
@@ -391,7 +391,7 @@ class Content extends WriterPart
     /**
      * Write unsupported element
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      * @param string $element
      */
     private function writeUnsupportedElement($xmlWriter, $element)

@@ -21,7 +21,7 @@ class Manifest extends WriterPart
     /**
      * Write Manifest file to XML format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param  PhpWord $phpWord
      * @return string XML Output
      */
     public function writeManifest(PhpWord $phpWord = null)
@@ -97,7 +97,7 @@ class Manifest extends WriterPart
      *
      * @param string $pFile Filename
      * @return string Mime Type
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     private function getImageMimeType($pFile = '')
     {

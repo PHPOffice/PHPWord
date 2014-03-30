@@ -19,7 +19,7 @@ class Mimetype extends WriterPart
     /**
      * Write Mimetype to Text format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      * @return string Text Output
      */
     public function writeMimetype(PhpWord $phpWord = null)

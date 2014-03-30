@@ -22,7 +22,7 @@ abstract class Writer implements IWriter
     /**
      * PHPWord object
      *
-     * @var PhpOffice\PhpWord\PhpWord
+     * @var PhpWord
      */
     protected $phpWord = null;
 

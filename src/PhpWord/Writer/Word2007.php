@@ -46,7 +46,7 @@ class Word2007 extends Writer implements IWriter
     /**
      * Create new Word2007 writer
      *
-     * @param PhpOffice\PhpWord\PhpWord
+     * @param PhpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {

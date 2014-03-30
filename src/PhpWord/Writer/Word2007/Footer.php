@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Footer as FooterElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -25,9 +26,9 @@ class Footer extends Base
     /**
      * Write word/footnotes.xml
      *
-     * @param PhpOffice\PhpWord\Section\Footer $footer
+     * @param FooterElement $footer
      */
-    public function writeFooter(\PhpOffice\PhpWord\Section\Footer $footer)
+    public function writeFooter(FooterElement $footer)
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();

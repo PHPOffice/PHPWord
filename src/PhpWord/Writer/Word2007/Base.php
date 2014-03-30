@@ -27,6 +27,8 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Cell;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
  * Word2007 base part writer
@@ -197,7 +199,7 @@ class Base extends WriterPart
      * Write preserve text element
      *
      * @param XMLWriter $xmlWriter
-     * @param TextRun $textrun
+     * @param PreserveText $textrun
      */
     protected function writePreserveText(
         XMLWriter $xmlWriter,
@@ -364,7 +366,7 @@ class Base extends WriterPart
             // Table style
             $tblStyle = $table->getStyle();
             $tblWidth = $table->getWidth();
-            if ($tblStyle instanceof \PhpOffice\PhpWord\Style\Table) {
+            if ($tblStyle instanceof TableStyle) {
                 $this->writeTableStyle($xmlWriter, $tblStyle, false);
             } else {
                 if (!empty($tblStyle)) {
@@ -523,16 +525,16 @@ class Base extends WriterPart
         }
 
         switch ($wrappingStyle) {
-            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND:
+            case ImageStyle::WRAPPING_STYLE_BEHIND:
                 $imgStyle .= 'position:absolute;z-index:-251658752;';
                 break;
-            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE:
+            case ImageStyle::WRAPPING_STYLE_SQUARE:
                 $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
-            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_TIGHT:
+            case ImageStyle::WRAPPING_STYLE_TIGHT:
                 $imgStyle .= 'position:absolute;z-index:251659264;mso-wrap-edited:f;mso-position-horizontal:absolute;mso-position-vertical:absolute';
                 break;
-            case \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_INFRONT:
+            case ImageStyle::WRAPPING_STYLE_INFRONT:
                 $imgStyle .= 'position:absolute;zz-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
         }
@@ -767,7 +769,7 @@ class Base extends WriterPart
      * Write paragraph style
      *
      * @param XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Paragraph $style
+     * @param Paragraph $style
      * @param bool $withoutPPR
      */
     protected function writeParagraphStyle(
@@ -867,10 +869,10 @@ class Base extends WriterPart
     }
 
     /**
-     * Write footnote reference element
+     * Write font style
      *
      * @param XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param Font $style
      */
     protected function writeFontStyle(XMLWriter $xmlWriter, Font $style)
     {
@@ -974,12 +976,12 @@ class Base extends WriterPart
      * Write table style
      *
      * @param XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Style\Table $style
+     * @param TableStyle $style
      * @param boolean $isFullStyle
      */
     protected function writeTableStyle(
         XMLWriter $xmlWriter,
-        \PhpOffice\PhpWord\Style\Table $style,
+        TableStyle $style,
         $isFullStyle = true
     ) {
         $bgColor = $style->getBgColor();
@@ -1105,12 +1107,12 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param string $type
-     * @param PhpOffice\PhpWord\Style\Table $style
+     * @param TableStyle $style
      */
     protected function writeRowStyle(
         XMLWriter $xmlWriter,
         $type,
-        \PhpOffice\PhpWord\Style\Table $style
+        TableStyle $style
     ) {
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();
@@ -1174,7 +1176,7 @@ class Base extends WriterPart
      * Write footnote reference element
      *
      * @param XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Style\Cell $style
+     * @param Cell $style
      */
     protected function writeCellStyle(XMLWriter $xmlWriter, Cell $style = null)
     {
@@ -1321,10 +1323,9 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param Paragraph|string $styleParagraph
-     * @param boolean $spIsObject
      * @param boolean $withoutPPR
      */
-    private function writeInlineParagraphStyle(
+    protected function writeInlineParagraphStyle(
         XMLWriter $xmlWriter,
         $styleParagraph = null,
         $withoutPPR = false
@@ -1350,9 +1351,8 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param Font|string $styleFont
-     * @param boolean $sfIsObject
      */
-    private function writeInlineFontStyle(
+    protected function writeInlineFontStyle(
         XMLWriter $xmlWriter,
         $styleFont = null
     ) {

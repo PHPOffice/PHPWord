@@ -36,7 +36,7 @@ class Document extends Base
     /**
      * Write word/document.xml
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeDocument(PhpWord $phpWord = null)
     {
@@ -118,8 +118,8 @@ class Document extends Base
     /**
      * Write begin section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -133,8 +133,8 @@ class Document extends Base
     /**
      * Write end section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
     private function writeEndSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -272,7 +272,7 @@ class Document extends Base
     /**
      * Write page break element
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
     private function writePageBreak(XMLWriter $xmlWriter)
     {
@@ -288,7 +288,7 @@ class Document extends Base
     /**
      * Write TOC element
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
     private function writeTOC(XMLWriter $xmlWriter)
     {

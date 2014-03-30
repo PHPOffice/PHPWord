@@ -161,10 +161,10 @@ class ContentTypes extends WriterPart
     /**
      * Write Default XML element
      *
-     * @param  \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
+     * @param  XMLWriter $xmlWriter XML Writer
      * @param  string $pPartname Part name
      * @param  string $pContentType Content type
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     private function writeDefaultContentType(XMLWriter $xmlWriter = null, $pPartname = '', $pContentType = '')
     {
@@ -182,10 +182,10 @@ class ContentTypes extends WriterPart
     /**
      * Write Override XML element
      *
-     * @param  \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param  XMLWriter $xmlWriter
      * @param  string $pPartname Part name
      * @param  string $pContentType Content type
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     private function writeOverrideContentType(XMLWriter $xmlWriter = null, $pPartname = '', $pContentType = '')
     {
@@ -205,7 +205,7 @@ class ContentTypes extends WriterPart
      *
      * @param  string $pFile Filename
      * @return string Mime Type
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     private function getImageMimeType($pFile = '')
     {

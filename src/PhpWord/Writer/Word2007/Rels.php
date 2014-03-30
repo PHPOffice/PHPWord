@@ -21,7 +21,7 @@ class Rels extends Base
     /**
      * Write _rels/.rels
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeRelationships(PhpWord $phpWord = null)
     {

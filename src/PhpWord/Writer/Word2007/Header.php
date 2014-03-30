@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Header as HeaderElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -25,9 +26,9 @@ class Header extends Base
     /**
      * Write word/headerx.xml
      *
-     * @param PhpOffice\PhpWord\Section\Header $header
+     * @param HeaderElement $header
      */
-    public function writeHeader(\PhpOffice\PhpWord\Section\Header $header)
+    public function writeHeader(HeaderElement $header)
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
