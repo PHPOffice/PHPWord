@@ -30,11 +30,7 @@ class Header extends Base
     public function writeHeader(\PhpOffice\PhpWord\Section\Header $header)
     {
         // Create XML writer
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');

@@ -31,42 +31,35 @@ use PhpOffice\PhpWord\TOC;
 /**
  * RTF writer
  */
-class RTF implements IWriter
+class RTF extends Writer implements IWriter
 {
-    /**
-     * Private PhpWord
-     *
-     * @var \PhpOffice\PhpWord\PhpWord
-     */
-    private $_document;
-
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
      * @var \PhpOffice\PhpWord\HashTable
      */
-    private $_drawingHashTable;
+    private $drawingHashTable;
 
     /**
      * Color register
      *
      * @var array
      */
-    private $_colorTable;
+    private $colorTable;
 
     /**
      * Font register
      *
      * @var array
      */
-    private $_fontTable;
+    private $fontTable;
 
     /**
      * Last paragraph style
      *
      * @var mixed
      */
-    private $_lastParagraphStyle;
+    private $lastParagraphStyle;
 
     /**
      * Create new RTF writer
@@ -78,7 +71,7 @@ class RTF implements IWriter
         $this->setPhpWord($phpWord);
 
         // Set HashTable variables
-        $this->_drawingHashTable = new HashTable();
+        $this->drawingHashTable = new HashTable();
     }
 
     /**
@@ -89,58 +82,17 @@ class RTF implements IWriter
      */
     public function save($pFilename = null)
     {
-        if (!is_null($this->_document)) {
-            // If $pFilename is php://output or php://stdout, make it a temporary file...
-            $originalFilename = $pFilename;
-            if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
-                $pFilename = @tempnam(sys_get_temp_dir(), 'phpword_');
-                if ($pFilename == '') {
-                    $pFilename = $originalFilename;
-                }
-            }
+        if (!is_null($this->phpWord)) {
+            $pFilename = $this->getTempFile($pFilename);
 
             $hFile = fopen($pFilename, 'w') or die("can't open file");
             fwrite($hFile, $this->getData());
             fclose($hFile);
 
-            // If a temporary file was used, copy it to the correct file stream
-            if ($originalFilename != $pFilename) {
-                if (copy($pFilename, $originalFilename) === false) {
-                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
-                }
-                @unlink($pFilename);
-            }
-
+            $this->cleanupTempFile();
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
-    }
-
-    /**
-     * Get PhpWord object
-     *
-     * @return \PhpOffice\PhpWord\PhpWord
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
-     */
-    public function getPhpWord()
-    {
-        if (!is_null($this->_document)) {
-            return $this->_document;
-        } else {
-            throw new Exception("No PhpWord assigned.");
-        }
-    }
-
-    /**
-     * Set PhpWord object
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return \PhpOffice\PhpWord\Writer\RTF
-     */
-    public function setPhpWord(PhpWord $phpWord = null)
-    {
-        $this->_document = $phpWord;
-        return $this;
     }
 
     /**
@@ -150,7 +102,7 @@ class RTF implements IWriter
      */
     public function getDrawingHashTable()
     {
-        return $this->_drawingHashTable;
+        return $this->drawingHashTable;
     }
 
     /**
@@ -160,9 +112,9 @@ class RTF implements IWriter
      */
     private function getData()
     {
-        // PhpWord object : $this->_document
-        $this->_fontTable = $this->getDataFont();
-        $this->_colorTable = $this->getDataColor();
+        // PhpWord object : $this->phpWord
+        $this->fontTable = $this->getDataFont();
+        $this->colorTable = $this->getDataColor();
 
         $sRTFContent = '{\rtf1';
         // Set the default character set
@@ -174,13 +126,13 @@ class RTF implements IWriter
         $sRTFContent .= \PHP_EOL;
         // Set the font tbl group
         $sRTFContent .= '{\fonttbl';
-        foreach ($this->_fontTable as $idx => $font) {
+        foreach ($this->fontTable as $idx => $font) {
             $sRTFContent .= '{\f' . $idx . '\fnil\fcharset0 ' . $font . ';}';
         }
         $sRTFContent .= '}' . \PHP_EOL;
         // Set the color tbl group
         $sRTFContent .= '{\colortbl ';
-        foreach ($this->_colorTable as $idx => $color) {
+        foreach ($this->colorTable as $idx => $color) {
             $arrColor = Drawing::htmlToRGB($color);
             $sRTFContent .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }
@@ -218,12 +170,12 @@ class RTF implements IWriter
      */
     private function getDataFont()
     {
-        $phpWord = $this->_document;
+        $phpWord = $this->phpWord;
 
         $arrFonts = array();
         // Default font : PhpWord::DEFAULT_FONT_NAME
         $arrFonts[] = PhpWord::DEFAULT_FONT_NAME;
-        // PhpWord object : $this->_document
+        // PhpWord object : $this->phpWord
 
         // Browse styles
         $styles = Style::getStyles();
@@ -273,10 +225,10 @@ class RTF implements IWriter
      */
     private function getDataColor()
     {
-        $phpWord = $this->_document;
+        $phpWord = $this->phpWord;
 
         $arrColors = array();
-        // PhpWord object : $this->_document
+        // PhpWord object : $this->phpWord
 
         // Browse styles
         $styles = Style::getStyles();
@@ -334,7 +286,7 @@ class RTF implements IWriter
      */
     private function getDataContent()
     {
-        $phpWord = $this->_document;
+        $phpWord = $this->phpWord;
         $sRTFBody = '';
 
         $_sections = $phpWord->getSections();
@@ -400,7 +352,7 @@ class RTF implements IWriter
         }
 
         if ($styleParagraph && !$withoutP) {
-            if ($this->_lastParagraphStyle != $text->getParagraphStyle()) {
+            if ($this->lastParagraphStyle != $text->getParagraphStyle()) {
                 $sRTFText .= '\pard\nowidctlpar';
                 if ($styleParagraph->getSpaceAfter() != null) {
                     $sRTFText .= '\sa' . $styleParagraph->getSpaceAfter();
@@ -410,17 +362,17 @@ class RTF implements IWriter
                         $sRTFText .= '\qc';
                     }
                 }
-                $this->_lastParagraphStyle = $text->getParagraphStyle();
+                $this->lastParagraphStyle = $text->getParagraphStyle();
             } else {
-                $this->_lastParagraphStyle = '';
+                $this->lastParagraphStyle = '';
             }
         } else {
-            $this->_lastParagraphStyle = '';
+            $this->lastParagraphStyle = '';
         }
 
         if ($styleFont instanceof Font) {
             if ($styleFont->getColor() != null) {
-                $idxColor = array_search($styleFont->getColor(), $this->_colorTable);
+                $idxColor = array_search($styleFont->getColor(), $this->colorTable);
                 if ($idxColor !== false) {
                     $sRTFText .= '\cf' . ($idxColor + 1);
                 }
@@ -428,7 +380,7 @@ class RTF implements IWriter
                 $sRTFText .= '\cf0';
             }
             if ($styleFont->getName() != null) {
-                $idxFont = array_search($styleFont->getName(), $this->_fontTable);
+                $idxFont = array_search($styleFont->getName(), $this->fontTable);
                 if ($idxFont !== false) {
                     $sRTFText .= '\f' . $idxFont;
                 }
@@ -445,7 +397,7 @@ class RTF implements IWriter
                 $sRTFText .= '\fs' . ($styleFont->getSize() * 2);
             }
         }
-        if ($this->_lastParagraphStyle != '' || $styleFont) {
+        if ($this->lastParagraphStyle != '' || $styleFont) {
             $sRTFText .= ' ';
         }
         $sRTFText .= $text->getText();
@@ -501,7 +453,7 @@ class RTF implements IWriter
      */
     private function getDataContentTextBreak()
     {
-        $this->_lastParagraphStyle = '';
+        $this->lastParagraphStyle = '';
 
         return '\par' . \PHP_EOL;
     }

@@ -25,12 +25,7 @@ class DocumentRels extends WriterPart
     public function writeDocumentRels($_relsCollection)
     {
         // Create XML writer
-        $xmlWriter = null;
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -118,12 +113,7 @@ class DocumentRels extends WriterPart
     public function writeHeaderFooterRels($_relsCollection)
     {
         // Create XML writer
-        $xmlWriter = null;
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');

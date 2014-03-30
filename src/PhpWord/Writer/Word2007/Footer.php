@@ -30,12 +30,7 @@ class Footer extends Base
     public function writeFooter(\PhpOffice\PhpWord\Section\Footer $footer)
     {
         // Create XML writer
-        $xmlWriter = null;
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');

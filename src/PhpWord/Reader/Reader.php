@@ -16,7 +16,7 @@ use PhpOffice\PhpWord\Exceptions\Exception;
  *
  * @codeCoverageIgnore Abstract class
  */
-abstract class AbstractReader implements IReader
+abstract class Reader implements IReader
 {
     /**
      * Read data only?

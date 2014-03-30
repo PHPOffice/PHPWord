@@ -21,42 +21,14 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
 /**
  * ODText writer
  */
-class ODText implements IWriter
+class ODText extends Writer implements IWriter
 {
-    /**
-     * PHPWord object
-     *
-     * @var \PhpOffice\PhpWord\PhpWord
-     */
-    private $_document;
-
-    /**
-     * Individual writers
-     *
-     * @var \PhpOffice\PhpWord\Writer\ODText\WriterPart[]
-     */
-    private $_writerParts;
-
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
      * @var \PhpOffice\PhpWord\HashTable
      */
-    private $_drawingHashTable;
-
-    /**
-     * Use disk caching where possible?
-     *
-     * @var boolean
-     */
-    private $_useDiskCaching = false;
-
-    /**
-     * Disk caching directory
-     *
-     * @var string
-     */
-    private $_diskCachingDirectory;
+    private $drawingHashTable;
 
     /**
      * Create new ODText writer
@@ -67,24 +39,18 @@ class ODText implements IWriter
         // Assign PhpWord
         $this->setPhpWord($phpWord);
 
-        // Set up disk caching location
-        $this->_diskCachingDirectory = './';
-
-        // Initialise writer parts
-        $this->_writerParts['content'] = new Content();
-        $this->_writerParts['manifest'] = new Manifest();
-        $this->_writerParts['meta'] = new Meta();
-        $this->_writerParts['mimetype'] = new Mimetype();
-        $this->_writerParts['styles'] = new Styles();
-
-
-        // Assign parent IWriter
-        foreach ($this->_writerParts as $writer) {
+        // Set writer parts
+        $this->writerParts['content'] = new Content();
+        $this->writerParts['manifest'] = new Manifest();
+        $this->writerParts['meta'] = new Meta();
+        $this->writerParts['mimetype'] = new Mimetype();
+        $this->writerParts['styles'] = new Styles();
+        foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
 
         // Set HashTable variables
-        $this->_drawingHashTable = new HashTable();
+        $this->drawingHashTable = new HashTable();
     }
 
     /**
@@ -95,17 +61,8 @@ class ODText implements IWriter
      */
     public function save($pFilename = null)
     {
-        if (!is_null($this->_document)) {
-            // If $pFilename is php://output or php://stdout, make it a temporary file...
-            $originalFilename = $pFilename;
-            if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
-                $pFilename = @tempnam(sys_get_temp_dir(), 'phpword_');
-                if ($pFilename == '') {
-                    $pFilename = $originalFilename;
-                }
-            }
-
-            // Create drawing dictionary
+        if (!is_null($this->phpWord)) {
+            $pFilename = $this->getTempFile($pFilename);
 
             // Create new ZIP file and open it for writing
             $objZip = new \ZipArchive();
@@ -119,19 +76,19 @@ class ODText implements IWriter
 
             // Add mimetype to ZIP file
             //@todo Not in \ZipArchive::CM_STORE mode
-            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->_document));
+            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->phpWord));
 
             // Add content.xml to ZIP file
-            $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->_document));
+            $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->phpWord));
 
             // Add meta.xml to ZIP file
-            $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->_document));
+            $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->phpWord));
 
             // Add styles.xml to ZIP file
-            $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->_document));
+            $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
 
             // Add META-INF/manifest.xml
-            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->_document));
+            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->phpWord));
 
             // Add media. Has not used yet. Legacy from PHPExcel.
             // @codeCoverageIgnoreStart
@@ -173,44 +130,10 @@ class ODText implements IWriter
                 throw new Exception("Could not close zip file $pFilename.");
             }
 
-            // If a temporary file was used, copy it to the correct file stream
-            if ($originalFilename != $pFilename) {
-                if (copy($pFilename, $originalFilename) === false) {
-                    throw new Exception("Could not copy temporary zip file $pFilename to $originalFilename.");
-                }
-                @unlink($pFilename);
-            }
-
+            $this->cleanupTempFile();
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
-    }
-
-    /**
-     * Get PhpWord object
-     *
-     * @return \PhpOffice\PhpWord\PhpWord
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
-     */
-    public function getPhpWord()
-    {
-        if (!is_null($this->_document)) {
-            return $this->_document;
-        } else {
-            throw new Exception("No PhpWord assigned.");
-        }
-    }
-
-    /**
-     * Set PhpWord object
-     *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return \PhpOffice\PhpWord\Writer\ODText
-     */
-    public function setPhpWord(PhpWord $phpWord = null)
-    {
-        $this->_document = $phpWord;
-        return $this;
     }
 
     /**
@@ -220,64 +143,6 @@ class ODText implements IWriter
      */
     public function getDrawingHashTable()
     {
-        return $this->_drawingHashTable;
-    }
-
-    /**
-     * Get writer part
-     *
-     * @param string $pPartName Writer part name
-     * @return \PhpOffice\PhpWord\Writer\ODText\WriterPart
-     */
-    public function getWriterPart($pPartName = '')
-    {
-        if ($pPartName != '' && isset($this->_writerParts[strtolower($pPartName)])) {
-            return $this->_writerParts[strtolower($pPartName)];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Get use disk caching where possible?
-     *
-     * @return boolean
-     */
-    public function getUseDiskCaching()
-    {
-        return $this->_useDiskCaching;
-    }
-
-    /**
-     * Set use disk caching where possible?
-     *
-     * @param boolean $pValue
-     * @param string $pDirectory Disk caching directory
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception Exception when directory does not exist
-     * @return \PhpOffice\PhpWord\Writer\ODText
-     */
-    public function setUseDiskCaching($pValue = false, $pDirectory = null)
-    {
-        $this->_useDiskCaching = $pValue;
-
-        if (!is_null($pDirectory)) {
-            if (is_dir($pDirectory)) {
-                $this->_diskCachingDirectory = $pDirectory;
-            } else {
-                throw new Exception("Directory does not exist: $pDirectory");
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get disk caching directory
-     *
-     * @return string
-     */
-    public function getDiskCachingDirectory()
-    {
-        return $this->_diskCachingDirectory;
+        return $this->drawingHashTable;
     }
 }
