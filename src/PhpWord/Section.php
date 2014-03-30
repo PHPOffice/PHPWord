@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Section\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
@@ -115,7 +116,7 @@ class Section
      */
     public function addText($text, $styleFont = null, $styleParagraph = null)
     {
-        if (!String::IsUTF8($text)) {
+        if (!String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
         $text = new Text($text, $styleFont, $styleParagraph);
@@ -134,11 +135,11 @@ class Section
      */
     public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
     {
-        if (!String::IsUTF8($linkSrc)) {
+        if (!String::isUTF8($linkSrc)) {
             $linkSrc = utf8_encode($linkSrc);
         }
         if (!is_null($linkName)) {
-            if (!String::IsUTF8($linkName)) {
+            if (!String::isUTF8($linkName)) {
                 $linkName = utf8_encode($linkName);
             }
         }
@@ -412,5 +413,28 @@ class Section
         $footnote->setReferenceId($refID);
         $this->_elementCollection[] = $footnote;
         return $footnote;
+    }
+
+    /**
+     * Add a CheckBox Element
+     *
+     * @param string $name
+     * @param string $text
+     * @param mixed $styleFont
+     * @param mixed $styleParagraph
+     * @return \PhpOffice\PhpWord\Section\CheckBox
+     */
+    public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
+    {
+        if (!String::isUTF8($name)) {
+            $name = utf8_encode($name);
+        }
+        if (!String::isUTF8($text)) {
+            $text = utf8_encode($text);
+        }
+        $element = new CheckBox($name, $text, $styleFont, $styleParagraph);
+        $this->_elementCollection[] = $element;
+
+        return $element;
     }
 }

@@ -19,6 +19,9 @@ use PhpOffice\PhpWord\Section\Table\Row;
  */
 class RowTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance
+     */
     public function testConstruct()
     {
         $iVal = rand(1, 1000);
@@ -31,6 +34,9 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
+    /**
+     * Create new instance with parameters
+     */
     public function testConstructWithParams()
     {
         $iVal = rand(1, 1000);
@@ -46,6 +52,9 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
+    /**
+     * Add cell
+     */
     public function testAddCell()
     {
         $oRow = new Row('section', 1);

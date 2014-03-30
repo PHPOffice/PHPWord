@@ -65,7 +65,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $textrun->addTextBreak();
         $textrun = $section->createTextRun($aStyle);
         $textrun->addLink('http://test.com');
-        $textrun->addImage($imageSrc);
+        $textrun->addImage($imageSrc, array('align' => 'top'));
+        $textrun->createFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = "/w:document/w:body/w:p";
@@ -79,9 +80,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
+        $fontStyleArray = array('bold' => true);
+        $fontStyleName = 'Font Style';
+        $paragraphStyleArray = array('align' => 'center');
+        $paragraphStyleName = 'Paragraph Style';
 
         $expected = 'PhpWord';
         $section->addLink('http://github.com/phpoffice/phpword', $expected);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleArray, $paragraphStyleArray);
+        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
@@ -97,8 +104,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $footer = $section->createFooter();
+        $fontStyleArray = array('bold' => true);
+        $fontStyleName = 'Font';
+        $paragraphStyleArray = array('align' => 'right');
+        $paragraphStyleName = 'Paragraph';
 
-        $footer->addPreserveText('{PAGE}');
+        $footer->addPreserveText('Page {PAGE}');
+        $footer->addPreserveText('{PAGE}', $fontStyleArray, $paragraphStyleArray);
+        $footer->addPreserveText('{PAGE}', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
@@ -193,6 +206,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $styles['superScript'] = true;
         $styles['color'] = 'FF0000';
         $styles['fgColor'] = 'yellow';
+        $styles['bgColor'] = 'FFFF00';
+        $styles['hint'] = 'eastAsia';
 
         $section = $phpWord->createSection();
         $section->addText('Test', $styles);
@@ -219,6 +234,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $tWidth = 120;
         $rHeight = 120;
         $cWidth = 120;
+        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
+        $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
+
+        $tStyles["width"] = 50;
         $tStyles["cellMarginTop"] = 120;
         $tStyles["cellMarginRight"] = 120;
         $tStyles["cellMarginBottom"] = 120;
@@ -236,6 +255,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cStyles["borderBottomColor"] = 'FF0000';
         $cStyles["borderLeftColor"] = 'FF0000';
         $cStyles["borderRightColor"] = 'FF0000';
+        $cStyles["vMerge"] = 'restart';
 
         $section = $phpWord->createSection();
         $table = $section->addTable($tStyles);
@@ -246,6 +266,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cell->addTextBreak();
         $cell->addLink('http://google.com');
         $cell->addListItem('Test');
+        $cell->addImage($imageSrc);
+        $cell->addObject($objectSrc);
         $textrun = $cell->createTextRun();
         $textrun->addText('Test');
 
@@ -351,5 +373,24 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
         $element = "/w:document/w:body/w:p/w:r/w:fldChar";
         $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
+    }
+
+    /**
+     * covers ::_writeCheckbox
+     */
+    public function testWriteCheckbox()
+    {
+        $rStyle = 'rStyle';
+        $pStyle = 'pStyle';
+
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle($rStyle, array('bold' => true));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $section = $phpWord->createSection();
+        $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
+        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
     }
 }

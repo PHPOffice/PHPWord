@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Footer as FooterElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -25,17 +26,12 @@ class Footer extends Base
     /**
      * Write word/footnotes.xml
      *
-     * @param PhpOffice\PhpWord\Section\Footer $footer
+     * @param FooterElement $footer
      */
-    public function writeFooter(\PhpOffice\PhpWord\Section\Footer $footer)
+    public function writeFooter(FooterElement $footer)
     {
         // Create XML writer
-        $xmlWriter = null;
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -55,17 +51,17 @@ class Footer extends Base
 
         foreach ($_elements as $element) {
             if ($element instanceof Text) {
-                $this->_writeText($xmlWriter, $element);
+                $this->writeText($xmlWriter, $element);
             } elseif ($element instanceof TextRun) {
-                $this->_writeTextRun($xmlWriter, $element);
+                $this->writeTextRun($xmlWriter, $element);
             } elseif ($element instanceof TextBreak) {
-                $this->_writeTextBreak($xmlWriter, $element);
+                $this->writeTextBreak($xmlWriter, $element);
             } elseif ($element instanceof Table) {
-                $this->_writeTable($xmlWriter, $element);
+                $this->writeTable($xmlWriter, $element);
             } elseif ($element instanceof Image) {
-                $this->_writeImage($xmlWriter, $element);
+                $this->writeImage($xmlWriter, $element);
             } elseif ($element instanceof PreserveText) {
-                $this->_writePreserveText($xmlWriter, $element);
+                $this->writePreserveText($xmlWriter, $element);
             }
         }
 

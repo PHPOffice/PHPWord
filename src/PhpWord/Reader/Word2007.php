@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 /**
  * Reader for Word2007
  */
-class Word2007 extends AbstractReader implements IReader
+class Word2007 extends Reader implements IReader
 {
     /**
      * Can the current IReader read the file?

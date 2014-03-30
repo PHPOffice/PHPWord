@@ -4,21 +4,11 @@ include_once 'Sample_Header.php';
 // New Word document
 echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-
-// Begin code
 $section = $phpWord->createSection();
-$section->addText('Local image without any styles:');
-$section->addImage('resources/_mars.jpg');
-$section->addTextBreak(2);
-//
-$section->addText('Local image with styles:');
-$section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'align' => 'center'));
-$section->addTextBreak(2);
 
-$source = 'http://php.net/images/logos/php-med-trans-light.gif';
-$section->addText("Remote image from: {$source}");
-$section->addImage($source);
-// End code
+$section->addText("This is some text highlighted using fgColor (limited to 15 colors)     ", array("fgColor" => \PhpOffice\PhpWord\Style\Font::FGCOLOR_YELLOW));
+$section->addText("This one uses bgColor and is using hex value (0xfbbb10)", array("bgColor" => "fbbb10"));
+$section->addText("Compatible with font colors", array("color"=>"0000ff", "bgColor" => "fbbb10"));
 
 // Save file
 $name = basename(__FILE__, '.php');

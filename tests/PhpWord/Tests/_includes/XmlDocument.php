@@ -1,21 +1,50 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
+/**
+ * DOM wrapper class
+ */
 class XmlDocument
 {
-    /** @var string $path */
+    /**
+     * Path
+     *
+     * @var string $path
+     */
     private $path;
 
-    /** @var \DOMDocument $dom */
+    /**
+     * DOMDocument object
+     *
+     * @var \DOMDocument
+     */
     private $dom;
 
-    /** @var \DOMXpath $xpath */
+    /**
+     * DOMXpath object
+     *
+     * @var \DOMXpath
+     */
     private $xpath;
 
-    /** @var string $file */
+    /**
+     * File name
+     *
+     * @var string
+     */
     private $file;
 
     /**
+     * Create new instance
+     *
      * @param string $path
      */
     public function __construct($path)
@@ -24,6 +53,8 @@ class XmlDocument
     }
 
     /**
+     * Get DOM from file
+     *
      * @param string $file
      * @return \DOMDocument
      */
@@ -43,9 +74,11 @@ class XmlDocument
     }
 
     /**
-     * @param   string  $path
-     * @param   string  $file
-     * @return  \DOMNodeList
+     * Get node list
+     *
+     * @param string $path
+     * @param string $file
+     * @return \DOMNodeList
      */
     public function getNodeList($path, $file = 'word/document.xml')
     {
@@ -62,9 +95,11 @@ class XmlDocument
     }
 
     /**
-     * @param   string $path
-     * @param   string $file
-     * @return  \DOMElement
+     * Get element
+     *
+     * @param string $path
+     * @param string $file
+     * @return \DOMElement
      */
     public function getElement($path, $file = 'word/document.xml')
     {
@@ -74,6 +109,8 @@ class XmlDocument
     }
 
     /**
+     * Get file name
+     *
      * @return string
      */
     public function getFile()
@@ -82,6 +119,8 @@ class XmlDocument
     }
 
     /**
+     * Get path
+     *
      * @return string
      */
     public function getPath()
@@ -90,6 +129,8 @@ class XmlDocument
     }
 
     /**
+     * Get element attribute
+     *
      * @param   string  $path
      * @param   string  $attribute
      * @param   string  $file
@@ -101,6 +142,8 @@ class XmlDocument
     }
 
     /**
+     * Check if element exists
+     *
      * @param   string  $path
      * @param   string  $file
      * @return  string

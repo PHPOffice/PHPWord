@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Section\Image;
 /**
  * Test class for PhpOffice\PhpWord\Section\Image
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Image
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance
+     */
     public function testConstruct()
     {
         $src = __DIR__ . "/../_files/images/firefox.png";
@@ -31,6 +33,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
+    /**
+     * New instance with style
+     */
     public function testConstructWithStyle()
     {
         $src = __DIR__ . "/../_files/images/firefox.png";
@@ -44,7 +49,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__construct
+     * Valid image types
      */
     public function testValidImageTypes()
     {
@@ -57,8 +62,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Image not found
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
-     * @covers            ::__construct
      */
     public function testImageNotFound()
     {
@@ -66,14 +72,18 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Invalid image types
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\UnsupportedImageTypeException
-     * @covers            ::__construct
      */
     public function testInvalidImageTypes()
     {
         new Image(__DIR__ . "/../_files/images/alexz-johnson.pcx");
     }
 
+    /**
+     * Get style
+     */
     public function testStyle()
     {
         $oImage = new Image(
@@ -84,6 +94,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
+    /**
+     * Get relation Id
+     */
     public function testRelationID()
     {
         $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
@@ -92,12 +105,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getRelationId(), $iVal);
     }
 
+    /**
+     * Get is watermark
+     */
     public function testWatermark()
     {
         $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
         $oImage->setIsWatermark(true);
         $this->assertEquals($oImage->getIsWatermark(), true);
     }
+
+    /**
+     * Test PNG
+     */
     public function testPNG()
     {
         $src = __DIR__ . "/../_files/images/firefox.png";
@@ -112,6 +132,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getImageType(), 'image/png');
     }
 
+    /**
+     * Test GIF
+     */
     public function testGIF()
     {
         $src = __DIR__ . "/../_files/images/mario.gif";
@@ -126,6 +149,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getImageType(), 'image/gif');
     }
 
+    /**
+     * Test JPG
+     */
     public function testJPG()
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
@@ -140,6 +166,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getImageType(), 'image/jpeg');
     }
 
+    /**
+     * Test BMP
+     */
     public function testBMP()
     {
         $oImage = new Image(__DIR__ . "/../_files/images/duke_nukem.bmp");
@@ -149,5 +178,18 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getImageFunction(), null);
         $this->assertEquals($oImage->getImageExtension(), 'bmp');
         $this->assertEquals($oImage->getImageType(), 'image/bmp');
+    }
+
+    /**
+     * Test TIFF
+     */
+    public function testTIFF()
+    {
+        $oImage = new Image(__DIR__ . "/../_files/images/angela_merkel.tif");
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $oImage);
+        $this->assertEquals($oImage->getImageCreateFunction(), null);
+        $this->assertEquals($oImage->getImageFunction(), null);
+        $this->assertEquals($oImage->getImageType(), 'image/tiff');
     }
 }

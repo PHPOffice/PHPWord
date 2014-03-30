@@ -10,15 +10,18 @@
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\Text;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Test class for PhpOffice\PhpWord\Section\Text
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Text
  * @runTestsInSeparateProcesses
  */
 class TextTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance
+     */
     public function testConstruct()
     {
         $oText = new Text();
@@ -29,6 +32,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 
+    /**
+     * Get text
+     */
     public function testText()
     {
         $oText = new Text('text');
@@ -36,6 +42,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oText->getText(), 'text');
     }
 
+    /**
+     * Get font style
+     */
     public function testFont()
     {
         $oText = new Text('text', 'fontStyle');
@@ -45,6 +54,19 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oText->getFontStyle());
     }
 
+    /**
+     * Get font style as object
+     */
+    public function testFontObject()
+    {
+        $font = new Font();
+        $oText = new Text('text', $font);
+        $this->assertEquals($oText->getFontStyle(), $font);
+    }
+
+    /**
+     * Get paragraph style
+     */
     public function testParagraph()
     {
         $oText = new Text('text', 'fontStyle', 'paragraphStyle');

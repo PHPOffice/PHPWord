@@ -15,13 +15,12 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Header
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Header
  * @runTestsInSeparateProcesses
  */
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers  ::writeHeader
+     * Write header
      */
     public function testWriteHeader()
     {

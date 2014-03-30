@@ -35,18 +35,13 @@ class Content extends WriterPart
     /**
      * Write content file to XML format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param  PhpWord $phpWord
      * @return string XML Output
      */
     public function writeContent(PhpWord $phpWord = null)
     {
         // Create XML writer
-        $xmlWriter = null;
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
@@ -131,7 +126,7 @@ class Content extends WriterPart
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PhpOffice\PhpWord\Style\Font
+                // Font
                 if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
@@ -163,7 +158,7 @@ class Content extends WriterPart
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
                     || preg_match('#^P[0-9]+$#', $styleName) != 0
                 ) {
-                    // PhpOffice\PhpWord\Style\Font
+                    // Font
                     if ($style instanceof Font) {
                         $xmlWriter->startElement('style:style');
                         $xmlWriter->writeAttribute('style:name', $styleName);
@@ -249,11 +244,11 @@ class Content extends WriterPart
 
                 foreach ($_elements as $element) {
                     if ($element instanceof Text) {
-                        $this->_writeText($xmlWriter, $element);
+                        $this->writeText($xmlWriter, $element);
                     } elseif ($element instanceof TextRun) {
-                        $this->_writeTextRun($xmlWriter, $element);
+                        $this->writeTextRun($xmlWriter, $element);
                     } elseif ($element instanceof TextBreak) {
-                        $this->_writeTextBreak($xmlWriter);
+                        $this->writeTextBreak($xmlWriter);
                     } elseif ($element instanceof Link) {
                         $this->writeUnsupportedElement($xmlWriter, 'Link');
                     } elseif ($element instanceof Title) {
@@ -276,9 +271,9 @@ class Content extends WriterPart
                 }
 
                 if ($pSection == $countSections) {
-                    $this->_writeEndSection($xmlWriter, $section);
+                    $this->writeEndSection($xmlWriter, $section);
                 } else {
-                    $this->_writeSection($xmlWriter, $section);
+                    $this->writeSection($xmlWriter, $section);
                 }
             }
         }
@@ -293,11 +288,11 @@ class Content extends WriterPart
     /**
      * Write text
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Section\Text $text
+     * @param XMLWriter $xmlWriter
+     * @param Text $text
      * @param bool $withoutP
      */
-    protected function _writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
+    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
     {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
@@ -341,18 +336,18 @@ class Content extends WriterPart
     /**
      * Write TextRun section
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Section\TextRun $textrun
+     * @param XMLWriter $xmlWriter
+     * @param TextRun $textrun
      * @todo Enable all other section types
      */
-    protected function _writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
+    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
     {
         $elements = $textrun->getElements();
         $xmlWriter->startElement('text:p');
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
-                    $this->_writeText($xmlWriter, $element, true);
+                    $this->writeText($xmlWriter, $element, true);
                 }
             }
         }
@@ -362,9 +357,9 @@ class Content extends WriterPart
     /**
      * Write TextBreak
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
-    protected function _writeTextBreak(XMLWriter $xmlWriter = null)
+    protected function writeTextBreak(XMLWriter $xmlWriter = null)
     {
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
@@ -375,20 +370,20 @@ class Content extends WriterPart
     /**
      * Write end section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
-    private function _writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
+    private function writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }
 
     /**
      * Write section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
-    private function _writeSection(XMLWriter $xmlWriter = null, Section $section = null)
+    private function writeSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }
     // @codeCoverageIgnoreEnd
@@ -396,7 +391,7 @@ class Content extends WriterPart
     /**
      * Write unsupported element
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      * @param string $element
      */
     private function writeUnsupportedElement($xmlWriter, $element)

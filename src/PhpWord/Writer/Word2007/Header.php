@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\Section\Table;
 use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
+use PhpOffice\PhpWord\Section\Header as HeaderElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -25,16 +26,12 @@ class Header extends Base
     /**
      * Write word/headerx.xml
      *
-     * @param PhpOffice\PhpWord\Section\Header $header
+     * @param HeaderElement $header
      */
-    public function writeHeader(\PhpOffice\PhpWord\Section\Header $header)
+    public function writeHeader(HeaderElement $header)
     {
         // Create XML writer
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -55,21 +52,21 @@ class Header extends Base
 
         foreach ($_elements as $element) {
             if ($element instanceof Text) {
-                $this->_writeText($xmlWriter, $element);
+                $this->writeText($xmlWriter, $element);
             } elseif ($element instanceof TextRun) {
-                $this->_writeTextRun($xmlWriter, $element);
+                $this->writeTextRun($xmlWriter, $element);
             } elseif ($element instanceof TextBreak) {
-                $this->_writeTextBreak($xmlWriter, $element);
+                $this->writeTextBreak($xmlWriter, $element);
             } elseif ($element instanceof Table) {
-                $this->_writeTable($xmlWriter, $element);
+                $this->writeTable($xmlWriter, $element);
             } elseif ($element instanceof Image) {
                 if (!$element->getIsWatermark()) {
-                    $this->_writeImage($xmlWriter, $element);
+                    $this->writeImage($xmlWriter, $element);
                 } else {
-                    $this->_writeWatermark($xmlWriter, $element);
+                    $this->writeWatermark($xmlWriter, $element);
                 }
             } elseif ($element instanceof PreserveText) {
-                $this->_writePreserveText($xmlWriter, $element);
+                $this->writePreserveText($xmlWriter, $element);
             }
         }
 

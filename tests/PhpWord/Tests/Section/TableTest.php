@@ -19,6 +19,9 @@ use PhpOffice\PhpWord\Section\Table;
  */
 class TableTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance
+     */
     public function testConstruct()
     {
         $oTable = new Table('section', 1);
@@ -30,6 +33,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $oTable->getRows());
     }
 
+    /**
+     * Get style name
+     */
     public function testStyleText()
     {
         $oTable = new Table('section', 1, 'tableStyle');
@@ -37,6 +43,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTable->getStyle(), 'tableStyle');
     }
 
+    /**
+     * Get style array
+     */
     public function testStyleArray()
     {
         $oTable = new Table(
@@ -48,6 +57,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
     }
 
+    /**
+     * Set/get width
+     */
     public function testWidth()
     {
         $oTable = new Table('section', 1);
@@ -56,6 +68,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTable->getWidth(), $iVal);
     }
 
+    /**
+     * Add/get row
+     */
     public function testRow()
     {
         $oTable = new Table('section', 1);
@@ -64,6 +79,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oTable->getRows());
     }
 
+    /**
+     * Add cell
+     */
     public function testCell()
     {
         $oTable = new Table('section', 1);

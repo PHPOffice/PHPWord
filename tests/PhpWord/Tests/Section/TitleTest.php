@@ -19,6 +19,9 @@ use PhpOffice\PhpWord\Section\Title;
  */
 class TitleTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance
+     */
     public function testConstruct()
     {
         $oTitle = new Title('text');
@@ -27,6 +30,9 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTitle->getText(), 'text');
     }
 
+    /**
+     * Get style null
+     */
     public function testStyleNull()
     {
         $oTitle = new Title('text');
@@ -34,6 +40,9 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTitle->getStyle(), null);
     }
 
+    /**
+     * Get style not null
+     */
     public function testStyleNotNull()
     {
         $oTitle = new Title('text', 1, 'style');
@@ -41,6 +50,9 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTitle->getStyle(), 'style');
     }
 
+    /**
+     * Get anchor
+     */
     public function testAnchor()
     {
         $oTitle = new Title('text');
@@ -50,6 +62,9 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTitle->getAnchor(), $iVal);
     }
 
+    /**
+     * Get bookmark Id
+     */
     public function testBookmarkID()
     {
         $oTitle = new Title('text');

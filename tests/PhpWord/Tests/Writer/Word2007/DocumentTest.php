@@ -9,12 +9,12 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Document
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Document
  * @runTestsInSeparateProcesses
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
@@ -27,11 +27,18 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         TestHelperDOCX::clear();
     }
 
+    /**
+     * Write end section page numbering
+     */
     public function testWriteEndSectionPageNumbering()
     {
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
-        $section->getSettings()->setPageNumberingStart(2);
+        $settings = $section->getSettings();
+        $settings->setLandscape();
+        $settings->setPageNumberingStart(2);
+        $settings->setBorderSize(240);
+        $settings->setBreakType('nextPage');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
@@ -40,11 +47,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeTOC
-     * covers ::_writePageBreak
-     * covers ::_writeListItem
-     * covers ::_writeTitle
-     * covers ::_writeObject
+     * Write elements
      */
     public function testElements()
     {
@@ -86,5 +89,40 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // Object
         $element = $doc->getElement('/w:document/w:body/w:p[11]/w:r/w:object/o:OLEObject');
         $this->assertEquals('Embed', $element->getAttribute('Type'));
+    }
+
+    /**
+     * Write element with some styles
+     */
+    public function testElementStyles()
+    {
+        $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
+
+        $phpWord = new PhpWord();
+        $phpWord->addParagraphStyle('pStyle', array('align' => 'center'));
+        $phpWord->addFontStyle('fStyle', array('size' => '20'));
+        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
+        $fontStyle = new Font('text', array('align' => 'center'));
+        $section = $phpWord->createSection();
+        $section->addListItem('List Item', 0, null, null, 'pStyle');
+        $section->addObject($objectSrc, array('align' => 'center'));
+        $section->addTOC($fontStyle);
+        $section->addTitle('Title 1', 1);
+        $section->addTOC('fStyle');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        // List item
+        $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId');
+        $this->assertEquals(3, $element->getAttribute('w:val'));
+
+        // Object
+        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:object/o:OLEObject');
+        $this->assertEquals('Embed', $element->getAttribute('Type'));
+
+        // TOC
+        $element = $doc->getElement('/w:document/w:body/w:p[3]/w:pPr/w:tabs/w:tab');
+        $this->assertEquals('right', $element->getAttribute('w:val'));
+        $this->assertEquals('dot', $element->getAttribute('w:leader'));
+        $this->assertEquals(9062, $element->getAttribute('w:pos'));
     }
 }

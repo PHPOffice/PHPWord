@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Section\Header;
 /**
  * Test class for PhpOffice\PhpWord\Section\Header
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Header
  * @runTestsInSeparateProcesses
  */
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance
+     */
     public function testConstructDefault()
     {
         $iVal = rand(1, 1000);
@@ -29,6 +31,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oHeader->getType(), Header::AUTO);
     }
 
+    /**
+     * Add text
+     */
     public function testAddText()
     {
         $oHeader = new Header(1);
@@ -39,6 +44,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), 'text');
     }
 
+    /**
+     * Add text non-UTF8
+     */
     public function testAddTextNotUTF8()
     {
         $oHeader = new Header(1);
@@ -49,6 +57,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), 'ééé');
     }
 
+    /**
+     * Add text break
+     */
     public function testAddTextBreak()
     {
         $oHeader = new Header(1);
@@ -56,6 +67,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oHeader->getElements());
     }
 
+    /**
+     * Add text break with params
+     */
     public function testAddTextBreakWithParams()
     {
         $oHeader = new Header(1);
@@ -64,6 +78,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount($iVal, $oHeader->getElements());
     }
 
+    /**
+     * Add text run
+     */
     public function testCreateTextRun()
     {
         $oHeader = new Header(1);
@@ -72,6 +89,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oHeader->getElements());
     }
 
+    /**
+     * Add table
+     */
     public function testAddTable()
     {
         $oHeader = new Header(1);
@@ -80,16 +100,23 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oHeader->getElements());
     }
 
+    /**
+     * Add image
+     */
     public function testAddImage()
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
         $oHeader = new Header(1);
-        $element = $oHeader->addImage($src);
+        $element1 = $oHeader->addImage($src);
+        $element2 = $oHeader->addMemoryImage($src); // @deprecated
 
-        $this->assertCount(1, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
+        $this->assertCount(2, $oHeader->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element1);
     }
 
+    /**
+     * Add image by URL
+     */
     public function testAddImageByUrl()
     {
         $oHeader = new Header(1);
@@ -101,6 +128,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
+    /**
+     * Add preserve text
+     */
     public function testAddPreserveText()
     {
         $oHeader = new Header(1);
@@ -110,6 +140,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Footer\\PreserveText', $element);
     }
 
+    /**
+     * Add preserve text non-UTF8
+     */
     public function testAddPreserveTextNotUTF8()
     {
         $oHeader = new Header(1);
@@ -120,6 +153,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), array('ééé'));
     }
 
+    /**
+     * Add watermark
+     */
     public function testAddWatermark()
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
@@ -130,6 +166,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
+    /**
+     * Get elements
+     */
     public function testGetElements()
     {
         $oHeader = new Header(1);
@@ -137,6 +176,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $oHeader->getElements());
     }
 
+    /**
+     * Set/get relation Id
+     */
     public function testRelationId()
     {
         $oHeader = new Header(1);
@@ -146,6 +188,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oHeader->getRelationId(), $iVal);
     }
 
+    /**
+     * Reset type
+     */
     public function testResetType()
     {
         $oHeader = new Header(1);
@@ -155,6 +200,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oHeader->getType(), Header::AUTO);
     }
 
+    /**
+     * First page
+     */
     public function testFirstPage()
     {
         $oHeader = new Header(1);
@@ -163,6 +211,9 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oHeader->getType(), Header::FIRST);
     }
 
+    /**
+     * Even page
+     */
     public function testEvenPage()
     {
         $oHeader = new Header(1);

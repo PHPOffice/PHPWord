@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Section\Text;
 use PhpOffice\PhpWord\Section\TextBreak;
 use PhpOffice\PhpWord\Section\TextRun;
 use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Section\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -35,16 +36,12 @@ class Document extends Base
     /**
      * Write word/document.xml
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeDocument(PhpWord $phpWord = null)
     {
         // Create XML writer
-        if ($this->getParentWriter()->getUseDiskCaching()) {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_DISK, $this->getParentWriter()->getDiskCachingDirectory());
-        } else {
-            $xmlWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -73,39 +70,40 @@ class Document extends Base
                 $pSection++;
 
                 $_elements = $section->getElements();
-
                 foreach ($_elements as $element) {
                     if ($element instanceof Text) {
-                        $this->_writeText($xmlWriter, $element);
+                        $this->writeText($xmlWriter, $element);
                     } elseif ($element instanceof TextRun) {
-                        $this->_writeTextRun($xmlWriter, $element);
+                        $this->writeTextRun($xmlWriter, $element);
                     } elseif ($element instanceof Link) {
-                        $this->_writeLink($xmlWriter, $element);
+                        $this->writeLink($xmlWriter, $element);
                     } elseif ($element instanceof Title) {
-                        $this->_writeTitle($xmlWriter, $element);
+                        $this->writeTitle($xmlWriter, $element);
                     } elseif ($element instanceof TextBreak) {
-                        $this->_writeTextBreak($xmlWriter, $element);
+                        $this->writeTextBreak($xmlWriter, $element);
                     } elseif ($element instanceof PageBreak) {
-                        $this->_writePageBreak($xmlWriter);
+                        $this->writePageBreak($xmlWriter);
                     } elseif ($element instanceof Table) {
-                        $this->_writeTable($xmlWriter, $element);
+                        $this->writeTable($xmlWriter, $element);
                     } elseif ($element instanceof ListItem) {
-                        $this->_writeListItem($xmlWriter, $element);
+                        $this->writeListItem($xmlWriter, $element);
                     } elseif ($element instanceof Image) {
-                        $this->_writeImage($xmlWriter, $element);
+                        $this->writeImage($xmlWriter, $element);
                     } elseif ($element instanceof Object) {
-                        $this->_writeObject($xmlWriter, $element);
+                        $this->writeObject($xmlWriter, $element);
                     } elseif ($element instanceof TOC) {
-                        $this->_writeTOC($xmlWriter);
+                        $this->writeTOC($xmlWriter);
                     } elseif ($element instanceof Footnote) {
-                        $this->_writeFootnoteReference($xmlWriter, $element);
+                        $this->writeFootnote($xmlWriter, $element);
+                    } elseif ($element instanceof CheckBox) {
+                        $this->writeCheckBox($xmlWriter, $element);
                     }
                 }
 
                 if ($pSection == $countSections) {
-                    $this->_writeEndSection($xmlWriter, $section);
+                    $this->writeEndSection($xmlWriter, $section);
                 } else {
-                    $this->_writeSection($xmlWriter, $section);
+                    $this->writeSection($xmlWriter, $section);
                 }
             }
         }
@@ -120,14 +118,14 @@ class Document extends Base
     /**
      * Write begin section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
-    private function _writeSection(XMLWriter $xmlWriter, Section $section)
+    private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:pPr');
-        $this->_writeEndSection($xmlWriter, $section, 3);
+        $this->writeEndSection($xmlWriter, $section, 3);
         $xmlWriter->endElement();
         $xmlWriter->endElement();
     }
@@ -135,10 +133,10 @@ class Document extends Base
     /**
      * Write end section
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section $section
+     * @param XMLWriter $xmlWriter
+     * @param Section $section
      */
-    private function _writeEndSection(XMLWriter $xmlWriter, Section $section)
+    private function writeEndSection(XMLWriter $xmlWriter, Section $section)
     {
         $settings = $section->getSettings();
         $_headers = $section->getHeaders();
@@ -274,9 +272,9 @@ class Document extends Base
     /**
      * Write page break element
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
-    private function _writePageBreak(XMLWriter $xmlWriter)
+    private function writePageBreak(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:r');
@@ -288,121 +286,11 @@ class Document extends Base
     }
 
     /**
-     * Write list item element
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\ListItem $listItem
-     */
-    public function _writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
-    {
-        $textObject = $listItem->getTextObject();
-        $text = $textObject->getText();
-        $styleParagraph = $textObject->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
-
-        $depth = $listItem->getDepth();
-        $listType = $listItem->getStyle()->getListType();
-
-        $xmlWriter->startElement('w:p');
-        $xmlWriter->startElement('w:pPr');
-
-        if ($SpIsObject) {
-            $this->_writeParagraphStyle($xmlWriter, $styleParagraph, true);
-        } elseif (!$SpIsObject && !is_null($styleParagraph)) {
-            $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $styleParagraph);
-            $xmlWriter->endElement();
-        }
-
-        $xmlWriter->startElement('w:numPr');
-
-        $xmlWriter->startElement('w:ilvl');
-        $xmlWriter->writeAttribute('w:val', $depth);
-        $xmlWriter->endElement();
-
-        $xmlWriter->startElement('w:numId');
-        $xmlWriter->writeAttribute('w:val', $listType);
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-
-        $this->_writeText($xmlWriter, $textObject, true);
-
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write object element
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\Object $object
-     */
-    protected function _writeObject(XMLWriter $xmlWriter, Object $object)
-    {
-        $rIdObject = $object->getRelationId();
-        $rIdImage = $object->getImageRelationId();
-        $shapeId = md5($rIdObject . '_' . $rIdImage);
-
-        $objectId = $object->getObjectId();
-
-        $style = $object->getStyle();
-        $width = $style->getWidth();
-        $height = $style->getHeight();
-        $align = $style->getAlign();
-
-
-        $xmlWriter->startElement('w:p');
-
-        if (!is_null($align)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:jc');
-            $xmlWriter->writeAttribute('w:val', $align);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
-
-        $xmlWriter->startElement('w:r');
-
-        $xmlWriter->startElement('w:object');
-        $xmlWriter->writeAttribute('w:dxaOrig', '249');
-        $xmlWriter->writeAttribute('w:dyaOrig', '160');
-
-        $xmlWriter->startElement('v:shape');
-        $xmlWriter->writeAttribute('id', $shapeId);
-        $xmlWriter->writeAttribute('type', '#_x0000_t75');
-        $xmlWriter->writeAttribute('style', 'width:104px;height:67px');
-        $xmlWriter->writeAttribute('o:ole', '');
-
-        $xmlWriter->startElement('v:imagedata');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdImage);
-        $xmlWriter->writeAttribute('o:title', '');
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->startElement('o:OLEObject');
-        $xmlWriter->writeAttribute('Type', 'Embed');
-        $xmlWriter->writeAttribute('ProgID', 'Package');
-        $xmlWriter->writeAttribute('ShapeID', $shapeId);
-        $xmlWriter->writeAttribute('DrawAspect', 'Icon');
-        $xmlWriter->writeAttribute('ObjectID', '_' . $objectId);
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdObject);
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement(); // w:r
-
-        $xmlWriter->endElement(); // w:p
-    }
-
-    /**
      * Write TOC element
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      */
-    private function _writeTOC(XMLWriter $xmlWriter)
+    private function writeTOC(XMLWriter $xmlWriter)
     {
         $titles = TOC::getTitles();
         $styleFont = TOC::getStyleFont();
@@ -423,7 +311,7 @@ class Document extends Base
             $xmlWriter->startElement('w:pPr');
 
             if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $this->_writeParagraphStyle($xmlWriter, $styleFont->getParagraphStyle());
+                $this->writeParagraphStyle($xmlWriter, $styleFont->getParagraphStyle());
             }
 
             if ($indent > 0) {
@@ -481,7 +369,7 @@ class Document extends Base
             $xmlWriter->startElement('w:r');
 
             if ($isObject) {
-                $this->_writeTextStyle($xmlWriter, $styleFont);
+                $this->writeFontStyle($xmlWriter, $styleFont);
             }
 
             $xmlWriter->startElement('w:t');

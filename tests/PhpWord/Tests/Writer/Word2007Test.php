@@ -15,18 +15,20 @@ use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Tear down after each test
+     */
     public function tearDown()
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * covers ::__construct
+     * Construct
      */
     public function testConstruct()
     {
@@ -57,10 +59,12 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::save
+     * Save
      */
     public function testSave()
     {
+        $localImage = __DIR__ . '/../_files/images/earth.jpg';
+        $remoteImage = 'http://php.net//images/logos/php-med-trans-light.gif';
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
@@ -71,16 +75,57 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $section = $phpWord->createSection();
         $textrun = $section->createTextRun();
         $textrun->addText('Test 3');
+        $footnote = $textrun->createFootnote();
+        $footnote->addLink('http://test.com');
+        $header = $section->createHeader();
+        $header->addImage($localImage);
+        $footer = $section->createFooter();
+        $footer->addImage($remoteImage);
 
         $writer = new Word2007($phpWord);
         $file = __DIR__ . "/../_files/temp.docx";
         $writer->save($file);
-        $this->assertTrue(\file_exists($file));
+
+        $this->assertTrue(file_exists($file));
+
         unlink($file);
     }
 
     /**
-     * @covers ::checkContentTypes
+     * Save using disk caching
+     */
+    public function testSaveUseDiskCaching()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
+        $section->addText('Test');
+        $footnote = $section->createFootnote();
+        $footnote->addText('Test');
+
+        $writer = new Word2007($phpWord);
+        $writer->setUseDiskCaching(true);
+        $file = __DIR__ . "/../_files/temp.docx";
+        $writer->save($file);
+
+        $this->assertTrue(file_exists($file));
+
+        unlink($file);
+    }
+
+    /**
+     * Save with no PhpWord object assigned
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedExceptionMessage PhpWord object unassigned.
+     */
+    public function testSaveException()
+    {
+        $writer = new Word2007();
+        $writer->save();
+    }
+
+    /**
+     * Check content types
      */
     public function testCheckContentTypes()
     {
@@ -110,20 +155,33 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setUseDiskCaching
-     * @covers ::getUseDiskCaching
+     * Get writer part return null value
+     */
+    public function testGetWriterPartNull()
+    {
+        $object = new Word2007();
+        $this->assertNull($object->getWriterPart());
+    }
+
+    /**
+     * Set/get use disk caching
      */
     public function testSetGetUseDiskCaching()
     {
-        $object = new Word2007();
+        $phpWord = new PhpWord();
+        $section = $phpWord->createSection();
+        $object = new Word2007($phpWord);
         $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
+        $writer = new Word2007($phpWord);
+        $writer->save('php://output');
 
         $this->assertTrue($object->getUseDiskCaching());
     }
 
     /**
-     * @covers             ::setUseDiskCaching
-     * @expectedException  \PhpOffice\PhpWord\Exceptions\Exception
+     * Use disk caching exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testSetUseDiskCachingException()
     {

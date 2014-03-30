@@ -11,6 +11,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\Writer\IWriter;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 writer part abstract class
@@ -22,7 +23,7 @@ abstract class WriterPart
      *
      * @var IWriter
      */
-    private $_parentWriter;
+    protected $parentWriter;
 
     /**
      * Set parent writer
@@ -31,20 +32,41 @@ abstract class WriterPart
      */
     public function setParentWriter(IWriter $pWriter = null)
     {
-        $this->_parentWriter = $pWriter;
+        $this->parentWriter = $pWriter;
     }
 
     /**
      * Get parent writer
      *
      * @return IWriter
+     * @throws Exception
      */
     public function getParentWriter()
     {
-        if (!is_null($this->_parentWriter)) {
-            return $this->_parentWriter;
+        if (!is_null($this->parentWriter)) {
+            return $this->parentWriter;
         } else {
             throw new Exception("No parent IWriter assigned.");
+        }
+    }
+
+    /**
+     * Get XML Writer
+     *
+     * @return XMLWriter
+     */
+    protected function getXmlWriter()
+    {
+        $useDiskCaching = false;
+        if (!is_null($this->parentWriter)) {
+            if ($this->parentWriter->getUseDiskCaching()) {
+                $useDiskCaching = true;
+            }
+        }
+        if ($useDiskCaching) {
+            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory());
+        } else {
+            return new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
     }
 }

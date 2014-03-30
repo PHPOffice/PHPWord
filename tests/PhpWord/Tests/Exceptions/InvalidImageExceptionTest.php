@@ -20,6 +20,8 @@ use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 class InvalidImageExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Throw new exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidImageException
      * @covers            \PhpOffice\PhpWord\Exceptions\InvalidImageException
      */

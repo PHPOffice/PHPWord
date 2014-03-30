@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Section\Footer\PreserveText;
 /**
  * Test class for PhpOffice\PhpWord\Section\Footer\PreserveText
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Footer\PreserveText
  * @runTestsInSeparateProcesses
  */
 class PreserveTextTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance
+     */
     public function testConstruct()
     {
         $oPreserveText = new PreserveText();
@@ -29,6 +31,9 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oPreserveText->getParagraphStyle(), null);
     }
 
+    /**
+     * Create new instance with style name
+     */
     public function testConstructWithString()
     {
         $oPreserveText = new PreserveText('text', 'styleFont', 'styleParagraph');
@@ -37,6 +42,9 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oPreserveText->getParagraphStyle(), 'styleParagraph');
     }
 
+    /**
+     * Create new instance with array
+     */
     public function testConstructWithArray()
     {
         $oPreserveText = new PreserveText(

@@ -7,15 +7,22 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 ### Features
 
 - Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
-- Table: Add tblGrid element for Libre/Open Office table sizing - @gianis6 GH-183
+- Table: Add `tblGrid` element for Libre/Open Office table sizing - @gianis6 GH-183
+- Footnote: Ability to insert textbreak in footnote `$footnote->addTextBreak()` - @ivanlanin
+- Footnote: Ability to style footnote reference mark by using `FootnoteReference` style - @ivanlanin
+- Font: Add `bgColor` to font style to define background using HEX color - @jcarignan GH-168
+- Table: Add `exactHeight` to row style to define whether row height should be exact or atLeast - @jcarignan GH-168
+- Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
 
 ### Bugfixes
 
--
+- Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
 
 ### Miscellaneous
 
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
+- Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
+- Reader: Rename AbstractReader > Reader - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

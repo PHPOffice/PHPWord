@@ -5,6 +5,8 @@
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
+define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
+define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 require_once '../src/PhpWord/Autoloader.php';
 PhpOffice\PhpWord\Autoloader::register();
@@ -15,12 +17,10 @@ if (CLI) {
 }
 
 // Set titles and names
-$sampleFile = basename($_SERVER['SCRIPT_FILENAME'], '.php');
-$isIndexFile = ($sampleFile == 'index');
-$pageHeading = str_replace('_', ' ', $sampleFile);
-$pageTitle = $isIndexFile ? 'Welcome to ' : "{$pageHeading} - ";
+$pageHeading = str_replace('_', ' ', SCRIPT_FILENAME);
+$pageTitle = IS_INDEX ? 'Welcome to ' : "{$pageHeading} - ";
 $pageTitle .= 'PHPWord';
-$pageHeading = $isIndexFile ? '' : "<h1>{$pageHeading}</h1>";
+$pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
 // Populate samples
 $files = '';
 if ($handle = opendir('.')) {

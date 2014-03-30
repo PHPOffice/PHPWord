@@ -20,6 +20,9 @@ use PhpOffice\PhpWord\Style\Font;
  */
 class LinkTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Create new instance
+     */
     public function testConstructDefault()
     {
         $oLink = new Link('http://www.google.com');
@@ -31,6 +34,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oLink->getParagraphStyle(), null);
     }
 
+    /**
+     * Create new instance with array
+     */
     public function testConstructWithParamsArray()
     {
         $oLink = new Link(
@@ -47,6 +53,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());
     }
 
+    /**
+     * Create new instance with style name string
+     */
     public function testConstructWithParamsString()
     {
         $oLink = new Link('http://www.google.com', null, 'fontStyle', 'paragraphStyle');
@@ -55,6 +64,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oLink->getParagraphStyle(), 'paragraphStyle');
     }
 
+    /**
+     * Set/get relation Id
+     */
     public function testRelationId()
     {
         $oLink = new Link('http://www.google.com');

@@ -24,7 +24,8 @@ $footnote->addText(' No break is placed after adding an element.', 'BoldText');
 $footnote->addText(' All elements are placed inside a paragraph.', 'ColoredText');
 $footnote->addText(' The best search engine: ');
 $footnote->addLink('http://www.google.com', null, 'NLink');
-$footnote->addText('. Also not bad: ');
+$footnote->addText('. Also not bad:');
+$footnote->addTextBreak();
 $footnote->addLink('http://www.bing.com', null, 'NLink');
 
 $textrun->addText('The trailing text in the paragraph.');

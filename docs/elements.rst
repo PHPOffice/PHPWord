@@ -67,6 +67,7 @@ Available font styles:
 -  ``strikethrough`` Strikethrough, *true* or *false*
 -  ``color`` Font color, e.g. *FF0000*
 -  ``fgColor`` Font highlight color, e.g. *yellow*, *green*, *blue*
+-  ``bgColor`` Font background color, e.g. *FF0000*
 
 Paragraph style
 ^^^^^^^^^^^^^^^
@@ -201,27 +202,28 @@ Table, row, and cell styles
 
 Table styles:
 
--  ``$width`` Table width in percent
--  ``$bgColor`` Background color, e.g. '9966CC'
--  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``$cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
+-  ``width`` Table width in percent
+-  ``bgColor`` Background color, e.g. '9966CC'
+-  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
+-  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
+-  ``cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
 
 Row styles:
 
 -  ``tblHeader`` Repeat table row on every new page, *true* or *false*
 -  ``cantSplit`` Table row cannot break across pages, *true* or *false*
+-  ``exactHeight`` Row height is exact or at least
 
 Cell styles:
 
--  ``$width`` Cell width in twips
--  ``$valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
--  ``$textDirection`` Direction of text
--  ``$bgColor`` Background color, e.g. '9966CC'
--  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``$gridSpan`` Number of columns spanned
--  ``$vMerge`` *restart* or *continue*
+-  ``width`` Cell width in twips
+-  ``valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
+-  ``textDirection`` Direction of text
+-  ``bgColor`` Background color, e.g. '9966CC'
+-  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
+-  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
+-  ``gridSpan`` Number of columns spanned
+-  ``vMerge`` *restart* or *continue*
 
 Cell span
 ~~~~~~~~~
@@ -326,7 +328,8 @@ Footnotes
 ---------
 
 You can create footnotes in texts or textruns, but it's recommended to
-use textrun to have better layout.
+use textrun to have better layout. You can use ``addText``, ``addLink``,
+and ``addTextBreak`` on a footnote.
 
 On textrun:
 
@@ -335,7 +338,11 @@ On textrun:
     $textrun = $section->createTextRun();
     $textrun->addText('Lead text.');
     $footnote = $textrun->createFootnote();
-    $footnote->addText('Footnote text.');
+    $footnote->addText('Footnote text can have ');
+    $footnote->addLink('http://test.com', 'links');
+    $footnote->addText('.');
+    $footnote->addTextBreak();
+    $footnote->addText('And text break.');
     $textrun->addText('Trailing text.');
 
 On text:
@@ -345,3 +352,23 @@ On text:
     $section->addText('Lead text.');
     $footnote = $section->createFootnote();
     $footnote->addText('Footnote text.');
+
+The footnote reference number will be displayed with decimal number starting
+from 1. This number use ``FooterReference`` style which you can redefine by
+``addFontStyle`` method. Default value for this style is
+``array('superScript' => true)``;
+
+Checkboxes
+----------
+
+Checkbox elements can be added to sections or table cells by using
+``addCheckBox``.
+
+.. code-block:: php
+
+    $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
+
+-  ``$name`` Name of the check box.
+-  ``$text`` Text following the check box
+-  ``$fontStyle`` See "Font style" section.
+-  ``$paragraphStyle`` See "Paragraph style" section.

@@ -14,13 +14,12 @@ use PhpOffice\PhpWord\Writer\ODText;
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText
  * @runTestsInSeparateProcesses
  */
 class ODTextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test construct
+     * Construct
      */
     public function testConstruct()
     {
@@ -43,9 +42,10 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                    ::getPhpWord
-     * @expectedException         \PhpOffice\PhpWord\Exceptions\Exception
-     * @expectedExceptionMessage  No PhpWord assigned.
+     * Construct with null
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
     {
@@ -54,7 +54,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::save
+     * Save
      */
     public function testSave()
     {
@@ -89,7 +89,8 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::save
+     * Save php output
+     *
      * @todo   Haven't got any method to test this
      */
     public function testSavePhpOutput()
@@ -102,8 +103,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   ::save
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * Save with no PhpWord object assigned
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
@@ -113,7 +115,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getWriterPart
+     * Get writer part return null value
      */
     public function testGetWriterPartNull()
     {
@@ -122,8 +124,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setUseDiskCaching
-     * @covers ::getUseDiskCaching
+     * Set/get use disk caching
      */
     public function testSetGetUseDiskCaching()
     {
@@ -134,7 +135,8 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            ::setUseDiskCaching
+     * Use disk caching exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testSetUseDiskCachingException()

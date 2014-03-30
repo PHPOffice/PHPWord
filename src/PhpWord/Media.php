@@ -242,6 +242,7 @@ class Media
             $cImg = self::countFooterMediaElements($key);
             $rID = $cImg + 1;
             $cImg++;
+            $media = array();
             $isMemImage = false;
             if (!is_null($image)) {
                 $isMemImage = $image->getIsMemImage();

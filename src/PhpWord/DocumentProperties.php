@@ -39,14 +39,14 @@ class DocumentProperties
     /**
      * Created
      *
-     * @var datetime
+     * @var datetime|int
      */
     private $_created;
 
     /**
      * Modified
      *
-     * @var datetime
+     * @var datetime|int
      */
     private $_modified;
 
@@ -102,7 +102,7 @@ class DocumentProperties
     /**
      * Custom Properties
      *
-     * @var string
+     * @var array
      */
     private $_customProperties = array();
 
@@ -476,41 +476,33 @@ class DocumentProperties
         switch ($propertyType) {
             case 'empty': //    Empty
                 return '';
-                break;
             case 'null': //    Null
                 return null;
-                break;
             case 'i1': //    1-Byte Signed Integer
             case 'i2': //    2-Byte Signed Integer
             case 'i4': //    4-Byte Signed Integer
             case 'i8': //    8-Byte Signed Integer
             case 'int': //    Integer
                 return (int) $propertyValue;
-                break;
             case 'ui1': //    1-Byte Unsigned Integer
             case 'ui2': //    2-Byte Unsigned Integer
             case 'ui4': //    4-Byte Unsigned Integer
             case 'ui8': //    8-Byte Unsigned Integer
             case 'uint': //    Unsigned Integer
                 return abs((int) $propertyValue);
-                break;
             case 'r4': //    4-Byte Real Number
             case 'r8': //    8-Byte Real Number
             case 'decimal': //    Decimal
                 return (float) $propertyValue;
-                break;
             case 'lpstr': //    LPSTR
             case 'lpwstr': //    LPWSTR
             case 'bstr': //    Basic String
                 return $propertyValue;
-                break;
             case 'date': //    Date and Time
             case 'filetime': //    File Time
                 return strtotime($propertyValue);
-                break;
             case 'bool': //    Boolean
                 return ($propertyValue == 'true') ? true : false;
-                break;
             case 'cy': //    Currency
             case 'error': //    Error Status Code
             case 'vector': //    Vector
@@ -525,7 +517,6 @@ class DocumentProperties
             case 'clsid': //    Class ID
             case 'cf': //    Clipboard Data
                 return $propertyValue;
-                break;
         }
 
         return $propertyValue;
@@ -551,26 +542,21 @@ class DocumentProperties
             case 'ui8': //    8-Byte Unsigned Integer
             case 'uint': //    Unsigned Integer
                 return self::PROPERTY_TYPE_INTEGER;
-                break;
             case 'r4': //    4-Byte Real Number
             case 'r8': //    8-Byte Real Number
             case 'decimal': //    Decimal
                 return self::PROPERTY_TYPE_FLOAT;
-                break;
             case 'empty': //    Empty
             case 'null': //    Null
             case 'lpstr': //    LPSTR
             case 'lpwstr': //    LPWSTR
             case 'bstr': //    Basic String
                 return self::PROPERTY_TYPE_STRING;
-                break;
             case 'date': //    Date and Time
             case 'filetime': //    File Time
                 return self::PROPERTY_TYPE_DATE;
-                break;
             case 'bool': //    Boolean
                 return self::PROPERTY_TYPE_BOOLEAN;
-                break;
             case 'cy': //    Currency
             case 'error': //    Error Status Code
             case 'vector': //    Vector
@@ -585,7 +571,6 @@ class DocumentProperties
             case 'clsid': //    Class ID
             case 'cf': //    Clipboard Data
                 return self::PROPERTY_TYPE_UNKNOWN;
-                break;
         }
         return self::PROPERTY_TYPE_UNKNOWN;
     }

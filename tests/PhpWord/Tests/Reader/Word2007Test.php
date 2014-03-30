@@ -41,6 +41,8 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Can read exception
+     *
      * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
      */
     public function testCanReadFailed()
@@ -54,6 +56,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $object = IOFactory::load($fqFilename);
     }
 
+    /**
+     * Load
+     */
     public function testLoad()
     {
         $fqFilename = join(
