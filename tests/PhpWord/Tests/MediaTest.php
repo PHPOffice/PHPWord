@@ -10,8 +10,8 @@
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Section;
-use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Image;
 
 /**
  * Test class for PhpOffice\PhpWord\Media

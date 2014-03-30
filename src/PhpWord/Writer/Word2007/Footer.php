@@ -9,13 +9,13 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Section\Footer\PreserveText;
-use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\Table;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\TextBreak;
-use PhpOffice\PhpWord\Section\TextRun;
-use PhpOffice\PhpWord\Section\Footer as FooterElement;
+use PhpOffice\PhpWord\Element\PreserveText;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Container\Footer as FooterElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**

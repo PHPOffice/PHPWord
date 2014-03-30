@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 // @codeCoverageIgnoreStart
 if (!defined('PCLZIP_TEMPORARY_DIR')) {

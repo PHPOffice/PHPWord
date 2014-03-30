@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
 
 /**

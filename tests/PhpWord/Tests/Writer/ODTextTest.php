@@ -44,7 +44,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Construct with null
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -105,7 +105,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Save with no PhpWord object assigned
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
@@ -137,7 +137,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Use disk caching exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {

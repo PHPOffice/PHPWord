@@ -10,7 +10,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
+use PhpOffice\PhpWord\Exception\InvalidStyleException;
 
 /**
  * Font style
@@ -513,7 +513,7 @@ class Font
      *
      * @param  int|float|string $lineHeight
      * @return $this
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {

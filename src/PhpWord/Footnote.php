@@ -33,7 +33,7 @@ class Footnote
      *
      * @return int Reference ID
      */
-    public static function addFootnoteElement(\PhpOffice\PhpWord\Section\Footnote $footnote)
+    public static function addFootnoteElement(\PhpOffice\PhpWord\Element\Footnote $footnote)
     {
         $refID = self::countFootnoteElements() + 2;
 

@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Container\Section;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -140,7 +140,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     /**
      * Test load template exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testLoadTemplateException()
     {

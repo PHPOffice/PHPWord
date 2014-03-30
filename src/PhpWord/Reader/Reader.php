@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Reader abstract class
@@ -60,7 +60,7 @@ abstract class Reader implements IReader
      *
      * @param string $pFilename
      * @return resource
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function openFile($pFilename)
     {

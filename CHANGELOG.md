@@ -24,6 +24,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
 - Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
 - Reader: Rename AbstractReader > Reader - @ivanlanin
+- General: Refactor folders: Element, Container, and Exception - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

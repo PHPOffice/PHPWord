@@ -115,7 +115,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     /**
      * Save with no PhpWord object assigned
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
@@ -181,7 +181,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     /**
      * Use disk caching exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {

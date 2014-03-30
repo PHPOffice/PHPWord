@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
+use PhpOffice\PhpWord\Exception\InvalidStyleException;
 
 /**
  * Paragraph style
@@ -468,7 +468,7 @@ class Paragraph
      *
      * @param int|float|string $lineHeight
      * @return $this
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {

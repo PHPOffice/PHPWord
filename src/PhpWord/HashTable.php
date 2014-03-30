@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Hash table
@@ -48,7 +48,7 @@ class HashTable
      * Add HashTable items from source
      *
      * @param  \PhpOffice\PhpWord\IComparable[] $pSource Source array to create HashTable from
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function addFromSource($pSource = null)
     {

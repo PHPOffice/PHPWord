@@ -146,7 +146,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     /**
      * Test line height exception by using nonnumeric value
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function testLineHeightException()
     {

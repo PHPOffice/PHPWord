@@ -23,7 +23,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testFootnote()
     {
-        $footnoteElement = new \PhpOffice\PhpWord\Section\Footnote();
+        $footnoteElement = new \PhpOffice\PhpWord\Element\Footnote();
         $rIdFootnote = Footnote::addFootnoteElement($footnoteElement);
         $rIdLink = Footnote::addFootnoteLinkElement('http://test.com');
 

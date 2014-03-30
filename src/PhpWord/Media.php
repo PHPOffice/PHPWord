@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Element\Image;
 
 /**
  * Media
@@ -53,7 +53,7 @@ class Media
      *
      * @param  string $src
      * @param  string $type
-     * @param  \PhpOffice\PhpWord\Section\Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return mixed
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
@@ -165,7 +165,7 @@ class Media
      *
      * @param  int $headerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return int
      */
     public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
@@ -228,7 +228,7 @@ class Media
      *
      * @param  int $footerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return int
      */
     public static function addFooterMediaElement($footerCount, $src, Image $image = null)

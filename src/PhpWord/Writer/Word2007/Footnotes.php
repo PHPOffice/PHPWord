@@ -9,10 +9,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Section\Footnote;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\Link;
-use PhpOffice\PhpWord\Section\TextBreak;
+use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 

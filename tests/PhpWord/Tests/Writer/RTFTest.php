@@ -32,7 +32,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     /**
      * Construct with null
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -94,7 +94,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     /**
      * Save with no PhpWord object assigned
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()

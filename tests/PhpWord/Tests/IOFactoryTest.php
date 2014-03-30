@@ -33,7 +33,7 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Create non-existing writer
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testNonexistentWriterCanNotBeCreated()
     {
@@ -54,7 +54,7 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Create non-existing reader
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testNonexistentReaderCanNotBeCreated()
     {

@@ -45,11 +45,11 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
             'classes outside of the PhpOffice\\PhpWord namespace'
         );
         // TODO change this class to the main PhpWord class when it is namespaced
-        Autoloader::autoload('PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException');
+        Autoloader::autoload('PhpOffice\\PhpWord\\Exception\\InvalidStyleException');
         $this->assertTrue(
-            \in_array('PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException', \get_declared_classes()),
+            \in_array('PhpOffice\\PhpWord\\Exception\\InvalidStyleException', \get_declared_classes()),
             'PhpOffice\\PhpWord\\Autoloader::autoload() failed to autoload the ' .
-            'PhpOffice\\PhpWord\\Exceptions\\InvalidStyleException class'
+            'PhpOffice\\PhpWord\\Exception\\InvalidStyleException class'
         );
     }
 }

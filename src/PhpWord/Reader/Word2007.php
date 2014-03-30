@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Reader for Word2007
@@ -24,7 +24,7 @@ class Word2007 extends Reader implements IReader
      *
      * @param string $pFilename
      * @return bool
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function canRead($pFilename)
     {
