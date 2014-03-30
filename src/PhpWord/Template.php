@@ -21,7 +21,7 @@ class Template
     /**
      * ZipArchive object
      *
-     * @var \ZipArchive
+     * @var mixed
      */
     private $_objZip;
 
