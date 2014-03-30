@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Section\TextRun;
 /**
  * Test class for PhpOffice\PhpWord\Section\TextRun
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\TextRun
  * @runTestsInSeparateProcesses
  */
 class TextRunTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance
+     */
     public function testConstructNull()
     {
         $oTextRun = new TextRun();
@@ -28,6 +30,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTextRun->getParagraphStyle(), null);
     }
 
+    /**
+     * New instance with string
+     */
     public function testConstructString()
     {
         $oTextRun = new TextRun('pStyle');
@@ -37,6 +42,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oTextRun->getParagraphStyle(), 'pStyle');
     }
 
+    /**
+     * New instance with array
+     */
     public function testConstructArray()
     {
         $oTextRun = new TextRun(array('spacing' => 100));
@@ -46,6 +54,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
     }
 
+    /**
+     * Add text
+     */
     public function testAddText()
     {
         $oTextRun = new TextRun();
@@ -56,6 +67,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), 'text');
     }
 
+    /**
+     * Add text non-UTF8
+     */
     public function testAddTextNotUTF8()
     {
         $oTextRun = new TextRun();
@@ -66,6 +80,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), 'ééé');
     }
 
+    /**
+     * Add link
+     */
     public function testAddLink()
     {
         $oTextRun = new TextRun();
@@ -76,6 +93,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getLinkSrc(), 'http://www.google.fr');
     }
 
+    /**
+     * Add link with name
+     */
     public function testAddLinkWithName()
     {
         $oTextRun = new TextRun();
@@ -87,6 +107,20 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getLinkName(), 'ééé');
     }
 
+    /**
+     * Add text break
+     */
+    public function testAddTextBreak()
+    {
+        $oTextRun = new TextRun();
+        $element = $oTextRun->addTextBreak(2);
+
+        $this->assertCount(2, $oTextRun->getElements());
+    }
+
+    /**
+     * Add image
+     */
     public function testAddImage()
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
@@ -98,6 +132,9 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oTextRun->getElements());
     }
 
+    /**
+     * Add footnote
+     */
     public function testCreateFootnote()
     {
         $oTextRun = new TextRun();

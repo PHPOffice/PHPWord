@@ -1223,11 +1223,6 @@ class Base extends WriterPart
      */
     protected function _writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
     {
-        $count = 1;
-        $_elements = $checkbox->getElements();
-        if (count($_elements) > 1) {
-            $count = $count + 1;
-        }
         $name = htmlspecialchars($checkbox->getName());
         $name = String::controlCharacterPHP2OOXML($name);
         $text = htmlspecialchars($checkbox->getText());
@@ -1271,9 +1266,6 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // w:fldChar
         $xmlWriter->endElement(); // w:r
 
-        $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:name', $name);
-        $xmlWriter->writeAttribute('w:id', $count);
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
@@ -1290,10 +1282,6 @@ class Base extends WriterPart
         $xmlWriter->writeAttribute('w:fldCharType', 'end');
         $xmlWriter->endElement();// w:fldChar
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:bookmarkStart
-        $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $count);
-        $xmlWriter->endElement();// w:bookmarkEnd
 
         $xmlWriter->startElement('w:r');
         if ($sfIsObject) {

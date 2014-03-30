@@ -46,13 +46,6 @@ class CheckBox
     private $paragraphStyle;
 
     /**
-     * Cell Element Collection
-     *
-     * @var array
-     */
-    private $_elementCollection = array();
-
-    /**
      * Create a new Text Element
      *
      * @param string $name
@@ -173,15 +166,5 @@ class CheckBox
     public function getText()
     {
         return $this->text;
-    }
-
-    /**
-     * Get all Elements
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return $this->_elementCollection;
     }
 }

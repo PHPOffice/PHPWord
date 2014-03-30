@@ -99,6 +99,8 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->createSection();
         $section->addText('Test');
+        $footnote = $section->createFootnote();
+        $footnote->addText('Test');
 
         $writer = new Word2007($phpWord);
         $writer->setUseDiskCaching(true);

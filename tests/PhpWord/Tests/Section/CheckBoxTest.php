@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Tests\Section;
 
 use PhpOffice\PhpWord\Section\CheckBox;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Test class for PhpOffice\PhpWord\Section\CheckBox
@@ -52,6 +53,16 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
 
         $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
+    }
+
+    /**
+     * Font style as object
+     */
+    public function testFontObject()
+    {
+        $font = new Font();
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox', $font);
+        $this->assertEquals($oCheckBox->getFontStyle(), $font);
     }
 
     /**

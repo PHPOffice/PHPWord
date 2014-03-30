@@ -88,7 +88,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addTitle(utf8_decode('ä'), 1);
         $section->createTextRun();
         $section->createFootnote();
-        $section->addCheckBox('check1', utf8_decode('ä'));
+        $section->addCheckBox(utf8_decode('chkä'), utf8_decode('Contentä'));
         $section->addTOC();
 
         $elementCollection = $section->getElements();

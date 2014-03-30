@@ -14,15 +14,12 @@ use PhpOffice\PhpWord\Section\Footnote;
 /**
  * Test class for PhpOffice\PhpWord\Section\Footnote
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Footnote
  * @runTestsInSeparateProcesses
  */
 class FootnoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * New instance without parameter
-     *
-     * @covers ::__construct
      */
     public function testConstruct()
     {
@@ -35,8 +32,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * New instance with string parameter
-     *
-     * @covers ::__construct
      */
     public function testConstructString()
     {
@@ -47,8 +42,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * New instance with array parameter
-     *
-     * @covers ::__construct
      */
     public function testConstructArray()
     {
@@ -62,8 +55,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Add text element
-     *
-     * @covers ::addText
      */
     public function testAddText()
     {
@@ -76,8 +67,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Add text break element
-     *
-     * @covers ::addTextBreak
      */
     public function testAddTextBreak()
     {
@@ -89,8 +78,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Add link element
-     *
-     * @covers ::addLink
      */
     public function testAddLink()
     {
@@ -103,9 +90,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Set/get reference Id
-     *
-     * @covers ::setReferenceId
-     * @covers ::getReferenceId
      */
     public function testReferenceId()
     {
@@ -118,8 +102,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get elements
-     *
-     * @covers ::getElements
      */
     public function testGetElements()
     {

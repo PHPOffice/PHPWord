@@ -14,11 +14,13 @@ use PhpOffice\PhpWord\Section\Table\Cell;
 /**
  * Test class for PhpOffice\PhpWord\Section\Table\Cell
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Section\Table\Cell
  * @runTestsInSeparateProcesses
  */
 class CellTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * New instance
+     */
     public function testConstruct()
     {
         $iVal = rand(1, 1000);
@@ -28,6 +30,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oCell->getWidth(), null);
     }
 
+    /**
+     * New instance with array
+     */
     public function testConstructWithStyleArray()
     {
         $iVal = rand(1, 1000);
@@ -37,6 +42,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oCell->getWidth(), null);
     }
 
+    /**
+     * New instance with string
+     */
     public function testConstructWithStyleString()
     {
         $iVal = rand(1, 1000);
@@ -45,6 +53,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oCell->getStyle(), 'cellStyle');
     }
 
+    /**
+     * Add text
+     */
     public function testAddText()
     {
         $oCell = new Cell('section', 1);
@@ -54,6 +65,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Text', $element);
     }
 
+    /**
+     * Add non-UTF8
+     */
     public function testAddTextNotUTF8()
     {
         $oCell = new Cell('section', 1);
@@ -64,15 +78,31 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), 'ééé');
     }
 
+    /**
+     * Add link
+     */
     public function testAddLink()
     {
         $oCell = new Cell('section', 1);
-        $element = $oCell->addLink('http://www.google.fr', 'Nom');
+        $element = $oCell->addLink(utf8_decode('ééé'), utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Link', $element);
     }
 
+    /**
+     * Add link exception
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     */
+    public function testAddLinkException()
+    {
+        $oCell = new Cell('header', 1);
+        $element = $oCell->addLink('http://google.com', 'Google');
+    }
+
+    /**
+     * Add text break
+     */
     public function testAddTextBreak()
     {
         $oCell = new Cell('section', 1);
@@ -81,6 +111,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $oCell->getElements());
     }
 
+    /**
+     * Add list item
+     */
     public function testAddListItem()
     {
         $oCell = new Cell('section', 1);
@@ -91,6 +124,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getTextObject()->getText(), 'text');
     }
 
+    /**
+     * Add list item non-UTF8
+     */
     public function testAddListItemNotUTF8()
     {
         $oCell = new Cell('section', 1);
@@ -101,16 +137,23 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getTextObject()->getText(), 'ééé');
     }
 
+    /**
+     * Add image section
+     */
     public function testAddImageSection()
     {
         $src = __DIR__ . "/../../_files/images/earth.jpg";
         $oCell = new Cell('section', 1);
-        $element = $oCell->addImage($src);
+        $element1 = $oCell->addImage($src);
+        $element2 = $oCell->addMemoryImage($src); // @deprecated
 
-        $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
+        $this->assertCount(2, $oCell->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element1);
     }
 
+    /**
+     * Add image header
+     */
     public function testAddImageHeader()
     {
         $src = __DIR__ . "/../../_files/images/earth.jpg";
@@ -121,6 +164,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
+    /**
+     * Add image footer
+     */
     public function testAddImageFooter()
     {
         $src = __DIR__ . "/../../_files/images/earth.jpg";
@@ -131,7 +177,10 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddSectionImageByUrl()
+    /**
+     * Add image section by URL
+     */
+    public function testAddImageSectionByUrl()
     {
         $oCell = new Cell('section', 1);
         $element = $oCell->addImage(
@@ -142,7 +191,10 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddHeaderImageByUrl()
+    /**
+     * Add image header by URL
+     */
+    public function testAddImageHeaderByUrl()
     {
         $oCell = new Cell('header', 1);
         $element = $oCell->addImage(
@@ -153,7 +205,10 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
-    public function testAddFooterImageByUrl()
+    /**
+     * Add image footer by URL
+     */
+    public function testAddImageFooterByUrl()
     {
         $oCell = new Cell('footer', 1);
         $element = $oCell->addImage(
@@ -164,6 +219,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Image', $element);
     }
 
+    /**
+     * Add object
+     */
     public function testAddObjectXLS()
     {
         $src = __DIR__ . "/../../_files/documents/sheet.xls";
@@ -174,6 +232,21 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Object', $element);
     }
 
+    /**
+     * Test add object exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidObjectException
+     */
+    public function testAddObjectException()
+    {
+        $src = __DIR__ . "/_files/xsl/passthrough.xsl";
+        $oCell = new Cell('section', 1);
+        $element = $oCell->addObject($src);
+    }
+
+    /**
+     * Add preserve text
+     */
     public function testAddPreserveText()
     {
         $oCell = new Cell('header', 1);
@@ -183,6 +256,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\Footer\\PreserveText', $element);
     }
 
+    /**
+     * Add preserve text non-UTF8
+     */
     public function testAddPreserveTextNotUTF8()
     {
         $oCell = new Cell('header', 1);
@@ -193,6 +269,20 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($element->getText(), array('ééé'));
     }
 
+    /**
+     * Add preserve text exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     */
+    public function testAddPreserveTextException()
+    {
+        $oCell = new Cell('section', 1);
+        $element = $oCell->addPreserveText('text');
+    }
+
+    /**
+     * Add text run
+     */
     public function testCreateTextRun()
     {
         $oCell = new Cell('section', 1);
@@ -202,16 +292,21 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\TextRun', $element);
     }
 
+    /**
+     * Add check box
+     */
     public function testAddCheckBox()
     {
         $oCell = new Cell('section', 1);
-        $element = $oCell->addCheckBox('check1', 'text');
+        $element = $oCell->addCheckBox(utf8_decode('ééé'), utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Section\\CheckBox', $element);
     }
 
-
+    /**
+     * Get elements
+     */
     public function testGetElements()
     {
         $oCell = new Cell('section', 1);
