@@ -36,7 +36,7 @@ class RTF extends Writer implements IWriter
     /**
      * Private unique PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @var \PhpOffice\PhpWord\HashTable
+     * @var HashTable
      */
     private $drawingHashTable;
 
@@ -63,7 +63,7 @@ class RTF extends Writer implements IWriter
 
     /**
      * Create new RTF writer
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -78,7 +78,7 @@ class RTF extends Writer implements IWriter
      * Save PhpWord to file
      *
      * @param string $pFilename
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     public function save($pFilename = null)
     {
@@ -98,7 +98,7 @@ class RTF extends Writer implements IWriter
     /**
      * Get PHPWord_Worksheet_BaseDrawing HashTable
      *
-     * @return \PhpOffice\PhpWord\HashTable
+     * @return HashTable
      */
     public function getDrawingHashTable()
     {
@@ -179,10 +179,9 @@ class RTF extends Writer implements IWriter
 
         // Browse styles
         $styles = Style::getStyles();
-        $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PhpOffice\PhpWord\Style\Font
+                // Font
                 if ($style instanceof Font) {
                     if (in_array($style->getName(), $arrFonts) == false) {
                         $arrFonts[] = $style->getName();
@@ -232,7 +231,6 @@ class RTF extends Writer implements IWriter
 
         // Browse styles
         $styles = Style::getStyles();
-        $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 // Font

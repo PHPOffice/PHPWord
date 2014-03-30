@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Word2007 document rels part writer
  */
-class DocumentRels extends WriterPart
+class DocumentRels extends Base
 {
     /**
      * Write word/_rels/document.xml.rels
@@ -35,7 +35,7 @@ class DocumentRels extends WriterPart
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         // Relationship word/document.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             1,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
@@ -43,7 +43,7 @@ class DocumentRels extends WriterPart
         );
 
         // Relationship word/numbering.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             2,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering',
@@ -51,7 +51,7 @@ class DocumentRels extends WriterPart
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             3,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings',
@@ -59,7 +59,7 @@ class DocumentRels extends WriterPart
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             4,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme',
@@ -67,7 +67,7 @@ class DocumentRels extends WriterPart
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             5,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings',
@@ -75,7 +75,7 @@ class DocumentRels extends WriterPart
         );
 
         // Relationship word/settings.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             6,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
@@ -89,7 +89,7 @@ class DocumentRels extends WriterPart
             $relationId = $relation['rID'];
             $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
 
-            $this->_writeRelationship(
+            $this->writeRelationship(
                 $xmlWriter,
                 $relationId,
                 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
@@ -128,7 +128,7 @@ class DocumentRels extends WriterPart
             $relationName = $relation['target'];
             $relationId = $relation['rID'];
 
-            $this->_writeRelationship(
+            $this->writeRelationship(
                 $xmlWriter,
                 $relationId,
                 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
@@ -141,37 +141,5 @@ class DocumentRels extends WriterPart
 
         // Return
         return $xmlWriter->getData();
-    }
-
-    /**
-     * Write individual rels entry
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param int $pId Relationship ID
-     * @param string $pType Relationship type
-     * @param string $pTarget Relationship target
-     * @param string $pTargetMode Relationship target mode
-     */
-    private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
-    {
-        if ($pType != '' && $pTarget != '') {
-            if (strpos($pId, 'rId') === false) {
-                $pId = 'rId' . $pId;
-            }
-
-            // Write relationship
-            $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $pId);
-            $xmlWriter->writeAttribute('Type', $pType);
-            $xmlWriter->writeAttribute('Target', $pTarget);
-
-            if ($pTargetMode != '') {
-                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
-            }
-
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
     }
 }

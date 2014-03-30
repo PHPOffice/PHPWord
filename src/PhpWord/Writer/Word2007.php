@@ -13,6 +13,7 @@ use PhpOffice\PhpWord\Exceptions\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
@@ -34,19 +35,19 @@ class Word2007 extends Writer implements IWriter
      *
      * @var array
      */
-    private $_imageTypes = array();
+    private $imageTypes = array();
 
     /**
      * Types of objects
      *
      * @var array
      */
-    private $_objectTypes = array();
+    private $objectTypes = array();
 
     /**
      * Create new Word2007 writer
      *
-     * @param PhpOffice\PhpWord\PhpWord
+     * @param PhpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -80,11 +81,23 @@ class Word2007 extends Writer implements IWriter
             $pFilename = $this->getTempFile($pFilename);
 
             // Create new ZIP file and open it for writing
-            $objZip = new \ZipArchive();
+            $zipClass = Settings::getZipClass();
+            $objZip = new $zipClass();
+
+            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
+            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
+            $ro = new \ReflectionObject($objZip);
+            $zipOverWrite = $ro->getConstant('OVERWRITE');
+            $zipCreate = $ro->getConstant('CREATE');
+
+            // Remove any existing file
+            if (file_exists($pFilename)) {
+                unlink($pFilename);
+            }
 
             // Try opening the ZIP file
-            if ($objZip->open($pFilename, \ZipArchive::OVERWRITE) !== true) {
-                if ($objZip->open($pFilename, \ZipArchive::CREATE) !== true) {
+            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
+                if ($objZip->open($pFilename, $zipCreate) !== true) {
                     throw new Exception("Could not open " . $pFilename . " for writing.");
                 }
             }
@@ -167,8 +180,8 @@ class Word2007 extends Writer implements IWriter
             $objZip->addFromString(
                 '[Content_Types].xml',
                 $this->getWriterPart('contenttypes')->writeContentTypes(
-                    $this->_imageTypes,
-                    $this->_objectTypes,
+                    $this->imageTypes,
+                    $this->objectTypes,
                     $_cHdrs,
                     $footers
                 )
@@ -235,12 +248,12 @@ class Word2007 extends Writer implements IWriter
             if ($imageExtension === 'jpeg') {
                 $imageExtension = 'jpg';
             }
-            if (!in_array($imageType, $this->_imageTypes)) {
-                $this->_imageTypes[$imageExtension] = $imageType;
+            if (!in_array($imageType, $this->imageTypes)) {
+                $this->imageTypes[$imageExtension] = $imageType;
             }
         } else {
-            if (!in_array($extension, $this->_objectTypes)) {
-                $this->_objectTypes[] = $extension;
+            if (!in_array($extension, $this->objectTypes)) {
+                $this->objectTypes[] = $extension;
             }
         }
     }

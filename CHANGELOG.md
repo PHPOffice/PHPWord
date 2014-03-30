@@ -13,6 +13,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Font: Add `bgColor` to font style to define background using HEX color - @jcarignan GH-168
 - Table: Add `exactHeight` to row style to define whether row height should be exact or atLeast - @jcarignan GH-168
 - Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
+- Settings: Ability to use PCLZip as alternative to ZipArchive - @bskrtich @ivanlanin GH-106 GH-140 GH-185
 
 ### Bugfixes
 

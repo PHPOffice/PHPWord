@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\TOC as TOCStyle;
 
 /**
  * Table of contents
@@ -26,14 +27,14 @@ class TOC
     /**
      * TOC style
      *
-     * @var PhpOffice\PhpWord\Style\TOC
+     * @var TOCStyle
      */
     private static $_styleTOC;
 
     /**
      * Font style
      *
-     * @var PhpOffice\PhpWord\Style\Font|array|string
+     * @var Font|array|string
      */
     private static $_styleFont;
 
@@ -60,7 +61,7 @@ class TOC
      */
     public function __construct($styleFont = null, $styleTOC = null)
     {
-        self::$_styleTOC = new \PhpOffice\PhpWord\Style\TOC();
+        self::$_styleTOC = new TOCStyle();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
@@ -122,7 +123,7 @@ class TOC
     /**
      * Get TOC Style
      *
-     * @return \PhpOffice\PhpWord\Style\TOC
+     * @return TOCStyle
      */
     public static function getStyleTOC()
     {
@@ -132,7 +133,7 @@ class TOC
     /**
      * Get Font Style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return Font
      */
     public static function getStyleFont()
     {

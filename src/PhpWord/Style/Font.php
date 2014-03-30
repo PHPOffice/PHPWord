@@ -479,8 +479,8 @@ class Font
     /**
      * Set background color
      *
-     * @param   string $pValue
-     * @return  PHPWord_Style_Font
+     * @param string $pValue
+     * @return $this
      */
     public function setBgColor($pValue = null)
     {

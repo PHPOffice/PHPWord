@@ -77,26 +77,18 @@ class Footnotes extends Base
     /**
      * Write footnote content, overrides method in parent class
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param PhpOffice\PhpWord\Section\Footnote $footnote
+     * @param XMLWriter $xmlWriter
+     * @param Footnote $footnote
+     * @param boolean $withoutP
      */
-    private function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote)
+    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
     {
         $xmlWriter->startElement('w:footnote');
         $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
         $xmlWriter->startElement('w:p');
         // Paragraph style
-        $paragraphStyle = $footnote->getParagraphStyle();
-        $spIsObject = ($paragraphStyle instanceof Paragraph) ? true : false;
-        if ($spIsObject) {
-            $this->_writeParagraphStyle($xmlWriter, $paragraphStyle);
-        } elseif (!$spIsObject && !is_null($paragraphStyle)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $paragraphStyle);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
+        $styleParagraph = $footnote->getParagraphStyle();
+        $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
         // Reference symbol
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');
@@ -118,9 +110,9 @@ class Footnotes extends Base
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
-                    $this->_writeText($xmlWriter, $element, true);
+                    $this->writeText($xmlWriter, $element, true);
                 } elseif ($element instanceof Link) {
-                    $this->_writeLink($xmlWriter, $element, true);
+                    $this->writeLink($xmlWriter, $element, true);
                 } elseif ($element instanceof TextBreak) {
                     $xmlWriter->writeElement('w:br');
                 }

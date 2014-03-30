@@ -27,14 +27,14 @@ class Text
     /**
      * Text style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var string|Paragraph
      */
     private $paragraphStyle;
 
@@ -42,8 +42,8 @@ class Text
      * Create a new Text Element
      *
      * @param string $text
-     * @param null|array|\PhpOffice\PhpWord\Style\Font $fontStyle
-     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -55,9 +55,9 @@ class Text
     /**
      * Set Text style
      *
-     * @param null|array|\PhpOffice\PhpWord\Style\Font $style
-     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param string|array|Font $style
+     * @param string|array|Paragraph $paragraphStyle
+     * @return string|Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -79,7 +79,7 @@ class Text
     /**
      * Get Text style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return string|Font
      */
     public function getFontStyle()
     {
@@ -89,8 +89,8 @@ class Text
     /**
      * Set Paragraph style
      *
-     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $style
-     * @return null|\PhpOffice\PhpWord\Style\Paragraph
+     * @param string|array|Paragraph $style
+     * @return string|Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -110,7 +110,7 @@ class Text
     /**
      * Get Paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {
