@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Word2007 footnotes rel part writer
  */
-class FootnotesRels extends WriterPart
+class FootnotesRels extends Base
 {
     /**
      * Write word/_rels/footnotes.xml.rels
@@ -41,44 +41,12 @@ class FootnotesRels extends WriterPart
             $relationId   = $relation['rID'];
             $targetMode   = ($relationType == 'hyperlink') ? 'External' : '';
 
-            $this->_writeRelationship($xmlWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
+            $this->writeRelationship($xmlWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
         }
 
         $xmlWriter->endElement();
 
         // Return
         return $xmlWriter->getData();
-    }
-
-    /**
-     * Write individual rels entry
-     *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param int $pId Relationship ID
-     * @param string $pType Relationship type
-     * @param string $pTarget Relationship target
-     * @param string $pTargetMode Relationship target mode
-     */
-    private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
-    {
-        if ($pType != '' && $pTarget != '') {
-            if (strpos($pId, 'rId') === false) {
-                $pId = 'rId' . $pId;
-            }
-
-            // Write relationship
-            $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $pId);
-            $xmlWriter->writeAttribute('Type', $pType);
-            $xmlWriter->writeAttribute('Target', $pTarget);
-
-            if ($pTargetMode != '') {
-                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
-            }
-
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
     }
 }

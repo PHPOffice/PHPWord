@@ -12,6 +12,7 @@ namespace PhpOffice\PhpWord\Section;
 use PhpOffice\PhpWord\Exceptions\InvalidImageException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
@@ -22,7 +23,7 @@ class TextRun
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var Paragraph
      */
     private $_styleParagraph;
 
@@ -123,8 +124,8 @@ class TextRun
      * Add TextBreak
      *
      * @param int $count
-     * @param null|string|array|\PhpOffice\PhpWord\Style\Font      $fontStyle
-     * @param null|string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
@@ -161,7 +162,7 @@ class TextRun
     /**
      * Get Paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {

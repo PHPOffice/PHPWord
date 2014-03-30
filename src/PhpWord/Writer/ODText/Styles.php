@@ -24,7 +24,7 @@ class Styles extends WriterPart
     /**
      * Write Styles file to XML format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param  PhpWord $phpWord
      * @return string XML Output
      */
     public function writeStyles(PhpWord $phpWord = null)
@@ -73,7 +73,7 @@ class Styles extends WriterPart
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
-                // PhpOffice\PhpWord\Style\Font
+                // Font
                 if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
@@ -144,7 +144,7 @@ class Styles extends WriterPart
                 if (preg_match('#^T[0-9]+$#', $styleName) == 0
                     && preg_match('#^P[0-9]+$#', $styleName) == 0
                 ) {
-                    // PhpOffice\PhpWord\Style\Font
+                    // Font
                     if ($style instanceof Font) {
                         // style:style
                         $xmlWriter->startElement('style:style');
@@ -168,7 +168,7 @@ class Styles extends WriterPart
                         $xmlWriter->endElement();
                         $xmlWriter->endElement();
                     } elseif ($style instanceof Paragraph) {
-                        // PhpOffice\PhpWord\Style\Paragraph
+                        // Paragraph
                         // style:style
                         $xmlWriter->startElement('style:style');
                         $xmlWriter->writeAttribute('style:name', $styleName);
@@ -183,7 +183,7 @@ class Styles extends WriterPart
 
                         $xmlWriter->endElement();
                     } elseif ($style instanceof Table) {
-                        // PhpOffice\PhpWord\Style\Table
+                        // Table
                     }
                 }
             }

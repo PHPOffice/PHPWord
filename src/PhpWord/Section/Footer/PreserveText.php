@@ -27,14 +27,14 @@ class PreserveText
     /**
      * Text style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|Font
      */
     private $_styleFont;
 
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var string|Paragraph
      */
     private $_styleParagraph;
 
@@ -45,7 +45,7 @@ class PreserveText
      * @param string $text
      * @param mixed $styleFont
      * @param mixed $styleParagraph
-     * @return PHPWord_Section_Footer_PreserveText
+     * @return $this
      */
     public function __construct($text = null, $styleFont = null, $styleParagraph = null)
     {
@@ -88,7 +88,7 @@ class PreserveText
     /**
      * Get Text style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return string|Font
      */
     public function getFontStyle()
     {
@@ -98,7 +98,7 @@ class PreserveText
     /**
      * Get Paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {

@@ -16,12 +16,12 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Word2007 rels part writer
  */
-class Rels extends WriterPart
+class Rels extends Base
 {
     /**
      * Write _rels/.rels
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeRelationships(PhpWord $phpWord = null)
     {
@@ -38,7 +38,7 @@ class Rels extends WriterPart
         $relationId = 1;
 
         // Relationship word/document.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             $relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument',
@@ -46,7 +46,7 @@ class Rels extends WriterPart
         );
 
         // Relationship docProps/core.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
@@ -54,7 +54,7 @@ class Rels extends WriterPart
         );
 
         // Relationship docProps/app.xml
-        $this->_writeRelationship(
+        $this->writeRelationship(
             $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties',
@@ -64,38 +64,5 @@ class Rels extends WriterPart
         $xmlWriter->endElement();
 
         return $xmlWriter->getData();
-    }
-
-    /**
-     * Write Override content type
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param int $pId Relationship ID. rId will be prepended!
-     * @param string $pType Relationship type
-     * @param string $pTarget Relationship target
-     * @param string $pTargetMode Relationship target mode
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
-     */
-    private function _writeRelationship(XMLWriter $xmlWriter = null, $pId = 1, $pType = '', $pTarget = '', $pTargetMode = '')
-    {
-        if ($pType != '' && $pTarget != '') {
-            if (strpos($pId, 'rId') === false) {
-                $pId = 'rId' . $pId;
-            }
-
-            // Write relationship
-            $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $pId);
-            $xmlWriter->writeAttribute('Type', $pType);
-            $xmlWriter->writeAttribute('Target', $pTarget);
-
-            if ($pTargetMode != '') {
-                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
-            }
-
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
     }
 }

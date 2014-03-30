@@ -21,7 +21,7 @@ class Manifest extends WriterPart
     /**
      * Write Manifest file to XML format
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param  PhpWord $phpWord
      * @return string XML Output
      */
     public function writeManifest(PhpWord $phpWord = null)
@@ -64,7 +64,7 @@ class Manifest extends WriterPart
         for ($i = 0; $i < $this->getParentWriter()->getDrawingHashTable()->count(); ++$i) {
             if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
-                $mimeType = $this->_getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
+                $mimeType = $this->getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
 
                 $xmlWriter->startElement('manifest:file-entry');
                 $xmlWriter->writeAttribute('manifest:media-type', $mimeType);
@@ -97,9 +97,9 @@ class Manifest extends WriterPart
      *
      * @param string $pFile Filename
      * @return string Mime Type
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
-    private function _getImageMimeType($pFile = '')
+    private function getImageMimeType($pFile = '')
     {
         if (file_exists($pFile)) {
             $image = getimagesize($pFile);

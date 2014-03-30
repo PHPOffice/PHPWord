@@ -14,6 +14,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * Word2007 styles part writer
@@ -21,21 +22,12 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Styles extends Base
 {
     /**
-     * PhpWord object
-     *
-     * @var PhpWord
-     */
-    private $phpWord;
-
-    /**
      * Write word/styles.xml
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeStyles(PhpWord $phpWord = null)
     {
-        $this->phpWord = $phpWord;
-
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
@@ -52,7 +44,7 @@ class Styles extends Base
         );
         // Write default styles
         $styles = Style::getStyles();
-        $this->writeDefaultStyles($xmlWriter, $styles);
+        $this->writeDefaultStyles($xmlWriter, $phpWord, $styles);
         // Write other styles
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
@@ -94,10 +86,10 @@ class Styles extends Base
                         $xmlWriter->startElement('w:basedOn');
                         $xmlWriter->writeAttribute('w:val', 'Normal');
                         $xmlWriter->endElement();
-                        $this->_writeParagraphStyle($xmlWriter, $paragraphStyle);
+                        $this->writeParagraphStyle($xmlWriter, $paragraphStyle);
                     }
 
-                    $this->_writeTextStyle($xmlWriter, $style);
+                    $this->writeFontStyle($xmlWriter, $style);
 
                     $xmlWriter->endElement();
 
@@ -127,10 +119,10 @@ class Styles extends Base
                         $xmlWriter->endElement();
                     }
 
-                    $this->_writeParagraphStyle($xmlWriter, $style);
+                    $this->writeParagraphStyle($xmlWriter, $style);
                     $xmlWriter->endElement();
 
-                } elseif ($style instanceof \PhpOffice\PhpWord\Style\Table) {
+                } elseif ($style instanceof Table) {
                     $xmlWriter->startElement('w:style');
                     $xmlWriter->writeAttribute('w:type', 'table');
                     $xmlWriter->writeAttribute('w:customStyle', '1');
@@ -144,7 +136,7 @@ class Styles extends Base
                     $xmlWriter->writeAttribute('w:val', '99');
                     $xmlWriter->endElement();
 
-                    $this->_writeTableStyle($xmlWriter, $style);
+                    $this->writeTableStyle($xmlWriter, $style);
 
                     $xmlWriter->endElement(); // w:style
                 }
@@ -160,13 +152,13 @@ class Styles extends Base
     /**
      * Write default font and other default styles
      *
-     * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param XMLWriter $xmlWriter
      * @param array $styles
      */
-    private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
+    private function writeDefaultStyles(XMLWriter $xmlWriter, PhpWord $phpWord, $styles)
     {
-        $fontName = $this->phpWord->getDefaultFontName();
-        $fontSize = $this->phpWord->getDefaultFontSize();
+        $fontName = $phpWord->getDefaultFontName();
+        $fontSize = $phpWord->getDefaultFontSize();
 
         // Default font
         $xmlWriter->startElement('w:docDefaults');
@@ -197,7 +189,7 @@ class Styles extends Base
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
         if (array_key_exists('Normal', $styles)) {
-            $this->_writeParagraphStyle($xmlWriter, $styles['Normal']);
+            $this->writeParagraphStyle($xmlWriter, $styles['Normal']);
         }
         $xmlWriter->endElement(); // w:style
 

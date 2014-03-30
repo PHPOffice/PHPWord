@@ -20,14 +20,14 @@ class TextBreak
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Pagaraph
+     * @var string|Paragraph
      */
     private $paragraphStyle = null;
 
     /**
      * Text style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|Font
      */
     private $fontStyle = null;
 
@@ -50,9 +50,9 @@ class TextBreak
     /**
      * Set Text style
      *
-     * @param null|array|\PhpOffice\PhpWord\Style\Font $style
-     * @param null|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param mixed $style
+     * @param mixed $paragraphStyle
+     * @return string|Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -72,7 +72,7 @@ class TextBreak
     /**
      * Get Text style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return string|Font
      */
     public function getFontStyle()
     {
@@ -82,8 +82,8 @@ class TextBreak
     /**
      * Set Paragraph style
      *
-     * @param   null|array|\PhpOffice\PhpWord\Style\Paragraph $style
-     * @return  null|\PhpOffice\PhpWord\Style\Paragraph
+     * @param   string|array|Paragraph $style
+     * @return  string|Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -101,7 +101,7 @@ class TextBreak
     /**
      * Get Paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {

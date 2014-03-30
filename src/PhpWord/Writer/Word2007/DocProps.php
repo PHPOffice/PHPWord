@@ -110,7 +110,7 @@ class DocProps extends WriterPart
     /**
      * Write docProps/core.xml
      *
-     * @param PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      */
     public function writeDocPropsCore(PhpWord $phpWord = null)
     {
