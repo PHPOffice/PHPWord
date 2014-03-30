@@ -50,9 +50,7 @@ class Base extends WriterPart
         $withoutP = false
     ) {
         $styleFont = $text->getFontStyle();
-        $sfIsObject = ($styleFont instanceof Font) ? true : false;
         $styleParagraph = $text->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
         $strText = htmlspecialchars($text->getText());
         $strText = String::controlCharacterPHP2OOXML($strText);
 
@@ -84,7 +82,6 @@ class Base extends WriterPart
     ) {
         $elements = $textrun->getElements();
         $styleParagraph = $textrun->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
         $xmlWriter->startElement('w:p');
         $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
         if (count($elements) > 0) {
@@ -123,9 +120,7 @@ class Base extends WriterPart
             $linkName = $link->getLinkSrc();
         }
         $styleFont = $link->getFontStyle();
-        $sfIsObject = ($styleFont instanceof Font) ? true : false;
         $styleParagraph = $link->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
@@ -206,9 +201,7 @@ class Base extends WriterPart
         PreserveText $textrun
     ) {
         $styleFont = $textrun->getFontStyle();
-        $sfIsObject = ($styleFont instanceof Font) ? true : false;
         $styleParagraph = $textrun->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         $arrText = $textrun->getText();
         if (!is_array($arrText)) {
@@ -272,11 +265,11 @@ class Base extends WriterPart
     protected function writeTextBreak($xmlWriter, TextBreak $element = null)
     {
         $hasStyle = false;
+        $styleFont = null;
+        $styleParagraph = null;
         if (!is_null($element)) {
             $styleFont = $element->getFontStyle();
-            $sfIsObject = ($styleFont instanceof Font) ? true : false;
             $styleParagraph = $element->getParagraphStyle();
-            $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
             $hasStyle = !is_null($styleFont) || !is_null($styleParagraph);
         }
         if ($hasStyle) {
@@ -303,11 +296,9 @@ class Base extends WriterPart
     protected function writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
     {
         $textObject = $listItem->getTextObject();
-        $text = $textObject->getText();
         $depth = $listItem->getDepth();
         $listType = $listItem->getStyle()->getListType();
         $styleParagraph = $textObject->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:pPr');
@@ -619,8 +610,6 @@ class Base extends WriterPart
         $shapeId = md5($rIdObject . '_' . $rIdImage);
         $objectId = $object->getObjectId();
         $style = $object->getStyle();
-        $width = $style->getWidth();
-        $height = $style->getHeight();
         $align = $style->getAlign();
 
         $xmlWriter->startElement('w:p');
@@ -705,9 +694,7 @@ class Base extends WriterPart
         $text = htmlspecialchars($checkbox->getText());
         $text = String::controlCharacterPHP2OOXML($text);
         $styleFont = $checkbox->getFontStyle();
-        $sfIsObject = ($styleFont instanceof Font) ? true : false;
         $styleParagraph = $checkbox->getParagraphStyle();
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
 
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
@@ -774,7 +761,7 @@ class Base extends WriterPart
      */
     protected function writeParagraphStyle(
         XMLWriter $xmlWriter,
-        Paragraph $style = null,
+        Paragraph $style,
         $withoutPPR = false
     ) {
 
@@ -1122,7 +1109,6 @@ class Base extends WriterPart
         $bLeft = (!is_null($brdSz[1])) ? true : false;
         $bRight = (!is_null($brdSz[2])) ? true : false;
         $bBottom = (!is_null($brdSz[3])) ? true : false;
-        $borders = ($bTop || $bLeft || $bRight || $bBottom) ? true : false;
 
         $xmlWriter->startElement('w:tblStylePr');
         $xmlWriter->writeAttribute('w:type', $type);
@@ -1178,7 +1164,7 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param Cell $style
      */
-    protected function writeCellStyle(XMLWriter $xmlWriter, Cell $style = null)
+    protected function writeCellStyle(XMLWriter $xmlWriter, Cell $style)
     {
         $bgColor = $style->getBgColor();
         $valign = $style->getVAlign();
@@ -1291,7 +1277,7 @@ class Base extends WriterPart
      * @param string $pTargetMode Relationship target mode
      */
     protected function writeRelationship(
-        XMLWriter $xmlWriter = null,
+        XMLWriter $xmlWriter,
         $pId = 1,
         $pType = '',
         $pTarget = '',
@@ -1330,18 +1316,19 @@ class Base extends WriterPart
         $styleParagraph = null,
         $withoutPPR = false
     ) {
-        $spIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
-        if ($spIsObject) {
+        if ($styleParagraph instanceof Paragraph) {
             $this->writeParagraphStyle($xmlWriter, $styleParagraph, $withoutPPR);
-        } elseif (!$spIsObject && !is_null($styleParagraph)) {
-            if (!$withoutPPR) {
-                $xmlWriter->startElement('w:pPr');
-            }
-            $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $styleParagraph);
-            $xmlWriter->endElement();
-            if (!$withoutPPR) {
+        } else {
+            if (!is_null($styleParagraph)) {
+                if (!$withoutPPR) {
+                    $xmlWriter->startElement('w:pPr');
+                }
+                $xmlWriter->startElement('w:pStyle');
+                $xmlWriter->writeAttribute('w:val', $styleParagraph);
                 $xmlWriter->endElement();
+                if (!$withoutPPR) {
+                    $xmlWriter->endElement();
+                }
             }
         }
     }
@@ -1356,15 +1343,16 @@ class Base extends WriterPart
         XMLWriter $xmlWriter,
         $styleFont = null
     ) {
-        $sfIsObject = ($styleFont instanceof Font) ? true : false;
-        if ($sfIsObject) {
+        if ($styleFont instanceof Font) {
             $this->writeFontStyle($xmlWriter, $styleFont);
-        } elseif (!$sfIsObject && !is_null($styleFont)) {
-            $xmlWriter->startElement('w:rPr');
-            $xmlWriter->startElement('w:rStyle');
-            $xmlWriter->writeAttribute('w:val', $styleFont);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
+        } else {
+            if (!is_null($styleFont)) {
+                $xmlWriter->startElement('w:rPr');
+                $xmlWriter->startElement('w:rStyle');
+                $xmlWriter->writeAttribute('w:val', $styleFont);
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+            }
         }
     }
 }
