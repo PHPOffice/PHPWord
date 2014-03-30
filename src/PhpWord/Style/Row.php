@@ -57,7 +57,7 @@ class Row
      * Set tblHeader
      *
      * @param boolean $pValue
-     * @return PHPWord_Style_Row
+     * @return $this
      */
     public function setTblHeader($pValue = false)
     {
@@ -82,7 +82,7 @@ class Row
      * Set cantSplit
      *
      * @param boolean $pValue
-     * @return PHPWord_Style_Row
+     * @return $this
      */
     public function setCantSplit($pValue = false)
     {
@@ -107,7 +107,7 @@ class Row
      * Set exactHeight
      *
      * @param bool $pValue
-     * @return PHPWord_Style_Row
+     * @return $this
      */
     public function setExactHeight($pValue = false)
     {
