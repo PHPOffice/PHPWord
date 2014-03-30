@@ -41,14 +41,14 @@ class Link
     /**
      * Link style
      *
-     * @var \PhpOffice\PhpWord\Style\Font
+     * @var string|Font
      */
     private $_styleFont;
 
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var string|Paragraph
      */
     private $_styleParagraph;
 
@@ -140,7 +140,7 @@ class Link
     /**
      * Get Text style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return string|Font
      */
     public function getFontStyle()
     {
@@ -150,7 +150,7 @@ class Link
     /**
      * Get Paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {

@@ -64,7 +64,7 @@ class Manifest extends WriterPart
         for ($i = 0; $i < $this->getParentWriter()->getDrawingHashTable()->count(); ++$i) {
             if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
-                $mimeType = $this->_getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
+                $mimeType = $this->getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
 
                 $xmlWriter->startElement('manifest:file-entry');
                 $xmlWriter->writeAttribute('manifest:media-type', $mimeType);
@@ -99,7 +99,7 @@ class Manifest extends WriterPart
      * @return string Mime Type
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    private function _getImageMimeType($pFile = '')
+    private function getImageMimeType($pFile = '')
     {
         if (file_exists($pFile)) {
             $image = getimagesize($pFile);

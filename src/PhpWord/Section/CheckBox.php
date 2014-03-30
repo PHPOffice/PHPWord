@@ -34,14 +34,14 @@ class CheckBox
     /**
      * Text style
      *
-     * @var Font
+     * @var string|Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var Paragraph
+     * @var string|Paragraph
      */
     private $paragraphStyle;
 
@@ -50,8 +50,8 @@ class CheckBox
      *
      * @param string $name
      * @param string $text
-     * @param Font $fontStyle
-     * @param Paragraph $paragraphStyle
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
     public function __construct($name = null, $text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -66,9 +66,9 @@ class CheckBox
     /**
      * Set Text style
      *
-     * @param Font $style
-     * @param Paragraph $paragraphStyle
-     * @return Font
+     * @param mixed $style
+     * @param mixed $paragraphStyle
+     * @return string|Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -90,7 +90,7 @@ class CheckBox
     /**
      * Get Text style
      *
-     * @return Font
+     * @return string|Font
      */
     public function getFontStyle()
     {
@@ -100,8 +100,8 @@ class CheckBox
     /**
      * Set Paragraph style
      *
-     * @param Paragraph $style
-     * @return Paragraph
+     * @param mixed $style
+     * @return string|Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -121,7 +121,7 @@ class CheckBox
     /**
      * Get Paragraph style
      *
-     * @return Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {

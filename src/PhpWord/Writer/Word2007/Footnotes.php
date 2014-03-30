@@ -80,7 +80,7 @@ class Footnotes extends Base
      * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param PhpOffice\PhpWord\Section\Footnote $footnote
      */
-    private function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote)
+    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote)
     {
         $xmlWriter->startElement('w:footnote');
         $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
@@ -89,7 +89,7 @@ class Footnotes extends Base
         $paragraphStyle = $footnote->getParagraphStyle();
         $spIsObject = ($paragraphStyle instanceof Paragraph) ? true : false;
         if ($spIsObject) {
-            $this->_writeParagraphStyle($xmlWriter, $paragraphStyle);
+            $this->writeParagraphStyle($xmlWriter, $paragraphStyle);
         } elseif (!$spIsObject && !is_null($paragraphStyle)) {
             $xmlWriter->startElement('w:pPr');
             $xmlWriter->startElement('w:pStyle');
@@ -118,9 +118,9 @@ class Footnotes extends Base
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
-                    $this->_writeText($xmlWriter, $element, true);
+                    $this->writeText($xmlWriter, $element, true);
                 } elseif ($element instanceof Link) {
-                    $this->_writeLink($xmlWriter, $element, true);
+                    $this->writeLink($xmlWriter, $element, true);
                 } elseif ($element instanceof TextBreak) {
                     $xmlWriter->writeElement('w:br');
                 }

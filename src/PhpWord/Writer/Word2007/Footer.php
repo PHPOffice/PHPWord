@@ -50,17 +50,17 @@ class Footer extends Base
 
         foreach ($_elements as $element) {
             if ($element instanceof Text) {
-                $this->_writeText($xmlWriter, $element);
+                $this->writeText($xmlWriter, $element);
             } elseif ($element instanceof TextRun) {
-                $this->_writeTextRun($xmlWriter, $element);
+                $this->writeTextRun($xmlWriter, $element);
             } elseif ($element instanceof TextBreak) {
-                $this->_writeTextBreak($xmlWriter, $element);
+                $this->writeTextBreak($xmlWriter, $element);
             } elseif ($element instanceof Table) {
-                $this->_writeTable($xmlWriter, $element);
+                $this->writeTable($xmlWriter, $element);
             } elseif ($element instanceof Image) {
-                $this->_writeImage($xmlWriter, $element);
+                $this->writeImage($xmlWriter, $element);
             } elseif ($element instanceof PreserveText) {
-                $this->_writePreserveText($xmlWriter, $element);
+                $this->writePreserveText($xmlWriter, $element);
             }
         }
 

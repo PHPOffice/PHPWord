@@ -34,14 +34,14 @@ class Word2007 extends Writer implements IWriter
      *
      * @var array
      */
-    private $_imageTypes = array();
+    private $imageTypes = array();
 
     /**
      * Types of objects
      *
      * @var array
      */
-    private $_objectTypes = array();
+    private $objectTypes = array();
 
     /**
      * Create new Word2007 writer
@@ -167,8 +167,8 @@ class Word2007 extends Writer implements IWriter
             $objZip->addFromString(
                 '[Content_Types].xml',
                 $this->getWriterPart('contenttypes')->writeContentTypes(
-                    $this->_imageTypes,
-                    $this->_objectTypes,
+                    $this->imageTypes,
+                    $this->objectTypes,
                     $_cHdrs,
                     $footers
                 )
@@ -235,12 +235,12 @@ class Word2007 extends Writer implements IWriter
             if ($imageExtension === 'jpeg') {
                 $imageExtension = 'jpg';
             }
-            if (!in_array($imageType, $this->_imageTypes)) {
-                $this->_imageTypes[$imageExtension] = $imageType;
+            if (!in_array($imageType, $this->imageTypes)) {
+                $this->imageTypes[$imageExtension] = $imageType;
             }
         } else {
-            if (!in_array($extension, $this->_objectTypes)) {
-                $this->_objectTypes[] = $extension;
+            if (!in_array($extension, $this->objectTypes)) {
+                $this->objectTypes[] = $extension;
             }
         }
     }

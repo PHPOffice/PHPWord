@@ -244,11 +244,11 @@ class Content extends WriterPart
 
                 foreach ($_elements as $element) {
                     if ($element instanceof Text) {
-                        $this->_writeText($xmlWriter, $element);
+                        $this->writeText($xmlWriter, $element);
                     } elseif ($element instanceof TextRun) {
-                        $this->_writeTextRun($xmlWriter, $element);
+                        $this->writeTextRun($xmlWriter, $element);
                     } elseif ($element instanceof TextBreak) {
-                        $this->_writeTextBreak($xmlWriter);
+                        $this->writeTextBreak($xmlWriter);
                     } elseif ($element instanceof Link) {
                         $this->writeUnsupportedElement($xmlWriter, 'Link');
                     } elseif ($element instanceof Title) {
@@ -271,9 +271,9 @@ class Content extends WriterPart
                 }
 
                 if ($pSection == $countSections) {
-                    $this->_writeEndSection($xmlWriter, $section);
+                    $this->writeEndSection($xmlWriter, $section);
                 } else {
-                    $this->_writeSection($xmlWriter, $section);
+                    $this->writeSection($xmlWriter, $section);
                 }
             }
         }
@@ -292,7 +292,7 @@ class Content extends WriterPart
      * @param \PhpOffice\PhpWord\Section\Text $text
      * @param bool $withoutP
      */
-    protected function _writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
+    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
     {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
@@ -340,14 +340,14 @@ class Content extends WriterPart
      * @param \PhpOffice\PhpWord\Section\TextRun $textrun
      * @todo Enable all other section types
      */
-    protected function _writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
+    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
     {
         $elements = $textrun->getElements();
         $xmlWriter->startElement('text:p');
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
-                    $this->_writeText($xmlWriter, $element, true);
+                    $this->writeText($xmlWriter, $element, true);
                 }
             }
         }
@@ -359,7 +359,7 @@ class Content extends WriterPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
-    protected function _writeTextBreak(XMLWriter $xmlWriter = null)
+    protected function writeTextBreak(XMLWriter $xmlWriter = null)
     {
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
@@ -373,7 +373,7 @@ class Content extends WriterPart
      * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param PhpOffice\PhpWord\Section $section
      */
-    private function _writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
+    private function writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }
 
@@ -383,7 +383,7 @@ class Content extends WriterPart
      * @param PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param PhpOffice\PhpWord\Section $section
      */
-    private function _writeSection(XMLWriter $xmlWriter = null, Section $section = null)
+    private function writeSection(XMLWriter $xmlWriter = null, Section $section = null)
     {
     }
     // @codeCoverageIgnoreEnd

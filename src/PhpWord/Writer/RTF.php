@@ -179,7 +179,6 @@ class RTF extends Writer implements IWriter
 
         // Browse styles
         $styles = Style::getStyles();
-        $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 // PhpOffice\PhpWord\Style\Font
@@ -232,7 +231,6 @@ class RTF extends Writer implements IWriter
 
         // Browse styles
         $styles = Style::getStyles();
-        $numPStyles = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 // Font
