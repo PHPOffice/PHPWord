@@ -428,9 +428,9 @@ class Document extends Base
         $fIndent = $styleTOC->getIndent();
         $tabLeader = $styleTOC->getTabLeader();
         $tabPos = $styleTOC->getTabPos();
-		
-		$maxDepth = $toc->getMaxDepth();
-		$minDepth = $toc->getMinDepth();
+        
+        $maxDepth = $toc->getMaxDepth();
+        $minDepth = $toc->getMinDepth();
 
         $isObject = ($styleFont instanceof Font) ? true : false;
 

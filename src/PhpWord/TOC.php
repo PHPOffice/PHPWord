@@ -67,19 +67,19 @@ class TOC
      */
     private static $_bookmarkId = 0;
 
-	/**
-	 * Min title depth to show
-	 *
-	 * @var int
-	 */
-	private $_minDepth = 1;
-	
-	/**
-	 * Max title depth to show
-	 *
-	 * @var int
-	 */
-	private $_maxDepth = 9;
+    /**
+     * Min title depth to show
+     *
+     * @var int
+     */
+    private $_minDepth = 1;
+    
+    /**
+     * Max title depth to show
+     *
+     * @var int
+     */
+    private $_maxDepth = 9;
 
     /**
      * Create a new Table-of-Contents Element
@@ -114,9 +114,9 @@ class TOC
                 self::$_styleFont = $styleFont;
             }
         }
-		
-		$this->_minDepth = $minDepth;
-		$this->_maxDepth = $maxDepth;
+        
+        $this->_minDepth = $minDepth;
+        $this->_maxDepth = $maxDepth;
     }
 
     /**
@@ -150,17 +150,17 @@ class TOC
     public function getTitles()
     {
         $titles = self::$_titles;
-		foreach ($titles as $i=>$title) {
-			if ($this->_minDepth > $title['depth']) {
-				unset($titles[$i]);
-			}
-			if (($this->_maxDepth != 0) && ($this->_maxDepth < $title['depth'])) {
-				unset($titles[$i]);
-			}
-		}
-		$titles = array_merge(array(), $titles);
-		
-		return $titles;
+        foreach ($titles as $i => $title) {
+            if ($this->_minDepth > $title['depth']) {
+                unset($titles[$i]);
+            }
+            if (($this->_maxDepth != 0) && ($this->_maxDepth < $title['depth'])) {
+                unset($titles[$i]);
+            }
+        }
+        $titles = array_merge(array(), $titles);
+        
+        return $titles;
     }
 
     /**
@@ -182,22 +182,22 @@ class TOC
     {
         return self::$_styleFont;
     }
-	
-	/**
-	 * Get Max Depth
-	 * 
-	 * @return int Max depth of titles
-	 */
-	public function getMaxDepth() {
-		return $this->_maxDepth;
-	}
-	
-	/**
-	 * Get Min Depth
-	 * 
-	 * @return int Min depth of titles
-	 */
-	public function getMinDepth() {
-		return $this->_minDepth;
-	}
+    
+    /**
+     * Get Max Depth
+     * 
+     * @return int Max depth of titles
+     */
+    public function getMaxDepth() {
+        return $this->_maxDepth;
+    }
+    
+    /**
+     * Get Min Depth
+     * 
+     * @return int Min depth of titles
+     */
+    public function getMinDepth() {
+        return $this->_minDepth;
+    }
 }
