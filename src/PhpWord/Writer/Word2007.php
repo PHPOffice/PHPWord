@@ -158,7 +158,7 @@ class Word2007 extends Writer implements IWriter
                 $footers[++$_cFtrs] = $_footer;
                 if (!is_null($_footer)) {
                     $_footer->setRelationId(++$rID);
-                    $_footerCount = $_footer->getFooterCount();
+                    $_footerCount = $_footer->getSectionId();
                     $_footerFile = 'footer' . $_footerCount . '.xml';
                     $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
                     $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));

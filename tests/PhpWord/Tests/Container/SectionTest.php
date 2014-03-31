@@ -25,7 +25,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetSettings()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getSettings(), '_settings', new Section(0));
+        $this->assertAttributeEquals($oSection->getSettings(), 'settings', new Section(0));
     }
 
     /**
@@ -34,7 +34,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetElements()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getElements(), '_elementCollection', new Section(0));
+        $this->assertAttributeEquals($oSection->getElements(), 'elements', new Section(0));
     }
 
     /**
@@ -43,7 +43,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetFooter()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getFooter(), '_footer', new Section(0));
+        $this->assertAttributeEquals($oSection->getFooter(), 'footer', new Section(0));
     }
 
     /**
@@ -52,7 +52,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetHeaders()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getHeaders(), '_headers', new Section(0));
+        $this->assertAttributeEquals($oSection->getHeaders(), 'headers', new Section(0));
     }
 
     /**

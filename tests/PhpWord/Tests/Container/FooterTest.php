@@ -27,7 +27,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $oFooter = new Footer($iVal);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Footer', $oFooter);
-        $this->assertEquals($oFooter->getFooterCount(), $iVal);
+        $this->assertEquals($oFooter->getSectionId(), $iVal);
     }
 
     /**

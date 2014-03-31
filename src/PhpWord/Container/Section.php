@@ -9,85 +9,57 @@
 
 namespace PhpOffice\PhpWord\Container;
 
-use PhpOffice\PhpWord\Exception\InvalidImageException;
-use PhpOffice\PhpWord\Exception\InvalidObjectException;
-use PhpOffice\PhpWord\Footnote;
-use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Container\Footer;
 use PhpOffice\PhpWord\Container\Header;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Container\Settings;
 use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\CheckBox;
-use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Section
  */
-class Section
+class Section extends Container
 {
-    /**
-     * Section count
-     *
-     * @var int
-     */
-    private $_sectionCount;
-
     /**
      * Section settings
      *
-     * @var \PhpOffice\PhpWord\Container\Settings
+     * @var Settings
      */
-    private $_settings;
+    private $settings;
 
     /**
-     * Section Element Collection
+     * Section headers
      *
-     * @var array
+     * @var Header[]
      */
-    private $_elementCollection = array();
+    private $headers = array();
 
     /**
-     * Section Headers
+     * Section footer
      *
-     * @var array
+     * @var Footer
      */
-    private $_headers = array();
-
-    /**
-     * Section Footer
-     *
-     * @var \PhpOffice\PhpWord\Container\Footer
-     */
-    private $_footer = null;
+    private $footer = null;
 
 
     /**
-     * Create a new Section
+     * Create new instance
      *
      * @param int $sectionCount
      * @param mixed $settings
      */
     public function __construct($sectionCount, $settings = null)
     {
-        $this->_sectionCount = $sectionCount;
-        $this->_settings = new \PhpOffice\PhpWord\Container\Settings();
+        $this->containerType = 'section';
+        $this->sectionId = $sectionCount;
+        $this->settings = new Settings();
         $this->setSettings($settings);
     }
 
     /**
-     * Set Section Settings
+     * Set section settings
      *
-     * @param   array $settings
+     * @param array $settings
      */
     public function setSettings($settings = null)
     {
@@ -96,7 +68,7 @@ class Section
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
-                $this->_settings->setSettingValue($key, $value);
+                $this->settings->setSettingValue($key, $value);
             }
         }
     }
@@ -104,71 +76,11 @@ class Section
     /**
      * Get Section Settings
      *
-     * @return \PhpOffice\PhpWord\Container\Settings
+     * @return Settings
      */
     public function getSettings()
     {
-        return $this->_settings;
-    }
-
-    /**
-     * Add a Text Element
-     *
-     * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\Text
-     */
-    public function addText($text, $styleFont = null, $styleParagraph = null)
-    {
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
-        $text = new Text($text, $styleFont, $styleParagraph);
-        $this->_elementCollection[] = $text;
-        return $text;
-    }
-
-    /**
-     * Add a Link Element
-     *
-     * @param string $linkSrc
-     * @param string $linkName
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\Link
-     */
-    public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
-    {
-        if (!String::isUTF8($linkSrc)) {
-            $linkSrc = utf8_encode($linkSrc);
-        }
-        if (!is_null($linkName)) {
-            if (!String::isUTF8($linkName)) {
-                $linkName = utf8_encode($linkName);
-            }
-        }
-
-        $link = new Link($linkSrc, $linkName, $styleFont, $styleParagraph);
-        $rID = Media::addSectionLinkElement($linkSrc);
-        $link->setRelationId($rID);
-
-        $this->_elementCollection[] = $link;
-        return $link;
-    }
-
-    /**
-     * Add a TextBreak Element
-     *
-     * @param int $count
-     * @param null|string|array|\PhpOffice\PhpWord\Style\Font $fontStyle
-     * @param null|string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
-     */
-    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
-    {
-        for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
-        }
+        return $this->settings;
     }
 
     /**
@@ -176,104 +88,7 @@ class Section
      */
     public function addPageBreak()
     {
-        $this->_elementCollection[] = new PageBreak();
-    }
-
-    /**
-     * Add a Table Element
-     *
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table
-     */
-    public function addTable($style = null)
-    {
-        $table = new Table('section', $this->_sectionCount, $style);
-        $this->_elementCollection[] = $table;
-        return $table;
-    }
-
-    /**
-     * Add a ListItem Element
-     *
-     * @param string $text
-     * @param int $depth
-     * @param mixed $styleFont
-     * @param mixed $styleList
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\ListItem
-     */
-    public function addListItem($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
-    {
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
-        $listItem = new ListItem($text, $depth, $styleFont, $styleList, $styleParagraph);
-        $this->_elementCollection[] = $listItem;
-        return $listItem;
-    }
-
-    /**
-     * Add a OLE-Object Element
-     *
-     * All exceptions should be handled by PhpOffice\PhpWord\Element\Object
-     *
-     * @param string $src
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Object
-     */
-    public function addObject($src, $style = null)
-    {
-        $object = new Object($src, $style);
-        if (!is_null($object->getSource())) {
-            $inf = pathinfo($src);
-            $ext = $inf['extension'];
-            if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
-                $ext = substr($ext, 0, -1);
-            }
-            $icon = __DIR__ . "/../_staticDocParts/_{$ext}.png";
-            $rIDimg = Media::addSectionMediaElement($icon, 'image', new Image($icon));
-            $data = Media::addSectionMediaElement($src, 'oleObject');
-            $rID = $data[0];
-            $objectId = $data[1];
-            $object->setRelationId($rID);
-            $object->setObjectId($objectId);
-            $object->setImageRelationId($rIDimg);
-            $this->_elementCollection[] = $object;
-            return $object;
-        } else {
-            throw new InvalidObjectException();
-        }
-    }
-
-    /**
-     * Add image element
-     *
-     * All exceptions should be handled by PhpOffice\PhpWord\Element\Image
-     *
-     * @param string $src
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Image
-     */
-    public function addImage($src, $style = null)
-    {
-        $image = new Image($src, $style);
-        $rID = Media::addSectionMediaElement($src, 'image', $image);
-        $image->setRelationId($rID);
-        $this->_elementCollection[] = $image;
-        return $image;
-    }
-
-    /**
-     * Add memory image element
-     *
-     * @deprecated
-     *
-     * @param string $src
-     * @param mixed $style
-     */
-    public function addMemoryImage($src, $style = null)
-    {
-        return $this->addImage($src, $style);
+        $this->elements[] = new PageBreak();
     }
 
     /**
@@ -281,80 +96,37 @@ class Section
      *
      * @param mixed $styleFont
      * @param mixed $styleTOC
-     * @return \PhpOffice\PhpWord\TOC
+     * @return TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null)
     {
         $toc = new TOC($styleFont, $styleTOC);
-        $this->_elementCollection[] = $toc;
+        $this->elements[] = $toc;
         return $toc;
     }
 
     /**
-     * Add a Title Element
+     * Add header
      *
-     * @param string $text
-     * @param int $depth
-     * @return \PhpOffice\PhpWord\Element\Title
+     * @return Header
      */
-    public function addTitle($text, $depth = 1)
+    public function addHeader()
     {
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
-        $styles = Style::getStyles();
-        if (array_key_exists('Heading_' . $depth, $styles)) {
-            $style = 'Heading' . $depth;
-        } else {
-            $style = null;
-        }
-
-        $title = new Title($text, $depth, $style);
-
-        $data = TOC::addTitle($text, $depth);
-        $anchor = $data[0];
-        $bookmarkId = $data[1];
-
-        $title->setAnchor($anchor);
-        $title->setBookmarkId($bookmarkId);
-
-        $this->_elementCollection[] = $title;
-        return $title;
-    }
-
-    /**
-     * Create a new TextRun
-     *
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     */
-    public function createTextRun($styleParagraph = null)
-    {
-        $textRun = new TextRun($styleParagraph);
-        $this->_elementCollection[] = $textRun;
-        return $textRun;
-    }
-
-    /**
-     * Get all Elements
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return $this->_elementCollection;
-    }
-
-    /**
-     * Create a new Header
-     *
-     * @return \PhpOffice\PhpWord\Container\Header
-     */
-    public function createHeader()
-    {
-        $header = new Header($this->_sectionCount);
-        $this->_headers[] = $header;
+        $header = new Header($this->sectionId);
+        $this->headers[] = $header;
         return $header;
+    }
+
+    /**
+     * Add footer
+     *
+     * @return Footer
+     */
+    public function addFooter()
+    {
+        $footer = new Footer($this->sectionId);
+        $this->footer = $footer;
+        return $footer;
     }
 
     /**
@@ -364,7 +136,17 @@ class Section
      */
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
+    }
+
+    /**
+     * Get footer element
+     *
+     * @return Footer
+     */
+    public function getFooter()
+    {
+        return $this->footer;
     }
 
     /**
@@ -373,73 +155,33 @@ class Section
      * If any of the Header instances have a type of Header::FIRST then this method returns true.
      * False otherwise.
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasDifferentFirstPage()
     {
-        $value = array_filter($this->_headers, function (Header &$header) {
+        $value = array_filter($this->headers, function (Header &$header) {
             return $header->getType() == Header::FIRST;
         });
         return count($value) > 0;
     }
 
     /**
-     * Create a new Footer
+     * Create header
      *
-     * @return \PhpOffice\PhpWord\Container\Footer
+     * @deprecated 0.9.2
+     */
+    public function createHeader()
+    {
+        return $this->addHeader();
+    }
+
+    /**
+     * Create footer
+     *
+     * @deprecated 0.9.2
      */
     public function createFooter()
     {
-        $footer = new Footer($this->_sectionCount);
-        $this->_footer = $footer;
-        return $footer;
-    }
-
-    /**
-     * Get footer element
-     *
-     * @return \PhpOffice\PhpWord\Container\Footer
-     */
-    public function getFooter()
-    {
-        return $this->_footer;
-    }
-
-    /**
-     * Create a new Footnote Element
-     *
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\Footnote
-     */
-    public function createFootnote($styleParagraph = null)
-    {
-        $footnote = new \PhpOffice\PhpWord\Element\Footnote($styleParagraph);
-        $refID = Footnote::addFootnoteElement($footnote);
-        $footnote->setReferenceId($refID);
-        $this->_elementCollection[] = $footnote;
-        return $footnote;
-    }
-
-    /**
-     * Add a CheckBox Element
-     *
-     * @param string $name
-     * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
-     * @return \PhpOffice\PhpWord\Element\CheckBox
-     */
-    public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
-    {
-        if (!String::isUTF8($name)) {
-            $name = utf8_encode($name);
-        }
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
-        $element = new CheckBox($name, $text, $styleFont, $styleParagraph);
-        $this->_elementCollection[] = $element;
-
-        return $element;
+        return $this->addFooter();
     }
 }

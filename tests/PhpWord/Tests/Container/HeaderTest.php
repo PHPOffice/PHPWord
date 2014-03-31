@@ -27,7 +27,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $oHeader = new Header($iVal);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Header', $oHeader);
-        $this->assertEquals($oHeader->getHeaderCount(), $iVal);
+        $this->assertEquals($oHeader->getSectionId(), $iVal);
         $this->assertEquals($oHeader->getType(), Header::AUTO);
     }
 
