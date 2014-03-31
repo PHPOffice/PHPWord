@@ -58,6 +58,20 @@ abstract class Container
     protected $elements = array();
 
     /**
+     * Parent container type: section|header|footer
+     *
+     * @var string
+     */
+    protected $parentContainer = null;
+
+    /**
+     * Parent container Id
+     *
+     * @var int
+     */
+    protected $parentContainerId;
+
+    /**
      * Relation Id
      *
      * @var int
@@ -68,19 +82,22 @@ abstract class Container
      * Add text element
      *
      * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return Text
      */
-    public function addText($text, $styleFont = null, $styleParagraph = null)
+    public function addText($text, $fontStyle = null, $paragraphStyle = null)
     {
+        if (in_array($this->containerType, array('footnote', 'textrun'))) {
+            $paragraphStyle = null;
+        }
         if (!String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $text = new Text($text, $styleFont, $styleParagraph);
-        $this->elements[] = $text;
+        $element = new Text($text, $fontStyle, $paragraphStyle);
+        $this->elements[] = $element;
 
-        return $text;
+        return $element;
     }
 
     /**
@@ -100,12 +117,16 @@ abstract class Container
     /**
      * Add textrun element
      *
-     * @param mixed $styleParagraph
+     * @param mixed $paragraphStyle
      * @return TextRun
      */
-    public function addTextRun($styleParagraph = null)
+    public function addTextRun($paragraphStyle = null)
     {
-        $textRun = new TextRun($styleParagraph);
+        if (!in_array($this->containerType, array('section', 'header', 'footer', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+
+        $textRun = new TextRun($paragraphStyle);
         $this->elements[] = $textRun;
 
         return $textRun;
@@ -116,14 +137,17 @@ abstract class Container
      *
      * @param string $linkSrc
      * @param string $linkName
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return Link
      * @todo Enable link element in header and footer
      */
-    public function addLink($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
+    public function addLink($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section', 'footnote', 'textrun', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
             throw new \BadMethodCallException();
         }
 
@@ -135,10 +159,15 @@ abstract class Container
                 $linkName = utf8_encode($linkName);
             }
         }
-        $link = new Link($linkSrc, $linkName, $styleFont, $styleParagraph);
-        $rID = Media::addSectionLinkElement($linkSrc);
+        $link = new Link($linkSrc, $linkName, $fontStyle, $paragraphStyle);
+        if ($this->containerType == 'footnote') {
+            $rID = Footnote::addFootnoteLinkElement($linkSrc);
+        } else {
+            $rID = Media::addSectionLinkElement($linkSrc);
+        }
         $link->setRelationId($rID);
         $this->elements[] = $link;
+
         return $link;
     }
 
@@ -148,7 +177,7 @@ abstract class Container
      * @param string $text
      * @param int $depth
      * @return Title
-     * @todo Enable title element in header and footer
+     * @todo Enable title element in header, footer, footnote, textrun
      */
     public function addTitle($text, $depth = 1)
     {
@@ -172,6 +201,7 @@ abstract class Container
         $title->setAnchor($anchor);
         $title->setBookmarkId($bookmarkId);
         $this->elements[] = $title;
+
         return $title;
     }
 
@@ -179,20 +209,23 @@ abstract class Container
      * Add preserve text element
      *
      * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return PreserveText
      */
-    public function addPreserveText($text, $styleFont = null, $styleParagraph = null)
+    public function addPreserveText($text, $fontStyle = null, $paragraphStyle = null)
     {
-        if ($this->containerType == 'section') {
+        if (!in_array($this->containerType, array('header', 'footer', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if ($this->containerType == 'cell' && $this->parentContainer == 'section') {
             throw new \BadMethodCallException();
         }
 
         if (!String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $ptext = new PreserveText($text, $styleFont, $styleParagraph);
+        $ptext = new PreserveText($text, $fontStyle, $paragraphStyle);
         $this->elements[] = $ptext;
 
         return $ptext;
@@ -203,23 +236,27 @@ abstract class Container
      *
      * @param string $text
      * @param int $depth
-     * @param mixed $styleFont
+     * @param mixed $fontStyle
      * @param mixed $styleList
-     * @param mixed $styleParagraph
+     * @param mixed $paragraphStyle
      * @return ListItem
      * @todo Enable list item element in header and footer
      */
-    public function addListItem($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
+    public function addListItem($text, $depth = 0, $fontStyle = null, $styleList = null, $paragraphStyle = null)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
             throw new \BadMethodCallException();
         }
 
         if (!String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $listItem = new ListItem($text, $depth, $styleFont, $styleList, $styleParagraph);
+        $listItem = new ListItem($text, $depth, $fontStyle, $styleList, $paragraphStyle);
         $this->elements[] = $listItem;
+
         return $listItem;
     }
 
@@ -231,6 +268,10 @@ abstract class Container
      */
     public function addTable($style = null)
     {
+        if (!in_array($this->containerType, array('section', 'header', 'footer'))) {
+            throw new \BadMethodCallException();
+        }
+
         $table = new Table($this->containerType, $this->sectionId, $style);
         $this->elements[] = $table;
 
@@ -247,17 +288,29 @@ abstract class Container
      */
     public function addImage($src, $style = null, $isWatermark = false)
     {
+        if ($this->containerType == 'footnote') {
+            throw new \BadMethodCallException();
+        }
+        if (!is_null($this->parentContainer)) {
+            $imageContainerType = $this->parentContainer;
+            $imageContainerId = $this->parentContainerId;
+        } else {
+            $imageContainerType = $this->containerType;
+            $imageContainerId = $this->sectionId;
+        }
+
         $image = new Image($src, $style, $isWatermark);
         if (!is_null($image->getSource())) {
-            switch ($this->containerType) {
+            switch ($imageContainerType) {
+                case 'textrun':
                 case 'section':
                     $rID = Media::addSectionMediaElement($src, 'image', $image);
                     break;
                 case 'header':
-                    $rID = Media::addHeaderMediaElement($this->sectionId, $src, $image);
+                    $rID = Media::addHeaderMediaElement($imageContainerId, $src, $image);
                     break;
                 case 'footer':
-                    $rID = Media::addFooterMediaElement($this->sectionId, $src, $image);
+                    $rID = Media::addFooterMediaElement($imageContainerId, $src, $image);
                     break;
             }
             $image->setRelationId($rID);
@@ -280,7 +333,10 @@ abstract class Container
      */
     public function addObject($src, $style = null)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
             throw new \BadMethodCallException();
         }
 
@@ -309,17 +365,17 @@ abstract class Container
     /**
      * Add footnote element
      *
-     * @param mixed $styleParagraph
+     * @param mixed $paragraphStyle
      * @return FootnoteElement
      * @todo Enable footnote element in header and footer
      */
-    public function addFootnote($styleParagraph = null)
+    public function addFootnote($paragraphStyle = null)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section', 'textrun'))) {
             throw new \BadMethodCallException();
         }
 
-        $footnote = new FootnoteElement($styleParagraph);
+        $footnote = new FootnoteElement($paragraphStyle);
         $refID = Footnote::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->elements[] = $footnote;
@@ -331,14 +387,17 @@ abstract class Container
      *
      * @param string $name
      * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return CheckBox
      * @todo Enable checkbox element in header and footer
      */
-    public function addCheckBox($name, $text, $styleFont = null, $styleParagraph = null)
+    public function addCheckBox($name, $text, $fontStyle = null, $paragraphStyle = null)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
             throw new \BadMethodCallException();
         }
 
@@ -348,7 +407,7 @@ abstract class Container
         if (!String::isUTF8($text)) {
             $text = utf8_encode($text);
         }
-        $element = new CheckBox($name, $text, $styleFont, $styleParagraph);
+        $element = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
         $this->elements[] = $element;
 
         return $element;
@@ -380,7 +439,7 @@ abstract class Container
      */
     public function getRelationId()
     {
-        if ($this->containerType == 'section') {
+        if (!in_array($this->containerType, array('header', 'footer'))) {
             throw new \BadMethodCallException();
         }
 
@@ -394,7 +453,7 @@ abstract class Container
      */
     public function setRelationId($rId)
     {
-        if ($this->containerType == 'section') {
+        if (!in_array($this->containerType, array('header', 'footer'))) {
             throw new \BadMethodCallException();
         }
 
@@ -416,22 +475,22 @@ abstract class Container
     /**
      * Create textrun element
      *
-     * @param mixed $styleParagraph
+     * @param mixed $paragraphStyle
      * @deprecated 0.9.2
      */
-    public function createTextRun($styleParagraph = null)
+    public function createTextRun($paragraphStyle = null)
     {
-        return $this->addTextRun($styleParagraph);
+        return $this->addTextRun($paragraphStyle);
     }
 
     /**
      * Create footnote element
      *
-     * @param mixed $styleParagraph
+     * @param mixed $paragraphStyle
      * @deprecated 0.9.2
      */
-    public function createFootnote($styleParagraph = null)
+    public function createFootnote($paragraphStyle = null)
     {
-        return $this->addFootnote($styleParagraph);
+        return $this->addFootnote($paragraphStyle);
     }
 }

@@ -9,125 +9,59 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Container\Container;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Footnote element
  */
-class Footnote
+class Footnote extends Container
 {
     /**
      * Paragraph style
      *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
+     * @var string|Paragraph
      */
-    private $_styleParagraph;
+    private $paragraphStyle;
 
     /**
      * Footnote Reference ID
      *
      * @var string
      */
-    private $_refId;
+    private $referenceId;
 
     /**
-     * Text collection
+     * Create new instance
      *
-     * @var array
+     * @param string|array|Paragraph $paragraphStyle
      */
-    private $_elementCollection;
-
-    /**
-     * Create a new Footnote Element
-     *
-     * @param mixed $styleParagraph
-     */
-    public function __construct($styleParagraph = null)
+    public function __construct($paragraphStyle = null)
     {
-        $this->_elementCollection = array();
+        $this->containerType = 'footnote';
 
         // Set paragraph style
-        if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new Paragraph();
-
-            foreach ($styleParagraph as $key => $value) {
+        if (is_array($paragraphStyle)) {
+            $this->paragraphStyle = new Paragraph();
+            foreach ($paragraphStyle as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
-                $this->_styleParagraph->setStyleValue($key, $value);
+                $this->paragraphStyle->setStyleValue($key, $value);
             }
         } else {
-            $this->_styleParagraph = $styleParagraph;
+            $this->paragraphStyle = $paragraphStyle;
         }
-    }
-
-
-    /**
-     * Add a Text Element
-     *
-     * @param string $text
-     * @param mixed $styleFont
-     * @return \PhpOffice\PhpWord\Element\Text
-     */
-    public function addText($text = null, $styleFont = null)
-    {
-        $givenText                  = $text;
-        $text                       = new Text($givenText, $styleFont);
-        $this->_elementCollection[] = $text;
-        return $text;
-    }
-
-    /**
-     * Add TextBreak
-     *
-     * @param int $count
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     */
-    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
-    {
-        for ($i = 1; $i <= $count; $i++) {
-            $this->_elementCollection[] = new TextBreak($fontStyle, $paragraphStyle);
-        }
-    }
-
-    /**
-     * Add a Link Element
-     *
-     * @param string $linkSrc
-     * @param string $linkName
-     * @param mixed $styleFont
-     * @return \PhpOffice\PhpWord\Element\Link
-     */
-    public function addLink($linkSrc, $linkName = null, $styleFont = null)
-    {
-
-        $link = new Link($linkSrc, $linkName, $styleFont);
-        $rID = \PhpOffice\PhpWord\Footnote::addFootnoteLinkElement($linkSrc);
-        $link->setRelationId($rID);
-
-        $this->_elementCollection[] = $link;
-        return $link;
-    }
-
-    /**
-     * Get Footnote content
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return $this->_elementCollection;
     }
 
     /**
      * Get paragraph style
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return string|Paragraph
      */
     public function getParagraphStyle()
     {
-        return $this->_styleParagraph;
+        return $this->paragraphStyle;
     }
 
     /**
@@ -137,7 +71,7 @@ class Footnote
      */
     public function getReferenceId()
     {
-        return $this->_refId;
+        return $this->referenceId;
     }
 
     /**
@@ -147,6 +81,6 @@ class Footnote
      */
     public function setReferenceId($refId)
     {
-        $this->_refId = $refId;
+        $this->referenceId = $refId;
     }
 }

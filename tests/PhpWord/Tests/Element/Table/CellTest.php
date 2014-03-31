@@ -92,7 +92,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Add link exception
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedException \BadMethodCallException
      */
     public function testAddLinkException()
     {
@@ -272,7 +272,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     /**
      * Add preserve text exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedException \BadMethodCallException
      */
     public function testAddPreserveTextException()
     {
