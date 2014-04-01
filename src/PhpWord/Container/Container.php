@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Footnote;
+use PhpOffice\PhpWord\Footnote as FootnoteCollection;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -58,18 +58,22 @@ abstract class Container
     protected $elements = array();
 
     /**
-     * Parent container type: section|header|footer
+     * Document part type: section|header|footer
+     *
+     * Used by textrun and cell to determine where the element is located
+     * because it will affect the availability of other element, e.g. footnote
+     * will not be available when $docPartType is header or footer.
      *
      * @var string
      */
-    protected $parentContainer = null;
+    protected $docPartType = null;
 
     /**
-     * Parent container Id
+     * Document part Id
      *
      * @var int
      */
-    protected $parentContainerId;
+    protected $docPartId;
 
     /**
      * Relation Id
@@ -91,9 +95,7 @@ abstract class Container
         if (in_array($this->containerType, array('footnote', 'textrun'))) {
             $paragraphStyle = null;
         }
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
+        $text = String::toUTF8($text);
         $element = new Text($text, $fontStyle, $paragraphStyle);
         $this->elements[] = $element;
 
@@ -125,8 +127,15 @@ abstract class Container
         if (!in_array($this->containerType, array('section', 'header', 'footer', 'cell'))) {
             throw new \BadMethodCallException();
         }
+        if ($this->containerType == 'cell') {
+            $docPartType = $this->docPartType;
+            $docPartId = $this->docPartId;
+        } else {
+            $docPartType = $this->containerType;
+            $docPartId = $this->sectionId;
+        }
 
-        $textRun = new TextRun($paragraphStyle);
+        $textRun = new TextRun($paragraphStyle, $docPartType, $docPartId);
         $this->elements[] = $textRun;
 
         return $textRun;
@@ -140,30 +149,27 @@ abstract class Container
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      * @return Link
-     * @todo Enable link element in header and footer
      */
     public function addLink($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
     {
-        if (!in_array($this->containerType, array('section', 'footnote', 'textrun', 'cell'))) {
-            throw new \BadMethodCallException();
+        if (!is_null($this->docPartType)) {
+            $linkContainer = $this->docPartType;
+            $linkContainerId = $this->docPartId;
+        } else {
+            $linkContainer = $this->containerType;
+            $linkContainerId = $this->sectionId;
         }
-        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
-            throw new \BadMethodCallException();
+        if ($linkContainer == 'header' || $linkContainer == 'footer') {
+            $linkContainer .= $linkContainerId;
         }
 
-        if (!String::isUTF8($linkSrc)) {
-            $linkSrc = utf8_encode($linkSrc);
-        }
-        if (!is_null($linkName)) {
-            if (!String::isUTF8($linkName)) {
-                $linkName = utf8_encode($linkName);
-            }
-        }
+        $linkSrc = String::toUTF8($linkSrc);
+        $linkName = String::toUTF8($linkName);
         $link = new Link($linkSrc, $linkName, $fontStyle, $paragraphStyle);
-        if ($this->containerType == 'footnote') {
-            $rID = Footnote::addFootnoteLinkElement($linkSrc);
-        } else {
+        if ($linkContainer == 'section') {
             $rID = Media::addSectionLinkElement($linkSrc);
+        } else {
+            $rID = Media::addMediaElement($linkContainer, 'hyperlink', $linkSrc);
         }
         $link->setRelationId($rID);
         $this->elements[] = $link;
@@ -181,13 +187,11 @@ abstract class Container
      */
     public function addTitle($text, $depth = 1)
     {
-        if ($this->containerType != 'section') {
+        if (!in_array($this->containerType, array('section'))) {
             throw new \BadMethodCallException();
         }
 
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
+        $text = String::toUTF8($text);
         $styles = Style::getStyles();
         if (array_key_exists('Heading_' . $depth, $styles)) {
             $style = 'Heading' . $depth;
@@ -218,13 +222,11 @@ abstract class Container
         if (!in_array($this->containerType, array('header', 'footer', 'cell'))) {
             throw new \BadMethodCallException();
         }
-        if ($this->containerType == 'cell' && $this->parentContainer == 'section') {
+        if ($this->containerType == 'cell' && $this->docPartType == 'section') {
             throw new \BadMethodCallException();
         }
 
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
+        $text = String::toUTF8($text);
         $ptext = new PreserveText($text, $fontStyle, $paragraphStyle);
         $this->elements[] = $ptext;
 
@@ -244,16 +246,11 @@ abstract class Container
      */
     public function addListItem($text, $depth = 0, $fontStyle = null, $styleList = null, $paragraphStyle = null)
     {
-        if (!in_array($this->containerType, array('section', 'cell'))) {
-            throw new \BadMethodCallException();
-        }
-        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
+        if (!in_array($this->containerType, array('section', 'header', 'footer', 'cell'))) {
             throw new \BadMethodCallException();
         }
 
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
+        $text = String::toUTF8($text);
         $listItem = new ListItem($text, $depth, $fontStyle, $styleList, $paragraphStyle);
         $this->elements[] = $listItem;
 
@@ -288,12 +285,9 @@ abstract class Container
      */
     public function addImage($src, $style = null, $isWatermark = false)
     {
-        if ($this->containerType == 'footnote') {
-            throw new \BadMethodCallException();
-        }
-        if (!is_null($this->parentContainer)) {
-            $imageContainerType = $this->parentContainer;
-            $imageContainerId = $this->parentContainerId;
+        if ($this->containerType == 'cell') {
+            $imageContainerType = $this->docPartType;
+            $imageContainerId = $this->docPartId;
         } else {
             $imageContainerType = $this->containerType;
             $imageContainerId = $this->sectionId;
@@ -301,6 +295,7 @@ abstract class Container
 
         $image = new Image($src, $style, $isWatermark);
         if (!is_null($image->getSource())) {
+            $rID = null;
             switch ($imageContainerType) {
                 case 'textrun':
                 case 'section':
@@ -311,6 +306,9 @@ abstract class Container
                     break;
                 case 'footer':
                     $rID = Media::addFooterMediaElement($imageContainerId, $src, $image);
+                    break;
+                case 'footnote':
+                    $rID = Media::addMediaElement('footnotes', 'image', $src, $image);
                     break;
             }
             $image->setRelationId($rID);
@@ -336,7 +334,7 @@ abstract class Container
         if (!in_array($this->containerType, array('section', 'cell'))) {
             throw new \BadMethodCallException();
         }
-        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
+        if ($this->containerType == 'cell' && $this->docPartType != 'section') {
             throw new \BadMethodCallException();
         }
 
@@ -367,18 +365,21 @@ abstract class Container
      *
      * @param mixed $paragraphStyle
      * @return FootnoteElement
-     * @todo Enable footnote element in header and footer
      */
     public function addFootnote($paragraphStyle = null)
     {
-        if (!in_array($this->containerType, array('section', 'textrun'))) {
+        if (!in_array($this->containerType, array('section', 'textrun', 'cell'))) {
+            throw new \BadMethodCallException();
+        }
+        if (!is_null($this->docPartType) && $this->docPartType != 'section') {
             throw new \BadMethodCallException();
         }
 
         $footnote = new FootnoteElement($paragraphStyle);
-        $refID = Footnote::addFootnoteElement($footnote);
+        $refID = FootnoteCollection::addFootnoteElement($footnote);
         $footnote->setReferenceId($refID);
         $this->elements[] = $footnote;
+
         return $footnote;
     }
 
@@ -394,19 +395,15 @@ abstract class Container
      */
     public function addCheckBox($name, $text, $fontStyle = null, $paragraphStyle = null)
     {
-        if (!in_array($this->containerType, array('section', 'cell'))) {
+        if (!in_array($this->containerType, array('section', 'header', 'footer', 'cell'))) {
             throw new \BadMethodCallException();
         }
-        if ($this->containerType == 'cell' && $this->parentContainer != 'section') {
+        if ($this->containerType == 'cell' && $this->docPartType != 'section') {
             throw new \BadMethodCallException();
         }
 
-        if (!String::isUTF8($name)) {
-            $name = utf8_encode($name);
-        }
-        if (!String::isUTF8($text)) {
-            $text = utf8_encode($text);
-        }
+        $name = String::toUTF8($name);
+        $text = String::toUTF8($text);
         $element = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
         $this->elements[] = $element;
 

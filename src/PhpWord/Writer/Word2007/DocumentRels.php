@@ -127,12 +127,14 @@ class DocumentRels extends Base
             $relationType = $relation['type'];
             $relationName = $relation['target'];
             $relationId = $relation['rID'];
+            $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
 
             $this->writeRelationship(
                 $xmlWriter,
                 $relationId,
                 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
-                $relationName
+                $relationName,
+                $targetMode
             );
         }
 

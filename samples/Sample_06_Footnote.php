@@ -4,6 +4,7 @@ include_once 'Sample_Header.php';
 // New Word Document
 echo date('H:i:s') , " Create new PhpWord object" , \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+\PhpOffice\PhpWord\Settings::setCompatibility(false);
 
 // New portrait section
 $section = $phpWord->createSection();
@@ -19,16 +20,16 @@ $textrun = $section->createTextRun('pStyle');
 $textrun->addText('This is some lead text in a paragraph with a following footnote. ','pStyle');
 
 $footnote = $textrun->createFootnote();
-$footnote->addText('Just like a textrun a footnote can contain native text and link elements.');
-$footnote->addText(' No break is placed after adding an element.', 'BoldText');
-$footnote->addText(' All elements are placed inside a paragraph.', 'ColoredText');
-$footnote->addText(' The best search engine: ');
-$footnote->addLink('http://www.google.com', null, 'NLink');
-$footnote->addText('. Also not bad:');
+$footnote->addText('Just like a textrun, a footnote can contain native texts. ');
+$footnote->addText('No break is placed after adding an element. ', 'BoldText');
+$footnote->addText('All elements are placed inside a paragraph. ', 'ColoredText');
 $footnote->addTextBreak();
-$footnote->addLink('http://www.bing.com', null, 'NLink');
-
-$textrun->addText('The trailing text in the paragraph.');
+$footnote->addText('But you can insert a manual text break like above, ');
+$footnote->addText('links like ');
+$footnote->addLink('http://www.google.com', null, 'NLink');
+$footnote->addText(', or image like ');
+$footnote->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$footnote->addText('But you can only put footnote in section, not in header or footer.');
 
 $section->addText('You can also create the footnote directly from the section making it wrap in a paragraph like the footnote below this paragraph. But is is best used from within a textrun.');
 $footnote = $section->createFootnote();

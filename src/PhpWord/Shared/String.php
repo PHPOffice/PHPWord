@@ -91,4 +91,19 @@ class String
     {
         return $value === '' || preg_match('/^./su', $value) === 1;
     }
+
+    /**
+     * Return UTF8 encoded value
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function toUTF8($value = '')
+    {
+        if (!is_null($value) && !self::isUTF8($value)) {
+            $value = utf8_encode($value);
+        }
+
+        return $value;
+    }
 }

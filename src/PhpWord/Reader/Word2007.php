@@ -194,7 +194,7 @@ class Word2007 extends Reader implements IReader
                                         );
                                         // w:r more than 1? It's a textrun
                                     } else {
-                                        $textRun = $section->createTextRun();
+                                        $textRun = $section->addTextRun();
                                         foreach ($elm->r as $r) {
                                             $textRun->addText(
                                                 $r->t,

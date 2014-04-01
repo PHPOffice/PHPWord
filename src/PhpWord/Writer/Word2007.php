@@ -102,6 +102,7 @@ class Word2007 extends Writer implements IWriter
                 }
             }
 
+            // Add section elements
             $sectionElements = array();
             $_secElements = Media::getSectionMediaElements();
             foreach ($_secElements as $element) { // loop through section media elements
@@ -111,67 +112,94 @@ class Word2007 extends Writer implements IWriter
                 $sectionElements[] = $element;
             }
 
-            $_hdrElements = Media::getHeaderMediaElements();
-            foreach ($_hdrElements as $_headerFile => $_hdrMedia) { // loop through headers
-                if (count($_hdrMedia) > 0) {
-                    $objZip->addFromString('word/_rels/' . $_headerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_hdrMedia));
-                    foreach ($_hdrMedia as $element) { // loop through header media elements
-                        $this->addFileToPackage($objZip, $element);
+            // Add header relations & elements
+            $hdrElements = Media::getHeaderMediaElements();
+            foreach ($hdrElements as $hdrFile => $hdrMedia) {
+                if (count($hdrMedia) > 0) {
+                    $objZip->addFromString(
+                        'word/_rels/' . $hdrFile . '.xml.rels',
+                        $this->getWriterPart('documentrels')->writeHeaderFooterRels($hdrMedia)
+                    );
+                    foreach ($hdrMedia as $element) {
+                        if ($element['type'] == 'image') {
+                            $this->addFileToPackage($objZip, $element);
+                        }
                     }
                 }
             }
 
-            $_ftrElements = Media::getFooterMediaElements();
-            foreach ($_ftrElements as $_footerFile => $_ftrMedia) { // loop through footers
-                if (count($_ftrMedia) > 0) {
-                    $objZip->addFromString('word/_rels/' . $_footerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_ftrMedia));
-                    foreach ($_ftrMedia as $element) { // loop through footers media elements
-                        $this->addFileToPackage($objZip, $element);
+            // Add footer relations & elements
+            $ftrElements = Media::getFooterMediaElements();
+            foreach ($ftrElements as $ftrFile => $ftrMedia) {
+                if (count($ftrMedia) > 0) {
+                    $objZip->addFromString(
+                        'word/_rels/' . $ftrFile . '.xml.rels',
+                        $this->getWriterPart('documentrels')->writeHeaderFooterRels($ftrMedia)
+                    );
+                    foreach ($ftrMedia as $element) {
+                        if ($element['type'] == 'image') {
+                            $this->addFileToPackage($objZip, $element);
+                        }
                     }
                 }
             }
 
-            $footnoteLinks = array();
-            $_footnoteElements = Footnote::getFootnoteLinkElements();
-            // loop through footnote link elements
-            foreach ($_footnoteElements as $element) {
-                $footnoteLinks[] = $element;
-            }
-
+            // Process header/footer xml files
             $_cHdrs = 0;
             $_cFtrs = 0;
             $rID = Media::countSectionMediaElements() + 6;
             $_sections = $this->phpWord->getSections();
-
             $footers = array();
             foreach ($_sections as $section) {
                 $_headers = $section->getHeaders();
                 foreach ($_headers as $index => &$_header) {
                     $_cHdrs++;
                     $_header->setRelationId(++$rID);
-                    $_headerFile = 'header' . $_cHdrs . '.xml';
-                    $sectionElements[] = array('target' => $_headerFile, 'type' => 'header', 'rID' => $rID);
-                    $objZip->addFromString('word/' . $_headerFile, $this->getWriterPart('header')->writeHeader($_header));
+                    $hdrFile = 'header' . $_cHdrs . '.xml';
+                    $sectionElements[] = array('target' => $hdrFile, 'type' => 'header', 'rID' => $rID);
+                    $objZip->addFromString(
+                        'word/' . $hdrFile,
+                        $this->getWriterPart('header')->writeHeader($_header)
+                    );
                 }
-
                 $_footer = $section->getFooter();
                 $footers[++$_cFtrs] = $_footer;
                 if (!is_null($_footer)) {
                     $_footer->setRelationId(++$rID);
                     $_footerCount = $_footer->getSectionId();
-                    $_footerFile = 'footer' . $_footerCount . '.xml';
-                    $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
-                    $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
+                    $ftrFile = 'footer' . $_footerCount . '.xml';
+                    $sectionElements[] = array('target' => $ftrFile, 'type' => 'footer', 'rID' => $rID);
+                    $objZip->addFromString(
+                        'word/' . $ftrFile,
+                        $this->getWriterPart('footer')->writeFooter($_footer)
+                    );
                 }
             }
 
+            // Process footnotes
             if (Footnote::countFootnoteElements() > 0) {
-                $_allFootnotesCollection = Footnote::getFootnoteElements();
-                $_footnoteFile = 'footnotes.xml';
-                $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
-                $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));
-                if (count($footnoteLinks) > 0) {
-                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteLinks));
+                // Push to document.xml.rels
+                $sectionElements[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rID);
+                // Add footnote media to package
+                $footnotesMedia = Media::getMediaElements('footnotes');
+                if (!empty($footnotesMedia)) {
+                    foreach ($footnotesMedia as $media) {
+                        if ($media['type'] == 'image') {
+                            $this->addFileToPackage($objZip, $media);
+                        }
+                    }
+                }
+                // Write footnotes.xml
+                $objZip->addFromString(
+                    "word/footnotes.xml",
+                    $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements())
+                );
+                // Write footnotes.xml.rels
+                if (!empty($footnotesMedia)) {
+                    $objZip->addFromString(
+                        'word/_rels/footnotes.xml.rels',
+                        $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnotesMedia)
+                    );
                 }
             }
 

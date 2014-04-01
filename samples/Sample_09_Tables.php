@@ -63,10 +63,21 @@ $cellVCentered = array('valign' => 'center');
 
 $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
+
 $table->addRow();
-$table->addCell(2000, $cellRowSpan)->addText('A', null, $cellHCentered);
-$table->addCell(4000, $cellColSpan)->addText('B', null, $cellHCentered);
+
+$cell1 = $table->addCell(2000, $cellRowSpan);
+$textrun1 = $cell1->addTextRun($cellHCentered);
+$textrun1->addText('A');
+$textrun1->addFootnote()->addText('Row span');
+
+$cell2 = $table->addCell(4000, $cellColSpan);
+$textrun2 = $cell2->addTextRun($cellHCentered);
+$textrun2->addText('B');
+$textrun2->addFootnote()->addText('Colspan span');
+
 $table->addCell(2000, $cellRowSpan)->addText('E', null, $cellHCentered);
+
 $table->addRow();
 $table->addCell(null, $cellRowContinue);
 $table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);

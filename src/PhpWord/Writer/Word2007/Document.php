@@ -10,23 +10,23 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Container\Section;
-use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\Title;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Object;
+use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\TOC;
 
 /**
  * Word2007 document part writer
@@ -83,10 +83,10 @@ class Document extends Base
                         $this->writeTextBreak($xmlWriter, $element);
                     } elseif ($element instanceof PageBreak) {
                         $this->writePageBreak($xmlWriter);
-                    } elseif ($element instanceof Table) {
-                        $this->writeTable($xmlWriter, $element);
                     } elseif ($element instanceof ListItem) {
                         $this->writeListItem($xmlWriter, $element);
+                    } elseif ($element instanceof Table) {
+                        $this->writeTable($xmlWriter, $element);
                     } elseif ($element instanceof Image) {
                         $this->writeImage($xmlWriter, $element);
                     } elseif ($element instanceof Object) {

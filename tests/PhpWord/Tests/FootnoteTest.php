@@ -27,9 +27,8 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $rIdFootnote = Footnote::addFootnoteElement($footnoteElement);
         $rIdLink = Footnote::addFootnoteLinkElement('http://test.com');
 
-        $this->assertEquals(2, $rIdFootnote);
+        $this->assertEquals(1, $rIdFootnote);
         $this->assertEquals(1, $rIdLink);
         $this->assertEquals(1, count(Footnote::getFootnoteElements()));
-        $this->assertEquals(1, count(Footnote::getFootnoteLinkElements()));
     }
 }

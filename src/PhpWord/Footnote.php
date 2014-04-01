@@ -9,35 +9,32 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
+
 /**
  *  Footnote
  */
 class Footnote
 {
     /**
-     * Footnote Elements
+     * Footnote elements
      *
      * @var array
      */
-    private static $_footnoteCollection = array();
+    private static $elements = array();
 
     /**
-     * Footnote Link Elements
+     * Add new footnote
      *
-     * @var array
-     */
-    private static $_footnoteLink = array();
-
-    /**
-     * Add new Footnote Element
-     *
+     * @param FootnoteElement $footnote
      * @return int Reference ID
      */
-    public static function addFootnoteElement(\PhpOffice\PhpWord\Element\Footnote $footnote)
+    public static function addFootnoteElement(FootnoteElement $footnote)
     {
-        $refID = self::countFootnoteElements() + 2;
+        $refID = self::countFootnoteElements() + 1;
 
-        self::$_footnoteCollection[] = $footnote;
+        self::$elements[] = $footnote;
 
         return $refID;
     }
@@ -49,7 +46,7 @@ class Footnote
      */
     public static function getFootnoteElements()
     {
-        return self::$_footnoteCollection;
+        return self::$elements;
     }
 
     /**
@@ -59,47 +56,29 @@ class Footnote
      */
     public static function countFootnoteElements()
     {
-        return count(self::$_footnoteCollection);
+        return count(self::$elements);
     }
 
     /**
      * Add new Footnote Link Element
      *
      * @param string $linkSrc
-     *
      * @return int Reference ID
+     * @deprecated 0.9.2
      */
     public static function addFootnoteLinkElement($linkSrc)
     {
-        $rID = self::countFootnoteLinkElements() + 1;
-
-        $link = array();
-        $link['target'] = $linkSrc;
-        $link['rID'] = $rID;
-        $link['type'] = 'hyperlink';
-
-        self::$_footnoteLink[] = $link;
-
-        return $rID;
+        return Media::addMediaElement('footnotes', 'hyperlink', $linkSrc);
     }
 
     /**
      * Get Footnote Link Elements
      *
      * @return array
+     * @deprecated 0.9.2
      */
     public static function getFootnoteLinkElements()
     {
-        return self::$_footnoteLink;
-    }
-
-    /**
-     * Get Footnote Link Elements Count
-     *
-     * @return int
-     */
-    public static function countFootnoteLinkElements()
-    {
-        return count(self::$_footnoteLink);
+        return Media::getMediaElements('footnotes', 'hyperlink');
     }
 }

@@ -9,13 +9,16 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Container\Header as HeaderElement;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\PreserveText;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -47,7 +50,6 @@ class Header extends Base
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
-
         $_elements = $header->getElements();
 
         foreach ($_elements as $element) {
@@ -55,8 +57,14 @@ class Header extends Base
                 $this->writeText($xmlWriter, $element);
             } elseif ($element instanceof TextRun) {
                 $this->writeTextRun($xmlWriter, $element);
+            } elseif ($element instanceof Link) {
+                $this->writeLink($xmlWriter, $element);
+            } elseif ($element instanceof PreserveText) {
+                $this->writePreserveText($xmlWriter, $element);
             } elseif ($element instanceof TextBreak) {
                 $this->writeTextBreak($xmlWriter, $element);
+            } elseif ($element instanceof ListItem) {
+                $this->writeListItem($xmlWriter, $element);
             } elseif ($element instanceof Table) {
                 $this->writeTable($xmlWriter, $element);
             } elseif ($element instanceof Image) {
@@ -65,8 +73,8 @@ class Header extends Base
                 } else {
                     $this->writeWatermark($xmlWriter, $element);
                 }
-            } elseif ($element instanceof PreserveText) {
-                $this->writePreserveText($xmlWriter, $element);
+            } elseif ($element instanceof CheckBox) {
+                $this->writeCheckBox($xmlWriter, $element);
             }
         }
 

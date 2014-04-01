@@ -14,6 +14,11 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Table: Add `exactHeight` to row style to define whether row height should be exact or atLeast - @jcarignan GH-168
 - Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
 - Settings: Ability to use PCLZip as alternative to ZipArchive - @bskrtich @ivanlanin GH-106 GH-140 GH-185
+- Table: Ability to add footnote in table cell - @ivanlanin GH-187
+- Footnote: Ability to add image in footnote - @ivanlanin GH-187
+- ListItem: Ability to add list item in header/footer - @ivanlanin GH-187
+- CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
+- Link: Ability to add link in header/footer - @ivanlanin GH-187
 
 ### Bugfixes
 
@@ -24,8 +29,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
 - Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
 - Reader: Rename AbstractReader > Reader - @ivanlanin
-- General: Refactor folders: Element, Container, and Exception - @ivanlanin
-- Container: Create new Container abstract class - @ivanlanin
+- General: Refactor folders: Element, Container, and Exception - @ivanlanin GH-187
+- Container: Create new Container abstract class - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

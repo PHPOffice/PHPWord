@@ -43,7 +43,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertAttributeEquals(
             Media::getHeaderMediaElements(),
-            '_headerMedia',
+            'headerMedia',
             'PhpOffice\\PhpWord\\Media'
         );
     }
@@ -55,7 +55,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertAttributeEquals(
             Media::getFooterMediaElements(),
-            '_footerMedia',
+            'footerMedia',
             'PhpOffice\\PhpWord\\Media'
         );
     }

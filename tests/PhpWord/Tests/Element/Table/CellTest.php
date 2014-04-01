@@ -91,16 +91,6 @@ class CellTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add link exception
-     * @expectedException \BadMethodCallException
-     */
-    public function testAddLinkException()
-    {
-        $oCell = new Cell('header', 1);
-        $element = $oCell->addLink('http://google.com', 'Google');
-    }
-
-    /**
      * Add text break
      */
     public function testAddTextBreak()

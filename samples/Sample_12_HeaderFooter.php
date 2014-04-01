@@ -13,7 +13,10 @@ $header = $section->createHeader();
 $header->firstPage();
 $table = $header->addTable();
 $table->addRow();
-$table->addCell(4500)->addText('This is the header.');
+$cell = $table->addCell(4500);
+$textrun = $cell->addTextRun();
+$textrun->addText('This is the header with ');
+$textrun->addLink('http://google.com', 'link to Google');
 $table->addCell(4500)->addImage(
     'resources/PhpWord.png',
     array('width' => 80, 'height' => 80, 'align' => 'right')
@@ -26,6 +29,7 @@ $subsequent->addText("Subsequent pages in Section 1 will Have this!");
 // Add footer
 $footer = $section->createFooter();
 $footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', array('align' => 'center'));
+$footer->addLink('http://google.com', 'Direct Google');
 
 // Write some text
 $section->addTextBreak();

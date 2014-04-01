@@ -9,13 +9,16 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Container\Footer as FooterElement;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\PreserveText;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -54,14 +57,20 @@ class Footer extends Base
                 $this->writeText($xmlWriter, $element);
             } elseif ($element instanceof TextRun) {
                 $this->writeTextRun($xmlWriter, $element);
+            } elseif ($element instanceof Link) {
+                $this->writeLink($xmlWriter, $element);
+            } elseif ($element instanceof PreserveText) {
+                $this->writePreserveText($xmlWriter, $element);
             } elseif ($element instanceof TextBreak) {
                 $this->writeTextBreak($xmlWriter, $element);
+            } elseif ($element instanceof ListItem) {
+                $this->writeListItem($xmlWriter, $element);
             } elseif ($element instanceof Table) {
                 $this->writeTable($xmlWriter, $element);
             } elseif ($element instanceof Image) {
                 $this->writeImage($xmlWriter, $element);
-            } elseif ($element instanceof PreserveText) {
-                $this->writePreserveText($xmlWriter, $element);
+            } elseif ($element instanceof CheckBox) {
+                $this->writeCheckBox($xmlWriter, $element);
             }
         }
 

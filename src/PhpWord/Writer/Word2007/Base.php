@@ -90,12 +90,12 @@ class Base extends WriterPart
                     $this->writeText($xmlWriter, $element, true);
                 } elseif ($element instanceof Link) {
                     $this->writeLink($xmlWriter, $element, true);
+                } elseif ($element instanceof TextBreak) {
+                    $xmlWriter->writeElement('w:br');
                 } elseif ($element instanceof Image) {
                     $this->writeImage($xmlWriter, $element, true);
                 } elseif ($element instanceof Footnote) {
                     $this->writeFootnote($xmlWriter, $element, true);
-                } elseif ($element instanceof TextBreak) {
-                    $xmlWriter->writeElement('w:br');
                 }
             }
         }
@@ -434,6 +434,8 @@ class Base extends WriterPart
                                 $this->writeTextRun($xmlWriter, $element);
                             } elseif ($element instanceof Link) {
                                 $this->writeLink($xmlWriter, $element);
+                            } elseif ($element instanceof PreserveText) {
+                                $this->writePreserveText($xmlWriter, $element);
                             } elseif ($element instanceof TextBreak) {
                                 $this->writeTextBreak($xmlWriter, $element);
                             } elseif ($element instanceof ListItem) {
@@ -442,8 +444,6 @@ class Base extends WriterPart
                                 $this->writeImage($xmlWriter, $element);
                             } elseif ($element instanceof Object) {
                                 $this->writeObject($xmlWriter, $element);
-                            } elseif ($element instanceof PreserveText) {
-                                $this->writePreserveText($xmlWriter, $element);
                             } elseif ($element instanceof CheckBox) {
                                 $this->writeCheckBox($xmlWriter, $element);
                             }
@@ -493,7 +493,6 @@ class Base extends WriterPart
                 $xmlWriter->endElement();
             }
         }
-
         $xmlWriter->startElement('w:r');
 
         $xmlWriter->startElement('w:pict');
@@ -995,7 +994,6 @@ class Base extends WriterPart
             if ($margins) {
                 $xmlWriter->startElement('w:tblCellMar');
                 if ($mTop) {
-                    echo $margins[0];
                     $xmlWriter->startElement('w:top');
                     $xmlWriter->writeAttribute('w:w', $cellMargin[0]);
                     $xmlWriter->writeAttribute('w:type', 'dxa');

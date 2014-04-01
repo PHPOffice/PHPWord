@@ -28,11 +28,14 @@ class TextRun extends Container
      * Create new instance
      *
      * @param string|array|Paragraph $paragraphStyle
+     * @param string $docPartType section|header|footer
+     * @param int $docPartId
      */
-    public function __construct($paragraphStyle = null)
+    public function __construct($paragraphStyle = null, $docPartType = 'section', $docPartId = 1)
     {
         $this->containerType = 'textrun';
-
+        $this->docPartType = $docPartType;
+        $this->docPartId = $docPartId;
         // Set paragraph style
         if (is_array($paragraphStyle)) {
             $this->paragraphStyle = new Paragraph();
