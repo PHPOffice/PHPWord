@@ -19,7 +19,7 @@ use PhpOffice\PhpWord\Settings;
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Get and set compatibity option
+     * Get/set compatibity option
      */
     public function testGetSetCompatibility()
     {
@@ -27,5 +27,15 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Settings::setCompatibility(false));
         $this->assertFalse(Settings::getCompatibility());
         $this->assertFalse(Settings::setCompatibility('Non boolean'));
+    }
+
+    /**
+     * Get/set zip class
+     */
+    public function testGetSetZipClass()
+    {
+        $this->assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
+        $this->assertTrue(Settings::setZipClass(Settings::PCLZIP));
+        $this->assertFalse(Settings::setZipClass('foo'));
     }
 }

@@ -30,5 +30,6 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $rIdFootnote);
         $this->assertEquals(1, $rIdLink);
         $this->assertEquals(1, count(Footnote::getFootnoteElements()));
+        $this->assertEquals(1, count(Footnote::getFootnoteLinkElements()));
     }
 }

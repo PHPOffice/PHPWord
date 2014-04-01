@@ -102,6 +102,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addHeaderMediaElement(1, $remote, new Image($remote));
 
         $this->assertEquals(2, Media::countHeaderMediaElements('header1'));
+        $this->assertEquals(2, count(Media::getMediaElements('header1')));
+        $this->assertFalse(Media::getMediaElements('header2'));
     }
 
     /**

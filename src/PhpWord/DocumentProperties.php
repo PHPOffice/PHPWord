@@ -39,14 +39,14 @@ class DocumentProperties
     /**
      * Created
      *
-     * @var datetime|int
+     * @var int
      */
     private $_created;
 
     /**
      * Modified
      *
-     * @var datetime|int
+     * @var int
      */
     private $_modified;
 
@@ -171,7 +171,7 @@ class DocumentProperties
     /**
      * Get Created
      *
-     * @return datetime
+     * @return int
      */
     public function getCreated()
     {
@@ -181,7 +181,7 @@ class DocumentProperties
     /**
      * Set Created
      *
-     * @param  datetime $pValue
+     * @param  int $pValue
      * @return \PhpOffice\PhpWord\DocumentProperties
      */
     public function setCreated($pValue = null)
@@ -196,7 +196,7 @@ class DocumentProperties
     /**
      * Get Modified
      *
-     * @return datetime
+     * @return int
      */
     public function getModified()
     {
@@ -206,7 +206,7 @@ class DocumentProperties
     /**
      * Set Modified
      *
-     * @param  datetime $pValue
+     * @param  int $pValue
      * @return \PhpOffice\PhpWord\DocumentProperties
      */
     public function setModified($pValue = null)

@@ -202,7 +202,7 @@ class Media
         if (!empty(self::$media)) {
             foreach (self::$media as $key => $val) {
                 if (substr($key, 0, 6) == $prefix) {
-                   $mediaCollection[$key] = $val;
+                    $mediaCollection[$key] = $val;
                 }
             }
         }
