@@ -33,12 +33,25 @@ class Template
     private $_tempFileName;
 
     /**
+     * Document header XML
+     *
+     * @var string[]
+     */
+    private $_headerXMLs = array();
+
+    /**
      * Document XML
      *
      * @var string
      */
     private $_documentXML;
 
+    /**
+     * Document footer XML
+     *
+     * @var string[]
+     */
+    private $_footerXMLs = array();
 
     /**
      * Create a new Template Object
@@ -62,7 +75,39 @@ class Template
         $this->_objZip = new $zipClass();
         $this->_objZip->open($this->_tempFileName);
 
+        // Find and load up to three headers and footers
+        for ($i = 1; $i <= 3; $i++) {
+            $headerName = $this->getHeaderName($i);
+            $footerName = $this->getFooterName($i);
+            if ($this->_objZip->locateName($headerName) !== false) {
+                $this->_headerXMLs[$i] = $this->_objZip->getFromName($headerName);
+            }
+            if ($this->_objZip->locateName($footerName) !== false) {
+                $this->_footerXMLs[$i] = $this->_objZip->getFromName($footerName);
+            }
+        }
+
         $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+    }
+
+    /**
+     * Get the name of the footer file for $index
+     * @param integer $index
+     * @return string
+     */
+    private function getFooterName($index)
+    {
+        return sprintf('word/footer%d.xml', $index);
+    }
+
+    /**
+     * Get the name of the header file for $index
+     * @param integer $index
+     * @return string
+     */
+    private function getHeaderName($index)
+    {
+        return sprintf('word/header%d.xml', $index);
     }
 
     /**
@@ -97,20 +142,22 @@ class Template
     }
 
     /**
-     * Set a Template value
+     * Find and replace placeholders in the given XML section.
      *
-     * @param mixed $search
+     * @param string $documentPartXML
+     * @param string $search
      * @param mixed $replace
      * @param integer $limit
+     * @return string
      */
-    public function setValue($search, $replace, $limit = -1)
+    protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
-        preg_match_all($pattern, $this->_documentXML, $matches);
+        preg_match_all($pattern, $documentPartXML, $matches);
         foreach ($matches[0] as $value) {
             $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
             $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
-            $this->_documentXML = str_replace($value, $valueCleaned, $this->_documentXML);
+            $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
         }
 
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
@@ -130,16 +177,58 @@ class Template
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
-        $this->_documentXML = preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $this->_documentXML, $limit);
+        return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+    }
+
+    /**
+     * Set a Template value
+     *
+     * @param mixed $search
+     * @param mixed $replace
+     * @param integer $limit
+     */
+    public function setValue($search, $replace, $limit = -1)
+    {
+        foreach ($this->_headerXMLs as $index => $headerXML) {
+            $this->_headerXMLs[$index] = $this->setValueForPart($this->_headerXMLs[$index], $search, $replace, $limit);
+        }
+
+        $this->_documentXML = $this->setValueForPart($this->_documentXML, $search, $replace, $limit);
+
+        foreach ($this->_footerXMLs as $index => $headerXML) {
+            $this->_footerXMLs[$index] = $this->setValueForPart($this->_footerXMLs[$index], $search, $replace, $limit);
+        }
+    }
+
+    /**
+     * Find all variables in $documentPartXML
+     * @param string $documentPartXML
+     * @return string[]
+     */
+    protected function getVariablesForPart($documentPartXML)
+    {
+        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+
+        return $matches[1];
     }
 
     /**
      * Returns array of all variables in template
+     * @return string[]
      */
     public function getVariables()
     {
-        preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
-        return $matches[1];
+        $variables = $this->getVariablesForPart($this->_documentXML);
+
+        foreach ($this->_headerXMLs as $headerXML) {
+            $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
+        }
+
+        foreach ($this->_footerXMLs as $footerXML) {
+            $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
+        }
+
+        return array_unique($variables);
     }
 
     /**
@@ -251,7 +340,15 @@ class Template
      */
     public function save()
     {
+        foreach ($this->_headerXMLs as $index => $headerXML) {
+            $this->_objZip->addFromString($this->getHeaderName($index), $this->_headerXMLs[$index]);
+        }
+
         $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
+
+        foreach ($this->_footerXMLs as $index => $headerXML) {
+            $this->_objZip->addFromString($this->getFooterName($index), $this->_footerXMLs[$index]);
+        }
 
         // Close zip file
         if ($this->_objZip->close() === false) {
