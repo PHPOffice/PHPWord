@@ -75,16 +75,17 @@ class Template
         $this->_objZip = new $zipClass();
         $this->_objZip->open($this->_tempFileName);
 
-        // Find and load up to three headers and footers
-        for ($i = 1; $i <= 3; $i++) {
-            $headerName = $this->getHeaderName($i);
-            $footerName = $this->getFooterName($i);
-            if ($this->_objZip->locateName($headerName) !== false) {
-                $this->_headerXMLs[$i] = $this->_objZip->getFromName($headerName);
-            }
-            if ($this->_objZip->locateName($footerName) !== false) {
-                $this->_footerXMLs[$i] = $this->_objZip->getFromName($footerName);
-            }
+        // Find and load headers and footers
+        $i = 1;
+        while ($this->_objZip->locateName($this->getHeaderName($i)) !== false) {
+            $this->_headerXMLs[$i] = $this->_objZip->getFromName($this->getHeaderName($i));
+            $i++;
+        }
+
+        $i = 1;
+        while ($this->_objZip->locateName($this->getFooterName($i)) !== false) {
+            $this->_footerXMLs[$i] = $this->_objZip->getFromName($this->getFooterName($i));
+            $i++;
         }
 
         $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
