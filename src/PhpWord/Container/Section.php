@@ -50,8 +50,8 @@ class Section extends Container
      */
     public function __construct($sectionCount, $settings = null)
     {
-        $this->containerType = 'section';
-        $this->sectionId = $sectionCount;
+        $this->container = 'section';
+        $this->containerId = $sectionCount;
         $this->settings = new Settings();
         $this->setSettings($settings);
     }
@@ -112,7 +112,7 @@ class Section extends Container
      */
     public function addHeader()
     {
-        $header = new Header($this->sectionId);
+        $header = new Header($this->containerId);
         $this->headers[] = $header;
         return $header;
     }
@@ -124,7 +124,7 @@ class Section extends Container
      */
     public function addFooter()
     {
-        $footer = new Footer($this->sectionId);
+        $footer = new Footer($this->containerId);
         $this->footer = $footer;
         return $footer;
     }

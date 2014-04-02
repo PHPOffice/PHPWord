@@ -35,7 +35,7 @@ class DocumentRels extends Base
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         // Relationship word/document.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             1,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
@@ -43,7 +43,7 @@ class DocumentRels extends Base
         );
 
         // Relationship word/numbering.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             2,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering',
@@ -51,7 +51,7 @@ class DocumentRels extends Base
         );
 
         // Relationship word/settings.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             3,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings',
@@ -59,7 +59,7 @@ class DocumentRels extends Base
         );
 
         // Relationship word/settings.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             4,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme',
@@ -67,7 +67,7 @@ class DocumentRels extends Base
         );
 
         // Relationship word/settings.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             5,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings',
@@ -75,73 +75,34 @@ class DocumentRels extends Base
         );
 
         // Relationship word/settings.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             6,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
             'fontTable.xml'
         );
 
-        // Relationships to Images / Embeddings / Headers / Footers
-        foreach ($_relsCollection as $relation) {
-            $relationType = $relation['type'];
-            $relationName = $relation['target'];
-            $relationId = $relation['rID'];
-            $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
-
-            $this->writeRelationship(
-                $xmlWriter,
-                $relationId,
-                'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
-                $relationName,
-                $targetMode
-            );
-        }
-
-
-        $xmlWriter->endElement();
+        $this->writeMediaRels($xmlWriter, $_relsCollection);
+        $xmlWriter->endElement(); // Relationships
 
         // Return
         return $xmlWriter->getData();
     }
 
     /**
-     * Write header footer rels
+     * Write header footer rels word/_rels/*.xml.rels
      *
      * @param array $_relsCollection
      */
     public function writeHeaderFooterRels($_relsCollection)
     {
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
-
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
-        // Relationships
         $xmlWriter->startElement('Relationships');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-
-        // Relationships to Images / Embeddings / Headers / Footers
-        foreach ($_relsCollection as $relation) {
-            $relationType = $relation['type'];
-            $relationName = $relation['target'];
-            $relationId = $relation['rID'];
-            $targetMode = ($relationType == 'hyperlink') ? 'External' : '';
-
-            $this->writeRelationship(
-                $xmlWriter,
-                $relationId,
-                'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType,
-                $relationName,
-                $targetMode
-            );
-        }
-
-
+        $this->writeMediaRels($xmlWriter, $_relsCollection);
         $xmlWriter->endElement();
 
-        // Return
         return $xmlWriter->getData();
     }
 }

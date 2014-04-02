@@ -21,7 +21,7 @@ class Footer extends Container
      */
     public function __construct($sectionId)
     {
-        $this->containerType = 'footer';
-        $this->sectionId = $sectionId;
+        $this->container = 'footer';
+        $this->containerId = $sectionId;
     }
 }

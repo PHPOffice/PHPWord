@@ -24,29 +24,13 @@ class FootnotesRels extends Base
      */
     public function writeFootnotesRels($_relsCollection)
     {
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
-
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
-        // Relationships
         $xmlWriter->startElement('Relationships');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-
-        // Relationships to Links
-        foreach ($_relsCollection as $relation) {
-            $relationType = $relation['type'];
-            $relationName = $relation['target'];
-            $relationId   = $relation['rID'];
-            $targetMode   = ($relationType == 'hyperlink') ? 'External' : '';
-
-            $this->writeRelationship($xmlWriter, $relationId, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/' . $relationType, $relationName, $targetMode);
-        }
-
+        $this->writeMediaRels($xmlWriter, $_relsCollection);
         $xmlWriter->endElement();
 
-        // Return
         return $xmlWriter->getData();
     }
 }

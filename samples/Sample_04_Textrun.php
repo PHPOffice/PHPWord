@@ -29,6 +29,8 @@ $textrun->addText(' Sample Link: ');
 $textrun->addLink('http://www.google.com', null, 'NLink');
 $textrun->addText(' Sample Image: ');
 $textrun->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$textrun->addText(' Sample Object: ');
+$textrun->addObject('resources/_sheet.xls');
 $textrun->addText(' Here is some more text. ');
 
 // Save file

@@ -38,7 +38,7 @@ class Footnote extends Container
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->containerType = 'footnote';
+        $this->container = 'footnote';
         // Set paragraph style
         if (is_array($paragraphStyle)) {
             $this->paragraphStyle = new Paragraph();

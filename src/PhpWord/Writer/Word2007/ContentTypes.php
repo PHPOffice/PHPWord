@@ -151,7 +151,6 @@ class ContentTypes extends WriterPart
             }
         }
 
-
         $xmlWriter->endElement();
 
         // Return

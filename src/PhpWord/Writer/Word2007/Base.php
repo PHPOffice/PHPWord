@@ -44,11 +44,8 @@ class Base extends WriterPart
      * @param Text $text
      * @param boolean $withoutP
      */
-    protected function writeText(
-        XMLWriter $xmlWriter,
-        Text $text,
-        $withoutP = false
-    ) {
+    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
+    {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
         $strText = htmlspecialchars($text->getText());
@@ -76,10 +73,8 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param TextRun $textrun
      */
-    protected function writeTextRun(
-        XMLWriter $xmlWriter,
-        TextRun $textrun
-    ) {
+    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
+    {
         $elements = $textrun->getElements();
         $styleParagraph = $textrun->getParagraphStyle();
         $xmlWriter->startElement('w:p');
@@ -94,6 +89,8 @@ class Base extends WriterPart
                     $xmlWriter->writeElement('w:br');
                 } elseif ($element instanceof Image) {
                     $this->writeImage($xmlWriter, $element, true);
+                } elseif ($element instanceof Object) {
+                    $this->writeObject($xmlWriter, $element, true);
                 } elseif ($element instanceof Footnote) {
                     $this->writeFootnote($xmlWriter, $element, true);
                 }
@@ -109,11 +106,8 @@ class Base extends WriterPart
      * @param Link $link
      * @param boolean $withoutP
      */
-    protected function writeLink(
-        XMLWriter $xmlWriter,
-        Link $link,
-        $withoutP = false
-    ) {
+    protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
+    {
         $rID = $link->getRelationId();
         $linkName = $link->getLinkName();
         if (is_null($linkName)) {
@@ -196,10 +190,8 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param PreserveText $textrun
      */
-    protected function writePreserveText(
-        XMLWriter $xmlWriter,
-        PreserveText $textrun
-    ) {
+    protected function writePreserveText(XMLWriter $xmlWriter, PreserveText $textrun)
+    {
         $styleFont = $textrun->getFontStyle();
         $styleParagraph = $textrun->getParagraphStyle();
 
@@ -467,11 +459,8 @@ class Base extends WriterPart
      * @param Image $image
      * @param boolean $withoutP
      */
-    protected function writeImage(
-        XMLWriter $xmlWriter,
-        Image $image,
-        $withoutP = false
-    ) {
+    protected function writeImage(XMLWriter $xmlWriter, Image $image, $withoutP = false)
+    {
         $rId = $image->getRelationId();
 
         $style = $image->getStyle();
@@ -601,8 +590,9 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param Object $object
+     * @param boolean $withoutP
      */
-    protected function writeObject(XMLWriter $xmlWriter, Object $object)
+    protected function writeObject(XMLWriter $xmlWriter, Object $object, $withoutP = false)
     {
         $rIdObject = $object->getRelationId();
         $rIdImage = $object->getImageRelationId();
@@ -611,7 +601,9 @@ class Base extends WriterPart
         $style = $object->getStyle();
         $align = $style->getAlign();
 
-        $xmlWriter->startElement('w:p');
+        if (!$withoutP) {
+            $xmlWriter->startElement('w:p');
+        }
         if (!is_null($align)) {
             $xmlWriter->startElement('w:pPr');
             $xmlWriter->startElement('w:jc');
@@ -643,7 +635,9 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // o:OLEObject
         $xmlWriter->endElement(); // w:object
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:p
+        if (!$withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
     }
 
     /**
@@ -653,11 +647,8 @@ class Base extends WriterPart
      * @param Footnote $footnote
      * @param boolean $withoutP
      */
-    protected function writeFootnote(
-        XMLWriter $xmlWriter,
-        Footnote $footnote,
-        $withoutP = false
-    ) {
+    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
+    {
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
         }
@@ -682,12 +673,8 @@ class Base extends WriterPart
      * @param boolean $withoutP
      * @param boolean $checkState
      */
-    protected function writeCheckBox(
-        XMLWriter $xmlWriter,
-        CheckBox $checkbox,
-        $withoutP = false,
-        $checkState = false
-    ) {
+    protected function writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
+    {
         $name = htmlspecialchars($checkbox->getName());
         $name = String::controlCharacterPHP2OOXML($name);
         $text = htmlspecialchars($checkbox->getText());
@@ -758,11 +745,8 @@ class Base extends WriterPart
      * @param Paragraph $style
      * @param bool $withoutPPR
      */
-    protected function writeParagraphStyle(
-        XMLWriter $xmlWriter,
-        Paragraph $style,
-        $withoutPPR = false
-    ) {
+    protected function writeParagraphStyle(XMLWriter $xmlWriter, Paragraph $style, $withoutPPR = false)
+    {
 
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
@@ -965,11 +949,8 @@ class Base extends WriterPart
      * @param TableStyle $style
      * @param boolean $isFullStyle
      */
-    protected function writeTableStyle(
-        XMLWriter $xmlWriter,
-        TableStyle $style,
-        $isFullStyle = true
-    ) {
+    protected function writeTableStyle(XMLWriter $xmlWriter, TableStyle $style, $isFullStyle = true)
+    {
         $bgColor = $style->getBgColor();
         $brdCol = $style->getBorderColor();
 
@@ -1094,11 +1075,8 @@ class Base extends WriterPart
      * @param string $type
      * @param TableStyle $style
      */
-    protected function writeRowStyle(
-        XMLWriter $xmlWriter,
-        $type,
-        TableStyle $style
-    ) {
+    protected function writeRowStyle(XMLWriter $xmlWriter, $type, TableStyle $style)
+    {
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();
         $bgColor = $style->getBgColor();
@@ -1266,6 +1244,26 @@ class Base extends WriterPart
     }
 
     /**
+     * Write media rels (image, embeddings, hyperlink)
+     *
+     * @param XMLWriter $xmlWriter
+     * @param array mediaRels
+     */
+    protected function writeMediaRels(XMLWriter $xmlWriter, $mediaRels)
+    {
+        $rTypePrefix = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/';
+        foreach ($mediaRels as $mediaRel) {
+            $rId = $mediaRel['rID'];
+            $rType = $mediaRel['type'];
+            $rName = $mediaRel['target']; // file name
+            $targetMode = ($rType == 'hyperlink') ? 'External' : '';
+            $rType = $rTypePrefix . ($rType == 'embeddings' ? 'oleObject' : $rType);
+            $this->writeRel($xmlWriter, $rId, $rType, $rName, $targetMode);
+        }
+
+    }
+
+    /**
      * Write individual rels entry
      *
      * @param XMLWriter $xmlWriter
@@ -1274,28 +1272,19 @@ class Base extends WriterPart
      * @param string $pTarget Relationship target
      * @param string $pTargetMode Relationship target mode
      */
-    protected function writeRelationship(
-        XMLWriter $xmlWriter,
-        $pId = 1,
-        $pType = '',
-        $pTarget = '',
-        $pTargetMode = ''
-    ) {
+    protected function writeRel(XMLWriter $xmlWriter, $pId, $pType, $pTarget, $pTargetMode = '')
+    {
         if ($pType != '' && $pTarget != '') {
             if (strpos($pId, 'rId') === false) {
                 $pId = 'rId' . $pId;
             }
-
-            // Write relationship
             $xmlWriter->startElement('Relationship');
             $xmlWriter->writeAttribute('Id', $pId);
             $xmlWriter->writeAttribute('Type', $pType);
             $xmlWriter->writeAttribute('Target', $pTarget);
-
             if ($pTargetMode != '') {
                 $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
             }
-
             $xmlWriter->endElement();
         } else {
             throw new Exception("Invalid parameters passed.");
@@ -1309,11 +1298,8 @@ class Base extends WriterPart
      * @param Paragraph|string $styleParagraph
      * @param boolean $withoutPPR
      */
-    protected function writeInlineParagraphStyle(
-        XMLWriter $xmlWriter,
-        $styleParagraph = null,
-        $withoutPPR = false
-    ) {
+    protected function writeInlineParagraphStyle(XMLWriter $xmlWriter, $styleParagraph = null, $withoutPPR = false)
+    {
         if ($styleParagraph instanceof Paragraph) {
             $this->writeParagraphStyle($xmlWriter, $styleParagraph, $withoutPPR);
         } else {
@@ -1337,10 +1323,8 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param Font|string $styleFont
      */
-    protected function writeInlineFontStyle(
-        XMLWriter $xmlWriter,
-        $styleFont = null
-    ) {
+    protected function writeInlineFontStyle(XMLWriter $xmlWriter, $styleFont = null)
+    {
         if ($styleFont instanceof Font) {
             $this->writeFontStyle($xmlWriter, $styleFont);
         } else {

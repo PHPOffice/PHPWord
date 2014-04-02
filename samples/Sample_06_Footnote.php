@@ -27,8 +27,10 @@ $footnote->addTextBreak();
 $footnote->addText('But you can insert a manual text break like above, ');
 $footnote->addText('links like ');
 $footnote->addLink('http://www.google.com', null, 'NLink');
-$footnote->addText(', or image like ');
+$footnote->addText(', image like ');
 $footnote->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$footnote->addText(', or object like ');
+$footnote->addObject('resources/_sheet.xls');
 $footnote->addText('But you can only put footnote in section, not in header or footer.');
 
 $section->addText('You can also create the footnote directly from the section making it wrap in a paragraph like the footnote below this paragraph. But is is best used from within a textrun.');

@@ -79,7 +79,7 @@ class Media
                 $isMemImage = false;
                 if (!is_null($image)) {
                     $isMemImage = $image->getIsMemImage();
-                    $extension = $image->getImageExtension();
+                    $ext = $image->getImageExtension();
                 }
                 if ($isMemImage) {
                     $media['isMemImage'] = true;
@@ -87,10 +87,10 @@ class Media
                     $media['imagefunction'] = $image->getImageFunction();
                 }
                 $folder = 'media';
-                $file = $type . $cImg . '.' . strtolower($extension);
+                $file = $type . $cImg . '.' . strtolower($ext);
             } elseif ($type === 'oleObject') {
                 $cObj++;
-                $folder = 'embedding';
+                $folder = 'embeddings';
                 $file = $type . $cObj . '.bin';
             }
             $media['source'] = $src;
@@ -247,8 +247,8 @@ class Media
     /**
      * Add new media element
      *
-     * @param string $container section|header|footer|footnotes
-     * @param string $mediaType image|embedding|hyperlink
+     * @param string $container section|headerx|footerx|footnote
+     * @param string $mediaType image|embeddings|hyperlink
      * @param string $source
      * @param Image $image
      * @return int
@@ -267,35 +267,49 @@ class Media
             $mediaTypeCount = self::countMediaElements($container, $mediaType);
             $mediaData = array();
             $relId = $mediaCount + 1;
+            $target = null;
             $mediaTypeCount++;
+
+            // Images
             if ($mediaType == 'image') {
                 $isMemImage = false;
                 if (!is_null($image)) {
                     $isMemImage = $image->getIsMemImage();
-                    $extension = $image->getImageExtension();
+                    $ext = $image->getImageExtension();
+                    $ext = strtolower($ext);
                 }
                 if ($isMemImage) {
                     $mediaData['isMemImage'] = true;
                     $mediaData['createfunction'] = $image->getImageCreateFunction();
                     $mediaData['imagefunction'] = $image->getImageFunction();
                 }
-                $file = 'image' . $mediaTypeCount . '.' . strtolower($extension);
-                if ($container != 'footnotes') {
-                    $file = $container . '_' . $file;
-                }
-                $target = 'media/' . $file;
+                $target = "media/{$container}_image{$mediaTypeCount}.{$ext}";
+            // Objects
+            } elseif ($mediaType == 'embeddings') {
+                $file = "oleObject{$mediaTypeCount}.bin";
+                $target = "embeddings/{$container}_oleObject{$mediaTypeCount}.bin";
+            // Links
             } elseif ($mediaType == 'hyperlink') {
                 $target = $source;
             }
+
             $mediaData['source'] = $source;
             $mediaData['target'] = $target;
             $mediaData['type'] = $mediaType;
             $mediaData['rID'] = $relId;
             self::$media[$container][$mediaId] = $mediaData;
-
-            return $relId;
+            if ($mediaType === 'embeddings') {
+                return array($relId, ++self::$objectId);
+            } else {
+                return $relId;
+            }
         } else {
-            return self::$media[$container][$mediaId]['rID'];
+            if ($mediaType === 'embeddings') {
+                $relId = self::$media[$container][$mediaId]['rID'];
+                return array($relId, ++self::$objectId);
+            } else {
+                return self::$media[$container][$mediaId]['rID'];
+            }
         }
     }
 

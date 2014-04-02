@@ -38,7 +38,7 @@ class Rels extends Base
         $relationId = 1;
 
         // Relationship word/document.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             $relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument',
@@ -46,7 +46,7 @@ class Rels extends Base
         );
 
         // Relationship docProps/core.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties',
@@ -54,7 +54,7 @@ class Rels extends Base
         );
 
         // Relationship docProps/app.xml
-        $this->writeRelationship(
+        $this->writeRel(
             $xmlWriter,
             ++$relationId,
             'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties',

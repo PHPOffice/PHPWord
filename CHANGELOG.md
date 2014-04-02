@@ -19,10 +19,18 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - ListItem: Ability to add list item in header/footer - @ivanlanin GH-187
 - CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
 - Link: Ability to add link in header/footer - @ivanlanin GH-187
+- Object: Ability to add object in textrun and footnote - @ivanlanin GH-187
 
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
+
+### Deprecated
+
+- `createTextRun` replaced by `addTextRun`
+- `createFootnote` replaced by `addFootnote`
+- `createHeader` replaced by `addHeader`
+- `createFooter` replaced by `addFooter`
 
 ### Miscellaneous
 

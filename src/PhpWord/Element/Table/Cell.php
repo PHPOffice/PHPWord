@@ -34,15 +34,15 @@ class Cell extends Container
     /**
      * Create new instance
      *
-     * @param string $docPartType section|header|footer
+     * @param string $docPart section|header|footer
      * @param int $docPartId
      * @param int $width
      * @param array|CellStyle $style
      */
-    public function __construct($docPartType, $docPartId, $width = null, $style = null)
+    public function __construct($docPart, $docPartId, $width = null, $style = null)
     {
-        $this->containerType = 'cell';
-        $this->docPartType = $docPartType;
+        $this->container = 'cell';
+        $this->docPart = $docPart;
         $this->docPartId = $docPartId;
         $this->width = $width;
         $this->cellStyle = new CellStyle();

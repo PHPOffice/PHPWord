@@ -121,7 +121,7 @@ class Word2007 extends Writer implements IWriter
                         $this->getWriterPart('documentrels')->writeHeaderFooterRels($hdrMedia)
                     );
                     foreach ($hdrMedia as $element) {
-                        if ($element['type'] == 'image') {
+                        if ($element['type'] != 'hyperlink') {
                             $this->addFileToPackage($objZip, $element);
                         }
                     }
@@ -137,7 +137,7 @@ class Word2007 extends Writer implements IWriter
                         $this->getWriterPart('documentrels')->writeHeaderFooterRels($ftrMedia)
                     );
                     foreach ($ftrMedia as $element) {
-                        if ($element['type'] == 'image') {
+                        if ($element['type'] != 'hyperlink') {
                             $this->addFileToPackage($objZip, $element);
                         }
                     }
@@ -155,10 +155,10 @@ class Word2007 extends Writer implements IWriter
                 foreach ($_headers as $index => &$_header) {
                     $_cHdrs++;
                     $_header->setRelationId(++$rID);
-                    $hdrFile = 'header' . $_cHdrs . '.xml';
+                    $hdrFile = "header{$_cHdrs}.xml";
                     $sectionElements[] = array('target' => $hdrFile, 'type' => 'header', 'rID' => $rID);
                     $objZip->addFromString(
-                        'word/' . $hdrFile,
+                        "word/{$hdrFile}",
                         $this->getWriterPart('header')->writeHeader($_header)
                     );
                 }
@@ -167,10 +167,10 @@ class Word2007 extends Writer implements IWriter
                 if (!is_null($_footer)) {
                     $_footer->setRelationId(++$rID);
                     $_footerCount = $_footer->getSectionId();
-                    $ftrFile = 'footer' . $_footerCount . '.xml';
+                    $ftrFile = "footer{$_footerCount}.xml";
                     $sectionElements[] = array('target' => $ftrFile, 'type' => 'footer', 'rID' => $rID);
                     $objZip->addFromString(
-                        'word/' . $ftrFile,
+                        "word/{$ftrFile}",
                         $this->getWriterPart('footer')->writeFooter($_footer)
                     );
                 }
@@ -181,24 +181,24 @@ class Word2007 extends Writer implements IWriter
                 // Push to document.xml.rels
                 $sectionElements[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rID);
                 // Add footnote media to package
-                $footnotesMedia = Media::getMediaElements('footnotes');
-                if (!empty($footnotesMedia)) {
-                    foreach ($footnotesMedia as $media) {
-                        if ($media['type'] == 'image') {
+                $footnoteMedia = Media::getMediaElements('footnote');
+                if (!empty($footnoteMedia)) {
+                    foreach ($footnoteMedia as $media) {
+                        if ($media['type'] != 'hyperlink') {
                             $this->addFileToPackage($objZip, $media);
                         }
                     }
                 }
                 // Write footnotes.xml
                 $objZip->addFromString(
-                    "word/footnotes.xml",
+                    'word/footnotes.xml',
                     $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements())
                 );
                 // Write footnotes.xml.rels
-                if (!empty($footnotesMedia)) {
+                if (!empty($footnoteMedia)) {
                     $objZip->addFromString(
                         'word/_rels/footnotes.xml.rels',
-                        $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnotesMedia)
+                        $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteMedia)
                     );
                 }
             }

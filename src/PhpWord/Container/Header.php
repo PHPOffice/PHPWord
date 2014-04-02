@@ -40,8 +40,8 @@ class Header extends Container
      */
     public function __construct($sectionId)
     {
-        $this->containerType = 'header';
-        $this->sectionId = $sectionId;
+        $this->container = 'header';
+        $this->containerId = $sectionId;
     }
 
     /**
