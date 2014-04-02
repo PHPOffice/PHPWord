@@ -156,4 +156,27 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
     }
+
+    /**
+     * Replace variables in header and footer
+     */
+    public function testVariablesCanBeReplacedInHeaderAndFooter()
+    {
+        $template = __DIR__ . "/_files/templates/header-footer.docx";
+        $expectedVar = array('documentContent', 'headerValue', 'footerValue');
+        $docName = 'header-footer-test-result.docx';
+
+        $document = new Template($template);
+        $actualVar = $document->getVariables();
+        $document->setValue('headerValue', 'Header Value');
+        $document->setValue('documentContent', 'Document text.');
+        $document->setValue('footerValue', 'Footer Value');
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
+
+    }
 }
