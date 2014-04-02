@@ -7,6 +7,11 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
 
+// Variables on different parts of document
+$document->setValue('weekday', date('l')); // On section/content
+$document->setValue('time', date('H:i')); // On footer
+$document->setValue('serverName', $_SERVER['SERVER_NAME']); // On header
+
 // Simple table
 $document->cloneRow('rowValue', 10);
 
@@ -31,9 +36,6 @@ $document->setValue('rowNumber#7', '7');
 $document->setValue('rowNumber#8', '8');
 $document->setValue('rowNumber#9', '9');
 $document->setValue('rowNumber#10', '10');
-
-$document->setValue('weekday', date('l'));
-$document->setValue('time', date('H:i'));
 
 // Table with a spanned cell
 $document->cloneRow('userId', 3);

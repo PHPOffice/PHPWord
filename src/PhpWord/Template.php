@@ -23,92 +23,72 @@ class Template
      *
      * @var mixed
      */
-    private $_objZip;
+    private $zipClass;
 
     /**
      * Temporary file name
      *
      * @var string
      */
-    private $_tempFileName;
-
-    /**
-     * Document header XML
-     *
-     * @var string[]
-     */
-    private $_headerXMLs = array();
+    private $tempFileName;
 
     /**
      * Document XML
      *
      * @var string
      */
-    private $_documentXML;
+    private $documentXML;
+
+    /**
+     * Document header XML
+     *
+     * @var string[]
+     */
+    private $headerXMLs = array();
 
     /**
      * Document footer XML
      *
      * @var string[]
      */
-    private $_footerXMLs = array();
+    private $footerXMLs = array();
 
     /**
      * Create a new Template Object
      *
      * @param string $strFilename
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     public function __construct($strFilename)
     {
-        $this->_tempFileName = tempnam(sys_get_temp_dir(), '');
-        if ($this->_tempFileName === false) {
+        $this->tempFileName = tempnam(sys_get_temp_dir(), '');
+        if ($this->tempFileName === false) {
             throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
         }
 
         // Copy the source File to the temp File
-        if (!copy($strFilename, $this->_tempFileName)) {
-            throw new Exception("Could not copy the template from {$strFilename} to {$this->_tempFileName}.");
+        if (!copy($strFilename, $this->tempFileName)) {
+            throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
         }
 
         $zipClass = Settings::getZipClass();
-        $this->_objZip = new $zipClass();
-        $this->_objZip->open($this->_tempFileName);
+        $this->zipClass = new $zipClass();
+        $this->zipClass->open($this->tempFileName);
 
         // Find and load headers and footers
         $i = 1;
-        while ($this->_objZip->locateName($this->getHeaderName($i)) !== false) {
-            $this->_headerXMLs[$i] = $this->_objZip->getFromName($this->getHeaderName($i));
+        while ($this->zipClass->locateName($this->getHeaderName($i)) !== false) {
+            $this->headerXMLs[$i] = $this->zipClass->getFromName($this->getHeaderName($i));
             $i++;
         }
 
         $i = 1;
-        while ($this->_objZip->locateName($this->getFooterName($i)) !== false) {
-            $this->_footerXMLs[$i] = $this->_objZip->getFromName($this->getFooterName($i));
+        while ($this->zipClass->locateName($this->getFooterName($i)) !== false) {
+            $this->footerXMLs[$i] = $this->zipClass->getFromName($this->getFooterName($i));
             $i++;
         }
 
-        $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
-    }
-
-    /**
-     * Get the name of the footer file for $index
-     * @param integer $index
-     * @return string
-     */
-    private function getFooterName($index)
-    {
-        return sprintf('word/footer%d.xml', $index);
-    }
-
-    /**
-     * Get the name of the header file for $index
-     * @param integer $index
-     * @return string
-     */
-    private function getHeaderName($index)
-    {
-        return sprintf('word/header%d.xml', $index);
+        $this->documentXML = $this->zipClass->getFromName('word/document.xml');
     }
 
     /**
@@ -117,7 +97,7 @@ class Template
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
@@ -130,7 +110,7 @@ class Template
         }
 
         $xmlDOMDocument = new \DOMDocument();
-        if ($xmlDOMDocument->loadXML($this->_documentXML) === false) {
+        if ($xmlDOMDocument->loadXML($this->documentXML) === false) {
             throw new Exception('Could not load XML from the given template.');
         }
 
@@ -139,7 +119,143 @@ class Template
             throw new Exception('Could not transform the given XML document.');
         }
 
-        $this->_documentXML = $xmlTransformed;
+        $this->documentXML = $xmlTransformed;
+    }
+
+    /**
+     * Set a Template value
+     *
+     * @param mixed $search
+     * @param mixed $replace
+     * @param integer $limit
+     */
+    public function setValue($search, $replace, $limit = -1)
+    {
+        foreach ($this->headerXMLs as $index => $headerXML) {
+            $this->headerXMLs[$index] = $this->setValueForPart($this->headerXMLs[$index], $search, $replace, $limit);
+        }
+
+        $this->documentXML = $this->setValueForPart($this->documentXML, $search, $replace, $limit);
+
+        foreach ($this->footerXMLs as $index => $headerXML) {
+            $this->footerXMLs[$index] = $this->setValueForPart($this->footerXMLs[$index], $search, $replace, $limit);
+        }
+    }
+
+    /**
+     * Returns array of all variables in template
+     * @return string[]
+     */
+    public function getVariables()
+    {
+        $variables = $this->getVariablesForPart($this->documentXML);
+
+        foreach ($this->headerXMLs as $headerXML) {
+            $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
+        }
+
+        foreach ($this->footerXMLs as $footerXML) {
+            $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
+        }
+
+        return array_unique($variables);
+    }
+
+    /**
+     * Clone a table row in a template document
+     *
+     * @param string $search
+     * @param int $numberOfClones
+     * @throws Exception
+     */
+    public function cloneRow($search, $numberOfClones)
+    {
+        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+            $search = '${' . $search . '}';
+        }
+
+        $tagPos = strpos($this->documentXML, $search);
+        if (!$tagPos) {
+            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            $extraRowStart = $rowEnd;
+            $extraRowEnd = $rowEnd;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowEnd + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                    break;
+                }
+                // This row was a spanned row, update $rowEnd and search for the next row.
+                $rowEnd = $extraRowEnd;
+            }
+            $xmlRow = $this->getSlice($rowStart, $rowEnd);
+        }
+
+        $result = $this->getSlice(0, $rowStart);
+        for ($i = 1; $i <= $numberOfClones; $i++) {
+            $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
+        }
+        $result .= $this->getSlice($rowEnd);
+
+        $this->documentXML = $result;
+    }
+
+    /**
+     * Save XML to temporary file
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function save()
+    {
+        foreach ($this->headerXMLs as $index => $headerXML) {
+            $this->zipClass->addFromString($this->getHeaderName($index), $this->headerXMLs[$index]);
+        }
+
+        $this->zipClass->addFromString('word/document.xml', $this->documentXML);
+
+        foreach ($this->footerXMLs as $index => $headerXML) {
+            $this->zipClass->addFromString($this->getFooterName($index), $this->footerXMLs[$index]);
+        }
+
+        // Close zip file
+        if ($this->zipClass->close() === false) {
+            throw new Exception('Could not close zip file.');
+        }
+
+        return $this->tempFileName;
+    }
+
+    /**
+     * Save XML to defined name
+     *
+     * @param string $strFilename
+     */
+    public function saveAs($strFilename)
+    {
+        $tempFilename = $this->save();
+
+        if (\file_exists($strFilename)) {
+            unlink($strFilename);
+        }
+
+        rename($tempFilename, $strFilename);
     }
 
     /**
@@ -182,26 +298,6 @@ class Template
     }
 
     /**
-     * Set a Template value
-     *
-     * @param mixed $search
-     * @param mixed $replace
-     * @param integer $limit
-     */
-    public function setValue($search, $replace, $limit = -1)
-    {
-        foreach ($this->_headerXMLs as $index => $headerXML) {
-            $this->_headerXMLs[$index] = $this->setValueForPart($this->_headerXMLs[$index], $search, $replace, $limit);
-        }
-
-        $this->_documentXML = $this->setValueForPart($this->_documentXML, $search, $replace, $limit);
-
-        foreach ($this->_footerXMLs as $index => $headerXML) {
-            $this->_footerXMLs[$index] = $this->setValueForPart($this->_footerXMLs[$index], $search, $replace, $limit);
-        }
-    }
-
-    /**
      * Find all variables in $documentPartXML
      * @param string $documentPartXML
      * @return string[]
@@ -214,22 +310,23 @@ class Template
     }
 
     /**
-     * Returns array of all variables in template
-     * @return string[]
+     * Get the name of the footer file for $index
+     * @param integer $index
+     * @return string
      */
-    public function getVariables()
+    private function getFooterName($index)
     {
-        $variables = $this->getVariablesForPart($this->_documentXML);
+        return sprintf('word/footer%d.xml', $index);
+    }
 
-        foreach ($this->_headerXMLs as $headerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
-        }
-
-        foreach ($this->_footerXMLs as $footerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
-        }
-
-        return array_unique($variables);
+    /**
+     * Get the name of the header file for $index
+     * @param integer $index
+     * @return string
+     */
+    private function getHeaderName($index)
+    {
+        return sprintf('word/header%d.xml', $index);
     }
 
     /**
@@ -237,13 +334,13 @@ class Template
      *
      * @param int $offset
      * @return int
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws Exception
      */
-    private function _findRowStart($offset)
+    private function findRowStart($offset)
     {
-        $rowStart = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
+        $rowStart = strrpos($this->documentXML, "<w:tr ", ((strlen($this->documentXML) - $offset) * -1));
         if (!$rowStart) {
-            $rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
+            $rowStart = strrpos($this->documentXML, "<w:tr>", ((strlen($this->documentXML) - $offset) * -1));
         }
         if (!$rowStart) {
             throw new Exception("Can not find the start position of the row to clone.");
@@ -257,9 +354,9 @@ class Template
      * @param int $offset
      * @return int
      */
-    private function _findRowEnd($offset)
+    private function findRowEnd($offset)
     {
-        $rowEnd = strpos($this->_documentXML, "</w:tr>", $offset) + 7;
+        $rowEnd = strpos($this->documentXML, "</w:tr>", $offset) + 7;
         return $rowEnd;
     }
 
@@ -270,108 +367,11 @@ class Template
      * @param int $endPosition
      * @return string
      */
-    private function _getSlice($startPosition, $endPosition = 0)
+    private function getSlice($startPosition, $endPosition = 0)
     {
         if (!$endPosition) {
-            $endPosition = strlen($this->_documentXML);
+            $endPosition = strlen($this->documentXML);
         }
-        return substr($this->_documentXML, $startPosition, ($endPosition - $startPosition));
-    }
-
-    /**
-     * Clone a table row in a template document
-     *
-     * @param string $search
-     * @param int $numberOfClones
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
-     */
-    public function cloneRow($search, $numberOfClones)
-    {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
-        }
-
-        $tagPos = strpos($this->_documentXML, $search);
-        if (!$tagPos) {
-            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
-        }
-
-        $rowStart = $this->_findRowStart($tagPos);
-        $rowEnd = $this->_findRowEnd($tagPos);
-        $xmlRow = $this->_getSlice($rowStart, $rowEnd);
-
-        // Check if there's a cell spanning multiple rows.
-        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            $extraRowStart = $rowEnd;
-            $extraRowEnd = $rowEnd;
-            while (true) {
-                $extraRowStart = $this->_findRowStart($extraRowEnd + 1);
-                $extraRowEnd = $this->_findRowEnd($extraRowEnd + 1);
-
-                // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7) {
-                    break;
-                }
-
-                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
-                $tmpXmlRow = $this->_getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
-                    break;
-                }
-                // This row was a spanned row, update $rowEnd and search for the next row.
-                $rowEnd = $extraRowEnd;
-            }
-            $xmlRow = $this->_getSlice($rowStart, $rowEnd);
-        }
-
-        $result = $this->_getSlice(0, $rowStart);
-        for ($i = 1; $i <= $numberOfClones; $i++) {
-            $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
-        }
-        $result .= $this->_getSlice($rowEnd);
-
-        $this->_documentXML = $result;
-    }
-
-    /**
-     * Save XML to temporary file
-     *
-     * @return string
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
-     */
-    public function save()
-    {
-        foreach ($this->_headerXMLs as $index => $headerXML) {
-            $this->_objZip->addFromString($this->getHeaderName($index), $this->_headerXMLs[$index]);
-        }
-
-        $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
-
-        foreach ($this->_footerXMLs as $index => $headerXML) {
-            $this->_objZip->addFromString($this->getFooterName($index), $this->_footerXMLs[$index]);
-        }
-
-        // Close zip file
-        if ($this->_objZip->close() === false) {
-            throw new Exception('Could not close zip file.');
-        }
-
-        return $this->_tempFileName;
-    }
-
-    /**
-     * Save XML to defined name
-     *
-     * @param string $strFilename
-     */
-    public function saveAs($strFilename)
-    {
-        $tempFilename = $this->save();
-
-        if (\file_exists($strFilename)) {
-            unlink($strFilename);
-        }
-
-        rename($tempFilename, $strFilename);
+        return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
     }
 }
