@@ -11,7 +11,6 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Writer\ODText\Manifest;
@@ -24,12 +23,6 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
  */
 class ODText extends Writer implements IWriter
 {
-    /**
-     * Private unique PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @var HashTable
-     */
-    private $drawingHashTable;
 
     /**
      * Create new ODText writer
@@ -49,9 +42,6 @@ class ODText extends Writer implements IWriter
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
-
-        // Set HashTable variables
-        $this->drawingHashTable = new HashTable();
     }
 
     /**
@@ -103,42 +93,6 @@ class ODText extends Writer implements IWriter
             // Add META-INF/manifest.xml
             $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->phpWord));
 
-            // Add media. Has not used yet. Legacy from PHPExcel.
-            // @codeCoverageIgnoreStart
-            for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
-                if ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
-                    $imageContents = null;
-                    $imagePath = $this->getDrawingHashTable()->getByIndex($i)->getPath();
-
-                    if (strpos($imagePath, 'zip://') !== false) {
-                        $imagePath = substr($imagePath, 6);
-                        $imagePathSplitted = explode('#', $imagePath);
-
-                        $zipClass = Settings::getZipClass();
-                        $imageZip = new $zipClass();
-                        $imageZip->open($imagePathSplitted[0]);
-                        $imageContents = $imageZip->getFromName($imagePathSplitted[1]);
-                        $imageZip->close();
-                        unset($imageZip);
-                    } else {
-                        $imageContents = file_get_contents($imagePath);
-                    }
-
-                    $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
-                } elseif ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
-                    ob_start();
-                    call_user_func(
-                        $this->getDrawingHashTable()->getByIndex($i)->getRenderingFunction(),
-                        $this->getDrawingHashTable()->getByIndex($i)->getImageResource()
-                    );
-                    $imageContents = ob_get_contents();
-                    ob_end_clean();
-
-                    $objZip->addFromString('Pictures/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
-                }
-            }
-            // @codeCoverageIgnoreEnd
-
             // Close file
             if ($objZip->close() === false) {
                 throw new Exception("Could not close zip file $pFilename.");
@@ -148,15 +102,5 @@ class ODText extends Writer implements IWriter
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
-    }
-
-    /**
-     * Get PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @return HashTable
-     */
-    public function getDrawingHashTable()
-    {
-        return $this->drawingHashTable;
     }
 }

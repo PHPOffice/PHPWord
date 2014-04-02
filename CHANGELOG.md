@@ -39,6 +39,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Reader: Rename AbstractReader > Reader - @ivanlanin
 - General: Refactor folders: Element, Container, and Exception - @ivanlanin GH-187
 - Container: Create new Container abstract class - @ivanlanin GH-187
+- General: Remove legacy HashTable and all related properties/methods - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

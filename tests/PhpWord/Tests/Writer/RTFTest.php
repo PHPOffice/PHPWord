@@ -26,7 +26,6 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $object = new RTF(new PhpWord);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
     }
 
     /**

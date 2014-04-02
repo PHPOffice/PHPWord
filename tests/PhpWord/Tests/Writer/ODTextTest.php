@@ -26,7 +26,6 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $object = new ODText(new PhpWord());
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
 
         $this->assertEquals('./', $object->getDiskCachingDirectory());
         foreach (array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles') as $part) {

@@ -11,7 +11,6 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\HashTable;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
@@ -33,13 +32,6 @@ use PhpOffice\PhpWord\TOC;
  */
 class RTF extends Writer implements IWriter
 {
-    /**
-     * Private unique PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @var HashTable
-     */
-    private $drawingHashTable;
-
     /**
      * Color register
      *
@@ -69,9 +61,6 @@ class RTF extends Writer implements IWriter
     {
         // Assign PhpWord
         $this->setPhpWord($phpWord);
-
-        // Set HashTable variables
-        $this->drawingHashTable = new HashTable();
     }
 
     /**
@@ -93,16 +82,6 @@ class RTF extends Writer implements IWriter
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
-    }
-
-    /**
-     * Get PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @return HashTable
-     */
-    public function getDrawingHashTable()
-    {
-        return $this->drawingHashTable;
     }
 
     /**

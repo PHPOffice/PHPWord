@@ -59,33 +59,7 @@ class Manifest extends WriterPart
         $xmlWriter->writeAttribute('manifest:full-path', 'styles.xml');
         $xmlWriter->endElement();
 
-        // Not used yet. Legacy from PHPExcel
-        // @codeCoverageIgnoreStart
-        for ($i = 0; $i < $this->getParentWriter()->getDrawingHashTable()->count(); ++$i) {
-            if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_Drawing) {
-                $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
-                $mimeType = $this->getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
-
-                $xmlWriter->startElement('manifest:file-entry');
-                $xmlWriter->writeAttribute('manifest:media-type', $mimeType);
-                $xmlWriter->writeAttribute('manifest:full-path', 'Pictures/' . str_replace(' ', '_', $this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()));
-                $xmlWriter->endElement();
-            } elseif ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof PHPWord_Shape_MemoryDrawing) {
-                $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getMimeType());
-                $extension = explode('/', $extension);
-                $extension = $extension[1];
-
-                $mimeType = $this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getMimeType();
-
-                $xmlWriter->startElement('manifest:file-entry');
-                $xmlWriter->writeAttribute('manifest:media-type', $mimeType);
-                $xmlWriter->writeAttribute('manifest:full-path', 'Pictures/' . str_replace(' ', '_', $this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()));
-                $xmlWriter->endElement();
-            }
-        }
-        // @codeCoverageIgnoreEnd
-
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // manifest:manifest
 
         // Return
         return $xmlWriter->getData();
