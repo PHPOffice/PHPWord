@@ -7,7 +7,7 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Element\Table;
+namespace PhpOffice\PhpWord\Element;
 
 /**
  * Table row element
@@ -83,7 +83,7 @@ class Row
      *
      * @param int $width
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table\Cell
+     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {

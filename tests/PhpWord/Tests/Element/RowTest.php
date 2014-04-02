@@ -7,14 +7,14 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Element\Table;
+namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\Element\Table\Row;
+use PhpOffice\PhpWord\Element\Row;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Table\Row
+ * Test class for PhpOffice\PhpWord\Element\Row
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Element\Table\Row
+ * @coversDefaultClass \PhpOffice\PhpWord\Element\Row
  * @runTestsInSeparateProcesses
  */
 class RowTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +27,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oRow = new Row('section', $iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table\\Row', $oRow);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
         $this->assertEquals($oRow->getHeight(), null);
         $this->assertInternalType('array', $oRow->getCells());
         $this->assertCount(0, $oRow->getCells());
@@ -60,7 +60,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $oRow = new Row('section', 1);
         $element = $oRow->addCell();
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table\\Cell', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
         $this->assertCount(1, $oRow->getCells());
     }
 }

@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Element\Table;
+namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\Element\Table\Cell;
+use PhpOffice\PhpWord\Element\Cell;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Table\Cell
+ * Test class for PhpOffice\PhpWord\Element\Cell
  *
  * @runTestsInSeparateProcesses
  */
@@ -26,7 +26,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oCell = new Cell('section', $iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table\\Cell', $oCell);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $oCell);
         $this->assertEquals($oCell->getWidth(), null);
     }
 
@@ -132,7 +132,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageSection()
     {
-        $src = __DIR__ . "/../../_files/images/earth.jpg";
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oCell = new Cell('section', 1);
         $element1 = $oCell->addImage($src);
         $element2 = $oCell->addMemoryImage($src); // @deprecated
@@ -146,7 +146,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageHeader()
     {
-        $src = __DIR__ . "/../../_files/images/earth.jpg";
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oCell = new Cell('header', 1);
         $element = $oCell->addImage($src);
 
@@ -159,7 +159,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageFooter()
     {
-        $src = __DIR__ . "/../../_files/images/earth.jpg";
+        $src = __DIR__ . "/../_files/images/earth.jpg";
         $oCell = new Cell('footer', 1);
         $element = $oCell->addImage($src);
 
@@ -214,7 +214,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddObjectXLS()
     {
-        $src = __DIR__ . "/../../_files/documents/sheet.xls";
+        $src = __DIR__ . "/../_files/documents/sheet.xls";
         $oCell = new Cell('section', 1);
         $element = $oCell->addObject($src);
 
@@ -229,7 +229,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddObjectException()
     {
-        $src = __DIR__ . "/_files/xsl/passthrough.xsl";
+        $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
         $oCell = new Cell('section', 1);
         $element = $oCell->addObject($src);
     }

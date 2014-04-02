@@ -7,7 +7,7 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Element\Table;
+namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Container\Container;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;

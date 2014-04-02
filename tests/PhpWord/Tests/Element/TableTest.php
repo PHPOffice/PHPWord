@@ -75,7 +75,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $oTable = new Table('section', 1);
         $element = $oTable->addRow();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table\\Row', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
         $this->assertCount(1, $oTable->getRows());
     }
 
@@ -87,6 +87,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $oTable = new Table('section', 1);
         $oTable->addRow();
         $element = $oTable->addCell();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table\\Cell', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
     }
 }

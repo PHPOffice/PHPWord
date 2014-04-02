@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Element\Table\Row;
+use PhpOffice\PhpWord\Element\Row;
 
 /**
  * Table element
@@ -98,7 +98,7 @@ class Table
      *
      * @param int $width
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table\Cell
+     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
