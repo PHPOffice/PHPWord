@@ -23,6 +23,7 @@ class PhpWord
     const DEFAULT_FONT_COLOR        = '000000';  // HEX
     const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
     const DEFAULT_FONT_NAME         = 'Arial';
+
     /**
      * Default font size, in points.
      *
@@ -34,7 +35,7 @@ class PhpWord
     /**
      * Document properties object
      *
-     * @var \PhpOffice\PhpWord\DocumentProperties
+     * @var DocumentProperties
      */
     private $_documentProperties;
 
@@ -54,7 +55,7 @@ class PhpWord
     /**
      * Collection of sections
      *
-     * @var \PhpOffice\PhpWord\Section[]
+     * @var Section[]
      */
     private $_sections = array();
 
@@ -71,7 +72,7 @@ class PhpWord
     /**
      * Get document properties object
      *
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return DocumentProperties
      */
     public function getDocumentProperties()
     {
@@ -95,9 +96,9 @@ class PhpWord
      * Create new section
      *
      * @param  \PhpOffice\PhpWord\Container\Settings $settings
-     * @return \PhpOffice\PhpWord\Container\Section
+     * @return Section
      */
-    public function createSection($settings = null)
+    public function addSection($settings = null)
     {
         $section = new Section(\count($this->_sections) + 1, $settings);
         $this->_sections[] = $section;
@@ -227,8 +228,8 @@ class PhpWord
      * Load template by filename
      *
      * @param  string $filename Fully qualified filename.
-     * @return \PhpOffice\PhpWord\Template
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @return Template
+     * @throws Exception
      */
     public function loadTemplate($filename)
     {
@@ -237,5 +238,17 @@ class PhpWord
         } else {
             throw new Exception("Template file {$filename} not found.");
         }
+    }
+
+    /**
+     * Create new section
+     *
+     * @param  \PhpOffice\PhpWord\Container\Settings $settings
+     * @return Section
+     * @deprecated 0.9.2
+     */
+    public function createSection($settings = null)
+    {
+        return $this->addSection($settings);
     }
 }

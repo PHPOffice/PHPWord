@@ -6,7 +6,7 @@ echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Add listitem elements
 $section->addListItem('List Item 1', 0);

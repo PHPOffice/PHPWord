@@ -32,7 +32,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $container->addText('');
         $container->addPreserveText('');
         $container->addTextBreak();
-        $container->createTextRun();
+        $container->addTextRun();
         $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
 

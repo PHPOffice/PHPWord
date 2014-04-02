@@ -71,7 +71,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
 // To create a basic section:
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');

@@ -276,7 +276,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testCreateTextRun()
     {
         $oCell = new Cell('section', 1);
-        $element = $oCell->createTextRun();
+        $element = $oCell->addTextRun();
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);

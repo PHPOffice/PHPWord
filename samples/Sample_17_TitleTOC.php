@@ -6,7 +6,7 @@ echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Define the TOC font style
 $fontStyle = array('spaceAfter'=>60, 'size'=>12);

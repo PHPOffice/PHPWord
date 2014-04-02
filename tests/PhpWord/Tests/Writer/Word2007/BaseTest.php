@@ -38,7 +38,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle($rStyle, array('bold' => true));
         $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -59,14 +59,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle($pStyle, $aStyle);
-        $section = $phpWord->createSection('Test');
-        $textrun = $section->createTextRun($pStyle);
+        $section = $phpWord->addSection('Test');
+        $textrun = $section->addTextRun($pStyle);
         $textrun->addText('Test');
         $textrun->addTextBreak();
-        $textrun = $section->createTextRun($aStyle);
+        $textrun = $section->addTextRun($aStyle);
         $textrun->addLink('http://test.com');
         $textrun->addImage($imageSrc, array('align' => 'top'));
-        $textrun->createFootnote();
+        $textrun->addFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = "/w:document/w:body/w:p";
@@ -79,7 +79,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteLink()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $fontStyleArray = array('bold' => true);
         $fontStyleName = 'Font Style';
         $paragraphStyleArray = array('align' => 'center');
@@ -102,8 +102,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWritePreserveText()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
-        $footer = $section->createFooter();
+        $section = $phpWord->addSection();
+        $footer = $section->addFooter();
         $fontStyleArray = array('bold' => true);
         $fontStyleName = 'Font';
         $paragraphStyleArray = array('align' => 'right');
@@ -133,7 +133,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle($fName, $fArray);
         $phpWord->addParagraphStyle($pName, $pArray);
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addTextBreak();
         $section->addTextBreak(1, $fArray, $pArray);
         $section->addTextBreak(1, $fName, $pName);
@@ -151,7 +151,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteParagraphStyleAlign()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
 
         $section->addText('This is my text', null, array('align' => 'right'));
 
@@ -168,7 +168,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         // Create the doc
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $attributes = array(
             'widowControl' => false,
             'keepNext' => true,
@@ -209,7 +209,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $styles['bgColor'] = 'FFFF00';
         $styles['hint'] = 'eastAsia';
 
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test', $styles);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -257,7 +257,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cStyles["borderRightColor"] = 'FF0000';
         $cStyles["vMerge"] = 'restart';
 
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $table = $section->addTable($tStyles);
         $table->setWidth = 100;
         $table->addRow($rHeight, $rStyles);
@@ -268,7 +268,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $cell->addListItem('Test');
         $cell->addImage($imageSrc);
         $cell->addObject($objectSrc);
-        $textrun = $cell->createTextRun();
+        $textrun = $cell->addTextRun();
         $textrun->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -296,7 +296,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteCellStyleCellGridSpan()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
 
         $table = $section->addTable();
 
@@ -323,7 +323,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testWriteImagePosition()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addImage(
             __DIR__ . "/../../_files/images/earth.jpg",
             array(
@@ -350,8 +350,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
 
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
-        $header = $section->createHeader();
+        $section = $phpWord->addSection();
+        $header = $section->addHeader();
         $header->addWatermark($imageSrc);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -366,7 +366,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
-        $phpWord->createSection()->addTitle('Test', 1);
+        $phpWord->addSection()->addTitle('Test', 1);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
@@ -386,7 +386,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle($rStyle, array('bold' => true));
         $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 

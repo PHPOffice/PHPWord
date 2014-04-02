@@ -6,7 +6,7 @@ echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Add hyperlink elements
 $section->addLink('http://www.google.com', 'Best search engine', array('color'=>'0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));

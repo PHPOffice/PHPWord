@@ -103,7 +103,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
     public function testLineHeight()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
 
         // Test style array
         $text = $section->addText('This is a test', array(

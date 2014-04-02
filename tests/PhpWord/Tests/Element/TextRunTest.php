@@ -138,7 +138,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testCreateFootnote()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->createFootnote();
+        $element = $oTextRun->addFootnote();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $element);
         $this->assertCount(1, $oTextRun->getElements());

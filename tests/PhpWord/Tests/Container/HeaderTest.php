@@ -84,7 +84,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testCreateTextRun()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->createTextRun();
+        $element = $oHeader->addTextRun();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);
         $this->assertCount(1, $oHeader->getElements());
     }

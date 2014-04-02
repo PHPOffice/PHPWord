@@ -68,18 +68,18 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText('Test 2');
-        $section = $phpWord->createSection();
-        $textrun = $section->createTextRun();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test 3');
-        $footnote = $textrun->createFootnote();
+        $footnote = $textrun->addFootnote();
         $footnote->addLink('http://test.com');
-        $header = $section->createHeader();
+        $header = $section->addHeader();
         $header->addImage($localImage);
-        $footer = $section->createFooter();
+        $footer = $section->addFooter();
         $footer->addImage($remoteImage);
 
         $writer = new Word2007($phpWord);
@@ -97,9 +97,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     public function testSaveUseDiskCaching()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test');
-        $footnote = $section->createFootnote();
+        $footnote = $section->addFootnote();
         $footnote->addText('Test');
 
         $writer = new Word2007($phpWord);
@@ -138,7 +138,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             'angela_merkel.tif' => '6.tif',
         );
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         foreach ($images as $source => $target) {
             $section->addImage(__DIR__ . "/../_files/images/{$source}");
         }
@@ -169,7 +169,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     public function testSetGetUseDiskCaching()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $object = new Word2007($phpWord);
         $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
         $writer = new Word2007($phpWord);

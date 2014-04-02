@@ -173,7 +173,7 @@ class Word2007 extends Reader implements IReader
                     );
                     $xmlDoc = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}", true));
                     if (is_object($xmlDoc)) {
-                        $section = $word->createSection();
+                        $section = $word->addSection();
 
                         foreach ($xmlDoc->body->children() as $elm) {
                             $elmName = $elm->getName();
@@ -181,7 +181,7 @@ class Word2007 extends Reader implements IReader
                                 // Create new section if section setting found
                                 if ($elm->pPr->sectPr) {
                                     $section->setSettings($this->loadSectionSettings($elm->pPr));
-                                    $section = $word->createSection();
+                                    $section = $word->addSection();
                                     continue;
                                 }
                                 // Has w:r? It's either text or textrun

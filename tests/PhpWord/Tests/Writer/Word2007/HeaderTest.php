@@ -30,7 +30,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $container->addText('Test');
         $container->addPreserveText('');
         $container->addTextBreak();
-        $container->createTextRun();
+        $container->addTextRun();
         $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
         $container->addWatermark($imageSrc);

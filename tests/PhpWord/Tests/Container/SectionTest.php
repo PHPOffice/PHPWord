@@ -86,8 +86,8 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addImage($imageSource);
         $section->addMemoryImage($imageUrl);
         $section->addTitle(utf8_decode('ä'), 1);
-        $section->createTextRun();
-        $section->createFootnote();
+        $section->addTextRun();
+        $section->addFootnote();
         $section->addCheckBox(utf8_decode('chkä'), utf8_decode('Contentä'));
         $section->addTOC();
 

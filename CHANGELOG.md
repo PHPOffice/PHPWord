@@ -31,6 +31,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - `createFootnote` replaced by `addFootnote`
 - `createHeader` replaced by `addHeader`
 - `createFooter` replaced by `addFooter`
+- `createSection` replaced by `addSection`
 
 ### Miscellaneous
 

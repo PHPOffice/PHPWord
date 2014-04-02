@@ -25,7 +25,7 @@ $phpWord->addParagraphStyle('centerTab', array(
 ));
 
 // New portrait section
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Add listitem elements
 $section->addText("Multiple Tabs:\tOne\tTwo\tThree", NULL, 'multipleTab');

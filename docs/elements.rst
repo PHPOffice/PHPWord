@@ -51,9 +51,9 @@ Legend:
 Texts
 -----
 
-Text can be added by using ``addText`` and ``createTextRun`` method.
+Text can be added by using ``addText`` and ``addTextRun`` method.
 ``addText`` is used for creating simple paragraphs that only contain
-texts with the same style. ``createTextRun`` is used for creating
+texts with the same style. ``addTextRun`` is used for creating
 complex paragraphs that contain text with different style (some bold,
 other italics, etc) or other elements, e.g. images or links. The
 syntaxes are as follow:
@@ -61,7 +61,7 @@ syntaxes are as follow:
 .. code-block:: php
 
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
-    $textrun = $section->createTextRun([$paragraphStyle]);
+    $textrun = $section->addTextRun([$paragraphStyle]);
 
 Text styles
 ~~~~~~~~~~~
@@ -79,7 +79,7 @@ Inline style examples:
     $paragraphStyle = array('align' => 'both');
     $section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
 
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addText('I am bold', array('bold' => true));
     $textrun->addText('I am italic', array('italic' => true));
     $textrun->addText('I am colored, array('color' => 'AACC00'));
@@ -300,7 +300,7 @@ Examples:
 
 .. code-block:: php
 
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $section->addImage(
         'mars.jpg',
         array(
@@ -311,9 +311,9 @@ Examples:
             'wrappingStyle' => 'behind'
         )
     );
-    $footer = $section->createFooter();
+    $footer = $section->addFooter();
     $footer->addImage('http://example.com/image.php');
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
 
 Image styles
@@ -338,8 +338,8 @@ header reference. After creating a header, you can use the
 
 .. code-block:: php
 
-    $section = $phpWord->createSection();
-    $header = $section->createHeader();
+    $section = $phpWord->addSection();
+    $header = $section->addHeader();
     $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
 
 Objects
@@ -380,9 +380,9 @@ On textrun:
 
 .. code-block:: php
 
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addText('Lead text.');
-    $footnote = $textrun->createFootnote();
+    $footnote = $textrun->addFootnote();
     $footnote->addText('Footnote text can have ');
     $footnote->addLink('http://test.com', 'links');
     $footnote->addText('.');
@@ -395,7 +395,7 @@ On text:
 .. code-block:: php
 
     $section->addText('Lead text.');
-    $footnote = $section->createFootnote();
+    $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
 
 The footnote reference number will be displayed with decimal number starting

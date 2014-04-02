@@ -19,7 +19,7 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
     // Every element you want to append to the word document is placed in a section.
     // To create a basic section:
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
 
     // After creating a section, you can append elements:
     $section->addText('Hello world!');
@@ -136,7 +136,7 @@ points to twips.
         'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
     );
 
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $sectionStyle = $section->getSettings();
     // half inch left margin
     $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));

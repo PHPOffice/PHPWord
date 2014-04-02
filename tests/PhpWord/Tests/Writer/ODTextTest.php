@@ -64,7 +64,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font');
         $section->addTextBreak();
         $section->addText('Test 2', null, 'Paragraph');
@@ -76,8 +76,8 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
-        $section = $phpWord->createSection();
-        $textrun = $section->createTextRun();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test 3');
         $writer = new ODText($phpWord);
         $writer->save($file);
@@ -95,7 +95,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     public function testSavePhpOutput()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test');
         $writer = new ODText($phpWord);
         $writer->save('php://output');

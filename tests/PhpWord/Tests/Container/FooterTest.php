@@ -73,7 +73,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testCreateTextRun()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->createTextRun();
+        $element = $oFooter->addTextRun();
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $element);

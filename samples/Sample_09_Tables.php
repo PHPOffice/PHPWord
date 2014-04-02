@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $header = array('size' => 16, 'bold' => true);
 
 // 1. Basic table
