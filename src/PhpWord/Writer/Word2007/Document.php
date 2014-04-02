@@ -12,18 +12,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Container\Section;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -61,44 +50,15 @@ class Document extends Base
 
         $xmlWriter->startElement('w:body');
 
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         $pSection = 0;
 
         if ($countSections > 0) {
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
 
-                $_elements = $section->getElements();
-                foreach ($_elements as $element) {
-                    if ($element instanceof Text) {
-                        $this->writeText($xmlWriter, $element);
-                    } elseif ($element instanceof TextRun) {
-                        $this->writeTextRun($xmlWriter, $element);
-                    } elseif ($element instanceof Link) {
-                        $this->writeLink($xmlWriter, $element);
-                    } elseif ($element instanceof Title) {
-                        $this->writeTitle($xmlWriter, $element);
-                    } elseif ($element instanceof TextBreak) {
-                        $this->writeTextBreak($xmlWriter, $element);
-                    } elseif ($element instanceof PageBreak) {
-                        $this->writePageBreak($xmlWriter);
-                    } elseif ($element instanceof ListItem) {
-                        $this->writeListItem($xmlWriter, $element);
-                    } elseif ($element instanceof Table) {
-                        $this->writeTable($xmlWriter, $element);
-                    } elseif ($element instanceof Image) {
-                        $this->writeImage($xmlWriter, $element);
-                    } elseif ($element instanceof Object) {
-                        $this->writeObject($xmlWriter, $element);
-                    } elseif ($element instanceof TOC) {
-                        $this->writeTOC($xmlWriter);
-                    } elseif ($element instanceof Footnote) {
-                        $this->writeFootnote($xmlWriter, $element);
-                    } elseif ($element instanceof CheckBox) {
-                        $this->writeCheckBox($xmlWriter, $element);
-                    }
-                }
+                $this->writeContainerElements($xmlWriter, $section);
 
                 if ($pSection == $countSections) {
                     $this->writeEndSection($xmlWriter, $section);
@@ -139,8 +99,8 @@ class Document extends Base
     private function writeEndSection(XMLWriter $xmlWriter, Section $section)
     {
         $settings = $section->getSettings();
-        $_headers = $section->getHeaders();
-        $_footer = $section->getFooter();
+        $headers = $section->getHeaders();
+        $footer = $section->getFooter();
         $pgSzW = $settings->getPageSizeW();
         $pgSzH = $settings->getPageSizeH();
         $orientation = $settings->getOrientation();
@@ -161,43 +121,45 @@ class Document extends Base
 
         $xmlWriter->startElement('w:sectPr');
 
-        foreach ($_headers as &$_header) {
-            $rId = $_header->getRelationId();
-            $xmlWriter->startElement('w:headerReference');
-            $xmlWriter->writeAttribute('w:type', $_header->getType());
-            $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-            $xmlWriter->endElement();
-        }
-
-        if ($section->hasDifferentFirstPage()) {
-            $xmlWriter->startElement('w:titlePg');
-            $xmlWriter->endElement();
-        }
-
+        // Section break
         if (!is_null($breakType)) {
             $xmlWriter->startElement('w:type');
             $xmlWriter->writeAttribute('w:val', $breakType);
             $xmlWriter->endElement();
         }
 
-        if (!is_null($_footer)) {
-            $rId = $_footer->getRelationId();
+        // Header reference
+        foreach ($headers as &$header) {
+            $rId = $header->getRelationId();
+            $xmlWriter->startElement('w:headerReference');
+            $xmlWriter->writeAttribute('w:type', $header->getType());
+            $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+            $xmlWriter->endElement();
+        }
+        if ($section->hasDifferentFirstPage()) {
+            $xmlWriter->startElement('w:titlePg');
+            $xmlWriter->endElement();
+        }
+
+        // Footer reference
+        if (!is_null($footer)) {
+            $rId = $footer->getRelationId();
             $xmlWriter->startElement('w:footerReference');
             $xmlWriter->writeAttribute('w:type', 'default');
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
             $xmlWriter->endElement();
         }
 
+        // Page size & orientation
         $xmlWriter->startElement('w:pgSz');
         $xmlWriter->writeAttribute('w:w', $pgSzW);
         $xmlWriter->writeAttribute('w:h', $pgSzH);
-
         if (!is_null($orientation) && strtolower($orientation) != 'portrait') {
             $xmlWriter->writeAttribute('w:orient', $orientation);
         }
+        $xmlWriter->endElement(); // w:pgSz
 
-        $xmlWriter->endElement();
-
+        // Margins
         $xmlWriter->startElement('w:pgMar');
         $xmlWriter->writeAttribute('w:top', $marginTop);
         $xmlWriter->writeAttribute('w:right', $marginRight);
@@ -208,48 +170,19 @@ class Document extends Base
         $xmlWriter->writeAttribute('w:gutter', '0');
         $xmlWriter->endElement();
 
-
-        if (!is_null($borders[0]) || !is_null($borders[1]) || !is_null($borders[2]) || !is_null($borders[3])) {
+        // Borders
+        $hasBorders = false;
+        for ($i = 0; $i < 4; $i++) {
+            if (!is_null($borders[$i])) {
+                $hasBorders = true;
+                break;
+            }
+        }
+        if ($hasBorders) {
             $borderColor = $settings->getBorderColor();
-
             $xmlWriter->startElement('w:pgBorders');
             $xmlWriter->writeAttribute('w:offsetFrom', 'page');
-
-            if (!is_null($borders[0])) {
-                $xmlWriter->startElement('w:top');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $borders[0]);
-                $xmlWriter->writeAttribute('w:space', '24');
-                $xmlWriter->writeAttribute('w:color', $borderColor[0]);
-                $xmlWriter->endElement();
-            }
-
-            if (!is_null($borders[1])) {
-                $xmlWriter->startElement('w:left');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $borders[1]);
-                $xmlWriter->writeAttribute('w:space', '24');
-                $xmlWriter->writeAttribute('w:color', $borderColor[1]);
-                $xmlWriter->endElement();
-            }
-
-            if (!is_null($borders[2])) {
-                $xmlWriter->startElement('w:right');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $borders[2]);
-                $xmlWriter->writeAttribute('w:space', '24');
-                $xmlWriter->writeAttribute('w:color', $borderColor[2]);
-                $xmlWriter->endElement();
-            }
-
-            if (!is_null($borders[3])) {
-                $xmlWriter->startElement('w:bottom');
-                $xmlWriter->writeAttribute('w:val', 'single');
-                $xmlWriter->writeAttribute('w:sz', $borders[3]);
-                $xmlWriter->writeAttribute('w:space', '24');
-                $xmlWriter->writeAttribute('w:color', $borderColor[3]);
-                $xmlWriter->endElement();
-            }
+            $this->writeMarginBorder($xmlWriter, $borders, $borderColor, array('space' => '24'));
             $xmlWriter->endElement();
         }
 
@@ -260,11 +193,11 @@ class Document extends Base
             $xmlWriter->endElement();
         }
 
+        // Columns
         $xmlWriter->startElement('w:cols');
         $xmlWriter->writeAttribute('w:num', $colsNum);
         $xmlWriter->writeAttribute('w:space', $colsSpace);
         $xmlWriter->endElement();
-
 
         $xmlWriter->endElement();
     }
@@ -274,7 +207,7 @@ class Document extends Base
      *
      * @param XMLWriter $xmlWriter
      */
-    private function writePageBreak(XMLWriter $xmlWriter)
+    protected function writePageBreak(XMLWriter $xmlWriter, PageBreak $pagebreak)
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:r');
@@ -290,7 +223,7 @@ class Document extends Base
      *
      * @param XMLWriter $xmlWriter
      */
-    private function writeTOC(XMLWriter $xmlWriter)
+    protected function writeTOC(XMLWriter $xmlWriter, TOC $toc)
     {
         $titles = TOC::getTitles();
         $styleFont = TOC::getStyleFont();

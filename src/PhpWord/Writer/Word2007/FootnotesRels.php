@@ -20,15 +20,15 @@ class FootnotesRels extends Base
     /**
      * Write word/_rels/footnotes.xml.rels
      *
-     * @param mixed $_relsCollection
+     * @param mixed $relsCollection
      */
-    public function writeFootnotesRels($_relsCollection)
+    public function writeFootnotesRels($relsCollection)
     {
         $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
-        $this->writeMediaRels($xmlWriter, $_relsCollection);
+        $this->writeMediaRels($xmlWriter, $relsCollection);
         $xmlWriter->endElement();
 
         return $xmlWriter->getData();

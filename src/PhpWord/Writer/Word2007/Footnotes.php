@@ -110,23 +110,9 @@ class Footnotes extends Base
         $xmlWriter->writeRaw(' ');
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
-        // Actual footnote contents
-        $elements = $footnote->getElements();
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                if ($element instanceof Text) {
-                    $this->writeText($xmlWriter, $element, true);
-                } elseif ($element instanceof Link) {
-                    $this->writeLink($xmlWriter, $element, true);
-                } elseif ($element instanceof Image) {
-                    $this->writeImage($xmlWriter, $element, true);
-                } elseif ($element instanceof Object) {
-                    $this->writeObject($xmlWriter, $element, true);
-                } elseif ($element instanceof TextBreak) {
-                    $xmlWriter->writeElement('w:br');
-                }
-            }
-        }
+
+        $this->writeContainerElements($xmlWriter, $footnote);
+
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // w:footnote
     }
