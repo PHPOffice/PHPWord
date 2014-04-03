@@ -385,7 +385,7 @@ abstract class Container
 
         $footnote = new FootnoteElement($paragraphStyle);
         $refID = FootnoteCollection::addFootnoteElement($footnote);
-        $footnote->setReferenceId($refID);
+        $footnote->setRelationId($refID);
         $this->elements[] = $footnote;
 
         return $footnote;
@@ -488,6 +488,33 @@ abstract class Container
     }
 
     /**
+     * Set style value
+     *
+     * Used by Footnote
+     *
+     * @param mixed $styleObject Style object, could be Font, Paragraph, Cell, Image
+     * @param mixed $styleValue
+     * @param boolean $returnObject Always return object
+     * @todo Remove duplicate with ..\Element\Element
+     */
+    protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
+    {
+        if (!is_null($styleValue) && is_array($styleValue)) {
+            foreach ($styleValue as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $styleObject->setStyleValue($key, $value);
+            }
+            $style = $styleObject;
+        } else {
+            $style = $returnObject ? $styleObject : $styleValue;
+        }
+
+        return $style;
+    }
+
+    /**
      * Check if a method is allowed for the current container
      *
      * @param string $element
@@ -507,7 +534,7 @@ abstract class Container
             'object'        => array('section', 'textrun', 'cell', 'footnote'),
             'footnote'      => array('section', 'textrun', 'cell'),
             'preservetext'  => array('header', 'footer', 'cell'),
-            'relationid'    => array('header', 'footer'),
+            'relationid'    => array('header', 'footer', 'footnote'),
             'title'         => array('section'),
         );
         $validContainerInContainers = array(

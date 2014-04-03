@@ -96,8 +96,8 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
         $oFootnote = new Footnote();
 
         $iVal = rand(1, 1000);
-        $oFootnote->setReferenceId($iVal);
-        $this->assertEquals($oFootnote->getReferenceId(), $iVal);
+        $oFootnote->setRelationId($iVal);
+        $this->assertEquals($oFootnote->getRelationId(), $iVal);
     }
 
     /**

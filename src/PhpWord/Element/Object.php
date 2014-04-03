@@ -9,45 +9,47 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Image as ImageStyle;
+
 /**
  * Object element
  */
-class Object
+class Object extends Element
 {
     /**
      * Ole-Object Src
      *
      * @var string
      */
-    private $_src;
+    private $source;
 
     /**
      * Image Style
      *
      * @var \PhpOffice\PhpWord\Style\Image
      */
-    private $_style;
+    private $style;
 
     /**
      * Object Relation ID
      *
      * @var int
      */
-    private $_rId;
+    private $relationId;
 
     /**
      * Image Relation ID
      *
      * @var int
      */
-    private $_rIdImg;
+    private $imageRelationId;
 
     /**
      * Object ID
      *
      * @var int
      */
-    private $_objId;
+    private $objectId;
 
 
     /**
@@ -58,22 +60,12 @@ class Object
      */
     public function __construct($src, $style = null)
     {
-        $_supportedObjectTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
+        $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
         $inf = pathinfo($src);
 
-        if (\file_exists($src) && in_array($inf['extension'], $_supportedObjectTypes)) {
-            $this->_src = $src;
-            $this->_style = new \PhpOffice\PhpWord\Style\Image();
-
-            if (!is_null($style) && is_array($style)) {
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->_style->setStyleValue($key, $value);
-                }
-            }
-
+        if (\file_exists($src) && in_array($inf['extension'], $supportedTypes)) {
+            $this->source = $src;
+            $this->style = $this->setStyle(new ImageStyle(), $style, true);
             return $this;
         } else {
             return false;
@@ -87,7 +79,7 @@ class Object
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     /**
@@ -97,7 +89,7 @@ class Object
      */
     public function getSource()
     {
-        return $this->_src;
+        return $this->source;
     }
 
     /**
@@ -107,7 +99,7 @@ class Object
      */
     public function getRelationId()
     {
-        return $this->_rId;
+        return $this->relationId;
     }
 
     /**
@@ -117,7 +109,7 @@ class Object
      */
     public function setRelationId($rId)
     {
-        $this->_rId = $rId;
+        $this->relationId = $rId;
     }
 
     /**
@@ -127,7 +119,7 @@ class Object
      */
     public function getImageRelationId()
     {
-        return $this->_rIdImg;
+        return $this->imageRelationId;
     }
 
     /**
@@ -137,7 +129,7 @@ class Object
      */
     public function setImageRelationId($rId)
     {
-        $this->_rIdImg = $rId;
+        $this->imageRelationId = $rId;
     }
 
     /**
@@ -147,7 +139,7 @@ class Object
      */
     public function getObjectId()
     {
-        return $this->_objId;
+        return $this->objectId;
     }
 
     /**
@@ -157,6 +149,6 @@ class Object
      */
     public function setObjectId($objId)
     {
-        $this->_objId = $objId;
+        $this->objectId = $objId;
     }
 }

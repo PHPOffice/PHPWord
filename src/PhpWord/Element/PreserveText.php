@@ -15,28 +15,28 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Preserve text/field element
  */
-class PreserveText
+class PreserveText extends Element
 {
     /**
      * Text content
      *
      * @var string
      */
-    private $_text;
+    private $text;
 
     /**
      * Text style
      *
      * @var string|Font
      */
-    private $_styleFont;
+    private $fontStyle;
 
     /**
      * Paragraph style
      *
      * @var string|Paragraph
      */
-    private $_styleParagraph;
+    private $paragraphStyle;
 
 
     /**
@@ -49,37 +49,12 @@ class PreserveText
      */
     public function __construct($text = null, $styleFont = null, $styleParagraph = null)
     {
-        // Set font style
-        if (is_array($styleFont)) {
-            $this->_styleFont = new Font('text');
-
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleFont->setStyleValue($key, $value);
-            }
-        } else {
-            $this->_styleFont = $styleFont;
-        }
-
-        // Set paragraph style
-        if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new Paragraph();
-
-            foreach ($styleParagraph as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleParagraph->setStyleValue($key, $value);
-            }
-        } else {
-            $this->_styleParagraph = $styleParagraph;
-        }
+        $this->fontStyle = $this->setStyle(new Font('text'), $styleFont);
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $styleParagraph);
 
         $matches = preg_split('/({.*?})/', $text, null, \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
-            $this->_text = $matches;
+            $this->text = $matches;
         }
 
         return $this;
@@ -92,7 +67,7 @@ class PreserveText
      */
     public function getFontStyle()
     {
-        return $this->_styleFont;
+        return $this->fontStyle;
     }
 
     /**
@@ -102,7 +77,7 @@ class PreserveText
      */
     public function getParagraphStyle()
     {
-        return $this->_styleParagraph;
+        return $this->paragraphStyle;
     }
 
     /**
@@ -112,6 +87,6 @@ class PreserveText
      */
     public function getText()
     {
-        return $this->_text;
+        return $this->text;
     }
 }

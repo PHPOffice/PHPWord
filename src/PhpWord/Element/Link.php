@@ -15,42 +15,42 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Link element
  */
-class Link
+class Link extends Element
 {
     /**
      * Link source
      *
      * @var string
      */
-    private $_linkSrc;
+    private $source;
 
     /**
      * Link name
      *
      * @var string
      */
-    private $_linkName;
+    private $name;
 
     /**
      * Link Relation ID
      *
      * @var string
      */
-    private $_rId;
+    private $relationId;
 
     /**
-     * Link style
+     * Font style
      *
      * @var string|Font
      */
-    private $_styleFont;
+    private $fontStyle;
 
     /**
      * Paragraph style
      *
      * @var string|Paragraph
      */
-    private $_styleParagraph;
+    private $paragraphStyle;
 
 
     /**
@@ -58,41 +58,15 @@ class Link
      *
      * @param string $linkSrc
      * @param string $linkName
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
-    public function __construct($linkSrc, $linkName = null, $styleFont = null, $styleParagraph = null)
+    public function __construct($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->_linkSrc = $linkSrc;
-        $this->_linkName = $linkName;
-
-        // Set font style
-        if (is_array($styleFont)) {
-            $this->_styleFont = new Font('text');
-
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleFont->setStyleValue($key, $value);
-            }
-        } else {
-            $this->_styleFont = $styleFont;
-        }
-
-        // Set paragraph style
-        if (is_array($styleParagraph)) {
-            $this->_styleParagraph = new Paragraph();
-
-            foreach ($styleParagraph as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_styleParagraph->setStyleValue($key, $value);
-            }
-        } else {
-            $this->_styleParagraph = $styleParagraph;
-        }
+        $this->source = $linkSrc;
+        $this->name = $linkName;
+        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
 
         return $this;
     }
@@ -104,7 +78,7 @@ class Link
      */
     public function getRelationId()
     {
-        return $this->_rId;
+        return $this->relationId;
     }
 
     /**
@@ -114,7 +88,7 @@ class Link
      */
     public function setRelationId($rId)
     {
-        $this->_rId = $rId;
+        $this->relationId = $rId;
     }
 
     /**
@@ -124,7 +98,7 @@ class Link
      */
     public function getLinkSrc()
     {
-        return $this->_linkSrc;
+        return $this->source;
     }
 
     /**
@@ -134,7 +108,7 @@ class Link
      */
     public function getLinkName()
     {
-        return $this->_linkName;
+        return $this->name;
     }
 
     /**
@@ -144,7 +118,7 @@ class Link
      */
     public function getFontStyle()
     {
-        return $this->_styleFont;
+        return $this->fontStyle;
     }
 
     /**
@@ -154,6 +128,6 @@ class Link
      */
     public function getParagraphStyle()
     {
-        return $this->_styleParagraph;
+        return $this->paragraphStyle;
     }
 }

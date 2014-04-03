@@ -11,11 +11,12 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
+use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
  * Image element
  */
-class Image
+class Image extends Element
 {
     /**
      * Image source
@@ -27,7 +28,7 @@ class Image
     /**
      * Image style
      *
-     * @var \PhpOffice\PhpWord\Style\Image
+     * @var ImageStyle
      */
     private $style;
 
@@ -131,15 +132,7 @@ class Image
         // Set private properties
         $this->source = $source;
         $this->isWatermark = $isWatermark;
-        $this->style = new \PhpOffice\PhpWord\Style\Image();
-        if (!is_null($style) && is_array($style)) {
-            foreach ($style as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->style->setStyleValue($key, $value);
-            }
-        }
+        $this->style = $this->setStyle(new ImageStyle(), $style, true);
         if (isset($style['wrappingStyle'])) {
             $this->style->setWrappingStyle($style['wrappingStyle']);
         }
@@ -153,7 +146,7 @@ class Image
     /**
      * Get Image style
      *
-     * @return \PhpOffice\PhpWord\Style\Image
+     * @return ImageStyle
      */
     public function getStyle()
     {

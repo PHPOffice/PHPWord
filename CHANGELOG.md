@@ -33,6 +33,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - `createHeader` replaced by `addHeader`
 - `createFooter` replaced by `addFooter`
 - `createSection` replaced by `addSection`
+- `Element\Footnote::getReferenceId` replaced by `Container\Container::getRelationId`
+- `Element\Footnote::setReferenceId` replaced by `Container\Container::setRelationId`
 
 ### Miscellaneous
 
@@ -40,8 +42,9 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
 - Reader: Rename AbstractReader > Reader - @ivanlanin
 - General: Refactor folders: Element, Container, and Exception - @ivanlanin GH-187
-- Container: Create new Container abstract class - @ivanlanin GH-187
 - General: Remove legacy HashTable and all related properties/methods - @ivanlanin GH-187
+- Container: Create new Container abstract class - @ivanlanin GH-187
+- Element: Create new Element abstract class - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

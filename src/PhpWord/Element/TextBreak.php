@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Text break element
  */
-class TextBreak
+class TextBreak extends Element
 {
     /**
      * Paragraph style

@@ -9,31 +9,33 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
+
 /**
  * List item element
  */
-class ListItem
+class ListItem extends Element
 {
     /**
      * ListItem Style
      *
-     * @var \PhpOffice\PhpWord\Style\ListItem
+     * @var ListItemStyle
      */
-    private $_style;
+    private $style;
 
     /**
      * Textrun
      *
      * @var \PhpOffice\PhpWord\Element\Text
      */
-    private $_textObject;
+    private $textObject;
 
     /**
      * ListItem Depth
      *
      * @var int
      */
-    private $_depth;
+    private $depth;
 
 
     /**
@@ -47,18 +49,9 @@ class ListItem
      */
     public function __construct($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
     {
-        $this->_style = new \PhpOffice\PhpWord\Style\ListItem();
-        $this->_textObject = new Text($text, $styleFont, $styleParagraph);
-        $this->_depth = $depth;
-
-        if (!is_null($styleList) && is_array($styleList)) {
-            foreach ($styleList as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->_style->setStyleValue($key, $value);
-            }
-        }
+        $this->textObject = new Text($text, $styleFont, $styleParagraph);
+        $this->depth = $depth;
+        $this->style = $this->setStyle(new ListItemStyle(), $styleList, true);
     }
 
     /**
@@ -66,7 +59,7 @@ class ListItem
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     /**
@@ -74,7 +67,7 @@ class ListItem
      */
     public function getTextObject()
     {
-        return $this->_textObject;
+        return $this->textObject;
     }
 
     /**
@@ -82,6 +75,6 @@ class ListItem
      */
     public function getDepth()
     {
-        return $this->_depth;
+        return $this->depth;
     }
 }

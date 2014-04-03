@@ -89,7 +89,7 @@ class Footnotes extends Base
     protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
     {
         $xmlWriter->startElement('w:footnote');
-        $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
+        $xmlWriter->writeAttribute('w:id', $footnote->getRelationId());
         $xmlWriter->startElement('w:p');
         // Paragraph style
         $styleParagraph = $footnote->getParagraphStyle();

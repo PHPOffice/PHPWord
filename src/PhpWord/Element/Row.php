@@ -9,73 +9,63 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Row as RowStyle;
+
 /**
  * Table row element
  */
-class Row
+class Row extends Element
 {
     /**
      * Row height
      *
      * @var int
      */
-    private $_height = null;
+    private $height = null;
 
     /**
      * Row style
      *
-     * @var \PhpOffice\PhpWord\Style\Row
+     * @var RowStyle
      */
-    private $_style;
+    private $style;
 
     /**
      * Row cells
      *
      * @var array
      */
-    private $_cells = array();
+    private $cells = array();
 
     /**
      * Table holder
      *
      * @var string
      */
-    private $_insideOf;
+    private $docPart;
 
     /**
      * Section/Header/Footer count
      *
      * @var int
      */
-    private $_pCount;
+    private $docPartId;
 
 
     /**
      * Create a new table row
      *
-     * @param string $insideOf
-     * @param int $pCount
+     * @param string $docPart
+     * @param int $docPartId
      * @param int $height
      * @param mixed $style
      */
-    public function __construct($insideOf, $pCount, $height = null, $style = null)
+    public function __construct($docPart, $docPartId, $height = null, $style = null)
     {
-        $this->_insideOf = $insideOf;
-        $this->_pCount = $pCount;
-        $this->_height = $height;
-        $this->_style = new \PhpOffice\PhpWord\Style\Row();
-
-        if (!is_null($style)) {
-            if (is_array($style)) {
-
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->_style->setStyleValue($key, $value);
-                }
-            }
-        }
+        $this->docPart = $docPart;
+        $this->docPartId = $docPartId;
+        $this->height = $height;
+        $this->style = $this->setStyle(new RowStyle(), $style, true);
     }
 
     /**
@@ -83,12 +73,11 @@ class Row
      *
      * @param int $width
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
-        $cell = new Cell($this->_insideOf, $this->_pCount, $width, $style);
-        $this->_cells[] = $cell;
+        $cell = new Cell($this->docPart, $this->docPartId, $width, $style);
+        $this->cells[] = $cell;
         return $cell;
     }
 
@@ -99,17 +88,17 @@ class Row
      */
     public function getCells()
     {
-        return $this->_cells;
+        return $this->cells;
     }
 
     /**
      * Get row style
      *
-     * @return \PhpOffice\PhpWord\Style\Row
+     * @return RowStyle
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     /**
@@ -119,6 +108,6 @@ class Row
      */
     public function getHeight()
     {
-        return $this->_height;
+        return $this->height;
     }
 }

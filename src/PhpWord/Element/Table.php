@@ -10,74 +10,60 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Element\Row;
-
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 /**
  * Table element
  */
-class Table
+class Table extends Element
 {
     /**
      * Table style
      *
-     * @var \PhpOffice\PhpWord\Style\Table
+     * @var TableStyle
      */
-    private $_style;
+    private $style;
 
     /**
      * Table rows
      *
      * @var array
      */
-    private $_rows = array();
+    private $rows = array();
 
     /**
      * Table holder
      *
      * @var string
      */
-    private $_insideOf = null;
+    private $docPart = null;
 
     /**
      * Table holder count
      *
      * @var array
      */
-    private $_pCount;
+    private $docPartId;
 
     /**
      * Table width
      *
      * @var int
      */
-    private $_width = null;
+    private $width = null;
 
 
     /**
      * Create a new table
      *
-     * @param string $insideOf
-     * @param int $pCount
+     * @param string $docPart
+     * @param int $docPartId
      * @param mixed $style
      */
-    public function __construct($insideOf, $pCount, $style = null)
+    public function __construct($docPart, $docPartId, $style = null)
     {
-        $this->_insideOf = $insideOf;
-        $this->_pCount = $pCount;
-
-        if (!is_null($style)) {
-            if (is_array($style)) {
-                $this->_style = new \PhpOffice\PhpWord\Style\Table();
-
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->_style->setStyleValue($key, $value);
-                }
-            } else {
-                $this->_style = $style;
-            }
-        }
+        $this->docPart = $docPart;
+        $this->docPartId = $docPartId;
+        $this->style = $this->setStyle(new TableStyle(), $style);
     }
 
     /**
@@ -88,8 +74,8 @@ class Table
      */
     public function addRow($height = null, $style = null)
     {
-        $row = new Row($this->_insideOf, $this->_pCount, $height, $style);
-        $this->_rows[] = $row;
+        $row = new Row($this->docPart, $this->docPartId, $height, $style);
+        $this->rows[] = $row;
         return $row;
     }
 
@@ -102,8 +88,8 @@ class Table
      */
     public function addCell($width = null, $style = null)
     {
-        $i = count($this->_rows) - 1;
-        $cell = $this->_rows[$i]->addCell($width, $style);
+        $i = count($this->rows) - 1;
+        $cell = $this->rows[$i]->addCell($width, $style);
         return $cell;
     }
 
@@ -114,17 +100,17 @@ class Table
      */
     public function getRows()
     {
-        return $this->_rows;
+        return $this->rows;
     }
 
     /**
      * Get table style
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return TableStyle
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     /**
@@ -134,7 +120,7 @@ class Table
      */
     public function setWidth($width)
     {
-        $this->_width = $width;
+        $this->width = $width;
     }
 
     /**
@@ -144,6 +130,6 @@ class Table
      */
     public function getWidth()
     {
-        return $this->_width;
+        return $this->width;
     }
 }

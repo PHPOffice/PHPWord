@@ -45,20 +45,7 @@ class Cell extends Container
         $this->docPart = $docPart;
         $this->docPartId = $docPartId;
         $this->width = $width;
-        $this->cellStyle = new CellStyle();
-
-        if (!is_null($style)) {
-            if (is_array($style)) {
-                foreach ($style as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
-                    }
-                    $this->cellStyle->setStyleValue($key, $value);
-                }
-            } else {
-                $this->cellStyle = $style;
-            }
-        }
+        $this->cellStyle = $this->setStyle(new CellStyle(), $style, true);
     }
 
     /**

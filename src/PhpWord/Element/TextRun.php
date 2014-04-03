@@ -36,18 +36,7 @@ class TextRun extends Container
         $this->container = 'textrun';
         $this->docPart = $docPart;
         $this->docPartId = $docPartId;
-        // Set paragraph style
-        if (is_array($paragraphStyle)) {
-            $this->paragraphStyle = new Paragraph();
-            foreach ($paragraphStyle as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->paragraphStyle->setStyleValue($key, $value);
-            }
-        } else {
-            $this->paragraphStyle = $paragraphStyle;
-        }
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 
     /**

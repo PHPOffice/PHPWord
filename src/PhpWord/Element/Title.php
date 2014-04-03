@@ -12,42 +12,42 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * Title element
  */
-class Title
+class Title extends Element
 {
     /**
      * Title Text content
      *
      * @var string
      */
-    private $_text;
+    private $text;
 
     /**
      * Title depth
      *
      * @var int
      */
-    private $_depth;
+    private $depth;
 
     /**
      * Title anchor
      *
      * @var int
      */
-    private $_anchor;
+    private $anchor;
 
     /**
      * Title Bookmark ID
      *
      * @var int
      */
-    private $_bookmarkId;
+    private $bookmarkId;
 
     /**
      * Title style
      *
      * @var string
      */
-    private $_style;
+    private $style;
 
 
     /**
@@ -60,11 +60,11 @@ class Title
     public function __construct($text, $depth = 1, $style = null)
     {
         if (!is_null($style)) {
-            $this->_style = $style;
+            $this->style = $style;
         }
 
-        $this->_text = $text;
-        $this->_depth = $depth;
+        $this->text = $text;
+        $this->depth = $depth;
 
         return $this;
     }
@@ -76,7 +76,7 @@ class Title
      */
     public function setAnchor($anchor)
     {
-        $this->_anchor = $anchor;
+        $this->anchor = $anchor;
     }
 
     /**
@@ -86,7 +86,7 @@ class Title
      */
     public function getAnchor()
     {
-        return $this->_anchor;
+        return $this->anchor;
     }
 
     /**
@@ -96,7 +96,7 @@ class Title
      */
     public function setBookmarkId($bookmarkId)
     {
-        $this->_bookmarkId = $bookmarkId;
+        $this->bookmarkId = $bookmarkId;
     }
 
     /**
@@ -106,7 +106,7 @@ class Title
      */
     public function getBookmarkId()
     {
-        return $this->_bookmarkId;
+        return $this->bookmarkId;
     }
 
     /**
@@ -116,7 +116,7 @@ class Title
      */
     public function getText()
     {
-        return $this->_text;
+        return $this->text;
     }
 
     /**
@@ -126,6 +126,6 @@ class Title
      */
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 }

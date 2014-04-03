@@ -614,7 +614,7 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // w:rStyle
         $xmlWriter->endElement(); // w:rPr
         $xmlWriter->startElement('w:footnoteReference');
-        $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
+        $xmlWriter->writeAttribute('w:id', $footnote->getRelationId());
         $xmlWriter->endElement(); // w:footnoteReference
         $xmlWriter->endElement(); // w:r
         if (!$withoutP) {
@@ -1173,13 +1173,16 @@ class Base extends WriterPart
      */
     protected function writeContainerElements(XMLWriter $xmlWriter, Container $container)
     {
+        // Check allowed elements
+        $elmCommon = array('Text', 'Link', 'TextBreak', 'Image');
+        $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
         $allowedElements = array(
-            'Section'  => array('Text', 'TextRun', 'Link', 'Title', 'TextBreak', 'ListItem', 'Table', 'Image', 'Object', 'CheckBox', 'Footnote', 'TOC'),
-            'Header'   => array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak', 'ListItem', 'Image', 'CheckBox'),
-            'Footer'   => array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak', 'ListItem', 'Image', 'CheckBox'),
-            'Cell'     => array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak', 'ListItem', 'Image', 'Object', 'CheckBox', 'Footnote'),
-            'TextRun'  => array('Text', 'Link', 'TextBreak', 'Image', 'Object', 'Footnote'),
-            'Footnote' => array('Text', 'Link', 'TextBreak', 'Image', 'Object'),
+            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Object', 'Title', 'PageBreak', 'TOC')),
+            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Cell'     => array_merge($elmMainCell, array('Object', 'PreserveText', 'Footnote')),
+            'TextRun'  => array_merge($elmCommon, array('Object', 'Footnote')),
+            'Footnote' => array_merge($elmCommon, array('Object')),
         );
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
@@ -1189,6 +1192,7 @@ class Base extends WriterPart
             throw new Exception('Invalid container.');
         }
 
+        // Loop through elements
         $elements = $container->getElements();
         if (count($elements) > 0) {
             foreach ($elements as $element) {

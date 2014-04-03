@@ -25,13 +25,6 @@ class Footnote extends Container
     private $paragraphStyle;
 
     /**
-     * Footnote Reference ID
-     *
-     * @var string
-     */
-    private $referenceId;
-
-    /**
      * Create new instance
      *
      * @param string|array|Paragraph $paragraphStyle
@@ -39,18 +32,7 @@ class Footnote extends Container
     public function __construct($paragraphStyle = null)
     {
         $this->container = 'footnote';
-        // Set paragraph style
-        if (is_array($paragraphStyle)) {
-            $this->paragraphStyle = new Paragraph();
-            foreach ($paragraphStyle as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $this->paragraphStyle->setStyleValue($key, $value);
-            }
-        } else {
-            $this->paragraphStyle = $paragraphStyle;
-        }
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 
     /**
@@ -67,19 +49,21 @@ class Footnote extends Container
      * Get Footnote Reference ID
      *
      * @return int
+     * @deprecated 0.9.2
      */
     public function getReferenceId()
     {
-        return $this->referenceId;
+        return $this->getRelationId();
     }
 
     /**
      * Set Footnote Reference ID
      *
      * @param int $refId
+     * @deprecated 0.9.2
      */
     public function setReferenceId($refId)
     {
-        $this->referenceId = $refId;
+        $this->setRelationId($refId);
     }
 }
