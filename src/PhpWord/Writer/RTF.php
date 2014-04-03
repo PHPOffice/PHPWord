@@ -24,7 +24,6 @@ use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TOC;
 
 /**

@@ -98,65 +98,40 @@ class Word2007 extends Writer implements IWriter
                 }
             }
 
-            // Add section elements
+            // Add section media files
             $sectionElements = array();
-            $secElements = Media::getSectionMediaElements();
-            foreach ($secElements as $element) { // loop through section media elements
-                if ($element['type'] != 'hyperlink') {
-                    $this->addFileToPackage($objZip, $element);
-                }
-                $sectionElements[] = $element;
-            }
 
-            // Add header relations & elements
-            $hdrElements = Media::getHeaderMediaElements();
-            foreach ($hdrElements as $hdrFile => $hdrMedia) {
-                if (count($hdrMedia) > 0) {
-                    $objZip->addFromString(
-                        'word/_rels/' . $hdrFile . '.xml.rels',
-                        $this->getWriterPart('rels')->writeMediaRels($hdrMedia)
-                    );
-                    foreach ($hdrMedia as $element) {
-                        if ($element['type'] != 'hyperlink') {
-                            $this->addFileToPackage($objZip, $element);
-                        }
-                    }
+            $secElements = Media::getMediaElements('section');
+            if (!empty($secElements)) {
+                $this->addFilesToPackage($objZip, $secElements);
+                foreach ($secElements as $element) {
+                    $sectionElements[] = $element;
                 }
             }
 
-            // Add footer relations & elements
-            $ftrElements = Media::getFooterMediaElements();
-            foreach ($ftrElements as $ftrFile => $ftrMedia) {
-                if (count($ftrMedia) > 0) {
-                    $objZip->addFromString(
-                        'word/_rels/' . $ftrFile . '.xml.rels',
-                        $this->getWriterPart('rels')->writeMediaRels($ftrMedia)
-                    );
-                    foreach ($ftrMedia as $element) {
-                        if ($element['type'] != 'hyperlink') {
-                            $this->addFileToPackage($objZip, $element);
-                        }
-                    }
-                }
-            }
+            // Add header/footer media files & relations
+            $this->addHeaderFooterMedia($objZip, 'header');
+            $this->addHeaderFooterMedia($objZip, 'footer');
 
-            // Process header/footer xml files
+            // Add header/footer contents
             $cHdrs = 0;
             $cFtrs = 0;
-            $rID = Media::countSectionMediaElements() + 6;
+            $rID = Media::countMediaElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
             $sections = $this->phpWord->getSections();
             $footers = array();
             foreach ($sections as $section) {
                 $headers = $section->getHeaders();
-                foreach ($headers as $index => &$header) {
-                    $cHdrs++;
-                    $header->setRelationId(++$rID);
-                    $hdrFile = "header{$cHdrs}.xml";
-                    $sectionElements[] = array('target' => $hdrFile, 'type' => 'header', 'rID' => $rID);
-                    $objZip->addFromString(
-                        "word/{$hdrFile}",
-                        $this->getWriterPart('header')->writeHeader($header)
-                    );
+                if (!empty($headers)) {
+                    foreach ($headers as $index => &$header) {
+                        $cHdrs++;
+                        $header->setRelationId(++$rID);
+                        $hdrFile = "header{$cHdrs}.xml";
+                        $sectionElements[] = array('target' => $hdrFile, 'type' => 'header', 'rID' => $rID);
+                        $objZip->addFromString(
+                            "word/{$hdrFile}",
+                            $this->getWriterPart('header')->writeHeader($header)
+                        );
+                    }
                 }
                 $footer = $section->getFooter();
                 $footers[++$cFtrs] = $footer;
@@ -172,34 +147,23 @@ class Word2007 extends Writer implements IWriter
                 }
             }
 
-            // Process footnotes
+            // Add footnotes media files, relations, and contents
             if (Footnote::countFootnoteElements() > 0) {
-                // Push to document.xml.rels
                 $sectionElements[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rID);
-                // Add footnote media to package
                 $footnoteMedia = Media::getMediaElements('footnote');
-                if (!empty($footnoteMedia)) {
-                    foreach ($footnoteMedia as $media) {
-                        if ($media['type'] != 'hyperlink') {
-                            $this->addFileToPackage($objZip, $media);
-                        }
-                    }
-                }
-                // Write footnotes.xml
-                $objZip->addFromString(
-                    'word/footnotes.xml',
-                    $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements())
-                );
-                // Write footnotes.xml.rels
+                $this->addFilesToPackage($objZip, $footnoteMedia);
                 if (!empty($footnoteMedia)) {
                     $objZip->addFromString(
                         'word/_rels/footnotes.xml.rels',
                         $this->getWriterPart('rels')->writeMediaRels($footnoteMedia)
                     );
                 }
+                $objZip->addFromString(
+                    'word/footnotes.xml',
+                    $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements())
+                );
             }
 
-            // build docx file
             // Write dynamic files
             $objZip->addFromString(
                 '[Content_Types].xml',
@@ -288,21 +252,47 @@ class Word2007 extends Writer implements IWriter
      * @param mixed $objZip
      * @param mixed $element
      */
-    private function addFileToPackage($objZip, $element)
+    private function addFilesToPackage($objZip, $elements)
     {
-        if (isset($element['isMemImage']) && $element['isMemImage']) {
-            $image = call_user_func($element['createfunction'], $element['source']);
-            ob_start();
-            call_user_func($element['imagefunction'], $image);
-            $imageContents = ob_get_contents();
-            ob_end_clean();
-            $objZip->addFromString('word/' . $element['target'], $imageContents);
-            imagedestroy($image);
+        foreach ($elements as $element) {
+            if ($element['type'] == 'link') {
+                continue;
+            }
+            if (isset($element['isMemImage']) && $element['isMemImage']) {
+                $image = call_user_func($element['createfunction'], $element['source']);
+                ob_start();
+                call_user_func($element['imagefunction'], $image);
+                $imageContents = ob_get_contents();
+                ob_end_clean();
+                $objZip->addFromString('word/' . $element['target'], $imageContents);
+                imagedestroy($image);
 
-            $this->checkContentTypes($element['source']);
-        } else {
-            $objZip->addFile($element['source'], 'word/' . $element['target']);
-            $this->checkContentTypes($element['source']);
+                $this->checkContentTypes($element['source']);
+            } else {
+                $objZip->addFile($element['source'], 'word/' . $element['target']);
+                $this->checkContentTypes($element['source']);
+            }
+        }
+    }
+
+    /**
+     * Add header/footer media elements
+     */
+    private function addHeaderFooterMedia($objZip, $docPart)
+    {
+        $elements = Media::getMediaElements($docPart);
+        if (!empty($elements)) {
+            foreach ($elements as $file => $media) {
+                if (count($media) > 0) {
+                    $objZip->addFromString(
+                        'word/_rels/' . $file . '.xml.rels',
+                        $this->getWriterPart('rels')->writeMediaRels($media)
+                    );
+                    if (!empty($media)) {
+                        $this->addFilesToPackage($objZip, $media);
+                    }
+                }
+            }
         }
     }
 }

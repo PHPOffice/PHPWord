@@ -1126,15 +1126,15 @@ class Base extends WriterPart
     protected function writeContainerElements(XMLWriter $xmlWriter, Container $container)
     {
         // Check allowed elements
-        $elmCommon = array('Text', 'Link', 'TextBreak', 'Image');
+        $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
         $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
         $allowedElements = array(
-            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Object', 'Title', 'PageBreak', 'TOC')),
+            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
             'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
             'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Cell'     => array_merge($elmMainCell, array('Object', 'PreserveText', 'Footnote')),
-            'TextRun'  => array_merge($elmCommon, array('Object', 'Footnote')),
-            'Footnote' => array_merge($elmCommon, array('Object')),
+            'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote')),
+            'TextRun'  => array_merge($elmCommon, array('Footnote')),
+            'Footnote' => $elmCommon,
         );
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);

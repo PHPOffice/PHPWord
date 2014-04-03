@@ -20,7 +20,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - ListItem: Ability to add list item in header/footer - @ivanlanin GH-187
 - CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
 - Link: Ability to add link in header/footer - @ivanlanin GH-187
-- Object: Ability to add object in textrun and footnote - @ivanlanin GH-187
+- Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
 
 ### Bugfixes
 
@@ -35,6 +35,9 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - `createSection` replaced by `addSection`
 - `Element\Footnote::getReferenceId` replaced by `Container\Container::getRelationId`
 - `Element\Footnote::setReferenceId` replaced by `Container\Container::setRelationId`
+- `Footnote::addFootnoteLinkElement` replaced by `Media::addMediaElement`
+- `Footnote::getFootnoteLinkElements` replaced by `Media::getMediaElements`
+- All current methods on `Media`
 
 ### Miscellaneous
 
@@ -45,6 +48,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - General: Remove legacy HashTable and ZipStreamWrapper and all related properties/methods - @ivanlanin GH-187
 - Container: Create new Container abstract class - @ivanlanin GH-187
 - Element: Create new Element abstract class - @ivanlanin GH-187
+- Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

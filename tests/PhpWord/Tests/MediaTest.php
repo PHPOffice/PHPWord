@@ -25,7 +25,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::getSectionMediaElements(), array());
+        $this->assertEquals(Media::getMediaElements('section'), array());
     }
 
     /**
@@ -33,31 +33,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::countSectionMediaElements(), 0);
-    }
-
-    /**
-     * Get header media elements
-     */
-    public function testGetHeaderMediaElements()
-    {
-        $this->assertAttributeEquals(
-            Media::getHeaderMediaElements(),
-            'headerMedia',
-            'PhpOffice\\PhpWord\\Media'
-        );
-    }
-
-    /**
-     * Get footer media elements
-     */
-    public function testGetFooterMediaElements()
-    {
-        $this->assertAttributeEquals(
-            Media::getFooterMediaElements(),
-            'footerMedia',
-            'PhpOffice\\PhpWord\\Media'
-        );
+        $this->assertEquals(Media::countMediaElements('section'), 0);
     }
 
     /**
@@ -68,13 +44,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $local = __DIR__ . "/_files/images/mars.jpg";
         $object = __DIR__ . "/_files/documents/sheet.xls";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addSectionMediaElement($local, 'image', new Image($local));
-        Media::addSectionMediaElement($local, 'image', new Image($local));
-        Media::addSectionMediaElement($remote, 'image', new Image($remote));
-        Media::addSectionMediaElement($object, 'oleObject');
-        Media::addSectionMediaElement($object, 'oleObject');
+        Media::addMediaElement('section', 'image', $local, new Image($local));
+        Media::addMediaElement('section', 'image', $local, new Image($local));
+        Media::addMediaElement('section', 'image', $remote, new Image($local));
+        Media::addMediaElement('section', 'object', $object);
+        Media::addMediaElement('section', 'object', $object);
 
-        $this->assertEquals(3, Media::countSectionMediaElements());
+        $this->assertEquals(3, Media::countMediaElements('section'));
     }
 
     /**
@@ -82,12 +58,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSectionLinkElement()
     {
-        $expected = Media::countSectionMediaElements() + 7;
-        $actual = Media::addSectionLinkElement('http://test.com');
+        $expected = Media::countMediaElements('section') + 1;
+        $actual = Media::addMediaElement('section', 'link', 'http://test.com');
 
         $this->assertEquals($expected, $actual);
-        $this->assertEquals(1, Media::countSectionMediaElements('links'));
-        $this->assertEquals(1, count(Media::getSectionMediaElements('links')));
+        $this->assertEquals(1, Media::countMediaElements('section', 'link'));
+        $this->assertEquals(1, count(Media::getMediaElements('section', 'link')));
     }
 
     /**
@@ -97,13 +73,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addHeaderMediaElement(1, $local, new Image($local));
-        Media::addHeaderMediaElement(1, $local, new Image($local));
-        Media::addHeaderMediaElement(1, $remote, new Image($remote));
+        Media::addMediaElement('header1', 'image', $local, new Image($local));
+        Media::addMediaElement('header1', 'image', $local, new Image($local));
+        Media::addMediaElement('header1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countHeaderMediaElements('header1'));
+        $this->assertEquals(2, Media::countMediaElements('header1'));
         $this->assertEquals(2, count(Media::getMediaElements('header1')));
-        $this->assertFalse(Media::getMediaElements('header2'));
+        $this->assertEmpty(Media::getMediaElements('header2'));
     }
 
     /**
@@ -113,10 +89,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addFooterMediaElement(1, $local, new Image($local));
-        Media::addFooterMediaElement(1, $local, new Image($local));
-        Media::addFooterMediaElement(1, $remote, new Image($remote));
+        Media::addMediaElement('footer1', 'image', $local, new Image($local));
+        Media::addMediaElement('footer1', 'image', $local, new Image($local));
+        Media::addMediaElement('footer1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countFooterMediaElements('footer1'));
+        $this->assertEquals(2, Media::countMediaElements('footer1'));
     }
 }

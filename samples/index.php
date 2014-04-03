@@ -3,7 +3,7 @@ include_once 'Sample_Header.php';
 if (!CLI) {
 ?>
 <div class="jumbotron">
-<p>Welcome to PHPWord, a library written in pure PHP that provides a set of classes to write to and read from different document file formats, i.e. Word (.docx), WordPad (.rtf), and Libre/OpenOffice Writer (.odt).</p>
+<p>Welcome to PHPWord, a pure PHP library for reading and writing word processing documents, i.e. Word (.docx), WordPad (.rtf), and Libre/OpenOffice Writer (.odt).</p>
 <p>Please use the menu above to browse PHPWord samples.</p>
 <p>
     <a class="btn btn-lg btn-primary" href="https://github.com/PHPOffice/PHPWord" role="button">Fork us on Github!</a>

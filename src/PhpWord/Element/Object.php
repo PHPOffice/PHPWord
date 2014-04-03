@@ -51,7 +51,6 @@ class Object extends Element
      */
     private $objectId;
 
-
     /**
      * Create a new Ole-Object Element
      *

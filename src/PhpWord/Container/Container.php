@@ -143,30 +143,12 @@ abstract class Container extends Element
     public function addLink($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
     {
         $this->checkValidity('link');
-
-        $inSection = true;
-        if (!is_null($this->docPart)) {
-            $container = $this->docPart;
-            $containerId = $this->docPartId;
-        } else {
-            $container = $this->container;
-            $containerId = $this->containerId;
-        }
-        if ($container == 'header' || $container == 'footer') {
-            $container .= $containerId;
-            $inSection = false;
-        } elseif ($container == 'footnote') {
-            $inSection = false;
-        }
+        $elementDocPart = $this->checkElementDocPart();
 
         $linkSrc = String::toUTF8($linkSrc);
         $linkName = String::toUTF8($linkName);
         $link = new Link($linkSrc, $linkName, $fontStyle, $paragraphStyle);
-        if ($inSection) {
-            $rID = Media::addSectionLinkElement($linkSrc);
-        } else {
-            $rID = Media::addMediaElement($container, 'hyperlink', $linkSrc);
-        }
+        $rID = Media::addMediaElement($elementDocPart, 'link', $linkSrc);
         $link->setRelationId($rID);
         $this->elements[] = $link;
 
@@ -286,32 +268,11 @@ abstract class Container extends Element
     public function addImage($src, $style = null, $isWatermark = false)
     {
         $this->checkValidity('image');
-        if ($this->container == 'cell' || $this->container == 'textrun') {
-            $container = $this->docPart;
-            $containerId = $this->docPartId;
-        } else {
-            $container = $this->container;
-            $containerId = $this->containerId;
-        }
+        $elementDocPart = $this->checkElementDocPart();
 
         $image = new Image($src, $style, $isWatermark);
         if (!is_null($image->getSource())) {
-            $rID = null;
-            switch ($container) {
-                case 'textrun':
-                case 'section':
-                    $rID = Media::addSectionMediaElement($src, 'image', $image);
-                    break;
-                case 'header':
-                    $rID = Media::addHeaderMediaElement($containerId, $src, $image);
-                    break;
-                case 'footer':
-                    $rID = Media::addFooterMediaElement($containerId, $src, $image);
-                    break;
-                case 'footnote':
-                    $rID = Media::addMediaElement('footnote', 'image', $src, $image);
-                    break;
-            }
+            $rID = Media::addMediaElement($elementDocPart, 'image', $src, $image);
             if (is_int($rID)) {
                 $image->setRelationId($rID);
             }
@@ -334,20 +295,8 @@ abstract class Container extends Element
      */
     public function addObject($src, $style = null)
     {
-        $inSection = true;
-        if (!is_null($this->docPart)) {
-            $container = $this->docPart;
-            $containerId = $this->docPartId;
-        } else {
-            $container = $this->container;
-            $containerId = $this->containerId;
-        }
-        if ($container == 'header' || $container == 'footer') {
-            $container .= $containerId;
-            $inSection = false;
-        } elseif ($container == 'footnote') {
-            $inSection = false;
-        }
+        $this->checkValidity('object');
+        $elementDocPart = $this->checkElementDocPart();
 
         $object = new Object($src, $style);
         if (!is_null($object->getSource())) {
@@ -357,13 +306,8 @@ abstract class Container extends Element
                 $ext = substr($ext, 0, -1);
             }
             $icon = realpath(__DIR__ . "/../_staticDocParts/_{$ext}.png");
-            if ($inSection) {
-                $rIDimg = Media::addSectionMediaElement($icon, 'image', new Image($icon));
-                $data = Media::addSectionMediaElement($src, 'oleObject');
-            } else {
-                $rIDimg = Media::addMediaElement($container, 'image', $icon, new Image($icon));
-                $data = Media::addMediaElement($container, 'embeddings', $src);
-            }
+            $rIDimg = Media::addMediaElement($elementDocPart, 'image', $icon, new Image($icon));
+            $data = Media::addMediaElement($elementDocPart, 'object', $src);
             $rID = $data[0];
             $objectId = $data[1];
             $object->setRelationId($rID);
@@ -509,11 +453,11 @@ abstract class Container extends Element
             'link'          => array(),
             'textbreak'     => array(),
             'image'         => array(),
+            'object'        => array(),
             'textrun'       => array('section', 'header', 'footer', 'cell'),
             'listitem'      => array('section', 'header', 'footer', 'cell'),
             'checkbox'      => array('section', 'header', 'footer', 'cell'),
             'table'         => array('section', 'header', 'footer'),
-            'object'        => array('section', 'textrun', 'cell', 'footnote'),
             'footnote'      => array('section', 'textrun', 'cell'),
             'preservetext'  => array('header', 'footer', 'cell'),
             'relationid'    => array('header', 'footer', 'footnote'),
@@ -523,7 +467,6 @@ abstract class Container extends Element
         // the cell is located in header or footer
         $validContainerInContainers = array(
             'preservetext'  => array(array('cell'), array('header', 'footer')),
-            'object'        => array(array('cell', 'textrun'), array('section')),
             'footnote'      => array(array('cell', 'textrun'), array('section')),
         );
 
@@ -548,5 +491,18 @@ abstract class Container extends Element
         }
 
         return true;
+    }
+
+    /**
+     * Return element location in document: section, headerx, or footerx
+     */
+    private function checkElementDocPart()
+    {
+        $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
+        $docPart = $isCellTextrun ? $this->docPart : $this->container;
+        $docPartId = $isCellTextrun ? $this->docPartId : $this->containerId;
+        $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
+
+        return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 }

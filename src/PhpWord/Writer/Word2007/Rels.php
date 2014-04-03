@@ -26,8 +26,6 @@ class Rels extends WriterPart
 
     /**
      * Write _rels/.rels
-     *
-     * @param PhpWord $phpWord
      */
     public function writeMainRels()
     {
@@ -95,15 +93,14 @@ class Rels extends WriterPart
                 $this->writeRel($xmlWriter, $id++, $type, $target);
             }
         }
-        if (is_array($mediaRels)) {
-            $typePrefix = 'officeDocument/2006/relationships/';
+        if (!is_null($mediaRels) && is_array($mediaRels)) {
+            $mapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
             foreach ($mediaRels as $mediaRel) {
-                $id = $mediaRel['rID'];
                 $type = $mediaRel['type'];
-                $target = $mediaRel['target']; // file name
+                $type = array_key_exists($type, $mapping) ? $mapping[$type] : $type;
+                $target = $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
-                $type = $typePrefix . ($type == 'embeddings' ? 'oleObject' : $type);
-                $this->writeRel($xmlWriter, $id, $type, $target, $targetMode);
+                $this->writeRel($xmlWriter, $id++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
             }
         }
         $xmlWriter->endElement();
