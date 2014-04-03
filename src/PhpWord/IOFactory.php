@@ -22,9 +22,9 @@ abstract class IOFactory
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $name
      * @return \PhpOffice\PhpWord\Writer\IWriter
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws Exception
      */
-    public static function createWriter(PhpWord $phpWord, $name)
+    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
         if ($name !== 'IWriter' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
             throw new Exception("\"{$name}\" is not a valid writer.");
@@ -39,9 +39,9 @@ abstract class IOFactory
      *
      * @param string $name
      * @return \PhpOffice\PhpWord\Reader\IReader
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws Exception
      */
-    public static function createReader($name)
+    public static function createReader($name = 'Word2007')
     {
         if ($name !== 'IReader' && $name !== 'Word2007') {
             throw new Exception("\"{$name}\" is not a valid reader.");

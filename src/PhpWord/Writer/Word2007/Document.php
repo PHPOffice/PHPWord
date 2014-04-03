@@ -84,7 +84,7 @@ class Document extends Base
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:pPr');
-        $this->writeEndSection($xmlWriter, $section, 3);
+        $this->writeEndSection($xmlWriter, $section);
         $xmlWriter->endElement();
         $xmlWriter->endElement();
     }

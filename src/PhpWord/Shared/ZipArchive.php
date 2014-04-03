@@ -36,14 +36,14 @@ class ZipArchive
      *
      * @var string
      */
-    private $_tempDir;
+    private $tempDir;
 
     /**
      * Zip Archive Stream Handle
      *
      * @var string
      */
-    private $_zip;
+    private $zip;
 
     /**
      * Open a new zip archive
@@ -53,8 +53,8 @@ class ZipArchive
      */
     public function open($fileName)
     {
-        $this->_tempDir = sys_get_temp_dir();
-        $this->_zip = new \PclZip($fileName);
+        $this->tempDir = sys_get_temp_dir();
+        $this->zip = new \PclZip($fileName);
 
         return true;
     }
@@ -83,13 +83,13 @@ class ZipArchive
         // To Rename the file while adding it to the zip we
         //   need to create a temp file with the correct name
         if ($filenameParts['basename'] != $localnameParts['basename']) {
-            $temppath = $this->_tempDir . '/' . $localnameParts['basename'];
+            $temppath = $this->tempDir . '/' . $localnameParts['basename'];
             copy($filename, $temppath);
             $filename = $temppath;
             $filenameParts = pathinfo($temppath);
         }
 
-        $res = $this->_zip->add(
+        $res = $this->zip->add(
             $filename,
             PCLZIP_OPT_REMOVE_PATH,
             $filenameParts['dirname'],
@@ -98,8 +98,7 @@ class ZipArchive
         );
 
         if ($res == 0) {
-            throw new Exception("Error zipping files : " . $this->_zip->errorInfo(true));
-            return false;
+            throw new Exception("Error zipping files : " . $this->zip->errorInfo(true));
         }
 
         return true;
@@ -116,25 +115,24 @@ class ZipArchive
         $filenameParts = pathinfo($localname);
 
         // Write $contents to a temp file
-        $handle = fopen($this->_tempDir . '/' . $filenameParts["basename"], "wb");
+        $handle = fopen($this->tempDir . '/' . $filenameParts["basename"], "wb");
         fwrite($handle, $contents);
         fclose($handle);
 
         // Add temp file to zip
-        $res = $this->_zip->add(
-            $this->_tempDir . '/' . $filenameParts["basename"],
+        $res = $this->zip->add(
+            $this->tempDir . '/' . $filenameParts["basename"],
             PCLZIP_OPT_REMOVE_PATH,
-            $this->_tempDir,
+            $this->tempDir,
             PCLZIP_OPT_ADD_PATH,
             $filenameParts["dirname"]
         );
         if ($res == 0) {
-            throw new Exception("Error zipping files : " . $this->_zip->errorInfo(true));
-            return false;
+            throw new Exception("Error zipping files : " . $this->zip->errorInfo(true));
         }
 
         // Remove temp file
-        unlink($this->_tempDir . '/' . $filenameParts["basename"]);
+        unlink($this->tempDir . '/' . $filenameParts["basename"]);
 
         return true;
     }
@@ -147,18 +145,18 @@ class ZipArchive
      */
     public function locateName($fileName)
     {
-        $list = $this->_zip->listContent();
+        $list = $this->zip->listContent();
         $listCount = count($list);
-        $list_index = -1;
+        $listIndex = -1;
         for ($i = 0; $i < $listCount; ++$i) {
             if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                 strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
-                $list_index = $i;
+                $listIndex = $i;
                 break;
             }
         }
 
-        return ($list_index > -1);
+        return ($listIndex > -1);
     }
 
     /**
@@ -169,31 +167,30 @@ class ZipArchive
      */
     public function getFromName($fileName)
     {
-        $list = $this->_zip->listContent();
+        $list = $this->zip->listContent();
         $listCount = count($list);
-        $list_index = -1;
+        $listIndex = -1;
         for ($i = 0; $i < $listCount; ++$i) {
             if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                 strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
-                $list_index = $i;
+                $listIndex = $i;
                 break;
             }
         }
 
-        $extracted = "";
-        if ($list_index != -1) {
-            $extracted = $this->_zip->extractByIndex($list_index, PCLZIP_OPT_EXTRACT_AS_STRING);
+        if ($listIndex != -1) {
+            $extracted = $this->zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         } else {
-            $filename = substr($fileName, 1);
-            $list_index = -1;
+            $fileName = substr($fileName, 1);
+            $listIndex = -1;
             for ($i = 0; $i < $listCount; ++$i) {
                 if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                     strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
-                    $list_index = $i;
+                    $listIndex = $i;
                     break;
                 }
             }
-            $extracted = $this->_zip->extractByIndex($list_index, PCLZIP_OPT_EXTRACT_AS_STRING);
+            $extracted = $this->zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         }
         if ((is_array($extracted)) && ($extracted != 0)) {
             $contents = $extracted[0]["content"];

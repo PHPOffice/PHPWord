@@ -111,7 +111,7 @@ class DocProps extends WriterPart
      *
      * @param PhpWord $phpWord
      */
-    public function writeDocPropsCore(PhpWord $phpWord = null)
+    public function writeDocPropsCore(PhpWord $phpWord)
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();

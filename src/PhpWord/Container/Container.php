@@ -312,7 +312,9 @@ abstract class Container extends Element
                     $rID = Media::addMediaElement('footnote', 'image', $src, $image);
                     break;
             }
-            $image->setRelationId($rID);
+            if (is_int($rID)) {
+                $image->setRelationId($rID);
+            }
             $this->elements[] = $image;
             return $image;
         } else {
@@ -366,7 +368,9 @@ abstract class Container extends Element
             $objectId = $data[1];
             $object->setRelationId($rID);
             $object->setObjectId($objectId);
-            $object->setImageRelationId($rIDimg);
+            if (is_int($rIDimg)) {
+                $object->setImageRelationId($rIDimg);
+            }
             $this->elements[] = $object;
             return $object;
         } else {
@@ -460,6 +464,7 @@ abstract class Container extends Element
      * @param string $src
      * @param mixed $style
      * @deprecated 0.9.0
+     * @codeCoverageIgnore
      */
     public function addMemoryImage($src, $style = null)
     {
@@ -471,6 +476,7 @@ abstract class Container extends Element
      *
      * @param mixed $paragraphStyle
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function createTextRun($paragraphStyle = null)
     {
@@ -482,6 +488,7 @@ abstract class Container extends Element
      *
      * @param mixed $paragraphStyle
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function createFootnote($paragraphStyle = null)
     {
@@ -496,11 +503,12 @@ abstract class Container extends Element
      */
     private function checkValidity($method)
     {
+        // Empty array means the element can be accepted by all containers
         $validContainers = array(
-            'text'          => 'all',
-            'link'          => 'all',
-            'textbreak'     => 'all',
-            'image'         => 'all',
+            'text'          => array(),
+            'link'          => array(),
+            'textbreak'     => array(),
+            'image'         => array(),
             'textrun'       => array('section', 'header', 'footer', 'cell'),
             'listitem'      => array('section', 'header', 'footer', 'cell'),
             'checkbox'      => array('section', 'header', 'footer', 'cell'),
@@ -511,6 +519,8 @@ abstract class Container extends Element
             'relationid'    => array('header', 'footer', 'footnote'),
             'title'         => array('section'),
         );
+        // Special condition, e.g. preservetext can only exists in cell when
+        // the cell is located in header or footer
         $validContainerInContainers = array(
             'preservetext'  => array(array('cell'), array('header', 'footer')),
             'object'        => array(array('cell', 'textrun'), array('section')),
@@ -519,7 +529,7 @@ abstract class Container extends Element
 
         // Check if a method is valid for current container
         if (array_key_exists($method, $validContainers)) {
-            if (is_array($validContainers[$method])) {
+            if (!empty($validContainers[$method])) {
                 if (!in_array($this->container, $validContainers[$method])) {
                     throw new \BadMethodCallException();
                 }

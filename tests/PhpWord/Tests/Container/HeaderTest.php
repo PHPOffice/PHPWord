@@ -107,11 +107,10 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
         $oHeader = new Header(1);
-        $element1 = $oHeader->addImage($src);
-        $element2 = $oHeader->addMemoryImage($src); // @deprecated
+        $element = $oHeader->addImage($src);
 
-        $this->assertCount(2, $oHeader->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element1);
+        $this->assertCount(1, $oHeader->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**

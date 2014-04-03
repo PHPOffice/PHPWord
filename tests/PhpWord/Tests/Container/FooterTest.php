@@ -98,11 +98,10 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
         $oFooter = new Footer(1);
-        $element1 = $oFooter->addImage($src);
-        $element2 = $oFooter->addMemoryImage($src); // @deprecated
+        $element = $oFooter->addImage($src);
 
-        $this->assertCount(2, $oFooter->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element1);
+        $this->assertCount(1, $oFooter->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**

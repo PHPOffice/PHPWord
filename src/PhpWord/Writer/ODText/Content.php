@@ -82,18 +82,18 @@ class Content extends WriterPart
         $xmlWriter->writeAttribute('office:version', '1.2');
 
         // We firstly search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
             $numPStyles = 0;
             $numFStyles = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
                         $pStyle = $element->getParagraphStyle();
@@ -232,17 +232,13 @@ class Content extends WriterPart
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
-        $pSection = 0;
-
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
-            foreach ($_sections as $section) {
-                $pSection++;
+            foreach ($sections as $section) {
+                $elements = $section->getElements();
 
-                $_elements = $section->getElements();
-
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $this->writeText($xmlWriter, $element);
                     } elseif ($element instanceof TextRun) {
@@ -268,12 +264,6 @@ class Content extends WriterPart
                     } else {
                         $this->writeUnsupportedElement($xmlWriter, 'Element');
                     }
-                }
-
-                if ($pSection == $countSections) {
-                    $this->writeEndSection($xmlWriter, $section);
-                } else {
-                    $this->writeSection($xmlWriter, $section);
                 }
             }
         }
@@ -311,19 +301,21 @@ class Content extends WriterPart
             if (empty($styleFont)) {
                 if (empty($styleParagraph)) {
                     $xmlWriter->writeAttribute('text:style-name', 'P1');
-                } else {
-                    $xmlWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+                } elseif (is_string($styleParagraph)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
                 }
                 $xmlWriter->writeRaw($text->getText());
             } else {
                 if (empty($styleParagraph)) {
                     $xmlWriter->writeAttribute('text:style-name', 'Standard');
-                } else {
-                    $xmlWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+                } elseif (is_string($styleParagraph)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
                 }
                 // text:span
                 $xmlWriter->startElement('text:span');
-                $xmlWriter->writeAttribute('text:style-name', $styleFont);
+                if (is_string($styleFont)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleFont);
+                }
                 $xmlWriter->writeRaw($text->getText());
                 $xmlWriter->endElement();
             }
@@ -359,34 +351,12 @@ class Content extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      */
-    protected function writeTextBreak(XMLWriter $xmlWriter = null)
+    protected function writeTextBreak(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
         $xmlWriter->endElement();
     }
-
-    // @codeCoverageIgnoreStart
-    /**
-     * Write end section
-     *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
-     */
-    private function writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
-    {
-    }
-
-    /**
-     * Write section
-     *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
-     */
-    private function writeSection(XMLWriter $xmlWriter = null, Section $section = null)
-    {
-    }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Write unsupported element

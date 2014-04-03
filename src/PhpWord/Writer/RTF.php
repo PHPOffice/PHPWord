@@ -170,16 +170,16 @@ class RTF extends Writer implements IWriter
         }
 
         // Search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
@@ -227,16 +227,16 @@ class RTF extends Writer implements IWriter
         }
 
         // Search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
@@ -266,15 +266,15 @@ class RTF extends Writer implements IWriter
         $phpWord = $this->phpWord;
         $sRTFBody = '';
 
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         $pSection = 0;
 
         if ($countSections > 0) {
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
-                foreach ($_elements as $element) {
+                $elements = $section->getElements();
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $sRTFBody .= $this->getDataContentText($element);
                     } elseif ($element instanceof TextBreak) {
@@ -317,14 +317,12 @@ class RTF extends Writer implements IWriter
         $sRTFText = '';
 
         $styleFont = $text->getFontStyle();
-        $SfIsObject = ($styleFont instanceof Font) ? true : false;
-        if (!$SfIsObject) {
+        if (is_string($styleFont)) {
             $styleFont = Style::getStyle($styleFont);
         }
 
         $styleParagraph = $text->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
-        if (!$SpIsObject) {
+        if (is_string($styleParagraph)) {
             $styleParagraph = Style::getStyle($styleParagraph);
         }
 

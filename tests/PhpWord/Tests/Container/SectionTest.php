@@ -84,7 +84,6 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $section->addListItem(utf8_decode('ä'));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addMemoryImage($imageUrl);
         $section->addTitle(utf8_decode('ä'), 1);
         $section->addTextRun();
         $section->addFootnote();
@@ -93,7 +92,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         $elementCollection = $section->getElements();
         $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
-            'Table', 'ListItem', 'Object', 'Image', 'Image',
+            'Table', 'ListItem', 'Object', 'Image',
             'Title', 'TextRun', 'Footnote', 'CheckBox');
         $i = 0;
         foreach ($elementTypes as $elementType) {

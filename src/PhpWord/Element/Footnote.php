@@ -50,6 +50,7 @@ class Footnote extends Container
      *
      * @return int
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function getReferenceId()
     {
@@ -61,6 +62,7 @@ class Footnote extends Container
      *
      * @param int $refId
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function setReferenceId($refId)
     {

@@ -41,7 +41,7 @@ class Table extends Element
     /**
      * Table holder count
      *
-     * @var array
+     * @var int
      */
     private $docPartId;
 

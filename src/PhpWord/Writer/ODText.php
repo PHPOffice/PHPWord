@@ -23,9 +23,9 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
  */
 class ODText extends Writer implements IWriter
 {
-
     /**
      * Create new ODText writer
+     *
      * @param PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)

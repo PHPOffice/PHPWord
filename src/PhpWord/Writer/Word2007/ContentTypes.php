@@ -21,10 +21,10 @@ class ContentTypes extends WriterPart
      * Write [Content_Types].xml
      * @param array $imageTypes
      * @param array $objectTypes
-     * @param int $_cHdrs
+     * @param int $cHdrs
      * @param array $footers
      */
-    public function writeContentTypes($imageTypes, $objectTypes, $_cHdrs, $footers)
+    public function writeContentTypes($imageTypes, $objectTypes, $cHdrs, $footers)
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
@@ -133,7 +133,7 @@ class ContentTypes extends WriterPart
             'application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml'
         );
 
-        for ($i = 1; $i <= $_cHdrs; $i++) {
+        for ($i = 1; $i <= $cHdrs; $i++) {
             $this->writeOverrideContentType(
                 $xmlWriter,
                 '/word/header' . $i . '.xml',
@@ -165,7 +165,7 @@ class ContentTypes extends WriterPart
      * @param  string $pContentType Content type
      * @throws Exception
      */
-    private function writeDefaultContentType(XMLWriter $xmlWriter = null, $pPartname = '', $pContentType = '')
+    private function writeDefaultContentType(XMLWriter $xmlWriter, $pPartname = '', $pContentType = '')
     {
         if ($pPartname != '' && $pContentType != '') {
             // Write content type
@@ -186,7 +186,7 @@ class ContentTypes extends WriterPart
      * @param  string $pContentType Content type
      * @throws Exception
      */
-    private function writeOverrideContentType(XMLWriter $xmlWriter = null, $pPartname = '', $pContentType = '')
+    private function writeOverrideContentType(XMLWriter $xmlWriter, $pPartname = '', $pContentType = '')
     {
         if ($pPartname != '' && $pContentType != '') {
             // Write content type

@@ -65,6 +65,7 @@ class Footnote
      * @param string $linkSrc
      * @return int Reference ID
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public static function addFootnoteLinkElement($linkSrc)
     {
@@ -76,6 +77,7 @@ class Footnote
      *
      * @return array
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public static function getFootnoteLinkElements()
     {

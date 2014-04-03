@@ -194,6 +194,7 @@ class Media
     /**
      * Get Header Media Elements
      *
+     * @param string $prefix header|footer
      * @return array
      */
     public static function getHeaderMediaElements($prefix = 'header')

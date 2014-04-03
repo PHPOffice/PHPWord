@@ -169,6 +169,7 @@ class Section extends Container
      * Create header
      *
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function createHeader()
     {
@@ -179,6 +180,7 @@ class Section extends Container
      * Create footer
      *
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function createFooter()
     {

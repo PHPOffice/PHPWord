@@ -234,7 +234,7 @@ class Word2007 extends Reader implements IReader
                             $styleName = (string)$elm->name['val'];
                             if ($hasParagraphStyle) {
                                 $pStyle = $this->loadParagraphStyle($elm);
-                                if (!$hasFontStyle) {
+                                if (is_array($pStyle) && !$hasFontStyle) {
                                     $word->addParagraphStyle($styleName, $pStyle);
                                 }
                             }

@@ -123,11 +123,10 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
         $oCell = new Cell('section', 1);
-        $element1 = $oCell->addImage($src);
-        $element2 = $oCell->addMemoryImage($src); // @deprecated
+        $element = $oCell->addImage($src);
 
-        $this->assertCount(2, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element1);
+        $this->assertCount(1, $oCell->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
     }
 
     /**

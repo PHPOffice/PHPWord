@@ -238,6 +238,7 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param TextBreak $element
+     * @param boolean $withoutP
      */
     protected function writeTextBreak(XMLWriter $xmlWriter, TextBreak $element = null, $withoutP = false)
     {
@@ -1073,7 +1074,7 @@ class Base extends WriterPart
      * Write media rels (image, embeddings, hyperlink)
      *
      * @param XMLWriter $xmlWriter
-     * @param array mediaRels
+     * @param array $mediaRels
      */
     protected function writeMediaRels(XMLWriter $xmlWriter, $mediaRels)
     {

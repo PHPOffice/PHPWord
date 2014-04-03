@@ -104,8 +104,8 @@ class Word2007 extends Writer implements IWriter
 
             // Add section elements
             $sectionElements = array();
-            $_secElements = Media::getSectionMediaElements();
-            foreach ($_secElements as $element) { // loop through section media elements
+            $secElements = Media::getSectionMediaElements();
+            foreach ($secElements as $element) { // loop through section media elements
                 if ($element['type'] != 'hyperlink') {
                     $this->addFileToPackage($objZip, $element);
                 }
@@ -145,33 +145,33 @@ class Word2007 extends Writer implements IWriter
             }
 
             // Process header/footer xml files
-            $_cHdrs = 0;
-            $_cFtrs = 0;
+            $cHdrs = 0;
+            $cFtrs = 0;
             $rID = Media::countSectionMediaElements() + 6;
-            $_sections = $this->phpWord->getSections();
+            $sections = $this->phpWord->getSections();
             $footers = array();
-            foreach ($_sections as $section) {
-                $_headers = $section->getHeaders();
-                foreach ($_headers as $index => &$_header) {
-                    $_cHdrs++;
-                    $_header->setRelationId(++$rID);
-                    $hdrFile = "header{$_cHdrs}.xml";
+            foreach ($sections as $section) {
+                $headers = $section->getHeaders();
+                foreach ($headers as $index => &$header) {
+                    $cHdrs++;
+                    $header->setRelationId(++$rID);
+                    $hdrFile = "header{$cHdrs}.xml";
                     $sectionElements[] = array('target' => $hdrFile, 'type' => 'header', 'rID' => $rID);
                     $objZip->addFromString(
                         "word/{$hdrFile}",
-                        $this->getWriterPart('header')->writeHeader($_header)
+                        $this->getWriterPart('header')->writeHeader($header)
                     );
                 }
-                $_footer = $section->getFooter();
-                $footers[++$_cFtrs] = $_footer;
-                if (!is_null($_footer)) {
-                    $_footer->setRelationId(++$rID);
-                    $_footerCount = $_footer->getSectionId();
-                    $ftrFile = "footer{$_footerCount}.xml";
+                $footer = $section->getFooter();
+                $footers[++$cFtrs] = $footer;
+                if (!is_null($footer)) {
+                    $footer->setRelationId(++$rID);
+                    $footerCount = $footer->getSectionId();
+                    $ftrFile = "footer{$footerCount}.xml";
                     $sectionElements[] = array('target' => $ftrFile, 'type' => 'footer', 'rID' => $rID);
                     $objZip->addFromString(
                         "word/{$ftrFile}",
-                        $this->getWriterPart('footer')->writeFooter($_footer)
+                        $this->getWriterPart('footer')->writeFooter($footer)
                     );
                 }
             }
@@ -210,7 +210,7 @@ class Word2007 extends Writer implements IWriter
                 $this->getWriterPart('contenttypes')->writeContentTypes(
                     $this->imageTypes,
                     $this->objectTypes,
-                    $_cHdrs,
+                    $cHdrs,
                     $footers
                 )
             );

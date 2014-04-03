@@ -95,7 +95,7 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param  \PhpOffice\PhpWord\Container\Settings $settings
+     * @param array $settings
      * @return Section
      */
     public function addSection($settings = null)
@@ -243,9 +243,10 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param  \PhpOffice\PhpWord\Container\Settings $settings
+     * @param array $settings
      * @return Section
      * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function createSection($settings = null)
     {
