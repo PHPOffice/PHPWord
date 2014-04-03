@@ -1237,9 +1237,9 @@ class Base extends WriterPart
                 $xmlWriter->startElement('w:' . $sides[$i]);
                 if (!empty($colors)) {
                     if (is_null($colors[$i]) && !empty($attributes)) {
-                        if (array_key_exists('defaultColor', $attributes))
+                        if (array_key_exists('defaultColor', $attributes)) {
                             $colors[$i] = $attributes['defaultColor'];
-
+                        }
                     }
                     $xmlWriter->writeAttribute('w:val', 'single');
                     $xmlWriter->writeAttribute('w:sz', $sizes[$i]);

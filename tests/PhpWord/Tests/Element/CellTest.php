@@ -43,17 +43,6 @@ class CellTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * New instance with string
-     */
-    public function testConstructWithStyleString()
-    {
-        $iVal = rand(1, 1000);
-        $oCell = new Cell('section', $iVal, null, 'cellStyle');
-
-        $this->assertEquals($oCell->getStyle(), 'cellStyle');
-    }
-
-    /**
      * Add text
      */
     public function testAddText()

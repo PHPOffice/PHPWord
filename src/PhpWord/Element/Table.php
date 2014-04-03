@@ -11,6 +11,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+
 /**
  * Table element
  */
