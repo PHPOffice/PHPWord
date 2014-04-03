@@ -36,7 +36,7 @@ class Header extends Container
     /**
      * Create new instance
      *
-     * @param int $sectionCount
+     * @param int $sectionId
      */
     public function __construct($sectionId)
     {

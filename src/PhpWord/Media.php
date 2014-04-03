@@ -61,7 +61,7 @@ class Media
      * @param  string $src
      * @param  string $type
      * @param  Image $image
-     * @return mixed
+     * @return integer|array
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
     {
@@ -115,7 +115,7 @@ class Media
      * Add new Section Link Element
      *
      * @param string $linkSrc
-     * @return mixed
+     * @return integer
      */
     public static function addSectionLinkElement($linkSrc)
     {
@@ -340,6 +340,7 @@ class Media
      * Get media elements
      *
      * @param string $container
+     * @param string $mediaType
      * @return int
      */
     public static function getMediaElements($container, $mediaType = null)

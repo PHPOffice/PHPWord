@@ -188,7 +188,7 @@ class Paragraph
     /**
      * Get Space before Paragraph
      *
-     * @return string
+     * @return integer
      */
     public function getSpaceBefore()
     {
@@ -210,7 +210,7 @@ class Paragraph
     /**
      * Get Space after Paragraph
      *
-     * @return string
+     * @return integer
      */
     public function getSpaceAfter()
     {

@@ -16,6 +16,7 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Footnote as FootnoteCollection;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Element\Element;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Link;
@@ -34,7 +35,7 @@ use PhpOffice\PhpWord\Element\CheckBox;
  *
  * @since 0.9.2
  */
-abstract class Container
+abstract class Container extends Element
 {
     /**
      * Container type section|header|footer|cell|textrun|footnote
@@ -53,7 +54,7 @@ abstract class Container
     /**
      * Elements collection
      *
-     * @var int
+     * @var array
      */
     protected $elements = array();
 
@@ -488,36 +489,9 @@ abstract class Container
     }
 
     /**
-     * Set style value
-     *
-     * Used by Footnote
-     *
-     * @param mixed $styleObject Style object, could be Font, Paragraph, Cell, Image
-     * @param mixed $styleValue
-     * @param boolean $returnObject Always return object
-     * @todo Remove duplicate with ..\Element\Element
-     */
-    protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
-    {
-        if (!is_null($styleValue) && is_array($styleValue)) {
-            foreach ($styleValue as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $styleObject->setStyleValue($key, $value);
-            }
-            $style = $styleObject;
-        } else {
-            $style = $returnObject ? $styleObject : $styleValue;
-        }
-
-        return $style;
-    }
-
-    /**
      * Check if a method is allowed for the current container
      *
-     * @param string $element
+     * @param string $method
      * @return boolean
      */
     private function checkValidity($method)

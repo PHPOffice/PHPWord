@@ -55,7 +55,7 @@ class Title extends Element
      *
      * @param string $text
      * @param int $depth
-     * @param mixed $style
+     * @param string $style Name of the heading style, e.g. 'Heading1'
      */
     public function __construct($text, $depth = 1, $style = null)
     {

@@ -27,101 +27,101 @@ class DocumentProperties
      *
      * @var string
      */
-    private $_creator;
+    private $creator;
 
     /**
      * LastModifiedBy
      *
      * @var string
      */
-    private $_lastModifiedBy;
+    private $lastModifiedBy;
 
     /**
      * Created
      *
      * @var int
      */
-    private $_created;
+    private $created;
 
     /**
      * Modified
      *
      * @var int
      */
-    private $_modified;
+    private $modified;
 
     /**
      * Title
      *
      * @var string
      */
-    private $_title;
+    private $title;
 
     /**
      * Description
      *
      * @var string
      */
-    private $_description;
+    private $description;
 
     /**
      * Subject
      *
      * @var string
      */
-    private $_subject;
+    private $subject;
 
     /**
      * Keywords
      *
      * @var string
      */
-    private $_keywords;
+    private $keywords;
 
     /**
      * Category
      *
      * @var string
      */
-    private $_category;
+    private $category;
 
     /**
      * Company
      *
      * @var string
      */
-    private $_company;
+    private $company;
 
     /**
      * Manager
      *
      * @var string
      */
-    private $_manager;
+    private $manager;
 
     /**
      * Custom Properties
      *
      * @var array
      */
-    private $_customProperties = array();
+    private $customProperties = array();
 
     /**
      * Create new DocumentProperties
      */
     public function __construct()
     {
-        $this->_creator        = '';
-        $this->_lastModifiedBy = $this->_creator;
-        $this->_created        = time();
-        $this->_modified       = time();
-        $this->_title          = '';
-        $this->_subject        = '';
-        $this->_description    = '';
-        $this->_keywords       = '';
-        $this->_category       = '';
-        $this->_company        = '';
-        $this->_manager        = '';
+        $this->creator        = '';
+        $this->lastModifiedBy = $this->creator;
+        $this->created        = time();
+        $this->modified       = time();
+        $this->title          = '';
+        $this->subject        = '';
+        $this->description    = '';
+        $this->keywords       = '';
+        $this->category       = '';
+        $this->company        = '';
+        $this->manager        = '';
     }
 
     /**
@@ -131,7 +131,7 @@ class DocumentProperties
      */
     public function getCreator()
     {
-        return $this->_creator;
+        return $this->creator;
     }
 
     /**
@@ -142,7 +142,7 @@ class DocumentProperties
      */
     public function setCreator($pValue = '')
     {
-        $this->_creator = $pValue;
+        $this->creator = $pValue;
         return $this;
     }
 
@@ -153,7 +153,7 @@ class DocumentProperties
      */
     public function getLastModifiedBy()
     {
-        return $this->_lastModifiedBy;
+        return $this->lastModifiedBy;
     }
 
     /**
@@ -164,7 +164,7 @@ class DocumentProperties
      */
     public function setLastModifiedBy($pValue = '')
     {
-        $this->_lastModifiedBy = $pValue;
+        $this->lastModifiedBy = $pValue;
         return $this;
     }
 
@@ -175,7 +175,7 @@ class DocumentProperties
      */
     public function getCreated()
     {
-        return $this->_created;
+        return $this->created;
     }
 
     /**
@@ -189,7 +189,7 @@ class DocumentProperties
         if (is_null($pValue)) {
             $pValue = time();
         }
-        $this->_created = $pValue;
+        $this->created = $pValue;
         return $this;
     }
 
@@ -200,7 +200,7 @@ class DocumentProperties
      */
     public function getModified()
     {
-        return $this->_modified;
+        return $this->modified;
     }
 
     /**
@@ -214,7 +214,7 @@ class DocumentProperties
         if (is_null($pValue)) {
             $pValue = time();
         }
-        $this->_modified = $pValue;
+        $this->modified = $pValue;
         return $this;
     }
 
@@ -225,7 +225,7 @@ class DocumentProperties
      */
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     /**
@@ -236,7 +236,7 @@ class DocumentProperties
      */
     public function setTitle($pValue = '')
     {
-        $this->_title = $pValue;
+        $this->title = $pValue;
         return $this;
     }
 
@@ -247,7 +247,7 @@ class DocumentProperties
      */
     public function getDescription()
     {
-        return $this->_description;
+        return $this->description;
     }
 
     /**
@@ -258,7 +258,7 @@ class DocumentProperties
      */
     public function setDescription($pValue = '')
     {
-        $this->_description = $pValue;
+        $this->description = $pValue;
         return $this;
     }
 
@@ -269,7 +269,7 @@ class DocumentProperties
      */
     public function getSubject()
     {
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
@@ -280,7 +280,7 @@ class DocumentProperties
      */
     public function setSubject($pValue = '')
     {
-        $this->_subject = $pValue;
+        $this->subject = $pValue;
         return $this;
     }
 
@@ -291,7 +291,7 @@ class DocumentProperties
      */
     public function getKeywords()
     {
-        return $this->_keywords;
+        return $this->keywords;
     }
 
     /**
@@ -302,7 +302,7 @@ class DocumentProperties
      */
     public function setKeywords($pValue = '')
     {
-        $this->_keywords = $pValue;
+        $this->keywords = $pValue;
         return $this;
     }
 
@@ -313,7 +313,7 @@ class DocumentProperties
      */
     public function getCategory()
     {
-        return $this->_category;
+        return $this->category;
     }
 
     /**
@@ -324,7 +324,7 @@ class DocumentProperties
      */
     public function setCategory($pValue = '')
     {
-        $this->_category = $pValue;
+        $this->category = $pValue;
         return $this;
     }
 
@@ -335,7 +335,7 @@ class DocumentProperties
      */
     public function getCompany()
     {
-        return $this->_company;
+        return $this->company;
     }
 
     /**
@@ -346,7 +346,7 @@ class DocumentProperties
      */
     public function setCompany($pValue = '')
     {
-        $this->_company = $pValue;
+        $this->company = $pValue;
         return $this;
     }
 
@@ -357,7 +357,7 @@ class DocumentProperties
      */
     public function getManager()
     {
-        return $this->_manager;
+        return $this->manager;
     }
 
     /**
@@ -368,7 +368,7 @@ class DocumentProperties
      */
     public function setManager($pValue = '')
     {
-        $this->_manager = $pValue;
+        $this->manager = $pValue;
         return $this;
     }
 
@@ -379,7 +379,7 @@ class DocumentProperties
      */
     public function getCustomProperties()
     {
-        return array_keys($this->_customProperties);
+        return array_keys($this->customProperties);
     }
 
     /**
@@ -390,7 +390,7 @@ class DocumentProperties
      */
     public function isCustomPropertySet($propertyName)
     {
-        return isset($this->_customProperties[$propertyName]);
+        return isset($this->customProperties[$propertyName]);
     }
 
     /**
@@ -401,8 +401,8 @@ class DocumentProperties
      */
     public function getCustomPropertyValue($propertyName)
     {
-        if (isset($this->_customProperties[$propertyName])) {
-            return $this->_customProperties[$propertyName]['value'];
+        if (isset($this->customProperties[$propertyName])) {
+            return $this->customProperties[$propertyName]['value'];
         }
 
     }
@@ -415,8 +415,8 @@ class DocumentProperties
      */
     public function getCustomPropertyType($propertyName)
     {
-        if (isset($this->_customProperties[$propertyName])) {
-            return $this->_customProperties[$propertyName]['type'];
+        if (isset($this->customProperties[$propertyName])) {
+            return $this->customProperties[$propertyName]['type'];
         }
 
     }
@@ -457,7 +457,7 @@ class DocumentProperties
             }
         }
 
-        $this->_customProperties[$propertyName] = array(
+        $this->customProperties[$propertyName] = array(
             'value' => $propertyValue,
             'type' => $propertyType
         );
@@ -465,11 +465,11 @@ class DocumentProperties
     }
 
     /**
-     * Convert document propery based on type
+     * Convert document property based on type
      *
-     * @param   mixed   $propertyValue
-     * @param   string  $propertyType
-     * @return  mixed
+     * @param string $propertyValue
+     * @param string $propertyType
+     * @return mixed
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
@@ -525,8 +525,8 @@ class DocumentProperties
     /**
      * Convert document property type
      *
-     * @param   string  $propertyType
-     * @return  mixed
+     * @param string $propertyType
+     * @return string
      */
     public static function convertPropertyType($propertyType)
     {

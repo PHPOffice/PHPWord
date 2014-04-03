@@ -211,7 +211,7 @@ class Table
     /**
      * Get background
      *
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return string
      */
     public function getBgColor()
     {

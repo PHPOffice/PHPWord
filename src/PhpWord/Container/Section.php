@@ -46,7 +46,7 @@ class Section extends Container
      * Create new instance
      *
      * @param int $sectionCount
-     * @param mixed $settings
+     * @param array $settings
      */
     public function __construct($sectionCount, $settings = null)
     {
@@ -132,7 +132,7 @@ class Section extends Container
     /**
      * Get Headers
      *
-     * @return array
+     * @return Header[]
      */
     public function getHeaders()
     {

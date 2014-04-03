@@ -15,7 +15,6 @@ use PhpOffice\PhpWord\Container\Section;
 use PhpOffice\PhpWord\Element\PageBreak;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Word2007 document part writer

@@ -1169,7 +1169,6 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param Container $container
-     * @param Container $textBreak Add text break when no element found
      */
     protected function writeContainerElements(XMLWriter $xmlWriter, Container $container)
     {
@@ -1224,9 +1223,9 @@ class Base extends WriterPart
      * Write margin or border
      *
      * @param XMLWriter $xmlWriter
-     * @param boolean $isBorder
      * @param array $sizes
      * @param array $colors
+     * @param array $attributes
      */
     protected function writeMarginBorder(XMLWriter $xmlWriter, $sizes, $colors = array(), $attributes = array())
     {

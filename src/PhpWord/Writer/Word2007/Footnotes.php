@@ -10,12 +10,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**

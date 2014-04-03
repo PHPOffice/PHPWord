@@ -64,7 +64,7 @@ class Word2007 extends Reader implements IReader
      * @param mixed $archive
      * @param string $fileName
      * @param bool $removeNamespace
-     * @return mixed
+     * @return string
      */
     public function getFromZipArchive($archive, $fileName = '', $removeNamespace = false)
     {

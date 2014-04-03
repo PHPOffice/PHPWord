@@ -10,7 +10,6 @@
 namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * ODText meta part writer

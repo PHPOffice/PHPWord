@@ -42,7 +42,7 @@ class Image extends Element
     /**
      * Is watermark
      *
-     * @var bool
+     * @var boolean
      */
     private $isWatermark;
 
@@ -77,7 +77,7 @@ class Image extends Element
     /**
      * Is memory image
      *
-     * @var string
+     * @var boolean
      */
     private $isMemImage;
 
@@ -86,7 +86,7 @@ class Image extends Element
      *
      * @param string $source
      * @param mixed $style
-     * @param bool $isWatermark
+     * @param boolean $isWatermark
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
@@ -196,7 +196,7 @@ class Image extends Element
     /**
      * Get is watermark
      *
-     * @return int
+     * @return boolean
      */
     public function getIsWatermark()
     {
@@ -206,7 +206,7 @@ class Image extends Element
     /**
      * Set is watermark
      *
-     * @param bool $pValue
+     * @param boolean $pValue
      */
     public function setIsWatermark($pValue)
     {

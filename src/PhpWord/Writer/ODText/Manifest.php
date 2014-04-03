@@ -11,7 +11,6 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * ODText manifest part writer

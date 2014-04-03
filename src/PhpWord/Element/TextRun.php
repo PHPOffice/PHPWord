@@ -28,7 +28,7 @@ class TextRun extends Container
      * Create new instance
      *
      * @param string|array|Paragraph $paragraphStyle
-     * @param string $docPartType section|header|footer
+     * @param string $docPart section|header|footer
      * @param int $docPartId
      */
     public function __construct($paragraphStyle = null, $docPart = 'section', $docPartId = 1)

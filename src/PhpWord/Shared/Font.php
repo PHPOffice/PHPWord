@@ -17,8 +17,8 @@ class Font
     /**
      * Calculate an (approximate) pixel size, based on a font points size
      *
-     * @param    int $fontSizeInPoints Font size (in points)
-     * @return    int        Font size (in pixels)
+     * @param int $fontSizeInPoints Font size (in points)
+     * @return int Font size (in pixels)
      */
     public static function fontSizeToPixels($fontSizeInPoints = 12)
     {
@@ -40,7 +40,7 @@ class Font
      * Calculate an (approximate) pixel size, based on centimeter size
      *
      * @param int $sizeInCm Font size (in centimeters)
-     * @return int Size (in pixels)
+     * @return double Size (in pixels)
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
@@ -51,7 +51,7 @@ class Font
      * Convert centimeter to twip
      *
      * @param int $sizeInCm
-     * @return int
+     * @return double
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
@@ -62,7 +62,7 @@ class Font
      * Convert inch to twip
      *
      * @param int $sizeInInch
-     * @return int
+     * @return double
      */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
@@ -73,7 +73,7 @@ class Font
      * Convert pixel to twip
      *
      * @param int $sizeInPixel
-     * @return int
+     * @return double
      */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
@@ -83,8 +83,8 @@ class Font
     /**
      * Calculate twip based on point size, used mainly for paragraph spacing
      *
-     * @param   int|float   $sizeInPoint Size in point
-     * @return  int|float   Size (in twips)
+     * @param integer $sizeInPoint Size in point
+     * @return integer Size (in twips)
      */
     public static function pointSizeToTwips($sizeInPoint = 1)
     {

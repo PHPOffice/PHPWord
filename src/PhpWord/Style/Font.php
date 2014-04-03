@@ -447,7 +447,7 @@ class Font
     /**
      * Get foreground/highlight color
      *
-     * @return bool
+     * @return string
      */
     public function getFgColor()
     {
@@ -543,7 +543,7 @@ class Font
     /**
      * Get Font Content Type
      *
-     * @return  bool
+     * @return string
      */
     public function getHint()
     {
