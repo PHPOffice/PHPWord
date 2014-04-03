@@ -1071,54 +1071,6 @@ class Base extends WriterPart
     }
 
     /**
-     * Write media rels (image, embeddings, hyperlink)
-     *
-     * @param XMLWriter $xmlWriter
-     * @param array $mediaRels
-     */
-    protected function writeMediaRels(XMLWriter $xmlWriter, $mediaRels)
-    {
-        $rTypePrefix = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/';
-        foreach ($mediaRels as $mediaRel) {
-            $rId = $mediaRel['rID'];
-            $rType = $mediaRel['type'];
-            $rName = $mediaRel['target']; // file name
-            $targetMode = ($rType == 'hyperlink') ? 'External' : '';
-            $rType = $rTypePrefix . ($rType == 'embeddings' ? 'oleObject' : $rType);
-            $this->writeRel($xmlWriter, $rId, $rType, $rName, $targetMode);
-        }
-
-    }
-
-    /**
-     * Write individual rels entry
-     *
-     * @param XMLWriter $xmlWriter
-     * @param int $pId Relationship ID
-     * @param string $pType Relationship type
-     * @param string $pTarget Relationship target
-     * @param string $pTargetMode Relationship target mode
-     */
-    protected function writeRel(XMLWriter $xmlWriter, $pId, $pType, $pTarget, $pTargetMode = '')
-    {
-        if ($pType != '' && $pTarget != '') {
-            if (strpos($pId, 'rId') === false) {
-                $pId = 'rId' . $pId;
-            }
-            $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $pId);
-            $xmlWriter->writeAttribute('Type', $pType);
-            $xmlWriter->writeAttribute('Target', $pTarget);
-            if ($pTargetMode != '') {
-                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
-            }
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
-    }
-
-    /**
      * Write inline paragraph style
      *
      * @param XMLWriter $xmlWriter

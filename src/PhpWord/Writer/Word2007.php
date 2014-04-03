@@ -15,14 +15,12 @@ use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
+use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
-use PhpOffice\PhpWord\Writer\Word2007\DocumentRels;
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
 use PhpOffice\PhpWord\Writer\Word2007\Footnotes;
-use PhpOffice\PhpWord\Writer\Word2007\FootnotesRels;
 use PhpOffice\PhpWord\Writer\Word2007\Header;
-use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
 /**
@@ -58,13 +56,11 @@ class Word2007 extends Writer implements IWriter
         $this->writerParts['contenttypes'] = new ContentTypes();
         $this->writerParts['rels'] = new Rels();
         $this->writerParts['docprops'] = new DocProps();
-        $this->writerParts['documentrels'] = new DocumentRels();
         $this->writerParts['document'] = new Document();
         $this->writerParts['styles'] = new Styles();
         $this->writerParts['header'] = new Header();
         $this->writerParts['footer'] = new Footer();
         $this->writerParts['footnotes'] = new Footnotes();
-        $this->writerParts['footnotesrels'] = new FootnotesRels();
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
@@ -118,7 +114,7 @@ class Word2007 extends Writer implements IWriter
                 if (count($hdrMedia) > 0) {
                     $objZip->addFromString(
                         'word/_rels/' . $hdrFile . '.xml.rels',
-                        $this->getWriterPart('documentrels')->writeHeaderFooterRels($hdrMedia)
+                        $this->getWriterPart('rels')->writeMediaRels($hdrMedia)
                     );
                     foreach ($hdrMedia as $element) {
                         if ($element['type'] != 'hyperlink') {
@@ -134,7 +130,7 @@ class Word2007 extends Writer implements IWriter
                 if (count($ftrMedia) > 0) {
                     $objZip->addFromString(
                         'word/_rels/' . $ftrFile . '.xml.rels',
-                        $this->getWriterPart('documentrels')->writeHeaderFooterRels($ftrMedia)
+                        $this->getWriterPart('rels')->writeMediaRels($ftrMedia)
                     );
                     foreach ($ftrMedia as $element) {
                         if ($element['type'] != 'hyperlink') {
@@ -198,7 +194,7 @@ class Word2007 extends Writer implements IWriter
                 if (!empty($footnoteMedia)) {
                     $objZip->addFromString(
                         'word/_rels/footnotes.xml.rels',
-                        $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteMedia)
+                        $this->getWriterPart('rels')->writeMediaRels($footnoteMedia)
                     );
                 }
             }
@@ -214,11 +210,11 @@ class Word2007 extends Writer implements IWriter
                     $footers
                 )
             );
-            $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeRelationships($this->phpWord));
+            $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeMainRels());
             $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->phpWord));
             $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docprops')->writeDocPropsCore($this->phpWord));
+            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('rels')->writeDocRels($sectionElements));
             $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->writeDocument($this->phpWord));
-            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('documentrels')->writeDocumentRels($sectionElements));
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
 
             // Write static files

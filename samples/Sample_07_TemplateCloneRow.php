@@ -10,7 +10,7 @@ $document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
 // Variables on different parts of document
 $document->setValue('weekday', date('l')); // On section/content
 $document->setValue('time', date('H:i')); // On footer
-$document->setValue('serverName', $_SERVER['SERVER_NAME']); // On header
+$document->setValue('serverName', realpath(__DIR__)); // On header
 
 // Simple table
 $document->cloneRow('rowValue', 10);

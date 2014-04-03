@@ -38,13 +38,11 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             'ContentTypes',
             'Rels',
             'DocProps',
-            'DocumentRels',
             'Document',
             'Styles',
             'Header',
             'Footer',
             'Footnotes',
-            'FootnotesRels',
         );
         foreach ($writerParts as $part) {
             $this->assertInstanceOf(
