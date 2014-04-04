@@ -52,6 +52,7 @@ class Section extends Container
     {
         $this->container = 'section';
         $this->containerId = $sectionCount;
+        $this->setDocPart($this->container, $this->containerId);
         $this->settings = new Settings();
         $this->setSettings($settings);
     }
@@ -168,6 +169,7 @@ class Section extends Container
     /**
      * Create header
      *
+     * @return Header
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */
@@ -179,6 +181,7 @@ class Section extends Container
     /**
      * Create footer
      *
+     * @return Footer
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */

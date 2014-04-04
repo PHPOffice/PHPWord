@@ -250,7 +250,7 @@ class Word2007 extends Writer implements IWriter
      * Check content types
      *
      * @param mixed $objZip
-     * @param mixed $element
+     * @param mixed $elements
      */
     private function addFilesToPackage($objZip, $elements)
     {
@@ -277,6 +277,9 @@ class Word2007 extends Writer implements IWriter
 
     /**
      * Add header/footer media elements
+     *
+     * @param mixed $objZip
+     * @param string $docPart
      */
     private function addHeaderFooterMedia($objZip, $docPart)
     {

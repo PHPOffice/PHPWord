@@ -23,5 +23,6 @@ class Footer extends Container
     {
         $this->container = 'footer';
         $this->containerId = $sectionId;
+        $this->setDocPart($this->container, $this->containerId);
     }
 }

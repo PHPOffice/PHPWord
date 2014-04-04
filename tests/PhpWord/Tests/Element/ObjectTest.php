@@ -83,17 +83,4 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $oObject->setImageRelationId($iVal);
         $this->assertEquals($oObject->getImageRelationId(), $iVal);
     }
-
-    /**
-     * Set/get object relation Id
-     */
-    public function testObjectId()
-    {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
-        $oObject = new Object($src);
-
-        $iVal = rand(1, 1000);
-        $oObject->setObjectId($iVal);
-        $this->assertEquals($oObject->getObjectId(), $iVal);
-    }
 }

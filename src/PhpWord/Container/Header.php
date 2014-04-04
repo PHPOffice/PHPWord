@@ -42,6 +42,7 @@ class Header extends Container
     {
         $this->container = 'header';
         $this->containerId = $sectionId;
+        $this->setDocPart($this->container, $this->containerId);
     }
 
     /**

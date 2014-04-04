@@ -42,8 +42,7 @@ class Cell extends Container
     public function __construct($docPart, $docPartId, $width = null, $style = null)
     {
         $this->container = 'cell';
-        $this->docPart = $docPart;
-        $this->docPartId = $docPartId;
+        $this->setDocPart($docPart, $docPartId);
         $this->width = $width;
         $this->cellStyle = $this->setStyle(new CellStyle(), $style, true);
     }

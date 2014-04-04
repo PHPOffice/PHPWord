@@ -17,6 +17,24 @@ namespace PhpOffice\PhpWord\Element;
 abstract class Element
 {
     /**
+     * Document part type: section|header|footer
+     *
+     * Used by textrun and cell container to determine where the element is
+     * located because it will affect the availability of other element,
+     * e.g. footnote will not be available when $docPart is header or footer.
+     *
+     * @var string
+     */
+    private $docPart = 'section';
+
+    /**
+     * Document part Id
+     *
+     * @var integer
+     */
+    private $docPartId = 1;
+
+    /**
      * Set style value
      *
      * @param mixed $styleObject Style object
@@ -38,5 +56,47 @@ abstract class Element
         }
 
         return $style;
+    }
+
+    /**
+     * Set doc part
+     *
+     * @param string $docPart
+     * @param integer $docPartId
+     */
+    public function setDocPart($docPart, $docPartId = 1)
+    {
+        $this->docPart = $docPart;
+        $this->docPartId = $docPartId;
+    }
+
+    /**
+     * Get doc part
+     *
+     * @return string
+     */
+    public function getDocPart()
+    {
+        return $this->docPart;
+    }
+
+    /**
+     * Get doc part Id
+     *
+     * @return integer
+     */
+    public function getDocPartId()
+    {
+        return $this->docPartId;
+    }
+
+    /**
+     * Check if element is located in section doc part (as opposed to header/footer)
+     *
+     * @return boolean
+     */
+    public function isInSection()
+    {
+        return ($this->docPart == 'section');
     }
 }

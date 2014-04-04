@@ -59,24 +59,6 @@ abstract class Container extends Element
     protected $elements = array();
 
     /**
-     * Document part type: section|header|footer
-     *
-     * Used by textrun and cell to determine where the element is located
-     * because it will affect the availability of other element, e.g. footnote
-     * will not be available when $docPart is header or footer.
-     *
-     * @var string
-     */
-    protected $docPart = null;
-
-    /**
-     * Document part Id
-     *
-     * @var int
-     */
-    protected $docPartId;
-
-    /**
      * Relation Id
      *
      * @var int
@@ -101,10 +83,11 @@ abstract class Container extends Element
         }
 
         $text = String::toUTF8($text);
-        $element = new Text($text, $fontStyle, $paragraphStyle);
-        $this->elements[] = $element;
+        $textObject = new Text($text, $fontStyle, $paragraphStyle);
+        $textObject->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->elements[] = $textObject;
 
-        return $element;
+        return $textObject;
     }
 
     /**
@@ -117,15 +100,8 @@ abstract class Container extends Element
     {
         $this->checkValidity('textrun');
 
-        if ($this->container == 'cell') {
-            $docPart = $this->docPart;
-            $docPartId = $this->docPartId;
-        } else {
-            $docPart = $this->container;
-            $docPartId = $this->containerId;
-        }
-
-        $textRun = new TextRun($paragraphStyle, $docPart, $docPartId);
+        $textRun = new TextRun($paragraphStyle);
+        $textRun->setDocPart($this->getDocPart(), $this->getDocPartId());
         $this->elements[] = $textRun;
 
         return $textRun;
@@ -145,9 +121,8 @@ abstract class Container extends Element
         $this->checkValidity('link');
         $elementDocPart = $this->checkElementDocPart();
 
-        $linkSrc = String::toUTF8($linkSrc);
-        $linkName = String::toUTF8($linkName);
-        $link = new Link($linkSrc, $linkName, $fontStyle, $paragraphStyle);
+        $link = new Link(String::toUTF8($linkSrc), String::toUTF8($linkName), $fontStyle, $paragraphStyle);
+        $link->setDocPart($this->getDocPart(), $this->getDocPartId());
         $rID = Media::addMediaElement($elementDocPart, 'link', $linkSrc);
         $link->setRelationId($rID);
         $this->elements[] = $link;
@@ -167,14 +142,15 @@ abstract class Container extends Element
     {
         $this->checkValidity('title');
 
-        $text = String::toUTF8($text);
         $styles = Style::getStyles();
         if (array_key_exists('Heading_' . $depth, $styles)) {
             $style = 'Heading' . $depth;
         } else {
             $style = null;
         }
+        $text = String::toUTF8($text);
         $title = new Title($text, $depth, $style);
+        $title->setDocPart($this->getDocPart(), $this->getDocPartId());
         $data = TOC::addTitle($text, $depth);
         $anchor = $data[0];
         $bookmarkId = $data[1];
@@ -197,11 +173,11 @@ abstract class Container extends Element
     {
         $this->checkValidity('preservetext');
 
-        $text = String::toUTF8($text);
-        $ptext = new PreserveText($text, $fontStyle, $paragraphStyle);
-        $this->elements[] = $ptext;
+        $preserveText = new PreserveText(String::toUTF8($text), $fontStyle, $paragraphStyle);
+        $preserveText->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->elements[] = $preserveText;
 
-        return $ptext;
+        return $preserveText;
     }
 
     /**
@@ -216,7 +192,9 @@ abstract class Container extends Element
         $this->checkValidity('textbreak');
 
         for ($i = 1; $i <= $count; $i++) {
-            $this->elements[] = new TextBreak($fontStyle, $paragraphStyle);
+            $textBreak = new TextBreak($fontStyle, $paragraphStyle);
+            $textBreak->setDocPart($this->getDocPart(), $this->getDocPartId());
+            $this->elements[] = $textBreak;
         }
     }
 
@@ -234,8 +212,8 @@ abstract class Container extends Element
     {
         $this->checkValidity('listitem');
 
-        $text = String::toUTF8($text);
-        $listItem = new ListItem($text, $depth, $fontStyle, $styleList, $paragraphStyle);
+        $listItem = new ListItem(String::toUTF8($text), $depth, $fontStyle, $styleList, $paragraphStyle);
+        $listItem->setDocPart($this->getDocPart(), $this->getDocPartId());
         $this->elements[] = $listItem;
 
         return $listItem;
@@ -251,7 +229,7 @@ abstract class Container extends Element
     {
         $this->checkValidity('table');
 
-        $table = new Table($this->container, $this->containerId, $style);
+        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
         $this->elements[] = $table;
 
         return $table;
@@ -271,11 +249,10 @@ abstract class Container extends Element
         $elementDocPart = $this->checkElementDocPart();
 
         $image = new Image($src, $style, $isWatermark);
+        $image->setDocPart($this->getDocPart(), $this->getDocPartId());
         if (!is_null($image->getSource())) {
             $rID = Media::addMediaElement($elementDocPart, 'image', $src, $image);
-            if (is_int($rID)) {
-                $image->setRelationId($rID);
-            }
+            $image->setRelationId($rID);
             $this->elements[] = $image;
             return $image;
         } else {
@@ -299,6 +276,7 @@ abstract class Container extends Element
         $elementDocPart = $this->checkElementDocPart();
 
         $object = new Object($src, $style);
+        $object->setDocPart($this->getDocPart(), $this->getDocPartId());
         if (!is_null($object->getSource())) {
             $inf = pathinfo($src);
             $ext = $inf['extension'];
@@ -306,15 +284,10 @@ abstract class Container extends Element
                 $ext = substr($ext, 0, -1);
             }
             $icon = realpath(__DIR__ . "/../_staticDocParts/_{$ext}.png");
-            $rIDimg = Media::addMediaElement($elementDocPart, 'image', $icon, new Image($icon));
-            $data = Media::addMediaElement($elementDocPart, 'object', $src);
-            $rID = $data[0];
-            $objectId = $data[1];
+            $rID = Media::addMediaElement($elementDocPart, 'object', $src);
             $object->setRelationId($rID);
-            $object->setObjectId($objectId);
-            if (is_int($rIDimg)) {
-                $object->setImageRelationId($rIDimg);
-            }
+            $rIDimg = Media::addMediaElement($elementDocPart, 'image', $icon, new Image($icon));
+            $object->setImageRelationId($rIDimg);
             $this->elements[] = $object;
             return $object;
         } else {
@@ -334,6 +307,7 @@ abstract class Container extends Element
 
         $footnote = new FootnoteElement($paragraphStyle);
         $refID = FootnoteCollection::addFootnoteElement($footnote);
+        $footnote->setDocPart($this->getDocPart(), $this->getDocPartId());
         $footnote->setRelationId($refID);
         $this->elements[] = $footnote;
 
@@ -353,17 +327,17 @@ abstract class Container extends Element
     {
         $this->checkValidity('checkbox');
 
-        $name = String::toUTF8($name);
-        $text = String::toUTF8($text);
-        $element = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
-        $this->elements[] = $element;
+        $checkBox = new CheckBox(String::toUTF8($name), String::toUTF8($text), $fontStyle, $paragraphStyle);
+        $checkBox->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->elements[] = $checkBox;
 
-        return $element;
+        return $checkBox;
     }
 
     /**
      * Get section number
-     * getFooterCount
+     *
+     * @return array
      */
     public function getSectionId()
     {
@@ -484,7 +458,7 @@ abstract class Container extends Element
             $containers = $rules[0];
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
-                if ($this->container == $container && !in_array($this->docPart, $allowedDocParts)) {
+                if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
                     throw new \BadMethodCallException();
                 }
             }
@@ -499,8 +473,8 @@ abstract class Container extends Element
     private function checkElementDocPart()
     {
         $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
-        $docPart = $isCellTextrun ? $this->docPart : $this->container;
-        $docPartId = $isCellTextrun ? $this->docPartId : $this->containerId;
+        $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
+        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->containerId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
 
         return $inHeaderFooter ? $docPart . $docPartId : $docPart;

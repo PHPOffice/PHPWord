@@ -45,13 +45,6 @@ class Object extends Element
     private $imageRelationId;
 
     /**
-     * Object ID
-     *
-     * @var int
-     */
-    private $objectId;
-
-    /**
      * Create a new Ole-Object Element
      *
      * @param string $src
@@ -135,19 +128,23 @@ class Object extends Element
      * Get Object ID
      *
      * @return int
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function getObjectId()
     {
-        return $this->objectId;
+        return $this->relationId + 1325353440;
     }
 
     /**
      * Set Object ID
      *
      * @param int $objId
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public function setObjectId($objId)
     {
-        $this->objectId = $objId;
+        $this->relationId = $objId;
     }
 }

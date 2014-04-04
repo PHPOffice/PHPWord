@@ -31,11 +31,9 @@ class TextRun extends Container
      * @param string $docPart section|header|footer
      * @param int $docPartId
      */
-    public function __construct($paragraphStyle = null, $docPart = 'section', $docPartId = 1)
+    public function __construct($paragraphStyle = null)
     {
         $this->container = 'textrun';
-        $this->docPart = $docPart;
-        $this->docPartId = $docPartId;
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 

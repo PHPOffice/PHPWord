@@ -24,20 +24,13 @@ class Media
     private static $media = array();
 
     /**
-     * ObjectID Counter
-     *
-     * @var integer
-     */
-    private static $objectId = 1325353440;
-
-    /**
      * Add new media element
      *
      * @param string $container section|headerx|footerx|footnote
      * @param string $mediaType image|object|link
      * @param string $source
      * @param Image $image
-     * @return integer|array
+     * @return integer
      */
     public static function addMediaElement($container, $mediaType, $source, Image $image = null)
     {
@@ -84,18 +77,9 @@ class Media
             $mediaData['type'] = $mediaType;
             $mediaData['rID'] = $relId;
             self::$media[$container][$mediaId] = $mediaData;
-            if ($mediaType === 'object') {
-                return array($relId, ++self::$objectId);
-            } else {
-                return $relId;
-            }
+            return $relId;
         } else {
-            if ($mediaType === 'object') {
-                $relId = self::$media[$container][$mediaId]['rID'];
-                return array($relId, ++self::$objectId);
-            } else {
-                return self::$media[$container][$mediaId]['rID'];
-            }
+            return self::$media[$container][$mediaId]['rID'];
         }
     }
 
@@ -246,7 +230,6 @@ class Media
     /**
      * Get Header Media Elements
      *
-     * @param string $prefix header|footer
      * @return array
      * @deprecated 0.9.2
      * @codeCoverageIgnore

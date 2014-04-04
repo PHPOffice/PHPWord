@@ -428,8 +428,8 @@ class Word2007 extends Reader implements IReader
      * Return item of array
      *
      * @param array $array
-     * @param mixed $key
-     * @return mixed|null
+     * @param integer $key
+     * @return string
      */
     private static function arrayItem($array, $key = 0)
     {

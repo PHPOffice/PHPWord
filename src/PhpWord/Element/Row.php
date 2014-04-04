@@ -38,21 +38,6 @@ class Row extends Element
     private $cells = array();
 
     /**
-     * Table holder
-     *
-     * @var string
-     */
-    private $docPart;
-
-    /**
-     * Section/Header/Footer count
-     *
-     * @var int
-     */
-    private $docPartId;
-
-
-    /**
      * Create a new table row
      *
      * @param string $docPart
@@ -62,8 +47,7 @@ class Row extends Element
      */
     public function __construct($docPart, $docPartId, $height = null, $style = null)
     {
-        $this->docPart = $docPart;
-        $this->docPartId = $docPartId;
+        $this->setDocPart($docPart, $docPartId);
         $this->height = $height;
         $this->style = $this->setStyle(new RowStyle(), $style, true);
     }
@@ -76,7 +60,7 @@ class Row extends Element
      */
     public function addCell($width = null, $style = null)
     {
-        $cell = new Cell($this->docPart, $this->docPartId, $width, $style);
+        $cell = new Cell($this->getDocPart(), $this->getDocPartId(), $width, $style);
         $this->cells[] = $cell;
         return $cell;
     }

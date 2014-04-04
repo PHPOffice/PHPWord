@@ -93,7 +93,7 @@ class Base extends WriterPart
      */
     protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
     {
-        $rID = $link->getRelationId();
+        $rID = $link->getRelationId() + ($link->isInSection() ? 6 : 0);
         $linkName = $link->getLinkName();
         if (is_null($linkName)) {
             $linkName = $link->getLinkSrc();
@@ -417,7 +417,7 @@ class Base extends WriterPart
      */
     protected function writeImage(XMLWriter $xmlWriter, Image $image, $withoutP = false)
     {
-        $rId = $image->getRelationId();
+        $rId = $image->getRelationId() + ($image->isInSection() ? 6 : 0);
 
         $style = $image->getStyle();
         $width = $style->getWidth();
@@ -550,10 +550,10 @@ class Base extends WriterPart
      */
     protected function writeObject(XMLWriter $xmlWriter, Object $object, $withoutP = false)
     {
-        $rIdObject = $object->getRelationId();
-        $rIdImage = $object->getImageRelationId();
+        $rIdObject = $object->getRelationId() + ($object->isInSection() ? 6 : 0);
+        $rIdImage = $object->getImageRelationId() + ($object->isInSection() ? 6 : 0);
         $shapeId = md5($rIdObject . '_' . $rIdImage);
-        $objectId = $object->getObjectId();
+        $objectId = $object->getRelationId() + 1325353440;
         $style = $object->getStyle();
         $align = $style->getAlign();
 

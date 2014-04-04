@@ -32,20 +32,6 @@ class Table extends Element
     private $rows = array();
 
     /**
-     * Table holder
-     *
-     * @var string
-     */
-    private $docPart = null;
-
-    /**
-     * Table holder count
-     *
-     * @var int
-     */
-    private $docPartId;
-
-    /**
      * Table width
      *
      * @var int
@@ -62,8 +48,7 @@ class Table extends Element
      */
     public function __construct($docPart, $docPartId, $style = null)
     {
-        $this->docPart = $docPart;
-        $this->docPartId = $docPartId;
+        $this->setDocPart($docPart, $docPartId);
         $this->style = $this->setStyle(new TableStyle(), $style);
     }
 
@@ -75,7 +60,7 @@ class Table extends Element
      */
     public function addRow($height = null, $style = null)
     {
-        $row = new Row($this->docPart, $this->docPartId, $height, $style);
+        $row = new Row($this->getDocPart(), $this->getDocPartId(), $height, $style);
         $this->rows[] = $row;
         return $row;
     }

@@ -26,173 +26,76 @@ class ContentTypes extends WriterPart
      */
     public function writeContentTypes($imageTypes, $objectTypes, $cHdrs, $footers)
     {
-        // Create XML writer
-        $xmlWriter = $this->getXmlWriter();
 
-        // XML header
-        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $OpenXMLPrefix = 'application/vnd.openxmlformats-';
+        $WordMLPrefix = $OpenXMLPrefix . 'officedocument.wordprocessingml.';
 
-        // Types
-        $xmlWriter->startElement('Types');
-        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
+        $defaults = array(
+            'rels' => $OpenXMLPrefix . 'package.relationships+xml',
+            'xml'  => 'application/xml',
 
-        // Rels
-        $this->writeDefaultContentType(
-            $xmlWriter,
-            'rels',
-            'application/vnd.openxmlformats-package.relationships+xml'
         );
-
-        // XML
-        $this->writeDefaultContentType(
-            $xmlWriter,
-            'xml',
-            'application/xml'
-        );
-
-        // Add media content-types
-        foreach ($imageTypes as $key => $value) {
-            $this->writeDefaultContentType($xmlWriter, $key, $value);
+        if (is_array($imageTypes)) {
+            $defaults = array_merge($defaults, $imageTypes);
         }
-
-        // Add embedding content-types
         if (count($objectTypes) > 0) {
-            $this->writeDefaultContentType(
-                $xmlWriter,
-                'bin',
-                'application/vnd.openxmlformats-officedocument.oleObject'
-            );
+            $defaults['bin'] = $OpenXMLPrefix . 'officedocument.oleObject';
         }
-
-        // DocProps
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/docProps/app.xml',
-            'application/vnd.openxmlformats-officedocument.extended-properties+xml'
+        $overrides = array(
+            '/docProps/core.xml'     => $OpenXMLPrefix . 'package.core-properties+xml',
+            '/docProps/app.xml'      => $OpenXMLPrefix . 'officedocument.extended-properties+xml',
+            '/word/document.xml'     => $WordMLPrefix  . 'document.main+xml',
+            '/word/styles.xml'       => $WordMLPrefix  . 'styles+xml',
+            '/word/numbering.xml'    => $WordMLPrefix  . 'numbering+xml',
+            '/word/settings.xml'     => $WordMLPrefix  . 'settings+xml',
+            '/word/theme/theme1.xml' => $OpenXMLPrefix . 'officedocument.theme+xml',
+            '/word/webSettings.xml'  => $WordMLPrefix  . 'webSettings+xml',
+            '/word/fontTable.xml'    => $WordMLPrefix  . 'fontTable+xml',
+            '/word/footnotes.xml'    => $WordMLPrefix  . 'footnotes+xml',
         );
-
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/docProps/core.xml',
-            'application/vnd.openxmlformats-package.core-properties+xml'
-        );
-
-        // Document
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/document.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml'
-        );
-
-        // Styles
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/styles.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml'
-        );
-
-        // Numbering
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/numbering.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml'
-        );
-
-        // Settings
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/settings.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml'
-        );
-
-        // Theme1
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/theme/theme1.xml',
-            'application/vnd.openxmlformats-officedocument.theme+xml'
-        );
-
-        // WebSettings
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/webSettings.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml'
-        );
-
-        // Font Table
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/fontTable.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml'
-        );
-
-        // Footnotes
-        $this->writeOverrideContentType(
-            $xmlWriter,
-            '/word/footnotes.xml',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml'
-        );
-
         for ($i = 1; $i <= $cHdrs; $i++) {
-            $this->writeOverrideContentType(
-                $xmlWriter,
-                '/word/header' . $i . '.xml',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml'
-            );
+            $overrides["/word/header{$i}.xml"] = $WordMLPrefix  . 'header+xml';
         }
-
         for ($i = 1; $i <= count($footers); $i++) {
             if (!is_null($footers[$i])) {
-                $this->writeOverrideContentType(
-                    $xmlWriter,
-                    '/word/footer' . $i . '.xml',
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml'
-                );
+                $overrides["/word/footer{$i}.xml"] = $WordMLPrefix  . 'footer+xml';
             }
         }
 
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startElement('Types');
+        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
+        foreach ($defaults as $key => $value)
+        {
+            $this->writeContentType($xmlWriter, true, $key, $value);
+        }
+        foreach ($overrides as $key => $value)
+        {
+            $this->writeContentType($xmlWriter, false, $key, $value);
+        }
         $xmlWriter->endElement();
 
-        // Return
         return $xmlWriter->getData();
     }
 
     /**
-     * Write Default XML element
+     * Write content types element
      *
-     * @param  XMLWriter $xmlWriter XML Writer
-     * @param  string $pPartname Part name
-     * @param  string $pContentType Content type
+     * @param XMLWriter $xmlWriter XML Writer
+     * @param boolean $isDefault
+     * @param string $partName Part name
+     * @param string $contentType Content type
      * @throws Exception
      */
-    private function writeDefaultContentType(XMLWriter $xmlWriter, $pPartname = '', $pContentType = '')
+    private function writeContentType(XMLWriter $xmlWriter, $isDefault, $partName = '', $contentType = '')
     {
-        if ($pPartname != '' && $pContentType != '') {
-            // Write content type
-            $xmlWriter->startElement('Default');
-            $xmlWriter->writeAttribute('Extension', $pPartname);
-            $xmlWriter->writeAttribute('ContentType', $pContentType);
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
-    }
-
-    /**
-     * Write Override XML element
-     *
-     * @param  XMLWriter $xmlWriter
-     * @param  string $pPartname Part name
-     * @param  string $pContentType Content type
-     * @throws Exception
-     */
-    private function writeOverrideContentType(XMLWriter $xmlWriter, $pPartname = '', $pContentType = '')
-    {
-        if ($pPartname != '' && $pContentType != '') {
-            // Write content type
-            $xmlWriter->startElement('Override');
-            $xmlWriter->writeAttribute('PartName', $pPartname);
-            $xmlWriter->writeAttribute('ContentType', $pContentType);
+        if ($partName != '' && $contentType != '') {
+            $element = $isDefault ? 'Default' : 'Override';
+            $partAttribute = $isDefault ? 'Extension' : 'PartName';
+            $xmlWriter->startElement($element);
+            $xmlWriter->writeAttribute($partAttribute, $partName);
+            $xmlWriter->writeAttribute('ContentType', $contentType);
             $xmlWriter->endElement();
         } else {
             throw new Exception("Invalid parameters passed.");
@@ -214,5 +117,33 @@ class ContentTypes extends WriterPart
         } else {
             throw new Exception("File $pFile does not exist");
         }
+    }
+
+    /**
+     * Write Default XML element
+     *
+     * @param  XMLWriter $xmlWriter
+     * @param  string $partName Part name
+     * @param  string $contentType Content type
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
+     */
+    private function writeDefaultContentType(XMLWriter $xmlWriter, $partName = '', $contentType = '')
+    {
+        $this->writeContentType($xmlWriter, true, $partName, $contentType);
+    }
+
+    /**
+     * Write Override XML element
+     *
+     * @param  XMLWriter $xmlWriter
+     * @param  string $partName Part name
+     * @param  string $contentType Content type
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
+     */
+    private function writeOverrideContentType(XMLWriter $xmlWriter, $partName = '', $contentType = '')
+    {
+        $this->writeContentType($xmlWriter, false, $partName, $contentType);
     }
 }
