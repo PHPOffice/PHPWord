@@ -217,6 +217,70 @@ class Template
     }
 
     /**
+     * Clone a block
+     *
+     * @param mixed $blockname
+     * @param int $clones
+     * @param bool $replace
+     * @return null
+     */
+    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    {
+        $xmlBlock = null;
+        preg_match('/(<\?xml.*)(<w:p.*>\${'.$blockname.'}<\/w:.*?p>)(.*)(<w:p.*\${\/'.$blockname.'}<\/w:.*?p>)/is', $this->_documentXML, $matchs);
+
+        if (isset($matchs[3])) {
+            $xmlBlock = $matchs[3];
+            $cloned = array();
+            for($i = 1; $i <= $clones; $i++) {
+                $cloned[] = $xmlBlock;
+            }
+
+            if ($replace) {
+                $this->_documentXML = str_replace($matchs[2].$matchs[3].$matchs[4], implode('', $cloned), $this->_documentXML);
+            }
+        }
+        return $xmlBlock;
+    }
+
+    /**
+     * Replace a block
+     *
+     * @param mixed $blockname
+     * @param $replacement
+     */
+    public function replaceBlock($blockname, $replacement)
+    {
+        $this->deleteTemplateBlock($blockname, $replacement);
+    }
+
+    public function xmlpretty($xml)
+    {
+        $domxml = new DOMDocument('1.0');
+        $domxml->preserveWhiteSpace = false;
+        $domxml->formatOutput = true;
+        $domxml->loadXML($xml);
+        $xml_string = $domxml->saveXML();
+        return $xml_string;
+    }
+
+    /**
+     * Delete a block of text
+     *
+     * @param mixed $blockname
+     * @param string $replacement
+     */
+    public function deleteTemplateBlock($blockname, $replacement = '')
+    {
+        $xmlBlock = null;
+        preg_match('/(<\?xml.*)(<w:p.*>\${'.$blockname.'}<\/w:.*?p>)(.*)(<w:p.*\${\/'.$blockname.'}<\/w:.*?p>)/is', $this->_documentXML, $matchs);
+
+        if (isset($matchs[3])) {
+            $this->_documentXML = str_replace($matchs[2].$matchs[3].$matchs[4], $replacement, $this->_documentXML);
+        }
+    }
+
+    /**
      * Save XML to temporary file
      *
      * @return string
