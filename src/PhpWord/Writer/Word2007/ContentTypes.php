@@ -66,12 +66,10 @@ class ContentTypes extends WriterPart
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Types');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
-        foreach ($defaults as $key => $value)
-        {
+        foreach ($defaults as $key => $value) {
             $this->writeContentType($xmlWriter, true, $key, $value);
         }
-        foreach ($overrides as $key => $value)
-        {
+        foreach ($overrides as $key => $value) {
             $this->writeContentType($xmlWriter, false, $key, $value);
         }
         $xmlWriter->endElement();

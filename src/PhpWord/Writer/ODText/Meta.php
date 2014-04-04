@@ -24,6 +24,10 @@ class Meta extends WriterPart
      */
     public function writeMeta(PhpWord $phpWord = null)
     {
+        if (is_null($phpWord)) {
+            throw new Exception("No PhpWord assigned.");
+        }
+
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 

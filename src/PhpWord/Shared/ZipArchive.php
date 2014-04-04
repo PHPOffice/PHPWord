@@ -170,6 +170,8 @@ class ZipArchive
         $list = $this->zip->listContent();
         $listCount = count($list);
         $listIndex = -1;
+        $contents = null;
+
         for ($i = 0; $i < $listCount; ++$i) {
             if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                 strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {

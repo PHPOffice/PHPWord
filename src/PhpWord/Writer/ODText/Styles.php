@@ -28,6 +28,10 @@ class Styles extends WriterPart
      */
     public function writeStyles(PhpWord $phpWord = null)
     {
+        if (is_null($phpWord)) {
+            throw new Exception("No PhpWord assigned.");
+        }
+
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
