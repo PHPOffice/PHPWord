@@ -22,35 +22,35 @@ class TOC
      *
      * @var array
      */
-    private static $_titles = array();
+    private static $titles = array();
 
     /**
      * TOC style
      *
      * @var TOCStyle
      */
-    private static $_styleTOC;
+    private static $TOCStyle;
 
     /**
      * Font style
      *
      * @var Font|array|string
      */
-    private static $_styleFont;
+    private static $fontStyle;
 
     /**
      * Title anchor
      *
      * @var int
      */
-    private static $_anchor = 252634154;
+    private static $anchor = 252634154;
 
     /**
      * Title bookmark
      *
      * @var int
      */
-    private static $_bookmarkId = 0;
+    private static $bookmarkId = 0;
 
 
     /**
@@ -61,28 +61,28 @@ class TOC
      */
     public function __construct($styleFont = null, $styleTOC = null)
     {
-        self::$_styleTOC = new TOCStyle();
+        self::$TOCStyle = new TOCStyle();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
-                self::$_styleTOC->setStyleValue($key, $value);
+                self::$TOCStyle->setStyleValue($key, $value);
             }
         }
 
         if (!is_null($styleFont)) {
             if (is_array($styleFont)) {
-                self::$_styleFont = new Font();
+                self::$fontStyle = new Font();
                 foreach ($styleFont as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
                         $key = '_' . $key;
                     }
-                    self::$_styleFont->setStyleValue($key, $value);
+                    self::$fontStyle->setStyleValue($key, $value);
                 }
             } else {
-                self::$_styleFont = $styleFont;
+                self::$fontStyle = $styleFont;
             }
         }
     }
@@ -96,8 +96,8 @@ class TOC
      */
     public static function addTitle($text, $depth = 0)
     {
-        $anchor = '_Toc' . ++self::$_anchor;
-        $bookmarkId = self::$_bookmarkId++;
+        $anchor = '_Toc' . ++self::$anchor;
+        $bookmarkId = self::$bookmarkId++;
 
         $title = array();
         $title['text'] = $text;
@@ -105,7 +105,7 @@ class TOC
         $title['anchor'] = $anchor;
         $title['bookmarkId'] = $bookmarkId;
 
-        self::$_titles[] = $title;
+        self::$titles[] = $title;
 
         return array($anchor, $bookmarkId);
     }
@@ -117,7 +117,15 @@ class TOC
      */
     public static function getTitles()
     {
-        return self::$_titles;
+        return self::$titles;
+    }
+
+    /**
+     * Reset footnotes
+     */
+    public static function reset()
+    {
+        self::$titles = array();
     }
 
     /**
@@ -127,7 +135,7 @@ class TOC
      */
     public static function getStyleTOC()
     {
-        return self::$_styleTOC;
+        return self::$TOCStyle;
     }
 
     /**
@@ -137,6 +145,6 @@ class TOC
      */
     public static function getStyleFont()
     {
-        return self::$_styleFont;
+        return self::$fontStyle;
     }
 }

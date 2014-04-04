@@ -146,6 +146,14 @@ class Media
     }
 
     /**
+     * Reset media elements
+     */
+    public static function reset()
+    {
+        self::$media = array();
+    }
+
+    /**
      * Add new Section Media Element
      *
      * @param  string $src

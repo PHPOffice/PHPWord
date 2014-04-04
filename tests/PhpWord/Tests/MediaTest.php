@@ -83,7 +83,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add footer media element
+     * Add footer media element and reset media
      */
     public function testAddFooterMediaElement()
     {
@@ -94,5 +94,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addMediaElement('footer1', 'image', $remote, new Image($remote));
 
         $this->assertEquals(2, Media::countMediaElements('footer1'));
+
+        Media::reset();
+        $this->assertEquals(0, Media::countMediaElements('footer1'));
     }
 }

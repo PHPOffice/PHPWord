@@ -60,6 +60,14 @@ class Footnote
     }
 
     /**
+     * Reset footer elements
+     */
+    public static function reset()
+    {
+        self::$elements = array();
+    }
+
+    /**
      * Add new Footnote Link Element
      *
      * @param string $linkSrc

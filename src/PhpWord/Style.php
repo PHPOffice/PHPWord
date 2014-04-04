@@ -23,7 +23,7 @@ class Style
      *
      * @var array
      */
-    private static $_styleElements = array();
+    private static $styles = array();
 
     /**
      * Add paragraph style
@@ -33,17 +33,7 @@ class Style
      */
     public static function addParagraphStyle($styleName, $styles)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new Paragraph();
-            foreach ($styles as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $style->setStyleValue($key, $value);
-            }
-
-            self::$_styleElements[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, $styles, new Paragraph());
     }
 
     /**
@@ -55,16 +45,7 @@ class Style
      */
     public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new Font('text', $styleParagraph);
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $font->setStyleValue($key, $value);
-            }
-            self::$_styleElements[$styleName] = $font;
-        }
+        self::setStyleValues($styleName, $styleFont, new Font('text', $styleParagraph));
     }
 
     /**
@@ -75,17 +56,7 @@ class Style
      */
     public static function addLinkStyle($styleName, $styles)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new Font('link');
-            foreach ($styles as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $style->setStyleValue($key, $value);
-            }
-
-            self::$_styleElements[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, $styles, new Font('link'));
     }
 
     /**
@@ -97,10 +68,10 @@ class Style
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
+        if (!array_key_exists($styleName, self::$styles)) {
             $style = new Table($styleTable, $styleFirstRow);
 
-            self::$_styleElements[$styleName] = $style;
+            self::$styles[$styleName] = $style;
         }
     }
 
@@ -114,17 +85,15 @@ class Style
     public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
         $styleName = 'Heading_' . $titleCount;
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new Font('title', $styleParagraph);
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $font->setStyleValue($key, $value);
-            }
+        self::setStyleValues("Heading_{$titleCount}", $styleFont, new Font('title', $styleParagraph));
+    }
 
-            self::$_styleElements[$styleName] = $font;
-        }
+    /**
+     * Reset styles
+     */
+    public static function reset()
+    {
+        self::$styles = array();
     }
 
     /**
@@ -144,7 +113,7 @@ class Style
      */
     public static function getStyles()
     {
-        return self::$_styleElements;
+        return self::$styles;
     }
 
     /**
@@ -154,10 +123,31 @@ class Style
      */
     public static function getStyle($styleName)
     {
-        if (array_key_exists($styleName, self::$_styleElements)) {
-            return self::$_styleElements[$styleName];
+        if (array_key_exists($styleName, self::$styles)) {
+            return self::$styles[$styleName];
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Set style values
+     *
+     * @param string $styleName
+     * @param array $styleValues
+     * @param mixed $styleObject
+     */
+    private static function setStyleValues($styleName, $styleValues, $styleObject)
+    {
+        if (!array_key_exists($styleName, self::$styles)) {
+            foreach ($styleValues as $key => $value) {
+                if (substr($key, 0, 1) != '_') {
+                    $key = '_' . $key;
+                }
+                $styleObject->setStyleValue($key, $value);
+            }
+
+            self::$styles[$styleName] = $styleObject;
         }
     }
 }

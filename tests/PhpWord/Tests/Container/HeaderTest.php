@@ -220,4 +220,15 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($oHeader->getType(), Header::EVEN);
     }
+
+    /**
+     * Add footnote exception
+     *
+     * @expectedException BadMethodCallException
+     */
+    public function testAddFootnoteException()
+    {
+        $header = new Header(1);
+        $header->addFootnote();
+    }
 }

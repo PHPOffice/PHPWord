@@ -23,7 +23,7 @@ class Settings
      *
      * @var boolean
      */
-    private static $_xmlWriterCompatibility = true;
+    private static $xmlWriterCompatibility = true;
 
     /**
      * Name of the class used for Zip file management
@@ -32,7 +32,7 @@ class Settings
      *
      * @var string
      */
-    private static $_zipClass = self::ZIPARCHIVE;
+    private static $zipClass = self::ZIPARCHIVE;
 
     /**
      * Set the compatibility option used by the XMLWriter
@@ -43,7 +43,7 @@ class Settings
     public static function setCompatibility($compatibility)
     {
         if (is_bool($compatibility)) {
-            self::$_xmlWriterCompatibility = $compatibility;
+            self::$xmlWriterCompatibility = $compatibility;
             return true;
         }
         return false;
@@ -56,7 +56,7 @@ class Settings
      */
     public static function getCompatibility()
     {
-        return self::$_xmlWriterCompatibility;
+        return self::$xmlWriterCompatibility;
     }
 
     /**
@@ -70,7 +70,7 @@ class Settings
     {
         if (($zipClass === self::PCLZIP) ||
             ($zipClass === self::ZIPARCHIVE)) {
-            self::$_zipClass = $zipClass;
+            self::$zipClass = $zipClass;
             return true;
         }
         return false;
@@ -86,6 +86,6 @@ class Settings
      */
     public static function getZipClass()
     {
-        return self::$_zipClass;
+        return self::$zipClass;
     } // function getZipClass()
 }

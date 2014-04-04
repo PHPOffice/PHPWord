@@ -21,6 +21,10 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
 - Link: Ability to add link in header/footer - @ivanlanin GH-187
 - Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
+- Media: Add `Media::reset()` to reset all media data - @juzi GH-19
+- Style: Add `Style::reset()` to reset all styles
+- Footnote: Add `Footnote::reset()` to reset all footnotes
+- TOC: Add `TOC::reset()` to reset all TOC
 
 ### Bugfixes
 
