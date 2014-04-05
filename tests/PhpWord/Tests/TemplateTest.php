@@ -179,4 +179,27 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($docFound);
 
     }
+
+    /**
+     * Clone and delete block
+     */
+    public function testCloneDeleteBlock()
+    {
+        $template = __DIR__ . "/_files/templates/clone-delete-block.docx";
+        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME');
+        $docName = 'clone-delete-block-result.docx';
+
+        $document = new Template($template);
+        $actualVar = $document->getVariables();
+
+        $document->cloneBlock('CLONEME', 3);
+        $document->deleteBlock('DELETEME');
+
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
+    }
 }

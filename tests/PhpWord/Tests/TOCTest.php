@@ -64,15 +64,16 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             'Heading 2' => 2,
             'Heading 3' => 3,
         );
+        $toc = new TOC();
 
         foreach ($titles as $text => $depth) {
-            $response = TOC::addTitle($text, $depth);
+            $response = $toc->addTitle($text, $depth);
         }
         $this->assertEquals($anchor, $response[0]);
         $this->assertEquals($bookmark, $response[1]);
 
         $i = 0;
-        $savedTitles = TOC::getTitles();
+        $savedTitles = $toc->getTitles();
         foreach ($titles as $text => $depth) {
             $this->assertEquals($text, $savedTitles[$i]['text']);
             $this->assertEquals($depth, $savedTitles[$i]['depth']);
@@ -82,5 +83,32 @@ class TOCTest extends \PHPUnit_Framework_TestCase
         TOC::reset();
         $this->assertEquals(0, count(TOC::getTitles()));
 
+    }
+
+    /**
+     * Set/get minDepth and maxDepth
+     */
+    public function testSetGetMinMaxDepth()
+    {
+        $toc = new TOC();
+        $titles = array(
+            'Heading 1' => 1,
+            'Heading 2' => 2,
+            'Heading 3' => 3,
+            'Heading 4' => 4,
+        );
+        foreach ($titles as $text => $depth) {
+            $toc->addTitle($text, $depth);
+        }
+
+        $this->assertEquals(1, $toc->getMinDepth());
+        $this->assertEquals(9, $toc->getMaxDepth());
+
+        $toc->setMinDepth(2);
+        $toc->setMaxDepth(3);
+        $toc->getTitles();
+
+        $this->assertEquals(2, $toc->getMinDepth());
+        $this->assertEquals(3, $toc->getMaxDepth());
     }
 }

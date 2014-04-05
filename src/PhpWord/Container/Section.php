@@ -99,9 +99,9 @@ class Section extends Container
      * @param mixed $styleTOC
      * @return TOC
      */
-    public function addTOC($styleFont = null, $styleTOC = null)
+    public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
-        $toc = new TOC($styleFont, $styleTOC);
+        $toc = new TOC($styleFont, $styleTOC, $minDepth, $maxDepth);
         $this->elements[] = $toc;
         return $toc;
     }

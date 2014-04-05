@@ -54,12 +54,27 @@ class TOC
 
 
     /**
+     * Min title depth to show
+     *
+     * @var int
+     */
+    private $minDepth = 1;
+
+    /**
+     * Max title depth to show
+     *
+     * @var int
+     */
+    private $maxDepth = 9;
+
+
+    /**
      * Create a new Table-of-Contents Element
      *
      * @param mixed $styleFont
      * @param array $styleTOC
      */
-    public function __construct($styleFont = null, $styleTOC = null)
+    public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
         self::$TOCStyle = new TOCStyle();
 
@@ -85,6 +100,9 @@ class TOC
                 self::$fontStyle = $styleFont;
             }
         }
+
+        $this->minDepth = $minDepth;
+        $this->maxDepth = $maxDepth;
     }
 
     /**
@@ -115,9 +133,20 @@ class TOC
      *
      * @return array
      */
-    public static function getTitles()
+    public function getTitles()
     {
-        return self::$titles;
+        $titles = self::$titles;
+        foreach ($titles as $i => $title) {
+            if ($this->minDepth > $title['depth']) {
+                unset($titles[$i]);
+            }
+            if (($this->maxDepth != 0) && ($this->maxDepth < $title['depth'])) {
+                unset($titles[$i]);
+            }
+        }
+        $titles = array_merge(array(), $titles);
+
+        return $titles;
     }
 
     /**
@@ -146,5 +175,45 @@ class TOC
     public static function getStyleFont()
     {
         return self::$fontStyle;
+    }
+
+    /**
+     * Set max depth
+     *
+     * @param int $value
+     */
+    public function setMaxDepth($value)
+    {
+        $this->maxDepth = $value;
+    }
+
+    /**
+     * Get Max Depth
+     *
+     * @return int Max depth of titles
+     */
+    public function getMaxDepth()
+    {
+        return $this->maxDepth;
+    }
+
+    /**
+     * Set min depth
+     *
+     * @param int $value
+     */
+    public function setMinDepth($value)
+    {
+        $this->minDepth = $value;
+    }
+
+    /**
+     * Get Min Depth
+     *
+     * @return int Min depth of titles
+     */
+    public function getMinDepth()
+    {
+        return $this->minDepth;
     }
 }

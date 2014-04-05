@@ -65,7 +65,7 @@ abstract class Reader implements IReader
     protected function openFile($pFilename)
     {
         // Check if file exists
-        if (!\file_exists($pFilename) || !is_readable($pFilename)) {
+        if (!file_exists($pFilename) || !is_readable($pFilename)) {
             throw new Exception("Could not open " . $pFilename . " for reading! File does not exist.");
         }
 

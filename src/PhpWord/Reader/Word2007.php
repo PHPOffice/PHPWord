@@ -29,7 +29,7 @@ class Word2007 extends Reader implements IReader
     public function canRead($pFilename)
     {
         // Check if file exists
-        if (!\file_exists($pFilename)) {
+        if (!file_exists($pFilename)) {
             throw new Exception("Could not open {$pFilename} for reading! File does not exist.");
         }
 

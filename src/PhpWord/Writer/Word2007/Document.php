@@ -228,13 +228,16 @@ class Document extends Base
      */
     protected function writeTOC(XMLWriter $xmlWriter, TOC $toc)
     {
-        $titles = TOC::getTitles();
-        $styleFont = TOC::getStyleFont();
+        $titles = $toc->getTitles();
+        $styleFont = $toc->getStyleFont();
 
-        $styleTOC = TOC::getStyleTOC();
+        $styleTOC = $toc->getStyleTOC();
         $fIndent = $styleTOC->getIndent();
         $tabLeader = $styleTOC->getTabLeader();
         $tabPos = $styleTOC->getTabPos();
+
+        $maxDepth = $toc->getMaxDepth();
+        $minDepth = $toc->getMinDepth();
 
         $isObject = ($styleFont instanceof Font) ? true : false;
 
@@ -287,7 +290,7 @@ class Document extends Base
                 $xmlWriter->startElement('w:r');
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw('TOC \o "1-9" \h \z \u');
+                $xmlWriter->writeRaw('TOC \o "' . $minDepth . '-' . $maxDepth . '" \h \z \u');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 
