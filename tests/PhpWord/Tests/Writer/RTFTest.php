@@ -72,7 +72,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $writer = new RTF($phpWord);
         $writer->save($file);
 
-        $this->assertTrue(\file_exists($file));
+        $this->assertTrue(file_exists($file));
 
         unlink($file);
     }

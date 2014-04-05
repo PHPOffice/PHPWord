@@ -165,7 +165,7 @@ class Template
      * Clone a table row in a template document
      *
      * @param string $search
-     * @param int $numberOfClones
+     * @param integer $numberOfClones
      * @throws Exception
      */
     public function cloneRow($search, $numberOfClones)
@@ -217,6 +217,60 @@ class Template
     }
 
     /**
+     * Clone a block
+     *
+     * @param string $blockname
+     * @param integer $clones
+     * @param boolean $replace
+     * @return null
+     */
+    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    {
+        $xmlBlock = null;
+        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+
+        if (isset($matches[3])) {
+            $xmlBlock = $matches[3];
+            $cloned = array();
+            for ($i = 1; $i <= $clones; $i++) {
+                $cloned[] = $xmlBlock;
+            }
+
+            if ($replace) {
+                $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], implode('', $cloned), $this->documentXML);
+            }
+        }
+
+        return $xmlBlock;
+    }
+
+    /**
+     * Replace a block
+     *
+     * @param string $blockname
+     * @param string $replacement
+     */
+    public function replaceBlock($blockname, $replacement)
+    {
+        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+
+        if (isset($matches[3])) {
+            $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], $replacement, $this->documentXML);
+        }
+    }
+
+    /**
+     * Delete a block of text
+     *
+     * @param string $blockname
+     * @param string $replacement
+     */
+    public function deleteBlock($blockname)
+    {
+        $this->replaceBlock($blockname, '');
+    }
+
+    /**
      * Save XML to temporary file
      *
      * @return string
@@ -251,7 +305,7 @@ class Template
     {
         $tempFilename = $this->save();
 
-        if (\file_exists($strFilename)) {
+        if (file_exists($strFilename)) {
             unlink($strFilename);
         }
 
@@ -332,8 +386,8 @@ class Template
     /**
      * Find the start position of the nearest table row before $offset
      *
-     * @param int $offset
-     * @return int
+     * @param integer $offset
+     * @return integer
      * @throws Exception
      */
     private function findRowStart($offset)
@@ -351,8 +405,8 @@ class Template
     /**
      * Find the end position of the nearest table row after $offset
      *
-     * @param int $offset
-     * @return int
+     * @param integer $offset
+     * @return integer
      */
     private function findRowEnd($offset)
     {
@@ -363,8 +417,8 @@ class Template
     /**
      * Get a slice of a string
      *
-     * @param int $startPosition
-     * @param int $endPosition
+     * @param integer $startPosition
+     * @param integer $endPosition
      * @return string
      */
     private function getSlice($startPosition, $endPosition = 0)
@@ -373,5 +427,18 @@ class Template
             $endPosition = strlen($this->documentXML);
         }
         return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Delete a block of text
+     *
+     * @param string $blockname
+     * @param string $replacement
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function deleteTemplateBlock($blockname, $replacement = '')
+    {
+        $this->deleteBlock($blockname, $replacement);
     }
 }

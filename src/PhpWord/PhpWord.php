@@ -232,7 +232,7 @@ class PhpWord
      */
     public function loadTemplate($filename)
     {
-        if (\file_exists($filename)) {
+        if (file_exists($filename)) {
             return new Template($filename);
         } else {
             throw new Exception("Template file {$filename} not found.");

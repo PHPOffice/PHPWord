@@ -15,6 +15,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
 - Settings: Ability to use PCLZip as alternative to ZipArchive - @bskrtich @ivanlanin GH-106 GH-140 GH-185
 - Template: Ability to find & replace variables in headers & footers - @dgudgeon GH-190
+- Template: Ability to clone & delete block of text using `cloneBlock` and `deleteBlock` - @diego-vieira GH-191
 
 ### Bugfixes
 
