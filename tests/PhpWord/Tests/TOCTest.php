@@ -64,15 +64,16 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             'Heading 2' => 2,
             'Heading 3' => 3,
         );
+        $toc = new TOC();
 
         foreach ($titles as $text => $depth) {
-            $response = TOC::addTitle($text, $depth);
+            $response = $toc->addTitle($text, $depth);
         }
         $this->assertEquals($anchor, $response[0]);
         $this->assertEquals($bookmark, $response[1]);
 
         $i = 0;
-        $savedTitles = TOC::getTitles();
+        $savedTitles = $toc->getTitles();
         foreach ($titles as $text => $depth) {
             $this->assertEquals($text, $savedTitles[$i]['text']);
             $this->assertEquals($depth, $savedTitles[$i]['depth']);
