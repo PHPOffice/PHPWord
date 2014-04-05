@@ -22,69 +22,87 @@ class TOC
      *
      * @var array
      */
-    private static $_titles = array();
+    private static $titles = array();
 
     /**
      * TOC style
      *
      * @var TOCStyle
      */
-    private static $_styleTOC;
+    private static $tocStyle;
 
     /**
      * Font style
      *
      * @var Font|array|string
      */
-    private static $_styleFont;
+    private static $fontStyle;
 
     /**
      * Title anchor
      *
      * @var int
      */
-    private static $_anchor = 252634154;
+    private static $anchor = 252634154;
 
     /**
      * Title bookmark
      *
      * @var int
      */
-    private static $_bookmarkId = 0;
+    private static $bookmarkId = 0;
 
+    /**
+     * Min title depth to show
+     *
+     * @var int
+     */
+    private $minDepth = 1;
+
+    /**
+     * Max title depth to show
+     *
+     * @var int
+     */
+    private $maxDepth = 9;
 
     /**
      * Create a new Table-of-Contents Element
      *
      * @param mixed $styleFont
      * @param array $styleTOC
+     * @param int $minDepth
+     * @param int $maxDepth
      */
-    public function __construct($styleFont = null, $styleTOC = null)
+    public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
-        self::$_styleTOC = new TOCStyle();
+        self::$tocStyle = new TOCStyle();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
                 if (substr($key, 0, 1) != '_') {
                     $key = '_' . $key;
                 }
-                self::$_styleTOC->setStyleValue($key, $value);
+                self::$tocStyle->setStyleValue($key, $value);
             }
         }
 
         if (!is_null($styleFont)) {
             if (is_array($styleFont)) {
-                self::$_styleFont = new Font();
+                self::$fontStyle = new Font();
                 foreach ($styleFont as $key => $value) {
                     if (substr($key, 0, 1) != '_') {
                         $key = '_' . $key;
                     }
-                    self::$_styleFont->setStyleValue($key, $value);
+                    self::$fontStyle->setStyleValue($key, $value);
                 }
             } else {
-                self::$_styleFont = $styleFont;
+                self::$fontStyle = $styleFont;
             }
         }
+
+        $this->minDepth = $minDepth;
+        $this->maxDepth = $maxDepth;
     }
 
     /**
@@ -96,8 +114,8 @@ class TOC
      */
     public static function addTitle($text, $depth = 0)
     {
-        $anchor = '_Toc' . ++self::$_anchor;
-        $bookmarkId = self::$_bookmarkId++;
+        $anchor = '_Toc' . ++self::$anchor;
+        $bookmarkId = self::$bookmarkId++;
 
         $title = array();
         $title['text'] = $text;
@@ -105,7 +123,7 @@ class TOC
         $title['anchor'] = $anchor;
         $title['bookmarkId'] = $bookmarkId;
 
-        self::$_titles[] = $title;
+        self::$titles[] = $title;
 
         return array($anchor, $bookmarkId);
     }
@@ -115,9 +133,20 @@ class TOC
      *
      * @return array
      */
-    public static function getTitles()
+    public function getTitles()
     {
-        return self::$_titles;
+        $titles = self::$titles;
+        foreach ($titles as $i => $title) {
+            if ($this->minDepth > $title['depth']) {
+                unset($titles[$i]);
+            }
+            if (($this->maxDepth != 0) && ($this->maxDepth < $title['depth'])) {
+                unset($titles[$i]);
+            }
+        }
+        $titles = array_merge(array(), $titles);
+
+        return $titles;
     }
 
     /**
@@ -127,7 +156,7 @@ class TOC
      */
     public static function getStyleTOC()
     {
-        return self::$_styleTOC;
+        return self::$tocStyle;
     }
 
     /**
@@ -137,6 +166,46 @@ class TOC
      */
     public static function getStyleFont()
     {
-        return self::$_styleFont;
+        return self::$fontStyle;
+    }
+
+    /**
+     * Set max depth
+     *
+     * @param integer $value
+     */
+    public function setMaxDepth($value)
+    {
+        $this->maxDepth = $value;
+    }
+
+    /**
+     * Get Max Depth
+     *
+     * @return int Max depth of titles
+     */
+    public function getMaxDepth()
+    {
+        return $this->maxDepth;
+    }
+
+    /**
+     * Set min depth
+     *
+     * @param integer $value
+     */
+    public function setMinDepth($value)
+    {
+        $this->minDepth = $value;
+    }
+
+    /**
+     * Get Min Depth
+     *
+     * @return int Min depth of titles
+     */
+    public function getMinDepth()
+    {
+        return $this->minDepth;
     }
 }

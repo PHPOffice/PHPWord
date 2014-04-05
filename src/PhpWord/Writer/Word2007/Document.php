@@ -92,7 +92,7 @@ class Document extends Base
                     } elseif ($element instanceof Object) {
                         $this->writeObject($xmlWriter, $element);
                     } elseif ($element instanceof TOC) {
-                        $this->writeTOC($xmlWriter);
+                        $this->writeTOC($xmlWriter, $element);
                     } elseif ($element instanceof Footnote) {
                         $this->writeFootnote($xmlWriter, $element);
                     } elseif ($element instanceof CheckBox) {
@@ -289,13 +289,15 @@ class Document extends Base
      * Write TOC element
      *
      * @param XMLWriter $xmlWriter
+     * @param TOC $toc
      */
-    private function writeTOC(XMLWriter $xmlWriter)
+    private function writeTOC(XMLWriter $xmlWriter, TOC $toc)
     {
-        $titles = TOC::getTitles();
-        $styleFont = TOC::getStyleFont();
-
-        $styleTOC = TOC::getStyleTOC();
+        $titles = $toc->getTitles();
+        $styleFont = $toc->getStyleFont();
+        $styleTOC = $toc->getStyleTOC();
+        $maxDepth = $toc->getMaxDepth();
+        $minDepth = $toc->getMinDepth();
         $fIndent = $styleTOC->getIndent();
         $tabLeader = $styleTOC->getTabLeader();
         $tabPos = $styleTOC->getTabPos();
@@ -351,7 +353,7 @@ class Document extends Base
                 $xmlWriter->startElement('w:r');
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw('TOC \o "1-9" \h \z \u');
+                $xmlWriter->writeRaw('TOC \o "' . $minDepth . '-' . $maxDepth . '" \h \z \u');
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 

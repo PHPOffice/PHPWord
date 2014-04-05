@@ -79,4 +79,31 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $i++;
         }
     }
+
+    /**
+     * Set/get minDepth and maxDepth
+     */
+    public function testSetGetMinMaxDepth()
+    {
+        $toc = new TOC();
+        $titles = array(
+            'Heading 1' => 1,
+            'Heading 2' => 2,
+            'Heading 3' => 3,
+            'Heading 4' => 4,
+        );
+        foreach ($titles as $text => $depth) {
+            $toc->addTitle($text, $depth);
+        }
+
+        $this->assertEquals(1, $toc->getMinDepth());
+        $this->assertEquals(9, $toc->getMaxDepth());
+
+        $toc->setMinDepth(2);
+        $toc->setMaxDepth(3);
+        $toc->getTitles();
+
+        $this->assertEquals(2, $toc->getMinDepth());
+        $this->assertEquals(3, $toc->getMaxDepth());
+    }
 }
