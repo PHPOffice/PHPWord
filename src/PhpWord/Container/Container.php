@@ -49,7 +49,7 @@ abstract class Container extends Element
      *
      * @var int
      */
-    protected $containerId;
+    protected $sectionId;
 
     /**
      * Elements collection
@@ -123,7 +123,7 @@ abstract class Container extends Element
 
         $link = new Link(String::toUTF8($linkSrc), String::toUTF8($linkName), $fontStyle, $paragraphStyle);
         $link->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rID = Media::addMediaElement($elementDocPart, 'link', $linkSrc);
+        $rID = Media::addElement($elementDocPart, 'link', $linkSrc);
         $link->setRelationId($rID);
         $this->elements[] = $link;
 
@@ -250,14 +250,10 @@ abstract class Container extends Element
 
         $image = new Image($src, $style, $isWatermark);
         $image->setDocPart($this->getDocPart(), $this->getDocPartId());
-        if (!is_null($image->getSource())) {
-            $rID = Media::addMediaElement($elementDocPart, 'image', $src, $image);
-            $image->setRelationId($rID);
-            $this->elements[] = $image;
-            return $image;
-        } else {
-            throw new InvalidImageException;
-        }
+        $rID = Media::addElement($elementDocPart, 'image', $src, $image);
+        $image->setRelationId($rID);
+        $this->elements[] = $image;
+        return $image;
     }
 
     /**
@@ -284,9 +280,9 @@ abstract class Container extends Element
                 $ext = substr($ext, 0, -1);
             }
             $icon = realpath(__DIR__ . "/../_staticDocParts/_{$ext}.png");
-            $rID = Media::addMediaElement($elementDocPart, 'object', $src);
+            $rID = Media::addElement($elementDocPart, 'object', $src);
             $object->setRelationId($rID);
-            $rIDimg = Media::addMediaElement($elementDocPart, 'image', $icon, new Image($icon));
+            $rIDimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
             $object->setImageRelationId($rIDimg);
             $this->elements[] = $object;
             return $object;
@@ -307,7 +303,7 @@ abstract class Container extends Element
 
         $footnote = new FootnoteElement($paragraphStyle);
         $refID = FootnoteCollection::addFootnoteElement($footnote);
-        $footnote->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $footnote->setDocPart('footnote', $this->getDocPartId());
         $footnote->setRelationId($refID);
         $this->elements[] = $footnote;
 
@@ -337,11 +333,11 @@ abstract class Container extends Element
     /**
      * Get section number
      *
-     * @return array
+     * @return integer
      */
     public function getSectionId()
     {
-        return $this->containerId;
+        return $this->sectionId;
     }
 
     /**
@@ -474,7 +470,7 @@ abstract class Container extends Element
     {
         $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
         $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
-        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->containerId;
+        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
 
         return $inHeaderFooter ? $docPart . $docPartId : $docPart;

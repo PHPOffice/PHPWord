@@ -40,10 +40,10 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Get footer
      */
-    public function testGetFooter()
+    public function testGetFooters()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getFooter(), 'footer', new Section(0));
+        $this->assertAttributeEquals($oSection->getFooters(), 'footers', new Section(0));
     }
 
     /**

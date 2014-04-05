@@ -29,13 +29,13 @@ class Rels extends WriterPart
      */
     public function writeMainRels()
     {
-        $rels = array(
-            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
+        $xmlRels = array(
             'docProps/core.xml' => 'package/2006/relationships/metadata/core-properties',
             'docProps/app.xml'  => 'officeDocument/2006/relationships/extended-properties',
+            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
         );
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $rels);
+        $this->writeRels($xmlWriter, $xmlRels);
 
         return $xmlWriter->getData();
     }
@@ -47,7 +47,7 @@ class Rels extends WriterPart
      */
     public function writeDocRels($mediaRels)
     {
-        $rels = array(
+        $xmlRels = array(
             'styles.xml'       => 'officeDocument/2006/relationships/styles',
             'numbering.xml'    => 'officeDocument/2006/relationships/numbering',
             'settings.xml'     => 'officeDocument/2006/relationships/settings',
@@ -56,7 +56,7 @@ class Rels extends WriterPart
             'fontTable.xml'    => 'officeDocument/2006/relationships/fontTable',
         );
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $rels, $mediaRels);
+        $this->writeRels($xmlWriter, $xmlRels, $mediaRels);
 
         return $xmlWriter->getData();
     }
@@ -79,20 +79,24 @@ class Rels extends WriterPart
      * Write relationships
      *
      * @param XMLWriter $xmlWriter
-     * @param null|array $rels
+     * @param null|array $xmlRels
      * @param null|array $mediaRels
      * @param integer $id
      */
-    private function writeRels(XMLWriter $xmlWriter, $rels = null, $mediaRels = null, $id = 1)
+    private function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $id = 1)
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
         $xmlWriter->writeAttribute('xmlns', self::RELS_BASE . 'package/2006/relationships');
-        if (is_array($rels)) {
-            foreach ($rels as $target => $type) {
+
+        // XML files relationships
+        if (is_array($xmlRels)) {
+            foreach ($xmlRels as $target => $type) {
                 $this->writeRel($xmlWriter, $id++, $type, $target);
             }
         }
+
+        // Media relationships
         if (!is_null($mediaRels) && is_array($mediaRels)) {
             $mapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
             foreach ($mediaRels as $mediaRel) {

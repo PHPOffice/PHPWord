@@ -39,8 +39,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - `createSection` replaced by `addSection`
 - `Element\Footnote::getReferenceId` replaced by `Container\Container::getRelationId`
 - `Element\Footnote::setReferenceId` replaced by `Container\Container::setRelationId`
-- `Footnote::addFootnoteLinkElement` replaced by `Media::addMediaElement`
-- `Footnote::getFootnoteLinkElements` replaced by `Media::getMediaElements`
+- `Footnote::addFootnoteLinkElement` replaced by `Media::addElement`
+- `Footnote::getFootnoteLinkElements` replaced by `Media::getElements`
 - All current methods on `Media`
 
 ### Miscellaneous

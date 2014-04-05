@@ -30,6 +30,10 @@ abstract class Element
     /**
      * Document part Id
      *
+     * For header and footer, this will be = ($sectionId - 1) * 3 + $index
+     * because the max number of header/footer in every page is 3, i.e.
+     * AUTO, FIRST, and EVEN (AUTO = ODD)
+     *
      * @var integer
      */
     private $docPartId = 1;

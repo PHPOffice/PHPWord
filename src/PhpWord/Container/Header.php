@@ -20,29 +20,32 @@ class Header extends Container
      * Header types constants
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/a-wheaderType-4.html Header or Footer Type
+     * @link http://www.schemacentral.com/sc/ooxml/a-wtype-4.html Header or Footer Type
      */
-    const AUTO = 'default'; // Did not use DEFAULT because it is a PHP keyword
-    const EVEN = 'even';
+    const AUTO  = 'default'; // default and odd pages
     const FIRST = 'first';
+    const EVEN  = 'even';
 
     /**
      * Header type
      *
      * @var string
      */
-    private $headerType = self::AUTO;
+    private $type = self::AUTO;
 
     /**
      * Create new instance
      *
      * @param int $sectionId
+     * @param int $headerId
+     * @param string $type
      */
-    public function __construct($sectionId)
+    public function __construct($sectionId, $headerId = 1, $type = self::AUTO)
     {
         $this->container = 'header';
-        $this->containerId = $sectionId;
-        $this->setDocPart($this->container, $this->containerId);
+        $this->sectionId = $sectionId;
+        $this->setType($type);
+        $this->setDocPart($this->container, ($sectionId - 1) * 3 + $headerId);
     }
 
     /**
@@ -58,34 +61,56 @@ class Header extends Container
     }
 
     /**
+     * Set header type
+     *
+     * @param string $value
+     * @since 0.9.2
+     */
+    public function setType($value = self::AUTO)
+    {
+        if (!in_array($value, array(self::AUTO, self::FIRST, self::EVEN))) {
+            $value = self::AUTO;
+        }
+        $this->type = $value;
+    }
+
+    /**
      * Get header type
+     *
+     * @return string
      */
     public function getType()
     {
-        return $this->headerType;
+        return $this->type;
     }
 
     /**
      * Reset type to default
+     *
+     * @return string
      */
     public function resetType()
     {
-        return $this->headerType = self::AUTO;
+        return $this->type = self::AUTO;
     }
 
     /**
      * First page only header
+     *
+     * @return string
      */
     public function firstPage()
     {
-        return $this->headerType = self::FIRST;
+        return $this->type = self::FIRST;
     }
 
     /**
      * Even numbered pages only
+     *
+     * @return string
      */
     public function evenPage()
     {
-        return $this->headerType = self::EVEN;
+        return $this->type = self::EVEN;
     }
 }

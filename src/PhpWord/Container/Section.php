@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Container;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Container\Footer;
 use PhpOffice\PhpWord\Container\Header;
@@ -28,19 +29,18 @@ class Section extends Container
     private $settings;
 
     /**
-     * Section headers
+     * Section headers, indexed from 1, not zero
      *
      * @var Header[]
      */
     private $headers = array();
 
     /**
-     * Section footer
+     * Section footers, indexed from 1, not zero
      *
-     * @var Footer
+     * @var Footer[]
      */
-    private $footer = null;
-
+    private $footers = array();
 
     /**
      * Create new instance
@@ -51,8 +51,8 @@ class Section extends Container
     public function __construct($sectionCount, $settings = null)
     {
         $this->container = 'section';
-        $this->containerId = $sectionCount;
-        $this->setDocPart($this->container, $this->containerId);
+        $this->sectionId = $sectionCount;
+        $this->setDocPart($this->container, $this->sectionId);
         $this->settings = new Settings();
         $this->setSettings($settings);
     }
@@ -109,29 +109,29 @@ class Section extends Container
     /**
      * Add header
      *
+     * @param string $type
      * @return Header
+     * @since 0.9.2
      */
-    public function addHeader()
+    public function addHeader($type = Header::AUTO)
     {
-        $header = new Header($this->containerId);
-        $this->headers[] = $header;
-        return $header;
+        return $this->addHeaderFooter($type, true);
     }
 
     /**
      * Add footer
      *
+     * @param string $type
      * @return Footer
+     * @since 0.9.2
      */
-    public function addFooter()
+    public function addFooter($type = Header::AUTO)
     {
-        $footer = new Footer($this->containerId);
-        $this->footer = $footer;
-        return $footer;
+        return $this->addHeaderFooter($type, false);
     }
 
     /**
-     * Get Headers
+     * Get header elements
      *
      * @return Header[]
      */
@@ -141,13 +141,13 @@ class Section extends Container
     }
 
     /**
-     * Get footer element
+     * Get footer elements
      *
-     * @return Footer
+     * @return Footer[]
      */
-    public function getFooter()
+    public function getFooters()
     {
-        return $this->footer;
+        return $this->footers;
     }
 
     /**
@@ -160,10 +160,38 @@ class Section extends Container
      */
     public function hasDifferentFirstPage()
     {
-        $value = array_filter($this->headers, function (Header &$header) {
-            return $header->getType() == Header::FIRST;
-        });
-        return count($value) > 0;
+        foreach ($this->headers as $header) {
+            if ($header->getType() == Header::FIRST) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add header/footer
+     *
+     * @param string $type
+     * @param string $header
+     * @return Header|Footer
+     * @since 0.9.2
+     */
+    private function addHeaderFooter($type = Header::AUTO, $header = true)
+    {
+        $collectionArray = $header ? 'headers' : 'footers';
+        $containerClass = 'PhpOffice\\PhpWord\\Container\\';
+        $containerClass .= ($header ? 'Header' : 'Footer');
+        $collection = &$this->$collectionArray;
+
+        if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
+            $index = count($collection);
+            $container = new $containerClass($this->sectionId, ++$index, $type);
+            $collection[$index] = $container;
+            return $container;
+        } else {
+            throw new Exception('Invalid header/footer type.');
+        }
+
     }
 
     /**
@@ -188,5 +216,21 @@ class Section extends Container
     public function createFooter()
     {
         return $this->addFooter();
+    }
+
+    /**
+     * Get footer
+     *
+     * @return Footer
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
+     */
+    public function getFooter()
+    {
+        if (empty($this->footers)) {
+            return null;
+        } else {
+            return $this->footers[1];
+        }
     }
 }

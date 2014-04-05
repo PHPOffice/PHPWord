@@ -14,15 +14,51 @@ namespace PhpOffice\PhpWord\Container;
  */
 class Footer extends Container
 {
+    const AUTO  = 'default';  // default and odd pages
+    const FIRST = 'first';
+    const EVEN  = 'even';
+
+    /**
+     * Header type
+     *
+     * @var string
+     */
+    private $type = self::AUTO;
+
     /**
      * Create new instance
      *
      * @param int $sectionId
+     * @param int $footerId
+     * @param string $type
      */
-    public function __construct($sectionId)
+    public function __construct($sectionId, $footerId = 1, $type = self::AUTO)
     {
         $this->container = 'footer';
-        $this->containerId = $sectionId;
-        $this->setDocPart($this->container, $this->containerId);
+        $this->sectionId = $sectionId;
+        $this->setType($type);
+        $this->setDocPart($this->container, ($sectionId - 1) * 3 + $footerId);
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $value
+     * @since 0.9.2
+     */
+    public function setType($value = self::AUTO)
+    {
+        $this->type = $value;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     * @since 0.9.2
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

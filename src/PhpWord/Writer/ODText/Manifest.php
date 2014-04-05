@@ -63,22 +63,4 @@ class Manifest extends WriterPart
         // Return
         return $xmlWriter->getData();
     }
-
-
-    /**
-     * Get image mime type
-     *
-     * @param string $pFile Filename
-     * @return string Mime Type
-     * @throws Exception
-     */
-    private function getImageMimeType($pFile = '')
-    {
-        if (file_exists($pFile)) {
-            $image = getimagesize($pFile);
-            return image_type_to_mime_type($image[2]);
-        } else {
-            throw new Exception("File $pFile does not exist");
-        }
-    }
 }

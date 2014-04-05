@@ -25,7 +25,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::getMediaElements('section'), array());
+        $this->assertEquals(Media::getElements('section'), array());
     }
 
     /**
@@ -33,7 +33,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::countMediaElements('section'), 0);
+        $this->assertEquals(Media::countElements('section'), 0);
     }
 
     /**
@@ -44,13 +44,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $local = __DIR__ . "/_files/images/mars.jpg";
         $object = __DIR__ . "/_files/documents/sheet.xls";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addMediaElement('section', 'image', $local, new Image($local));
-        Media::addMediaElement('section', 'image', $local, new Image($local));
-        Media::addMediaElement('section', 'image', $remote, new Image($local));
-        Media::addMediaElement('section', 'object', $object);
-        Media::addMediaElement('section', 'object', $object);
+        Media::addElement('section', 'image', $local, new Image($local));
+        Media::addElement('section', 'image', $local, new Image($local));
+        Media::addElement('section', 'image', $remote, new Image($local));
+        Media::addElement('section', 'object', $object);
+        Media::addElement('section', 'object', $object);
 
-        $this->assertEquals(3, Media::countMediaElements('section'));
+        $this->assertEquals(3, Media::countElements('section'));
     }
 
     /**
@@ -58,12 +58,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSectionLinkElement()
     {
-        $expected = Media::countMediaElements('section') + 1;
-        $actual = Media::addMediaElement('section', 'link', 'http://test.com');
+        $expected = Media::countElements('section') + 1;
+        $actual = Media::addElement('section', 'link', 'http://test.com');
 
         $this->assertEquals($expected, $actual);
-        $this->assertEquals(1, Media::countMediaElements('section', 'link'));
-        $this->assertEquals(1, count(Media::getMediaElements('section', 'link')));
+        $this->assertEquals(1, Media::countElements('section', 'link'));
+        $this->assertEquals(1, count(Media::getElements('section', 'link')));
     }
 
     /**
@@ -73,13 +73,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addMediaElement('header1', 'image', $local, new Image($local));
-        Media::addMediaElement('header1', 'image', $local, new Image($local));
-        Media::addMediaElement('header1', 'image', $remote, new Image($remote));
+        Media::addElement('header1', 'image', $local, new Image($local));
+        Media::addElement('header1', 'image', $local, new Image($local));
+        Media::addElement('header1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countMediaElements('header1'));
-        $this->assertEquals(2, count(Media::getMediaElements('header1')));
-        $this->assertEmpty(Media::getMediaElements('header2'));
+        $this->assertEquals(2, Media::countElements('header1'));
+        $this->assertEquals(2, count(Media::getElements('header1')));
+        $this->assertEmpty(Media::getElements('header2'));
     }
 
     /**
@@ -89,13 +89,24 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . "/_files/images/mars.jpg";
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
-        Media::addMediaElement('footer1', 'image', $local, new Image($local));
-        Media::addMediaElement('footer1', 'image', $local, new Image($local));
-        Media::addMediaElement('footer1', 'image', $remote, new Image($remote));
+        Media::addElement('footer1', 'image', $local, new Image($local));
+        Media::addElement('footer1', 'image', $local, new Image($local));
+        Media::addElement('footer1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countMediaElements('footer1'));
+        $this->assertEquals(2, Media::countElements('footer1'));
 
         Media::reset();
-        $this->assertEquals(0, Media::countMediaElements('footer1'));
+        $this->assertEquals(0, Media::countElements('footer1'));
+    }
+
+    /**
+     * Add image element exception
+     *
+     * @expectedException Exception
+     * @expectedExceptionMessage Image object not assigned.
+     */
+    public function testAddElementImageException()
+    {
+        Media::addElement('section', 'image', __DIR__ . "/_files/images/mars.jpg");
     }
 }

@@ -103,7 +103,7 @@ class Document extends Base
     {
         $settings = $section->getSettings();
         $headers = $section->getHeaders();
-        $footer = $section->getFooter();
+        $footers = $section->getFooters();
         $pgSzW = $settings->getPageSizeW();
         $pgSzH = $settings->getPageSizeH();
         $orientation = $settings->getOrientation();
@@ -139,17 +139,17 @@ class Document extends Base
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
             $xmlWriter->endElement();
         }
-        if ($section->hasDifferentFirstPage()) {
-            $xmlWriter->startElement('w:titlePg');
-            $xmlWriter->endElement();
-        }
-
         // Footer reference
-        if (!is_null($footer)) {
+        foreach ($footers as &$footer) {
             $rId = $footer->getRelationId();
             $xmlWriter->startElement('w:footerReference');
-            $xmlWriter->writeAttribute('w:type', 'default');
+            $xmlWriter->writeAttribute('w:type', $footer->getType());
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+            $xmlWriter->endElement();
+        }
+        // Different first page
+        if ($section->hasDifferentFirstPage()) {
+            $xmlWriter->startElement('w:titlePg');
             $xmlWriter->endElement();
         }
 

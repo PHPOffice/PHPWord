@@ -77,7 +77,7 @@ class Footnote
      */
     public static function addFootnoteLinkElement($linkSrc)
     {
-        return Media::addMediaElement('footnotes', 'hyperlink', $linkSrc);
+        return Media::addElement('footnotes', 'link', $linkSrc);
     }
 
     /**
@@ -89,6 +89,6 @@ class Footnote
      */
     public static function getFootnoteLinkElements()
     {
-        return Media::getMediaElements('footnotes', 'hyperlink');
+        return Media::getElements('footnotes', 'link');
     }
 }
