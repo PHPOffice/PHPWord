@@ -61,7 +61,7 @@ class Object
         $_supportedObjectTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
         $inf = pathinfo($src);
 
-        if (\file_exists($src) && in_array($inf['extension'], $_supportedObjectTypes)) {
+        if (file_exists($src) && in_array($inf['extension'], $_supportedObjectTypes)) {
             $this->_src = $src;
             $this->_style = new \PhpOffice\PhpWord\Style\Image();
 

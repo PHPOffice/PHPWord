@@ -112,7 +112,7 @@ class Image
                 \IMAGETYPE_PNG, \IMAGETYPE_BMP,
                 \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM
             );
-            if (!\file_exists($source)) {
+            if (!file_exists($source)) {
                 throw new InvalidImageException;
             }
             $imgData = getimagesize($source);

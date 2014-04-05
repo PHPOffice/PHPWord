@@ -83,7 +83,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $writer = new ODText($phpWord);
         $writer->save($file);
 
-        $this->assertTrue(\file_exists($file));
+        $this->assertTrue(file_exists($file));
 
         unlink($file);
     }

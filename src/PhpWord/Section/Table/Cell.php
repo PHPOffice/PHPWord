@@ -234,7 +234,7 @@ class Cell
             }
 
             $iconSrc = __DIR__ . '/../../_staticDocParts/';
-            if (!\file_exists($iconSrc . '_' . $ext . '.png')) {
+            if (!file_exists($iconSrc . '_' . $ext . '.png')) {
                 $iconSrc = $iconSrc . '_default.png';
             } else {
                 $iconSrc .= '_' . $ext . '.png';
