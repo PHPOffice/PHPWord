@@ -66,8 +66,8 @@ class Section extends Container
     {
         if (!is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
                 }
                 $this->settings->setSettingValue($key, $value);
             }

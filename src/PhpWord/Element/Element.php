@@ -49,8 +49,8 @@ abstract class Element
     {
         if (!is_null($styleValue) && is_array($styleValue)) {
             foreach ($styleValue as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
                 }
                 $styleObject->setStyleValue($key, $value);
             }

@@ -19,21 +19,21 @@ class Row
      *
      * @var bool
      */
-    private $_tblHeader = false;
+    private $tblHeader = false;
 
     /**
      * Table row cannot break across pages
      *
      * @var bool
      */
-    private $_cantSplit = false;
+    private $cantSplit = false;
 
     /**
      * Table row exact height
      *
      * @var bool
      */
-    private $_exactHeight = false;
+    private $exactHeight = false;
 
     /**
      * Create a new row style
@@ -50,6 +50,9 @@ class Row
      */
     public function setStyleValue($key, $value)
     {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
         $this->$key = $value;
     }
 
@@ -64,7 +67,7 @@ class Row
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_tblHeader = $pValue;
+        $this->tblHeader = $pValue;
         return $this;
     }
 
@@ -75,7 +78,7 @@ class Row
      */
     public function getTblHeader()
     {
-        return $this->_tblHeader;
+        return $this->tblHeader;
     }
 
     /**
@@ -89,7 +92,7 @@ class Row
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_cantSplit = $pValue;
+        $this->cantSplit = $pValue;
         return $this;
     }
 
@@ -100,7 +103,7 @@ class Row
      */
     public function getCantSplit()
     {
-        return $this->_cantSplit;
+        return $this->cantSplit;
     }
 
     /**
@@ -114,7 +117,7 @@ class Row
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_exactHeight = $pValue;
+        $this->exactHeight = $pValue;
         return $this;
     }
 
@@ -125,6 +128,6 @@ class Row
      */
     public function getExactHeight()
     {
-        return $this->_exactHeight;
+        return $this->exactHeight;
     }
 }

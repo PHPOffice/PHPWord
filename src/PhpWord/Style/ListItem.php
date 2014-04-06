@@ -24,14 +24,14 @@ class ListItem
     /**
      * List Type
      */
-    private $_listType;
+    private $listType;
 
     /**
      * Create a new ListItem Style
      */
     public function __construct()
     {
-        $this->_listType = self::TYPE_BULLET_FILLED;
+        $this->listType = self::TYPE_BULLET_FILLED;
     }
 
     /**
@@ -42,6 +42,9 @@ class ListItem
      */
     public function setStyleValue($key, $value)
     {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
         $this->$key = $value;
     }
 
@@ -52,7 +55,7 @@ class ListItem
      */
     public function setListType($pValue = self::TYPE_BULLET_FILLED)
     {
-        $this->_listType = $pValue;
+        $this->listType = $pValue;
     }
 
     /**
@@ -60,6 +63,6 @@ class ListItem
      */
     public function getListType()
     {
-        return $this->_listType;
+        return $this->listType;
     }
 }

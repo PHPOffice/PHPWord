@@ -55,6 +55,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Container: Create new Container abstract class - @ivanlanin GH-187
 - Element: Create new Element abstract class - @ivanlanin GH-187
 - Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
+- General: Remove underscore prefix from all private properties name
 
 ## 0.9.1 - 27 Mar 2014
 

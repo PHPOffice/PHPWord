@@ -39,7 +39,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
 
             // setStyleValue
-            $object->setStyleValue("_{$key}", null);
+            $object->setStyleValue("{$key}", null);
             $this->assertEquals(null, $object->$get());
         }
     }

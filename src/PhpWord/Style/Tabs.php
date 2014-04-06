@@ -21,7 +21,7 @@ class Tabs
      *
      * @var array
      */
-    private $_tabs;
+    private $tabs;
 
     /**
      * Create new tab collection style
@@ -30,7 +30,7 @@ class Tabs
      */
     public function __construct(array $tabs)
     {
-        $this->_tabs = $tabs;
+        $this->tabs = $tabs;
     }
 
     /**
@@ -42,7 +42,7 @@ class Tabs
     {
         if (isset($xmlWriter)) {
             $xmlWriter->startElement("w:tabs");
-            foreach ($this->_tabs as &$tab) {
+            foreach ($this->tabs as &$tab) {
                 $tab->toXml($xmlWriter);
             }
             $xmlWriter->endElement();

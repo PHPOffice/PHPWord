@@ -45,9 +45,9 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($attributes as $key => $default) {
             $get = "get{$key}";
-            $object->setStyleValue("_$key", null);
+            $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
-            $object->setStyleValue("_$key", '');
+            $object->setStyleValue("$key", '');
             $this->assertEquals($default, $object->$get());
         }
     }
@@ -75,7 +75,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($attributes as $key => $value) {
             $get = "get{$key}";
-            $object->setStyleValue("_$key", $value);
+            $object->setStyleValue("$key", $value);
             if ($key == 'align') {
                 if ($value == 'justify') {
                     $value = 'both';

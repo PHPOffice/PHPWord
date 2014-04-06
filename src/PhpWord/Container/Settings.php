@@ -19,119 +19,119 @@ class Settings
      *
      * @var int
      */
-    private $_defaultPageSizeW = 11906;
+    private $defaultPageSizeW = 11906;
 
     /**
      * Default Page Size Height
      *
      * @var int
      */
-    private $_defaultPageSizeH = 16838;
+    private $defaultPageSizeH = 16838;
 
     /**
      * Page Orientation
      *
      * @var string
      */
-    private $_orientation;
+    private $orientation;
 
     /**
      * Page Margin Top
      *
      * @var int
      */
-    private $_marginTop;
+    private $marginTop;
 
     /**
      * Page Margin Left
      *
      * @var int
      */
-    private $_marginLeft;
+    private $marginLeft;
 
     /**
      * Page Margin Right
      *
      * @var int
      */
-    private $_marginRight;
+    private $marginRight;
 
     /**
      * Page Margin Bottom
      *
      * @var int
      */
-    private $_marginBottom;
+    private $marginBottom;
 
     /**
      * Page Size Width
      *
      * @var int
      */
-    private $_pageSizeW;
+    private $pageSizeW;
 
     /**
      * Page Size Height
      *
      * @var int
      */
-    private $_pageSizeH;
+    private $pageSizeH;
 
     /**
      * Page Border Top Size
      *
      * @var int
      */
-    private $_borderTopSize;
+    private $borderTopSize;
 
     /**
      * Page Border Top Color
      *
      * @var int
      */
-    private $_borderTopColor;
+    private $borderTopColor;
 
     /**
      * Page Border Left Size
      *
      * @var int
      */
-    private $_borderLeftSize;
+    private $borderLeftSize;
 
     /**
      * Page Border Left Color
      *
      * @var int
      */
-    private $_borderLeftColor;
+    private $borderLeftColor;
 
     /**
      * Page Border Right Size
      *
      * @var int
      */
-    private $_borderRightSize;
+    private $borderRightSize;
 
     /**
      * Page Border Right Color
      *
      * @var int
      */
-    private $_borderRightColor;
+    private $borderRightColor;
 
     /**
      * Page Border Bottom Size
      *
      * @var int
      */
-    private $_borderBottomSize;
+    private $borderBottomSize;
 
     /**
      * Page Border Bottom Color
      *
      * @var int
      */
-    private $_borderBottomColor;
+    private $borderBottomColor;
 
     /**
      * Page Numbering Start
@@ -159,14 +159,14 @@ class Settings
      *
      * @var int
      */
-    private $_colsNum;
+    private $colsNum;
 
     /**
      * Section spacing between columns
      *
      * @var int
      */
-    private $_colsSpace;
+    private $colsSpace;
 
     /**
      * Section break type
@@ -180,33 +180,33 @@ class Settings
      *
      * @var string
      */
-    private $_breakType;
+    private $breakType;
 
     /**
      * Create new Section Settings
      */
     public function __construct()
     {
-        $this->_orientation = null;
-        $this->_marginTop = 1418;
-        $this->_marginLeft = 1418;
-        $this->_marginRight = 1418;
-        $this->_marginBottom = 1134;
-        $this->_pageSizeW = $this->_defaultPageSizeW;
-        $this->_pageSizeH = $this->_defaultPageSizeH;
-        $this->_borderTopSize = null;
-        $this->_borderTopColor = null;
-        $this->_borderLeftSize = null;
-        $this->_borderLeftColor = null;
-        $this->_borderRightSize = null;
-        $this->_borderRightColor = null;
-        $this->_borderBottomSize = null;
-        $this->_borderBottomColor = null;
+        $this->orientation = null;
+        $this->marginTop = 1418;
+        $this->marginLeft = 1418;
+        $this->marginRight = 1418;
+        $this->marginBottom = 1134;
+        $this->pageSizeW = $this->defaultPageSizeW;
+        $this->pageSizeH = $this->defaultPageSizeH;
+        $this->borderTopSize = null;
+        $this->borderTopColor = null;
+        $this->borderLeftSize = null;
+        $this->borderLeftColor = null;
+        $this->borderRightSize = null;
+        $this->borderRightColor = null;
+        $this->borderBottomSize = null;
+        $this->borderBottomColor = null;
         $this->headerHeight = 720; // set default header and footer to 720 twips (.5 inches)
         $this->footerHeight = 720;
-        $this->_colsNum = 1;
-        $this->_colsSpace = 720;
-        $this->_breakType = null;
+        $this->colsNum = 1;
+        $this->colsSpace = 720;
+        $this->breakType = null;
     }
 
     /**
@@ -217,13 +217,16 @@ class Settings
      */
     public function setSettingValue($key, $value)
     {
-        if ($key == '_orientation' && $value == 'landscape') {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
+        if ($key == 'orientation' && $value == 'landscape') {
             $this->setLandscape();
-        } elseif ($key == '_orientation' && is_null($value)) {
+        } elseif ($key == 'orientation' && is_null($value)) {
             $this->setPortrait();
-        } elseif ($key == '_borderSize') {
+        } elseif ($key == 'borderSize') {
             $this->setBorderSize($value);
-        } elseif ($key == '_borderColor') {
+        } elseif ($key == 'borderColor') {
             $this->setBorderColor($value);
         } else {
             $this->$key = $value;
@@ -237,7 +240,7 @@ class Settings
      */
     public function getMarginTop()
     {
-        return $this->_marginTop;
+        return $this->marginTop;
     }
 
     /**
@@ -247,7 +250,7 @@ class Settings
      */
     public function setMarginTop($pValue = '')
     {
-        $this->_marginTop = $pValue;
+        $this->marginTop = $pValue;
         return $this;
     }
 
@@ -258,7 +261,7 @@ class Settings
      */
     public function getMarginLeft()
     {
-        return $this->_marginLeft;
+        return $this->marginLeft;
     }
 
     /**
@@ -268,7 +271,7 @@ class Settings
      */
     public function setMarginLeft($pValue = '')
     {
-        $this->_marginLeft = $pValue;
+        $this->marginLeft = $pValue;
         return $this;
     }
 
@@ -279,7 +282,7 @@ class Settings
      */
     public function getMarginRight()
     {
-        return $this->_marginRight;
+        return $this->marginRight;
     }
 
     /**
@@ -289,7 +292,7 @@ class Settings
      */
     public function setMarginRight($pValue = '')
     {
-        $this->_marginRight = $pValue;
+        $this->marginRight = $pValue;
         return $this;
     }
 
@@ -300,7 +303,7 @@ class Settings
      */
     public function getMarginBottom()
     {
-        return $this->_marginBottom;
+        return $this->marginBottom;
     }
 
     /**
@@ -310,7 +313,7 @@ class Settings
      */
     public function setMarginBottom($pValue = '')
     {
-        $this->_marginBottom = $pValue;
+        $this->marginBottom = $pValue;
         return $this;
     }
 
@@ -319,9 +322,9 @@ class Settings
      */
     public function setLandscape()
     {
-        $this->_orientation = 'landscape';
-        $this->_pageSizeW = $this->_defaultPageSizeH;
-        $this->_pageSizeH = $this->_defaultPageSizeW;
+        $this->orientation = 'landscape';
+        $this->pageSizeW = $this->defaultPageSizeH;
+        $this->pageSizeH = $this->defaultPageSizeW;
     }
 
     /**
@@ -329,9 +332,9 @@ class Settings
      */
     public function setPortrait()
     {
-        $this->_orientation = null;
-        $this->_pageSizeW = $this->_defaultPageSizeW;
-        $this->_pageSizeH = $this->_defaultPageSizeH;
+        $this->orientation = null;
+        $this->pageSizeW = $this->defaultPageSizeW;
+        $this->pageSizeH = $this->defaultPageSizeH;
     }
 
     /**
@@ -341,7 +344,7 @@ class Settings
      */
     public function getPageSizeW()
     {
-        return $this->_pageSizeW;
+        return $this->pageSizeW;
     }
 
     /**
@@ -351,7 +354,7 @@ class Settings
      */
     public function getPageSizeH()
     {
-        return $this->_pageSizeH;
+        return $this->pageSizeH;
     }
 
     /**
@@ -361,7 +364,7 @@ class Settings
      */
     public function getOrientation()
     {
-        return $this->_orientation;
+        return $this->orientation;
     }
 
     /**
@@ -371,10 +374,10 @@ class Settings
      */
     public function setBorderSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
-        $this->_borderLeftSize = $pValue;
-        $this->_borderRightSize = $pValue;
-        $this->_borderBottomSize = $pValue;
+        $this->borderTopSize = $pValue;
+        $this->borderLeftSize = $pValue;
+        $this->borderRightSize = $pValue;
+        $this->borderBottomSize = $pValue;
     }
 
     /**
@@ -399,10 +402,10 @@ class Settings
      */
     public function setBorderColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
-        $this->_borderLeftColor = $pValue;
-        $this->_borderRightColor = $pValue;
-        $this->_borderBottomColor = $pValue;
+        $this->borderTopColor = $pValue;
+        $this->borderLeftColor = $pValue;
+        $this->borderRightColor = $pValue;
+        $this->borderBottomColor = $pValue;
     }
 
     /**
@@ -427,7 +430,7 @@ class Settings
      */
     public function setBorderTopSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
+        $this->borderTopSize = $pValue;
     }
 
     /**
@@ -437,7 +440,7 @@ class Settings
      */
     public function getBorderTopSize()
     {
-        return $this->_borderTopSize;
+        return $this->borderTopSize;
     }
 
     /**
@@ -447,7 +450,7 @@ class Settings
      */
     public function setBorderTopColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
+        $this->borderTopColor = $pValue;
     }
 
     /**
@@ -457,7 +460,7 @@ class Settings
      */
     public function getBorderTopColor()
     {
-        return $this->_borderTopColor;
+        return $this->borderTopColor;
     }
 
     /**
@@ -467,7 +470,7 @@ class Settings
      */
     public function setBorderLeftSize($pValue = null)
     {
-        $this->_borderLeftSize = $pValue;
+        $this->borderLeftSize = $pValue;
     }
 
     /**
@@ -477,7 +480,7 @@ class Settings
      */
     public function getBorderLeftSize()
     {
-        return $this->_borderLeftSize;
+        return $this->borderLeftSize;
     }
 
     /**
@@ -487,7 +490,7 @@ class Settings
      */
     public function setBorderLeftColor($pValue = null)
     {
-        $this->_borderLeftColor = $pValue;
+        $this->borderLeftColor = $pValue;
     }
 
     /**
@@ -497,7 +500,7 @@ class Settings
      */
     public function getBorderLeftColor()
     {
-        return $this->_borderLeftColor;
+        return $this->borderLeftColor;
     }
 
     /**
@@ -507,7 +510,7 @@ class Settings
      */
     public function setBorderRightSize($pValue = null)
     {
-        $this->_borderRightSize = $pValue;
+        $this->borderRightSize = $pValue;
     }
 
     /**
@@ -517,7 +520,7 @@ class Settings
      */
     public function getBorderRightSize()
     {
-        return $this->_borderRightSize;
+        return $this->borderRightSize;
     }
 
     /**
@@ -527,7 +530,7 @@ class Settings
      */
     public function setBorderRightColor($pValue = null)
     {
-        $this->_borderRightColor = $pValue;
+        $this->borderRightColor = $pValue;
     }
 
     /**
@@ -537,7 +540,7 @@ class Settings
      */
     public function getBorderRightColor()
     {
-        return $this->_borderRightColor;
+        return $this->borderRightColor;
     }
 
     /**
@@ -547,7 +550,7 @@ class Settings
      */
     public function setBorderBottomSize($pValue = null)
     {
-        $this->_borderBottomSize = $pValue;
+        $this->borderBottomSize = $pValue;
     }
 
     /**
@@ -557,7 +560,7 @@ class Settings
      */
     public function getBorderBottomSize()
     {
-        return $this->_borderBottomSize;
+        return $this->borderBottomSize;
     }
 
     /**
@@ -567,7 +570,7 @@ class Settings
      */
     public function setBorderBottomColor($pValue = null)
     {
-        $this->_borderBottomColor = $pValue;
+        $this->borderBottomColor = $pValue;
     }
 
     /**
@@ -577,7 +580,7 @@ class Settings
      */
     public function getBorderBottomColor()
     {
-        return $this->_borderBottomColor;
+        return $this->borderBottomColor;
     }
 
     /**
@@ -660,7 +663,7 @@ class Settings
         if (!is_numeric($pValue)) {
             $pValue = 1;
         }
-        $this->_colsNum = $pValue;
+        $this->colsNum = $pValue;
         return $this;
     }
 
@@ -671,7 +674,7 @@ class Settings
      */
     public function getColsNum()
     {
-        return $this->_colsNum;
+        return $this->colsNum;
     }
 
     /**
@@ -684,7 +687,7 @@ class Settings
         if (!is_numeric($pValue)) {
             $pValue = 720;
         }
-        $this->_colsSpace = $pValue;
+        $this->colsSpace = $pValue;
         return $this;
     }
 
@@ -695,7 +698,7 @@ class Settings
      */
     public function getColsSpace()
     {
-        return $this->_colsSpace;
+        return $this->colsSpace;
     }
 
     /**
@@ -705,7 +708,7 @@ class Settings
      */
     public function setBreakType($pValue = null)
     {
-        $this->_breakType = $pValue;
+        $this->breakType = $pValue;
         return $this;
     }
 
@@ -716,6 +719,6 @@ class Settings
      */
     public function getBreakType()
     {
-        return $this->_breakType;
+        return $this->breakType;
     }
 }

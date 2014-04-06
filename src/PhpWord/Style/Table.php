@@ -19,126 +19,126 @@ class Table
      *
      * @var \PhpOffice\PhpWord\Style\Table
      */
-    private $_firstRow = null;
+    private $firstRow = null;
 
     /**
      * Cell margin top
      *
      * @var int
      */
-    private $_cellMarginTop = null;
+    private $cellMarginTop = null;
 
     /**
      * Cell margin left
      *
      * @var int
      */
-    private $_cellMarginLeft = null;
+    private $cellMarginLeft = null;
 
     /**
      * Cell margin right
      *
      * @var int
      */
-    private $_cellMarginRight = null;
+    private $cellMarginRight = null;
 
     /**
      * Cell margin bottom
      *
      * @var int
      */
-    private $_cellMarginBottom = null;
+    private $cellMarginBottom = null;
 
     /**
      * Background color
      *
      * @var string
      */
-    private $_bgColor;
+    private $bgColor;
 
     /**
      * Border size top
      *
      * @var int
      */
-    private $_borderTopSize;
+    private $borderTopSize;
 
     /**
      * Border color
      *
      * @var string top
      */
-    private $_borderTopColor;
+    private $borderTopColor;
 
     /**
      * Border size left
      *
      * @var int
      */
-    private $_borderLeftSize;
+    private $borderLeftSize;
 
     /**
      * Border color left
      *
      * @var string
      */
-    private $_borderLeftColor;
+    private $borderLeftColor;
 
     /**
      * Border size right
      *
      * @var int
      */
-    private $_borderRightSize;
+    private $borderRightSize;
 
     /**
      * Border color right
      *
      * @var string
      */
-    private $_borderRightColor;
+    private $borderRightColor;
 
     /**
      * Border size bottom
      *
      * @var int
      */
-    private $_borderBottomSize;
+    private $borderBottomSize;
 
     /**
      * Border color bottom
      *
      * @var string
      */
-    private $_borderBottomColor;
+    private $borderBottomColor;
 
     /**
      * Border size inside horizontal
      *
      * @var int
      */
-    private $_borderInsideHSize;
+    private $borderInsideHSize;
 
     /**
      * Border color inside horizontal
      *
      * @var string
      */
-    private $_borderInsideHColor;
+    private $borderInsideHColor;
 
     /**
      * Border size inside vertical
      *
      * @var int
      */
-    private $_borderInsideVSize;
+    private $borderInsideVSize;
 
     /**
      * Border color inside vertical
      *
      * @var string
      */
-    private $_borderInsideVColor;
+    private $borderInsideVColor;
 
     /**
      * Create new table style
@@ -149,30 +149,29 @@ class Table
     public function __construct($styleTable = null, $styleFirstRow = null)
     {
         if (!is_null($styleFirstRow) && is_array($styleFirstRow)) {
-            $this->_firstRow = clone $this;
+            $this->firstRow = clone $this;
 
-            unset($this->_firstRow->_firstRow);
-            unset($this->_firstRow->_cellMarginBottom);
-            unset($this->_firstRow->_cellMarginTop);
-            unset($this->_firstRow->_cellMarginLeft);
-            unset($this->_firstRow->_cellMarginRight);
-            unset($this->_firstRow->_borderInsideVColor);
-            unset($this->_firstRow->_borderInsideVSize);
-            unset($this->_firstRow->_borderInsideHColor);
-            unset($this->_firstRow->_borderInsideHSize);
+            unset($this->firstRow->firstRow);
+            unset($this->firstRow->cellMarginBottom);
+            unset($this->firstRow->cellMarginTop);
+            unset($this->firstRow->cellMarginLeft);
+            unset($this->firstRow->cellMarginRight);
+            unset($this->firstRow->borderInsideVColor);
+            unset($this->firstRow->borderInsideVSize);
+            unset($this->firstRow->borderInsideHColor);
+            unset($this->firstRow->borderInsideHSize);
             foreach ($styleFirstRow as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
                 }
-
-                $this->_firstRow->setStyleValue($key, $value);
+                $this->firstRow->setStyleValue($key, $value);
             }
         }
 
         if (!is_null($styleTable) && is_array($styleTable)) {
             foreach ($styleTable as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
                 }
                 $this->setStyleValue($key, $value);
             }
@@ -187,11 +186,14 @@ class Table
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_borderSize') {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
+        if ($key == 'borderSize') {
             $this->setBorderSize($value);
-        } elseif ($key == '_borderColor') {
+        } elseif ($key == 'borderColor') {
             $this->setBorderColor($value);
-        } elseif ($key == '_cellMargin') {
+        } elseif ($key == 'cellMargin') {
             $this->setCellMargin($value);
         } else {
             $this->$key = $value;
@@ -205,7 +207,7 @@ class Table
      */
     public function getFirstRow()
     {
-        return $this->_firstRow;
+        return $this->firstRow;
     }
 
     /**
@@ -215,7 +217,7 @@ class Table
      */
     public function getBgColor()
     {
-        return $this->_bgColor;
+        return $this->bgColor;
     }
 
     /**
@@ -226,7 +228,7 @@ class Table
      */
     public function setBgColor($pValue = null)
     {
-        $this->_bgColor = $pValue;
+        $this->bgColor = $pValue;
     }
 
     /**
@@ -236,12 +238,12 @@ class Table
      */
     public function setBorderSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
-        $this->_borderLeftSize = $pValue;
-        $this->_borderRightSize = $pValue;
-        $this->_borderBottomSize = $pValue;
-        $this->_borderInsideHSize = $pValue;
-        $this->_borderInsideVSize = $pValue;
+        $this->borderTopSize = $pValue;
+        $this->borderLeftSize = $pValue;
+        $this->borderRightSize = $pValue;
+        $this->borderBottomSize = $pValue;
+        $this->borderInsideHSize = $pValue;
+        $this->borderInsideVSize = $pValue;
     }
 
     /**
@@ -267,12 +269,12 @@ class Table
      */
     public function setBorderColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
-        $this->_borderLeftColor = $pValue;
-        $this->_borderRightColor = $pValue;
-        $this->_borderBottomColor = $pValue;
-        $this->_borderInsideHColor = $pValue;
-        $this->_borderInsideVColor = $pValue;
+        $this->borderTopColor = $pValue;
+        $this->borderLeftColor = $pValue;
+        $this->borderRightColor = $pValue;
+        $this->borderBottomColor = $pValue;
+        $this->borderInsideHColor = $pValue;
+        $this->borderInsideVColor = $pValue;
     }
 
     /**
@@ -299,7 +301,7 @@ class Table
      */
     public function setBorderTopSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
+        $this->borderTopSize = $pValue;
     }
 
     /**
@@ -309,7 +311,7 @@ class Table
      */
     public function getBorderTopSize()
     {
-        return $this->_borderTopSize;
+        return $this->borderTopSize;
     }
 
     /**
@@ -319,7 +321,7 @@ class Table
      */
     public function setBorderTopColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
+        $this->borderTopColor = $pValue;
     }
 
     /**
@@ -329,7 +331,7 @@ class Table
      */
     public function getBorderTopColor()
     {
-        return $this->_borderTopColor;
+        return $this->borderTopColor;
     }
 
     /**
@@ -339,7 +341,7 @@ class Table
      */
     public function setBorderLeftSize($pValue = null)
     {
-        $this->_borderLeftSize = $pValue;
+        $this->borderLeftSize = $pValue;
     }
 
     /**
@@ -349,7 +351,7 @@ class Table
      */
     public function getBorderLeftSize()
     {
-        return $this->_borderLeftSize;
+        return $this->borderLeftSize;
     }
 
     /**
@@ -359,7 +361,7 @@ class Table
      */
     public function setBorderLeftColor($pValue = null)
     {
-        $this->_borderLeftColor = $pValue;
+        $this->borderLeftColor = $pValue;
     }
 
     /**
@@ -369,7 +371,7 @@ class Table
      */
     public function getBorderLeftColor()
     {
-        return $this->_borderLeftColor;
+        return $this->borderLeftColor;
     }
 
     /**
@@ -379,7 +381,7 @@ class Table
      */
     public function setBorderRightSize($pValue = null)
     {
-        $this->_borderRightSize = $pValue;
+        $this->borderRightSize = $pValue;
     }
 
     /**
@@ -389,7 +391,7 @@ class Table
      */
     public function getBorderRightSize()
     {
-        return $this->_borderRightSize;
+        return $this->borderRightSize;
     }
 
     /**
@@ -399,7 +401,7 @@ class Table
      */
     public function setBorderRightColor($pValue = null)
     {
-        $this->_borderRightColor = $pValue;
+        $this->borderRightColor = $pValue;
     }
 
     /**
@@ -409,7 +411,7 @@ class Table
      */
     public function getBorderRightColor()
     {
-        return $this->_borderRightColor;
+        return $this->borderRightColor;
     }
 
     /**
@@ -419,7 +421,7 @@ class Table
      */
     public function setBorderBottomSize($pValue = null)
     {
-        $this->_borderBottomSize = $pValue;
+        $this->borderBottomSize = $pValue;
     }
 
     /**
@@ -429,7 +431,7 @@ class Table
      */
     public function getBorderBottomSize()
     {
-        return $this->_borderBottomSize;
+        return $this->borderBottomSize;
     }
 
     /**
@@ -439,7 +441,7 @@ class Table
      */
     public function setBorderBottomColor($pValue = null)
     {
-        $this->_borderBottomColor = $pValue;
+        $this->borderBottomColor = $pValue;
     }
 
     /**
@@ -449,7 +451,7 @@ class Table
      */
     public function getBorderBottomColor()
     {
-        return $this->_borderBottomColor;
+        return $this->borderBottomColor;
     }
 
     /**
@@ -459,7 +461,7 @@ class Table
      */
     public function setBorderInsideHColor($pValue = null)
     {
-        $this->_borderInsideHColor = $pValue;
+        $this->borderInsideHColor = $pValue;
     }
 
     /**
@@ -469,7 +471,7 @@ class Table
      */
     public function getBorderInsideHColor()
     {
-        return (isset($this->_borderInsideHColor)) ? $this->_borderInsideHColor : null;
+        return (isset($this->borderInsideHColor)) ? $this->borderInsideHColor : null;
     }
 
     /**
@@ -479,7 +481,7 @@ class Table
      */
     public function setBorderInsideVColor($pValue = null)
     {
-        $this->_borderInsideVColor = $pValue;
+        $this->borderInsideVColor = $pValue;
     }
 
     /**
@@ -489,7 +491,7 @@ class Table
      */
     public function getBorderInsideVColor()
     {
-        return (isset($this->_borderInsideVColor)) ? $this->_borderInsideVColor : null;
+        return (isset($this->borderInsideVColor)) ? $this->borderInsideVColor : null;
     }
 
     /**
@@ -499,7 +501,7 @@ class Table
      */
     public function setBorderInsideHSize($pValue = null)
     {
-        $this->_borderInsideHSize = $pValue;
+        $this->borderInsideHSize = $pValue;
     }
 
     /**
@@ -509,7 +511,7 @@ class Table
      */
     public function getBorderInsideHSize()
     {
-        return (isset($this->_borderInsideHSize)) ? $this->_borderInsideHSize : null;
+        return (isset($this->borderInsideHSize)) ? $this->borderInsideHSize : null;
     }
 
     /**
@@ -519,7 +521,7 @@ class Table
      */
     public function setBorderInsideVSize($pValue = null)
     {
-        $this->_borderInsideVSize = $pValue;
+        $this->borderInsideVSize = $pValue;
     }
 
     /**
@@ -529,7 +531,7 @@ class Table
      */
     public function getBorderInsideVSize()
     {
-        return (isset($this->_borderInsideVSize)) ? $this->_borderInsideVSize : null;
+        return (isset($this->borderInsideVSize)) ? $this->borderInsideVSize : null;
     }
 
     /**
@@ -539,7 +541,7 @@ class Table
      */
     public function setCellMarginTop($pValue = null)
     {
-        $this->_cellMarginTop = $pValue;
+        $this->cellMarginTop = $pValue;
     }
 
     /**
@@ -549,7 +551,7 @@ class Table
      */
     public function getCellMarginTop()
     {
-        return $this->_cellMarginTop;
+        return $this->cellMarginTop;
     }
 
     /**
@@ -559,7 +561,7 @@ class Table
      */
     public function setCellMarginLeft($pValue = null)
     {
-        $this->_cellMarginLeft = $pValue;
+        $this->cellMarginLeft = $pValue;
     }
 
     /**
@@ -569,7 +571,7 @@ class Table
      */
     public function getCellMarginLeft()
     {
-        return $this->_cellMarginLeft;
+        return $this->cellMarginLeft;
     }
 
     /**
@@ -579,7 +581,7 @@ class Table
      */
     public function setCellMarginRight($pValue = null)
     {
-        $this->_cellMarginRight = $pValue;
+        $this->cellMarginRight = $pValue;
     }
 
     /**
@@ -589,7 +591,7 @@ class Table
      */
     public function getCellMarginRight()
     {
-        return $this->_cellMarginRight;
+        return $this->cellMarginRight;
     }
 
     /**
@@ -599,7 +601,7 @@ class Table
      */
     public function setCellMarginBottom($pValue = null)
     {
-        $this->_cellMarginBottom = $pValue;
+        $this->cellMarginBottom = $pValue;
     }
 
     /**
@@ -609,7 +611,7 @@ class Table
      */
     public function getCellMarginBottom()
     {
-        return $this->_cellMarginBottom;
+        return $this->cellMarginBottom;
     }
 
     /**
@@ -619,10 +621,10 @@ class Table
      */
     public function setCellMargin($pValue = null)
     {
-        $this->_cellMarginTop = $pValue;
-        $this->_cellMarginLeft = $pValue;
-        $this->_cellMarginRight = $pValue;
-        $this->_cellMarginBottom = $pValue;
+        $this->cellMarginTop = $pValue;
+        $this->cellMarginLeft = $pValue;
+        $this->cellMarginRight = $pValue;
+        $this->cellMarginBottom = $pValue;
     }
 
     /**
@@ -632,6 +634,6 @@ class Table
      */
     public function getCellMargin()
     {
-        return array($this->_cellMarginTop, $this->_cellMarginLeft, $this->_cellMarginRight, $this->_cellMarginBottom);
+        return array($this->cellMarginTop, $this->cellMarginLeft, $this->cellMarginRight, $this->cellMarginBottom);
     }
 }
