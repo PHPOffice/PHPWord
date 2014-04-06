@@ -102,10 +102,13 @@ class Image extends Element
         // Check supported types
         if ($this->isMemImage) {
             $supportedTypes = array('image/jpeg', 'image/gif', 'image/png');
-            $imgData = getimagesize($source);
+            $imgData = @getimagesize($source);
+            if (!is_array($imgData)) {
+                throw new InvalidImageException();
+            }
             $this->imageType = $imgData['mime']; // string
             if (!in_array($this->imageType, $supportedTypes)) {
-                throw new UnsupportedImageTypeException;
+                throw new UnsupportedImageTypeException();
             }
         } else {
             $supportedTypes = array(
@@ -114,17 +117,19 @@ class Image extends Element
                 \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM
             );
             if (!file_exists($source)) {
-                throw new InvalidImageException;
+                throw new InvalidImageException();
             }
             $imgData = getimagesize($source);
             if (function_exists('exif_imagetype')) {
                 $this->imageType = exif_imagetype($source);
             } else {
+                // @codeCoverageIgnoreStart
                 $tmp = getimagesize($source);
                 $this->imageType = $tmp[2];
+                // @codeCoverageIgnoreEnd
             }
             if (!in_array($this->imageType, $supportedTypes)) {
-                throw new UnsupportedImageTypeException;
+                throw new UnsupportedImageTypeException();
             }
             $this->imageType = \image_type_to_mime_type($this->imageType);
         }

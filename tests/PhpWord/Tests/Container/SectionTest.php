@@ -9,7 +9,9 @@
 
 namespace PhpOffice\PhpWord\Tests\Container;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Container\Header;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -140,5 +142,28 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Container\\{$element}", $object->$method());
         }
         $this->assertFalse($object->hasDifferentFirstPage());
+    }
+
+    /**
+     * Add header has different first page
+     */
+    public function testHasDifferentFirstPage()
+    {
+        $object = new Section(1);
+        $header = $object->addHeader();
+        $header->setType(Header::FIRST);
+        $this->assertTrue($object->hasDifferentFirstPage());
+    }
+
+    /**
+     * Add header exception
+     *
+     * @expectedException Exception
+     * @expectedExceptionMesssage Invalid header/footer type.
+     */
+    public function testAddHeaderException()
+    {
+        $object = new Section(1);
+        $header = $object->addHeader('ODD');
     }
 }

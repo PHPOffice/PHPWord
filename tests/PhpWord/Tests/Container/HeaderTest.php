@@ -231,4 +231,16 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $header = new Header(1);
         $header->addFootnote();
     }
+
+    /**
+     * Set/get type
+     */
+    public function testSetGetType()
+    {
+        $object = new Header(1);
+        $this->assertEquals(Header::AUTO, $object->getType());
+
+        $object->setType('ODD');
+        $this->assertEquals(Header::AUTO, $object->getType());
+    }
 }

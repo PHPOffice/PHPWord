@@ -73,6 +73,8 @@ class TOC
      *
      * @param mixed $styleFont
      * @param array $styleTOC
+     * @param integer $minDepth
+     * @param integer $maxDepth
      */
     public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {

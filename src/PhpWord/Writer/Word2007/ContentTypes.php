@@ -60,9 +60,8 @@ class ContentTypes extends WriterPart
      * Write content types element
      *
      * @param XMLWriter $xmlWriter XML Writer
+     * @param array $parts
      * @param boolean $isDefault
-     * @param string $partName Part name
-     * @param string $contentType Content type
      * @throws Exception
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)

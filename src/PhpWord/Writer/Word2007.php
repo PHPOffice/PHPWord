@@ -229,7 +229,8 @@ class Word2007 extends Writer implements IWriter
     /**
      * Add header/footer content
      *
-     * @param PhpOffice\PhpWord\Container\Section $section
+     * @param \PhpOffice\PhpWord\Container\Section $section
+     * @param mixed $objZip
      * @param string $elmType
      * @param integer $rID
      */

@@ -162,6 +162,8 @@ class FooterTest extends \PHPUnit_Framework_TestCase
 
         $iVal = rand(1, 1000);
         $oFooter->setRelationId($iVal);
+
         $this->assertEquals($oFooter->getRelationId(), $iVal);
+        $this->assertEquals(Footer::AUTO, $oFooter->getType());
     }
 }

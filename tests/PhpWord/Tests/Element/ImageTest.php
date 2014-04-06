@@ -192,4 +192,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getImageFunction(), null);
         $this->assertEquals($oImage->getImageType(), 'image/tiff');
     }
+
+    /**
+     * Test PHP Image
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
+     */
+    public function testPhpImage()
+    {
+        $object = new Image('test.php');
+    }
 }

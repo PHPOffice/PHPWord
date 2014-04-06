@@ -97,6 +97,8 @@ class Section extends Container
      *
      * @param mixed $styleFont
      * @param mixed $styleTOC
+     * @param integer $minDepth
+     * @param integer $maxDepth
      * @return TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
