@@ -4,6 +4,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.9.2 - Not yet released
 
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`.
+
 ### Features
 
 - Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
@@ -48,14 +50,16 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 ### Miscellaneous
 
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
-- Writer: Refactor writer classes and make a new AbstractWriter abstract class - @ivanlanin GH-160
-- General: Refactor folders: Element and Exception - @ivanlanin GH-187
-- General: Remove legacy HashTable and ZipStreamWrapper and all related properties/methods - @ivanlanin GH-187
-- Element: Create new AbstractElement abstract class - @ivanlanin GH-187
+- Writer: Refactor writer classes and create a new `Write\AbstractWriter` abstract class - @ivanlanin GH-160
+- General: Refactor folders: `Element` and `Exception` - @ivanlanin GH-187
+- General: Remove legacy `HashTable` and `Shared\ZipStreamWrapper` and all related properties/methods - @ivanlanin GH-187
+- Element: New `AbstractElement` abstract class - @ivanlanin GH-187
 - Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
 - General: Remove underscore prefix from all private properties name - @ivanlanin GH-187
-- General: Move Section Settings to Style\Section - @ivanlanin GH-187
+- General: Move Section `Settings` to `Style\Section` - @ivanlanin GH-187
 - General: Give `Abstract` prefix and `Interface` suffix for all abstract classes and interfaces as per [PHP-FIG recommendation](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md) - @ivanlanin GH-187
+- Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
+- Writer: New 'ODText\Base` class - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

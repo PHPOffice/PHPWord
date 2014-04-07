@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Table row style
  */
-class Row
+class Row extends AbstractStyle
 {
     /**
      * Repeat table row on every new page
@@ -40,20 +40,6 @@ class Row
      */
     public function __construct()
     {
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
-        $this->$key = $value;
     }
 
     /**

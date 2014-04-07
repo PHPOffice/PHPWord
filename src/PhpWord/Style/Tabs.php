@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Tabs style
  */
-class Tabs
+class Tabs extends AbstractStyle
 {
     /**
      * Tabs

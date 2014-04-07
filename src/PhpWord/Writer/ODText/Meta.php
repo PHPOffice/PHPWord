@@ -36,13 +36,13 @@ class Meta extends AbstractWriterPart
 
         // office:document-meta
         $xmlWriter->startElement('office:document-meta');
+        $xmlWriter->writeAttribute('office:version', '1.2');
         $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
         $xmlWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
         $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
         $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
         $xmlWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
         $xmlWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
-        $xmlWriter->writeAttribute('office:version', '1.2');
 
         // office:meta
         $xmlWriter->startElement('office:meta');

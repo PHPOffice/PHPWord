@@ -33,8 +33,8 @@ class Manifest extends AbstractWriterPart
 
         // manifest:manifest
         $xmlWriter->startElement('manifest:manifest');
-        $xmlWriter->writeAttribute('xmlns:manifest', 'urn:oasis:names:tc:opendocument:xmlns:manifest:1.0');
         $xmlWriter->writeAttribute('manifest:version', '1.2');
+        $xmlWriter->writeAttribute('xmlns:manifest', 'urn:oasis:names:tc:opendocument:xmlns:manifest:1.0');
 
         // manifest:file-entry
         $xmlWriter->startElement('manifest:file-entry');

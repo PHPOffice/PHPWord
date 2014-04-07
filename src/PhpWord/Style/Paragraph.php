@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Exception\InvalidStyleException;
 /**
  * Paragraph style
  */
-class Paragraph
+class Paragraph extends AbstractStyle
 {
     const LINE_HEIGHT = 240;
 

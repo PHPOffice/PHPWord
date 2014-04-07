@@ -11,6 +11,7 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Abstract writer class
@@ -148,21 +149,21 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get temporary file name
      *
-     * If $pFilename is php://output or php://stdout, make it a temporary file
+     * If $filename is php://output or php://stdout, make it a temporary file
      *
-     * @param string $pFilename
+     * @param string $filename
      * @return string
      */
-    protected function getTempFile($pFilename)
+    protected function getTempFile($filename)
     {
-        $this->originalFilename = $pFilename;
-        if (strtolower($pFilename) == 'php://output' || strtolower($pFilename) == 'php://stdout') {
-            $pFilename = @tempnam(sys_get_temp_dir(), 'phpword_');
-            if ($pFilename == '') {
-                $pFilename = $this->originalFilename;
+        $this->originalFilename = $filename;
+        if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
+            $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
+            if ($filename == '') {
+                $filename = $this->originalFilename;
             }
         }
-        $this->tempFilename = $pFilename;
+        $this->tempFilename = $filename;
 
         return $this->tempFilename;
     }
@@ -180,5 +181,38 @@ abstract class AbstractWriter implements WriterInterface
             }
             @unlink($this->tempFilename);
         }
+    }
+
+    /**
+     * Get ZipArchive object
+     *
+     * @param string $filename
+     * @return mixed ZipArchive object
+     */
+    protected function getZipArchive($filename)
+    {
+        // Create new ZIP file and open it for writing
+        $zipClass = Settings::getZipClass();
+        $objZip = new $zipClass();
+
+        // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
+        // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
+        $ro = new \ReflectionObject($objZip);
+        $zipOverWrite = $ro->getConstant('OVERWRITE');
+        $zipCreate = $ro->getConstant('CREATE');
+
+        // Remove any existing file
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+
+        // Try opening the ZIP file
+        if ($objZip->open($filename, $zipOverWrite) !== true) {
+            if ($objZip->open($filename, $zipCreate) !== true) {
+                throw new Exception("Could not open " . $filename . " for writing.");
+            }
+        }
+
+        return $objZip;
     }
 }

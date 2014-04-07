@@ -13,7 +13,6 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
 use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
@@ -69,34 +68,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Save document by name
      *
-     * @param string $pFilename
+     * @param string $filename
      */
-    public function save($pFilename = null)
+    public function save($filename = null)
     {
         if (!is_null($this->phpWord)) {
-            $pFilename = $this->getTempFile($pFilename);
-
-            // Create new ZIP file and open it for writing
-            $zipClass = Settings::getZipClass();
-            $objZip = new $zipClass();
-
-            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
-            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
-            $ro = new \ReflectionObject($objZip);
-            $zipOverWrite = $ro->getConstant('OVERWRITE');
-            $zipCreate = $ro->getConstant('CREATE');
-
-            // Remove any existing file
-            if (file_exists($pFilename)) {
-                unlink($pFilename);
-            }
-
-            // Try opening the ZIP file
-            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
-                if ($objZip->open($pFilename, $zipCreate) !== true) {
-                    throw new Exception("Could not open " . $pFilename . " for writing.");
-                }
-            }
+            $filename = $this->getTempFile($filename);
+            $objZip = $this->getZipArchive($filename);
 
             // Content types
             $this->cTypes['default'] = array(
@@ -156,7 +134,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
             // Close file
             if ($objZip->close() === false) {
-                throw new Exception("Could not close zip file $pFilename.");
+                throw new Exception("Could not close zip file $filename.");
             }
 
             $this->cleanupTempFile();

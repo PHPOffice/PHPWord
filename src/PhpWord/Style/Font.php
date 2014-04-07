@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Exception\InvalidStyleException;
 /**
  * Font style
  */
-class Font
+class Font extends AbstractStyle
 {
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
@@ -200,23 +200,6 @@ class Font
         }
 
         return $this;
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
-        $method = 'set' . $key;
-        if (method_exists($this, $method)) {
-            $this->$method($value);
-        }
     }
 
     /**

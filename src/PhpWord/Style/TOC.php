@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * TOC style
  */
-class TOC
+class TOC extends AbstractStyle
 {
     const TABLEADER_DOT = 'dot';
     const TABLEADER_UNDERSCORE = 'underscore';
