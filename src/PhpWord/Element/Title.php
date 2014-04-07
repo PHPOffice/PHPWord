@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * Title element
  */
-class Title extends Element
+class Title extends AbstractElement
 {
     /**
      * Title Text content

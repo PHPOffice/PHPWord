@@ -12,6 +12,6 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 /**
  * ODText writer part abstract
  */
-abstract class WriterPart extends \PhpOffice\PhpWord\Writer\Word2007\WriterPart
+abstract class AbstractWriterPart extends \PhpOffice\PhpWord\Writer\Word2007\AbstractWriterPart
 {
 }

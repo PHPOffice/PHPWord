@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\PhpWord;
 /**
  * ODText manifest part writer
  */
-class Manifest extends WriterPart
+class Manifest extends AbstractWriterPart
 {
     /**
      * Write Manifest file to XML format

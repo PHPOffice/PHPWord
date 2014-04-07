@@ -7,24 +7,24 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Container;
+namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Container\Footer;
-use PhpOffice\PhpWord\Container\Header;
-use PhpOffice\PhpWord\Container\Settings;
+use PhpOffice\PhpWord\Element\Footer;
+use PhpOffice\PhpWord\Element\Header;
 use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Style\Section as SectionSettings;
 
 /**
  * Section
  */
-class Section extends Container
+class Section extends AbstractElement
 {
     /**
      * Section settings
      *
-     * @var Settings
+     * @var SectionSettings
      */
     private $settings;
 
@@ -53,7 +53,7 @@ class Section extends Container
         $this->container = 'section';
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
-        $this->settings = new Settings();
+        $this->settings = new SectionSettings();
         $this->setSettings($settings);
     }
 
@@ -77,7 +77,7 @@ class Section extends Container
     /**
      * Get Section Settings
      *
-     * @return Settings
+     * @return SectionSettings
      */
     public function getSettings()
     {
@@ -181,7 +181,7 @@ class Section extends Container
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
         $collectionArray = $header ? 'headers' : 'footers';
-        $containerClass = 'PhpOffice\\PhpWord\\Container\\';
+        $containerClass = 'PhpOffice\\PhpWord\\Element\\';
         $containerClass .= ($header ? 'Header' : 'Footer');
         $collection = &$this->$collectionArray;
 

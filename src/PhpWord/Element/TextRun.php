@@ -9,13 +9,12 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Container\Container;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Textrun/paragraph element
  */
-class TextRun extends Container
+class TextRun extends AbstractElement
 {
     /**
      * Paragraph style

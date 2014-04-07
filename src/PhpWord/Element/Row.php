@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Row as RowStyle;
 /**
  * Table row element
  */
-class Row extends Element
+class Row extends AbstractElement
 {
     /**
      * Row height

@@ -26,7 +26,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = __DIR__ . "/../../_files/images/PhpWord.png";
 
-        $container = new \PhpOffice\PhpWord\Container\Header(1);
+        $container = new \PhpOffice\PhpWord\Element\Header(1);
         $container->addText('Test');
         $container->addPreserveText('');
         $container->addTextBreak();

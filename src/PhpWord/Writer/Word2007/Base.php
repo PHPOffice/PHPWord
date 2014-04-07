@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Container\Container;
+use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Link;
@@ -37,7 +37,7 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
  *
  * Write common parts of document.xml, headerx.xml, and footerx.xml
  */
-class Base extends WriterPart
+class Base extends AbstractWriterPart
 {
     /**
      * Write text element
@@ -1121,9 +1121,9 @@ class Base extends WriterPart
      * Write container elements
      *
      * @param XMLWriter $xmlWriter
-     * @param Container $container
+     * @param AbstractElement $container
      */
-    protected function writeContainerElements(XMLWriter $xmlWriter, Container $container)
+    protected function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
     {
         // Check allowed elements
         $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');

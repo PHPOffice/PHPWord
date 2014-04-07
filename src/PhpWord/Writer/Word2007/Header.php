@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Container\Header as HeaderElement;
+use PhpOffice\PhpWord\Element\Header as HeaderElement;
 
 /**
  * Word2007 header part writer

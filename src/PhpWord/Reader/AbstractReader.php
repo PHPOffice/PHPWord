@@ -16,7 +16,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  *
  * @codeCoverageIgnore Abstract class
  */
-abstract class Reader implements IReader
+abstract class AbstractReader implements ReaderInterface
 {
     /**
      * Read data only?
@@ -47,7 +47,7 @@ abstract class Reader implements IReader
      * Set read data only
      *
      * @param bool $pValue
-     * @return \PhpOffice\PhpWord\Reader\IReader
+     * @return \PhpOffice\PhpWord\Reader\ReaderInterface
      */
     public function setReadDataOnly($pValue = true)
     {
@@ -77,7 +77,7 @@ abstract class Reader implements IReader
     }
 
     /**
-     * Can the current IReader read the file?
+     * Can the current ReaderInterface read the file?
      *
      * @param string $pFilename
      * @return bool

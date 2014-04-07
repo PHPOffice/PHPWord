@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Container;
+namespace PhpOffice\PhpWord\Style;
 
 /**
  * Section settings
  */
-class Settings
+class Section
 {
     /**
      * Default Page Size Width

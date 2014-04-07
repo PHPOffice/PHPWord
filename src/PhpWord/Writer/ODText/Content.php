@@ -29,7 +29,7 @@ use PhpOffice\PhpWord\TOC;
 /**
  * ODText content part writer
  */
-class Content extends WriterPart
+class Content extends AbstractWriterPart
 {
     /**
      * Write content file to XML format

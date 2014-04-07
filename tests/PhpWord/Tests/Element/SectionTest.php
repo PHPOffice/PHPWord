@@ -7,15 +7,15 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Container;
+namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Container\Section;
-use PhpOffice\PhpWord\Container\Header;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Element\Header;
 use PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Container\Section
+ * Test class for PhpOffice\PhpWord\Element\Section
  *
  * @runTestsInSeparateProcesses
  */
@@ -139,7 +139,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         foreach ($elements as $element) {
             $method = "create{$element}";
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Container\\{$element}", $object->$method());
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$element}", $object->$method());
         }
         $this->assertFalse($object->hasDifferentFirstPage());
     }

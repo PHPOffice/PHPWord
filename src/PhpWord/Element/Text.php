@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Text element
  */
-class Text extends Element
+class Text extends AbstractElement
 {
     /**
      * Text content

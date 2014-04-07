@@ -17,10 +17,10 @@ use PhpOffice\PhpWord\Exception\Exception;
 /**
  * Reader for Word2007
  */
-class Word2007 extends Reader implements IReader
+class Word2007 extends AbstractReader implements ReaderInterface
 {
     /**
-     * Can the current IReader read the file?
+     * Can the current ReaderInterface read the file?
      *
      * @param string $pFilename
      * @return bool

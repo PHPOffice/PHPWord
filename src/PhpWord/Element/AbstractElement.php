@@ -7,7 +7,7 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Container;
+namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
@@ -35,7 +35,7 @@ use PhpOffice\PhpWord\Element\CheckBox;
  *
  * @since 0.9.2
  */
-abstract class Container extends Element
+abstract class AbstractElement
 {
     /**
      * Container type section|header|footer|cell|textrun|footnote
@@ -50,6 +50,28 @@ abstract class Container extends Element
      * @var int
      */
     protected $sectionId;
+
+    /**
+     * Document part type: section|header|footer
+     *
+     * Used by textrun and cell container to determine where the element is
+     * located because it will affect the availability of other element,
+     * e.g. footnote will not be available when $docPart is header or footer.
+     *
+     * @var string
+     */
+    private $docPart = 'section';
+
+    /**
+     * Document part Id
+     *
+     * For header and footer, this will be = ($sectionId - 1) * 3 + $index
+     * because the max number of header/footer in every page is 3, i.e.
+     * AUTO, FIRST, and EVEN (AUTO = ODD)
+     *
+     * @var integer
+     */
+    private $docPartId = 1;
 
     /**
      * Elements collection
@@ -341,6 +363,38 @@ abstract class Container extends Element
     }
 
     /**
+     * Set doc part
+     *
+     * @param string $docPart
+     * @param integer $docPartId
+     */
+    public function setDocPart($docPart, $docPartId = 1)
+    {
+        $this->docPart = $docPart;
+        $this->docPartId = $docPartId;
+    }
+
+    /**
+     * Get doc part
+     *
+     * @return string
+     */
+    public function getDocPart()
+    {
+        return $this->docPart;
+    }
+
+    /**
+     * Get doc part Id
+     *
+     * @return integer
+     */
+    public function getDocPartId()
+    {
+        return $this->docPartId;
+    }
+
+    /**
      * Get all elements
      *
      * @return array
@@ -370,6 +424,106 @@ abstract class Container extends Element
     {
         $this->checkValidity('relationid');
         $this->relationId = $rId;
+    }
+
+    /**
+     * Check if element is located in section doc part (as opposed to header/footer)
+     *
+     * @return boolean
+     */
+    public function isInSection()
+    {
+        return ($this->docPart == 'section');
+    }
+
+    /**
+     * Set style value
+     *
+     * @param mixed $styleObject Style object
+     * @param mixed $styleValue Style value
+     * @param boolean $returnObject Always return object
+     */
+    protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
+    {
+        if (!is_null($styleValue) && is_array($styleValue)) {
+            foreach ($styleValue as $key => $value) {
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
+                }
+                $styleObject->setStyleValue($key, $value);
+            }
+            $style = $styleObject;
+        } else {
+            $style = $returnObject ? $styleObject : $styleValue;
+        }
+
+        return $style;
+    }
+
+    /**
+     * Check if a method is allowed for the current container
+     *
+     * @param string $method
+     * @return boolean
+     */
+    private function checkValidity($method)
+    {
+        // Valid containers for each element
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote');
+        $validContainers = array(
+            'text'          => $allContainers,
+            'link'          => $allContainers,
+            'textbreak'     => $allContainers,
+            'image'         => $allContainers,
+            'object'        => $allContainers,
+            'textrun'       => array('section', 'header', 'footer', 'cell'),
+            'listitem'      => array('section', 'header', 'footer', 'cell'),
+            'checkbox'      => array('section', 'header', 'footer', 'cell'),
+            'table'         => array('section', 'header', 'footer'),
+            'footnote'      => array('section', 'textrun', 'cell'),
+            'preservetext'  => array('header', 'footer', 'cell'),
+            'relationid'    => array('header', 'footer', 'footnote'),
+            'title'         => array('section'),
+        );
+        // Special condition, e.g. preservetext can only exists in cell when
+        // the cell is located in header or footer
+        $validContainerInContainers = array(
+            'preservetext'  => array(array('cell'), array('header', 'footer')),
+            'footnote'      => array(array('cell', 'textrun'), array('section')),
+        );
+
+        // Check if a method is valid for current container
+        if (array_key_exists($method, $validContainers)) {
+            if (!in_array($this->container, $validContainers[$method])) {
+                throw new \BadMethodCallException();
+            }
+        }
+        // Check if a method is valid for current container, located in other container
+        if (array_key_exists($method, $validContainerInContainers)) {
+            $rules = $validContainerInContainers[$method];
+            $containers = $rules[0];
+            $allowedDocParts = $rules[1];
+            foreach ($containers as $container) {
+                if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
+                    throw new \BadMethodCallException();
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Return element location in document: section, headerx, or footerx
+     */
+    private function checkElementDocPart()
+    {
+        $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
+        $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
+        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
+        $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
+
+        return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 
     /**
@@ -407,72 +561,5 @@ abstract class Container extends Element
     public function createFootnote($paragraphStyle = null)
     {
         return $this->addFootnote($paragraphStyle);
-    }
-
-    /**
-     * Check if a method is allowed for the current container
-     *
-     * @param string $method
-     * @return boolean
-     */
-    private function checkValidity($method)
-    {
-        // Empty array means the element can be accepted by all containers
-        $validContainers = array(
-            'text'          => array(),
-            'link'          => array(),
-            'textbreak'     => array(),
-            'image'         => array(),
-            'object'        => array(),
-            'textrun'       => array('section', 'header', 'footer', 'cell'),
-            'listitem'      => array('section', 'header', 'footer', 'cell'),
-            'checkbox'      => array('section', 'header', 'footer', 'cell'),
-            'table'         => array('section', 'header', 'footer'),
-            'footnote'      => array('section', 'textrun', 'cell'),
-            'preservetext'  => array('header', 'footer', 'cell'),
-            'relationid'    => array('header', 'footer', 'footnote'),
-            'title'         => array('section'),
-        );
-        // Special condition, e.g. preservetext can only exists in cell when
-        // the cell is located in header or footer
-        $validContainerInContainers = array(
-            'preservetext'  => array(array('cell'), array('header', 'footer')),
-            'footnote'      => array(array('cell', 'textrun'), array('section')),
-        );
-
-        // Check if a method is valid for current container
-        if (array_key_exists($method, $validContainers)) {
-            if (!empty($validContainers[$method])) {
-                if (!in_array($this->container, $validContainers[$method])) {
-                    throw new \BadMethodCallException();
-                }
-            }
-        }
-        // Check if a method is valid for current container, located in other container
-        if (array_key_exists($method, $validContainerInContainers)) {
-            $rules = $validContainerInContainers[$method];
-            $containers = $rules[0];
-            $allowedDocParts = $rules[1];
-            foreach ($containers as $container) {
-                if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException();
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Return element location in document: section, headerx, or footerx
-     */
-    private function checkElementDocPart()
-    {
-        $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
-        $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
-        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
-        $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
-
-        return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 }

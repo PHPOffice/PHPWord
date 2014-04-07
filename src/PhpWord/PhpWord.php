@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
 
@@ -217,7 +217,7 @@ class PhpWord
     /**
      * Get all sections
      *
-     * @return \PhpOffice\PhpWord\Container\Section[]
+     * @return \PhpOffice\PhpWord\Element\Section[]
      */
     public function getSections()
     {

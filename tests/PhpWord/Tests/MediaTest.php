@@ -10,7 +10,7 @@
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Image;
 
 /**

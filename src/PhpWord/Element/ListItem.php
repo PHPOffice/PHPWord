@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 /**
  * List item element
  */
-class ListItem extends Element
+class ListItem extends AbstractElement
 {
     /**
      * ListItem Style

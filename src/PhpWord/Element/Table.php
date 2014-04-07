@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Style\Table as TableStyle;
 /**
  * Table element
  */
-class Table extends Element
+class Table extends AbstractElement
 {
     /**
      * Table style

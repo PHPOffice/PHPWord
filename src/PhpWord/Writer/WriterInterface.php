@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Writer;
 /**
  * Writer interface
  */
-interface IWriter
+interface WriterInterface
 {
     /**
      * Save PhpWord to file

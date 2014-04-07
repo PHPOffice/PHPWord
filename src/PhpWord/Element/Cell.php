@@ -9,13 +9,12 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Container\Container;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
 
 /**
  * Table cell element
  */
-class Cell extends Container
+class Cell extends AbstractElement
 {
     /**
      * Cell width

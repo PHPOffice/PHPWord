@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\PhpWord;
 /**
  * ODText mimetype part writer
  */
-class Mimetype extends WriterPart
+class Mimetype extends AbstractWriterPart
 {
     /**
      * Write Mimetype to Text format
