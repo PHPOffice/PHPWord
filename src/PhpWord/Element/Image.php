@@ -16,7 +16,7 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
 /**
  * Image element
  */
-class Image extends Element
+class Image extends AbstractElement
 {
     /**
      * Image source
@@ -138,9 +138,6 @@ class Image extends Element
         $this->source = $source;
         $this->isWatermark = $isWatermark;
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
-        if (isset($style['wrappingStyle'])) {
-            $this->style->setWrappingStyle($style['wrappingStyle']);
-        }
         if ($this->style->getWidth() == null && $this->style->getHeight() == null) {
             $this->style->setWidth($imgData[0]);
             $this->style->setHeight($imgData[1]);

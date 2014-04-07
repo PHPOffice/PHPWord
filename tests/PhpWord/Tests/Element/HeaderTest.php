@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Container;
+namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\Container\Header;
+use PhpOffice\PhpWord\Element\Header;
 
 /**
- * Test class for PhpOffice\PhpWord\Container\Header
+ * Test class for PhpOffice\PhpWord\Element\Header
  *
  * @runTestsInSeparateProcesses
  */
@@ -26,7 +26,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oHeader = new Header($iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Header', $oHeader);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Header', $oHeader);
         $this->assertEquals($oHeader->getSectionId(), $iVal);
         $this->assertEquals($oHeader->getType(), Header::AUTO);
     }

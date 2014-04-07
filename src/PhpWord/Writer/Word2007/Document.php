@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\PageBreak;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;

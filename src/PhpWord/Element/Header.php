@@ -7,14 +7,14 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Container;
+namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Element\Image;
 
 /**
  * Header element
  */
-class Header extends Container
+class Header extends AbstractElement
 {
     /**
      * Header types constants

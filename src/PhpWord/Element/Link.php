@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Link element
  */
-class Link extends Element
+class Link extends AbstractElement
 {
     /**
      * Link source

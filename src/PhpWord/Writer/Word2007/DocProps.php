@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\PhpWord;
 /**
  * Word2007 contenttypes part writer
  */
-class DocProps extends WriterPart
+class DocProps extends AbstractWriterPart
 {
     /**
      * Write docProps/app.xml

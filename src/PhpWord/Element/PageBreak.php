@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * Page break element
  */
-class PageBreak extends Element
+class PageBreak extends AbstractElement
 {
     /**
      * Create new page break

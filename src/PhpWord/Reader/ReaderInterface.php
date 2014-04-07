@@ -12,10 +12,10 @@ namespace PhpOffice\PhpWord\Reader;
 /**
  * Reader interface
  */
-interface IReader
+interface ReaderInterface
 {
     /**
-     * Can the current IReader read the file?
+     * Can the current ReaderInterface read the file?
      *
      * @param  string $pFilename
      * @return boolean

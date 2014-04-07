@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Container;
+namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\Container\Footer;
+use PhpOffice\PhpWord\Element\Footer;
 
 /**
- * Test class for PhpOffice\PhpWord\Container\Footer
+ * Test class for PhpOffice\PhpWord\Element\Footer
  *
  * @runTestsInSeparateProcesses
  */
@@ -26,7 +26,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oFooter = new Footer($iVal);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Footer', $oFooter);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
         $this->assertEquals($oFooter->getSectionId(), $iVal);
     }
 

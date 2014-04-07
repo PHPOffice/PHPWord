@@ -39,8 +39,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - `createHeader` replaced by `addHeader`
 - `createFooter` replaced by `addFooter`
 - `createSection` replaced by `addSection`
-- `Element\Footnote::getReferenceId` replaced by `Container\Container::getRelationId`
-- `Element\Footnote::setReferenceId` replaced by `Container\Container::setRelationId`
+- `Element\Footnote::getReferenceId` replaced by `Element\AbstractElement::getRelationId`
+- `Element\Footnote::setReferenceId` replaced by `Element\AbstractElement::setRelationId`
 - `Footnote::addFootnoteLinkElement` replaced by `Media::addElement`
 - `Footnote::getFootnoteLinkElements` replaced by `Media::getElements`
 - All current methods on `Media`
@@ -48,14 +48,14 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 ### Miscellaneous
 
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
-- Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
-- Reader: Rename AbstractReader > Reader - @ivanlanin
-- General: Refactor folders: Element, Container, and Exception - @ivanlanin GH-187
+- Writer: Refactor writer classes and make a new AbstractWriter abstract class - @ivanlanin GH-160
+- General: Refactor folders: Element and Exception - @ivanlanin GH-187
 - General: Remove legacy HashTable and ZipStreamWrapper and all related properties/methods - @ivanlanin GH-187
-- Container: Create new Container abstract class - @ivanlanin GH-187
-- Element: Create new Element abstract class - @ivanlanin GH-187
+- Element: Create new AbstractElement abstract class - @ivanlanin GH-187
 - Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
-- General: Remove underscore prefix from all private properties name
+- General: Remove underscore prefix from all private properties name - @ivanlanin GH-187
+- General: Move Section Settings to Style\Section - @ivanlanin GH-187
+- General: Give `Abstract` prefix and `Interface` suffix for all abstract classes and interfaces as per [PHP-FIG recommendation](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md) - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

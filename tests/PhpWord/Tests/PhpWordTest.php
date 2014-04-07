@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
 
 /**

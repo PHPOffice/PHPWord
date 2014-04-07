@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Check box element
  */
-class CheckBox extends Element
+class CheckBox extends AbstractElement
 {
     /**
      * Name content

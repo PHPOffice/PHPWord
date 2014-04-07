@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
 /**
  * Object element
  */
-class Object extends Element
+class Object extends AbstractElement
 {
     /**
      * Ole-Object Src

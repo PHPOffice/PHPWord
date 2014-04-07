@@ -14,12 +14,12 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLReader;
-use PhpOffice\PhpWord\Container\Section;
+use PhpOffice\PhpWord\Element\Section;
 
 /**
  * Reader for Word2007
  */
-class Word2007 extends Reader implements IReader
+class Word2007 extends AbstractReader implements ReaderInterface
 {
     /**
      * PhpWord object
@@ -43,7 +43,7 @@ class Word2007 extends Reader implements IReader
     private $activePart = 'document';
 
     /**
-     * Can the current IReader read the file?
+     * Can the current ReaderInterface read the file?
      *
      * @param string $fileName
      * @return bool

@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Container;
+namespace PhpOffice\PhpWord\Element;
 
 /**
  * Footer element
  */
-class Footer extends Container
+class Footer extends AbstractElement
 {
     const AUTO  = 'default';  // default and odd pages
     const FIRST = 'first';

@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Container\Footer as FooterElement;
+use PhpOffice\PhpWord\Element\Footer as FooterElement;
 
 /**
  * Word2007 footer part writer

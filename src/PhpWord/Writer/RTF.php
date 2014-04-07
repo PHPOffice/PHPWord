@@ -29,7 +29,7 @@ use PhpOffice\PhpWord\TOC;
 /**
  * RTF writer
  */
-class RTF extends Writer implements IWriter
+class RTF extends AbstractWriter implements WriterInterface
 {
     /**
      * Color register

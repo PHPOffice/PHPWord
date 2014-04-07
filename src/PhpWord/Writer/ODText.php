@@ -21,7 +21,7 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
 /**
  * ODText writer
  */
-class ODText extends Writer implements IWriter
+class ODText extends AbstractWriter implements WriterInterface
 {
     /**
      * Create new ODText writer

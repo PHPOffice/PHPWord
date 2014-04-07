@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\PhpWord;
 /**
  * ODText meta part writer
  */
-class Meta extends WriterPart
+class Meta extends AbstractWriterPart
 {
     /**
      * Write Meta file to XML format

@@ -24,7 +24,6 @@ class PageBreakTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        // Section Settings
         $oPageBreak = new PageBreak();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PageBreak', $oPageBreak);

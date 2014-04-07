@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Word2007 contenttypes part writer
  */
-class ContentTypes extends WriterPart
+class ContentTypes extends AbstractWriterPart
 {
     /**
      * Write [Content_Types].xml

@@ -9,13 +9,12 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Container\Container;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Footnote element
  */
-class Footnote extends Container
+class Footnote extends AbstractElement
 {
     /**
      * Paragraph style

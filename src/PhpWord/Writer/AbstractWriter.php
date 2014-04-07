@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\PhpWord;
  *
  * @since 0.9.2
  */
-abstract class Writer implements IWriter
+abstract class AbstractWriter implements WriterInterface
 {
     /**
      * PHPWord object

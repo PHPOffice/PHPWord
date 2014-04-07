@@ -7,14 +7,14 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Tests\Container;
+namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Container\Settings;
+use PhpOffice\PhpWord\Style\Section;
 
 /**
- * Test class for PhpOffice\PhpWord\Container\Settings
+ * Test class for PhpOffice\PhpWord\Style\Section
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Container\Settings
+ * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +25,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testSettingValue()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $oSettings->setSettingValue('_orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
@@ -63,7 +63,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testMargin()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $iVal = rand(1, 1000);
         $oSettings->setMarginTop($iVal);
@@ -88,7 +88,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testOrientationLandscape()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
@@ -102,7 +102,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testOrientationPortrait()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $oSettings->setPortrait();
         $this->assertNull($oSettings->getOrientation());
@@ -116,7 +116,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testBorderSize()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $iVal = rand(1, 1000);
         $oSettings->setBorderSize($iVal);
@@ -149,7 +149,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testBorderColor()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $oSettings->setBorderColor('FF00AA');
         $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
@@ -177,7 +177,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testNumberingStart()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $this->assertNull($oSettings->getPageNumberingStart());
 
@@ -194,7 +194,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public function testHeader()
     {
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $this->assertEquals(720, $oSettings->getHeaderHeight());
 
@@ -212,7 +212,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testFooter()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $this->assertEquals(720, $oSettings->getFooterHeight());
 
@@ -230,7 +230,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testColumnsNum()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         // Default
         $this->assertEquals(1, $oSettings->getColsNum());
@@ -249,16 +249,16 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testColumnsSpace()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         // Default
         $this->assertEquals(720, $oSettings->getColsSpace());
 
         $iVal = rand(1, 1000);
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Settings', $oSettings->setColsSpace($iVal));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace($iVal));
         $this->assertEquals($iVal, $oSettings->getColsSpace());
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Container\\Settings', $oSettings->setColsSpace());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $oSettings->setColsSpace());
         $this->assertEquals(720, $oSettings->getColsSpace());
     }
 
@@ -268,7 +268,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testBreakType()
     {
         // Section Settings
-        $oSettings = new Settings();
+        $oSettings = new Section();
 
         $this->assertNull($oSettings->getBreakType());
 

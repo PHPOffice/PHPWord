@@ -18,7 +18,7 @@ use PhpOffice\PhpWord\Style\Table;
 /**
  * ODText styloes part writer
  */
-class Styles extends WriterPart
+class Styles extends AbstractWriterPart
 {
     /**
      * Write Styles file to XML format

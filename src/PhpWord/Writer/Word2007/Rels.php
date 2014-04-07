@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  *
  * @since 0.9.2
  */
-class Rels extends WriterPart
+class Rels extends AbstractWriterPart
 {
     /**
      * Base relationship URL

@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Styles;
 /**
  * Word2007 writer
  */
-class Word2007 extends Writer implements IWriter
+class Word2007 extends AbstractWriter implements WriterInterface
 {
     /**
      * Content types values
@@ -229,7 +229,7 @@ class Word2007 extends Writer implements IWriter
     /**
      * Add header/footer content
      *
-     * @param \PhpOffice\PhpWord\Container\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section $section
      * @param mixed $objZip
      * @param string $elmType
      * @param integer $rID
