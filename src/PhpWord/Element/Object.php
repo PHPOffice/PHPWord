@@ -31,13 +31,6 @@ class Object extends AbstractElement
     private $style;
 
     /**
-     * Object Relation ID
-     *
-     * @var int
-     */
-    private $relationId;
-
-    /**
      * Image Relation ID
      *
      * @var int
@@ -82,26 +75,6 @@ class Object extends AbstractElement
     public function getSource()
     {
         return $this->source;
-    }
-
-    /**
-     * Get Object Relation ID
-     *
-     * @return int
-     */
-    public function getRelationId()
-    {
-        return $this->relationId;
-    }
-
-    /**
-     * Set Object Relation ID
-     *
-     * @param int $rId
-     */
-    public function setRelationId($rId)
-    {
-        $this->relationId = $rId;
     }
 
     /**

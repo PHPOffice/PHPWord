@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 
 /**

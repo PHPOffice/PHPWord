@@ -11,7 +11,6 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Writer\ODText\Manifest;
 use PhpOffice\PhpWord\Writer\ODText\Meta;

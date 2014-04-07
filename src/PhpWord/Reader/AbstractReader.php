@@ -90,7 +90,10 @@ abstract class AbstractReader implements ReaderInterface
         } catch (Exception $e) {
             return false;
         }
-        fclose($this->fileHandle);
+        if (is_resource($this->fileHandle)) {
+            fclose($this->fileHandle);
+        }
+
         return true;
     }
 }
