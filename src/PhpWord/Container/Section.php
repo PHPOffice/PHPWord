@@ -66,6 +66,9 @@ class Section extends Container
     {
         if (!is_null($settings) && is_array($settings)) {
             foreach ($settings as $key => $value) {
+                if (is_null($value)) {
+                    continue;
+                }
                 if (substr($key, 0, 1) == '_') {
                     $key = substr($key, 1);
                 }

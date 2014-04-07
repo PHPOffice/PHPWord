@@ -229,7 +229,10 @@ class Settings
         } elseif ($key == 'borderColor') {
             $this->setBorderColor($value);
         } else {
-            $this->$key = $value;
+            $method = 'set' . $key;
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
         }
     }
 
