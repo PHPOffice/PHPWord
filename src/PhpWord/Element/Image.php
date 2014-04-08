@@ -131,9 +131,17 @@ class Image extends AbstractElement
         $this->source = $source;
         $this->isWatermark = $isWatermark;
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
-        if ($this->style->getWidth() == null && $this->style->getHeight() == null) {
-            $this->style->setWidth($imgData[0]);
-            $this->style->setHeight($imgData[1]);
+        $styleWidth = $this->style->getWidth();
+        $styleHeight = $this->style->getHeight();
+        if (!($styleWidth && $styleHeight)) {
+            if ($styleWidth == null && $styleHeight == null) {
+                $this->style->setWidth($imgData[0]);
+                $this->style->setHeight($imgData[1]);
+            } else if ($styleWidth) {
+                $this->style->setHeight($imgData[1] * ($styleWidth / $imgData[0]));
+            } else {
+                $this->style->setWidth($imgData[0] * ($styleHeight / $imgData[1]));
+            }
         }
         $this->setImageFunctions();
     }
