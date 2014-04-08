@@ -169,7 +169,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $object = new Word2007($phpWord);
-        $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
+        $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
         $writer = new Word2007($phpWord);
         $writer->save('php://output');
 
@@ -183,9 +183,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testSetUseDiskCachingException()
     {
-        $dir = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'foo')
+        $dir = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
         $object = new Word2007();

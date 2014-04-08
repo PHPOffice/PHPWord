@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PhpWord object" , \EOL;
+echo date('H:i:s') , " Create new PhpWord object" , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
@@ -56,7 +56,7 @@ $document->setValue('userName#3', 'Ray');
 $document->setValue('userPhone#3', '+1 428 889 775');
 
 $name = 'Sample_07_TemplateCloneRow.docx';
-echo date('H:i:s'), " Write to Word2007 format", \EOL;
+echo date('H:i:s'), " Write to Word2007 format", EOL;
 $document->saveAs($name);
 rename($name, "results/{$name}");
 

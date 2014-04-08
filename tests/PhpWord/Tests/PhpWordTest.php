@@ -53,7 +53,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $this->assertEquals(new Section(1), $phpWord->addSection());
         $phpWord->addSection();
-        $this->assertEquals(2, \count($phpWord->getSections()));
+        $this->assertEquals(2, count($phpWord->getSections()));
     }
 
     /**
@@ -144,9 +144,9 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadTemplateException()
     {
-        $templateFqfn = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
+        $templateFqfn = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);

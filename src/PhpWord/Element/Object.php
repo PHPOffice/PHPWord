@@ -48,7 +48,7 @@ class Object extends AbstractElement
         $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
         $inf = pathinfo($src);
 
-        if (\file_exists($src) && in_array($inf['extension'], $supportedTypes)) {
+        if (file_exists($src) && in_array($inf['extension'], $supportedTypes)) {
             $this->source = $src;
             $this->style = $this->setStyle(new ImageStyle(), $style, true);
             return $this;

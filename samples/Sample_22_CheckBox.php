@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", \EOL;
+echo date('H:i:s'), " Create new PhpWord object", EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $section = $phpWord->addSection();
@@ -18,7 +18,7 @@ $cell->addCheckBox('chkBox2', 'Checkbox 2');
 $name = basename(__FILE__, '.php');
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
 foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", \EOL;
+    echo date('H:i:s'), " Write to {$writer} format", EOL;
     $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
     $xmlWriter->save("{$name}.{$extension}");
     rename("{$name}.{$extension}", "results/{$name}.{$extension}");
