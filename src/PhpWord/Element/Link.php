@@ -32,13 +32,6 @@ class Link extends AbstractElement
     private $name;
 
     /**
-     * Link Relation ID
-     *
-     * @var string
-     */
-    private $relationId;
-
-    /**
      * Font style
      *
      * @var string|Font
@@ -69,26 +62,6 @@ class Link extends AbstractElement
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
 
         return $this;
-    }
-
-    /**
-     * Get Link Relation ID
-     *
-     * @return int
-     */
-    public function getRelationId()
-    {
-        return $this->relationId;
-    }
-
-    /**
-     * Set Link Relation ID
-     *
-     * @param int $rId
-     */
-    public function setRelationId($rId)
-    {
-        $this->relationId = $rId;
     }
 
     /**

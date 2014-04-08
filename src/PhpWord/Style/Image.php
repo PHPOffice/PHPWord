@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Image and memory image style
  */
-class Image
+class Image extends AbstractStyle
 {
     const WRAPPING_STYLE_INLINE = 'inline';
     const WRAPPING_STYLE_SQUARE = 'square';
@@ -42,13 +42,6 @@ class Image
     private $align;
 
     /**
-     * Wrapping style
-     *
-     * @var string
-     */
-    private $wrappingStyle;
-
-    /**
      * Margin Top
      *
      * @var int
@@ -63,6 +56,13 @@ class Image
     private $marginLeft;
 
     /**
+     * Wrapping style
+     *
+     * @var string
+     */
+    private $wrappingStyle;
+
+    /**
      * Create new image style
      */
     public function __construct()
@@ -73,20 +73,6 @@ class Image
         $this->marginTop = null;
         $this->marginLeft = null;
         $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
-        $this->$key = $value;
     }
 
     /**

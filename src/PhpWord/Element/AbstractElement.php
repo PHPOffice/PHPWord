@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
@@ -482,7 +481,6 @@ abstract class AbstractElement
             'table'         => array('section', 'header', 'footer'),
             'footnote'      => array('section', 'textrun', 'cell'),
             'preservetext'  => array('header', 'footer', 'cell'),
-            'relationid'    => array('header', 'footer', 'footnote'),
             'title'         => array('section'),
         );
         // Special condition, e.g. preservetext can only exists in cell when

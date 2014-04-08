@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Table style
  */
-class Table
+class Table extends AbstractStyle
 {
     /**
      * Style for first row

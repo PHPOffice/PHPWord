@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Section settings
  */
-class Section
+class Section extends AbstractStyle
 {
     /**
      * Default Page Size Width

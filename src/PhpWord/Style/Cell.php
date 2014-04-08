@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Table cell style
  */
-class Cell
+class Cell extends AbstractStyle
 {
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';

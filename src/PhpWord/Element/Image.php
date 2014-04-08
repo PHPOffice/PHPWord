@@ -33,13 +33,6 @@ class Image extends AbstractElement
     private $style;
 
     /**
-     * Image relation ID specific only for DOCX
-     *
-     * @var string
-     */
-    private $rId;
-
-    /**
      * Is watermark
      *
      * @var boolean
@@ -153,26 +146,6 @@ class Image extends AbstractElement
     public function getStyle()
     {
         return $this->style;
-    }
-
-    /**
-     * Get image relation ID
-     *
-     * @return int
-     */
-    public function getRelationId()
-    {
-        return $this->rId;
-    }
-
-    /**
-     * Set image relation ID
-     *
-     * @param int $rId
-     */
-    public function setRelationId($rId)
-    {
-        $this->rId = $rId;
     }
 
     /**
