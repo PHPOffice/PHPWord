@@ -59,7 +59,7 @@ In this case, you will have to register the autoloader.
 
 ```php
 require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
-PhpOffice\PhpWord\Autoloader::register();
+\PhpOffice\PhpWord\Autoloader::register();
 ```
 
 ## Basic usage

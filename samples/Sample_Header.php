@@ -9,7 +9,7 @@ define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 require_once '../src/PhpWord/Autoloader.php';
-PhpOffice\PhpWord\Autoloader::register();
+\PhpOffice\PhpWord\Autoloader::register();
 
 // Return to the caller script when runs by CLI
 if (CLI) {
