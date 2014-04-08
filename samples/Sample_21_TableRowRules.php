@@ -4,7 +4,7 @@ include_once 'Sample_Header.php';
 // New Word document
 echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 $section->addText("By default, when you insert an image, it adds a textbreak after its content.");
 $section->addText("If we want a simple border around an image, we wrap the image inside a table->row->cell");

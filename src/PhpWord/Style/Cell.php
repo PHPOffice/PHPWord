@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Table cell style
  */
-class Cell
+class Cell extends AbstractStyle
 {
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';
@@ -22,91 +22,91 @@ class Cell
      *
      * @var string
      */
-    private $_valign;
+    private $valign;
 
     /**
      * Text Direction
      *
      * @var string
      */
-    private $_textDirection;
+    private $textDirection;
 
     /**
      * Background-Color
      *
      * @var string
      */
-    private $_bgColor;
+    private $bgColor;
 
     /**
      * Border Top Size
      *
      * @var int
      */
-    private $_borderTopSize;
+    private $borderTopSize;
 
     /**
      * Border Top Color
      *
      * @var string
      */
-    private $_borderTopColor;
+    private $borderTopColor;
 
     /**
      * Border Left Size
      *
      * @var int
      */
-    private $_borderLeftSize;
+    private $borderLeftSize;
 
     /**
      * Border Left Color
      *
      * @var string
      */
-    private $_borderLeftColor;
+    private $borderLeftColor;
 
     /**
      * Border Right Size
      *
      * @var int
      */
-    private $_borderRightSize;
+    private $borderRightSize;
 
     /**
      * Border Right Color
      *
      * @var string
      */
-    private $_borderRightColor;
+    private $borderRightColor;
 
     /**
      * Border Bottom Size
      *
      * @var int
      */
-    private $_borderBottomSize;
+    private $borderBottomSize;
 
     /**
      * Border Bottom Color
      *
      * @var string
      */
-    private $_borderBottomColor;
+    private $borderBottomColor;
 
     /**
      * Border Default Color
      *
      * @var string
      */
-    private $_defaultBorderColor;
+    private $defaultBorderColor;
 
     /**
      * colspan
      *
      * @var integer
      */
-    private $_gridSpan = null;
+    private $gridSpan = null;
 
     /**
      * rowspan (restart, continue)
@@ -116,25 +116,25 @@ class Cell
      *
      * @var string
      */
-    private $_vMerge = null;
+    private $vMerge = null;
 
     /**
      * Create a new Cell Style
      */
     public function __construct()
     {
-        $this->_valign = null;
-        $this->_textDirection = null;
-        $this->_bgColor = null;
-        $this->_borderTopSize = null;
-        $this->_borderTopColor = null;
-        $this->_borderLeftSize = null;
-        $this->_borderLeftColor = null;
-        $this->_borderRightSize = null;
-        $this->_borderRightColor = null;
-        $this->_borderBottomSize = null;
-        $this->_borderBottomColor = null;
-        $this->_defaultBorderColor = '000000';
+        $this->valign = null;
+        $this->textDirection = null;
+        $this->bgColor = null;
+        $this->borderTopSize = null;
+        $this->borderTopColor = null;
+        $this->borderLeftSize = null;
+        $this->borderLeftColor = null;
+        $this->borderRightSize = null;
+        $this->borderRightColor = null;
+        $this->borderBottomSize = null;
+        $this->borderBottomColor = null;
+        $this->defaultBorderColor = '000000';
     }
 
     /**
@@ -145,9 +145,12 @@ class Cell
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_borderSize') {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
+        if ($key == 'borderSize') {
             $this->setBorderSize($value);
-        } elseif ($key == '_borderColor') {
+        } elseif ($key == 'borderColor') {
             $this->setBorderColor($value);
         } else {
             $this->$key = $value;
@@ -159,7 +162,7 @@ class Cell
      */
     public function getVAlign()
     {
-        return $this->_valign;
+        return $this->valign;
     }
 
     /**
@@ -169,7 +172,7 @@ class Cell
      */
     public function setVAlign($pValue = null)
     {
-        $this->_valign = $pValue;
+        $this->valign = $pValue;
     }
 
     /**
@@ -177,7 +180,7 @@ class Cell
      */
     public function getTextDirection()
     {
-        return $this->_textDirection;
+        return $this->textDirection;
     }
 
     /**
@@ -187,7 +190,7 @@ class Cell
      */
     public function setTextDirection($pValue = null)
     {
-        $this->_textDirection = $pValue;
+        $this->textDirection = $pValue;
     }
 
     /**
@@ -195,7 +198,7 @@ class Cell
      */
     public function getBgColor()
     {
-        return $this->_bgColor;
+        return $this->bgColor;
     }
 
     /**
@@ -205,7 +208,7 @@ class Cell
      */
     public function setBgColor($pValue = null)
     {
-        $this->_bgColor = $pValue;
+        $this->bgColor = $pValue;
     }
 
     /**
@@ -215,10 +218,10 @@ class Cell
      */
     public function setBorderSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
-        $this->_borderLeftSize = $pValue;
-        $this->_borderRightSize = $pValue;
-        $this->_borderBottomSize = $pValue;
+        $this->borderTopSize = $pValue;
+        $this->borderLeftSize = $pValue;
+        $this->borderRightSize = $pValue;
+        $this->borderBottomSize = $pValue;
     }
 
     /**
@@ -241,10 +244,10 @@ class Cell
      */
     public function setBorderColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
-        $this->_borderLeftColor = $pValue;
-        $this->_borderRightColor = $pValue;
-        $this->_borderBottomColor = $pValue;
+        $this->borderTopColor = $pValue;
+        $this->borderLeftColor = $pValue;
+        $this->borderRightColor = $pValue;
+        $this->borderBottomColor = $pValue;
     }
 
     /**
@@ -267,7 +270,7 @@ class Cell
      */
     public function setBorderTopSize($pValue = null)
     {
-        $this->_borderTopSize = $pValue;
+        $this->borderTopSize = $pValue;
     }
 
     /**
@@ -275,7 +278,7 @@ class Cell
      */
     public function getBorderTopSize()
     {
-        return $this->_borderTopSize;
+        return $this->borderTopSize;
     }
 
     /**
@@ -285,7 +288,7 @@ class Cell
      */
     public function setBorderTopColor($pValue = null)
     {
-        $this->_borderTopColor = $pValue;
+        $this->borderTopColor = $pValue;
     }
 
     /**
@@ -293,7 +296,7 @@ class Cell
      */
     public function getBorderTopColor()
     {
-        return $this->_borderTopColor;
+        return $this->borderTopColor;
     }
 
     /**
@@ -303,7 +306,7 @@ class Cell
      */
     public function setBorderLeftSize($pValue = null)
     {
-        $this->_borderLeftSize = $pValue;
+        $this->borderLeftSize = $pValue;
     }
 
     /**
@@ -311,7 +314,7 @@ class Cell
      */
     public function getBorderLeftSize()
     {
-        return $this->_borderLeftSize;
+        return $this->borderLeftSize;
     }
 
     /**
@@ -321,7 +324,7 @@ class Cell
      */
     public function setBorderLeftColor($pValue = null)
     {
-        $this->_borderLeftColor = $pValue;
+        $this->borderLeftColor = $pValue;
     }
 
     /**
@@ -329,7 +332,7 @@ class Cell
      */
     public function getBorderLeftColor()
     {
-        return $this->_borderLeftColor;
+        return $this->borderLeftColor;
     }
 
     /**
@@ -339,7 +342,7 @@ class Cell
      */
     public function setBorderRightSize($pValue = null)
     {
-        $this->_borderRightSize = $pValue;
+        $this->borderRightSize = $pValue;
     }
 
     /**
@@ -347,7 +350,7 @@ class Cell
      */
     public function getBorderRightSize()
     {
-        return $this->_borderRightSize;
+        return $this->borderRightSize;
     }
 
     /**
@@ -357,7 +360,7 @@ class Cell
      */
     public function setBorderRightColor($pValue = null)
     {
-        $this->_borderRightColor = $pValue;
+        $this->borderRightColor = $pValue;
     }
 
     /**
@@ -365,7 +368,7 @@ class Cell
      */
     public function getBorderRightColor()
     {
-        return $this->_borderRightColor;
+        return $this->borderRightColor;
     }
 
     /**
@@ -375,7 +378,7 @@ class Cell
      */
     public function setBorderBottomSize($pValue = null)
     {
-        $this->_borderBottomSize = $pValue;
+        $this->borderBottomSize = $pValue;
     }
 
     /**
@@ -383,7 +386,7 @@ class Cell
      */
     public function getBorderBottomSize()
     {
-        return $this->_borderBottomSize;
+        return $this->borderBottomSize;
     }
 
     /**
@@ -393,7 +396,7 @@ class Cell
      */
     public function setBorderBottomColor($pValue = null)
     {
-        $this->_borderBottomColor = $pValue;
+        $this->borderBottomColor = $pValue;
     }
 
     /**
@@ -401,7 +404,7 @@ class Cell
      */
     public function getBorderBottomColor()
     {
-        return $this->_borderBottomColor;
+        return $this->borderBottomColor;
     }
 
     /**
@@ -409,7 +412,7 @@ class Cell
      */
     public function getDefaultBorderColor()
     {
-        return $this->_defaultBorderColor;
+        return $this->defaultBorderColor;
     }
 
     /**
@@ -419,7 +422,7 @@ class Cell
      */
     public function setGridSpan($pValue = null)
     {
-        $this->_gridSpan = $pValue;
+        $this->gridSpan = $pValue;
     }
 
     /**
@@ -427,7 +430,7 @@ class Cell
      */
     public function getGridSpan()
     {
-        return $this->_gridSpan;
+        return $this->gridSpan;
     }
 
     /**
@@ -437,7 +440,7 @@ class Cell
      */
     public function setVMerge($pValue = null)
     {
-        $this->_vMerge = $pValue;
+        $this->vMerge = $pValue;
     }
 
     /**
@@ -445,6 +448,6 @@ class Cell
      */
     public function getVMerge()
     {
-        return $this->_vMerge;
+        return $this->vMerge;
     }
 }

@@ -14,28 +14,28 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Tab style
  */
-class Tab
+class Tab extends AbstractStyle
 {
     /**
      * Tab Stop Type
      *
      * @var string
      */
-    private $_val;
+    private $val;
 
     /**
      * Tab Leader Character
      *
      * @var string
      */
-    private $_leader;
+    private $leader;
 
     /**
      * Tab Stop Position
      *
      * @var int
      */
-    private $_position;
+    private $position;
 
     /**
      * Tab Stop Type
@@ -43,7 +43,7 @@ class Tab
      * @var array
      * @link http://www.schemacentral.com/sc/ooxml/a-w_val-26.html Tab Stop Type
      */
-    private static $_possibleStopTypes = array(
+    private static $possibleStopTypes = array(
         'clear', // No Tab Stop
         'left', // Left Tab Stop
         'center', // Center Tab Stop
@@ -59,7 +59,7 @@ class Tab
      * @var array
      * @link http://www.schemacentral.com/sc/ooxml/a-w_leader-1.html Tab Leader Character
      */
-    private static $_possibleLeaders = array(
+    private static $possibleLeaders = array(
         'none', // No tab stop leader
         'dot', // Dotted leader line
         'hyphen', // Dashed tab stop leader line
@@ -80,13 +80,13 @@ class Tab
     public function __construct($val = null, $position = 0, $leader = null)
     {
         // Default to clear if the stop type is not matched
-        $this->_val = (self::isStopType($val)) ? $val : 'clear';
+        $this->val = (self::isStopType($val)) ? $val : 'clear';
 
         // Default to 0 if the position is non-numeric
-        $this->_position = (is_numeric($position)) ? intval($position) : 0;
+        $this->position = (is_numeric($position)) ? intval($position) : 0;
 
         // Default to NULL if no tab leader
-        $this->_leader = (self::isLeaderType($leader)) ? $leader : null;
+        $this->leader = (self::isLeaderType($leader)) ? $leader : null;
     }
 
     /**
@@ -98,11 +98,11 @@ class Tab
     {
         if (isset($xmlWriter)) {
             $xmlWriter->startElement("w:tab");
-            $xmlWriter->writeAttribute("w:val", $this->_val);
-            if (!is_null($this->_leader)) {
-                $xmlWriter->writeAttribute("w:leader", $this->_leader);
+            $xmlWriter->writeAttribute("w:val", $this->val);
+            if (!is_null($this->leader)) {
+                $xmlWriter->writeAttribute("w:leader", $this->leader);
             }
-            $xmlWriter->writeAttribute("w:pos", $this->_position);
+            $xmlWriter->writeAttribute("w:pos", $this->position);
             $xmlWriter->endElement();
         }
     }
@@ -115,7 +115,7 @@ class Tab
      */
     private static function isStopType($attribute)
     {
-        return in_array($attribute, self::$_possibleStopTypes);
+        return in_array($attribute, self::$possibleStopTypes);
     }
 
     /**
@@ -126,6 +126,6 @@ class Tab
      */
     private static function isLeaderType($attribute)
     {
-        return in_array($attribute, self::$_possibleLeaders);
+        return in_array($attribute, self::$possibleLeaders);
     }
 }

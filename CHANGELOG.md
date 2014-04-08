@@ -4,6 +4,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.9.2 - Not yet released
 
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`.
+
 ### Features
 
 - Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
@@ -17,16 +19,47 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Template: Ability to find & replace variables in headers & footers - @dgudgeon GH-190
 - Template: Ability to clone & delete block of text using `cloneBlock` and `deleteBlock` - @diego-vieira GH-191
 - TOC: Ability to have two or more TOC in one document and to set min and max depth for TOC - @Pyreweb GH-189
+- Table: Ability to add footnote in table cell - @ivanlanin GH-187
+- Footnote: Ability to add image in footnote - @ivanlanin GH-187
+- ListItem: Ability to add list item in header/footer - @ivanlanin GH-187
+- CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
+- Link: Ability to add link in header/footer - @ivanlanin GH-187
+- Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
+- Media: Add `Media::reset()` to reset all media data - @juzi GH-19
+- Style: Add `Style::reset()` to reset all styles
+- Footnote: Add `Footnote::reset()` to reset all footnotes
+- TOC: Add `TOC::reset()` to reset all TOC
 
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
 
+### Deprecated
+
+- `createTextRun` replaced by `addTextRun`
+- `createFootnote` replaced by `addFootnote`
+- `createHeader` replaced by `addHeader`
+- `createFooter` replaced by `addFooter`
+- `createSection` replaced by `addSection`
+- `Element\Footnote::getReferenceId` replaced by `Element\AbstractElement::getRelationId`
+- `Element\Footnote::setReferenceId` replaced by `Element\AbstractElement::setRelationId`
+- `Footnote::addFootnoteLinkElement` replaced by `Media::addElement`
+- `Footnote::getFootnoteLinkElements` replaced by `Media::getElements`
+- All current methods on `Media`
+
 ### Miscellaneous
 
 - Documentation: Simplify page level docblock - @ivanlanin GH-179
-- Writer: Refactor writer classes and make a new Writer abstract class - @ivanlanin GH-160
-- Reader: Rename AbstractReader > Reader - @ivanlanin
+- Writer: Refactor writer classes and create a new `Write\AbstractWriter` abstract class - @ivanlanin GH-160
+- General: Refactor folders: `Element` and `Exception` - @ivanlanin GH-187
+- General: Remove legacy `HashTable` and `Shared\ZipStreamWrapper` and all related properties/methods - @ivanlanin GH-187
+- Element: New `AbstractElement` abstract class - @ivanlanin GH-187
+- Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
+- General: Remove underscore prefix from all private properties name - @ivanlanin GH-187
+- General: Move Section `Settings` to `Style\Section` - @ivanlanin GH-187
+- General: Give `Abstract` prefix and `Interface` suffix for all abstract classes and interfaces as per [PHP-FIG recommendation](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md) - @ivanlanin GH-187
+- Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
+- Writer: New 'ODText\Base` class - @ivanlanin GH-187
 
 ## 0.9.1 - 27 Mar 2014
 

@@ -19,66 +19,36 @@ class String
      *
      * @var string[]
      */
-    private static $_controlCharacters = array();
-
-    /**
-     * Build control characters array
-     */
-    private static function _buildControlCharacters()
-    {
-        for ($i = 0; $i <= 19; ++$i) {
-            if ($i != 9 && $i != 10 && $i != 13) {
-                $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
-                $replace = chr($i);
-                self::$_controlCharacters[$find] = $replace;
-            }
-        }
-    }
+    private static $controlCharacters = array();
 
     /**
      * Convert from OpenXML escaped control character to PHP control character
      *
-     * Excel 2007 team:
-     * ----------------
-     * That's correct, control characters are stored directly in the shared-strings table.
-     * We do encode characters that cannot be represented in XML using the following escape sequence:
-     * _xHHHH_ where H represents a hexadecimal character in the character's value...
-     * So you could end up with something like _x0008_ in a string (either in a cell value (<v>)
-     * element or in the shared string <t> element.
-     *
-     * @param    string $value Value to unescape
-     * @return    string
+     * @param string $value Value to unescape
+     * @return string
      */
     public static function controlCharacterOOXML2PHP($value = '')
     {
-        if (empty(self::$_controlCharacters)) {
-            self::_buildControlCharacters();
+        if (empty(self::$controlCharacters)) {
+            self::buildControlCharacters();
         }
 
-        return str_replace(array_keys(self::$_controlCharacters), array_values(self::$_controlCharacters), $value);
+        return str_replace(array_keys(self::$controlCharacters), array_values(self::$controlCharacters), $value);
     }
 
     /**
      * Convert from PHP control character to OpenXML escaped control character
      *
-     * Excel 2007 team:
-     * ----------------
-     * That's correct, control characters are stored directly in the shared-strings table.
-     * We do encode characters that cannot be represented in XML using the following escape sequence:
-     * _xHHHH_ where H represents a hexadecimal character in the character's value...
-     * So you could end up with something like _x0008_ in a string (either in a cell value (<v>)
-     * element or in the shared string <t> element.
-     *
-     * @param    string $value Value to escape
-     * @return    string
+     * @param string $value Value to escape
+     * @return string
      */
     public static function controlCharacterPHP2OOXML($value = '')
     {
-        if (empty(self::$_controlCharacters)) {
-            self::_buildControlCharacters();
+        if (empty(self::$controlCharacters)) {
+            self::buildControlCharacters();
         }
 
-        return str_replace(array_values(self::$_controlCharacters), array_keys(self::$_controlCharacters), $value);
+        return str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
     }
 
     /**
@@ -90,5 +60,34 @@ class String
     public static function isUTF8($value = '')
     {
         return $value === '' || preg_match('/^./su', $value) === 1;
+    }
+
+    /**
+     * Return UTF8 encoded value
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function toUTF8($value = '')
+    {
+        if (!is_null($value) && !self::isUTF8($value)) {
+            $value = utf8_encode($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Build control characters array
+     */
+    private static function buildControlCharacters()
+    {
+        for ($i = 0; $i <= 19; ++$i) {
+            if ($i != 9 && $i != 10 && $i != 13) {
+                $find = '_x' . sprintf('%04s', strtoupper(dechex($i))) . '_';
+                $replace = chr($i);
+                self::$controlCharacters[$find] = $replace;
+            }
+        }
     }
 }

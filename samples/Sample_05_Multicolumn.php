@@ -10,29 +10,29 @@ $filler = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' .
     'Suspendisse congue congue leo sed pellentesque.';
 
 // Normal
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $section->addText('Normal paragraph. ' . $filler);
 
 // Two columns
-$section = $phpWord->createSection(array(
+$section = $phpWord->addSection(array(
     'colsNum' => 2,
     'colsSpace' => 1440,
     'breakType' => 'continuous'));
 $section->addText('Three columns, one inch (1440 twips) spacing. ' . $filler);
 
 // Normal
-$section = $phpWord->createSection(array('breakType' => 'continuous'));
+$section = $phpWord->addSection(array('breakType' => 'continuous'));
 $section->addText('Normal paragraph again. ' . $filler);
 
 // Three columns
-$section = $phpWord->createSection(array(
+$section = $phpWord->addSection(array(
     'colsNum' => 3,
     'colsSpace' => 720,
     'breakType' => 'continuous'));
 $section->addText('Three columns, half inch (720 twips) spacing. ' . $filler);
 
 // Normal
-$section = $phpWord->createSection(array('breakType' => 'continuous'));
+$section = $phpWord->addSection(array('breakType' => 'continuous'));
 $section->addText('Normal paragraph again.');
 
 // Save file

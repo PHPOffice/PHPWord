@@ -9,7 +9,7 @@ $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'spaceAfter' =>
 $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
 
 // New portrait section
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Simple text
 $section->addTitle('Welcome to PhpWord', 1);

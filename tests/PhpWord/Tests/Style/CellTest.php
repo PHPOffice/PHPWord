@@ -61,10 +61,10 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($default, $object->getDefaultBorderColor());
 
-        $object->setStyleValue('_defaultBorderColor', $value);
+        $object->setStyleValue('defaultBorderColor', $value);
         $this->assertEquals($value, $object->getDefaultBorderColor());
 
-        $object->setStyleValue('_borderColor', $value);
+        $object->setStyleValue('borderColor', $value);
         $expected = array($value, $value, $value, $value);
         $this->assertEquals($expected, $object->getBorderColor());
     }
@@ -78,7 +78,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
         $value = 120;
         $expected = array($value, $value, $value, $value);
-        $object->setStyleValue('_borderSize', $value);
+        $object->setStyleValue('borderSize', $value);
         $this->assertEquals($expected, $object->getBorderSize());
     }
 }

@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * IO factory
@@ -21,12 +21,12 @@ abstract class IOFactory
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $name
-     * @return \PhpOffice\PhpWord\Writer\IWriter
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface
+     * @throws Exception
      */
-    public static function createWriter(PhpWord $phpWord, $name)
+    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
-        if ($name !== 'IWriter' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
+        if ($name !== 'WriterInterface' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
@@ -38,12 +38,12 @@ abstract class IOFactory
      * Create new reader
      *
      * @param string $name
-     * @return \PhpOffice\PhpWord\Reader\IReader
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Reader\ReaderInterface
+     * @throws Exception
      */
-    public static function createReader($name)
+    public static function createReader($name = 'Word2007')
     {
-        if ($name !== 'IReader' && $name !== 'Word2007') {
+        if ($name !== 'ReaderInterface' && $name !== 'Word2007') {
             throw new Exception("\"{$name}\" is not a valid reader.");
         }
 

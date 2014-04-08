@@ -12,7 +12,7 @@ $phpWord->addFontStyle('fontStyle', array('size' => 9));
 $phpWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
 $fontStyle = array('size' => 24);
 
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $section->addText('Text break with no style:');
 $section->addTextBreak();
 $section->addText('Text break with defined font style:');

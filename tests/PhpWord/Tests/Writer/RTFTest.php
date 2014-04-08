@@ -26,13 +26,12 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $object = new RTF(new PhpWord);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
     }
 
     /**
      * Construct with null
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -53,7 +52,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000'));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText('Test 2', array('name' => 'Tahoma', 'bold' => true, 'italic' => true));
@@ -65,8 +64,8 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
-        $section = $phpWord->createSection();
-        $textrun = $section->createTextRun();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test 3');
         $textrun->addTextBreak();
         $writer = new RTF($phpWord);
@@ -85,7 +84,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     public function testSavePhpOutput()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test');
         $writer = new RTF($phpWord);
         $writer->save('php://output');
@@ -94,7 +93,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
     /**
      * Save with no PhpWord object assigned
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()

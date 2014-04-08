@@ -33,7 +33,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testWriteEndSectionPageNumbering()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $settings = $section->getSettings();
         $settings->setLandscape();
         $settings->setPageNumberingStart(2);
@@ -56,14 +56,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, array('color' => '333333', 'bold'=>true));
         $phpWord->addTitleStyle(2, array('color'=>'666666'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
         $section->addTitle('Title 1', 1);
         $section->addListItem('List Item 1', 0);
         $section->addListItem('List Item 2', 0);
         $section->addListItem('List Item 3', 0);
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -103,7 +103,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addFontStyle('fStyle', array('size' => '20'));
         $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
         $fontStyle = new Font('text', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addListItem('List Item', 0, null, null, 'pStyle');
         $section->addObject($objectSrc, array('align' => 'center'));
         $section->addTOC($fontStyle);

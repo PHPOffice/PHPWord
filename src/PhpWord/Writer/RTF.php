@@ -9,37 +9,28 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\HashTable;
-use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\Link;
-use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\Object;
-use PhpOffice\PhpWord\Section\PageBreak;
-use PhpOffice\PhpWord\Section\Table;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\TextBreak;
-use PhpOffice\PhpWord\Section\TextRun;
-use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Object;
+use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TOC;
 
 /**
  * RTF writer
  */
-class RTF extends Writer implements IWriter
+class RTF extends AbstractWriter implements WriterInterface
 {
-    /**
-     * Private unique PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @var HashTable
-     */
-    private $drawingHashTable;
-
     /**
      * Color register
      *
@@ -69,9 +60,6 @@ class RTF extends Writer implements IWriter
     {
         // Assign PhpWord
         $this->setPhpWord($phpWord);
-
-        // Set HashTable variables
-        $this->drawingHashTable = new HashTable();
     }
 
     /**
@@ -93,16 +81,6 @@ class RTF extends Writer implements IWriter
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
-    }
-
-    /**
-     * Get PHPWord_Worksheet_BaseDrawing HashTable
-     *
-     * @return HashTable
-     */
-    public function getDrawingHashTable()
-    {
-        return $this->drawingHashTable;
     }
 
     /**
@@ -191,16 +169,16 @@ class RTF extends Writer implements IWriter
         }
 
         // Search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
@@ -248,16 +226,16 @@ class RTF extends Writer implements IWriter
         }
 
         // Search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
 
@@ -287,15 +265,15 @@ class RTF extends Writer implements IWriter
         $phpWord = $this->phpWord;
         $sRTFBody = '';
 
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         $pSection = 0;
 
         if ($countSections > 0) {
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
-                foreach ($_elements as $element) {
+                $elements = $section->getElements();
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $sRTFBody .= $this->getDataContentText($element);
                     } elseif ($element instanceof TextBreak) {
@@ -338,14 +316,12 @@ class RTF extends Writer implements IWriter
         $sRTFText = '';
 
         $styleFont = $text->getFontStyle();
-        $SfIsObject = ($styleFont instanceof Font) ? true : false;
-        if (!$SfIsObject) {
+        if (is_string($styleFont)) {
             $styleFont = Style::getStyle($styleFont);
         }
 
         $styleParagraph = $text->getParagraphStyle();
-        $SpIsObject = ($styleParagraph instanceof Paragraph) ? true : false;
-        if (!$SpIsObject) {
+        if (is_string($styleParagraph)) {
             $styleParagraph = Style::getStyle($styleParagraph);
         }
 

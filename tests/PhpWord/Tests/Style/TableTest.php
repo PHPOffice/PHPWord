@@ -143,9 +143,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testSetStyleValue()
     {
         $object = new Table();
-        $object->setStyleValue('_borderSize', 120);
-        $object->setStyleValue('_cellMargin', 240);
-        $object->setStyleValue('_borderColor', '999999');
+        $object->setStyleValue('borderSize', 120);
+        $object->setStyleValue('cellMargin', 240);
+        $object->setStyleValue('borderColor', '999999');
 
         $this->assertEquals(
             array(120, 120, 120, 120, 120, 120),

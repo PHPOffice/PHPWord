@@ -43,7 +43,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     /**
      * Can read exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testCanReadFailed()
     {

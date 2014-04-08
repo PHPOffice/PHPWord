@@ -9,19 +9,21 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\TextRun;
-use PhpOffice\PhpWord\Section\Link;
-use PhpOffice\PhpWord\Section\Title;
-use PhpOffice\PhpWord\Section\Footer\PreserveText;
-use PhpOffice\PhpWord\Section\TextBreak;
-use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\Table;
-use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\Object;
-use PhpOffice\PhpWord\Section\Footnote;
-use PhpOffice\PhpWord\Section\CheckBox;
+use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\Title;
+use PhpOffice\PhpWord\Element\PreserveText;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Object;
+use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -35,7 +37,7 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
  *
  * Write common parts of document.xml, headerx.xml, and footerx.xml
  */
-class Base extends WriterPart
+class Base extends AbstractWriterPart
 {
     /**
      * Write text element
@@ -44,11 +46,8 @@ class Base extends WriterPart
      * @param Text $text
      * @param boolean $withoutP
      */
-    protected function writeText(
-        XMLWriter $xmlWriter,
-        Text $text,
-        $withoutP = false
-    ) {
+    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
+    {
         $styleFont = $text->getFontStyle();
         $styleParagraph = $text->getParagraphStyle();
         $strText = htmlspecialchars($text->getText());
@@ -76,29 +75,12 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param TextRun $textrun
      */
-    protected function writeTextRun(
-        XMLWriter $xmlWriter,
-        TextRun $textrun
-    ) {
-        $elements = $textrun->getElements();
+    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
+    {
         $styleParagraph = $textrun->getParagraphStyle();
         $xmlWriter->startElement('w:p');
         $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                if ($element instanceof Text) {
-                    $this->writeText($xmlWriter, $element, true);
-                } elseif ($element instanceof Link) {
-                    $this->writeLink($xmlWriter, $element, true);
-                } elseif ($element instanceof Image) {
-                    $this->writeImage($xmlWriter, $element, true);
-                } elseif ($element instanceof Footnote) {
-                    $this->writeFootnote($xmlWriter, $element, true);
-                } elseif ($element instanceof TextBreak) {
-                    $xmlWriter->writeElement('w:br');
-                }
-            }
-        }
+        $this->writeContainerElements($xmlWriter, $textrun);
         $xmlWriter->endElement(); // w:p
     }
 
@@ -109,12 +91,9 @@ class Base extends WriterPart
      * @param Link $link
      * @param boolean $withoutP
      */
-    protected function writeLink(
-        XMLWriter $xmlWriter,
-        Link $link,
-        $withoutP = false
-    ) {
-        $rID = $link->getRelationId();
+    protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
+    {
+        $rID = $link->getRelationId() + ($link->isInSection() ? 6 : 0);
         $linkName = $link->getLinkName();
         if (is_null($linkName)) {
             $linkName = $link->getLinkSrc();
@@ -196,10 +175,8 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param PreserveText $textrun
      */
-    protected function writePreserveText(
-        XMLWriter $xmlWriter,
-        PreserveText $textrun
-    ) {
+    protected function writePreserveText(XMLWriter $xmlWriter, PreserveText $textrun)
+    {
         $styleFont = $textrun->getFontStyle();
         $styleParagraph = $textrun->getParagraphStyle();
 
@@ -261,29 +238,33 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param TextBreak $element
+     * @param boolean $withoutP
      */
-    protected function writeTextBreak($xmlWriter, TextBreak $element = null)
+    protected function writeTextBreak(XMLWriter $xmlWriter, TextBreak $element = null, $withoutP = false)
     {
-        $hasStyle = false;
-        $styleFont = null;
-        $styleParagraph = null;
-        if (!is_null($element)) {
-            $styleFont = $element->getFontStyle();
-            $styleParagraph = $element->getParagraphStyle();
-            $hasStyle = !is_null($styleFont) || !is_null($styleParagraph);
-        }
-        if ($hasStyle) {
-            $xmlWriter->startElement('w:p');
-            $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-            if (!is_null($styleFont)) {
-                $xmlWriter->startElement('w:pPr');
-                $this->writeInlineFontStyle($xmlWriter, $styleFont);
-                $xmlWriter->endElement(); // w:pPr
+        if (!$withoutP) {
+            $hasStyle = false;
+            $styleFont = null;
+            $styleParagraph = null;
+            if (!is_null($element)) {
+                $styleFont = $element->getFontStyle();
+                $styleParagraph = $element->getParagraphStyle();
+                $hasStyle = !is_null($styleFont) || !is_null($styleParagraph);
             }
-            $xmlWriter->endElement(); // w:p
+            if ($hasStyle) {
+                $xmlWriter->startElement('w:p');
+                $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
+                if (!is_null($styleFont)) {
+                    $xmlWriter->startElement('w:pPr');
+                    $this->writeInlineFontStyle($xmlWriter, $styleFont);
+                    $xmlWriter->endElement(); // w:pPr
+                }
+                $xmlWriter->endElement(); // w:p
+            } else {
+                $xmlWriter->writeElement('w:p');
+            }
         } else {
-            // Null element. No paragraph nor font style
-            $xmlWriter->writeElement('w:p', null);
+            $xmlWriter->writeElement('w:br');
         }
     }
 
@@ -324,16 +305,16 @@ class Base extends WriterPart
      */
     protected function writeTable(XMLWriter $xmlWriter, Table $table)
     {
-        $_rows = $table->getRows();
-        $_cRows = count($_rows);
+        $rows = $table->getRows();
+        $cRows = count($rows);
 
-        if ($_cRows > 0) {
+        if ($cRows > 0) {
             $xmlWriter->startElement('w:tbl');
 
             // Table grid
             $cellWidths = array();
-            for ($i = 0; $i < $_cRows; $i++) {
-                $row = $_rows[$i];
+            for ($i = 0; $i < $cRows; $i++) {
+                $row = $rows[$i];
                 $cells = $row->getCells();
                 if (count($cells) <= count($cellWidths)) {
                     continue;
@@ -376,8 +357,8 @@ class Base extends WriterPart
             }
 
             // Table rows
-            for ($i = 0; $i < $_cRows; $i++) {
-                $row = $_rows[$i];
+            for ($i = 0; $i < $cRows; $i++) {
+                $row = $rows[$i];
                 $height = $row->getHeight();
                 $rowStyle = $row->getStyle();
                 $tblHeader = $rowStyle->getTblHeader();
@@ -385,7 +366,6 @@ class Base extends WriterPart
                 $exactHeight = $rowStyle->getExactHeight();
 
                 $xmlWriter->startElement('w:tr');
-
                 if (!is_null($height) || !is_null($tblHeader) || !is_null($cantSplit)) {
                     $xmlWriter->startElement('w:trPr');
                     if (!is_null($height)) {
@@ -406,55 +386,23 @@ class Base extends WriterPart
                     }
                     $xmlWriter->endElement();
                 }
-
                 foreach ($row->getCells() as $cell) {
-                    $xmlWriter->startElement('w:tc');
-
                     $cellStyle = $cell->getStyle();
                     $width = $cell->getWidth();
-
+                    $xmlWriter->startElement('w:tc');
                     $xmlWriter->startElement('w:tcPr');
                     $xmlWriter->startElement('w:tcW');
                     $xmlWriter->writeAttribute('w:w', $width);
                     $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement();
-
+                    $xmlWriter->endElement(); // w:tcW
                     if ($cellStyle instanceof Cell) {
                         $this->writeCellStyle($xmlWriter, $cellStyle);
                     }
-
-                    $xmlWriter->endElement();
-
-                    $_elements = $cell->getElements();
-                    if (count($_elements) > 0) {
-                        foreach ($_elements as $element) {
-                            if ($element instanceof Text) {
-                                $this->writeText($xmlWriter, $element);
-                            } elseif ($element instanceof TextRun) {
-                                $this->writeTextRun($xmlWriter, $element);
-                            } elseif ($element instanceof Link) {
-                                $this->writeLink($xmlWriter, $element);
-                            } elseif ($element instanceof TextBreak) {
-                                $this->writeTextBreak($xmlWriter, $element);
-                            } elseif ($element instanceof ListItem) {
-                                $this->writeListItem($xmlWriter, $element);
-                            } elseif ($element instanceof Image) {
-                                $this->writeImage($xmlWriter, $element);
-                            } elseif ($element instanceof Object) {
-                                $this->writeObject($xmlWriter, $element);
-                            } elseif ($element instanceof PreserveText) {
-                                $this->writePreserveText($xmlWriter, $element);
-                            } elseif ($element instanceof CheckBox) {
-                                $this->writeCheckBox($xmlWriter, $element);
-                            }
-                        }
-                    } else {
-                        $this->writeTextBreak($xmlWriter);
-                    }
-
-                    $xmlWriter->endElement();
+                    $xmlWriter->endElement(); // w:tcPr
+                    $this->writeContainerElements($xmlWriter, $cell);
+                    $xmlWriter->endElement(); // w:tc
                 }
-                $xmlWriter->endElement();
+                $xmlWriter->endElement(); // w:tr
             }
             $xmlWriter->endElement();
         }
@@ -467,12 +415,9 @@ class Base extends WriterPart
      * @param Image $image
      * @param boolean $withoutP
      */
-    protected function writeImage(
-        XMLWriter $xmlWriter,
-        Image $image,
-        $withoutP = false
-    ) {
-        $rId = $image->getRelationId();
+    protected function writeImage(XMLWriter $xmlWriter, Image $image, $withoutP = false)
+    {
+        $rId = $image->getRelationId() + ($image->isInSection() ? 6 : 0);
 
         $style = $image->getStyle();
         $width = $style->getWidth();
@@ -493,7 +438,6 @@ class Base extends WriterPart
                 $xmlWriter->endElement();
             }
         }
-
         $xmlWriter->startElement('w:r');
 
         $xmlWriter->startElement('w:pict');
@@ -602,17 +546,20 @@ class Base extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      * @param Object $object
+     * @param boolean $withoutP
      */
-    protected function writeObject(XMLWriter $xmlWriter, Object $object)
+    protected function writeObject(XMLWriter $xmlWriter, Object $object, $withoutP = false)
     {
-        $rIdObject = $object->getRelationId();
-        $rIdImage = $object->getImageRelationId();
+        $rIdObject = $object->getRelationId() + ($object->isInSection() ? 6 : 0);
+        $rIdImage = $object->getImageRelationId() + ($object->isInSection() ? 6 : 0);
         $shapeId = md5($rIdObject . '_' . $rIdImage);
-        $objectId = $object->getObjectId();
+        $objectId = $object->getRelationId() + 1325353440;
         $style = $object->getStyle();
         $align = $style->getAlign();
 
-        $xmlWriter->startElement('w:p');
+        if (!$withoutP) {
+            $xmlWriter->startElement('w:p');
+        }
         if (!is_null($align)) {
             $xmlWriter->startElement('w:pPr');
             $xmlWriter->startElement('w:jc');
@@ -644,7 +591,9 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // o:OLEObject
         $xmlWriter->endElement(); // w:object
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:p
+        if (!$withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
     }
 
     /**
@@ -654,11 +603,8 @@ class Base extends WriterPart
      * @param Footnote $footnote
      * @param boolean $withoutP
      */
-    protected function writeFootnote(
-        XMLWriter $xmlWriter,
-        Footnote $footnote,
-        $withoutP = false
-    ) {
+    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
+    {
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
         }
@@ -669,7 +615,7 @@ class Base extends WriterPart
         $xmlWriter->endElement(); // w:rStyle
         $xmlWriter->endElement(); // w:rPr
         $xmlWriter->startElement('w:footnoteReference');
-        $xmlWriter->writeAttribute('w:id', $footnote->getReferenceId());
+        $xmlWriter->writeAttribute('w:id', $footnote->getRelationId());
         $xmlWriter->endElement(); // w:footnoteReference
         $xmlWriter->endElement(); // w:r
         if (!$withoutP) {
@@ -683,12 +629,8 @@ class Base extends WriterPart
      * @param boolean $withoutP
      * @param boolean $checkState
      */
-    protected function writeCheckBox(
-        XMLWriter $xmlWriter,
-        CheckBox $checkbox,
-        $withoutP = false,
-        $checkState = false
-    ) {
+    protected function writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
+    {
         $name = htmlspecialchars($checkbox->getName());
         $name = String::controlCharacterPHP2OOXML($name);
         $text = htmlspecialchars($checkbox->getText());
@@ -759,11 +701,8 @@ class Base extends WriterPart
      * @param Paragraph $style
      * @param bool $withoutPPR
      */
-    protected function writeParagraphStyle(
-        XMLWriter $xmlWriter,
-        Paragraph $style,
-        $withoutPPR = false
-    ) {
+    protected function writeParagraphStyle(XMLWriter $xmlWriter, Paragraph $style, $withoutPPR = false)
+    {
 
         $align = $style->getAlign();
         $spacing = $style->getSpacing();
@@ -966,106 +905,39 @@ class Base extends WriterPart
      * @param TableStyle $style
      * @param boolean $isFullStyle
      */
-    protected function writeTableStyle(
-        XMLWriter $xmlWriter,
-        TableStyle $style,
-        $isFullStyle = true
-    ) {
+    protected function writeTableStyle(XMLWriter $xmlWriter, TableStyle $style, $isFullStyle = true)
+    {
         $bgColor = $style->getBgColor();
         $brdCol = $style->getBorderColor();
-
         $brdSz = $style->getBorderSize();
-        $bTop = (!is_null($brdSz[0])) ? true : false;
-        $bLeft = (!is_null($brdSz[1])) ? true : false;
-        $bRight = (!is_null($brdSz[2])) ? true : false;
-        $bBottom = (!is_null($brdSz[3])) ? true : false;
-        $bInsH = (!is_null($brdSz[4])) ? true : false;
-        $bInsV = (!is_null($brdSz[5])) ? true : false;
-        $borders = ($bTop || $bLeft || $bRight || $bBottom || $bInsH || $bInsV) ? true : false;
-
         $cellMargin = $style->getCellMargin();
-        $mTop = (!is_null($cellMargin[0])) ? true : false;
-        $mLeft = (!is_null($cellMargin[1])) ? true : false;
-        $mRight = (!is_null($cellMargin[2])) ? true : false;
-        $mBottom = (!is_null($cellMargin[3])) ? true : false;
-        $margins = ($mTop || $mLeft || $mRight || $mBottom) ? true : false;
 
-        if ($margins || $borders) {
-            $xmlWriter->startElement('w:tblPr');
-            if ($margins) {
-                $xmlWriter->startElement('w:tblCellMar');
-                if ($mTop) {
-                    echo $margins[0];
-                    $xmlWriter->startElement('w:top');
-                    $xmlWriter->writeAttribute('w:w', $cellMargin[0]);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement();
-                }
-                if ($mLeft) {
-                    $xmlWriter->startElement('w:left');
-                    $xmlWriter->writeAttribute('w:w', $cellMargin[1]);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement();
-                }
-                if ($mRight) {
-                    $xmlWriter->startElement('w:right');
-                    $xmlWriter->writeAttribute('w:w', $cellMargin[2]);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement();
-                }
-                if ($mBottom) {
-                    $xmlWriter->startElement('w:bottom');
-                    $xmlWriter->writeAttribute('w:w', $cellMargin[3]);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement();
-                }
-                $xmlWriter->endElement();
+        // If any of the borders/margins is set, process them
+        $hasBorders = false;
+        for ($i = 0; $i < 6; $i++) {
+            if (!is_null($brdSz[$i])) {
+                $hasBorders = true;
+                break;
             }
-            if ($borders) {
+        }
+        $hasMargins = false;
+        for ($i = 0; $i < 4; $i++) {
+            if (!is_null($cellMargin[$i])) {
+                $hasMargins = true;
+                break;
+            }
+        }
+        if ($hasMargins || $hasBorders) {
+            $xmlWriter->startElement('w:tblPr');
+            if ($hasMargins) {
+                $xmlWriter->startElement('w:tblCellMar');
+                $this->writeMarginBorder($xmlWriter, $cellMargin);
+                $xmlWriter->endElement(); // w:tblCellMar
+            }
+            if ($hasBorders) {
                 $xmlWriter->startElement('w:tblBorders');
-                if ($bTop) {
-                    $xmlWriter->startElement('w:top');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[0]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[0]);
-                    $xmlWriter->endElement();
-                }
-                if ($bLeft) {
-                    $xmlWriter->startElement('w:left');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[1]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[1]);
-                    $xmlWriter->endElement();
-                }
-                if ($bRight) {
-                    $xmlWriter->startElement('w:right');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[2]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[2]);
-                    $xmlWriter->endElement();
-                }
-                if ($bBottom) {
-                    $xmlWriter->startElement('w:bottom');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[3]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[3]);
-                    $xmlWriter->endElement();
-                }
-                if ($bInsH) {
-                    $xmlWriter->startElement('w:insideH');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[4]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[4]);
-                    $xmlWriter->endElement();
-                }
-                if ($bInsV) {
-                    $xmlWriter->startElement('w:insideV');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[5]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[5]);
-                    $xmlWriter->endElement();
-                }
-                $xmlWriter->endElement();
+                $this->writeMarginBorder($xmlWriter, $brdSz, $brdCol);
+                $xmlWriter->endElement(); // w:tblBorders
             }
             $xmlWriter->endElement(); // w:tblPr
         }
@@ -1096,66 +968,39 @@ class Base extends WriterPart
      * @param string $type
      * @param TableStyle $style
      */
-    protected function writeRowStyle(
-        XMLWriter $xmlWriter,
-        $type,
-        TableStyle $style
-    ) {
-        $brdSz = $style->getBorderSize();
-        $brdCol = $style->getBorderColor();
+    protected function writeRowStyle(XMLWriter $xmlWriter, $type, TableStyle $style)
+    {
         $bgColor = $style->getBgColor();
-
-        $bTop = (!is_null($brdSz[0])) ? true : false;
-        $bLeft = (!is_null($brdSz[1])) ? true : false;
-        $bRight = (!is_null($brdSz[2])) ? true : false;
-        $bBottom = (!is_null($brdSz[3])) ? true : false;
 
         $xmlWriter->startElement('w:tblStylePr');
         $xmlWriter->writeAttribute('w:type', $type);
-
         $xmlWriter->startElement('w:tcPr');
         if (!is_null($bgColor)) {
             $xmlWriter->startElement('w:shd');
             $xmlWriter->writeAttribute('w:val', 'clear');
             $xmlWriter->writeAttribute('w:color', 'auto');
             $xmlWriter->writeAttribute('w:fill', $bgColor);
-            $xmlWriter->endElement();
+            $xmlWriter->endElement(); // w:shd
         }
 
-        $xmlWriter->startElement('w:tcBorders');
-        if ($bTop) {
-            $xmlWriter->startElement('w:top');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[0]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[0]);
-            $xmlWriter->endElement();
+        // Borders
+        $brdSz = $style->getBorderSize();
+        $brdCol = $style->getBorderColor();
+        $hasBorders = false;
+        for ($i = 0; $i < 6; $i++) {
+            if (!is_null($brdSz[$i])) {
+                $hasBorders = true;
+                break;
+            }
         }
-        if ($bLeft) {
-            $xmlWriter->startElement('w:left');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[1]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[1]);
-            $xmlWriter->endElement();
+        if ($hasBorders) {
+            $xmlWriter->startElement('w:tcBorders');
+            $this->writeMarginBorder($xmlWriter, $brdSz, $brdCol);
+            $xmlWriter->endElement(); // w:tcBorders
         }
-        if ($bRight) {
-            $xmlWriter->startElement('w:right');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[2]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[2]);
-            $xmlWriter->endElement();
-        }
-        if ($bBottom) {
-            $xmlWriter->startElement('w:bottom');
-            $xmlWriter->writeAttribute('w:val', 'single');
-            $xmlWriter->writeAttribute('w:sz', $brdSz[3]);
-            $xmlWriter->writeAttribute('w:color', $brdCol[3]);
-            $xmlWriter->endElement();
-        }
-        $xmlWriter->endElement();
 
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:tcPr
+        $xmlWriter->endElement(); // w:tblStylePr
     }
 
     /**
@@ -1171,14 +1016,15 @@ class Base extends WriterPart
         $textDir = $style->getTextDirection();
         $brdSz = $style->getBorderSize();
         $brdCol = $style->getBorderColor();
+        $hasBorders = false;
+        for ($i = 0; $i < 4; $i++) {
+            if (!is_null($brdSz[$i])) {
+                $hasBorders = true;
+                break;
+            }
+        }
 
-        $bTop = (!is_null($brdSz[0])) ? true : false;
-        $bLeft = (!is_null($brdSz[1])) ? true : false;
-        $bRight = (!is_null($brdSz[2])) ? true : false;
-        $bBottom = (!is_null($brdSz[3])) ? true : false;
-        $borders = ($bTop || $bLeft || $bRight || $bBottom) ? true : false;
-
-        $styles = (!is_null($bgColor) || !is_null($valign) || !is_null($textDir) || $borders) ? true : false;
+        $styles = (!is_null($bgColor) || !is_null($valign) || !is_null($textDir) || $hasBorders) ? true : false;
 
         if ($styles) {
             if (!is_null($textDir)) {
@@ -1201,54 +1047,11 @@ class Base extends WriterPart
                 $xmlWriter->endElement();
             }
 
-            if ($borders) {
-                $_defaultColor = $style->getDefaultBorderColor();
+            if ($hasBorders) {
+                $defaultColor = $style->getDefaultBorderColor();
 
                 $xmlWriter->startElement('w:tcBorders');
-                if ($bTop) {
-                    if (is_null($brdCol[0])) {
-                        $brdCol[0] = $_defaultColor;
-                    }
-                    $xmlWriter->startElement('w:top');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[0]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[0]);
-                    $xmlWriter->endElement();
-                }
-
-                if ($bLeft) {
-                    if (is_null($brdCol[1])) {
-                        $brdCol[1] = $_defaultColor;
-                    }
-                    $xmlWriter->startElement('w:left');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[1]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[1]);
-                    $xmlWriter->endElement();
-                }
-
-                if ($bRight) {
-                    if (is_null($brdCol[2])) {
-                        $brdCol[2] = $_defaultColor;
-                    }
-                    $xmlWriter->startElement('w:right');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[2]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[2]);
-                    $xmlWriter->endElement();
-                }
-
-                if ($bBottom) {
-                    if (is_null($brdCol[3])) {
-                        $brdCol[3] = $_defaultColor;
-                    }
-                    $xmlWriter->startElement('w:bottom');
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $brdSz[3]);
-                    $xmlWriter->writeAttribute('w:color', $brdCol[3]);
-                    $xmlWriter->endElement();
-                }
-
+                $this->writeMarginBorder($xmlWriter, $brdSz, $brdCol, array('defaultColor' => $defaultColor));
                 $xmlWriter->endElement();
             }
         }
@@ -1268,54 +1071,14 @@ class Base extends WriterPart
     }
 
     /**
-     * Write individual rels entry
-     *
-     * @param XMLWriter $xmlWriter
-     * @param int $pId Relationship ID
-     * @param string $pType Relationship type
-     * @param string $pTarget Relationship target
-     * @param string $pTargetMode Relationship target mode
-     */
-    protected function writeRelationship(
-        XMLWriter $xmlWriter,
-        $pId = 1,
-        $pType = '',
-        $pTarget = '',
-        $pTargetMode = ''
-    ) {
-        if ($pType != '' && $pTarget != '') {
-            if (strpos($pId, 'rId') === false) {
-                $pId = 'rId' . $pId;
-            }
-
-            // Write relationship
-            $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $pId);
-            $xmlWriter->writeAttribute('Type', $pType);
-            $xmlWriter->writeAttribute('Target', $pTarget);
-
-            if ($pTargetMode != '') {
-                $xmlWriter->writeAttribute('TargetMode', $pTargetMode);
-            }
-
-            $xmlWriter->endElement();
-        } else {
-            throw new Exception("Invalid parameters passed.");
-        }
-    }
-
-    /**
      * Write inline paragraph style
      *
      * @param XMLWriter $xmlWriter
      * @param Paragraph|string $styleParagraph
      * @param boolean $withoutPPR
      */
-    protected function writeInlineParagraphStyle(
-        XMLWriter $xmlWriter,
-        $styleParagraph = null,
-        $withoutPPR = false
-    ) {
+    protected function writeInlineParagraphStyle(XMLWriter $xmlWriter, $styleParagraph = null, $withoutPPR = false)
+    {
         if ($styleParagraph instanceof Paragraph) {
             $this->writeParagraphStyle($xmlWriter, $styleParagraph, $withoutPPR);
         } else {
@@ -1339,10 +1102,8 @@ class Base extends WriterPart
      * @param XMLWriter $xmlWriter
      * @param Font|string $styleFont
      */
-    protected function writeInlineFontStyle(
-        XMLWriter $xmlWriter,
-        $styleFont = null
-    ) {
+    protected function writeInlineFontStyle(XMLWriter $xmlWriter, $styleFont = null)
+    {
         if ($styleFont instanceof Font) {
             $this->writeFontStyle($xmlWriter, $styleFont);
         } else {
@@ -1351,6 +1112,99 @@ class Base extends WriterPart
                 $xmlWriter->startElement('w:rStyle');
                 $xmlWriter->writeAttribute('w:val', $styleFont);
                 $xmlWriter->endElement();
+                $xmlWriter->endElement();
+            }
+        }
+    }
+
+    /**
+     * Write container elements
+     *
+     * @param XMLWriter $xmlWriter
+     * @param AbstractElement $container
+     */
+    protected function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
+    {
+        // Check allowed elements
+        $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
+        $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
+        $allowedElements = array(
+            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
+            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote')),
+            'TextRun'  => array_merge($elmCommon, array('Footnote')),
+            'Footnote' => $elmCommon,
+        );
+        $containerName = get_class($container);
+        $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
+        if (array_key_exists($containerName, $allowedElements)) {
+            $containerElements = $allowedElements[$containerName];
+        } else {
+            throw new Exception('Invalid container.');
+        }
+
+        // Loop through elements
+        $elements = $container->getElements();
+        if (count($elements) > 0) {
+            foreach ($elements as $element) {
+                $elmName = get_class($element);
+                $elmName = substr($elmName, strrpos($elmName, '\\') + 1);
+                if (in_array($elmName, $containerElements)) {
+                    $method = "write{$elmName}";
+                    // Image on Header could be watermark
+                    if ($containerName == 'Header' && $elmName == 'Image') {
+                        if ($element->getIsWatermark()) {
+                            $method = "writeWatermark";
+                        }
+                    }
+                    if (in_array($containerName, array('TextRun', 'Footnote'))) {
+                        $this->$method($xmlWriter, $element, true);
+                    } else {
+                        $this->$method($xmlWriter, $element);
+                    }
+                }
+            }
+        } else {
+            if ($containerName == 'Cell') {
+                $this->writeTextBreak($xmlWriter);
+            }
+        }
+    }
+
+    /**
+     * Write margin or border
+     *
+     * @param XMLWriter $xmlWriter
+     * @param array $sizes
+     * @param array $colors
+     * @param array $attributes
+     */
+    protected function writeMarginBorder(XMLWriter $xmlWriter, $sizes, $colors = array(), $attributes = array())
+    {
+        $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
+        $sizeCount = count($sizes) - 1;
+        for ($i = 0; $i < $sizeCount; $i++) {
+            if (!is_null($sizes[$i])) {
+                $xmlWriter->startElement('w:' . $sides[$i]);
+                if (!empty($colors)) {
+                    if (is_null($colors[$i]) && !empty($attributes)) {
+                        if (array_key_exists('defaultColor', $attributes)) {
+                            $colors[$i] = $attributes['defaultColor'];
+                        }
+                    }
+                    $xmlWriter->writeAttribute('w:val', 'single');
+                    $xmlWriter->writeAttribute('w:sz', $sizes[$i]);
+                    $xmlWriter->writeAttribute('w:color', $colors[$i]);
+                    if (!empty($attributes)) {
+                        if (array_key_exists('space', $attributes)) {
+                            $xmlWriter->writeAttribute('w:space', '24');
+                        }
+                    }
+                } else {
+                    $xmlWriter->writeAttribute('w:w', $sizes[$i]);
+                    $xmlWriter->writeAttribute('w:type', 'dxa');
+                }
                 $xmlWriter->endElement();
             }
         }

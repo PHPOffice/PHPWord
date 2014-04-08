@@ -28,11 +28,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testWriteFooter()
     {
         $imageSrc = __DIR__ . "/../../_files/images/PhpWord.png";
-        $container = new \PhpOffice\PhpWord\Section\Footer(1);
+        $container = new \PhpOffice\PhpWord\Element\Footer(1);
         $container->addText('');
         $container->addPreserveText('');
         $container->addTextBreak();
-        $container->createTextRun();
+        $container->addTextRun();
         $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
 

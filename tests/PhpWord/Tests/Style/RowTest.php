@@ -42,7 +42,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
             // setStyleValue
             $value = !$value;
             $expected = $value ? 1 : 0;
-            $object->setStyleValue("_{$key}", $value);
+            $object->setStyleValue("{$key}", $value);
             $this->assertEquals($expected, $object->$get());
         }
     }

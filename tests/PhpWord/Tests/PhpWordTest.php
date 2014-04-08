@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -51,8 +51,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     public function testCreateGetSections()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new Section(1), $phpWord->createSection());
-        $phpWord->createSection();
+        $this->assertEquals(new Section(1), $phpWord->addSection());
+        $phpWord->addSection();
         $this->assertEquals(2, \count($phpWord->getSections()));
     }
 
@@ -140,7 +140,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     /**
      * Test load template exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testLoadTemplateException()
     {

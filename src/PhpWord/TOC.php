@@ -29,7 +29,7 @@ class TOC
      *
      * @var TOCStyle
      */
-    private static $tocStyle;
+    private static $TOCStyle;
 
     /**
      * Font style
@@ -52,6 +52,7 @@ class TOC
      */
     private static $bookmarkId = 0;
 
+
     /**
      * Min title depth to show
      *
@@ -66,24 +67,25 @@ class TOC
      */
     private $maxDepth = 9;
 
+
     /**
      * Create a new Table-of-Contents Element
      *
      * @param mixed $styleFont
      * @param array $styleTOC
-     * @param int $minDepth
-     * @param int $maxDepth
+     * @param integer $minDepth
+     * @param integer $maxDepth
      */
     public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
-        self::$tocStyle = new TOCStyle();
+        self::$TOCStyle = new TOCStyle();
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
+                if (substr($key, 0, 1) == '_') {
+                    $key = substr($key, 1);
                 }
-                self::$tocStyle->setStyleValue($key, $value);
+                self::$TOCStyle->setStyleValue($key, $value);
             }
         }
 
@@ -91,8 +93,8 @@ class TOC
             if (is_array($styleFont)) {
                 self::$fontStyle = new Font();
                 foreach ($styleFont as $key => $value) {
-                    if (substr($key, 0, 1) != '_') {
-                        $key = '_' . $key;
+                    if (substr($key, 0, 1) == '_') {
+                        $key = substr($key, 1);
                     }
                     self::$fontStyle->setStyleValue($key, $value);
                 }
@@ -150,13 +152,21 @@ class TOC
     }
 
     /**
+     * Reset footnotes
+     */
+    public static function reset()
+    {
+        self::$titles = array();
+    }
+
+    /**
      * Get TOC Style
      *
      * @return TOCStyle
      */
     public static function getStyleTOC()
     {
-        return self::$tocStyle;
+        return self::$TOCStyle;
     }
 
     /**
@@ -172,7 +182,7 @@ class TOC
     /**
      * Set max depth
      *
-     * @param integer $value
+     * @param int $value
      */
     public function setMaxDepth($value)
     {
@@ -192,7 +202,7 @@ class TOC
     /**
      * Set min depth
      *
-     * @param integer $value
+     * @param int $value
      */
     public function setMinDepth($value)
     {

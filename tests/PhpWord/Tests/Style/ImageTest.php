@@ -58,7 +58,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
-            $object->setStyleValue("_{$key}", $value);
+            $object->setStyleValue("{$key}", $value);
             $this->assertEquals($value, $object->$get());
         }
     }

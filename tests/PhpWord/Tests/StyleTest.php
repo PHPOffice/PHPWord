@@ -43,6 +43,10 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
         $this->assertNull(Style::getStyle('Unknown'));
+
+        Style::reset();
+        $this->assertEquals(0, count(Style::getStyles()));
+
     }
 
     /**

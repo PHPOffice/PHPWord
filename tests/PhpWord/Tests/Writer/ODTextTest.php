@@ -26,7 +26,6 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $object = new ODText(new PhpWord());
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\HashTable', $object->getDrawingHashTable());
 
         $this->assertEquals('./', $object->getDiskCachingDirectory());
         foreach (array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles') as $part) {
@@ -44,7 +43,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Construct with null
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage No PhpWord assigned.
      */
     public function testConstructWithNull()
@@ -65,7 +64,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font');
         $section->addTextBreak();
         $section->addText('Test 2', null, 'Paragraph');
@@ -77,8 +76,8 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
-        $section = $phpWord->createSection();
-        $textrun = $section->createTextRun();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test 3');
         $writer = new ODText($phpWord);
         $writer->save($file);
@@ -96,7 +95,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     public function testSavePhpOutput()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test');
         $writer = new ODText($phpWord);
         $writer->save('php://output');
@@ -105,7 +104,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Save with no PhpWord object assigned
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage PhpWord object unassigned.
      */
     public function testSaveException()
@@ -137,7 +136,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     /**
      * Use disk caching exception
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {

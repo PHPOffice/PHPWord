@@ -12,10 +12,10 @@ $phpWord->addFontStyle('ColoredText', array('color'=>'FF8080'));
 $phpWord->addLinkStyle('NLink', array('color'=>'0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
 
 // New portrait section
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // Add text run
-$textrun = $section->createTextRun('pStyle');
+$textrun = $section->addTextRun('pStyle');
 
 $textrun->addText('Each textrun can contain native text, link elements or an image.');
 $textrun->addText(' No break is placed after adding an element.', 'BoldText');
@@ -28,7 +28,9 @@ $textrun->addText(' All elements are placed inside a paragraph with the optional
 $textrun->addText(' Sample Link: ');
 $textrun->addLink('http://www.google.com', null, 'NLink');
 $textrun->addText(' Sample Image: ');
-$textrun->addImage('resources/_earth.jpg', array('width'=>18, 'height'=>18));
+$textrun->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$textrun->addText(' Sample Object: ');
+$textrun->addObject('resources/_sheet.xls');
 $textrun->addText(' Here is some more text. ');
 
 // Save file

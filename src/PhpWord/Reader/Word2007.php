@@ -12,19 +12,19 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Reader for Word2007
  */
-class Word2007 extends Reader implements IReader
+class Word2007 extends AbstractReader implements ReaderInterface
 {
     /**
-     * Can the current IReader read the file?
+     * Can the current ReaderInterface read the file?
      *
      * @param string $pFilename
      * @return bool
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function canRead($pFilename)
     {
@@ -64,7 +64,7 @@ class Word2007 extends Reader implements IReader
      * @param mixed $archive
      * @param string $fileName
      * @param bool $removeNamespace
-     * @return mixed
+     * @return string
      */
     public function getFromZipArchive($archive, $fileName = '', $removeNamespace = false)
     {
@@ -173,7 +173,7 @@ class Word2007 extends Reader implements IReader
                     );
                     $xmlDoc = simplexml_load_string($this->getFromZipArchive($zip, "{$rel['Target']}", true));
                     if (is_object($xmlDoc)) {
-                        $section = $word->createSection();
+                        $section = $word->addSection();
 
                         foreach ($xmlDoc->body->children() as $elm) {
                             $elmName = $elm->getName();
@@ -181,7 +181,7 @@ class Word2007 extends Reader implements IReader
                                 // Create new section if section setting found
                                 if ($elm->pPr->sectPr) {
                                     $section->setSettings($this->loadSectionSettings($elm->pPr));
-                                    $section = $word->createSection();
+                                    $section = $word->addSection();
                                     continue;
                                 }
                                 // Has w:r? It's either text or textrun
@@ -194,7 +194,7 @@ class Word2007 extends Reader implements IReader
                                         );
                                         // w:r more than 1? It's a textrun
                                     } else {
-                                        $textRun = $section->createTextRun();
+                                        $textRun = $section->addTextRun();
                                         foreach ($elm->r as $r) {
                                             $textRun->addText(
                                                 $r->t,
@@ -234,7 +234,7 @@ class Word2007 extends Reader implements IReader
                             $styleName = (string)$elm->name['val'];
                             if ($hasParagraphStyle) {
                                 $pStyle = $this->loadParagraphStyle($elm);
-                                if (!$hasFontStyle) {
+                                if (is_array($pStyle) && !$hasFontStyle) {
                                     $word->addParagraphStyle($styleName, $pStyle);
                                 }
                             }
@@ -428,8 +428,8 @@ class Word2007 extends Reader implements IReader
      * Return item of array
      *
      * @param array $array
-     * @param mixed $key
-     * @return mixed|null
+     * @param integer $key
+     * @return string
      */
     private static function arrayItem($array, $key = 0)
     {

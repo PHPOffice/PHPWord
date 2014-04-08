@@ -9,14 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Section\Footer\PreserveText;
-use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\Table;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\TextBreak;
-use PhpOffice\PhpWord\Section\TextRun;
-use PhpOffice\PhpWord\Section\Footer as FooterElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Element\Footer as FooterElement;
 
 /**
  * Word2007 footer part writer
@@ -47,23 +40,7 @@ class Footer extends Base
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
-        $_elements = $footer->getElements();
-
-        foreach ($_elements as $element) {
-            if ($element instanceof Text) {
-                $this->writeText($xmlWriter, $element);
-            } elseif ($element instanceof TextRun) {
-                $this->writeTextRun($xmlWriter, $element);
-            } elseif ($element instanceof TextBreak) {
-                $this->writeTextBreak($xmlWriter, $element);
-            } elseif ($element instanceof Table) {
-                $this->writeTable($xmlWriter, $element);
-            } elseif ($element instanceof Image) {
-                $this->writeImage($xmlWriter, $element);
-            } elseif ($element instanceof PreserveText) {
-                $this->writePreserveText($xmlWriter, $element);
-            }
-        }
+        $this->writeContainerElements($xmlWriter, $footer);
 
         $xmlWriter->endElement();
 

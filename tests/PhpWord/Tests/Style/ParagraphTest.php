@@ -45,9 +45,9 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($attributes as $key => $default) {
             $get = "get{$key}";
-            $object->setStyleValue("_$key", null);
+            $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
-            $object->setStyleValue("_$key", '');
+            $object->setStyleValue("$key", '');
             $this->assertEquals($default, $object->$get());
         }
     }
@@ -75,7 +75,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($attributes as $key => $value) {
             $get = "get{$key}";
-            $object->setStyleValue("_$key", $value);
+            $object->setStyleValue("$key", $value);
             if ($key == 'align') {
                 if ($value == 'justify') {
                     $value = 'both';
@@ -105,7 +105,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     public function testLineHeight()
     {
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
 
         // Test style array
         $text = $section->addText('This is a test', array(), array(
@@ -146,7 +146,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     /**
      * Test line height exception by using nonnumeric value
      *
-     * @expectedException \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function testLineHeightException()
     {

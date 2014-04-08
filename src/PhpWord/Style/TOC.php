@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * TOC style
  */
-class TOC
+class TOC extends AbstractStyle
 {
     const TABLEADER_DOT = 'dot';
     const TABLEADER_UNDERSCORE = 'underscore';
@@ -24,21 +24,21 @@ class TOC
      *
      * @var string
      */
-    private $_tabLeader;
+    private $tabLeader;
 
     /**
      * Tab Position
      *
      * @var int
      */
-    private $_tabPos;
+    private $tabPos;
 
     /**
      * Indent
      *
      * @var int
      */
-    private $_indent;
+    private $indent;
 
 
     /**
@@ -46,9 +46,9 @@ class TOC
      */
     public function __construct()
     {
-        $this->_tabPos = 9062;
-        $this->_tabLeader = self::TABLEADER_DOT;
-        $this->_indent = 200;
+        $this->tabPos = 9062;
+        $this->tabLeader = self::TABLEADER_DOT;
+        $this->indent = 200;
     }
 
     /**
@@ -58,7 +58,7 @@ class TOC
      */
     public function getTabPos()
     {
-        return $this->_tabPos;
+        return $this->tabPos;
     }
 
     /**
@@ -68,7 +68,7 @@ class TOC
      */
     public function setTabPos($pValue)
     {
-        $this->_tabPos = $pValue;
+        $this->tabPos = $pValue;
     }
 
     /**
@@ -78,7 +78,7 @@ class TOC
      */
     public function getTabLeader()
     {
-        return $this->_tabLeader;
+        return $this->tabLeader;
     }
 
     /**
@@ -88,7 +88,7 @@ class TOC
      */
     public function setTabLeader($pValue = self::TABLEADER_DOT)
     {
-        $this->_tabLeader = $pValue;
+        $this->tabLeader = $pValue;
     }
 
     /**
@@ -98,7 +98,7 @@ class TOC
      */
     public function getIndent()
     {
-        return $this->_indent;
+        return $this->indent;
     }
 
     /**
@@ -108,7 +108,7 @@ class TOC
      */
     public function setIndent($pValue)
     {
-        $this->_indent = $pValue;
+        $this->indent = $pValue;
     }
 
     /**

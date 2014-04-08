@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\String;
 
@@ -222,7 +222,7 @@ class Template
      * @param string $blockname
      * @param integer $clones
      * @param boolean $replace
-     * @return null
+     * @return string|null
      */
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
@@ -263,7 +263,6 @@ class Template
      * Delete a block of text
      *
      * @param string $blockname
-     * @param string $replacement
      */
     public function deleteBlock($blockname)
     {
@@ -317,7 +316,7 @@ class Template
      *
      * @param string $documentPartXML
      * @param string $search
-     * @param mixed $replace
+     * @param string $replace
      * @param integer $limit
      * @return string
      */
@@ -335,16 +334,10 @@ class Template
             $search = '${' . $search . '}';
         }
 
-        if (!is_array($replace)) {
-            if (!String::isUTF8($replace)) {
-                $replace = utf8_encode($replace);
-            }
-            $replace = htmlspecialchars($replace);
-        } else {
-            foreach ($replace as $key => $value) {
-                $replace[$key] = htmlspecialchars($value);
-            }
+        if (!String::isUTF8($replace)) {
+            $replace = utf8_encode($replace);
         }
+        $replace = htmlspecialchars($replace);
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);

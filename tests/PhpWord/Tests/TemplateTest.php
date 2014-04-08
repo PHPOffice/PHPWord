@@ -95,7 +95,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      * XSL stylesheet cannot be applied on failure in setting parameter value
      *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
@@ -117,7 +117,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      * XSL stylesheet can be applied on failure of loading XML from template
      *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage Could not load XML from the given template.
      * @test
      */
@@ -201,6 +201,5 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
-
     }
 }

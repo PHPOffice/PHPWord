@@ -41,7 +41,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
@@ -54,7 +54,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
-        $textrun = $section->createTextRun();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 

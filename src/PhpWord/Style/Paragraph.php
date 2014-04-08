@@ -9,12 +9,12 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
+use PhpOffice\PhpWord\Exception\InvalidStyleException;
 
 /**
  * Paragraph style
  */
-class Paragraph
+class Paragraph extends AbstractStyle
 {
     const LINE_HEIGHT = 240;
 
@@ -30,91 +30,91 @@ class Paragraph
      *
      * @var string
      */
-    private $_align;
+    private $align;
 
     /**
      * Space before Paragraph
      *
      * @var int
      */
-    private $_spaceBefore;
+    private $spaceBefore;
 
     /**
      * Space after Paragraph
      *
      * @var int
      */
-    private $_spaceAfter;
+    private $spaceAfter;
 
     /**
      * Spacing between breaks
      *
      * @var int
      */
-    private $_spacing;
+    private $spacing;
 
     /**
      * Set of Custom Tab Stops
      *
      * @var array
      */
-    private $_tabs;
+    private $tabs;
 
     /**
      * Indent by how much
      *
      * @var int
      */
-    private $_indent;
+    private $indent;
 
     /**
      * Hanging by how much
      *
      * @var int
      */
-    private $_hanging;
+    private $hanging;
 
     /**
      * Parent style
      *
      * @var string
      */
-    private $_basedOn = 'Normal';
+    private $basedOn = 'Normal';
 
     /**
      * Style for next paragraph
      *
      * @var string
      */
-    private $_next;
+    private $next;
 
     /**
      * Allow first/last line to display on a separate page
      *
      * @var bool
      */
-    private $_widowControl = true;
+    private $widowControl = true;
 
     /**
      * Keep paragraph with next paragraph
      *
      * @var bool
      */
-    private $_keepNext = false;
+    private $keepNext = false;
 
     /**
      * Keep all lines on one page
      *
      * @var bool
      */
-    private $_keepLines = false;
+    private $keepLines = false;
 
     /**
      * Start paragraph on next page
      *
      * @var bool
      */
-    private $_pageBreakBefore = false;
+    private $pageBreakBefore = false;
 
     /**
      * Set style by array
@@ -127,8 +127,8 @@ class Paragraph
         foreach ($style as $key => $value) {
             if ($key === 'line-height') {
                 null;
-            } elseif (substr($key, 0, 1) !== '_') {
-                $key = '_' . $key;
+            } elseif (substr($key, 0, 1) == '_') {
+                $key = substr($key, 1);
             }
             $this->setStyleValue($key, $value);
         }
@@ -144,16 +144,18 @@ class Paragraph
      */
     public function setStyleValue($key, $value)
     {
-        if ($key == '_indent' || $key == '_hanging') {
+        if (substr($key, 0, 1) == '_') {
+            $key = substr($key, 1);
+        }
+        if ($key == 'indent' || $key == 'hanging') {
             $value = $value * 720;
-        } elseif ($key == '_spacing') {
+        } elseif ($key == 'spacing') {
             $value += 240; // because line height of 1 matches 240 twips
         } elseif ($key === 'line-height') {
             $this->setLineHeight($value);
             return;
         }
-        $this->$key = $value;
-        $method = 'set' . substr($key, 1);
+        $method = 'set' . $key;
         if (method_exists($this, $method)) {
             $this->$method($value);
         }
@@ -166,7 +168,7 @@ class Paragraph
      */
     public function getAlign()
     {
-        return $this->_align;
+        return $this->align;
     }
 
     /**
@@ -181,18 +183,18 @@ class Paragraph
             // justify becames both
             $pValue = 'both';
         }
-        $this->_align = $pValue;
+        $this->align = $pValue;
         return $this;
     }
 
     /**
      * Get Space before Paragraph
      *
-     * @return string
+     * @return integer
      */
     public function getSpaceBefore()
     {
-        return $this->_spaceBefore;
+        return $this->spaceBefore;
     }
 
     /**
@@ -203,18 +205,18 @@ class Paragraph
      */
     public function setSpaceBefore($pValue = null)
     {
-        $this->_spaceBefore = $pValue;
+        $this->spaceBefore = $pValue;
         return $this;
     }
 
     /**
      * Get Space after Paragraph
      *
-     * @return string
+     * @return integer
      */
     public function getSpaceAfter()
     {
-        return $this->_spaceAfter;
+        return $this->spaceAfter;
     }
 
     /**
@@ -225,7 +227,7 @@ class Paragraph
      */
     public function setSpaceAfter($pValue = null)
     {
-        $this->_spaceAfter = $pValue;
+        $this->spaceAfter = $pValue;
         return $this;
     }
 
@@ -236,7 +238,7 @@ class Paragraph
      */
     public function getSpacing()
     {
-        return $this->_spacing;
+        return $this->spacing;
     }
 
     /**
@@ -247,7 +249,7 @@ class Paragraph
      */
     public function setSpacing($pValue = null)
     {
-        $this->_spacing = $pValue;
+        $this->spacing = $pValue;
         return $this;
     }
 
@@ -258,7 +260,7 @@ class Paragraph
      */
     public function getIndent()
     {
-        return $this->_indent;
+        return $this->indent;
     }
 
     /**
@@ -269,7 +271,7 @@ class Paragraph
      */
     public function setIndent($pValue = null)
     {
-        $this->_indent = $pValue;
+        $this->indent = $pValue;
         return $this;
     }
 
@@ -280,7 +282,7 @@ class Paragraph
      */
     public function getHanging()
     {
-        return $this->_hanging;
+        return $this->hanging;
     }
 
     /**
@@ -291,7 +293,7 @@ class Paragraph
      */
     public function setHanging($pValue = null)
     {
-        $this->_hanging = $pValue;
+        $this->hanging = $pValue;
         return $this;
     }
 
@@ -302,7 +304,7 @@ class Paragraph
      */
     public function getTabs()
     {
-        return $this->_tabs;
+        return $this->tabs;
     }
 
     /**
@@ -314,7 +316,7 @@ class Paragraph
     public function setTabs($pValue = null)
     {
         if (is_array($pValue)) {
-            $this->_tabs = new Tabs($pValue);
+            $this->tabs = new Tabs($pValue);
         }
         return $this;
     }
@@ -326,7 +328,7 @@ class Paragraph
      */
     public function getBasedOn()
     {
-        return $this->_basedOn;
+        return $this->basedOn;
     }
 
     /**
@@ -337,7 +339,7 @@ class Paragraph
      */
     public function setBasedOn($pValue = 'Normal')
     {
-        $this->_basedOn = $pValue;
+        $this->basedOn = $pValue;
         return $this;
     }
 
@@ -348,7 +350,7 @@ class Paragraph
      */
     public function getNext()
     {
-        return $this->_next;
+        return $this->next;
     }
 
     /**
@@ -359,7 +361,7 @@ class Paragraph
      */
     public function setNext($pValue = null)
     {
-        $this->_next = $pValue;
+        $this->next = $pValue;
         return $this;
     }
 
@@ -370,7 +372,7 @@ class Paragraph
      */
     public function getWidowControl()
     {
-        return $this->_widowControl;
+        return $this->widowControl;
     }
 
     /**
@@ -384,7 +386,7 @@ class Paragraph
         if (!is_bool($pValue)) {
             $pValue = true;
         }
-        $this->_widowControl = $pValue;
+        $this->widowControl = $pValue;
         return $this;
     }
 
@@ -395,7 +397,7 @@ class Paragraph
      */
     public function getKeepNext()
     {
-        return $this->_keepNext;
+        return $this->keepNext;
     }
 
     /**
@@ -409,7 +411,7 @@ class Paragraph
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_keepNext = $pValue;
+        $this->keepNext = $pValue;
         return $this;
     }
 
@@ -420,7 +422,7 @@ class Paragraph
      */
     public function getKeepLines()
     {
-        return $this->_keepLines;
+        return $this->keepLines;
     }
 
     /**
@@ -434,7 +436,7 @@ class Paragraph
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_keepLines = $pValue;
+        $this->keepLines = $pValue;
         return $this;
     }
 
@@ -445,7 +447,7 @@ class Paragraph
      */
     public function getPageBreakBefore()
     {
-        return $this->_pageBreakBefore;
+        return $this->pageBreakBefore;
     }
 
     /**
@@ -459,7 +461,7 @@ class Paragraph
         if (!is_bool($pValue)) {
             $pValue = false;
         }
-        $this->_pageBreakBefore = $pValue;
+        $this->pageBreakBefore = $pValue;
         return $this;
     }
 
@@ -468,7 +470,7 @@ class Paragraph
      *
      * @param int|float|string $lineHeight
      * @return $this
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {

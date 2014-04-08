@@ -6,7 +6,7 @@ echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $section->addText('You can open this OLE object by double clicking on the icon:');
 $section->addTextBreak(2);
 $section->addObject('resources/_sheet.xls');

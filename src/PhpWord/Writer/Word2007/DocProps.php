@@ -10,18 +10,21 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 contenttypes part writer
  */
-class DocProps extends WriterPart
+class DocProps extends AbstractWriterPart
 {
     /**
      * Write docProps/app.xml
      */
     public function writeDocPropsApp(PhpWord $phpWord = null)
     {
+        if (is_null($phpWord)) {
+            throw new Exception("No PhpWord assigned.");
+        }
+
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
@@ -112,7 +115,7 @@ class DocProps extends WriterPart
      *
      * @param PhpWord $phpWord
      */
-    public function writeDocPropsCore(PhpWord $phpWord = null)
+    public function writeDocPropsCore(PhpWord $phpWord)
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();

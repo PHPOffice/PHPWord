@@ -10,17 +10,16 @@
 namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Section;
-use PhpOffice\PhpWord\Section\Image;
-use PhpOffice\PhpWord\Section\Link;
-use PhpOffice\PhpWord\Section\ListItem;
-use PhpOffice\PhpWord\Section\Object;
-use PhpOffice\PhpWord\Section\PageBreak;
-use PhpOffice\PhpWord\Section\Table;
-use PhpOffice\PhpWord\Section\Text;
-use PhpOffice\PhpWord\Section\TextBreak;
-use PhpOffice\PhpWord\Section\TextRun;
-use PhpOffice\PhpWord\Section\Title;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Object;
+use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -30,7 +29,7 @@ use PhpOffice\PhpWord\TOC;
 /**
  * ODText content part writer
  */
-class Content extends WriterPart
+class Content extends Base
 {
     /**
      * Write content file to XML format
@@ -40,6 +39,10 @@ class Content extends WriterPart
      */
     public function writeContent(PhpWord $phpWord = null)
     {
+        if (is_null($phpWord)) {
+            throw new Exception("No PhpWord assigned.");
+        }
+
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
@@ -48,52 +51,26 @@ class Content extends WriterPart
 
         // office:document-content
         $xmlWriter->startElement('office:document-content');
-        $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
-        $xmlWriter->writeAttribute('xmlns:style', 'urn:oasis:names:tc:opendocument:xmlns:style:1.0');
-        $xmlWriter->writeAttribute('xmlns:text', 'urn:oasis:names:tc:opendocument:xmlns:text:1.0');
-        $xmlWriter->writeAttribute('xmlns:table', 'urn:oasis:names:tc:opendocument:xmlns:table:1.0');
-        $xmlWriter->writeAttribute('xmlns:draw', 'urn:oasis:names:tc:opendocument:xmlns:drawing:1.0');
-        $xmlWriter->writeAttribute('xmlns:fo', 'urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0');
-        $xmlWriter->writeAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-        $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-        $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
-        $xmlWriter->writeAttribute('xmlns:number', 'urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0');
-        $xmlWriter->writeAttribute('xmlns:svg', 'urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0');
-        $xmlWriter->writeAttribute('xmlns:chart', 'urn:oasis:names:tc:opendocument:xmlns:chart:1.0');
-        $xmlWriter->writeAttribute('xmlns:dr3d', 'urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0');
-        $xmlWriter->writeAttribute('xmlns:math', 'http://www.w3.org/1998/Math/MathML');
-        $xmlWriter->writeAttribute('xmlns:form', 'urn:oasis:names:tc:opendocument:xmlns:form:1.0');
-        $xmlWriter->writeAttribute('xmlns:script', 'urn:oasis:names:tc:opendocument:xmlns:script:1.0');
-        $xmlWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
-        $xmlWriter->writeAttribute('xmlns:ooow', 'http://openoffice.org/2004/writer');
-        $xmlWriter->writeAttribute('xmlns:oooc', 'http://openoffice.org/2004/calc');
-        $xmlWriter->writeAttribute('xmlns:dom', 'http://www.w3.org/2001/xml-events');
+        $this->writeCommonRootAttributes($xmlWriter);
         $xmlWriter->writeAttribute('xmlns:xforms', 'http://www.w3.org/2002/xforms');
         $xmlWriter->writeAttribute('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema');
         $xmlWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $xmlWriter->writeAttribute('xmlns:rpt', 'http://openoffice.org/2005/report');
-        $xmlWriter->writeAttribute('xmlns:of', 'urn:oasis:names:tc:opendocument:xmlns:of:1.2');
-        $xmlWriter->writeAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
-        $xmlWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
-        $xmlWriter->writeAttribute('xmlns:tableooo', 'http://openoffice.org/2009/table');
         $xmlWriter->writeAttribute('xmlns:field', 'urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0');
         $xmlWriter->writeAttribute('xmlns:formx', 'urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0');
-        $xmlWriter->writeAttribute('xmlns:css3t', 'http://www.w3.org/TR/css3-text/');
-        $xmlWriter->writeAttribute('office:version', '1.2');
 
         // We firstly search all fonts used
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
             $pSection = 0;
             $numPStyles = 0;
             $numFStyles = 0;
 
-            foreach ($_sections as $section) {
+            foreach ($sections as $section) {
                 $pSection++;
-                $_elements = $section->getElements();
+                $elements = $section->getElements();
 
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $fStyle = $element->getFontStyle();
                         $pStyle = $element->getParagraphStyle();
@@ -119,37 +96,9 @@ class Content extends WriterPart
         }
 
         // office:font-face-decls
-        $xmlWriter->startElement('office:font-face-decls');
-        $arrFonts = array();
+        $this->writeFontFaces($xmlWriter);
 
-        $styles = Style::getStyles();
-        $numFonts = 0;
-        if (count($styles) > 0) {
-            foreach ($styles as $styleName => $style) {
-                // Font
-                if ($style instanceof Font) {
-                    $numFonts++;
-                    $name = $style->getName();
-                    if (!in_array($name, $arrFonts)) {
-                        $arrFonts[] = $name;
-
-                        // style:font-face
-                        $xmlWriter->startElement('style:font-face');
-                        $xmlWriter->writeAttribute('style:name', $name);
-                        $xmlWriter->writeAttribute('svg:font-family', $name);
-                        $xmlWriter->endElement();
-                    }
-                }
-            }
-            if (!in_array(PhpWord::DEFAULT_FONT_NAME, $arrFonts)) {
-                $xmlWriter->startElement('style:font-face');
-                $xmlWriter->writeAttribute('style:name', PhpWord::DEFAULT_FONT_NAME);
-                $xmlWriter->writeAttribute('svg:font-family', PhpWord::DEFAULT_FONT_NAME);
-                $xmlWriter->endElement();
-            }
-        }
-        $xmlWriter->endElement();
-
+        // office:automatic-styles
         $xmlWriter->startElement('office:automatic-styles');
         $styles = Style::getStyles();
         $numPStyles = 0;
@@ -232,17 +181,13 @@ class Content extends WriterPart
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
-        $_sections = $phpWord->getSections();
-        $countSections = count($_sections);
-        $pSection = 0;
-
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
         if ($countSections > 0) {
-            foreach ($_sections as $section) {
-                $pSection++;
+            foreach ($sections as $section) {
+                $elements = $section->getElements();
 
-                $_elements = $section->getElements();
-
-                foreach ($_elements as $element) {
+                foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $this->writeText($xmlWriter, $element);
                     } elseif ($element instanceof TextRun) {
@@ -268,12 +213,6 @@ class Content extends WriterPart
                     } else {
                         $this->writeUnsupportedElement($xmlWriter, 'Element');
                     }
-                }
-
-                if ($pSection == $countSections) {
-                    $this->writeEndSection($xmlWriter, $section);
-                } else {
-                    $this->writeSection($xmlWriter, $section);
                 }
             }
         }
@@ -311,19 +250,21 @@ class Content extends WriterPart
             if (empty($styleFont)) {
                 if (empty($styleParagraph)) {
                     $xmlWriter->writeAttribute('text:style-name', 'P1');
-                } else {
-                    $xmlWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+                } elseif (is_string($styleParagraph)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
                 }
                 $xmlWriter->writeRaw($text->getText());
             } else {
                 if (empty($styleParagraph)) {
                     $xmlWriter->writeAttribute('text:style-name', 'Standard');
-                } else {
-                    $xmlWriter->writeAttribute('text:style-name', $text->getParagraphStyle());
+                } elseif (is_string($styleParagraph)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
                 }
                 // text:span
                 $xmlWriter->startElement('text:span');
-                $xmlWriter->writeAttribute('text:style-name', $styleFont);
+                if (is_string($styleFont)) {
+                    $xmlWriter->writeAttribute('text:style-name', $styleFont);
+                }
                 $xmlWriter->writeRaw($text->getText());
                 $xmlWriter->endElement();
             }
@@ -359,34 +300,12 @@ class Content extends WriterPart
      *
      * @param XMLWriter $xmlWriter
      */
-    protected function writeTextBreak(XMLWriter $xmlWriter = null)
+    protected function writeTextBreak(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');
         $xmlWriter->endElement();
     }
-
-    // @codeCoverageIgnoreStart
-    /**
-     * Write end section
-     *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
-     */
-    private function writeEndSection(XMLWriter $xmlWriter = null, Section $section = null)
-    {
-    }
-
-    /**
-     * Write section
-     *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
-     */
-    private function writeSection(XMLWriter $xmlWriter = null, Section $section = null)
-    {
-    }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Write unsupported element

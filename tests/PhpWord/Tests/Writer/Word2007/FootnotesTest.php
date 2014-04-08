@@ -34,13 +34,13 @@ class FootnotesTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('align' => 'left'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Text');
-        $footnote1 = $section->createFootnote('pStyle');
+        $footnote1 = $section->addFootnote('pStyle');
         $footnote1->addText('Footnote');
         $footnote1->addTextBreak();
         $footnote1->addLink('http://google.com');
-        $footnote2 = $section->createFootnote(array('align' => 'left'));
+        $footnote2 = $section->addFootnote(array('align' => 'left'));
         $footnote2->addText('Footnote');
         $doc = TestHelperDOCX::getDocument($phpWord);
 

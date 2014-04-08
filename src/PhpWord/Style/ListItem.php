@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * List item style
  */
-class ListItem
+class ListItem extends AbstractStyle
 {
     const TYPE_NUMBER = 7;
     const TYPE_NUMBER_NESTED = 8;
@@ -24,25 +24,14 @@ class ListItem
     /**
      * List Type
      */
-    private $_listType;
+    private $listType;
 
     /**
      * Create a new ListItem Style
      */
     public function __construct()
     {
-        $this->_listType = self::TYPE_BULLET_FILLED;
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param string $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $this->$key = $value;
+        $this->listType = self::TYPE_BULLET_FILLED;
     }
 
     /**
@@ -52,7 +41,7 @@ class ListItem
      */
     public function setListType($pValue = self::TYPE_BULLET_FILLED)
     {
-        $this->_listType = $pValue;
+        $this->listType = $pValue;
     }
 
     /**
@@ -60,6 +49,6 @@ class ListItem
      */
     public function getListType()
     {
-        return $this->_listType;
+        return $this->listType;
     }
 }

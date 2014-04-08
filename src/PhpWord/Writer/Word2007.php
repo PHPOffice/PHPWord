@@ -9,40 +9,37 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
+use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
-use PhpOffice\PhpWord\Writer\Word2007\DocumentRels;
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
 use PhpOffice\PhpWord\Writer\Word2007\Footnotes;
-use PhpOffice\PhpWord\Writer\Word2007\FootnotesRels;
 use PhpOffice\PhpWord\Writer\Word2007\Header;
-use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
 /**
  * Word2007 writer
  */
-class Word2007 extends Writer implements IWriter
+class Word2007 extends AbstractWriter implements WriterInterface
 {
     /**
-     * Types of images
+     * Content types values
      *
      * @var array
      */
-    private $imageTypes = array();
+    private $cTypes = array('default' => array(), 'override' => array());
 
     /**
-     * Types of objects
+     * Document relationship
      *
      * @var array
      */
-    private $objectTypes = array();
+    private $docRels = array();
 
     /**
      * Create new Word2007 writer
@@ -58,13 +55,11 @@ class Word2007 extends Writer implements IWriter
         $this->writerParts['contenttypes'] = new ContentTypes();
         $this->writerParts['rels'] = new Rels();
         $this->writerParts['docprops'] = new DocProps();
-        $this->writerParts['documentrels'] = new DocumentRels();
         $this->writerParts['document'] = new Document();
         $this->writerParts['styles'] = new Styles();
         $this->writerParts['header'] = new Header();
         $this->writerParts['footer'] = new Footer();
         $this->writerParts['footnotes'] = new Footnotes();
-        $this->writerParts['footnotesrels'] = new FootnotesRels();
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
@@ -73,124 +68,61 @@ class Word2007 extends Writer implements IWriter
     /**
      * Save document by name
      *
-     * @param string $pFilename
+     * @param string $filename
      */
-    public function save($pFilename = null)
+    public function save($filename = null)
     {
         if (!is_null($this->phpWord)) {
-            $pFilename = $this->getTempFile($pFilename);
+            $filename = $this->getTempFile($filename);
+            $objZip = $this->getZipArchive($filename);
 
-            // Create new ZIP file and open it for writing
-            $zipClass = Settings::getZipClass();
-            $objZip = new $zipClass();
-
-            // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
-            // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
-            $ro = new \ReflectionObject($objZip);
-            $zipOverWrite = $ro->getConstant('OVERWRITE');
-            $zipCreate = $ro->getConstant('CREATE');
-
-            // Remove any existing file
-            if (file_exists($pFilename)) {
-                unlink($pFilename);
-            }
-
-            // Try opening the ZIP file
-            if ($objZip->open($pFilename, $zipOverWrite) !== true) {
-                if ($objZip->open($pFilename, $zipCreate) !== true) {
-                    throw new Exception("Could not open " . $pFilename . " for writing.");
-                }
-            }
-
-            $sectionElements = array();
-            $_secElements = Media::getSectionMediaElements();
-            foreach ($_secElements as $element) { // loop through section media elements
-                if ($element['type'] != 'hyperlink') {
-                    $this->addFileToPackage($objZip, $element);
-                }
-                $sectionElements[] = $element;
-            }
-
-            $_hdrElements = Media::getHeaderMediaElements();
-            foreach ($_hdrElements as $_headerFile => $_hdrMedia) { // loop through headers
-                if (count($_hdrMedia) > 0) {
-                    $objZip->addFromString('word/_rels/' . $_headerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_hdrMedia));
-                    foreach ($_hdrMedia as $element) { // loop through header media elements
-                        $this->addFileToPackage($objZip, $element);
-                    }
-                }
-            }
-
-            $_ftrElements = Media::getFooterMediaElements();
-            foreach ($_ftrElements as $_footerFile => $_ftrMedia) { // loop through footers
-                if (count($_ftrMedia) > 0) {
-                    $objZip->addFromString('word/_rels/' . $_footerFile . '.xml.rels', $this->getWriterPart('documentrels')->writeHeaderFooterRels($_ftrMedia));
-                    foreach ($_ftrMedia as $element) { // loop through footers media elements
-                        $this->addFileToPackage($objZip, $element);
-                    }
-                }
-            }
-
-            $footnoteLinks = array();
-            $_footnoteElements = Footnote::getFootnoteLinkElements();
-            // loop through footnote link elements
-            foreach ($_footnoteElements as $element) {
-                $footnoteLinks[] = $element;
-            }
-
-            $_cHdrs = 0;
-            $_cFtrs = 0;
-            $rID = Media::countSectionMediaElements() + 6;
-            $_sections = $this->phpWord->getSections();
-
-            $footers = array();
-            foreach ($_sections as $section) {
-                $_headers = $section->getHeaders();
-                foreach ($_headers as $index => &$_header) {
-                    $_cHdrs++;
-                    $_header->setRelationId(++$rID);
-                    $_headerFile = 'header' . $_cHdrs . '.xml';
-                    $sectionElements[] = array('target' => $_headerFile, 'type' => 'header', 'rID' => $rID);
-                    $objZip->addFromString('word/' . $_headerFile, $this->getWriterPart('header')->writeHeader($_header));
-                }
-
-                $_footer = $section->getFooter();
-                $footers[++$_cFtrs] = $_footer;
-                if (!is_null($_footer)) {
-                    $_footer->setRelationId(++$rID);
-                    $_footerCount = $_footer->getFooterCount();
-                    $_footerFile = 'footer' . $_footerCount . '.xml';
-                    $sectionElements[] = array('target' => $_footerFile, 'type' => 'footer', 'rID' => $rID);
-                    $objZip->addFromString('word/' . $_footerFile, $this->getWriterPart('footer')->writeFooter($_footer));
-                }
-            }
-
-            if (Footnote::countFootnoteElements() > 0) {
-                $_allFootnotesCollection = Footnote::getFootnoteElements();
-                $_footnoteFile = 'footnotes.xml';
-                $sectionElements[] = array('target'=>$_footnoteFile, 'type'=>'footnotes', 'rID'=>++$rID);
-                $objZip->addFromString('word/'.$_footnoteFile, $this->getWriterPart('footnotes')->writeFootnotes($_allFootnotesCollection));
-                if (count($footnoteLinks) > 0) {
-                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('footnotesrels')->writeFootnotesRels($footnoteLinks));
-                }
-            }
-
-            // build docx file
-            // Write dynamic files
-            $objZip->addFromString(
-                '[Content_Types].xml',
-                $this->getWriterPart('contenttypes')->writeContentTypes(
-                    $this->imageTypes,
-                    $this->objectTypes,
-                    $_cHdrs,
-                    $footers
-                )
+            // Content types
+            $this->cTypes['default'] = array(
+                'rels' => 'application/vnd.openxmlformats-package.relationships+xml',
+                'xml'  => 'application/xml',
             );
-            $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeRelationships($this->phpWord));
+
+            // Add section media files
+            $sectionMedia = Media::getElements('section');
+            if (!empty($sectionMedia)) {
+                $this->addFilesToPackage($objZip, $sectionMedia);
+                foreach ($sectionMedia as $element) {
+                    $this->docRels[] = $element;
+                }
+            }
+
+            // Add header/footer media files & relations
+            $this->addHeaderFooterMedia($objZip, 'header');
+            $this->addHeaderFooterMedia($objZip, 'footer');
+
+            // Add header/footer contents
+            $overrides = array();
+            $rID = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
+            $sections = $this->phpWord->getSections();
+            foreach ($sections as $section) {
+                $this->addHeaderFooterContent($section, $objZip, 'header', $rID);
+                $this->addHeaderFooterContent($section, $objZip, 'footer', $rID);
+            }
+
+            // Add footnotes media files, relations, and contents
+            if (Footnote::countFootnoteElements() > 0) {
+                $footnoteMedia = Media::getElements('footnote');
+                $this->addFilesToPackage($objZip, $footnoteMedia);
+                if (!empty($footnoteMedia)) {
+                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('rels')->writeMediaRels($footnoteMedia));
+                }
+                $objZip->addFromString('word/footnotes.xml', $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements()));
+                $this->cTypes['override']["/word/footnotes.xml"] = 'footnotes';
+                $this->docRels[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rID);
+            }
+
+            // Write dynamic files
+            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->cTypes));
+            $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeMainRels());
             $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->phpWord));
             $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docprops')->writeDocPropsCore($this->phpWord));
+            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('rels')->writeDocRels($this->docRels));
             $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->writeDocument($this->phpWord));
-            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('documentrels')->writeDocumentRels($sectionElements));
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
 
             // Write static files
@@ -202,7 +134,7 @@ class Word2007 extends Writer implements IWriter
 
             // Close file
             if ($objZip->close() === false) {
-                throw new Exception("Could not close zip file $pFilename.");
+                throw new Exception("Could not close zip file $filename.");
             }
 
             $this->cleanupTempFile();
@@ -212,73 +144,87 @@ class Word2007 extends Writer implements IWriter
     }
 
     /**
-     * Check content types
+     * Add section files to package
      *
-     * @param string $src
+     * @param mixed $objZip
+     * @param mixed $elements
      */
-    private function checkContentTypes($src)
+    private function addFilesToPackage($objZip, $elements)
     {
-        $extension = null;
-        if (stripos(strrev($src), strrev('.php')) === 0) {
-            $extension = 'php';
-        } else {
-            if (function_exists('exif_imagetype')) {
-                $imageType = exif_imagetype($src);
+        foreach ($elements as $element) {
+            // Do not add link
+            if ($element['type'] == 'link') {
+                continue;
+            }
+            // Retrieve remote image
+            if (isset($element['isMemImage']) && $element['isMemImage']) {
+                $image = call_user_func($element['createFunction'], $element['source']);
+                ob_start();
+                call_user_func($element['imageFunction'], $image);
+                $imageContents = ob_get_contents();
+                ob_end_clean();
+                $objZip->addFromString('word/' . $element['target'], $imageContents);
+                imagedestroy($image);
             } else {
-                $tmp = getimagesize($src);
-                $imageType = $tmp[2];
+                $objZip->addFile($element['source'], 'word/' . $element['target']);
             }
-            if ($imageType === \IMAGETYPE_JPEG) {
-                $extension = 'jpg';
-            } elseif ($imageType === \IMAGETYPE_GIF) {
-                $extension = 'gif';
-            } elseif ($imageType === \IMAGETYPE_PNG) {
-                $extension = 'png';
-            } elseif ($imageType === \IMAGETYPE_BMP) {
-                $extension = 'bmp';
-            } elseif ($imageType === \IMAGETYPE_TIFF_II || $imageType === \IMAGETYPE_TIFF_MM) {
-                $extension = 'tif';
-            }
-        }
-
-        if (isset($extension)) {
-            $imageData = getimagesize($src);
-            $imageType = image_type_to_mime_type($imageData[2]);
-            $imageExtension = str_replace('.', '', image_type_to_extension($imageData[2]));
-            if ($imageExtension === 'jpeg') {
-                $imageExtension = 'jpg';
-            }
-            if (!in_array($imageType, $this->imageTypes)) {
-                $this->imageTypes[$imageExtension] = $imageType;
-            }
-        } else {
-            if (!in_array($extension, $this->objectTypes)) {
-                $this->objectTypes[] = $extension;
+            // Register content types
+            if ($element['type'] == 'image') {
+                $imageExtension = $element['imageExtension'];
+                $imageType = $element['imageType'];
+                if (!array_key_exists($imageExtension, $this->cTypes['default'])) {
+                    $this->cTypes['default'][$imageExtension] = $imageType;
+                }
+            } else {
+                if (!array_key_exists('bin', $this->cTypes['default'])) {
+                    $this->cTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
+                }
             }
         }
     }
 
     /**
-     * Check content types
+     * Add header/footer media files
      *
      * @param mixed $objZip
-     * @param mixed $element
+     * @param string $docPart
      */
-    private function addFileToPackage($objZip, $element)
+    private function addHeaderFooterMedia($objZip, $docPart)
     {
-        if (isset($element['isMemImage']) && $element['isMemImage']) {
-            $image = call_user_func($element['createfunction'], $element['source']);
-            ob_start();
-            call_user_func($element['imagefunction'], $image);
-            $imageContents = ob_get_contents();
-            ob_end_clean();
-            $objZip->addFromString('word/' . $element['target'], $imageContents);
-            imagedestroy($image);
+        $elements = Media::getElements($docPart);
+        if (!empty($elements)) {
+            foreach ($elements as $file => $media) {
+                if (count($media) > 0) {
+                    if (!empty($media)) {
+                        $this->addFilesToPackage($objZip, $media);
+                    }
+                    $objZip->addFromString("word/_rels/{$file}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
+                }
+            }
+        }
+    }
 
-            $this->checkContentTypes($element['source']);
-        } else {
-            $objZip->addFile($element['source'], 'word/' . $element['target']);
-            $this->checkContentTypes($element['source']);
+    /**
+     * Add header/footer content
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param mixed $objZip
+     * @param string $elmType
+     * @param integer $rID
+     */
+    private function addHeaderFooterContent(&$section, $objZip, $elmType, &$rID)
+    {
+        $getFunction = $elmType == 'header' ? 'getHeaders' : 'getFooters';
+        $writeFunction = $elmType == 'header' ? 'writeHeader' : 'writeFooter';
+        $elmCount = ($section->getSectionId() - 1) * 3;
+        $elmObjects = $section->$getFunction();
+        foreach ($elmObjects as $index => &$elmObject) {
+            $elmCount++;
+            $elmObject->setRelationId(++$rID);
+            $elmFile = "{$elmType}{$elmCount}.xml";
+            $objZip->addFromString("word/$elmFile", $this->getWriterPart($elmType)->$writeFunction($elmObject));
+            $this->cTypes['override']["/word/$elmFile"] = $elmType;
+            $this->docRels[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rID);
         }
     }
 }

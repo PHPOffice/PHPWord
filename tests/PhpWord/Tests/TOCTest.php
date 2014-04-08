@@ -79,6 +79,10 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($depth, $savedTitles[$i]['depth']);
             $i++;
         }
+
+        TOC::reset();
+        $this->assertEquals(0, count($toc->getTitles()));
+
     }
 
     /**

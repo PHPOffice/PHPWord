@@ -38,7 +38,7 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
         $object = new ListItem();
 
         $value = ListItem::TYPE_ALPHANUM;
-        $object->setStyleValue('_listType', $value);
+        $object->setStyleValue('listType', $value);
         $this->assertEquals($value, $object->getListType());
     }
 

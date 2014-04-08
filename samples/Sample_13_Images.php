@@ -6,7 +6,7 @@ echo date('H:i:s'), " Create new PhpWord object", \EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $section->addText('Local image without any styles:');
 $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);

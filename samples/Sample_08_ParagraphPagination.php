@@ -11,7 +11,7 @@ $phpWord->setDefaultParagraphStyle(array(
 ));
 
 // Sample
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 $section->addText('Below are the samples on how to control your paragraph ' .
     'pagination. See "Line and Page Break" tab on paragraph properties ' .
