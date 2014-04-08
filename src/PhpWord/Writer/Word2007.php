@@ -13,6 +13,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
 use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
@@ -97,11 +98,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
             // Add header/footer contents
             $overrides = array();
-            $rID = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
+            $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
             $sections = $this->phpWord->getSections();
             foreach ($sections as $section) {
-                $this->addHeaderFooterContent($section, $objZip, 'header', $rID);
-                $this->addHeaderFooterContent($section, $objZip, 'footer', $rID);
+                $this->addHeaderFooterContent($section, $objZip, 'header', $rId);
+                $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
             }
 
             // Add footnotes media files, relations, and contents
@@ -113,7 +114,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 }
                 $objZip->addFromString('word/footnotes.xml', $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements()));
                 $this->cTypes['override']["/word/footnotes.xml"] = 'footnotes';
-                $this->docRels[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rID);
+                $this->docRels[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rId);
             }
 
             // Write dynamic files
@@ -207,12 +208,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer content
      *
-     * @param \PhpOffice\PhpWord\Element\Section $section
      * @param mixed $objZip
      * @param string $elmType
-     * @param integer $rID
+     * @param integer $rId
      */
-    private function addHeaderFooterContent(&$section, $objZip, $elmType, &$rID)
+    private function addHeaderFooterContent(Section &$section, $objZip, $elmType, &$rId)
     {
         $getFunction = $elmType == 'header' ? 'getHeaders' : 'getFooters';
         $writeFunction = $elmType == 'header' ? 'writeHeader' : 'writeFooter';
@@ -220,11 +220,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $elmObjects = $section->$getFunction();
         foreach ($elmObjects as $index => &$elmObject) {
             $elmCount++;
-            $elmObject->setRelationId(++$rID);
+            $elmObject->setRelationId(++$rId);
             $elmFile = "{$elmType}{$elmCount}.xml";
             $objZip->addFromString("word/$elmFile", $this->getWriterPart($elmType)->$writeFunction($elmObject));
             $this->cTypes['override']["/word/$elmFile"] = $elmType;
-            $this->docRels[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rID);
+            $this->docRels[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
         }
     }
 }

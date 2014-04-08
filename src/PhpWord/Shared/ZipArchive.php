@@ -32,6 +32,13 @@ class ZipArchive
     const CREATE    = 'CREATE';
 
     /**
+     * Number of files (emulate ZipArchive::$numFiles)
+     *
+     * @var string
+     */
+    public $numFiles = 0;
+
+    /**
      * Temporary storage directory
      *
      * @var string
@@ -48,13 +55,14 @@ class ZipArchive
     /**
      * Open a new zip archive
      *
-     * @param  string  $fileName Filename for the zip archive
+     * @param  string  $filename Filename for the zip archive
      * @return boolean
      */
-    public function open($fileName)
+    public function open($filename)
     {
         $this->tempDir = sys_get_temp_dir();
-        $this->zip = new \PclZip($fileName);
+        $this->zip = new \PclZip($filename);
+        $this->numFiles = count($this->zip->listContent());
 
         return true;
     }
@@ -138,19 +146,19 @@ class ZipArchive
     }
 
     /**
-     * Find if given fileName exist in archive (Emulate ZipArchive locateName())
+     * Find if given file name exist in archive (Emulate ZipArchive locateName())
      *
-     * @param  string  $fileName Filename for the file in zip archive
+     * @param  string  $filename Filename for the file in zip archive
      * @return boolean
      */
-    public function locateName($fileName)
+    public function locateName($filename)
     {
         $list = $this->zip->listContent();
         $listCount = count($list);
         $listIndex = -1;
         for ($i = 0; $i < $listCount; ++$i) {
-            if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
-                strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
+            if (strtolower($list[$i]["filename"]) == strtolower($filename) ||
+                strtolower($list[$i]["stored_filename"]) == strtolower($filename)) {
                 $listIndex = $i;
                 break;
             }
@@ -160,12 +168,12 @@ class ZipArchive
     }
 
     /**
-     * Extract file from archive by given fileName (Emulate ZipArchive getFromName())
+     * Extract file from archive by given file name (Emulate ZipArchive getFromName())
      *
-     * @param  string $fileName Filename for the file in zip archive
+     * @param  string $filename Filename for the file in zip archive
      * @return string $contents File string contents
      */
-    public function getFromName($fileName)
+    public function getFromName($filename)
     {
         $list = $this->zip->listContent();
         $listCount = count($list);
@@ -173,8 +181,8 @@ class ZipArchive
         $contents = null;
 
         for ($i = 0; $i < $listCount; ++$i) {
-            if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
-                strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
+            if (strtolower($list[$i]["filename"]) == strtolower($filename) ||
+                strtolower($list[$i]["stored_filename"]) == strtolower($filename)) {
                 $listIndex = $i;
                 break;
             }
@@ -183,11 +191,11 @@ class ZipArchive
         if ($listIndex != -1) {
             $extracted = $this->zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         } else {
-            $fileName = substr($fileName, 1);
+            $filename = substr($filename, 1);
             $listIndex = -1;
             for ($i = 0; $i < $listCount; ++$i) {
-                if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
-                    strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
+                if (strtolower($list[$i]["filename"]) == strtolower($filename) ||
+                    strtolower($list[$i]["stored_filename"]) == strtolower($filename)) {
                     $listIndex = $i;
                     break;
                 }
@@ -199,5 +207,22 @@ class ZipArchive
         }
 
         return $contents;
+    }
+
+    /**
+     * Returns the name of an entry using its index
+     *
+     * @param integer $index
+     * @return string|false
+     */
+    public function getNameIndex($index)
+    {
+        $list = $this->zip->listContent();
+        $listCount = count($list);
+        if ($index <= $listCount) {
+            return $list[$index]['filename'];
+        } else {
+            return false;
+        }
     }
 }

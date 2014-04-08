@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
- * Style
+ * Style collection
  */
 class Style
 {
@@ -91,7 +91,7 @@ class Style
     /**
      * Reset styles
      */
-    public static function reset()
+    public static function resetStyles()
     {
         self::$styles = array();
     }
@@ -109,7 +109,7 @@ class Style
     /**
      * Get all styles
      *
-     * @return \PhpOffice\PhpWord\Style\Font[]
+     * @return Font[]
      */
     public static function getStyles()
     {

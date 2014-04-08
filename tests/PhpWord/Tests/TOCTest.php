@@ -80,7 +80,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $i++;
         }
 
-        TOC::reset();
+        TOC::resetTitles();
         $this->assertEquals(0, count($toc->getTitles()));
 
     }

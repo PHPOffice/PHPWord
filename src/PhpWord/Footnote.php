@@ -13,65 +13,133 @@ use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
 
 /**
- *  Footnote
+ *  Footnote collection
  */
 class Footnote
 {
     /**
-     * Footnote elements
+     * Elements
      *
      * @var array
      */
     private static $elements = array();
 
     /**
+     * Add new element
+     *
+     * @param FootnoteElement $footnote
+     * @return integer Reference ID
+     * @since 0.9.2
+     */
+    public static function addElement(FootnoteElement $footnote)
+    {
+        $rId = self::countElements() + 1;
+        self::$elements[$rId] = $footnote;
+
+        return $rId;
+    }
+
+    /**
+     * Set element
+     *
+     * @param integer $index
+     * @param FootnoteElement $footnote
+     * @since 0.9.2
+     */
+    public static function setElement($index, FootnoteElement $footnote)
+    {
+        self::$elements[$index] = $footnote;
+    }
+
+    /**
+     * Get element by index
+     *
+     * @return FootnoteElement
+     * @since 0.9.2
+     */
+    public static function getElement($index)
+    {
+        if (array_key_exists($index, self::$elements)) {
+            return self::$elements[$index];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get elements
+     *
+     * @return array
+     * @since 0.9.2
+     */
+    public static function getElements()
+    {
+        return self::$elements;
+    }
+
+    /**
+     * Get element count
+     *
+     * @return integer
+     * @since 0.9.2
+     */
+    public static function countElements()
+    {
+        return count(self::$elements);
+    }
+
+    /**
+     * Reset elements
+     *
+     * @since 0.9.2
+     */
+    public static function resetElements()
+    {
+        self::$elements = array();
+    }
+
+    /**
      * Add new footnote
      *
      * @param FootnoteElement $footnote
-     * @return int Reference ID
+     * @return integer Reference ID
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public static function addFootnoteElement(FootnoteElement $footnote)
     {
-        $refID = self::countFootnoteElements() + 1;
-
-        self::$elements[] = $footnote;
-
-        return $refID;
+        return self::addElement($footnote);
     }
 
     /**
      * Get Footnote Elements
      *
      * @return array
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public static function getFootnoteElements()
     {
-        return self::$elements;
+        return self::getElements();
     }
 
     /**
      * Get Footnote Elements Count
      *
-     * @return int
+     * @return integer
+     * @deprecated 0.9.2
+     * @codeCoverageIgnore
      */
     public static function countFootnoteElements()
     {
-        return count(self::$elements);
-    }
-
-    /**
-     * Reset footer elements
-     */
-    public static function reset()
-    {
-        self::$elements = array();
+        return self::countElements();
     }
 
     /**
      * Add new Footnote Link Element
      *
      * @param string $linkSrc
-     * @return int Reference ID
+     * @return integer Reference ID
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */

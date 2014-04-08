@@ -38,7 +38,7 @@ class XMLReader
      *
      * @param string $zipFile
      * @param string $xmlFile
-     * @return \DOMDocument
+     * @return \DOMDocument|false
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -54,6 +54,7 @@ class XMLReader
         }
         $contents = $zip->getFromName($xmlFile);
         $zip->close();
+
         if ($contents === false) {
             return false;
         } else {
@@ -69,7 +70,7 @@ class XMLReader
      * @param string $path
      * @return \DOMNodeList
      */
-    public function getElements($path, \DOMNode $context = null)
+    public function getElements($path, \DOMNode $contextNode = null)
     {
         if ($this->dom === null) {
             return array();
@@ -78,42 +79,42 @@ class XMLReader
             $this->xpath = new \DOMXpath($this->dom);
         }
 
-        return $this->xpath->query($path, $context);
+        return $this->xpath->query($path, $contextNode);
     }
 
     /**
-     * Get elements
+     * Get element
      *
      * @param string $path
-     * @return \DOMNodeList
+     * @return \DOMNode|null
      */
-    public function getElement($path, \DOMNode $context = null)
+    public function getElement($path, \DOMNode $contextNode)
     {
-        $elements = $this->getElements($path, $context);
+        $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
             return $elements->item(0);
         } else {
-            return false;
+            return null;
         }
     }
 
     /**
      * Get element attribute
      *
-     * @param string|\DOMNode $path
      * @param string $attribute
-     * @return null|string
+     * @param string $path
+     * @return string|null
      */
-    public function getAttribute($path, $attribute, \DOMNode $context = null)
+    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
     {
-        if ($path instanceof \DOMNode) {
-            $return = $path->getAttribute($attribute);
+        if (is_null($path)) {
+            $return = $contextNode->getAttribute($attribute);
         } else {
-            $elements = $this->getElements($path, $context);
+            $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
                 $return = $elements->item(0)->getAttribute($attribute);
             } else {
-                $return = '';
+                $return = null;
             }
         }
 
@@ -124,29 +125,28 @@ class XMLReader
      * Get element value
      *
      * @param string $path
-     * @return null|string
+     * @return string|null
      */
-    public function getValue($path, \DOMNode $context = null)
+    public function getValue($path, \DOMNode $contextNode)
     {
-        $elements = $this->getElements($path, $context);
+        $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
-            $return = $elements->item(0)->nodeValue;
+            return $elements->item(0)->nodeValue;
         } else {
-            $return = '';
+            return null;
         }
-
-        return ($return == '') ? null : $return;
     }
 
     /**
      * Count elements
      *
      * @param string $path
-     * @return \DOMNodeList
+     * @return integer
      */
-    public function countElements($path, \DOMNode $context = null)
+    public function countElements($path, \DOMNode $contextNode)
     {
-        $elements = $this->getElements($path, $context);
+        $elements = $this->getElements($path, $contextNode);
+
         return $elements->length;
     }
 
@@ -156,8 +156,8 @@ class XMLReader
      * @param string $path
      * @return \DOMNodeList
      */
-    public function elementExists($path, \DOMNode $context = null)
+    public function elementExists($path, \DOMNode $contextNode)
     {
-        return $this->getElements($path, $context)->length > 0;
+        return $this->getElements($path, $contextNode)->length > 0;
     }
 }

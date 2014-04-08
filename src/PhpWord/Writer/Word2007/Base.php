@@ -93,7 +93,7 @@ class Base extends AbstractWriterPart
      */
     protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
     {
-        $rID = $link->getRelationId() + ($link->isInSection() ? 6 : 0);
+        $rId = $link->getRelationId() + ($link->isInSection() ? 6 : 0);
         $linkName = $link->getLinkName();
         if (is_null($linkName)) {
             $linkName = $link->getLinkSrc();
@@ -106,7 +106,7 @@ class Base extends AbstractWriterPart
             $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
         }
         $xmlWriter->startElement('w:hyperlink');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rID);
+        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('w:history', '1');
         $xmlWriter->startElement('w:r');
         $this->writeInlineFontStyle($xmlWriter, $styleFont);

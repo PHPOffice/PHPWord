@@ -138,7 +138,7 @@ class DocumentProperties
      * Set Creator
      *
      * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCreator($pValue = '')
     {
@@ -160,7 +160,7 @@ class DocumentProperties
      * Set Last Modified By
      *
      * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setLastModifiedBy($pValue = '')
     {
@@ -182,7 +182,7 @@ class DocumentProperties
      * Set Created
      *
      * @param  int $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCreated($pValue = null)
     {
@@ -207,7 +207,7 @@ class DocumentProperties
      * Set Modified
      *
      * @param  int $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setModified($pValue = null)
     {
@@ -232,7 +232,7 @@ class DocumentProperties
      * Set Title
      *
      * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setTitle($pValue = '')
     {
@@ -254,7 +254,7 @@ class DocumentProperties
      * Set Description
      *
      * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setDescription($pValue = '')
     {
@@ -276,7 +276,7 @@ class DocumentProperties
      * Set Subject
      *
      * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setSubject($pValue = '')
     {
@@ -298,7 +298,7 @@ class DocumentProperties
      * Set Keywords
      *
      * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setKeywords($pValue = '')
     {
@@ -320,7 +320,7 @@ class DocumentProperties
      * Set Category
      *
      * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCategory($pValue = '')
     {
@@ -342,7 +342,7 @@ class DocumentProperties
      * Set Company
      *
      * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCompany($pValue = '')
     {
@@ -364,7 +364,7 @@ class DocumentProperties
      * Set Manager
      *
      * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setManager($pValue = '')
     {
@@ -432,7 +432,7 @@ class DocumentProperties
      *   's': String
      *   'd': Date/Time
      *   'b': Boolean
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCustomProperty($propertyName, $propertyValue = '', $propertyType = null)
     {

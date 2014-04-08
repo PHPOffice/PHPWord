@@ -44,7 +44,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertNull(Style::getStyle('Unknown'));
 
-        Style::reset();
+        Style::resetStyles();
         $this->assertEquals(0, count(Style::getStyles()));
 
     }

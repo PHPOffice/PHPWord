@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 
 /**
@@ -26,7 +27,7 @@ class ListItem extends AbstractElement
     /**
      * Textrun
      *
-     * @var \PhpOffice\PhpWord\Element\Text
+     * @var Text
      */
     private $textObject;
 

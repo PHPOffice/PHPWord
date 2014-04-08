@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Element\Row;
+use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
@@ -70,7 +71,7 @@ class Table extends AbstractElement
      *
      * @param int $width
      * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Cell
+     * @return Cell
      */
     public function addCell($width = null, $style = null)
     {

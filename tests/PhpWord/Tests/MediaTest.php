@@ -95,7 +95,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(2, Media::countElements('footer1'));
 
-        Media::reset();
+        Media::resetElements();
         $this->assertEquals(0, Media::countElements('footer1'));
     }
 

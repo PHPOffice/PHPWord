@@ -47,7 +47,7 @@ abstract class AbstractReader implements ReaderInterface
      * Set read data only
      *
      * @param bool $pValue
-     * @return \PhpOffice\PhpWord\Reader\ReaderInterface
+     * @return self
      */
     public function setReadDataOnly($pValue = true)
     {
@@ -60,7 +60,7 @@ abstract class AbstractReader implements ReaderInterface
      *
      * @param string $pFilename
      * @return resource
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws Exception
      */
     protected function openFile($pFilename)
     {

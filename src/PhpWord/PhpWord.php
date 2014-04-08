@@ -82,8 +82,8 @@ class PhpWord
     /**
      * Set document properties object
      *
-     * @param  \PhpOffice\PhpWord\DocumentProperties $documentProperties
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @param DocumentProperties $documentProperties
+     * @return self
      */
     public function setDocumentProperties(DocumentProperties $documentProperties)
     {
@@ -217,7 +217,7 @@ class PhpWord
     /**
      * Get all sections
      *
-     * @return \PhpOffice\PhpWord\Element\Section[]
+     * @return Section[]
      */
     public function getSections()
     {

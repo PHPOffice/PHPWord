@@ -59,7 +59,7 @@ abstract class AbstractElement
      *
      * @var string
      */
-    private $docPart = 'section';
+    protected $docPart = 'section';
 
     /**
      * Document part Id
@@ -70,7 +70,7 @@ abstract class AbstractElement
      *
      * @var integer
      */
-    private $docPartId = 1;
+    protected $docPartId = 1;
 
     /**
      * Elements collection
@@ -84,7 +84,7 @@ abstract class AbstractElement
      *
      * @var int
      */
-    private $relationId;
+    protected $relationId;
 
     /**
      * Add text element
@@ -144,8 +144,8 @@ abstract class AbstractElement
 
         $link = new Link(String::toUTF8($linkSrc), String::toUTF8($linkName), $fontStyle, $paragraphStyle);
         $link->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rID = Media::addElement($elementDocPart, 'link', $linkSrc);
-        $link->setRelationId($rID);
+        $rId = Media::addElement($elementDocPart, 'link', $linkSrc);
+        $link->setRelationId($rId);
         $this->elements[] = $link;
 
         return $link;
@@ -271,8 +271,8 @@ abstract class AbstractElement
 
         $image = new Image($src, $style, $isWatermark);
         $image->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rID = Media::addElement($elementDocPart, 'image', $src, $image);
-        $image->setRelationId($rID);
+        $rId = Media::addElement($elementDocPart, 'image', $src, $image);
+        $image->setRelationId($rId);
         $this->elements[] = $image;
         return $image;
     }
@@ -301,10 +301,10 @@ abstract class AbstractElement
                 $ext = substr($ext, 0, -1);
             }
             $icon = realpath(__DIR__ . "/../_staticDocParts/_{$ext}.png");
-            $rID = Media::addElement($elementDocPart, 'object', $src);
-            $object->setRelationId($rID);
-            $rIDimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
-            $object->setImageRelationId($rIDimg);
+            $rId = Media::addElement($elementDocPart, 'object', $src);
+            $object->setRelationId($rId);
+            $rIdimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
+            $object->setImageRelationId($rIdimg);
             $this->elements[] = $object;
             return $object;
         } else {
@@ -323,9 +323,10 @@ abstract class AbstractElement
         $this->checkValidity('footnote');
 
         $footnote = new FootnoteElement($paragraphStyle);
-        $refID = FootnoteCollection::addFootnoteElement($footnote);
+        $rId = FootnoteCollection::addFootnoteElement($footnote);
+
         $footnote->setDocPart('footnote', $this->getDocPartId());
-        $footnote->setRelationId($refID);
+        $footnote->setRelationId($rId);
         $this->elements[] = $footnote;
 
         return $footnote;

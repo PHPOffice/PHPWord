@@ -152,9 +152,9 @@ class TOC
     }
 
     /**
-     * Reset footnotes
+     * Reset titles
      */
-    public static function reset()
+    public static function resetTitles()
     {
         self::$titles = array();
     }

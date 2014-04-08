@@ -59,12 +59,12 @@ class Footnote extends AbstractElement
     /**
      * Set Footnote Reference ID
      *
-     * @param int $refId
+     * @param int $rId
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */
-    public function setReferenceId($refId)
+    public function setReferenceId($rId)
     {
-        $this->setRelationId($refId);
+        $this->setRelationId($rId);
     }
 }

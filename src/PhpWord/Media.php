@@ -13,7 +13,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Image;
 
 /**
- * Media
+ * Media collection
  */
 class Media
 {
@@ -39,7 +39,7 @@ class Media
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
         if (!array_key_exists($container, self::$elements)) {
-            self::$elements[$container]= array();
+            self::$elements[$container] = array();
         }
 
         // Add media if not exists or point to existing media
@@ -47,7 +47,7 @@ class Media
             $mediaCount = self::countElements($container);
             $mediaTypeCount = self::countElements($container, $mediaType);
             $mediaData = array();
-            $relId = ++$mediaCount;
+            $rId = ++$mediaCount;
             $target = null;
             $mediaTypeCount++;
 
@@ -57,15 +57,15 @@ class Media
                     throw new Exception('Image object not assigned.');
                 }
                 $isMemImage = $image->getIsMemImage();
-                $ext = $image->getImageExtension();
-                $mediaData['imageExtension'] = $ext;
+                $extension = $image->getImageExtension();
+                $mediaData['imageExtension'] = $extension;
                 $mediaData['imageType'] = $image->getImageType();
                 if ($isMemImage) {
                     $mediaData['isMemImage'] = true;
                     $mediaData['createFunction'] = $image->getImageCreateFunction();
                     $mediaData['imageFunction'] = $image->getImageFunction();
                 }
-                $target = "media/{$container}_image{$mediaTypeCount}.{$ext}";
+                $target = "media/{$container}_image{$mediaTypeCount}.{$extension}";
             // Objects
             } elseif ($mediaType == 'object') {
                 $file = "oleObject{$mediaTypeCount}.bin";
@@ -78,9 +78,9 @@ class Media
             $mediaData['source'] = $source;
             $mediaData['target'] = $target;
             $mediaData['type'] = $mediaType;
-            $mediaData['rID'] = $relId;
+            $mediaData['rID'] = $rId;
             self::$elements[$container][$mediaId] = $mediaData;
-            return $relId;
+            return $rId;
         } else {
             return self::$elements[$container][$mediaId]['rID'];
         }
@@ -153,7 +153,7 @@ class Media
     /**
      * Reset media elements
      */
-    public static function reset()
+    public static function resetElements()
     {
         self::$elements = array();
     }

@@ -80,8 +80,8 @@ class Image extends AbstractElement
      * @param string $source
      * @param mixed $style
      * @param boolean $isWatermark
-     * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
-     * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
+     * @throws InvalidImageException
+     * @throws UnsupportedImageTypeException
      */
     public function __construct($source, $style = null, $isWatermark = false)
     {
