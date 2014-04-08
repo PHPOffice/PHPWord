@@ -28,9 +28,9 @@ $phpWord->addParagraphStyle('centerTab', array(
 $section = $phpWord->addSection();
 
 // Add listitem elements
-$section->addText("Multiple Tabs:\tOne\tTwo\tThree", NULL, 'multipleTab');
-$section->addText("Left Aligned\tRight Aligned", NULL, 'rightTab');
-$section->addText("\tCenter Aligned",            NULL, 'centerTab');
+$section->addText("Multiple Tabs:\tOne\tTwo\tThree", null, 'multipleTab');
+$section->addText("Left Aligned\tRight Aligned", null, 'rightTab');
+$section->addText("\tCenter Aligned",            null, 'centerTab');
 
 // Save file
 $name = basename(__FILE__, '.php');
