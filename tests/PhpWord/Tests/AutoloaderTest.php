@@ -26,7 +26,7 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
         Autoloader::register();
         $this->assertContains(
             array('PhpOffice\\PhpWord\\Autoloader', 'autoload'),
-            \spl_autoload_functions()
+            spl_autoload_functions()
         );
     }
 
@@ -35,19 +35,19 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAutoload()
     {
-        $declared = \get_declared_classes();
-        $declaredCount = \count($declared);
+        $declared = get_declared_classes();
+        $declaredCount = count($declared);
         Autoloader::autoload('Foo');
         $this->assertEquals(
             $declaredCount,
-            \count(get_declared_classes()),
+            count(get_declared_classes()),
             'PhpOffice\\PhpWord\\Autoloader::autoload() is trying to load ' .
             'classes outside of the PhpOffice\\PhpWord namespace'
         );
         // TODO change this class to the main PhpWord class when it is namespaced
         Autoloader::autoload('PhpOffice\\PhpWord\\Exception\\InvalidStyleException');
         $this->assertTrue(
-            \in_array('PhpOffice\\PhpWord\\Exception\\InvalidStyleException', \get_declared_classes()),
+            in_array('PhpOffice\\PhpWord\\Exception\\InvalidStyleException', get_declared_classes()),
             'PhpOffice\\PhpWord\\Autoloader::autoload() failed to autoload the ' .
             'PhpOffice\\PhpWord\\Exception\\InvalidStyleException class'
         );

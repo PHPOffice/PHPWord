@@ -13,7 +13,7 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 .. code-block:: php
 
     require_once 'src/PhpWord/Autoloader.php';
-    PhpOffice\PhpWord\Autoloader::register();
+    \PhpOffice\PhpWord\Autoloader::register();
 
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
@@ -73,7 +73,7 @@ during development to make the resulting XML file easier to read.
 
 .. code-block:: php
 
-    PhpOffice\PhpWord\Settings::setCompatibility(false);
+    \PhpOffice\PhpWord\Settings::setCompatibility(false);
 
 Zip class
 ~~~~~~~~~
@@ -87,7 +87,7 @@ included with PHPWord.
 
 .. code-block:: php
 
-    PhpOffice\PhpWord\Settings::setZipClass(PhpOffice\PhpWord\Settings::PCLZIP);
+    \PhpOffice\PhpWord\Settings::setZipClass(\PhpOffice\PhpWord\Settings::PCLZIP);
 
 Default font
 ------------

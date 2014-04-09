@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PhpWord object" , \EOL;
+echo date('H:i:s') , " Create new PhpWord object" , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $document = $phpWord->loadTemplate('resources/Sample_23_TemplateBlock.docx');

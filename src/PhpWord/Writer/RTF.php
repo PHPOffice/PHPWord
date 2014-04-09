@@ -101,22 +101,22 @@ class RTF extends AbstractWriter implements WriterInterface
         $sRTFContent .= '\deff0';
         // Set the default tab size (720 twips)
         $sRTFContent .= '\deftab720';
-        $sRTFContent .= \PHP_EOL;
+        $sRTFContent .= PHP_EOL;
         // Set the font tbl group
         $sRTFContent .= '{\fonttbl';
         foreach ($this->fontTable as $idx => $font) {
             $sRTFContent .= '{\f' . $idx . '\fnil\fcharset0 ' . $font . ';}';
         }
-        $sRTFContent .= '}' . \PHP_EOL;
+        $sRTFContent .= '}' . PHP_EOL;
         // Set the color tbl group
         $sRTFContent .= '{\colortbl ';
         foreach ($this->colorTable as $idx => $color) {
             $arrColor = Drawing::htmlToRGB($color);
             $sRTFContent .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }
-        $sRTFContent .= ';}' . \PHP_EOL;
+        $sRTFContent .= ';}' . PHP_EOL;
         // Set the generator
-        $sRTFContent .= '{\*\generator PhpWord;}' . \PHP_EOL;
+        $sRTFContent .= '{\*\generator PhpWord;}' . PHP_EOL;
         // Set the view mode of the document
         $sRTFContent .= '\viewkind4';
         // Set the numberof bytes that follows a unicode character
@@ -131,7 +131,7 @@ class RTF extends AbstractWriter implements WriterInterface
         $sRTFContent .= '\kerning1';
         // Set the font size in half-points
         $sRTFContent .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
-        $sRTFContent .= \PHP_EOL;
+        $sRTFContent .= PHP_EOL;
         // Body
         $sRTFContent .= $this->getDataContent();
 
@@ -392,7 +392,7 @@ class RTF extends AbstractWriter implements WriterInterface
         }
 
         if (!$withoutP) {
-            $sRTFText .= '\par' . \PHP_EOL;
+            $sRTFText .= '\par' . PHP_EOL;
         }
         return $sRTFText;
     }
@@ -407,15 +407,15 @@ class RTF extends AbstractWriter implements WriterInterface
         $sRTFText = '';
         $elements = $textrun->getElements();
         if (count($elements) > 0) {
-            $sRTFText .= '\pard\nowidctlpar' . \PHP_EOL;
+            $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
             foreach ($elements as $element) {
                 if ($element instanceof Text) {
                     $sRTFText .= '{';
                     $sRTFText .= $this->getDataContentText($element, true);
-                    $sRTFText .= '}' . \PHP_EOL;
+                    $sRTFText .= '}' . PHP_EOL;
                 }
             }
-            $sRTFText .= '\par' . \PHP_EOL;
+            $sRTFText .= '\par' . PHP_EOL;
         }
         return $sRTFText;
     }
@@ -429,7 +429,7 @@ class RTF extends AbstractWriter implements WriterInterface
     {
         $this->lastParagraphStyle = '';
 
-        return '\par' . \PHP_EOL;
+        return '\par' . PHP_EOL;
     }
 
     /**
@@ -440,9 +440,9 @@ class RTF extends AbstractWriter implements WriterInterface
     private function getDataContentUnsupportedElement($element)
     {
         $sRTFText = '';
-        $sRTFText .= '\pard\nowidctlpar' . \PHP_EOL;
+        $sRTFText .= '\pard\nowidctlpar' . PHP_EOL;
         $sRTFText .= "{$element}";
-        $sRTFText .= '\par' . \PHP_EOL;
+        $sRTFText .= '\par' . PHP_EOL;
 
         return $sRTFText;
     }

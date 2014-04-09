@@ -89,7 +89,7 @@ class Image extends AbstractElement
         if (stripos(strrev($source), strrev('.php')) === 0) {
             $this->isMemImage = true;
         } else {
-            $this->isMemImage = (filter_var($source, \FILTER_VALIDATE_URL) !== false);
+            $this->isMemImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
         }
 
         // Check supported types
@@ -105,9 +105,9 @@ class Image extends AbstractElement
             }
         } else {
             $supportedTypes = array(
-                \IMAGETYPE_JPEG, \IMAGETYPE_GIF,
-                \IMAGETYPE_PNG, \IMAGETYPE_BMP,
-                \IMAGETYPE_TIFF_II, \IMAGETYPE_TIFF_MM
+                IMAGETYPE_JPEG, IMAGETYPE_GIF,
+                IMAGETYPE_PNG, IMAGETYPE_BMP,
+                IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM
             );
             if (!file_exists($source)) {
                 throw new InvalidImageException();
@@ -124,7 +124,7 @@ class Image extends AbstractElement
             if (!in_array($this->imageType, $supportedTypes)) {
                 throw new UnsupportedImageTypeException();
             }
-            $this->imageType = \image_type_to_mime_type($this->imageType);
+            $this->imageType = image_type_to_mime_type($this->imageType);
         }
 
         // Set private properties

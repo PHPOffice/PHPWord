@@ -100,7 +100,7 @@ class PhpWord
      */
     public function addSection($settings = null)
     {
-        $section = new Section(\count($this->sections) + 1, $settings);
+        $section = new Section(count($this->sections) + 1, $settings);
         $this->sections[] = $section;
 
         return $section;

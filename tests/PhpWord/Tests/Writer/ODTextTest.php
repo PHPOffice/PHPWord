@@ -128,9 +128,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     public function testSetGetUseDiskCaching()
     {
         $object = new ODText();
-        $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
+        $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
         $this->assertTrue($object->getUseDiskCaching());
-        $this->assertEquals(\PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
+        $this->assertEquals(PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
     }
 
     /**
@@ -140,9 +140,9 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetUseDiskCachingException()
     {
-        $dir = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'foo')
+        $dir = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
         $object = new ODText();

@@ -75,7 +75,7 @@ class Tab extends AbstractStyle
      *
      * @param string $val Defaults to 'clear' if value is not possible.
      * @param int $position Must be an integer; otherwise defaults to 0.
-     * @param string $leader Defaults to NULL if value is not possible.
+     * @param string $leader Defaults to null if value is not possible.
      */
     public function __construct($val = null, $position = 0, $leader = null)
     {
@@ -85,7 +85,7 @@ class Tab extends AbstractStyle
         // Default to 0 if the position is non-numeric
         $this->position = (is_numeric($position)) ? intval($position) : 0;
 
-        // Default to NULL if no tab leader
+        // Default to null if no tab leader
         $this->leader = (self::isLeaderType($leader)) ? $leader : null;
     }
 

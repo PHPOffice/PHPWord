@@ -52,7 +52,7 @@ class PreserveText extends AbstractElement
         $this->fontStyle = $this->setStyle(new Font('text'), $styleFont);
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $styleParagraph);
 
-        $matches = preg_split('/({.*?})/', $text, null, \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_NO_EMPTY);
+        $matches = preg_split('/({.*?})/', $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {
             $this->text = $matches;
         }
