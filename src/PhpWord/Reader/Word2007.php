@@ -403,13 +403,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 $parent->addTextBreak(null, $pStyle);
             } else {
                 if ($runLinkCount > 1) {
-                    $textContainer = &$parent->addTextRun($pStyle);
+                    $textrun = $parent->addTextRun($pStyle);
+                    $textParent = &$textrun;
                 } else {
-                    $textContainer = &$parent;
+                    $textParent = &$parent;
                 }
                 $nodes = $xmlReader->getElements('*', $domNode);
                 foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $textContainer, $docPart, $pStyle);
+                    $this->readRun($xmlReader, $node, $textParent, $docPart, $pStyle);
                 }
             }
         }

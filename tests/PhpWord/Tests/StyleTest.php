@@ -24,7 +24,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testStyles()
     {
         $paragraph = array('align' => 'center');
-        $font = array('italic' => true);
+        $font = array('italic' => true, '_bold' => true);
         $table = array('bgColor' => 'CCCCCC');
         $styles = array('Paragraph' => 'Paragraph', 'Font' => 'Font',
             'Link' => 'Font', 'Table' => 'Table',

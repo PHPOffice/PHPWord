@@ -28,7 +28,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             'tabLeader' => \PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
             'indent'    => 200,
         );
-        $object = new TOC(array('size' => 11), array('tabPos' => $expected['tabPos']));
+        $object = new TOC(array('_size' => 11), array('_tabPos' => $expected['tabPos']));
         $tocStyle = $object->getStyleTOC();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);
