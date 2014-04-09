@@ -10,27 +10,30 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 footnotes part writer
  */
-class Footnotes extends Base
+class Notes extends Base
 {
     /**
-     * Write word/footnotes.xml
+     * Write word/(footnotes|endnotes).xml
      *
-     * @param array $allFootnotesCollection
+     * @param array $elements
+     * @param string $notesTypes
      */
-    public function writeFootnotes($allFootnotesCollection)
+    public function writeNotes($elements, $notesTypes = 'footnotes')
     {
-        // Create XML writer
+        $isFootnote = $notesTypes == 'footnotes';
+        $rootNode = $isFootnote ? 'w:footnotes' : 'w:endnotes';
+        $elementNode = $isFootnote ? 'w:footnote' : 'w:endnote';
         $xmlWriter = $this->getXmlWriter();
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-        $xmlWriter->startElement('w:footnotes');
-
+        $xmlWriter->startElement($rootNode);
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
         $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
@@ -42,7 +45,7 @@ class Footnotes extends Base
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
         // Separator and continuation separator
-        $xmlWriter->startElement('w:footnote');
+        $xmlWriter->startElement($elementNode);
         $xmlWriter->writeAttribute('w:id', -1);
         $xmlWriter->writeAttribute('w:type', 'separator');
         $xmlWriter->startElement('w:p');
@@ -51,8 +54,8 @@ class Footnotes extends Base
         $xmlWriter->endElement(); // w:separator
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:p
-        $xmlWriter->endElement(); // w:footnote
-        $xmlWriter->startElement('w:footnote');
+        $xmlWriter->endElement(); // $elementNode
+        $xmlWriter->startElement($elementNode);
         $xmlWriter->writeAttribute('w:id', 0);
         $xmlWriter->writeAttribute('w:type', 'continuationSeparator');
         $xmlWriter->startElement('w:p');
@@ -61,42 +64,53 @@ class Footnotes extends Base
         $xmlWriter->endElement(); // w:continuationSeparator
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:p
-        $xmlWriter->endElement(); // w:footnote
+        $xmlWriter->endElement(); // $elementNode
+
         // Content
-        foreach ($allFootnotesCollection as $footnote) {
-            if ($footnote instanceof Footnote) {
-                $this->writeFootnote($xmlWriter, $footnote);
+        foreach ($elements as $element) {
+            if ($element instanceof Footnote || $element instanceof Endnote) {
+                $this->writeNote($xmlWriter, $element, null, $notesTypes);
             }
         }
+
         $xmlWriter->endElement();
 
         return $xmlWriter->getData();
     }
 
     /**
-     * Write footnote content, overrides method in parent class
+     * Write note item
      *
      * @param XMLWriter $xmlWriter
-     * @param Footnote $footnote
+     * @param Footnote|Endnote $element
      * @param boolean $withoutP
+     * @param string $notesTypes
      */
-    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
+    protected function writeNote(XMLWriter $xmlWriter, $element, $withoutP = false, $notesTypes = 'footnotes')
     {
-        $xmlWriter->startElement('w:footnote');
-        $xmlWriter->writeAttribute('w:id', $footnote->getRelationId());
+        $isFootnote = ($notesTypes == 'footnotes');
+        $elementNode = $isFootnote ? 'w:footnote' : 'w:endnote';
+        $refNode = $isFootnote ? 'w:footnoteRef' : 'w:endnoteRef';
+        $styleName = $isFootnote ? 'FootnoteReference' : 'EndnoteReference';
+
+        $xmlWriter->startElement($elementNode);
+        $xmlWriter->writeAttribute('w:id', $element->getRelationId());
         $xmlWriter->startElement('w:p');
+
         // Paragraph style
-        $styleParagraph = $footnote->getParagraphStyle();
+        $styleParagraph = $element->getParagraphStyle();
         $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
+
         // Reference symbol
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');
         $xmlWriter->startElement('w:rStyle');
-        $xmlWriter->writeAttribute('w:val', 'FootnoteReference');
+        $xmlWriter->writeAttribute('w:val', $styleName);
         $xmlWriter->endElement(); // w:rStyle
         $xmlWriter->endElement(); // w:rPr
-        $xmlWriter->writeElement('w:footnoteRef');
+        $xmlWriter->writeElement($refNode);
         $xmlWriter->endElement(); // w:r
+
         // Empty space after refence symbol
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
@@ -105,9 +119,9 @@ class Footnotes extends Base
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeContainerElements($xmlWriter, $footnote);
+        $this->writeContainerElements($xmlWriter, $element);
 
         $xmlWriter->endElement(); // w:p
-        $xmlWriter->endElement(); // w:footnote
+        $xmlWriter->endElement(); // $elementNode
     }
 }

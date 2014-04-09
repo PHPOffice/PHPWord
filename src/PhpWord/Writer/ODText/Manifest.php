@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * ODText manifest part writer
  */
@@ -19,10 +17,9 @@ class Manifest extends AbstractWriterPart
     /**
      * Write Manifest file to XML format
      *
-     * @param  PhpWord $phpWord
      * @return string XML Output
      */
-    public function writeManifest(PhpWord $phpWord = null)
+    public function writeManifest()
     {
         // Create XML writer
         $xmlWriter = $this->getXmlWriter();

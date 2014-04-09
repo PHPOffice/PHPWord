@@ -21,7 +21,7 @@ class Footnote extends AbstractElement
      *
      * @var string|Paragraph
      */
-    private $paragraphStyle;
+    protected $paragraphStyle;
 
     /**
      * Create new instance

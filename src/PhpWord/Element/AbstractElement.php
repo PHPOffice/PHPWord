@@ -13,7 +13,8 @@ use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Footnote as FootnoteCollection;
+use PhpOffice\PhpWord\Footnotes;
+use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Element\Element;
 use PhpOffice\PhpWord\Element\Text;
@@ -27,6 +28,7 @@ use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Object;
 use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
+use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Element\CheckBox;
 
 /**
@@ -37,7 +39,7 @@ use PhpOffice\PhpWord\Element\CheckBox;
 abstract class AbstractElement
 {
     /**
-     * Container type section|header|footer|cell|textrun|footnote
+     * Container type section|header|footer|cell|textrun|footnote|endnote
      *
      * @var string
      */
@@ -99,7 +101,7 @@ abstract class AbstractElement
         $this->checkValidity('text');
 
         // Reset paragraph style for footnote and textrun. They have their own
-        if (in_array($this->container, array('footnote', 'textrun'))) {
+        if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
             $paragraphStyle = null;
         }
 
@@ -323,13 +325,33 @@ abstract class AbstractElement
         $this->checkValidity('footnote');
 
         $footnote = new FootnoteElement($paragraphStyle);
-        $rId = FootnoteCollection::addFootnoteElement($footnote);
+        $rId = Footnotes::addElement($footnote);
 
         $footnote->setDocPart('footnote', $this->getDocPartId());
         $footnote->setRelationId($rId);
         $this->elements[] = $footnote;
 
         return $footnote;
+    }
+
+    /**
+     * Add endnote element
+     *
+     * @param mixed $paragraphStyle
+     * @return Endnote
+     */
+    public function addEndnote($paragraphStyle = null)
+    {
+        $this->checkValidity('endnote');
+
+        $endnote = new Endnote($paragraphStyle);
+        $rId = Endnotes::addElement($endnote);
+
+        $endnote->setDocPart('endnote', $this->getDocPartId());
+        $endnote->setRelationId($rId);
+        $this->elements[] = $endnote;
+
+        return $endnote;
     }
 
     /**
@@ -469,7 +491,7 @@ abstract class AbstractElement
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote');
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote');
         $validContainers = array(
             'text'          => $allContainers,
             'link'          => $allContainers,
@@ -481,6 +503,7 @@ abstract class AbstractElement
             'checkbox'      => array('section', 'header', 'footer', 'cell'),
             'table'         => array('section', 'header', 'footer'),
             'footnote'      => array('section', 'textrun', 'cell'),
+            'endnote'       => array('section', 'textrun', 'cell'),
             'preservetext'  => array('header', 'footer', 'cell'),
             'title'         => array('section'),
         );
@@ -489,6 +512,7 @@ abstract class AbstractElement
         $validContainerInContainers = array(
             'preservetext'  => array(array('cell'), array('header', 'footer')),
             'footnote'      => array(array('cell', 'textrun'), array('section')),
+            'endnote'       => array(array('cell', 'textrun'), array('section')),
         );
 
         // Check if a method is valid for current container

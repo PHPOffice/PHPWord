@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Object;
 use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
@@ -624,6 +625,33 @@ class Base extends AbstractWriterPart
     }
 
     /**
+     * Write endnote element which links to the actual content in endnotes.xml
+     *
+     * @param XMLWriter $xmlWriter
+     * @param Endnote $endnote
+     * @param boolean $withoutP
+     */
+    protected function writeEndnote(XMLWriter $xmlWriter, Endnote $endnote, $withoutP = false)
+    {
+        if (!$withoutP) {
+            $xmlWriter->startElement('w:p');
+        }
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:rStyle');
+        $xmlWriter->writeAttribute('w:val', 'EndnoteReference');
+        $xmlWriter->endElement(); // w:rStyle
+        $xmlWriter->endElement(); // w:rPr
+        $xmlWriter->startElement('w:endnoteReference');
+        $xmlWriter->writeAttribute('w:id', $endnote->getRelationId());
+        $xmlWriter->endElement(); // w:endnoteReference
+        $xmlWriter->endElement(); // w:r
+        if (!$withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
      * Write CheckBox
      *
      * @param boolean $withoutP
@@ -1132,9 +1160,10 @@ class Base extends AbstractWriterPart
             'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
             'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
             'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote')),
-            'TextRun'  => array_merge($elmCommon, array('Footnote')),
+            'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
+            'TextRun'  => array_merge($elmCommon, array('Footnote', 'Endnote')),
             'Footnote' => $elmCommon,
+            'Endnote'  => $elmCommon,
         );
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
@@ -1158,10 +1187,14 @@ class Base extends AbstractWriterPart
                             $method = "writeWatermark";
                         }
                     }
-                    if (in_array($containerName, array('TextRun', 'Footnote'))) {
-                        $this->$method($xmlWriter, $element, true);
-                    } else {
-                        $this->$method($xmlWriter, $element);
+                    switch ($containerName) {
+                        case 'TextRun':
+                        case 'Footnote':
+                        case 'Endnote':
+                            $this->$method($xmlWriter, $element, true);
+                            break;
+                        default:
+                            $this->$method($xmlWriter, $element);
                     }
                 }
             }

@@ -105,7 +105,7 @@ class XMLReader
      * @param string $path
      * @return string|null
      */
-    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
+    public function getAttribute($attribute, \DOMNode $contextNode, $path = null)
     {
         if (is_null($path)) {
             $return = $contextNode->getAttribute($attribute);
@@ -154,7 +154,7 @@ class XMLReader
      * Element exists
      *
      * @param string $path
-     * @return \DOMNodeList
+     * @return boolean
      */
     public function elementExists($path, \DOMNode $contextNode)
     {

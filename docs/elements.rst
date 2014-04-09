@@ -37,7 +37,9 @@ the containers while the rows lists the elements.
 +-----+---------------+---------+--------+--------+------+----------+----------+
 | 14  | Footnote      |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
 +-----+---------------+---------+--------+--------+------+----------+----------+
-| 15  | CheckBox      |   v     |   v    |   v    |  v   |   ?      |   ?      |
+| 15  | Endnote       |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
++-----+---------------+---------+--------+--------+------+----------+----------+
+| 16  | CheckBox      |   v     |   v    |   v    |  v   |   ?      |   ?      |
 +-----+---------------+---------+--------+--------+------+----------+----------+
 
 Legend:
@@ -376,12 +378,13 @@ Options for ``$tocStyle``:
    twips.
 -  ``indent`` The indent factor of the titles in twips.
 
-Footnotes
----------
+Footnotes & endnotes
+--------------------
 
-You can create footnotes in texts or textruns, but it's recommended to
-use textrun to have better layout. You can use ``addText``, ``addLink``,
-and ``addTextBreak`` on a footnote.
+You can create footnotes with ``addFootnote`` and endnotes with ``addEndnote``
+in texts or textruns, but it's recommended to use textrun to have better layout.
+You can use ``addText``, ``addLink``, ``addTextBreak``, ``addImage``,
+``addObject`` on footnotes and endnotes.
 
 On textrun:
 
@@ -396,6 +399,8 @@ On textrun:
     $footnote->addTextBreak();
     $footnote->addText('And text break.');
     $textrun->addText('Trailing text.');
+    $endnote = $textrun->addEndnote();
+    $endnote->addText('Endnote put at the end');
 
 On text:
 

@@ -10,12 +10,12 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
+use PhpOffice\PhpWord\Element\Footnote;
 
 /**
- *  Footnote collection
+ * Footnote collection
  */
-class Footnote
+class Footnotes
 {
     /**
      * Elements
@@ -27,14 +27,14 @@ class Footnote
     /**
      * Add new element
      *
-     * @param FootnoteElement $footnote
+     * @param Footnote $element
      * @return integer Reference ID
      * @since 0.9.2
      */
-    public static function addElement(FootnoteElement $footnote)
+    public static function addElement($element)
     {
         $rId = self::countElements() + 1;
-        self::$elements[$rId] = $footnote;
+        self::$elements[$rId] = $element;
 
         return $rId;
     }
@@ -43,13 +43,13 @@ class Footnote
      * Set element
      *
      * @param integer $index
-     * @param FootnoteElement $footnote
+     * @param Footnote $element
      * @since 0.9.2
      */
-    public static function setElement($index, FootnoteElement $footnote)
+    public static function setElement($index, $element)
     {
         if (array_key_exists($index, self::$elements)) {
-            self::$elements[$index] = $footnote;
+            self::$elements[$index] = $element;
         }
     }
 
@@ -57,7 +57,7 @@ class Footnote
      * Get element by index
      *
      * @param integer $index
-     * @return FootnoteElement
+     * @return Footnote
      * @since 0.9.2
      */
     public static function getElement($index)
@@ -104,14 +104,14 @@ class Footnote
     /**
      * Add new footnote
      *
-     * @param FootnoteElement $footnote
+     * @param Footnote $element
      * @return integer Reference ID
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */
-    public static function addFootnoteElement(FootnoteElement $footnote)
+    public static function addFootnoteElement($element)
     {
-        return self::addElement($footnote);
+        return self::addElement($element);
     }
 
     /**

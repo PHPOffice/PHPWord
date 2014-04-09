@@ -48,6 +48,7 @@ class ODText extends AbstractWriter implements WriterInterface
      *
      * @param  string $filename
      * @throws Exception
+     * @todo Not in \ZipArchive::CM_STORE mode
      */
     public function save($filename = null)
     {
@@ -56,20 +57,11 @@ class ODText extends AbstractWriter implements WriterInterface
             $objZip = $this->getZipArchive($filename);
 
             // Add mimetype to ZIP file
-            //@todo Not in \ZipArchive::CM_STORE mode
-            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype($this->phpWord));
-
-            // Add content.xml to ZIP file
+            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype());
             $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->phpWord));
-
-            // Add meta.xml to ZIP file
             $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->phpWord));
-
-            // Add styles.xml to ZIP file
             $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
-
-            // Add META-INF/manifest.xml
-            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest($this->phpWord));
+            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest());
 
             // Close file
             if ($objZip->close() === false) {

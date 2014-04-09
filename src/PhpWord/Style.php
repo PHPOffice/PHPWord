@@ -109,7 +109,7 @@ class Style
     /**
      * Get all styles
      *
-     * @return Font[]
+     * @return array
      */
     public static function getStyles()
     {

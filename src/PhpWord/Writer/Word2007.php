@@ -11,7 +11,6 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Footnote;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
@@ -19,7 +18,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
-use PhpOffice\PhpWord\Writer\Word2007\Footnotes;
+use PhpOffice\PhpWord\Writer\Word2007\Notes;
 use PhpOffice\PhpWord\Writer\Word2007\Header;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
@@ -60,7 +59,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->writerParts['styles'] = new Styles();
         $this->writerParts['header'] = new Header();
         $this->writerParts['footer'] = new Footer();
-        $this->writerParts['footnotes'] = new Footnotes();
+        $this->writerParts['footnotes'] = new Notes();
+        $this->writerParts['endnotes'] = new Notes();
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
@@ -105,17 +105,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
             }
 
-            // Add footnotes media files, relations, and contents
-            if (Footnote::countFootnoteElements() > 0) {
-                $footnoteMedia = Media::getElements('footnote');
-                $this->addFilesToPackage($objZip, $footnoteMedia);
-                if (!empty($footnoteMedia)) {
-                    $objZip->addFromString('word/_rels/footnotes.xml.rels', $this->getWriterPart('rels')->writeMediaRels($footnoteMedia));
-                }
-                $objZip->addFromString('word/footnotes.xml', $this->getWriterPart('footnotes')->writeFootnotes(Footnote::getFootnoteElements()));
-                $this->cTypes['override']["/word/footnotes.xml"] = 'footnotes';
-                $this->docRels[] = array('target' => 'footnotes.xml', 'type' => 'footnotes', 'rID' => ++$rId);
-            }
+            $this->addNotes($objZip, $rId, 'footnote');
+            $this->addNotes($objZip, $rId, 'endnote');
 
             // Write dynamic files
             $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->cTypes));
@@ -199,7 +190,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
                     if (!empty($media)) {
                         $this->addFilesToPackage($objZip, $media);
                     }
-                    $objZip->addFromString("word/_rels/{$file}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
+                    $relsFile = "word/_rels/{$file}.xml.rels";
+                    $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
                 }
             }
         }
@@ -225,6 +217,36 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $objZip->addFromString("word/$elmFile", $this->getWriterPart($elmType)->$writeFunction($elmObject));
             $this->cTypes['override']["/word/$elmFile"] = $elmType;
             $this->docRels[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
+        }
+    }
+
+    /**
+     * Add footnotes/endnotes
+     *
+     * @param mixed $objZip
+     * @param string $elmType
+     * @param integer $rId
+     */
+    private function addNotes($objZip, &$rId, $notesType = 'footnote')
+    {
+        $notesType = ($notesType == 'endnote') ? 'endnote' : 'footnote';
+        $notesTypes = "{$notesType}s";
+        $collection = 'PhpOffice\\PhpWord\\' . ucfirst($notesTypes);
+        $xmlFile = "{$notesTypes}.xml";
+        $relsFile = "word/_rels/{$xmlFile}.rels";
+        $xmlPath = "word/{$xmlFile}";
+
+        // Add footnotes media files, relations, and contents
+        if ($collection::countElements() > 0) {
+            $media = Media::getElements($notesType);
+            $elements = $collection::getElements();
+            $this->addFilesToPackage($objZip, $media);
+            if (!empty($media)) {
+                $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
+            }
+            $objZip->addFromString($xmlPath, $this->getWriterPart($notesTypes)->writeNotes($elements, $notesTypes));
+            $this->cTypes['override']["/{$xmlPath}"] = $notesTypes;
+            $this->docRels[] = array('target' => $xmlFile, 'type' => $notesTypes, 'rID' => ++$rId);
         }
     }
 }

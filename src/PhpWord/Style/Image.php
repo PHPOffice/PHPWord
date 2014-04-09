@@ -192,7 +192,6 @@ class Image extends AbstractStyle
                 break;
             default:
                 throw new \InvalidArgumentException('Wrapping style does not exists');
-                break;
         }
         return $this;
     }

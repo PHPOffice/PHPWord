@@ -35,18 +35,19 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $object = new Word2007(new PhpWord());
 
         $writerParts = array(
-            'ContentTypes',
-            'Rels',
-            'DocProps',
-            'Document',
-            'Styles',
-            'Header',
-            'Footer',
-            'Footnotes',
+            'ContentTypes' => 'ContentTypes',
+            'Rels' => 'Rels',
+            'DocProps' => 'DocProps',
+            'Document' => 'Document',
+            'Styles' => 'Styles',
+            'Header' => 'Header',
+            'Footer' => 'Footer',
+            'Footnotes' => 'Notes',
+            'Endnotes' => 'Notes',
         );
-        foreach ($writerParts as $part) {
+        foreach ($writerParts as $part => $type) {
             $this->assertInstanceOf(
-                "PhpOffice\\PhpWord\\Writer\\Word2007\\{$part}",
+                "PhpOffice\\PhpWord\\Writer\\Word2007\\{$type}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(

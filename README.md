@@ -25,6 +25,7 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 * Insert and format table with customized properties for each rows (e.g. repeat as header row) and cells (e.g. background color, rowspan, colspan)
 * Insert list items as bulleted, numbered, or multilevel
 * Insert hyperlinks
+* Insert footnotes and endnotes
 * Create document from templates
 * Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress

@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.9.2 - Not yet released
 
-This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`.
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced.
 
 ### Features
 
@@ -28,6 +28,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
 - General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
 - Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table - @ivanlanin
+- Endnote: Ability to add endnotes - @ivanlanin
 
 ### Bugfixes
 
@@ -59,6 +60,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - General: Give `Abstract` prefix and `Interface` suffix for all abstract classes and interfaces as per [PHP-FIG recommendation](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md) - @ivanlanin GH-187
 - Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
 - Writer: New 'ODText\Base` class - @ivanlanin GH-187
+- General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

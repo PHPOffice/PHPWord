@@ -12,8 +12,8 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Footnote;
+use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Element\Section;
 
@@ -44,7 +44,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * Loads PhpWord from file
      *
      * @param string $filename
-     * @return PhpWord|null
+     * @return PhpWord
      */
     public function load($filename)
     {
@@ -96,7 +96,8 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     break;
 
                 case 'footnotes':
-                    $this->readFootnotes($filename, $rel['target']);
+                case 'endnotes':
+                    $this->readNotes($filename, $rel['target'], $rel['type']);
                     break;
             }
         }
@@ -147,14 +148,13 @@ class Word2007 extends AbstractReader implements ReaderInterface
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                $nodeName = $node->nodeName;
-                if (!array_key_exists($nodeName, $mapping)) {
+                if (!array_key_exists($node->nodeName, $mapping)) {
                     continue;
                 }
-                $method = $mapping[$nodeName];
+                $method = $mapping[$node->nodeName];
                 $value = $node->nodeValue == '' ? null : $node->nodeValue;
-                if (array_key_exists($nodeName, $callbacks)) {
-                    $value = $callbacks[$nodeName]($value);
+                if (array_key_exists($node->nodeName, $callbacks)) {
+                    $value = $callbacks[$node->nodeName]($value);
                 }
                 if (method_exists($docProps, $method)) {
                     $docProps->$method($value);
@@ -253,7 +253,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 if (is_null($name)) {
                     $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
                 }
-                $default = ($xmlReader->getAttribute('w:default', $node) == 1);
+                // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
                     case 'paragraph':
                         $pStyle = $this->readParagraphStyle($xmlReader, $node);
@@ -321,14 +321,16 @@ class Word2007 extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * Read footnotes.xml
+     * Read (footnotes|endnotes).xml
      *
      * @param string $filename
      * @param string $xmlFile
      */
-    private function readFootnotes($filename, $xmlFile)
+    private function readNotes($filename, $xmlFile, $notesType = 'footnotes')
     {
-        $footnotes = Footnote::getElements();
+        $notesType = ($notesType == 'endnotes') ? 'endnotes' : 'footnotes';
+        $collectionClass = 'PhpOffice\\PhpWord\\' . ucfirst($notesType);
+        $collection = $collectionClass::getElements();
 
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($filename, $xmlFile);
@@ -339,14 +341,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 $type = $xmlReader->getAttribute('w:type', $node);
 
                 // Avoid w:type "separator" and "continuationSeparator"
-                // Only look for <footnote> without w:type attribute
-                if (is_null($type) && array_key_exists($id, $footnotes)) {
-                    $footnote = $footnotes[$id];
+                // Only look for <footnote> or <endnote> without w:type attribute
+                if (is_null($type) && array_key_exists($id, $collection)) {
+                    $element = $collection[$id];
                     $pNodes = $xmlReader->getElements('w:p/*', $node);
                     foreach ($pNodes as $pNode) {
-                        $this->readRun($xmlReader, $pNode, $footnote, 'footnotes');
+                        $this->readRun($xmlReader, $pNode, $element, $notesType);
                     }
-                    Footnote::setElement($id, $footnote);
+                    $collectionClass::setElement($id, $element);
                 }
             }
         }
@@ -445,6 +447,10 @@ class Word2007 extends AbstractReader implements ReaderInterface
             if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
                 $parent->addFootnote();
 
+            // Endnote
+            } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
+                $parent->addEndnote();
+
             // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
@@ -457,7 +463,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             // Object
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
-                $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
+                // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
@@ -489,7 +495,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
         $table = $parent->addTable($tblStyle);
         $tblNodes = $xmlReader->getElements('*', $domNode);
         foreach ($tblNodes as $tblNode) {
-            $tblNodeName = $tblNode->nodeName;
             if ($tblNode->nodeName == 'w:tblGrid') { // Column
                 // @todo Do something with table columns
 
@@ -745,7 +750,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     if (!array_key_exists($node->nodeName, $mapping)) {
                         continue;
                     }
-                    $property = $mapping[$node->nodeName];
+                    // $property = $mapping[$node->nodeName];
                     switch ($node->nodeName) {
                         case 'w:tblCellMar':
                             foreach ($margins as $side) {

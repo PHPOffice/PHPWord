@@ -27,7 +27,7 @@ class Media
     /**
      * Add new media element
      *
-     * @param string $container section|headerx|footerx|footnote
+     * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @param string $source
      * @param Image $image
@@ -51,28 +51,33 @@ class Media
             $target = null;
             $mediaTypeCount++;
 
-            // Images
-            if ($mediaType == 'image') {
-                if (is_null($image)) {
-                    throw new Exception('Image object not assigned.');
-                }
-                $isMemImage = $image->getIsMemImage();
-                $extension = $image->getImageExtension();
-                $mediaData['imageExtension'] = $extension;
-                $mediaData['imageType'] = $image->getImageType();
-                if ($isMemImage) {
-                    $mediaData['isMemImage'] = true;
-                    $mediaData['createFunction'] = $image->getImageCreateFunction();
-                    $mediaData['imageFunction'] = $image->getImageFunction();
-                }
-                $target = "media/{$container}_image{$mediaTypeCount}.{$extension}";
-            // Objects
-            } elseif ($mediaType == 'object') {
-                $file = "oleObject{$mediaTypeCount}.bin";
-                $target = "embeddings/{$container}_oleObject{$mediaTypeCount}.bin";
-            // Links
-            } elseif ($mediaType == 'link') {
-                $target = $source;
+            switch ($mediaType) {
+                // Images
+                case 'image':
+                    if (is_null($image)) {
+                        throw new Exception('Image object not assigned.');
+                    }
+                    $isMemImage = $image->getIsMemImage();
+                    $extension = $image->getImageExtension();
+                    $mediaData['imageExtension'] = $extension;
+                    $mediaData['imageType'] = $image->getImageType();
+                    if ($isMemImage) {
+                        $mediaData['isMemImage'] = true;
+                        $mediaData['createFunction'] = $image->getImageCreateFunction();
+                        $mediaData['imageFunction'] = $image->getImageFunction();
+                    }
+                    $target = "media/{$container}_image{$mediaTypeCount}.{$extension}";
+                    break;
+
+                // Objects
+                case 'object':
+                    $target = "embeddings/{$container}_oleObject{$mediaTypeCount}.bin";
+                    break;
+
+                // Links
+                case 'link':
+                    $target = $source;
+                    break;
             }
 
             $mediaData['source'] = $source;
@@ -89,7 +94,7 @@ class Media
     /**
      * Get media elements count
      *
-     * @param string $container section|headerx|footerx|footnote
+     * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @return integer
      * @since 0.9.2
@@ -116,7 +121,7 @@ class Media
     /**
      * Get media elements
      *
-     * @param string $container section|headerx|footerx|footnote
+     * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @return array
      * @since 0.9.2

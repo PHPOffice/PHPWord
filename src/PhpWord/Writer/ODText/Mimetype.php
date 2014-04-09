@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * ODText mimetype part writer
  */
@@ -19,10 +17,9 @@ class Mimetype extends AbstractWriterPart
     /**
      * Write Mimetype to Text format
      *
-     * @param PhpWord $phpWord
      * @return string Text Output
      */
-    public function writeMimetype(PhpWord $phpWord = null)
+    public function writeMimetype()
     {
         return 'application/vnd.oasis.opendocument.text';
     }

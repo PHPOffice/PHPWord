@@ -12,12 +12,11 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Footnotes
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Notes
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Footnotes
  * @runTestsInSeparateProcesses
  */
-class FootnotesTest extends \PHPUnit_Framework_TestCase
+class NotesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Executed before each method of the class
