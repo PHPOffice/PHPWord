@@ -23,16 +23,17 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testFootnote()
     {
-        $footnoteElement = new \PhpOffice\PhpWord\Element\Footnote();
-        $rIdFootnote = Footnote::addFootnoteElement($footnoteElement);
-        $rIdLink = Footnote::addFootnoteLinkElement('http://test.com');
+        $footnote1 = new \PhpOffice\PhpWord\Element\Footnote('default');
+        $footnote2 = new \PhpOffice\PhpWord\Element\Footnote('first');
+        $rId = Footnote::addElement($footnote1);
+        Footnote::setElement(1, $footnote2);
 
-        $this->assertEquals(1, $rIdFootnote);
-        $this->assertEquals(1, $rIdLink);
-        $this->assertEquals(1, count(Footnote::getFootnoteElements()));
-        $this->assertEquals(1, count(Footnote::getFootnoteLinkElements()));
+        $this->assertEquals(1, $rId);
+        $this->assertEquals(1, count(Footnote::getElements()));
+        $this->assertEquals($footnote2, Footnote::getElement(1));
+        $this->assertNull(Footnote::getElement(2));
 
         Footnote::resetElements();
-        $this->assertEquals(0, count(Footnote::getFootnoteElements()));
+        $this->assertEquals(0, Footnote::countElements());
     }
 }

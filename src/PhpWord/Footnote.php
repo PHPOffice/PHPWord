@@ -48,12 +48,15 @@ class Footnote
      */
     public static function setElement($index, FootnoteElement $footnote)
     {
-        self::$elements[$index] = $footnote;
+        if (array_key_exists($index, self::$elements)) {
+            self::$elements[$index] = $footnote;
+        }
     }
 
     /**
      * Get element by index
      *
+     * @param integer $index
      * @return FootnoteElement
      * @since 0.9.2
      */
