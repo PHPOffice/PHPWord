@@ -9,12 +9,13 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\TOC;
 
 /**
  * Word2007 document part writer
@@ -24,7 +25,9 @@ class Document extends Base
     /**
      * Write word/document.xml
      *
-     * @param PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return string
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function writeDocument(PhpWord $phpWord = null)
     {
@@ -81,8 +84,8 @@ class Document extends Base
     /**
      * Write begin section
      *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Section $section
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -96,8 +99,8 @@ class Document extends Base
     /**
      * Write end section
      *
-     * @param XMLWriter $xmlWriter
-     * @param Section $section
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Section $section
      */
     private function writeEndSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -208,7 +211,8 @@ class Document extends Base
     /**
      * Write page break element
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\PageBreak $pagebreak
      */
     protected function writePageBreak(XMLWriter $xmlWriter, PageBreak $pagebreak)
     {
@@ -224,7 +228,8 @@ class Document extends Base
     /**
      * Write TOC element
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\TOC $toc
      */
     protected function writeTOC(XMLWriter $xmlWriter, TOC $toc)
     {
