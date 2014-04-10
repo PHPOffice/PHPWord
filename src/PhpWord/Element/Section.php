@@ -10,11 +10,8 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Element\Footer;
-use PhpOffice\PhpWord\Element\Header;
-use PhpOffice\PhpWord\Element\PageBreak;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
+use PhpOffice\PhpWord\TOC;
 
 /**
  * Section
@@ -177,8 +174,9 @@ class Section extends AbstractElement
      * Add header/footer
      *
      * @param string $type
-     * @param string $header
+     * @param boolean $header
      * @return Header|Footer
+     * @throws Exception
      * @since 0.9.2
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
