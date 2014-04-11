@@ -35,7 +35,7 @@ class Table extends AbstractElement
     /**
      * Table width
      *
-     * @var int
+     * @var integer
      */
     private $width = null;
 
@@ -44,7 +44,7 @@ class Table extends AbstractElement
      * Create a new table
      *
      * @param string $docPart
-     * @param int $docPartId
+     * @param integer $docPartId
      * @param mixed $style
      */
     public function __construct($docPart, $docPartId, $style = null)
@@ -56,7 +56,7 @@ class Table extends AbstractElement
     /**
      * Add a row
      *
-     * @param int $height
+     * @param integer $height
      * @param mixed $style
      */
     public function addRow($height = null, $style = null)
@@ -69,7 +69,7 @@ class Table extends AbstractElement
     /**
      * Add a cell
      *
-     * @param int $width
+     * @param integer $width
      * @param mixed $style
      * @return Cell
      */
@@ -103,7 +103,7 @@ class Table extends AbstractElement
     /**
      * Set table width
      *
-     * @param int $width
+     * @param integer $width
      */
     public function setWidth($width)
     {
@@ -113,10 +113,31 @@ class Table extends AbstractElement
     /**
      * Get table width
      *
-     * @return int
+     * @return integer
      */
     public function getWidth()
     {
         return $this->width;
+    }
+
+    /**
+     * Get column count
+     *
+     * @return integer
+     */
+    public function countColumns()
+    {
+        $columnCount = 0;
+        if (is_array($this->rows)) {
+            $rowCount = count($this->rows);
+            for ($i = 0; $i < $rowCount; $i++) {
+                $cellCount = count($this->rows[$i]->getCells());
+                if ($columnCount < $cellCount) {
+                    $columnCount = $cellCount;
+                }
+            }
+        }
+
+        return $columnCount;
     }
 }

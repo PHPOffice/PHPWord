@@ -30,6 +30,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, and list - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
+- ODT Writer: Basic table writing support - @ivanlanin
 
 ### Bugfixes
 
