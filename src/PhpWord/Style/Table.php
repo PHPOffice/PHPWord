@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Table style
  */
@@ -161,18 +163,12 @@ class Table extends AbstractStyle
             unset($this->firstRow->borderInsideHColor);
             unset($this->firstRow->borderInsideHSize);
             foreach ($styleFirstRow as $key => $value) {
-                if (substr($key, 0, 1) == '_') {
-                    $key = substr($key, 1);
-                }
                 $this->firstRow->setStyleValue($key, $value);
             }
         }
 
         if (!is_null($styleTable) && is_array($styleTable)) {
             foreach ($styleTable as $key => $value) {
-                if (substr($key, 0, 1) == '_') {
-                    $key = substr($key, 1);
-                }
                 $this->setStyleValue($key, $value);
             }
         }
@@ -186,9 +182,7 @@ class Table extends AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
+        $key = String::removeUnderscorePrefix($key);
         if ($key == 'borderSize') {
             $this->setBorderSize($value);
         } elseif ($key == 'borderColor') {

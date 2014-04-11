@@ -45,16 +45,12 @@ class Row extends AbstractStyle
     /**
      * Set tblHeader
      *
-     * @param boolean $pValue
-     * @return $this
+     * @param boolean $value
+     * @return self
      */
-    public function setTblHeader($pValue = false)
+    public function setTblHeader($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->tblHeader = $pValue;
-        return $this;
+        $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
     }
 
     /**
@@ -70,16 +66,12 @@ class Row extends AbstractStyle
     /**
      * Set cantSplit
      *
-     * @param boolean $pValue
-     * @return $this
+     * @param boolean $value
+     * @return self
      */
-    public function setCantSplit($pValue = false)
+    public function setCantSplit($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->cantSplit = $pValue;
-        return $this;
+        $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
     }
 
     /**
@@ -95,15 +87,12 @@ class Row extends AbstractStyle
     /**
      * Set exactHeight
      *
-     * @param bool $pValue
-     * @return $this
+     * @param bool $value
+     * @return self
      */
-    public function setExactHeight($pValue = false)
+    public function setExactHeight($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->exactHeight = $pValue;
+        $this->exactHeight = $this->setBoolVal($value, $this->exactHeight);
         return $this;
     }
 

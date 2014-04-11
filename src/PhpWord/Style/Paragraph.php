@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Paragraph style
@@ -127,8 +128,6 @@ class Paragraph extends AbstractStyle
         foreach ($style as $key => $value) {
             if ($key === 'line-height') {
                 null;
-            } elseif (substr($key, 0, 1) == '_') {
-                $key = substr($key, 1);
             }
             $this->setStyleValue($key, $value);
         }
@@ -144,9 +143,7 @@ class Paragraph extends AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
+        $key = String::removeUnderscorePrefix($key);
         if ($key == 'indent' || $key == 'hanging') {
             $value = $value * 720;
         } elseif ($key == 'spacing') {

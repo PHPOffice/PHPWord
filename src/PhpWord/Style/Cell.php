@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Table cell style
  */
@@ -145,9 +147,7 @@ class Cell extends AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
+        $key = String::removeUnderscorePrefix($key);
         if ($key == 'borderSize') {
             $this->setBorderSize($value);
         } elseif ($key == 'borderColor') {

@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Abstract style class
  *
@@ -50,7 +52,10 @@ abstract class AbstractStyle
     /**
      * Set style value template method
      *
-     * Some child classes have their own specific overrides
+     * Some child classes have their own specific overrides.
+     * Backward compability check for versions < 0.10.0 which use underscore
+     * prefix for their private properties.
+     * Check if the set method is exists. Throws an exception?
      *
      * @param string $key
      * @param string $value
@@ -58,14 +63,7 @@ abstract class AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
-        // Backward compability check for versions < 0.10.0 which use underscore
-        // prefix for their private properties
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
-
-        // Check if the set method is exists. Throws an exception?
-        $method = 'set' . $key;
+        $method = 'set' . String::removeUnderscorePrefix($key);
         if (method_exists($this, $method)) {
             $this->$method($value);
         }

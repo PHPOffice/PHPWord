@@ -193,8 +193,6 @@ class Font extends AbstractStyle
             if ($key === 'line-height') {
                 $this->setLineHeight($value);
                 null;
-            } elseif (substr($key, 0, 1) == '_') {
-                $key = substr($key, 1);
             }
             $this->setStyleValue($key, $value);
         }

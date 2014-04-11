@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Section settings
  */
@@ -217,9 +219,7 @@ class Section extends AbstractStyle
      */
     public function setSettingValue($key, $value)
     {
-        if (substr($key, 0, 1) == '_') {
-            $key = substr($key, 1);
-        }
+        $key = String::removeUnderscorePrefix($key);
         if ($key == 'orientation' && $value == 'landscape') {
             $this->setLandscape();
         } elseif ($key == 'orientation' && is_null($value)) {
