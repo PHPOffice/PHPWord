@@ -100,8 +100,6 @@ class ListItem extends AbstractStyle
 
     /**
      * Set numbering style name
-     *
-     * @param string $value
      */
     public function setNumStyle($value)
     {
@@ -126,7 +124,6 @@ class ListItem extends AbstractStyle
     /**
      * Get legacy numbering definition
      *
-     * @param integer $listType
      * @return array
      * @since 0.9.2
      */

@@ -107,7 +107,7 @@ abstract class AbstractStyle
     /**
      * Set integer value
      *
-     * @param mixed $value
+     * @param integer|null $value
      * @param integer|null $default
      * @return integer|null
      */

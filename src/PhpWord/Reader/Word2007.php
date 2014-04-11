@@ -224,7 +224,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
                             if (!is_null($settingsNode)) {
                                 $settings = $this->readSectionStyle($xmlReader, $settingsNode);
                                 $section->setSettings($settings);
-                                $this->readHeaderFooter($filename, $settings, $section);
+                                if (!is_null($settings)) {
+                                    $this->readHeaderFooter($filename, $settings, $section);
+                                }
                             }
                             $section = $this->phpWord->addSection();
                         }
@@ -237,7 +239,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     case 'w:sectPr': // Last section
                         $settings = $this->readSectionStyle($xmlReader, $node);
                         $section->setSettings($settings);
-                        $this->readHeaderFooter($filename, $settings, $section);
+                        if (!is_null($settings)) {
+                            $this->readHeaderFooter($filename, $settings, $section);
+                        }
                         break;
                 }
             }
