@@ -9,17 +9,18 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
-use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
-use PhpOffice\PhpWord\Writer\Word2007\Notes;
 use PhpOffice\PhpWord\Writer\Word2007\Header;
+use PhpOffice\PhpWord\Writer\Word2007\Notes;
+use PhpOffice\PhpWord\Writer\Word2007\Numbering;
+use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
 /**
@@ -57,6 +58,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->writerParts['docprops'] = new DocProps();
         $this->writerParts['document'] = new Document();
         $this->writerParts['styles'] = new Styles();
+        $this->writerParts['numbering'] = new Numbering();
         $this->writerParts['header'] = new Header();
         $this->writerParts['footer'] = new Footer();
         $this->writerParts['footnotes'] = new Notes();
@@ -97,7 +99,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->addHeaderFooterMedia($objZip, 'footer');
 
             // Add header/footer contents
-            $overrides = array();
             $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
             $sections = $this->phpWord->getSections();
             foreach ($sections as $section) {
@@ -116,9 +117,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('rels')->writeDocRels($this->docRels));
             $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->writeDocument($this->phpWord));
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
+            $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->writeNumbering());
 
             // Write static files
-            $objZip->addFile(__DIR__ . '/../_staticDocParts/numbering.xml', 'word/numbering.xml');
             $objZip->addFile(__DIR__ . '/../_staticDocParts/settings.xml', 'word/settings.xml');
             $objZip->addFile(__DIR__ . '/../_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
             $objZip->addFile(__DIR__ . '/../_staticDocParts/webSettings.xml', 'word/webSettings.xml');
@@ -224,8 +225,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add footnotes/endnotes
      *
      * @param mixed $objZip
-     * @param string $elmType
      * @param integer $rId
+     * @param string $notesType
      */
     private function addNotes($objZip, &$rId, $notesType = 'footnote')
     {

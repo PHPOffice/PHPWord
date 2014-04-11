@@ -69,7 +69,7 @@ class Notes extends Base
         // Content
         foreach ($elements as $element) {
             if ($element instanceof Footnote || $element instanceof Endnote) {
-                $this->writeNote($xmlWriter, $element, null, $notesTypes);
+                $this->writeNote($xmlWriter, $element, $notesTypes);
             }
         }
 
@@ -83,10 +83,9 @@ class Notes extends Base
      *
      * @param XMLWriter $xmlWriter
      * @param Footnote|Endnote $element
-     * @param boolean $withoutP
      * @param string $notesTypes
      */
-    protected function writeNote(XMLWriter $xmlWriter, $element, $withoutP = false, $notesTypes = 'footnotes')
+    protected function writeNote(XMLWriter $xmlWriter, $element, $notesTypes = 'footnotes')
     {
         $isFootnote = ($notesTypes == 'footnotes');
         $elementNode = $isFootnote ? 'w:footnote' : 'w:endnote';

@@ -8,41 +8,52 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 // Begin code
 $section = $phpWord->addSection();
 
-// Add listitem elements
-$section->addListItem('List Item 1', 0);
-$section->addListItem('List Item 2', 0);
-$section->addListItem('List Item 3', 0);
-$section->addTextBreak(2);
+// Style definition
 
-// Add listitem elements
-$section->addListItem('List Item 1', 0);
-$section->addListItem('List Item 1.1', 1);
-$section->addListItem('List Item 1.2', 1);
-$section->addListItem('List Item 1.3 (styled)', 1, array('bold'=>true));
-$section->addListItem('List Item 1.3.1', 2);
-$section->addListItem('List Item 1.3.2', 2);
-$section->addTextBreak(2);
-
-// Add listitem elements
-$listStyle = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER);
-$section->addListItem('List Item 1', 0, null, $listStyle);
-$section->addListItem('List Item 2', 0, null, $listStyle);
-$section->addListItem('List Item 3', 0, null, $listStyle);
-$section->addTextBreak(2);
-
-// Add listitem elements
 $phpWord->addFontStyle('myOwnStyle', array('color'=>'FF0000'));
 $phpWord->addParagraphStyle('P-Style', array('spaceAfter'=>95));
-$listStyle = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
-$section->addListItem('List Item 1', 0, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 2', 0, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 3', 1, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 4', 1, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 5', 2, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 6', 1, 'myOwnStyle', $listStyle, 'P-Style');
-$section->addListItem('List Item 7', 0, 'myOwnStyle', $listStyle, 'P-Style');
+$phpWord->addNumberingStyle(
+    'multilevel',
+    array('type' => 'multilevel', 'levels' => array(
+        array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
+        array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
+        )
+     )
+);
+$predefinedMultilevel = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
 
-// End code
+// Lists
+
+$section->addText('Multilevel list.');
+$section->addListItem('List Item I', 0, null, 'multilevel');
+$section->addListItem('List Item I.a', 1, null, 'multilevel');
+$section->addListItem('List Item I.b', 1, null, 'multilevel');
+$section->addListItem('List Item II', 0, null, 'multilevel');
+$section->addListItem('List Item II.a', 1, null, 'multilevel');
+$section->addListItem('List Item III', 0, null, 'multilevel');
+$section->addTextBreak(2);
+
+$section->addText('Basic simple bulleted list.');
+$section->addListItem('List Item 1');
+$section->addListItem('List Item 2');
+$section->addListItem('List Item 3');
+$section->addTextBreak(2);
+
+$section->addText('Continue from multilevel list above.');
+$section->addListItem('List Item IV', 0, null, 'multilevel');
+$section->addListItem('List Item IV.a', 1, null, 'multilevel');
+$section->addTextBreak(2);
+
+$section->addText('Multilevel predefined list.');
+$section->addListItem('List Item 1', 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 2', 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 3', 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 4', 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 5', 2, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 6', 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem('List Item 7', 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addTextBreak(2);
+
 
 // Save file
 $name = basename(__FILE__, '.php');
