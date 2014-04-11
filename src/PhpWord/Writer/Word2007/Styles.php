@@ -15,7 +15,6 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\Style\Numbering;
 
 /**
  * Word2007 styles part writer
@@ -54,7 +53,6 @@ class Styles extends Base
                 if ($styleName == 'Normal') {
                     continue;
                 }
-                $styleClass = str_replace('PhpOffice\\PhpWord\\Style\\', '', get_class($style));
 
                 // Font style
                 if ($style instanceof Font) {

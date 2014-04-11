@@ -115,7 +115,7 @@ class NumberingLevel extends AbstractStyle
      */
     public function getLevel()
     {
-        return $level->level;
+        return $this->level;
     }
 
     /**

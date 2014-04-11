@@ -34,7 +34,7 @@ class Style
      */
     public static function addParagraphStyle($styleName, $styles)
     {
-        self::setStyleValues($styleName, $styles, new Paragraph());
+        self::setStyleValues($styleName, new Paragraph(), $styles);
     }
 
     /**
@@ -46,7 +46,7 @@ class Style
      */
     public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
     {
-        self::setStyleValues($styleName, $styleFont, new Font('text', $styleParagraph));
+        self::setStyleValues($styleName, new Font('text', $styleParagraph), $styleFont);
     }
 
     /**
@@ -57,7 +57,7 @@ class Style
      */
     public static function addLinkStyle($styleName, $styles)
     {
-        self::setStyleValues($styleName, $styles, new Font('link'));
+        self::setStyleValues($styleName, new Font('link'), $styles);
     }
 
     /**
@@ -65,11 +65,11 @@ class Style
      *
      * @param string $styleName
      * @param array $styleTable
-     * @param array $styleFirstRow
+     * @param array|null $styleFirstRow
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        self::setStyleValues($styleName, null, new Table($styleTable, $styleFirstRow));
+        self::setStyleValues($styleName, new Table($styleTable, $styleFirstRow), null);
     }
 
     /**
@@ -81,7 +81,7 @@ class Style
      */
     public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
-        self::setStyleValues("Heading_{$titleCount}", $styleFont, new Font('title', $styleParagraph));
+        self::setStyleValues("Heading_{$titleCount}", new Font('title', $styleParagraph), $styleFont);
     }
 
     /**
@@ -94,7 +94,7 @@ class Style
      */
     public static function addNumberingStyle($styleName, $styleValues)
     {
-        self::setStyleValues($styleName, $styleValues, new Numbering());
+        self::setStyleValues($styleName, new Numbering(), $styleValues);
     }
 
     /**
@@ -156,13 +156,13 @@ class Style
      * Set style values and put it to static style collection
      *
      * @param string $styleName
-     * @param array $styleValues
      * @param Paragraph|Font|Table|Numbering $styleObject
+     * @param array|null $styleValues
      */
-    private static function setStyleValues($styleName, $styleValues, $styleObject)
+    private static function setStyleValues($styleName, $styleObject, $styleValues = null)
     {
         if (!array_key_exists($styleName, self::$styles)) {
-            if (is_array($styleValues)) {
+            if (!is_null($styleValues) && is_array($styleValues)) {
                 foreach ($styleValues as $key => $value) {
                     $styleObject->setStyleValue($key, $value);
                 }

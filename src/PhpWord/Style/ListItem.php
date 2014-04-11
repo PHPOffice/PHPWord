@@ -10,7 +10,6 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Style\Numbering;
 
 /**
  * List item style
@@ -92,7 +91,7 @@ class ListItem extends AbstractStyle
     /**
      * Get numbering style name
      *
-     * @return integer
+     * @return string
      */
     public function getNumStyle()
     {
@@ -108,7 +107,7 @@ class ListItem extends AbstractStyle
     {
         $this->numStyle = $value;
         $numStyleObject = Style::getStyle($this->numStyle);
-        if (!is_null($numStyleObject)) {
+        if ($numStyleObject instanceof Numbering) {
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }
@@ -234,6 +233,7 @@ class ListItem extends AbstractStyle
         // Populate style and register to global Style register
         $style = $listTypeStyles[$this->listType];
         foreach ($style['levels'] as $key => $value) {
+            $level = array();
             $levelProperties = explode(', ', $value);
             $level['level'] = $key;
             for ($i = 0; $i < count($properties); $i++) {

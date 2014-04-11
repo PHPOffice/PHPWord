@@ -221,9 +221,11 @@ class Word2007 extends AbstractReader implements ReaderInterface
                         // Section properties
                         if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
                             $settingsNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
-                            $settings = $this->readSectionStyle($xmlReader, $settingsNode);
-                            $section->setSettings($settings);
-                            $this->readHeaderFooter($filename, $settings, $section);
+                            if (!is_null($settingsNode)) {
+                                $settings = $this->readSectionStyle($xmlReader, $settingsNode);
+                                $section->setSettings($settings);
+                                $this->readHeaderFooter($filename, $settings, $section);
+                            }
                             $section = $this->phpWord->addSection();
                         }
                         break;
@@ -268,7 +270,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
                         $pStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fStyle = $this->readFontStyle($xmlReader, $node);
                         if (empty($fStyle)) {
-                            $this->phpWord->addParagraphStyle($name, $pStyle);
+                            if (is_array($pStyle)) {
+                                $this->phpWord->addParagraphStyle($name, $pStyle);
+                            }
                         } else {
                             $this->phpWord->addFontStyle($name, $fStyle, $pStyle);
                         }
@@ -634,8 +638,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     } elseif ($rowNode->nodeName == 'w:tc') { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
-                        if ($xmlReader->elementExists('w:tcPr', $rowNode)) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $xmlReader->getElement('w:tcPr', $rowNode));
+                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
+                        if (!is_null($cellStyleNode)) {
+                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
                         }
 
                         $cell = $row->addCell($cellWidth, $cellStyle);
@@ -785,6 +790,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
         // Hyperlink has an extra w:r child
         if ($domNode->nodeName == 'w:hyperlink') {
             $domNode = $xmlReader->getElement('w:r', $domNode);
+        }
+        if (is_null($domNode)) {
+            return $style;
         }
         if ($xmlReader->elementExists('w:rPr', $domNode)) {
             if ($xmlReader->elementExists('w:rPr/w:rStyle', $domNode)) {
