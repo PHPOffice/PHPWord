@@ -215,6 +215,17 @@ class PhpWord
     }
 
     /**
+     * Adds a numbering style
+     *
+     * @param string $styleName
+     * @param mixed $styles
+     */
+    public function addNumberingStyle($styleName, $styles)
+    {
+        Style::addNumberingStyle($styleName, $styles);
+    }
+
+    /**
      * Get all sections
      *
      * @return Section[]

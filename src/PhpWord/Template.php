@@ -432,6 +432,6 @@ class Template
      */
     public function deleteTemplateBlock($blockname, $replacement = '')
     {
-        $this->deleteBlock($blockname, $replacement);
+        $this->deleteBlock($blockname);
     }
 }

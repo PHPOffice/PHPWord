@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Endnote;
 
 /**

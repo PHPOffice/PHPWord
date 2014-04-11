@@ -12,6 +12,7 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style\Numbering;
 
 /**
  * Style collection
@@ -68,11 +69,7 @@ class Style
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        if (!array_key_exists($styleName, self::$styles)) {
-            $style = new Table($styleTable, $styleFirstRow);
-
-            self::$styles[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, null, new Table($styleTable, $styleFirstRow));
     }
 
     /**
@@ -84,12 +81,36 @@ class Style
      */
     public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
     {
-        $styleName = 'Heading_' . $titleCount;
         self::setStyleValues("Heading_{$titleCount}", $styleFont, new Font('title', $styleParagraph));
     }
 
     /**
+     * Add numbering style
+     *
+     * @param string $styleName
+     * @param array $styleValues
+     * @return Numbering
+     * @since 0.9.2
+     */
+    public static function addNumberingStyle($styleName, $styleValues)
+    {
+        self::setStyleValues($styleName, $styleValues, new Numbering());
+    }
+
+    /**
+     * Count styles
+     *
+     * @return integer
+     * @since 0.9.2
+     */
+    public static function countStyles()
+    {
+        return count(self::$styles);
+    }
+
+    /**
      * Reset styles
+     * @since 0.9.2
      */
     public static function resetStyles()
     {
@@ -120,6 +141,7 @@ class Style
      * Get style by name
      *
      * @param string $styleName
+     * @return Paragraph|Font|Table|Numbering|null
      */
     public static function getStyle($styleName)
     {
@@ -131,24 +153,21 @@ class Style
     }
 
     /**
-     * Set style values
+     * Set style values and put it to static style collection
      *
      * @param string $styleName
      * @param array $styleValues
-     * @param mixed $styleObject
+     * @param Paragraph|Font|Table|Numbering $styleObject
      */
     private static function setStyleValues($styleName, $styleValues, $styleObject)
     {
         if (!array_key_exists($styleName, self::$styles)) {
             if (is_array($styleValues)) {
                 foreach ($styleValues as $key => $value) {
-                    if (substr($key, 0, 1) == '_') {
-                        $key = substr($key, 1);
-                    }
                     $styleObject->setStyleValue($key, $value);
                 }
             }
-
+            $styleObject->setIndex(self::countStyles() + 1); // One based index
             self::$styles[$styleName] = $styleObject;
         }
     }
