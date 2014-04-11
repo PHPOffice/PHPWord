@@ -11,8 +11,6 @@ namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Footnote;
-use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Element\Section;
@@ -52,6 +50,19 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
         $this->readRelationships($filename);
 
+
+        // Read styles and numbering first
+        foreach ($this->rels['document'] as $rId => $rel) {
+            switch ($rel['type']) {
+                case 'styles':
+                    $this->readStyles($filename, $rel['target']);
+                    break;
+                case 'numbering':
+                    $this->readNumbering($filename, $rel['target']);
+                    break;
+            }
+        }
+
         // Read main relationship
         foreach ($this->rels['main'] as $rId => $rel) {
             switch ($rel['type']) {
@@ -87,14 +98,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
             }
         }
 
-        // Read document relationships
+        // Read footnotes and endnotes
         foreach ($this->rels['document'] as $rId => $rel) {
             switch ($rel['type']) {
-
-                case 'styles':
-                    $this->readStyles($filename, $rel['target']);
-                    break;
-
                 case 'footnotes':
                 case 'endnotes':
                     $this->readNotes($filename, $rel['target'], $rel['type']);
@@ -178,7 +184,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                $nodeName = $node->nodeName;
                 $propertyName = $xmlReader->getAttribute('name', $node);
                 $attributeNode = $xmlReader->getElement('*', $node);
                 $attributeType = $attributeNode->nodeName;
@@ -206,6 +211,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
                 switch ($node->nodeName) {
+
                     case 'w:p': // Paragraph
                         if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
                             $section->addPageBreak(); // PageBreak
@@ -215,19 +221,27 @@ class Word2007 extends AbstractReader implements ReaderInterface
                         // Section properties
                         if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
                             $settingsNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
-                            $settings = $this->readSectionStyle($xmlReader, $settingsNode);
-                            $section->setSettings($settings);
-                            $this->readHeaderFooter($filename, $settings, $section);
+                            if (!is_null($settingsNode)) {
+                                $settings = $this->readSectionStyle($xmlReader, $settingsNode);
+                                $section->setSettings($settings);
+                                if (!is_null($settings)) {
+                                    $this->readHeaderFooter($filename, $settings, $section);
+                                }
+                            }
                             $section = $this->phpWord->addSection();
                         }
                         break;
+
                     case 'w:tbl': // Table
                         $this->readTable($xmlReader, $node, $section, 'document');
                         break;
+
                     case 'w:sectPr': // Last section
                         $settings = $this->readSectionStyle($xmlReader, $node);
                         $section->setSettings($settings);
-                        $this->readHeaderFooter($filename, $settings, $section);
+                        if (!is_null($settings)) {
+                            $this->readHeaderFooter($filename, $settings, $section);
+                        }
                         break;
                 }
             }
@@ -255,21 +269,26 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 }
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
+
                     case 'paragraph':
                         $pStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fStyle = $this->readFontStyle($xmlReader, $node);
                         if (empty($fStyle)) {
-                            $this->phpWord->addParagraphStyle($name, $pStyle);
+                            if (is_array($pStyle)) {
+                                $this->phpWord->addParagraphStyle($name, $pStyle);
+                            }
                         } else {
                             $this->phpWord->addFontStyle($name, $fStyle, $pStyle);
                         }
                         break;
+
                     case 'character':
                         $fStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fStyle)) {
                             $this->phpWord->addFontStyle($name, $fStyle);
                         }
                         break;
+
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {
@@ -279,6 +298,98 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 }
             }
         }
+    }
+
+    /**
+     * Read numbering.xml
+     *
+     * @param string $filename
+     * @param string $xmlFile
+     */
+    private function readNumbering($filename, $xmlFile)
+    {
+        $abstracts = array();
+        $numberings = array();
+        $xmlReader = new XMLReader();
+        $xmlReader->getDomFromZip($filename, $xmlFile);
+
+        // Abstract numbering definition
+        $nodes = $xmlReader->getElements('w:abstractNum');
+        if ($nodes->length > 0) {
+            foreach ($nodes as $node) {
+                $abstractId = $xmlReader->getAttribute('w:abstractNumId', $node);
+                $abstracts[$abstractId] = array('levels' => array());
+                $abstract = &$abstracts[$abstractId];
+                $subnodes = $xmlReader->getElements('*', $node);
+                foreach ($subnodes as $subnode) {
+                    switch ($subnode->nodeName) {
+                        case 'w:multiLevelType':
+                            $abstract['type'] = $xmlReader->getAttribute('w:val', $subnode);
+                            break;
+                        case 'w:lvl':
+                            $levelId = $xmlReader->getAttribute('w:ilvl', $subnode);
+                            $abstract['levels'][$levelId] = $this->readNumberingLevel($xmlReader, $subnode, $levelId);
+                            break;
+                    }
+                }
+            }
+        }
+
+        // Numbering instance definition
+        $nodes = $xmlReader->getElements('w:num');
+        if ($nodes->length > 0) {
+            foreach ($nodes as $node) {
+                $numId = $xmlReader->getAttribute('w:numId', $node);
+                $abstractId = $xmlReader->getAttribute('w:val', $node, 'w:abstractNumId');
+                $numberings[$numId] = $abstracts[$abstractId];
+                $numberings[$numId]['numId'] = $numId;
+                $subnodes = $xmlReader->getElements('w:lvlOverride/w:lvl', $node);
+                foreach ($subnodes as $subnode) {
+                    $levelId = $xmlReader->getAttribute('w:ilvl', $subnode);
+                    $overrides = $this->readNumberingLevel($xmlReader, $subnode, $levelId);
+                    foreach ($overrides as $key => $value) {
+                        $numberings[$numId]['levels'][$levelId][$key] = $value;
+                    }
+                }
+            }
+        }
+
+        // Push to Style collection
+        foreach ($numberings as $numId => $numbering) {
+            $this->phpWord->addNumberingStyle("PHPWordList{$numId}", $numbering);
+        }
+    }
+
+    /**
+     * Read numbering level definition from w:abstractNum and w:num
+     *
+     * @param integer $levelId
+     * @return array
+     */
+    private function readNumberingLevel(XMLReader $xmlReader, \DOMElement $subnode, $levelId)
+    {
+        $level = array();
+
+        $level['level'] = $levelId;
+        $level['start'] = $xmlReader->getAttribute('w:val', $subnode, 'w:start');
+        $level['format'] = $xmlReader->getAttribute('w:val', $subnode, 'w:numFmt');
+        $level['restart'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlRestart');
+        $level['suffix'] = $xmlReader->getAttribute('w:val', $subnode, 'w:suff');
+        $level['text'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlText');
+        $level['align'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlJc');
+        $level['tab'] = $xmlReader->getAttribute('w:pos', $subnode, 'w:pPr/w:tabs/w:tab');
+        $level['left'] = $xmlReader->getAttribute('w:left', $subnode, 'w:pPr/w:ind');
+        $level['hanging'] = $xmlReader->getAttribute('w:hanging', $subnode, 'w:pPr/w:ind');
+        $level['font'] = $xmlReader->getAttribute('w:ascii', $subnode, 'w:rPr/w:rFonts');
+        $level['hint'] = $xmlReader->getAttribute('w:hint', $subnode, 'w:rPr/w:rFonts');
+
+        foreach ($level as $key => $value) {
+            if (is_null($value)) {
+                unset($level[$key]);
+            }
+        }
+
+        return $level;
     }
 
     /**
@@ -325,6 +436,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @param string $filename
      * @param string $xmlFile
+     * @param string $notesType
      */
     private function readNotes($filename, $xmlFile, $notesType = 'footnotes')
     {
@@ -362,7 +474,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @todo Get font style for preserve text
      */
-    private function readParagraph(XMLReader $xmlReader, \DOMNode $domNode, &$parent, $docPart)
+    private function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
     {
         // Paragraph style
         $pStyle = null;
@@ -396,6 +508,17 @@ class Word2007 extends AbstractReader implements ReaderInterface
             }
             $parent->addPreserveText($textContent, $fStyle, $pStyle);
 
+        // List item
+        } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
+            $textContent = '';
+            $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
+            $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $pStyle);
+
         // Text and TextRun
         } else {
             $runCount = $xmlReader->countElements('w:r', $domNode);
@@ -421,13 +544,15 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read w:r
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $pStyle
      *
      * @todo Footnote paragraph style
      */
-    private function readRun(XMLReader $xmlReader, \DOMNode $domNode, &$parent, $docPart, $pStyle = null)
+    private function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $pStyle = null)
     {
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
@@ -484,7 +609,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @param mixed $parent
      * @param string $docPart
      */
-    private function readTable(XMLReader $xmlReader, \DOMNode $domNode, &$parent, $docPart)
+    private function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
     {
         // Table style
         $tblStyle = null;
@@ -517,8 +642,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     } elseif ($rowNode->nodeName == 'w:tc') { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
-                        if ($xmlReader->elementExists('w:tcPr', $rowNode)) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $xmlReader->getElement('w:tcPr', $rowNode));
+                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
+                        if (!is_null($cellStyleNode)) {
+                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
                         }
 
                         $cell = $row->addCell($cellWidth, $cellStyle);
@@ -539,7 +665,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @return array|null
      */
-    private function readSectionStyle(XMLReader $xmlReader, \DOMNode $domNode)
+    private function readSectionStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $ret = null;
         $mapping = array(
@@ -554,6 +680,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             }
             $property = $mapping[$node->nodeName];
             switch ($node->nodeName) {
+
                 case 'w:type':
                     $ret['breakType'] = $xmlReader->getAttribute('w:val', $node);
                     break;
@@ -598,7 +725,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @return string|array|null
      */
-    private function readParagraphStyle(XMLReader $xmlReader, \DOMNode $domNode)
+    private function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $style = null;
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
@@ -620,6 +747,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     }
                     $property = $mapping[$node->nodeName];
                     switch ($node->nodeName) {
+
                         case 'w:ind':
                             $style['indent'] = $xmlReader->getAttribute('w:left', $node);
                             $style['hanging'] = $xmlReader->getAttribute('w:hanging', $node);
@@ -660,12 +788,15 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @return string|array|null
      */
-    private function readFontStyle(XMLReader $xmlReader, \DOMNode $domNode)
+    private function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $style = null;
         // Hyperlink has an extra w:r child
         if ($domNode->nodeName == 'w:hyperlink') {
             $domNode = $xmlReader->getElement('w:r', $domNode);
+        }
+        if (is_null($domNode)) {
+            return $style;
         }
         if ($xmlReader->elementExists('w:rPr', $domNode)) {
             if ($xmlReader->elementExists('w:rPr/w:rStyle', $domNode)) {
@@ -686,6 +817,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     }
                     $property = $mapping[$node->nodeName];
                     switch ($node->nodeName) {
+
                         case 'w:rFonts':
                             $style['name'] = $xmlReader->getAttribute('w:ascii', $node);
                             $style['hint'] = $xmlReader->getAttribute('w:hint', $node);
@@ -729,7 +861,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
      */
-    private function readTableStyle(XMLReader $xmlReader, \DOMNode $domNode)
+    private function readTableStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $style = null;
         $margins = array('top', 'left', 'bottom', 'right');
@@ -752,6 +884,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                     }
                     // $property = $mapping[$node->nodeName];
                     switch ($node->nodeName) {
+
                         case 'w:tblCellMar':
                             foreach ($margins as $side) {
                                 $ucfSide = ucfirst($side);
@@ -779,7 +912,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      *
      * @return array|null
      */
-    private function readCellStyle(XMLReader $xmlReader, \DOMNode $domNode)
+    private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         $style = null;
         $mapping = array(

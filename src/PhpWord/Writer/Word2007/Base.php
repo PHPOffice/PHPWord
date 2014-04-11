@@ -279,7 +279,7 @@ class Base extends AbstractWriterPart
     {
         $textObject = $listItem->getTextObject();
         $depth = $listItem->getDepth();
-        $listType = $listItem->getStyle()->getListType();
+        $numId = $listItem->getStyle()->getNumId();
         $styleParagraph = $textObject->getParagraphStyle();
 
         $xmlWriter->startElement('w:p');
@@ -290,7 +290,7 @@ class Base extends AbstractWriterPart
         $xmlWriter->writeAttribute('w:val', $depth);
         $xmlWriter->endElement(); // w:ilvl
         $xmlWriter->startElement('w:numId');
-        $xmlWriter->writeAttribute('w:val', $listType);
+        $xmlWriter->writeAttribute('w:val', $numId);
         $xmlWriter->endElement(); // w:numId
         $xmlWriter->endElement(); // w:numPr
         $xmlWriter->endElement(); // w:pPr

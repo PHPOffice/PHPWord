@@ -18,6 +18,8 @@ use PhpOffice\PhpWord\Style\Table;
 
 /**
  * Word2007 styles part writer
+ *
+ * @todo Do something with the numbering style introduced in 0.9.2
  */
 class Styles extends Base
 {
@@ -38,37 +40,31 @@ class Styles extends Base
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:styles');
-        $xmlWriter->writeAttribute(
-            'xmlns:r',
-            'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
-        );
-        $xmlWriter->writeAttribute(
-            'xmlns:w',
-            'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
-        );
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+
         // Write default styles
         $styles = Style::getStyles();
         $this->writeDefaultStyles($xmlWriter, $phpWord, $styles);
-        // Write other styles
+
+        // Write styles
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 if ($styleName == 'Normal') {
                     continue;
                 }
-                if ($style instanceof Font) {
 
+                // Font style
+                if ($style instanceof Font) {
                     $paragraphStyle = $style->getParagraphStyle();
                     $styleType = $style->getStyleType();
-
                     $type = ($styleType == 'title') ? 'paragraph' : 'character';
-
                     if (!is_null($paragraphStyle)) {
                         $type = 'paragraph';
                     }
 
                     $xmlWriter->startElement('w:style');
                     $xmlWriter->writeAttribute('w:type', $type);
-
                     if ($styleType == 'title') {
                         $arrStyle = explode('_', $styleName);
                         $styleId = 'Heading' . $arrStyle[1];
@@ -80,11 +76,9 @@ class Styles extends Base
                         $xmlWriter->writeAttribute('w:val', $styleLink);
                         $xmlWriter->endElement();
                     }
-
                     $xmlWriter->startElement('w:name');
                     $xmlWriter->writeAttribute('w:val', $styleName);
                     $xmlWriter->endElement();
-
                     if (!is_null($paragraphStyle)) {
                         // Point parent style to Normal
                         $xmlWriter->startElement('w:basedOn');
@@ -94,19 +88,17 @@ class Styles extends Base
                     }
 
                     $this->writeFontStyle($xmlWriter, $style);
-
                     $xmlWriter->endElement();
 
+                // Paragraph style
                 } elseif ($style instanceof Paragraph) {
                     $xmlWriter->startElement('w:style');
                     $xmlWriter->writeAttribute('w:type', 'paragraph');
                     $xmlWriter->writeAttribute('w:customStyle', '1');
                     $xmlWriter->writeAttribute('w:styleId', $styleName);
-
                     $xmlWriter->startElement('w:name');
                     $xmlWriter->writeAttribute('w:val', $styleName);
                     $xmlWriter->endElement();
-
                     // Parent style
                     $basedOn = $style->getBasedOn();
                     if (!is_null($basedOn)) {
@@ -114,7 +106,6 @@ class Styles extends Base
                         $xmlWriter->writeAttribute('w:val', $basedOn);
                         $xmlWriter->endElement();
                     }
-
                     // Next paragraph style
                     $next = $style->getNext();
                     if (!is_null($next)) {
@@ -126,22 +117,20 @@ class Styles extends Base
                     $this->writeParagraphStyle($xmlWriter, $style);
                     $xmlWriter->endElement();
 
+                // Table style
                 } elseif ($style instanceof Table) {
                     $xmlWriter->startElement('w:style');
                     $xmlWriter->writeAttribute('w:type', 'table');
                     $xmlWriter->writeAttribute('w:customStyle', '1');
                     $xmlWriter->writeAttribute('w:styleId', $styleName);
-
                     $xmlWriter->startElement('w:name');
                     $xmlWriter->writeAttribute('w:val', $styleName);
                     $xmlWriter->endElement();
-
                     $xmlWriter->startElement('w:uiPriority');
                     $xmlWriter->writeAttribute('w:val', '99');
                     $xmlWriter->endElement();
 
                     $this->writeTableStyle($xmlWriter, $style);
-
                     $xmlWriter->endElement(); // w:style
                 }
             }
@@ -149,7 +138,6 @@ class Styles extends Base
 
         $xmlWriter->endElement(); // w:styles
 
-        // Return
         return $xmlWriter->getData();
     }
 

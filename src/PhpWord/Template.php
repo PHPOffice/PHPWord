@@ -421,17 +421,4 @@ class Template
         }
         return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
     }
-
-    /**
-     * Delete a block of text
-     *
-     * @param string $blockname
-     * @param string $replacement
-     * @deprecated
-     * @codeCoverageIgnore
-     */
-    public function deleteTemplateBlock($blockname, $replacement = '')
-    {
-        $this->deleteBlock($blockname, $replacement);
-    }
 }

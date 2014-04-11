@@ -44,15 +44,21 @@ class ListItem extends AbstractElement
      *
      * @param string $text
      * @param int $depth
-     * @param mixed $styleFont
-     * @param mixed $styleList
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param array|string|null $listStyle
+     * @param mixed $paragraphStyle
      */
-    public function __construct($text, $depth = 0, $styleFont = null, $styleList = null, $styleParagraph = null)
+    public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->textObject = new Text($text, $styleFont, $styleParagraph);
+        $this->textObject = new Text($text, $fontStyle, $paragraphStyle);
         $this->depth = $depth;
-        $this->style = $this->setStyle(new ListItemStyle(), $styleList, true);
+
+        // Version >= 0.9.2 will pass numbering style name. Older version will use old method
+        if (!is_null($listStyle) && is_string($listStyle)) {
+            $this->style = new ListItemStyle($listStyle);
+        } else {
+            $this->style = $this->setStyle(new ListItemStyle(), $listStyle, true);
+        }
     }
 
     /**
