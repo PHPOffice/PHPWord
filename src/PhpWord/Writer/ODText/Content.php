@@ -108,15 +108,15 @@ class Content extends Base
                 $elements = $section->getElements();
                 foreach ($elements as $element) {
                     if ($elements instanceof Table) {
-                        $objWriter->startElement('style:style');
-                        $objWriter->writeAttribute('style:name', $element->getElementId());
-                        $objWriter->writeAttribute('style:family', 'table');
-                        $objWriter->startElement('style:table-properties');
-                        //$objWriter->writeAttribute('style:width', 'table');
-                        $objWriter->writeAttribute('style:rel-width', 100);
-                        $objWriter->writeAttribute('table:align', 'center');
-                        $objWriter->endElement();
-                        $objWriter->endElement();
+                        $xmlWriter->startElement('style:style');
+                        $xmlWriter->writeAttribute('style:name', $element->getElementId());
+                        $xmlWriter->writeAttribute('style:family', 'table');
+                        $xmlWriter->startElement('style:table-properties');
+                        //$xmlWriter->writeAttribute('style:width', 'table');
+                        $xmlWriter->writeAttribute('style:rel-width', 100);
+                        $xmlWriter->writeAttribute('table:align', 'center');
+                        $xmlWriter->endElement();
+                        $xmlWriter->endElement();
                     }
                 }
             }
