@@ -82,6 +82,20 @@ abstract class AbstractElement
     protected $elements = array();
 
     /**
+     * Index of element in the elements collection (start with 1)
+     *
+     * @var integer
+     */
+    protected $elementIndex = 1;
+
+    /**
+     * Unique Id for element
+     *
+     * @var integer
+     */
+    protected $elementId;
+
+    /**
      * Relation Id
      *
      * @var int
@@ -108,7 +122,7 @@ abstract class AbstractElement
         $text = String::toUTF8($text);
         $textObject = new Text($text, $fontStyle, $paragraphStyle);
         $textObject->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->elements[] = $textObject;
+        $this->addElement($textObject);
 
         return $textObject;
     }
@@ -125,7 +139,7 @@ abstract class AbstractElement
 
         $textRun = new TextRun($paragraphStyle);
         $textRun->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->elements[] = $textRun;
+        $this->addElement($textRun);
 
         return $textRun;
     }
@@ -148,7 +162,7 @@ abstract class AbstractElement
         $link->setDocPart($this->getDocPart(), $this->getDocPartId());
         $rId = Media::addElement($elementDocPart, 'link', $linkSrc);
         $link->setRelationId($rId);
-        $this->elements[] = $link;
+        $this->addElement($link);
 
         return $link;
     }
@@ -179,7 +193,7 @@ abstract class AbstractElement
         $bookmarkId = $data[1];
         $title->setAnchor($anchor);
         $title->setBookmarkId($bookmarkId);
-        $this->elements[] = $title;
+        $this->addElement($title);
 
         return $title;
     }
@@ -198,7 +212,7 @@ abstract class AbstractElement
 
         $preserveText = new PreserveText(String::toUTF8($text), $fontStyle, $paragraphStyle);
         $preserveText->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->elements[] = $preserveText;
+        $this->addElement($preserveText);
 
         return $preserveText;
     }
@@ -217,7 +231,7 @@ abstract class AbstractElement
         for ($i = 1; $i <= $count; $i++) {
             $textBreak = new TextBreak($fontStyle, $paragraphStyle);
             $textBreak->setDocPart($this->getDocPart(), $this->getDocPartId());
-            $this->elements[] = $textBreak;
+            $this->addElement($textBreak);
         }
     }
 
@@ -237,7 +251,7 @@ abstract class AbstractElement
 
         $listItem = new ListItem(String::toUTF8($text), $depth, $fontStyle, $styleList, $paragraphStyle);
         $listItem->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->elements[] = $listItem;
+        $this->addElement($listItem);
 
         return $listItem;
     }
@@ -253,7 +267,7 @@ abstract class AbstractElement
         $this->checkValidity('table');
 
         $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
-        $this->elements[] = $table;
+        $this->addElement($table);
 
         return $table;
     }
@@ -275,7 +289,8 @@ abstract class AbstractElement
         $image->setDocPart($this->getDocPart(), $this->getDocPartId());
         $rId = Media::addElement($elementDocPart, 'image', $src, $image);
         $image->setRelationId($rId);
-        $this->elements[] = $image;
+        $this->addElement($image);
+
         return $image;
     }
 
@@ -307,7 +322,8 @@ abstract class AbstractElement
             $object->setRelationId($rId);
             $rIdimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
             $object->setImageRelationId($rIdimg);
-            $this->elements[] = $object;
+            $this->addElement($object);
+
             return $object;
         } else {
             throw new InvalidObjectException();
@@ -329,7 +345,7 @@ abstract class AbstractElement
 
         $footnote->setDocPart('footnote', $this->getDocPartId());
         $footnote->setRelationId($rId);
-        $this->elements[] = $footnote;
+        $this->addElement($footnote);
 
         return $footnote;
     }
@@ -349,7 +365,7 @@ abstract class AbstractElement
 
         $endnote->setDocPart('endnote', $this->getDocPartId());
         $endnote->setRelationId($rId);
-        $this->elements[] = $endnote;
+        $this->addElement($endnote);
 
         return $endnote;
     }
@@ -369,7 +385,7 @@ abstract class AbstractElement
 
         $checkBox = new CheckBox(String::toUTF8($name), String::toUTF8($text), $fontStyle, $paragraphStyle);
         $checkBox->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->elements[] = $checkBox;
+        $this->addElement($checkBox);
 
         return $checkBox;
     }
@@ -417,6 +433,16 @@ abstract class AbstractElement
     }
 
     /**
+     * Set element index and unique id, and add element into elements collection
+     */
+    protected function addElement(AbstractElement $element)
+    {
+        $element->setElementIndex($this->countElements() + 1);
+        $element->setElementId();
+        $this->elements[] = $element;
+    }
+
+    /**
      * Get all elements
      *
      * @return array
@@ -424,6 +450,54 @@ abstract class AbstractElement
     public function getElements()
     {
         return $this->elements;
+    }
+
+    /**
+     * Count elements
+     *
+     * @return integer
+     */
+    public function countElements()
+    {
+        return count($this->elements);
+    }
+
+    /**
+     * Get element index
+     *
+     * @return int
+     */
+    public function getElementIndex()
+    {
+        return $this->elementIndex;
+    }
+
+    /**
+     * Set element index
+     *
+     * @param int $value
+     */
+    public function setElementIndex($value)
+    {
+        $this->elementIndex = $value;
+    }
+
+    /**
+     * Get element unique ID
+     *
+     * @return string
+     */
+    public function getElementId()
+    {
+        return $this->elementId;
+    }
+
+    /**
+     * Set element unique ID from 6 first digit of md5
+     */
+    public function setElementId()
+    {
+        $this->elementId = substr(md5(rand()), 0, 6);
     }
 
     /**
