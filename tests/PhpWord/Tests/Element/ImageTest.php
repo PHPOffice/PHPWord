@@ -94,6 +94,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
+    public function testStyleWrappingStyle()
+    {
+
+    }
+
     /**
      * Get relation Id
      */
@@ -201,5 +206,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testPhpImage()
     {
         $object = new Image('test.php');
+    }
+
+    /**
+     * Test PCX Image and Memory
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
+     */
+    public function testPcxImage()
+    {
+      $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
     }
 }

@@ -35,6 +35,7 @@ This release marked heavy refactorings on internal code structure with the creat
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
+- Documentation : Error in a fonction - @theBeerNut GH-195
 
 ### Deprecated
 
@@ -63,6 +64,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
 - Writer: New 'ODText\Base` class - @ivanlanin GH-187
 - General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
+- General: Add some unit tests for Shared & Element (100%!) - @Progi1984
 
 ## 0.9.1 - 27 Mar 2014
 

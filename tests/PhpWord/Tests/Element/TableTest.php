@@ -84,9 +84,23 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCell()
     {
-        $oTable = new Table('section', 1);
-        $oTable->addRow();
-        $element = $oTable->addCell();
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+      $oTable = new Table('section', 1);
+      $oTable->addRow();
+      $element = $oTable->addCell();
+      $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+    }
+
+    /**
+     * Add cell
+     */
+    public function testCountColumns()
+    {
+      $oTable = new Table('section', 1);
+      $oTable->addRow();
+      $element = $oTable->addCell();
+      $this->assertEquals($oTable->countColumns(), 1);
+      $element = $oTable->addCell();
+      $element = $oTable->addCell();
+      $this->assertEquals($oTable->countColumns(), 3);
     }
 }

@@ -218,8 +218,7 @@ class ZipArchive
     public function getNameIndex($index)
     {
         $list = $this->zip->listContent();
-        $listCount = count($list);
-        if ($index <= $listCount) {
+        if (isset($list[$index])) {
             return $list[$index]['filename'];
         } else {
             return false;
