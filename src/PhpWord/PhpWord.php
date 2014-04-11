@@ -256,7 +256,7 @@ class PhpWord
      *
      * @param array $settings
      * @return Section
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createSection($settings = null)

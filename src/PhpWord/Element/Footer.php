@@ -44,7 +44,7 @@ class Footer extends AbstractElement
      * Set type
      *
      * @param string $value
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public function setType($value = self::AUTO)
     {
@@ -55,7 +55,7 @@ class Footer extends AbstractElement
      * Get type
      *
      * @return string
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public function getType()
     {

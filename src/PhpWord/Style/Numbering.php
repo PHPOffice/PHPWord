@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\Style\NumberingLevel;
  * @link http://www.schemacentral.com/sc/ooxml/e-w_numbering.html
  * @link http://www.schemacentral.com/sc/ooxml/e-w_abstractNum-1.html
  * @link http://www.schemacentral.com/sc/ooxml/e-w_num-1.html
- * @since 0.9.2
+ * @since 0.10.0
  */
 class Numbering extends AbstractStyle
 {

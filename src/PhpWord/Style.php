@@ -90,7 +90,7 @@ class Style
      * @param string $styleName
      * @param array $styleValues
      * @return Numbering
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public static function addNumberingStyle($styleName, $styleValues)
     {
@@ -101,7 +101,7 @@ class Style
      * Count styles
      *
      * @return integer
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public static function countStyles()
     {
@@ -110,7 +110,7 @@ class Style
 
     /**
      * Reset styles
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public static function resetStyles()
     {

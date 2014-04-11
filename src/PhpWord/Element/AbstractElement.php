@@ -34,7 +34,7 @@ use PhpOffice\PhpWord\Element\CheckBox;
 /**
  * Container abstract class
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 abstract class AbstractElement
 {
@@ -563,7 +563,7 @@ abstract class AbstractElement
      * Create textrun element
      *
      * @param mixed $paragraphStyle
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createTextRun($paragraphStyle = null)
@@ -575,7 +575,7 @@ abstract class AbstractElement
      * Create footnote element
      *
      * @param mixed $paragraphStyle
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createFootnote($paragraphStyle = null)

@@ -53,7 +53,7 @@ class ListItem extends AbstractElement
         $this->textObject = new Text($text, $fontStyle, $paragraphStyle);
         $this->depth = $depth;
 
-        // Version >= 0.9.2 will pass numbering style name. Older version will use old method
+        // Version >= 0.10.0 will pass numbering style name. Older version will use old method
         if (!is_null($listStyle) && is_string($listStyle)) {
             $this->style = new ListItemStyle($listStyle);
         } else {

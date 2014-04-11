@@ -13,7 +13,7 @@ namespace PhpOffice\PhpWord\Style;
  * Numbering level definition
  *
  * @link http://www.schemacentral.com/sc/ooxml/e-w_lvl-1.html
- * @since 0.9.2
+ * @since 0.10.0
  */
 class NumberingLevel extends AbstractStyle
 {

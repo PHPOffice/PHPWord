@@ -48,7 +48,7 @@ class Footnote extends AbstractElement
      * Get Footnote Reference ID
      *
      * @return int
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function getReferenceId()
@@ -60,7 +60,7 @@ class Footnote extends AbstractElement
      * Set Footnote Reference ID
      *
      * @param int $rId
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function setReferenceId($rId)

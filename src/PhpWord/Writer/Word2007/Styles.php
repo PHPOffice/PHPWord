@@ -19,7 +19,7 @@ use PhpOffice\PhpWord\Style\Table;
 /**
  * Word2007 styles part writer
  *
- * @todo Do something with the numbering style introduced in 0.9.2
+ * @todo Do something with the numbering style introduced in 0.10.0
  */
 class Styles extends Base
 {

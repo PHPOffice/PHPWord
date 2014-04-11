@@ -22,7 +22,7 @@ require_once 'PCLZip/pclzip.lib.php';
 /**
  * PCLZip wrapper
  *
- * @since   0.9.2
+ * @since   0.10.0
  */
 class ZipArchive
 {

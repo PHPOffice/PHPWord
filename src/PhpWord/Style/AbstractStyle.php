@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Abstract style class
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 abstract class AbstractStyle
 {
@@ -58,7 +58,7 @@ abstract class AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
-        // Backward compability check for versions < 0.9.2 which use underscore
+        // Backward compability check for versions < 0.10.0 which use underscore
         // prefix for their private properties
         if (substr($key, 0, 1) == '_') {
             $key = substr($key, 1);

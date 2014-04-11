@@ -2,7 +2,7 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-## 0.9.2 - Not yet released
+## 0.10.0 - Not yet released
 
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable.
 
@@ -29,7 +29,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
 - Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, and list - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
-- ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10
+- ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 
 ### Bugfixes
 

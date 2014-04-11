@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Settings;
 /**
  * XML Reader wrapper
  *
- * @since   0.9.2
+ * @since   0.10.0
  */
 class XMLReader
 {

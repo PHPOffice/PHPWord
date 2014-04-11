@@ -16,7 +16,7 @@ use PhpOffice\PhpWord\Settings;
 /**
  * Abstract writer class
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 abstract class AbstractWriter implements WriterInterface
 {

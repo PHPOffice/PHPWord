@@ -14,8 +14,8 @@ use PhpOffice\PhpWord\Style;
 /**
  * List item style
  *
- * Before version 0.9.2, numbering style is defined statically with $listType.
- * After version 0.9.2, numbering style is defined by using Numbering and
+ * Before version 0.10.0, numbering style is defined statically with $listType.
+ * After version 0.10.0, numbering style is defined by using Numbering and
  * recorded by $numStyle. $listStyle is maintained for backward compatility
  */
 class ListItem extends AbstractStyle
@@ -38,7 +38,7 @@ class ListItem extends AbstractStyle
      * Numbering style name
      *
      * @var string
-     * @since 0.9.2
+     * @since 0.10.0
      */
     private $numStyle;
 
@@ -46,7 +46,7 @@ class ListItem extends AbstractStyle
      * Numbering definition instance ID
      *
      * @var integer
-     * @since 0.9.2
+     * @since 0.10.0
      */
     private $numId;
 
@@ -75,7 +75,7 @@ class ListItem extends AbstractStyle
     }
 
     /**
-     * Set legacy list type for version < 0.9.2
+     * Set legacy list type for version < 0.10.0
      *
      * @param integer $value
      */
@@ -125,7 +125,7 @@ class ListItem extends AbstractStyle
      * Get legacy numbering definition
      *
      * @return array
-     * @since 0.9.2
+     * @since 0.10.0
      */
     private function getListTypeStyle()
     {

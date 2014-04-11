@@ -113,7 +113,7 @@ class Section extends AbstractElement
      *
      * @param string $type
      * @return Header
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public function addHeader($type = Header::AUTO)
     {
@@ -125,7 +125,7 @@ class Section extends AbstractElement
      *
      * @param string $type
      * @return Footer
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public function addFooter($type = Header::AUTO)
     {
@@ -177,7 +177,7 @@ class Section extends AbstractElement
      * @param boolean $header
      * @return Header|Footer
      * @throws Exception
-     * @since 0.9.2
+     * @since 0.10.0
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -201,7 +201,7 @@ class Section extends AbstractElement
      * Create header
      *
      * @return Header
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createHeader()
@@ -213,7 +213,7 @@ class Section extends AbstractElement
      * Create footer
      *
      * @return Footer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createFooter()
@@ -225,7 +225,7 @@ class Section extends AbstractElement
      * Get footer
      *
      * @return Footer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function getFooter()
