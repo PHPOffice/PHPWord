@@ -10,7 +10,7 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Cell
+ * Test class for PhpOffice\PhpWord\Element\AbstractElement
  *
  * @runTestsInSeparateProcesses
  */
@@ -26,6 +26,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $stub->setElementIndex($ival);
         $this->assertEquals($stub->getElementIndex(), $ival);
     }
+
     /**
      * Test set/get element unique Id
      */
