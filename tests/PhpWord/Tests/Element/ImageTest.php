@@ -94,6 +94,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
+    /**
+     * Test set wrapping style
+     */
     public function testStyleWrappingStyle()
     {
 
@@ -215,6 +218,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testPcxImage()
     {
-      $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
     }
 }

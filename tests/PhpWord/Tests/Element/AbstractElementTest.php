@@ -16,15 +16,23 @@ namespace PhpOffice\PhpWord\Tests\Element;
  */
 class AbstractElementTest extends \PHPUnit_Framework_TestCase
 {
-    public function testElementIndex(){
-      $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
-      $ival = rand(0, 100);
-      $stub->setElementIndex($ival);
-      $this->assertEquals($stub->getElementIndex(), $ival);
+    /**
+     * Test set/get element index
+     */
+    public function testElementIndex()
+    {
+        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
+        $ival = rand(0, 100);
+        $stub->setElementIndex($ival);
+        $this->assertEquals($stub->getElementIndex(), $ival);
     }
-    public function testElementId(){
-      $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
-      $stub->setElementId();
-      $this->assertEquals(strlen($stub->getElementId()), 6);
+    /**
+     * Test set/get element unique Id
+     */
+    public function testElementId()
+    {
+        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Element\AbstractElement');
+        $stub->setElementId();
+        $this->assertEquals(strlen($stub->getElementId()), 6);
     }
 }
