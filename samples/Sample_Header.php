@@ -21,6 +21,10 @@ $pageHeading = str_replace('_', ' ', SCRIPT_FILENAME);
 $pageTitle = IS_INDEX ? 'Welcome to ' : "{$pageHeading} - ";
 $pageTitle .= 'PHPWord';
 $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
+
+// Set writers
+$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html');
+
 // Populate samples
 $files = '';
 if ($handle = opendir('.')) {
@@ -31,6 +35,52 @@ if ($handle = opendir('.')) {
         }
     }
     closedir($handle);
+}
+
+/**
+ * Get results
+ *
+ * @param array $writers
+ * @param string $filename
+ * @return string
+ */
+function write($phpWord, $filename, $writers)
+{
+    $result = '';
+
+    // Write
+    foreach ($writers as $writer => $extension) {
+        $result .= date('H:i:s') . " Write to {$writer} format" . EOL;
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
+        $xmlWriter->save("{$filename}.{$extension}");
+        rename("{$filename}.{$extension}", "results/{$filename}.{$extension}");
+    }
+
+    // Do not show execution time for index
+    if (!IS_INDEX) {
+        $result .= date('H:i:s') . " Done writing file(s)" . EOL;
+        $result .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB" . EOL;
+    }
+
+    // Return
+    if (CLI) {
+        $result .= 'The results are stored in the "results" subdirectory.' . EOL;
+    } else {
+        if (!IS_INDEX) {
+            $types = array_values($writers);
+            $result .= '<p>&nbsp;</p>';
+            $result .= '<p>Results: ';
+            foreach ($types as $type) {
+                $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
+                if (file_exists($resultFile)) {
+                    $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";
+                }
+            }
+            $result .= '</p>';
+        }
+    }
+
+    return $result;
 }
 ?>
 <title><?php echo $pageTitle; ?></title>
