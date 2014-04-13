@@ -120,6 +120,16 @@ class Title extends AbstractElement
     }
 
     /**
+     * Get depth
+     *
+     * @return integer
+     */
+    public function getDepth()
+    {
+        return $this->depth;
+    }
+
+    /**
      * Get Title style
      *
      * @return string

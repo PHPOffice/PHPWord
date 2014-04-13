@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.10.0 - Not yet released
 
-This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable.
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML support is enabled.
 
 ### Features
 
@@ -32,6 +32,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 - ODT Writer: Basic table writing support - @ivanlanin
 - Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
+- HTML Writer: Basic HTML writer initiated - @ivanlanin GH-203 GH-67 GH-147
 
 ### Bugfixes
 
