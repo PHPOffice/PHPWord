@@ -133,14 +133,15 @@ class Image extends AbstractElement
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
         $styleWidth = $this->style->getWidth();
         $styleHeight = $this->style->getHeight();
+        list($actualWidth, $actualHeight) = $imgData;
         if (!($styleWidth && $styleHeight)) {
             if ($styleWidth == null && $styleHeight == null) {
-                $this->style->setWidth($imgData[0]);
-                $this->style->setHeight($imgData[1]);
-            } else if ($styleWidth) {
-                $this->style->setHeight($imgData[1] * ($styleWidth / $imgData[0]));
+                $this->style->setWidth($actualWidth);
+                $this->style->setHeight($actualHeight);
+            } elseif ($styleWidth) {
+                $this->style->setHeight($actualHeight * ($styleWidth / $actualWidth));
             } else {
-                $this->style->setWidth($imgData[0] * ($styleHeight / $imgData[1]));
+                $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
             }
         }
         $this->setImageFunctions();

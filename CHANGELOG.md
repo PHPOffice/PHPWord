@@ -31,6 +31,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 - ODT Writer: Basic table writing support - @ivanlanin
+- Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
 
 ### Bugfixes
 
