@@ -32,7 +32,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 - ODT Writer: Basic table writing support - @ivanlanin
 - Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
-- HTML Writer: Basic HTML writer initiated - @ivanlanin
+- HTML Writer: Basic HTML writer initiated - @ivanlanin GH-203 GH-67 GH-147
 
 ### Bugfixes
 
