@@ -55,6 +55,10 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Helper function to call protected method
+     *
+     * @param mixed $object
+     * @param string $method
+     * @param array $args
      */
     public static function callProtectedMethod($object, $method, array $args = array())
     {
