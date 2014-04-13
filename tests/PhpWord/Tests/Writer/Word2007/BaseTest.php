@@ -28,7 +28,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeText
+     * Test write text element
      */
     public function testWriteText()
     {
@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeTextRun
+     * Test write textrun element
      */
     public function testWriteTextRun()
     {
@@ -74,7 +74,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeLink
+     * Test write link element
      */
     public function testWriteLink()
     {
@@ -97,7 +97,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writePreserveText
+     * Test write preserve text element
      */
     public function testWritePreserveText()
     {
@@ -121,7 +121,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeTextBreak
+     * Test write text break
      */
     public function testWriteTextBreak()
     {
@@ -146,30 +146,93 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::_writeParagraphStyle
+     * covers ::_writeImage
      */
-    public function testWriteParagraphStyleAlign()
+    public function testWriteImage()
     {
         $phpWord = new PhpWord();
+        $styles = array('align' => 'left', 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1);
+        $wraps = array('inline', 'behind', 'infront', 'square', 'tight');
         $section = $phpWord->addSection();
-
-        $section->addText('This is my text', null, array('align' => 'right'));
+        foreach ($wraps as $wrap) {
+            $styles['wrappingStyle'] = $wrap;
+            $section->addImage(__DIR__ . "/../../_files/images/earth.jpg", $styles);
+        }
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:jc');
 
-        $this->assertEquals('right', $element->getAttribute('w:val'));
+        // behind
+        $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:pict/v:shape');
+        $style = $element->getAttribute('style');
+        $this->assertRegExp('/z\-index:\-[0-9]*/', $style);
+
+        // square
+        $element = $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:pict/v:shape/w10:wrap');
+        $this->assertEquals('square', $element->getAttribute('type'));
+    }
+
+    /**
+     * covers ::_writeWatermark
+     */
+    public function testWriteWatermark()
+    {
+        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $header = $section->addHeader();
+        $header->addWatermark($imageSrc);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = $doc->getElement("/w:document/w:body/w:sectPr/w:headerReference");
+        $this->assertStringStartsWith("rId", $element->getAttribute('r:id'));
+    }
+
+    /**
+     * covers ::_writeTitle
+     */
+    public function testWriteTitle()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
+        $phpWord->addSection()->addTitle('Test', 1);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
+        $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
+        $element = "/w:document/w:body/w:p/w:r/w:fldChar";
+        $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
+    }
+
+    /**
+     * covers ::_writeCheckbox
+     */
+    public function testWriteCheckbox()
+    {
+        $rStyle = 'rStyle';
+        $pStyle = 'pStyle';
+
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle($rStyle, array('bold' => true));
+        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
+        $section = $phpWord->addSection();
+        $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
+        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
      * covers ::_writeParagraphStyle
      */
-    public function testWriteParagraphStylePagination()
+    public function testWriteParagraphStyle()
     {
         // Create the doc
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $attributes = array(
+            'align' => 'right',
             'widowControl' => false,
             'keepNext' => true,
             'keepLines' => true,
@@ -184,10 +247,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $i = 0;
         foreach ($attributes as $key => $value) {
             $i++;
-            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$key}";
+            $nodeName = ($key == 'align') ? 'jc' : $key;
+            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$nodeName}";
+            if ($key != 'align') {
+                $value = $value ? 1 : 0;
+            }
             $element = $doc->getElement($path);
-            $expected = $value ? 1 : 0;
-            $this->assertEquals($expected, $element->getAttribute('w:val'));
+            $this->assertEquals($value, $element->getAttribute('w:val'));
         }
     }
 
@@ -315,82 +381,5 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');
 
         $this->assertEquals(5, $element->getAttribute('w:val'));
-    }
-
-    /**
-     * covers ::_writeImage
-     */
-    public function testWriteImagePosition()
-    {
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-        $section->addImage(
-            __DIR__ . "/../../_files/images/earth.jpg",
-            array(
-                'marginTop' => -1,
-                'marginLeft' => -1,
-                'wrappingStyle' => 'behind'
-            )
-        );
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-        $element = $doc->getElement('/w:document/w:body/w:p/w:r/w:pict/v:shape');
-
-        $style = $element->getAttribute('style');
-
-        $this->assertRegExp('/z\-index:\-[0-9]*/', $style);
-        $this->assertRegExp('/position:absolute;/', $style);
-    }
-
-    /**
-     * covers ::_writeWatermark
-     */
-    public function testWriteWatermark()
-    {
-        $imageSrc = __DIR__ . "/../../_files/images/earth.jpg";
-
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-        $header = $section->addHeader();
-        $header->addWatermark($imageSrc);
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $element = $doc->getElement("/w:document/w:body/w:sectPr/w:headerReference");
-        $this->assertStringStartsWith("rId", $element->getAttribute('r:id'));
-    }
-
-    /**
-     * covers ::_writeTitle
-     */
-    public function testWriteTitle()
-    {
-        $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
-        $phpWord->addSection()->addTitle('Test', 1);
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
-        $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
-        $element = "/w:document/w:body/w:p/w:r/w:fldChar";
-        $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
-    }
-
-    /**
-     * covers ::_writeCheckbox
-     */
-    public function testWriteCheckbox()
-    {
-        $rStyle = 'rStyle';
-        $pStyle = 'pStyle';
-
-        $phpWord = new PhpWord();
-        $phpWord->addFontStyle($rStyle, array('bold' => true));
-        $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
-        $section = $phpWord->addSection();
-        $section->addCheckbox('Check1', 'Test', $rStyle, $pStyle);
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
-        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
     }
 }

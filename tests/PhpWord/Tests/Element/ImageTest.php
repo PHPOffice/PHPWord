@@ -95,6 +95,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test set wrapping style
+     */
+    public function testStyleWrappingStyle()
+    {
+
+    }
+
+    /**
      * Get relation Id
      */
     public function testRelationID()
@@ -121,7 +129,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testPNG()
     {
         $src = __DIR__ . "/../_files/images/firefox.png";
-        $oImage = new Image($src);
+        $oImage = new Image($src, array('width' => 100));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
         $this->assertEquals($oImage->getSource(), $src);
@@ -138,7 +146,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testGIF()
     {
         $src = __DIR__ . "/../_files/images/mario.gif";
-        $oImage = new Image($src);
+        $oImage = new Image($src, array('height' => 100));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
         $this->assertEquals($oImage->getSource(), $src);
@@ -201,5 +209,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testPhpImage()
     {
         $object = new Image('test.php');
+    }
+
+    /**
+     * Test PCX Image and Memory
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
+     */
+    public function testPcxImage()
+    {
+        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
     }
 }

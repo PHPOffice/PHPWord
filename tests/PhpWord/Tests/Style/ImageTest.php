@@ -32,7 +32,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'align' => 'left',
             'marginTop' => 240,
             'marginLeft' => 240,
-            'wrappingStyle' => 'inline',
+            'wrappingStyle' => 'inline'
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
@@ -54,7 +54,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'height' => 200,
             'align' => 'left',
             'marginTop' => 240,
-            'marginLeft' => 240,
+            'marginLeft' => 240
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";

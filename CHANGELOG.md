@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.10.0 - Not yet released
 
-This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML writer is initiated.
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML support is enabled.
 
 ### Features
 
@@ -31,11 +31,13 @@ This release marked heavy refactorings on internal code structure with the creat
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 - ODT Writer: Basic table writing support - @ivanlanin
+- Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
 - HTML Writer: Basic HTML writer initiated - @ivanlanin
 
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
+- Documentation : Error in a fonction - @theBeerNut GH-195
 
 ### Deprecated
 
@@ -64,6 +66,8 @@ This release marked heavy refactorings on internal code structure with the creat
 - Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
 - Writer: New 'ODText\Base` class - @ivanlanin GH-187
 - General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
+- General: Add some unit tests for Shared & Element (100%!) - @Progi1984
+- Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
 
 ## 0.9.1 - 27 Mar 2014
 

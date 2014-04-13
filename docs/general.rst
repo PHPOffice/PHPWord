@@ -108,7 +108,7 @@ name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getProperties();
+    $properties = $phpWord->getDocumentProperties();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');

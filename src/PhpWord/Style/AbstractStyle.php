@@ -105,13 +105,12 @@ abstract class AbstractStyle
     /**
      * Set integer value
      *
-     * @param integer|null $value
+     * @param mixed $value
      * @param integer|null $default
      * @return integer|null
      */
     protected function setIntVal($value, $default = null)
     {
-        $value = intval($value);
         if (!is_int($value)) {
             $value = $default;
         }
@@ -128,7 +127,6 @@ abstract class AbstractStyle
      */
     protected function setFloatVal($value, $default = null)
     {
-        $value = floatval($value);
         if (!is_float($value)) {
             $value = $default;
         }

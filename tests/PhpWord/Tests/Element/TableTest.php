@@ -48,11 +48,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleArray()
     {
-        $oTable = new Table(
-            'section',
-            1,
-            array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80)
-        );
+        $oTable = new Table('section', 1, array(
+            'borderSize' => 6,
+            'borderColor' => '006699',
+            'cellMargin' => 80
+        ));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
     }
@@ -63,7 +63,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testWidth()
     {
         $oTable = new Table('section', 1);
-        $iVal = rand(1, 1000);
+        $iVal   = rand(1, 1000);
         $oTable->setWidth($iVal);
         $this->assertEquals($oTable->getWidth(), $iVal);
     }
@@ -73,7 +73,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testRow()
     {
-        $oTable = new Table('section', 1);
+        $oTable  = new Table('section', 1);
         $element = $oTable->addRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
         $this->assertCount(1, $oTable->getRows());
@@ -88,5 +88,19 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $oTable->addRow();
         $element = $oTable->addCell();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
+    }
+
+    /**
+     * Add cell
+     */
+    public function testCountColumns()
+    {
+        $oTable = new Table('section', 1);
+        $oTable->addRow();
+        $element = $oTable->addCell();
+        $this->assertEquals($oTable->countColumns(), 1);
+        $element = $oTable->addCell();
+        $element = $oTable->addCell();
+        $this->assertEquals($oTable->countColumns(), 3);
     }
 }

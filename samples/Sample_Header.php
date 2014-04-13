@@ -40,8 +40,9 @@ if ($handle = opendir('.')) {
 /**
  * Get results
  *
- * @param array $writers
+ * @param \PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
+ * @param array $writers
  * @return string
  */
 function write($phpWord, $filename, $writers)
