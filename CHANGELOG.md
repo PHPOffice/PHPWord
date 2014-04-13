@@ -65,6 +65,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Writer: New 'ODText\Base` class - @ivanlanin GH-187
 - General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
 - General: Add some unit tests for Shared & Element (100%!) - @Progi1984
+- Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
 
 ## 0.9.1 - 27 Mar 2014
 
