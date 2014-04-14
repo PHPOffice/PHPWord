@@ -16,6 +16,7 @@ use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\Element\Object;
 use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\PreserveText;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
@@ -65,7 +66,7 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @return string
      */
-    private function writeDocument()
+    public function writeDocument()
     {
         $html = '';
         $html .= '<!DOCTYPE html>' . PHP_EOL;
@@ -87,7 +88,7 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @return string
      */
-    public function writeHTMLHead()
+    private function writeHTMLHead()
     {
         $properties = $this->getPhpWord()->getDocumentProperties();
         $propertiesMapping = array(
@@ -124,7 +125,7 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @return string
      */
-    public function writeHTMLBody()
+    private function writeHTMLBody()
     {
         $phpWord = $this->getPhpWord();
         $html = '';
@@ -136,8 +137,8 @@ class HTML extends AbstractWriter implements WriterInterface
         if ($countSections > 0) {
             foreach ($sections as $section) {
                 $pSection++;
-                $cellContents = $section->getElements();
-                foreach ($cellContents as $element) {
+                $contents = $section->getElements();
+                foreach ($contents as $element) {
                     if ($element instanceof Text) {
                         $html .= $this->writeText($element);
                     } elseif ($element instanceof TextRun) {
@@ -161,9 +162,9 @@ class HTML extends AbstractWriter implements WriterInterface
                     } elseif ($element instanceof Object) {
                         $html .= $this->writeObject($element);
                     } elseif ($element instanceof Footnote) {
-                        $html .= $this->writeFootnote($element, true);
+                        $html .= $this->writeFootnote($element);
                     } elseif ($element instanceof Endnote) {
-                        $html .= $this->writeEndnote($element, true);
+                        $html .= $this->writeEndnote($element);
                     }
                 }
             }
@@ -248,9 +249,9 @@ class HTML extends AbstractWriter implements WriterInterface
                 } elseif ($element instanceof Image) {
                     $html .= $this->writeImage($element, true);
                 } elseif ($element instanceof Footnote) {
-                    $html .= $this->writeFootnote($element, true);
+                    $html .= $this->writeFootnote($element);
                 } elseif ($element instanceof Endnote) {
-                    $html .= $this->writeEndnote($element, true);
+                    $html .= $this->writeEndnote($element);
                 }
             }
             $html .= '</p>' . PHP_EOL;
@@ -263,6 +264,7 @@ class HTML extends AbstractWriter implements WriterInterface
      * Write link
      *
      * @param Link $element
+     * @param boolean $withoutP
      * @return string
      */
     private function writeLink($element, $withoutP = false)
@@ -300,6 +302,7 @@ class HTML extends AbstractWriter implements WriterInterface
      * Write preserve text
      *
      * @param PreserveText $element
+     * @param boolean $withoutP
      * @return string
      */
     private function writePreserveText($element, $withoutP = false)
@@ -350,7 +353,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write table
      *
-     * @param Title $element
+     * @param Table $element
      * @return string
      */
     private function writeTable($element)
@@ -361,7 +364,7 @@ class HTML extends AbstractWriter implements WriterInterface
         if ($cRows > 0) {
             $html .= "<table>" . PHP_EOL;
             foreach ($rows as $row) {
-                $height = $row->getHeight();
+                // $height = $row->getHeight();
                 $rowStyle = $row->getStyle();
                 $tblHeader = $rowStyle->getTblHeader();
                 $html .= "<tr>" . PHP_EOL;
@@ -388,13 +391,13 @@ class HTML extends AbstractWriter implements WriterInterface
                             } elseif ($content instanceof Object) {
                                 $html .= $this->writeObject($content);
                             } elseif ($element instanceof Footnote) {
-                                $html .= $this->writeFootnote($element, true);
+                                $html .= $this->writeFootnote($element);
                             } elseif ($element instanceof Endnote) {
-                                $html .= $this->writeEndnote($element, true);
+                                $html .= $this->writeEndnote($element);
                             }
                         }
                     } else {
-                        $this->writeTextBreak($content);
+                        $html .= $this->writeTextBreak(new TextBreak());
                     }
                     $html .= "</td>" . PHP_EOL;
                 }
@@ -410,6 +413,7 @@ class HTML extends AbstractWriter implements WriterInterface
      * Write image
      *
      * @param Image $element
+     * @param boolean $withoutP
      * @return string
      */
     private function writeImage($element, $withoutP = false)
@@ -421,6 +425,7 @@ class HTML extends AbstractWriter implements WriterInterface
      * Write object
      *
      * @param Object $element
+     * @param boolean $withoutP
      * @return string
      */
     private function writeObject($element, $withoutP = false)
@@ -478,11 +483,14 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeStyles()
     {
+        $bodyCss = array();
         $css = '<style>' . PHP_EOL;
+
         // Default styles
         $bodyCss['font-family'] = "'" . $this->getPhpWord()->getDefaultFontName() . "'";
         $bodyCss['font-size'] = $this->getPhpWord()->getDefaultFontSize() . 'pt';
         $css .= '* ' . $this->assembleCss($bodyCss, true) . PHP_EOL;
+
         // Custom styles
         $styles = Style::getStyles();
         if (is_array($styles)) {

@@ -11,6 +11,17 @@ define('IS_INDEX', SCRIPT_FILENAME == 'index');
 require_once '../src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
+// Set writers
+$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
+
+// Set PDF renderer
+$rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;
+$rendererLibraryPath = ''; // DomPDF library path
+
+if (!\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
+    $writers['PDF'] = null;
+}
+
 // Return to the caller script when runs by CLI
 if (CLI) {
     return;
@@ -21,9 +32,6 @@ $pageHeading = str_replace('_', ' ', SCRIPT_FILENAME);
 $pageTitle = IS_INDEX ? 'Welcome to ' : "{$pageHeading} - ";
 $pageTitle .= 'PHPWord';
 $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
-
-// Set writers
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html');
 
 // Populate samples
 $files = '';
@@ -51,10 +59,15 @@ function write($phpWord, $filename, $writers)
 
     // Write
     foreach ($writers as $writer => $extension) {
-        $result .= date('H:i:s') . " Write to {$writer} format" . EOL;
-        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-        $xmlWriter->save("{$filename}.{$extension}");
-        rename("{$filename}.{$extension}", "results/{$filename}.{$extension}");
+        $result .= date('H:i:s') . " Write to {$writer} format";
+        if (!is_null($extension)) {
+            $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
+            $xmlWriter->save("{$filename}.{$extension}");
+            rename("{$filename}.{$extension}", "results/{$filename}.{$extension}");
+        } else {
+            $result .= ' ... NOT DONE!';
+        }
+        $result .= EOL;
     }
 
     // Do not show execution time for index
