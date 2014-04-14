@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /** Require DomPDF library */
 $pdfRendererClassFile = Settings::getPdfRendererPath() . '/dompdf_config.inc.php';
@@ -24,7 +24,7 @@ if (file_exists($pdfRendererClassFile)) {
 /**
  * DomPDF writer
  */
-class DomPDF extends Core implements \PhpOffice\PhpWord\Writer\WriterInterface
+class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\WriterInterface
 {
     /**
      * Create new instance

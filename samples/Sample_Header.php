@@ -16,7 +16,8 @@ $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML'
 
 // Set PDF renderer
 $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;
-$rendererLibraryPath = ""; // Put dompdf library path
+$rendererLibraryPath = ''; // DomPDF library path
+
 if (!\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
     $writers['PDF'] = null;
 }

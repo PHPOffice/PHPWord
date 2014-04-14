@@ -9,13 +9,13 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\PhpWord\Exception\Exception;
 
 /**
- * Core PDF Writer
+ * Abstract PDF renderer
  */
-abstract class Core extends \PhpOffice\PhpWord\Writer\HTML
+abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
 {
     /**
      * Temporary storage directory
