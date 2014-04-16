@@ -45,7 +45,9 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $imageSrc = __DIR__ . "/../_files/images/PhpWord.png";
+        $localImage = __DIR__ . "/../_files/images/PhpWord.png";
+        $archiveImage = 'zip://' . __DIR__ . '/../_files/documents/reader.docx#word/media/image1.jpeg';
+        $gdImage = 'http://php.net/images/logos/php-med-trans-light.gif';
         $objectSrc = __DIR__ . "/../_files/documents/sheet.xls";
         $file = __DIR__ . "/../_files/temp.html";
 
@@ -64,7 +66,9 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $section->addTitle('Test', 1);
         $section->addPageBreak();
         $section->addListItem('Test');
-        $section->addImage($imageSrc);
+        $section->addImage($localImage);
+        $section->addImage($archiveImage);
+        $section->addImage($gdImage);
         $section->addObject($objectSrc);
         $section->addFootnote();
         $section->addEndnote();
@@ -77,7 +81,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
 
         $textrun = $section->addTextRun('Paragraph');
         $textrun->addLink('http://test.com');
-        $textrun->addImage($imageSrc);
+        $textrun->addImage($localImage);
         $textrun->addFootnote();
         $textrun->addEndnote();
 
@@ -90,10 +94,11 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $cell->addLink('http://test.com');
         $cell->addTextBreak();
         $cell->addListItem('Test');
-        $cell->addImage($imageSrc);
+        $cell->addImage($localImage);
         $cell->addObject($objectSrc);
         $cell->addFootnote();
         $cell->addEndnote();
+        $cell = $table->addRow()->addCell();
 
         $writer = new HTML($phpWord);
         $writer->save($file);

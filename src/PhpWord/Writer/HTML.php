@@ -27,7 +27,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\TOC;
 
 /**
  * HTML writer
@@ -170,10 +169,10 @@ class HTML extends AbstractWriter implements WriterInterface
                         $html .= $this->writeImage($element);
                     } elseif ($element instanceof Object) {
                         $html .= $this->writeObject($element);
-                    } elseif ($element instanceof Footnote) {
-                        $html .= $this->writeFootnote($element);
                     } elseif ($element instanceof Endnote) {
                         $html .= $this->writeEndnote($element);
+                    } elseif ($element instanceof Footnote) {
+                        $html .= $this->writeFootnote($element);
                     }
                 }
             }
@@ -257,10 +256,10 @@ class HTML extends AbstractWriter implements WriterInterface
                     $html .= $this->writeTextBreak($element, true);
                 } elseif ($element instanceof Image) {
                     $html .= $this->writeImage($element, true);
-                } elseif ($element instanceof Footnote) {
-                    $html .= $this->writeFootnote($element);
                 } elseif ($element instanceof Endnote) {
                     $html .= $this->writeEndnote($element);
+                } elseif ($element instanceof Footnote) {
+                    $html .= $this->writeFootnote($element);
                 }
             }
             $html .= '</p>' . PHP_EOL;
@@ -402,10 +401,10 @@ class HTML extends AbstractWriter implements WriterInterface
                                 $html .= $this->writeImage($content);
                             } elseif ($content instanceof Object) {
                                 $html .= $this->writeObject($content);
-                            } elseif ($element instanceof Footnote) {
-                                $html .= $this->writeFootnote($element);
                             } elseif ($element instanceof Endnote) {
                                 $html .= $this->writeEndnote($element);
+                            } elseif ($element instanceof Footnote) {
+                                $html .= $this->writeFootnote($element);
                             }
                         }
                     } else {
@@ -434,9 +433,13 @@ class HTML extends AbstractWriter implements WriterInterface
         if (!$this->isPdf) {
             $imageData = $this->getBase64ImageData($element);
             if (!is_null($imageData)) {
-                $html = '<img border="0" src="' . $imageData . '"/>';
+                $style = $this->assembleCss(array(
+                    'width' => $element->getStyle()->getWidth() . 'px',
+                    'height' => $element->getStyle()->getHeight() . 'px',
+                ));
+                $html = "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
                 if (!$withoutP) {
-                    $html = '<p>' . $html . '</p>' . PHP_EOL;
+                    $html = "<p>{$html}</p>" . PHP_EOL;
                 }
             }
         }
@@ -626,11 +629,12 @@ class HTML extends AbstractWriter implements WriterInterface
     private function getBase64ImageData(Image $element)
     {
         $imageData = null;
+        $imageBinary = null;
         $source = $element->getSource();
         $imageType = $element->getImageType();
 
-        // Get actual source
-        if ($element->getSourceType() == 'archive') {
+        // Get actual source from archive image
+        if ($element->getSourceType() == Image::SOURCE_ARCHIVE) {
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
             $zip = new \ZipArchive();
@@ -646,10 +650,20 @@ class HTML extends AbstractWriter implements WriterInterface
         }
 
         // Read image binary data and convert into Base64
-        if ($fp = fopen($actualSource, "rb", 0)) {
-            $image = fread($fp, filesize($actualSource));
-            fclose($fp);
-            $base64 = chunk_split(base64_encode($image));
+        if ($element->getSourceType() == Image::SOURCE_GD) {
+            $imageResource = call_user_func($element->getImageCreateFunction(), $actualSource);
+            ob_start();
+            call_user_func($element->getImageFunction(), $imageResource);
+            $imageBinary = ob_get_contents();
+            ob_end_clean();
+        } else {
+            if ($fp = fopen($actualSource, 'rb', false)) {
+                $imageBinary = fread($fp, filesize($actualSource));
+                fclose($fp);
+            }
+        }
+        if (!is_null($imageBinary)) {
+            $base64 = chunk_split(base64_encode($imageBinary));
             $imageData = 'data:' . $imageType . ';base64,' . $base64;
         }
 
