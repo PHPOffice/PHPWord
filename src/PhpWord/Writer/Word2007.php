@@ -145,10 +145,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
     private function addFilesToPackage($objZip, $elements)
     {
         foreach ($elements as $element) {
-            // Do not add link
+            // Skip link
             if ($element['type'] == 'link') {
                 continue;
             }
+
             // Retrieve remote image
             if (isset($element['isMemImage']) && $element['isMemImage']) {
                 $image = call_user_func($element['createFunction'], $element['source']);
@@ -159,8 +160,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 $objZip->addFromString('word/' . $element['target'], $imageContents);
                 imagedestroy($image);
             } else {
-                $objZip->addFile($element['source'], 'word/' . $element['target']);
+                $this->addFileToPackage($objZip, $element['source'], $element['target']);
             }
+
             // Register content types
             if ($element['type'] == 'image') {
                 $imageExtension = $element['imageExtension'];
@@ -173,6 +175,38 @@ class Word2007 extends AbstractWriter implements WriterInterface
                     $this->cTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
                 }
             }
+        }
+    }
+
+    /**
+     * Add file to package
+     *
+     * @param mixed $objZip
+     * @param string $source
+     * @param string $target
+     */
+    private function addFileToPackage($objZip, $source, $target)
+    {
+        $isArchive = strpos($source, 'zip://') !== false;
+        $actualSource = null;
+        if ($isArchive) {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+
+            $zip = new \ZipArchive();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $zip->extractTo($this->getTempDir(), $imageFilename);
+                    $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+
+        if (!is_null($actualSource)) {
+            $objZip->addFile($actualSource, 'word/' . $target);
         }
     }
 

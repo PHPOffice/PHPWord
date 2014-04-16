@@ -347,7 +347,10 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeListItem($element)
     {
-        return $this->writeUnsupportedElement($element, false);
+        $text = htmlspecialchars($element->getTextObject()->getText());
+        $html = '<p>' . $text . '</{$p}>' . PHP_EOL;
+
+        return $html;
     }
 
     /**

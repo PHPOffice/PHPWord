@@ -159,6 +159,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $section->addImage(__DIR__ . "/../../_files/images/earth.jpg", $styles);
         }
 
+        $archiveFile = realpath(__DIR__ . '/../../_files/documents/reader.docx');
+        $imageFile = 'word/media/image1.jpeg';
+        $source = 'zip://D:\www\local\phpword\tests\PhpWord\Tests\_files\documents\reader.docx#' . $imageFile;
+        $section->addImage($source);
+
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // behind

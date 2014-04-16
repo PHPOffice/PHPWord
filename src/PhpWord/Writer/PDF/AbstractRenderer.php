@@ -69,7 +69,7 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
-        $this->tempDir = sys_get_temp_dir();
+        $this->setTempDir(sys_get_temp_dir());
     }
 
     /**

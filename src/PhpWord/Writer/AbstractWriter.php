@@ -63,6 +63,13 @@ abstract class AbstractWriter implements WriterInterface
     private $tempFilename;
 
     /**
+     * Temporary directory
+     *
+     * @var string
+     */
+    private $tempDir;
+
+    /**
      * Get PhpWord object
      *
      * @return PhpWord
@@ -156,6 +163,14 @@ abstract class AbstractWriter implements WriterInterface
      */
     protected function getTempFile($filename)
     {
+        // Temporary directory
+        $tempDir = sys_get_temp_dir() . '/PHPWordMedia/';
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir);
+        }
+        $this->tempDir = $tempDir;
+
+        // Temporary file
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
             $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
@@ -173,13 +188,29 @@ abstract class AbstractWriter implements WriterInterface
      *
      * If a temporary file was used, copy it to the correct file stream
      */
+    protected function getTempDir()
+    {
+        return $this->tempDir;
+    }
+
+    /**
+     * Cleanup temporary file
+     *
+     * If a temporary file was used, copy it to the correct file stream
+     */
     protected function cleanupTempFile()
     {
+        // File
         if ($this->originalFilename != $this->tempFilename) {
             if (copy($this->tempFilename, $this->originalFilename) === false) {
                 throw new Exception("Could not copy temporary zip file {$this->tempFilename} to {$this->originalFilename}.");
             }
             @unlink($this->tempFilename);
+        }
+
+        // Directory
+        if (is_dir($this->tempDir)) {
+            $this->deleteDir($this->tempDir);
         }
     }
 
@@ -214,5 +245,25 @@ abstract class AbstractWriter implements WriterInterface
         }
 
         return $objZip;
+    }
+
+    /**
+     * Delete directory
+     *
+     * @param string $dir
+     */
+    private function deleteDir($dir)
+    {
+        foreach (scandir($dir) as $file) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            } elseif (is_file($dir . "/" . $file)) {
+                unlink($dir . "/" . $file);
+            } elseif (is_dir($dir . "/" . $file)) {
+                $this->deleteDir($dir . "/" . $file);
+            }
+        }
+
+        rmdir($dir);
     }
 }

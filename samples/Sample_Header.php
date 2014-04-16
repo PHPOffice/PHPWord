@@ -16,7 +16,7 @@ $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML'
 
 // Set PDF renderer
 $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;
-$rendererLibraryPath = ''; // DomPDF library path
+$rendererLibraryPath = 'D:\www\local\minerva\dompdf'; // DomPDF library path
 
 if (!\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
     $writers['PDF'] = null;
@@ -85,9 +85,11 @@ function write($phpWord, $filename, $writers)
             $result .= '<p>&nbsp;</p>';
             $result .= '<p>Results: ';
             foreach ($types as $type) {
-                $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
-                if (file_exists($resultFile)) {
-                    $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";
+                if (!is_null($type)) {
+                    $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
+                    if (file_exists($resultFile)) {
+                        $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";
+                    }
                 }
             }
             $result .= '</p>';

@@ -13,14 +13,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Exception\Exception;
 
-/** Require DomPDF library */
-$pdfRendererClassFile = Settings::getPdfRendererPath() . '/dompdf_config.inc.php';
-if (file_exists($pdfRendererClassFile)) {
-    require_once $pdfRendererClassFile;
-} else {
-    throw new Exception('Unable to load PDF Rendering library');
-}
-
 /**
  * DomPDF writer
  */
@@ -34,6 +26,12 @@ class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\Write
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
+        $configFile = Settings::getPdfRendererPath() . '/dompdf_config.inc.php';
+        if (file_exists($configFile)) {
+            require_once $configFile;
+        } else {
+            throw new Exception('Unable to load PDF Rendering library');
+        }
     }
 
     /**

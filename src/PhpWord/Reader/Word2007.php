@@ -39,6 +39,13 @@ class Word2007 extends AbstractReader implements ReaderInterface
     private $rels = array('main' => array(), 'document' => array());
 
     /**
+     * Filename
+     *
+     * @var string
+     */
+    private $filename;
+
+    /**
      * Loads PhpWord from file
      *
      * @param string $filename
@@ -48,17 +55,17 @@ class Word2007 extends AbstractReader implements ReaderInterface
     {
         $this->phpWord = new PhpWord();
 
-        $this->readRelationships($filename);
-
+        $this->filename = $filename;
+        $this->readRelationships();
 
         // Read styles and numbering first
         foreach ($this->rels['document'] as $rId => $rel) {
             switch ($rel['type']) {
                 case 'styles':
-                    $this->readStyles($filename, $rel['target']);
+                    $this->readStyles($rel['target']);
                     break;
                 case 'numbering':
-                    $this->readNumbering($filename, $rel['target']);
+                    $this->readNumbering($rel['target']);
                     break;
             }
         }
@@ -68,7 +75,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             switch ($rel['type']) {
 
                 case 'officeDocument':
-                    $this->readDocument($filename, $rel['target']);
+                    $this->readDocument($rel['target']);
                     break;
 
                 case 'core-properties':
@@ -84,16 +91,16 @@ class Word2007 extends AbstractReader implements ReaderInterface
                         'dcterms:modified' => 'setModified',
                     );
                     $callbacks = array('dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime');
-                    $this->readDocProps($filename, $rel['target'], $mapping, $callbacks);
+                    $this->readDocProps($rel['target'], $mapping, $callbacks);
                     break;
 
                 case 'extended-properties':
                     $mapping = array('Company' => 'setCompany', 'Manager' => 'setManager');
-                    $this->readDocProps($filename, $rel['target'], $mapping);
+                    $this->readDocProps($rel['target'], $mapping);
                     break;
 
                 case 'custom-properties':
-                    $this->readDocPropsCustom($filename, $rel['target']);
+                    $this->readDocPropsCustom($rel['target']);
                     break;
             }
         }
@@ -103,7 +110,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             switch ($rel['type']) {
                 case 'footnotes':
                 case 'endnotes':
-                    $this->readNotes($filename, $rel['target'], $rel['type']);
+                    $this->readNotes($rel['target'], $rel['type']);
                     break;
             }
         }
@@ -113,24 +120,22 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
     /**
      * Read all relationship files
-     *
-     * @param string $filename
      */
-    private function readRelationships($filename)
+    private function readRelationships()
     {
         // _rels/.rels
-        $this->rels['main'] = $this->getRels($filename, '_rels/.rels');
+        $this->rels['main'] = $this->getRels('_rels/.rels');
 
         // word/_rels/*.xml.rels
         $wordRelsPath = 'word/_rels/';
         $zipClass = Settings::getZipClass();
         $zip = new $zipClass();
-        if ($zip->open($filename) === true) {
+        if ($zip->open($this->filename) === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $xmlFile = $zip->getNameIndex($i);
                 if ((substr($xmlFile, 0, strlen($wordRelsPath))) == $wordRelsPath && (substr($xmlFile, -1)) != '/') {
                     $docPart = str_replace('.xml.rels', '', str_replace($wordRelsPath, '', $xmlFile));
-                    $this->rels[$docPart] = $this->getRels($filename, $xmlFile, 'word/');
+                    $this->rels[$docPart] = $this->getRels($xmlFile, 'word/');
                 }
             }
             $zip->close();
@@ -140,15 +145,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read core and extended document properties
      *
-     * @param string $filename
      * @param string $xmlFile
      * @param array $mapping
      * @param array $callbacks
      */
-    private function readDocProps($filename, $xmlFile, $mapping, $callbacks = array())
+    private function readDocProps($xmlFile, $mapping, $callbacks = array())
     {
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
         $docProps = $this->phpWord->getDocumentProperties();
 
         $nodes = $xmlReader->getElements('*');
@@ -172,13 +176,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read custom document properties
      *
-     * @param string $filename
      * @param string $xmlFile
      */
-    private function readDocPropsCustom($filename, $xmlFile)
+    private function readDocPropsCustom($xmlFile)
     {
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
         $docProps = $this->phpWord->getDocumentProperties();
 
         $nodes = $xmlReader->getElements('*');
@@ -198,13 +201,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read document.xml
      *
-     * @param string $filename
      * @param string $xmlFile
      */
-    private function readDocument($filename, $xmlFile)
+    private function readDocument($xmlFile)
     {
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
 
         $nodes = $xmlReader->getElements('w:body/*');
         if ($nodes->length > 0) {
@@ -225,7 +227,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                                 $settings = $this->readSectionStyle($xmlReader, $settingsNode);
                                 $section->setSettings($settings);
                                 if (!is_null($settings)) {
-                                    $this->readHeaderFooter($filename, $settings, $section);
+                                    $this->readHeaderFooter($settings, $section);
                                 }
                             }
                             $section = $this->phpWord->addSection();
@@ -240,7 +242,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
                         $settings = $this->readSectionStyle($xmlReader, $node);
                         $section->setSettings($settings);
                         if (!is_null($settings)) {
-                            $this->readHeaderFooter($filename, $settings, $section);
+                            $this->readHeaderFooter($settings, $section);
                         }
                         break;
                 }
@@ -251,13 +253,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read styles.xml
      *
-     * @param string $filename
      * @param string $xmlFile
      */
-    private function readStyles($filename, $xmlFile)
+    private function readStyles($xmlFile)
     {
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
 
         $nodes = $xmlReader->getElements('w:style');
         if ($nodes->length > 0) {
@@ -303,15 +304,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read numbering.xml
      *
-     * @param string $filename
      * @param string $xmlFile
      */
-    private function readNumbering($filename, $xmlFile)
+    private function readNumbering($xmlFile)
     {
         $abstracts = array();
         $numberings = array();
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
 
         // Abstract numbering definition
         $nodes = $xmlReader->getElements('w:abstractNum');
@@ -395,11 +395,10 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read header footer
      *
-     * @param string $filename
      * @param array $settings
      * @param Section $section
      */
-    private function readHeaderFooter($filename, $settings, &$section)
+    private function readHeaderFooter($settings, &$section)
     {
         if (is_array($settings) && array_key_exists('hf', $settings)) {
             foreach ($settings['hf'] as $rId => $hfSetting) {
@@ -410,7 +409,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
                     // Read header/footer content
                     $xmlReader = new XMLReader();
-                    $xmlReader->getDomFromZip($filename, $xmlFile);
+                    $xmlReader->getDomFromZip($this->filename, $xmlFile);
                     $nodes = $xmlReader->getElements('*');
                     if ($nodes->length > 0) {
                         foreach ($nodes as $node) {
@@ -434,18 +433,17 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Read (footnotes|endnotes).xml
      *
-     * @param string $filename
      * @param string $xmlFile
      * @param string $notesType
      */
-    private function readNotes($filename, $xmlFile, $notesType = 'footnotes')
+    private function readNotes($xmlFile, $notesType = 'footnotes')
     {
         $notesType = ($notesType == 'endnotes') ? 'endnotes' : 'footnotes';
         $collectionClass = 'PhpOffice\\PhpWord\\' . ucfirst($notesType);
         $collection = $collectionClass::getElements();
 
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
@@ -581,8 +579,8 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $textContent = "<Image: {$target}>";
-                    $parent->addText($textContent, $fStyle, $pStyle);
+                    $imageSource = "zip://{$this->filename}#{$target}";
+                    $parent->addImage($imageSource);
                 }
 
             // Object
@@ -943,12 +941,11 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * Get relationship array
      *
-     * @param string $filename
      * @param string $xmlFile
      * @param string $targetPrefix
      * @return array
      */
-    private function getRels($filename, $xmlFile, $targetPrefix = '')
+    private function getRels($xmlFile, $targetPrefix = '')
     {
         $metaPrefix = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/';
         $officePrefix = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/';
@@ -956,7 +953,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
         $rels = array();
 
         $xmlReader = new XMLReader();
-        $xmlReader->getDomFromZip($filename, $xmlFile);
+        $xmlReader->getDomFromZip($this->filename, $xmlFile);
         $nodes = $xmlReader->getElements('*');
         foreach ($nodes as $node) {
             $rId = $xmlReader->getAttribute('Id', $node);
