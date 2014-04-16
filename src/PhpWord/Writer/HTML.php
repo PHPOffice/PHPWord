@@ -60,7 +60,7 @@ class HTML extends AbstractWriter implements WriterInterface
     public function save($filename = null)
     {
         if (!is_null($this->getPhpWord())) {
-            $this->setTempDir();
+            $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
             $hFile = fopen($filename, 'w') or die("can't open file");
             fwrite($hFile, $this->writeDocument());
             fclose($hFile);

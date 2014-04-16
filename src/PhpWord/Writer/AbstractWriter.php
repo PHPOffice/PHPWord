@@ -49,6 +49,13 @@ abstract class AbstractWriter implements WriterInterface
     private $diskCachingDirectory = './';
 
     /**
+     * Temporary directory
+     *
+     * @var string
+     */
+    private $tempDir = '';
+
+    /**
      * Original file name
      *
      * @var string
@@ -61,13 +68,6 @@ abstract class AbstractWriter implements WriterInterface
      * @var string
      */
     private $tempFilename;
-
-    /**
-     * Temporary directory
-     *
-     * @var string
-     */
-    private $tempDir;
 
     /**
      * Get PhpWord object
@@ -88,7 +88,7 @@ abstract class AbstractWriter implements WriterInterface
      * Set PhpWord object
      *
      * @param PhpWord
-     * @return $this
+     * @return self
      */
     public function setPhpWord(PhpWord $phpWord = null)
     {
@@ -126,7 +126,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param boolean $pValue
      * @param string $pDirectory
-     * @return $this
+     * @return self
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
@@ -154,6 +154,32 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
+     * Get temporary directory
+     *
+     * @return string
+     */
+    public function getTempDir()
+    {
+        return $this->tempDir;
+    }
+
+    /**
+     * Set temporary directory
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setTempDir($value)
+    {
+        if (!is_dir($value)) {
+            mkdir($value);
+        }
+        $this->tempDir = $value;
+
+        return $this;
+    }
+
+    /**
      * Get temporary file name
      *
      * If $filename is php://output or php://stdout, make it a temporary file
@@ -164,7 +190,7 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $this->setTempDir();
+        $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
 
         // Temporary file
         $this->originalFilename = $filename;
@@ -177,26 +203,6 @@ abstract class AbstractWriter implements WriterInterface
         $this->tempFilename = $filename;
 
         return $this->tempFilename;
-    }
-
-    /**
-     * Get temporary directory
-     */
-    protected function getTempDir()
-    {
-        return $this->tempDir;
-    }
-
-    /**
-     * Set temporary directory
-     */
-    protected function setTempDir()
-    {
-        $tempDir = sys_get_temp_dir() . '/PHPWordMedia/';
-        if (!is_dir($tempDir)) {
-            mkdir($tempDir);
-        }
-        $this->tempDir = $tempDir;
     }
 
     /**
