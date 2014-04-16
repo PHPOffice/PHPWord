@@ -31,7 +31,6 @@ class Notes extends Base
         $elementNode = $isFootnote ? 'w:footnote' : 'w:endnote';
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement($rootNode);
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
@@ -73,7 +72,7 @@ class Notes extends Base
             }
         }
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // $rootNode
 
         return $xmlWriter->getData();
     }

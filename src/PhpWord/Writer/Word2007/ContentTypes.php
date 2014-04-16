@@ -46,12 +46,15 @@ class ContentTypes extends AbstractWriterPart
         }
 
         $xmlWriter = $this->getXmlWriter();
+
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Types');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
+
         $this->writeContentType($xmlWriter, $defaults, true);
         $this->writeContentType($xmlWriter, $overrides, false);
-        $xmlWriter->endElement();
+
+        $xmlWriter->endElement(); // Types
 
         return $xmlWriter->getData();
     }

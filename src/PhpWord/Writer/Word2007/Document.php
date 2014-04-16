@@ -34,16 +34,10 @@ class Document extends Base
         if (is_null($phpWord)) {
             throw new Exception("No PhpWord assigned.");
         }
-
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
-        // w:document
         $xmlWriter->startElement('w:document');
-
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
         $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
@@ -74,8 +68,9 @@ class Document extends Base
             }
         }
 
-        $xmlWriter->endElement(); // End w:body
-        $xmlWriter->endElement(); // End w:document
+        $xmlWriter->endElement(); // w:body
+
+        $xmlWriter->endElement(); // w:document
 
         // Return
         return $xmlWriter->getData();

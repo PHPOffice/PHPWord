@@ -159,7 +159,7 @@ class Numbering extends Base
             }
         }
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:numbering
 
         return $xmlWriter->getData();
     }

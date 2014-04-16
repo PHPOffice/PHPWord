@@ -107,7 +107,8 @@ class Rels extends AbstractWriterPart
                 $this->writeRel($xmlWriter, $id++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
             }
         }
-        $xmlWriter->endElement();
+
+        $xmlWriter->endElement(); // Relationships
     }
 
     /**

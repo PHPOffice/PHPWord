@@ -33,11 +33,8 @@ class Styles extends Base
         if (is_null($phpWord)) {
             throw new Exception("No PhpWord assigned.");
         }
-
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:styles');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');

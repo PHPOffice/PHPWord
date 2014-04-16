@@ -23,12 +23,9 @@ class Header extends Base
      */
     public function writeHeader(HeaderElement $header)
     {
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
         $xmlWriter->startElement('w:hdr');
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
         $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
@@ -42,9 +39,8 @@ class Header extends Base
 
         $this->writeContainerElements($xmlWriter, $header);
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:hdr
 
-        // Return
         return $xmlWriter->getData();
     }
 }

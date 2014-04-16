@@ -21,6 +21,8 @@ use PhpOffice\PhpWord\Writer\Word2007\Header;
 use PhpOffice\PhpWord\Writer\Word2007\Notes;
 use PhpOffice\PhpWord\Writer\Word2007\Numbering;
 use PhpOffice\PhpWord\Writer\Word2007\Rels;
+use PhpOffice\PhpWord\Writer\Word2007\Settings;
+use PhpOffice\PhpWord\Writer\Word2007\WebSettings;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
 /**
@@ -59,6 +61,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->writerParts['document'] = new Document();
         $this->writerParts['styles'] = new Styles();
         $this->writerParts['numbering'] = new Numbering();
+        $this->writerParts['settings'] = new Settings();
+        $this->writerParts['websettings'] = new WebSettings();
         $this->writerParts['header'] = new Header();
         $this->writerParts['footer'] = new Footer();
         $this->writerParts['footnotes'] = new Notes();
@@ -118,11 +122,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->writeDocument($this->phpWord));
             $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
             $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->writeNumbering());
+            $objZip->addFromString('word/settings.xml', $this->getWriterPart('settings')->writeSettings());
+            $objZip->addFromString('word/webSettings.xml', $this->getWriterPart('websettings')->writeWebSettings());
 
             // Write static files
-            $objZip->addFile(__DIR__ . '/../_staticDocParts/settings.xml', 'word/settings.xml');
             $objZip->addFile(__DIR__ . '/../_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
-            $objZip->addFile(__DIR__ . '/../_staticDocParts/webSettings.xml', 'word/webSettings.xml');
             $objZip->addFile(__DIR__ . '/../_staticDocParts/fontTable.xml', 'word/fontTable.xml');
 
             // Close file
