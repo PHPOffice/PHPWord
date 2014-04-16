@@ -37,13 +37,13 @@
         "ext-zip": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "dompdf/dompdf" : "0.6.*"
+        "phpunit/phpunit": "3.7.*"
     },
     "suggest": {
-        "ext-gd2": "*",
-        "ext-xmlwriter": "*",
-        "ext-xsl": "*"
+        "ext-gd2": "Required to add images",
+        "ext-xmlwriter": "Required to write DOCX and ODT",
+        "ext-xsl": "Required to apply XSL style sheet to template part",
+        "dompdf/dompdf": "Required to write PDF"
     },
     "autoload": {
         "psr-4": {
