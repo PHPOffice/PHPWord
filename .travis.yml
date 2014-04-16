@@ -18,8 +18,9 @@ before_script:
   ## Composer
   # - curl -s http://getcomposer.org/installer | php
   # - php composer.phar install --prefer-source
+  - composer self-update
+  - composer require dompdf/dompdf:0.6.*
   - composer install --prefer-source
-  - composer selfupdate --quiet
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash

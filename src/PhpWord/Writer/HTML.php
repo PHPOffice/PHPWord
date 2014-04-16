@@ -22,12 +22,13 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
+use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\TOC;
 
 /**
  * HTML writer
@@ -36,6 +37,20 @@ use PhpOffice\PhpWord\TOC;
  */
 class HTML extends AbstractWriter implements WriterInterface
 {
+    /**
+     * Is the current writer creating PDF?
+     *
+     * @var boolean
+     */
+    protected $isPdf = false;
+
+    /**
+     * Footnotes and endnotes collection
+     *
+     * @var array
+     */
+    protected $notes = array();
+
     /**
      * Create new instance
      */
@@ -53,9 +68,11 @@ class HTML extends AbstractWriter implements WriterInterface
     public function save($filename = null)
     {
         if (!is_null($this->getPhpWord())) {
+            $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
             $hFile = fopen($filename, 'w') or die("can't open file");
             fwrite($hFile, $this->writeDocument());
             fclose($hFile);
+            $this->clearTempDir();
         } else {
             throw new Exception("No PHPWord assigned.");
         }
@@ -77,6 +94,7 @@ class HTML extends AbstractWriter implements WriterInterface
         $html .= '</head>' . PHP_EOL;
         $html .= '<body>' . PHP_EOL;
         $html .= $this->writeHTMLBody();
+        $html .= $this->writeNotes();
         $html .= '</body>' . PHP_EOL;
         $html .= '</html>' . PHP_EOL;
 
@@ -161,11 +179,37 @@ class HTML extends AbstractWriter implements WriterInterface
                         $html .= $this->writeImage($element);
                     } elseif ($element instanceof Object) {
                         $html .= $this->writeObject($element);
-                    } elseif ($element instanceof Footnote) {
-                        $html .= $this->writeFootnote($element);
                     } elseif ($element instanceof Endnote) {
                         $html .= $this->writeEndnote($element);
+                    } elseif ($element instanceof Footnote) {
+                        $html .= $this->writeFootnote($element);
                     }
+                }
+            }
+        }
+
+        return $html;
+    }
+
+    /**
+     * Write footnote/endnote contents
+     */
+    private function writeNotes()
+    {
+        $footnote = Footnotes::getElements();
+        $endnote = Endnotes::getElements();
+        $html = '';
+
+        if (count($this->notes) > 0) {
+            $html .= "<hr />";
+            foreach ($this->notes as $noteId => $noteMark) {
+                $noteAnchor = "note-{$noteId}";
+                list($noteType, $noteTypeId) = explode('-', $noteMark);
+                $collection = $$noteType;
+                if (array_key_exists($noteTypeId, $collection)) {
+                    $element = $collection[$noteTypeId];
+                    $content = "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>" . $this->writeTextRun($element, true);
+                    $html .= "<p><a name=\"{$noteAnchor}\" />{$content}</p>" . PHP_EOL;
                 }
             }
         }
@@ -218,19 +262,20 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get text run content
+     * Write text run content
      *
-     * @param TextRun $textrun
+     * @param TextRun|Footnote|Endnote $textrun
      * @return string
      */
-    private function writeTextRun($textrun)
+    private function writeTextRun($textrun, $withoutP = false)
     {
         $html = '';
         $elements = $textrun->getElements();
         if (count($elements) > 0) {
             $paragraphStyle = $textrun->getParagraphStyle();
             $spIsObject = ($paragraphStyle instanceof Paragraph);
-            $html .= '<p';
+
+            $html .= $withoutP ? '<span' : '<p';
             if ($paragraphStyle) {
                 if (!$spIsObject) {
                     $html .= ' class="' . $paragraphStyle . '"';
@@ -248,13 +293,14 @@ class HTML extends AbstractWriter implements WriterInterface
                     $html .= $this->writeTextBreak($element, true);
                 } elseif ($element instanceof Image) {
                     $html .= $this->writeImage($element, true);
-                } elseif ($element instanceof Footnote) {
-                    $html .= $this->writeFootnote($element);
                 } elseif ($element instanceof Endnote) {
                     $html .= $this->writeEndnote($element);
+                } elseif ($element instanceof Footnote) {
+                    $html .= $this->writeFootnote($element);
                 }
             }
-            $html .= '</p>' . PHP_EOL;
+            $html .= $withoutP ? '</span>' : '</p>';
+            $html .= PHP_EOL;
         }
 
         return $html;
@@ -271,11 +317,14 @@ class HTML extends AbstractWriter implements WriterInterface
     {
         $url = $element->getLinkSrc();
         $text = $element->getLinkName();
+        if ($text == '') {
+            $text = $url;
+        }
         $html = '';
         if (!$withoutP) {
             $html .= "<p>" . PHP_EOL;
         }
-        $html .= "<a href=\"{$url}'\">{$text}</a>" . PHP_EOL;
+        $html .= "<a href=\"{$url}\">{$text}</a>" . PHP_EOL;
         if (!$withoutP) {
             $html .= "</p>" . PHP_EOL;
         }
@@ -347,7 +396,10 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeListItem($element)
     {
-        return $this->writeUnsupportedElement($element, false);
+        $text = htmlspecialchars($element->getTextObject()->getText());
+        $html = '<p>' . $text . '</{$p}>' . PHP_EOL;
+
+        return $html;
     }
 
     /**
@@ -390,10 +442,10 @@ class HTML extends AbstractWriter implements WriterInterface
                                 $html .= $this->writeImage($content);
                             } elseif ($content instanceof Object) {
                                 $html .= $this->writeObject($content);
-                            } elseif ($element instanceof Footnote) {
-                                $html .= $this->writeFootnote($element);
                             } elseif ($element instanceof Endnote) {
                                 $html .= $this->writeEndnote($element);
+                            } elseif ($element instanceof Footnote) {
+                                $html .= $this->writeFootnote($element);
                             }
                         }
                     } else {
@@ -418,7 +470,22 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeImage($element, $withoutP = false)
     {
-        return $this->writeUnsupportedElement($element, $withoutP);
+        $html = $this->writeUnsupportedElement($element, $withoutP);
+        if (!$this->isPdf) {
+            $imageData = $this->getBase64ImageData($element);
+            if (!is_null($imageData)) {
+                $style = $this->assembleCss(array(
+                    'width' => $element->getStyle()->getWidth() . 'px',
+                    'height' => $element->getStyle()->getHeight() . 'px',
+                ));
+                $html = "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
+                if (!$withoutP) {
+                    $html = "<p>{$html}</p>" . PHP_EOL;
+                }
+            }
+        }
+
+        return $html;
     }
 
     /**
@@ -441,7 +508,7 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeFootnote($element)
     {
-        return $this->writeUnsupportedElement($element, true);
+        return $this->writeNote($element);
     }
 
     /**
@@ -452,7 +519,25 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeEndnote($element)
     {
-        return $this->writeUnsupportedElement($element, true);
+        return $this->writeNote($element);
+    }
+
+    /**
+     * Write footnote/endnote marks
+     *
+     * @param Footnote|Endnote $element
+     * @return string
+     */
+    private function writeNote($element)
+    {
+        $index = count($this->notes) + 1;
+        $prefix = ($element instanceof Endnote) ? 'endnote' : 'footnote';
+        $noteMark = $prefix . '-' . $element->getRelationId();
+        $noteAnchor = "note-{$index}";
+        $this->notes[$index] = $noteMark;
+        $html = "<a name=\"{$noteMark}\"><a href=\"#{$noteAnchor}\" class=\"NoteRef\"><sup>{$index}</sup></a>";
+
+        return $html;
     }
 
     /**
@@ -483,18 +568,33 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeStyles()
     {
-        $bodyCss = array();
         $css = '<style>' . PHP_EOL;
 
         // Default styles
-        $bodyCss['font-family'] = "'" . $this->getPhpWord()->getDefaultFontName() . "'";
-        $bodyCss['font-size'] = $this->getPhpWord()->getDefaultFontSize() . 'pt';
-        $css .= '* ' . $this->assembleCss($bodyCss, true) . PHP_EOL;
+        $defaultStyles = array(
+            '*' => array(
+                'font-family' => $this->getPhpWord()->getDefaultFontName(),
+                'font-size' => $this->getPhpWord()->getDefaultFontSize() . 'pt',
+            ),
+            'a.NoteRef' => array(
+                'text-decoration' => 'none',
+            ),
+            'hr' => array(
+                'height' => '1px',
+                'padding' => '0',
+                'margin' => '1em 0',
+                'border' => '0',
+                'border-top' => '1px solid #CCC',
+            ),
+        );
+        foreach ($defaultStyles as $selector => $style) {
+            $css .= $selector . ' ' . $this->assembleCss($style, true) . PHP_EOL;
+        }
 
         // Custom styles
-        $styles = Style::getStyles();
-        if (is_array($styles)) {
-            foreach ($styles as $name => $style) {
+        $customStyles = Style::getStyles();
+        if (is_array($customStyles)) {
+            foreach ($customStyles as $name => $style) {
                 if ($style instanceof Font) {
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
@@ -593,5 +693,54 @@ class HTML extends AbstractWriter implements WriterInterface
         }
 
         return $string;
+    }
+
+    /**
+     * Get Base64 image data
+     *
+     * @return string|null
+     */
+    private function getBase64ImageData(Image $element)
+    {
+        $imageData = null;
+        $imageBinary = null;
+        $source = $element->getSource();
+        $imageType = $element->getImageType();
+
+        // Get actual source from archive image
+        if ($element->getSourceType() == Image::SOURCE_ARCHIVE) {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+            $zip = new \ZipArchive();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $zip->extractTo($this->getTempDir(), $imageFilename);
+                    $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+
+        // Read image binary data and convert into Base64
+        if ($element->getSourceType() == Image::SOURCE_GD) {
+            $imageResource = call_user_func($element->getImageCreateFunction(), $actualSource);
+            ob_start();
+            call_user_func($element->getImageFunction(), $imageResource);
+            $imageBinary = ob_get_contents();
+            ob_end_clean();
+        } else {
+            if ($fp = fopen($actualSource, 'rb', false)) {
+                $imageBinary = fread($fp, filesize($actualSource));
+                fclose($fp);
+            }
+        }
+        if (!is_null($imageBinary)) {
+            $base64 = chunk_split(base64_encode($imageBinary));
+            $imageData = 'data:' . $imageType . ';base64,' . $base64;
+        }
+
+        return $imageData;
     }
 }

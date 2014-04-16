@@ -27,13 +27,13 @@ This release marked heavy refactorings on internal code structure with the creat
 - Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
 - Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
 - General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
-- Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, and list - @ivanlanin
+- DOCX Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, list, image - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
 - ODT Writer: Basic table writing support - @ivanlanin
 - Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
-- HTML Writer: Basic HTML writer initiated - @ivanlanin GH-203 GH-67 GH-147
-- PDF Writer: Basic PDF writer initiated using DomPDF - @ivanlanin GH-68
+- HTML Writer: Basic HTML writer: text, textrun, link, title, textbreak, table, image (as Base64), footnote, endnote - @ivanlanin GH-203 GH-67 GH-147
+- PDF Writer: Basic PDF writer using DomPDF: All HTML element except image - @ivanlanin GH-68
 
 ### Bugfixes
 

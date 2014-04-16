@@ -49,6 +49,13 @@ abstract class AbstractWriter implements WriterInterface
     private $diskCachingDirectory = './';
 
     /**
+     * Temporary directory
+     *
+     * @var string
+     */
+    private $tempDir = '';
+
+    /**
      * Original file name
      *
      * @var string
@@ -81,7 +88,7 @@ abstract class AbstractWriter implements WriterInterface
      * Set PhpWord object
      *
      * @param PhpWord
-     * @return $this
+     * @return self
      */
     public function setPhpWord(PhpWord $phpWord = null)
     {
@@ -119,7 +126,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param boolean $pValue
      * @param string $pDirectory
-     * @return $this
+     * @return self
      */
     public function setUseDiskCaching($pValue = false, $pDirectory = null)
     {
@@ -147,6 +154,32 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
+     * Get temporary directory
+     *
+     * @return string
+     */
+    public function getTempDir()
+    {
+        return $this->tempDir;
+    }
+
+    /**
+     * Set temporary directory
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setTempDir($value)
+    {
+        if (!is_dir($value)) {
+            mkdir($value);
+        }
+        $this->tempDir = $value;
+
+        return $this;
+    }
+
+    /**
      * Get temporary file name
      *
      * If $filename is php://output or php://stdout, make it a temporary file
@@ -156,6 +189,10 @@ abstract class AbstractWriter implements WriterInterface
      */
     protected function getTempFile($filename)
     {
+        // Temporary directory
+        $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
+
+        // Temporary file
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
             $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
@@ -170,8 +207,6 @@ abstract class AbstractWriter implements WriterInterface
 
     /**
      * Cleanup temporary file
-     *
-     * If a temporary file was used, copy it to the correct file stream
      */
     protected function cleanupTempFile()
     {
@@ -180,6 +215,18 @@ abstract class AbstractWriter implements WriterInterface
                 throw new Exception("Could not copy temporary zip file {$this->tempFilename} to {$this->originalFilename}.");
             }
             @unlink($this->tempFilename);
+        }
+
+        $this->clearTempDir();
+    }
+
+    /**
+     * Clear temporary directory
+     */
+    protected function clearTempDir()
+    {
+        if (is_dir($this->tempDir)) {
+            $this->deleteDir($this->tempDir);
         }
     }
 
@@ -214,5 +261,25 @@ abstract class AbstractWriter implements WriterInterface
         }
 
         return $objZip;
+    }
+
+    /**
+     * Delete directory
+     *
+     * @param string $dir
+     */
+    private function deleteDir($dir)
+    {
+        foreach (scandir($dir) as $file) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            } elseif (is_file($dir . "/" . $file)) {
+                unlink($dir . "/" . $file);
+            } elseif (is_dir($dir . "/" . $file)) {
+                $this->deleteDir($dir . "/" . $file);
+            }
+        }
+
+        rmdir($dir);
     }
 }

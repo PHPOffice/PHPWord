@@ -46,18 +46,17 @@ if ($handle = opendir('.')) {
 }
 
 /**
- * Get results
+ * Write documents
  *
  * @param \PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
  * @param array $writers
- * @return string
  */
 function write($phpWord, $filename, $writers)
 {
     $result = '';
 
-    // Write
+    // Write documents
     foreach ($writers as $writer => $extension) {
         $result .= date('H:i:s') . " Write to {$writer} format";
         if (!is_null($extension)) {
@@ -69,6 +68,20 @@ function write($phpWord, $filename, $writers)
         }
         $result .= EOL;
     }
+
+    $result .= getEndingNotes($writers);
+
+    return $result;
+}
+
+/**
+ * Get ending notes
+ *
+ * @param array $writers
+ */
+function getEndingNotes($writers)
+{
+    $result = '';
 
     // Do not show execution time for index
     if (!IS_INDEX) {
@@ -85,9 +98,11 @@ function write($phpWord, $filename, $writers)
             $result .= '<p>&nbsp;</p>';
             $result .= '<p>Results: ';
             foreach ($types as $type) {
-                $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
-                if (file_exists($resultFile)) {
-                    $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";
+                if (!is_null($type)) {
+                    $resultFile = 'results/' . SCRIPT_FILENAME . '.' . $type;
+                    if (file_exists($resultFile)) {
+                        $result .= "<a href='{$resultFile}' class='btn btn-primary'>{$type}</a> ";
+                    }
                 }
             }
             $result .= '</p>';

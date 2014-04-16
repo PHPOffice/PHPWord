@@ -69,7 +69,6 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
-        $this->tempDir = sys_get_temp_dir();
     }
 
     /**
@@ -142,35 +141,10 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     }
 
     /**
-     * Get temporary storage directory
-     *
-     * @return string
-     */
-    public function getTempDir()
-    {
-        return $this->tempDir;
-    }
-
-    /**
-     * Set temporary storage directory
-     *
-     * @param string $pValue Temporary storage directory
-     * @return self
-     */
-    public function setTempDir($pValue = '')
-    {
-        if (is_dir($pValue)) {
-            $this->tempDir = $pValue;
-        } else {
-            throw new Exception("Directory does not exist: $pValue");
-        }
-        return $this;
-    }
-
-    /**
      * Save PhpWord to PDF file, pre-save
      *
      * @param string $pFilename Name of the file to save as
+     * @return resource
      */
     protected function prepareForSave($pFilename = null)
     {
@@ -178,6 +152,8 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
         if ($fileHandle === false) {
             throw new Exception("Could not open file $pFilename for writing.");
         }
+        $this->isPdf = true;
+
         return $fileHandle;
     }
 

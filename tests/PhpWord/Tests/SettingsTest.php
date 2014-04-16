@@ -19,9 +19,9 @@ use PhpOffice\PhpWord\Settings;
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Get/set compatibity option
+     * Test set/get compatibity option
      */
-    public function testGetSetCompatibility()
+    public function testSetGetCompatibility()
     {
         $this->assertTrue(Settings::getCompatibility());
         $this->assertTrue(Settings::setCompatibility(false));
@@ -30,12 +30,26 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get/set zip class
+     * Test set/get zip class
      */
-    public function testGetSetZipClass()
+    public function testSetGetZipClass()
     {
         $this->assertEquals(Settings::ZIPARCHIVE, Settings::getZipClass());
         $this->assertTrue(Settings::setZipClass(Settings::PCLZIP));
         $this->assertFalse(Settings::setZipClass('foo'));
+    }
+
+    /**
+     * Test set/get PDF renderer
+     */
+    public function testSetGetPdfRenderer()
+    {
+        $domPdfPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+
+        $this->assertFalse(Settings::setPdfRenderer('FOO', 'dummy/path'));
+        $this->assertTrue(Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $domPdfPath));
+        $this->assertEquals(Settings::PDF_RENDERER_DOMPDF, Settings::getPdfRendererName());
+        $this->assertEquals($domPdfPath, Settings::getPdfRendererPath());
+        $this->assertFalse(Settings::setPdfRendererPath('dummy/path'));
     }
 }

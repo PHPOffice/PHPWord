@@ -19,11 +19,25 @@ use PhpOffice\PhpWord\Style\Image as ImageStyle;
 class Image extends AbstractElement
 {
     /**
+     * Image source type constants
+     */
+    const SOURCE_LOCAL = 'local'; // Local images
+    const SOURCE_GD = 'gd'; // Generated using GD
+    const SOURCE_ARCHIVE = 'archive'; // Image in archives zip://$archive#$image
+
+    /**
      * Image source
      *
      * @var string
      */
     private $source;
+
+    /**
+     * Source type: local|gd|archive
+     *
+     * @var string
+     */
+    private $sourceType;
 
     /**
      * Image style
@@ -85,66 +99,11 @@ class Image extends AbstractElement
      */
     public function __construct($source, $style = null, $isWatermark = false)
     {
-        // Detect if it's a memory image, by .php ext or by URL
-        if (stripos(strrev($source), strrev('.php')) === 0) {
-            $this->isMemImage = true;
-        } else {
-            $this->isMemImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
-        }
-
-        // Check supported types
-        if ($this->isMemImage) {
-            $supportedTypes = array('image/jpeg', 'image/gif', 'image/png');
-            $imgData = @getimagesize($source);
-            if (!is_array($imgData)) {
-                throw new InvalidImageException();
-            }
-            $this->imageType = $imgData['mime']; // string
-            if (!in_array($this->imageType, $supportedTypes)) {
-                throw new UnsupportedImageTypeException();
-            }
-        } else {
-            $supportedTypes = array(
-                IMAGETYPE_JPEG, IMAGETYPE_GIF,
-                IMAGETYPE_PNG, IMAGETYPE_BMP,
-                IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM
-            );
-            if (!file_exists($source)) {
-                throw new InvalidImageException();
-            }
-            $imgData = getimagesize($source);
-            if (function_exists('exif_imagetype')) {
-                $this->imageType = exif_imagetype($source);
-            } else {
-                // @codeCoverageIgnoreStart
-                $tmp = getimagesize($source);
-                $this->imageType = $tmp[2];
-                // @codeCoverageIgnoreEnd
-            }
-            if (!in_array($this->imageType, $supportedTypes)) {
-                throw new UnsupportedImageTypeException();
-            }
-            $this->imageType = image_type_to_mime_type($this->imageType);
-        }
-
-        // Set private properties
         $this->source = $source;
-        $this->isWatermark = $isWatermark;
+        $this->setIsWatermark($isWatermark);
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
-        $styleWidth = $this->style->getWidth();
-        $styleHeight = $this->style->getHeight();
-        list($actualWidth, $actualHeight) = $imgData;
-        if (!($styleWidth && $styleHeight)) {
-            if ($styleWidth == null && $styleHeight == null) {
-                $this->style->setWidth($actualWidth);
-                $this->style->setHeight($actualHeight);
-            } elseif ($styleWidth) {
-                $this->style->setHeight($actualHeight * ($styleWidth / $actualWidth));
-            } else {
-                $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
-            }
-        }
-        $this->setImageFunctions();
+
+        $this->checkImage($source);
     }
 
     /**
@@ -165,6 +124,16 @@ class Image extends AbstractElement
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Get image source type
+     *
+     * @return string
+     */
+    public function getSourceType()
+    {
+        return $this->sourceType;
     }
 
     /**
@@ -248,9 +217,92 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set image functions
+     * Check memory image, supported type, image functions, and proportional width/height
+     *
+     * @param string $source
      */
-    private function setImageFunctions()
+    private function checkImage($source)
+    {
+        $this->setSourceType($source);
+
+        // Check image data
+        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+            $imageData = $this->getArchiveImageSize($source);
+        } else {
+            $imageData = @getimagesize($source);
+        }
+        if (!is_array($imageData)) {
+            throw new InvalidImageException();
+        }
+        list($actualWidth, $actualHeight, $imageType) = $imageData;
+
+        // Check image type support
+        $supportedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
+        if ($this->sourceType != self::SOURCE_GD) {
+            $supportedTypes = array_merge($supportedTypes, array(IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM));
+        }
+        if (!in_array($imageType, $supportedTypes)) {
+            throw new UnsupportedImageTypeException();
+        }
+
+        // Define image functions
+        $this->imageType = image_type_to_mime_type($imageType);
+        $this->setFunctions();
+        $this->setProportionalSize($actualWidth, $actualHeight);
+    }
+
+    /**
+     * Set source type
+     *
+     * @param string $source
+     */
+    private function setSourceType($source)
+    {
+        if (stripos(strrev($source), strrev('.php')) === 0) {
+            $this->isMemImage = true;
+            $this->sourceType = self::SOURCE_GD;
+        } elseif (strpos($source, 'zip://') !== false) {
+            $this->isMemImage = false;
+            $this->sourceType = self::SOURCE_ARCHIVE;
+        } else {
+            $this->isMemImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
+            $this->sourceType = $this->isMemImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
+        }
+    }
+
+    /**
+     * Get image size from archive
+     *
+     * @param string $source
+     * @return array|null
+     */
+    private function getArchiveImageSize($source)
+    {
+        $imageData = null;
+        $source = substr($source, 6);
+        list($zipFilename, $imageFilename) = explode('#', $source);
+        $tempFilename = tempnam(sys_get_temp_dir(), 'PHPWordImage');
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipFilename) !== false) {
+            if ($zip->locateName($imageFilename)) {
+                $imageContent = $zip->getFromName($imageFilename);
+                if ($imageContent !== false) {
+                    file_put_contents($tempFilename, $imageContent);
+                    $imageData = @getimagesize($tempFilename);
+                    unlink($tempFilename);
+                }
+            }
+            $zip->close();
+        }
+
+        return $imageData;
+    }
+
+    /**
+     * Set image functions and extensions
+     */
+    private function setFunctions()
     {
         switch ($this->imageType) {
             case 'image/png':
@@ -269,14 +321,36 @@ class Image extends AbstractElement
                 $this->imageFunc = 'imagejpeg';
                 $this->imageExtension = 'jpg';
                 break;
-            case 'image/x-ms-bmp':
             case 'image/bmp':
+            case 'image/x-ms-bmp':
                 $this->imageType = 'image/bmp';
                 $this->imageExtension = 'bmp';
                 break;
             case 'image/tiff':
                 $this->imageExtension = 'tif';
                 break;
+        }
+    }
+
+    /**
+     * Set proportional width/height if one dimension not available
+     *
+     * @param integer $actualWidth
+     * @param integer $actualHeight
+     */
+    private function setProportionalSize($actualWidth, $actualHeight)
+    {
+        $styleWidth = $this->style->getWidth();
+        $styleHeight = $this->style->getHeight();
+        if (!($styleWidth && $styleHeight)) {
+            if ($styleWidth == null && $styleHeight == null) {
+                $this->style->setWidth($actualWidth);
+                $this->style->setHeight($actualHeight);
+            } elseif ($styleWidth) {
+                $this->style->setHeight($actualHeight * ($styleWidth / $actualWidth));
+            } else {
+                $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
+            }
         }
     }
 }
