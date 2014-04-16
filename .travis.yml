@@ -19,7 +19,7 @@ before_script:
   # - curl -s http://getcomposer.org/installer | php
   # - php composer.phar install --prefer-source
   - composer self-update
-  - composer require dompdf/dompdf
+  - composer require dompdf/dompdf:0.6.*
   - composer install --prefer-source
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
