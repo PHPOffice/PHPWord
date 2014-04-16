@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Word2007 relationship writer
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 class Rels extends AbstractWriterPart
 {

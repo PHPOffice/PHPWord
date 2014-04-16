@@ -207,9 +207,13 @@ Lists
 
 To add a list item use the function ``addListItem``.
 
+Basic usage:
+
 .. code-block:: php
 
     $section->addListItem($text, [$depth], [$fontStyle], [$listStyle], [$paragraphStyle]);
+
+Parameters:
 
 -  ``$text`` Text that appears in the document.
 -  ``$depth`` Depth of list item.
@@ -218,6 +222,40 @@ To add a list item use the function ``addListItem``.
    TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in
    PHPWord\_Style\_ListItem.
 -  ``$paragraphStyle`` See "Paragraph style" section.
+
+Advanced usage:
+
+You can also create your own numbering style by changing the ``$listStyle`` parameter
+with the name of your numbering style.
+
+.. code-block:: php
+
+    $phpWord->addNumberingStyle(
+        'multilevel',
+        array('type' => 'multilevel', 'levels' => array(
+            array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
+            array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
+            )
+         )
+    );
+    $section->addListItem('List Item I', 0, null, 'multilevel');
+    $section->addListItem('List Item I.a', 1, null, 'multilevel');
+    $section->addListItem('List Item I.b', 1, null, 'multilevel');
+    $section->addListItem('List Item II', 0, null, 'multilevel');
+
+Level styles:
+
+-  ``start`` Starting value
+-  ``format``  Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
+-  ``restart`` Restart numbering level symbol
+-  ``suffix`` Content between numbering symbol and paragraph text tab|space|nothing
+-  ``text`` Numbering level text e.g. %1 for nonbullet or bullet character
+-  ``align`` Numbering symbol align left|center|right|both
+-  ``left`` See paragraph style
+-  ``hanging`` See paragraph style
+-  ``tabPos`` See paragraph style
+-  ``font`` Font name
+-  ``hint`` See font style
 
 Tables
 ------

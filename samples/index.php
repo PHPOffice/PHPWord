@@ -24,5 +24,7 @@ foreach ($requirements as $key => $value) {
     echo "<li>{$value[0]} ... <span class='{$status}'>{$status}</span></li>";
 }
 echo "</ul>";
-} // if (!CLI)
-include_once 'Sample_Footer.php';
+}
+if (!CLI) {
+    include_once 'Sample_Footer.php';
+}

@@ -34,6 +34,7 @@ class Media
      * @return integer
      * @throws \PhpOffice\PhpWord\Exception\Exception
      * @since 0.9.2
+     * @since 0.10.0
      */
     public static function addElement($container, $mediaType, $source, Image $image = null)
     {
@@ -98,7 +99,7 @@ class Media
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @return integer
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public static function countElements($container, $mediaType = null)
     {
@@ -125,7 +126,7 @@ class Media
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @return array
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public static function getElements($container, $mediaType = null)
     {
@@ -171,7 +172,7 @@ class Media
      * @param  string $type
      * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
@@ -184,7 +185,7 @@ class Media
      *
      * @param string $linkSrc
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function addSectionLinkElement($linkSrc)
@@ -197,7 +198,7 @@ class Media
      *
      * @param string $key
      * @return array
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function getSectionMediaElements($key = null)
@@ -210,7 +211,7 @@ class Media
      *
      * @param string $key
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function countSectionMediaElements($key = null)
@@ -225,7 +226,7 @@ class Media
      * @param  string $src
      * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
@@ -238,7 +239,7 @@ class Media
      *
      * @param string $key
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function countHeaderMediaElements($key)
@@ -250,7 +251,7 @@ class Media
      * Get Header Media Elements
      *
      * @return array
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function getHeaderMediaElements()
@@ -265,7 +266,7 @@ class Media
      * @param  string $src
      * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function addFooterMediaElement($footerCount, $src, Image $image = null)
@@ -278,7 +279,7 @@ class Media
      *
      * @param string $key
      * @return integer
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function countFooterMediaElements($key)
@@ -290,7 +291,7 @@ class Media
      * Get Footer Media Elements
      *
      * @return array
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public static function getFooterMediaElements()

@@ -99,12 +99,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $objectSrc = __DIR__ . "/../../_files/documents/sheet.xls";
 
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('pStyle', array('align' => 'center'));
-        $phpWord->addFontStyle('fStyle', array('size' => '20'));
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
+        $phpWord->addParagraphStyle('pStyle', array('align' => 'center')); // Style #1
+        $phpWord->addFontStyle('fStyle', array('size' => '20')); // Style #2
+        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true)); // Style #3
         $fontStyle = new Font('text', array('align' => 'center'));
         $section = $phpWord->addSection();
-        $section->addListItem('List Item', 0, null, null, 'pStyle');
+        $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #4
         $section->addObject($objectSrc, array('align' => 'center'));
         $section->addTOC($fontStyle);
         $section->addTitle('Title 1', 1);
@@ -113,7 +113,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         // List item
         $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId');
-        $this->assertEquals(3, $element->getAttribute('w:val'));
+        $this->assertEquals(4, $element->getAttribute('w:val'));
 
         // Object
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:object/o:OLEObject');

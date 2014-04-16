@@ -78,6 +78,23 @@ class String
     }
 
     /**
+     * Return name without underscore for < 0.10.0 variable name compatibility
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function removeUnderscorePrefix($value)
+    {
+        if (!is_null($value)) {
+            if (substr($value, 0, 1) == '_') {
+                $value = substr($value, 1);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
      * Build control characters array
      */
     private static function buildControlCharacters()

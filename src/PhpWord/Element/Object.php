@@ -101,7 +101,7 @@ class Object extends AbstractElement
      * Get Object ID
      *
      * @return int
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function getObjectId()
@@ -113,7 +113,7 @@ class Object extends AbstractElement
      * Set Object ID
      *
      * @param int $objId
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function setObjectId($objId)

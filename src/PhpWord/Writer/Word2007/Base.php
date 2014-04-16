@@ -279,7 +279,7 @@ class Base extends AbstractWriterPart
     {
         $textObject = $listItem->getTextObject();
         $depth = $listItem->getDepth();
-        $listType = $listItem->getStyle()->getListType();
+        $numId = $listItem->getStyle()->getNumId();
         $styleParagraph = $textObject->getParagraphStyle();
 
         $xmlWriter->startElement('w:p');
@@ -290,7 +290,7 @@ class Base extends AbstractWriterPart
         $xmlWriter->writeAttribute('w:val', $depth);
         $xmlWriter->endElement(); // w:ilvl
         $xmlWriter->startElement('w:numId');
-        $xmlWriter->writeAttribute('w:val', $listType);
+        $xmlWriter->writeAttribute('w:val', $numId);
         $xmlWriter->endElement(); // w:numId
         $xmlWriter->endElement(); // w:numPr
         $xmlWriter->endElement(); // w:pPr
@@ -427,25 +427,22 @@ class Base extends AbstractWriterPart
         $marginTop = $style->getMarginTop();
         $marginLeft = $style->getMarginLeft();
         $wrappingStyle = $style->getWrappingStyle();
+        $w10wrapType = null;
 
         if (!$withoutP) {
             $xmlWriter->startElement('w:p');
-
             if (!is_null($align)) {
                 $xmlWriter->startElement('w:pPr');
                 $xmlWriter->startElement('w:jc');
                 $xmlWriter->writeAttribute('w:val', $align);
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
+                $xmlWriter->endElement(); // w:jc
+                $xmlWriter->endElement(); // w:pPr
             }
         }
         $xmlWriter->startElement('w:r');
-
         $xmlWriter->startElement('w:pict');
-
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
-
         $imgStyle = '';
         if (null !== $width) {
             $imgStyle .= 'width:' . $width . 'px;';
@@ -459,33 +456,38 @@ class Base extends AbstractWriterPart
         if (null !== $marginLeft) {
             $imgStyle .= 'margin-left:' . $marginLeft . 'in;';
         }
-
         switch ($wrappingStyle) {
             case ImageStyle::WRAPPING_STYLE_BEHIND:
                 $imgStyle .= 'position:absolute;z-index:-251658752;';
                 break;
-            case ImageStyle::WRAPPING_STYLE_SQUARE:
+            case ImageStyle::WRAPPING_STYLE_INFRONT:
                 $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
-            case ImageStyle::WRAPPING_STYLE_TIGHT:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-wrap-edited:f;mso-position-horizontal:absolute;mso-position-vertical:absolute';
+            case ImageStyle::WRAPPING_STYLE_SQUARE:
+                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                $w10wrapType = 'square';
                 break;
-            case ImageStyle::WRAPPING_STYLE_INFRONT:
-                $imgStyle .= 'position:absolute;zz-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+            case ImageStyle::WRAPPING_STYLE_TIGHT:
+                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                $w10wrapType = 'tight';
                 break;
         }
-
         $xmlWriter->writeAttribute('style', $imgStyle);
 
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('o:title', '');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // v:imagedata
 
-        $xmlWriter->endElement();
+        if (!is_null($w10wrapType)) {
+            $xmlWriter->startElement('w10:wrap');
+            $xmlWriter->writeAttribute('type', $w10wrapType);
+            $xmlWriter->endElement(); // w10:wrap
+        }
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // v:shape
+        $xmlWriter->endElement(); // w:pict
+        $xmlWriter->endElement(); // w:r
 
         if (!$withoutP) {
             $xmlWriter->endElement(); // w:p

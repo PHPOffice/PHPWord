@@ -26,7 +26,7 @@ abstract class IOFactory
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
-        if ($name !== 'WriterInterface' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
+        if (!in_array($name, array('WriterInterface', 'Word2007', 'ODText', 'RTF', 'HTML', 'PDF'))) {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
@@ -43,7 +43,7 @@ abstract class IOFactory
      */
     public static function createReader($name = 'Word2007')
     {
-        if ($name !== 'ReaderInterface' && $name !== 'Word2007') {
+        if (!in_array($name, array('ReaderInterface', 'Word2007'))) {
             throw new Exception("\"{$name}\" is not a valid reader.");
         }
 

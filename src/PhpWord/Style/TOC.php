@@ -110,15 +110,4 @@ class TOC extends AbstractStyle
     {
         $this->indent = $pValue;
     }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param string $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $this->$key = $value;
-    }
 }

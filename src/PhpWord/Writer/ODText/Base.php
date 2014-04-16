@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * ODT base part writer
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 class Base extends AbstractWriterPart
 {

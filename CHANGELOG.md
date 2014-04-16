@@ -2,9 +2,9 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-## 0.9.2 - Not yet released
+## 0.10.0 - Not yet released
 
-This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced.
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled.
 
 ### Features
 
@@ -27,12 +27,18 @@ This release marked heavy refactorings on internal code structure with the creat
 - Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
 - Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
 - General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
-- Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table - @ivanlanin
+- DOCX Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, list, image - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
+- ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
+- ODT Writer: Basic table writing support - @ivanlanin
+- Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
+- HTML Writer: Basic HTML writer: text, textrun, link, title, textbreak, table, image (as Base64), footnote, endnote - @ivanlanin GH-203 GH-67 GH-147
+- PDF Writer: Basic PDF writer using DomPDF: All HTML element except image - @ivanlanin GH-68
 
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
+- Documentation : Error in a fonction - @theBeerNut GH-195
 
 ### Deprecated
 
@@ -61,6 +67,8 @@ This release marked heavy refactorings on internal code structure with the creat
 - Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
 - Writer: New 'ODText\Base` class - @ivanlanin GH-187
 - General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
+- General: Add some unit tests for Shared & Element (100%!) - @Progi1984
+- Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
 
 ## 0.9.1 - 27 Mar 2014
 

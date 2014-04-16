@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Endnote element
  *
- * @since 0.9.2
+ * @since 0.10.0
  */
 class Endnote extends Footnote
 {

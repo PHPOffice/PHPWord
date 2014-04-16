@@ -64,7 +64,7 @@ class Header extends AbstractElement
      * Set header type
      *
      * @param string $value
-     * @since 0.9.2
+     * @since 0.10.0
      */
     public function setType($value = self::AUTO)
     {

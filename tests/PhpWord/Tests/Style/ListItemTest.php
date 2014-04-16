@@ -53,4 +53,16 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
         $object->setListType($value);
         $this->assertEquals($value, $object->getListType());
     }
+
+    /**
+     * Test set/get numbering style name
+     */
+    public function testSetGetNumStyle()
+    {
+        $expected = 'List Name';
+
+        $object = new ListItem();
+        $object->setNumStyle($expected);
+        $this->assertEquals($expected, $object->getNumStyle());
+    }
 }

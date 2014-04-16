@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\Settings;
 /**
  * XML Reader wrapper
  *
- * @since   0.9.2
+ * @since   0.10.0
  */
 class XMLReader
 {
@@ -70,7 +70,7 @@ class XMLReader
      * @param string $path
      * @return \DOMNodeList
      */
-    public function getElements($path, \DOMNode $contextNode = null)
+    public function getElements($path, \DOMElement $contextNode = null)
     {
         if ($this->dom === null) {
             return array();
@@ -86,9 +86,9 @@ class XMLReader
      * Get element
      *
      * @param string $path
-     * @return \DOMNode|null
+     * @return \DOMElement|null
      */
-    public function getElement($path, \DOMNode $contextNode)
+    public function getElement($path, \DOMElement $contextNode)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -105,7 +105,7 @@ class XMLReader
      * @param string $path
      * @return string|null
      */
-    public function getAttribute($attribute, \DOMNode $contextNode, $path = null)
+    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
     {
         if (is_null($path)) {
             $return = $contextNode->getAttribute($attribute);
@@ -127,7 +127,7 @@ class XMLReader
      * @param string $path
      * @return string|null
      */
-    public function getValue($path, \DOMNode $contextNode)
+    public function getValue($path, \DOMElement $contextNode)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -143,7 +143,7 @@ class XMLReader
      * @param string $path
      * @return integer
      */
-    public function countElements($path, \DOMNode $contextNode)
+    public function countElements($path, \DOMElement $contextNode)
     {
         $elements = $this->getElements($path, $contextNode);
 
@@ -156,7 +156,7 @@ class XMLReader
      * @param string $path
      * @return boolean
      */
-    public function elementExists($path, \DOMNode $contextNode)
+    public function elementExists($path, \DOMElement $contextNode)
     {
         return $this->getElements($path, $contextNode)->length > 0;
     }

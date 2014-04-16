@@ -63,9 +63,9 @@ XML Writer compatibility
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 This option sets
-```XMLWriter::setIndent`` <http://www.php.net/manual/en/function.xmlwriter-set-indent.php>`__
+`XMLWriter::setIndent <http://www.php.net/manual/en/function.xmlwriter-set-indent.php>`__
 and
-```XMLWriter::setIndentString`` <http://www.php.net/manual/en/function.xmlwriter-set-indent-string.php>`__.
+`XMLWriter::setIndentString <http://www.php.net/manual/en/function.xmlwriter-set-indent-string.php>`__.
 The default value of this option is ``true`` (compatible), which is
 `required for OpenOffice <https://github.com/PHPOffice/PHPWord/issues/103>`__ to
 render OOXML document correctly. You can set this option to ``false``
@@ -108,7 +108,7 @@ name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getProperties();
+    $properties = $phpWord->getDocumentProperties();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');

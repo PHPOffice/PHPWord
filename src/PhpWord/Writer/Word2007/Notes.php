@@ -9,8 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -69,7 +69,7 @@ class Notes extends Base
         // Content
         foreach ($elements as $element) {
             if ($element instanceof Footnote || $element instanceof Endnote) {
-                $this->writeNote($xmlWriter, $element, null, $notesTypes);
+                $this->writeNote($xmlWriter, $element, $notesTypes);
             }
         }
 
@@ -83,10 +83,9 @@ class Notes extends Base
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Footnote|\PhpOffice\PhpWord\Element\Endnote $element
-     * @param boolean $withoutP
-     * @param string $notesTypes
+          * @param string $notesTypes
      */
-    protected function writeNote(XMLWriter $xmlWriter, $element, $withoutP = false, $notesTypes = 'footnotes')
+    protected function writeNote(XMLWriter $xmlWriter, $element, $notesTypes = 'footnotes')
     {
         $isFootnote = ($notesTypes == 'footnotes');
         $elementNode = $isFootnote ? 'w:footnote' : 'w:endnote';

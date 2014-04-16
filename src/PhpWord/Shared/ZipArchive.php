@@ -22,7 +22,7 @@ require_once 'PCLZip/pclzip.lib.php';
 /**
  * PCLZip wrapper
  *
- * @since   0.9.2
+ * @since   0.10.0
  */
 class ZipArchive
 {
@@ -217,8 +217,7 @@ class ZipArchive
     public function getNameIndex($index)
     {
         $list = $this->zip->listContent();
-        $listCount = count($list);
-        if ($index <= $listCount) {
+        if (isset($list[$index])) {
             return $list[$index]['filename'];
         } else {
             return false;

@@ -82,9 +82,6 @@ class TOC
 
         if (!is_null($styleTOC) && is_array($styleTOC)) {
             foreach ($styleTOC as $key => $value) {
-                if (substr($key, 0, 1) == '_') {
-                    $key = substr($key, 1);
-                }
                 self::$TOCStyle->setStyleValue($key, $value);
             }
         }
@@ -93,9 +90,6 @@ class TOC
             if (is_array($styleFont)) {
                 self::$fontStyle = new Font();
                 foreach ($styleFont as $key => $value) {
-                    if (substr($key, 0, 1) == '_') {
-                        $key = substr($key, 1);
-                    }
                     self::$fontStyle->setStyleValue($key, $value);
                 }
             } else {

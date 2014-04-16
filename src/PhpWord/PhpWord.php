@@ -9,9 +9,11 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Template;
 
 /**
  * PHPWord main class
@@ -213,6 +215,17 @@ class PhpWord
     }
 
     /**
+     * Adds a numbering style
+     *
+     * @param string $styleName
+     * @param mixed $styles
+     */
+    public function addNumberingStyle($styleName, $styles)
+    {
+        Style::addNumberingStyle($styleName, $styles);
+    }
+
+    /**
      * Get all sections
      *
      * @return \PhpOffice\PhpWord\Element\Section[]
@@ -243,7 +256,7 @@ class PhpWord
      *
      * @param array $settings
      * @return \PhpOffice\PhpWord\Element\Section
-     * @deprecated 0.9.2
+     * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function createSection($settings = null)
