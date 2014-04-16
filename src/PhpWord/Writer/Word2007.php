@@ -181,6 +181,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add file to package
      *
+     * Get the actual source from an archive image
+     *
      * @param mixed $objZip
      * @param string $source
      * @param string $target

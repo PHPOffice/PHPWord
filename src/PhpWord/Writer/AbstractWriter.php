@@ -164,11 +164,7 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $tempDir = sys_get_temp_dir() . '/PHPWordMedia/';
-        if (!is_dir($tempDir)) {
-            mkdir($tempDir);
-        }
-        $this->tempDir = $tempDir;
+        $this->setTempDir();
 
         // Temporary file
         $this->originalFilename = $filename;
@@ -184,9 +180,7 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Cleanup temporary file
-     *
-     * If a temporary file was used, copy it to the correct file stream
+     * Get temporary directory
      */
     protected function getTempDir()
     {
@@ -194,13 +188,22 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
+     * Set temporary directory
+     */
+    protected function setTempDir()
+    {
+        $tempDir = sys_get_temp_dir() . '/PHPWordMedia/';
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir);
+        }
+        $this->tempDir = $tempDir;
+    }
+
+    /**
      * Cleanup temporary file
-     *
-     * If a temporary file was used, copy it to the correct file stream
      */
     protected function cleanupTempFile()
     {
-        // File
         if ($this->originalFilename != $this->tempFilename) {
             if (copy($this->tempFilename, $this->originalFilename) === false) {
                 throw new Exception("Could not copy temporary zip file {$this->tempFilename} to {$this->originalFilename}.");
@@ -208,7 +211,14 @@ abstract class AbstractWriter implements WriterInterface
             @unlink($this->tempFilename);
         }
 
-        // Directory
+        $this->clearTempDir();
+    }
+
+    /**
+     * Clear temporary directory
+     */
+    protected function clearTempDir()
+    {
         if (is_dir($this->tempDir)) {
             $this->deleteDir($this->tempDir);
         }

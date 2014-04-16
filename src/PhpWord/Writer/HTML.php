@@ -37,6 +37,13 @@ use PhpOffice\PhpWord\TOC;
 class HTML extends AbstractWriter implements WriterInterface
 {
     /**
+     * Is the current writer creating PDF?
+     *
+     * @var boolean
+     */
+    protected $isPdf = false;
+
+    /**
      * Create new instance
      */
     public function __construct(PhpWord $phpWord = null)
@@ -53,9 +60,11 @@ class HTML extends AbstractWriter implements WriterInterface
     public function save($filename = null)
     {
         if (!is_null($this->getPhpWord())) {
+            $this->setTempDir();
             $hFile = fopen($filename, 'w') or die("can't open file");
             fwrite($hFile, $this->writeDocument());
             fclose($hFile);
+            $this->clearTempDir();
         } else {
             throw new Exception("No PHPWord assigned.");
         }
@@ -421,7 +430,18 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeImage($element, $withoutP = false)
     {
-        return $this->writeUnsupportedElement($element, $withoutP);
+        $html = $this->writeUnsupportedElement($element, $withoutP);
+        if (!$this->isPdf) {
+            $imageData = $this->getBase64ImageData($element);
+            if (!is_null($imageData)) {
+                $html = '<img border="0" src="' . $imageData . '"/>';
+                if (!$withoutP) {
+                    $html = '<p>' . $html . '</p>' . PHP_EOL;
+                }
+            }
+        }
+
+        return $html;
     }
 
     /**
@@ -596,5 +616,43 @@ class HTML extends AbstractWriter implements WriterInterface
         }
 
         return $string;
+    }
+
+    /**
+     * Get Base64 image data
+     *
+     * @return string|null
+     */
+    private function getBase64ImageData(Image $element)
+    {
+        $imageData = null;
+        $source = $element->getSource();
+        $imageType = $element->getImageType();
+
+        // Get actual source
+        if ($element->getSourceType() == 'archive') {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+            $zip = new \ZipArchive();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $zip->extractTo($this->getTempDir(), $imageFilename);
+                    $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+
+        // Read image binary data and convert into Base64
+        if ($fp = fopen($actualSource, "rb", 0)) {
+            $image = fread($fp, filesize($actualSource));
+            fclose($fp);
+            $base64 = chunk_split(base64_encode($image));
+            $imageData = 'data:' . $imageType . ';base64,' . $base64;
+        }
+
+        return $imageData;
     }
 }

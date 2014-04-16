@@ -127,6 +127,16 @@ class Image extends AbstractElement
     }
 
     /**
+     * Get image source type
+     *
+     * @return string
+     */
+    public function getSourceType()
+    {
+        return $this->sourceType;
+    }
+
+    /**
      * Get image media ID
      *
      * @return string
@@ -324,6 +334,9 @@ class Image extends AbstractElement
 
     /**
      * Set proportional width/height if one dimension not available
+     *
+     * @param integer $actualWidth
+     * @param integer $actualHeight
      */
     private function setProportionalSize($actualWidth, $actualHeight)
     {

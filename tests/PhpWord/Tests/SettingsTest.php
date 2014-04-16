@@ -39,6 +39,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Settings::setZipClass('foo'));
     }
 
+    /**
+     * Test set/get PDF renderer
+     */
     public function testSetGetPdfRenderer()
     {
         $domPdfPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
