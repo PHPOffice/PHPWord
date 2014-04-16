@@ -10,8 +10,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\WriterInterface;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
  * Word2007 writer part abstract class
@@ -21,14 +21,14 @@ abstract class AbstractWriterPart
     /**
      * Parent writer
      *
-     * @var WriterInterface
+     * @var \PhpOffice\PhpWord\Writer\WriterInterface
      */
     protected $parentWriter;
 
     /**
      * Set parent writer
      *
-     * @param WriterInterface $pWriter
+     * @param \PhpOffice\PhpWord\Writer\WriterInterface $pWriter
      */
     public function setParentWriter(WriterInterface $pWriter = null)
     {
@@ -38,8 +38,8 @@ abstract class AbstractWriterPart
     /**
      * Get parent writer
      *
-     * @return WriterInterface
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getParentWriter()
     {
@@ -53,7 +53,7 @@ abstract class AbstractWriterPart
     /**
      * Get XML Writer
      *
-     * @return XMLWriter
+     * @return \PhpOffice\PhpWord\Shared\XMLWriter
      */
     protected function getXmlWriter()
     {

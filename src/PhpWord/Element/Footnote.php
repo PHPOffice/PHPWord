@@ -19,14 +19,14 @@ class Footnote extends AbstractElement
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     protected $paragraphStyle;
 
     /**
      * Create new instance
      *
-     * @param string|array|Paragraph $paragraphStyle
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -37,7 +37,7 @@ class Footnote extends AbstractElement
     /**
      * Get paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

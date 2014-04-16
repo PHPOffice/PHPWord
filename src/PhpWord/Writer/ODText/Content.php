@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
@@ -20,10 +19,11 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
 
 /**
@@ -34,7 +34,7 @@ class Content extends Base
     /**
      * Write content file to XML format
      *
-     * @param  PhpWord $phpWord
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string XML Output
      */
     public function writeContent(PhpWord $phpWord = null)
@@ -227,8 +227,8 @@ class Content extends Base
     /**
      * Write text
      *
-     * @param XMLWriter $xmlWriter
-     * @param Text $text
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Text $text
      * @param bool $withoutP
      */
     protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
@@ -277,8 +277,8 @@ class Content extends Base
     /**
      * Write TextRun section
      *
-     * @param XMLWriter $xmlWriter
-     * @param TextRun $textrun
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\TextRun $textrun
      * @todo Enable all other section types
      */
     protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
@@ -298,7 +298,7 @@ class Content extends Base
     /**
      * Write TextBreak
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      */
     protected function writeTextBreak(XMLWriter $xmlWriter)
     {
@@ -310,7 +310,7 @@ class Content extends Base
     /**
      * Write unsupported element
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $element
      */
     private function writeUnsupportedElement($xmlWriter, $element)

@@ -11,10 +11,10 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Word2007 styles part writer
@@ -24,7 +24,7 @@ class Styles extends Base
     /**
      * Write word/styles.xml
      *
-     * @param PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function writeStyles(PhpWord $phpWord = null)
     {
@@ -156,7 +156,7 @@ class Styles extends Base
     /**
      * Write default font and other default styles
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $styles
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, PhpWord $phpWord, $styles)

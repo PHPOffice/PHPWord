@@ -59,10 +59,10 @@ class ContentTypes extends AbstractWriterPart
     /**
      * Write content types element
      *
-     * @param XMLWriter $xmlWriter XML Writer
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param boolean $isDefault
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {

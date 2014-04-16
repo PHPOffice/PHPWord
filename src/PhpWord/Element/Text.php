@@ -27,14 +27,14 @@ class Text extends AbstractElement
     /**
      * Text style
      *
-     * @var string|Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -55,9 +55,9 @@ class Text extends AbstractElement
     /**
      * Set Text style
      *
-     * @param string|array|Font $style
-     * @param string|array|Paragraph $paragraphStyle
-     * @return string|Font
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -79,7 +79,7 @@ class Text extends AbstractElement
     /**
      * Get Text style
      *
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -89,8 +89,8 @@ class Text extends AbstractElement
     /**
      * Set Paragraph style
      *
-     * @param string|array|Paragraph $style
-     * @return string|Paragraph
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -110,7 +110,7 @@ class Text extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

@@ -20,14 +20,14 @@ class TextBreak extends AbstractElement
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle = null;
 
     /**
      * Text style
      *
-     * @var string|Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle = null;
 
@@ -52,7 +52,7 @@ class TextBreak extends AbstractElement
      *
      * @param mixed $style
      * @param mixed $paragraphStyle
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -72,7 +72,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Text style
      *
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -82,8 +82,8 @@ class TextBreak extends AbstractElement
     /**
      * Set Paragraph style
      *
-     * @param   string|array|Paragraph $style
-     * @return  string|Paragraph
+     * @param   string|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return  string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -101,7 +101,7 @@ class TextBreak extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

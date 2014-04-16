@@ -9,17 +9,17 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
-use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\DocProps;
 use PhpOffice\PhpWord\Writer\Word2007\Document;
 use PhpOffice\PhpWord\Writer\Word2007\Footer;
-use PhpOffice\PhpWord\Writer\Word2007\Notes;
 use PhpOffice\PhpWord\Writer\Word2007\Header;
+use PhpOffice\PhpWord\Writer\Word2007\Notes;
+use PhpOffice\PhpWord\Writer\Word2007\Rels;
 use PhpOffice\PhpWord\Writer\Word2007\Styles;
 
 /**
@@ -44,7 +44,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Create new Word2007 writer
      *
-     * @param PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {

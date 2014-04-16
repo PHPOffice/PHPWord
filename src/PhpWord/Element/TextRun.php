@@ -19,14 +19,14 @@ class TextRun extends AbstractElement
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
     /**
      * Create new instance
      *
-     * @param string|array|Paragraph $paragraphStyle
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
@@ -37,7 +37,7 @@ class TextRun extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

@@ -10,7 +10,6 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
@@ -57,7 +56,7 @@ class Template
      * Create a new Template Object
      *
      * @param string $strFilename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct($strFilename)
     {
@@ -97,7 +96,7 @@ class Template
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
@@ -166,7 +165,7 @@ class Template
      *
      * @param string $search
      * @param integer $numberOfClones
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneRow($search, $numberOfClones)
     {
@@ -273,7 +272,7 @@ class Template
      * Save XML to temporary file
      *
      * @return string
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save()
     {
@@ -381,7 +380,7 @@ class Template
      *
      * @param integer $offset
      * @return integer
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function findRowStart($offset)
     {

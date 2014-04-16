@@ -26,7 +26,7 @@ class Cell extends AbstractElement
     /**
      * Cell style
      *
-     * @var CellStyle
+     * @var \PhpOffice\PhpWord\Style\Cell
      */
     private $cellStyle;
 
@@ -36,7 +36,7 @@ class Cell extends AbstractElement
      * @param string $docPart section|header|footer
      * @param int $docPartId
      * @param int $width
-     * @param array|CellStyle $style
+     * @param array|\PhpOffice\PhpWord\Style\Cell $style
      */
     public function __construct($docPart, $docPartId, $width = null, $style = null)
     {
@@ -49,7 +49,7 @@ class Cell extends AbstractElement
     /**
      * Get cell style
      *
-     * @return CellStyle
+     * @return \PhpOffice\PhpWord\Style\Cell
      */
     public function getStyle()
     {

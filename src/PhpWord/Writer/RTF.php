@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
@@ -21,9 +19,11 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Drawing;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
 
 /**
@@ -54,7 +54,7 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Create new RTF writer
-     * @param PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -66,7 +66,7 @@ class RTF extends AbstractWriter implements WriterInterface
      * Save PhpWord to file
      *
      * @param string $pFilename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($pFilename = null)
     {
@@ -435,7 +435,7 @@ class RTF extends AbstractWriter implements WriterInterface
     /**
      * Get unsupported element content
      *
-     * @param   string  $element
+     * @param string $element
      */
     private function getDataContentUnsupportedElement($element)
     {

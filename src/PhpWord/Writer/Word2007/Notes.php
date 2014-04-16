@@ -9,8 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Element\Endnote;
+use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -81,8 +81,8 @@ class Notes extends Base
     /**
      * Write note item
      *
-     * @param XMLWriter $xmlWriter
-     * @param Footnote|Endnote $element
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Footnote|\PhpOffice\PhpWord\Element\Endnote $element
      * @param boolean $withoutP
      * @param string $notesTypes
      */

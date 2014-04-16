@@ -21,7 +21,7 @@ class Endnote extends Footnote
     /**
      * Create new instance
      *
-     * @param string|array|Paragraph $paragraphStyle
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {

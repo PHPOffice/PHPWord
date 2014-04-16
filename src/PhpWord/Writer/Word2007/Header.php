@@ -19,7 +19,7 @@ class Header extends Base
     /**
      * Write word/headerx.xml
      *
-     * @param HeaderElement $header
+     * @param \PhpOffice\PhpWord\Element\Header $header
      */
     public function writeHeader(HeaderElement $header)
     {

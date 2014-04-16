@@ -19,7 +19,7 @@ class Footer extends Base
     /**
      * Write word/footnotes.xml
      *
-     * @param FooterElement $footer
+     * @param \PhpOffice\PhpWord\Element\Footer $footer
      */
     public function writeFooter(FooterElement $footer)
     {

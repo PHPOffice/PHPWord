@@ -9,11 +9,9 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Template;
 
 /**
  * PHPWord main class
@@ -55,7 +53,7 @@ class PhpWord
     /**
      * Collection of sections
      *
-     * @var Section[]
+     * @var \PhpOffice\PhpWord\Element\Section[]
      */
     private $sections = array();
 
@@ -96,7 +94,7 @@ class PhpWord
      * Create new section
      *
      * @param array $settings
-     * @return Section
+     * @return \PhpOffice\PhpWord\Element\Section
      */
     public function addSection($settings = null)
     {
@@ -217,7 +215,7 @@ class PhpWord
     /**
      * Get all sections
      *
-     * @return Section[]
+     * @return \PhpOffice\PhpWord\Element\Section[]
      */
     public function getSections()
     {
@@ -229,7 +227,7 @@ class PhpWord
      *
      * @param  string $filename Fully qualified filename.
      * @return Template
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function loadTemplate($filename)
     {
@@ -244,7 +242,7 @@ class PhpWord
      * Create new section
      *
      * @param array $settings
-     * @return Section
+     * @return \PhpOffice\PhpWord\Element\Section
      * @deprecated 0.9.2
      * @codeCoverageIgnore
      */

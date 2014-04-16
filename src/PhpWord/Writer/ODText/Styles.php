@@ -10,10 +10,10 @@
 namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style;
 
 /**
  * ODText styloes part writer
@@ -23,7 +23,7 @@ class Styles extends Base
     /**
      * Write Styles file to XML format
      *
-     * @param  PhpWord $phpWord
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string XML Output
      */
     public function writeStyles(PhpWord $phpWord = null)

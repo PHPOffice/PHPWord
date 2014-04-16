@@ -9,9 +9,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Element\Footnote;
-
 /**
  * Footnote collection
  */
@@ -27,7 +24,7 @@ class Footnotes
     /**
      * Add new element
      *
-     * @param Footnote $element
+     * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @return integer Reference ID
      * @since 0.9.2
      */
@@ -43,7 +40,7 @@ class Footnotes
      * Set element
      *
      * @param integer $index
-     * @param Footnote $element
+     * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @since 0.9.2
      */
     public static function setElement($index, $element)
@@ -57,7 +54,7 @@ class Footnotes
      * Get element by index
      *
      * @param integer $index
-     * @return Footnote
+     * @return \PhpOffice\PhpWord\Element\Footnote
      * @since 0.9.2
      */
     public static function getElement($index)
@@ -104,7 +101,7 @@ class Footnotes
     /**
      * Add new footnote
      *
-     * @param Footnote $element
+     * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @return integer Reference ID
      * @deprecated 0.9.2
      * @codeCoverageIgnore

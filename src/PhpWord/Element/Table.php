@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Element\Row;
-use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
@@ -21,7 +19,7 @@ class Table extends AbstractElement
     /**
      * Table style
      *
-     * @var TableStyle
+     * @var \PhpOffice\PhpWord\Style\Table
      */
     private $style;
 
@@ -93,7 +91,7 @@ class Table extends AbstractElement
     /**
      * Get table style
      *
-     * @return TableStyle
+     * @return \PhpOffice\PhpWord\Style\Table
      */
     public function getStyle()
     {

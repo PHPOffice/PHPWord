@@ -26,7 +26,7 @@ class Row extends AbstractElement
     /**
      * Row style
      *
-     * @var RowStyle
+     * @var \PhpOffice\PhpWord\Style\Row
      */
     private $style;
 
@@ -78,7 +78,7 @@ class Row extends AbstractElement
     /**
      * Get row style
      *
-     * @return RowStyle
+     * @return \PhpOffice\PhpWord\Style\Row
      */
     public function getStyle()
     {

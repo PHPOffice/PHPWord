@@ -10,8 +10,6 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\WriterInterface;
-use PhpOffice\PhpWord\Reader\ReaderInterface;
 
 /**
  * IO factory
@@ -23,8 +21,8 @@ abstract class IOFactory
      *
      * @param PhpWord $phpWord
      * @param string $name
-     * @return WriterInterface
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
@@ -40,8 +38,8 @@ abstract class IOFactory
      * Create new reader
      *
      * @param string $name
-     * @return ReaderInterface
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\Reader\ReaderInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createReader($name = 'Word2007')
     {
