@@ -34,14 +34,14 @@ class CheckBox extends AbstractElement
     /**
      * Text style
      *
-     * @var string|Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -68,7 +68,7 @@ class CheckBox extends AbstractElement
      *
      * @param mixed $style
      * @param mixed $paragraphStyle
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function setFontStyle($style = null, $paragraphStyle = null)
     {
@@ -90,7 +90,7 @@ class CheckBox extends AbstractElement
     /**
      * Get Text style
      *
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -101,7 +101,7 @@ class CheckBox extends AbstractElement
      * Set Paragraph style
      *
      * @param mixed $style
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function setParagraphStyle($style = null)
     {
@@ -121,7 +121,7 @@ class CheckBox extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

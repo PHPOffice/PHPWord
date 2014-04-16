@@ -108,7 +108,7 @@ class Settings extends AbstractWriterPart
     /**
      * Write indivual setting, recursive to any child settings
      *
-     * @param XMLWriter $xmlWriter XML Writer
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $settingKey
      * @param array $settingValue
      */

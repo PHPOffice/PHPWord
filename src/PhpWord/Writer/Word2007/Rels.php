@@ -74,11 +74,10 @@ class Rels extends AbstractWriterPart
         return $xmlWriter->getData();
     }
 
-
     /**
      * Write relationships
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param null|array $xmlRels
      * @param null|array $mediaRels
      * @param integer $id
@@ -117,7 +116,7 @@ class Rels extends AbstractWriterPart
      * Format:
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $id Relationship ID
      * @param string $type Relationship type
      * @param string $target Relationship target

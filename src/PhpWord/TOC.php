@@ -27,14 +27,14 @@ class TOC
     /**
      * TOC style
      *
-     * @var TOCStyle
+     * @var \PhpOffice\PhpWord\Style\TOC
      */
     private static $TOCStyle;
 
     /**
      * Font style
      *
-     * @var Font|array|string
+     * @var \PhpOffice\PhpWord\Style\Font|array|string
      */
     private static $fontStyle;
 
@@ -156,7 +156,7 @@ class TOC
     /**
      * Get TOC Style
      *
-     * @return TOCStyle
+     * @return \PhpOffice\PhpWord\Style\TOC
      */
     public static function getStyleTOC()
     {
@@ -166,7 +166,7 @@ class TOC
     /**
      * Get Font Style
      *
-     * @return Font
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function getStyleFont()
     {

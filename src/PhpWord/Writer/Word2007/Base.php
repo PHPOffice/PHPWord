@@ -9,29 +9,29 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\CheckBox;
+use PhpOffice\PhpWord\Element\Endnote;
+use PhpOffice\PhpWord\Element\Footnote;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\Link;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Object;
+use PhpOffice\PhpWord\Element\PreserveText;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Element\AbstractElement;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Element\Endnote;
-use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Cell;
-use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
  * Word2007 base part writer
@@ -43,8 +43,8 @@ class Base extends AbstractWriterPart
     /**
      * Write text element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Text $text
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Text $text
      * @param boolean $withoutP
      */
     protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
@@ -73,8 +73,8 @@ class Base extends AbstractWriterPart
     /**
      * Write textrun  element
      *
-     * @param XMLWriter $xmlWriter
-     * @param TextRun $textrun
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\TextRun $textrun
      */
     protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
     {
@@ -88,8 +88,8 @@ class Base extends AbstractWriterPart
     /**
      * Write link element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Link $link
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Link $link
      * @param boolean $withoutP
      */
     protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
@@ -125,8 +125,8 @@ class Base extends AbstractWriterPart
     /**
      * Write title element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Title $title
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Title $title
      */
     protected function writeTitle(XMLWriter $xmlWriter, Title $title)
     {
@@ -173,8 +173,8 @@ class Base extends AbstractWriterPart
     /**
      * Write preserve text element
      *
-     * @param XMLWriter $xmlWriter
-     * @param PreserveText $textrun
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\PreserveText $textrun
      */
     protected function writePreserveText(XMLWriter $xmlWriter, PreserveText $textrun)
     {
@@ -237,8 +237,8 @@ class Base extends AbstractWriterPart
     /**
      * Write text break element
      *
-     * @param XMLWriter $xmlWriter
-     * @param TextBreak $element
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\TextBreak $element
      * @param boolean $withoutP
      */
     protected function writeTextBreak(XMLWriter $xmlWriter, TextBreak $element = null, $withoutP = false)
@@ -272,8 +272,8 @@ class Base extends AbstractWriterPart
     /**
      * Write list item element
      *
-     * @param XMLWriter $xmlWriter
-     * @param ListItem $listItem
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\ListItem $listItem
      */
     protected function writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
     {
@@ -301,8 +301,8 @@ class Base extends AbstractWriterPart
     /**
      * Write footnote reference element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Table $table
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Table $table
      */
     protected function writeTable(XMLWriter $xmlWriter, Table $table)
     {
@@ -412,8 +412,8 @@ class Base extends AbstractWriterPart
     /**
      * Write image element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Image $image
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Image $image
      * @param boolean $withoutP
      */
     protected function writeImage(XMLWriter $xmlWriter, Image $image, $withoutP = false)
@@ -497,8 +497,8 @@ class Base extends AbstractWriterPart
     /**
      * Write watermark element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Image $image
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Image $image
      */
     protected function writeWatermark(XMLWriter $xmlWriter, Image $image)
     {
@@ -547,8 +547,8 @@ class Base extends AbstractWriterPart
     /**
      * Write object element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Object $object
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Object $object
      * @param boolean $withoutP
      */
     protected function writeObject(XMLWriter $xmlWriter, Object $object, $withoutP = false)
@@ -602,8 +602,8 @@ class Base extends AbstractWriterPart
     /**
      * Write footnote element which links to the actual content in footnotes.xml
      *
-     * @param XMLWriter $xmlWriter
-     * @param Footnote $footnote
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Footnote $footnote
      * @param boolean $withoutP
      */
     protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
@@ -629,8 +629,8 @@ class Base extends AbstractWriterPart
     /**
      * Write endnote element which links to the actual content in endnotes.xml
      *
-     * @param XMLWriter $xmlWriter
-     * @param Endnote $endnote
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Endnote $endnote
      * @param boolean $withoutP
      */
     protected function writeEndnote(XMLWriter $xmlWriter, Endnote $endnote, $withoutP = false)
@@ -727,8 +727,8 @@ class Base extends AbstractWriterPart
     /**
      * Write paragraph style
      *
-     * @param XMLWriter $xmlWriter
-     * @param Paragraph $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @param bool $withoutPPR
      */
     protected function writeParagraphStyle(XMLWriter $xmlWriter, Paragraph $style, $withoutPPR = false)
@@ -827,8 +827,8 @@ class Base extends AbstractWriterPart
     /**
      * Write font style
      *
-     * @param XMLWriter $xmlWriter
-     * @param Font $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Font $style
      */
     protected function writeFontStyle(XMLWriter $xmlWriter, Font $style)
     {
@@ -931,8 +931,8 @@ class Base extends AbstractWriterPart
     /**
      * Write table style
      *
-     * @param XMLWriter $xmlWriter
-     * @param TableStyle $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
      * @param boolean $isFullStyle
      */
     protected function writeTableStyle(XMLWriter $xmlWriter, TableStyle $style, $isFullStyle = true)
@@ -994,9 +994,9 @@ class Base extends AbstractWriterPart
     /**
      * Write row style
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
-     * @param TableStyle $style
+     * @param \PhpOffice\PhpWord\Style\Table $style
      */
     protected function writeRowStyle(XMLWriter $xmlWriter, $type, TableStyle $style)
     {
@@ -1036,8 +1036,8 @@ class Base extends AbstractWriterPart
     /**
      * Write footnote reference element
      *
-     * @param XMLWriter $xmlWriter
-     * @param Cell $style
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Cell $style
      */
     protected function writeCellStyle(XMLWriter $xmlWriter, Cell $style)
     {
@@ -1103,8 +1103,8 @@ class Base extends AbstractWriterPart
     /**
      * Write inline paragraph style
      *
-     * @param XMLWriter $xmlWriter
-     * @param Paragraph|string $styleParagraph
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Paragraph|string $styleParagraph
      * @param boolean $withoutPPR
      */
     protected function writeInlineParagraphStyle(XMLWriter $xmlWriter, $styleParagraph = null, $withoutPPR = false)
@@ -1129,8 +1129,8 @@ class Base extends AbstractWriterPart
     /**
      * Write inline font style
      *
-     * @param XMLWriter $xmlWriter
-     * @param Font|string $styleFont
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Font|string $styleFont
      */
     protected function writeInlineFontStyle(XMLWriter $xmlWriter, $styleFont = null)
     {
@@ -1150,8 +1150,8 @@ class Base extends AbstractWriterPart
     /**
      * Write container elements
      *
-     * @param XMLWriter $xmlWriter
-     * @param AbstractElement $container
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
     protected function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
     {
@@ -1210,7 +1210,7 @@ class Base extends AbstractWriterPart
     /**
      * Write margin or border
      *
-     * @param XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $sizes
      * @param array $colors
      * @param array $attributes

@@ -9,8 +9,8 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Media collection
@@ -30,8 +30,10 @@ class Media
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @param string $source
-     * @param Image $image
+     * @param \PhpOffice\PhpWord\Element\Image $image
      * @return integer
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @since 0.9.2
      * @since 0.10.0
      */
     public static function addElement($container, $mediaType, $source, Image $image = null)
@@ -168,7 +170,7 @@ class Media
      *
      * @param  string $src
      * @param  string $type
-     * @param  Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
      * @deprecated 0.10.0
      * @codeCoverageIgnore
@@ -222,7 +224,7 @@ class Media
      *
      * @param  integer $headerCount
      * @param  string $src
-     * @param  Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
      * @deprecated 0.10.0
      * @codeCoverageIgnore
@@ -262,7 +264,7 @@ class Media
      *
      * @param  integer $footerCount
      * @param  string $src
-     * @param  Image $image
+     * @param  \PhpOffice\PhpWord\Element\Image $image
      * @return integer
      * @deprecated 0.10.0
      * @codeCoverageIgnore

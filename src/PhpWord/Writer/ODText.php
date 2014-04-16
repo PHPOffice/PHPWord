@@ -25,7 +25,7 @@ class ODText extends AbstractWriter implements WriterInterface
     /**
      * Create new ODText writer
      *
-     * @param PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
     {
@@ -47,7 +47,7 @@ class ODText extends AbstractWriter implements WriterInterface
      * Save PhpWord to file
      *
      * @param  string $filename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      * @todo Not in \ZipArchive::CM_STORE mode
      */
     public function save($filename = null)

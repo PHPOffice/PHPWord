@@ -23,7 +23,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * PHPWord object
      *
-     * @var PhpWord
+     * @var \PhpOffice\PhpWord\PhpWord
      */
     protected $phpWord = null;
 
@@ -72,8 +72,8 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get PhpWord object
      *
-     * @return PhpWord
-     * @throws Exception
+     * @return \PhpOffice\PhpWord\PhpWord
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getPhpWord()
     {
@@ -87,7 +87,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Set PhpWord object
      *
-     * @param PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord
      * @return self
      */
     public function setPhpWord(PhpWord $phpWord = null)

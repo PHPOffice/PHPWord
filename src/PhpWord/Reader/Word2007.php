@@ -11,6 +11,8 @@ namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Footnote;
+use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Element\Section;
@@ -27,7 +29,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
     /**
      * PhpWord object
      *
-     * @var PhpWord
+     * @var \PhpOffice\PhpWord\PhpWord
      */
     private $phpWord;
 
@@ -49,7 +51,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * Loads PhpWord from file
      *
      * @param string $filename
-     * @return PhpWord
+     * @return \PhpOffice\PhpWord\PhpWord
      */
     public function load($filename)
     {
@@ -396,7 +398,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * Read header footer
      *
      * @param array $settings
-     * @param Section $section
+     * @param \PhpOffice\PhpWord\Element\Section $section
      */
     private function readHeaderFooter($settings, &$section)
     {
@@ -853,6 +855,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
         return $style;
     }
+
     /**
      * Read w:tblPr
      *

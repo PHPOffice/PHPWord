@@ -88,7 +88,7 @@ class XMLWriter
      */
     public function __destruct()
     {
-        // Desctruct XMLWriter
+        // Destruct XMLWriter
         unset($this->xmlWriter);
 
         // Unlink temporary files

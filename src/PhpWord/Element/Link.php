@@ -34,14 +34,14 @@ class Link extends AbstractElement
     /**
      * Font style
      *
-     * @var string|Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -87,7 +87,7 @@ class Link extends AbstractElement
     /**
      * Get Text style
      *
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -97,7 +97,7 @@ class Link extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {

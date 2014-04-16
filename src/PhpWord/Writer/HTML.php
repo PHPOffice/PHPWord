@@ -220,7 +220,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Get text
      *
-     * @param Text $text
+     * @param \PhpOffice\PhpWord\Element\Text $text
      * @param boolean $withoutP
      * @return string
      */
@@ -264,7 +264,8 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write text run content
      *
-     * @param TextRun|Footnote|Endnote $textrun
+     * @param mixed $textrun
+     * @param boolean $withoutP
      * @return string
      */
     private function writeTextRun($textrun, $withoutP = false)
@@ -309,7 +310,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write link
      *
-     * @param Link $element
+     * @param \PhpOffice\PhpWord\Element\Link $element
      * @param boolean $withoutP
      * @return string
      */
@@ -335,7 +336,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write heading
      *
-     * @param Title $element
+     * @param \PhpOffice\PhpWord\Element\Title $element
      * @return string
      */
     private function writeTitle($element)
@@ -350,7 +351,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write preserve text
      *
-     * @param PreserveText $element
+     * @param \PhpOffice\PhpWord\Element\PreserveText $element
      * @param boolean $withoutP
      * @return string
      */
@@ -362,7 +363,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Get text break
      *
-     * @param TextBreak $element
+     * @param \PhpOffice\PhpWord\Element\TextBreak $element
      * @param boolean $withoutP
      * @return string
      */
@@ -380,7 +381,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write page break
      *
-     * @param PageBreak $element
+     * @param \PhpOffice\PhpWord\Element\PageBreak $element
      * @return string
      */
     private function writePageBreak($element)
@@ -391,7 +392,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write list item
      *
-     * @param ListItem $element
+     * @param \PhpOffice\PhpWord\Element\ListItem $element
      * @return string
      */
     private function writeListItem($element)
@@ -405,7 +406,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write table
      *
-     * @param Table $element
+     * @param \PhpOffice\PhpWord\Element\Table $element
      * @return string
      */
     private function writeTable($element)
@@ -464,7 +465,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write image
      *
-     * @param Image $element
+     * @param \PhpOffice\PhpWord\Element\Image $element
      * @param boolean $withoutP
      * @return string
      */
@@ -491,7 +492,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write object
      *
-     * @param Object $element
+     * @param \PhpOffice\PhpWord\Element\Object $element
      * @param boolean $withoutP
      * @return string
      */
@@ -503,7 +504,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write footnote
      *
-     * @param Footnote $element
+     * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @return string
      */
     private function writeFootnote($element)
@@ -514,7 +515,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write endnote
      *
-     * @param Endnote $element
+     * @param \PhpOffice\PhpWord\Element\Endnote $element
      * @return string
      */
     private function writeEndnote($element)
@@ -525,7 +526,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write footnote/endnote marks
      *
-     * @param Footnote|Endnote $element
+     * @param mixed $element
      * @return string
      */
     private function writeNote($element)
@@ -616,7 +617,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Get font style
      *
-     * @param Font $style
+     * @param \PhpOffice\PhpWord\Style\Font $style
      * @param boolean $curlyBracket
      * @return string
      */
@@ -658,7 +659,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Get paragraph style
      *
-     * @param Paragraph $style
+     * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @param boolean $curlyBracket
      * @return string
      */

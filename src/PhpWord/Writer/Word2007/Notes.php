@@ -80,9 +80,9 @@ class Notes extends Base
     /**
      * Write note item
      *
-     * @param XMLWriter $xmlWriter
-     * @param Footnote|Endnote $element
-     * @param string $notesTypes
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Footnote|\PhpOffice\PhpWord\Element\Endnote $element
+          * @param string $notesTypes
      */
     protected function writeNote(XMLWriter $xmlWriter, $element, $notesTypes = 'footnotes')
     {

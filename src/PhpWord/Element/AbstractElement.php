@@ -9,27 +9,15 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Element\Element;
+use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
+use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
+use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Footnotes;
-use PhpOffice\PhpWord\Endnotes;
-use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Element\Element;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
-use PhpOffice\PhpWord\Element\Endnote;
-use PhpOffice\PhpWord\Element\CheckBox;
 
 /**
  * Container abstract class
@@ -297,11 +285,12 @@ abstract class AbstractElement
     /**
      * Add OLE-object element
      *
-     * All exceptions should be handled by PhpOffice\PhpWord\Element\Object
+     * All exceptions should be handled by \PhpOffice\PhpWord\Element\Object
      *
      * @param string $src
      * @param mixed $style
      * @return Object
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      * @todo Enable OLE object element in header and footer
      */
     public function addObject($src, $style = null)

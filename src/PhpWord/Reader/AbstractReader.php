@@ -60,7 +60,7 @@ abstract class AbstractReader implements ReaderInterface
      *
      * @param string $pFilename
      * @return resource
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function openFile($pFilename)
     {

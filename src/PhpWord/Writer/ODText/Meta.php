@@ -19,7 +19,7 @@ class Meta extends AbstractWriterPart
     /**
      * Write Meta file to XML format
      *
-     * @param  PhpWord $phpWord
+     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string XML Output
      */
     public function writeMeta(PhpWord $phpWord = null)

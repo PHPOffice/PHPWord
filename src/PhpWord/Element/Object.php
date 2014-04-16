@@ -26,7 +26,7 @@ class Object extends AbstractElement
     /**
      * Image Style
      *
-     * @var ImageStyle
+     * @var \PhpOffice\PhpWord\Style\Image
      */
     private $style;
 
@@ -60,7 +60,7 @@ class Object extends AbstractElement
     /**
      * Get Image style
      *
-     * @return ImageStyle
+     * @return \PhpOffice\PhpWord\Style\Image
      */
     public function getStyle()
     {

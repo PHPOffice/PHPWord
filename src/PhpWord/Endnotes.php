@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Element\Endnote;
-
 /**
  * Endnote collection
  *
@@ -28,7 +26,7 @@ class Endnotes
     /**
      * Add new element
      *
-     * @param Endnote $element
+     * @param \PhpOffice\PhpWord\Element\Endnote $element
      * @return integer Reference ID
      */
     public static function addElement($element)
@@ -43,7 +41,7 @@ class Endnotes
      * Set element
      *
      * @param integer $index
-     * @param Endnote $element
+     * @param \PhpOffice\PhpWord\Element\Endnote $element
      */
     public static function setElement($index, $element)
     {
@@ -56,7 +54,7 @@ class Endnotes
      * Get element by index
      *
      * @param integer $index
-     * @return Endnote
+     * @return \PhpOffice\PhpWord\Element\Endnote
      */
     public static function getElement($index)
     {

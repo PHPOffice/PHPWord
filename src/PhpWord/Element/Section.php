@@ -21,7 +21,7 @@ class Section extends AbstractElement
     /**
      * Section settings
      *
-     * @var SectionSettings
+     * @var \PhpOffice\PhpWord\Style\Section
      */
     private $settings;
 
@@ -74,7 +74,7 @@ class Section extends AbstractElement
     /**
      * Get Section Settings
      *
-     * @return SectionSettings
+     * @return \PhpOffice\PhpWord\Style\Section
      */
     public function getSettings()
     {
@@ -96,7 +96,7 @@ class Section extends AbstractElement
      * @param mixed $styleTOC
      * @param integer $minDepth
      * @param integer $maxDepth
-     * @return TOC
+     * @return \PhpOffice\PhpWord\TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {
@@ -173,7 +173,7 @@ class Section extends AbstractElement
      * @param string $type
      * @param boolean $header
      * @return Header|Footer
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      * @since 0.10.0
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)

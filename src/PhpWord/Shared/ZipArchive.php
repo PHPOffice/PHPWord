@@ -26,7 +26,6 @@ require_once 'PCLZip/pclzip.lib.php';
  */
 class ZipArchive
 {
-
     /** constants */
     const OVERWRITE = 'OVERWRITE';
     const CREATE    = 'CREATE';
