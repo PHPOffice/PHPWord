@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;

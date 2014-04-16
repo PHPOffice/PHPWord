@@ -9,6 +9,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\ODText;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -28,8 +29,19 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * covers ::writeContent
-     * covers <private>
+     * Test construct with no PhpWord
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage No PhpWord assigned.
+     */
+    public function testConstructNoPhpWord()
+    {
+        $object = new Content();
+        $object->writeContent();
+    }
+
+    /**
+     * Test write content
      */
     public function testWriteContent()
     {
@@ -38,27 +50,59 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $expected = 'Expected';
 
         $phpWord = new PhpWord();
+
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+
         $section = $phpWord->addSection();
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
-        $section->addTextBreak();
         $section->addLink('http://test.com', 'Test link');
         $section->addTitle('Test title', 1);
+        $section->addTextBreak();
         $section->addPageBreak();
-        $section->addTable();
         $section->addListItem('Test list item');
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
+
         $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
+
+        $table = $section->addTable();
+        $cell = $table->addRow()->addCell();
+        $cell = $table->addRow()->addCell();
+        $cell->addText('Test');
+        $cell->addLink('http://test.com', 'Test link');
+        $cell->addTextBreak();
+        $cell->addListItem('Test list item');
+        $cell->addImage($imageSrc);
+        $cell->addObject($objectSrc);
+        $textrun = $cell->addTextRun();
+        $textrun->addText('Test text run');
+
+        $footer = $section->addFooter();
+        $footer->addPreserveText('{PAGE}');
+
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
         $element = "/office:document-content/office:body/office:text/text:p";
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
+    }
+
+    /**
+     * Test no paragraph style
+     */
+    public function testWriteNoStyle()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addFontStyle('Font', array('size' => 11));
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $element = "/office:document-content/office:automatic-styles/style:style";
+        $this->assertTrue($doc->elementExists($element, 'content.xml'));
     }
 }
