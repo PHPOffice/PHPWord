@@ -34,11 +34,12 @@ This release marked heavy refactorings on internal code structure with the creat
 - Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
 - HTML Writer: Basic HTML writer: text, textrun, link, title, textbreak, table, image (as Base64), footnote, endnote - @ivanlanin GH-203 GH-67 GH-147
 - PDF Writer: Basic PDF writer using DomPDF: All HTML element except image - @ivanlanin GH-68
+- DOCX Writer: Change `docProps/app.xml` `Application` to `PHPWord` - @ivanlanin
 
 ### Bugfixes
 
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
-- Documentation : Error in a fonction - @theBeerNut GH-195
+- Documentation: Error in a function - @theBeerNut GH-195
 
 ### Deprecated
 

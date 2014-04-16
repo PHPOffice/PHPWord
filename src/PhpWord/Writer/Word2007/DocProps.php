@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
- * Word2007 contenttypes part writer
+ * Word2007 document properties part writer
  */
 class DocProps extends AbstractWriterPart
 {
@@ -24,88 +24,19 @@ class DocProps extends AbstractWriterPart
         if (is_null($phpWord)) {
             throw new Exception("No PhpWord assigned.");
         }
-
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
-        // Properties
         $xmlWriter->startElement('Properties');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties');
         $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
 
-        // Application
-        $xmlWriter->writeElement('Application', 'Microsoft Office Word');
-
-        // ScaleCrop
-        $xmlWriter->writeElement('ScaleCrop', 'false');
-
-        // HeadingPairs
-        $xmlWriter->startElement('HeadingPairs');
-
-        // Vector
-        $xmlWriter->startElement('vt:vector');
-        $xmlWriter->writeAttribute('size', '4');
-        $xmlWriter->writeAttribute('baseType', 'variant');
-
-        // Variant
-        $xmlWriter->startElement('vt:variant');
-        $xmlWriter->writeElement('vt:lpstr', 'Theme');
-        $xmlWriter->endElement();
-
-        // Variant
-        $xmlWriter->startElement('vt:variant');
-        $xmlWriter->writeElement('vt:i4', '1');
-        $xmlWriter->endElement();
-
-        // Variant
-        $xmlWriter->startElement('vt:variant');
-        $xmlWriter->writeElement('vt:lpstr', 'Slide Titles');
-        $xmlWriter->endElement();
-
-        // Variant
-        $xmlWriter->startElement('vt:variant');
-        $xmlWriter->writeElement('vt:i4', '1');
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        // TitlesOfParts
-        $xmlWriter->startElement('TitlesOfParts');
-
-        // Vector
-        $xmlWriter->startElement('vt:vector');
-        $xmlWriter->writeAttribute('size', '1');
-        $xmlWriter->writeAttribute('baseType', 'lpstr');
-
-        $xmlWriter->writeElement('vt:lpstr', 'Office Theme');
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        // Company
+        $xmlWriter->writeElement('Application', 'PHPWord');
         $xmlWriter->writeElement('Company', $phpWord->getDocumentProperties()->getCompany());
+        $xmlWriter->writeElement('Manager', $phpWord->getDocumentProperties()->getManager());
 
-        // LinksUpToDate
-        $xmlWriter->writeElement('LinksUpToDate', 'false');
+        $xmlWriter->endElement(); // Properties
 
-        // SharedDoc
-        $xmlWriter->writeElement('SharedDoc', 'false');
-
-        // HyperlinksChanged
-        $xmlWriter->writeElement('HyperlinksChanged', 'false');
-
-        // AppVersion
-        $xmlWriter->writeElement('AppVersion', '12.0000');
-
-        $xmlWriter->endElement();
-
-        // Return
         return $xmlWriter->getData();
     }
 
@@ -117,13 +48,12 @@ class DocProps extends AbstractWriterPart
      */
     public function writeDocPropsCore(PhpWord $phpWord)
     {
-        // Create XML writer
+        if (is_null($phpWord)) {
+            throw new Exception("No PhpWord assigned.");
+        }
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-
-        // cp:coreProperties
         $xmlWriter->startElement('cp:coreProperties');
         $xmlWriter->writeAttribute('xmlns:cp', 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties');
         $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
@@ -131,10 +61,12 @@ class DocProps extends AbstractWriterPart
         $xmlWriter->writeAttribute('xmlns:dcmitype', 'http://purl.org/dc/dcmitype/');
         $xmlWriter->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
 
-        // dc:creator
         $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()->getCreator());
-
-        // cp:lastModifiedBy
+        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
+        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
+        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
+        $xmlWriter->writeElement('cp:keywords', $phpWord->getDocumentProperties()->getKeywords());
+        $xmlWriter->writeElement('cp:category', $phpWord->getDocumentProperties()->getCategory());
         $xmlWriter->writeElement('cp:lastModifiedBy', $phpWord->getDocumentProperties()->getLastModifiedBy());
 
         // dcterms:created
@@ -149,24 +81,8 @@ class DocProps extends AbstractWriterPart
         $xmlWriter->writeRaw(date(DATE_W3C, $phpWord->getDocumentProperties()->getModified()));
         $xmlWriter->endElement();
 
-        // dc:title
-        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
+        $xmlWriter->endElement(); // cp:coreProperties
 
-        // dc:description
-        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
-
-        // dc:subject
-        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
-
-        // cp:keywords
-        $xmlWriter->writeElement('cp:keywords', $phpWord->getDocumentProperties()->getKeywords());
-
-        // cp:category
-        $xmlWriter->writeElement('cp:category', $phpWord->getDocumentProperties()->getCategory());
-
-        $xmlWriter->endElement();
-
-        // Return
         return $xmlWriter->getData();
     }
 }
