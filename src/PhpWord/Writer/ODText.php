@@ -50,7 +50,6 @@ class ODText extends AbstractWriter implements WriterInterface
      *
      * @param  string $filename
      * @throws \PhpOffice\PhpWord\Exception\Exception
-     * @todo Not in \ZipArchive::CM_STORE mode
      */
     public function save($filename = null)
     {

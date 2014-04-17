@@ -109,7 +109,7 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     /**
      * Set Paper Size
      *
-     * @param string $pValue Paper size = PAPERSIZE_A4
+     * @param int $pValue Paper size = PAPERSIZE_A4
      * @return self
      */
     public function setPaperSize($pValue = 9)

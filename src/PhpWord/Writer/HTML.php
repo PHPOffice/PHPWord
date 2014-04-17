@@ -714,7 +714,9 @@ class HTML extends AbstractWriter implements WriterInterface
         if ($element->getSourceType() == Image::SOURCE_ARCHIVE) {
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
-            $zip = new \ZipArchive();
+
+            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
+            $zip = new $zipClass();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
                     $zip->extractTo($this->getTempDir(), $imageFilename);

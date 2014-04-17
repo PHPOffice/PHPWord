@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
-
 /**
  * Word2007 web settings part writer
  */

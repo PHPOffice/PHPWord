@@ -12,7 +12,6 @@ namespace PhpOffice\PhpWord\Reader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Footnote;
-use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Element\Section;

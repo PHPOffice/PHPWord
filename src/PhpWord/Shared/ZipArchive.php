@@ -11,9 +11,9 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
 
+// PCLZIP needs the temp path to end in a back slash
 // @codeCoverageIgnoreStart
 if (!defined('PCLZIP_TEMPORARY_DIR')) {
-    // PCLZIP needs the temp path to end in a back slash
     define('PCLZIP_TEMPORARY_DIR', sys_get_temp_dir() . '/');
 }
 require_once 'PCLZip/pclzip.lib.php';
@@ -67,7 +67,7 @@ class ZipArchive
     }
 
     /**
-     * Close this zip archive
+     * Close this zip archive (emulate \ZipArchive)
      *
      * @codeCoverageIgnore
      */
@@ -76,7 +76,7 @@ class ZipArchive
     }
 
     /**
-     * Add a new file to the zip archive.
+     * Add a new file to the zip archive (emulate \ZipArchive)
      *
      * @param string $filename  Directory/Name of the file to add to the zip archive
      * @param string $localname Directory/Name of the file added to the zip
@@ -104,15 +104,11 @@ class ZipArchive
             $localnameParts["dirname"]
         );
 
-        if ($res == 0) {
-            throw new Exception("Error zipping files : " . $this->zip->errorInfo(true));
-        }
-
-        return true;
+        return ($res == 0) ? false : true;
     }
 
     /**
-     * Add a new file to the zip archive from a string of raw data.
+     * Add a new file to the zip archive from a string of raw data (emulate \ZipArchive)
      *
      * @param string $localname Directory/Name of the file to add to the zip archive
      * @param string $contents  String of data to add to the zip archive
@@ -134,21 +130,18 @@ class ZipArchive
             PCLZIP_OPT_ADD_PATH,
             $filenameParts["dirname"]
         );
-        if ($res == 0) {
-            throw new Exception("Error zipping files : " . $this->zip->errorInfo(true));
-        }
 
         // Remove temp file
-        unlink($this->tempDir . '/' . $filenameParts["basename"]);
+        @unlink($this->tempDir . '/' . $filenameParts["basename"]);
 
-        return true;
+        return ($res == 0) ? false : true;
     }
 
     /**
-     * Find if given file name exist in archive (Emulate ZipArchive locateName())
+     * Returns the index of the entry in the archive (emulate \ZipArchive)
      *
-     * @param  string  $filename Filename for the file in zip archive
-     * @return boolean
+     * @param string $filename Filename for the file in zip archive
+     * @return integer|false
      */
     public function locateName($filename)
     {
@@ -163,42 +156,25 @@ class ZipArchive
             }
         }
 
-        return ($listIndex > -1);
+        return ($listIndex > -1) ? $listIndex : false;
     }
 
     /**
-     * Extract file from archive by given file name (Emulate ZipArchive getFromName())
+     * Extract file from archive by given file name (emulate \ZipArchive)
      *
      * @param  string $filename Filename for the file in zip archive
-     * @return string $contents File string contents
+     * @return string|false $contents File string contents
      */
     public function getFromName($filename)
     {
-        $list = $this->zip->listContent();
-        $listCount = count($list);
-        $listIndex = -1;
-        $contents = null;
+        $listIndex = $this->locateName($filename);
+        $contents = false;
 
-        for ($i = 0; $i < $listCount; ++$i) {
-            if (strtolower($list[$i]["filename"]) == strtolower($filename) ||
-                strtolower($list[$i]["stored_filename"]) == strtolower($filename)) {
-                $listIndex = $i;
-                break;
-            }
-        }
-
-        if ($listIndex != -1) {
+        if ($listIndex !== false) {
             $extracted = $this->zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         } else {
             $filename = substr($filename, 1);
-            $listIndex = -1;
-            for ($i = 0; $i < $listCount; ++$i) {
-                if (strtolower($list[$i]["filename"]) == strtolower($filename) ||
-                    strtolower($list[$i]["stored_filename"]) == strtolower($filename)) {
-                    $listIndex = $i;
-                    break;
-                }
-            }
+            $listIndex = $this->locateName($filename);
             $extracted = $this->zip->extractByIndex($listIndex, PCLZIP_OPT_EXTRACT_AS_STRING);
         }
         if ((is_array($extracted)) && ($extracted != 0)) {
@@ -209,10 +185,11 @@ class ZipArchive
     }
 
     /**
-     * Returns the name of an entry using its index
+     * Returns the name of an entry using its index (emulate \ZipArchive)
      *
      * @param integer $index
      * @return string|false
+     * @since 0.10.0
      */
     public function getNameIndex($index)
     {
@@ -222,5 +199,40 @@ class ZipArchive
         } else {
             return false;
         }
+    }
+
+    /**
+     * Extract the archive contents (emulate \ZipArchive)
+     *
+     * @param string $destination
+     * @param string|array $entries
+     * @return boolean
+     * @since 0.10.0
+     */
+    public function extractTo($destination, $entries = null)
+    {
+        if (!is_dir($destination)) {
+            return false;
+        }
+
+        // Extract all files
+        if (is_null($entries)) {
+            $result = $this->zip->extract(PCLZIP_OPT_PATH, $destination);
+            return ($result > 0) ? true : false;
+        }
+
+        // Extract by entries
+        if (!is_array($entries)) {
+            $entries = array($entries);
+        }
+        foreach ($entries as $entry) {
+            $entryIndex = $this->locateName($entry);
+            $result = $this->zip->extractByIndex($entryIndex, PCLZIP_OPT_PATH, $destination);
+            if ($result <= 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

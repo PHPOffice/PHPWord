@@ -60,8 +60,7 @@ echo date('H:i:s'), " Write to Word2007 format", EOL;
 $document->saveAs($name);
 rename($name, "results/{$name}");
 
-$writers = array('Word2007' => 'docx');
-echo getEndingNotes($writers);
+echo getEndingNotes(array('Word2007' => 'docx'));
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }
