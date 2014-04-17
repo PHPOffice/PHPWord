@@ -20,7 +20,7 @@ use PhpOffice\PhpWord\Element\Section;
 /**
  * Reader for Word2007
  *
- * @since 0.10.0
+ * @since 0.8.0
  * @todo title, list, watermark, checkbox, toc
  * @todo Partly done: image, object
  */

@@ -11,6 +11,8 @@ namespace PhpOffice\PhpWord\Style;
 
 /**
  * Table row style
+ *
+ * @since 0.8.0
  */
 class Row extends AbstractStyle
 {

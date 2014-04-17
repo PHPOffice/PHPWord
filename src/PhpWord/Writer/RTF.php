@@ -28,6 +28,8 @@ use PhpOffice\PhpWord\TOC;
 
 /**
  * RTF writer
+ *
+ * @since 0.7.0
  */
 class RTF extends AbstractWriter implements WriterInterface
 {

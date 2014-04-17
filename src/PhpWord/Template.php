@@ -298,6 +298,7 @@ class Template
      * Save XML to defined name
      *
      * @param string $strFilename
+     * @since 0.8.0
      */
     public function saveAs($strFilename)
     {

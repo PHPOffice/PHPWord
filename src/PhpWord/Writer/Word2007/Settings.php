@@ -110,7 +110,7 @@ class Settings extends AbstractWriterPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $settingKey
-     * @param array $settingValue
+     * @param array|string $settingValue
      */
     protected function writeSetting($xmlWriter, $settingKey, $settingValue)
     {

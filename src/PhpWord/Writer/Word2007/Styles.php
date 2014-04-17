@@ -10,11 +10,12 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Word2007 styles part writer

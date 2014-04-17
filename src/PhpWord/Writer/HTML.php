@@ -9,6 +9,10 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Endnotes;
+use PhpOffice\PhpWord\Footnotes;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Element\Image;
@@ -22,11 +26,7 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Footnotes;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -703,12 +703,14 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function getBase64ImageData(Image $element)
     {
-        $imageData = null;
-        $imageBinary = null;
         $source = $element->getSource();
         $imageType = $element->getImageType();
+        $imageData = null;
+        $imageBinary = null;
+        $actualSource = null;
 
-        // Get actual source from archive image
+        // Get actual source from archive image or other source
+        // Return null if not found
         if ($element->getSourceType() == Image::SOURCE_ARCHIVE) {
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
@@ -722,6 +724,9 @@ class HTML extends AbstractWriter implements WriterInterface
             $zip->close();
         } else {
             $actualSource = $source;
+        }
+        if (is_null($actualSource)) {
+            return null;
         }
 
         // Read image binary data and convert into Base64

@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Word2007 document properties part writer
@@ -46,7 +47,7 @@ class DocProps extends AbstractWriterPart
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function writeDocPropsCore(PhpWord $phpWord)
+    public function writeDocPropsCore(PhpWord $phpWord = null)
     {
         if (is_null($phpWord)) {
             throw new Exception("No PhpWord assigned.");

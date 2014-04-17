@@ -11,6 +11,7 @@ namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\Word2007\Document;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Document
@@ -25,6 +26,18 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         TestHelperDOCX::clear();
+    }
+
+    /**
+     * Test write word/document.xm with no PhpWord
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage No PhpWord assigned.
+     */
+    public function testWriteDocumentNoPhpWord()
+    {
+        $object = new Document();
+        $object->writeDocument();
     }
 
     /**

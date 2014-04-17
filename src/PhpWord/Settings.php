@@ -10,7 +10,9 @@
 namespace PhpOffice\PhpWord;
 
 /**
- * Settings
+ * PHPWord settings class
+ *
+ * @since 0.8.0
  */
 class Settings
 {

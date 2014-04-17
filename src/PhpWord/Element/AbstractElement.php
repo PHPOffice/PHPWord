@@ -9,15 +9,13 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Element\Element;
-use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
 use PhpOffice\PhpWord\Endnotes;
-use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC;
+use PhpOffice\PhpWord\Exception\InvalidObjectException;
+use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Container abstract class
@@ -323,13 +321,13 @@ abstract class AbstractElement
      * Add footnote element
      *
      * @param mixed $paragraphStyle
-     * @return FootnoteElement
+     * @return Footnote
      */
     public function addFootnote($paragraphStyle = null)
     {
         $this->checkValidity('footnote');
 
-        $footnote = new FootnoteElement($paragraphStyle);
+        $footnote = new Footnote($paragraphStyle);
         $rId = Footnotes::addElement($footnote);
 
         $footnote->setDocPart('footnote', $this->getDocPartId());

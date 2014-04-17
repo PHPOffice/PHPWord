@@ -9,6 +9,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\Word2007\Styles;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -25,6 +26,18 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         TestHelperDOCX::clear();
+    }
+
+    /**
+     * Test construct with no PhpWord
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage No PhpWord assigned.
+     */
+    public function testConstructNoPhpWord()
+    {
+        $object = new Styles();
+        $object->writeStyles();
     }
 
     /**

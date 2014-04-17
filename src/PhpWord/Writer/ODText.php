@@ -19,6 +19,8 @@ use PhpOffice\PhpWord\Writer\ODText\Styles;
 
 /**
  * ODText writer
+ *
+ * @since 0.7.0
  */
 class ODText extends AbstractWriter implements WriterInterface
 {

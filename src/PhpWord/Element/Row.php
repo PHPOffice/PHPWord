@@ -13,6 +13,8 @@ use PhpOffice\PhpWord\Style\Row as RowStyle;
 
 /**
  * Table row element
+ *
+ * @since 0.8.0
  */
 class Row extends AbstractElement
 {
