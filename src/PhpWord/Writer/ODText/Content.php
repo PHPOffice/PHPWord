@@ -9,7 +9,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
@@ -20,11 +22,11 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style;
 
 /**
  * ODText content part writer
@@ -98,33 +100,7 @@ class Content extends Base
 
         $this->writeFontFaces($xmlWriter); // office:font-face-decls
 
-        $this->writeAutomaticStyles($xmlWriter); // office:automatic-styles
-
-        // Tables
-        $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
-            $sectionId = 0;
-            foreach ($sections as $section) {
-                $sectionId++;
-                $elements = $section->getElements();
-                foreach ($elements as $element) {
-                    if ($elements instanceof Table) {
-                        $xmlWriter->startElement('style:style');
-                        $xmlWriter->writeAttribute('style:name', $element->getElementId());
-                        $xmlWriter->writeAttribute('style:family', 'table');
-                        $xmlWriter->startElement('style:table-properties');
-                        //$xmlWriter->writeAttribute('style:width', 'table');
-                        $xmlWriter->writeAttribute('style:rel-width', 100);
-                        $xmlWriter->writeAttribute('table:align', 'center');
-                        $xmlWriter->endElement();
-                        $xmlWriter->endElement();
-                    }
-                }
-            }
-        }
-
-        $xmlWriter->endElement();
+        $this->writeAutomaticStyles($xmlWriter, $phpWord); // office:automatic-styles
 
         // office:body
         $xmlWriter->startElement('office:body');
@@ -371,7 +347,33 @@ class Content extends Base
      */
     protected function writeImage(XMLWriter $xmlWriter, Image $element)
     {
-        $this->writeUnsupportedElement($xmlWriter, 'Image');
+        $mediaIndex = $element->getMediaIndex();
+        $target = 'Pictures/' . $element->getTarget();
+        $style = $element->getStyle();
+        $width = Drawing::pixelsToCentimeters($style->getWidth());
+        $height = Drawing::pixelsToCentimeters($style->getHeight());
+
+        $xmlWriter->startElement('text:p');
+        $xmlWriter->writeAttribute('text:style-name', 'Standard');
+
+        $xmlWriter->startElement('draw:frame');
+        $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
+        $xmlWriter->writeAttribute('draw:name', $element->getElementId());
+        $xmlWriter->writeAttribute('text:anchor-type', 'as-char');
+        $xmlWriter->writeAttribute('svg:width', $width . 'cm');
+        $xmlWriter->writeAttribute('svg:height', $height . 'cm');
+        $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
+
+        $xmlWriter->startElement('draw:image');
+        $xmlWriter->writeAttribute('xlink:href', $target);
+        $xmlWriter->writeAttribute('xlink:type', 'simple');
+        $xmlWriter->writeAttribute('xlink:show', 'embed');
+        $xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
+        $xmlWriter->endElement(); // draw:image
+
+        $xmlWriter->endElement(); // draw:frame
+
+        $xmlWriter->endElement(); // text:p
     }
 
     /**
@@ -398,9 +400,11 @@ class Content extends Base
     /**
      * Write automatic styles
      */
-    private function writeAutomaticStyles(XMLWriter $xmlWriter)
+    private function writeAutomaticStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
     {
         $xmlWriter->startElement('office:automatic-styles');
+
+        // Font and paragraph
         $styles = Style::getStyles();
         $numPStyles = 0;
         if (count($styles) > 0) {
@@ -437,7 +441,6 @@ class Content extends Base
                     }
                 }
             }
-
             if ($numPStyles == 0) {
                 // style:style
                 $xmlWriter->startElement('style:style');
@@ -452,5 +455,47 @@ class Content extends Base
                 $xmlWriter->endElement();
             }
         }
+
+        // Images
+        $imageData = Media::getElements('section');
+        foreach ($imageData as $imageId => $image) {
+            if ($image['type'] == 'image') {
+                $xmlWriter->startElement('style:style');
+                $xmlWriter->writeAttribute('style:name', 'fr' . $image['rID']);
+                $xmlWriter->writeAttribute('style:family', 'graphic');
+                $xmlWriter->writeAttribute('style:parent-style-name', 'Graphics');
+                $xmlWriter->startElement('style:graphic-properties');
+                $xmlWriter->writeAttribute('style:vertical-pos', 'top');
+                $xmlWriter->writeAttribute('style:vertical-rel', 'baseline');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+            }
+        }
+
+        // Tables
+        $sections = $phpWord->getSections();
+        $countSections = count($sections);
+        if ($countSections > 0) {
+            $sectionId = 0;
+            foreach ($sections as $section) {
+                $sectionId++;
+                $elements = $section->getElements();
+                foreach ($elements as $element) {
+                    if ($elements instanceof Table) {
+                        $xmlWriter->startElement('style:style');
+                        $xmlWriter->writeAttribute('style:name', $element->getElementId());
+                        $xmlWriter->writeAttribute('style:family', 'table');
+                        $xmlWriter->startElement('style:table-properties');
+                        //$xmlWriter->writeAttribute('style:width', 'table');
+                        $xmlWriter->writeAttribute('style:rel-width', 100);
+                        $xmlWriter->writeAttribute('table:align', 'center');
+                        $xmlWriter->endElement();
+                        $xmlWriter->endElement();
+                    }
+                }
+            }
+        }
+
+        $xmlWriter->endElement(); // office:automatic-styles
     }
 }

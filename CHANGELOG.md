@@ -36,6 +36,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - PDF Writer: Basic PDF writer using DomPDF: All HTML element except image - @ivanlanin GH-68
 - DOCX Writer: Change `docProps/app.xml` `Application` to `PHPWord` - @ivanlanin
 - DOCX Writer: Create `word/settings.xml` and `word/webSettings.xml` dynamically - @ivanlanin
+- ODT Writer: Basic image writing - @ivanlanin
 
 ### Bugfixes
 

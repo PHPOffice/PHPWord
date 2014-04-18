@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
+use PhpOffice\PhpWord\Media;
+
 /**
  * ODText manifest part writer
  */
@@ -54,9 +56,19 @@ class Manifest extends AbstractWriterPart
         $xmlWriter->writeAttribute('manifest:full-path', 'styles.xml');
         $xmlWriter->endElement();
 
+        // Media files
+        $media = Media::getElements('section');
+        foreach ($media as $medium) {
+            if ($medium['type'] == 'image') {
+                $xmlWriter->startElement('manifest:file-entry');
+                $xmlWriter->writeAttribute('manifest:media-type', $medium['imageType']);
+                $xmlWriter->writeAttribute('manifest:full-path', 'Pictures/' . $medium['target']);
+                $xmlWriter->endElement();
+            }
+        }
+
         $xmlWriter->endElement(); // manifest:manifest
 
-        // Return
         return $xmlWriter->getData();
     }
 }

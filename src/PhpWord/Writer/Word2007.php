@@ -70,6 +70,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
+
+        // Set package paths
+        $this->mediaPaths = array('image' => 'word/media/', 'object' => 'word/embeddings/');
     }
 
     /**
@@ -93,6 +96,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $sectionMedia = Media::getElements('section');
             if (!empty($sectionMedia)) {
                 $this->addFilesToPackage($objZip, $sectionMedia);
+                $this->registerContentTypes($sectionMedia);
                 foreach ($sectionMedia as $element) {
                     $this->docRels[] = $element;
                 }
@@ -141,83 +145,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add section files to package
-     *
-     * @param mixed $objZip
-     * @param mixed $elements
-     */
-    private function addFilesToPackage($objZip, $elements)
-    {
-        foreach ($elements as $element) {
-            // Skip link
-            if ($element['type'] == 'link') {
-                continue;
-            }
-
-            // Retrieve remote image
-            if (isset($element['isMemImage']) && $element['isMemImage']) {
-                $image = call_user_func($element['createFunction'], $element['source']);
-                ob_start();
-                call_user_func($element['imageFunction'], $image);
-                $imageContents = ob_get_contents();
-                ob_end_clean();
-                $objZip->addFromString('word/' . $element['target'], $imageContents);
-                imagedestroy($image);
-            } else {
-                $this->addFileToPackage($objZip, $element['source'], $element['target']);
-            }
-
-            // Register content types
-            if ($element['type'] == 'image') {
-                $imageExtension = $element['imageExtension'];
-                $imageType = $element['imageType'];
-                if (!array_key_exists($imageExtension, $this->cTypes['default'])) {
-                    $this->cTypes['default'][$imageExtension] = $imageType;
-                }
-            } else {
-                if (!array_key_exists('bin', $this->cTypes['default'])) {
-                    $this->cTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
-                }
-            }
-        }
-    }
-
-    /**
-     * Add file to package
-     *
-     * Get the actual source from an archive image
-     *
-     * @param mixed $objZip
-     * @param string $source
-     * @param string $target
-     */
-    private function addFileToPackage($objZip, $source, $target)
-    {
-        $isArchive = strpos($source, 'zip://') !== false;
-        $actualSource = null;
-        if ($isArchive) {
-            $source = substr($source, 6);
-            list($zipFilename, $imageFilename) = explode('#', $source);
-
-            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
-            $zip = new $zipClass();
-            if ($zip->open($zipFilename) !== false) {
-                if ($zip->locateName($imageFilename)) {
-                    $zip->extractTo($this->getTempDir(), $imageFilename);
-                    $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
-                }
-            }
-            $zip->close();
-        } else {
-            $actualSource = $source;
-        }
-
-        if (!is_null($actualSource)) {
-            $objZip->addFile($actualSource, 'word/' . $target);
-        }
-    }
-
-    /**
      * Add header/footer media files
      *
      * @param mixed $objZip
@@ -231,6 +158,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 if (count($media) > 0) {
                     if (!empty($media)) {
                         $this->addFilesToPackage($objZip, $media);
+                        $this->registerContentTypes($media);
                     }
                     $relsFile = "word/_rels/{$file}.xml.rels";
                     $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
@@ -281,14 +209,37 @@ class Word2007 extends AbstractWriter implements WriterInterface
         // Add footnotes media files, relations, and contents
         if ($collection::countElements() > 0) {
             $media = Media::getElements($notesType);
-            $elements = $collection::getElements();
             $this->addFilesToPackage($objZip, $media);
+            $this->registerContentTypes($media);
             if (!empty($media)) {
                 $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
             }
+            $elements = $collection::getElements();
             $objZip->addFromString($xmlPath, $this->getWriterPart($notesTypes)->writeNotes($elements, $notesTypes));
             $this->cTypes['override']["/{$xmlPath}"] = $notesTypes;
             $this->docRels[] = array('target' => $xmlFile, 'type' => $notesTypes, 'rID' => ++$rId);
+        }
+    }
+
+    /**
+     * Register content types for each media
+     *
+     * @param array $media
+     */
+    private function registerContentTypes($media)
+    {
+        foreach ($media as $medium) {
+            $mediumType = $medium['type'];
+            if ($mediumType == 'image') {
+                $extension = $medium['imageExtension'];
+                if (!array_key_exists($extension, $this->cTypes['default'])) {
+                    $this->cTypes['default'][$extension] = $medium['imageType'];
+                }
+            } elseif ($mediumType == 'object') {
+                if (!array_key_exists('bin', $this->cTypes['default'])) {
+                    $this->cTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
+                }
+            }
         }
     }
 }

@@ -9,8 +9,9 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Writer\ODText\Content;
 use PhpOffice\PhpWord\Writer\ODText\Manifest;
 use PhpOffice\PhpWord\Writer\ODText\Meta;
@@ -43,6 +44,9 @@ class ODText extends AbstractWriter implements WriterInterface
         foreach ($this->writerParts as $writer) {
             $writer->setParentWriter($this);
         }
+
+        // Set package paths
+        $this->mediaPaths = array('image' => 'Pictures/');
     }
 
     /**
@@ -57,7 +61,13 @@ class ODText extends AbstractWriter implements WriterInterface
             $filename = $this->getTempFile($filename);
             $objZip = $this->getZipArchive($filename);
 
-            // Add mimetype to ZIP file
+            // Add section media files
+            $sectionMedia = Media::getElements('section');
+            if (!empty($sectionMedia)) {
+                $this->addFilesToPackage($objZip, $sectionMedia);
+            }
+
+            // Add parts
             $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype());
             $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->phpWord));
             $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->phpWord));

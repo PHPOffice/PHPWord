@@ -30,9 +30,16 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Individual writers
      *
-     * @var mixed
+     * @var array
      */
     protected $writerParts = array();
+
+    /**
+     * Paths to store media files
+     *
+     * @var array
+     */
+    protected $mediaPaths = array('image' => '', 'object' => '');
 
     /**
      * Use disk caching
@@ -261,6 +268,73 @@ abstract class AbstractWriter implements WriterInterface
         }
 
         return $objZip;
+    }
+
+    /**
+     * Add files to package
+     *
+     * @param mixed $objZip
+     * @param mixed $elements
+     */
+    protected function addFilesToPackage($objZip, $elements)
+    {
+        foreach ($elements as $element) {
+            $type = $element['type']; // image|object|link
+
+            // Skip nonregistered types and set target
+            if (!array_key_exists($type, $this->mediaPaths)) {
+                continue;
+            }
+            $target = $this->mediaPaths[$type] . $element['target'];
+
+            // Retrive GD image content or get local media
+            if (isset($element['isMemImage']) && $element['isMemImage']) {
+                $image = call_user_func($element['createFunction'], $element['source']);
+                ob_start();
+                call_user_func($element['imageFunction'], $image);
+                $imageContents = ob_get_contents();
+                ob_end_clean();
+                $objZip->addFromString($target, $imageContents);
+                imagedestroy($image);
+            } else {
+                $this->addFileToPackage($objZip, $element['source'], $target);
+            }
+        }
+    }
+
+    /**
+     * Add file to package
+     *
+     * Get the actual source from an archive image
+     *
+     * @param mixed $objZip
+     * @param string $source
+     * @param string $target
+     */
+    protected function addFileToPackage($objZip, $source, $target)
+    {
+        $isArchive = strpos($source, 'zip://') !== false;
+        $actualSource = null;
+        if ($isArchive) {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+
+            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
+            $zip = new $zipClass();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $zip->extractTo($this->getTempDir(), $imageFilename);
+                    $actualSource = $this->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+
+        if (!is_null($actualSource)) {
+            $objZip->addFile($actualSource, $target);
+        }
     }
 
     /**

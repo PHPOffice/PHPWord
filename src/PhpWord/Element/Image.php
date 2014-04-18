@@ -90,6 +90,20 @@ class Image extends AbstractElement
     private $isMemImage;
 
     /**
+     * Image target file name
+     *
+     * @var string
+     */
+    private $target;
+
+    /**
+     * Image media index
+     *
+     * @var integer
+     */
+    private $mediaIndex;
+
+    /**
      * Create new image element
      *
      * @param string $source
@@ -215,6 +229,46 @@ class Image extends AbstractElement
     public function getIsMemImage()
     {
         return $this->isMemImage;
+    }
+
+    /**
+     * Get target file name
+     *
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * Set target file name
+     *
+     * @param string $value
+     */
+    public function setTarget($value)
+    {
+        $this->target = $value;
+    }
+
+    /**
+     * Get media index
+     *
+     * @return integer
+     */
+    public function getMediaIndex()
+    {
+        return $this->mediaIndex;
+    }
+
+    /**
+     * Set media index
+     *
+     * @param integer $value
+     */
+    public function setMediaIndex($value)
+    {
+        $this->mediaIndex = $value;
     }
 
     /**

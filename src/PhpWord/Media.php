@@ -36,7 +36,7 @@ class Media
      * @since 0.9.2
      * @since 0.10.0
      */
-    public static function addElement($container, $mediaType, $source, Image $image = null)
+    public static function addElement($container, $mediaType, $source, Image &$image = null)
     {
         // Assign unique media Id and initiate media container if none exists
         $mediaId = md5($container . $source);
@@ -48,10 +48,10 @@ class Media
         if (!array_key_exists($mediaId, self::$elements[$container])) {
             $mediaCount = self::countElements($container);
             $mediaTypeCount = self::countElements($container, $mediaType);
-            $mediaData = array();
+            $mediaTypeCount++;
             $rId = ++$mediaCount;
             $target = null;
-            $mediaTypeCount++;
+            $mediaData = array('mediaIndex' => $mediaTypeCount);
 
             switch ($mediaType) {
                 // Images
@@ -68,12 +68,14 @@ class Media
                         $mediaData['createFunction'] = $image->getImageCreateFunction();
                         $mediaData['imageFunction'] = $image->getImageFunction();
                     }
-                    $target = "media/{$container}_image{$mediaTypeCount}.{$extension}";
+                    $target = "{$container}_image{$mediaTypeCount}.{$extension}";
+                    $image->setTarget($target);
+                    $image->setMediaIndex($mediaTypeCount);
                     break;
 
                 // Objects
                 case 'object':
-                    $target = "embeddings/{$container}_oleObject{$mediaTypeCount}.bin";
+                    $target = "{$container}_oleObject{$mediaTypeCount}.bin";
                     break;
 
                 // Links
@@ -89,7 +91,12 @@ class Media
             self::$elements[$container][$mediaId] = $mediaData;
             return $rId;
         } else {
-            return self::$elements[$container][$mediaId]['rID'];
+            $mediaData = self::$elements[$container][$mediaId];
+            if (!is_null($image)) {
+                $image->setTarget($mediaData['target']);
+                $image->setMediaIndex($mediaData['mediaIndex']);
+            }
+            return $mediaData['rID'];
         }
     }
 

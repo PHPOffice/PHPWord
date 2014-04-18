@@ -98,10 +98,12 @@ class Rels extends AbstractWriterPart
         // Media relationships
         if (!is_null($mediaRels) && is_array($mediaRels)) {
             $mapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
+            $targetPaths = array('image' => 'media/', 'object' => 'embeddings/');
             foreach ($mediaRels as $mediaRel) {
-                $type = $mediaRel['type'];
-                $type = array_key_exists($type, $mapping) ? $mapping[$type] : $type;
-                $target = $mediaRel['target'];
+                $mediaType = $mediaRel['type'];
+                $type = array_key_exists($mediaType, $mapping) ? $mapping[$mediaType] : $mediaType;
+                $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
+                $target .= $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
                 $this->writeRel($xmlWriter, $id++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
             }
