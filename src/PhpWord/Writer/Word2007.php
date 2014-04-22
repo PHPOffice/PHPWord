@@ -180,7 +180,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $writeFunction = $elmType == 'header' ? 'writeHeader' : 'writeFooter';
         $elmCount = ($section->getSectionId() - 1) * 3;
         $elmObjects = $section->$getFunction();
-        foreach ($elmObjects as $index => &$elmObject) {
+        foreach ($elmObjects as &$elmObject) {
             $elmCount++;
             $elmObject->setRelationId(++$rId);
             $elmFile = "{$elmType}{$elmCount}.xml";

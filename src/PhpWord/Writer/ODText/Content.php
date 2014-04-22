@@ -187,7 +187,7 @@ class Content extends Base
 
         if ($SfIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
-            die('PhpWord : $SfIsObject wouldn\'t be an object');
+            throw new Exception('PhpWord : $SfIsObject wouldn\'t be an object');
         } else {
             if (!$withoutP) {
                 $xmlWriter->startElement('text:p'); // text:p
@@ -457,8 +457,8 @@ class Content extends Base
         }
 
         // Images
-        $imageData = Media::getElements('section');
-        foreach ($imageData as $imageId => $image) {
+        $images = Media::getElements('section');
+        foreach ($images as $image) {
             if ($image['type'] == 'image') {
                 $xmlWriter->startElement('style:style');
                 $xmlWriter->writeAttribute('style:name', 'fr' . $image['rID']);

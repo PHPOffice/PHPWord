@@ -65,7 +65,7 @@ class Base extends AbstractWriterPart
         $styles = Style::getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
-            foreach ($styles as $styleName => $style) {
+            foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
                     $numFonts++;

@@ -390,12 +390,12 @@ class Section extends AbstractStyle
      */
     public function getBorderSize()
     {
-        $t = $this->getBorderTopSize();
-        $l = $this->getBorderLeftSize();
-        $r = $this->getBorderRightSize();
-        $b = $this->getBorderBottomSize();
+        $top = $this->getBorderTopSize();
+        $left = $this->getBorderLeftSize();
+        $right = $this->getBorderRightSize();
+        $bottom = $this->getBorderBottomSize();
 
-        return array($t, $l, $r, $b);
+        return array($top, $left, $right, $bottom);
     }
 
     /**
@@ -418,12 +418,12 @@ class Section extends AbstractStyle
      */
     public function getBorderColor()
     {
-        $t = $this->getBorderTopColor();
-        $l = $this->getBorderLeftColor();
-        $r = $this->getBorderRightColor();
-        $b = $this->getBorderBottomColor();
+        $top = $this->getBorderTopColor();
+        $left = $this->getBorderLeftColor();
+        $right = $this->getBorderRightColor();
+        $bottom = $this->getBorderBottomColor();
 
-        return array($t, $l, $r, $b);
+        return array($top, $left, $right, $bottom);
     }
 
     /**

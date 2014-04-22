@@ -247,14 +247,14 @@ class Table extends AbstractStyle
      */
     public function getBorderSize()
     {
-        $t = $this->getBorderTopSize();
-        $l = $this->getBorderLeftSize();
-        $r = $this->getBorderRightSize();
-        $b = $this->getBorderBottomSize();
-        $h = $this->getBorderInsideHSize();
-        $v = $this->getBorderInsideVSize();
+        $top = $this->getBorderTopSize();
+        $left = $this->getBorderLeftSize();
+        $right = $this->getBorderRightSize();
+        $bottom = $this->getBorderBottomSize();
+        $insideH = $this->getBorderInsideHSize();
+        $insideV = $this->getBorderInsideVSize();
 
-        return array($t, $l, $r, $b, $h, $v);
+        return array($top, $left, $right, $bottom, $insideH, $insideV);
     }
 
     /**
@@ -278,14 +278,14 @@ class Table extends AbstractStyle
      */
     public function getBorderColor()
     {
-        $t = $this->getBorderTopColor();
-        $l = $this->getBorderLeftColor();
-        $r = $this->getBorderRightColor();
-        $b = $this->getBorderBottomColor();
-        $h = $this->getBorderInsideHColor();
-        $v = $this->getBorderInsideVColor();
+        $top = $this->getBorderTopColor();
+        $left = $this->getBorderLeftColor();
+        $right = $this->getBorderRightColor();
+        $bottom = $this->getBorderBottomColor();
+        $insideH = $this->getBorderInsideHColor();
+        $insideV = $this->getBorderInsideVColor();
 
-        return array($t, $l, $r, $b, $h, $v);
+        return array($top, $left, $right, $bottom, $insideH, $insideV);
     }
 
     /**

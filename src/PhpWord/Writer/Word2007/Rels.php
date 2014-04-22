@@ -80,9 +80,9 @@ class Rels extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param null|array $xmlRels
      * @param null|array $mediaRels
-     * @param integer $id
+     * @param integer $relId
      */
-    private function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $id = 1)
+    private function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $relId = 1)
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
@@ -91,7 +91,7 @@ class Rels extends AbstractWriterPart
         // XML files relationships
         if (is_array($xmlRels)) {
             foreach ($xmlRels as $target => $type) {
-                $this->writeRel($xmlWriter, $id++, $type, $target);
+                $this->writeRel($xmlWriter, $relId++, $type, $target);
             }
         }
 
@@ -105,7 +105,7 @@ class Rels extends AbstractWriterPart
                 $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
                 $target .= $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
-                $this->writeRel($xmlWriter, $id++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
+                $this->writeRel($xmlWriter, $relId++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
             }
         }
 
@@ -119,19 +119,19 @@ class Rels extends AbstractWriterPart
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param int $id Relationship ID
+     * @param int $relId Relationship ID
      * @param string $type Relationship type
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
      */
-    private function writeRel(XMLWriter $xmlWriter, $id, $type, $target, $targetMode = '')
+    private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = '')
     {
         if ($type != '' && $target != '') {
-            if (strpos($id, 'rId') === false) {
-                $id = 'rId' . $id;
+            if (strpos($relId, 'rId') === false) {
+                $relId = 'rId' . $relId;
             }
             $xmlWriter->startElement('Relationship');
-            $xmlWriter->writeAttribute('Id', $id);
+            $xmlWriter->writeAttribute('Id', $relId);
             $xmlWriter->writeAttribute('Type', self::RELS_BASE . $type);
             $xmlWriter->writeAttribute('Target', $target);
             if ($targetMode != '') {

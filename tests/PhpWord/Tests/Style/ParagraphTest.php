@@ -37,7 +37,6 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-            'tabs' => null,
             'widowControl' => true,
             'keepNext' => false,
             'keepLines' => false,
@@ -96,7 +95,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Paragraph();
         $object->setTabs(array(new Tab('left', 1550), new Tab('right', 5300)));
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Tabs', $object->getTabs());
+        $this->assertEquals(2, count($object->getTabs()));
     }
 
     /**

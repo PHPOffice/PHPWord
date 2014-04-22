@@ -90,21 +90,33 @@ class Tab extends AbstractStyle
     }
 
     /**
-     * Creates the XML DOM for the instance of Tab.
+     * Get stop type
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter &$xmlWriter
+     * @return string
      */
-    public function toXml(XMLWriter &$xmlWriter = null)
+    public function getStopType()
     {
-        if (isset($xmlWriter)) {
-            $xmlWriter->startElement("w:tab");
-            $xmlWriter->writeAttribute("w:val", $this->val);
-            if (!is_null($this->leader)) {
-                $xmlWriter->writeAttribute("w:leader", $this->leader);
-            }
-            $xmlWriter->writeAttribute("w:pos", $this->position);
-            $xmlWriter->endElement();
-        }
+        return $this->val;
+    }
+
+    /**
+     * Get leader
+     *
+     * @return string
+     */
+    public function getLeader()
+    {
+        return $this->leader;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     /**

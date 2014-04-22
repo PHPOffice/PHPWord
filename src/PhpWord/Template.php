@@ -75,16 +75,16 @@ class Template
         $this->zipClass->open($this->tempFileName);
 
         // Find and load headers and footers
-        $i = 1;
-        while ($this->zipClass->locateName($this->getHeaderName($i)) !== false) {
-            $this->headerXMLs[$i] = $this->zipClass->getFromName($this->getHeaderName($i));
-            $i++;
+        $index = 1;
+        while ($this->zipClass->locateName($this->getHeaderName($index)) !== false) {
+            $this->headerXMLs[$index] = $this->zipClass->getFromName($this->getHeaderName($index));
+            $index++;
         }
 
-        $i = 1;
-        while ($this->zipClass->locateName($this->getFooterName($i)) !== false) {
-            $this->footerXMLs[$i] = $this->zipClass->getFromName($this->getFooterName($i));
-            $i++;
+        $index = 1;
+        while ($this->zipClass->locateName($this->getFooterName($index)) !== false) {
+            $this->footerXMLs[$index] = $this->zipClass->getFromName($this->getFooterName($index));
+            $index++;
         }
 
         $this->documentXML = $this->zipClass->getFromName('word/document.xml');

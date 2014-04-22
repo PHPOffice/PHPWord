@@ -814,8 +814,18 @@ class Base extends AbstractWriterPart
             }
 
             // Tabs
-            if (!is_null($tabs)) {
-                $tabs->toXml($xmlWriter);
+            if (!empty($tabs)) {
+                $xmlWriter->startElement("w:tabs");
+                foreach ($tabs as $tab) {
+                    $xmlWriter->startElement("w:tab");
+                    $xmlWriter->writeAttribute("w:val", $tab->getStopType());
+                    if (!is_null($tab->getLeader())) {
+                        $xmlWriter->writeAttribute("w:leader", $tab->getLeader());
+                    }
+                    $xmlWriter->writeAttribute("w:pos", $tab->getPosition());
+                    $xmlWriter->endElement();
+                }
+                $xmlWriter->endElement();
             }
 
             if (!$withoutPPR) {

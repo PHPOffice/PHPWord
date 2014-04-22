@@ -251,9 +251,9 @@ abstract class AbstractWriter implements WriterInterface
 
         // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
         // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
-        $ro = new \ReflectionObject($objZip);
-        $zipOverWrite = $ro->getConstant('OVERWRITE');
-        $zipCreate = $ro->getConstant('CREATE');
+        $reflection = new \ReflectionObject($objZip);
+        $zipOverWrite = $reflection->getConstant('OVERWRITE');
+        $zipCreate = $reflection->getConstant('CREATE');
 
         // Remove any existing file
         if (file_exists($filename)) {

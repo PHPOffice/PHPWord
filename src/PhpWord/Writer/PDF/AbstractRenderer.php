@@ -46,13 +46,6 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     protected $orientation = null;
 
     /**
-     * Temporary storage for Save Array Return type
-     *
-     * @var string
-     */
-    private $saveArrayReturnType;
-
-    /**
      * Paper Sizes xRef List
      *
      * @var array

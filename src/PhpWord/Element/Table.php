@@ -73,8 +73,8 @@ class Table extends AbstractElement
      */
     public function addCell($width = null, $style = null)
     {
-        $i = count($this->rows) - 1;
-        $cell = $this->rows[$i]->addCell($width, $style);
+        $index = count($this->rows) - 1;
+        $cell = $this->rows[$index]->addCell($width, $style);
         return $cell;
     }
 

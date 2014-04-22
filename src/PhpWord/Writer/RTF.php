@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\TOC;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
@@ -20,11 +22,9 @@ use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Drawing;
-use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\TOC;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * RTF writer
@@ -75,10 +75,13 @@ class RTF extends AbstractWriter implements WriterInterface
         if (!is_null($this->phpWord)) {
             $pFilename = $this->getTempFile($pFilename);
 
-            $hFile = fopen($pFilename, 'w') or die("can't open file");
-            fwrite($hFile, $this->getData());
-            fclose($hFile);
-
+            $hFile = fopen($pFilename, 'w');
+            if ($hFile !== false) {
+                fwrite($hFile, $this->getData());
+                fclose($hFile);
+            } else {
+                throw new Exception("Can't open file");
+            }
             $this->cleanupTempFile();
         } else {
             throw new Exception("PhpWord object unassigned.");
@@ -160,7 +163,7 @@ class RTF extends AbstractWriter implements WriterInterface
         // Browse styles
         $styles = Style::getStyles();
         if (count($styles) > 0) {
-            foreach ($styles as $styleName => $style) {
+            foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
                     if (in_array($style->getName(), $arrFonts) == false) {
@@ -212,7 +215,7 @@ class RTF extends AbstractWriter implements WriterInterface
         // Browse styles
         $styles = Style::getStyles();
         if (count($styles) > 0) {
-            foreach ($styles as $styleName => $style) {
+            foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
                     $color = $style->getColor();

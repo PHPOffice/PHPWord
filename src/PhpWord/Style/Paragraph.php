@@ -57,9 +57,9 @@ class Paragraph extends AbstractStyle
     /**
      * Set of Custom Tab Stops
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Style\Tab[]
      */
-    private $tabs;
+    private $tabs = array();
 
     /**
      * Indent by how much
@@ -172,7 +172,7 @@ class Paragraph extends AbstractStyle
      * Set Paragraph Alignment
      *
      * @param string $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setAlign($pValue = null)
     {
@@ -198,7 +198,7 @@ class Paragraph extends AbstractStyle
      * Set Space before Paragraph
      *
      * @param int $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setSpaceBefore($pValue = null)
     {
@@ -220,7 +220,7 @@ class Paragraph extends AbstractStyle
      * Set Space after Paragraph
      *
      * @param int $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setSpaceAfter($pValue = null)
     {
@@ -242,7 +242,7 @@ class Paragraph extends AbstractStyle
      * Set Spacing between breaks
      *
      * @param int $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setSpacing($pValue = null)
     {
@@ -264,7 +264,7 @@ class Paragraph extends AbstractStyle
      * Set indentation
      *
      * @param int $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setIndent($pValue = null)
     {
@@ -286,7 +286,7 @@ class Paragraph extends AbstractStyle
      * Set hanging
      *
      * @param int $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setHanging($pValue = null)
     {
@@ -297,7 +297,7 @@ class Paragraph extends AbstractStyle
     /**
      * Get tabs
      *
-     * @return \PhpOffice\PhpWord\Style\Tabs
+     * @return \PhpOffice\PhpWord\Style\Tab[]
      */
     public function getTabs()
     {
@@ -308,13 +308,14 @@ class Paragraph extends AbstractStyle
      * Set tabs
      *
      * @param array $pValue
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @return self
      */
     public function setTabs($pValue = null)
     {
         if (is_array($pValue)) {
-            $this->tabs = new Tabs($pValue);
+            $this->tabs = $pValue;
         }
+
         return $this;
     }
 
@@ -332,7 +333,7 @@ class Paragraph extends AbstractStyle
      * Set parent style ID
      *
      * @param   string $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setBasedOn($pValue = 'Normal')
     {
@@ -354,7 +355,7 @@ class Paragraph extends AbstractStyle
      * Set style for next paragraph
      *
      * @param   string $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setNext($pValue = null)
     {
@@ -376,7 +377,7 @@ class Paragraph extends AbstractStyle
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setWidowControl($pValue = true)
     {
@@ -401,7 +402,7 @@ class Paragraph extends AbstractStyle
      * Set keep paragraph with next paragraph setting
      *
      * @param   bool $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setKeepNext($pValue = false)
     {
@@ -426,7 +427,7 @@ class Paragraph extends AbstractStyle
      * Set keep all lines on one page setting
      *
      * @param   bool $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setKeepLines($pValue = false)
     {
@@ -451,7 +452,7 @@ class Paragraph extends AbstractStyle
      * Set start paragraph on next page setting
      *
      * @param   bool $pValue
-     * @return  \PhpOffice\PhpWord\Style\Paragraph
+     * @return  self
      */
     public function setPageBreakBefore($pValue = false)
     {

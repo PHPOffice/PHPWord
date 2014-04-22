@@ -69,9 +69,13 @@ class HTML extends AbstractWriter implements WriterInterface
     {
         if (!is_null($this->getPhpWord())) {
             $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
-            $hFile = fopen($filename, 'w') or die("can't open file");
-            fwrite($hFile, $this->writeDocument());
-            fclose($hFile);
+            $hFile = fopen($filename, 'w');
+            if ($hFile !== false) {
+                fwrite($hFile, $this->writeDocument());
+                fclose($hFile);
+            } else {
+                throw new Exception("Can't open file");
+            }
             $this->clearTempDir();
         } else {
             throw new Exception("No PHPWord assigned.");
@@ -739,9 +743,9 @@ class HTML extends AbstractWriter implements WriterInterface
             $imageBinary = ob_get_contents();
             ob_end_clean();
         } else {
-            if ($fp = fopen($actualSource, 'rb', false)) {
-                $imageBinary = fread($fp, filesize($actualSource));
-                fclose($fp);
+            if ($fileHandle = fopen($actualSource, 'rb', false)) {
+                $imageBinary = fread($fileHandle, filesize($actualSource));
+                fclose($fileHandle);
             }
         }
         if (!is_null($imageBinary)) {

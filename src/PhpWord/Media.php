@@ -113,7 +113,7 @@ class Media
         $mediaCount = 0;
 
         if (array_key_exists($container, self::$elements)) {
-            foreach (self::$elements[$container] as $mediaKey => $mediaData) {
+            foreach (self::$elements[$container] as $mediaData) {
                 if (!is_null($mediaType)) {
                     if ($mediaType == $mediaData['type']) {
                         $mediaCount++;
