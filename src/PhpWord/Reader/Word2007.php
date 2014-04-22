@@ -20,7 +20,7 @@ use PhpOffice\PhpWord\Element\Section;
  * Reader for Word2007
  *
  * @since 0.8.0
- * @todo title, list, watermark, checkbox, toc
+ * @todo watermark, checkbox, toc
  * @todo Partly done: image, object
  */
 class Word2007 extends AbstractReader implements ReaderInterface
@@ -216,11 +216,14 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 switch ($node->nodeName) {
 
                     case 'w:p': // Paragraph
+                        // Page break
+                        // @todo <w:lastRenderedPageBreak>
                         if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
                             $section->addPageBreak(); // PageBreak
-                        } else {
-                            $this->readParagraph($xmlReader, $node, $section, 'document');
                         }
+
+                        // Paragraph
+                        $this->readParagraph($xmlReader, $node, $section, 'document');
                         // Section properties
                         if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
                             $settingsNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
@@ -269,18 +272,23 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 if (is_null($name)) {
                     $name = $xmlReader->getAttribute('w:val', $node, 'w:name');
                 }
+                preg_match('/Heading(\d)/', $name, $headingMatches);
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
 
                     case 'paragraph':
                         $pStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fStyle = $this->readFontStyle($xmlReader, $node);
-                        if (empty($fStyle)) {
-                            if (is_array($pStyle)) {
-                                $this->phpWord->addParagraphStyle($name, $pStyle);
-                            }
+                        if (!empty($headingMatches)) {
+                            $this->phpWord->addTitleStyle($headingMatches[1], $fStyle, $pStyle);
                         } else {
-                            $this->phpWord->addFontStyle($name, $fStyle, $pStyle);
+                            if (empty($fStyle)) {
+                                if (is_array($pStyle)) {
+                                    $this->phpWord->addParagraphStyle($name, $pStyle);
+                                }
+                            } else {
+                                $this->phpWord->addFontStyle($name, $fStyle, $pStyle);
+                            }
                         }
                         break;
 
@@ -477,8 +485,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
     {
         // Paragraph style
         $pStyle = null;
+        $headingMatches = array();
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $pStyle = $this->readParagraphStyle($xmlReader, $domNode);
+            if (is_string($pStyle)) {
+                preg_match('/Heading(\d)/', $pStyle, $headingMatches);
+            }
         }
 
         // PreserveText
@@ -517,6 +529,15 @@ class Word2007 extends AbstractReader implements ReaderInterface
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $pStyle);
+
+        // Heading
+        } elseif (!empty($headingMatches)) {
+            $textContent = '';
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addTitle($textContent, $headingMatches[1]);
 
         // Text and TextRun
         } else {
