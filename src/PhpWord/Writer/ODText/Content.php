@@ -44,14 +44,9 @@ class Content extends Base
         if (is_null($phpWord)) {
             throw new Exception("No PhpWord assigned.");
         }
-
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
-
-        // office:document-content
         $xmlWriter->startElement('office:document-content');
         $this->writeCommonRootAttributes($xmlWriter);
         $xmlWriter->writeAttribute('xmlns:xforms', 'http://www.w3.org/2002/xforms');
@@ -60,82 +55,40 @@ class Content extends Base
         $xmlWriter->writeAttribute('xmlns:field', 'urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0');
         $xmlWriter->writeAttribute('xmlns:formx', 'urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0');
 
-        // We firstly search all fonts used
-        $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
-            $pSection = 0;
-            $numPStyles = 0;
-            $numFStyles = 0;
-
-            foreach ($sections as $section) {
-                $pSection++;
-                $elements = $section->getElements();
-
-                foreach ($elements as $element) {
-                    if ($element instanceof Text) {
-                        $fStyle = $element->getFontStyle();
-                        $pStyle = $element->getParagraphStyle();
-
-                        if ($fStyle instanceof Font) {
-                            $numFStyles++;
-
-                            $arrStyle = array(
-                                'color' => $fStyle->getColor(),
-                                'name'  => $fStyle->getName()
-                            );
-                            $phpWord->addFontStyle('T' . $numFStyles, $arrStyle);
-                            $element->setFontStyle('T' . $numFStyles);
-                        } elseif ($pStyle instanceof Paragraph) {
-                            $numPStyles++;
-
-                            $phpWord->addParagraphStyle('P' . $numPStyles, array());
-                            $element->setParagraphStyle('P' . $numPStyles);
-                        }
-                    }
-                }
-            }
-        }
-
-
+        $this->getAutomaticStyles($phpWord);
         $this->writeFontFaces($xmlWriter); // office:font-face-decls
-
         $this->writeAutomaticStyles($xmlWriter, $phpWord); // office:automatic-styles
 
-        // office:body
         $xmlWriter->startElement('office:body');
-        // office:text
         $xmlWriter->startElement('office:text');
+
         // text:sequence-decls
         $xmlWriter->startElement('text:sequence-decls');
-        // text:sequence-decl
         $xmlWriter->startElement('text:sequence-decl');
         $xmlWriter->writeAttribute('text:display-outline-level', 0);
         $xmlWriter->writeAttribute('text:name', 'Illustration');
         $xmlWriter->endElement();
-        // text:sequence-decl
         $xmlWriter->startElement('text:sequence-decl');
         $xmlWriter->writeAttribute('text:display-outline-level', 0);
         $xmlWriter->writeAttribute('text:name', 'Table');
         $xmlWriter->endElement();
-        // text:sequence-decl
         $xmlWriter->startElement('text:sequence-decl');
         $xmlWriter->writeAttribute('text:display-outline-level', 0);
         $xmlWriter->writeAttribute('text:name', 'Text');
         $xmlWriter->endElement();
-        // text:sequence-decl
         $xmlWriter->startElement('text:sequence-decl');
         $xmlWriter->writeAttribute('text:display-outline-level', 0);
         $xmlWriter->writeAttribute('text:name', 'Drawing');
         $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // text:sequence-decl
 
         $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
+        $sectionCount = count($sections);
+        if ($sectionCount > 0) {
             foreach ($sections as $section) {
                 $elements = $section->getElements();
 
+                // $xmlWriter->startElement('text:section');
                 foreach ($elements as $element) {
                     if ($element instanceof Text) {
                         $this->writeText($xmlWriter, $element);
@@ -159,13 +112,13 @@ class Content extends Base
                         $this->writeObject($xmlWriter, $element);
                     }
                 }
+                // $xmlWriter->endElement(); // text:section
             }
         }
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // office:text
+        $xmlWriter->endElement(); // office:body
+        $xmlWriter->endElement(); // office:document-content
 
-        // Return
         return $xmlWriter->getData();
     }
 
@@ -256,14 +209,6 @@ class Content extends Base
     protected function writeTitle(XMLWriter $xmlWriter, Title $title)
     {
         $this->writeUnsupportedElement($xmlWriter, 'Title');
-    }
-
-    /**
-     * Write preserve text
-     */
-    protected function writePreserveText(XMLWriter $xmlWriter, PreserveText $preservetext)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'PreserveText');
     }
 
     /**
@@ -406,7 +351,7 @@ class Content extends Base
 
         // Font and paragraph
         $styles = Style::getStyles();
-        $numPStyles = 0;
+        $pStyleCount = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
@@ -426,7 +371,7 @@ class Content extends Base
                         $xmlWriter->endElement();
                     }
                     if ($style instanceof Paragraph) {
-                        $numPStyles++;
+                        $pStyleCount++;
                         // style:style
                         $xmlWriter->startElement('style:style');
                         $xmlWriter->writeAttribute('style:name', $styleName);
@@ -441,7 +386,7 @@ class Content extends Base
                     }
                 }
             }
-            if ($numPStyles == 0) {
+            if ($pStyleCount == 0) {
                 // style:style
                 $xmlWriter->startElement('style:style');
                 $xmlWriter->writeAttribute('style:name', 'P1');
@@ -474,8 +419,8 @@ class Content extends Base
 
         // Tables
         $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
+        $sectionCount = count($sections);
+        if ($sectionCount > 0) {
             $sectionId = 0;
             foreach ($sections as $section) {
                 $sectionId++;
@@ -497,5 +442,45 @@ class Content extends Base
         }
 
         $xmlWriter->endElement(); // office:automatic-styles
+    }
+
+    /**
+     * Set automatic styles
+     */
+    private function getAutomaticStyles(PhpWord $phpWord)
+    {
+        $sections = $phpWord->getSections();
+        $sectionCount = count($sections);
+        if ($sectionCount > 0) {
+            $pStyleCount = 0;
+            $fStyleCount = 0;
+            foreach ($sections as $section) {
+                $elements = $section->getElements();
+                foreach ($elements as $element) {
+                    if ($element instanceof Text) {
+                        $fStyle = $element->getFontStyle();
+                        $pStyle = $element->getParagraphStyle();
+
+                        // Font
+                        if ($fStyle instanceof Font) {
+                            $fStyleCount++;
+                            $arrStyle = array(
+                                'color' => $fStyle->getColor(),
+                                'name'  => $fStyle->getName()
+                            );
+                            $phpWord->addFontStyle('T' . $fStyleCount, $arrStyle);
+                            $element->setFontStyle('T' . $fStyleCount);
+
+                        // Paragraph
+                        } elseif ($pStyle instanceof Paragraph) {
+                            $pStyleCount++;
+
+                            $phpWord->addParagraphStyle('P' . $pStyleCount, array());
+                            $element->setParagraphStyle('P' . $pStyleCount);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
