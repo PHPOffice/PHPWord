@@ -31,8 +31,7 @@ use PhpOffice\PhpWord\Shared\String;
 /**
  * Template
  */
-class Template
-{
+class Template {
     /**
      * ZipArchive object
      *
@@ -61,8 +60,7 @@ class Template
      * @param string $strFilename
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    public function __construct($strFilename)
-    {
+    public function __construct($strFilename) {
         $this->_tempFileName = tempnam(sys_get_temp_dir(), '');
         if ($this->_tempFileName === false) {
             throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
@@ -87,8 +85,7 @@ class Template
      * @param string $xslOptionsURI
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
-    {
+    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '') {
         $processor = new \XSLTProcessor();
 
         $processor->importStylesheet($xslDOMDocument);
@@ -118,8 +115,7 @@ class Template
      * @param integer $limit
      * @param boolean $convertHtmlEntities
      */
-    public function setValue($search, $replace, $limit = -1, $convertHtmlEntities = true)
-    {
+    public function setValue($search, $replace, $limit = -1, $convertHtmlEntities = true) {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $this->_documentXML, $matches);
         foreach ($matches[0] as $value) {
@@ -138,11 +134,11 @@ class Template
                     $replace = utf8_encode($replace);
                 }
                 $replace = htmlspecialchars($replace);
-            }   else {
-                    foreach ($replace as $key => $value) {
-                        $replace[$key] = htmlspecialchars($value);
-                    }
+            } else {
+                foreach ($replace as $key => $value) {
+                    $replace[$key] = htmlspecialchars($value);
                 }
+            }
         }
 
         $regExpDelim = '/';
@@ -153,8 +149,7 @@ class Template
     /**
      * Returns array of all variables in template
      */
-    public function getVariables()
-    {
+    public function getVariables() {
         preg_match_all('/\$\{(.*?)}/i', $this->_documentXML, $matches);
         return $matches[1];
     }
@@ -166,8 +161,7 @@ class Template
      * @return int
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    private function _findRowStart($offset)
-    {
+    private function _findRowStart($offset) {
         $rowStart = strrpos($this->_documentXML, "<w:tr ", ((strlen($this->_documentXML) - $offset) * -1));
         if (!$rowStart) {
             $rowStart = strrpos($this->_documentXML, "<w:tr>", ((strlen($this->_documentXML) - $offset) * -1));
@@ -184,8 +178,7 @@ class Template
      * @param int $offset
      * @return int
      */
-    private function _findRowEnd($offset)
-    {
+    private function _findRowEnd($offset) {
         $rowEnd = strpos($this->_documentXML, "</w:tr>", $offset) + 7;
         return $rowEnd;
     }
@@ -197,8 +190,7 @@ class Template
      * @param int $endPosition
      * @return string
      */
-    private function _getSlice($startPosition, $endPosition = 0)
-    {
+    private function _getSlice($startPosition, $endPosition = 0) {
         if (!$endPosition) {
             $endPosition = strlen($this->_documentXML);
         }
@@ -212,8 +204,7 @@ class Template
      * @param int $numberOfClones
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    public function cloneRow($search, $numberOfClones)
-    {
+    public function cloneRow($search, $numberOfClones) {
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${' . $search . '}';
         }
@@ -266,8 +257,7 @@ class Template
      * @return string
      * @throws \PhpOffice\PhpWord\Exceptions\Exception
      */
-    public function save()
-    {
+    public function save() {
         $this->_objZip->addFromString('word/document.xml', $this->_documentXML);
 
         // Close zip file
@@ -283,8 +273,7 @@ class Template
      *
      * @param string $strFilename
      */
-    public function saveAs($strFilename)
-    {
+    public function saveAs($strFilename) {
         $tempFilename = $this->save();
 
         if (\file_exists($strFilename)) {
