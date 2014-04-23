@@ -116,8 +116,9 @@ class Template
      * @param mixed $search
      * @param mixed $replace
      * @param integer $limit
+     * @param boolean $convertHtmlEntities
      */
-    public function setValue($search, $replace, $limit = -1)
+    public function setValue($search, $replace, $limit = -1, $convertHtmlEntities = true)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $this->_documentXML, $matches);
@@ -131,15 +132,17 @@ class Template
             $search = '${' . $search . '}';
         }
 
-        if (!is_array($replace)) {
-            if (!String::isUTF8($replace)) {
-                $replace = utf8_encode($replace);
-            }
-            $replace = htmlspecialchars($replace);
-        } else {
-            foreach ($replace as $key => $value) {
-                $replace[$key] = htmlspecialchars($value);
-            }
+        if ($convertHtmlEntities) {
+            if (!is_array($replace)) {
+                if (!String::isUTF8($replace)) {
+                    $replace = utf8_encode($replace);
+                }
+                $replace = htmlspecialchars($replace);
+            }   else {
+                    foreach ($replace as $key => $value) {
+                        $replace[$key] = htmlspecialchars($value);
+                    }
+                }
         }
 
         $regExpDelim = '/';
