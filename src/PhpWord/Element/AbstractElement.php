@@ -13,7 +13,7 @@ use PhpOffice\PhpWord\Endnotes;
 use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\TOC;
+use PhpOffice\PhpWord\TOC as Titles;
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Shared\String;
 
@@ -174,7 +174,7 @@ abstract class AbstractElement
         $text = String::toUTF8($text);
         $title = new Title($text, $depth, $style);
         $title->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $data = TOC::addTitle($text, $depth);
+        $data = Titles::addTitle($text, $depth);
         $anchor = $data[0];
         $bookmarkId = $data[1];
         $title->setAnchor($anchor);

@@ -39,13 +39,11 @@ class Table extends Element
                     $html .= "<{$cellTag}>" . PHP_EOL;
                     if (count($cellContents) > 0) {
                         foreach ($cellContents as $content) {
-                            $writer = new Element($content, false);
-                            $writer->setParentWriter($this->parentWriter);
+                            $writer = new Element($this->parentWriter, $content, false);
                             $html .= $writer->write();
                         }
                     } else {
-                        $writer = new Element(new \PhpOffice\PhpWord\Element\TextBreak(), false);
-                        $writer->setParentWriter($this->parentWriter);
+                        $writer = new Element($this->parentWriter, new \PhpOffice\PhpWord\Element\TextBreak(), false);
                         $html .= $writer->write();
                     }
                     $html .= '</td>' . PHP_EOL;

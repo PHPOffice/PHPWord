@@ -49,8 +49,9 @@ class Element
      *
      * @param bool $withoutP
      */
-    public function __construct(AbstractElement $element, $withoutP = false)
+    public function __construct(HTML $parentWriter, AbstractElement $element, $withoutP = false)
     {
+        $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
     }
@@ -66,36 +67,10 @@ class Element
         $elmName = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($this->element));
         $elmWriterClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $elmName;
         if (class_exists($elmWriterClass) === true) {
-            $elmWriter = new $elmWriterClass($this->element, $this->withoutP);
-            $elmWriter->setParentWriter($this->parentWriter);
+            $elmWriter = new $elmWriterClass($this->parentWriter, $this->element, $this->withoutP);
             $html = $elmWriter->write();
         }
 
         return $html;
-    }
-
-    /**
-     * Set parent writer
-     *
-     * @param \PhpOffice\PhpWord\Writer\HTML $writer
-     */
-    public function setParentWriter(HTML $writer)
-    {
-        $this->parentWriter = $writer;
-    }
-
-    /**
-     * Get parent writer
-     *
-     * @return \PhpOffice\PhpWord\Writer\HTML
-     * @throws \PhpOffice\PhpWord\Exception\Exception
-     */
-    public function getParentWriter()
-    {
-        if (!is_null($this->parentWriter)) {
-            return $this->parentWriter;
-        } else {
-            throw new Exception("No parent HTML Writer assigned.");
-        }
     }
 }

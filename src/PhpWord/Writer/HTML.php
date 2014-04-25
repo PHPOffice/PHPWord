@@ -150,8 +150,7 @@ class HTML extends AbstractWriter implements WriterInterface
                 $elements = $section->getElements();
                 foreach ($elements as $element) {
                     if ($element instanceof AbstractElement) {
-                        $elementWriter = new ElementWriter($element, false);
-                        $elementWriter->setParentWriter($this);
+                        $elementWriter = new ElementWriter($this, $element, false);
                         $html .= $elementWriter->write();
                     }
                 }
@@ -176,8 +175,7 @@ class HTML extends AbstractWriter implements WriterInterface
                 $collection = $collectionObject::getElements();
                 if (array_key_exists($noteTypeId, $collection)) {
                     $element = $collection[$noteTypeId];
-                    $elmWriter = new TextRunWriter($element, true);
-                    $elmWriter->setParentWriter($this);
+                    $elmWriter = new TextRunWriter($this, $element, true);
                     $content = "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>" . $elmWriter->write();
                     $html .= "<p><a name=\"{$noteAnchor}\" />{$content}</p>" . PHP_EOL;
                 }

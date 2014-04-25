@@ -23,10 +23,10 @@ class Note extends Element
      */
     public function write()
     {
-        $noteId = count($this->getParentWriter()->getNotes()) + 1;
+        $noteId = count($this->parentWriter->getNotes()) + 1;
         $prefix = ($this->element instanceof \PhpOffice\PhpWord\Element\Endnote) ? 'endnote' : 'footnote';
         $noteMark = $prefix . '-' . $this->element->getRelationId();
-        $this->getParentWriter()->addNote($noteId, $noteMark);
+        $this->parentWriter->addNote($noteId, $noteMark);
         $html = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
 
         return $html;

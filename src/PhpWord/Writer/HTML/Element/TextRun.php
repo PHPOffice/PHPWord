@@ -40,8 +40,7 @@ class TextRun extends Element
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $html .= "<{$tag} {$attribute}=\"{$pStyle}\">";
             foreach ($elements as $element) {
-                $elementWriter = new Element($element, true);
-                $elementWriter->setParentWriter($this->parentWriter);
+                $elementWriter = new Element($this->parentWriter, $element, true);
                 $html .= $elementWriter->write();
             }
             $html .= "</{$tag}>";

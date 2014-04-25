@@ -30,7 +30,7 @@ class Image extends Element
         if (!$this->element instanceof ImageElement) {
             return $html;
         }
-        if (!$this->getParentWriter()->isPdf()) {
+        if (!$this->parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {
                 $styleWriter = new StyleWriter();
@@ -71,8 +71,8 @@ class Image extends Element
             $zip = new $zipClass();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
-                    $zip->extractTo($this->getParentWriter()->getTempDir(), $imageFilename);
-                    $actualSource = $this->getParentWriter()->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
+                    $zip->extractTo($this->parentWriter->getTempDir(), $imageFilename);
+                    $actualSource = $this->parentWriter->getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
                 }
             }
             $zip->close();
