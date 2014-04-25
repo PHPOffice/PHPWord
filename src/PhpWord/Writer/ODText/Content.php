@@ -12,21 +12,11 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
 
 /**
  * ODText content part writer
@@ -90,27 +80,8 @@ class Content extends Base
 
                 // $xmlWriter->startElement('text:section');
                 foreach ($elements as $element) {
-                    if ($element instanceof Text) {
-                        $this->writeText($xmlWriter, $element);
-                    } elseif ($element instanceof TextRun) {
-                        $this->writeTextRun($xmlWriter, $element);
-                    } elseif ($element instanceof Link) {
-                        $this->writeLink($xmlWriter, $element);
-                    } elseif ($element instanceof Title) {
-                        $this->writeTitle($xmlWriter, $element);
-                    } elseif ($element instanceof ListItem) {
-                        $this->writeListItem($xmlWriter, $element);
-                    } elseif ($element instanceof TextBreak) {
-                        $this->writeTextBreak($xmlWriter);
-                    } elseif ($element instanceof PageBreak) {
-                        $this->writePageBreak($xmlWriter);
-                    } elseif ($element instanceof Table) {
-                        $this->writeTable($xmlWriter, $element);
-                    } elseif ($element instanceof Image) {
-                        $this->writeImage($xmlWriter, $element);
-                    } elseif ($element instanceof Object) {
-                        $this->writeObject($xmlWriter, $element);
-                    }
+                    $elementWriter = new ElementWriter($xmlWriter, $this, $element, false);
+                    $elementWriter->write();
                 }
                 // $xmlWriter->endElement(); // text:section
             }
@@ -120,226 +91,6 @@ class Content extends Base
         $xmlWriter->endElement(); // office:document-content
 
         return $xmlWriter->getData();
-    }
-
-    /**
-     * Write text
-     *
-     * @param XMLWriter $xmlWriter
-     * @param Text $text
-     * @param bool $withoutP
-     */
-    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
-    {
-        $styleFont = $text->getFontStyle();
-        $styleParagraph = $text->getParagraphStyle();
-
-        // @todo Commented for TextRun. Should really checkout this value
-        // $SfIsObject = ($styleFont instanceof Font) ? true : false;
-        $SfIsObject = false;
-
-        if ($SfIsObject) {
-            // Don't never be the case, because I browse all sections for cleaning all styles not declared
-            throw new Exception('PhpWord : $SfIsObject wouldn\'t be an object');
-        } else {
-            if (!$withoutP) {
-                $xmlWriter->startElement('text:p'); // text:p
-            }
-            if (empty($styleFont)) {
-                if (empty($styleParagraph)) {
-                    $xmlWriter->writeAttribute('text:style-name', 'P1');
-                } elseif (is_string($styleParagraph)) {
-                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
-                }
-                $xmlWriter->writeRaw($text->getText());
-            } else {
-                if (empty($styleParagraph)) {
-                    $xmlWriter->writeAttribute('text:style-name', 'Standard');
-                } elseif (is_string($styleParagraph)) {
-                    $xmlWriter->writeAttribute('text:style-name', $styleParagraph);
-                }
-                // text:span
-                $xmlWriter->startElement('text:span');
-                if (is_string($styleFont)) {
-                    $xmlWriter->writeAttribute('text:style-name', $styleFont);
-                }
-                $xmlWriter->writeRaw($text->getText());
-                $xmlWriter->endElement();
-            }
-            if (!$withoutP) {
-                $xmlWriter->endElement(); // text:p
-            }
-        }
-    }
-
-    /**
-     * Write TextRun section
-     *
-     * @param XMLWriter $xmlWriter
-     * @param TextRun $textrun
-     * @todo Enable all other section types
-     */
-    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
-    {
-        $elements = $textrun->getElements();
-        $xmlWriter->startElement('text:p');
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                if ($element instanceof Text) {
-                    $this->writeText($xmlWriter, $element, true);
-                }
-            }
-        }
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write link element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     */
-    protected function writeLink(XMLWriter $xmlWriter, Link $link)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'Link');
-    }
-
-    /**
-     * Write title element
-     */
-    protected function writeTitle(XMLWriter $xmlWriter, Title $title)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'Title');
-    }
-
-    /**
-     * Write list item
-     */
-    protected function writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'ListItem');
-    }
-
-    /**
-     * Write text break
-     */
-    protected function writeTextBreak(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('text:p');
-        $xmlWriter->writeAttribute('text:style-name', 'Standard');
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write page break
-     */
-    protected function writePageBreak(XMLWriter $xmlWriter)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'PageBreak');
-    }
-
-    /**
-     * Write table
-     */
-    protected function writeTable(XMLWriter $xmlWriter, Table $table)
-    {
-        $rows = $table->getRows();
-        $rowCount = count($rows);
-        $colCount = $table->countColumns();
-        if ($rowCount > 0) {
-            $xmlWriter->startElement('table:table');
-            $xmlWriter->writeAttribute('table:name', $table->getElementId());
-            $xmlWriter->writeAttribute('table:style', $table->getElementId());
-
-            $xmlWriter->startElement('table:table-column');
-            $xmlWriter->writeAttribute('table:number-columns-repeated', $colCount);
-            $xmlWriter->endElement(); // table:table-column
-
-            foreach ($rows as $row) {
-                $xmlWriter->startElement('table:table-row');
-                foreach ($row->getCells() as $cell) {
-                    $xmlWriter->startElement('table:table-cell');
-                    $xmlWriter->writeAttribute('office:value-type', 'string');
-                    $elements = $cell->getElements();
-                    if (count($elements) > 0) {
-                        foreach ($elements as $element) {
-                            if ($element instanceof Text) {
-                                $this->writeText($xmlWriter, $element);
-                            } elseif ($element instanceof TextRun) {
-                                $this->writeTextRun($xmlWriter, $element);
-                            } elseif ($element instanceof ListItem) {
-                                $this->writeListItem($xmlWriter, $element);
-                            } elseif ($element instanceof TextBreak) {
-                                $this->writeTextBreak($xmlWriter);
-                            } elseif ($element instanceof Image) {
-                                $this->writeImage($xmlWriter, $element);
-                            } elseif ($element instanceof Object) {
-                                $this->writeObject($xmlWriter, $element);
-                            }
-                        }
-                    } else {
-                        $this->writeTextBreak($xmlWriter);
-                    }
-                    $xmlWriter->endElement(); // table:table-cell
-                }
-                $xmlWriter->endElement(); // table:table-row
-            }
-            $xmlWriter->endElement(); // table:table
-        }
-    }
-
-    /**
-     * Write image
-     */
-    protected function writeImage(XMLWriter $xmlWriter, Image $element)
-    {
-        $mediaIndex = $element->getMediaIndex();
-        $target = 'Pictures/' . $element->getTarget();
-        $style = $element->getStyle();
-        $width = Drawing::pixelsToCentimeters($style->getWidth());
-        $height = Drawing::pixelsToCentimeters($style->getHeight());
-
-        $xmlWriter->startElement('text:p');
-        $xmlWriter->writeAttribute('text:style-name', 'Standard');
-
-        $xmlWriter->startElement('draw:frame');
-        $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
-        $xmlWriter->writeAttribute('draw:name', $element->getElementId());
-        $xmlWriter->writeAttribute('text:anchor-type', 'as-char');
-        $xmlWriter->writeAttribute('svg:width', $width . 'cm');
-        $xmlWriter->writeAttribute('svg:height', $height . 'cm');
-        $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
-
-        $xmlWriter->startElement('draw:image');
-        $xmlWriter->writeAttribute('xlink:href', $target);
-        $xmlWriter->writeAttribute('xlink:type', 'simple');
-        $xmlWriter->writeAttribute('xlink:show', 'embed');
-        $xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
-        $xmlWriter->endElement(); // draw:image
-
-        $xmlWriter->endElement(); // draw:frame
-
-        $xmlWriter->endElement(); // text:p
-    }
-
-    /**
-     * Write object
-     */
-    protected function writeObject(XMLWriter $xmlWriter, Object $element)
-    {
-        $this->writeUnsupportedElement($xmlWriter, 'Object');
-    }
-
-    /**
-     * Write unsupported element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $element
-     */
-    private function writeUnsupportedElement(XMLWriter $xmlWriter, $element)
-    {
-        $xmlWriter->startElement('text:p');
-        $xmlWriter->writeRaw($element);
-        $xmlWriter->endElement();
     }
 
     /**

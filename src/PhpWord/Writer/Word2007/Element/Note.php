@@ -17,11 +17,16 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Note extends Element
 {
     /**
-     * Write element
+     * Reference type footnoteReference|endnoteReference
      *
-     * @param string $referenceType footnoteReference|endnoteReference
+     * @var string
      */
-    public function write($referenceType = 'footnoteReference')
+    protected $referenceType = 'footnoteReference';
+
+    /**
+     * Write element
+     */
+    public function write()
     {
         if (!$this->withoutP) {
             $this->xmlWriter->startElement('w:p');
@@ -29,10 +34,10 @@ class Note extends Element
         $this->xmlWriter->startElement('w:r');
         $this->xmlWriter->startElement('w:rPr');
         $this->xmlWriter->startElement('w:rStyle');
-        $this->xmlWriter->writeAttribute('w:val', ucfirst($referenceType));
+        $this->xmlWriter->writeAttribute('w:val', ucfirst($this->referenceType));
         $this->xmlWriter->endElement(); // w:rStyle
         $this->xmlWriter->endElement(); // w:rPr
-        $this->xmlWriter->startElement("w:{$referenceType}");
+        $this->xmlWriter->startElement("w:{$this->referenceType}");
         $this->xmlWriter->writeAttribute('w:id', $this->element->getRelationId());
         $this->xmlWriter->endElement(); // w:$referenceType
         $this->xmlWriter->endElement(); // w:r

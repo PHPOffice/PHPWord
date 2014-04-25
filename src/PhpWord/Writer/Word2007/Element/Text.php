@@ -12,7 +12,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Style as StyleWriter;
 
 /**
  * Text element writer

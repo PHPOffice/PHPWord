@@ -7,21 +7,22 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * Footnote element writer
+ * TextBreak element writer
  *
  * @since 0.10.0
  */
-class Footnote extends Note
+class TextBreak extends Element
 {
     /**
      * Write element
      */
     public function write()
     {
-        $this->referenceType = 'footnoteReference';
-        parent::write();
+        $this->xmlWriter->startElement('text:p');
+        $this->xmlWriter->writeAttribute('text:style-name', 'Standard');
+        $this->xmlWriter->endElement();
     }
 }

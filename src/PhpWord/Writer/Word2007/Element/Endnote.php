@@ -21,6 +21,7 @@ class Endnote extends Note
      */
     public function write()
     {
-        parent::write('endnoteReference');
+        $this->referenceType = 'endnoteReference';
+        parent::write();
     }
 }
