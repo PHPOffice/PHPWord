@@ -9,9 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Element\Endnote;
-use PhpOffice\PhpWord\Element\Footnote;
-
 /**
  * Note element HTML writer
  *
@@ -27,7 +24,7 @@ class Note extends Element
     public function write()
     {
         $noteId = count($this->getParentWriter()->getNotes()) + 1;
-        $prefix = ($this->element instanceof Endnote) ? 'endnote' : 'footnote';
+        $prefix = ($this->element instanceof \PhpOffice\PhpWord\Element\Endnote) ? 'endnote' : 'footnote';
         $noteMark = $prefix . '-' . $this->element->getRelationId();
         $this->getParentWriter()->addNote($noteId, $noteMark);
         $html = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";

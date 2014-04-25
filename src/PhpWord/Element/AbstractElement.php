@@ -18,7 +18,7 @@ use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Shared\String;
 
 /**
- * Container abstract class
+ * Element abstract class
  *
  * @since 0.10.0
  */
@@ -567,7 +567,7 @@ abstract class AbstractElement
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
-        $validContainerInContainers = array(
+        $validSubcontainers = array(
             'preservetext'  => array(array('cell'), array('header', 'footer')),
             'footnote'      => array(array('cell', 'textrun'), array('section')),
             'endnote'       => array(array('cell', 'textrun'), array('section')),
@@ -580,8 +580,8 @@ abstract class AbstractElement
             }
         }
         // Check if a method is valid for current container, located in other container
-        if (array_key_exists($method, $validContainerInContainers)) {
-            $rules = $validContainerInContainers[$method];
+        if (array_key_exists($method, $validSubcontainers)) {
+            $rules = $validSubcontainers[$method];
             $containers = $rules[0];
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {

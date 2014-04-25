@@ -95,13 +95,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $elementCollection = $section->getElements();
         $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
             'Table', 'ListItem', 'Object', 'Image',
-            'Title', 'TextRun', 'Footnote', 'CheckBox');
+            'Title', 'TextRun', 'Footnote', 'CheckBox', 'TOC');
         $i = 0;
         foreach ($elementTypes as $elementType) {
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$i]);
             $i++;
         }
-        $this->assertInstanceOf("PhpOffice\\PhpWord\\TOC", $elementCollection[$i]);
     }
 
     /**

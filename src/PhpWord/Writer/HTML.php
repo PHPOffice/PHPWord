@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Endnotes;
-use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Element\AbstractElement;
@@ -168,16 +166,14 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeNotes()
     {
-        $footnote = Footnotes::getElements();
-        $endnote = Endnotes::getElements();
         $html = '';
-
         if (!empty($this->notes)) {
             $html .= "<hr />";
             foreach ($this->notes as $noteId => $noteMark) {
                 $noteAnchor = "note-{$noteId}";
                 list($noteType, $noteTypeId) = explode('-', $noteMark);
-                $collection = $$noteType;
+                $collectionObject = 'PhpOffice\\PhpWord\\' . ($noteType == 'endnote' ? 'Endnotes' : 'Footnotes');
+                $collection = $collectionObject::getElements();
                 if (array_key_exists($noteTypeId, $collection)) {
                     $element = $collection[$noteTypeId];
                     $elmWriter = new TextRunWriter($element, true);

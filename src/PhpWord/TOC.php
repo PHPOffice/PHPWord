@@ -25,20 +25,6 @@ class TOC
     private static $titles = array();
 
     /**
-     * TOC style
-     *
-     * @var \PhpOffice\PhpWord\Style\TOC
-     */
-    private static $TOCStyle;
-
-    /**
-     * Font style
-     *
-     * @var \PhpOffice\PhpWord\Style\Font|array|string
-     */
-    private static $fontStyle;
-
-    /**
      * Title anchor
      *
      * @var int
@@ -51,55 +37,6 @@ class TOC
      * @var int
      */
     private static $bookmarkId = 0;
-
-
-    /**
-     * Min title depth to show
-     *
-     * @var int
-     */
-    private $minDepth = 1;
-
-    /**
-     * Max title depth to show
-     *
-     * @var int
-     */
-    private $maxDepth = 9;
-
-
-    /**
-     * Create a new Table-of-Contents Element
-     *
-     * @param mixed $styleFont
-     * @param array $styleTOC
-     * @param integer $minDepth
-     * @param integer $maxDepth
-     */
-    public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
-    {
-        self::$TOCStyle = new TOCStyle();
-
-        if (!is_null($styleTOC) && is_array($styleTOC)) {
-            foreach ($styleTOC as $key => $value) {
-                self::$TOCStyle->setStyleValue($key, $value);
-            }
-        }
-
-        if (!is_null($styleFont)) {
-            if (is_array($styleFont)) {
-                self::$fontStyle = new Font();
-                foreach ($styleFont as $key => $value) {
-                    self::$fontStyle->setStyleValue($key, $value);
-                }
-            } else {
-                self::$fontStyle = $styleFont;
-            }
-        }
-
-        $this->minDepth = $minDepth;
-        $this->maxDepth = $maxDepth;
-    }
 
     /**
      * Add a Title
@@ -129,20 +66,9 @@ class TOC
      *
      * @return array
      */
-    public function getTitles()
+    public static function getTitles()
     {
-        $titles = self::$titles;
-        foreach ($titles as $i => $title) {
-            if ($this->minDepth > $title['depth']) {
-                unset($titles[$i]);
-            }
-            if (($this->maxDepth != 0) && ($this->maxDepth < $title['depth'])) {
-                unset($titles[$i]);
-            }
-        }
-        $titles = array_merge(array(), $titles);
-
-        return $titles;
+        return self::$titles;
     }
 
     /**
@@ -151,65 +77,5 @@ class TOC
     public static function resetTitles()
     {
         self::$titles = array();
-    }
-
-    /**
-     * Get TOC Style
-     *
-     * @return \PhpOffice\PhpWord\Style\TOC
-     */
-    public static function getStyleTOC()
-    {
-        return self::$TOCStyle;
-    }
-
-    /**
-     * Get Font Style
-     *
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public static function getStyleFont()
-    {
-        return self::$fontStyle;
-    }
-
-    /**
-     * Set max depth
-     *
-     * @param int $value
-     */
-    public function setMaxDepth($value)
-    {
-        $this->maxDepth = $value;
-    }
-
-    /**
-     * Get Max Depth
-     *
-     * @return int Max depth of titles
-     */
-    public function getMaxDepth()
-    {
-        return $this->maxDepth;
-    }
-
-    /**
-     * Set min depth
-     *
-     * @param int $value
-     */
-    public function setMinDepth($value)
-    {
-        $this->minDepth = $value;
-    }
-
-    /**
-     * Get Min Depth
-     *
-     * @return int Min depth of titles
-     */
-    public function getMinDepth()
-    {
-        return $this->minDepth;
     }
 }

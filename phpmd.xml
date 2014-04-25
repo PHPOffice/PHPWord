@@ -4,14 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
     xsi:noNamespaceSchemaLocation=" http://pmd.sf.net/ruleset_xml_schema.xsd">
-    <description>PHPPowerPoint ruleset</description>
     <rule ref="rulesets/unusedcode.xml" />
     <rule ref="rulesets/design.xml" />
-    <rule ref="rulesets/naming.xml/LongVariable">
-        <properties>
-            <property name="maximum" value="30" />
-        </properties>
-    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable" />
     <rule ref="rulesets/naming.xml/ShortVariable" />
     <rule ref="rulesets/naming.xml/ShortMethodName" />
     <rule ref="rulesets/naming.xml/ConstructorWithNameAsEnclosingClass" />

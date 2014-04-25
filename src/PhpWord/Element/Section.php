@@ -11,7 +11,8 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
-use PhpOffice\PhpWord\TOC;
+use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\TOC;
 
 /**
  * Section
@@ -96,7 +97,7 @@ class Section extends AbstractElement
      * @param mixed $styleTOC
      * @param integer $minDepth
      * @param integer $maxDepth
-     * @return \PhpOffice\PhpWord\TOC
+     * @return \PhpOffice\PhpWord\Element\TOC
      */
     public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
     {

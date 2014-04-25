@@ -61,7 +61,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
-        $section->addText('Test 2', array('name' => 'Tahoma', 'bold' => true, 'italic' => true));
+        $section->addText('Test 2', array('name' => 'Tahoma', 'bold' => true, 'italic' => true, 'subscript' => true));
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();

@@ -9,29 +9,16 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Element\AbstractElement;
-use PhpOffice\PhpWord\Element\CheckBox;
-use PhpOffice\PhpWord\Element\Endnote;
-use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Title;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\TextBreak;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Image as ImageStyle;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Element\Element as ElementWriter;
 
 /**
  * Word2007 base part writer
@@ -41,697 +28,13 @@ use PhpOffice\PhpWord\Style\Table as TableStyle;
 class Base extends AbstractWriterPart
 {
     /**
-     * Write text element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Text $text
-     * @param boolean $withoutP
-     */
-    protected function writeText(XMLWriter $xmlWriter, Text $text, $withoutP = false)
-    {
-        $styleFont = $text->getFontStyle();
-        $styleParagraph = $text->getParagraphStyle();
-        $strText = htmlspecialchars($text->getText());
-        $strText = String::controlCharacterPHP2OOXML($strText);
-
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-            $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        }
-        $xmlWriter->startElement('w:r');
-        $this->writeInlineFontStyle($xmlWriter, $styleFont);
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($strText);
-        $xmlWriter->endElement();
-        $xmlWriter->endElement(); // w:r
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write textrun  element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\TextRun $textrun
-     */
-    protected function writeTextRun(XMLWriter $xmlWriter, TextRun $textrun)
-    {
-        $styleParagraph = $textrun->getParagraphStyle();
-        $xmlWriter->startElement('w:p');
-        $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        $this->writeContainerElements($xmlWriter, $textrun);
-        $xmlWriter->endElement(); // w:p
-    }
-
-    /**
-     * Write link element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Link $link
-     * @param boolean $withoutP
-     */
-    protected function writeLink(XMLWriter $xmlWriter, Link $link, $withoutP = false)
-    {
-        $rId = $link->getRelationId() + ($link->isInSection() ? 6 : 0);
-        $linkName = $link->getLinkName();
-        if (is_null($linkName)) {
-            $linkName = $link->getLinkSrc();
-        }
-        $styleFont = $link->getFontStyle();
-        $styleParagraph = $link->getParagraphStyle();
-
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-            $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        }
-        $xmlWriter->startElement('w:hyperlink');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-        $xmlWriter->writeAttribute('w:history', '1');
-        $xmlWriter->startElement('w:r');
-        $this->writeInlineFontStyle($xmlWriter, $styleFont);
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeAttribute('xml:space', 'preserve'); // needed because of drawing spaces before and after text
-        $xmlWriter->writeRaw($linkName);
-        $xmlWriter->endElement(); // w:t
-        $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:hyperlink
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write title element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Title $title
-     */
-    protected function writeTitle(XMLWriter $xmlWriter, Title $title)
-    {
-        $text = htmlspecialchars($title->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
-        $anchor = $title->getAnchor();
-        $bookmarkId = $title->getBookmarkId();
-        $style = $title->getStyle();
-
-        $xmlWriter->startElement('w:p');
-
-        if (!empty($style)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:pStyle');
-            $xmlWriter->writeAttribute('w:val', $style);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
-
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-
-        $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
-        $xmlWriter->writeAttribute('w:name', $anchor);
-        $xmlWriter->endElement();
-
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw($text);
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-
-        $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write preserve text element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\PreserveText $textrun
-     */
-    protected function writePreserveText(XMLWriter $xmlWriter, PreserveText $textrun)
-    {
-        $styleFont = $textrun->getFontStyle();
-        $styleParagraph = $textrun->getParagraphStyle();
-
-        $arrText = $textrun->getText();
-        if (!is_array($arrText)) {
-            $arrText = array($arrText);
-        }
-
-        $xmlWriter->startElement('w:p');
-        $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        foreach ($arrText as $text) {
-            if (substr($text, 0, 1) == '{') {
-                $text = substr($text, 1, -1);
-
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:fldChar');
-                $xmlWriter->writeAttribute('w:fldCharType', 'begin');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-
-                $xmlWriter->startElement('w:r');
-                $this->writeInlineFontStyle($xmlWriter, $styleFont);
-                $xmlWriter->startElement('w:instrText');
-                $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($text);
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:fldChar');
-                $xmlWriter->writeAttribute('w:fldCharType', 'separate');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:fldChar');
-                $xmlWriter->writeAttribute('w:fldCharType', 'end');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-            } else {
-                $text = htmlspecialchars($text);
-                $text = String::controlCharacterPHP2OOXML($text);
-
-                $xmlWriter->startElement('w:r');
-                $this->writeInlineFontStyle($xmlWriter, $styleFont);
-                $xmlWriter->startElement('w:t');
-                $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($text);
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-            }
-        }
-
-        $xmlWriter->endElement(); // p
-    }
-
-    /**
-     * Write text break element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\TextBreak $element
-     * @param boolean $withoutP
-     */
-    protected function writeTextBreak(XMLWriter $xmlWriter, TextBreak $element = null, $withoutP = false)
-    {
-        if (!$withoutP) {
-            $hasStyle = false;
-            $styleFont = null;
-            $styleParagraph = null;
-            if (!is_null($element)) {
-                $styleFont = $element->getFontStyle();
-                $styleParagraph = $element->getParagraphStyle();
-                $hasStyle = !is_null($styleFont) || !is_null($styleParagraph);
-            }
-            if ($hasStyle) {
-                $xmlWriter->startElement('w:p');
-                $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-                if (!is_null($styleFont)) {
-                    $xmlWriter->startElement('w:pPr');
-                    $this->writeInlineFontStyle($xmlWriter, $styleFont);
-                    $xmlWriter->endElement(); // w:pPr
-                }
-                $xmlWriter->endElement(); // w:p
-            } else {
-                $xmlWriter->writeElement('w:p');
-            }
-        } else {
-            $xmlWriter->writeElement('w:br');
-        }
-    }
-
-    /**
-     * Write list item element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\ListItem $listItem
-     */
-    protected function writeListItem(XMLWriter $xmlWriter, ListItem $listItem)
-    {
-        $textObject = $listItem->getTextObject();
-        $depth = $listItem->getDepth();
-        $numId = $listItem->getStyle()->getNumId();
-        $styleParagraph = $textObject->getParagraphStyle();
-
-        $xmlWriter->startElement('w:p');
-        $xmlWriter->startElement('w:pPr');
-        $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph, true);
-        $xmlWriter->startElement('w:numPr');
-        $xmlWriter->startElement('w:ilvl');
-        $xmlWriter->writeAttribute('w:val', $depth);
-        $xmlWriter->endElement(); // w:ilvl
-        $xmlWriter->startElement('w:numId');
-        $xmlWriter->writeAttribute('w:val', $numId);
-        $xmlWriter->endElement(); // w:numId
-        $xmlWriter->endElement(); // w:numPr
-        $xmlWriter->endElement(); // w:pPr
-        $this->writeText($xmlWriter, $textObject, true);
-        $xmlWriter->endElement(); // w:p
-    }
-
-    /**
-     * Write footnote reference element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Table $table
-     */
-    protected function writeTable(XMLWriter $xmlWriter, Table $table)
-    {
-        $rows = $table->getRows();
-        $cRows = count($rows);
-
-        if ($cRows > 0) {
-            $xmlWriter->startElement('w:tbl');
-
-            // Table grid
-            $cellWidths = array();
-            for ($i = 0; $i < $cRows; $i++) {
-                $row = $rows[$i];
-                $cells = $row->getCells();
-                if (count($cells) <= count($cellWidths)) {
-                    continue;
-                }
-                $cellWidths = array();
-                foreach ($cells as $cell) {
-                    $cellWidths[] = $cell->getWidth();
-                }
-            }
-            $xmlWriter->startElement('w:tblGrid');
-            foreach ($cellWidths as $width) {
-                $xmlWriter->startElement('w:gridCol');
-                if (!is_null($width)) {
-                    $xmlWriter->writeAttribute('w:w', $width);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                }
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement(); // w:tblGrid
-
-            // Table style
-            $tblStyle = $table->getStyle();
-            $tblWidth = $table->getWidth();
-            if ($tblStyle instanceof TableStyle) {
-                $this->writeTableStyle($xmlWriter, $tblStyle, false);
-            } else {
-                if (!empty($tblStyle)) {
-                    $xmlWriter->startElement('w:tblPr');
-                    $xmlWriter->startElement('w:tblStyle');
-                    $xmlWriter->writeAttribute('w:val', $tblStyle);
-                    $xmlWriter->endElement();
-                    if (!is_null($tblWidth)) {
-                        $xmlWriter->startElement('w:tblW');
-                        $xmlWriter->writeAttribute('w:w', $tblWidth);
-                        $xmlWriter->writeAttribute('w:type', 'pct');
-                        $xmlWriter->endElement();
-                    }
-                    $xmlWriter->endElement();
-                }
-            }
-
-            // Table rows
-            for ($i = 0; $i < $cRows; $i++) {
-                $row = $rows[$i];
-                $height = $row->getHeight();
-                $rowStyle = $row->getStyle();
-                $tblHeader = $rowStyle->getTblHeader();
-                $cantSplit = $rowStyle->getCantSplit();
-                $exactHeight = $rowStyle->getExactHeight();
-
-                $xmlWriter->startElement('w:tr');
-                if (!is_null($height) || !is_null($tblHeader) || !is_null($cantSplit)) {
-                    $xmlWriter->startElement('w:trPr');
-                    if (!is_null($height)) {
-                        $xmlWriter->startElement('w:trHeight');
-                        $xmlWriter->writeAttribute('w:val', $height);
-                        $xmlWriter->writeAttribute('w:hRule', ($exactHeight ? 'exact' : 'atLeast'));
-                        $xmlWriter->endElement();
-                    }
-                    if ($tblHeader) {
-                        $xmlWriter->startElement('w:tblHeader');
-                        $xmlWriter->writeAttribute('w:val', '1');
-                        $xmlWriter->endElement();
-                    }
-                    if ($cantSplit) {
-                        $xmlWriter->startElement('w:cantSplit');
-                        $xmlWriter->writeAttribute('w:val', '1');
-                        $xmlWriter->endElement();
-                    }
-                    $xmlWriter->endElement();
-                }
-                foreach ($row->getCells() as $cell) {
-                    $cellStyle = $cell->getStyle();
-                    $width = $cell->getWidth();
-                    $xmlWriter->startElement('w:tc');
-                    $xmlWriter->startElement('w:tcPr');
-                    $xmlWriter->startElement('w:tcW');
-                    $xmlWriter->writeAttribute('w:w', $width);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                    $xmlWriter->endElement(); // w:tcW
-                    if ($cellStyle instanceof Cell) {
-                        $this->writeCellStyle($xmlWriter, $cellStyle);
-                    }
-                    $xmlWriter->endElement(); // w:tcPr
-                    $this->writeContainerElements($xmlWriter, $cell);
-                    $xmlWriter->endElement(); // w:tc
-                }
-                $xmlWriter->endElement(); // w:tr
-            }
-            $xmlWriter->endElement();
-        }
-    }
-
-    /**
-     * Write image element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Image $image
-     * @param boolean $withoutP
-     */
-    protected function writeImage(XMLWriter $xmlWriter, Image $image, $withoutP = false)
-    {
-        $rId = $image->getRelationId() + ($image->isInSection() ? 6 : 0);
-
-        $style = $image->getStyle();
-        $width = $style->getWidth();
-        $height = $style->getHeight();
-        $align = $style->getAlign();
-        $marginTop = $style->getMarginTop();
-        $marginLeft = $style->getMarginLeft();
-        $wrappingStyle = $style->getWrappingStyle();
-        $w10wrapType = null;
-
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-            if (!is_null($align)) {
-                $xmlWriter->startElement('w:pPr');
-                $xmlWriter->startElement('w:jc');
-                $xmlWriter->writeAttribute('w:val', $align);
-                $xmlWriter->endElement(); // w:jc
-                $xmlWriter->endElement(); // w:pPr
-            }
-        }
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:pict');
-        $xmlWriter->startElement('v:shape');
-        $xmlWriter->writeAttribute('type', '#_x0000_t75');
-        $imgStyle = '';
-        if (null !== $width) {
-            $imgStyle .= 'width:' . $width . 'px;';
-        }
-        if (null !== $height) {
-            $imgStyle .= 'height:' . $height . 'px;';
-        }
-        if (null !== $marginTop) {
-            $imgStyle .= 'margin-top:' . $marginTop . 'in;';
-        }
-        if (null !== $marginLeft) {
-            $imgStyle .= 'margin-left:' . $marginLeft . 'in;';
-        }
-        switch ($wrappingStyle) {
-            case ImageStyle::WRAPPING_STYLE_BEHIND:
-                $imgStyle .= 'position:absolute;z-index:-251658752;';
-                break;
-            case ImageStyle::WRAPPING_STYLE_INFRONT:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
-                break;
-            case ImageStyle::WRAPPING_STYLE_SQUARE:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
-                $w10wrapType = 'square';
-                break;
-            case ImageStyle::WRAPPING_STYLE_TIGHT:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
-                $w10wrapType = 'tight';
-                break;
-        }
-        $xmlWriter->writeAttribute('style', $imgStyle);
-
-        $xmlWriter->startElement('v:imagedata');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-        $xmlWriter->writeAttribute('o:title', '');
-        $xmlWriter->endElement(); // v:imagedata
-
-        if (!is_null($w10wrapType)) {
-            $xmlWriter->startElement('w10:wrap');
-            $xmlWriter->writeAttribute('type', $w10wrapType);
-            $xmlWriter->endElement(); // w10:wrap
-        }
-
-        $xmlWriter->endElement(); // v:shape
-        $xmlWriter->endElement(); // w:pict
-        $xmlWriter->endElement(); // w:r
-
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write watermark element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Image $image
-     */
-    protected function writeWatermark(XMLWriter $xmlWriter, Image $image)
-    {
-        $rId = $image->getRelationId();
-
-        $style = $image->getStyle();
-        $width = $style->getWidth();
-        $height = $style->getHeight();
-        $marginLeft = $style->getMarginLeft();
-        $marginTop = $style->getMarginTop();
-
-        $xmlWriter->startElement('w:p');
-
-        $xmlWriter->startElement('w:r');
-
-        $xmlWriter->startElement('w:pict');
-
-        $xmlWriter->startElement('v:shape');
-        $xmlWriter->writeAttribute('type', '#_x0000_t75');
-
-        $strStyle = 'position:absolute;';
-        $strStyle .= ' width:' . $width . 'px;';
-        $strStyle .= ' height:' . $height . 'px;';
-        if (!is_null($marginTop)) {
-            $strStyle .= ' margin-top:' . $marginTop . 'px;';
-        }
-        if (!is_null($marginLeft)) {
-            $strStyle .= ' margin-left:' . $marginLeft . 'px;';
-        }
-
-        $xmlWriter->writeAttribute('style', $strStyle);
-
-        $xmlWriter->startElement('v:imagedata');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-        $xmlWriter->writeAttribute('o:title', '');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write object element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Object $object
-     * @param boolean $withoutP
-     */
-    protected function writeObject(XMLWriter $xmlWriter, Object $object, $withoutP = false)
-    {
-        $rIdObject = $object->getRelationId() + ($object->isInSection() ? 6 : 0);
-        $rIdImage = $object->getImageRelationId() + ($object->isInSection() ? 6 : 0);
-        $shapeId = md5($rIdObject . '_' . $rIdImage);
-        $objectId = $object->getRelationId() + 1325353440;
-        $style = $object->getStyle();
-        $align = $style->getAlign();
-
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-        }
-        if (!is_null($align)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:jc');
-            $xmlWriter->writeAttribute('w:val', $align);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-        }
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:object');
-        $xmlWriter->writeAttribute('w:dxaOrig', '249');
-        $xmlWriter->writeAttribute('w:dyaOrig', '160');
-        $xmlWriter->startElement('v:shape');
-        $xmlWriter->writeAttribute('id', $shapeId);
-        $xmlWriter->writeAttribute('type', '#_x0000_t75');
-        $xmlWriter->writeAttribute('style', 'width:104px;height:67px');
-        $xmlWriter->writeAttribute('o:ole', '');
-        $xmlWriter->startElement('v:imagedata');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdImage);
-        $xmlWriter->writeAttribute('o:title', '');
-        $xmlWriter->endElement(); // v:imagedata
-        $xmlWriter->endElement(); // v:shape
-        $xmlWriter->startElement('o:OLEObject');
-        $xmlWriter->writeAttribute('Type', 'Embed');
-        $xmlWriter->writeAttribute('ProgID', 'Package');
-        $xmlWriter->writeAttribute('ShapeID', $shapeId);
-        $xmlWriter->writeAttribute('DrawAspect', 'Icon');
-        $xmlWriter->writeAttribute('ObjectID', '_' . $objectId);
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rIdObject);
-        $xmlWriter->endElement(); // o:OLEObject
-        $xmlWriter->endElement(); // w:object
-        $xmlWriter->endElement(); // w:r
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write footnote element which links to the actual content in footnotes.xml
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Footnote $footnote
-     * @param boolean $withoutP
-     */
-    protected function writeFootnote(XMLWriter $xmlWriter, Footnote $footnote, $withoutP = false)
-    {
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-        }
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:rPr');
-        $xmlWriter->startElement('w:rStyle');
-        $xmlWriter->writeAttribute('w:val', 'FootnoteReference');
-        $xmlWriter->endElement(); // w:rStyle
-        $xmlWriter->endElement(); // w:rPr
-        $xmlWriter->startElement('w:footnoteReference');
-        $xmlWriter->writeAttribute('w:id', $footnote->getRelationId());
-        $xmlWriter->endElement(); // w:footnoteReference
-        $xmlWriter->endElement(); // w:r
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write endnote element which links to the actual content in endnotes.xml
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Endnote $endnote
-     * @param boolean $withoutP
-     */
-    protected function writeEndnote(XMLWriter $xmlWriter, Endnote $endnote, $withoutP = false)
-    {
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-        }
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:rPr');
-        $xmlWriter->startElement('w:rStyle');
-        $xmlWriter->writeAttribute('w:val', 'EndnoteReference');
-        $xmlWriter->endElement(); // w:rStyle
-        $xmlWriter->endElement(); // w:rPr
-        $xmlWriter->startElement('w:endnoteReference');
-        $xmlWriter->writeAttribute('w:id', $endnote->getRelationId());
-        $xmlWriter->endElement(); // w:endnoteReference
-        $xmlWriter->endElement(); // w:r
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
-     * Write CheckBox
-     *
-     * @param boolean $withoutP
-     * @param boolean $checkState
-     */
-    protected function writeCheckBox(XMLWriter $xmlWriter, CheckBox $checkbox, $withoutP = false, $checkState = false)
-    {
-        $name = htmlspecialchars($checkbox->getName());
-        $name = String::controlCharacterPHP2OOXML($name);
-        $text = htmlspecialchars($checkbox->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
-        $styleFont = $checkbox->getFontStyle();
-        $styleParagraph = $checkbox->getParagraphStyle();
-
-        if (!$withoutP) {
-            $xmlWriter->startElement('w:p');
-            $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
-        }
-
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
-        $xmlWriter->startElement('w:ffData');
-        $xmlWriter->startElement('w:name');
-        $xmlWriter->writeAttribute('w:val', $name);
-        $xmlWriter->endElement(); //w:name
-        $xmlWriter->writeAttribute('w:enabled', '');
-        $xmlWriter->startElement('w:calcOnExit');
-        $xmlWriter->writeAttribute('w:val', '0');
-        $xmlWriter->endElement(); //w:calcOnExit
-        $xmlWriter->startElement('w:checkBox');
-        $xmlWriter->writeAttribute('w:sizeAuto', '');
-        $xmlWriter->startElement('w:default');
-        $xmlWriter->writeAttribute('w:val', ($checkState ? '1' : '0'));
-        $xmlWriter->endElement(); //w:default
-        $xmlWriter->endElement(); //w:checkBox
-        $xmlWriter->endElement(); // w:ffData
-        $xmlWriter->endElement(); // w:fldChar
-        $xmlWriter->endElement(); // w:r
-
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:instrText');
-        $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw(' FORMCHECKBOX ');
-        $xmlWriter->endElement();// w:instrText
-        $xmlWriter->endElement(); // w:r
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'seperate');
-        $xmlWriter->endElement();// w:fldChar
-        $xmlWriter->endElement(); // w:r
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();// w:fldChar
-        $xmlWriter->endElement(); // w:r
-
-        $xmlWriter->startElement('w:r');
-        $this->writeInlineFontStyle($xmlWriter, $styleFont);
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($text);
-        $xmlWriter->endElement(); // w:t
-        $xmlWriter->endElement(); // w:r
-
-        if (!$withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
-    }
-
-    /**
      * Write paragraph style
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @param bool $withoutPPR
      */
-    protected function writeParagraphStyle(XMLWriter $xmlWriter, Paragraph $style, $withoutPPR = false)
+    public function writeParagraphStyle(XMLWriter $xmlWriter, Paragraph $style, $withoutPPR = false)
     {
 
         $align = $style->getAlign();
@@ -840,7 +143,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Font $style
      */
-    protected function writeFontStyle(XMLWriter $xmlWriter, Font $style)
+    public function writeFontStyle(XMLWriter $xmlWriter, Font $style)
     {
         $font = $style->getName();
         $bold = $style->getBold();
@@ -945,7 +248,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @param boolean $isFullStyle
      */
-    protected function writeTableStyle(XMLWriter $xmlWriter, TableStyle $style, $isFullStyle = true)
+    public function writeTableStyle(XMLWriter $xmlWriter, TableStyle $style, $isFullStyle = true)
     {
         $bgColor = $style->getBgColor();
         $brdCol = $style->getBorderColor();
@@ -1008,7 +311,7 @@ class Base extends AbstractWriterPart
      * @param string $type
      * @param \PhpOffice\PhpWord\Style\Table $style
      */
-    protected function writeRowStyle(XMLWriter $xmlWriter, $type, TableStyle $style)
+    public function writeRowStyle(XMLWriter $xmlWriter, $type, TableStyle $style)
     {
         $bgColor = $style->getBgColor();
 
@@ -1049,7 +352,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Cell $style
      */
-    protected function writeCellStyle(XMLWriter $xmlWriter, Cell $style)
+    public function writeCellStyle(XMLWriter $xmlWriter, Cell $style)
     {
         $bgColor = $style->getBgColor();
         $valign = $style->getVAlign();
@@ -1117,7 +420,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Style\Paragraph|string $styleParagraph
      * @param boolean $withoutPPR
      */
-    protected function writeInlineParagraphStyle(XMLWriter $xmlWriter, $styleParagraph = null, $withoutPPR = false)
+    public function writeInlineParagraphStyle(XMLWriter $xmlWriter, $styleParagraph = null, $withoutPPR = false)
     {
         if ($styleParagraph instanceof Paragraph) {
             $this->writeParagraphStyle($xmlWriter, $styleParagraph, $withoutPPR);
@@ -1142,7 +445,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Font|string $styleFont
      */
-    protected function writeInlineFontStyle(XMLWriter $xmlWriter, $styleFont = null)
+    public function writeInlineFontStyle(XMLWriter $xmlWriter, $styleFont = null)
     {
         if ($styleFont instanceof Font) {
             $this->writeFontStyle($xmlWriter, $styleFont);
@@ -1163,7 +466,7 @@ class Base extends AbstractWriterPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
-    protected function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
+    public function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
     {
         // Check allowed elements
         $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
@@ -1179,40 +482,24 @@ class Base extends AbstractWriterPart
         );
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
-        if (array_key_exists($containerName, $allowedElements)) {
-            $containerElements = $allowedElements[$containerName];
-        } else {
+        if (!array_key_exists($containerName, $allowedElements)) {
             throw new Exception('Invalid container.');
         }
 
         // Loop through elements
         $elements = $container->getElements();
+        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
         if (count($elements) > 0) {
             foreach ($elements as $element) {
-                $elmName = get_class($element);
-                $elmName = substr($elmName, strrpos($elmName, '\\') + 1);
-                if (in_array($elmName, $containerElements)) {
-                    $method = "write{$elmName}";
-                    // Image on Header could be watermark
-                    if ($containerName == 'Header' && $elmName == 'Image') {
-                        if ($element->getIsWatermark()) {
-                            $method = "writeWatermark";
-                        }
-                    }
-                    switch ($containerName) {
-                        case 'TextRun':
-                        case 'Footnote':
-                        case 'Endnote':
-                            $this->$method($xmlWriter, $element, true);
-                            break;
-                        default:
-                            $this->$method($xmlWriter, $element);
-                    }
+                if ($element instanceof AbstractElement) {
+                    $elementWriter = new ElementWriter($xmlWriter, $this, $element, $withoutP);
+                    $elementWriter->write();
                 }
             }
         } else {
             if ($containerName == 'Cell') {
-                $this->writeTextBreak($xmlWriter);
+                $elementWriter = new ElementWriter($xmlWriter, $this, new TextBreak(), $withoutP);
+                $elementWriter->write();
             }
         }
     }

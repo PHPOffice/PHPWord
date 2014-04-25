@@ -10,12 +10,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\TOC;
-use PhpOffice\PhpWord\Element\PageBreak;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Word2007 document part writer
@@ -200,156 +197,6 @@ class Document extends Base
         $xmlWriter->writeAttribute('w:space', $colsSpace);
         $xmlWriter->endElement();
 
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write page break element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\PageBreak $pagebreak
-     */
-    protected function writePageBreak(XMLWriter $xmlWriter, PageBreak $pagebreak)
-    {
-        $xmlWriter->startElement('w:p');
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:br');
-        $xmlWriter->writeAttribute('w:type', 'page');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-    }
-
-    /**
-     * Write TOC element
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\TOC $toc
-     */
-    protected function writeTOC(XMLWriter $xmlWriter, TOC $toc)
-    {
-        $titles = $toc->getTitles();
-        $styleFont = $toc->getStyleFont();
-
-        $styleTOC = $toc->getStyleTOC();
-        $fIndent = $styleTOC->getIndent();
-        $tabLeader = $styleTOC->getTabLeader();
-        $tabPos = $styleTOC->getTabPos();
-
-        $maxDepth = $toc->getMaxDepth();
-        $minDepth = $toc->getMinDepth();
-
-        $isObject = ($styleFont instanceof Font) ? true : false;
-
-        for ($i = 0; $i < count($titles); $i++) {
-            $title = $titles[$i];
-            $indent = ($title['depth'] - 1) * $fIndent;
-
-            $xmlWriter->startElement('w:p');
-
-            $xmlWriter->startElement('w:pPr');
-
-            if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $this->writeParagraphStyle($xmlWriter, $styleFont->getParagraphStyle());
-            }
-
-            if ($indent > 0) {
-                $xmlWriter->startElement('w:ind');
-                $xmlWriter->writeAttribute('w:left', $indent);
-                $xmlWriter->endElement();
-            }
-
-            if (!empty($styleFont) && !$isObject) {
-                $xmlWriter->startElement('w:pPr');
-                $xmlWriter->startElement('w:pStyle');
-                $xmlWriter->writeAttribute('w:val', $styleFont);
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-            }
-
-            $xmlWriter->startElement('w:tabs');
-            $xmlWriter->startElement('w:tab');
-            $xmlWriter->writeAttribute('w:val', 'right');
-            if (!empty($tabLeader)) {
-                $xmlWriter->writeAttribute('w:leader', $tabLeader);
-            }
-            $xmlWriter->writeAttribute('w:pos', $tabPos);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-
-            $xmlWriter->endElement(); // w:pPr
-
-
-            if ($i == 0) {
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:fldChar');
-                $xmlWriter->writeAttribute('w:fldCharType', 'begin');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:instrText');
-                $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw('TOC \o "' . $minDepth . '-' . $maxDepth . '" \h \z \u');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-
-                $xmlWriter->startElement('w:r');
-                $xmlWriter->startElement('w:fldChar');
-                $xmlWriter->writeAttribute('w:fldCharType', 'separate');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
-            }
-
-            $xmlWriter->startElement('w:hyperlink');
-            $xmlWriter->writeAttribute('w:anchor', $title['anchor']);
-            $xmlWriter->writeAttribute('w:history', '1');
-
-            $xmlWriter->startElement('w:r');
-
-            if ($isObject) {
-                $this->writeFontStyle($xmlWriter, $styleFont);
-            }
-
-            $xmlWriter->startElement('w:t');
-            $xmlWriter->writeRaw($title['text']);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-
-            $xmlWriter->startElement('w:r');
-            $xmlWriter->writeElement('w:tab', null);
-            $xmlWriter->endElement();
-
-            $xmlWriter->startElement('w:r');
-            $xmlWriter->startElement('w:fldChar');
-            $xmlWriter->writeAttribute('w:fldCharType', 'begin');
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-
-            $xmlWriter->startElement('w:r');
-            $xmlWriter->startElement('w:instrText');
-            $xmlWriter->writeAttribute('xml:space', 'preserve');
-            $xmlWriter->writeRaw('PAGEREF ' . $title['anchor'] . ' \h');
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-
-            $xmlWriter->startElement('w:r');
-            $xmlWriter->startElement('w:fldChar');
-            $xmlWriter->writeAttribute('w:fldCharType', 'end');
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
-
-            $xmlWriter->endElement(); // w:hyperlink
-
-            $xmlWriter->endElement(); // w:p
-        }
-
-        $xmlWriter->startElement('w:p');
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
         $xmlWriter->endElement();
     }
 }

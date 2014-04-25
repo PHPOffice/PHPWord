@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
-
 /**
  * Tab style
  */

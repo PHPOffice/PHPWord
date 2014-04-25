@@ -77,7 +77,7 @@ class Element
     /**
      * Set parent writer
      *
-     * @param \PhpOffice\PhpWord\Writer\HTML $pWriter
+     * @param \PhpOffice\PhpWord\Writer\HTML $writer
      */
     public function setParentWriter(HTML $writer)
     {

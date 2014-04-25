@@ -29,7 +29,7 @@ if (!defined('DATE_W3C')) {
  */
 class XMLWriter
 {
-    /** Temporary storage method */
+    /** Temporary storage location */
     const STORAGE_MEMORY = 1;
     const STORAGE_DISK = 2;
 
@@ -50,20 +50,20 @@ class XMLWriter
     /**
      * Create new XMLWriter
      *
-     * @param int $pTemporaryStorage Temporary storage location
-     * @param string $pTemporaryStorageFolder Temporary storage folder
+     * @param int $tempLocation Temporary storage location
+     * @param string $tempFolder Temporary storage folder
      */
-    public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageFolder = './')
+    public function __construct($tempLocation = self::STORAGE_MEMORY, $tempFolder = './')
     {
         // Create internal XMLWriter
         $this->xmlWriter = new \XMLWriter();
 
         // Open temporary storage
-        if ($pTemporaryStorage == self::STORAGE_MEMORY) {
+        if ($tempLocation == self::STORAGE_MEMORY) {
             $this->xmlWriter->openMemory();
         } else {
             // Create temporary filename
-            $this->tempFile = @tempnam($pTemporaryStorageFolder, 'xml');
+            $this->tempFile = @tempnam($tempFolder, 'xml');
 
             // Open storage
             if ($this->xmlWriter->openUri($this->tempFile) === false) {

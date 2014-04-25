@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
-use PhpOffice\PhpWord\Exception\Exception;
-
 // PCLZIP needs the temp path to end in a back slash
 // @codeCoverageIgnoreStart
 if (!defined('PCLZIP_TEMPORARY_DIR')) {
