@@ -10,9 +10,10 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\Drawing;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\RTF\Element\Element as ElementWriter;
 
@@ -99,16 +100,6 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Set last paragraph style
-     *
-     * @param mixed $value
-     */
-    public function setLastParagraphStyle($value = '')
-    {
-        $this->lastParagraphStyle = $value;
-    }
-
-    /**
      * Get last paragraph style
      *
      * @param mixed $value
@@ -119,14 +110,24 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
+     * Set last paragraph style
+     *
+     * @param mixed $value
+     */
+    public function setLastParagraphStyle($value = '')
+    {
+        $this->lastParagraphStyle = $value;
+    }
+
+    /**
      * Get all data
      *
      * @return string
      */
     private function writeDocument()
     {
-        $this->fontTable = $this->getDataFont();
-        $this->colorTable = $this->getDataColor();
+        $this->fontTable = $this->populateFontTable();
+        $this->colorTable = $this->populateColorTable();
 
         // Set the default character set
         $sRTFContent = '{\rtf1';
@@ -200,7 +201,7 @@ class RTF extends AbstractWriter implements WriterInterface
      *
      * @return array
      */
-    private function getDataFont()
+    private function populateFontTable()
     {
         $phpWord = $this->phpWord;
 
@@ -254,7 +255,7 @@ class RTF extends AbstractWriter implements WriterInterface
      *
      * @return array
      */
-    private function getDataColor()
+    private function populateColorTable()
     {
         $phpWord = $this->phpWord;
 

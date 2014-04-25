@@ -12,6 +12,8 @@ namespace PhpOffice\PhpWord\Writer\ODText;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
