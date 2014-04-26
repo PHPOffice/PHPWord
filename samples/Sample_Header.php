@@ -117,6 +117,7 @@ function getEndingNotes($writers)
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="bootstrap/css/font-awesome.min.css" />
 <link rel="stylesheet" href="bootstrap/css/phpword.css" />
 </head>
 <body>
@@ -135,14 +136,14 @@ function getEndingNotes($writers)
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Samples
-                        <strong class="caret"></strong></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-code fa-lg"></i>&nbsp;Samples<strong class="caret"></strong></a>
                     <ul class="dropdown-menu"><?php echo $files; ?></ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/PHPOffice/PHPWord">Github</a></li>
-                <li><a href="http://phpword.readthedocs.org/en/develop/">Docs</a></li>
+                <li><a href="https://github.com/PHPOffice/PHPWord"><i class="fa fa-github fa-lg" title="GitHub"></i>&nbsp;</a></li>
+                <li><a href="http://phpword.readthedocs.org/en/develop/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
+                <li><a href="http://twitter.com/PHPWord"><i class="fa fa-twitter fa-lg" title="Twitter"></i>&nbsp;</a></li>
             </ul>
         </div>
     </div>
