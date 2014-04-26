@@ -18,18 +18,18 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Link extends AbstractElement
 {
     /**
-     * Link source
+     * Link target
      *
      * @var string
      */
-    private $source;
+    private $target;
 
     /**
-     * Link name
+     * Link text
      *
      * @var string
      */
-    private $name;
+    private $text;
 
     /**
      * Font style
@@ -54,10 +54,10 @@ class Link extends AbstractElement
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
+    public function __construct($target, $text = null, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->source = $linkSrc;
-        $this->name = $linkName;
+        $this->target = $target;
+        $this->text = is_null($text) ? $target : $text;
         $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
 
@@ -65,23 +65,23 @@ class Link extends AbstractElement
     }
 
     /**
-     * Get Link source
+     * Get link target
      *
      * @return string
      */
-    public function getLinkSrc()
+    public function getTarget()
     {
-        return $this->source;
+        return $this->target;
     }
 
     /**
-     * Get Link name
+     * Get link text
      *
      * @return string
      */
-    public function getLinkName()
+    public function getText()
     {
-        return $this->name;
+        return $this->text;
     }
 
     /**
@@ -102,5 +102,27 @@ class Link extends AbstractElement
     public function getParagraphStyle()
     {
         return $this->paragraphStyle;
+    }
+
+    /**
+     * Get Link source
+     *
+     * @return string
+     * @deprecated 0.10.0
+     */
+    public function getLinkSrc()
+    {
+        return $this->getTarget();
+    }
+
+    /**
+     * Get Link name
+     *
+     * @return string
+     * @deprecated 0.10.0
+     */
+    public function getLinkName()
+    {
+        return $this->getText();
     }
 }

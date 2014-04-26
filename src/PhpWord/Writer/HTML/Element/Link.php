@@ -23,18 +23,9 @@ class Link extends Element
      */
     public function write()
     {
-        $url = $this->element->getLinkSrc();
-        $text = $this->element->getLinkName();
-        if ($text == '') {
-            $text = $url;
-        }
-        $html = '';
+        $html = "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>" . PHP_EOL;
         if (!$this->withoutP) {
-            $html .= "<p>" . PHP_EOL;
-        }
-        $html .= "<a href=\"{$url}\">{$text}</a>" . PHP_EOL;
-        if (!$this->withoutP) {
-            $html .= "</p>" . PHP_EOL;
+            $html = '<p>' . $html . '</p>' . PHP_EOL;
         }
 
         return $html;

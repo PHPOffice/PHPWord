@@ -88,7 +88,7 @@ Below are the supported features for each file formats.
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Title              | ✓    |     |     | ✓    | ✓   |
-|                         | Link               | ✓    |     |     | ✓    | ✓   |
+|                         | Link               | ✓    | ✓   |     | ✓    | ✓   |
 |                         | Preserve Text      | ✓    |     |     |      |     |
 |                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Page Break         | ✓    |     |     |      |     |

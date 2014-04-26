@@ -37,6 +37,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - DOCX Writer: Change `docProps/app.xml` `Application` to `PHPWord` - @ivanlanin
 - DOCX Writer: Create `word/settings.xml` and `word/webSettings.xml` dynamically - @ivanlanin
 - ODT Writer: Basic image writing - @ivanlanin
+- ODT Writer: Link writing - @ivanlanin
 
 ### Bugfixes
 
@@ -55,6 +56,8 @@ This release marked heavy refactorings on internal code structure with the creat
 - `Footnote::addFootnoteLinkElement` replaced by `Media::addElement`
 - `Footnote::getFootnoteLinkElements` replaced by `Media::getElements`
 - All current methods on `Media`
+- `Element\Link::getLinkSrc` replaced by `Element\Link::getTarget`
+- `Element\Link::getLinkName` replaced by `Element\Link::getText`
 
 ### Miscellaneous
 

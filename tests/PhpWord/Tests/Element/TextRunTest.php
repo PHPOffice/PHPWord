@@ -90,7 +90,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getLinkSrc(), 'http://www.google.fr');
+        $this->assertEquals($element->getTarget(), 'http://www.google.fr');
     }
 
     /**
@@ -103,8 +103,8 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getLinkSrc(), 'http://www.google.fr');
-        $this->assertEquals($element->getLinkName(), 'ééé');
+        $this->assertEquals($element->getTarget(), 'http://www.google.fr');
+        $this->assertEquals($element->getText(), 'ééé');
     }
 
     /**

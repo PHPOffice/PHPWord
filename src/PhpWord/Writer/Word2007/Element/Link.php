@@ -25,10 +25,6 @@ class Link extends Element
     public function write()
     {
         $rId = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
-        $linkName = $this->element->getLinkName();
-        if (is_null($linkName)) {
-            $linkName = $this->element->getLinkSrc();
-        }
         $fStyle = $this->element->getFontStyle();
         $pStyle = $this->element->getParagraphStyle();
 
@@ -50,7 +46,7 @@ class Link extends Element
         $styleWriter->write();
         $this->xmlWriter->startElement('w:t');
         $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw($linkName);
+        $this->xmlWriter->writeRaw($this->element->getText());
         $this->xmlWriter->endElement(); // w:t
         $this->xmlWriter->endElement(); // w:r
         $this->xmlWriter->endElement(); // w:hyperlink

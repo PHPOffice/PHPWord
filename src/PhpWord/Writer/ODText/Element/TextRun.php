@@ -29,7 +29,10 @@ class TextRun extends Element
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof TextElement) {
-                    $elementWriter = new ElementWriter($this->xmlWriter, $this->parentWriter, $element, true);
+                    $elementWriter = new Text($this->xmlWriter, $this->parentWriter, $element, true);
+                    $elementWriter->write();
+                } elseif ($element instanceof Link) {
+                    $elementWriter = new Link($this->xmlWriter, $this->parentWriter, $element, true);
                     $elementWriter->write();
                 }
             }
