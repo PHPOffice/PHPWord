@@ -9,12 +9,9 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * ODText styloes part writer
@@ -93,46 +90,10 @@ class Styles extends Base
                 if (preg_match('#^T[0-9]+$#', $styleName) == 0
                     && preg_match('#^P[0-9]+$#', $styleName) == 0
                 ) {
-                    // Font
-                    if ($style instanceof Font) {
-                        // style:style
-                        $xmlWriter->startElement('style:style');
-                        $xmlWriter->writeAttribute('style:name', $styleName);
-                        $xmlWriter->writeAttribute('style:family', 'text');
-
-                        // style:text-properties
-                        $xmlWriter->startElement('style:text-properties');
-                        $xmlWriter->writeAttribute('fo:font-size', ($style->getSize()) . 'pt');
-                        $xmlWriter->writeAttribute('style:font-size-asian', ($style->getSize()) . 'pt');
-                        $xmlWriter->writeAttribute('style:font-size-complex', ($style->getSize()) . 'pt');
-                        if ($style->getItalic()) {
-                            $xmlWriter->writeAttribute('fo:font-style', 'italic');
-                            $xmlWriter->writeAttribute('style:font-style-asian', 'italic');
-                            $xmlWriter->writeAttribute('style:font-style-complex', 'italic');
-                        }
-                        if ($style->getBold()) {
-                            $xmlWriter->writeAttribute('fo:font-weight', 'bold');
-                            $xmlWriter->writeAttribute('style:font-weight-asian', 'bold');
-                        }
-                        $xmlWriter->endElement();
-                        $xmlWriter->endElement();
-                    } elseif ($style instanceof Paragraph) {
-                        // Paragraph
-                        // style:style
-                        $xmlWriter->startElement('style:style');
-                        $xmlWriter->writeAttribute('style:name', $styleName);
-                        $xmlWriter->writeAttribute('style:family', 'paragraph');
-
-                        //style:paragraph-properties
-                        $xmlWriter->startElement('style:paragraph-properties');
-                        $xmlWriter->writeAttribute('fo:margin-top', ((is_null($style->getSpaceBefore())) ? '0' : round(17.6 / $style->getSpaceBefore(), 2)) . 'cm');
-                        $xmlWriter->writeAttribute('fo:margin-bottom', ((is_null($style->getSpaceAfter())) ? '0' : round(17.6 / $style->getSpaceAfter(), 2)) . 'cm');
-                        $xmlWriter->writeAttribute('fo:text-align', $style->getAlign());
-                        $xmlWriter->endElement();
-
-                        $xmlWriter->endElement();
-                    } elseif ($style instanceof Table) {
-                        // Table
+                    $styleClass = str_replace('Style', 'Writer\\ODText\\Style', get_class($style));
+                    if (class_exists($styleClass)) {
+                        $styleWriter = new $styleClass($xmlWriter, $style);
+                        $styleWriter->write();
                     }
                 }
             }

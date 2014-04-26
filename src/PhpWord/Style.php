@@ -167,6 +167,7 @@ class Style
                     $styleObject->setStyleValue($key, $value);
                 }
             }
+            $styleObject->setStyleName($styleName);
             $styleObject->setIndex(self::countStyles() + 1); // One based index
             self::$styles[$styleName] = $styleObject;
         }

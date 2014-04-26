@@ -110,47 +110,23 @@ class Content extends Base
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
                     || preg_match('#^P[0-9]+$#', $styleName) != 0
                 ) {
-                    // Font
-                    if ($style instanceof Font) {
-                        $xmlWriter->startElement('style:style');
-                        $xmlWriter->writeAttribute('style:name', $styleName);
-                        $xmlWriter->writeAttribute('style:family', 'text');
-                        // style:text-properties
-                        $xmlWriter->startElement('style:text-properties');
-                        $xmlWriter->writeAttribute('fo:color', '#' . $style->getColor());
-                        $xmlWriter->writeAttribute('style:font-name', $style->getName());
-                        $xmlWriter->writeAttribute('style:font-name-complex', $style->getName());
-                        $xmlWriter->endElement();
-                        $xmlWriter->endElement();
+                    $styleClass = str_replace('Style', 'Writer\\ODText\\Style', get_class($style));
+                    if (class_exists($styleClass)) {
+                        $styleWriter = new $styleClass($xmlWriter, $style);
+                        $styleWriter->setIsAuto(true);
+                        $styleWriter->write();
                     }
                     if ($style instanceof Paragraph) {
                         $pStyleCount++;
-                        // style:style
-                        $xmlWriter->startElement('style:style');
-                        $xmlWriter->writeAttribute('style:name', $styleName);
-                        $xmlWriter->writeAttribute('style:family', 'paragraph');
-                        $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
-                        $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
-                        // style:paragraph-properties
-                        $xmlWriter->startElement('style:paragraph-properties');
-                        $xmlWriter->writeAttribute('style:page-number', 'auto');
-                        $xmlWriter->endElement();
-                        $xmlWriter->endElement();
                     }
                 }
             }
             if ($pStyleCount == 0) {
-                // style:style
-                $xmlWriter->startElement('style:style');
-                $xmlWriter->writeAttribute('style:name', 'P1');
-                $xmlWriter->writeAttribute('style:family', 'paragraph');
-                $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
-                $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
-                // style:paragraph-properties
-                $xmlWriter->startElement('style:paragraph-properties');
-                $xmlWriter->writeAttribute('style:page-number', 'auto');
-                $xmlWriter->endElement();
-                $xmlWriter->endElement();
+                $style = new Paragraph();
+                $style->setStyleName('P1');
+                $styleWriter = new \PhpOffice\PhpWord\Writer\ODText\Style\Paragraph($xmlWriter, $style);
+                $styleWriter->setIsAuto(true);
+                $styleWriter->write();
             }
         }
 

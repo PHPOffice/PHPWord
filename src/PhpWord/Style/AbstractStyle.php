@@ -19,6 +19,13 @@ use PhpOffice\PhpWord\Shared\String;
 abstract class AbstractStyle
 {
     /**
+     * Style name
+     *
+     * @var string
+     */
+    protected $styleName;
+
+    /**
      * Index number in Style collection for named style
      *
      * This number starts from one and defined in Style::setStyleValues()
@@ -26,6 +33,29 @@ abstract class AbstractStyle
      * @var integer|null
      */
     protected $index;
+
+    /**
+     * Get style name
+     *
+     * @return string
+     */
+    public function getStyleName()
+    {
+        return $this->styleName;
+    }
+
+    /**
+     * Set style name
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setStyleName($value)
+    {
+        $this->styleName = $value;
+
+        return $this;
+    }
 
     /**
      * Get index number
@@ -41,6 +71,7 @@ abstract class AbstractStyle
      * Set index number
      *
      * @param integer|null $value
+     * @return self
      */
     public function setIndex($value = null)
     {
