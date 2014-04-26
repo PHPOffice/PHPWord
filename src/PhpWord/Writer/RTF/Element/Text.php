@@ -12,7 +12,6 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Text element RTF writer

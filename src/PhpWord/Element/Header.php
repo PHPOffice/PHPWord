@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Element\Image;
 /**
  * Header element
  */
-class Header extends AbstractElement
+class Header extends AbstractContainer
 {
     /**
      * Header types constants

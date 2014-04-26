@@ -74,6 +74,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
 - Refactor: Remove Style\Tabs
 - Refactor: Apply composite pattern for writers
+- Refactor: Split `AbstractContainer` from `AbstractElement`
 
 ## 0.9.1 - 27 Mar 2014
 

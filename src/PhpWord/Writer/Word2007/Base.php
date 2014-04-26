@@ -14,8 +14,6 @@ use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Element as ElementWriter;
 
 /**

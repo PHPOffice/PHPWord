@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Footnote element
  */
-class Footnote extends AbstractElement
+class Footnote extends AbstractContainer
 {
     /**
      * Paragraph style

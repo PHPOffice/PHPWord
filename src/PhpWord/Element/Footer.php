@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * Footer element
  */
-class Footer extends AbstractElement
+class Footer extends AbstractContainer
 {
     const AUTO  = 'default';  // default and odd pages
     const FIRST = 'first';

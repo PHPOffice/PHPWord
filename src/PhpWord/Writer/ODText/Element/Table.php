@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Style\Cell;
-use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
 use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
 

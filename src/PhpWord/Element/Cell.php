@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
 /**
  * Table cell element
  */
-class Cell extends AbstractElement
+class Cell extends AbstractContainer
 {
     /**
      * Cell width

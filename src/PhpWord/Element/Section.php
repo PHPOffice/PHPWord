@@ -17,7 +17,7 @@ use PhpOffice\PhpWord\Element\TOC;
 /**
  * Section
  */
-class Section extends AbstractElement
+class Section extends AbstractContainer
 {
     /**
      * Section settings

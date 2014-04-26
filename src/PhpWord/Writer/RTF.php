@@ -81,8 +81,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Get color table
-     *
-     * @param mixed $value
      */
     public function getColorTable()
     {
@@ -91,8 +89,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Get font table
-     *
-     * @param mixed $value
      */
     public function getFontTable()
     {
@@ -101,8 +97,6 @@ class RTF extends AbstractWriter implements WriterInterface
 
     /**
      * Get last paragraph style
-     *
-     * @param mixed $value
      */
     public function getLastParagraphStyle()
     {

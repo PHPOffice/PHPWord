@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Textrun/paragraph element
  */
-class TextRun extends AbstractElement
+class TextRun extends AbstractContainer
 {
     /**
      * Paragraph style
