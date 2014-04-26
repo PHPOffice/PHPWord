@@ -10,6 +10,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * TOC element writer
@@ -45,7 +47,8 @@ class TOC extends Element
             $this->xmlWriter->startElement('w:pPr');
 
             if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $this->parentWriter->writeParagraphStyle($this->xmlWriter, $styleFont->getParagraphStyle());
+                $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $styleFont->getParagraphStyle());
+                $styleWriter->write();
             }
 
             if ($indent > 0) {
@@ -103,7 +106,8 @@ class TOC extends Element
             $this->xmlWriter->startElement('w:r');
 
             if ($isObject) {
-                $this->parentWriter->writeFontStyle($this->xmlWriter, $styleFont);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $styleFont);
+                $styleWriter->write();
             }
 
             $this->xmlWriter->startElement('w:t');

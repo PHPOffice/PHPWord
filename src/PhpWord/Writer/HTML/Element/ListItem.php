@@ -24,7 +24,7 @@ class ListItem extends Element
     public function write()
     {
         $text = htmlspecialchars($this->element->getTextObject()->getText());
-        $html = '<p>' . $text . '</{$p}>' . PHP_EOL;
+        $html = '<p>' . $text . '</p>' . PHP_EOL;
 
         return $html;
     }

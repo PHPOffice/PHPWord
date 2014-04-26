@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Writer\Word2007\Element\Element as ElementWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * ListItem element writer
@@ -27,11 +28,14 @@ class ListItem extends Element
         $depth = $this->element->getDepth();
         $numId = $this->element->getStyle()->getNumId();
         $pStyle = $textObject->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $styleWriter->setWithoutPPR(true);
+        $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:p');
 
         $this->xmlWriter->startElement('w:pPr');
-        $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle, true);
+        $styleWriter->write();
         $this->xmlWriter->startElement('w:numPr');
         $this->xmlWriter->startElement('w:ilvl');
         $this->xmlWriter->writeAttribute('w:val', $depth);

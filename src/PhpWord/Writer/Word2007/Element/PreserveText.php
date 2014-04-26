@@ -10,6 +10,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * PreserveText element writer
@@ -30,11 +32,17 @@ class PreserveText extends Element
             $texts = array($texts);
         }
 
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $styleWriter->setIsInline(true);
+
         $this->xmlWriter->startElement('w:p');
-        $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle);
+        $styleWriter->write();
+
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
                 $text = substr($text, 1, -1);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+                $styleWriter->setIsInline(true);
 
                 $this->xmlWriter->startElement('w:r');
                 $this->xmlWriter->startElement('w:fldChar');
@@ -43,7 +51,7 @@ class PreserveText extends Element
                 $this->xmlWriter->endElement();
 
                 $this->xmlWriter->startElement('w:r');
-                $this->parentWriter->writeInlineFontStyle($this->xmlWriter, $fStyle);
+                $styleWriter->write();
                 $this->xmlWriter->startElement('w:instrText');
                 $this->xmlWriter->writeAttribute('xml:space', 'preserve');
                 $this->xmlWriter->writeRaw($text);
@@ -64,9 +72,11 @@ class PreserveText extends Element
             } else {
                 $text = htmlspecialchars($text);
                 $text = String::controlCharacterPHP2OOXML($text);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+                $styleWriter->setIsInline(true);
 
                 $this->xmlWriter->startElement('w:r');
-                $this->parentWriter->writeInlineFontStyle($this->xmlWriter, $fStyle);
+                $styleWriter->write();
                 $this->xmlWriter->startElement('w:t');
                 $this->xmlWriter->writeAttribute('xml:space', 'preserve');
                 $this->xmlWriter->writeRaw($text);

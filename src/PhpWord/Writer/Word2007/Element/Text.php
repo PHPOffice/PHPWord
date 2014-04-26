@@ -10,8 +10,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * Text element writer
@@ -31,11 +31,17 @@ class Text extends Element
         $text = String::controlCharacterPHP2OOXML($text);
 
         if (!$this->withoutP) {
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter->setIsInline(true);
+
             $this->xmlWriter->startElement('w:p');
-            $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle);
+            $styleWriter->write();
         }
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter->setIsInline(true);
+
         $this->xmlWriter->startElement('w:r');
-        $this->parentWriter->writeInlineFontStyle($this->xmlWriter, $fStyle);
+        $styleWriter->write();
         $this->xmlWriter->startElement('w:t');
         $this->xmlWriter->writeAttribute('xml:space', 'preserve');
         $this->xmlWriter->writeRaw($text);

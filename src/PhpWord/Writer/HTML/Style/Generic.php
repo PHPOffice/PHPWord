@@ -10,11 +10,11 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 /**
- * Paragraph style HTML writer
+ * Generic style writer
  *
  * @since 0.10.0
  */
-class Paragraph extends AbstractStyle
+class Generic extends AbstractStyle
 {
     /**
      * Write style
@@ -24,8 +24,9 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $css = array();
-        if ($this->style->getAlign()) {
-            $css['text-align'] = $this->style->getAlign();
+
+        if (is_array($this->style) && !empty($this->style)) {
+            $css = $this->style;
         }
 
         return $this->assembleCss($css);

@@ -10,13 +10,14 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
  * Font style HTML writer
  *
  * @since 0.10.0
  */
-class Font extends Style
+class Font extends AbstractStyle
 {
     /**
      * Write style
@@ -48,13 +49,13 @@ class Font extends Style
             $css['vertical-align'] = 'sub';
         }
         $css['text-decoration'] = '';
-        if ($this->style->getUnderline() != \PhpOffice\PhpWord\Style\Font::UNDERLINE_NONE) {
+        if ($this->style->getUnderline() != FontStyle::UNDERLINE_NONE) {
             $css['text-decoration'] .= 'underline ';
         }
         if ($this->style->getStrikethrough()) {
             $css['text-decoration'] .= 'line-through ';
         }
 
-        return $this->assembleCss($css, $this->curlyBracket);
+        return $this->assembleCss($css);
     }
 }

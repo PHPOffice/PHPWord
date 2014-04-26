@@ -10,7 +10,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Writer\HTML\Style\Style as StyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * TextRun element HTML writer
@@ -33,7 +33,7 @@ class TextRun extends Element
             $pStyle = $this->element->getParagraphStyle();
             $pStyleIsObject = ($pStyle instanceof Paragraph);
             if ($pStyleIsObject) {
-                $styleWriter = new StyleWriter($this->parentWriter, $pStyle);
+                $styleWriter = new ParagraphStyleWriter($pStyle);
                 $pStyle = $styleWriter->write();
             }
             $tag = $this->withoutP ? 'span' : 'p';

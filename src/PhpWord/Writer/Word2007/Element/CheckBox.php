@@ -10,6 +10,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * CheckBox element writer
@@ -31,8 +33,11 @@ class CheckBox extends Element
         $pStyle = $this->element->getParagraphStyle();
 
         if (!$this->withoutP) {
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter->setIsInline(true);
+
             $this->xmlWriter->startElement('w:p');
-            $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle);
+            $styleWriter->write();
         }
 
         $this->xmlWriter->startElement('w:r');
@@ -73,8 +78,11 @@ class CheckBox extends Element
         $this->xmlWriter->endElement();// w:fldChar
         $this->xmlWriter->endElement(); // w:r
 
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter->setIsInline(true);
+
         $this->xmlWriter->startElement('w:r');
-        $this->parentWriter->writeInlineFontStyle($this->xmlWriter, $fStyle);
+        $styleWriter->write();
         $this->xmlWriter->startElement('w:t');
         $this->xmlWriter->writeAttribute('xml:space', 'preserve');
         $this->xmlWriter->writeRaw($text);

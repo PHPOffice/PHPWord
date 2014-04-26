@@ -12,6 +12,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Element\Endnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * Word2007 footnotes part writer
@@ -96,8 +97,9 @@ class Notes extends Base
         $xmlWriter->startElement('w:p');
 
         // Paragraph style
-        $styleParagraph = $element->getParagraphStyle();
-        $this->writeInlineParagraphStyle($xmlWriter, $styleParagraph);
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $element->getParagraphStyle());
+        $styleWriter->setIsInline(true);
+        $styleWriter->write();
 
         // Reference symbol
         $xmlWriter->startElement('w:r');

@@ -11,7 +11,8 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Writer\HTML\Style\Style as StyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * Text element HTML writer
@@ -32,14 +33,14 @@ class Text extends Element
         $pStyle = $this->element->getParagraphStyle();
         $pStyleIsObject = ($pStyle instanceof Paragraph);
         if ($pStyleIsObject) {
-            $styleWriter = new StyleWriter($this->parentWriter, $pStyle);
+            $styleWriter = new ParagraphStyleWriter($pStyle);
             $pStyle = $styleWriter->write();
         }
         // Font style
         $fStyle = $this->element->getFontStyle();
         $fStyleIsObject = ($fStyle instanceof Font);
         if ($fStyleIsObject) {
-            $styleWriter = new StyleWriter($this->parentWriter, $fStyle);
+            $styleWriter = new FontStyleWriter($fStyle);
             $fStyle = $styleWriter->write();
         }
 

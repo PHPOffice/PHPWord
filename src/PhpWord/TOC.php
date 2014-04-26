@@ -9,9 +9,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\TOC as TOCStyle;
-
 /**
  * Table of contents
  */

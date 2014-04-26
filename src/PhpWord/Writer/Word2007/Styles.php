@@ -16,6 +16,9 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 
 /**
  * Word2007 styles part writer
@@ -82,10 +85,13 @@ class Styles extends Base
                         $xmlWriter->startElement('w:basedOn');
                         $xmlWriter->writeAttribute('w:val', 'Normal');
                         $xmlWriter->endElement();
-                        $this->writeParagraphStyle($xmlWriter, $paragraphStyle);
+
+                        $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
+                        $styleWriter->write();
                     }
 
-                    $this->writeFontStyle($xmlWriter, $style);
+                    $styleWriter = new FontStyleWriter($xmlWriter, $style);
+                    $styleWriter->write();
                     $xmlWriter->endElement();
 
                 // Paragraph style
@@ -112,7 +118,8 @@ class Styles extends Base
                         $xmlWriter->endElement();
                     }
 
-                    $this->writeParagraphStyle($xmlWriter, $style);
+                    $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
+                    $styleWriter->write();
                     $xmlWriter->endElement();
 
                 // Table style
@@ -128,7 +135,9 @@ class Styles extends Base
                     $xmlWriter->writeAttribute('w:val', '99');
                     $xmlWriter->endElement();
 
-                    $this->writeTableStyle($xmlWriter, $style);
+                    $styleWriter = new TableStyleWriter($xmlWriter, $style);
+                    $styleWriter->write();
+
                     $xmlWriter->endElement(); // w:style
                 }
             }
@@ -179,7 +188,8 @@ class Styles extends Base
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
         if (array_key_exists('Normal', $styles)) {
-            $this->writeParagraphStyle($xmlWriter, $styles['Normal']);
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $styles['Normal']);
+            $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style
 

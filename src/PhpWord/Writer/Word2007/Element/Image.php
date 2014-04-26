@@ -9,7 +9,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\Image as ImageElement;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**

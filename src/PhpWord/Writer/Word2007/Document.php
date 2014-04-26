@@ -178,9 +178,14 @@ class Document extends Base
         }
         if ($hasBorders) {
             $borderColor = $settings->getBorderColor();
+            $mbWriter = new \PhpOffice\PhpWord\Writer\Word2007\Style\MarginBorder($xmlWriter);
+            $mbWriter->setSizes($borders);
+            $mbWriter->setColors($borderColor);
+            $mbWriter->setAttributes(array('space' => '24'));
+
             $xmlWriter->startElement('w:pgBorders');
             $xmlWriter->writeAttribute('w:offsetFrom', 'page');
-            $this->writeMarginBorder($xmlWriter, $borders, $borderColor, array('space' => '24'));
+            $mbWriter->write();
             $xmlWriter->endElement();
         }
 

@@ -9,6 +9,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
+
 /**
  * Link element writer
  *
@@ -30,14 +33,21 @@ class Link extends Element
         $pStyle = $this->element->getParagraphStyle();
 
         if (!$this->withoutP) {
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter->setIsInline(true);
+
             $this->xmlWriter->startElement('w:p');
-            $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle);
+            $styleWriter->write();
         }
+
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter->setIsInline(true);
+
         $this->xmlWriter->startElement('w:hyperlink');
         $this->xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $this->xmlWriter->writeAttribute('w:history', '1');
         $this->xmlWriter->startElement('w:r');
-        $this->parentWriter->writeInlineFontStyle($this->xmlWriter, $fStyle);
+        $styleWriter->write();
         $this->xmlWriter->startElement('w:t');
         $this->xmlWriter->writeAttribute('xml:space', 'preserve');
         $this->xmlWriter->writeRaw($linkName);

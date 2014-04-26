@@ -14,7 +14,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Style;
  *
  * @since 0.10.0
  */
-class Paragraph extends AbstractStyle
+class Image extends AbstractStyle
 {
     /**
      * Write style
@@ -24,8 +24,11 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $css = array();
-        if ($this->style->getAlign()) {
-            $css['text-align'] = $this->style->getAlign();
+        if ($this->style->getWidth()) {
+            $css['width'] = $this->style->getWidth() . 'px';
+        }
+        if ($this->style->getWidth()) {
+            $css['height'] = $this->style->getHeight() . 'px';
         }
 
         return $this->assembleCss($css);

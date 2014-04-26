@@ -11,6 +11,8 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
 
 /**
  * Table element writer
@@ -58,7 +60,9 @@ class Table extends Element
             $tblStyle = $this->element->getStyle();
             $tblWidth = $this->element->getWidth();
             if ($tblStyle instanceof TableStyle) {
-                $this->parentWriter->writeTableStyle($this->xmlWriter, $tblStyle, false);
+                $styleWriter = new TableStyleWriter($this->xmlWriter, $tblStyle);
+                $styleWriter->setIsFullStyle(false);
+                $styleWriter->write();
             } else {
                 if (!empty($tblStyle)) {
                     $this->xmlWriter->startElement('w:tblPr');
@@ -115,7 +119,8 @@ class Table extends Element
                     $this->xmlWriter->writeAttribute('w:type', 'dxa');
                     $this->xmlWriter->endElement(); // w:tcW
                     if ($cellStyle instanceof Cell) {
-                        $this->parentWriter->writeCellStyle($this->xmlWriter, $cellStyle);
+                        $styleWriter = new CellStyleWriter($this->xmlWriter, $cellStyle);
+                        $styleWriter->write();
                     }
                     $this->xmlWriter->endElement(); // w:tcPr
                     $this->parentWriter->writeContainerElements($this->xmlWriter, $cell);

@@ -17,7 +17,9 @@ use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Writer\HTML\Element\Element as ElementWriter;
 use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
-use PhpOffice\PhpWord\Writer\HTML\Style\Style as StyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * HTML writer
@@ -212,26 +214,26 @@ class HTML extends AbstractWriter implements WriterInterface
             ),
         );
         foreach ($defaultStyles as $selector => $style) {
-            $styleWriter = new StyleWriter();
-            $css .= $selector . ' ';
-            $css .= $styleWriter->assembleCss($style, true) . PHP_EOL;
+            $styleWriter = new GenericStyleWriter($style);
+            $css .= $selector . ' {' . $styleWriter->write() . '}' . PHP_EOL;
         }
 
         // Custom styles
         $customStyles = Style::getStyles();
         if (is_array($customStyles)) {
             foreach ($customStyles as $name => $style) {
-                $styleWriter = new StyleWriter($this, $style, true);
                 if ($style instanceof Font) {
+                    $styleWriter = new FontStyleWriter($style);
                     if ($style->getStyleType() == 'title') {
                         $name = str_replace('Heading_', 'h', $name);
                     } else {
                         $name = '.' . $name;
                     }
-                    $css .= "{$name} " . $styleWriter->write() . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
                 } elseif ($style instanceof Paragraph) {
+                    $styleWriter = new ParagraphStyleWriter($style);
                     $name = '.' . $name;
-                    $css .= "{$name} " . $styleWriter->write() . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
                 }
             }
         }

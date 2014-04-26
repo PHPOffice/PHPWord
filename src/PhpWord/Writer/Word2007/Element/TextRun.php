@@ -9,8 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Style as StyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * TextRun element writer
@@ -25,8 +24,11 @@ class TextRun extends Element
     public function write()
     {
         $pStyle = $this->element->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $styleWriter->setIsInline(true);
+
         $this->xmlWriter->startElement('w:p');
-        $this->parentWriter->writeInlineParagraphStyle($this->xmlWriter, $pStyle);
+        $styleWriter->write();
         $this->parentWriter->writeContainerElements($this->xmlWriter, $this->element);
         $this->xmlWriter->endElement(); // w:p
     }

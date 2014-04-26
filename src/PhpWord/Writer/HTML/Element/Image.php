@@ -10,7 +10,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
-use PhpOffice\PhpWord\Writer\HTML\Style\Style as StyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
 
 /**
  * Image element HTML writer
@@ -33,11 +33,9 @@ class Image extends Element
         if (!$this->parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {
-                $styleWriter = new StyleWriter();
-                $style = $styleWriter->assembleCss(array(
-                    'width' => $this->element->getStyle()->getWidth() . 'px',
-                    'height' => $this->element->getStyle()->getHeight() . 'px',
-                ));
+                $styleWriter = new ImageStyleWriter($this->element->getStyle());
+                $style = $styleWriter->write();
+
                 $html = "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
                 if (!$this->withoutP) {
                     $html = "<p>{$html}</p>" . PHP_EOL;
