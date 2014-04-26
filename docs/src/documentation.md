@@ -39,6 +39,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [OpenDocument](#opendocument)
     - [RTF](#rtf)
     - [HTML](#html)
+    - [PDF](#pdf)
 - [Frequently asked questions](#frequently-asked-questions)
 - [References](#references)
 
@@ -79,67 +80,67 @@ Below are the supported features for each file formats.
 
 ### Writers
 
-| Features            |                    | DOCX | ODT | RTF | HTML | PDF |
-|---------------------|--------------------|------|-----|-----|------|-----|
-| Document Properties | Standard           | ✓    |     |     |      |     |
-|                     | Extended           | ✓    |     |     |      |     |
-|                     | UserDefined        | ✓    |     |     |      |     |
-| Element Type        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                     | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                     | Title              | ✓    |     |     | ✓    | ✓   |
-|                     | Link               | ✓    |     |     | ✓    | ✓   |
-|                     | Preserve Text      | ✓    |     |     |      |     |
-|                     | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                     | Page Break         | ✓    |     |     |      |     |
-|                     | List               | ✓    |     |     |      |     |
-|                     | Table              | ✓    | ✓   |     | ✓    | ✓   |
-|                     | Image              | ✓    | ✓   |     | ✓    |     |
-|                     | Object             | ✓    |     |     |      |     |
-|                     | Watermark          | ✓    |     |     |      |     |
-|                     | Table of Contents  | ✓    |     |     |      |     |
-|                     | Header             | ✓    |     |     |      |     |
-|                     | Footer             | ✓    |     |     |      |     |
-|                     | Footnote           | ✓    |     |     | ✓    |     |
-|                     | Endnote            | ✓    |     |     | ✓    |     |
-| Graphs              | 2D basic graphs    |      |     |     |      |     |
-|                     | 2D advanced graphs |      |     |     |      |     |
-|                     | 3D graphs          |      |     |     |      |     |
-| Math                | OMML support       |      |     |     |      |     |
-|                     | MathML support     |      |     |     |      |     |
-| Bonus               | Encryption         |      |     |     |      |     |
-|                     | Protection         |      |     |     |      |     |
+| Features                |                    | DOCX | ODT | RTF | HTML | PDF |
+|-------------------------|--------------------|------|-----|-----|------|-----|
+| **Document Properties** | Standard           | ✓    |     |     |      |     |
+|                         | Extended           | ✓    |     |     |      |     |
+|                         | UserDefined        | ✓    |     |     |      |     |
+| **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
+|                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
+|                         | Title              | ✓    |     |     | ✓    | ✓   |
+|                         | Link               | ✓    |     |     | ✓    | ✓   |
+|                         | Preserve Text      | ✓    |     |     |      |     |
+|                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
+|                         | Page Break         | ✓    |     |     |      |     |
+|                         | List               | ✓    |     |     |      |     |
+|                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Image              | ✓    | ✓   |     | ✓    |     |
+|                         | Object             | ✓    |     |     |      |     |
+|                         | Watermark          | ✓    |     |     |      |     |
+|                         | Table of Contents  | ✓    |     |     |      |     |
+|                         | Header             | ✓    |     |     |      |     |
+|                         | Footer             | ✓    |     |     |      |     |
+|                         | Footnote           | ✓    |     |     | ✓    |     |
+|                         | Endnote            | ✓    |     |     | ✓    |     |
+| **Graphs**              | 2D basic graphs    |      |     |     |      |     |
+|                         | 2D advanced graphs |      |     |     |      |     |
+|                         | 3D graphs          |      |     |     |      |     |
+| **Math**                | OMML support       |      |     |     |      |     |
+|                         | MathML support     |      |     |     |      |     |
+| **Bonus**               | Encryption         |      |     |     |      |     |
+|                         | Protection         |      |     |     |      |     |
 
 ### Readers
 
-| Features            |                    | DOCX | ODT | RTF |
-|---------------------|--------------------|------|-----|-----|
-| Document Properties | Standard           | ✓    |     |     |
-|                     | Extended           | ✓    |     |     |
-|                     | UserDefined        | ✓    |     |     |
-| Element Type        | Text               | ✓    |     |     |
-|                     | Text Run           | ✓    |     |     |
-|                     | Title              | ✓    |     |     |
-|                     | Link               | ✓    |     |     |
-|                     | Preserve Text      | ✓    |     |     |
-|                     | Text Break         | ✓    |     |     |
-|                     | Page Break         | ✓    |     |     |
-|                     | List               | ✓    |     |     |
-|                     | Table              | ✓    |     |     |
-|                     | Image              | ✓    |     |     |
-|                     | Object             |      |     |     |
-|                     | Watermark          |      |     |     |
-|                     | Table of Contents  |      |     |     |
-|                     | Header             | ✓    |     |     |
-|                     | Footer             | ✓    |     |     |
-|                     | Footnote           | ✓    |     |     |
-|                     | Endnote            | ✓    |     |     |
-| Graphs              | 2D basic graphs    |      |     |     |
-|                     | 2D advanced graphs |      |     |     |
-|                     | 3D graphs          |      |     |     |
-| Math                | OMML support       |      |     |     |
-|                     | MathML support     |      |     |     |
-| Bonus               | Encryption         |      |     |     |
-|                     | Protection         |      |     |     |
+| Features                |                    | DOCX | ODT | RTF |
+|-------------------------|--------------------|------|-----|-----|
+| **Document Properties** | Standard           | ✓    |     |     |
+|                         | Extended           | ✓    |     |     |
+|                         | UserDefined        | ✓    |     |     |
+| **Element Type**        | Text               | ✓    |     |     |
+|                         | Text Run           | ✓    |     |     |
+|                         | Title              | ✓    |     |     |
+|                         | Link               | ✓    |     |     |
+|                         | Preserve Text      | ✓    |     |     |
+|                         | Text Break         | ✓    |     |     |
+|                         | Page Break         | ✓    |     |     |
+|                         | List               | ✓    |     |     |
+|                         | Table              | ✓    |     |     |
+|                         | Image              | ✓    |     |     |
+|                         | Object             |      |     |     |
+|                         | Watermark          |      |     |     |
+|                         | Table of Contents  |      |     |     |
+|                         | Header             | ✓    |     |     |
+|                         | Footer             | ✓    |     |     |
+|                         | Footnote           | ✓    |     |     |
+|                         | Endnote            | ✓    |     |     |
+| **Graphs**              | 2D basic graphs    |      |     |     |
+|                         | 2D advanced graphs |      |     |     |
+|                         | 3D graphs          |      |     |     |
+| **Math**                | OMML support       |      |     |     |
+|                         | MathML support     |      |     |     |
+| **Bonus**               | Encryption         |      |     |     |
+|                         | Protection         |      |     |     |
 
 # Installing/configuring
 
@@ -894,6 +895,10 @@ The structure of `styles.xml` is described below.
 To be completed.
 
 ## HTML
+
+To be completed.
+
+## PDF
 
 To be completed.
 

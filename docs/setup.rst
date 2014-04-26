@@ -1,6 +1,6 @@
 .. _setup:
 
-Installing/Configuring
+Installing/configuring
 ======================
 
 Requirements

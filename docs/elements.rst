@@ -3,62 +3,62 @@
 Elements
 ========
 
-Below are the matrix of element availability in each container. The column shows
-the containers while the rows lists the elements.
+Below are the matrix of element availability in each container. The
+column shows the containers while the rows lists the elements.
 
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| Num | Element       | Section | Header | Footer | Cell | Text Run | Footnote |
-+=====+===============+=========+========+========+======+==========+==========+
-| 1   | Text          |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 2   | Text Run      |   v     |   v    |   v    |  v   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 3   | Link          |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 4   | Title         |   v     |   ?    |   ?    |  ?   |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 5   | Preserve Text |   ?     |   v    |   v    |  v\* |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 6   | Text Break    |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 7   | Page Break    |   v     |   \-   |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 8   | List          |   v     |   v    |   v    |  v   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 9   | Table         |   v     |   v    |   v    |  ?   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 10  | Image         |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 11  | Watermark     |   \-    |   v    |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 12  | Object        |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 13  | TOC           |   v     |   \-   |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 14  | Footnote      |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 15  | Endnote       |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 16  | CheckBox      |   v     |   v    |   v    |  v   |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| Num   | Element         | Section   | Header   | Footer   | Cell    | Text Run   | Footnote   |
++=======+=================+===========+==========+==========+=========+============+============+
+| 1     | Text            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 2     | Text Run        | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 3     | Link            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 4     | Title           | v         | ?        | ?        | ?       | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 5     | Preserve Text   | ?         | v        | v        | v\*     | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 6     | Text Break      | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 7     | Page Break      | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 8     | List            | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 9     | Table           | v         | v        | v        | ?       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 10    | Image           | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 11    | Watermark       | -         | v        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 12    | Object          | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 13    | TOC             | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 14    | Footnote        | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 16    | CheckBox        | v         | v        | v        | v       | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
 
-- ``v`` Available
-- ``v*`` Available only when inside header/footer
-- ``v**`` Available only when inside section
-- ``-`` Not available
-- ``?`` Should be available
+-  ``v`` Available
+-  ``v*`` Available only when inside header/footer
+-  ``v**`` Available only when inside section
+-  ``-`` Not available
+-  ``?`` Should be available
 
 Texts
 -----
 
 Text can be added by using ``addText`` and ``addTextRun`` method.
 ``addText`` is used for creating simple paragraphs that only contain
-texts with the same style. ``addTextRun`` is used for creating
-complex paragraphs that contain text with different style (some bold,
-other italics, etc) or other elements, e.g. images or links. The
-syntaxes are as follow:
+texts with the same style. ``addTextRun`` is used for creating complex
+paragraphs that contain text with different style (some bold, other
+italics, etc) or other elements, e.g. images or links. The syntaxes are
+as follow:
 
 .. code-block:: php
 
@@ -200,7 +200,7 @@ method or using the ``pageBreakBefore`` style of paragraph.
 
 :: code-block:: php
 
-    $section->addPageBreak();
+    \\$section->addPageBreak();
 
 Lists
 -----
@@ -225,8 +225,8 @@ Parameters:
 
 Advanced usage:
 
-You can also create your own numbering style by changing the ``$listStyle`` parameter
-with the name of your numbering style.
+You can also create your own numbering style by changing the
+``$listStyle`` parameter with the name of your numbering style.
 
 .. code-block:: php
 
@@ -246,11 +246,14 @@ with the name of your numbering style.
 Level styles:
 
 -  ``start`` Starting value
--  ``format``  Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
+-  ``format`` Numbering format
+   bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter
 -  ``restart`` Restart numbering level symbol
--  ``suffix`` Content between numbering symbol and paragraph text tab|space|nothing
--  ``text`` Numbering level text e.g. %1 for nonbullet or bullet character
--  ``align`` Numbering symbol align left|center|right|both
+-  ``suffix`` Content between numbering symbol and paragraph text
+   tab\|space\|nothing
+-  ``text`` Numbering level text e.g. %1 for nonbullet or bullet
+   character
+-  ``align`` Numbering symbol align left\|center\|right\|both
 -  ``left`` See paragraph style
 -  ``hanging`` See paragraph style
 -  ``tabPos`` See paragraph style
@@ -326,15 +329,15 @@ See ``Sample_09_Tables.php`` for more code sample.
 Images
 ------
 
-To add an image, use the ``addImage`` method to sections, headers, footers,
-textruns, or table cells.
+To add an image, use the ``addImage`` method to sections, headers,
+footers, textruns, or table cells.
 
 .. code-block:: php
 
     $section->addImage($src, [$style]);
 
-- `source` String path to a local image or URL of a remote image
-- `styles` Array fo styles for the image. See below.
+-  source String path to a local image or URL of a remote image
+-  styles Array fo styles for the image. See below.
 
 Examples:
 
@@ -419,10 +422,10 @@ Options for ``$tocStyle``:
 Footnotes & endnotes
 --------------------
 
-You can create footnotes with ``addFootnote`` and endnotes with ``addEndnote``
-in texts or textruns, but it's recommended to use textrun to have better layout.
-You can use ``addText``, ``addLink``, ``addTextBreak``, ``addImage``,
-``addObject`` on footnotes and endnotes.
+You can create footnotes with ``addFootnote`` and endnotes with
+``addEndnote`` in texts or textruns, but it's recommended to use textrun
+to have better layout. You can use ``addText``, ``addLink``,
+``addTextBreak``, ``addImage``, ``addObject`` on footnotes and endnotes.
 
 On textrun:
 
@@ -448,9 +451,9 @@ On text:
     $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
 
-The footnote reference number will be displayed with decimal number starting
-from 1. This number use ``FooterReference`` style which you can redefine by
-``addFontStyle`` method. Default value for this style is
+The footnote reference number will be displayed with decimal number
+starting from 1. This number use ``FooterReference`` style which you can
+redefine by ``addFontStyle`` method. Default value for this style is
 ``array('superScript' => true)``;
 
 Checkboxes
