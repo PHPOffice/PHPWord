@@ -49,8 +49,8 @@ class Link extends AbstractElement
     /**
      * Create a new Link Element
      *
-     * @param string $linkSrc
-     * @param string $linkName
+     * @param string $target
+     * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
