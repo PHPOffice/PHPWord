@@ -203,7 +203,7 @@ class Font extends AbstractStyle
     /**
      * Get font name
      *
-     * @return bool
+     * @return string
      */
     public function getName()
     {

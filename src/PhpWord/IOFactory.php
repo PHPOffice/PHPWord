@@ -43,7 +43,7 @@ abstract class IOFactory
      */
     public static function createReader($name = 'Word2007')
     {
-        if (!in_array($name, array('ReaderInterface', 'Word2007'))) {
+        if (!in_array($name, array('ReaderInterface', 'Word2007', 'ODText'))) {
             throw new Exception("\"{$name}\" is not a valid reader.");
         }
 
