@@ -109,6 +109,7 @@ class Link extends AbstractElement
      *
      * @return string
      * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getLinkSrc()
     {
@@ -120,6 +121,7 @@ class Link extends AbstractElement
      *
      * @return string
      * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getLinkName()
     {

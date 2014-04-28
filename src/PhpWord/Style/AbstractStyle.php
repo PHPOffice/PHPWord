@@ -121,12 +121,44 @@ abstract class AbstractStyle
      * Set boolean value
      *
      * @param mixed $value
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function setNonEmptyVal($value, $default)
+    {
+        if (is_null($value) || $value == '') {
+            $value = $default;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set boolean value
+     *
+     * @param mixed $value
      * @param boolean|null $default
      * @return boolean|null
      */
     protected function setBoolVal($value, $default = null)
     {
         if (!is_bool($value)) {
+            $value = $default;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set numeric value
+     *
+     * @param mixed $value
+     * @param integer|float|null $default
+     * @return integer|float|null
+     */
+    protected function setNumericVal($value, $default = null)
+    {
+        if (!is_numeric($value)) {
             $value = $default;
         }
 

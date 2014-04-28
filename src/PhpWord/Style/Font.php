@@ -213,15 +213,13 @@ class Font extends AbstractStyle
     /**
      * Set font name
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setName($pValue = PhpWord::DEFAULT_FONT_NAME)
+    public function setName($value = PhpWord::DEFAULT_FONT_NAME)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_NAME;
-        }
-        $this->name = $pValue;
+        $this->name = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_NAME);
+
         return $this;
     }
 
@@ -239,15 +237,13 @@ class Font extends AbstractStyle
     /**
      * Set font size
      *
-     * @param  int|float $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  int|float $value
+     * @return self
      */
-    public function setSize($pValue = PhpWord::DEFAULT_FONT_SIZE)
+    public function setSize($value = PhpWord::DEFAULT_FONT_SIZE)
     {
-        if (!is_numeric($pValue)) {
-            $pValue = PhpWord::DEFAULT_FONT_SIZE;
-        }
-        $this->size = $pValue;
+        $this->size = $this->setNumericVal($value, PhpWord::DEFAULT_FONT_SIZE);
+
         return $this;
     }
 
@@ -264,15 +260,13 @@ class Font extends AbstractStyle
     /**
      * Set bold
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setBold($pValue = false)
+    public function setBold($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->bold = $pValue;
+        $this->bold = $this->setBoolVal($value, $this->bold);
+
         return $this;
     }
 
@@ -289,15 +283,13 @@ class Font extends AbstractStyle
     /**
      * Set italic
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setItalic($pValue = false)
+    public function setItalic($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->italic = $pValue;
+        $this->italic = $this->setBoolVal($value, $this->italic);
+
         return $this;
     }
 
@@ -314,16 +306,16 @@ class Font extends AbstractStyle
     /**
      * Set superscript
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setSuperScript($pValue = false)
+    public function setSuperScript($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
+        $this->superScript = $this->setBoolVal($value, $this->superScript);
+        if ($this->superScript) {
+            $this->subScript = false;
         }
-        $this->superScript = $pValue;
-        $this->subScript = !$pValue;
+
         return $this;
     }
 
@@ -340,16 +332,16 @@ class Font extends AbstractStyle
     /**
      * Set subscript
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setSubScript($pValue = false)
+    public function setSubScript($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
+        $this->subScript = $this->setBoolVal($value, $this->subScript);
+        if ($this->subScript) {
+            $this->superScript = false;
         }
-        $this->subScript = $pValue;
-        $this->superScript = !$pValue;
+
         return $this;
     }
 
@@ -366,15 +358,13 @@ class Font extends AbstractStyle
     /**
      * Set underline
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setUnderline($pValue = self::UNDERLINE_NONE)
+    public function setUnderline($value = self::UNDERLINE_NONE)
     {
-        if ($pValue == '') {
-            $pValue = self::UNDERLINE_NONE;
-        }
-        $this->underline = $pValue;
+        $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
         return $this;
     }
 
@@ -391,15 +381,13 @@ class Font extends AbstractStyle
     /**
      * Set strikethrough
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setStrikethrough($pValue = false)
+    public function setStrikethrough($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->strikethrough = $pValue;
+        $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
+
         return $this;
     }
 
@@ -416,15 +404,13 @@ class Font extends AbstractStyle
     /**
      * Set font color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setColor($pValue = PhpWord::DEFAULT_FONT_COLOR)
+    public function setColor($value = PhpWord::DEFAULT_FONT_COLOR)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_COLOR;
-        }
-        $this->color = $pValue;
+        $this->color = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_COLOR);
+
         return $this;
     }
 
@@ -441,12 +427,13 @@ class Font extends AbstractStyle
     /**
      * Set foreground/highlight color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setFgColor($pValue = null)
+    public function setFgColor($value = null)
     {
-        $this->fgColor = $pValue;
+        $this->fgColor = $value;
+
         return $this;
     }
 
@@ -463,12 +450,13 @@ class Font extends AbstractStyle
     /**
      * Set background color
      *
-     * @param string $pValue
+     * @param string $value
      * @return $this
      */
-    public function setBgColor($pValue = null)
+    public function setBgColor($value = null)
     {
-        $this->bgColor = $pValue;
+        $this->bgColor = $value;
+
         return $this;
     }
 
@@ -537,15 +525,13 @@ class Font extends AbstractStyle
     /**
      * Set Font Content Type
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setHint($pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
+    public function setHint($value = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
-        }
-        $this->hint = $pValue;
+        $this->hint = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_CONTENT_TYPE);
+
         return $this;
     }
 }

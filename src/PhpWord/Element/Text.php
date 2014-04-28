@@ -22,21 +22,21 @@ class Text extends AbstractElement
      *
      * @var string
      */
-    private $text;
+    protected $text;
 
     /**
      * Text style
      *
      * @var string|\PhpOffice\PhpWord\Style\Font
      */
-    private $fontStyle;
+    protected $fontStyle;
 
     /**
      * Paragraph style
      *
      * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
-    private $paragraphStyle;
+    protected $paragraphStyle;
 
     /**
      * Create a new Text Element
@@ -73,6 +73,7 @@ class Text extends AbstractElement
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
         }
+
         return $this->fontStyle;
     }
 
@@ -104,6 +105,7 @@ class Text extends AbstractElement
         } else {
             $this->paragraphStyle = $style;
         }
+
         return $this->paragraphStyle;
     }
 
@@ -121,11 +123,12 @@ class Text extends AbstractElement
      * Set text content
      *
      * @param string $text
-     * @return $this
+     * @return self
      */
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 
