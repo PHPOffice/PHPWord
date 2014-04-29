@@ -38,7 +38,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - DOCX Writer: Create `word/settings.xml` and `word/webSettings.xml` dynamically - @ivanlanin
 - ODT Writer: Basic image writing - @ivanlanin
 - ODT Writer: Link writing - @ivanlanin
-- ODT Reader: Basic ODText Reader - @ivanlanin
+- ODT Reader: Basic ODText Reader - @ivanlanin GH-71
 
 ### Bugfixes
 

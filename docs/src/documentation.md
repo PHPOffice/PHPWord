@@ -117,14 +117,14 @@ Below are the supported features for each file formats.
 | **Document Properties** | Standard           | ✓    |     |     |
 |                         | Extended           | ✓    |     |     |
 |                         | UserDefined        | ✓    |     |     |
-| **Element Type**        | Text               | ✓    |     |     |
+| **Element Type**        | Text               | ✓    | ✓   |     |
 |                         | Text Run           | ✓    |     |     |
-|                         | Title              | ✓    |     |     |
+|                         | Title              | ✓    | ✓   |     |
 |                         | Link               | ✓    |     |     |
 |                         | Preserve Text      | ✓    |     |     |
 |                         | Text Break         | ✓    |     |     |
 |                         | Page Break         | ✓    |     |     |
-|                         | List               | ✓    |     |     |
+|                         | List               | ✓    | ✓   |     |
 |                         | Table              | ✓    |     |     |
 |                         | Image              | ✓    |     |     |
 |                         | Object             |      |     |     |
