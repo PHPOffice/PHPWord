@@ -137,12 +137,13 @@ class DocumentProperties
     /**
      * Set Creator
      *
-     * @param  string $pValue
+     * @param  string $value
      * @return self
      */
-    public function setCreator($pValue = '')
+    public function setCreator($value = '')
     {
-        $this->creator = $pValue;
+        $this->creator = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -159,12 +160,13 @@ class DocumentProperties
     /**
      * Set Last Modified By
      *
-     * @param  string $pValue
+     * @param  string $value
      * @return self
      */
-    public function setLastModifiedBy($pValue = '')
+    public function setLastModifiedBy($value = '')
     {
-        $this->lastModifiedBy = $pValue;
+        $this->lastModifiedBy = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -181,15 +183,13 @@ class DocumentProperties
     /**
      * Set Created
      *
-     * @param  int $pValue
+     * @param  int $value
      * @return self
      */
-    public function setCreated($pValue = null)
+    public function setCreated($value = null)
     {
-        if (is_null($pValue)) {
-            $pValue = time();
-        }
-        $this->created = $pValue;
+        $this->created = $this->setValue($value, time());
+
         return $this;
     }
 
@@ -206,15 +206,13 @@ class DocumentProperties
     /**
      * Set Modified
      *
-     * @param  int $pValue
+     * @param  int $value
      * @return self
      */
-    public function setModified($pValue = null)
+    public function setModified($value = null)
     {
-        if (is_null($pValue)) {
-            $pValue = time();
-        }
-        $this->modified = $pValue;
+        $this->modified = $this->setValue($value, time());
+
         return $this;
     }
 
@@ -231,12 +229,13 @@ class DocumentProperties
     /**
      * Set Title
      *
-     * @param  string $pValue
+     * @param  string $value
      * @return self
      */
-    public function setTitle($pValue = '')
+    public function setTitle($value = '')
     {
-        $this->title = $pValue;
+        $this->title = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -253,12 +252,13 @@ class DocumentProperties
     /**
      * Set Description
      *
-     * @param  string $pValue
+     * @param  string $value
      * @return self
      */
-    public function setDescription($pValue = '')
+    public function setDescription($value = '')
     {
-        $this->description = $pValue;
+        $this->description = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -275,12 +275,13 @@ class DocumentProperties
     /**
      * Set Subject
      *
-     * @param  string $pValue
+     * @param  string $value
      * @return self
      */
-    public function setSubject($pValue = '')
+    public function setSubject($value = '')
     {
-        $this->subject = $pValue;
+        $this->subject = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -297,12 +298,13 @@ class DocumentProperties
     /**
      * Set Keywords
      *
-     * @param string $pValue
+     * @param string $value
      * @return self
      */
-    public function setKeywords($pValue = '')
+    public function setKeywords($value = '')
     {
-        $this->keywords = $pValue;
+        $this->keywords = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -319,12 +321,13 @@ class DocumentProperties
     /**
      * Set Category
      *
-     * @param string $pValue
+     * @param string $value
      * @return self
      */
-    public function setCategory($pValue = '')
+    public function setCategory($value = '')
     {
-        $this->category = $pValue;
+        $this->category = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -341,12 +344,13 @@ class DocumentProperties
     /**
      * Set Company
      *
-     * @param string $pValue
+     * @param string $value
      * @return self
      */
-    public function setCompany($pValue = '')
+    public function setCompany($value = '')
     {
-        $this->company = $pValue;
+        $this->company = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -363,12 +367,13 @@ class DocumentProperties
     /**
      * Set Manager
      *
-     * @param string $pValue
+     * @param string $value
      * @return self
      */
-    public function setManager($pValue = '')
+    public function setManager($value = '')
     {
-        $this->manager = $pValue;
+        $this->manager = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -401,7 +406,7 @@ class DocumentProperties
      */
     public function getCustomPropertyValue($propertyName)
     {
-        if (isset($this->customProperties[$propertyName])) {
+        if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['value'];
         }
 
@@ -415,7 +420,7 @@ class DocumentProperties
      */
     public function getCustomPropertyType($propertyName)
     {
-        if (isset($this->customProperties[$propertyName])) {
+        if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['type'];
         }
 
@@ -473,33 +478,49 @@ class DocumentProperties
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
-        $typeGroups = array(
-            'empty' => array('empty'),
-            'null'  => array('null'),
-            'int'   => array('i1', 'i2', 'i4', 'i8', 'int'),
-            'abs'   => array('ui1', 'ui2', 'ui4', 'ui8', 'uint'),
-            'float' => array('r4', 'r8', 'decimal'),
-            'date'  => array('date', 'filetime'),
-            'bool'  => array('bool'),
-        );
-        foreach ($typeGroups as $groupId => $groupMembers) {
-            if (in_array($propertyType, $groupMembers)) {
-                if ($groupId == 'null') {
-                    return null;
-                } elseif ($groupId == 'int') {
-                    return (int) $propertyValue;
-                } elseif ($groupId == 'abs') {
-                    return abs((int) $propertyValue);
-                } elseif ($groupId == 'float') {
-                    return (float) $propertyValue;
-                } elseif ($groupId == 'date') {
-                    return strtotime($propertyValue);
-                } elseif ($groupId == 'bool') {
-                    return ($propertyValue == 'true') ? true : false;
-                } else {
-                    return '';
-                }
-            }
+        switch ($propertyType) {
+            case 'empty': //    Empty
+                return '';
+            case 'null': //    Null
+                return null;
+            case 'i1': //    1-Byte Signed Integer
+            case 'i2': //    2-Byte Signed Integer
+            case 'i4': //    4-Byte Signed Integer
+            case 'i8': //    8-Byte Signed Integer
+            case 'int': //    Integer
+                return (int) $propertyValue;
+            case 'ui1': //    1-Byte Unsigned Integer
+            case 'ui2': //    2-Byte Unsigned Integer
+            case 'ui4': //    4-Byte Unsigned Integer
+            case 'ui8': //    8-Byte Unsigned Integer
+            case 'uint': //    Unsigned Integer
+                return abs((int) $propertyValue);
+            case 'r4': //    4-Byte Real Number
+            case 'r8': //    8-Byte Real Number
+            case 'decimal': //    Decimal
+                return (float) $propertyValue;
+            case 'date': //    Date and Time
+            case 'filetime': //    File Time
+                return strtotime($propertyValue);
+            case 'bool': //    Boolean
+                return ($propertyValue == 'true') ? true : false;
+            case 'lpstr': //    LPSTR
+            case 'lpwstr': //    LPWSTR
+            case 'bstr': //    Basic String
+            case 'cy': //    Currency
+            case 'error': //    Error Status Code
+            case 'vector': //    Vector
+            case 'array': //    Array
+            case 'blob': //    Binary Blob
+            case 'oblob': //    Binary Blob Object
+            case 'stream': //    Binary Stream
+            case 'ostream': //    Binary Stream Object
+            case 'storage': //    Binary Storage
+            case 'ostorage': //    Binary Storage Object
+            case 'vstream': //    Binary Versioned Stream
+            case 'clsid': //    Class ID
+            case 'cf': //    Clipboard Data
+                return $propertyValue;
         }
 
         return $propertyValue;
@@ -527,5 +548,21 @@ class DocumentProperties
         }
 
         return self::PROPERTY_TYPE_UNKNOWN;
+    }
+
+    /**
+     * Set default for null and empty value
+     *
+     * @param mixed $value
+     * @param mixed $default
+     * @return mixed
+     */
+    private function setValue($value, $default)
+    {
+        if (is_null($value) || $value == '') {
+            $value = $default;
+        }
+
+        return $value;
     }
 }

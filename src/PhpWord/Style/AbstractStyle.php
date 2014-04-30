@@ -118,7 +118,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set boolean value
+     * Set default for null and empty value
      *
      * @param mixed $value
      * @param mixed $default
