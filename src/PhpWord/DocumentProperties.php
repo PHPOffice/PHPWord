@@ -473,50 +473,33 @@ class DocumentProperties
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
-        switch ($propertyType) {
-            case 'empty': //    Empty
-                return '';
-            case 'null': //    Null
-                return null;
-            case 'i1': //    1-Byte Signed Integer
-            case 'i2': //    2-Byte Signed Integer
-            case 'i4': //    4-Byte Signed Integer
-            case 'i8': //    8-Byte Signed Integer
-            case 'int': //    Integer
-                return (int) $propertyValue;
-            case 'ui1': //    1-Byte Unsigned Integer
-            case 'ui2': //    2-Byte Unsigned Integer
-            case 'ui4': //    4-Byte Unsigned Integer
-            case 'ui8': //    8-Byte Unsigned Integer
-            case 'uint': //    Unsigned Integer
-                return abs((int) $propertyValue);
-            case 'r4': //    4-Byte Real Number
-            case 'r8': //    8-Byte Real Number
-            case 'decimal': //    Decimal
-                return (float) $propertyValue;
-            case 'lpstr': //    LPSTR
-            case 'lpwstr': //    LPWSTR
-            case 'bstr': //    Basic String
-                return $propertyValue;
-            case 'date': //    Date and Time
-            case 'filetime': //    File Time
-                return strtotime($propertyValue);
-            case 'bool': //    Boolean
-                return ($propertyValue == 'true') ? true : false;
-            case 'cy': //    Currency
-            case 'error': //    Error Status Code
-            case 'vector': //    Vector
-            case 'array': //    Array
-            case 'blob': //    Binary Blob
-            case 'oblob': //    Binary Blob Object
-            case 'stream': //    Binary Stream
-            case 'ostream': //    Binary Stream Object
-            case 'storage': //    Binary Storage
-            case 'ostorage': //    Binary Storage Object
-            case 'vstream': //    Binary Versioned Stream
-            case 'clsid': //    Class ID
-            case 'cf': //    Clipboard Data
-                return $propertyValue;
+        $typeGroups = array(
+            'empty' => array('empty'),
+            'null'  => array('null'),
+            'int'   => array('i1', 'i2', 'i4', 'i8', 'int'),
+            'abs'   => array('ui1', 'ui2', 'ui4', 'ui8', 'uint'),
+            'float' => array('r4', 'r8', 'decimal'),
+            'date'  => array('date', 'filetime'),
+            'bool'  => array('bool'),
+        );
+        foreach ($typeGroups as $groupId => $groupMembers) {
+            if (in_array($propertyType, $groupMembers)) {
+                if ($groupId == 'null') {
+                    return null;
+                } elseif ($groupId == 'int') {
+                    return (int) $propertyValue;
+                } elseif ($groupId == 'abs') {
+                    return abs((int) $propertyValue);
+                } elseif ($groupId == 'float') {
+                    return (float) $propertyValue;
+                } elseif ($groupId == 'date') {
+                    return strtotime($propertyValue);
+                } elseif ($groupId == 'bool') {
+                    return ($propertyValue == 'true') ? true : false;
+                } else {
+                    return '';
+                }
+            }
         }
 
         return $propertyValue;
@@ -530,48 +513,19 @@ class DocumentProperties
      */
     public static function convertPropertyType($propertyType)
     {
-        switch ($propertyType) {
-            case 'i1': //    1-Byte Signed Integer
-            case 'i2': //    2-Byte Signed Integer
-            case 'i4': //    4-Byte Signed Integer
-            case 'i8': //    8-Byte Signed Integer
-            case 'int': //    Integer
-            case 'ui1': //    1-Byte Unsigned Integer
-            case 'ui2': //    2-Byte Unsigned Integer
-            case 'ui4': //    4-Byte Unsigned Integer
-            case 'ui8': //    8-Byte Unsigned Integer
-            case 'uint': //    Unsigned Integer
-                return self::PROPERTY_TYPE_INTEGER;
-            case 'r4': //    4-Byte Real Number
-            case 'r8': //    8-Byte Real Number
-            case 'decimal': //    Decimal
-                return self::PROPERTY_TYPE_FLOAT;
-            case 'empty': //    Empty
-            case 'null': //    Null
-            case 'lpstr': //    LPSTR
-            case 'lpwstr': //    LPWSTR
-            case 'bstr': //    Basic String
-                return self::PROPERTY_TYPE_STRING;
-            case 'date': //    Date and Time
-            case 'filetime': //    File Time
-                return self::PROPERTY_TYPE_DATE;
-            case 'bool': //    Boolean
-                return self::PROPERTY_TYPE_BOOLEAN;
-            case 'cy': //    Currency
-            case 'error': //    Error Status Code
-            case 'vector': //    Vector
-            case 'array': //    Array
-            case 'blob': //    Binary Blob
-            case 'oblob': //    Binary Blob Object
-            case 'stream': //    Binary Stream
-            case 'ostream': //    Binary Stream Object
-            case 'storage': //    Binary Storage
-            case 'ostorage': //    Binary Storage Object
-            case 'vstream': //    Binary Versioned Stream
-            case 'clsid': //    Class ID
-            case 'cf': //    Clipboard Data
-                return self::PROPERTY_TYPE_UNKNOWN;
+        $typeGroups = array(
+            self::PROPERTY_TYPE_INTEGER => array('i1', 'i2', 'i4', 'i8', 'int', 'ui1', 'ui2', 'ui4', 'ui8', 'uint'),
+            self::PROPERTY_TYPE_FLOAT   => array('r4', 'r8', 'decimal'),
+            self::PROPERTY_TYPE_STRING  => array('empty', 'null', 'lpstr', 'lpwstr', 'bstr'),
+            self::PROPERTY_TYPE_DATE    => array('date', 'filetime'),
+            self::PROPERTY_TYPE_BOOLEAN => array('bool'),
+        );
+        foreach ($typeGroups as $groupId => $groupMembers) {
+            if (in_array($propertyType, $groupMembers)) {
+                return $groupId;
+            }
         }
+
         return self::PROPERTY_TYPE_UNKNOWN;
     }
 }
