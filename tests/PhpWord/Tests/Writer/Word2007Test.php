@@ -45,12 +45,12 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             'WebSettings' => 'WebSettings',
             'Header' => 'Header',
             'Footer' => 'Footer',
-            'Footnotes' => 'Notes',
-            'Endnotes' => 'Notes',
+            'Footnotes' => 'Footnotes',
+            'Endnotes' => 'Footnotes',
         );
         foreach ($writerParts as $part => $type) {
             $this->assertInstanceOf(
-                "PhpOffice\\PhpWord\\Writer\\Word2007\\{$type}",
+                "PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\{$type}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(

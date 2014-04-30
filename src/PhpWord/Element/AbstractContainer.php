@@ -277,7 +277,7 @@ abstract class AbstractContainer extends AbstractElement
             if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
                 $ext = substr($ext, 0, -1);
             }
-            $icon = realpath(__DIR__ . "/../_staticDocParts/_{$ext}.png");
+            $icon = realpath(__DIR__ . "/../resources/{$ext}.png");
             $rId = Media::addElement($elementDocPart, 'object', $src);
             $object->setRelationId($rId);
             $rIdimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));

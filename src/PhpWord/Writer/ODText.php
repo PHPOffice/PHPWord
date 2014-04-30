@@ -12,11 +12,6 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\ODText\Content;
-use PhpOffice\PhpWord\Writer\ODText\Manifest;
-use PhpOffice\PhpWord\Writer\ODText\Meta;
-use PhpOffice\PhpWord\Writer\ODText\Mimetype;
-use PhpOffice\PhpWord\Writer\ODText\Styles;
 
 /**
  * ODText writer
@@ -35,14 +30,16 @@ class ODText extends AbstractWriter implements WriterInterface
         // Assign PhpWord
         $this->setPhpWord($phpWord);
 
-        // Set writer parts
-        $this->writerParts['content'] = new Content();
-        $this->writerParts['manifest'] = new Manifest();
-        $this->writerParts['meta'] = new Meta();
-        $this->writerParts['mimetype'] = new Mimetype();
-        $this->writerParts['styles'] = new Styles();
-        foreach ($this->writerParts as $writer) {
-            $writer->setParentWriter($this);
+        // Create parts
+        $parts = array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles');
+        foreach ($parts as $part) {
+            $partName = strtolower($part);
+            $partClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Part\\' . $part;
+            if (class_exists($partClass)) {
+                $partObject = new $partClass();
+                $partObject->setParentWriter($this);
+                $this->writerParts[$partName] = $partObject;
+            }
         }
 
         // Set package paths

@@ -11,7 +11,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Writer\Word2007\AbstractWriterPart;
+use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart;
 
 /**
  * Generic element writer
@@ -30,7 +30,7 @@ class Element
     /**
      * Parent writer
      *
-     * @var \PhpOffice\PhpWord\Writer\Word2007\AbstractWriterPart
+     * @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart
      */
     protected $parentWriter;
 
@@ -53,7 +53,7 @@ class Element
      *
      * @param bool $withoutP
      */
-    public function __construct(XMLWriter $xmlWriter, AbstractWriterPart $parentWriter, AbstractElement $element, $withoutP = false)
+    public function __construct(XMLWriter $xmlWriter, AbstractPart $parentWriter, AbstractElement $element, $withoutP = false)
     {
         $this->xmlWriter = $xmlWriter;
         $this->parentWriter = $parentWriter;

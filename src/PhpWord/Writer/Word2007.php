@@ -13,17 +13,6 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\Word2007\ContentTypes;
-use PhpOffice\PhpWord\Writer\Word2007\DocProps;
-use PhpOffice\PhpWord\Writer\Word2007\Document;
-use PhpOffice\PhpWord\Writer\Word2007\Footer;
-use PhpOffice\PhpWord\Writer\Word2007\Header;
-use PhpOffice\PhpWord\Writer\Word2007\Notes;
-use PhpOffice\PhpWord\Writer\Word2007\Numbering;
-use PhpOffice\PhpWord\Writer\Word2007\Rels;
-use PhpOffice\PhpWord\Writer\Word2007\Settings;
-use PhpOffice\PhpWord\Writer\Word2007\Styles;
-use PhpOffice\PhpWord\Writer\Word2007\WebSettings;
 
 /**
  * Word2007 writer
@@ -54,21 +43,18 @@ class Word2007 extends AbstractWriter implements WriterInterface
         // Assign PhpWord
         $this->setPhpWord($phpWord);
 
-        // Set writer parts
-        $this->writerParts['contenttypes'] = new ContentTypes();
-        $this->writerParts['rels'] = new Rels();
-        $this->writerParts['docprops'] = new DocProps();
-        $this->writerParts['document'] = new Document();
-        $this->writerParts['styles'] = new Styles();
-        $this->writerParts['numbering'] = new Numbering();
-        $this->writerParts['settings'] = new Settings();
-        $this->writerParts['websettings'] = new WebSettings();
-        $this->writerParts['header'] = new Header();
-        $this->writerParts['footer'] = new Footer();
-        $this->writerParts['footnotes'] = new Notes();
-        $this->writerParts['endnotes'] = new Notes();
-        foreach ($this->writerParts as $writer) {
-            $writer->setParentWriter($this);
+        // Create parts
+        $parts = array('ContentTypes', 'Rels', 'DocProps', 'Document', 'Styles',
+            'Numbering', 'Settings', 'WebSettings', 'Header', 'Footer', 'Footnotes',
+            'Endnotes', 'FontTable', 'Theme');
+        foreach ($parts as $part) {
+            $partName = strtolower($part);
+            $partClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\' . $part;
+            if (class_exists($partClass)) {
+                $partObject = new $partClass();
+                $partObject->setParentWriter($this);
+                $this->writerParts[$partName] = $partObject;
+            }
         }
 
         // Set package paths
@@ -117,7 +103,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->addNotes($objZip, $rId, 'footnote');
             $this->addNotes($objZip, $rId, 'endnote');
 
-            // Write dynamic files
+            // Write parts
             $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->cTypes));
             $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeMainRels());
             $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->phpWord));
@@ -128,10 +114,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->writeNumbering());
             $objZip->addFromString('word/settings.xml', $this->getWriterPart('settings')->writeSettings());
             $objZip->addFromString('word/webSettings.xml', $this->getWriterPart('websettings')->writeWebSettings());
-
-            // Write static files
-            $objZip->addFile(__DIR__ . '/../_staticDocParts/theme1.xml', 'word/theme/theme1.xml');
-            $objZip->addFile(__DIR__ . '/../_staticDocParts/fontTable.xml', 'word/fontTable.xml');
+            $objZip->addFromString('word/fontTable.xml', $this->getWriterPart('fonttable')->write());
+            $objZip->addFromString('word/theme/theme1.xml', $this->getWriterPart('theme')->write());
 
             // Close file
             if ($objZip->close() === false) {
@@ -215,7 +199,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
             }
             $elements = $collection::getElements();
-            $objZip->addFromString($xmlPath, $this->getWriterPart($notesTypes)->writeNotes($elements, $notesTypes));
+            $objZip->addFromString($xmlPath, $this->getWriterPart($notesTypes)->write($elements));
             $this->cTypes['override']["/{$xmlPath}"] = $notesTypes;
             $this->docRels[] = array('target' => $xmlFile, 'type' => $notesTypes, 'rID' => ++$rId);
         }

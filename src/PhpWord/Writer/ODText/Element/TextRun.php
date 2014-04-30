@@ -10,6 +10,7 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Element\Link as LinkElement;
 use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
 
 /**

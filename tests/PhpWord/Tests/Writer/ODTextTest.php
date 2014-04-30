@@ -30,7 +30,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('./', $object->getDiskCachingDirectory());
         foreach (array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles') as $part) {
             $this->assertInstanceOf(
-                "PhpOffice\\PhpWord\\Writer\\ODText\\{$part}",
+                "PhpOffice\\PhpWord\\Writer\\ODText\\Part\\{$part}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(

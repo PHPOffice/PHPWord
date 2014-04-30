@@ -9,59 +9,42 @@
 
 namespace PhpOffice\PhpWord\Reader\ODText;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
  */
-abstract class AbstractPart
+abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractPart
 {
     /**
-     * Document file
+     * Read w:r (override)
      *
-     * @var string
+     * @param mixed $parent
+     * @param string $docPart
+     * @param mixed $pStyle
      */
-    protected $docFile;
-
-    /**
-     * XML file
-     *
-     * @var string
-     */
-    protected $xmlFile;
-
-    /**
-     * Part relationships
-     *
-     * @var array
-     */
-    protected $rels = array();
-
-    /**
-     * Read part
-     */
-    abstract public function read(PhpWord &$phpWord);
-
-    /**
-     * Create new instance
-     *
-     * @param string $docFile
-     * @param string $xmlFile
-     */
-    public function __construct($docFile, $xmlFile)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $pStyle = null)
     {
-        $this->docFile = $docFile;
-        $this->xmlFile = $xmlFile;
     }
 
     /**
-     * Set relationships
-     *
-     * @param array $value
+     * Read w:pPr (override)
      */
-    public function setRels($value)
+    protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $this->rels = $value;
+    }
+
+    /**
+     * Read w:rPr (override)
+     */
+    protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+    }
+
+    /**
+     * Read w:tblPr (override)
+     */
+    protected function readTableStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    {
     }
 }
