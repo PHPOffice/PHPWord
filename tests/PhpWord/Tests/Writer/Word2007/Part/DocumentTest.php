@@ -499,4 +499,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(5, $element->getAttribute('w:val'));
     }
+
+    /**
+     * Test write gutter and line numbering
+     */
+    public function testWriteGutterAndLineNumbering()
+    {
+        $pageMarginPath = '/w:document/w:body/w:sectPr/w:pgMar';
+        $lineNumberingPath = '/w:document/w:body/w:sectPr/w:lnNumType';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection(array('gutter' => 240, 'lineNumbering' => array()));
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $this->assertEquals(240, $doc->getElement($pageMarginPath)->getAttribute('w:gutter'));
+        $this->assertTrue($doc->elementExists($lineNumberingPath));
+    }
 }

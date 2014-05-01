@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -46,5 +47,22 @@ abstract class AbstractStyle
     {
         $this->xmlWriter = $xmlWriter;
         $this->style = $style;
+    }
+
+    /**
+     * Convert twip value
+     *
+     * @param int|float $value
+     * @param int|float $default
+     * @return int|float
+     */
+    protected function convertTwip($value, $default)
+    {
+        $unit = Settings::getMeasurementUnit();
+        if ($unit == Settings::UNIT_TWIP || $value == $default) {
+            return $value;
+        } else {
+            return $value * $unit;
+        }
     }
 }

@@ -15,56 +15,50 @@ namespace PhpOffice\PhpWord\Style;
 class Tab extends AbstractStyle
 {
     /**
-     * Tab Stop Type
+     * Tab stop types
+     *
+     * @const string
+     */
+    const TAB_STOP_CLEAR   = 'clear';
+    const TAB_STOP_LEFT    = 'left';
+    const TAB_STOP_CENTER  = 'center';
+    const TAB_STOP_RIGHT   = 'right';
+    const TAB_STOP_DECIMAL = 'decimal';
+    const TAB_STOP_BAR     = 'bar';
+    const TAB_STOP_NUM     = 'num';
+
+    /**
+     * Tab leader types
+     *
+     * @const string
+     */
+    const TAB_LEADER_NONE       = 'none';
+    const TAB_LEADER_DOT        = 'dot';
+    const TAB_LEADER_HYPHEN     = 'hyphen';
+    const TAB_LEADER_UNDERSCORE = 'underscore';
+    const TAB_LEADER_HEAVY      = 'heavy';
+    const TAB_LEADER_MIDDLEDOT  = 'middleDot';
+
+    /**
+     * Tab stop type
      *
      * @var string
      */
-    private $val;
+    private $val = self::TAB_STOP_CLEAR;
 
     /**
-     * Tab Leader Character
+     * Tab leader character
      *
      * @var string
      */
-    private $leader;
+    private $leader = self::TAB_LEADER_NONE;
 
     /**
-     * Tab Stop Position
+     * Tab stop position
      *
      * @var int
      */
-    private $position;
-
-    /**
-     * Tab Stop Type
-     *
-     * @var array
-     * @link http://www.schemacentral.com/sc/ooxml/a-w_val-26.html Tab Stop Type
-     */
-    private static $possibleStopTypes = array(
-        'clear', // No Tab Stop
-        'left', // Left Tab Stop
-        'center', // Center Tab Stop
-        'right', // Right Tab Stop
-        'decimal', // Decimal Tab
-        'bar', // Bar Tab
-        'num' // List tab
-    );
-
-    /**
-     * Tab Leader Character
-     *
-     * @var array
-     * @link http://www.schemacentral.com/sc/ooxml/a-w_leader-1.html Tab Leader Character
-     */
-    private static $possibleLeaders = array(
-        'none', // No tab stop leader
-        'dot', // Dotted leader line
-        'hyphen', // Dashed tab stop leader line
-        'underscore', // Solid leader line
-        'heavy', // Heavy solid leader line
-        'middleDot' // Middle dot leader line
-    );
+    private $position = 0;
 
     /**
      * Create a new instance of Tab. Both $val and $leader
@@ -72,19 +66,23 @@ class Tab extends AbstractStyle
      * they will be changed to default values.
      *
      * @param string $val Defaults to 'clear' if value is not possible.
-     * @param int $position Must be an integer; otherwise defaults to 0.
+     * @param int $position Must be numeric; otherwise defaults to 0.
      * @param string $leader Defaults to null if value is not possible.
      */
     public function __construct($val = null, $position = 0, $leader = null)
     {
-        // Default to clear if the stop type is not matched
-        $this->val = (self::isStopType($val)) ? $val : 'clear';
+        $stopTypes = array(
+            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT,self::TAB_STOP_CENTER,
+            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR, self::TAB_STOP_NUM
+        );
+        $leaderTypes = array(
+            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
+            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT
+        );
 
-        // Default to 0 if the position is non-numeric
-        $this->position = (is_numeric($position)) ? intval($position) : 0;
-
-        // Default to null if no tab leader
-        $this->leader = (self::isLeaderType($leader)) ? $leader : null;
+        $this->val = $this->setEnumVal($val, $stopTypes, $this->val);
+        $this->position = $this->setNumericVal($position, $this->position);
+        $this->leader = $this->setEnumVal($leader, $leaderTypes, $this->leader);
     }
 
     /**
@@ -115,27 +113,5 @@ class Tab extends AbstractStyle
     public function getPosition()
     {
         return $this->position;
-    }
-
-    /**
-     * Test if attribute is a valid stop type.
-     *
-     * @param string $attribute
-     * @return bool True if it is; false otherwise.
-     */
-    private static function isStopType($attribute)
-    {
-        return in_array($attribute, self::$possibleStopTypes);
-    }
-
-    /**
-     * Test if attribute is a valid leader type.
-     *
-     * @param string $attribute
-     * @return bool True if it is; false otherwise.
-     */
-    private static function isLeaderType($attribute)
-    {
-        return in_array($attribute, self::$possibleLeaders);
     }
 }

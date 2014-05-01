@@ -39,6 +39,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - ODT Writer: Basic image writing - @ivanlanin
 - ODT Writer: Link writing - @ivanlanin
 - ODT Reader: Basic ODText Reader - @ivanlanin GH-71
+- Section: Ability to define gutter and line numbering
 
 ### Bugfixes
 

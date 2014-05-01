@@ -344,6 +344,7 @@ Below are the available settings for section:
 - `borderBottomColor` Border bottom color
 - `headerHeight` Spacing to top of header
 - `footerHeight` Spacing to bottom of footer
+- `gutter` Page gutter spacing
 - `colsNum` Number of columns
 - `colsSpace` Spacing between columns
 - `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
@@ -379,6 +380,26 @@ $section = $phpWord->addSection();
 $section->getSettings()->setBreakType('continuous');
 $section->getSettings()->setColsNum(2);
 ```
+
+### Line numbering
+
+You can apply line numbering to a section by using the `lineNumbering` property of the section.
+
+```php
+// Method 1
+$section = $phpWord->addSection(array('lineNumbering' => array()));
+
+// Method 2
+$section = $phpWord->addSection();
+$section->getSettings()->setLineNumbering(array());
+```
+
+Below are the properties of the line numbering style.
+
+- `start` Line numbering starting value
+- `increment` Line number increments
+- `distance` Distance between text and line numbering in twip
+- `restart` Line numbering restart setting continuous|newPage|newSection
 
 ## Headers
 

@@ -27,25 +27,25 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         // Section Settings
         $oSettings = new Section();
 
-        $oSettings->setSettingValue('_orientation', 'landscape');
+        $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
         $this->assertEquals(16838, $oSettings->getPageSizeW());
         $this->assertEquals(11906, $oSettings->getPageSizeH());
 
-        $oSettings->setSettingValue('_orientation', null);
-        $this->assertNull($oSettings->getOrientation());
+        $oSettings->setSettingValue('orientation', null);
+        $this->assertEquals('portrait', $oSettings->getOrientation());
         $this->assertEquals(11906, $oSettings->getPageSizeW());
         $this->assertEquals(16838, $oSettings->getPageSizeH());
 
         $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('_borderSize', $iVal);
+        $oSettings->setSettingValue('borderSize', $iVal);
         $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
         $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
         $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
         $this->assertEquals($iVal, $oSettings->getBorderRightSize());
         $this->assertEquals($iVal, $oSettings->getBorderTopSize());
 
-        $oSettings->setSettingValue('_borderColor', 'FF00AA');
+        $oSettings->setSettingValue('borderColor', 'FF00AA');
         $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
         $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
         $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());

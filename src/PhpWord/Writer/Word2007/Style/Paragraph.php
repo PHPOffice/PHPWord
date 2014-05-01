@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Tab;
+
 /**
  * Paragraph style writer
  *
@@ -139,17 +141,13 @@ class Paragraph extends AbstractStyle
                 $this->xmlWriter->endElement();
             }
 
+
             // Tabs
             if (!empty($tabs)) {
                 $this->xmlWriter->startElement("w:tabs");
                 foreach ($tabs as $tab) {
-                    $this->xmlWriter->startElement("w:tab");
-                    $this->xmlWriter->writeAttribute("w:val", $tab->getStopType());
-                    if (!is_null($tab->getLeader())) {
-                        $this->xmlWriter->writeAttribute("w:leader", $tab->getLeader());
-                    }
-                    $this->xmlWriter->writeAttribute("w:pos", $tab->getPosition());
-                    $this->xmlWriter->endElement();
+                    $styleWriter = new Tab($this->xmlWriter, $tab);
+                    $styleWriter->write();
                 }
                 $this->xmlWriter->endElement();
             }

@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Settings;
+
 /**
  * Margin border style writer
  *
@@ -44,6 +46,8 @@ class MarginBorder extends AbstractStyle
     {
         $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
         $sizeCount = count($this->sizes) - 1;
+        $unit = Settings::getMeasurementUnit();
+
         for ($i = 0; $i < $sizeCount; $i++) {
             if (!is_null($this->sizes[$i])) {
                 $this->xmlWriter->startElement('w:' . $sides[$i]);
@@ -58,7 +62,7 @@ class MarginBorder extends AbstractStyle
                     $this->xmlWriter->writeAttribute('w:color', $this->colors[$i]);
                     if (!empty($this->attributes)) {
                         if (array_key_exists('space', $this->attributes)) {
-                            $this->xmlWriter->writeAttribute('w:space', '24');
+                            $this->xmlWriter->writeAttribute('w:space', $this->attributes['space']);
                         }
                     }
                 } else {

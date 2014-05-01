@@ -13,6 +13,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
 /**
  * Word2007 document part writer
@@ -32,6 +33,9 @@ class Document extends AbstractPart
             throw new Exception("No PhpWord assigned.");
         }
         $xmlWriter = $this->getXmlWriter();
+        $sections = $phpWord->getSections();
+        $sectionCount = count($sections);
+        $currentSection = 0;
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:document');
@@ -47,18 +51,13 @@ class Document extends AbstractPart
 
         $xmlWriter->startElement('w:body');
 
-        $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        $pSection = 0;
 
-        if ($countSections > 0) {
+        if ($sectionCount > 0) {
             foreach ($sections as $section) {
-                $pSection++;
-
+                $currentSection++;
                 $this->writeContainerElements($xmlWriter, $section);
-
-                if ($pSection == $countSections) {
-                    $this->writeEndSection($xmlWriter, $section);
+                if ($currentSection == $sectionCount) {
+                    $this->writeSectionSettings($xmlWriter, $section);
                 } else {
                     $this->writeSection($xmlWriter, $section);
                 }
@@ -66,10 +65,8 @@ class Document extends AbstractPart
         }
 
         $xmlWriter->endElement(); // w:body
-
         $xmlWriter->endElement(); // w:document
 
-        // Return
         return $xmlWriter->getData();
     }
 
@@ -83,7 +80,7 @@ class Document extends AbstractPart
     {
         $xmlWriter->startElement('w:p');
         $xmlWriter->startElement('w:pPr');
-        $this->writeEndSection($xmlWriter, $section);
+        $this->writeSectionSettings($xmlWriter, $section);
         $xmlWriter->endElement();
         $xmlWriter->endElement();
     }
@@ -94,114 +91,38 @@ class Document extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
      */
-    private function writeEndSection(XMLWriter $xmlWriter, Section $section)
+    private function writeSectionSettings(XMLWriter $xmlWriter, Section $section)
     {
-        $settings = $section->getSettings();
-        $headers = $section->getHeaders();
-        $footers = $section->getFooters();
-        $pgSzW = $settings->getPageSizeW();
-        $pgSzH = $settings->getPageSizeH();
-        $orientation = $settings->getOrientation();
-
-        $marginTop = $settings->getMarginTop();
-        $marginLeft = $settings->getMarginLeft();
-        $marginRight = $settings->getMarginRight();
-        $marginBottom = $settings->getMarginBottom();
-
-        $headerHeight = $settings->getHeaderHeight();
-        $footerHeight = $settings->getFooterHeight();
-
-        $borders = $settings->getBorderSize();
-
-        $colsNum = $settings->getColsNum();
-        $colsSpace = $settings->getColsSpace();
-        $breakType = $settings->getBreakType();
-
         $xmlWriter->startElement('w:sectPr');
 
-        // Section break
-        if (!is_null($breakType)) {
-            $xmlWriter->startElement('w:type');
-            $xmlWriter->writeAttribute('w:val', $breakType);
-            $xmlWriter->endElement();
-        }
-
         // Header reference
-        foreach ($headers as &$header) {
+        foreach ($section->getHeaders() as $header) {
             $rId = $header->getRelationId();
             $xmlWriter->startElement('w:headerReference');
             $xmlWriter->writeAttribute('w:type', $header->getType());
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
             $xmlWriter->endElement();
         }
+
         // Footer reference
-        foreach ($footers as &$footer) {
+        foreach ($section->getFooters() as $footer) {
             $rId = $footer->getRelationId();
             $xmlWriter->startElement('w:footerReference');
             $xmlWriter->writeAttribute('w:type', $footer->getType());
             $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
             $xmlWriter->endElement();
         }
+
         // Different first page
         if ($section->hasDifferentFirstPage()) {
             $xmlWriter->startElement('w:titlePg');
             $xmlWriter->endElement();
         }
 
-        // Page size & orientation
-        $xmlWriter->startElement('w:pgSz');
-        $xmlWriter->writeAttribute('w:w', $pgSzW);
-        $xmlWriter->writeAttribute('w:h', $pgSzH);
-        if (!is_null($orientation) && strtolower($orientation) != 'portrait') {
-            $xmlWriter->writeAttribute('w:orient', $orientation);
-        }
-        $xmlWriter->endElement(); // w:pgSz
+        // Section settings
+        $styleWriter = new SectionStyleWriter($xmlWriter, $section->getSettings());
+        $styleWriter->write();
 
-        // Margins
-        $xmlWriter->startElement('w:pgMar');
-        $xmlWriter->writeAttribute('w:top', $marginTop);
-        $xmlWriter->writeAttribute('w:right', $marginRight);
-        $xmlWriter->writeAttribute('w:bottom', $marginBottom);
-        $xmlWriter->writeAttribute('w:left', $marginLeft);
-        $xmlWriter->writeAttribute('w:header', $headerHeight);
-        $xmlWriter->writeAttribute('w:footer', $footerHeight);
-        $xmlWriter->writeAttribute('w:gutter', '0');
-        $xmlWriter->endElement();
-
-        // Borders
-        $hasBorders = false;
-        for ($i = 0; $i < 4; $i++) {
-            if (!is_null($borders[$i])) {
-                $hasBorders = true;
-                break;
-            }
-        }
-        if ($hasBorders) {
-            $borderColor = $settings->getBorderColor();
-            $mbWriter = new \PhpOffice\PhpWord\Writer\Word2007\Style\MarginBorder($xmlWriter);
-            $mbWriter->setSizes($borders);
-            $mbWriter->setColors($borderColor);
-            $mbWriter->setAttributes(array('space' => '24'));
-
-            $xmlWriter->startElement('w:pgBorders');
-            $xmlWriter->writeAttribute('w:offsetFrom', 'page');
-            $mbWriter->write();
-            $xmlWriter->endElement();
-        }
-
-        // Page numbering
-        if (null !== $settings->getPageNumberingStart()) {
-            $xmlWriter->startElement('w:pgNumType');
-            $xmlWriter->writeAttribute('w:start', $section->getSettings()->getPageNumberingStart());
-            $xmlWriter->endElement();
-        }
-
-        // Columns
-        $xmlWriter->startElement('w:cols');
-        $xmlWriter->writeAttribute('w:num', $colsNum);
-        $xmlWriter->writeAttribute('w:space', $colsSpace);
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:sectPr
     }
 }

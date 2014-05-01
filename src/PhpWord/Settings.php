@@ -16,17 +16,37 @@ namespace PhpOffice\PhpWord;
  */
 class Settings
 {
-    /** Available Zip library classes */
+    /**
+     * Zip libraries
+     */
     const PCLZIP     = 'PhpOffice\\PhpWord\\Shared\\ZipArchive';
     const ZIPARCHIVE = 'ZipArchive';
 
-    /** Optional PDF Rendering libraries */
+    /**
+     * PDF rendering libraries
+     */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
+
+    /**
+     * Measurement units multiplication factor
+     *
+     * Applied to:
+     * - Section: margins, header/footer height, gutter, column spacing
+     * - Tab: position
+     *
+     * @const int|float
+     */
+    const UNIT_TWIP  = 1; // = 1/20 point
+    const UNIT_CM    = 567;
+    const UNIT_MM    = 56.7;
+    const UNIT_INCH  = 1440;
+    const UNIT_POINT = 20; // = 1/72 inch
+    const UNIT_PICA  = 240; // = 1/6 inch = 12 points
 
     /**
      * Compatibility option for XMLWriter
      *
-     * @var boolean
+     * @var bool
      */
     private static $xmlWriterCompatibility = true;
 
@@ -59,10 +79,19 @@ class Settings
     private static $pdfRendererPath = null;
 
     /**
+     * Measurement unit
+     *
+     * @var string
+     */
+    private static $measurementUnit = self::UNIT_TWIP;
+
+    /**
      * Set the compatibility option used by the XMLWriter
      *
-     * @param boolean $compatibility  This sets the setIndent and setIndentString for better compatibility
-     * @return  boolean Success or failure
+     * This sets the setIndent and setIndentString for better compatibility
+     *
+     * @param bool $compatibility
+     * @return bool
      */
     public static function setCompatibility($compatibility)
     {
@@ -70,13 +99,14 @@ class Settings
             self::$xmlWriterCompatibility = $compatibility;
             return true;
         }
+
         return false;
     }
 
     /**
      * Return the compatibility option used by the XMLWriter
      *
-     * @return boolean Compatibility
+     * @return bool Compatibility
      */
     public static function getCompatibility()
     {
@@ -84,11 +114,10 @@ class Settings
     }
 
     /**
-     * Set the Zip handler Class that PHPWord should use for Zip file management (PCLZip or ZipArchive)
+     * Set zip handler class
      *
-     * @param  string $zipClass  The Zip handler class that PHPWord should use for Zip file management
-     *   e.g. Settings::PCLZip or Settings::ZipArchive
-     * @return boolean Success or failure
+     * @param  string $zipClass
+     * @return bool
      */
     public static function setZipClass($zipClass)
     {
@@ -97,16 +126,14 @@ class Settings
             self::$zipClass = $zipClass;
             return true;
         }
+
         return false;
     }
 
     /**
-     * Return the name of the Zip handler Class that PHPWord is configured to use (PCLZip or ZipArchive)
-     *  or Zip file management
+     * Get zip handler class
      *
-     * @return string Name of the Zip handler Class that PHPWord is configured to use
-     *  for Zip file management
-     *  e.g. Settings::PCLZip or Settings::ZipArchive
+     * @return string
      */
     public static function getZipClass()
     {
@@ -118,7 +145,7 @@ class Settings
      *
      * @param string $libraryName
      * @param string $libraryBaseDir
-     * @return boolean Success or failure
+     * @return bool Success or failure
      */
     public static function setPdfRenderer($libraryName, $libraryBaseDir)
     {
@@ -141,14 +168,13 @@ class Settings
      * Identify the external library to use for rendering PDF files
      *
      * @param string $libraryName
-     * @return boolean Success or failure
+     * @return bool
      */
     public static function setPdfRendererName($libraryName)
     {
         if (!in_array($libraryName, self::$pdfRenderers)) {
             return false;
         }
-
         self::$pdfRendererName = $libraryName;
 
         return true;
@@ -167,7 +193,7 @@ class Settings
      * Location of external library to use for rendering PDF files
      *
      * @param string $libraryBaseDir Directory path to the library's base folder
-     * @return boolean Success or failure
+     * @return bool Success or failure
      */
     public static function setPdfRendererPath($libraryBaseDir)
     {
@@ -175,6 +201,33 @@ class Settings
             return false;
         }
         self::$pdfRendererPath = $libraryBaseDir;
+
+        return true;
+    }
+
+    /**
+     * Get measurement unit
+     *
+     * @return int|float
+     */
+    public static function getMeasurementUnit()
+    {
+        return self::$measurementUnit;
+    }
+
+    /**
+     * Set measurement unit
+     *
+     * @param int|float $value
+     * @return bool
+     */
+    public static function setMeasurementUnit($value)
+    {
+        $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH, self::UNIT_POINT, self::UNIT_PICA);
+        if (!in_array($value, $units)) {
+            return false;
+        }
+        self::$measurementUnit = $value;
 
         return true;
     }
