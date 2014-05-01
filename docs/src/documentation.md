@@ -515,9 +515,12 @@ Available font styles:
 - `subScript` Subscript, *true* or *false*
 - `underline` Underline, *dash*, *dotted*, etc.
 - `strikethrough` Strikethrough, *true* or *false*
+- `doubleStrikethrough` Double strikethrough, *true* or *false*
 - `color` Font color, e.g. *FF0000*
 - `fgColor` Font highlight color, e.g. *yellow*, *green*, *blue*
 - `bgColor` Font background color, e.g. *FF0000*
+- `smallCaps` Small caps, *true* or *false*
+- `allCaps` All caps, *true* or *false*
 
 #### Paragraph style
 

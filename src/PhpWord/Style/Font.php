@@ -17,6 +17,11 @@ use PhpOffice\PhpWord\Exception\InvalidStyleException;
  */
 class Font extends AbstractStyle
 {
+    /**
+     * Underline types
+     *
+     * @const string
+     */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
@@ -35,6 +40,12 @@ class Font extends AbstractStyle
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
+
+    /**
+     * Foreground colors
+     *
+     * @const string
+     */
     const FGCOLOR_YELLOW = 'yellow';
     const FGCOLOR_LIGHTGREEN = 'green';
     const FGCOLOR_CYAN = 'cyan';
@@ -122,6 +133,13 @@ class Font extends AbstractStyle
     private $strikethrough = false;
 
     /**
+     * Double strikethrough
+     *
+     * @var bool
+     */
+    private $doubleStrikethrough = false;
+
+    /**
      * Font color
      *
      * @var string
@@ -160,6 +178,22 @@ class Font extends AbstractStyle
      * @var string
      */
     private $hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+
+    /**
+     * Small caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
+     */
+    private $smallCaps = false;
+
+    /**
+     * All caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
+     */
+    private $allCaps = false;
 
     /**
      * Create new font style
@@ -387,6 +421,35 @@ class Font extends AbstractStyle
     public function setStrikethrough($value = false)
     {
         $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
+        if ($this->strikethrough) {
+            $this->doubleStrikethrough = false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get double strikethrough
+     *
+     * @return bool
+     */
+    public function getDoubleStrikethrough()
+    {
+        return $this->doubleStrikethrough;
+    }
+
+    /**
+     * Set double strikethrough
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setDoubleStrikethrough($value = false)
+    {
+        $this->doubleStrikethrough = $this->setBoolVal($value, $this->doubleStrikethrough);
+        if ($this->doubleStrikethrough) {
+            $this->strikethrough = false;
+        }
 
         return $this;
     }
@@ -531,6 +594,58 @@ class Font extends AbstractStyle
     public function setHint($value = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
     {
         $this->hint = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_CONTENT_TYPE);
+
+        return $this;
+    }
+
+    /**
+     * Get small caps
+     *
+     * @return bool
+     */
+    public function getSmallCaps()
+    {
+        return $this->smallCaps;
+    }
+
+    /**
+     * Set small caps
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setSmallCaps($value = false)
+    {
+        $this->smallCaps = $this->setBoolVal($value, $this->smallCaps);
+        if ($this->smallCaps) {
+            $this->allCaps = false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all caps
+     *
+     * @return bool
+     */
+    public function getAllCaps()
+    {
+        return $this->allCaps;
+    }
+
+    /**
+     * Set all caps
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setAllCaps($value = false)
+    {
+        $this->allCaps = $this->setBoolVal($value, $this->allCaps);
+        if ($this->allCaps) {
+            $this->smallCaps = false;
+        }
 
         return $this;
     }

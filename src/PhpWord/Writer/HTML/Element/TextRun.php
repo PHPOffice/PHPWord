@@ -31,13 +31,13 @@ class TextRun extends Element
         if (count($elements) > 0) {
             // Paragraph style
             $paragraphStyle = $this->element->getParagraphStyle();
-            $paragraphStyleIsObject = ($paragraphStyle instanceof Paragraph);
-            if ($paragraphStyleIsObject) {
+            $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
+            if ($pStyleIsObject) {
                 $styleWriter = new ParagraphStyleWriter($paragraphStyle);
                 $paragraphStyle = $styleWriter->write();
             }
             $tag = $this->withoutP ? 'span' : 'p';
-            $attribute = $paragraphStyleIsObject ? 'style' : 'class';
+            $attribute = $pStyleIsObject ? 'style' : 'class';
             $html .= "<{$tag} {$attribute}=\"{$paragraphStyle}\">";
             foreach ($elements as $element) {
                 $elementWriter = new Element($this->parentWriter, $element, true);

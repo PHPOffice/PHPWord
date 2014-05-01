@@ -130,7 +130,6 @@ class Table extends AbstractStyle
         for ($i = 0; $i < 6; $i++) {
             if (!is_null($brdSz[$i])) {
                 $hasBorders = true;
-                break;
             }
         }
         if ($hasBorders) {

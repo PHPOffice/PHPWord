@@ -31,8 +31,8 @@ class Text extends Element
         $html = '';
         // Paragraph style
         $paragraphStyle = $this->element->getParagraphStyle();
-        $paragraphStyleIsObject = ($paragraphStyle instanceof Paragraph);
-        if ($paragraphStyleIsObject) {
+        $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
+        if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $paragraphStyle = $styleWriter->write();
         }
@@ -45,7 +45,7 @@ class Text extends Element
         }
 
         if ($paragraphStyle && !$this->withoutP) {
-            $attribute = $paragraphStyleIsObject ? 'style' : 'class';
+            $attribute = $pStyleIsObject ? 'style' : 'class';
             $html .= "<p {$attribute}=\"{$paragraphStyle}\">";
         }
         if ($fontStyle) {

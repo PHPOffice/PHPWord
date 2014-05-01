@@ -52,21 +52,13 @@ class Font extends AbstractStyle
         }
 
         $font = $this->style->getName();
-        $bold = $this->style->getBold();
-        $italic = $this->style->getItalic();
         $color = $this->style->getColor();
         $size = $this->style->getSize();
-        $fgColor = $this->style->getFgColor();
         $bgColor = $this->style->getBgColor();
-        $strikethrough = $this->style->getStrikethrough();
-        $underline = $this->style->getUnderline();
-        $superscript = $this->style->getSuperScript();
-        $subscript = $this->style->getSubScript();
-        $hint = $this->style->getHint();
 
         $this->xmlWriter->startElement('w:rPr');
 
-        // Font
+        // Font name/family
         if ($font != PhpWord::DEFAULT_FONT_NAME) {
             $this->xmlWriter->startElement('w:rFonts');
             $this->xmlWriter->writeAttribute('w:ascii', $font);
@@ -74,12 +66,11 @@ class Font extends AbstractStyle
             $this->xmlWriter->writeAttribute('w:eastAsia', $font);
             $this->xmlWriter->writeAttribute('w:cs', $font);
             //Font Content Type
-            if ($hint != PhpWord::DEFAULT_FONT_CONTENT_TYPE) {
-                $this->xmlWriter->writeAttribute('w:hint', $hint);
+            if ($this->style->getHint() != PhpWord::DEFAULT_FONT_CONTENT_TYPE) {
+                $this->xmlWriter->writeAttribute('w:hint', $this->style->getHint());
             }
             $this->xmlWriter->endElement();
         }
-
 
         // Color
         if ($color != PhpWord::DEFAULT_FONT_COLOR) {
@@ -99,32 +90,37 @@ class Font extends AbstractStyle
         }
 
         // Bold
-        if ($bold) {
+        if ($this->style->getBold()) {
             $this->xmlWriter->writeElement('w:b', null);
         }
 
         // Italic
-        if ($italic) {
+        if ($this->style->getItalic()) {
             $this->xmlWriter->writeElement('w:i', null);
             $this->xmlWriter->writeElement('w:iCs', null);
         }
 
         // Underline
-        if (!is_null($underline) && $underline != 'none') {
+        if ($this->style->getUnderline() != 'none') {
             $this->xmlWriter->startElement('w:u');
-            $this->xmlWriter->writeAttribute('w:val', $underline);
+            $this->xmlWriter->writeAttribute('w:val', $this->style->getUnderline());
             $this->xmlWriter->endElement();
         }
 
         // Strikethrough
-        if ($strikethrough) {
+        if ($this->style->getStrikethrough()) {
             $this->xmlWriter->writeElement('w:strike', null);
         }
 
+        // Double strikethrough
+        if ($this->style->getDoubleStrikethrough()) {
+            $this->xmlWriter->writeElement('w:dstrike', null);
+        }
+
         // Foreground-Color
-        if (!is_null($fgColor)) {
+        if (!is_null($this->style->getFgColor())) {
             $this->xmlWriter->startElement('w:highlight');
-            $this->xmlWriter->writeAttribute('w:val', $fgColor);
+            $this->xmlWriter->writeAttribute('w:val', $this->style->getFgColor());
             $this->xmlWriter->endElement();
         }
 
@@ -138,10 +134,20 @@ class Font extends AbstractStyle
         }
 
         // Superscript/subscript
-        if ($superscript || $subscript) {
+        if ($this->style->getSuperScript() || $this->style->getSubScript()) {
             $this->xmlWriter->startElement('w:vertAlign');
-            $this->xmlWriter->writeAttribute('w:val', $superscript ? 'superscript' : 'subscript');
+            $this->xmlWriter->writeAttribute('w:val', $this->style->getSuperScript() ? 'superscript' : 'subscript');
             $this->xmlWriter->endElement();
+        }
+
+        // Small caps
+        if ($this->style->getSmallCaps()) {
+            $this->xmlWriter->writeElement('w:smallCaps', null);
+        }
+
+        // All caps
+        if ($this->style->getAllCaps()) {
+            $this->xmlWriter->writeElement('w:caps', null);
         }
 
         $this->xmlWriter->endElement();

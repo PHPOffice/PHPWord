@@ -113,7 +113,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('align' => 'center')); // Style #1
-        $phpWord->addFontStyle('fStyle', array('size' => '20')); // Style #2
+        $phpWord->addFontStyle('fStyle', array('size' => '20', 'doubleStrikethrough' => true, 'allCaps' => true)); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true)); // Style #3
         $fontStyle = new Font('text', array('align' => 'center'));
         $section = $phpWord->addSection();
@@ -391,6 +391,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $styles['fgColor'] = 'yellow';
         $styles['bgColor'] = 'FFFF00';
         $styles['hint'] = 'eastAsia';
+        $styles['smallCaps'] = true;
 
         $section = $phpWord->addSection();
         $section->addText('Test', $styles);
@@ -406,6 +407,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('superscript', $doc->getElementAttribute("{$parent}/w:vertAlign", 'w:val'));
         $this->assertEquals($styles['color'], $doc->getElementAttribute("{$parent}/w:color", 'w:val'));
         $this->assertEquals($styles['fgColor'], $doc->getElementAttribute("{$parent}/w:highlight", 'w:val'));
+        $this->assertTrue($doc->elementExists("{$parent}/w:smallCaps"));
     }
 
     /**

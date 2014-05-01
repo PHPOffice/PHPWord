@@ -162,6 +162,9 @@ class Section extends Border
 
     /**
      * Set orientation
+     *
+     * @param string $value
+     * @return self
      */
     public function setOrientation($value = null)
     {
@@ -177,6 +180,8 @@ class Section extends Border
             $this->pageSizeW = $longSize;
             $this->pageSizeH = $shortSize;
         }
+
+        return $this;
     }
 
     /**
@@ -191,18 +196,22 @@ class Section extends Border
 
     /**
      * Set Portrait Orientation
+     *
+     * @return self
      */
     public function setPortrait()
     {
-        $this->setOrientation(self::ORIENTATION_PORTRAIT);
+        return $this->setOrientation(self::ORIENTATION_PORTRAIT);
     }
 
     /**
      * Set Landscape Orientation
+     *
+     * @return self
      */
     public function setLandscape()
     {
-        $this->setOrientation(self::ORIENTATION_LANDSCAPE);
+        return $this->setOrientation(self::ORIENTATION_LANDSCAPE);
     }
 
     /**

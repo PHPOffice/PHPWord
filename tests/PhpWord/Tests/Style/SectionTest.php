@@ -24,18 +24,16 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingValue()
     {
-        // Section Settings
         $oSettings = new Section();
+
+        $this->assertEquals('portrait', $oSettings->getOrientation());
+        $this->assertEquals(11906, $oSettings->getPageSizeW());
+        $this->assertEquals(16838, $oSettings->getPageSizeH());
 
         $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
         $this->assertEquals(16838, $oSettings->getPageSizeW());
         $this->assertEquals(11906, $oSettings->getPageSizeH());
-
-        $oSettings->setSettingValue('orientation', null);
-        $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(11906, $oSettings->getPageSizeW());
-        $this->assertEquals(16838, $oSettings->getPageSizeH());
 
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('borderSize', $iVal);
@@ -55,6 +53,13 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('headerHeight', $iVal);
         $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+
+        $oSettings->setSettingValue('lineNumbering', array());
+        $oSettings->setSettingValue('lineNumbering', array('start' => 1, 'increment' => 1, 'distance' => 240, 'restart' => 'newPage'));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
+
+        $oSettings->removeLineNumbering();
+        $this->assertNull($oSettings->getLineNumbering());
     }
 
     /**
@@ -105,7 +110,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $oSettings = new Section();
 
         $oSettings->setPortrait();
-        $this->assertNull($oSettings->getOrientation());
+        $this->assertEquals('portrait', $oSettings->getOrientation());
         $this->assertEquals(11906, $oSettings->getPageSizeW());
         $this->assertEquals(16838, $oSettings->getPageSizeH());
     }

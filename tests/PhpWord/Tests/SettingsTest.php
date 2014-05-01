@@ -52,4 +52,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($domPdfPath, Settings::getPdfRendererPath());
         $this->assertFalse(Settings::setPdfRendererPath('dummy/path'));
     }
+
+    /**
+     * Test set/get measurement unit
+     */
+    public function testSetGetMeasurementUnit()
+    {
+        $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
+        $this->assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
+        $this->assertFalse(Settings::setMeasurementUnit('foo'));
+    }
 }

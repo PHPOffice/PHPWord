@@ -39,7 +39,9 @@ This release marked heavy refactorings on internal code structure with the creat
 - ODT Writer: Basic image writing - @ivanlanin
 - ODT Writer: Link writing - @ivanlanin
 - ODT Reader: Basic ODText Reader - @ivanlanin GH-71
-- Section: Ability to define gutter and line numbering
+- Section: Ability to define gutter and line numbering - @ivanlanin
+- Font: Small caps, all caps, and double strikethrough - @ivanlanin GH-151
+- Settings: Ability to use measurement unit other than twips with `setMeasurementUnit` - @ivanlanin GH-199
 
 ### Bugfixes
 
