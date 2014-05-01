@@ -28,6 +28,10 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
+        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
+            return;
+        }
+
         $marginTop = is_null($this->style->getSpaceBefore()) ? '0' : round(17.6 / $this->style->getSpaceBefore(), 2);
         $marginBottom = is_null($this->style->getSpaceAfter()) ? '0' : round(17.6 / $this->style->getSpaceAfter(), 2);
 

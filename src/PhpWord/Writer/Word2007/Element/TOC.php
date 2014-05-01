@@ -26,17 +26,17 @@ class TOC extends Element
     public function write()
     {
         $titles = $this->element->getTitles();
-        $styleFont = $this->element->getStyleFont();
+        $fontStyle = $this->element->getStyleFont();
 
-        $styleTOC = $this->element->getStyleTOC();
-        $fIndent = $styleTOC->getIndent();
-        $tabLeader = $styleTOC->getTabLeader();
-        $tabPos = $styleTOC->getTabPos();
+        $tocStyle = $this->element->getStyleTOC();
+        $fIndent = $tocStyle->getIndent();
+        $tabLeader = $tocStyle->getTabLeader();
+        $tabPos = $tocStyle->getTabPos();
 
         $maxDepth = $this->element->getMaxDepth();
         $minDepth = $this->element->getMinDepth();
 
-        $isObject = ($styleFont instanceof Font) ? true : false;
+        $isObject = ($fontStyle instanceof Font) ? true : false;
 
         for ($i = 0; $i < count($titles); $i++) {
             $title = $titles[$i];
@@ -46,8 +46,8 @@ class TOC extends Element
 
             $this->xmlWriter->startElement('w:pPr');
 
-            if ($isObject && !is_null($styleFont->getParagraphStyle())) {
-                $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $styleFont->getParagraphStyle());
+            if ($isObject && !is_null($fontStyle->getParagraphStyle())) {
+                $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $fontStyle->getParagraphStyle());
                 $styleWriter->write();
             }
 
@@ -57,10 +57,10 @@ class TOC extends Element
                 $this->xmlWriter->endElement();
             }
 
-            if (!empty($styleFont) && !$isObject) {
+            if (!empty($fontStyle) && !$isObject) {
                 $this->xmlWriter->startElement('w:pPr');
                 $this->xmlWriter->startElement('w:pStyle');
-                $this->xmlWriter->writeAttribute('w:val', $styleFont);
+                $this->xmlWriter->writeAttribute('w:val', $fontStyle);
                 $this->xmlWriter->endElement();
                 $this->xmlWriter->endElement();
             }
@@ -106,7 +106,7 @@ class TOC extends Element
             $this->xmlWriter->startElement('w:r');
 
             if ($isObject) {
-                $styleWriter = new FontStyleWriter($this->xmlWriter, $styleFont);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
                 $styleWriter->write();
             }
 

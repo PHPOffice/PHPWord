@@ -43,14 +43,14 @@ class PreserveText extends AbstractElement
      * Create a new Preserve Text Element
      *
      * @param string $text
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      * @return $this
      */
-    public function __construct($text = null, $styleFont = null, $styleParagraph = null)
+    public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->fontStyle = $this->setStyle(new Font('text'), $styleFont);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $styleParagraph);
+        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
 
         $matches = preg_split('/({.*?})/', $text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         if (isset($matches[0])) {

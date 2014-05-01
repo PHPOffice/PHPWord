@@ -23,6 +23,10 @@ class Image extends AbstractStyle
      */
     public function write()
     {
+        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Image)) {
+            return;
+        }
+
         $css = array();
         if ($this->style->getWidth()) {
             $css['width'] = $this->style->getWidth() . 'px';

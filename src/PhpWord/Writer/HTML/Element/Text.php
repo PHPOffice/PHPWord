@@ -30,33 +30,33 @@ class Text extends Element
     {
         $html = '';
         // Paragraph style
-        $pStyle = $this->element->getParagraphStyle();
-        $pStyleIsObject = ($pStyle instanceof Paragraph);
-        if ($pStyleIsObject) {
-            $styleWriter = new ParagraphStyleWriter($pStyle);
-            $pStyle = $styleWriter->write();
+        $paragraphStyle = $this->element->getParagraphStyle();
+        $paragraphStyleIsObject = ($paragraphStyle instanceof Paragraph);
+        if ($paragraphStyleIsObject) {
+            $styleWriter = new ParagraphStyleWriter($paragraphStyle);
+            $paragraphStyle = $styleWriter->write();
         }
         // Font style
-        $fStyle = $this->element->getFontStyle();
-        $fStyleIsObject = ($fStyle instanceof Font);
-        if ($fStyleIsObject) {
-            $styleWriter = new FontStyleWriter($fStyle);
-            $fStyle = $styleWriter->write();
+        $fontStyle = $this->element->getFontStyle();
+        $fontStyleIsObject = ($fontStyle instanceof Font);
+        if ($fontStyleIsObject) {
+            $styleWriter = new FontStyleWriter($fontStyle);
+            $fontStyle = $styleWriter->write();
         }
 
-        if ($pStyle && !$this->withoutP) {
-            $attribute = $pStyleIsObject ? 'style' : 'class';
-            $html .= "<p {$attribute}=\"{$pStyle}\">";
+        if ($paragraphStyle && !$this->withoutP) {
+            $attribute = $paragraphStyleIsObject ? 'style' : 'class';
+            $html .= "<p {$attribute}=\"{$paragraphStyle}\">";
         }
-        if ($fStyle) {
-            $attribute = $fStyleIsObject ? 'style' : 'class';
-            $html .= "<span {$attribute}=\"{$fStyle}\">";
+        if ($fontStyle) {
+            $attribute = $fontStyleIsObject ? 'style' : 'class';
+            $html .= "<span {$attribute}=\"{$fontStyle}\">";
         }
         $html .= htmlspecialchars($this->element->getText());
-        if ($fStyle) {
+        if ($fontStyle) {
             $html .= '</span>';
         }
-        if ($pStyle && !$this->withoutP) {
+        if ($paragraphStyle && !$this->withoutP) {
             $html .= '</p>' . PHP_EOL;
         }
 

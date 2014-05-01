@@ -76,10 +76,10 @@ This release marked heavy refactorings on internal code structure with the creat
 - General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
 - General: Add some unit tests for Shared & Element (100%!) - @Progi1984
 - Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
-- Refactor: Remove Style\Tabs
-- Refactor: Apply composite pattern for writers
-- Refactor: Split `AbstractContainer` from `AbstractElement`
-- Refactor: Apply composite pattern for Word2007 reader
+- Refactor: Remove Style\Tabs - @ivanlanin
+- Refactor: Apply composite pattern for writers - @ivanlanin
+- Refactor: Split `AbstractContainer` from `AbstractElement` - @ivanlanin
+- Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

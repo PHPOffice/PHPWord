@@ -229,11 +229,11 @@ class RTF extends AbstractWriter implements WriterInterface
 
                 foreach ($elements as $element) {
                     if ($element instanceof Text) {
-                        $fStyle = $element->getFontStyle();
+                        $fontStyle = $element->getFontStyle();
 
-                        if ($fStyle instanceof Font) {
-                            if (in_array($fStyle->getName(), $arrFonts) == false) {
-                                $arrFonts[] = $fStyle->getName();
+                        if ($fontStyle instanceof Font) {
+                            if (in_array($fontStyle->getName(), $arrFonts) == false) {
+                                $arrFonts[] = $fontStyle->getName();
                             }
                         }
                     }
@@ -286,14 +286,14 @@ class RTF extends AbstractWriter implements WriterInterface
 
                 foreach ($elements as $element) {
                     if ($element instanceof Text) {
-                        $fStyle = $element->getFontStyle();
+                        $fontStyle = $element->getFontStyle();
 
-                        if ($fStyle instanceof Font) {
-                            if (in_array($fStyle->getColor(), $arrColors) == false) {
-                                $arrColors[] = $fStyle->getColor();
+                        if ($fontStyle instanceof Font) {
+                            if (in_array($fontStyle->getColor(), $arrColors) == false) {
+                                $arrColors[] = $fontStyle->getColor();
                             }
-                            if (in_array($fStyle->getFgColor(), $arrColors) == false) {
-                                $arrColors[] = $fStyle->getFgColor();
+                            if (in_array($fontStyle->getFgColor(), $arrColors) == false) {
+                                $arrColors[] = $fontStyle->getFgColor();
                             }
                         }
                     }

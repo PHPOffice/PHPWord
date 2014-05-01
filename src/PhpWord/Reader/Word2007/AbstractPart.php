@@ -72,16 +72,16 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @param mixed $pStyle
+     * @param mixed $paragraphStyle
      *
      * @todo Footnote paragraph style
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $pStyle = null)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $paragraphStyle = null)
     {
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
-        $fStyle = $this->readFontStyle($xmlReader, $domNode);
+        $fontStyle = $this->readFontStyle($xmlReader, $domNode);
 
         // Link
         if ($domNode->nodeName == 'w:hyperlink') {
@@ -89,7 +89,7 @@ abstract class AbstractPart
             $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
             $target = $this->getMediaTarget($docPart, $rId);
             if (!is_null($target)) {
-                $parent->addLink($target, $textContent, $fStyle, $pStyle);
+                $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
             }
         } else {
             // Footnote
@@ -116,13 +116,13 @@ abstract class AbstractPart
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
-                    $parent->addText($textContent, $fStyle, $pStyle);
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
 
             // TextRun
             } else {
                 $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fStyle, $pStyle);
+                $parent->addText($textContent, $fontStyle, $paragraphStyle);
             }
         }
     }

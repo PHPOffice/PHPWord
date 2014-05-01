@@ -23,6 +23,10 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
+        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
+            return;
+        }
+
         $css = array();
         if ($this->style->getAlign()) {
             $css['text-align'] = $this->style->getAlign();

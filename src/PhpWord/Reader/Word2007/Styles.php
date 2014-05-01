@@ -40,25 +40,25 @@ class Styles extends AbstractPart
                 switch ($type) {
 
                     case 'paragraph':
-                        $pStyle = $this->readParagraphStyle($xmlReader, $node);
-                        $fStyle = $this->readFontStyle($xmlReader, $node);
+                        $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
+                        $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($headingMatches)) {
-                            $phpWord->addTitleStyle($headingMatches[1], $fStyle, $pStyle);
+                            $phpWord->addTitleStyle($headingMatches[1], $fontStyle, $paragraphStyle);
                         } else {
-                            if (empty($fStyle)) {
-                                if (is_array($pStyle)) {
-                                    $phpWord->addParagraphStyle($name, $pStyle);
+                            if (empty($fontStyle)) {
+                                if (is_array($paragraphStyle)) {
+                                    $phpWord->addParagraphStyle($name, $paragraphStyle);
                                 }
                             } else {
-                                $phpWord->addFontStyle($name, $fStyle, $pStyle);
+                                $phpWord->addFontStyle($name, $fontStyle, $paragraphStyle);
                             }
                         }
                         break;
 
                     case 'character':
-                        $fStyle = $this->readFontStyle($xmlReader, $node);
-                        if (!empty($fStyle)) {
-                            $phpWord->addFontStyle($name, $fStyle);
+                        $fontStyle = $this->readFontStyle($xmlReader, $node);
+                        if (!empty($fontStyle)) {
+                            $phpWord->addFontStyle($name, $fontStyle);
                         }
                         break;
 

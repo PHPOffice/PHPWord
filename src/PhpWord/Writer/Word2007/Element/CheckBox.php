@@ -29,11 +29,11 @@ class CheckBox extends Element
         $name = String::controlCharacterPHP2OOXML($name);
         $text = htmlspecialchars($this->element->getText());
         $text = String::controlCharacterPHP2OOXML($text);
-        $fStyle = $this->element->getFontStyle();
-        $pStyle = $this->element->getParagraphStyle();
+        $fontStyle = $this->element->getFontStyle();
+        $paragraphStyle = $this->element->getParagraphStyle();
 
         if (!$this->withoutP) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
             $styleWriter->setIsInline(true);
 
             $this->xmlWriter->startElement('w:p');
@@ -78,7 +78,7 @@ class CheckBox extends Element
         $this->xmlWriter->endElement();// w:fldChar
         $this->xmlWriter->endElement(); // w:r
 
-        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
         $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:r');

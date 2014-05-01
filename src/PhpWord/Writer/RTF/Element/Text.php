@@ -27,24 +27,24 @@ class Text extends Element
     {
         $rtfText = '';
 
-        $styleFont = $this->element->getFontStyle();
-        if (is_string($styleFont)) {
-            $styleFont = Style::getStyle($styleFont);
+        $fontStyle = $this->element->getFontStyle();
+        if (is_string($fontStyle)) {
+            $fontStyle = Style::getStyle($fontStyle);
         }
 
-        $styleParagraph = $this->element->getParagraphStyle();
-        if (is_string($styleParagraph)) {
-            $styleParagraph = Style::getStyle($styleParagraph);
+        $paragraphStyle = $this->element->getParagraphStyle();
+        if (is_string($paragraphStyle)) {
+            $paragraphStyle = Style::getStyle($paragraphStyle);
         }
 
-        if ($styleParagraph && !$this->withoutP) {
+        if ($paragraphStyle && !$this->withoutP) {
             if ($this->parentWriter->getLastParagraphStyle() != $this->element->getParagraphStyle()) {
                 $rtfText .= '\pard\nowidctlpar';
-                if ($styleParagraph->getSpaceAfter() != null) {
-                    $rtfText .= '\sa' . $styleParagraph->getSpaceAfter();
+                if ($paragraphStyle->getSpaceAfter() != null) {
+                    $rtfText .= '\sa' . $paragraphStyle->getSpaceAfter();
                 }
-                if ($styleParagraph->getAlign() != null) {
-                    if ($styleParagraph->getAlign() == 'center') {
+                if ($paragraphStyle->getAlign() != null) {
+                    if ($paragraphStyle->getAlign() == 'center') {
                         $rtfText .= '\qc';
                     }
                 }
@@ -56,49 +56,49 @@ class Text extends Element
             $this->parentWriter->setLastParagraphStyle();
         }
 
-        if ($styleFont instanceof Font) {
-            if ($styleFont->getColor() != null) {
-                $idxColor = array_search($styleFont->getColor(), $this->parentWriter->getColorTable());
+        if ($fontStyle instanceof Font) {
+            if ($fontStyle->getColor() != null) {
+                $idxColor = array_search($fontStyle->getColor(), $this->parentWriter->getColorTable());
                 if ($idxColor !== false) {
                     $rtfText .= '\cf' . ($idxColor + 1);
                 }
             } else {
                 $rtfText .= '\cf0';
             }
-            if ($styleFont->getName() != null) {
-                $idxFont = array_search($styleFont->getName(), $this->parentWriter->getFontTable());
+            if ($fontStyle->getName() != null) {
+                $idxFont = array_search($fontStyle->getName(), $this->parentWriter->getFontTable());
                 if ($idxFont !== false) {
                     $rtfText .= '\f' . $idxFont;
                 }
             } else {
                 $rtfText .= '\f0';
             }
-            if ($styleFont->getBold()) {
+            if ($fontStyle->getBold()) {
                 $rtfText .= '\b';
             }
-            if ($styleFont->getItalic()) {
+            if ($fontStyle->getItalic()) {
                 $rtfText .= '\i';
             }
-            if ($styleFont->getSize()) {
-                $rtfText .= '\fs' . ($styleFont->getSize() * 2);
+            if ($fontStyle->getSize()) {
+                $rtfText .= '\fs' . ($fontStyle->getSize() * 2);
             }
         }
-        if ($this->parentWriter->getLastParagraphStyle() != '' || $styleFont) {
+        if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
             $rtfText .= ' ';
         }
         $rtfText .= $this->element->getText();
 
-        if ($styleFont instanceof Font) {
+        if ($fontStyle instanceof Font) {
             $rtfText .= '\cf0';
             $rtfText .= '\f0';
 
-            if ($styleFont->getBold()) {
+            if ($fontStyle->getBold()) {
                 $rtfText .= '\b0';
             }
-            if ($styleFont->getItalic()) {
+            if ($fontStyle->getItalic()) {
                 $rtfText .= '\i0';
             }
-            if ($styleFont->getSize()) {
+            if ($fontStyle->getSize()) {
                 $rtfText .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
             }
         }

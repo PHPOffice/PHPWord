@@ -21,9 +21,9 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractP
      *
      * @param mixed $parent
      * @param string $docPart
-     * @param mixed $pStyle
+     * @param mixed $paragraphStyle
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $pStyle = null)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $paragraphStyle = null)
     {
     }
 

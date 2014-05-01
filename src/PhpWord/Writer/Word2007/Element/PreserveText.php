@@ -25,14 +25,14 @@ class PreserveText extends Element
      */
     public function write()
     {
-        $fStyle = $this->element->getFontStyle();
-        $pStyle = $this->element->getParagraphStyle();
+        $fontStyle = $this->element->getFontStyle();
+        $paragraphStyle = $this->element->getParagraphStyle();
         $texts = $this->element->getText();
         if (!is_array($texts)) {
             $texts = array($texts);
         }
 
-        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:p');
@@ -41,7 +41,7 @@ class PreserveText extends Element
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
                 $text = substr($text, 1, -1);
-                $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
                 $styleWriter->setIsInline(true);
 
                 $this->xmlWriter->startElement('w:r');
@@ -72,7 +72,7 @@ class PreserveText extends Element
             } else {
                 $text = htmlspecialchars($text);
                 $text = String::controlCharacterPHP2OOXML($text);
-                $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+                $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
                 $styleWriter->setIsInline(true);
 
                 $this->xmlWriter->startElement('w:r');

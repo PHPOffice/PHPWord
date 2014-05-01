@@ -25,19 +25,19 @@ class Text extends Element
      */
     public function write()
     {
-        $fStyle = $this->element->getFontStyle();
-        $pStyle = $this->element->getParagraphStyle();
+        $fontStyle = $this->element->getFontStyle();
+        $paragraphStyle = $this->element->getParagraphStyle();
         $text = htmlspecialchars($this->element->getText());
         $text = String::controlCharacterPHP2OOXML($text);
 
         if (!$this->withoutP) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
             $styleWriter->setIsInline(true);
 
             $this->xmlWriter->startElement('w:p');
             $styleWriter->write();
         }
-        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
         $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:r');

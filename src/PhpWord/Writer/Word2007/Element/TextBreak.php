@@ -26,21 +26,21 @@ class TextBreak extends Element
     {
         if (!$this->withoutP) {
             $hasStyle = false;
-            $fStyle = null;
-            $pStyle = null;
+            $fontStyle = null;
+            $paragraphStyle = null;
             if (!is_null($this->element)) {
-                $fStyle = $this->element->getFontStyle();
-                $pStyle = $this->element->getParagraphStyle();
-                $hasStyle = !is_null($fStyle) || !is_null($pStyle);
+                $fontStyle = $this->element->getFontStyle();
+                $paragraphStyle = $this->element->getParagraphStyle();
+                $hasStyle = !is_null($fontStyle) || !is_null($paragraphStyle);
             }
             if ($hasStyle) {
-                $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+                $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
                 $styleWriter->setIsInline(true);
 
                 $this->xmlWriter->startElement('w:p');
                 $styleWriter->write();
-                if (!is_null($fStyle)) {
-                    $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+                if (!is_null($fontStyle)) {
+                    $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
                     $styleWriter->setIsInline(true);
 
                     $this->xmlWriter->startElement('w:pPr');

@@ -21,11 +21,11 @@ class Text extends Element
      */
     public function write()
     {
-        $styleFont = $this->element->getFontStyle();
-        $styleParagraph = $this->element->getParagraphStyle();
+        $fontStyle = $this->element->getFontStyle();
+        $paragraphStyle = $this->element->getParagraphStyle();
 
         // @todo Commented for TextRun. Should really checkout this value
-        // $SfIsObject = ($styleFont instanceof Font) ? true : false;
+        // $SfIsObject = ($fontStyle instanceof Font) ? true : false;
         $SfIsObject = false;
 
         if ($SfIsObject) {
@@ -35,23 +35,23 @@ class Text extends Element
             if (!$this->withoutP) {
                 $this->xmlWriter->startElement('text:p'); // text:p
             }
-            if (empty($styleFont)) {
-                if (empty($styleParagraph)) {
+            if (empty($fontStyle)) {
+                if (empty($paragraphStyle)) {
                     $this->xmlWriter->writeAttribute('text:style-name', 'P1');
-                } elseif (is_string($styleParagraph)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $styleParagraph);
+                } elseif (is_string($paragraphStyle)) {
+                    $this->xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
                 $this->xmlWriter->writeRaw($this->element->getText());
             } else {
-                if (empty($styleParagraph)) {
+                if (empty($paragraphStyle)) {
                     $this->xmlWriter->writeAttribute('text:style-name', 'Standard');
-                } elseif (is_string($styleParagraph)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $styleParagraph);
+                } elseif (is_string($paragraphStyle)) {
+                    $this->xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
                 // text:span
                 $this->xmlWriter->startElement('text:span');
-                if (is_string($styleFont)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $styleFont);
+                if (is_string($fontStyle)) {
+                    $this->xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
                 $this->xmlWriter->writeRaw($this->element->getText());
                 $this->xmlWriter->endElement();

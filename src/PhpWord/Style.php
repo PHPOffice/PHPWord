@@ -41,12 +41,12 @@ class Style
      * Add font style
      *
      * @param string $styleName
-     * @param array $styleFont
-     * @param array $styleParagraph
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      */
-    public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
+    public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        self::setStyleValues($styleName, new Font('text', $styleParagraph), $styleFont);
+        self::setStyleValues($styleName, new Font('text', $paragraphStyle), $fontStyle);
     }
 
     /**
@@ -76,12 +76,12 @@ class Style
      * Add title style
      *
      * @param int $titleCount
-     * @param array $styleFont
-     * @param array $styleParagraph
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      */
-    public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
+    public static function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
     {
-        self::setStyleValues("Heading_{$titleCount}", new Font('title', $styleParagraph), $styleFont);
+        self::setStyleValues("Heading_{$titleCount}", new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**

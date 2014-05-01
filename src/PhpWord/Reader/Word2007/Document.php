@@ -121,12 +121,12 @@ class Document extends AbstractPart
     private function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
     {
         // Paragraph style
-        $pStyle = null;
+        $paragraphStyle = null;
         $headingMatches = array();
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
-            $pStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_string($pStyle)) {
-                preg_match('/Heading(\d)/', $pStyle, $headingMatches);
+            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
+            if (is_string($paragraphStyle)) {
+                preg_match('/Heading(\d)/', $paragraphStyle, $headingMatches);
             }
         }
 
@@ -134,7 +134,7 @@ class Document extends AbstractPart
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
             $textContent = '';
-            $fStyle = $this->readFontStyle($xmlReader, $domNode);
+            $fontStyle = $this->readFontStyle($xmlReader, $domNode);
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
                 $instrText = $xmlReader->getValue('w:instrText', $node);
@@ -154,7 +154,7 @@ class Document extends AbstractPart
                     }
                 }
             }
-            $parent->addPreserveText($textContent, $fStyle, $pStyle);
+            $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
 
         // List item
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
@@ -165,7 +165,7 @@ class Document extends AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $pStyle);
+            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
 
         // Heading
         } elseif (!empty($headingMatches)) {
@@ -182,17 +182,17 @@ class Document extends AbstractPart
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
             $runLinkCount = $runCount + $linkCount;
             if ($runLinkCount == 0) {
-                $parent->addTextBreak(null, $pStyle);
+                $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 if ($runLinkCount > 1) {
-                    $textrun = $parent->addTextRun($pStyle);
+                    $textrun = $parent->addTextRun($paragraphStyle);
                     $textParent = &$textrun;
                 } else {
                     $textParent = &$parent;
                 }
                 $nodes = $xmlReader->getElements('*', $domNode);
                 foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $textParent, $docPart, $pStyle);
+                    $this->readRun($xmlReader, $node, $textParent, $docPart, $paragraphStyle);
                 }
             }
         }

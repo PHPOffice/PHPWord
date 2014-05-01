@@ -93,15 +93,15 @@ class Section extends AbstractContainer
     /**
      * Add a Table-of-Contents Element
      *
-     * @param mixed $styleFont
-     * @param mixed $styleTOC
+     * @param mixed $fontStyle
+     * @param mixed $tocStyle
      * @param integer $minDepth
      * @param integer $maxDepth
      * @return \PhpOffice\PhpWord\Element\TOC
      */
-    public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
+    public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
-        $toc = new TOC($styleFont, $styleTOC, $minDepth, $maxDepth);
+        $toc = new TOC($fontStyle, $tocStyle, $minDepth, $maxDepth);
         $this->elements[] = $toc;
         return $toc;
     }

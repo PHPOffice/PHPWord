@@ -23,8 +23,8 @@ class TextRun extends Element
      */
     public function write()
     {
-        $pStyle = $this->element->getParagraphStyle();
-        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $paragraphStyle = $this->element->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:p');

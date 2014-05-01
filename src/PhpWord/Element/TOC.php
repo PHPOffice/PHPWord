@@ -50,29 +50,29 @@ class TOC extends AbstractElement
     /**
      * Create a new Table-of-Contents Element
      *
-     * @param mixed $styleFont
-     * @param array $styleTOC
+     * @param mixed $fontStyle
+     * @param array $tocStyle
      * @param integer $minDepth
      * @param integer $maxDepth
      */
-    public function __construct($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
+    public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
         $this->TOCStyle = new TOCStyle();
 
-        if (!is_null($styleTOC) && is_array($styleTOC)) {
-            foreach ($styleTOC as $key => $value) {
+        if (!is_null($tocStyle) && is_array($tocStyle)) {
+            foreach ($tocStyle as $key => $value) {
                  $this->TOCStyle->setStyleValue($key, $value);
             }
         }
 
-        if (!is_null($styleFont)) {
-            if (is_array($styleFont)) {
+        if (!is_null($fontStyle)) {
+            if (is_array($fontStyle)) {
                  $this->fontStyle = new Font();
-                foreach ($styleFont as $key => $value) {
+                foreach ($fontStyle as $key => $value) {
                      $this->fontStyle->setStyleValue($key, $value);
                 }
             } else {
-                 $this->fontStyle = $styleFont;
+                 $this->fontStyle = $fontStyle;
             }
         }
 

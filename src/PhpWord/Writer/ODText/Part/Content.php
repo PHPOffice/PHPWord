@@ -55,23 +55,14 @@ class Content extends AbstractPart
         $xmlWriter->startElement('office:text');
 
         // text:sequence-decls
+        $sequences = array('Illustration', 'Table', 'Text', 'Drawing');
         $xmlWriter->startElement('text:sequence-decls');
-        $xmlWriter->startElement('text:sequence-decl');
-        $xmlWriter->writeAttribute('text:display-outline-level', 0);
-        $xmlWriter->writeAttribute('text:name', 'Illustration');
-        $xmlWriter->endElement();
-        $xmlWriter->startElement('text:sequence-decl');
-        $xmlWriter->writeAttribute('text:display-outline-level', 0);
-        $xmlWriter->writeAttribute('text:name', 'Table');
-        $xmlWriter->endElement();
-        $xmlWriter->startElement('text:sequence-decl');
-        $xmlWriter->writeAttribute('text:display-outline-level', 0);
-        $xmlWriter->writeAttribute('text:name', 'Text');
-        $xmlWriter->endElement();
-        $xmlWriter->startElement('text:sequence-decl');
-        $xmlWriter->writeAttribute('text:display-outline-level', 0);
-        $xmlWriter->writeAttribute('text:name', 'Drawing');
-        $xmlWriter->endElement();
+        foreach ($sequences as $sequence) {
+            $xmlWriter->startElement('text:sequence-decl');
+            $xmlWriter->writeAttribute('text:display-outline-level', 0);
+            $xmlWriter->writeAttribute('text:name', $sequence);
+            $xmlWriter->endElement();
+        }
         $xmlWriter->endElement(); // text:sequence-decl
 
         $sections = $phpWord->getSections();
@@ -79,7 +70,6 @@ class Content extends AbstractPart
         if ($sectionCount > 0) {
             foreach ($sections as $section) {
                 $elements = $section->getElements();
-
                 // $xmlWriter->startElement('text:section');
                 foreach ($elements as $element) {
                     $elementWriter = new ElementWriter($xmlWriter, $this, $element, false);
@@ -104,7 +94,7 @@ class Content extends AbstractPart
 
         // Font and paragraph
         $styles = Style::getStyles();
-        $pStyleCount = 0;
+        $paragraphStyleCount = 0;
         if (count($styles) > 0) {
             foreach ($styles as $styleName => $style) {
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
@@ -117,11 +107,11 @@ class Content extends AbstractPart
                         $styleWriter->write();
                     }
                     if ($style instanceof Paragraph) {
-                        $pStyleCount++;
+                        $paragraphStyleCount++;
                     }
                 }
             }
-            if ($pStyleCount == 0) {
+            if ($paragraphStyleCount == 0) {
                 $style = new Paragraph();
                 $style->setStyleName('P1');
                 $styleWriter = new \PhpOffice\PhpWord\Writer\ODText\Style\Paragraph($xmlWriter, $style);
@@ -181,31 +171,31 @@ class Content extends AbstractPart
         $sections = $phpWord->getSections();
         $sectionCount = count($sections);
         if ($sectionCount > 0) {
-            $pStyleCount = 0;
-            $fStyleCount = 0;
+            $paragraphStyleCount = 0;
+            $fontStyleCount = 0;
             foreach ($sections as $section) {
                 $elements = $section->getElements();
                 foreach ($elements as $element) {
                     if ($element instanceof Text) {
-                        $fStyle = $element->getFontStyle();
-                        $pStyle = $element->getParagraphStyle();
+                        $fontStyle = $element->getFontStyle();
+                        $paragraphStyle = $element->getParagraphStyle();
 
                         // Font
-                        if ($fStyle instanceof Font) {
-                            $fStyleCount++;
+                        if ($fontStyle instanceof Font) {
+                            $fontStyleCount++;
                             $arrStyle = array(
-                                'color' => $fStyle->getColor(),
-                                'name'  => $fStyle->getName()
+                                'color' => $fontStyle->getColor(),
+                                'name'  => $fontStyle->getName()
                             );
-                            $phpWord->addFontStyle('T' . $fStyleCount, $arrStyle);
-                            $element->setFontStyle('T' . $fStyleCount);
+                            $phpWord->addFontStyle('T' . $fontStyleCount, $arrStyle);
+                            $element->setFontStyle('T' . $fontStyleCount);
 
                         // Paragraph
-                        } elseif ($pStyle instanceof Paragraph) {
-                            $pStyleCount++;
+                        } elseif ($paragraphStyle instanceof Paragraph) {
+                            $paragraphStyleCount++;
 
-                            $phpWord->addParagraphStyle('P' . $pStyleCount, array());
-                            $element->setParagraphStyle('P' . $pStyleCount);
+                            $phpWord->addParagraphStyle('P' . $paragraphStyleCount, array());
+                            $element->setParagraphStyle('P' . $paragraphStyleCount);
                         }
                     }
                 }

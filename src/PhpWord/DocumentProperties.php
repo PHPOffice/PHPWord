@@ -165,7 +165,7 @@ class DocumentProperties
      */
     public function setLastModifiedBy($value = '')
     {
-        $this->lastModifiedBy = $this->setValue($value, '');
+        $this->lastModifiedBy = $this->setValue($value, $this->creator);
 
         return $this;
     }

@@ -25,18 +25,18 @@ class Link extends Element
     public function write()
     {
         $rId = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
-        $fStyle = $this->element->getFontStyle();
-        $pStyle = $this->element->getParagraphStyle();
+        $fontStyle = $this->element->getFontStyle();
+        $paragraphStyle = $this->element->getParagraphStyle();
 
         if (!$this->withoutP) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
             $styleWriter->setIsInline(true);
 
             $this->xmlWriter->startElement('w:p');
             $styleWriter->write();
         }
 
-        $styleWriter = new FontStyleWriter($this->xmlWriter, $fStyle);
+        $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
         $styleWriter->setIsInline(true);
 
         $this->xmlWriter->startElement('w:hyperlink');

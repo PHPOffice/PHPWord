@@ -27,8 +27,8 @@ class ListItem extends Element
         $textObject = $this->element->getTextObject();
         $depth = $this->element->getDepth();
         $numId = $this->element->getStyle()->getNumId();
-        $pStyle = $textObject->getParagraphStyle();
-        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $pStyle);
+        $paragraphStyle = $textObject->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
         $styleWriter->setWithoutPPR(true);
         $styleWriter->setIsInline(true);
 

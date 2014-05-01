@@ -28,6 +28,10 @@ class Font extends AbstractStyle
      */
     public function write()
     {
+        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Font)) {
+            return;
+        }
+
         $this->xmlWriter->startElement('style:style');
         $this->xmlWriter->writeAttribute('style:name', $this->style->getStyleName());
         $this->xmlWriter->writeAttribute('style:family', 'text');

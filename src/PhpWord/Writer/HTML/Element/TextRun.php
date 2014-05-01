@@ -30,15 +30,15 @@ class TextRun extends Element
         $elements = $this->element->getElements();
         if (count($elements) > 0) {
             // Paragraph style
-            $pStyle = $this->element->getParagraphStyle();
-            $pStyleIsObject = ($pStyle instanceof Paragraph);
-            if ($pStyleIsObject) {
-                $styleWriter = new ParagraphStyleWriter($pStyle);
-                $pStyle = $styleWriter->write();
+            $paragraphStyle = $this->element->getParagraphStyle();
+            $paragraphStyleIsObject = ($paragraphStyle instanceof Paragraph);
+            if ($paragraphStyleIsObject) {
+                $styleWriter = new ParagraphStyleWriter($paragraphStyle);
+                $paragraphStyle = $styleWriter->write();
             }
             $tag = $this->withoutP ? 'span' : 'p';
-            $attribute = $pStyleIsObject ? 'style' : 'class';
-            $html .= "<{$tag} {$attribute}=\"{$pStyle}\">";
+            $attribute = $paragraphStyleIsObject ? 'style' : 'class';
+            $html .= "<{$tag} {$attribute}=\"{$paragraphStyle}\">";
             foreach ($elements as $element) {
                 $elementWriter = new Element($this->parentWriter, $element, true);
                 $html .= $elementWriter->write();

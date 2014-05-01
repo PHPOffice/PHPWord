@@ -171,12 +171,12 @@ class PhpWord
      * Adds a font style definition to styles.xml
      *
      * @param string $styleName
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
-    public function addFontStyle($styleName, $styleFont, $styleParagraph = null)
+    public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        Style::addFontStyle($styleName, $styleFont, $styleParagraph);
+        Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -195,12 +195,12 @@ class PhpWord
      * Adds a heading style definition to styles.xml
      *
      * @param int $titleCount
-     * @param mixed $styleFont
-     * @param mixed $styleParagraph
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
      */
-    public function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
+    public function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
     {
-        Style::addTitleStyle($titleCount, $styleFont, $styleParagraph);
+        Style::addTitleStyle($titleCount, $fontStyle, $paragraphStyle);
     }
 
     /**

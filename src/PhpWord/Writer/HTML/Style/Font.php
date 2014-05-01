@@ -26,6 +26,10 @@ class Font extends AbstractStyle
      */
     public function write()
     {
+        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Font)) {
+            return;
+        }
+
         $css = array();
         if (PhpWord::DEFAULT_FONT_NAME != $this->style->getName()) {
             $css['font-family'] = "'" . $this->style->getName() . "'";
