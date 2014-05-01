@@ -9,8 +9,6 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * Section settings
  */
@@ -18,11 +16,16 @@ class Section extends Border
 {
     /**
      * Page orientation
+     *
+     * @const string
      */
     const ORIENTATION_PORTRAIT = 'portrait';
     const ORIENTATION_LANDSCAPE = 'landscape';
+
     /**
      * Page default constants
+     *
+     * @const int|float
      */
     const DEFAULT_WIDTH = 11906; // In twip
     const DEFAULT_HEIGHT = 16838; // In twip

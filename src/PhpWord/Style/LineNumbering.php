@@ -55,7 +55,7 @@ class LineNumbering extends AbstractStyle
      *
      * @param array $style
      */
-    public function __construct($style = null)
+    public function __construct($style = array())
     {
         $this->setStyleByArray($style);
     }

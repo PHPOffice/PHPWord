@@ -18,12 +18,16 @@ class Settings
 {
     /**
      * Zip libraries
+     *
+     * @const string
      */
     const PCLZIP     = 'PhpOffice\\PhpWord\\Shared\\ZipArchive';
     const ZIPARCHIVE = 'ZipArchive';
 
     /**
      * PDF rendering libraries
+     *
+     * @const string
      */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
 
