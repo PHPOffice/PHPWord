@@ -8,7 +8,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 // Ads styles
 $phpWord->addParagraphStyle('pStyle', array('spacing'=>100));
 $phpWord->addFontStyle('BoldText', array('bold'=>true));
-$phpWord->addFontStyle('ColoredText', array('color'=>'FF8080'));
+$phpWord->addFontStyle('ColoredText', array('color'=>'FF8080', 'bgColor' => 'FFFFCC'));
 $phpWord->addLinkStyle('NLink', array('color'=>'0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
 
 // New portrait section

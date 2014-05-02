@@ -55,7 +55,7 @@ $section->addTextBreak(1);
 $section->addText("Table with colspan and rowspan", $header);
 
 $styleTable = array('borderSize' => 6, 'borderColor' => '999999');
-$cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center');
+$cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center', 'bgColor' => 'FFFF00');
 $cellRowContinue = array('vMerge' => 'continue');
 $cellColSpan = array('gridSpan' => 2, 'valign' => 'center');
 $cellHCentered = array('align' => 'center');

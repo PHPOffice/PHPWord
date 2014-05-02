@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Style\Shading;
 
 /**
  * Table style
@@ -52,13 +52,6 @@ class Table extends Border
     private $cellMarginBottom = null;
 
     /**
-     * Background color
-     *
-     * @var string
-     */
-    private $bgColor;
-
-    /**
      * Border size inside horizontal
      *
      * @var int
@@ -85,6 +78,13 @@ class Table extends Border
      * @var string
      */
     private $borderInsideVColor;
+
+    /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
 
     /**
      * Create new table style
@@ -119,26 +119,6 @@ class Table extends Border
     }
 
     /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $key = String::removeUnderscorePrefix($key);
-        if ($key == 'borderSize') {
-            $this->setBorderSize($value);
-        } elseif ($key == 'borderColor') {
-            $this->setBorderColor($value);
-        } elseif ($key == 'cellMargin') {
-            $this->setCellMargin($value);
-        } else {
-            $this->$key = $value;
-        }
-    }
-
-    /**
      * Get First Row Style
      *
      * @return \PhpOffice\PhpWord\Style\Table
@@ -155,131 +135,100 @@ class Table extends Border
      */
     public function getBgColor()
     {
-        return $this->bgColor;
+        if (!is_null($this->shading)) {
+            return $this->shading->getFill();
+        }
     }
 
     /**
      * Set background
      *
-     * @param string $pValue
+     * @param string $value
      * @return \PhpOffice\PhpWord\Style\Table
      */
-    public function setBgColor($pValue = null)
+    public function setBgColor($value = null)
     {
-        $this->bgColor = $pValue;
+        $this->setShading(array('fill' => $value));
     }
 
     /**
-     * Set TLRBVH Border Size
+     * Set TLRBHV Border Size
      *
-     * @param int $pValue Border size in eighths of a point (1/8 point)
+     * @param int $value Border size in eighths of a point (1/8 point)
+     * @return self
      */
-    public function setBorderSize($pValue = null)
+    public function setBorderSize($value = null)
     {
-        $this->borderTopSize = $pValue;
-        $this->borderLeftSize = $pValue;
-        $this->borderRightSize = $pValue;
-        $this->borderBottomSize = $pValue;
-        $this->borderInsideHSize = $pValue;
-        $this->borderInsideVSize = $pValue;
+        $this->setBorderTopSize($value);
+        $this->setBorderLeftSize($value);
+        $this->setBorderRightSize($value);
+        $this->setBorderBottomSize($value);
+        $this->setBorderInsideHSize($value);
+        $this->setBorderInsideVSize($value);
+
+        return $this;
     }
 
     /**
-     * Get TLRBVH Border Size
+     * Get TLRBHV Border Size
      *
      * @return int[]
      */
     public function getBorderSize()
     {
-        $top = $this->getBorderTopSize();
-        $left = $this->getBorderLeftSize();
-        $right = $this->getBorderRightSize();
-        $bottom = $this->getBorderBottomSize();
-        $insideH = $this->getBorderInsideHSize();
-        $insideV = $this->getBorderInsideVSize();
-
-        return array($top, $left, $right, $bottom, $insideH, $insideV);
+        return array(
+            $this->getBorderTopSize(),
+            $this->getBorderLeftSize(),
+            $this->getBorderRightSize(),
+            $this->getBorderBottomSize(),
+            $this->getBorderInsideHSize(),
+            $this->getBorderInsideVSize(),
+        );
     }
 
     /**
-     * Set TLRBVH Border Color
-     * @param string $pValue
+     * Set TLRBHV Border Color
+     *
+     * @param string $value
+     * @return self
      */
-    public function setBorderColor($pValue = null)
+    public function setBorderColor($value = null)
     {
-        $this->borderTopColor = $pValue;
-        $this->borderLeftColor = $pValue;
-        $this->borderRightColor = $pValue;
-        $this->borderBottomColor = $pValue;
-        $this->borderInsideHColor = $pValue;
-        $this->borderInsideVColor = $pValue;
+        $this->setBorderTopColor($value);
+        $this->setBorderLeftColor($value);
+        $this->setBorderRightColor($value);
+        $this->setBorderBottomColor($value);
+        $this->setBorderInsideHColor($value);
+        $this->setBorderInsideVColor($value);
+
+        return $this;
     }
 
     /**
-     * Get TLRB Border Color
+     * Get TLRBHV Border Color
      *
      * @return string[]
      */
     public function getBorderColor()
     {
-        $top = $this->getBorderTopColor();
-        $left = $this->getBorderLeftColor();
-        $right = $this->getBorderRightColor();
-        $bottom = $this->getBorderBottomColor();
-        $insideH = $this->getBorderInsideHColor();
-        $insideV = $this->getBorderInsideVColor();
-
-        return array($top, $left, $right, $bottom, $insideH, $insideV);
-    }
-
-    /**
-     * Set border color inside horizontal
-     *
-     * @param $pValue
-     */
-    public function setBorderInsideHColor($pValue = null)
-    {
-        $this->borderInsideHColor = $pValue;
-    }
-
-    /**
-     * Get border color inside horizontal
-     *
-     * @return
-     */
-    public function getBorderInsideHColor()
-    {
-        return (isset($this->borderInsideHColor)) ? $this->borderInsideHColor : null;
-    }
-
-    /**
-     * Set border color inside vertical
-     *
-     * @param $pValue
-     */
-    public function setBorderInsideVColor($pValue = null)
-    {
-        $this->borderInsideVColor = $pValue;
-    }
-
-    /**
-     * Get border color inside vertical
-     *
-     * @return
-     */
-    public function getBorderInsideVColor()
-    {
-        return (isset($this->borderInsideVColor)) ? $this->borderInsideVColor : null;
+        return array(
+            $this->getBorderTopColor(),
+            $this->getBorderLeftColor(),
+            $this->getBorderRightColor(),
+            $this->getBorderBottomColor(),
+            $this->getBorderInsideHColor(),
+            $this->getBorderInsideVColor(),
+        );
     }
 
     /**
      * Set border size inside horizontal
      *
-     * @param $pValue
+     * @param $value
      */
-    public function setBorderInsideHSize($pValue = null)
+    public function setBorderInsideHSize($value = null)
     {
-        $this->borderInsideHSize = $pValue;
+        $this->borderInsideHSize = $value;
     }
 
     /**
@@ -295,11 +244,11 @@ class Table extends Border
     /**
      * Set border size inside vertical
      *
-     * @param $pValue
+     * @param $value
      */
-    public function setBorderInsideVSize($pValue = null)
+    public function setBorderInsideVSize($value = null)
     {
-        $this->borderInsideVSize = $pValue;
+        $this->borderInsideVSize = $value;
     }
 
     /**
@@ -313,13 +262,53 @@ class Table extends Border
     }
 
     /**
+     * Set border color inside horizontal
+     *
+     * @param $value
+     */
+    public function setBorderInsideHColor($value = null)
+    {
+        $this->borderInsideHColor = $value;
+    }
+
+    /**
+     * Get border color inside horizontal
+     *
+     * @return
+     */
+    public function getBorderInsideHColor()
+    {
+        return (isset($this->borderInsideHColor)) ? $this->borderInsideHColor : null;
+    }
+
+    /**
+     * Set border color inside vertical
+     *
+     * @param $value
+     */
+    public function setBorderInsideVColor($value = null)
+    {
+        $this->borderInsideVColor = $value;
+    }
+
+    /**
+     * Get border color inside vertical
+     *
+     * @return
+     */
+    public function getBorderInsideVColor()
+    {
+        return (isset($this->borderInsideVColor)) ? $this->borderInsideVColor : null;
+    }
+
+    /**
      * Set cell margin top
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setCellMarginTop($pValue = null)
+    public function setCellMarginTop($value = null)
     {
-        $this->cellMarginTop = $pValue;
+        $this->cellMarginTop = $value;
     }
 
     /**
@@ -335,11 +324,11 @@ class Table extends Border
     /**
      * Set cell margin left
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setCellMarginLeft($pValue = null)
+    public function setCellMarginLeft($value = null)
     {
-        $this->cellMarginLeft = $pValue;
+        $this->cellMarginLeft = $value;
     }
 
     /**
@@ -355,11 +344,11 @@ class Table extends Border
     /**
      * Set cell margin right
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setCellMarginRight($pValue = null)
+    public function setCellMarginRight($value = null)
     {
-        $this->cellMarginRight = $pValue;
+        $this->cellMarginRight = $value;
     }
 
     /**
@@ -375,11 +364,11 @@ class Table extends Border
     /**
      * Set cell margin bottom
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setCellMarginBottom($pValue = null)
+    public function setCellMarginBottom($value = null)
     {
-        $this->cellMarginBottom = $pValue;
+        $this->cellMarginBottom = $value;
     }
 
     /**
@@ -395,14 +384,14 @@ class Table extends Border
     /**
      * Set TLRB cell margin
      *
-     * @param int $pValue Margin in twips
+     * @param int $value Margin in twips
      */
-    public function setCellMargin($pValue = null)
+    public function setCellMargin($value = null)
     {
-        $this->cellMarginTop = $pValue;
-        $this->cellMarginLeft = $pValue;
-        $this->cellMarginRight = $pValue;
-        $this->cellMarginBottom = $pValue;
+        $this->setCellMarginTop($value);
+        $this->setCellMarginLeft($value);
+        $this->setCellMarginRight($value);
+        $this->setCellMarginBottom($value);
     }
 
     /**
@@ -413,5 +402,35 @@ class Table extends Border
     public function getCellMargin()
     {
         return array($this->cellMarginTop, $this->cellMarginLeft, $this->cellMarginRight, $this->cellMarginBottom);
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param array $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        if (is_array($value)) {
+            if (!$this->shading instanceof Shading) {
+                $this->shading = new Shading();
+            }
+            $this->shading->setStyleByArray($value);
+        } else {
+            $this->shading = null;
+        }
+
+        return $this;
     }
 }

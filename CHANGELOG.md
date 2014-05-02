@@ -42,6 +42,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Section: Ability to define gutter and line numbering - @ivanlanin
 - Font: Small caps, all caps, and double strikethrough - @ivanlanin GH-151
 - Settings: Ability to use measurement unit other than twips with `setMeasurementUnit` - @ivanlanin GH-199
+- Style: Remove `bgColor` from `Font`, `Table`, and `Cell` and put it into the new `Shading` style - @ivanlanin
 
 ### Bugfixes
 

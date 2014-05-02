@@ -54,7 +54,6 @@ class Font extends AbstractStyle
         $font = $this->style->getName();
         $color = $this->style->getColor();
         $size = $this->style->getSize();
-        $bgColor = $this->style->getBgColor();
 
         $this->xmlWriter->startElement('w:rPr');
 
@@ -125,12 +124,9 @@ class Font extends AbstractStyle
         }
 
         // Background-Color
-        if (!is_null($bgColor)) {
-            $this->xmlWriter->startElement('w:shd');
-            $this->xmlWriter->writeAttribute('w:val', "clear");
-            $this->xmlWriter->writeAttribute('w:color', "auto");
-            $this->xmlWriter->writeAttribute('w:fill', $bgColor);
-            $this->xmlWriter->endElement();
+        if (!is_null($this->style->getShading())) {
+            $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
+            $styleWriter->write();
         }
 
         // Superscript/subscript

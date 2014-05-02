@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Shading;
+
 /**
  * Table style writer
  *
@@ -32,7 +34,6 @@ class Table extends AbstractStyle
             return;
         }
 
-        $bgColor = $this->style->getBgColor();
         $brdCol = $this->style->getBorderColor();
         $brdSz = $this->style->getBorderSize();
         $cellMargin = $this->style->getCellMargin();
@@ -76,13 +77,10 @@ class Table extends AbstractStyle
         // Only write background color and first row for full style
         if ($this->isFullStyle) {
             // Background color
-            if (!is_null($bgColor)) {
+            if (!is_null($this->style->getShading())) {
                 $this->xmlWriter->startElement('w:tcPr');
-                $this->xmlWriter->startElement('w:shd');
-                $this->xmlWriter->writeAttribute('w:val', 'clear');
-                $this->xmlWriter->writeAttribute('w:color', 'auto');
-                $this->xmlWriter->writeAttribute('w:fill', $bgColor);
-                $this->xmlWriter->endElement();
+                $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
+                $styleWriter->write();
                 $this->xmlWriter->endElement();
             }
             // First Row
@@ -110,17 +108,12 @@ class Table extends AbstractStyle
      */
     private function writeFirstRow(\PhpOffice\PhpWord\Style\Table $style, $type)
     {
-        $bgColor = $style->getBgColor();
-
         $this->xmlWriter->startElement('w:tblStylePr');
         $this->xmlWriter->writeAttribute('w:type', $type);
         $this->xmlWriter->startElement('w:tcPr');
-        if (!is_null($bgColor)) {
-            $this->xmlWriter->startElement('w:shd');
-            $this->xmlWriter->writeAttribute('w:val', 'clear');
-            $this->xmlWriter->writeAttribute('w:color', 'auto');
-            $this->xmlWriter->writeAttribute('w:fill', $bgColor);
-            $this->xmlWriter->endElement(); // w:shd
+        if (!is_null($style->getShading())) {
+            $styleWriter = new Shading($this->xmlWriter, $style->getShading());
+            $styleWriter->write();
         }
 
         // Borders

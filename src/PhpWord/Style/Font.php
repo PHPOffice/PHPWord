@@ -11,6 +11,7 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Style\Shading;
 
 /**
  * Font style
@@ -154,12 +155,6 @@ class Font extends AbstractStyle
     private $fgColor = null;
 
     /**
-     * Background color
-     *
-     * @var string
-     */
-    private $bgColor = null;
-    /**
      * Text line height
      *
      * @var int
@@ -194,6 +189,13 @@ class Font extends AbstractStyle
      * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
     private $allCaps = false;
+
+    /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
 
     /**
      * Create new font style
@@ -501,26 +503,26 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Get background color
+     * Get background
      *
-     * @return  string
+     * @return string
      */
     public function getBgColor()
     {
-        return $this->bgColor;
+        if (!is_null($this->shading)) {
+            return $this->shading->getFill();
+        }
     }
 
     /**
-     * Set background color
+     * Set background
      *
      * @param string $value
-     * @return $this
+     * @return \PhpOffice\PhpWord\Style\Table
      */
     public function setBgColor($value = null)
     {
-        $this->bgColor = $value;
-
-        return $this;
+        $this->setShading(array('fill' => $value));
     }
 
     /**
@@ -645,6 +647,36 @@ class Font extends AbstractStyle
         $this->allCaps = $this->setBoolVal($value, $this->allCaps);
         if ($this->allCaps) {
             $this->smallCaps = false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param array $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        if (is_array($value)) {
+            if (!$this->shading instanceof Shading) {
+                $this->shading = new Shading();
+            }
+            $this->shading->setStyleByArray($value);
+        } else {
+            $this->shading = null;
         }
 
         return $this;

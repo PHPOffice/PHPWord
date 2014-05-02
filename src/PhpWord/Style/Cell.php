@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Style\Shading;
 
 /**
  * Table cell style
@@ -32,13 +32,6 @@ class Cell extends Border
      * @var string
      */
     private $textDirection;
-
-    /**
-     * Background-Color
-     *
-     * @var string
-     */
-    private $bgColor;
 
     /**
      * Border Default Color
@@ -65,13 +58,19 @@ class Cell extends Border
     private $vMerge = null;
 
     /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
+
+    /**
      * Create a new Cell Style
      */
     public function __construct()
     {
         $this->valign = null;
         $this->textDirection = null;
-        $this->bgColor = null;
         $this->borderTopSize = null;
         $this->borderTopColor = null;
         $this->borderLeftSize = null;
@@ -81,24 +80,6 @@ class Cell extends Border
         $this->borderBottomSize = null;
         $this->borderBottomColor = null;
         $this->defaultBorderColor = '000000';
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $key = String::removeUnderscorePrefix($key);
-        if ($key == 'borderSize') {
-            $this->setBorderSize($value);
-        } elseif ($key == 'borderColor') {
-            $this->setBorderColor($value);
-        } else {
-            $this->$key = $value;
-        }
     }
 
     /**
@@ -138,21 +119,26 @@ class Cell extends Border
     }
 
     /**
-     * Get background color
+     * Get background
+     *
+     * @return string
      */
     public function getBgColor()
     {
-        return $this->bgColor;
+        if (!is_null($this->shading)) {
+            return $this->shading->getFill();
+        }
     }
 
     /**
-     * Set background color
+     * Set background
      *
-     * @param string $pValue
+     * @param string $value
+     * @return \PhpOffice\PhpWord\Style\Table
      */
-    public function setBgColor($pValue = null)
+    public function setBgColor($value = null)
     {
-        $this->bgColor = $pValue;
+        $this->setShading(array('fill' => $value));
     }
 
     /**
@@ -197,5 +183,35 @@ class Cell extends Border
     public function getVMerge()
     {
         return $this->vMerge;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param array $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        if (is_array($value)) {
+            if (!$this->shading instanceof Shading) {
+                $this->shading = new Shading();
+            }
+            $this->shading->setStyleByArray($value);
+        } else {
+            $this->shading = null;
+        }
+
+        return $this;
     }
 }

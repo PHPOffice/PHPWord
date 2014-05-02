@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\LineNumbering;
+
 /**
  * Section settings
  */
@@ -146,7 +148,7 @@ class Section extends Border
     /**
      * Line numbering
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Style\LineNumbering
      * @link http://www.schemacentral.com/sc/ooxml/e-w_lnNumType-1.html
      */
     private $lineNumbering;
@@ -491,7 +493,7 @@ class Section extends Border
     /**
      * Get line numbering
      *
-     * @return self
+     * @return \PhpOffice\PhpWord\Style\LineNumbering
      */
     public function getLineNumbering()
     {
@@ -506,20 +508,15 @@ class Section extends Border
      */
     public function setLineNumbering($value = null)
     {
-        if ($this->lineNumbering instanceof LineNumbering) {
+        if (is_array($value)) {
+            if (!$this->lineNumbering instanceof LineNumbering) {
+                $this->lineNumbering = new LineNumbering($value);
+            }
             $this->lineNumbering->setStyleByArray($value);
         } else {
-            $this->lineNumbering = new LineNumbering($value);
+            $this->lineNumbering = null;
         }
 
         return $this;
-    }
-
-    /**
-     * Remove line numbering
-     */
-    public function removeLineNumbering()
-    {
-        $this->lineNumbering = null;
     }
 }

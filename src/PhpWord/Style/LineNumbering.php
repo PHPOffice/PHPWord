@@ -142,7 +142,7 @@ class LineNumbering extends AbstractStyle
     /**
      * Set distance
      *
-     * @param int|float $value
+     * @param string $value
      * @return self
      */
     public function setRestart($value = null)

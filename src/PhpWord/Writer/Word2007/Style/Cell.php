@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Shading;
+
 /**
  * Cell style writer
  *
@@ -48,11 +50,8 @@ class Cell extends AbstractStyle
             }
 
             if (!is_null($bgColor)) {
-                $this->xmlWriter->startElement('w:shd');
-                $this->xmlWriter->writeAttribute('w:val', 'clear');
-                $this->xmlWriter->writeAttribute('w:color', 'auto');
-                $this->xmlWriter->writeAttribute('w:fill', $bgColor);
-                $this->xmlWriter->endElement();
+                $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
+                $styleWriter->write();
             }
 
             if (!is_null($valign)) {

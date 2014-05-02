@@ -58,7 +58,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $oSettings->setSettingValue('lineNumbering', array('start' => 1, 'increment' => 1, 'distance' => 240, 'restart' => 'newPage'));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
 
-        $oSettings->removeLineNumbering();
+        $oSettings->setSettingValue('lineNumbering', null);
         $this->assertNull($oSettings->getLineNumbering());
     }
 
