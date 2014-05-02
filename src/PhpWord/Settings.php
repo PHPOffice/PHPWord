@@ -37,6 +37,8 @@ class Settings
      * Applied to:
      * - Section: margins, header/footer height, gutter, column spacing
      * - Tab: position
+     * - Indentation: left, right, firstLine, hanging
+     * - Spacing: before, after
      *
      * @const int|float
      */

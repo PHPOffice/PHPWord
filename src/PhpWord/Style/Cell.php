@@ -16,8 +16,20 @@ use PhpOffice\PhpWord\Style\Shading;
  */
 class Cell extends Border
 {
+    /**
+     * Text direction constants
+     *
+     * @const string
+     */
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';
+
+    /**
+     * Default border color
+     *
+     * @const string
+     */
+    const DEFAULT_BORDER_COLOR = '000000';
 
     /**
      * Vertical align (top, center, both, bottom)
@@ -32,13 +44,6 @@ class Cell extends Border
      * @var string
      */
     private $textDirection;
-
-    /**
-     * Border Default Color
-     *
-     * @var string
-     */
-    private $defaultBorderColor;
 
     /**
      * colspan
@@ -65,24 +70,6 @@ class Cell extends Border
     private $shading;
 
     /**
-     * Create a new Cell Style
-     */
-    public function __construct()
-    {
-        $this->valign = null;
-        $this->textDirection = null;
-        $this->borderTopSize = null;
-        $this->borderTopColor = null;
-        $this->borderLeftSize = null;
-        $this->borderLeftColor = null;
-        $this->borderRightSize = null;
-        $this->borderRightColor = null;
-        $this->borderBottomSize = null;
-        $this->borderBottomColor = null;
-        $this->defaultBorderColor = '000000';
-    }
-
-    /**
      * Get vertical align
      */
     public function getVAlign()
@@ -93,11 +80,11 @@ class Cell extends Border
     /**
      * Set vertical align
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setVAlign($pValue = null)
+    public function setVAlign($value = null)
     {
-        $this->valign = $pValue;
+        $this->valign = $value;
     }
 
     /**
@@ -111,11 +98,11 @@ class Cell extends Border
     /**
      * Set text direction
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setTextDirection($pValue = null)
+    public function setTextDirection($value = null)
     {
-        $this->textDirection = $pValue;
+        $this->textDirection = $value;
     }
 
     /**
@@ -134,29 +121,21 @@ class Cell extends Border
      * Set background
      *
      * @param string $value
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @return self
      */
     public function setBgColor($value = null)
     {
-        $this->setShading(array('fill' => $value));
-    }
-
-    /**
-     * Get default border color
-     */
-    public function getDefaultBorderColor()
-    {
-        return $this->defaultBorderColor;
+        return $this->setShading(array('fill' => $value));
     }
 
     /**
      * Set grid span (colspan)
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setGridSpan($pValue = null)
+    public function setGridSpan($value = null)
     {
-        $this->gridSpan = $pValue;
+        $this->gridSpan = $value;
     }
 
     /**
@@ -170,11 +149,11 @@ class Cell extends Border
     /**
      * Set vertical merge (rowspan)
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setVMerge($pValue = null)
+    public function setVMerge($value = null)
     {
-        $this->vMerge = $pValue;
+        $this->vMerge = $value;
     }
 
     /**
@@ -213,5 +192,16 @@ class Cell extends Border
         }
 
         return $this;
+    }
+
+    /**
+     * Get default border color
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getDefaultBorderColor()
+    {
+        return self::DEFAULT_BORDER_COLOR;
     }
 }

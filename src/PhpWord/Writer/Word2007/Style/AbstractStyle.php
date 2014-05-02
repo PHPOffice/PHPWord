@@ -56,7 +56,7 @@ abstract class AbstractStyle
      * @param int|float $default
      * @return int|float
      */
-    protected function convertTwip($value, $default)
+    protected function convertTwip($value, $default = 0)
     {
         $unit = Settings::getMeasurementUnit();
         if ($unit == Settings::UNIT_TWIP || $value == $default) {

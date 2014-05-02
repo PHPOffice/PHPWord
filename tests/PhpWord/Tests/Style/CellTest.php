@@ -59,11 +59,6 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $default = '000000';
         $value = 'FF0000';
 
-        $this->assertEquals($default, $object->getDefaultBorderColor());
-
-        $object->setStyleValue('defaultBorderColor', $value);
-        $this->assertEquals($value, $object->getDefaultBorderColor());
-
         $object->setStyleValue('borderColor', $value);
         $expected = array($value, $value, $value, $value);
         $this->assertEquals($expected, $object->getBorderColor());
