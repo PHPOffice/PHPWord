@@ -10,10 +10,13 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
+use PhpOffice\PhpWord\Collection\Titles;
+use PhpOffice\PhpWord\Collection\Footnotes;
+use PhpOffice\PhpWord\Collection\Endnotes;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Element\Section;
 
 /**
  * PHPWord main class
@@ -40,6 +43,34 @@ class PhpWord
     private $documentProperties;
 
     /**
+     * Collection of sections
+     *
+     * @var \PhpOffice\PhpWord\Element\Section[]
+     */
+    private $sections = array();
+
+    /**
+     * Collection of titles
+     *
+     * @var \PhpOffice\PhpWord\Collection\Titles
+     */
+    private $titles;
+
+    /**
+     * Collection of footnotes
+     *
+     * @var \PhpOffice\PhpWord\Collection\Footnotes
+     */
+    private $footnotes;
+
+    /**
+     * Collection of endnotes
+     *
+     * @var \PhpOffice\PhpWord\Collection\Endnotes
+     */
+    private $endnotes;
+
+    /**
      * Default font name
      *
      * @var string
@@ -53,18 +84,14 @@ class PhpWord
     private $defaultFontSize;
 
     /**
-     * Collection of sections
-     *
-     * @var \PhpOffice\PhpWord\Element\Section[]
-     */
-    private $sections = array();
-
-    /**
      * Create new
      */
     public function __construct()
     {
         $this->documentProperties = new DocumentProperties();
+        $this->titles = new Titles();
+        $this->footnotes = new Footnotes();
+        $this->endnotes = new Endnotes();
         $this->defaultFontName = self::DEFAULT_FONT_NAME;
         $this->defaultFontSize = self::DEFAULT_FONT_SIZE;
     }
@@ -93,6 +120,16 @@ class PhpWord
     }
 
     /**
+     * Get all sections
+     *
+     * @return \PhpOffice\PhpWord\Element\Section[]
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
      * Create new section
      *
      * @param array $settings
@@ -101,9 +138,73 @@ class PhpWord
     public function addSection($settings = null)
     {
         $section = new Section(count($this->sections) + 1, $settings);
+        $section->setPhpWord($this);
         $this->sections[] = $section;
 
         return $section;
+    }
+
+    /**
+     * Get titles
+     *
+     * @return \PhpOffice\PhpWord\Collection\Titles
+     */
+    public function getTitles()
+    {
+        return $this->titles;
+    }
+
+    /**
+     * Add new title
+     *
+     * @param \PhpOffice\PhpWord\Element\Title $title
+     * @return int
+     */
+    public function addTitle($title)
+    {
+        return $this->titles->addItem($title);
+    }
+
+    /**
+     * Get footnotes
+     *
+     * @return \PhpOffice\PhpWord\Collection\Footnotes
+     */
+    public function getFootnotes()
+    {
+        return $this->footnotes;
+    }
+
+    /**
+     * Add new footnote
+     *
+     * @param \PhpOffice\PhpWord\Element\Footnote $footnote
+     * @return int
+     */
+    public function addFootnote($footnote)
+    {
+        return $this->footnotes->addItem($footnote);
+    }
+
+    /**
+     * Get endnotes
+     *
+     * @return \PhpOffice\PhpWord\Collection\Endnotes
+     */
+    public function getEndnotes()
+    {
+        return $this->endnotes;
+    }
+
+    /**
+     * Add new endnote
+     *
+     * @param \PhpOffice\PhpWord\Element\Endnote $endnote
+     * @return int
+     */
+    public function addEndnote($endnote)
+    {
+        return $this->endnotes->addItem($endnote);
     }
 
     /**
@@ -223,16 +324,6 @@ class PhpWord
     public function addNumberingStyle($styleName, $styles)
     {
         Style::addNumberingStyle($styleName, $styles);
-    }
-
-    /**
-     * Get all sections
-     *
-     * @return \PhpOffice\PhpWord\Element\Section[]
-     */
-    public function getSections()
-    {
-        return $this->sections;
     }
 
     /**

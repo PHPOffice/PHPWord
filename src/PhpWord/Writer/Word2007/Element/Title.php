@@ -23,8 +23,8 @@ class Title extends Element
      */
     public function write()
     {
-        $anchor = $this->element->getAnchor();
         $bookmarkId = $this->element->getBookmarkId();
+        $anchor = '_Toc' . ($bookmarkId + 252634154);
         $style = $this->element->getStyle();
         $text = htmlspecialchars($this->element->getText());
         $text = String::controlCharacterPHP2OOXML($text);

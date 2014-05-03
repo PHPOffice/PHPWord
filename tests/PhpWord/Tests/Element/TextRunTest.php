@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\TextRun;
 
 /**
@@ -138,6 +139,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testCreateFootnote()
     {
         $oTextRun = new TextRun();
+        $oTextRun->setPhpWord(new PhpWord());
         $element = $oTextRun->addFootnote();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $element);

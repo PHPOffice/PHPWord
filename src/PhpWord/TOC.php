@@ -11,6 +11,12 @@ namespace PhpOffice\PhpWord;
 
 /**
  * Table of contents
+ *
+ * This static class has been deprecated and replaced by Collection\Titles.
+ * File maintained for backward compatibility and will be removed on 1.0.
+ *
+ * @deprecated 0.10.0
+ * @codeCoverageIgnore
  */
 class TOC
 {

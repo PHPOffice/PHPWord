@@ -11,6 +11,12 @@ namespace PhpOffice\PhpWord;
 
 /**
  * Footnote collection
+ *
+ * This static class has been deprecated and replaced by Collection\Footnotes.
+ * File maintained for backward compatibility and will be removed on 1.0.
+ *
+ * @deprecated 0.10.0
+ * @codeCoverageIgnore
  */
 class Footnotes
 {
@@ -26,7 +32,6 @@ class Footnotes
      *
      * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @return integer Reference ID
-     * @since 0.10.0
      */
     public static function addElement($element)
     {
@@ -41,7 +46,6 @@ class Footnotes
      *
      * @param integer $index
      * @param \PhpOffice\PhpWord\Element\Footnote $element
-     * @since 0.10.0
      */
     public static function setElement($index, $element)
     {
@@ -55,7 +59,6 @@ class Footnotes
      *
      * @param integer $index
      * @return \PhpOffice\PhpWord\Element\Footnote
-     * @since 0.10.0
      */
     public static function getElement($index)
     {
@@ -70,7 +73,6 @@ class Footnotes
      * Get elements
      *
      * @return array
-     * @since 0.10.0
      */
     public static function getElements()
     {
@@ -81,7 +83,6 @@ class Footnotes
      * Get element count
      *
      * @return integer
-     * @since 0.10.0
      */
     public static function countElements()
     {
@@ -90,8 +91,6 @@ class Footnotes
 
     /**
      * Reset elements
-     *
-     * @since 0.10.0
      */
     public static function resetElements()
     {
@@ -103,8 +102,6 @@ class Footnotes
      *
      * @param \PhpOffice\PhpWord\Element\Footnote $element
      * @return integer Reference ID
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
      */
     public static function addFootnoteElement($element)
     {
@@ -115,8 +112,6 @@ class Footnotes
      * Get Footnote Elements
      *
      * @return array
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
      */
     public static function getFootnoteElements()
     {
@@ -127,8 +122,6 @@ class Footnotes
      * Get Footnote Elements Count
      *
      * @return integer
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
      */
     public static function countFootnoteElements()
     {
@@ -140,8 +133,6 @@ class Footnotes
      *
      * @param string $linkSrc
      * @return integer Reference ID
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
      */
     public static function addFootnoteLinkElement($linkSrc)
     {
@@ -152,8 +143,6 @@ class Footnotes
      * Get Footnote Link Elements
      *
      * @return array
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
      */
     public static function getFootnoteLinkElements()
     {

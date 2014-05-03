@@ -9,6 +9,9 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Title element
  */
@@ -40,10 +43,10 @@ class Title extends AbstractElement
      *
      * @var int
      */
-    private $bookmarkId;
+    private $bookmarkId = 1;
 
     /**
-     * Title style
+     * Name of the heading style, e.g. 'Heading1'
      *
      * @var string
      */
@@ -55,38 +58,18 @@ class Title extends AbstractElement
      *
      * @param string $text
      * @param int $depth
-     * @param string $style Name of the heading style, e.g. 'Heading1'
+     * @param string $style
      */
-    public function __construct($text, $depth = 1, $style = null)
+    public function __construct($text, $depth = 1)
     {
-        if (!is_null($style)) {
-            $this->style = $style;
+
+        $this->text = String::toUTF8($text);
+        $this->depth = $depth;
+        if (array_key_exists('Heading_' . $this->depth, Style::getStyles())) {
+            $this->style = 'Heading' . $this->depth;
         }
 
-        $this->text = $text;
-        $this->depth = $depth;
-
         return $this;
-    }
-
-    /**
-     * Set Anchor
-     *
-     * @param int $anchor
-     */
-    public function setAnchor($anchor)
-    {
-        $this->anchor = $anchor;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     */
-    public function getAnchor()
-    {
-        return $this->anchor;
     }
 
     /**
@@ -137,5 +120,29 @@ class Title extends AbstractElement
     public function getStyle()
     {
         return $this->style;
+    }
+
+    /**
+     * Set Anchor
+     *
+     * @param int $anchor
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function setAnchor($anchor)
+    {
+        $this->anchor = $anchor;
+    }
+
+    /**
+     * Get Anchor
+     *
+     * @return int
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getAnchor()
+    {
+        return '_Toc' . (252634154 + $this->bookmarkId);
     }
 }

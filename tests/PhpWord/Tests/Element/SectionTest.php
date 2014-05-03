@@ -9,10 +9,11 @@
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Header;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Section
@@ -78,6 +79,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addText(utf8_decode('ä'));
         $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
@@ -122,6 +124,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         Style::addTitleStyle(1, array('size' => 14));
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addTitle('Test', 1);
         $elementCollection = $section->getElements();
 

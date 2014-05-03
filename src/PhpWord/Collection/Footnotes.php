@@ -7,19 +7,13 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML\Element;
+namespace PhpOffice\PhpWord\Collection;
 
 /**
- * Endnote element HTML writer
+ * Footnotes collection
  *
  * @since 0.10.0
  */
-class Endnote extends Footnote
+class Footnotes extends AbstractCollection
 {
-    /**
-     * Note type
-     *
-     * @var string
-     */
-    protected $noteType = 'endnote';
 }

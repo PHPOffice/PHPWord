@@ -9,10 +9,12 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Element\PageBreak;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\TOC;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
-use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\TOC;
 
 /**
  * Section
@@ -83,11 +85,46 @@ class Section extends AbstractContainer
     }
 
     /**
+     * Add a Title Element
+     *
+     * @param string $text
+     * @param int $depth
+     * @return \PhpOffice\PhpWord\Element\Title
+     */
+    public function addTitle($text, $depth = 1)
+    {
+        $title = new Title($text, $depth);
+        $title->setDocPart($this->getDocPart(), $this->getDocPartId());
+        if ($this->phpWord instanceof PhpWord) {
+            $bookmarkId = $this->phpWord->addTitle($title);
+            $title->setBookmarkId($bookmarkId);
+        }
+        $this->addElement($title);
+
+        return $title;
+    }
+
+    /**
      * Add a PageBreak Element
      */
     public function addPageBreak()
     {
-        $this->elements[] = new PageBreak();
+        $this->addElement(new PageBreak());
+    }
+
+    /**
+     * Add table element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Table
+     * @todo Merge with the same function on Footer
+     */
+    public function addTable($style = null)
+    {
+        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
+        $this->addElement($table);
+
+        return $table;
     }
 
     /**
@@ -102,7 +139,8 @@ class Section extends AbstractContainer
     public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
         $toc = new TOC($fontStyle, $tocStyle, $minDepth, $maxDepth);
-        $this->elements[] = $toc;
+        $this->addElement($toc);
+
         return $toc;
     }
 
@@ -187,6 +225,8 @@ class Section extends AbstractContainer
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
             $container = new $containerClass($this->sectionId, ++$index, $type);
+            $container->setPhpWord($this->phpWord);
+
             $collection[$index] = $container;
             return $container;
         } else {

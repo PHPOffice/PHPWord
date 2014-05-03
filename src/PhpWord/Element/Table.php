@@ -60,6 +60,7 @@ class Table extends AbstractElement
     public function addRow($height = null, $style = null)
     {
         $row = new Row($this->getDocPart(), $this->getDocPartId(), $height, $style);
+        $row->setPhpWord($this->phpWord);
         $this->rows[] = $row;
         return $row;
     }

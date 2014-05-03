@@ -26,7 +26,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Link: Ability to add link in header/footer - @ivanlanin GH-187
 - Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
 - Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
-- General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
+- General: Add `Style::resetStyles()` - @ivanlanin GH-187
 - DOCX Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, list, image, and title - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
@@ -66,6 +66,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - `Element\Link::getLinkSrc` replaced by `Element\Link::getTarget`
 - `Element\Link::getLinkName` replaced by `Element\Link::getText`
 - `Style\Cell::getDefaultBorderColor`
+- Static classes `Footnotes`, `Endnotes`, and `TOC`
 
 ### Miscellaneous
 
@@ -87,6 +88,8 @@ This release marked heavy refactorings on internal code structure with the creat
 - Refactor: Apply composite pattern for writers - @ivanlanin
 - Refactor: Split `AbstractContainer` from `AbstractElement` - @ivanlanin
 - Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
+- Refactor: Replace static classes `Footnotes`, `Endnotes`, and `TOC` with `Collections` - @ivanlanin GH-206
+- QA: Reactivate `phpcpd` and `phpmd` on Travis - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

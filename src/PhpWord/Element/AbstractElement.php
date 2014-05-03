@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -18,6 +19,11 @@ use PhpOffice\PhpWord\Style;
  */
 abstract class AbstractElement
 {
+    /**
+     * PhpWord object
+     */
+    protected $phpWord;
+
     /**
      * Container type section|header|footer|cell|textrun|footnote|endnote
      *
@@ -74,6 +80,26 @@ abstract class AbstractElement
      * @var int
      */
     protected $relationId;
+
+    /**
+     * Get PhpWord
+     *
+     * @return \PhpOffice\PhpWord\PhpWord
+     */
+    public function getPhpWord()
+    {
+        return $this->phpWord;
+    }
+
+    /**
+     * Set PhpWord
+     *
+     * @param \PhpOffice\PhpWord\PhpWord
+     */
+    public function setPhpWord(PhpWord &$phpWord = null)
+    {
+        $this->phpWord = $phpWord;
+    }
 
     /**
      * Get section number

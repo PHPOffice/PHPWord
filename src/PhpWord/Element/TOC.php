@@ -9,7 +9,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\TOC as Titles;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\TOC as TOCStyle;
 
@@ -87,16 +87,20 @@ class TOC extends AbstractElement
      */
     public function getTitles()
     {
-        $titles = Titles::getTitles();
+        if (!$this->phpWord instanceof PhpWord) {
+            return array();
+        }
+
+        $titles = $this->phpWord->getTitles()->getItems();
         foreach ($titles as $i => $title) {
-            if ($this->minDepth > $title['depth']) {
+            $depth = $title->getDepth();
+            if ($this->minDepth > $depth) {
                 unset($titles[$i]);
             }
-            if (($this->maxDepth != 0) && ($this->maxDepth < $title['depth'])) {
+            if (($this->maxDepth != 0) && ($this->maxDepth < $depth)) {
                 unset($titles[$i]);
             }
         }
-        $titles = array_merge(array(), $titles);
 
         return $titles;
     }

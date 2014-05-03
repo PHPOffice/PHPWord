@@ -12,7 +12,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 /**
  * Extended properties reader
  */
-class DocPropsApp extends DocProps
+class DocPropsApp extends DocPropsCore
 {
     /**
      * Property mapping
@@ -20,4 +20,11 @@ class DocPropsApp extends DocProps
      * @var array
      */
     protected $mapping = array('Company' => 'setCompany', 'Manager' => 'setManager');
+
+    /**
+     * Callback functions
+     *
+     * @var array
+     */
+    protected $callbacks = array();
 }

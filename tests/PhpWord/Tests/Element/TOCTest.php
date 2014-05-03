@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC;
 
 /**
@@ -24,11 +26,11 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithStyleArray()
     {
         $expected = array(
-            'tabPos'    => 9062,
-            'tabLeader' => \PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
+            'position'    => 9062,
+            'leader' => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
             'indent'    => 200,
         );
-        $object = new TOC(array('_size' => 11), array('_tabPos' => $expected['tabPos']));
+        $object = new TOC(array('size' => 11), array('position' => $expected['position']));
         $tocStyle = $object->getStyleTOC();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);
@@ -56,17 +58,19 @@ class TOCTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetMinMaxDepth()
     {
-        $toc = new TOC();
         $titles = array(
             'Heading 1' => 1,
             'Heading 2' => 2,
             'Heading 3' => 3,
             'Heading 4' => 4,
         );
-        foreach ($titles as $text => $depth) {
-            \PhpOffice\PhpWord\TOC::addTitle($text, $depth);
-        }
 
+        $phpWord = new PhpWord();
+        foreach ($titles as $text => $depth) {
+            $phpWord->addTitle(new Title($text, $depth));
+        }
+        $toc = new TOC();
+        $toc->setPhpWord($phpWord);
         $this->assertEquals(1, $toc->getMinDepth());
         $this->assertEquals(9, $toc->getMaxDepth());
 

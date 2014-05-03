@@ -25,14 +25,14 @@ before_script:
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
   ## PHP Copy/Paste Detector
-  #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
+  - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
   ## PHP Mess Detector
-  #- pear config-set preferred_state beta
-  #- printf "\n" | pecl install imagick
-  #- pear channel-discover pear.phpmd.org
-  #- pear channel-discover pear.pdepend.org
-  #- pear install --alldeps phpmd/PHP_PMD
-  #- phpenv rehash
+  - pear config-set preferred_state beta
+  - printf "\n" | pecl install imagick
+  - pear channel-discover pear.phpmd.org
+  - pear channel-discover pear.pdepend.org
+  - pear install --alldeps phpmd/PHP_PMD
+  - phpenv rehash
   ## PHPLOC
   #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
 
@@ -41,9 +41,9 @@ script:
   - phpcs --standard=PSR2 -n src/ --ignore=src/PhpWord/Shared/PCLZip
   - phpcs --standard=PSR2 -n tests/
   ## PHP Copy/Paste Detector
-  #- php phpcpd.phar --verbose src/
+  - php phpcpd.phar --verbose src/
   ## PHP Mess Detector
-  #- phpmd src/ text unusedcode,naming,design
+  - phpmd src/ text phpmd.xml --exclude pclzip.lib.php
   ## PHPLOC
   #- php phploc.phar src/
   ## PHPUnit
