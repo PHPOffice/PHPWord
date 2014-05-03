@@ -44,6 +44,7 @@ class Image extends Element
         $marginTop = $style->getMarginTop();
         $marginLeft = $style->getMarginLeft();
         $wrappingStyle = $style->getWrappingStyle();
+        $positioning = $style->getPositioning();
         $w10wrapType = null;
         $imgStyle = '';
         if (null !== $width) {
@@ -53,28 +54,44 @@ class Image extends Element
             $imgStyle .= 'height:' . $height . 'px;';
         }
         if (null !== $marginTop) {
-            $imgStyle .= 'margin-top:' . $marginTop . 'in;';
+            $imgStyle .= 'margin-top:' . $marginTop . 'px;';
         }
         if (null !== $marginLeft) {
-            $imgStyle .= 'margin-left:' . $marginLeft . 'in;';
+            $imgStyle .= 'margin-left:' . $marginLeft . 'px;';
         }
+        $imgStyle.='position:absolute;mso-width-percent:0;mso-height-percent:0;mso-width-relative:margin;mso-height-relative:margin;';
+		switch ($positioning) {
+	    	case ImageStyle::POSITION_RELATIVE:
+	        	$imgStyle.='mso-position-horizontal:'.$style->getPosHorizontal().';';
+	        	$imgStyle.='mso-position-horizontal-relative:'.$style->getPosHorizontalRel().';';
+	        	$imgStyle.='mso-position-vertical:'.$style->getPosVertical().';';
+	        	$imgStyle.='mso-position-vertical-relative:'.$style->getPosVerticalRel().';';
+	        	$imgStyle.='margin-left:0;margin-top:0;';
+	        	break;
+	        
+	    	case ImageStyle::POSITION_ABSOLUTE:
+	        	$imgStyle.='mso-position-horizontal-relative:page;';
+	        	$imgStyle.='mso-position-vertical-relative:page;';
+	        	break;
+		}
+
         switch ($wrappingStyle) {
             case ImageStyle::WRAPPING_STYLE_BEHIND:
-                $imgStyle .= 'position:absolute;z-index:-251658752;';
+                $imgStyle .= 'z-index:-251658752;';
                 break;
             case ImageStyle::WRAPPING_STYLE_INFRONT:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                $imgStyle .= 'z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 break;
             case ImageStyle::WRAPPING_STYLE_SQUARE:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                $imgStyle .= 'z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 $w10wrapType = 'square';
                 break;
             case ImageStyle::WRAPPING_STYLE_TIGHT:
-                $imgStyle .= 'position:absolute;z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
+                $imgStyle .= 'z-index:251659264;mso-position-horizontal:absolute;mso-position-vertical:absolute;';
                 $w10wrapType = 'tight';
                 break;
         }
-
+        
         if (!$this->withoutP) {
             $this->xmlWriter->startElement('w:p');
             if (!is_null($align)) {
