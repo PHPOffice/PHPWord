@@ -177,7 +177,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $writer = new Word2007($phpWord);
         $writer->save('php://output');
 
-        $this->assertTrue($object->getUseDiskCaching());
+        $this->assertTrue($object->isUseDiskCaching());
     }
 
     /**

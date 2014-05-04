@@ -73,7 +73,7 @@ class XMLWriter
         }
 
         // Set xml Compatibility
-        $compatibility = Settings::getCompatibility();
+        $compatibility = Settings::hasCompatibility();
         if ($compatibility) {
             $this->xmlWriter->setIndent(false);
             $this->xmlWriter->setIndentString('');

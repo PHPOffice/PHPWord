@@ -44,7 +44,7 @@ class Footer extends AbstractContainer
      * Create new instance
      *
      * @param int $sectionId
-     * @param int $footerId
+     * @param int $containerId
      * @param string $type
      */
     public function __construct($sectionId, $containerId = 1, $type = self::AUTO)

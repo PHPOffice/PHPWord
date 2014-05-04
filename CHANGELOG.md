@@ -90,6 +90,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
 - Refactor: Replace static classes `Footnotes`, `Endnotes`, and `TOC` with `Collections` - @ivanlanin GH-206
 - QA: Reactivate `phpcpd` and `phpmd` on Travis - @ivanlanin
+- Refactor: PHPMD recommendation: Change all `get...` method that returns `boolean` into `is...` or `has...` - @ivanlanin
 
 ## 0.9.1 - 27 Mar 2014
 

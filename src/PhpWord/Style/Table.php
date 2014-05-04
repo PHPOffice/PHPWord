@@ -224,7 +224,7 @@ class Table extends Border
     /**
      * Set border size inside horizontal
      *
-     * @param $value
+     * @param int $value
      */
     public function setBorderInsideHSize($value = null)
     {
@@ -234,7 +234,7 @@ class Table extends Border
     /**
      * Get border size inside horizontal
      *
-     * @return
+     * @return int
      */
     public function getBorderInsideHSize()
     {
@@ -244,7 +244,7 @@ class Table extends Border
     /**
      * Set border size inside vertical
      *
-     * @param $value
+     * @param int $value
      */
     public function setBorderInsideVSize($value = null)
     {
@@ -254,7 +254,7 @@ class Table extends Border
     /**
      * Get border size inside vertical
      *
-     * @return
+     * @return int
      */
     public function getBorderInsideVSize()
     {
@@ -264,7 +264,7 @@ class Table extends Border
     /**
      * Set border color inside horizontal
      *
-     * @param $value
+     * @param string $value
      */
     public function setBorderInsideHColor($value = null)
     {
@@ -274,7 +274,7 @@ class Table extends Border
     /**
      * Get border color inside horizontal
      *
-     * @return
+     * @return string
      */
     public function getBorderInsideHColor()
     {
@@ -284,7 +284,7 @@ class Table extends Border
     /**
      * Set border color inside vertical
      *
-     * @param $value
+     * @param string $value
      */
     public function setBorderInsideVColor($value = null)
     {
@@ -294,7 +294,7 @@ class Table extends Border
     /**
      * Get border color inside vertical
      *
-     * @return
+     * @return string
      */
     public function getBorderInsideVColor()
     {

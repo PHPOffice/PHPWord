@@ -23,7 +23,7 @@ class Image extends Element
      */
     public function write()
     {
-        if ($this->element->getIsWatermark()) {
+        if ($this->element->isWatermark()) {
             $this->writeWatermark();
         } else {
             $this->writeImage();

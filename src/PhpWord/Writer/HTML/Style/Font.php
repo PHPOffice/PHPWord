@@ -41,22 +41,22 @@ class Font extends AbstractStyle
             $css['color'] = '#' . $this->style->getColor();
         }
         $css['background'] = $this->style->getFgColor();
-        if ($this->style->getBold()) {
+        if ($this->style->isBold()) {
             $css['font-weight'] = 'bold';
         }
-        if ($this->style->getItalic()) {
+        if ($this->style->isItalic()) {
             $css['font-style'] = 'italic';
         }
-        if ($this->style->getSuperScript()) {
+        if ($this->style->isSuperScript()) {
             $css['vertical-align'] = 'super';
-        } elseif ($this->style->getSubScript()) {
+        } elseif ($this->style->isSubScript()) {
             $css['vertical-align'] = 'sub';
         }
         $css['text-decoration'] = '';
         if ($this->style->getUnderline() != FontStyle::UNDERLINE_NONE) {
             $css['text-decoration'] .= 'underline ';
         }
-        if ($this->style->getStrikethrough()) {
+        if ($this->style->isStrikethrough()) {
             $css['text-decoration'] .= 'line-through ';
         }
 

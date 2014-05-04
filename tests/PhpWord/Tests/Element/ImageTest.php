@@ -29,7 +29,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
         $this->assertEquals($oImage->getSource(), $src);
         $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->getIsWatermark(), false);
+        $this->assertEquals($oImage->isWatermark(), false);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
@@ -72,7 +72,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($image->getImageExtension(), $extension);
             $this->assertEquals($image->getImageCreateFunction(), $createFunction);
             $this->assertEquals($image->getImageFunction(), $imageFunction);
-            $this->assertFalse($image->getIsMemImage());
+            $this->assertFalse($image->isMemImage());
         }
     }
 

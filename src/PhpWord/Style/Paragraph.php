@@ -340,7 +340,7 @@ class Paragraph extends AbstractStyle
     /**
      * Get parent style ID
      *
-     * @return  string
+     * @return string
      */
     public function getBasedOn()
     {
@@ -350,8 +350,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set parent style ID
      *
-     * @param   string $value
-     * @return  self
+     * @param string $value
+     * @return self
      */
     public function setBasedOn($value = 'Normal')
     {
@@ -372,8 +372,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set style for next paragraph
      *
-     * @param   string $value
-     * @return  self
+     * @param string $value
+     * @return self
      */
     public function setNext($value = null)
     {
@@ -384,9 +384,9 @@ class Paragraph extends AbstractStyle
     /**
      * Get allow first/last line to display on a separate page setting
      *
-     * @return  bool
+     * @return bool
      */
-    public function getWidowControl()
+    public function hasWidowControl()
     {
         return $this->widowControl;
     }
@@ -394,8 +394,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool $value
-     * @return  self
+     * @param bool $value
+     * @return self
      */
     public function setWidowControl($value = true)
     {
@@ -409,9 +409,9 @@ class Paragraph extends AbstractStyle
     /**
      * Get keep paragraph with next paragraph setting
      *
-     * @return  bool
+     * @return bool
      */
-    public function getKeepNext()
+    public function isKeepNext()
     {
         return $this->keepNext;
     }
@@ -419,8 +419,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set keep paragraph with next paragraph setting
      *
-     * @param   bool $value
-     * @return  self
+     * @param bool $value
+     * @return self
      */
     public function setKeepNext($value = false)
     {
@@ -434,9 +434,9 @@ class Paragraph extends AbstractStyle
     /**
      * Get keep all lines on one page setting
      *
-     * @return  bool
+     * @return bool
      */
-    public function getKeepLines()
+    public function isKeepLines()
     {
         return $this->keepLines;
     }
@@ -444,8 +444,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set keep all lines on one page setting
      *
-     * @param   bool $value
-     * @return  self
+     * @param bool $value
+     * @return self
      */
     public function setKeepLines($value = false)
     {
@@ -461,7 +461,7 @@ class Paragraph extends AbstractStyle
      *
      * @return bool
      */
-    public function getPageBreakBefore()
+    public function hasPageBreakBefore()
     {
         return $this->pageBreakBefore;
     }
@@ -469,8 +469,8 @@ class Paragraph extends AbstractStyle
     /**
      * Set start paragraph on next page setting
      *
-     * @param   bool $value
-     * @return  self
+     * @param bool $value
+     * @return self
      */
     public function setPageBreakBefore($value = false)
     {
@@ -541,5 +541,49 @@ class Paragraph extends AbstractStyle
         }
 
         return $this;
+    }
+
+    /**
+     * Get allow first/last line to display on a separate page setting
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getWidowControl()
+    {
+        return $this->hasWidowControl();
+    }
+
+    /**
+     * Get keep paragraph with next paragraph setting
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getKeepNext()
+    {
+        return $this->isKeepNext();
+    }
+
+    /**
+     * Get keep all lines on one page setting
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getKeepLines()
+    {
+        return $this->isKeepLines();
+    }
+
+    /**
+     * Get start paragraph on next page setting
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getPageBreakBefore()
+    {
+        return $this->hasPageBreakBefore();
     }
 }

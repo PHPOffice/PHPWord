@@ -53,7 +53,7 @@ class TOC extends Tab
      */
     public function setTabPos($value)
     {
-        $this->position = $value;
+        $this->setPosition($value);
     }
 
     /**
@@ -73,7 +73,7 @@ class TOC extends Tab
      */
     public function setTabLeader($value = self::TABLEADER_DOT)
     {
-        $this->leader = $value;
+        $this->setLeader($value);
     }
 
     /**

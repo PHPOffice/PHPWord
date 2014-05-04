@@ -48,12 +48,12 @@ class Font extends AbstractStyle
         if ($this->style->getColor()) {
             $this->xmlWriter->writeAttribute('fo:color', '#' . $this->style->getColor());
         }
-        if ($this->style->getItalic()) {
+        if ($this->style->isItalic()) {
             $this->xmlWriter->writeAttribute('fo:font-style', 'italic');
             $this->xmlWriter->writeAttribute('style:font-style-asian', 'italic');
             $this->xmlWriter->writeAttribute('style:font-style-complex', 'italic');
         }
-        if ($this->style->getBold()) {
+        if ($this->style->isBold()) {
             $this->xmlWriter->writeAttribute('fo:font-weight', 'bold');
             $this->xmlWriter->writeAttribute('style:font-weight-asian', 'bold');
         }

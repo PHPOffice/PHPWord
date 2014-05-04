@@ -32,7 +32,7 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $result = Drawing::pixelsToEMU($value);
             $this->assertEquals(round($value * 9525), $result);
 
-            $result = Drawing::EMUToPixels($value);
+            $result = Drawing::emuToPixels($value);
             $this->assertEquals(round($value / 9525), $result);
 
             $result = Drawing::pixelsToPoints($value);

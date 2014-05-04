@@ -9,17 +9,15 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Exception\InvalidObjectException;
 
 /**
  * Container abstract class
@@ -69,27 +67,29 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Add text element
+     * Add text/preservetext element
      *
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Text
+     * @param string $elementName Text|PreserveText
+     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\PreserveText
      */
-    public function addText($text, $fontStyle = null, $paragraphStyle = null)
+    public function addText($text, $fontStyle = null, $paragraphStyle = null, $elementName = 'Text')
     {
-        $this->checkValidity('Text');
+        $this->checkValidity($elementName);
+        $elementClass = 'PhpOffice\\PhpWord\\Element\\' . $elementName;
 
         // Reset paragraph style for footnote and textrun. They have their own
         if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
             $paragraphStyle = null;
         }
 
-        $textObject = new Text($text, $fontStyle, $paragraphStyle);
-        $textObject->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($textObject);
+        $element = new $elementClass($text, $fontStyle, $paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
 
-        return $textObject;
+        return $element;
     }
 
     /**
@@ -102,11 +102,11 @@ abstract class AbstractContainer extends AbstractElement
     {
         $this->checkValidity('Textrun');
 
-        $textRun = new TextRun($paragraphStyle);
-        $textRun->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($textRun);
+        $element = new TextRun($paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
 
-        return $textRun;
+        return $element;
     }
 
     /**
@@ -123,13 +123,15 @@ abstract class AbstractContainer extends AbstractElement
         $this->checkValidity('Link');
         $elementDocPart = $this->checkElementDocPart();
 
-        $link = new Link($target, $text, $fontStyle, $paragraphStyle);
-        $link->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rId = Media::addElement($elementDocPart, 'link', $target);
-        $link->setRelationId($rId);
-        $this->addElement($link);
+        $element = new Link($target, $text, $fontStyle, $paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
 
-        return $link;
+        $rId = Media::addElement($elementDocPart, 'link', $target);
+        $element->setRelationId($rId);
+
+        $this->addElement($element);
+
+        return $element;
     }
 
     /**
@@ -142,13 +144,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addPreserveText($text, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('PreserveText');
-
-        $preserveText = new PreserveText($text, $fontStyle, $paragraphStyle);
-        $preserveText->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($preserveText);
-
-        return $preserveText;
+        return $this->addText($text, $fontStyle, $paragraphStyle, 'PreserveText');
     }
 
     /**
@@ -163,9 +159,9 @@ abstract class AbstractContainer extends AbstractElement
         $this->checkValidity('TextBreak');
 
         for ($i = 1; $i <= $count; $i++) {
-            $textBreak = new TextBreak($fontStyle, $paragraphStyle);
-            $textBreak->setDocPart($this->getDocPart(), $this->getDocPartId());
-            $this->addElement($textBreak);
+            $element = new TextBreak($fontStyle, $paragraphStyle);
+            $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+            $this->addElement($element);
         }
     }
 
@@ -183,33 +179,35 @@ abstract class AbstractContainer extends AbstractElement
     {
         $this->checkValidity('ListItem');
 
-        $listItem = new ListItem($text, $depth, $fontStyle, $listStyle, $paragraphStyle);
-        $listItem->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($listItem);
+        $element = new ListItem($text, $depth, $fontStyle, $listStyle, $paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
 
-        return $listItem;
+        return $element;
     }
 
     /**
      * Add image element
      *
-     * @param string $src
+     * @param string $source
      * @param mixed $style Image style
      * @param boolean $isWatermark
      * @return \PhpOffice\PhpWord\Element\Image
      */
-    public function addImage($src, $style = null, $isWatermark = false)
+    public function addImage($source, $style = null, $isWatermark = false)
     {
         $this->checkValidity('Image');
         $elementDocPart = $this->checkElementDocPart();
 
-        $image = new Image($src, $style, $isWatermark);
-        $image->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rId = Media::addElement($elementDocPart, 'image', $src, $image);
-        $image->setRelationId($rId);
-        $this->addElement($image);
+        $element = new Image($source, $style, $isWatermark);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
 
-        return $image;
+        $rId = Media::addElement($elementDocPart, 'image', $source, $element);
+        $element->setRelationId($rId);
+
+        $this->addElement($element);
+
+        return $element;
     }
 
     /**
@@ -217,35 +215,27 @@ abstract class AbstractContainer extends AbstractElement
      *
      * All exceptions should be handled by \PhpOffice\PhpWord\Element\Object
      *
-     * @param string $src
+     * @param string $source
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Element\Object
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function addObject($src, $style = null)
+    public function addObject($source, $style = null)
     {
         $this->checkValidity('Object');
         $elementDocPart = $this->checkElementDocPart();
 
-        $object = new Object($src, $style);
-        $object->setDocPart($this->getDocPart(), $this->getDocPartId());
-        if (!is_null($object->getSource())) {
-            $inf = pathinfo($src);
-            $ext = $inf['extension'];
-            if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
-                $ext = substr($ext, 0, -1);
-            }
-            $icon = realpath(__DIR__ . "/../resources/{$ext}.png");
-            $rId = Media::addElement($elementDocPart, 'object', $src);
-            $object->setRelationId($rId);
-            $rIdimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
-            $object->setImageRelationId($rIdimg);
-            $this->addElement($object);
+        $element = new Object($source, $style);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
 
-            return $object;
-        } else {
-            throw new InvalidObjectException();
-        }
+        $rId = Media::addElement($elementDocPart, 'object', $source);
+        $element->setRelationId($rId);
+        $rIdIcon = Media::addElement($elementDocPart, 'image', $element->getIcon(), new Image($element->getIcon()));
+        $element->setImageRelationId($rIdIcon);
+
+        $this->addElement($element);
+
+        return $element;
     }
 
     /**
@@ -258,19 +248,19 @@ abstract class AbstractContainer extends AbstractElement
     public function addFootnote($paragraphStyle = null, $elementName = 'Footnote')
     {
         $this->checkValidity($elementName);
+        $elementClass = 'PhpOffice\\PhpWord\\Element\\' . $elementName;
         $docPart = strtolower($elementName);
         $addMethod = "add{$elementName}";
-        $elementClass = 'PhpOffice\\PhpWord\\Element\\' . $elementName;
 
-        $note = new $elementClass($paragraphStyle);
-        // if ($this->phpWord instanceof PhpWord) {
-            $rId = $this->phpWord->$addMethod($note);
-        // }
-        $note->setDocPart($docPart, $this->getDocPartId());
-        $note->setRelationId($rId);
-        $this->addElement($note);
+        $element = new $elementClass($paragraphStyle);
+        if ($this->phpWord instanceof PhpWord) {
+            $rId = $this->phpWord->$addMethod($element);
+        }
+        $element->setDocPart($docPart, $this->getDocPartId());
+        $element->setRelationId($rId);
+        $this->addElement($element);
 
-        return $note;
+        return $element;
     }
 
     /**
@@ -297,11 +287,11 @@ abstract class AbstractContainer extends AbstractElement
     {
         $this->checkValidity('CheckBox');
 
-        $checkBox = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
-        $checkBox->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($checkBox);
+        $element = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
 
-        return $checkBox;
+        return $element;
     }
 
     /**

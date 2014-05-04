@@ -92,13 +92,13 @@ abstract class AbstractElement
     }
 
     /**
-     * Set PhpWord
+     * Set PhpWord as reference
      *
      * @param \PhpOffice\PhpWord\PhpWord
      */
     public function setPhpWord(PhpWord &$phpWord = null)
     {
-        $this->phpWord = $phpWord;
+        $this->phpWord = &$phpWord;
     }
 
     /**

@@ -63,7 +63,7 @@ abstract class AbstractPart
     {
         $useDiskCaching = false;
         if (!is_null($this->parentWriter)) {
-            if ($this->parentWriter->getUseDiskCaching()) {
+            if ($this->parentWriter->isUseDiskCaching()) {
                 $useDiskCaching = true;
             }
         }

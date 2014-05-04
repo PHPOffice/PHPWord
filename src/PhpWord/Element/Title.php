@@ -29,14 +29,7 @@ class Title extends AbstractElement
      *
      * @var int
      */
-    private $depth;
-
-    /**
-     * Title anchor
-     *
-     * @var int
-     */
-    private $anchor;
+    private $depth = 1;
 
     /**
      * Title Bookmark ID
@@ -52,13 +45,19 @@ class Title extends AbstractElement
      */
     private $style;
 
+    /**
+     * Title anchor
+     *
+     * @var int
+     * @deprecated 0.10.0
+     */
+    private $anchor;
 
     /**
      * Create a new Title Element
      *
      * @param string $text
      * @param int $depth
-     * @param string $style
      */
     public function __construct($text, $depth = 1)
     {

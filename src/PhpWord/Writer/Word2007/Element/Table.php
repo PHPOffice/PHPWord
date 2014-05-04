@@ -84,25 +84,22 @@ class Table extends Element
                 $row = $rows[$i];
                 $height = $row->getHeight();
                 $rowStyle = $row->getStyle();
-                $tblHeader = $rowStyle->getTblHeader();
-                $cantSplit = $rowStyle->getCantSplit();
-                $exactHeight = $rowStyle->getExactHeight();
 
                 $this->xmlWriter->startElement('w:tr');
-                if (!is_null($height) || !is_null($tblHeader) || !is_null($cantSplit)) {
+                if (!is_null($height) || $rowStyle->isTblHeader() || $rowStyle->isCantSplit()) {
                     $this->xmlWriter->startElement('w:trPr');
                     if (!is_null($height)) {
                         $this->xmlWriter->startElement('w:trHeight');
                         $this->xmlWriter->writeAttribute('w:val', $height);
-                        $this->xmlWriter->writeAttribute('w:hRule', ($exactHeight ? 'exact' : 'atLeast'));
+                        $this->xmlWriter->writeAttribute('w:hRule', ($rowStyle->isExactHeight() ? 'exact' : 'atLeast'));
                         $this->xmlWriter->endElement();
                     }
-                    if ($tblHeader) {
+                    if ($rowStyle->isTblHeader()) {
                         $this->xmlWriter->startElement('w:tblHeader');
                         $this->xmlWriter->writeAttribute('w:val', '1');
                         $this->xmlWriter->endElement();
                     }
-                    if ($cantSplit) {
+                    if ($rowStyle->isCantSplit()) {
                         $this->xmlWriter->startElement('w:cantSplit');
                         $this->xmlWriter->writeAttribute('w:val', '1');
                         $this->xmlWriter->endElement();

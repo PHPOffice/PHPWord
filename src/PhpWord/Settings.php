@@ -92,6 +92,16 @@ class Settings
     private static $measurementUnit = self::UNIT_TWIP;
 
     /**
+     * Return the compatibility option used by the XMLWriter
+     *
+     * @return bool Compatibility
+     */
+    public static function hasCompatibility()
+    {
+        return self::$xmlWriterCompatibility;
+    }
+
+    /**
      * Set the compatibility option used by the XMLWriter
      *
      * This sets the setIndent and setIndentString for better compatibility
@@ -110,13 +120,13 @@ class Settings
     }
 
     /**
-     * Return the compatibility option used by the XMLWriter
+     * Get zip handler class
      *
-     * @return bool Compatibility
+     * @return string
      */
-    public static function getCompatibility()
+    public static function getZipClass()
     {
-        return self::$xmlWriterCompatibility;
+        return self::$zipClass;
     }
 
     /**
@@ -134,16 +144,6 @@ class Settings
         }
 
         return false;
-    }
-
-    /**
-     * Get zip handler class
-     *
-     * @return string
-     */
-    public static function getZipClass()
-    {
-        return self::$zipClass;
     }
 
     /**
@@ -236,5 +236,16 @@ class Settings
         self::$measurementUnit = $value;
 
         return true;
+    }
+
+    /**
+     * Return the compatibility option used by the XMLWriter
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public static function getCompatibility()
+    {
+        return self::hasCompatibility();
     }
 }
