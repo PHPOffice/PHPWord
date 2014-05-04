@@ -2,143 +2,202 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Section\Image;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
- * Media
+ * Media collection
  */
 class Media
 {
     /**
-     * Section Media Elements
+     * Media elements
      *
      * @var array
      */
-    private static $_sectionMedia = array(
-        'images'     => array(),
-        'embeddings' => array(),
-        'links'      => array()
-    );
+    private static $elements = array();
 
     /**
-     * Header Media Elements
+     * Add new media element
      *
-     * @var array
+     * @param string $container section|headerx|footerx|footnote|endnote
+     * @param string $mediaType image|object|link
+     * @param string $source
+     * @param \PhpOffice\PhpWord\Element\Image $image
+     * @return integer
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @since 0.9.2
+     * @since 0.10.0
      */
-    private static $_headerMedia = array();
+    public static function addElement($container, $mediaType, $source, Image &$image = null)
+    {
+        // Assign unique media Id and initiate media container if none exists
+        $mediaId = md5($container . $source);
+        if (!array_key_exists($container, self::$elements)) {
+            self::$elements[$container] = array();
+        }
+
+        // Add media if not exists or point to existing media
+        if (!array_key_exists($mediaId, self::$elements[$container])) {
+            $mediaCount = self::countElements($container);
+            $mediaTypeCount = self::countElements($container, $mediaType);
+            $mediaTypeCount++;
+            $rId = ++$mediaCount;
+            $target = null;
+            $mediaData = array('mediaIndex' => $mediaTypeCount);
+
+            switch ($mediaType) {
+                // Images
+                case 'image':
+                    if (is_null($image)) {
+                        throw new Exception('Image object not assigned.');
+                    }
+                    $isMemImage = $image->getIsMemImage();
+                    $extension = $image->getImageExtension();
+                    $mediaData['imageExtension'] = $extension;
+                    $mediaData['imageType'] = $image->getImageType();
+                    if ($isMemImage) {
+                        $mediaData['isMemImage'] = true;
+                        $mediaData['createFunction'] = $image->getImageCreateFunction();
+                        $mediaData['imageFunction'] = $image->getImageFunction();
+                    }
+                    $target = "{$container}_image{$mediaTypeCount}.{$extension}";
+                    $image->setTarget($target);
+                    $image->setMediaIndex($mediaTypeCount);
+                    break;
+
+                // Objects
+                case 'object':
+                    $target = "{$container}_oleObject{$mediaTypeCount}.bin";
+                    break;
+
+                // Links
+                case 'link':
+                    $target = $source;
+                    break;
+            }
+
+            $mediaData['source'] = $source;
+            $mediaData['target'] = $target;
+            $mediaData['type'] = $mediaType;
+            $mediaData['rID'] = $rId;
+            self::$elements[$container][$mediaId] = $mediaData;
+            return $rId;
+        } else {
+            $mediaData = self::$elements[$container][$mediaId];
+            if (!is_null($image)) {
+                $image->setTarget($mediaData['target']);
+                $image->setMediaIndex($mediaData['mediaIndex']);
+            }
+            return $mediaData['rID'];
+        }
+    }
 
     /**
-     * Footer Media Elements
+     * Get media elements count
      *
-     * @var array
+     * @param string $container section|headerx|footerx|footnote|endnote
+     * @param string $mediaType image|object|link
+     * @return integer
+     * @since 0.10.0
      */
-    private static $_footerMedia = array();
+    public static function countElements($container, $mediaType = null)
+    {
+        $mediaCount = 0;
+
+        if (array_key_exists($container, self::$elements)) {
+            foreach (self::$elements[$container] as $mediaData) {
+                if (!is_null($mediaType)) {
+                    if ($mediaType == $mediaData['type']) {
+                        $mediaCount++;
+                    }
+                } else {
+                    $mediaCount++;
+                }
+            }
+        }
+
+        return $mediaCount;
+    }
 
     /**
-     * ObjectID Counter
+     * Get media elements
      *
-     * @var int
+     * @param string $container section|headerx|footerx|footnote|endnote
+     * @param string $mediaType image|object|link
+     * @return array
+     * @since 0.10.0
      */
-    private static $_objectId = 1325353440;
+    public static function getElements($container, $mediaType = null)
+    {
+        $mediaElements = array();
+
+        // If header/footer, search for headerx and footerx where x is number
+        if ($container == 'header' || $container == 'footer') {
+            foreach (self::$elements as $key => $val) {
+                if (substr($key, 0, 6) == $container) {
+                    $mediaElements[$key] = $val;
+                }
+            }
+        } else {
+            if (!array_key_exists($container, self::$elements)) {
+                return $mediaElements;
+            }
+            foreach (self::$elements[$container] as $mediaKey => $mediaData) {
+                if (!is_null($mediaType)) {
+                    if ($mediaType == $mediaData['type']) {
+                        $mediaElements[$mediaKey] = $mediaData;
+                    }
+                } else {
+                    $mediaElements[$mediaKey] = $mediaData;
+                }
+            }
+        }
+
+        return $mediaElements;
+    }
+
+    /**
+     * Reset media elements
+     */
+    public static function resetElements()
+    {
+        self::$elements = array();
+    }
 
     /**
      * Add new Section Media Element
      *
      * @param  string $src
      * @param  string $type
-     * @param  \PhpOffice\PhpWord\Section\Image $image
-     * @return mixed
+     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
     {
-        $mediaId = md5($src);
-        $key = ($type === 'image') ? 'images' : 'embeddings';
-        if (!array_key_exists($mediaId, self::$_sectionMedia[$key])) {
-            $cImg = self::countSectionMediaElements('images');
-            $cObj = self::countSectionMediaElements('embeddings');
-            $rID = self::countSectionMediaElements() + 7;
-            $media = array();
-            $folder = null;
-            $file = null;
-            if ($type === 'image') {
-                $cImg++;
-                if (!is_null($image)) {
-                    $isMemImage = $image->getIsMemImage();
-                    $extension = $image->getImageExtension();
-                } else {
-                    $isMemImage = false;
-                }
-                if ($isMemImage) {
-                    $media['isMemImage'] = true;
-                    $media['createfunction'] = $image->getImageCreateFunction();
-                    $media['imagefunction'] = $image->getImageFunction();
-                }
-                $folder = 'media';
-                $file = $type . $cImg . '.' . strtolower($extension);
-            } elseif ($type === 'oleObject') {
-                $cObj++;
-                $folder = 'embedding';
-                $file = $type . $cObj . '.bin';
-            }
-            $media['source'] = $src;
-            $media['target'] = "$folder/section_$file";
-            $media['type'] = $type;
-            $media['rID'] = $rID;
-            self::$_sectionMedia[$key][$mediaId] = $media;
-            if ($type === 'oleObject') {
-                return array($rID, ++self::$_objectId);
-            }
-            return $rID;
-        } else {
-            if ($type === 'oleObject') {
-                $rID = self::$_sectionMedia[$key][$mediaId]['rID'];
-                return array($rID, ++self::$_objectId);
-            }
-            return self::$_sectionMedia[$key][$mediaId]['rID'];
-        }
+        return self::addElement('section', $type, $src, $image);
     }
 
     /**
      * Add new Section Link Element
      *
      * @param string $linkSrc
-     * @return mixed
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function addSectionLinkElement($linkSrc)
     {
-        $rID = self::countSectionMediaElements() + 7;
-
-        $link = array();
-        $link['target'] = $linkSrc;
-        $link['rID'] = $rID;
-        $link['type'] = 'hyperlink';
-
-        self::$_sectionMedia['links'][] = $link;
-
-        return $rID;
+        return self::addElement('section', 'link', $linkSrc);
     }
 
     /**
@@ -146,161 +205,104 @@ class Media
      *
      * @param string $key
      * @return array
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function getSectionMediaElements($key = null)
     {
-        if (!is_null($key)) {
-            return self::$_sectionMedia[$key];
-        }
-
-        $arrImages = self::$_sectionMedia['images'];
-        $arrObjects = self::$_sectionMedia['embeddings'];
-        $arrLinks = self::$_sectionMedia['links'];
-        return array_merge($arrImages, $arrObjects, $arrLinks);
+        return self::getElements('section', $key);
     }
 
     /**
      * Get Section Media Elements Count
      *
      * @param string $key
-     * @return int
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function countSectionMediaElements($key = null)
     {
-        if (!is_null($key)) {
-            return count(self::$_sectionMedia[$key]);
-        }
-
-        $cImages = count(self::$_sectionMedia['images']);
-        $cObjects = count(self::$_sectionMedia['embeddings']);
-        $cLinks = count(self::$_sectionMedia['links']);
-        return ($cImages + $cObjects + $cLinks);
+        return self::countElements('section', $key);
     }
 
     /**
      * Add new Header Media Element
      *
-     * @param  int $headerCount
+     * @param  integer $headerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\Image $image
-     * @return int
+     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
     {
-        $mediaId = md5($src);
-        $key = 'header' . $headerCount;
-        if (!array_key_exists($key, self::$_headerMedia)) {
-            self::$_headerMedia[$key] = array();
-        }
-        if (!array_key_exists($mediaId, self::$_headerMedia[$key])) {
-            $cImg = self::countHeaderMediaElements($key);
-            $rID = $cImg + 1;
-            $cImg++;
-            $media = array();
-            if (!is_null($image)) {
-                $isMemImage = $image->getIsMemImage();
-                $extension = $image->getImageExtension();
-            } else {
-                $isMemImage = false;
-            }
-            if ($isMemImage) {
-                $media['isMemImage'] = true;
-                $media['createfunction'] = $image->getImageCreateFunction();
-                $media['imagefunction'] = $image->getImageFunction();
-            }
-            $file = 'image' . $cImg . '.' . strtolower($extension);
-            $media['source'] = $src;
-            $media['target'] = 'media/' . $key . '_' . $file;
-            $media['type'] = 'image';
-            $media['rID'] = $rID;
-            self::$_headerMedia[$key][$mediaId] = $media;
-            return $rID;
-        } else {
-            return self::$_headerMedia[$key][$mediaId]['rID'];
-        }
+        return self::addElement("header{$headerCount}", 'image', $src, $image);
     }
 
     /**
      * Get Header Media Elements Count
      *
      * @param string $key
-     * @return int
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function countHeaderMediaElements($key)
     {
-        return count(self::$_headerMedia[$key]);
+        return self::countElements($key);
     }
 
     /**
      * Get Header Media Elements
      *
-     * @return int
+     * @return array
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function getHeaderMediaElements()
     {
-        return self::$_headerMedia;
+        return self::getElements('header');
     }
 
     /**
      * Add new Footer Media Element
      *
-     * @param  int $footerCount
+     * @param  integer $footerCount
      * @param  string $src
-     * @param  \PhpOffice\PhpWord\Section\Image $image
-     * @return int
+     * @param  \PhpOffice\PhpWord\Element\Image $image
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function addFooterMediaElement($footerCount, $src, Image $image = null)
     {
-        $mediaId = md5($src);
-        $key = 'footer' . $footerCount;
-        if (!array_key_exists($key, self::$_footerMedia)) {
-            self::$_footerMedia[$key] = array();
-        }
-        if (!array_key_exists($mediaId, self::$_footerMedia[$key])) {
-            $cImg = self::countFooterMediaElements($key);
-            $rID = $cImg + 1;
-            $cImg++;
-            if (!is_null($image)) {
-                $isMemImage = $image->getIsMemImage();
-                $extension = $image->getImageExtension();
-            } else {
-                $isMemImage = false;
-            }
-            if ($isMemImage) {
-                $media['isMemImage'] = true;
-                $media['createfunction'] = $image->getImageCreateFunction();
-                $media['imagefunction'] = $image->getImageFunction();
-            }
-            $file = 'image' . $cImg . '.' . strtolower($extension);
-            $media['source'] = $src;
-            $media['target'] = 'media/' . $key . '_' . $file;
-            $media['type'] = 'image';
-            $media['rID'] = $rID;
-            self::$_footerMedia[$key][$mediaId] = $media;
-            return $rID;
-        } else {
-            return self::$_footerMedia[$key][$mediaId]['rID'];
-        }
+        return self::addElement("footer{$footerCount}", 'image', $src, $image);
     }
 
     /**
      * Get Footer Media Elements Count
      *
      * @param string $key
-     * @return int
+     * @return integer
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function countFooterMediaElements($key)
     {
-        return count(self::$_footerMedia[$key]);
+        return self::countElements($key);
     }
 
     /**
      * Get Footer Media Elements
      *
-     * @return int
+     * @return array
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public static function getFooterMediaElements()
     {
-        return self::$_footerMedia;
+        return self::getElements('footer');
     }
 }

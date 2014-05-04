@@ -7,18 +7,19 @@ Basic example
 -------------
 
 The following is a basic example of the PHPWord library. More examples
-are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
+are provided in the `samples
+folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
 .. code-block:: php
 
     require_once 'src/PhpWord/Autoloader.php';
-    PhpOffice\PhpWord\Autoloader::register();
+    \PhpOffice\PhpWord\Autoloader::register();
 
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
     // Every element you want to append to the word document is placed in a section.
     // To create a basic section:
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
 
     // After creating a section, you can append elements:
     $section->addText('Hello world!');
@@ -52,6 +53,43 @@ are provided in the `samples folder <https://github.com/PHPOffice/PHPWord/tree/m
     $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
     $objWriter->save('helloWorld.rtf');
 
+Settings
+--------
+
+The ``PhpOffice\PhpWord\Settings`` class provides some options that will
+affect the behavior of PHPWord. Below are the options.
+
+XML Writer compatibility
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This option sets
+`XMLWriter::setIndent <http://www.php.net/manual/en/function.xmlwriter-set-indent.php>`__
+and
+`XMLWriter::setIndentString <http://www.php.net/manual/en/function.xmlwriter-set-indent-string.php>`__.
+The default value of this option is ``true`` (compatible), which is
+`required for
+OpenOffice <https://github.com/PHPOffice/PHPWord/issues/103>`__ to
+render OOXML document correctly. You can set this option to ``false``
+during development to make the resulting XML file easier to read.
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setCompatibility(false);
+
+Zip class
+~~~~~~~~~
+
+By default, PHPWord uses PHP
+`ZipArchive <http://php.net/manual/en/book.zip.php>`__ to read or write
+ZIP compressed archive and the files inside them. If you can't have
+ZipArchive installed on your server, you can use pure PHP library
+alternative, `PCLZip <http://www.phpconcept.net/pclzip/>`__, which
+included with PHPWord.
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setZipClass(\PhpOffice\PhpWord\Settings::PCLZIP);
+
 Default font
 ------------
 
@@ -71,7 +109,7 @@ name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getProperties();
+    $properties = $phpWord->getDocumentProperties();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');
@@ -99,9 +137,10 @@ points to twips.
         'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
     );
 
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $sectionStyle = $section->getSettings();
     // half inch left margin
     $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
     // 2 cm right margin
     $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
+

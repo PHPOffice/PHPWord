@@ -2,25 +2,9 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord;
@@ -43,101 +27,101 @@ class DocumentProperties
      *
      * @var string
      */
-    private $_creator;
+    private $creator;
 
     /**
      * LastModifiedBy
      *
      * @var string
      */
-    private $_lastModifiedBy;
+    private $lastModifiedBy;
 
     /**
      * Created
      *
-     * @var datetime
+     * @var int
      */
-    private $_created;
+    private $created;
 
     /**
      * Modified
      *
-     * @var datetime
+     * @var int
      */
-    private $_modified;
+    private $modified;
 
     /**
      * Title
      *
      * @var string
      */
-    private $_title;
+    private $title;
 
     /**
      * Description
      *
      * @var string
      */
-    private $_description;
+    private $description;
 
     /**
      * Subject
      *
      * @var string
      */
-    private $_subject;
+    private $subject;
 
     /**
      * Keywords
      *
      * @var string
      */
-    private $_keywords;
+    private $keywords;
 
     /**
      * Category
      *
      * @var string
      */
-    private $_category;
+    private $category;
 
     /**
      * Company
      *
      * @var string
      */
-    private $_company;
+    private $company;
 
     /**
      * Manager
      *
      * @var string
      */
-    private $_manager;
+    private $manager;
 
     /**
      * Custom Properties
      *
-     * @var string
+     * @var array
      */
-    private $_customProperties = array();
+    private $customProperties = array();
 
     /**
      * Create new DocumentProperties
      */
     public function __construct()
     {
-        $this->_creator        = '';
-        $this->_lastModifiedBy = $this->_creator;
-        $this->_created        = time();
-        $this->_modified       = time();
-        $this->_title          = '';
-        $this->_subject        = '';
-        $this->_description    = '';
-        $this->_keywords       = '';
-        $this->_category       = '';
-        $this->_company        = '';
-        $this->_manager        = '';
+        $this->creator        = '';
+        $this->lastModifiedBy = $this->creator;
+        $this->created        = time();
+        $this->modified       = time();
+        $this->title          = '';
+        $this->subject        = '';
+        $this->description    = '';
+        $this->keywords       = '';
+        $this->category       = '';
+        $this->company        = '';
+        $this->manager        = '';
     }
 
     /**
@@ -147,18 +131,19 @@ class DocumentProperties
      */
     public function getCreator()
     {
-        return $this->_creator;
+        return $this->creator;
     }
 
     /**
      * Set Creator
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  string $value
+     * @return self
      */
-    public function setCreator($pValue = '')
+    public function setCreator($value = '')
     {
-        $this->_creator = $pValue;
+        $this->creator = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -169,68 +154,65 @@ class DocumentProperties
      */
     public function getLastModifiedBy()
     {
-        return $this->_lastModifiedBy;
+        return $this->lastModifiedBy;
     }
 
     /**
      * Set Last Modified By
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  string $value
+     * @return self
      */
-    public function setLastModifiedBy($pValue = '')
+    public function setLastModifiedBy($value = '')
     {
-        $this->_lastModifiedBy = $pValue;
+        $this->lastModifiedBy = $this->setValue($value, $this->creator);
+
         return $this;
     }
 
     /**
      * Get Created
      *
-     * @return datetime
+     * @return int
      */
     public function getCreated()
     {
-        return $this->_created;
+        return $this->created;
     }
 
     /**
      * Set Created
      *
-     * @param  datetime $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  int $value
+     * @return self
      */
-    public function setCreated($pValue = null)
+    public function setCreated($value = null)
     {
-        if (is_null($pValue)) {
-            $pValue = time();
-        }
-        $this->_created = $pValue;
+        $this->created = $this->setValue($value, time());
+
         return $this;
     }
 
     /**
      * Get Modified
      *
-     * @return datetime
+     * @return int
      */
     public function getModified()
     {
-        return $this->_modified;
+        return $this->modified;
     }
 
     /**
      * Set Modified
      *
-     * @param  datetime $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  int $value
+     * @return self
      */
-    public function setModified($pValue = null)
+    public function setModified($value = null)
     {
-        if (is_null($pValue)) {
-            $pValue = time();
-        }
-        $this->_modified = $pValue;
+        $this->modified = $this->setValue($value, time());
+
         return $this;
     }
 
@@ -241,18 +223,19 @@ class DocumentProperties
      */
     public function getTitle()
     {
-        return $this->_title;
+        return $this->title;
     }
 
     /**
      * Set Title
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  string $value
+     * @return self
      */
-    public function setTitle($pValue = '')
+    public function setTitle($value = '')
     {
-        $this->_title = $pValue;
+        $this->title = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -263,18 +246,19 @@ class DocumentProperties
      */
     public function getDescription()
     {
-        return $this->_description;
+        return $this->description;
     }
 
     /**
      * Set Description
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  string $value
+     * @return self
      */
-    public function setDescription($pValue = '')
+    public function setDescription($value = '')
     {
-        $this->_description = $pValue;
+        $this->description = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -285,18 +269,19 @@ class DocumentProperties
      */
     public function getSubject()
     {
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
      * Set Subject
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param  string $value
+     * @return self
      */
-    public function setSubject($pValue = '')
+    public function setSubject($value = '')
     {
-        $this->_subject = $pValue;
+        $this->subject = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -307,18 +292,19 @@ class DocumentProperties
      */
     public function getKeywords()
     {
-        return $this->_keywords;
+        return $this->keywords;
     }
 
     /**
      * Set Keywords
      *
-     * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param string $value
+     * @return self
      */
-    public function setKeywords($pValue = '')
+    public function setKeywords($value = '')
     {
-        $this->_keywords = $pValue;
+        $this->keywords = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -329,18 +315,19 @@ class DocumentProperties
      */
     public function getCategory()
     {
-        return $this->_category;
+        return $this->category;
     }
 
     /**
      * Set Category
      *
-     * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param string $value
+     * @return self
      */
-    public function setCategory($pValue = '')
+    public function setCategory($value = '')
     {
-        $this->_category = $pValue;
+        $this->category = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -351,18 +338,19 @@ class DocumentProperties
      */
     public function getCompany()
     {
-        return $this->_company;
+        return $this->company;
     }
 
     /**
      * Set Company
      *
-     * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param string $value
+     * @return self
      */
-    public function setCompany($pValue = '')
+    public function setCompany($value = '')
     {
-        $this->_company = $pValue;
+        $this->company = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -373,18 +361,19 @@ class DocumentProperties
      */
     public function getManager()
     {
-        return $this->_manager;
+        return $this->manager;
     }
 
     /**
      * Set Manager
      *
-     * @param string $pValue
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @param string $value
+     * @return self
      */
-    public function setManager($pValue = '')
+    public function setManager($value = '')
     {
-        $this->_manager = $pValue;
+        $this->manager = $this->setValue($value, '');
+
         return $this;
     }
 
@@ -395,7 +384,7 @@ class DocumentProperties
      */
     public function getCustomProperties()
     {
-        return array_keys($this->_customProperties);
+        return array_keys($this->customProperties);
     }
 
     /**
@@ -406,7 +395,7 @@ class DocumentProperties
      */
     public function isCustomPropertySet($propertyName)
     {
-        return isset($this->_customProperties[$propertyName]);
+        return isset($this->customProperties[$propertyName]);
     }
 
     /**
@@ -417,8 +406,8 @@ class DocumentProperties
      */
     public function getCustomPropertyValue($propertyName)
     {
-        if (isset($this->_customProperties[$propertyName])) {
-            return $this->_customProperties[$propertyName]['value'];
+        if ($this->isCustomPropertySet($propertyName)) {
+            return $this->customProperties[$propertyName]['value'];
         }
 
     }
@@ -431,8 +420,8 @@ class DocumentProperties
      */
     public function getCustomPropertyType($propertyName)
     {
-        if (isset($this->_customProperties[$propertyName])) {
-            return $this->_customProperties[$propertyName]['type'];
+        if ($this->isCustomPropertySet($propertyName)) {
+            return $this->customProperties[$propertyName]['type'];
         }
 
     }
@@ -448,17 +437,18 @@ class DocumentProperties
      *   's': String
      *   'd': Date/Time
      *   'b': Boolean
-     * @return \PhpOffice\PhpWord\DocumentProperties
+     * @return self
      */
     public function setCustomProperty($propertyName, $propertyValue = '', $propertyType = null)
     {
-        if (($propertyType === null) || (!in_array($propertyType, array(
+        $propertyTypes = array(
             self::PROPERTY_TYPE_INTEGER,
             self::PROPERTY_TYPE_FLOAT,
             self::PROPERTY_TYPE_STRING,
             self::PROPERTY_TYPE_DATE,
             self::PROPERTY_TYPE_BOOLEAN
-        )))) {
+        );
+        if (($propertyType === null) || (!in_array($propertyType, $propertyTypes))) {
             if ($propertyValue === null) {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             } elseif (is_float($propertyValue)) {
@@ -472,7 +462,7 @@ class DocumentProperties
             }
         }
 
-        $this->_customProperties[$propertyName] = array(
+        $this->customProperties[$propertyName] = array(
             'value' => $propertyValue,
             'type' => $propertyType
         );
@@ -480,52 +470,43 @@ class DocumentProperties
     }
 
     /**
-     * Convert document propery based on type
+     * Convert document property based on type
      *
-     * @param   mixed   $propertyValue
-     * @param   string  $propertyType
-     * @return  mixed
+     * @param string $propertyValue
+     * @param string $propertyType
+     * @return mixed
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
         switch ($propertyType) {
             case 'empty': //    Empty
                 return '';
-                break;
             case 'null': //    Null
                 return null;
-                break;
             case 'i1': //    1-Byte Signed Integer
             case 'i2': //    2-Byte Signed Integer
             case 'i4': //    4-Byte Signed Integer
             case 'i8': //    8-Byte Signed Integer
             case 'int': //    Integer
                 return (int) $propertyValue;
-                break;
             case 'ui1': //    1-Byte Unsigned Integer
             case 'ui2': //    2-Byte Unsigned Integer
             case 'ui4': //    4-Byte Unsigned Integer
             case 'ui8': //    8-Byte Unsigned Integer
             case 'uint': //    Unsigned Integer
                 return abs((int) $propertyValue);
-                break;
             case 'r4': //    4-Byte Real Number
             case 'r8': //    8-Byte Real Number
             case 'decimal': //    Decimal
                 return (float) $propertyValue;
-                break;
-            case 'lpstr': //    LPSTR
-            case 'lpwstr': //    LPWSTR
-            case 'bstr': //    Basic String
-                return $propertyValue;
-                break;
             case 'date': //    Date and Time
             case 'filetime': //    File Time
                 return strtotime($propertyValue);
-                break;
             case 'bool': //    Boolean
                 return ($propertyValue == 'true') ? true : false;
-                break;
+            case 'lpstr': //    LPSTR
+            case 'lpwstr': //    LPWSTR
+            case 'bstr': //    Basic String
             case 'cy': //    Currency
             case 'error': //    Error Status Code
             case 'vector': //    Vector
@@ -540,7 +521,6 @@ class DocumentProperties
             case 'clsid': //    Class ID
             case 'cf': //    Clipboard Data
                 return $propertyValue;
-                break;
         }
 
         return $propertyValue;
@@ -549,59 +529,40 @@ class DocumentProperties
     /**
      * Convert document property type
      *
-     * @param   string  $propertyType
-     * @return  mixed
+     * @param string $propertyType
+     * @return string
      */
     public static function convertPropertyType($propertyType)
     {
-        switch ($propertyType) {
-            case 'i1': //    1-Byte Signed Integer
-            case 'i2': //    2-Byte Signed Integer
-            case 'i4': //    4-Byte Signed Integer
-            case 'i8': //    8-Byte Signed Integer
-            case 'int': //    Integer
-            case 'ui1': //    1-Byte Unsigned Integer
-            case 'ui2': //    2-Byte Unsigned Integer
-            case 'ui4': //    4-Byte Unsigned Integer
-            case 'ui8': //    8-Byte Unsigned Integer
-            case 'uint': //    Unsigned Integer
-                return self::PROPERTY_TYPE_INTEGER;
-                break;
-            case 'r4': //    4-Byte Real Number
-            case 'r8': //    8-Byte Real Number
-            case 'decimal': //    Decimal
-                return self::PROPERTY_TYPE_FLOAT;
-                break;
-            case 'empty': //    Empty
-            case 'null': //    Null
-            case 'lpstr': //    LPSTR
-            case 'lpwstr': //    LPWSTR
-            case 'bstr': //    Basic String
-                return self::PROPERTY_TYPE_STRING;
-                break;
-            case 'date': //    Date and Time
-            case 'filetime': //    File Time
-                return self::PROPERTY_TYPE_DATE;
-                break;
-            case 'bool': //    Boolean
-                return self::PROPERTY_TYPE_BOOLEAN;
-                break;
-            case 'cy': //    Currency
-            case 'error': //    Error Status Code
-            case 'vector': //    Vector
-            case 'array': //    Array
-            case 'blob': //    Binary Blob
-            case 'oblob': //    Binary Blob Object
-            case 'stream': //    Binary Stream
-            case 'ostream': //    Binary Stream Object
-            case 'storage': //    Binary Storage
-            case 'ostorage': //    Binary Storage Object
-            case 'vstream': //    Binary Versioned Stream
-            case 'clsid': //    Class ID
-            case 'cf': //    Clipboard Data
-                return self::PROPERTY_TYPE_UNKNOWN;
-                break;
+        $typeGroups = array(
+            self::PROPERTY_TYPE_INTEGER => array('i1', 'i2', 'i4', 'i8', 'int', 'ui1', 'ui2', 'ui4', 'ui8', 'uint'),
+            self::PROPERTY_TYPE_FLOAT   => array('r4', 'r8', 'decimal'),
+            self::PROPERTY_TYPE_STRING  => array('empty', 'null', 'lpstr', 'lpwstr', 'bstr'),
+            self::PROPERTY_TYPE_DATE    => array('date', 'filetime'),
+            self::PROPERTY_TYPE_BOOLEAN => array('bool'),
+        );
+        foreach ($typeGroups as $groupId => $groupMembers) {
+            if (in_array($propertyType, $groupMembers)) {
+                return $groupId;
+            }
         }
+
         return self::PROPERTY_TYPE_UNKNOWN;
+    }
+
+    /**
+     * Set default for null and empty value
+     *
+     * @param mixed $value
+     * @param mixed $default
+     * @return mixed
+     */
+    private function setValue($value, $default)
+    {
+        if (is_null($value) || $value == '') {
+            $value = $default;
+        }
+
+        return $value;
     }
 }

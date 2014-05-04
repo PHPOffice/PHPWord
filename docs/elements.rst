@@ -3,20 +3,67 @@
 Elements
 ========
 
+Below are the matrix of element availability in each container. The
+column shows the containers while the rows lists the elements.
+
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| Num   | Element         | Section   | Header   | Footer   | Cell    | Text Run   | Footnote   |
++=======+=================+===========+==========+==========+=========+============+============+
+| 1     | Text            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 2     | Text Run        | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 3     | Link            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 4     | Title           | v         | ?        | ?        | ?       | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 5     | Preserve Text   | ?         | v        | v        | v\*     | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 6     | Text Break      | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 7     | Page Break      | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 8     | List            | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 9     | Table           | v         | v        | v        | ?       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 10    | Image           | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 11    | Watermark       | -         | v        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 12    | Object          | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 13    | TOC             | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 14    | Footnote        | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 16    | CheckBox        | v         | v        | v        | v       | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+
+Legend:
+
+-  ``v`` Available
+-  ``v*`` Available only when inside header/footer
+-  ``v**`` Available only when inside section
+-  ``-`` Not available
+-  ``?`` Should be available
+
 Texts
 -----
 
-Text can be added by using ``addText`` and ``createTextRun`` method.
+Text can be added by using ``addText`` and ``addTextRun`` method.
 ``addText`` is used for creating simple paragraphs that only contain
-texts with the same style. ``createTextRun`` is used for creating
-complex paragraphs that contain text with different style (some bold,
-other italics, etc) or other elements, e.g. images or links. The
-syntaxes are as follow:
+texts with the same style. ``addTextRun`` is used for creating complex
+paragraphs that contain text with different style (some bold, other
+italics, etc) or other elements, e.g. images or links. The syntaxes are
+as follow:
 
 .. code-block:: php
 
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
-    $textrun = $section->createTextRun([$paragraphStyle]);
+    $textrun = $section->addTextRun([$paragraphStyle]);
 
 Text styles
 ~~~~~~~~~~~
@@ -34,7 +81,7 @@ Inline style examples:
     $paragraphStyle = array('align' => 'both');
     $section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
 
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addText('I am bold', array('bold' => true));
     $textrun->addText('I am italic', array('italic' => true));
     $textrun->addText('I am colored, array('color' => 'AACC00'));
@@ -65,8 +112,12 @@ Available font styles:
 -  ``subScript`` Subscript, *true* or *false*
 -  ``underline`` Underline, *dash*, *dotted*, etc.
 -  ``strikethrough`` Strikethrough, *true* or *false*
+-  ``doubleStrikethrough`` Double strikethrough, *true* or *false*
 -  ``color`` Font color, e.g. *FF0000*
 -  ``fgColor`` Font highlight color, e.g. *yellow*, *green*, *blue*
+-  ``bgColor`` Font background color, e.g. *FF0000*
+-  ``smallCaps`` Small caps, *true* or *false*
+-  ``allCaps`` All caps, *true* or *false*
 
 Paragraph style
 ^^^^^^^^^^^^^^^
@@ -152,16 +203,20 @@ method or using the ``pageBreakBefore`` style of paragraph.
 
 :: code-block:: php
 
-    $section->addPageBreak();
+    \\$section->addPageBreak();
 
 Lists
 -----
 
 To add a list item use the function ``addListItem``.
 
+Basic usage:
+
 .. code-block:: php
 
     $section->addListItem($text, [$depth], [$fontStyle], [$listStyle], [$paragraphStyle]);
+
+Parameters:
 
 -  ``$text`` Text that appears in the document.
 -  ``$depth`` Depth of list item.
@@ -170,6 +225,43 @@ To add a list item use the function ``addListItem``.
    TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in
    PHPWord\_Style\_ListItem.
 -  ``$paragraphStyle`` See "Paragraph style" section.
+
+Advanced usage:
+
+You can also create your own numbering style by changing the
+``$listStyle`` parameter with the name of your numbering style.
+
+.. code-block:: php
+
+    $phpWord->addNumberingStyle(
+        'multilevel',
+        array('type' => 'multilevel', 'levels' => array(
+            array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
+            array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
+            )
+         )
+    );
+    $section->addListItem('List Item I', 0, null, 'multilevel');
+    $section->addListItem('List Item I.a', 1, null, 'multilevel');
+    $section->addListItem('List Item I.b', 1, null, 'multilevel');
+    $section->addListItem('List Item II', 0, null, 'multilevel');
+
+Level styles:
+
+-  ``start`` Starting value
+-  ``format`` Numbering format
+   bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter
+-  ``restart`` Restart numbering level symbol
+-  ``suffix`` Content between numbering symbol and paragraph text
+   tab\|space\|nothing
+-  ``text`` Numbering level text e.g. %1 for nonbullet or bullet
+   character
+-  ``align`` Numbering symbol align left\|center\|right\|both
+-  ``left`` See paragraph style
+-  ``hanging`` See paragraph style
+-  ``tabPos`` See paragraph style
+-  ``font`` Font name
+-  ``hint`` See font style
 
 Tables
 ------
@@ -201,27 +293,28 @@ Table, row, and cell styles
 
 Table styles:
 
--  ``$width`` Table width in percent
--  ``$bgColor`` Background color, e.g. '9966CC'
--  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``$cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
+-  ``width`` Table width in percent
+-  ``bgColor`` Background color, e.g. '9966CC'
+-  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
+-  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
+-  ``cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
 
 Row styles:
 
 -  ``tblHeader`` Repeat table row on every new page, *true* or *false*
 -  ``cantSplit`` Table row cannot break across pages, *true* or *false*
+-  ``exactHeight`` Row height is exact or at least
 
 Cell styles:
 
--  ``$width`` Cell width in twips
--  ``$valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
--  ``$textDirection`` Direction of text
--  ``$bgColor`` Background color, e.g. '9966CC'
--  ``$border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``$border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``$gridSpan`` Number of columns spanned
--  ``$vMerge`` *restart* or *continue*
+-  ``width`` Cell width in twips
+-  ``valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
+-  ``textDirection`` Direction of text
+-  ``bgColor`` Background color, e.g. '9966CC'
+-  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
+-  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
+-  ``gridSpan`` Number of columns spanned
+-  ``vMerge`` *restart* or *continue*
 
 Cell span
 ~~~~~~~~~
@@ -239,21 +332,21 @@ See ``Sample_09_Tables.php`` for more code sample.
 Images
 ------
 
-To add an image, use the ``addImage`` method to sections, headers, footers,
-textruns, or table cells.
+To add an image, use the ``addImage`` method to sections, headers,
+footers, textruns, or table cells.
 
 .. code-block:: php
 
     $section->addImage($src, [$style]);
 
-- `source` String path to a local image or URL of a remote image
-- `styles` Array fo styles for the image. See below.
+-  source String path to a local image or URL of a remote image
+-  styles Array fo styles for the image. See below.
 
 Examples:
 
 .. code-block:: php
 
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $section->addImage(
         'mars.jpg',
         array(
@@ -264,9 +357,9 @@ Examples:
             'wrappingStyle' => 'behind'
         )
     );
-    $footer = $section->createFooter();
+    $footer = $section->addFooter();
     $footer->addImage('http://example.com/image.php');
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
 
 Image styles
@@ -291,8 +384,8 @@ header reference. After creating a header, you can use the
 
 .. code-block:: php
 
-    $section = $phpWord->createSection();
-    $header = $section->createHeader();
+    $section = $phpWord->addSection();
+    $header = $section->addHeader();
     $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
 
 Objects
@@ -314,7 +407,14 @@ Your TOC can only be generated if you have add at least one title (See
 
 .. code-block:: php
 
-    $section->addTOC([$fontStyle], [$tocStyle]);
+    $section->addTOC([$fontStyle], [$tocStyle], [$minDepth], [$maxDepth]);
+
+-  ``$fontStyle``: See font style section
+-  ``$tocStyle``: See available options below
+-  ``$minDepth``: Minimum depth of header to be shown. Default 1
+-  ``$maxDepth``: Maximum depth of header to be shown. Default 9
+
+Options for ``$tocStyle``:
 
 -  ``tabLeader`` Fill type between the title text and the page number.
    Use the defined constants in PHPWord\_Style\_TOC.
@@ -322,26 +422,54 @@ Your TOC can only be generated if you have add at least one title (See
    twips.
 -  ``indent`` The indent factor of the titles in twips.
 
-Footnotes
----------
+Footnotes & endnotes
+--------------------
 
-You can create footnotes in texts or textruns, but it's recommended to
-use textrun to have better layout.
+You can create footnotes with ``addFootnote`` and endnotes with
+``addEndnote`` in texts or textruns, but it's recommended to use textrun
+to have better layout. You can use ``addText``, ``addLink``,
+``addTextBreak``, ``addImage``, ``addObject`` on footnotes and endnotes.
 
 On textrun:
 
 .. code-block:: php
 
-    $textrun = $section->createTextRun();
+    $textrun = $section->addTextRun();
     $textrun->addText('Lead text.');
-    $footnote = $textrun->createFootnote();
-    $footnote->addText('Footnote text.');
+    $footnote = $textrun->addFootnote();
+    $footnote->addText('Footnote text can have ');
+    $footnote->addLink('http://test.com', 'links');
+    $footnote->addText('.');
+    $footnote->addTextBreak();
+    $footnote->addText('And text break.');
     $textrun->addText('Trailing text.');
+    $endnote = $textrun->addEndnote();
+    $endnote->addText('Endnote put at the end');
 
 On text:
 
 .. code-block:: php
 
     $section->addText('Lead text.');
-    $footnote = $section->createFootnote();
+    $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
+
+The footnote reference number will be displayed with decimal number
+starting from 1. This number use ``FooterReference`` style which you can
+redefine by ``addFontStyle`` method. Default value for this style is
+``array('superScript' => true)``;
+
+Checkboxes
+----------
+
+Checkbox elements can be added to sections or table cells by using
+``addCheckBox``.
+
+.. code-block:: php
+
+    $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
+
+-  ``$name`` Name of the check box.
+-  ``$text`` Text following the check box
+-  ``$fontStyle`` See "Font style" section.
+-  ``$paragraphStyle`` See "Paragraph style" section.

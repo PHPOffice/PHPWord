@@ -19,6 +19,9 @@ Example:
     $template->setValue('Name', 'Somebody someone');
     $template->setValue('Street', 'Coming-Undone-Street 32');
 
-See ``Sample_07_TemplateCloneRow.php`` for more code sample, including
-how to create multirow from a single row in a template by using
-``cloneRow``.
+See ``Sample_07_TemplateCloneRow.php`` for example on how to create
+multirow from a single row in a template by using ``cloneRow``.
+
+See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
+of text using ``cloneBlock`` and delete a block of text using
+``deleteBlock``.

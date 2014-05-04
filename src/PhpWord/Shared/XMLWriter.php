@@ -2,45 +2,34 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Settings;
 
+// @codeCoverageIgnoreStart
 if (!defined('DATE_W3C')) {
     define('DATE_W3C', 'Y-m-d\TH:i:sP');
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * XMLWriter wrapper
  *
+ * @method bool writeElement(string $name, string $content = null)
  * @method bool startElement(string $name)
  * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
+ * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
+ * @method bool text(string $content)
  */
 class XMLWriter
 {
-    /** Temporary storage method */
+    /** Temporary storage location */
     const STORAGE_MEMORY = 1;
     const STORAGE_DISK = 2;
 
@@ -49,48 +38,48 @@ class XMLWriter
      *
      * @var \XMLWriter
      */
-    private $_xmlWriter;
+    private $xmlWriter;
 
     /**
      * Temporary filename
      *
      * @var string
      */
-    private $_tempFileName = '';
+    private $tempFile = '';
 
     /**
      * Create new XMLWriter
      *
-     * @param int $pTemporaryStorage Temporary storage location
-     * @param string $pTemporaryStorageFolder Temporary storage folder
+     * @param int $tempLocation Temporary storage location
+     * @param string $tempFolder Temporary storage folder
      */
-    public function __construct($pTemporaryStorage = self::STORAGE_MEMORY, $pTemporaryStorageFolder = './')
+    public function __construct($tempLocation = self::STORAGE_MEMORY, $tempFolder = './')
     {
         // Create internal XMLWriter
-        $this->_xmlWriter = new \XMLWriter();
+        $this->xmlWriter = new \XMLWriter();
 
         // Open temporary storage
-        if ($pTemporaryStorage == self::STORAGE_MEMORY) {
-            $this->_xmlWriter->openMemory();
+        if ($tempLocation == self::STORAGE_MEMORY) {
+            $this->xmlWriter->openMemory();
         } else {
             // Create temporary filename
-            $this->_tempFileName = @tempnam($pTemporaryStorageFolder, 'xml');
+            $this->tempFile = @tempnam($tempFolder, 'xml');
 
             // Open storage
-            if ($this->_xmlWriter->openUri($this->_tempFileName) === false) {
+            if ($this->xmlWriter->openUri($this->tempFile) === false) {
                 // Fallback to memory...
-                $this->_xmlWriter->openMemory();
+                $this->xmlWriter->openMemory();
             }
         }
 
         // Set xml Compatibility
         $compatibility = Settings::getCompatibility();
         if ($compatibility) {
-            $this->_xmlWriter->setIndent(false);
-            $this->_xmlWriter->setIndentString('');
+            $this->xmlWriter->setIndent(false);
+            $this->xmlWriter->setIndentString('');
         } else {
-            $this->_xmlWriter->setIndent(true);
-            $this->_xmlWriter->setIndentString('  ');
+            $this->xmlWriter->setIndent(true);
+            $this->xmlWriter->setIndentString('  ');
         }
     }
 
@@ -99,27 +88,12 @@ class XMLWriter
      */
     public function __destruct()
     {
-        // Desctruct XMLWriter
-        unset($this->_xmlWriter);
+        // Destruct XMLWriter
+        unset($this->xmlWriter);
 
         // Unlink temporary files
-        if ($this->_tempFileName != '') {
-            @unlink($this->_tempFileName);
-        }
-    }
-
-    /**
-     * Get written data
-     *
-     * @return string XML data
-     */
-    public function getData()
-    {
-        if ($this->_tempFileName == '') {
-            return $this->_xmlWriter->outputMemory(true);
-        } else {
-            $this->_xmlWriter->flush();
-            return file_get_contents($this->_tempFileName);
+        if ($this->tempFile != '') {
+            @unlink($this->tempFile);
         }
     }
 
@@ -132,9 +106,24 @@ class XMLWriter
     public function __call($function, $args)
     {
         try {
-            @call_user_func_array(array($this->_xmlWriter, $function), $args);
+            @call_user_func_array(array($this->xmlWriter, $function), $args);
         } catch (\Exception $ex) {
             // Do nothing!
+        }
+    }
+
+    /**
+     * Get written data
+     *
+     * @return string XML data
+     */
+    public function getData()
+    {
+        if ($this->tempFile == '') {
+            return $this->xmlWriter->outputMemory(true);
+        } else {
+            $this->xmlWriter->flush();
+            return file_get_contents($this->tempFile);
         }
     }
 
@@ -142,12 +131,12 @@ class XMLWriter
      * Fallback method for writeRaw, introduced in PHP 5.2
      *
      * @param string $text
-     * @return string
+     * @return bool
      */
     public function writeRaw($text)
     {
-        if (isset($this->_xmlWriter) && is_object($this->_xmlWriter) && (method_exists($this->_xmlWriter, 'writeRaw'))) {
-            return $this->_xmlWriter->writeRaw($text);
+        if (isset($this->xmlWriter) && is_object($this->xmlWriter) && (method_exists($this->xmlWriter, 'writeRaw'))) {
+            return $this->xmlWriter->writeRaw($text);
         }
 
         return $this->text($text);

@@ -2,25 +2,9 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Style;
@@ -28,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Image and memory image style
  */
-class Image
+class Image extends AbstractStyle
 {
     const WRAPPING_STYLE_INLINE = 'inline';
     const WRAPPING_STYLE_SQUARE = 'square';
@@ -41,21 +25,35 @@ class Image
      *
      * @var int
      */
-    private $_width;
+    private $width;
 
     /**
      * Image width
      *
      * @var int
      */
-    private $_height;
+    private $height;
 
     /**
      * Alignment
      *
      * @var string
      */
-    private $_align;
+    private $align;
+
+    /**
+     * Margin Top
+     *
+     * @var int
+     */
+    private $marginTop;
+
+    /**
+     * Margin Left
+     *
+     * @var int
+     */
+    private $marginLeft;
 
     /**
      * Wrapping style
@@ -65,41 +63,16 @@ class Image
     private $wrappingStyle;
 
     /**
-     * Margin Top
-     *
-     * @var int
-     */
-    private $_marginTop;
-
-    /**
-     * Margin Left
-     *
-     * @var int
-     */
-    private $_marginLeft;
-
-    /**
      * Create new image style
      */
     public function __construct()
     {
-        $this->_width = null;
-        $this->_height = null;
-        $this->_align = null;
-        $this->_marginTop = null;
-        $this->_marginLeft = null;
+        $this->width = null;
+        $this->height = null;
+        $this->align = null;
+        $this->marginTop = null;
+        $this->marginLeft = null;
         $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $this->$key = $value;
     }
 
     /**
@@ -107,7 +80,7 @@ class Image
      */
     public function getWidth()
     {
-        return $this->_width;
+        return $this->width;
     }
 
     /**
@@ -117,7 +90,7 @@ class Image
      */
     public function setWidth($pValue = null)
     {
-        $this->_width = $pValue;
+        $this->width = $pValue;
     }
 
     /**
@@ -125,7 +98,7 @@ class Image
      */
     public function getHeight()
     {
-        return $this->_height;
+        return $this->height;
     }
 
     /**
@@ -135,7 +108,7 @@ class Image
      */
     public function setHeight($pValue = null)
     {
-        $this->_height = $pValue;
+        $this->height = $pValue;
     }
 
     /**
@@ -143,7 +116,7 @@ class Image
      */
     public function getAlign()
     {
-        return $this->_align;
+        return $this->align;
     }
 
     /**
@@ -153,7 +126,7 @@ class Image
      */
     public function setAlign($pValue = null)
     {
-        $this->_align = $pValue;
+        $this->align = $pValue;
     }
 
     /**
@@ -163,7 +136,7 @@ class Image
      */
     public function getMarginTop()
     {
-        return $this->_marginTop;
+        return $this->marginTop;
     }
 
     /**
@@ -174,7 +147,7 @@ class Image
      */
     public function setMarginTop($pValue = null)
     {
-        $this->_marginTop = $pValue;
+        $this->marginTop = $pValue;
         return $this;
     }
 
@@ -185,7 +158,7 @@ class Image
      */
     public function getMarginLeft()
     {
-        return $this->_marginLeft;
+        return $this->marginLeft;
     }
 
     /**
@@ -196,7 +169,7 @@ class Image
      */
     public function setMarginLeft($pValue = null)
     {
-        $this->_marginLeft = $pValue;
+        $this->marginLeft = $pValue;
         return $this;
     }
 
@@ -219,7 +192,6 @@ class Image
                 break;
             default:
                 throw new \InvalidArgumentException('Wrapping style does not exists');
-                break;
         }
         return $this;
     }

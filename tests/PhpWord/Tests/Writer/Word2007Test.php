@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
 namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -6,38 +13,44 @@ use PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\Writer\Word2007
+ * Test class for PhpOffice\PhpWord\Writer\Word2007
+ *
  * @runTestsInSeparateProcesses
  */
 class Word2007Test extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Tear down after each test
+     */
     public function tearDown()
     {
         TestHelperDOCX::clear();
     }
 
     /**
-     * covers ::__construct
+     * Construct
      */
     public function testConstruct()
     {
         $object = new Word2007(new PhpWord());
 
         $writerParts = array(
-            'ContentTypes',
-            'Rels',
-            'DocProps',
-            'DocumentRels',
-            'Document',
-            'Styles',
-            'Header',
-            'Footer',
-            'Footnotes',
-            'FootnotesRels',
+            'ContentTypes' => 'ContentTypes',
+            'Rels' => 'Rels',
+            'DocProps' => 'DocProps',
+            'Document' => 'Document',
+            'Styles' => 'Styles',
+            'Numbering' => 'Numbering',
+            'Settings' => 'Settings',
+            'WebSettings' => 'WebSettings',
+            'Header' => 'Header',
+            'Footer' => 'Footer',
+            'Footnotes' => 'Footnotes',
+            'Endnotes' => 'Footnotes',
         );
-        foreach ($writerParts as $part) {
+        foreach ($writerParts as $part => $type) {
             $this->assertInstanceOf(
-                "PhpOffice\\PhpWord\\Writer\\Word2007\\{$part}",
+                "PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\{$type}",
                 $object->getWriterPart($part)
             );
             $this->assertInstanceOf(
@@ -48,30 +61,73 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::save
+     * Save
      */
     public function testSave()
     {
+        $localImage = __DIR__ . '/../_files/images/earth.jpg';
+        $remoteImage = 'http://php.net//images/logos/php-med-trans-light.gif';
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText('Test 2');
-        $section = $phpWord->createSection();
-        $textrun = $section->createTextRun();
+        $section = $phpWord->addSection();
+        $textrun = $section->addTextRun();
         $textrun->addText('Test 3');
+        $footnote = $textrun->addFootnote();
+        $footnote->addLink('http://test.com');
+        $header = $section->addHeader();
+        $header->addImage($localImage);
+        $footer = $section->addFooter();
+        $footer->addImage($remoteImage);
 
         $writer = new Word2007($phpWord);
         $file = __DIR__ . "/../_files/temp.docx";
         $writer->save($file);
-        $this->assertTrue(\file_exists($file));
+
+        $this->assertTrue(file_exists($file));
+
         unlink($file);
     }
 
     /**
-     * @covers ::checkContentTypes
+     * Save using disk caching
+     */
+    public function testSaveUseDiskCaching()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Test');
+        $footnote = $section->addFootnote();
+        $footnote->addText('Test');
+
+        $writer = new Word2007($phpWord);
+        $writer->setUseDiskCaching(true);
+        $file = __DIR__ . "/../_files/temp.docx";
+        $writer->save($file);
+
+        $this->assertTrue(file_exists($file));
+
+        unlink($file);
+    }
+
+    /**
+     * Save with no PhpWord object assigned
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage PhpWord object unassigned.
+     */
+    public function testSaveException()
+    {
+        $writer = new Word2007();
+        $writer->save();
+    }
+
+    /**
+     * Check content types
      */
     public function testCheckContentTypes()
     {
@@ -84,7 +140,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
             'angela_merkel.tif' => '6.tif',
         );
         $phpWord = new PhpWord();
-        $section = $phpWord->createSection();
+        $section = $phpWord->addSection();
         foreach ($images as $source => $target) {
             $section->addImage(__DIR__ . "/../_files/images/{$source}");
         }
@@ -101,26 +157,39 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setUseDiskCaching
-     * @covers ::getUseDiskCaching
+     * Get writer part return null value
+     */
+    public function testGetWriterPartNull()
+    {
+        $object = new Word2007();
+        $this->assertNull($object->getWriterPart());
+    }
+
+    /**
+     * Set/get use disk caching
      */
     public function testSetGetUseDiskCaching()
     {
-        $object = new Word2007();
-        $object->setUseDiskCaching(true, \PHPWORD_TESTS_BASE_DIR);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $object = new Word2007($phpWord);
+        $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
+        $writer = new Word2007($phpWord);
+        $writer->save('php://output');
 
         $this->assertTrue($object->getUseDiskCaching());
     }
 
     /**
-     * @covers             ::setUseDiskCaching
-     * @expectedException  \PhpOffice\PhpWord\Exceptions\Exception
+     * Use disk caching exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testSetUseDiskCachingException()
     {
-        $dir = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'foo')
+        $dir = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, 'foo')
         );
 
         $object = new Word2007();

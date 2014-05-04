@@ -2,25 +2,9 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Style;
@@ -28,7 +12,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * TOC style
  */
-class TOC
+class TOC extends AbstractStyle
 {
     const TABLEADER_DOT = 'dot';
     const TABLEADER_UNDERSCORE = 'underscore';
@@ -40,21 +24,21 @@ class TOC
      *
      * @var string
      */
-    private $_tabLeader;
+    private $tabLeader;
 
     /**
      * Tab Position
      *
      * @var int
      */
-    private $_tabPos;
+    private $tabPos;
 
     /**
      * Indent
      *
      * @var int
      */
-    private $_indent;
+    private $indent;
 
 
     /**
@@ -62,9 +46,9 @@ class TOC
      */
     public function __construct()
     {
-        $this->_tabPos = 9062;
-        $this->_tabLeader = self::TABLEADER_DOT;
-        $this->_indent = 200;
+        $this->tabPos = 9062;
+        $this->tabLeader = self::TABLEADER_DOT;
+        $this->indent = 200;
     }
 
     /**
@@ -74,7 +58,7 @@ class TOC
      */
     public function getTabPos()
     {
-        return $this->_tabPos;
+        return $this->tabPos;
     }
 
     /**
@@ -84,7 +68,7 @@ class TOC
      */
     public function setTabPos($pValue)
     {
-        $this->_tabPos = $pValue;
+        $this->tabPos = $pValue;
     }
 
     /**
@@ -94,7 +78,7 @@ class TOC
      */
     public function getTabLeader()
     {
-        return $this->_tabLeader;
+        return $this->tabLeader;
     }
 
     /**
@@ -104,7 +88,7 @@ class TOC
      */
     public function setTabLeader($pValue = self::TABLEADER_DOT)
     {
-        $this->_tabLeader = $pValue;
+        $this->tabLeader = $pValue;
     }
 
     /**
@@ -114,7 +98,7 @@ class TOC
      */
     public function getIndent()
     {
-        return $this->_indent;
+        return $this->indent;
     }
 
     /**
@@ -124,17 +108,6 @@ class TOC
      */
     public function setIndent($pValue)
     {
-        $this->_indent = $pValue;
-    }
-
-    /**
-     * Set style value
-     *
-     * @param string $key
-     * @param string $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $this->$key = $value;
+        $this->indent = $pValue;
     }
 }

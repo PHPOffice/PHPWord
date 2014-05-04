@@ -25,6 +25,7 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 * Insert and format table with customized properties for each rows (e.g. repeat as header row) and cells (e.g. background color, rowspan, colspan)
 * Insert list items as bulleted, numbered, or multilevel
 * Insert hyperlinks
+* Insert footnotes and endnotes
 * Create document from templates
 * Use XSL 1.0 style sheets to transform main document part of OOXML template
 * ... and many more features on progress
@@ -59,7 +60,7 @@ In this case, you will have to register the autoloader.
 
 ```php
 require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
-PhpOffice\PhpWord\Autoloader::register();
+\PhpOffice\PhpWord\Autoloader::register();
 ```
 
 ## Basic usage
@@ -71,7 +72,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
 // To create a basic section:
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 
 // After creating a section, you can append elements:
 $section->addText('Hello world!');

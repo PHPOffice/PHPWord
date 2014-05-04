@@ -1,16 +1,29 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Template;
 
 /**
+ * Test class for PhpOffice\PhpWord\Template
+ *
  * @covers \PhpOffice\PhpWord\Template
  * @coversDefaultClass \PhpOffice\PhpWord\Template
+ * @runTestsInSeparateProcesses
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Template can be saved in temporary location
+     *
      * @covers ::save
      * @test
      */
@@ -50,6 +63,9 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet can be applied
+     *
+     * @param string $actualDocumentFqfn
      * @covers ::applyXslStyleSheet
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test
@@ -76,8 +92,10 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet cannot be applied on failure in setting parameter value
+     *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage Could not set values for the given XSL style sheet parameters.
      * @test
      */
@@ -96,8 +114,10 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * XSL stylesheet can be applied on failure of loading XML from template
+     *
      * @covers                   ::applyXslStyleSheet
-     * @expectedException        \PhpOffice\PhpWord\Exceptions\Exception
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage Could not load XML from the given template.
      * @test
      */
@@ -116,10 +136,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  ::getVariables
-     * @covers  ::setValue
-     * @covers  ::cloneRow
-     * @covers  ::saveAs
+     * Get variables and clone row
      */
     public function testCloneRow()
     {
@@ -132,6 +149,52 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $document->setValue('tableHeader', utf8_decode('ééé'));
         $document->cloneRow('userId', 1);
         $document->setValue('userId#1', 'Test');
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
+    }
+
+    /**
+     * Replace variables in header and footer
+     */
+    public function testVariablesCanBeReplacedInHeaderAndFooter()
+    {
+        $template = __DIR__ . "/_files/templates/header-footer.docx";
+        $expectedVar = array('documentContent', 'headerValue', 'footerValue');
+        $docName = 'header-footer-test-result.docx';
+
+        $document = new Template($template);
+        $actualVar = $document->getVariables();
+        $document->setValue('headerValue', 'Header Value');
+        $document->setValue('documentContent', 'Document text.');
+        $document->setValue('footerValue', 'Footer Value');
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
+
+    }
+
+    /**
+     * Clone and delete block
+     */
+    public function testCloneDeleteBlock()
+    {
+        $template = __DIR__ . "/_files/templates/clone-delete-block.docx";
+        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME');
+        $docName = 'clone-delete-block-result.docx';
+
+        $document = new Template($template);
+        $actualVar = $document->getVariables();
+
+        $document->cloneBlock('CLONEME', 3);
+        $document->deleteBlock('DELETEME');
+
         $document->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);

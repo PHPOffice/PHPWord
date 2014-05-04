@@ -1,15 +1,32 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
+/**
+ * Test helper class
+ */
 class TestHelperDOCX
 {
-    /** @var string $file */
+    /**
+     * Temporary file name
+     *
+     * @var string
+     */
     static protected $file;
 
     /**
+     * Get document content
+     *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      * @return \PhpOffice\PhpWord\Tests\XmlDocument
@@ -34,9 +51,12 @@ class TestHelperDOCX
         return new XmlDocument(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
     }
 
+    /**
+     * Clear document
+     */
     public static function clear()
     {
-        if (\file_exists(self::$file)) {
+        if (file_exists(self::$file)) {
             unlink(self::$file);
         }
         if (is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {
@@ -45,6 +65,8 @@ class TestHelperDOCX
     }
 
     /**
+     * Delete directory
+     *
      * @param string $dir
      */
     public static function deleteDir($dir)
@@ -63,6 +85,8 @@ class TestHelperDOCX
     }
 
     /**
+     * Get file
+     *
      * @return string
      */
     public static function getFile()

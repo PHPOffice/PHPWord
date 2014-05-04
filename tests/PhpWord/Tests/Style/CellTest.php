@@ -1,9 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Cell;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Cell
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Cell
  * @runTestsInSeparateProcesses
  */
 class CellTest extends \PHPUnit_Framework_TestCase
@@ -48,12 +59,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $default = '000000';
         $value = 'FF0000';
 
-        $this->assertEquals($default, $object->getDefaultBorderColor());
-
-        $object->setStyleValue('_defaultBorderColor', $value);
-        $this->assertEquals($value, $object->getDefaultBorderColor());
-
-        $object->setStyleValue('_borderColor', $value);
+        $object->setStyleValue('borderColor', $value);
         $expected = array($value, $value, $value, $value);
         $this->assertEquals($expected, $object->getBorderColor());
     }
@@ -67,7 +73,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
 
         $value = 120;
         $expected = array($value, $value, $value, $value);
-        $object->setStyleValue('_borderSize', $value);
+        $object->setStyleValue('borderSize', $value);
         $this->assertEquals($expected, $object->getBorderSize());
     }
 }

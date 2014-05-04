@@ -2,30 +2,14 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Exceptions\Exception;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * IO factory
@@ -35,14 +19,14 @@ abstract class IOFactory
     /**
      * Create new writer
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param PhpWord $phpWord
      * @param string $name
-     * @return \PhpOffice\PhpWord\Writer\IWriter
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public static function createWriter(PhpWord $phpWord, $name)
+    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
-        if ($name !== 'IWriter' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
+        if (!in_array($name, array('WriterInterface', 'Word2007', 'ODText', 'RTF', 'HTML', 'PDF'))) {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
@@ -54,12 +38,12 @@ abstract class IOFactory
      * Create new reader
      *
      * @param string $name
-     * @return \PhpOffice\PhpWord\Reader\IReader
-     * @throws \PhpOffice\PhpWord\Exceptions\Exception
+     * @return \PhpOffice\PhpWord\Reader\ReaderInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public static function createReader($name)
+    public static function createReader($name = 'Word2007')
     {
-        if ($name !== 'IReader' && $name !== 'Word2007') {
+        if (!in_array($name, array('ReaderInterface', 'Word2007', 'ODText'))) {
             throw new Exception("\"{$name}\" is not a valid reader.");
         }
 
@@ -72,7 +56,7 @@ abstract class IOFactory
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return \PhpOffice\PhpWord
+     * @return PhpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {

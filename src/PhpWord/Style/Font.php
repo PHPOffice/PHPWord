@@ -2,37 +2,27 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Exceptions\InvalidStyleException;
+use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Style\Shading;
 
 /**
  * Font style
  */
-class Font
+class Font extends AbstractStyle
 {
+    /**
+     * Underline types
+     *
+     * @const string
+     */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
@@ -51,6 +41,12 @@ class Font
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
+
+    /**
+     * Foreground colors
+     *
+     * @const string
+     */
     const FGCOLOR_YELLOW = 'yellow';
     const FGCOLOR_LIGHTGREEN = 'green';
     const FGCOLOR_CYAN = 'cyan';
@@ -72,84 +68,97 @@ class Font
      *
      * @var string
      */
-    private $_type;
+    private $type;
 
     /**
      * Paragraph style
      *
      * @var \PhpOffice\PhpWord\Style\Paragraph
      */
-    private $_paragraphStyle;
+    private $paragraphStyle;
 
     /**
      * Font name
      *
      * @var int|float
      */
-    private $_name = PhpWord::DEFAULT_FONT_NAME;
+    private $name = PhpWord::DEFAULT_FONT_NAME;
 
     /**
      * Font size
      *
      * @var int|float
      */
-    private $_size = PhpWord::DEFAULT_FONT_SIZE;
+    private $size = PhpWord::DEFAULT_FONT_SIZE;
 
     /**
      * Bold
      *
      * @var bool
      */
-    private $_bold = false;
+    private $bold = false;
 
     /**
      * Italic
      *
      * @var bool
      */
-    private $_italic = false;
+    private $italic = false;
 
     /**
      * Superscript
      *
      * @var bool
      */
-    private $_superScript = false;
+    private $superScript = false;
 
     /**
      * Subscript
      *
      * @var bool
      */
-    private $_subScript = false;
+    private $subScript = false;
 
     /**
      * Undeline
      *
      * @var string
      */
-    private $_underline = self::UNDERLINE_NONE;
+    private $underline = self::UNDERLINE_NONE;
 
     /**
      * Strikethrough
      *
      * @var bool
      */
-    private $_strikethrough = false;
+    private $strikethrough = false;
+
+    /**
+     * Double strikethrough
+     *
+     * @var bool
+     */
+    private $doubleStrikethrough = false;
 
     /**
      * Font color
      *
      * @var string
      */
-    private $_color = PhpWord::DEFAULT_FONT_COLOR;
+    private $color = PhpWord::DEFAULT_FONT_COLOR;
 
     /**
      * Foreground/highlight
      *
      * @var string
      */
-    private $_fgColor = null;
+    private $fgColor = null;
+
+    /**
+     * Text line height
+     *
+     * @var int
+     */
 
     /**
      * Text line height
@@ -163,7 +172,30 @@ class Font
      *
      * @var string
      */
-    private $_hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+    private $hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+
+    /**
+     * Small caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
+     */
+    private $smallCaps = false;
+
+    /**
+     * All caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
+     */
+    private $allCaps = false;
+
+    /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
 
     /**
      * Create new font style
@@ -173,15 +205,15 @@ class Font
      */
     public function __construct($type = 'text', $paragraphStyle = null)
     {
-        $this->_type = $type;
+        $this->type = $type;
 
         if ($paragraphStyle instanceof Paragraph) {
-            $this->_paragraphStyle = $paragraphStyle;
+            $this->paragraphStyle = $paragraphStyle;
         } elseif (is_array($paragraphStyle)) {
-            $this->_paragraphStyle = new Paragraph;
-            $this->_paragraphStyle->setArrayStyle($paragraphStyle);
+            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle->setArrayStyle($paragraphStyle);
         } else {
-            $this->_paragraphStyle = $paragraphStyle;
+            $this->paragraphStyle = $paragraphStyle;
         }
     }
 
@@ -197,8 +229,6 @@ class Font
             if ($key === 'line-height') {
                 $this->setLineHeight($value);
                 null;
-            } elseif (substr($key, 0, 1) !== '_') {
-                $key = '_' . $key;
             }
             $this->setStyleValue($key, $value);
         }
@@ -207,41 +237,25 @@ class Font
     }
 
     /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $method = 'set' . substr($key, 1);
-        if (method_exists($this, $method)) {
-            $this->$method($value);
-        }
-    }
-
-    /**
      * Get font name
      *
-     * @return bool
+     * @return string
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
      * Set font name
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setName($pValue = PhpWord::DEFAULT_FONT_NAME)
+    public function setName($value = PhpWord::DEFAULT_FONT_NAME)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_NAME;
-        }
-        $this->_name = $pValue;
+        $this->name = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_NAME);
+
         return $this;
     }
 
@@ -253,21 +267,19 @@ class Font
      */
     public function getSize()
     {
-        return $this->_size;
+        return $this->size;
     }
 
     /**
      * Set font size
      *
-     * @param  int|float $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  int|float $value
+     * @return self
      */
-    public function setSize($pValue = PhpWord::DEFAULT_FONT_SIZE)
+    public function setSize($value = PhpWord::DEFAULT_FONT_SIZE)
     {
-        if (!is_numeric($pValue)) {
-            $pValue = PhpWord::DEFAULT_FONT_SIZE;
-        }
-        $this->_size = $pValue;
+        $this->size = $this->setNumericVal($value, PhpWord::DEFAULT_FONT_SIZE);
+
         return $this;
     }
 
@@ -278,21 +290,19 @@ class Font
      */
     public function getBold()
     {
-        return $this->_bold;
+        return $this->bold;
     }
 
     /**
      * Set bold
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setBold($pValue = false)
+    public function setBold($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_bold = $pValue;
+        $this->bold = $this->setBoolVal($value, $this->bold);
+
         return $this;
     }
 
@@ -303,21 +313,19 @@ class Font
      */
     public function getItalic()
     {
-        return $this->_italic;
+        return $this->italic;
     }
 
     /**
      * Set italic
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setItalic($pValue = false)
+    public function setItalic($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_italic = $pValue;
+        $this->italic = $this->setBoolVal($value, $this->italic);
+
         return $this;
     }
 
@@ -328,22 +336,22 @@ class Font
      */
     public function getSuperScript()
     {
-        return $this->_superScript;
+        return $this->superScript;
     }
 
     /**
      * Set superscript
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setSuperScript($pValue = false)
+    public function setSuperScript($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
+        $this->superScript = $this->setBoolVal($value, $this->superScript);
+        if ($this->superScript) {
+            $this->subScript = false;
         }
-        $this->_superScript = $pValue;
-        $this->_subScript = !$pValue;
+
         return $this;
     }
 
@@ -354,22 +362,22 @@ class Font
      */
     public function getSubScript()
     {
-        return $this->_subScript;
+        return $this->subScript;
     }
 
     /**
      * Set subscript
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setSubScript($pValue = false)
+    public function setSubScript($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
+        $this->subScript = $this->setBoolVal($value, $this->subScript);
+        if ($this->subScript) {
+            $this->superScript = false;
         }
-        $this->_subScript = $pValue;
-        $this->_superScript = !$pValue;
+
         return $this;
     }
 
@@ -380,21 +388,19 @@ class Font
      */
     public function getUnderline()
     {
-        return $this->_underline;
+        return $this->underline;
     }
 
     /**
      * Set underline
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setUnderline($pValue = self::UNDERLINE_NONE)
+    public function setUnderline($value = self::UNDERLINE_NONE)
     {
-        if ($pValue == '') {
-            $pValue = self::UNDERLINE_NONE;
-        }
-        $this->_underline = $pValue;
+        $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
         return $this;
     }
 
@@ -405,21 +411,48 @@ class Font
      */
     public function getStrikethrough()
     {
-        return $this->_strikethrough;
+        return $this->strikethrough;
     }
 
     /**
      * Set strikethrough
      *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  bool $value
+     * @return self
      */
-    public function setStrikethrough($pValue = false)
+    public function setStrikethrough($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
+        $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
+        if ($this->strikethrough) {
+            $this->doubleStrikethrough = false;
         }
-        $this->_strikethrough = $pValue;
+
+        return $this;
+    }
+
+    /**
+     * Get double strikethrough
+     *
+     * @return bool
+     */
+    public function getDoubleStrikethrough()
+    {
+        return $this->doubleStrikethrough;
+    }
+
+    /**
+     * Set double strikethrough
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setDoubleStrikethrough($value = false)
+    {
+        $this->doubleStrikethrough = $this->setBoolVal($value, $this->doubleStrikethrough);
+        if ($this->doubleStrikethrough) {
+            $this->strikethrough = false;
+        }
+
         return $this;
     }
 
@@ -430,44 +463,66 @@ class Font
      */
     public function getColor()
     {
-        return $this->_color;
+        return $this->color;
     }
 
     /**
      * Set font color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setColor($pValue = PhpWord::DEFAULT_FONT_COLOR)
+    public function setColor($value = PhpWord::DEFAULT_FONT_COLOR)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_COLOR;
-        }
-        $this->_color = $pValue;
+        $this->color = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_COLOR);
+
         return $this;
     }
 
     /**
      * Get foreground/highlight color
      *
-     * @return bool
+     * @return string
      */
     public function getFgColor()
     {
-        return $this->_fgColor;
+        return $this->fgColor;
     }
 
     /**
      * Set foreground/highlight color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setFgColor($pValue = null)
+    public function setFgColor($value = null)
     {
-        $this->_fgColor = $pValue;
+        $this->fgColor = $value;
+
         return $this;
+    }
+
+    /**
+     * Get background
+     *
+     * @return string
+     */
+    public function getBgColor()
+    {
+        if (!is_null($this->shading)) {
+            return $this->shading->getFill();
+        }
+    }
+
+    /**
+     * Set background
+     *
+     * @param string $value
+     * @return \PhpOffice\PhpWord\Style\Table
+     */
+    public function setBgColor($value = null)
+    {
+        $this->setShading(array('fill' => $value));
     }
 
     /**
@@ -477,7 +532,7 @@ class Font
      */
     public function getStyleType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -487,7 +542,7 @@ class Font
      */
     public function getParagraphStyle()
     {
-        return $this->_paragraphStyle;
+        return $this->paragraphStyle;
     }
 
     /**
@@ -495,7 +550,7 @@ class Font
      *
      * @param  int|float|string $lineHeight
      * @return $this
-     * @throws \PhpOffice\PhpWord\Exceptions\InvalidStyleException
+     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
     {
@@ -525,25 +580,105 @@ class Font
     /**
      * Get Font Content Type
      *
-     * @return  bool
+     * @return string
      */
     public function getHint()
     {
-        return $this->_hint;
+        return $this->hint;
     }
 
     /**
      * Set Font Content Type
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param  string $value
+     * @return self
      */
-    public function setHint($pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
+    public function setHint($value = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+        $this->hint = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_CONTENT_TYPE);
+
+        return $this;
+    }
+
+    /**
+     * Get small caps
+     *
+     * @return bool
+     */
+    public function getSmallCaps()
+    {
+        return $this->smallCaps;
+    }
+
+    /**
+     * Set small caps
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setSmallCaps($value = false)
+    {
+        $this->smallCaps = $this->setBoolVal($value, $this->smallCaps);
+        if ($this->smallCaps) {
+            $this->allCaps = false;
         }
-        $this->_hint = $pValue;
+
+        return $this;
+    }
+
+    /**
+     * Get all caps
+     *
+     * @return bool
+     */
+    public function getAllCaps()
+    {
+        return $this->allCaps;
+    }
+
+    /**
+     * Set all caps
+     *
+     * @param  bool $value
+     * @return self
+     */
+    public function setAllCaps($value = false)
+    {
+        $this->allCaps = $this->setBoolVal($value, $this->allCaps);
+        if ($this->allCaps) {
+            $this->smallCaps = false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param array $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        if (is_array($value)) {
+            if (!$this->shading instanceof Shading) {
+                $this->shading = new Shading();
+            }
+            $this->shading->setStyleByArray($value);
+        } else {
+            $this->shading = null;
+        }
+
         return $this;
     }
 }

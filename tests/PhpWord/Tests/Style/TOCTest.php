@@ -1,10 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\TOC;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\TOC
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
  * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
@@ -29,7 +39,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
 
             // setStyleValue
-            $object->setStyleValue("_{$key}", null);
+            $object->setStyleValue("{$key}", null);
             $this->assertEquals(null, $object->$get());
         }
     }

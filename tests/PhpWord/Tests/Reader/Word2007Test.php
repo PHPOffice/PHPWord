@@ -1,9 +1,23 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Reader;
 
 use PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\IOFactory;
 
+/**
+ * Test class for PhpOffice\PhpWord\Reader\Word2007
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Reader\Word2007
+ * @runTestsInSeparateProcesses
+ */
 class Word2007Test extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +41,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * Can read exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testCanReadFailed()
     {
@@ -40,6 +56,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $object = IOFactory::load($fqFilename);
     }
 
+    /**
+     * Load
+     */
     public function testLoad()
     {
         $fqFilename = join(

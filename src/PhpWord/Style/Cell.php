@@ -2,127 +2,55 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Shading;
+
 /**
  * Table cell style
  */
-class Cell
+class Cell extends Border
 {
+    /**
+     * Text direction constants
+     *
+     * @const string
+     */
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';
+
+    /**
+     * Default border color
+     *
+     * @const string
+     */
+    const DEFAULT_BORDER_COLOR = '000000';
 
     /**
      * Vertical align (top, center, both, bottom)
      *
      * @var string
      */
-    private $_valign;
+    private $valign;
 
     /**
      * Text Direction
      *
      * @var string
      */
-    private $_textDirection;
-
-    /**
-     * Background-Color
-     *
-     * @var string
-     */
-    private $_bgColor;
-
-    /**
-     * Border Top Size
-     *
-     * @var int
-     */
-    private $_borderTopSize;
-
-    /**
-     * Border Top Color
-     *
-     * @var string
-     */
-    private $_borderTopColor;
-
-    /**
-     * Border Left Size
-     *
-     * @var int
-     */
-    private $_borderLeftSize;
-
-    /**
-     * Border Left Color
-     *
-     * @var string
-     */
-    private $_borderLeftColor;
-
-    /**
-     * Border Right Size
-     *
-     * @var int
-     */
-    private $_borderRightSize;
-
-    /**
-     * Border Right Color
-     *
-     * @var string
-     */
-    private $_borderRightColor;
-
-    /**
-     * Border Bottom Size
-     *
-     * @var int
-     */
-    private $_borderBottomSize;
-
-    /**
-     * Border Bottom Color
-     *
-     * @var string
-     */
-    private $_borderBottomColor;
-
-    /**
-     * Border Default Color
-     *
-     * @var string
-     */
-    private $_defaultBorderColor;
+    private $textDirection;
 
     /**
      * colspan
      *
      * @var integer
      */
-    private $_gridSpan = null;
+    private $gridSpan = null;
 
     /**
      * rowspan (restart, continue)
@@ -132,60 +60,31 @@ class Cell
      *
      * @var string
      */
-    private $_vMerge = null;
+    private $vMerge = null;
 
     /**
-     * Create a new Cell Style
-     */
-    public function __construct()
-    {
-        $this->_valign = null;
-        $this->_textDirection = null;
-        $this->_bgColor = null;
-        $this->_borderTopSize = null;
-        $this->_borderTopColor = null;
-        $this->_borderLeftSize = null;
-        $this->_borderLeftColor = null;
-        $this->_borderRightSize = null;
-        $this->_borderRightColor = null;
-        $this->_borderBottomSize = null;
-        $this->_borderBottomColor = null;
-        $this->_defaultBorderColor = '000000';
-    }
-
-    /**
-     * Set style value
+     * Shading
      *
-     * @param string $key
-     * @param mixed $value
+     * @var \PhpOffice\PhpWord\Style\Shading
      */
-    public function setStyleValue($key, $value)
-    {
-        if ($key == '_borderSize') {
-            $this->setBorderSize($value);
-        } elseif ($key == '_borderColor') {
-            $this->setBorderColor($value);
-        } else {
-            $this->$key = $value;
-        }
-    }
+    private $shading;
 
     /**
      * Get vertical align
      */
     public function getVAlign()
     {
-        return $this->_valign;
+        return $this->valign;
     }
 
     /**
      * Set vertical align
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setVAlign($pValue = null)
+    public function setVAlign($value = null)
     {
-        $this->_valign = $pValue;
+        $this->valign = $value;
     }
 
     /**
@@ -193,249 +92,50 @@ class Cell
      */
     public function getTextDirection()
     {
-        return $this->_textDirection;
+        return $this->textDirection;
     }
 
     /**
      * Set text direction
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setTextDirection($pValue = null)
+    public function setTextDirection($value = null)
     {
-        $this->_textDirection = $pValue;
+        $this->textDirection = $value;
     }
 
     /**
-     * Get background color
+     * Get background
+     *
+     * @return string
      */
     public function getBgColor()
     {
-        return $this->_bgColor;
+        if (!is_null($this->shading)) {
+            return $this->shading->getFill();
+        }
     }
 
     /**
-     * Set background color
+     * Set background
      *
-     * @param string $pValue
+     * @param string $value
+     * @return self
      */
-    public function setBgColor($pValue = null)
+    public function setBgColor($value = null)
     {
-        $this->_bgColor = $pValue;
-    }
-
-    /**
-     * Set border size
-     *
-     * @param int $pValue
-     */
-    public function setBorderSize($pValue = null)
-    {
-        $this->_borderTopSize = $pValue;
-        $this->_borderLeftSize = $pValue;
-        $this->_borderRightSize = $pValue;
-        $this->_borderBottomSize = $pValue;
-    }
-
-    /**
-     * Get border size
-     */
-    public function getBorderSize()
-    {
-        $t = $this->getBorderTopSize();
-        $l = $this->getBorderLeftSize();
-        $r = $this->getBorderRightSize();
-        $b = $this->getBorderBottomSize();
-
-        return array($t, $l, $r, $b);
-    }
-
-    /**
-     * Set border color
-     *
-     * @param string $pValue
-     */
-    public function setBorderColor($pValue = null)
-    {
-        $this->_borderTopColor = $pValue;
-        $this->_borderLeftColor = $pValue;
-        $this->_borderRightColor = $pValue;
-        $this->_borderBottomColor = $pValue;
-    }
-
-    /**
-     * Get border color
-     */
-    public function getBorderColor()
-    {
-        $t = $this->getBorderTopColor();
-        $l = $this->getBorderLeftColor();
-        $r = $this->getBorderRightColor();
-        $b = $this->getBorderBottomColor();
-
-        return array($t, $l, $r, $b);
-    }
-
-    /**
-     * Set border top size
-     *
-     * @param int $pValue
-     */
-    public function setBorderTopSize($pValue = null)
-    {
-        $this->_borderTopSize = $pValue;
-    }
-
-    /**
-     * Get border top size
-     */
-    public function getBorderTopSize()
-    {
-        return $this->_borderTopSize;
-    }
-
-    /**
-     * Set border top color
-     *
-     * @param string $pValue
-     */
-    public function setBorderTopColor($pValue = null)
-    {
-        $this->_borderTopColor = $pValue;
-    }
-
-    /**
-     * Get border top color
-     */
-    public function getBorderTopColor()
-    {
-        return $this->_borderTopColor;
-    }
-
-    /**
-     * Set border left size
-     *
-     * @param int $pValue
-     */
-    public function setBorderLeftSize($pValue = null)
-    {
-        $this->_borderLeftSize = $pValue;
-    }
-
-    /**
-     * Get border left size
-     */
-    public function getBorderLeftSize()
-    {
-        return $this->_borderLeftSize;
-    }
-
-    /**
-     * Set border left color
-     *
-     * @param string $pValue
-     */
-    public function setBorderLeftColor($pValue = null)
-    {
-        $this->_borderLeftColor = $pValue;
-    }
-
-    /**
-     * Get border left color
-     */
-    public function getBorderLeftColor()
-    {
-        return $this->_borderLeftColor;
-    }
-
-    /**
-     * Set border right size
-     *
-     * @param int $pValue
-     */
-    public function setBorderRightSize($pValue = null)
-    {
-        $this->_borderRightSize = $pValue;
-    }
-
-    /**
-     * Get border right size
-     */
-    public function getBorderRightSize()
-    {
-        return $this->_borderRightSize;
-    }
-
-    /**
-     * Set border right color
-     *
-     * @param string $pValue
-     */
-    public function setBorderRightColor($pValue = null)
-    {
-        $this->_borderRightColor = $pValue;
-    }
-
-    /**
-     * Get border right color
-     */
-    public function getBorderRightColor()
-    {
-        return $this->_borderRightColor;
-    }
-
-    /**
-     * Set border bottom size
-     *
-     * @param int $pValue
-     */
-    public function setBorderBottomSize($pValue = null)
-    {
-        $this->_borderBottomSize = $pValue;
-    }
-
-    /**
-     * Get border bottom size
-     */
-    public function getBorderBottomSize()
-    {
-        return $this->_borderBottomSize;
-    }
-
-    /**
-     * Set border bottom color
-     *
-     * @param string $pValue
-     */
-    public function setBorderBottomColor($pValue = null)
-    {
-        $this->_borderBottomColor = $pValue;
-    }
-
-    /**
-     * Get border bottom color
-     */
-    public function getBorderBottomColor()
-    {
-        return $this->_borderBottomColor;
-    }
-
-    /**
-     * Get default border color
-     */
-    public function getDefaultBorderColor()
-    {
-        return $this->_defaultBorderColor;
+        return $this->setShading(array('fill' => $value));
     }
 
     /**
      * Set grid span (colspan)
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setGridSpan($pValue = null)
+    public function setGridSpan($value = null)
     {
-        $this->_gridSpan = $pValue;
+        $this->gridSpan = $value;
     }
 
     /**
@@ -443,17 +143,17 @@ class Cell
      */
     public function getGridSpan()
     {
-        return $this->_gridSpan;
+        return $this->gridSpan;
     }
 
     /**
      * Set vertical merge (rowspan)
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setVMerge($pValue = null)
+    public function setVMerge($value = null)
     {
-        $this->_vMerge = $pValue;
+        $this->vMerge = $value;
     }
 
     /**
@@ -461,6 +161,47 @@ class Cell
      */
     public function getVMerge()
     {
-        return $this->_vMerge;
+        return $this->vMerge;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param array $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        if (is_array($value)) {
+            if (!$this->shading instanceof Shading) {
+                $this->shading = new Shading();
+            }
+            $this->shading->setStyleByArray($value);
+        } else {
+            $this->shading = null;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get default border color
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getDefaultBorderColor()
+    {
+        return self::DEFAULT_BORDER_COLOR;
     }
 }

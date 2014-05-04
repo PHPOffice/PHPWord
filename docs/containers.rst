@@ -16,7 +16,7 @@ section, use the following code:
 
 .. code-block:: php
 
-    $section = $phpWord->createSection($sectionSettings);
+    $section = $phpWord->addSection($sectionSettings);
 
 The ``$sectionSettings`` is an optional associative array that sets the
 section. Example:
@@ -50,6 +50,7 @@ Below are the available settings for section:
 -  ``borderBottomColor`` Border bottom color
 -  ``headerHeight`` Spacing to top of header
 -  ``footerHeight`` Spacing to bottom of footer
+-  ``gutter`` Page gutter spacing
 -  ``colsNum`` Number of columns
 -  ``colsSpace`` Spacing between columns
 -  ``breakType`` Section break type (nextPage, nextColumn, continuous,
@@ -70,10 +71,10 @@ property of the section.
 .. code-block:: php
 
     // Method 1
-    $section = $phpWord->createSection(array('pageNumberingStart' => 1));
+    $section = $phpWord->addSection(array('pageNumberingStart' => 1));
 
     // Method 2
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $section->getSettings()->setPageNumberingStart(1);
 
 Multicolumn
@@ -85,22 +86,44 @@ using the ``breakType`` and ``colsNum`` property of the section.
 .. code-block:: php
 
     // Method 1
-    $section = $phpWord->createSection(array('breakType' => 'continuous', 'colsNum' => 2));
+    $section = $phpWord->addSection(array('breakType' => 'continuous', 'colsNum' => 2));
 
     // Method 2
-    $section = $phpWord->createSection();
+    $section = $phpWord->addSection();
     $section->getSettings()->setBreakType('continuous');
     $section->getSettings()->setColsNum(2);
+
+
+### Line numbering
+
+You can apply line numbering to a section by using the ``lineNumbering``
+property of the section.
+
+.. code-block:: php
+
+    // Method 1
+    $section = $phpWord->addSection(array('lineNumbering' => array()));
+
+    // Method 2
+    $section = $phpWord->addSection();
+    $section->getSettings()->setLineNumbering(array());
+
+Below are the properties of the line numbering style.
+
+-  ``start`` Line numbering starting value
+-  ``increment`` Line number increments
+-  ``distance`` Distance between text and line numbering in twip
+-  ``restart`` Line numbering restart setting continuous|newPage|newSection
 
 Headers
 -------
 
 Each section can have its own header reference. To create a header use
-the ``createHeader`` method:
+the ``addHeader`` method:
 
 .. code-block:: php
 
-    $header = $section->createHeader();
+    $header = $section->addHeader();
 
 Be sure to save the result in a local object. You can use all elements
 that are available for the footer. See "Footer" section for detail.
@@ -111,11 +134,11 @@ Footers
 -------
 
 Each section can have its own footer reference. To create a footer, use
-the ``createFooter`` method:
+the ``addFooter`` method:
 
 .. code-block:: php
 
-    $footer = $section->createFooter();
+    $footer = $section->addFooter();
 
 Be sure to save the result in a local object to add elements to a
 footer. You can add the following elements to footers:

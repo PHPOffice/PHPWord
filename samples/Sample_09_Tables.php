@@ -2,9 +2,9 @@
 include_once 'Sample_Header.php';
 
 // New Word Document
-echo date('H:i:s') , ' Create new PhpWord object' , \EOL;
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $header = array('size' => 16, 'bold' => true);
 
 // 1. Basic table
@@ -55,7 +55,7 @@ $section->addTextBreak(1);
 $section->addText("Table with colspan and rowspan", $header);
 
 $styleTable = array('borderSize' => 6, 'borderColor' => '999999');
-$cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center');
+$cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center', 'bgColor' => 'FFFF00');
 $cellRowContinue = array('vMerge' => 'continue');
 $cellColSpan = array('gridSpan' => 2, 'valign' => 'center');
 $cellHCentered = array('align' => 'center');
@@ -63,10 +63,21 @@ $cellVCentered = array('valign' => 'center');
 
 $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
+
 $table->addRow();
-$table->addCell(2000, $cellRowSpan)->addText('A', null, $cellHCentered);
-$table->addCell(4000, $cellColSpan)->addText('B', null, $cellHCentered);
+
+$cell1 = $table->addCell(2000, $cellRowSpan);
+$textrun1 = $cell1->addTextRun($cellHCentered);
+$textrun1->addText('A');
+$textrun1->addFootnote()->addText('Row span');
+
+$cell2 = $table->addCell(4000, $cellColSpan);
+$textrun2 = $cell2->addTextRun($cellHCentered);
+$textrun2->addText('B');
+$textrun2->addFootnote()->addText('Colspan span');
+
 $table->addCell(2000, $cellRowSpan)->addText('E', null, $cellHCentered);
+
 $table->addRow();
 $table->addCell(null, $cellRowContinue);
 $table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);
@@ -74,13 +85,7 @@ $table->addCell(2000, $cellVCentered)->addText('D', null, $cellHCentered);
 $table->addCell(null, $cellRowContinue);
 
 // Save file
-$name = basename(__FILE__, '.php');
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
-foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", \EOL;
-    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-    $xmlWriter->save("{$name}.{$extension}");
-    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
+if (!CLI) {
+    include_once 'Sample_Footer.php';
 }
-
-include_once 'Sample_Footer.php';

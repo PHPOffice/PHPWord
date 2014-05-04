@@ -1,9 +1,19 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Table;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Table
+ *
  * @runTestsInSeparateProcesses
  */
 class TableTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +24,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * There are 3 variables for class constructor:
      * - $styleTable: Define table styles
      * - $styleFirstRow: Define style for the first row
-     * - $styleLastRow: Define style for the last row (reserved)
      */
     public function testConstruct()
     {
@@ -126,5 +135,29 @@ class TableTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
         }
         $this->assertEquals($values, $object->getCellMargin());
+    }
+
+    /**
+     * Set style value for various special value types
+     */
+    public function testSetStyleValue()
+    {
+        $object = new Table();
+        $object->setStyleValue('borderSize', 120);
+        $object->setStyleValue('cellMargin', 240);
+        $object->setStyleValue('borderColor', '999999');
+
+        $this->assertEquals(
+            array(120, 120, 120, 120, 120, 120),
+            $object->getBorderSize()
+        );
+        $this->assertEquals(
+            array(240, 240, 240, 240),
+            $object->getCellMargin()
+        );
+        $this->assertEquals(
+            array('999999', '999999', '999999', '999999', '999999', '999999'),
+            $object->getBorderColor()
+        );
     }
 }

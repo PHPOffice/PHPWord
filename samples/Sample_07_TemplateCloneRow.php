@@ -2,10 +2,15 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PhpWord object" , \EOL;
+echo date('H:i:s') , " Create new PhpWord object" , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $document = $phpWord->loadTemplate('resources/Sample_07_TemplateCloneRow.docx');
+
+// Variables on different parts of document
+$document->setValue('weekday', date('l')); // On section/content
+$document->setValue('time', date('H:i')); // On footer
+$document->setValue('serverName', realpath(__DIR__)); // On header
 
 // Simple table
 $document->cloneRow('rowValue', 10);
@@ -32,9 +37,6 @@ $document->setValue('rowNumber#8', '8');
 $document->setValue('rowNumber#9', '9');
 $document->setValue('rowNumber#10', '10');
 
-$document->setValue('weekday', date('l'));
-$document->setValue('time', date('H:i'));
-
 // Table with a spanned cell
 $document->cloneRow('userId', 3);
 
@@ -54,8 +56,11 @@ $document->setValue('userName#3', 'Ray');
 $document->setValue('userPhone#3', '+1 428 889 775');
 
 $name = 'Sample_07_TemplateCloneRow.docx';
-echo date('H:i:s'), " Write to Word2007 format", \EOL;
+echo date('H:i:s'), " Write to Word2007 format", EOL;
 $document->saveAs($name);
 rename($name, "results/{$name}");
 
-include_once 'Sample_Footer.php';
+echo getEndingNotes(array('Word2007' => 'docx'));
+if (!CLI) {
+    include_once 'Sample_Footer.php';
+}

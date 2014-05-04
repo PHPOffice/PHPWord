@@ -1,6 +1,6 @@
 .. _setup:
 
-Installing/Configuring
+Installing/configuring
 ======================
 
 Requirements
@@ -53,7 +53,7 @@ invoke ``Autoloader::register``.
 .. code-block:: php
 
     require_once '/path/to/src/PhpWord/Autoloader.php';
-    PhpOffice\PhpWord\Autoloader::register();
+    \PhpOffice\PhpWord\Autoloader::register();
 
 Using samples
 -------------

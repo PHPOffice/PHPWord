@@ -2,47 +2,40 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2013 PhpWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
  * Table row style
+ *
+ * @since 0.8.0
  */
-class Row
+class Row extends AbstractStyle
 {
     /**
      * Repeat table row on every new page
      *
      * @var bool
      */
-    private $_tblHeader = false;
+    private $tblHeader = false;
 
     /**
      * Table row cannot break across pages
      *
      * @var bool
      */
-    private $_cantSplit = false;
+    private $cantSplit = false;
+
+    /**
+     * Table row exact height
+     *
+     * @var bool
+     */
+    private $exactHeight = false;
 
     /**
      * Create a new row style
@@ -52,29 +45,14 @@ class Row
     }
 
     /**
-     * Set style value
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setStyleValue($key, $value)
-    {
-        $this->$key = $value;
-    }
-
-    /**
      * Set tblHeader
      *
-     * @param boolean $pValue
-     * @return PHPWord_Style_Row
+     * @param boolean $value
+     * @return self
      */
-    public function setTblHeader($pValue = false)
+    public function setTblHeader($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_tblHeader = $pValue;
-        return $this;
+        $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
     }
 
     /**
@@ -84,22 +62,18 @@ class Row
      */
     public function getTblHeader()
     {
-        return $this->_tblHeader;
+        return $this->tblHeader;
     }
 
     /**
      * Set cantSplit
      *
-     * @param boolean $pValue
-     * @return PHPWord_Style_Row
+     * @param boolean $value
+     * @return self
      */
-    public function setCantSplit($pValue = false)
+    public function setCantSplit($value = false)
     {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->_cantSplit = $pValue;
-        return $this;
+        $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
     }
 
     /**
@@ -109,6 +83,28 @@ class Row
      */
     public function getCantSplit()
     {
-        return $this->_cantSplit;
+        return $this->cantSplit;
+    }
+
+    /**
+     * Set exactHeight
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setExactHeight($value = false)
+    {
+        $this->exactHeight = $this->setBoolVal($value, $this->exactHeight);
+        return $this;
+    }
+
+    /**
+     * Get exactHeight
+     *
+     * @return boolean
+     */
+    public function getExactHeight()
+    {
+        return $this->exactHeight;
     }
 }

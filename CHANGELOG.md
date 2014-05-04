@@ -2,6 +2,92 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+## 0.10.0 - Not yet released
+
+This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
+
+### Features
+
+- Image: Get image dimensions without EXIF extension - @andrew-kzoo GH-184
+- Table: Add `tblGrid` element for Libre/Open Office table sizing - @gianis6 GH-183
+- Footnote: Ability to insert textbreak in footnote `$footnote->addTextBreak()` - @ivanlanin
+- Footnote: Ability to style footnote reference mark by using `FootnoteReference` style - @ivanlanin
+- Font: Add `bgColor` to font style to define background using HEX color - @jcarignan GH-168
+- Table: Add `exactHeight` to row style to define whether row height should be exact or atLeast - @jcarignan GH-168
+- Element: New `CheckBox` element for sections and table cells - @ozilion GH-156
+- Settings: Ability to use PCLZip as alternative to ZipArchive - @bskrtich @ivanlanin GH-106 GH-140 GH-185
+- Template: Ability to find & replace variables in headers & footers - @dgudgeon GH-190
+- Template: Ability to clone & delete block of text using `cloneBlock` and `deleteBlock` - @diego-vieira GH-191
+- TOC: Ability to have two or more TOC in one document and to set min and max depth for TOC - @Pyreweb GH-189
+- Table: Ability to add footnote in table cell - @ivanlanin GH-187
+- Footnote: Ability to add image in footnote - @ivanlanin GH-187
+- ListItem: Ability to add list item in header/footer - @ivanlanin GH-187
+- CheckBox: Ability to add checkbox in header/footer - @ivanlanin GH-187
+- Link: Ability to add link in header/footer - @ivanlanin GH-187
+- Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
+- Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
+- General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
+- DOCX Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, list, image, and title - @ivanlanin
+- Endnote: Ability to add endnotes - @ivanlanin
+- ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198
+- ODT Writer: Basic table writing support - @ivanlanin
+- Image: Keep image aspect ratio if only 1 dimension styled - @japonicus GH-194
+- HTML Writer: Basic HTML writer: text, textrun, link, title, textbreak, table, image (as Base64), footnote, endnote - @ivanlanin GH-203 GH-67 GH-147
+- PDF Writer: Basic PDF writer using DomPDF: All HTML element except image - @ivanlanin GH-68
+- DOCX Writer: Change `docProps/app.xml` `Application` to `PHPWord` - @ivanlanin
+- DOCX Writer: Create `word/settings.xml` and `word/webSettings.xml` dynamically - @ivanlanin
+- ODT Writer: Basic image writing - @ivanlanin
+- ODT Writer: Link writing - @ivanlanin
+- ODT Reader: Basic ODText Reader - @ivanlanin GH-71
+- Section: Ability to define gutter and line numbering - @ivanlanin
+- Font: Small caps, all caps, and double strikethrough - @ivanlanin GH-151
+- Settings: Ability to use measurement unit other than twips with `setMeasurementUnit` - @ivanlanin GH-199
+- Style: Remove `bgColor` from `Font`, `Table`, and `Cell` and put it into the new `Shading` style - @ivanlanin
+- Style: New `Indentation` and `Spacing` style - @ivanlanin
+- Paragraph: Ability to define first line and right indentation - @ivanlanin
+
+### Bugfixes
+
+- Footnote: Footnote content doesn't show footnote reference number - @ivanlanin GH-170
+- Documentation: Error in a function - @theBeerNut GH-195
+
+### Deprecated
+
+- `createTextRun` replaced by `addTextRun`
+- `createFootnote` replaced by `addFootnote`
+- `createHeader` replaced by `addHeader`
+- `createFooter` replaced by `addFooter`
+- `createSection` replaced by `addSection`
+- `Element\Footnote::getReferenceId` replaced by `Element\AbstractElement::getRelationId`
+- `Element\Footnote::setReferenceId` replaced by `Element\AbstractElement::setRelationId`
+- `Footnote::addFootnoteLinkElement` replaced by `Media::addElement`
+- `Footnote::getFootnoteLinkElements` replaced by `Media::getElements`
+- All current methods on `Media`
+- `Element\Link::getLinkSrc` replaced by `Element\Link::getTarget`
+- `Element\Link::getLinkName` replaced by `Element\Link::getText`
+- `Style\Cell::getDefaultBorderColor`
+
+### Miscellaneous
+
+- Documentation: Simplify page level docblock - @ivanlanin GH-179
+- Writer: Refactor writer classes and create a new `Write\AbstractWriter` abstract class - @ivanlanin GH-160
+- General: Refactor folders: `Element` and `Exception` - @ivanlanin GH-187
+- General: Remove legacy `HashTable` and `Shared\ZipStreamWrapper` and all related properties/methods - @ivanlanin GH-187
+- Element: New `AbstractElement` abstract class - @ivanlanin GH-187
+- Media: Refactor media class to use one method for all docPart (section, header, footer, footnote) - @ivanlanin GH-187
+- General: Remove underscore prefix from all private properties name - @ivanlanin GH-187
+- General: Move Section `Settings` to `Style\Section` - @ivanlanin GH-187
+- General: Give `Abstract` prefix and `Interface` suffix for all abstract classes and interfaces as per [PHP-FIG recommendation](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md) - @ivanlanin GH-187
+- Style: New `Style\AbstractStyle` abstract class - @ivanlanin GH-187
+- Writer: New 'ODText\Base` class - @ivanlanin GH-187
+- General: Rename `Footnote` to `Footnotes` to reflect the nature of collection - @ivanlanin
+- General: Add some unit tests for Shared & Element (100%!) - @Progi1984
+- Test: Add some samples and tests for image wrapping style - @brunocasado GH-59
+- Refactor: Remove Style\Tabs - @ivanlanin
+- Refactor: Apply composite pattern for writers - @ivanlanin
+- Refactor: Split `AbstractContainer` from `AbstractElement` - @ivanlanin
+- Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
+
 ## 0.9.1 - 27 Mar 2014
 
 This is a bugfix release for PSR-4 compatibility.

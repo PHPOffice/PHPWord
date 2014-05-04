@@ -2,25 +2,9 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Shared;
@@ -33,8 +17,8 @@ class Drawing
     /**
      * Convert pixels to EMU
      *
-     * @param    int $pValue Value in pixels
-     * @return    int            Value in EMU
+     * @param integer $pValue Value in pixels
+     * @return double Value in EMU
      */
     public static function pixelsToEMU($pValue = 0)
     {
@@ -44,8 +28,8 @@ class Drawing
     /**
      * Convert EMU to pixels
      *
-     * @param    int $pValue Value in EMU
-     * @return    int            Value in pixels
+     * @param integer $pValue Value in EMU
+     * @return integer Value in pixels
      */
     public static function EMUToPixels($pValue = 0)
     {
@@ -59,8 +43,8 @@ class Drawing
     /**
      * Convert pixels to points
      *
-     * @param    int $pValue Value in pixels
-     * @return    int            Value in points
+     * @param integer $pValue Value in pixels
+     * @return double Value in points
      */
     public static function pixelsToPoints($pValue = 0)
     {
@@ -70,8 +54,8 @@ class Drawing
     /**
      * Convert points width to pixels
      *
-     * @param    int $pValue Value in points
-     * @return    int            Value in pixels
+     * @param integer $pValue Value in points
+     * @return integer Value in pixels
      */
     public static function pointsToPixels($pValue = 0)
     {
@@ -85,19 +69,19 @@ class Drawing
     /**
      * Convert degrees to angle
      *
-     * @param    int $pValue Degrees
-     * @return    int            Angle
+     * @param integer $pValue Degrees
+     * @return integer Angle
      */
     public static function degreesToAngle($pValue = 0)
     {
-        return (int)round($pValue * 60000);
+        return (integer)round($pValue * 60000);
     }
 
     /**
      * Convert angle to degrees
      *
-     * @param    int $pValue Angle
-     * @return    int            Degrees
+     * @param integer $pValue Angle
+     * @return integer Degrees
      */
     public static function angleToDegrees($pValue = 0)
     {
@@ -111,8 +95,8 @@ class Drawing
     /**
      * Convert pixels to centimeters
      *
-     * @param    int $pValue Value in pixels
-     * @return    int            Value in centimeters
+     * @param integer $pValue Value in pixels
+     * @return double Value in centimeters
      */
     public static function pixelsToCentimeters($pValue = 0)
     {
@@ -122,8 +106,8 @@ class Drawing
     /**
      * Convert centimeters width to pixels
      *
-     * @param    int $pValue Value in centimeters
-     * @return    int            Value in pixels
+     * @param integer $pValue Value in centimeters
+     * @return integer Value in pixels
      */
     public static function centimetersToPixels($pValue = 0)
     {
@@ -137,8 +121,8 @@ class Drawing
     /**
      * Convert HTML hexadecimal to RGB
      *
-     * @param    str $pValue HTML Color in hexadecimal
-     * @return    array        Value in RGB
+     * @param string $pValue HTML Color in hexadecimal
+     * @return array Value in RGB
      */
     public static function htmlToRGB($pValue)
     {

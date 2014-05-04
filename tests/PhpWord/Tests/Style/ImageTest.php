@@ -1,9 +1,20 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\Style\Image;
 
 /**
+ * Test class for PhpOffice\PhpWord\Style\Image
+ *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
  * @runTestsInSeparateProcesses
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +32,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'align' => 'left',
             'marginTop' => 240,
             'marginLeft' => 240,
-            'wrappingStyle' => 'inline',
+            'wrappingStyle' => 'inline'
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
@@ -43,11 +54,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'height' => 200,
             'align' => 'left',
             'marginTop' => 240,
-            'marginLeft' => 240,
+            'marginLeft' => 240
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
-            $object->setStyleValue("_{$key}", $value);
+            $object->setStyleValue("{$key}", $value);
             $this->assertEquals($value, $object->$get());
         }
     }

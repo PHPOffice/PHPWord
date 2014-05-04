@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", \EOL;
+echo date('H:i:s'), " Create new PhpWord object", EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
@@ -12,7 +12,7 @@ $phpWord->addFontStyle('fontStyle', array('size' => 9));
 $phpWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
 $fontStyle = array('size' => 24);
 
-$section = $phpWord->createSection();
+$section = $phpWord->addSection();
 $section->addText('Text break with no style:');
 $section->addTextBreak();
 $section->addText('Text break with defined font style:');
@@ -25,16 +25,8 @@ $section->addText('Text break with inline paragraph style:');
 $section->addTextBreak(1, null, $paragraphStyle);
 $section->addText('Done.');
 
-// End code
-
 // Save file
-$name = basename(__FILE__, '.php');
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
-foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", \EOL;
-    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-    $xmlWriter->save("{$name}.{$extension}");
-    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
+if (!CLI) {
+    include_once 'Sample_Footer.php';
 }
-
-include_once 'Sample_Footer.php';

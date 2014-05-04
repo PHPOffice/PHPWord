@@ -2,25 +2,9 @@
 /**
  * PHPWord
  *
- * Copyright (c) 2014 PHPWord
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @copyright  Copyright (c) 2014 PHPWord
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    0.9.0
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
  */
 
 namespace PhpOffice\PhpWord;
@@ -28,9 +12,10 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style\Numbering;
 
 /**
- * Style
+ * Style collection
  */
 class Style
 {
@@ -39,7 +24,7 @@ class Style
      *
      * @var array
      */
-    private static $_styleElements = array();
+    private static $styles = array();
 
     /**
      * Add paragraph style
@@ -49,38 +34,19 @@ class Style
      */
     public static function addParagraphStyle($styleName, $styles)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new Paragraph();
-            foreach ($styles as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $style->setStyleValue($key, $value);
-            }
-
-            self::$_styleElements[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, new Paragraph(), $styles);
     }
 
     /**
      * Add font style
      *
      * @param string $styleName
-     * @param array $styleFont
-     * @param array $styleParagraph
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      */
-    public static function addFontStyle($styleName, $styleFont, $styleParagraph = null)
+    public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new Font('text', $styleParagraph);
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $font->setStyleValue($key, $value);
-            }
-            self::$_styleElements[$styleName] = $font;
-        }
+        self::setStyleValues($styleName, new Font('text', $paragraphStyle), $fontStyle);
     }
 
     /**
@@ -91,17 +57,7 @@ class Style
      */
     public static function addLinkStyle($styleName, $styles)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new Font('link');
-            foreach ($styles as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $style->setStyleValue($key, $value);
-            }
-
-            self::$_styleElements[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, new Font('link'), $styles);
     }
 
     /**
@@ -109,38 +65,56 @@ class Style
      *
      * @param string $styleName
      * @param array $styleTable
-     * @param array $styleFirstRow
+     * @param array|null $styleFirstRow
      */
     public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $style = new Table($styleTable, $styleFirstRow);
-
-            self::$_styleElements[$styleName] = $style;
-        }
+        self::setStyleValues($styleName, new Table($styleTable, $styleFirstRow), null);
     }
 
     /**
      * Add title style
      *
      * @param int $titleCount
-     * @param array $styleFont
-     * @param array $styleParagraph
+     * @param array $fontStyle
+     * @param array $paragraphStyle
      */
-    public static function addTitleStyle($titleCount, $styleFont, $styleParagraph = null)
+    public static function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
     {
-        $styleName = 'Heading_' . $titleCount;
-        if (!array_key_exists($styleName, self::$_styleElements)) {
-            $font = new Font('title', $styleParagraph);
-            foreach ($styleFont as $key => $value) {
-                if (substr($key, 0, 1) != '_') {
-                    $key = '_' . $key;
-                }
-                $font->setStyleValue($key, $value);
-            }
+        self::setStyleValues("Heading_{$titleCount}", new Font('title', $paragraphStyle), $fontStyle);
+    }
 
-            self::$_styleElements[$styleName] = $font;
-        }
+    /**
+     * Add numbering style
+     *
+     * @param string $styleName
+     * @param array $styleValues
+     * @return Numbering
+     * @since 0.10.0
+     */
+    public static function addNumberingStyle($styleName, $styleValues)
+    {
+        self::setStyleValues($styleName, new Numbering(), $styleValues);
+    }
+
+    /**
+     * Count styles
+     *
+     * @return integer
+     * @since 0.10.0
+     */
+    public static function countStyles()
+    {
+        return count(self::$styles);
+    }
+
+    /**
+     * Reset styles
+     * @since 0.10.0
+     */
+    public static function resetStyles()
+    {
+        self::$styles = array();
     }
 
     /**
@@ -156,24 +130,46 @@ class Style
     /**
      * Get all styles
      *
-     * @return \PhpOffice\PhpWord\Style\Font[]
+     * @return array
      */
     public static function getStyles()
     {
-        return self::$_styleElements;
+        return self::$styles;
     }
 
     /**
      * Get style by name
      *
      * @param string $styleName
+     * @return Paragraph|Font|Table|Numbering|null
      */
     public static function getStyle($styleName)
     {
-        if (array_key_exists($styleName, self::$_styleElements)) {
-            return self::$_styleElements[$styleName];
+        if (array_key_exists($styleName, self::$styles)) {
+            return self::$styles[$styleName];
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Set style values and put it to static style collection
+     *
+     * @param string $styleName
+     * @param Paragraph|Font|Table|Numbering $styleObject
+     * @param array|null $styleValues
+     */
+    private static function setStyleValues($styleName, $styleObject, $styleValues = null)
+    {
+        if (!array_key_exists($styleName, self::$styles)) {
+            if (!is_null($styleValues) && is_array($styleValues)) {
+                foreach ($styleValues as $key => $value) {
+                    $styleObject->setStyleValue($key, $value);
+                }
+            }
+            $styleObject->setStyleName($styleName);
+            $styleObject->setIndex(self::countStyles() + 1); // One based index
+            self::$styles[$styleName] = $styleObject;
         }
     }
 }

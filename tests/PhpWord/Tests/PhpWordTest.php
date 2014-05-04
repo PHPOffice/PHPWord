@@ -1,22 +1,28 @@
 <?php
+/**
+ * PHPWord
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2014 PHPWord
+ * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ */
+
 namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Section;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Style;
 
 /**
- * @coversDefaultClass          \PhpOffice\PhpWord\PhpWord
+ * Test class for PhpOffice\PhpWord\PhpWord
+ *
  * @runTestsInSeparateProcesses
  */
 class PhpWordTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getDocumentProperties
-     * @covers ::getDefaultFontName
-     * @covers ::getDefaultFontSize
+     * Test object creation
      */
     public function testConstruct()
     {
@@ -27,8 +33,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setDocumentProperties
-     * @covers ::getDocumentProperties
+     * Test set/get document properties
      */
     public function testSetGetDocumentProperties()
     {
@@ -41,20 +46,18 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::createSection
-     * @covers ::getSections
+     * Test create/get section
      */
     public function testCreateGetSections()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new Section(1), $phpWord->createSection());
-        $phpWord->createSection();
-        $this->assertEquals(2, \count($phpWord->getSections()));
+        $this->assertEquals(new Section(1), $phpWord->addSection());
+        $phpWord->addSection();
+        $this->assertEquals(2, count($phpWord->getSections()));
     }
 
     /**
-     * @covers ::setDefaultFontName
-     * @covers ::getDefaultFontName
+     * Test set/get default font name
      */
     public function testSetGetDefaultFontName()
     {
@@ -66,8 +69,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setDefaultFontSize
-     * @covers ::getDefaultFontSize
+     * Test set/get default font size
      */
     public function testSetGetDefaultFontSize()
     {
@@ -79,8 +81,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::setDefaultParagraphStyle
-     * @covers ::loadTemplate
+     * Test set default paragraph style
      */
     public function testSetDefaultParagraphStyle()
     {
@@ -90,10 +91,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::addParagraphStyle
-     * @covers ::addFontStyle
-     * @covers ::addTableStyle
-     * @covers ::addLinkStyle
+     * Test add styles
      */
     public function testAddStyles()
     {
@@ -114,7 +112,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::addTitleStyle
+     * Test add title style
      */
     public function testAddTitleStyle()
     {
@@ -126,7 +124,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::loadTemplate
+     * Test load template
      */
     public function testLoadTemplate()
     {
@@ -140,14 +138,15 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            ::loadTemplate
-     * @expectedException \PhpOffice\PhpWord\Exceptions\Exception
+     * Test load template exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
     public function testLoadTemplateException()
     {
-        $templateFqfn = \join(
-            \DIRECTORY_SEPARATOR,
-            array(\PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', 'data', 'templates', 'blanks.docx')
+        $templateFqfn = join(
+            DIRECTORY_SEPARATOR,
+            array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
