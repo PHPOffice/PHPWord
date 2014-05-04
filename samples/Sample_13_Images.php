@@ -26,7 +26,7 @@ $wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');
 foreach ($wrappingStyles as $wrappingStyle) {
     $section->addTextBreak(5);
     $section->addText('Wrapping style ' . $wrappingStyle);
-    $section->addImage('resources/_earth.jpg', array('marginTop' => -1, 'marginLeft' => 1,
+    $section->addImage('resources/_earth.jpg', array('positioning' => 'relative', 'marginTop' => -1, 'marginLeft' => 1,
         'width' => 80, 'height' => 80, 'wrappingStyle' => $wrappingStyle));
     $section->addText($text);
 }

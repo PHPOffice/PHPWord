@@ -14,66 +14,61 @@ namespace PhpOffice\PhpWord\Style;
  */
 class Image extends AbstractStyle
 {
-
+    /**
+     * Wrapping styles
+     *
+     * @const string
+     */
     const WRAPPING_STYLE_INLINE = 'inline';
-
     const WRAPPING_STYLE_SQUARE = 'square';
-
     const WRAPPING_STYLE_TIGHT = 'tight';
-
     const WRAPPING_STYLE_BEHIND = 'behind';
-
     const WRAPPING_STYLE_INFRONT = 'infront';
 
+    /**
+     * Horizontal alignment
+     *
+     * @const string
+     */
     const POSITION_HORIZONTAL_LEFT = 'left';
-
     const POSITION_HORIZONTAL_CENTER = 'centered';
-
     const POSITION_HORIZONTAL_RIGHT = 'right';
 
+    /**
+     * Vertical alignment
+     *
+     * @const string
+     */
     const POSITION_VERTICAL_TOP = 'top';
-
     const POSITION_VERTICAL_CENTER = 'center';
-
     const POSITION_VERTICAL_BOTTOM = 'bottom';
-
     const POSITION_VERTICAL_INSIDE = 'inside';
-
     const POSITION_VERTICAL_OUTSIDE = 'outside';
 
-    const POSITION_HORIZONTAL_RELATIVE_MARGIN = 'margin';
+    /**
+     * Position relative to
+     *
+     * @const string
+     */
+    const POSITION_RELATIVE_TO_MARGIN = 'margin';
+    const POSITION_RELATIVE_TO_PAGE = 'page';
+    const POSITION_RELATIVE_TO_COLUMN = 'column'; // horizontal only
+    const POSITION_RELATIVE_TO_CHAR = 'char'; // horizontal only
+    const POSITION_RELATIVE_TO_LINE = 'line'; // vertical only
+    const POSITION_RELATIVE_TO_LMARGIN = 'left-margin-area'; // horizontal only
+    const POSITION_RELATIVE_TO_RMARGIN = 'right-margin-area'; // horizontal only
+    const POSITION_RELATIVE_TO_TMARGIN = 'top-margin-area'; // vertical only
+    const POSITION_RELATIVE_TO_BMARGIN = 'bottom-margin-area'; // vertical only
+    const POSITION_RELATIVE_TO_IMARGIN = 'inner-margin-area';
+    const POSITION_RELATIVE_TO_OMARGIN = 'outer-margin-area';
 
-    const POSITION_HORIZONTAL_RELATIVE_PAGE = 'page';
-
-    const POSITION_HORIZONTAL_RELATIVE_COLUMN = 'column';
-
-    const POSITION_HORIZONTAL_RELATIVE_CHAR = 'char';
-
-    const POSITION_HORIZONTAL_RELATIVE_LMARGIN = 'left-margin-area';
-
-    const POSITION_HORIZONTAL_RELATIVE_RMARGIN = 'right-margin-area';
-
-    const POSITION_HORIZONTAL_RELATIVE_IMARGIN = 'inner-margin-area';
-
-    const POSITION_HORIZONTAL_RELATIVE_OMARGIN = 'outer-margin-area';
-
-    const POSITION_VERTICAL_RELATIVE_MARGIN = 'margin';
-
-    const POSITION_VERTICAL_RELATIVE_PAGE = 'page';
-
-    const POSITION_VERTICAL_RELATIVE_LINE = 'line';
-
-    const POSITION_VERTICAL_RELATIVE_TMARGIN = 'top-margin-area';
-
-    const POSITION_VERTICAL_RELATIVE_BMARGIN = 'bottom-margin-area';
-
-    const POSITION_VERTICAL_RELATIVE_IMARGIN = 'inner-margin-area';
-
-    const POSITION_VERTICAL_RELATIVE_OMARGIN = 'outer-margin-area';
-
-    const POSITION_RELATIVE = 'relative';
-
+    /**
+     * Position type, relative/absolute
+     *
+     * @const string
+     */
     const POSITION_ABSOLUTE = 'absolute';
+    const POSITION_RELATIVE = 'relative';
 
     /**
      * Image width
@@ -118,6 +113,13 @@ class Image extends AbstractStyle
     private $wrappingStyle;
 
     /**
+     * Positioning type (relative or absolute)
+     *
+     * @var string
+     */
+    private $positioning;
+
+    /**
      * Horizontal alignment
      *
      * @var string
@@ -146,28 +148,15 @@ class Image extends AbstractStyle
     private $posVerticalRel;
 
     /**
-     * Positioning type (Relative or Absolute)
-     *
-     * @var string
-     */
-    private $positioning;
-
-    /**
      * Create new image style
      */
     public function __construct()
     {
-            $this->width = null;
-            $this->height = null;
-            $this->align = null;
-            $this->marginTop = null;
-            $this->marginLeft = null;
-            $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
-            $this->setPositioning(self::POSITION_RELATIVE);
-            $this->setPosHorizontal(self::POSITION_HORIZONTAL_LEFT);
-            $this->setPosHorizontalRel(self::POSITION_HORIZONTAL_RELATIVE_CHAR);
-            $this->setPosVertical(self::POSITION_VERTICAL_TOP);
-            $this->setPosVerticalRel(self::POSITION_VERTICAL_RELATIVE_LINE);
+        $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
+        $this->setPosHorizontal(self::POSITION_HORIZONTAL_LEFT);
+        $this->setPosHorizontalRel(self::POSITION_RELATIVE_TO_CHAR);
+        $this->setPosVertical(self::POSITION_VERTICAL_TOP);
+        $this->setPosVerticalRel(self::POSITION_RELATIVE_TO_LINE);
     }
 
     /**
@@ -175,17 +164,17 @@ class Image extends AbstractStyle
      */
     public function getWidth()
     {
-            return $this->width;
+        return $this->width;
     }
 
     /**
      * Set width
      *
-     * @param int $pValue                
+     * @param int $value
      */
-    public function setWidth($pValue = null)
+    public function setWidth($value = null)
     {
-            $this->width = $pValue;
+        $this->width = $value;
     }
 
     /**
@@ -193,17 +182,17 @@ class Image extends AbstractStyle
      */
     public function getHeight()
     {
-            return $this->height;
+        return $this->height;
     }
 
     /**
      * Set height
      *
-     * @param int $pValue                
+     * @param int $value
      */
-    public function setHeight($pValue = null)
+    public function setHeight($value = null)
     {
-            $this->height = $pValue;
+        $this->height = $value;
     }
 
     /**
@@ -211,17 +200,17 @@ class Image extends AbstractStyle
      */
     public function getAlign()
     {
-            return $this->align;
+        return $this->align;
     }
 
     /**
      * Set alignment
      *
-     * @param string $pValue                
+     * @param string $value
      */
-    public function setAlign($pValue = null)
+    public function setAlign($value = null)
     {
-            $this->align = $pValue;
+        $this->align = $value;
     }
 
     /**
@@ -231,19 +220,19 @@ class Image extends AbstractStyle
      */
     public function getMarginTop()
     {
-            return $this->marginTop;
+        return $this->marginTop;
     }
 
     /**
      * Set Margin Top
      *
-     * @param int $pValue                
-     * @return $this
+     * @param int $value
+     * @return self
      */
-    public function setMarginTop($pValue = null)
+    public function setMarginTop($value = null)
     {
-            $this->marginTop = $pValue;
-            return $this;
+        $this->marginTop = $value;
+        return $this;
     }
 
     /**
@@ -253,41 +242,18 @@ class Image extends AbstractStyle
      */
     public function getMarginLeft()
     {
-            return $this->marginLeft;
+        return $this->marginLeft;
     }
 
     /**
      * Set Margin Left
      *
-     * @param int $pValue                
-     * @return $this
+     * @param int $value
+     * @return self
      */
-    public function setMarginLeft($pValue = null)
+    public function setMarginLeft($value = null)
     {
-            $this->marginLeft = $pValue;
-            return $this;
-    }
-
-    /**
-     * Set wrapping style
-     *
-     * @param string $wrappingStyle                
-     * @throws \InvalidArgumentException
-     * @return $this
-     */
-    public function setWrappingStyle($wrappingStyle)
-    {
-        switch ($wrappingStyle) {
-            case self::WRAPPING_STYLE_BEHIND:
-            case self::WRAPPING_STYLE_INFRONT:
-            case self::WRAPPING_STYLE_INLINE:
-            case self::WRAPPING_STYLE_SQUARE:
-            case self::WRAPPING_STYLE_TIGHT:
-                $this->wrappingStyle = $wrappingStyle;
-                break;
-            default:
-                throw new \InvalidArgumentException('Wrapping style does not exists');
-        }
+        $this->marginLeft = $value;
         return $this;
     }
 
@@ -298,27 +264,27 @@ class Image extends AbstractStyle
      */
     public function getWrappingStyle()
     {
-            return $this->wrappingStyle;
+        return $this->wrappingStyle;
     }
 
     /**
-     * Set positioning type
+     * Set wrapping style
      *
-     * @param string $positioning                
+     * @param string $wrappingStyle
      * @throws \InvalidArgumentException
-     * @return $this
+     * @return self
      */
-    public function setPositioning($positioning)
+    public function setWrappingStyle($wrappingStyle)
     {
-        switch ($positioning) {
-            case self::POSITION_RELATIVE:
-            case self::POSITION_ABSOLUTE:
-                $this->positioning = $positioning;
-                break;
-            default:
-                throw new InvalidArgumentException('Positioning does not exists');
-                break;
+        $enum = array(self::WRAPPING_STYLE_INLINE, self::WRAPPING_STYLE_INFRONT, self::WRAPPING_STYLE_BEHIND,
+            self::WRAPPING_STYLE_SQUARE, self::WRAPPING_STYLE_TIGHT);
+
+        if (in_array($wrappingStyle, $enum)) {
+            $this->wrappingStyle = $wrappingStyle;
+        } else {
+            throw new \InvalidArgumentException('Invalid wrapping style.');
         }
+
         return $this;
     }
 
@@ -329,28 +295,26 @@ class Image extends AbstractStyle
      */
     public function getPositioning()
     {
-            return $this->positioning;
+        return $this->positioning;
     }
 
     /**
-     * Set horizontal alignment
+     * Set positioning type
      *
-     * @param string $alignment                
+     * @param string $positioning
      * @throws \InvalidArgumentException
-     * @return $this
+     * @return self
      */
-    public function setPosHorizontal($alignment)
+    public function setPositioning($positioning)
     {
-        switch ($alignment) {
-            case self::POSITION_HORIZONTAL_LEFT:
-            case self::POSITION_HORIZONTAL_CENTER:
-            case self::POSITION_HORIZONTAL_RIGHT:
-                $this->posHorizontal = $alignment;
-                break;
-            default:
-                throw new InvalidArgumentException('Horizontal alignment does not exists');
-                break;
+        $enum = array(self::POSITION_RELATIVE, self::POSITION_ABSOLUTE);
+
+        if (in_array($positioning, $enum)) {
+            $this->positioning = $positioning;
+        } else {
+            throw new \InvalidArgumentException('Invalid positioning.');
         }
+
         return $this;
     }
 
@@ -361,30 +325,27 @@ class Image extends AbstractStyle
      */
     public function getPosHorizontal()
     {
-            return $this->posHorizontal;
+        return $this->posHorizontal;
     }
 
     /**
-     * Set vertical alignment
+     * Set horizontal alignment
      *
-     * @param string $alignment                
+     * @param string $alignment
      * @throws \InvalidArgumentException
-     * @return $this
+     * @return self
      */
-    public function setPosVertical($alignment)
+    public function setPosHorizontal($alignment)
     {
-        switch ($alignment) {
-            case self::POSITION_VERTICAL_TOP:
-            case self::POSITION_VERTICAL_CENTER:
-            case self::POSITION_VERTICAL_BOTTOM:
-            case self::POSITION_VERTICAL_INSIDE:
-            case self::POSITION_VERTICAL_OUTSIDE:
-                $this->posVertical = $alignment;
-                break;
-            default:
-                throw new InvalidArgumentException('Vertical alignment does not exists');
-                break;
+        $enum = array(self::POSITION_HORIZONTAL_LEFT, self::POSITION_HORIZONTAL_CENTER,
+            self::POSITION_HORIZONTAL_RIGHT);
+
+        if (in_array($alignment, $enum)) {
+            $this->posHorizontal = $alignment;
+        } else {
+            throw new \InvalidArgumentException('Invalid horizontal alignment.');
         }
+
         return $this;
     }
 
@@ -395,33 +356,27 @@ class Image extends AbstractStyle
      */
     public function getPosVertical()
     {
-            return $this->posVertical;
+        return $this->posVertical;
     }
 
     /**
-     * Set horizontal relation
+     * Set vertical alignment
      *
-     * @param string $relto                
+     * @param string $alignment
      * @throws \InvalidArgumentException
-     * @return $this
+     * @return self
      */
-    public function setPosHorizontalRel($relto)
+    public function setPosVertical($alignment)
     {
-        switch ($relto) {
-            case self::POSITION_HORIZONTAL_RELATIVE_MARGIN:
-            case self::POSITION_HORIZONTAL_RELATIVE_PAGE:
-            case self::POSITION_HORIZONTAL_RELATIVE_COLUMN:
-            case self::POSITION_HORIZONTAL_RELATIVE_CHAR:
-            case self::POSITION_HORIZONTAL_RELATIVE_LMARGIN:
-            case self::POSITION_HORIZONTAL_RELATIVE_RMARGIN:
-            case self::POSITION_HORIZONTAL_RELATIVE_IMARGIN:
-            case self::POSITION_HORIZONTAL_RELATIVE_OMARGIN:
-                $this->posHorizontalRel = $relto;
-                break;
-            default:
-                throw new InvalidArgumentException('Horizontal relation does not exists');
-                break;
+        $enum = array(self::POSITION_VERTICAL_TOP, self::POSITION_VERTICAL_CENTER,
+            self::POSITION_VERTICAL_BOTTOM, self::POSITION_VERTICAL_INSIDE, self::POSITION_VERTICAL_OUTSIDE);
+
+        if (in_array($alignment, $enum)) {
+            $this->posVertical = $alignment;
+        } else {
+            throw new \InvalidArgumentException('Invalid vertical alignment.');
         }
+
         return $this;
     }
 
@@ -432,32 +387,29 @@ class Image extends AbstractStyle
      */
     public function getPosHorizontalRel()
     {
-            return $this->posHorizontalRel;
+        return $this->posHorizontalRel;
     }
 
     /**
-     * Set vertical relation
+     * Set horizontal relation
      *
-     * @param string $relto                
+     * @param string $relto
      * @throws \InvalidArgumentException
-     * @return $this
+     * @return self
      */
-    public function setPosVerticalRel($relto)
+    public function setPosHorizontalRel($relto)
     {
-        switch ($relto) {
-            case self::POSITION_VERTICAL_RELATIVE_MARGIN:
-            case self::POSITION_VERTICAL_RELATIVE_PAGE:
-            case self::POSITION_VERTICAL_RELATIVE_LINE:
-            case self::POSITION_VERTICAL_RELATIVE_TMARGIN:
-            case self::POSITION_VERTICAL_RELATIVE_BMARGIN:
-            case self::POSITION_VERTICAL_RELATIVE_IMARGIN:
-            case self::POSITION_VERTICAL_RELATIVE_OMARGIN:
-                $this->posVerticalRel = $relto;
-                break;
-            default:
-                throw new InvalidArgumentException('Vertical relation does not exists');
-                break;
+        $enum = array(self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
+            self::POSITION_RELATIVE_TO_COLUMN, self::POSITION_RELATIVE_TO_CHAR,
+            self::POSITION_RELATIVE_TO_LMARGIN, self::POSITION_RELATIVE_TO_RMARGIN,
+            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN);
+
+        if (in_array($relto, $enum)) {
+            $this->posHorizontalRel = $relto;
+        } else {
+            throw new \InvalidArgumentException('Invalid relative horizontal alignment.');
         }
+
         return $this;
     }
 
@@ -468,6 +420,29 @@ class Image extends AbstractStyle
      */
     public function getPosVerticalRel()
     {
-            return $this->posVerticalRel;
+        return $this->posVerticalRel;
+    }
+
+    /**
+     * Set vertical relation
+     *
+     * @param string $relto
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPosVerticalRel($relto)
+    {
+        $enum = array(self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
+            self::POSITION_RELATIVE_TO_LINE,
+            self::POSITION_RELATIVE_TO_TMARGIN, self::POSITION_RELATIVE_TO_BMARGIN,
+            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN);
+
+        if (in_array($relto, $enum)) {
+            $this->posVerticalRel = $relto;
+        } else {
+            throw new \InvalidArgumentException('Invalid relative vertical alignment.');
+        }
+
+        return $this;
     }
 }
