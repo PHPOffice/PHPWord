@@ -9,6 +9,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 ### Features
 
 - Image: Ability to define relative and absolute positioning - @basjan GH-217
+- Footer: Conform footer with header by adding firstPage, evenPage and by inheritance - @basjan @ivanlanin GH-219
 
 ### Bugfixes
 
