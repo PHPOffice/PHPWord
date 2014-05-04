@@ -4,17 +4,17 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TOC;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
 
 /**

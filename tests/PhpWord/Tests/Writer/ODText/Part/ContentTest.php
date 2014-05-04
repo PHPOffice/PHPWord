@@ -4,13 +4,13 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\ODText\Part\Content;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\ODText\Part\Content;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content

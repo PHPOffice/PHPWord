@@ -4,13 +4,11 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\Element\CheckBox;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Link;
@@ -18,6 +16,8 @@ use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\Element\Object;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Container abstract class

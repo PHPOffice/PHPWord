@@ -4,14 +4,12 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
-use PhpOffice\PhpWord\Writer\Word2007\Style\LineNumbering;
-use PhpOffice\PhpWord\Writer\Word2007\Style\MarginBorder;
 
 /**
  * Section style writer

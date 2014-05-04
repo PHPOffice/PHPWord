@@ -4,14 +4,10 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
-
-use PhpOffice\PhpWord\Writer\Word2007\Style\Tab;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Indentation;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Spacing;
 
 /**
  * Paragraph style writer

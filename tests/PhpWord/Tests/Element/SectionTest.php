@@ -4,16 +4,16 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
+use PhpOffice\PhpWord\Element\Header;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Element\Header;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Section

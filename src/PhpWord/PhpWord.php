@@ -4,19 +4,19 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Collection\Endnotes;
+use PhpOffice\PhpWord\Collection\Footnotes;
+use PhpOffice\PhpWord\Collection\Titles;
 use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Template;
-use PhpOffice\PhpWord\Collection\Titles;
-use PhpOffice\PhpWord\Collection\Footnotes;
-use PhpOffice\PhpWord\Collection\Endnotes;
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Element\Section;
 
 /**
  * PHPWord main class
