@@ -14,13 +14,17 @@ matrix:
     - php: 5.6
     - php: hhvm
 
+env:
+  global:
+    - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
+
 before_script:
   ## Composer
   # - curl -s http://getcomposer.org/installer | php
   # - php composer.phar install --prefer-source
   - composer self-update
   - composer require dompdf/dompdf:0.6.*
-  - composer install --prefer-source
+  - composer install --prefer-source --dev
   ## PHP_CodeSniffer
   - pyrus install pear/PHP_CodeSniffer
   - phpenv rehash
@@ -35,6 +39,8 @@ before_script:
   #- phpenv rehash
   ## PHPLOC
   #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+  ## PHPDocumentor
+  - mkdir -p build/docs
 
 script:
   ## PHP_CodeSniffer
@@ -48,3 +54,9 @@ script:
   #- php phploc.phar src/
   ## PHPUnit
   - phpunit -c ./ --coverage-text
+  ## PHPDocumentor
+  - vendor/bin/phpdoc.php -d ./src -t ./build/docs
+
+after_script:
+  ## PHPDocumentor
+  - bash .travis_shell_after_success.sh
