@@ -31,6 +31,37 @@ foreach ($wrappingStyles as $wrappingStyle) {
     $section->addText($text);
 }
 
+//Absolute positioning
+$section->addTextBreak(3);
+$section->addText('Absolute positioning: see top right corner of page');
+$section->addImage(
+    'resources/_mars.jpg',
+    array(
+        'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
+        'marginLeft' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(15.5),
+        'marginTop' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(1.55)
+    )
+);
+
+//Relative positioning
+$section->addTextBreak(3);
+$section->addText('Relative positioning: Horizontal position center relative to column,');
+$section->addText('Vertical position top relative to line');
+$section->addImage(
+    'resources/_mars.jpg',
+    array(
+        'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+        'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+        'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+        'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
+        'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE
+    )
+);
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {

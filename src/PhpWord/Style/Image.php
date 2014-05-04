@@ -31,7 +31,7 @@ class Image extends AbstractStyle
      * @const string
      */
     const POSITION_HORIZONTAL_LEFT = 'left';
-    const POSITION_HORIZONTAL_CENTER = 'centered';
+    const POSITION_HORIZONTAL_CENTER = 'center';
     const POSITION_HORIZONTAL_RIGHT = 'right';
 
     /**
