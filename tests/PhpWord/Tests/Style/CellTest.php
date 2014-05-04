@@ -56,7 +56,6 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Cell();
 
-        $default = '000000';
         $value = 'FF0000';
 
         $object->setStyleValue('borderColor', $value);

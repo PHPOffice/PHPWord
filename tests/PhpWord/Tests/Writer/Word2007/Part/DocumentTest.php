@@ -361,11 +361,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // Test the attributes
-        $i = 0;
+        $attributeCount = 0;
         foreach ($attributes as $key => $value) {
-            $i++;
+            $attributeCount++;
             $nodeName = ($key == 'align') ? 'jc' : $key;
-            $path = "/w:document/w:body/w:p[{$i}]/w:pPr/w:{$nodeName}";
+            $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
             if ($key != 'align') {
                 $value = $value ? 1 : 0;
             }
@@ -416,7 +416,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testWriteTableStyle()
     {
         $phpWord = new PhpWord();
-        $tWidth = 120;
         $rHeight = 120;
         $cWidth = 120;
         $imageSrc = __DIR__ . "/../../../_files/images/earth.jpg";
@@ -511,7 +510,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $lineNumberingPath = '/w:document/w:body/w:sectPr/w:lnNumType';
 
         $phpWord = new PhpWord();
-        $section = $phpWord->addSection(array('gutter' => 240, 'lineNumbering' => array()));
+        $phpWord->addSection(array('gutter' => 240, 'lineNumbering' => array()));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $this->assertEquals(240, $doc->getElement($pageMarginPath)->getAttribute('w:gutter'));

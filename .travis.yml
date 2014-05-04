@@ -52,13 +52,13 @@ script:
   ## PHP Copy/Paste Detector
   - phpcpd src/ tests/ --verbose
   ## PHP Mess Detector
-  - phpmd src/ text unusedcode,naming,design,controversial --exclude pclzip.lib.php
+  - phpmd src/,tests/ text unusedcode,naming,design,controversial --exclude pclzip.lib.php
   ## PHPLOC
   #- php phploc.phar src/
   ## PHPUnit
   - phpunit -c ./ --coverage-text --coverage-html ./build/coverage
   ## PHPDocumentor
-  - vendor/bin/phpdoc.php -d ./src -t ./build/docs
+  - vendor/bin/phpdoc.php -d ./src -t ./build/docs -i ./src/PhpWord/Shared/PCLZip/
 
 after_script:
   ## PHPDocumentor

@@ -107,6 +107,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testInvalidImagePhp()
     {
         $object = new Image('test.php');
+        $object->getSource();
     }
 
     /**
@@ -117,6 +118,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testUnsupportedImage()
     {
         $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        $object->getSource();
     }
 
     /**

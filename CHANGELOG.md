@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.11.0 - Not yet released
 
-PHPWord license is changed from LGPL 2.1 to LGPL 3 in this release.
+This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 
 ### Features
 

@@ -114,7 +114,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddTextBreak()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addTextBreak(2);
+        $oTextRun->addTextBreak(2);
 
         $this->assertCount(2, $oTextRun->getElements());
     }

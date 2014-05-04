@@ -48,7 +48,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithStyleName()
     {
         $object = new TOC('Font Style');
-        $tocStyle = $object->getStyleTOC();
+        // $tocStyle = $object->getStyleTOC();
 
         $this->assertEquals('Font Style', $object->getStyleFont());
     }

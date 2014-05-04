@@ -31,7 +31,7 @@ if [ "$TRAVIS_REPO_SLUG" == "PHPOffice/PHPWord" ] && [ "$TRAVIS_PULL_REQUEST" ==
 
   echo "--DEBUG : Git"
   git add -f .
-  git commit -m "PHPDocumentor (Travis Build : $TRAVIS_BUILD_NUMBER  - Branch : $TRAVIS_BRANCH)"
+  git commit -m "PHPDocumentor (Travis Build: $TRAVIS_BUILD_NUMBER  - Branch: $TRAVIS_BRANCH)"
   git push -fq origin gh-pages > /dev/null
 
   echo -e "Published PHPDoc to gh-pages.\n"
