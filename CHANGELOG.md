@@ -2,7 +2,27 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-## 0.10.0 - Not yet released
+## 0.11.0 - Not yet released
+
+PHPWord license is changed from LGPL 2.1 to LGPL 3 in this release.
+
+### Features
+
+-
+
+### Bugfixes
+
+-
+
+### Deprecated
+
+-
+
+### Miscellaneous
+
+- License: Change the project license from LGPL 2.1 into LGPL 3.0 - GH-211
+
+## 0.10.0 - 4 May 2014
 
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
 
