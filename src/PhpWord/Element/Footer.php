@@ -61,4 +61,24 @@ class Footer extends AbstractContainer
     {
         return $this->type;
     }
+    
+    /**
+     * First page only footer
+     *
+     * @return string
+     */
+    public function firstPage()
+    {
+        return $this->type = self::FIRST;
+    }
+    
+    /**
+     * Even numbered pages only
+     *
+     * @return string
+     */
+    public function evenPage()
+    {
+        return $this->type = self::EVEN;
+    }
 }
