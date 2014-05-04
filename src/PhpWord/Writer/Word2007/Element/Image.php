@@ -59,21 +59,21 @@ class Image extends Element
         if (null !== $marginLeft) {
             $imgStyle .= 'margin-left:' . $marginLeft . 'px;';
         }
-        $imgStyle.='position:absolute;mso-width-percent:0;mso-height-percent:0;mso-width-relative:margin;mso-height-relative:margin;';
-		switch ($positioning) {
-	    	case ImageStyle::POSITION_RELATIVE:
-	        	$imgStyle.='mso-position-horizontal:'.$style->getPosHorizontal().';';
-	        	$imgStyle.='mso-position-horizontal-relative:'.$style->getPosHorizontalRel().';';
-	        	$imgStyle.='mso-position-vertical:'.$style->getPosVertical().';';
-	        	$imgStyle.='mso-position-vertical-relative:'.$style->getPosVerticalRel().';';
-	        	$imgStyle.='margin-left:0;margin-top:0;';
-	        	break;
-	        
-	    	case ImageStyle::POSITION_ABSOLUTE:
-	        	$imgStyle.='mso-position-horizontal-relative:page;';
-	        	$imgStyle.='mso-position-vertical-relative:page;';
-	        	break;
-		}
+        $imgStyle.='position:absolute;mso-width-percent:0;mso-height-percent:0;';
+        $imgStyle.='mso-width-relative:margin;mso-height-relative:margin;';
+        switch ($positioning) {
+            case ImageStyle::POSITION_RELATIVE:
+                $imgStyle.='mso-position-horizontal:'.$style->getPosHorizontal().';';
+                $imgStyle.='mso-position-horizontal-relative:'.$style->getPosHorizontalRel().';';
+                $imgStyle.='mso-position-vertical:'.$style->getPosVertical().';';
+                $imgStyle.='mso-position-vertical-relative:'.$style->getPosVerticalRel().';';
+                $imgStyle.='margin-left:0;margin-top:0;';
+                break;
+            case ImageStyle::POSITION_ABSOLUTE:
+                $imgStyle.='mso-position-horizontal-relative:page;';
+                $imgStyle.='mso-position-vertical-relative:page;';
+                break;
+        }
 
         switch ($wrappingStyle) {
             case ImageStyle::WRAPPING_STYLE_BEHIND:
