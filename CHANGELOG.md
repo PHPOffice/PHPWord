@@ -8,19 +8,16 @@ PHPWord license is changed from LGPL 2.1 to LGPL 3 in this release.
 
 ### Features
 
--
+- Image: Ability to define relative and absolute positioning - @basjan GH-217
 
 ### Bugfixes
 
--
-
-### Deprecated
-
--
+- ...
 
 ### Miscellaneous
 
 - License: Change the project license from LGPL 2.1 into LGPL 3.0 - GH-211
+- Word2007 Writer: New `Style\Image` class - @ivanlanin
 
 ## 0.10.0 - 4 May 2014
 
