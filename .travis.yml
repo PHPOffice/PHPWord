@@ -19,6 +19,9 @@ env:
     - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
 
 before_script:
+  ## Packages
+  - sudo apt-get -qq update > /dev/null
+  - sudo apt-get -qq install graphviz > /dev/null
   ## Composer
   # - curl -s http://getcomposer.org/installer | php
   # - php composer.phar install --prefer-source
@@ -41,6 +44,7 @@ before_script:
   #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
   ## PHPDocumentor
   - mkdir -p build/docs
+  - mkdir -p build/coverage
 
 script:
   ## PHP_CodeSniffer
@@ -53,7 +57,7 @@ script:
   ## PHPLOC
   #- php phploc.phar src/
   ## PHPUnit
-  - phpunit -c ./ --coverage-text
+  - phpunit -c ./ --coverage-text --coverage-html ./build/coverage
   ## PHPDocumentor
   - vendor/bin/phpdoc.php -d ./src -t ./build/docs
 
