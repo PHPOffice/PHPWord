@@ -4,13 +4,13 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Word2007 document properties part writer

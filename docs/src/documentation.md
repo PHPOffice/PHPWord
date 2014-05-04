@@ -49,7 +49,7 @@ PHPWord is a library written in pure PHP that provides a set of classes to write
 
 No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major [word processing softwares](http://en.wikipedia.org/wiki/List_of_word_processors).
 
-PHPWord is an open source project licensed under LGPL. PHPWord is [unit tested](https://travis-ci.org/PHPOffice/PHPWord) to make sure that the released versions are stable.
+PHPWord is an open source project licensed under LGPL version 3. PHPWord is [unit tested](https://travis-ci.org/PHPOffice/PHPWord) to make sure that the released versions are stable.
 
 **Want to contribute?** [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
 

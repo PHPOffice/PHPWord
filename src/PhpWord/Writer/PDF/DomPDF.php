@@ -4,14 +4,14 @@
  *
  * @link        https://github.com/PHPOffice/PhpWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * DomPDF writer

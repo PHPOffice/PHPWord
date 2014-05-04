@@ -4,14 +4,14 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\TOC as Titles;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\TOC as TOCStyle;
+use PhpOffice\PhpWord\TOC as Titles;
 
 /**
  * Table of contents

@@ -4,18 +4,18 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Endnotes;
+use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\Media;
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\TOC as Titles;
-use PhpOffice\PhpWord\Exception\InvalidObjectException;
-use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Container abstract class

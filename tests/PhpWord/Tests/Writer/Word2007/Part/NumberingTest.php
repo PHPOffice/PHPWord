@@ -4,15 +4,12 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
-use PhpOffice\PhpWord\Style\NumberingLevel;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007\Part\Numbering;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Numbering

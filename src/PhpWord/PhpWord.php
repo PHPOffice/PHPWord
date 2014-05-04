@@ -4,16 +4,14 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Template;
 
 /**
  * PHPWord main class

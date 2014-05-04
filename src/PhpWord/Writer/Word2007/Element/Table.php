@@ -4,15 +4,15 @@
  *
  * @link        https://github.com/PHPOffice/PHPWord
  * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 
 /**
  * Table element writer
