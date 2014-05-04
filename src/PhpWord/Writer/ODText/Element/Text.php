@@ -25,12 +25,12 @@ class Text extends Element
         $paragraphStyle = $this->element->getParagraphStyle();
 
         // @todo Commented for TextRun. Should really checkout this value
-        // $SfIsObject = ($fontStyle instanceof Font) ? true : false;
-        $SfIsObject = false;
+        // $fStyleIsObject = ($fontStyle instanceof Font) ? true : false;
+        $fStyleIsObject = false;
 
-        if ($SfIsObject) {
+        if ($fStyleIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
-            throw new Exception('PhpWord : $SfIsObject wouldn\'t be an object');
+            throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
         } else {
             if (!$this->withoutP) {
                 $this->xmlWriter->startElement('text:p'); // text:p

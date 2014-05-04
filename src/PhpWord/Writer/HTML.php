@@ -167,14 +167,16 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeNotes()
     {
+        $phpWord = $this->getPhpWord();
         $html = '';
+
         if (!empty($this->notes)) {
             $html .= "<hr />";
             foreach ($this->notes as $noteId => $noteMark) {
                 $noteAnchor = "note-{$noteId}";
                 list($noteType, $noteTypeId) = explode('-', $noteMark);
-                $collectionObject = 'PhpOffice\\PhpWord\\' . ($noteType == 'endnote' ? 'Endnotes' : 'Footnotes');
-                $collection = $collectionObject::getElements();
+                $method = 'get' . ($noteType == 'endnote' ? 'Endnotes' : 'Footnotes');
+                $collection = $phpWord->$method()->getItems();
                 if (array_key_exists($noteTypeId, $collection)) {
                     $element = $collection[$noteTypeId];
                     $elmWriter = new TextRunWriter($this, $element, true);

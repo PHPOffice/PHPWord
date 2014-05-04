@@ -9,6 +9,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
  * Check box element
  */
@@ -44,7 +46,7 @@ class CheckBox extends Text
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = String::toUTF8($name);
 
         return $this;
     }

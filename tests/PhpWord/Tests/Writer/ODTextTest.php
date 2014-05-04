@@ -129,7 +129,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $object = new ODText();
         $object->setUseDiskCaching(true, PHPWORD_TESTS_BASE_DIR);
-        $this->assertTrue($object->getUseDiskCaching());
+        $this->assertTrue($object->isUseDiskCaching());
         $this->assertEquals(PHPWORD_TESTS_BASE_DIR, $object->getDiskCachingDirectory());
     }
 

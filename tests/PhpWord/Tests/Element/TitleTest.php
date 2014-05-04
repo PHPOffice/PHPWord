@@ -41,28 +41,6 @@ class TitleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get style not null
-     */
-    public function testStyleNotNull()
-    {
-        $oTitle = new Title('text', 1, 'style');
-
-        $this->assertEquals($oTitle->getStyle(), 'style');
-    }
-
-    /**
-     * Get anchor
-     */
-    public function testAnchor()
-    {
-        $oTitle = new Title('text');
-
-        $iVal = rand(1, 1000);
-        $oTitle->setAnchor($iVal);
-        $this->assertEquals($oTitle->getAnchor(), $iVal);
-    }
-
-    /**
      * Get bookmark Id
      */
     public function testBookmarkID()

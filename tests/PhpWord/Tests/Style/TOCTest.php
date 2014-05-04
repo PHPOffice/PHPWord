@@ -27,8 +27,8 @@ class TOCTest extends \PHPUnit_Framework_TestCase
         $object = new TOC();
 
         $properties = array(
-            'tabPos'    => 9062,
-            'tabLeader' => TOC::TABLEADER_DOT,
+            'position'    => 9062,
+            'leader' => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
             'indent'    => 200,
         );
         foreach ($properties as $key => $value) {
@@ -37,10 +37,6 @@ class TOCTest extends \PHPUnit_Framework_TestCase
             $get = "get{$key}";
             $object->$set($value);
             $this->assertEquals($value, $object->$get());
-
-            // setStyleValue
-            $object->setStyleValue("{$key}", null);
-            $this->assertEquals(null, $object->$get());
         }
     }
 }

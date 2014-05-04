@@ -24,24 +24,24 @@ class ContentTypes extends AbstractPart
      */
     public function writeContentTypes($contentTypes)
     {
-        $OpenXMLPrefix = 'application/vnd.openxmlformats-';
-        $WordMLPrefix  = $OpenXMLPrefix . 'officedocument.wordprocessingml.';
+        $openXMLPrefix = 'application/vnd.openxmlformats-';
+        $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
         $overrides = array(
-            '/docProps/core.xml'     => $OpenXMLPrefix . 'package.core-properties+xml',
-            '/docProps/app.xml'      => $OpenXMLPrefix . 'officedocument.extended-properties+xml',
-            '/word/document.xml'     => $WordMLPrefix  . 'document.main+xml',
-            '/word/styles.xml'       => $WordMLPrefix  . 'styles+xml',
-            '/word/numbering.xml'    => $WordMLPrefix  . 'numbering+xml',
-            '/word/settings.xml'     => $WordMLPrefix  . 'settings+xml',
-            '/word/theme/theme1.xml' => $OpenXMLPrefix . 'officedocument.theme+xml',
-            '/word/webSettings.xml'  => $WordMLPrefix  . 'webSettings+xml',
-            '/word/fontTable.xml'    => $WordMLPrefix  . 'fontTable+xml',
+            '/docProps/core.xml'     => $openXMLPrefix . 'package.core-properties+xml',
+            '/docProps/app.xml'      => $openXMLPrefix . 'officedocument.extended-properties+xml',
+            '/word/document.xml'     => $wordMLPrefix  . 'document.main+xml',
+            '/word/styles.xml'       => $wordMLPrefix  . 'styles+xml',
+            '/word/numbering.xml'    => $wordMLPrefix  . 'numbering+xml',
+            '/word/settings.xml'     => $wordMLPrefix  . 'settings+xml',
+            '/word/theme/theme1.xml' => $openXMLPrefix . 'officedocument.theme+xml',
+            '/word/webSettings.xml'  => $wordMLPrefix  . 'webSettings+xml',
+            '/word/fontTable.xml'    => $wordMLPrefix  . 'fontTable+xml',
         );
 
         $defaults = $contentTypes['default'];
         if (!empty($contentTypes['override'])) {
             foreach ($contentTypes['override'] as $key => $val) {
-                $overrides[$key] = $WordMLPrefix . $val . '+xml';
+                $overrides[$key] = $wordMLPrefix . $val . '+xml';
             }
         }
 

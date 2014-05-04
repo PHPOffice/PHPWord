@@ -47,5 +47,6 @@ class PDFTest extends \PHPUnit_Framework_TestCase
     public function testConstructException()
     {
         $writer = new PDF(new PhpWord());
+        $writer->save();
     }
 }

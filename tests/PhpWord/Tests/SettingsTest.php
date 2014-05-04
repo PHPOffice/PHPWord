@@ -23,9 +23,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetCompatibility()
     {
-        $this->assertTrue(Settings::getCompatibility());
+        $this->assertTrue(Settings::hasCompatibility());
         $this->assertTrue(Settings::setCompatibility(false));
-        $this->assertFalse(Settings::getCompatibility());
+        $this->assertFalse(Settings::hasCompatibility());
         $this->assertFalse(Settings::setCompatibility('Non boolean'));
     }
 

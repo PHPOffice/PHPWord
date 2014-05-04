@@ -287,7 +287,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getBold()
+    public function isBold()
     {
         return $this->bold;
     }
@@ -310,7 +310,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getItalic()
+    public function isItalic()
     {
         return $this->italic;
     }
@@ -333,7 +333,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getSuperScript()
+    public function isSuperScript()
     {
         return $this->superScript;
     }
@@ -359,7 +359,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getSubScript()
+    public function isSubScript()
     {
         return $this->subScript;
     }
@@ -408,7 +408,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getStrikethrough()
+    public function isStrikethrough()
     {
         return $this->strikethrough;
     }
@@ -434,7 +434,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getDoubleStrikethrough()
+    public function isDoubleStrikethrough()
     {
         return $this->doubleStrikethrough;
     }
@@ -604,7 +604,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getSmallCaps()
+    public function isSmallCaps()
     {
         return $this->smallCaps;
     }
@@ -630,7 +630,7 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function getAllCaps()
+    public function isAllCaps()
     {
         return $this->allCaps;
     }
@@ -679,5 +679,60 @@ class Font extends AbstractStyle
         }
 
         return $this;
+    }
+
+    /**
+     * Get bold
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getBold()
+    {
+        return $this->isBold();
+    }
+
+    /**
+     * Get italic
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getItalic()
+    {
+        return $this->isItalic();
+    }
+
+    /**
+     * Get superscript
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getSuperScript()
+    {
+        return $this->isSuperScript();
+    }
+
+    /**
+     * Get subscript
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getSubScript()
+    {
+        return $this->isSubScript();
+    }
+
+    /**
+     * Get strikethrough
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getStrikethrough()
+    {
+        return $this->isStrikethrough();
     }
 }

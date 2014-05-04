@@ -52,7 +52,7 @@ class Image extends AbstractElement
      *
      * @var boolean
      */
-    private $isWatermark;
+    private $watermark;
 
     /**
      * Image type
@@ -87,7 +87,7 @@ class Image extends AbstractElement
      *
      * @var boolean
      */
-    private $isMemImage;
+    private $memoryImage;
 
     /**
      * Image target file name
@@ -108,14 +108,14 @@ class Image extends AbstractElement
      *
      * @param string $source
      * @param mixed $style
-     * @param boolean $isWatermark
+     * @param boolean $watermark
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
-    public function __construct($source, $style = null, $isWatermark = false)
+    public function __construct($source, $style = null, $watermark = false)
     {
         $this->source = $source;
-        $this->setIsWatermark($isWatermark);
+        $this->setIsWatermark($watermark);
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
 
         $this->checkImage($source);
@@ -166,19 +166,19 @@ class Image extends AbstractElement
      *
      * @return boolean
      */
-    public function getIsWatermark()
+    public function isWatermark()
     {
-        return $this->isWatermark;
+        return $this->watermark;
     }
 
     /**
      * Set is watermark
      *
-     * @param boolean $pValue
+     * @param boolean $value
      */
-    public function setIsWatermark($pValue)
+    public function setIsWatermark($value)
     {
-        $this->isWatermark = $pValue;
+        $this->watermark = $value;
     }
 
     /**
@@ -226,9 +226,9 @@ class Image extends AbstractElement
      *
      * @return boolean
      */
-    public function getIsMemImage()
+    public function isMemImage()
     {
-        return $this->isMemImage;
+        return $this->memoryImage;
     }
 
     /**
@@ -314,14 +314,14 @@ class Image extends AbstractElement
     private function setSourceType($source)
     {
         if (stripos(strrev($source), strrev('.php')) === 0) {
-            $this->isMemImage = true;
+            $this->memoryImage = true;
             $this->sourceType = self::SOURCE_GD;
         } elseif (strpos($source, 'zip://') !== false) {
-            $this->isMemImage = false;
+            $this->memoryImage = false;
             $this->sourceType = self::SOURCE_ARCHIVE;
         } else {
-            $this->isMemImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
-            $this->sourceType = $this->isMemImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
+            $this->memoryImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
+            $this->sourceType = $this->memoryImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
         }
     }
 
@@ -408,5 +408,27 @@ class Image extends AbstractElement
                 $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
             }
         }
+    }
+
+    /**
+     * Get is watermark
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getIsWatermark()
+    {
+        return $this->isWatermark();
+    }
+
+    /**
+     * Get is memory image
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getIsMemImage()
+    {
+        return $this->isMemImage();
     }
 }

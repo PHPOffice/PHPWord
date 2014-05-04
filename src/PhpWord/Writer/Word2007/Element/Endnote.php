@@ -14,14 +14,12 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  *
  * @since 0.10.0
  */
-class Endnote extends Note
+class Endnote extends Footnote
 {
     /**
-     * Write element
+     * Reference type
+     *
+     * @var string
      */
-    public function write()
-    {
-        $this->referenceType = 'endnoteReference';
-        parent::write();
-    }
+    protected $referenceType = 'endnoteReference';
 }

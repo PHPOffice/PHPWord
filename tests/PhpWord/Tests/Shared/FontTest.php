@@ -25,8 +25,6 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testConversions()
     {
-        $phpWord = new PhpWord();
-
         $original = 1;
 
         $result = Font::fontSizeToPixels($original);

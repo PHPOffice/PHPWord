@@ -32,8 +32,8 @@ class Notes extends AbstractPart
     public function read(PhpWord &$phpWord)
     {
         $this->type = ($this->type == 'endnotes') ? 'endnotes' : 'footnotes';
-        $collectionClass = 'PhpOffice\\PhpWord\\' . ucfirst($this->type);
-        $collection = $collectionClass::getElements();
+        $getMethod = 'get' . $this->type;
+        $collection = $phpWord->$getMethod()->getItems();
 
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
@@ -49,9 +49,10 @@ class Notes extends AbstractPart
                     $element = $collection[$id];
                     $pNodes = $xmlReader->getElements('w:p/*', $node);
                     foreach ($pNodes as $pNode) {
-                        $this->readRun($xmlReader, $pNode, $element, $type);
+                        $this->readRun($xmlReader, $pNode, $element, $this->type);
                     }
-                    $collectionClass::setElement($id, $element);
+                    $addMethod = 'add' . ($this->type == 'endnotes' ? 'endnote' : 'footnote');
+                    $phpWord->$addMethod($element);
                 }
             }
         }

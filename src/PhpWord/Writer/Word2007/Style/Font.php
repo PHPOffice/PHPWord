@@ -89,12 +89,12 @@ class Font extends AbstractStyle
         }
 
         // Bold
-        if ($this->style->getBold()) {
+        if ($this->style->isBold()) {
             $this->xmlWriter->writeElement('w:b', null);
         }
 
         // Italic
-        if ($this->style->getItalic()) {
+        if ($this->style->isItalic()) {
             $this->xmlWriter->writeElement('w:i', null);
             $this->xmlWriter->writeElement('w:iCs', null);
         }
@@ -107,12 +107,12 @@ class Font extends AbstractStyle
         }
 
         // Strikethrough
-        if ($this->style->getStrikethrough()) {
+        if ($this->style->isStrikethrough()) {
             $this->xmlWriter->writeElement('w:strike', null);
         }
 
         // Double strikethrough
-        if ($this->style->getDoubleStrikethrough()) {
+        if ($this->style->isDoubleStrikethrough()) {
             $this->xmlWriter->writeElement('w:dstrike', null);
         }
 
@@ -130,19 +130,19 @@ class Font extends AbstractStyle
         }
 
         // Superscript/subscript
-        if ($this->style->getSuperScript() || $this->style->getSubScript()) {
+        if ($this->style->isSuperScript() || $this->style->isSubScript()) {
             $this->xmlWriter->startElement('w:vertAlign');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getSuperScript() ? 'superscript' : 'subscript');
+            $this->xmlWriter->writeAttribute('w:val', $this->style->isSuperScript() ? 'superscript' : 'subscript');
             $this->xmlWriter->endElement();
         }
 
         // Small caps
-        if ($this->style->getSmallCaps()) {
+        if ($this->style->isSmallCaps()) {
             $this->xmlWriter->writeElement('w:smallCaps', null);
         }
 
         // All caps
-        if ($this->style->getAllCaps()) {
+        if ($this->style->isAllCaps()) {
             $this->xmlWriter->writeElement('w:caps', null);
         }
 

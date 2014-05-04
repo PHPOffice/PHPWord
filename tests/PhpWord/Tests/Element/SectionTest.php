@@ -12,6 +12,7 @@ namespace PhpOffice\PhpWord\Tests\Element;
 use PhpOffice\PhpWord\Element\Header;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -75,9 +76,10 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $objectSource = __DIR__ . "/../_files/documents/reader.docx";
         $imageSource = __DIR__ . "/../_files/images/PhpWord.png";
-        $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
+        // $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addText(utf8_decode('ä'));
         $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
@@ -96,10 +98,10 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
             'Table', 'ListItem', 'Object', 'Image',
             'Title', 'TextRun', 'Footnote', 'CheckBox', 'TOC');
-        $i = 0;
+        $elmCount = 0;
         foreach ($elementTypes as $elementType) {
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$i]);
-            $i++;
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$elmCount]);
+            $elmCount++;
         }
     }
 
@@ -122,6 +124,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         Style::addTitleStyle(1, array('size' => 14));
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addTitle('Test', 1);
         $elementCollection = $section->getElements();
 
@@ -163,6 +166,6 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testAddHeaderException()
     {
         $object = new Section(1);
-        $header = $object->addHeader('ODD');
+        $object->addHeader('ODD');
     }
 }

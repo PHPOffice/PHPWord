@@ -73,10 +73,10 @@ class Text extends Element
             } else {
                 $rtfText .= '\f0';
             }
-            if ($fontStyle->getBold()) {
+            if ($fontStyle->isBold()) {
                 $rtfText .= '\b';
             }
-            if ($fontStyle->getItalic()) {
+            if ($fontStyle->isItalic()) {
                 $rtfText .= '\i';
             }
             if ($fontStyle->getSize()) {
@@ -92,10 +92,10 @@ class Text extends Element
             $rtfText .= '\cf0';
             $rtfText .= '\f0';
 
-            if ($fontStyle->getBold()) {
+            if ($fontStyle->isBold()) {
                 $rtfText .= '\b0';
             }
-            if ($fontStyle->getItalic()) {
+            if ($fontStyle->isItalic()) {
                 $rtfText .= '\i0';
             }
             if ($fontStyle->getSize()) {

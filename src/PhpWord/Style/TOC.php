@@ -12,26 +12,12 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * TOC style
  */
-class TOC extends AbstractStyle
+class TOC extends Tab
 {
-    const TABLEADER_DOT = 'dot';
-    const TABLEADER_UNDERSCORE = 'underscore';
-    const TABLEADER_LINE = 'hyphen';
-    const TABLEADER_NONE = '';
-
-    /**
-     * Tab Leader
-     *
-     * @var string
-     */
-    private $tabLeader;
-
-    /**
-     * Tab Position
-     *
-     * @var int
-     */
-    private $tabPos;
+    const TABLEADER_DOT = self::TAB_LEADER_DOT;
+    const TABLEADER_UNDERSCORE = self::TAB_LEADER_UNDERSCORE;
+    const TABLEADER_LINE = self::TAB_LEADER_HYPHEN;
+    const TABLEADER_NONE = self::TAB_LEADER_NONE;
 
     /**
      * Indent
@@ -46,8 +32,7 @@ class TOC extends AbstractStyle
      */
     public function __construct()
     {
-        $this->tabPos = 9062;
-        $this->tabLeader = self::TABLEADER_DOT;
+        parent::__construct(self::TAB_STOP_RIGHT, 9062, self::TABLEADER_DOT);
         $this->indent = 200;
     }
 
@@ -58,17 +43,17 @@ class TOC extends AbstractStyle
      */
     public function getTabPos()
     {
-        return $this->tabPos;
+        return $this->getPosition();
     }
 
     /**
      * Set Tab Position
      *
-     * @param int $pValue
+     * @param int $value
      */
-    public function setTabPos($pValue)
+    public function setTabPos($value)
     {
-        $this->tabPos = $pValue;
+        $this->setPosition($value);
     }
 
     /**
@@ -78,17 +63,17 @@ class TOC extends AbstractStyle
      */
     public function getTabLeader()
     {
-        return $this->tabLeader;
+        return $this->getLeader();
     }
 
     /**
      * Set Tab Leader
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setTabLeader($pValue = self::TABLEADER_DOT)
+    public function setTabLeader($value = self::TABLEADER_DOT)
     {
-        $this->tabLeader = $pValue;
+        $this->setLeader($value);
     }
 
     /**
@@ -104,10 +89,10 @@ class TOC extends AbstractStyle
     /**
      * Set Indent
      *
-     * @param string $pValue
+     * @param string $value
      */
-    public function setIndent($pValue)
+    public function setIndent($value)
     {
-        $this->indent = $pValue;
+        $this->indent = $value;
     }
 }

@@ -60,11 +60,6 @@ class Paragraph extends AbstractStyle
             return;
         }
 
-        $widowControl = $this->style->getWidowControl();
-        $keepNext = $this->style->getKeepNext();
-        $keepLines = $this->style->getKeepLines();
-        $pageBreakBefore = $this->style->getPageBreakBefore();
-
         if (!$this->withoutPPR) {
             $this->xmlWriter->startElement('w:pPr');
         }
@@ -89,22 +84,22 @@ class Paragraph extends AbstractStyle
         }
 
         // Pagination
-        if (!$widowControl) {
+        if (!$this->style->hasWidowControl()) {
             $this->xmlWriter->startElement('w:widowControl');
             $this->xmlWriter->writeAttribute('w:val', '0');
             $this->xmlWriter->endElement();
         }
-        if ($keepNext) {
+        if ($this->style->isKeepNext()) {
             $this->xmlWriter->startElement('w:keepNext');
             $this->xmlWriter->writeAttribute('w:val', '1');
             $this->xmlWriter->endElement();
         }
-        if ($keepLines) {
+        if ($this->style->isKeepLines()) {
             $this->xmlWriter->startElement('w:keepLines');
             $this->xmlWriter->writeAttribute('w:val', '1');
             $this->xmlWriter->endElement();
         }
-        if ($pageBreakBefore) {
+        if ($this->style->hasPageBreakBefore()) {
             $this->xmlWriter->startElement('w:pageBreakBefore');
             $this->xmlWriter->writeAttribute('w:val', '1');
             $this->xmlWriter->endElement();

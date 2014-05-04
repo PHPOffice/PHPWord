@@ -179,29 +179,27 @@ class Word2007 extends AbstractWriter implements WriterInterface
      *
      * @param mixed $objZip
      * @param integer $rId
-     * @param string $notesType
+     * @param string $noteType
      */
-    private function addNotes($objZip, &$rId, $notesType = 'footnote')
+    private function addNotes($objZip, &$rId, $noteType = 'footnote')
     {
-        $notesType = ($notesType == 'endnote') ? 'endnote' : 'footnote';
-        $notesTypes = "{$notesType}s";
-        $collection = 'PhpOffice\\PhpWord\\' . ucfirst($notesTypes);
-        $xmlFile = "{$notesTypes}.xml";
-        $relsFile = "word/_rels/{$xmlFile}.rels";
-        $xmlPath = "word/{$xmlFile}";
+        $noteType = ($noteType == 'endnote') ? 'endnote' : 'footnote';
+        $noteTypePlural = "{$noteType}s";
+        $method = 'get' . $noteTypePlural;
+        $collection = $this->phpWord->$method();
 
         // Add footnotes media files, relations, and contents
-        if ($collection::countElements() > 0) {
-            $media = Media::getElements($notesType);
+        if ($collection->countItems() > 0) {
+            $media = Media::getElements($noteType);
             $this->addFilesToPackage($objZip, $media);
             $this->registerContentTypes($media);
             if (!empty($media)) {
-                $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
+                $objZip->addFromString("word/_rels/{$noteTypePlural}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
             }
-            $elements = $collection::getElements();
-            $objZip->addFromString($xmlPath, $this->getWriterPart($notesTypes)->write($elements));
-            $this->cTypes['override']["/{$xmlPath}"] = $notesTypes;
-            $this->docRels[] = array('target' => $xmlFile, 'type' => $notesTypes, 'rID' => ++$rId);
+            $elements = $collection->getItems();
+            $objZip->addFromString("word/{$noteTypePlural}.xml", $this->getWriterPart($noteTypePlural)->write($elements));
+            $this->cTypes['override']["/word/{$noteTypePlural}.xml"] = $noteTypePlural;
+            $this->docRels[] = array('target' => "{$noteTypePlural}.xml", 'type' => $noteTypePlural, 'rID' => ++$rId);
         }
     }
 

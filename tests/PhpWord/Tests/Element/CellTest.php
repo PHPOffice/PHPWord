@@ -219,7 +219,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
         $oCell = new Cell('section', 1);
-        $element = $oCell->addObject($src);
+        $oCell->addObject($src);
     }
 
     /**
@@ -255,7 +255,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveTextException()
     {
         $oCell = new Cell('section', 1);
-        $element = $oCell->addPreserveText('text');
+        $oCell->addPreserveText('text');
     }
 
     /**

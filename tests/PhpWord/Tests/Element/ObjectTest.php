@@ -34,15 +34,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Create new instance with non-supported files
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function testConstructWithNotSupportedFiles()
     {
         $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
         $oObject = new Object($src);
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
-        $this->assertEquals($oObject->getSource(), null);
-        $this->assertEquals($oObject->getStyle(), null);
+        $oObject->getSource();
     }
 
     /**

@@ -45,9 +45,19 @@ class Row extends AbstractStyle
     }
 
     /**
-     * Set tblHeader
+     * Is tblHeader
      *
-     * @param boolean $value
+     * @return bool
+     */
+    public function isTblHeader()
+    {
+        return $this->tblHeader;
+    }
+
+    /**
+     * Is tblHeader
+     *
+     * @param bool $value
      * @return self
      */
     public function setTblHeader($value = false)
@@ -56,19 +66,19 @@ class Row extends AbstractStyle
     }
 
     /**
-     * Get tblHeader
+     * Is cantSplit
      *
-     * @return boolean
+     * @return bool
      */
-    public function getTblHeader()
+    public function isCantSplit()
     {
-        return $this->tblHeader;
+        return $this->cantSplit;
     }
 
     /**
-     * Set cantSplit
+     * Is cantSplit
      *
-     * @param boolean $value
+     * @param bool $value
      * @return self
      */
     public function setCantSplit($value = false)
@@ -77,13 +87,13 @@ class Row extends AbstractStyle
     }
 
     /**
-     * Get cantSplit
+     * Is exactHeight
      *
-     * @return boolean
+     * @return bool
      */
-    public function getCantSplit()
+    public function isExactHeight()
     {
-        return $this->cantSplit;
+        return $this->exactHeight;
     }
 
     /**
@@ -99,12 +109,35 @@ class Row extends AbstractStyle
     }
 
     /**
+     * Get tblHeader
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getTblHeader()
+    {
+        return $this->isTblHeader();
+    }
+
+    /**
+     * Get cantSplit
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getCantSplit()
+    {
+        return $this->isCantSplit();
+    }
+
+    /**
      * Get exactHeight
      *
-     * @return boolean
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getExactHeight()
     {
-        return $this->exactHeight;
+        return $this->isExactHeight();
     }
 }

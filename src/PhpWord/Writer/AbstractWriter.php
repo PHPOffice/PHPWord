@@ -44,7 +44,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Use disk caching
      *
-     * @var boolean
+     * @var bool
      */
     private $useDiskCaching = false;
 
@@ -121,9 +121,9 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get use disk caching status
      *
-     * @return boolean
+     * @return bool
      */
-    public function getUseDiskCaching()
+    public function isUseDiskCaching()
     {
         return $this->useDiskCaching;
     }
@@ -131,7 +131,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Set use disk caching status
      *
-     * @param boolean $pValue
+     * @param bool $pValue
      * @param string $pDirectory
      * @return self
      */
@@ -355,5 +355,16 @@ abstract class AbstractWriter implements WriterInterface
         }
 
         rmdir($dir);
+    }
+
+    /**
+     * Get use disk caching status
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getUseDiskCaching()
+    {
+        return $this->isUseDiskCaching();
     }
 }

@@ -59,7 +59,7 @@ class Media
                     if (is_null($image)) {
                         throw new Exception('Image object not assigned.');
                     }
-                    $isMemImage = $image->getIsMemImage();
+                    $isMemImage = $image->isMemImage();
                     $extension = $image->getImageExtension();
                     $mediaData['imageExtension'] = $extension;
                     $mediaData['imageType'] = $image->getImageType();
