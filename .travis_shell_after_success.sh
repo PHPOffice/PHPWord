@@ -14,7 +14,7 @@ if [ "$TRAVIS_REPO_SLUG" == "PHPOffice/PHPWord" ] && [ "$TRAVIS_PULL_REQUEST" ==
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "travis-ci"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/Progi1984/YATSPHP gh-pages > /dev/null
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/PHPOffice/PHPWord gh-pages > /dev/null
 
   cd gh-pages
   echo "--DEBUG : Suppression"
