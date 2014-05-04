@@ -9,6 +9,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\PageBreak;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\TOC;
