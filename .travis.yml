@@ -44,6 +44,7 @@ before_script:
   #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
   ## PHPDocumentor
   - mkdir -p build/docs
+  - mkdir -p build/coverage
 
 script:
   ## PHP_CodeSniffer
@@ -56,7 +57,7 @@ script:
   ## PHPLOC
   #- php phploc.phar src/
   ## PHPUnit
-  - phpunit -c ./ --coverage-text
+  - phpunit -c ./ --coverage-text --coverage-html ./build/coverage
   ## PHPDocumentor
   - vendor/bin/phpdoc.php -d ./src -t ./build/docs
 
