@@ -22,14 +22,8 @@ if [ "$TRAVIS_REPO_SLUG" == "PHPOffice/PHPWord" ] && [ "$TRAVIS_PULL_REQUEST" ==
   git rm -rf ./docs/$TRAVIS_BRANCH
 
   echo "--DEBUG : Dossier"
-  mkdir coverage
-  cd coverage
-  mkdir $TRAVIS_BRANCH
-  cd ..
-  mkdir docs
-  cd docs
-  mkdir $TRAVIS_BRANCH
-  cd ..
+  mkdir -p docs/$TRAVIS_BRANCH
+  mkdir -p coverage/$TRAVIS_BRANCH
 
   echo "--DEBUG : Copie"
   cp -Rf $HOME/docs-latest/* ./docs/$TRAVIS_BRANCH/
