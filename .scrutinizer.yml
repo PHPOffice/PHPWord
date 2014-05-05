@@ -2,6 +2,7 @@ filter:
     excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
 
 before_commands:
+    - "composer self-update"
     - "composer install --prefer-source --dev"
 
 tools:
