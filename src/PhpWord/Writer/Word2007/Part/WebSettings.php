@@ -25,7 +25,7 @@ class WebSettings extends Settings
     /**
      * Write word/webSettings.xml
      */
-    public function writeWebSettings()
+    public function write()
     {
         $settings = array(
             'w:optimizeForBrowser' => '',
@@ -45,5 +45,16 @@ class WebSettings extends Settings
         $xmlWriter->endElement(); // w:settings
 
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Write word/webSettings.xml
+     *
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function writeWebSettings()
+    {
+        return $this->write();
     }
 }

@@ -32,14 +32,14 @@ class Word2007 extends AbstractWriter implements WriterInterface
      *
      * @var array
      */
-    private $cTypes = array('default' => array(), 'override' => array());
+    private $contentTypes = array('default' => array(), 'override' => array());
 
     /**
      * Document relationship
      *
      * @var array
      */
-    private $docRels = array();
+    private $relationships = array();
 
     /**
      * Create new Word2007 writer
@@ -52,7 +52,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
 
         // Create parts
-        $parts = array('ContentTypes', 'Rels', 'DocProps', 'Document', 'Styles',
+        $parts = array('ContentTypes', 'RelsMain', 'RelsDocument', 'DocPropsApp', 'DocPropsCore', 'Document', 'Styles',
             'Numbering', 'Settings', 'WebSettings', 'Header', 'Footer', 'Footnotes',
             'Endnotes', 'FontTable', 'Theme');
         foreach ($parts as $part) {
@@ -81,7 +81,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $objZip = $this->getZipArchive($filename);
 
             // Content types
-            $this->cTypes['default'] = array(
+            $this->contentTypes['default'] = array(
                 'rels' => 'application/vnd.openxmlformats-package.relationships+xml',
                 'xml'  => 'application/xml',
             );
@@ -92,7 +92,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 $this->addFilesToPackage($objZip, $sectionMedia);
                 $this->registerContentTypes($sectionMedia);
                 foreach ($sectionMedia as $element) {
-                    $this->docRels[] = $element;
+                    $this->relationships[] = $element;
                 }
             }
 
@@ -112,16 +112,16 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->addNotes($objZip, $rId, 'endnote');
 
             // Write parts
-            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->writeContentTypes($this->cTypes));
-            $objZip->addFromString('_rels/.rels', $this->getWriterPart('rels')->writeMainRels());
-            $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docprops')->writeDocPropsApp($this->phpWord));
-            $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docprops')->writeDocPropsCore($this->phpWord));
-            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('rels')->writeDocRels($this->docRels));
-            $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->writeDocument($this->phpWord));
-            $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
-            $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->writeNumbering());
-            $objZip->addFromString('word/settings.xml', $this->getWriterPart('settings')->writeSettings());
-            $objZip->addFromString('word/webSettings.xml', $this->getWriterPart('websettings')->writeWebSettings());
+            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->write());
+            $objZip->addFromString('_rels/.rels', $this->getWriterPart('relsmain')->write());
+            $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docpropsapp')->write());
+            $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docpropscore')->write());
+            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('relsdocument')->write());
+            $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->write());
+            $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->write());
+            $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->write());
+            $objZip->addFromString('word/settings.xml', $this->getWriterPart('settings')->write());
+            $objZip->addFromString('word/webSettings.xml', $this->getWriterPart('websettings')->write());
             $objZip->addFromString('word/fontTable.xml', $this->getWriterPart('fonttable')->write());
             $objZip->addFromString('word/theme/theme1.xml', $this->getWriterPart('theme')->write());
 
@@ -134,6 +134,26 @@ class Word2007 extends AbstractWriter implements WriterInterface
         } else {
             throw new Exception("PhpWord object unassigned.");
         }
+    }
+
+    /**
+     * Get content types
+     *
+     * @return array
+     */
+    public function getContentTypes()
+    {
+        return $this->contentTypes;
+    }
+
+    /**
+     * Get content types
+     *
+     * @return array
+     */
+    public function getRelationships()
+    {
+        return $this->relationships;
     }
 
     /**
@@ -177,8 +197,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $elmObject->setRelationId(++$rId);
             $elmFile = "{$elmType}{$elmCount}.xml";
             $objZip->addFromString("word/$elmFile", $this->getWriterPart($elmType)->$writeFunction($elmObject));
-            $this->cTypes['override']["/word/$elmFile"] = $elmType;
-            $this->docRels[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
+            $this->contentTypes['override']["/word/$elmFile"] = $elmType;
+            $this->relationships[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
         }
     }
 
@@ -192,8 +212,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
     private function addNotes($objZip, &$rId, $noteType = 'footnote')
     {
         $noteType = ($noteType == 'endnote') ? 'endnote' : 'footnote';
-        $noteTypePlural = "{$noteType}s";
-        $method = 'get' . $noteTypePlural;
+        $partName = "{$noteType}s";
+        $method = 'get' . $partName;
         $collection = $this->phpWord->$method();
 
         // Add footnotes media files, relations, and contents
@@ -202,12 +222,12 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->addFilesToPackage($objZip, $media);
             $this->registerContentTypes($media);
             if (!empty($media)) {
-                $objZip->addFromString("word/_rels/{$noteTypePlural}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
+                $objZip->addFromString("word/_rels/{$partName}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
             }
             $elements = $collection->getItems();
-            $objZip->addFromString("word/{$noteTypePlural}.xml", $this->getWriterPart($noteTypePlural)->write($elements));
-            $this->cTypes['override']["/word/{$noteTypePlural}.xml"] = $noteTypePlural;
-            $this->docRels[] = array('target' => "{$noteTypePlural}.xml", 'type' => $noteTypePlural, 'rID' => ++$rId);
+            $objZip->addFromString("word/{$partName}.xml", $this->getWriterPart($partName)->write($elements));
+            $this->contentTypes['override']["/word/{$partName}.xml"] = $partName;
+            $this->relationships[] = array('target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId);
         }
     }
 
@@ -222,12 +242,12 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $mediumType = $medium['type'];
             if ($mediumType == 'image') {
                 $extension = $medium['imageExtension'];
-                if (!array_key_exists($extension, $this->cTypes['default'])) {
-                    $this->cTypes['default'][$extension] = $medium['imageType'];
+                if (!array_key_exists($extension, $this->contentTypes['default'])) {
+                    $this->contentTypes['default'][$extension] = $medium['imageType'];
                 }
             } elseif ($mediumType == 'object') {
-                if (!array_key_exists('bin', $this->cTypes['default'])) {
-                    $this->cTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
+                if (!array_key_exists('bin', $this->contentTypes['default'])) {
+                    $this->contentTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
                 }
             }
         }

@@ -27,11 +27,11 @@ class ContentTypes extends AbstractPart
 {
     /**
      * Write [Content_Types].xml
-     *
-     * @param array $contentTypes
      */
-    public function writeContentTypes($contentTypes)
+    public function write()
     {
+        $contentTypes = $this->parentWriter->getContentTypes();
+
         $openXMLPrefix = 'application/vnd.openxmlformats-';
         $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
         $overrides = array(
@@ -89,5 +89,18 @@ class ContentTypes extends AbstractPart
                 throw new Exception("Invalid parameters passed.");
             }
         }
+    }
+
+    /**
+     * Write [Content_Types].xml
+     *
+     * @param array $contentTypes
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function writeContentTypes($contentTypes)
+    {
+        $contentTypes = null; // dummy assignment
+        return $this->write();
     }
 }

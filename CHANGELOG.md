@@ -18,6 +18,8 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 ### Deprecated
 
 - Static classes `Footnotes`, `Endnotes`, and `TOC`
+- `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
+- `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
 
 ### Miscellaneous
 
@@ -28,6 +30,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - Refactor: PHPMD recommendation: Change all `get...` method that returns `boolean` into `is...` or `has...` - @ivanlanin
 - Docs: Create gh-pages branch for API documentation - @Progi1984 GH-154
 - QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
+- Word2007 Writer: Refactor writer parts using composite pattern - @ivanlanin
 
 ## 0.10.0 - 4 May 2014
 

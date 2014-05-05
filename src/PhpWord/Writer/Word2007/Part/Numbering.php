@@ -29,7 +29,7 @@ class Numbering extends AbstractPart
     /**
      * Write word/numbering.xml
      */
-    public function writeNumbering()
+    public function write()
     {
         $styles = Style::getStyles();
 
@@ -66,12 +66,6 @@ class Numbering extends AbstractPart
                 if (is_array($levels)) {
                     foreach ($levels as $levelNum => $levelObject) {
                         if ($levelObject instanceof NumberingLevel) {
-                            $start = $levelObject->getStart();
-                            $format = $levelObject->getFormat();
-                            $restart = $levelObject->getRestart();
-                            $suffix = $levelObject->getSuffix();
-                            $text = $levelObject->getText();
-                            $align = $levelObject->getAlign();
                             $tabPos = $levelObject->getTabPos();
                             $left = $levelObject->getLeft();
                             $hanging = $levelObject->getHanging();
@@ -81,36 +75,25 @@ class Numbering extends AbstractPart
                             $xmlWriter->startElement('w:lvl');
                             $xmlWriter->writeAttribute('w:ilvl', $levelNum);
 
-                            if (!is_null($start)) {
-                                $xmlWriter->startElement('w:start');
-                                $xmlWriter->writeAttribute('w:val', $start);
-                                $xmlWriter->endElement(); // w:start
+                            // Numbering level properties
+                            $properties = array(
+                                'start'   => 'start',
+                                'format'  => 'numFmt',
+                                'restart' => 'lvlRestart',
+                                'suffix'  => 'suff',
+                                'text'    => 'lvlText',
+                                'align'   => 'lvlJc'
+                            );
+                            foreach ($properties as $property => $nodeName) {
+                                $getMethod = "get{$property}";
+                                if (!is_null($levelObject->$getMethod())) {
+                                    $xmlWriter->startElement("w:{$nodeName}");
+                                    $xmlWriter->writeAttribute('w:val', $levelObject->$getMethod());
+                                    $xmlWriter->endElement(); // w:start
+                                }
                             }
-                            if (!is_null($format)) {
-                                $xmlWriter->startElement('w:numFmt');
-                                $xmlWriter->writeAttribute('w:val', $format);
-                                $xmlWriter->endElement(); // w:numFmt
-                            }
-                            if (!is_null($restart)) {
-                                $xmlWriter->startElement('w:lvlRestart');
-                                $xmlWriter->writeAttribute('w:val', $restart);
-                                $xmlWriter->endElement(); // w:lvlRestart
-                            }
-                            if (!is_null($suffix)) {
-                                $xmlWriter->startElement('w:suff');
-                                $xmlWriter->writeAttribute('w:val', $suffix);
-                                $xmlWriter->endElement(); // w:suff
-                            }
-                            if (!is_null($text)) {
-                                $xmlWriter->startElement('w:lvlText');
-                                $xmlWriter->writeAttribute('w:val', $text);
-                                $xmlWriter->endElement(); // w:start
-                            }
-                            if (!is_null($align)) {
-                                $xmlWriter->startElement('w:lvlJc');
-                                $xmlWriter->writeAttribute('w:val', $align);
-                                $xmlWriter->endElement(); // w:lvlJc
-                            }
+
+                            // Paragraph styles
                             if (!is_null($tabPos) || !is_null($left) || !is_null($hanging)) {
                                 $xmlWriter->startElement('w:pPr');
                                 if (!is_null($tabPos)) {
@@ -133,6 +116,8 @@ class Numbering extends AbstractPart
                                 }
                                 $xmlWriter->endElement(); // w:pPr
                             }
+
+                            // Font styles
                             if (!is_null($font) || !is_null($hint)) {
                                 $xmlWriter->startElement('w:rPr');
                                 $xmlWriter->startElement('w:rFonts');
@@ -181,5 +166,16 @@ class Numbering extends AbstractPart
     private function getRandomHexNumber($length = 8)
     {
         return strtoupper(substr(md5(rand()), 0, $length));
+    }
+
+    /**
+     * Write numbering
+     *
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function writeNumbering()
+    {
+        return $this->write();
     }
 }

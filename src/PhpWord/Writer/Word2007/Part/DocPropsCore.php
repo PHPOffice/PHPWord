@@ -21,44 +21,20 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
- * Word2007 document properties part writer
+ * Word2007 core document properties part writer
+ *
+ * @since 0.11.0
  */
-class DocProps extends AbstractPart
+class DocPropsCore extends AbstractPart
 {
     /**
-     * Write docProps/app.xml
-     */
-    public function writeDocPropsApp(PhpWord $phpWord = null)
-    {
-        if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
-        }
-        $xmlWriter = $this->getXmlWriter();
-
-        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-        $xmlWriter->startElement('Properties');
-        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties');
-        $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
-
-        $xmlWriter->writeElement('Application', 'PHPWord');
-        $xmlWriter->writeElement('Company', $phpWord->getDocumentProperties()->getCompany());
-        $xmlWriter->writeElement('Manager', $phpWord->getDocumentProperties()->getManager());
-
-        $xmlWriter->endElement(); // Properties
-
-        return $xmlWriter->getData();
-    }
-
-
-    /**
      * Write docProps/core.xml
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function writeDocPropsCore(PhpWord $phpWord = null)
+    public function write()
     {
+        $phpWord = $this->parentWriter->getPhpWord();
         if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
+            throw new Exception('No PhpWord assigned.');
         }
         $xmlWriter = $this->getXmlWriter();
 

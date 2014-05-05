@@ -33,43 +33,6 @@ class Rels extends AbstractPart
     const RELS_BASE = 'http://schemas.openxmlformats.org/';
 
     /**
-     * Write _rels/.rels
-     */
-    public function writeMainRels()
-    {
-        $xmlRels = array(
-            'docProps/core.xml' => 'package/2006/relationships/metadata/core-properties',
-            'docProps/app.xml'  => 'officeDocument/2006/relationships/extended-properties',
-            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
-        );
-        $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $xmlRels);
-
-        return $xmlWriter->getData();
-    }
-
-    /**
-     * Write word/_rels/document.xml.rels
-     *
-     * @param array $mediaRels
-     */
-    public function writeDocRels($mediaRels)
-    {
-        $xmlRels = array(
-            'styles.xml'       => 'officeDocument/2006/relationships/styles',
-            'numbering.xml'    => 'officeDocument/2006/relationships/numbering',
-            'settings.xml'     => 'officeDocument/2006/relationships/settings',
-            'theme/theme1.xml' => 'officeDocument/2006/relationships/theme',
-            'webSettings.xml'  => 'officeDocument/2006/relationships/webSettings',
-            'fontTable.xml'    => 'officeDocument/2006/relationships/fontTable',
-        );
-        $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $xmlRels, $mediaRels);
-
-        return $xmlWriter->getData();
-    }
-
-    /**
      * Write word/_rels/(header|footer|footnotes)*.xml.rels
      *
      * @param array $mediaRels
@@ -90,7 +53,7 @@ class Rels extends AbstractPart
      * @param null|array $mediaRels
      * @param integer $relId
      */
-    private function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $relId = 1)
+    protected function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $relId = 1)
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');

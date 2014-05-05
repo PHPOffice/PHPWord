@@ -38,12 +38,13 @@ class Styles extends AbstractPart
     /**
      * Write word/styles.xml
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return string
      */
-    public function writeStyles(PhpWord $phpWord = null)
+    public function write()
     {
+        $phpWord = $this->parentWriter->getPhpWord();
         if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
+            throw new Exception('No PhpWord assigned.');
         }
         $xmlWriter = $this->getXmlWriter();
 
@@ -218,5 +219,18 @@ class Styles extends AbstractPart
             $xmlWriter->endElement(); // w:rPr
             $xmlWriter->endElement(); // w:style
         }
+    }
+
+    /**
+     * Write word/styles.xml
+     *
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function writeStyles(PhpWord $phpWord = null)
+    {
+        $this->parentWriter->setPhpWord($phpWord);
+        return $this->write();
     }
 }

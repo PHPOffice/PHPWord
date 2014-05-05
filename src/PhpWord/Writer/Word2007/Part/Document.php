@@ -31,14 +31,14 @@ class Document extends AbstractPart
     /**
      * Write word/document.xml
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function writeDocument(PhpWord $phpWord = null)
+    public function write()
     {
+        $phpWord = $this->parentWriter->getPhpWord();
         if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
+            throw new Exception('No PhpWord assigned.');
         }
         $xmlWriter = $this->getXmlWriter();
         $sections = $phpWord->getSections();
@@ -132,5 +132,18 @@ class Document extends AbstractPart
         $styleWriter->write();
 
         $xmlWriter->endElement(); // w:sectPr
+    }
+
+    /**
+     * Write word/document.xml
+     *
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function writeDocument(PhpWord $phpWord = null)
+    {
+        $this->parentWriter->setPhpWord($phpWord);
+        return $this->write();
     }
 }
