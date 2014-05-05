@@ -13,7 +13,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 
 ### Bugfixes
 
-- ...
+- Header: All images added to the second header were assigned to the first header - @basjan GH-222
 
 ### Deprecated
 
