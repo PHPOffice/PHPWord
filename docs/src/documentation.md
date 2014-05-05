@@ -47,11 +47,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), and [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF).
 
-No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major [word processing softwares](http://en.wikipedia.org/wiki/List_of_word_processors).
-
-PHPWord is an open source project licensed under LGPL version 3. PHPWord is [unit tested](https://travis-ci.org/PHPOffice/PHPWord) to make sure that the released versions are stable.
-
-**Want to contribute?** [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
+PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/LICENSE.md). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
 ## Features
 
@@ -141,6 +137,15 @@ Below are the supported features for each file formats.
 |                         | MathML support     |      |     |     |
 | **Bonus**               | Encryption         |      |     |     |
 |                         | Protection         |      |     |     |
+
+## Contributing
+
+We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute:
+
+- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md)
+- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch
+- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub
+- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter
 
 # Installing/configuring
 
@@ -938,13 +943,18 @@ PHPWord requires PHP 5.3+ since 0.8, while PHPWord 0.6.3 from CodePlex can run w
 
 # References
 
+## ISO/IEC 29500, Third edition, 2012-09-01
+
+-   [Part 1: Fundamentals and Markup Language Reference](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061750_ISO_IEC_29500-1_2012.zip)
+-   [Part 2: Open Packaging Conventions](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061796_ISO_IEC_29500-2_2012.zip)
+-   [Part 3: Markup Compatibility and Extensibility](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061797_ISO_IEC_29500-3_2012.zip)
+-   [Part 4: Transitional Migration Features](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061798_ISO_IEC_29500-4_2012.zip)
+
 ## Formal specifications
 
-- [Office Open XML (OOXML) (ECMA-376) Schema](http://www.schemacentral.com/sc/ooxml/ss.html)
-- [Oasis OpenDocument Standard Version 1.2](http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os.html)
-- [Rich Text Format (RTF) Specification, version 1.9.1](http://www.microsoft.com/en-us/download/details.aspx?id=10725)
+-   [Oasis OpenDocument Standard Version 1.2](http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os.html)
+-   [Rich Text Format (RTF) Specification, version 1.9.1](http://www.microsoft.com/en-us/download/details.aspx?id=10725)
 
 ## Other resources
 
-- [DocumentFormat.OpenXml.Wordprocessing Namespace on MSDN](http://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing%28v=office.14%29.aspx)
-
+-   [DocumentFormat.OpenXml.Wordprocessing Namespace on MSDN](http://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing%28v=office.14%29.aspx)
