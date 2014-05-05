@@ -26,6 +26,8 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - Refactor: Replace static classes `Footnotes`, `Endnotes`, and `TOC` with `Collections` - @ivanlanin GH-206
 - QA: Reactivate `phpcpd` and `phpmd` on Travis - @ivanlanin
 - Refactor: PHPMD recommendation: Change all `get...` method that returns `boolean` into `is...` or `has...` - @ivanlanin
+- Docs: Create gh-pages branch for API documentation - @Progi1984 GH-154
+- QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
 
 ## 0.10.0 - 4 May 2014
 
