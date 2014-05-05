@@ -3,15 +3,15 @@
  * PHPWord
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TOC

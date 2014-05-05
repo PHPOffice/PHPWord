@@ -3,7 +3,7 @@
  * PHPWord
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -12,11 +12,9 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Collection\Endnotes;
 use PhpOffice\PhpWord\Collection\Footnotes;
 use PhpOffice\PhpWord\Collection\Titles;
-use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Template;
 
 /**
  * PHPWord main class
