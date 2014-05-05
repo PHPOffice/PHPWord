@@ -355,7 +355,7 @@ abstract class AbstractContainer extends AbstractElement
         $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
         $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
-
+        $docPartId = $inHeaderFooter ? $this->getDocPartId() : $docPartId;
         return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 
