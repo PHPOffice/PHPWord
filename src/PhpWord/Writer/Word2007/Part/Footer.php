@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Element\Footer as FooterElement;
+use PhpOffice\PhpWord\Element\AbstractContainer as Container;
 
 /**
  * Word2007 footer part writer
@@ -25,16 +25,23 @@ use PhpOffice\PhpWord\Element\Footer as FooterElement;
 class Footer extends AbstractPart
 {
     /**
-     * Write word/footnotes.xml
+     * Root element name
      *
-     * @param \PhpOffice\PhpWord\Element\Footer $footer
+     * @var string
      */
-    public function writeFooter(FooterElement $footer)
+    protected $rootElement = 'w:ftr';
+
+    /**
+     * Write word/footerx.xml
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
+    public function writeFooter(Container $element)
     {
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-        $xmlWriter->startElement('w:ftr');
+        $xmlWriter->startElement($this->rootElement);
         $xmlWriter->writeAttribute('xmlns:ve', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
         $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
@@ -45,9 +52,9 @@ class Footer extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
-        $this->writeContainerElements($xmlWriter, $footer);
+        $this->writeContainerElements($xmlWriter, $element);
 
-        $xmlWriter->endElement(); // w:ftr
+        $xmlWriter->endElement(); // $this->rootElement
 
         return $xmlWriter->getData();
     }
