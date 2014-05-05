@@ -17,25 +17,26 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\Spacing;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\Spacing
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Spacing
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class SpacingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
+        $object = new Spacing();
         $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+            'before' => array(null, 10),
+            'after' => array(null, 10),
+            'line' => array(null, 10),
+            'rule' => array('auto', 'exact'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

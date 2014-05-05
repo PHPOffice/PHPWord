@@ -17,36 +17,45 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\Numbering;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\Numbering
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Numbering
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class NumberingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
-        $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+        $this->object = new Numbering();
+        $this->properties = array(
+            'numId'  => array(null, 1),
+            'type'   => array(null, 'singleLevel'),
         );
-        foreach ($properties as $property => $value) {
+        foreach ($this->properties as $property => $value) {
             list($default, $expected) = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            $this->assertEquals($default, $this->object->$get()); // Default value
 
-            $object->$set($expected);
+            $this->object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            $this->assertEquals($expected, $this->object->$get()); // New value
         }
+    }
+
+    /**
+     * Test get level
+     */
+    public function testGetLevels()
+    {
+        $this->object = new Numbering();
+
+        $this->assertEmpty($this->object->getLevels());
     }
 }

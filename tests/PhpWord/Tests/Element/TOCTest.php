@@ -62,6 +62,17 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test when no PHPWord object is assigned:
+     */
+    public function testNoPhpWord()
+    {
+        $object = new TOC();
+
+        $this->assertEmpty($object->getTitles());
+        $this->assertNull($object->getPhpWord());
+    }
+
+    /**
      * Set/get minDepth and maxDepth
      */
     public function testSetGetMinMaxDepth()

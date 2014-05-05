@@ -17,25 +17,26 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\Indentation;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\Indentation
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Indentation
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class IndentationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
+        $object = new Indentation();
         $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+            'left' => array(0, 10),
+            'right' => array(0, 10),
+            'firstLine' => array(null, 20),
+            'hanging' => array(null, 20),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

@@ -17,25 +17,26 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\LineNumbering;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\LineNumbering
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\LineNumbering
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class LineNumberingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
+        $object = new LineNumbering();
         $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+            'start' => array(1, 2),
+            'increment' => array(1, 10),
+            'distance' => array(null, 10),
+            'restart' => array(null, 'continuous'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

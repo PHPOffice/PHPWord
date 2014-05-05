@@ -22,6 +22,12 @@ namespace PhpOffice\PhpWord\Style;
  */
 class TOC extends Tab
 {
+    /**
+     * Tab leader types for backward compatibility
+     *
+     * @const string
+     * @deprecated 0.11.0
+     */
     const TABLEADER_DOT = self::TAB_LEADER_DOT;
     const TABLEADER_UNDERSCORE = self::TAB_LEADER_UNDERSCORE;
     const TABLEADER_LINE = self::TAB_LEADER_HYPHEN;
@@ -32,8 +38,7 @@ class TOC extends Tab
      *
      * @var int
      */
-    private $indent;
-
+    private $indent = 200;
 
     /**
      * Create a new TOC Style
@@ -41,7 +46,6 @@ class TOC extends Tab
     public function __construct()
     {
         parent::__construct(self::TAB_STOP_RIGHT, 9062, self::TABLEADER_DOT);
-        $this->indent = 200;
     }
 
     /**

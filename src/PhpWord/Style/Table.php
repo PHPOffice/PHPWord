@@ -143,6 +143,8 @@ class Table extends Border
     {
         if (!is_null($this->shading)) {
             return $this->shading->getFill();
+        } else {
+            return null;
         }
     }
 

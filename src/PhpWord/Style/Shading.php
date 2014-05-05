@@ -26,19 +26,33 @@ namespace PhpOffice\PhpWord\Style;
 class Shading extends AbstractStyle
 {
     /**
+     * Pattern constants (partly)
+     *
+     * @const string
+     * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
+     */
+    const PATTERN_CLEAR = 'clear'; // No pattern
+    const PATTERN_SOLID = 'solid'; // 100% fill pattern
+    const PATTERN_HSTRIPE = 'horzStripe'; // Horizontal stripe pattern
+    const PATTERN_VSTRIPE = 'vertStripe'; // Vertical stripe pattern
+    const PATTERN_DSTRIPE = 'diagStripe'; // Diagonal stripe pattern
+    const PATTERN_HCROSS = 'horzCross'; // Horizontal cross pattern
+    const PATTERN_DCROSS = 'diagCross'; // Diagonal cross pattern
+
+    /**
      * Shading pattern
      *
      * @var string
      * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
      */
-    private $pattern = 'clear';
+    private $pattern = self::PATTERN_CLEAR;
 
     /**
      * Shading pattern color
      *
      * @var string
      */
-    private $color = 'auto';
+    private $color;
 
     /**
      * Shading background color
@@ -75,7 +89,10 @@ class Shading extends AbstractStyle
      */
     public function setPattern($value = null)
     {
-        $this->pattern = $value;
+        $enum = array(self::PATTERN_CLEAR, self::PATTERN_SOLID, self::PATTERN_HSTRIPE,
+            self::PATTERN_VSTRIPE, self::PATTERN_DSTRIPE, self::PATTERN_HCROSS, self::PATTERN_DCROSS);
+
+        $this->pattern = $this->setEnumVal($value, $enum, $this->pattern);
 
         return $this;
     }

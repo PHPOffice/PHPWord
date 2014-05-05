@@ -38,6 +38,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $styleTable = array('bgColor' => 'FF0000');
         $styleFirstRow = array('borderBottomSize' => 3);
 
+        $object = new Table();
+        $this->assertNull($object->getBgColor());
+
         $object = new Table($styleTable, $styleFirstRow);
         $this->assertEquals('FF0000', $object->getBgColor());
 

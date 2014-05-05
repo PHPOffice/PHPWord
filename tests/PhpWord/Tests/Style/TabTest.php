@@ -17,25 +17,25 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\Tab;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\Tab
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Tab
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class TabTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
+        $object = new Tab();
         $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+            'type'     => array(Tab::TAB_STOP_CLEAR, Tab::TAB_STOP_RIGHT),
+            'leader'   => array(Tab::TAB_LEADER_NONE, Tab::TAB_LEADER_DOT),
+            'position' => array(0, 10),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

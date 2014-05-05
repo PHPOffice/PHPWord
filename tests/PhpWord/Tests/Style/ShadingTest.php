@@ -17,25 +17,25 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\Style\TOC;
+use PhpOffice\PhpWord\Style\Shading;
 
 /**
- * Test class for PhpOffice\PhpWord\Style\TOC
+ * Test class for PhpOffice\PhpWord\Style\Shading
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
+ * @coversDefaultClass \PhpOffice\PhpWord\Style\Shading
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class ShadingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get/set
      */
-    public function testGetSet()
+    public function testGetSetProperties()
     {
-        $object = new TOC();
+        $object = new Shading();
         $properties = array(
-            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
-            'tabPos'    => array(9062, 10),
-            'indent'    => array(200, 10),
+            'pattern' => array('clear', 'solid'),
+            'color'   => array(null, 'FF0000'),
+            'fill'    => array(null, 'FF0000'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;
