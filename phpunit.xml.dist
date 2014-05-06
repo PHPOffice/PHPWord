@@ -22,6 +22,10 @@
         </whitelist>
     </filter>
     <logging>
+        <!--
+            For http://phpoffice.github.io/PHPWord/coverage/ and Scrutinizer
+        -->
         <log type="coverage-html" target="./build/coverage" charset="UTF-8" highlight="true" />
+        <log type="coverage-clover" target="./build/logs/clover.xml" />
     </logging>
 </phpunit>

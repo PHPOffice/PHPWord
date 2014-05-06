@@ -2,12 +2,14 @@ filter:
     excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
 
 before_commands:
-    - "composer self-update"
     - "composer install --prefer-source --dev"
 
 tools:
-    php_code_coverage:
+    external_code_coverage:
         enabled: true
+        timeout: 700
+    php_code_coverage:
+        enabled: false
         test_command: phpunit -c phpunit.xml.dist
     php_sim: true
     php_pdepend: true
