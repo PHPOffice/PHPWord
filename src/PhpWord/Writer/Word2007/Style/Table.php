@@ -40,30 +40,14 @@ class Table extends AbstractStyle
             return;
         }
 
-        $brdCol = $this->style->getBorderColor();
-        $brdSz = $this->style->getBorderSize();
-        $cellMargin = $this->style->getCellMargin();
+        $hasBorders = $this->style->hasBorders();
+        $hasMargins = $this->style->hasMargins();
 
-        // If any of the borders/margins is set, process them
-        $hasBorders = false;
-        for ($i = 0; $i < 6; $i++) {
-            if (!is_null($brdSz[$i])) {
-                $hasBorders = true;
-                break;
-            }
-        }
-        $hasMargins = false;
-        for ($i = 0; $i < 4; $i++) {
-            if (!is_null($cellMargin[$i])) {
-                $hasMargins = true;
-                break;
-            }
-        }
         if ($hasMargins || $hasBorders) {
             $this->xmlWriter->startElement('w:tblPr');
             if ($hasMargins) {
                 $mbWriter = new MarginBorder($this->xmlWriter);
-                $mbWriter->setSizes($cellMargin);
+                $mbWriter->setSizes($this->style->getCellMargin());
 
                 $this->xmlWriter->startElement('w:tblCellMar');
                 $mbWriter->write();
@@ -71,8 +55,8 @@ class Table extends AbstractStyle
             }
             if ($hasBorders) {
                 $mbWriter = new MarginBorder($this->xmlWriter);
-                $mbWriter->setSizes($brdSz);
-                $mbWriter->setColors($brdCol);
+                $mbWriter->setSizes($this->style->getBorderSize());
+                $mbWriter->setColors($this->style->getBorderColor());
 
                 $this->xmlWriter->startElement('w:tblBorders');
                 $mbWriter->write();
@@ -123,18 +107,10 @@ class Table extends AbstractStyle
         }
 
         // Borders
-        $brdSz = $style->getBorderSize();
-        $brdCol = $style->getBorderColor();
-        $hasBorders = false;
-        for ($i = 0; $i < 6; $i++) {
-            if (!is_null($brdSz[$i])) {
-                $hasBorders = true;
-            }
-        }
-        if ($hasBorders) {
+        if ($style->hasBorders()) {
             $mbWriter = new MarginBorder($this->xmlWriter);
-            $mbWriter->setSizes($brdSz);
-            $mbWriter->setColors($brdCol);
+            $mbWriter->setSizes($style->getBorderSize());
+            $mbWriter->setColors($style->getBorderColor());
 
             $this->xmlWriter->startElement('w:tcBorders');
             $mbWriter->write();

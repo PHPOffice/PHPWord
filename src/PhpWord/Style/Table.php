@@ -441,4 +441,40 @@ class Table extends Border
 
         return $this;
     }
+
+    /**
+     * Has borders?
+     *
+     * @return bool
+     */
+    public function hasBorders()
+    {
+        $hasBorders = false;
+        $borders = $this->getBorderSize();
+        for ($i = 0; $i < 6; $i++) {
+            if (!is_null($borders[$i])) {
+                $hasBorders = true;
+            }
+        }
+
+        return $hasBorders;
+    }
+
+    /**
+     * Has margins?
+     *
+     * @return bool
+     */
+    public function hasMargins()
+    {
+        $hasMargins = false;
+        $margins = $this->getCellMargin();
+        for ($i = 0; $i < 4; $i++) {
+            if (!is_null($margins[$i])) {
+                $hasMargins = true;
+            }
+        }
+
+        return $hasMargins;
+    }
 }

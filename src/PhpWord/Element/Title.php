@@ -138,7 +138,7 @@ class Title extends AbstractElement
      */
     public function setAnchor($anchor)
     {
-        $anchor = null;
+        $this->anchor = $anchor;
     }
 
     /**
