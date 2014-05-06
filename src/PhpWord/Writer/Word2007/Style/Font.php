@@ -62,6 +62,8 @@ class Font extends AbstractStyle
         $font = $this->style->getName();
         $color = $this->style->getColor();
         $size = $this->style->getSize();
+        $underline = $this->style->getUnderline();
+        $fgColor = $this->style->getFgColor();
 
         $this->xmlWriter->startElement('w:rPr');
 
@@ -80,78 +82,37 @@ class Font extends AbstractStyle
         }
 
         // Color
-        if ($color != PhpWord::DEFAULT_FONT_COLOR) {
-            $this->xmlWriter->startElement('w:color');
-            $this->xmlWriter->writeAttribute('w:val', $color);
-            $this->xmlWriter->endElement();
-        }
+        $this->writeElementIf($color != PhpWord::DEFAULT_FONT_COLOR, 'w:color', 'w:val', $color);
+        $this->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:sz', 'w:val', $size * 2);
+        $this->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:szCs', 'w:val', $size * 2);
 
-        // Size
-        if ($size != PhpWord::DEFAULT_FONT_SIZE) {
-            $this->xmlWriter->startElement('w:sz');
-            $this->xmlWriter->writeAttribute('w:val', $size * 2);
-            $this->xmlWriter->endElement();
-            $this->xmlWriter->startElement('w:szCs');
-            $this->xmlWriter->writeAttribute('w:val', $size * 2);
-            $this->xmlWriter->endElement();
-        }
+        // Bold, italic
+        $this->writeElementIf($this->style->isBold(), 'w:b');
+        $this->writeElementIf($this->style->isItalic(), 'w:i');
+        $this->writeElementIf($this->style->isItalic(), 'w:iCs');
 
-        // Bold
-        if ($this->style->isBold()) {
-            $this->xmlWriter->writeElement('w:b', null);
-        }
+        // Strikethrough, double strikethrough
+        $this->writeElementIf($this->style->isStrikethrough(), 'w:strike');
+        $this->writeElementIf($this->style->isDoubleStrikethrough(), 'w:dstrike');
 
-        // Italic
-        if ($this->style->isItalic()) {
-            $this->xmlWriter->writeElement('w:i', null);
-            $this->xmlWriter->writeElement('w:iCs', null);
-        }
+        // Small caps, all caps
+        $this->writeElementIf($this->style->isSmallCaps(), 'w:smallCaps');
+        $this->writeElementIf($this->style->isAllCaps(), 'w:caps');
 
         // Underline
-        if ($this->style->getUnderline() != 'none') {
-            $this->xmlWriter->startElement('w:u');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getUnderline());
-            $this->xmlWriter->endElement();
-        }
-
-        // Strikethrough
-        if ($this->style->isStrikethrough()) {
-            $this->xmlWriter->writeElement('w:strike', null);
-        }
-
-        // Double strikethrough
-        if ($this->style->isDoubleStrikethrough()) {
-            $this->xmlWriter->writeElement('w:dstrike', null);
-        }
+        $this->writeElementIf($underline != 'none', 'w:u', 'w:val', $underline);
 
         // Foreground-Color
-        if (!is_null($this->style->getFgColor())) {
-            $this->xmlWriter->startElement('w:highlight');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getFgColor());
-            $this->xmlWriter->endElement();
-        }
+        $this->writeElementIf(!is_null($fgColor), 'w:highlight', 'w:val', $fgColor);
+
+        // Superscript/subscript
+        $this->writeElementIf($this->style->isSuperScript(), 'w:vertAlign', 'w:val', 'superscript');
+        $this->writeElementIf($this->style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
 
         // Background-Color
         if (!is_null($this->style->getShading())) {
             $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
             $styleWriter->write();
-        }
-
-        // Superscript/subscript
-        if ($this->style->isSuperScript() || $this->style->isSubScript()) {
-            $this->xmlWriter->startElement('w:vertAlign');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->isSuperScript() ? 'superscript' : 'subscript');
-            $this->xmlWriter->endElement();
-        }
-
-        // Small caps
-        if ($this->style->isSmallCaps()) {
-            $this->xmlWriter->writeElement('w:smallCaps', null);
-        }
-
-        // All caps
-        if ($this->style->isAllCaps()) {
-            $this->xmlWriter->writeElement('w:caps', null);
         }
 
         $this->xmlWriter->endElement();

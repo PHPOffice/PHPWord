@@ -73,4 +73,27 @@ abstract class AbstractStyle
             return $value * $unit;
         }
     }
+
+    /**
+     * Write element when ...
+     *
+     * @param bool $condition
+     * @param string $element
+     * @param string $attribute
+     * @param string $value
+     */
+    protected function writeElementIf($condition, $element, $attribute = null, $value = null)
+    {
+        if (!$condition) {
+            return;
+        }
+
+        if (is_null($attribute)) {
+            $this->xmlWriter->writeElement($element, $value);
+        } else {
+            $this->xmlWriter->startElement($element);
+            $this->xmlWriter->writeAttribute($attribute, $value);
+            $this->xmlWriter->endElement();
+        }
+    }
 }

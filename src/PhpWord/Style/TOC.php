@@ -45,7 +45,7 @@ class TOC extends Tab
      */
     public function __construct()
     {
-        parent::__construct(self::TAB_STOP_RIGHT, 9062, self::TABLEADER_DOT);
+        parent::__construct(self::TAB_STOP_RIGHT, 9062, self::TAB_LEADER_DOT);
     }
 
     /**
@@ -83,7 +83,7 @@ class TOC extends Tab
      *
      * @param string $value
      */
-    public function setTabLeader($value = self::TABLEADER_DOT)
+    public function setTabLeader($value = self::TAB_LEADER_DOT)
     {
         $this->setLeader($value);
     }

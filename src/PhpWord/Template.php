@@ -192,7 +192,7 @@ class Template
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            $extraRowStart = $rowEnd;
+            // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);

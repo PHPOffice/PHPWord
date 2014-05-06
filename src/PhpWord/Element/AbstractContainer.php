@@ -39,8 +39,8 @@ abstract class AbstractContainer extends AbstractElement
      */
     protected function addElement(AbstractElement $element)
     {
-        $type = get_class($element);
-        $type = str_replace('PhpOffice\\PhpWord\\Element\\', '', $type);
+        // $type = get_class($element);
+        // $type = str_replace('PhpOffice\\PhpWord\\Element\\', '', $type);
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);
@@ -254,11 +254,11 @@ abstract class AbstractContainer extends AbstractElement
         $addMethod = "add{$elementName}";
 
         $element = new $elementClass($paragraphStyle);
+        $element->setDocPart($docPart, $this->getDocPartId());
         if ($this->phpWord instanceof PhpWord) {
             $rId = $this->phpWord->$addMethod($element);
+            $element->setRelationId($rId);
         }
-        $element->setDocPart($docPart, $this->getDocPartId());
-        $element->setRelationId($rId);
         $this->addElement($element);
 
         return $element;

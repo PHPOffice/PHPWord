@@ -78,10 +78,10 @@ class Rels extends AbstractPart
             foreach ($mediaRels as $mediaRel) {
                 $mediaType = $mediaRel['type'];
                 $type = array_key_exists($mediaType, $mapping) ? $mapping[$mediaType] : $mediaType;
-                $type = "officeDocument/2006/relationships/{$type}";
                 $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
                 $target .= $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
+                $type = "officeDocument/2006/relationships/{$type}";
 
                 $this->writeRel($xmlWriter, $relId++, $type, $target, $targetMode);
             }

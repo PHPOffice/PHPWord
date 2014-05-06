@@ -17,9 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 use PhpOffice\PhpWord\Style\NumberingLevel;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Word2007 numbering part writer: word/numbering.xml
@@ -66,76 +67,8 @@ class Numbering extends AbstractPart
                 $xmlWriter->endElement(); // w:multiLevelType
 
                 if (is_array($levels)) {
-                    foreach ($levels as $levelNum => $levelObject) {
-                        if ($levelObject instanceof NumberingLevel) {
-                            $tabPos = $levelObject->getTabPos();
-                            $left = $levelObject->getLeft();
-                            $hanging = $levelObject->getHanging();
-                            $font = $levelObject->getFont();
-                            $hint = $levelObject->getHint();
-
-                            $xmlWriter->startElement('w:lvl');
-                            $xmlWriter->writeAttribute('w:ilvl', $levelNum);
-
-                            // Numbering level properties
-                            $properties = array(
-                                'start'   => 'start',
-                                'format'  => 'numFmt',
-                                'restart' => 'lvlRestart',
-                                'suffix'  => 'suff',
-                                'text'    => 'lvlText',
-                                'align'   => 'lvlJc'
-                            );
-                            foreach ($properties as $property => $nodeName) {
-                                $getMethod = "get{$property}";
-                                if (!is_null($levelObject->$getMethod())) {
-                                    $xmlWriter->startElement("w:{$nodeName}");
-                                    $xmlWriter->writeAttribute('w:val', $levelObject->$getMethod());
-                                    $xmlWriter->endElement(); // w:start
-                                }
-                            }
-
-                            // Paragraph styles
-                            if (!is_null($tabPos) || !is_null($left) || !is_null($hanging)) {
-                                $xmlWriter->startElement('w:pPr');
-                                if (!is_null($tabPos)) {
-                                    $xmlWriter->startElement('w:tabs');
-                                    $xmlWriter->startElement('w:tab');
-                                    $xmlWriter->writeAttribute('w:val', 'num');
-                                    $xmlWriter->writeAttribute('w:pos', $tabPos);
-                                    $xmlWriter->endElement(); // w:tab
-                                    $xmlWriter->endElement(); // w:tabs
-                                }
-                                if (!is_null($left) || !is_null($hanging)) {
-                                    $xmlWriter->startElement('w:ind');
-                                    if (!is_null($left)) {
-                                        $xmlWriter->writeAttribute('w:left', $left);
-                                    }
-                                    if (!is_null($hanging)) {
-                                        $xmlWriter->writeAttribute('w:hanging', $hanging);
-                                    }
-                                    $xmlWriter->endElement(); // w:ind
-                                }
-                                $xmlWriter->endElement(); // w:pPr
-                            }
-
-                            // Font styles
-                            if (!is_null($font) || !is_null($hint)) {
-                                $xmlWriter->startElement('w:rPr');
-                                $xmlWriter->startElement('w:rFonts');
-                                if (!is_null($font)) {
-                                    $xmlWriter->writeAttribute('w:ascii', $font);
-                                    $xmlWriter->writeAttribute('w:hAnsi', $font);
-                                    $xmlWriter->writeAttribute('w:cs', $font);
-                                }
-                                if (!is_null($hint)) {
-                                    $xmlWriter->writeAttribute('w:hint', $hint);
-                                }
-                                $xmlWriter->endElement(); // w:rFonts
-                                $xmlWriter->endElement(); // w:rPr
-                            }
-                            $xmlWriter->endElement(); // w:lvl
-                        }
+                    foreach ($levels as $level) {
+                        $this->writeLevel($xmlWriter, $level);
                     }
                 }
                 $xmlWriter->endElement(); // w:abstractNum
@@ -157,6 +90,80 @@ class Numbering extends AbstractPart
         $xmlWriter->endElement(); // w:numbering
 
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Write level
+     */
+    private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $tabPos = $level->getTabPos();
+        $left = $level->getLeft();
+        $hanging = $level->getHanging();
+        $font = $level->getFont();
+        $hint = $level->getHint();
+
+        $xmlWriter->startElement('w:lvl');
+        $xmlWriter->writeAttribute('w:ilvl', $level->getLevel());
+
+        // Numbering level properties
+        $properties = array(
+            'start'   => 'start',
+            'format'  => 'numFmt',
+            'restart' => 'lvlRestart',
+            'suffix'  => 'suff',
+            'text'    => 'lvlText',
+            'align'   => 'lvlJc'
+        );
+        foreach ($properties as $property => $nodeName) {
+            $getMethod = "get{$property}";
+            if (!is_null($level->$getMethod())) {
+                $xmlWriter->startElement("w:{$nodeName}");
+                $xmlWriter->writeAttribute('w:val', $level->$getMethod());
+                $xmlWriter->endElement(); // w:start
+            }
+        }
+
+        // Paragraph styles
+        if (!is_null($tabPos) || !is_null($left) || !is_null($hanging)) {
+            $xmlWriter->startElement('w:pPr');
+            if (!is_null($tabPos)) {
+                $xmlWriter->startElement('w:tabs');
+                $xmlWriter->startElement('w:tab');
+                $xmlWriter->writeAttribute('w:val', 'num');
+                $xmlWriter->writeAttribute('w:pos', $tabPos);
+                $xmlWriter->endElement(); // w:tab
+                $xmlWriter->endElement(); // w:tabs
+            }
+            if (!is_null($left) || !is_null($hanging)) {
+                $xmlWriter->startElement('w:ind');
+                if (!is_null($left)) {
+                    $xmlWriter->writeAttribute('w:left', $left);
+                }
+                if (!is_null($hanging)) {
+                    $xmlWriter->writeAttribute('w:hanging', $hanging);
+                }
+                $xmlWriter->endElement(); // w:ind
+            }
+            $xmlWriter->endElement(); // w:pPr
+        }
+
+        // Font styles
+        if (!is_null($font) || !is_null($hint)) {
+            $xmlWriter->startElement('w:rPr');
+            $xmlWriter->startElement('w:rFonts');
+            if (!is_null($font)) {
+                $xmlWriter->writeAttribute('w:ascii', $font);
+                $xmlWriter->writeAttribute('w:hAnsi', $font);
+                $xmlWriter->writeAttribute('w:cs', $font);
+            }
+            if (!is_null($hint)) {
+                $xmlWriter->writeAttribute('w:hint', $hint);
+            }
+            $xmlWriter->endElement(); // w:rFonts
+            $xmlWriter->endElement(); // w:rPr
+        }
+        $xmlWriter->endElement(); // w:lvl
     }
 
     /**

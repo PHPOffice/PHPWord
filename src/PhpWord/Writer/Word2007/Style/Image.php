@@ -38,7 +38,7 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Image)) {
+        if (!$this->style instanceof \PhpOffice\PhpWord\Style\Image) {
             return;
         }
 
@@ -52,7 +52,7 @@ class Image extends AbstractStyle
             'mso-width-relative' => 'margin',
             'mso-height-relative' => 'margin',
         );
-        $styleArray = array_merge($styleArray, $this->getElementStyle());
+        $styleArray = array_merge($styleArray, $this->getElementStyle($this->style));
 
         // Absolute/relative positioning
         $styleArray['position'] = $positioning;
@@ -110,14 +110,14 @@ class Image extends AbstractStyle
      *
      * @return array
      */
-    private function getElementStyle()
+    private function getElementStyle(ImageStyle $style)
     {
         $styles = array();
         $styleValues = array(
-            'width' => $this->style->getWidth(),
-            'height' => $this->style->getHeight(),
-            'margin-top' => $this->style->getMarginTop(),
-            'margin-left' => $this->style->getMarginLeft()
+            'width' => $style->getWidth(),
+            'height' => $style->getHeight(),
+            'margin-top' => $style->getMarginTop(),
+            'margin-left' => $style->getMarginLeft()
         );
         foreach ($styleValues as $key => $value) {
             if (!is_null($value) && $value != '') {

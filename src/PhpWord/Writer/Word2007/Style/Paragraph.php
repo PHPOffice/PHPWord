@@ -68,53 +68,37 @@ class Paragraph extends AbstractStyle
             return;
         }
 
+        $align = $this->style->getAlign();
+        $indentation = $this->style->getIndentation();
+        $spacing = $this->style->getSpace();
+        $tabs = $this->style->getTabs();
+
         if (!$this->withoutPPR) {
             $this->xmlWriter->startElement('w:pPr');
         }
 
         // Alignment
-        if (!is_null($this->style->getAlign())) {
-            $this->xmlWriter->startElement('w:jc');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getAlign());
-            $this->xmlWriter->endElement();
-        }
+        $this->writeElementIf(!is_null($align), 'w:jc', 'w:val', $align);
+
+        // Pagination
+        $this->writeElementIf(!$this->style->hasWidowControl(), 'w:widowControl', 'w:val', '0');
+        $this->writeElementIf($this->style->isKeepNext(), 'w:keepNext', 'w:val', '1');
+        $this->writeElementIf($this->style->isKeepLines(), 'w:keepLines', 'w:val', '1');
+        $this->writeElementIf($this->style->hasPageBreakBefore(), 'w:pageBreakBefore', 'w:val', '1');
 
         // Indentation
-        if (!is_null($this->style->getIndentation())) {
-            $styleWriter = new Indentation($this->xmlWriter, $this->style->getIndentation());
+        if (!is_null($indentation)) {
+            $styleWriter = new Indentation($this->xmlWriter, $indentation);
             $styleWriter->write();
         }
 
         // Spacing
-        if (!is_null($this->style->getSpace())) {
-            $styleWriter = new Spacing($this->xmlWriter, $this->style->getSpace());
+        if (!is_null($spacing)) {
+            $styleWriter = new Spacing($this->xmlWriter, $spacing);
             $styleWriter->write();
         }
 
-        // Pagination
-        if (!$this->style->hasWidowControl()) {
-            $this->xmlWriter->startElement('w:widowControl');
-            $this->xmlWriter->writeAttribute('w:val', '0');
-            $this->xmlWriter->endElement();
-        }
-        if ($this->style->isKeepNext()) {
-            $this->xmlWriter->startElement('w:keepNext');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
-        if ($this->style->isKeepLines()) {
-            $this->xmlWriter->startElement('w:keepLines');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
-        if ($this->style->hasPageBreakBefore()) {
-            $this->xmlWriter->startElement('w:pageBreakBefore');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
-
         // Tabs
-        $tabs = $this->style->getTabs();
         if (!empty($tabs)) {
             $this->xmlWriter->startElement("w:tabs");
             foreach ($tabs as $tab) {

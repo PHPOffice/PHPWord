@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -64,56 +64,81 @@ class Text extends Element
             $this->parentWriter->setLastParagraphStyle();
         }
 
-        if ($fontStyle instanceof Font) {
-            if ($fontStyle->getColor() != null) {
-                $idxColor = array_search($fontStyle->getColor(), $this->parentWriter->getColorTable());
-                if ($idxColor !== false) {
-                    $rtfText .= '\cf' . ($idxColor + 1);
-                }
-            } else {
-                $rtfText .= '\cf0';
-            }
-            if ($fontStyle->getName() != null) {
-                $idxFont = array_search($fontStyle->getName(), $this->parentWriter->getFontTable());
-                if ($idxFont !== false) {
-                    $rtfText .= '\f' . $idxFont;
-                }
-            } else {
-                $rtfText .= '\f0';
-            }
-            if ($fontStyle->isBold()) {
-                $rtfText .= '\b';
-            }
-            if ($fontStyle->isItalic()) {
-                $rtfText .= '\i';
-            }
-            if ($fontStyle->getSize()) {
-                $rtfText .= '\fs' . ($fontStyle->getSize() * 2);
-            }
+        if ($fontStyle instanceof FontStyle) {
+            $rtfText .= $this->writeFontStyleBegin($fontStyle);
         }
         if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
             $rtfText .= ' ';
         }
         $rtfText .= $this->element->getText();
-
-        if ($fontStyle instanceof Font) {
-            $rtfText .= '\cf0';
-            $rtfText .= '\f0';
-
-            if ($fontStyle->isBold()) {
-                $rtfText .= '\b0';
-            }
-            if ($fontStyle->isItalic()) {
-                $rtfText .= '\i0';
-            }
-            if ($fontStyle->getSize()) {
-                $rtfText .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
-            }
+        if ($fontStyle instanceof FontStyle) {
+            $rtfText .= $this->writeFontStyleEnd($fontStyle);
         }
-
         if (!$this->withoutP) {
             $rtfText .= '\par' . PHP_EOL;
         }
+
+        return $rtfText;
+    }
+
+    /**
+     * Write font style beginning
+     *
+     * @return string
+     */
+    private function writeFontStyleBegin(FontStyle $style)
+    {
+        $rtfText = '';
+        if ($style->getColor() != null) {
+            $idxColor = array_search($style->getColor(), $this->parentWriter->getColorTable());
+            if ($idxColor !== false) {
+                $rtfText .= '\cf' . ($idxColor + 1);
+            }
+        } else {
+            $rtfText .= '\cf0';
+        }
+        if ($style->getName() != null) {
+            $idxFont = array_search($style->getName(), $this->parentWriter->getFontTable());
+            if ($idxFont !== false) {
+                $rtfText .= '\f' . $idxFont;
+            }
+        } else {
+            $rtfText .= '\f0';
+        }
+        if ($style->isBold()) {
+            $rtfText .= '\b';
+        }
+        if ($style->isItalic()) {
+            $rtfText .= '\i';
+        }
+        if ($style->getSize()) {
+            $rtfText .= '\fs' . ($style->getSize() * 2);
+        }
+
+        return $rtfText;
+    }
+
+    /**
+     * Write font style ending
+     *
+     * @return string
+     */
+    private function writeFontStyleEnd(FontStyle $style)
+    {
+        $rtfText = '';
+        $rtfText .= '\cf0';
+        $rtfText .= '\f0';
+
+        if ($style->isBold()) {
+            $rtfText .= '\b0';
+        }
+        if ($style->isItalic()) {
+            $rtfText .= '\i0';
+        }
+        if ($style->getSize()) {
+            $rtfText .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
+        }
+
         return $rtfText;
     }
 }
