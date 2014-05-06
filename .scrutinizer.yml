@@ -7,7 +7,7 @@ before_commands:
 tools:
     external_code_coverage:
         enabled: true
-        timeout: 700
+        timeout: 900
     php_code_coverage:
         enabled: false
         test_command: phpunit -c phpunit.xml.dist
