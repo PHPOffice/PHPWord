@@ -8,9 +8,8 @@ tools:
     external_code_coverage:
         enabled: true
         timeout: 900
-    php_code_coverage:
-        enabled: false
-        test_command: phpunit -c phpunit.xml.dist
-    php_sim: true
+    php_sim:
+        min_mass: 25
     php_pdepend: true
     php_analyzer: true
+    sensiolabs_security_checker: true

@@ -40,7 +40,6 @@ class Text extends Element
             return;
         }
 
-        $html = '';
         // Paragraph style
         $paragraphStyle = $this->element->getParagraphStyle();
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
