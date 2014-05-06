@@ -31,6 +31,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - Docs: Create gh-pages branch for API documentation - @Progi1984 GH-154
 - QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
 - Word2007 Writer: Refactor writer parts using composite pattern - @ivanlanin
+- Docs: Show code quality and test code coverage badge on README
 
 ## 0.10.0 - 4 May 2014
 
