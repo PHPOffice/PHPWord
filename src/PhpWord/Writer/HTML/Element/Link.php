@@ -31,6 +31,10 @@ class Link extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
+
         $html = "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>" . PHP_EOL;
         if (!$this->withoutP) {
             $html = '<p>' . $html . '</p>' . PHP_EOL;

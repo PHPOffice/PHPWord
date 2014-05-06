@@ -34,6 +34,10 @@ class TOC extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\TOC) {
+            return;
+        }
+
         $titles = $this->element->getTitles();
         $writeFieldMark = true;
 
@@ -55,6 +59,9 @@ class TOC extends Element
 
     /**
      * Write title
+     *
+     * @param \PhpOffice\PhpWord\Element\Title $title
+     * @param bool $writeFieldMark
      */
     private function writeTitle($title, $writeFieldMark)
     {

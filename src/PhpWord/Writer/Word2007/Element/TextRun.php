@@ -31,6 +31,10 @@ class TextRun extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            return;
+        }
+
         $paragraphStyle = $this->element->getParagraphStyle();
         $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);

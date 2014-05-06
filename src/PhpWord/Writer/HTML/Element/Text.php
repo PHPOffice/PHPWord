@@ -36,6 +36,10 @@ class Text extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
+
         $html = '';
         // Paragraph style
         $paragraphStyle = $this->element->getParagraphStyle();
@@ -44,6 +48,8 @@ class Text extends Element
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $paragraphStyle = $styleWriter->write();
         }
+        $hasParagraphStyle = $paragraphStyle && !$this->withoutP;
+
         // Font style
         $fontStyle = $this->element->getFontStyle();
         $fontStyleIsObject = ($fontStyle instanceof Font);
@@ -52,7 +58,7 @@ class Text extends Element
             $fontStyle = $styleWriter->write();
         }
 
-        if ($paragraphStyle && !$this->withoutP) {
+        if ($hasParagraphStyle) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $html .= "<p {$attribute}=\"{$paragraphStyle}\">";
         }
@@ -64,7 +70,7 @@ class Text extends Element
         if ($fontStyle) {
             $html .= '</span>';
         }
-        if ($paragraphStyle && !$this->withoutP) {
+        if ($hasParagraphStyle) {
             $html .= '</p>' . PHP_EOL;
         }
 

@@ -32,6 +32,10 @@ class ListItem extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItem) {
+            return;
+        }
+
         $textObject = $this->element->getTextObject();
         $depth = $this->element->getDepth();
         $numId = $this->element->getStyle()->getNumId();

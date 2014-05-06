@@ -34,6 +34,10 @@ class TextRun extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            return;
+        }
+
         $html = '';
         $elements = $this->element->getElements();
         if (count($elements) > 0) {

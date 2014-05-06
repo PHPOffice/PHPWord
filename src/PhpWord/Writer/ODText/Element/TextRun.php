@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\Link as LinkElement;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 
 /**
@@ -31,6 +32,10 @@ class TextRun extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+            return;
+        }
+
         $elements = $this->element->getElements();
         $this->xmlWriter->startElement('text:p');
         if (count($elements) > 0) {
@@ -38,7 +43,7 @@ class TextRun extends Element
                 if ($element instanceof TextElement) {
                     $elementWriter = new Text($this->xmlWriter, $this->parentWriter, $element, true);
                     $elementWriter->write();
-                } elseif ($element instanceof Link) {
+                } elseif ($element instanceof LinkElement) {
                     $elementWriter = new Link($this->xmlWriter, $this->parentWriter, $element, true);
                     $elementWriter->write();
                 }

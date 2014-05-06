@@ -72,7 +72,7 @@ class Rels extends AbstractPart
         }
 
         // Media relationships
-        if (!is_null($mediaRels) && is_array($mediaRels)) {
+        if (is_array($mediaRels)) {
             $mapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
             $targetPaths = array('image' => 'media/', 'object' => 'embeddings/');
             foreach ($mediaRels as $mediaRel) {

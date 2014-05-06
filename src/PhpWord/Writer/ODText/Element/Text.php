@@ -29,6 +29,10 @@ class Text extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
+
         $fontStyle = $this->element->getFontStyle();
         $paragraphStyle = $this->element->getParagraphStyle();
 

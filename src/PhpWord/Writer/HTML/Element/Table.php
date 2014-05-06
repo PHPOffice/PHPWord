@@ -31,6 +31,10 @@ class Table extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Table) {
+            return;
+        }
+
         $html = '';
         $rows = $this->element->getRows();
         $rowCount = count($rows);

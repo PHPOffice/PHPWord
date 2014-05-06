@@ -29,6 +29,10 @@ class Link extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
+
         if (!$this->withoutP) {
             $this->xmlWriter->startElement('text:p'); // text:p
         }

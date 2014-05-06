@@ -36,6 +36,10 @@ class Footnote extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+            return;
+        }
+
         if (!$this->withoutP) {
             $this->xmlWriter->startElement('w:p');
         }

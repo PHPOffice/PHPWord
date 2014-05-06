@@ -31,6 +31,10 @@ class Image extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
+            return;
+        }
+
         $mediaIndex = $this->element->getMediaIndex();
         $target = 'Pictures/' . $this->element->getTarget();
         $style = $this->element->getStyle();

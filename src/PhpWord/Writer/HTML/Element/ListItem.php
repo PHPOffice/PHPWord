@@ -31,6 +31,10 @@ class ListItem extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItem) {
+            return;
+        }
+
         $text = htmlspecialchars($this->element->getTextObject()->getText());
         $html = '<p>' . $text . '</p>' . PHP_EOL;
 

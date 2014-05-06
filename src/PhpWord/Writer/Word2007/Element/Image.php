@@ -43,6 +43,10 @@ class Image extends Element
      */
     private function writeImage()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
+            return;
+        }
+
         $rId = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
         $style = $this->element->getStyle();
         $styleWriter = new ImageStyleWriter($this->xmlWriter, $style);

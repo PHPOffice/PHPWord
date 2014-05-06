@@ -33,6 +33,10 @@ class PreserveText extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
+            return;
+        }
+
         $fontStyle = $this->element->getFontStyle();
         $paragraphStyle = $this->element->getParagraphStyle();
         $texts = $this->element->getText();

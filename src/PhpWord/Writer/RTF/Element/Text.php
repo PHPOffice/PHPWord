@@ -33,6 +33,10 @@ class Text extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
+
         $rtfText = '';
 
         $fontStyle = $this->element->getFontStyle();

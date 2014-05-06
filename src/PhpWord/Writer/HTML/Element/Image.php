@@ -34,10 +34,11 @@ class Image extends Element
      */
     public function write()
     {
-        $html = '';
-        if (!$this->element instanceof ImageElement) {
-            return $html;
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
         }
+
+        $html = '';
         if (!$this->parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {

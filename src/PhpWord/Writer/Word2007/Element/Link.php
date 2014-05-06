@@ -32,6 +32,10 @@ class Link extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
+
         $rId = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
         $fontStyle = $this->element->getFontStyle();
         $paragraphStyle = $this->element->getParagraphStyle();

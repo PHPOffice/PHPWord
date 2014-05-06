@@ -31,6 +31,10 @@ class Title extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+            return;
+        }
+
         $bookmarkId = $this->element->getBookmarkId();
         $anchor = '_Toc' . ($bookmarkId + 252634154);
         $style = $this->element->getStyle();

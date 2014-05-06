@@ -31,7 +31,12 @@ class Title extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+            return;
+        }
+
         $rtfText = '';
+
         $rtfText .= '\pard\nowidctlpar' . PHP_EOL;
         $rtfText .= $this->element->getText();
         $rtfText .= '\par' . PHP_EOL;

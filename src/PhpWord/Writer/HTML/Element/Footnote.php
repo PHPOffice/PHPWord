@@ -38,6 +38,10 @@ class Footnote extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+            return;
+        }
+
         $noteId = count($this->parentWriter->getNotes()) + 1;
         $noteMark = $this->noteType . '-' . $this->element->getRelationId();
         $this->parentWriter->addNote($noteId, $noteMark);

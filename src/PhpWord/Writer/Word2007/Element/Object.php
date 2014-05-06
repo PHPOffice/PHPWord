@@ -29,6 +29,10 @@ class Object extends Element
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Object) {
+            return;
+        }
+
         $rIdObject = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
         $rIdImage = $this->element->getImageRelationId() + ($this->element->isInSection() ? 6 : 0);
         $shapeId = md5($rIdObject . '_' . $rIdImage);
