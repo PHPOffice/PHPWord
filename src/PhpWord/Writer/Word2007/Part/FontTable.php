@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Word2007 font table writer
+ * Word2007 font table writer: word/fontTable.xml
  *
  * @since 0.10.0
  */

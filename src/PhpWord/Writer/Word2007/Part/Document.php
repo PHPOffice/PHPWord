@@ -24,26 +24,24 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
 /**
- * Word2007 document part writer
+ * Word2007 document part writer: word/document.xml
  */
 class Document extends AbstractPart
 {
     /**
-     * Write word/document.xml
+     * Write part
      *
      * @return string
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function write()
     {
-        $phpWord = $this->parentWriter->getPhpWord();
-        if (is_null($phpWord)) {
-            throw new Exception('No PhpWord assigned.');
-        }
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
+
         $sections = $phpWord->getSections();
         $sectionCount = count($sections);
         $currentSection = 0;
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:document');
@@ -52,7 +50,7 @@ class Document extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -132,18 +130,5 @@ class Document extends AbstractPart
         $styleWriter->write();
 
         $xmlWriter->endElement(); // w:sectPr
-    }
-
-    /**
-     * Write word/document.xml
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function writeDocument(PhpWord $phpWord = null)
-    {
-        $this->parentWriter->setPhpWord($phpWord);
-        return $this->write();
     }
 }

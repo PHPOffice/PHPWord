@@ -14,27 +14,46 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-namespace PhpOffice\PhpWord\Tests\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\Writer\ODText\Part\Meta;
+namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Meta
+ * Word2007 part relationship writer: word/_rels/(header|footer|footnotes|endnotes)*.xml.rels
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Meta
- * @runTestsInSeparateProcesses
+ * @since 0.11.0
  */
-class MetaTest extends \PHPUnit_Framework_TestCase
+class RelsPart extends Rels
 {
     /**
-     * Test construct with no PhpWord
+     * Media relationships
      *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
+     * @var array
      */
-    public function testConstructNoPhpWord()
+    private $media = array();
+
+    /**
+     * Write part
+     *
+     * @return string
+     */
+    public function write()
     {
-        $object = new Meta();
-        $object->writeMeta();
+        $xmlWriter = $this->getXmlWriter();
+        $this->writeRels($xmlWriter, null, $this->media);
+
+        return $xmlWriter->getData();
+    }
+
+    /**
+     * Set media
+     *
+     * @param array $media
+     * @return self
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+
+        return $this;
     }
 }

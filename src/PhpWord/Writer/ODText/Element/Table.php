@@ -56,7 +56,8 @@ class Table extends Element
                             $elementWriter->write();
                         }
                     } else {
-                        $elementWriter = new ElementWriter($this->xmlWriter, $this->parentWriter, new TextBreakElement());
+                        $element = new TextBreakElement();
+                        $elementWriter = new ElementWriter($this->xmlWriter, $this->parentWriter, $element);
                         $elementWriter->write();
                     }
                     $this->xmlWriter->endElement(); // table:table-cell

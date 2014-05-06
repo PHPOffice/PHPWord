@@ -20,32 +20,29 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 
 /**
- * Word2007 styles part writer
+ * Word2007 styles part writer: word/styles.xml
  *
  * @todo Do something with the numbering style introduced in 0.10.0
  */
 class Styles extends AbstractPart
 {
     /**
-     * Write word/styles.xml
+     * Write part
      *
      * @return string
      */
     public function write()
     {
-        $phpWord = $this->parentWriter->getPhpWord();
-        if (is_null($phpWord)) {
-            throw new Exception('No PhpWord assigned.');
-        }
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -219,18 +216,5 @@ class Styles extends AbstractPart
             $xmlWriter->endElement(); // w:rPr
             $xmlWriter->endElement(); // w:style
         }
-    }
-
-    /**
-     * Write word/styles.xml
-     *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function writeStyles(PhpWord $phpWord = null)
-    {
-        $this->parentWriter->setPhpWord($phpWord);
-        return $this->write();
     }
 }

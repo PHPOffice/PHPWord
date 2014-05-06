@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Word2007 endnotes part writer
+ * Word2007 endnotes part writer: word/endnotes.xml
  */
 class Endnotes extends Footnotes
 {

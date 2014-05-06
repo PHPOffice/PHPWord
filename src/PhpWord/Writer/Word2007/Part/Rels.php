@@ -21,7 +21,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Word2007 relationship writer
+ * Word2007 main relationship writer: _rels/.rels
  *
  * @since 0.10.0
  */
@@ -33,14 +33,19 @@ class Rels extends AbstractPart
     const RELS_BASE = 'http://schemas.openxmlformats.org/';
 
     /**
-     * Write word/_rels/(header|footer|footnotes)*.xml.rels
+     * Write part
      *
-     * @param array $mediaRels
+     * @return string
      */
-    public function writeMediaRels($mediaRels)
+    public function write()
     {
+        $xmlRels = array(
+            'docProps/core.xml' => 'package/2006/relationships/metadata/core-properties',
+            'docProps/app.xml'  => 'officeDocument/2006/relationships/extended-properties',
+            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
+        );
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, null, $mediaRels);
+        $this->writeRels($xmlWriter, $xmlRels);
 
         return $xmlWriter->getData();
     }
@@ -73,10 +78,12 @@ class Rels extends AbstractPart
             foreach ($mediaRels as $mediaRel) {
                 $mediaType = $mediaRel['type'];
                 $type = array_key_exists($mediaType, $mapping) ? $mapping[$mediaType] : $mediaType;
+                $type = "officeDocument/2006/relationships/{$type}";
                 $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
                 $target .= $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
-                $this->writeRel($xmlWriter, $relId++, "officeDocument/2006/relationships/{$type}", $target, $targetMode);
+
+                $this->writeRel($xmlWriter, $relId++, $type, $target, $targetMode);
             }
         }
 

@@ -22,18 +22,20 @@ use PhpOffice\PhpWord\Style\NumberingLevel;
 use PhpOffice\PhpWord\Style;
 
 /**
- * Word2007 numbering part writer
+ * Word2007 numbering part writer: word/numbering.xml
  */
 class Numbering extends AbstractPart
 {
     /**
-     * Write word/numbering.xml
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {
-        $styles = Style::getStyles();
-
         $xmlWriter = $this->getXmlWriter();
+        $styles = Style::getStyles();
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:numbering');
@@ -42,7 +44,7 @@ class Numbering extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -166,16 +168,5 @@ class Numbering extends AbstractPart
     private function getRandomHexNumber($length = 8)
     {
         return strtoupper(substr(md5(rand()), 0, $length));
-    }
-
-    /**
-     * Write numbering
-     *
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function writeNumbering()
-    {
-        return $this->write();
     }
 }

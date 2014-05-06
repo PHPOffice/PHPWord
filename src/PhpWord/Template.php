@@ -205,7 +205,8 @@ class Template
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -234,7 +235,12 @@ class Template
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        $pattern =
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
@@ -244,7 +250,11 @@ class Template
             }
 
             if ($replace) {
-                $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], implode('', $cloned), $this->documentXML);
+                $this->documentXML = str_replace(
+                    $matches[2] . $matches[3] . $matches[4],
+                    implode('', $cloned),
+                    $this->documentXML
+                );
             }
         }
 
@@ -259,10 +269,18 @@ class Template
      */
     public function replaceBlock($blockname, $replacement)
     {
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
-            $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], $replacement, $this->documentXML);
+            $this->documentXML = str_replace(
+                $matches[2] . $matches[3] . $matches[4],
+                $replacement,
+                $this->documentXML
+            );
         }
     }
 

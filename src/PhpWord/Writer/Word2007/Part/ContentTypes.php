@@ -21,16 +21,18 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Word2007 contenttypes part writer
+ * Word2007 contenttypes part writer: [Content_Types].xml
  */
 class ContentTypes extends AbstractPart
 {
     /**
-     * Write [Content_Types].xml
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {
-        $contentTypes = $this->parentWriter->getContentTypes();
+        $contentTypes = $this->getParentWriter()->getContentTypes();
 
         $openXMLPrefix = 'application/vnd.openxmlformats-';
         $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
@@ -89,18 +91,5 @@ class ContentTypes extends AbstractPart
                 throw new Exception("Invalid parameters passed.");
             }
         }
-    }
-
-    /**
-     * Write [Content_Types].xml
-     *
-     * @param array $contentTypes
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function writeContentTypes($contentTypes)
-    {
-        $contentTypes = null; // dummy assignment
-        return $this->write();
     }
 }

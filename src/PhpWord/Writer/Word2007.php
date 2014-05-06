@@ -52,16 +52,31 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
 
         // Create parts
-        $parts = array('ContentTypes', 'RelsMain', 'RelsDocument', 'DocPropsApp', 'DocPropsCore', 'Document', 'Styles',
-            'Numbering', 'Settings', 'WebSettings', 'Header', 'Footer', 'Footnotes',
-            'Endnotes', 'FontTable', 'Theme');
-        foreach ($parts as $part) {
-            $partName = strtolower($part);
-            $partClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\' . $part;
+        $this->parts = array(
+            'ContentTypes'  => '[Content_Types].xml',
+            'Rels'          => '_rels/.rels',
+            'DocPropsApp'   => 'docProps/app.xml',
+            'DocPropsCore'  => 'docProps/core.xml',
+            'RelsDocument'  => 'word/_rels/document.xml.rels',
+            'Document'      => 'word/document.xml',
+            'Styles'        => 'word/styles.xml',
+            'Numbering'     => 'word/numbering.xml',
+            'Settings'      => 'word/settings.xml',
+            'WebSettings'   => 'word/webSettings.xml',
+            'FontTable'     => 'word/fontTable.xml',
+            'Theme'         => 'word/theme/theme1.xml',
+            'RelsPart'      => '',
+            'Header'        => '',
+            'Footer'        => '',
+            'Footnotes'     => '',
+            'Endnotes'      => '',
+        );
+        foreach (array_keys($this->parts) as $partName) {
+            $partClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\' . $partName;
             if (class_exists($partClass)) {
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
-                $this->writerParts[$partName] = $partObject;
+                $this->writerParts[strtolower($partName)] = $partObject;
             }
         }
 
@@ -112,18 +127,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $this->addNotes($objZip, $rId, 'endnote');
 
             // Write parts
-            $objZip->addFromString('[Content_Types].xml', $this->getWriterPart('contenttypes')->write());
-            $objZip->addFromString('_rels/.rels', $this->getWriterPart('relsmain')->write());
-            $objZip->addFromString('docProps/app.xml', $this->getWriterPart('docpropsapp')->write());
-            $objZip->addFromString('docProps/core.xml', $this->getWriterPart('docpropscore')->write());
-            $objZip->addFromString('word/_rels/document.xml.rels', $this->getWriterPart('relsdocument')->write());
-            $objZip->addFromString('word/document.xml', $this->getWriterPart('document')->write());
-            $objZip->addFromString('word/styles.xml', $this->getWriterPart('styles')->write());
-            $objZip->addFromString('word/numbering.xml', $this->getWriterPart('numbering')->write());
-            $objZip->addFromString('word/settings.xml', $this->getWriterPart('settings')->write());
-            $objZip->addFromString('word/webSettings.xml', $this->getWriterPart('websettings')->write());
-            $objZip->addFromString('word/fontTable.xml', $this->getWriterPart('fonttable')->write());
-            $objZip->addFromString('word/theme/theme1.xml', $this->getWriterPart('theme')->write());
+            foreach ($this->parts as $partName => $fileName) {
+                if ($fileName != '') {
+                    $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
+                }
+            }
 
             // Close file
             if ($objZip->close() === false) {
@@ -157,7 +165,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add header/footer media files
+     * Add header/footer media files, e.g. footer1.xml.rels
      *
      * @param mixed $objZip
      * @param string $docPart
@@ -172,8 +180,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
                         $this->addFilesToPackage($objZip, $media);
                         $this->registerContentTypes($media);
                     }
-                    $relsFile = "word/_rels/{$file}.xml.rels";
-                    $objZip->addFromString($relsFile, $this->getWriterPart('rels')->writeMediaRels($media));
+
+                    $writerPart = $this->getWriterPart('relspart')->setMedia($media);
+                    $objZip->addFromString("word/_rels/{$file}.xml.rels", $writerPart->write());
                 }
             }
         }
@@ -183,22 +192,23 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add header/footer content
      *
      * @param mixed $objZip
-     * @param string $elmType
+     * @param string $elmType header|footer
      * @param integer $rId
      */
     private function addHeaderFooterContent(Section &$section, $objZip, $elmType, &$rId)
     {
         $getFunction = $elmType == 'header' ? 'getHeaders' : 'getFooters';
-        $writeFunction = $elmType == 'header' ? 'writeHeader' : 'writeFooter';
         $elmCount = ($section->getSectionId() - 1) * 3;
-        $elmObjects = $section->$getFunction();
-        foreach ($elmObjects as &$elmObject) {
+        $elements = $section->$getFunction();
+        foreach ($elements as &$element) {
             $elmCount++;
-            $elmObject->setRelationId(++$rId);
-            $elmFile = "{$elmType}{$elmCount}.xml";
-            $objZip->addFromString("word/$elmFile", $this->getWriterPart($elmType)->$writeFunction($elmObject));
+            $element->setRelationId(++$rId);
+            $elmFile = "{$elmType}{$elmCount}.xml"; // e.g. footer1.xml
             $this->contentTypes['override']["/word/$elmFile"] = $elmType;
             $this->relationships[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
+
+            $writerPart = $this->getWriterPart($elmType)->setElement($element);
+            $objZip->addFromString("word/$elmFile", $writerPart->write());
         }
     }
 
@@ -221,13 +231,18 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $media = Media::getElements($noteType);
             $this->addFilesToPackage($objZip, $media);
             $this->registerContentTypes($media);
-            if (!empty($media)) {
-                $objZip->addFromString("word/_rels/{$partName}.xml.rels", $this->getWriterPart('rels')->writeMediaRels($media));
-            }
-            $elements = $collection->getItems();
-            $objZip->addFromString("word/{$partName}.xml", $this->getWriterPart($partName)->write($elements));
             $this->contentTypes['override']["/word/{$partName}.xml"] = $partName;
             $this->relationships[] = array('target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId);
+
+            // Write relationships file, e.g. word/_rels/footnotes.xml
+            if (!empty($media)) {
+                $writerPart = $this->getWriterPart('relspart')->setMedia($media);
+                $objZip->addFromString("word/_rels/{$partName}.xml.rels", $writerPart->write());
+            }
+
+            // Write content file, e.g. word/footnotes.xml
+            $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
+            $objZip->addFromString("word/{$partName}.xml", $writerPart->write());
         }
     }
 

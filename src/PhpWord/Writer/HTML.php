@@ -188,7 +188,8 @@ class HTML extends AbstractWriter implements WriterInterface
                 if (array_key_exists($noteTypeId, $collection)) {
                     $element = $collection[$noteTypeId];
                     $elmWriter = new TextRunWriter($this, $element, true);
-                    $content = "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>" . $elmWriter->write();
+                    $content = "<a href=\"#{$noteMark}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
+                    $content .= $elmWriter->write();
                     $html .= "<p><a name=\"{$noteAnchor}\" />{$content}</p>" . PHP_EOL;
                 }
             }

@@ -23,7 +23,8 @@ use PhpOffice\PhpWord\Writer\HTML;
 /**
  * Generic element HTML writer
  *
- * Section: Text, TextRun, Link, Title, PreserveText, TextBreak, PageBreak, Table, ListItem, Image, Object, Endnote, Footnote
+ * Section: Text, TextRun, Link, Title, PreserveText, TextBreak, PageBreak, Table, ListItem, Image,
+ *          Object, Endnote, Footnote
  * Cell: Text, TextRun, Link, PreserveText, TextBreak, ListItem, Image, Object, Endnote, Footnote
  * TextRun: Text, Link, TextBreak, Image, Endnote, Footnote
  *

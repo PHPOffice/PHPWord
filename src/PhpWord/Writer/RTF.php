@@ -260,6 +260,7 @@ class RTF extends AbstractWriter implements WriterInterface
     private function populateColorTable()
     {
         $phpWord = $this->phpWord;
+        $defaultFontColor = PhpWord::DEFAULT_FONT_COLOR;
 
         $arrColors = array();
         // PhpWord object : $this->phpWord
@@ -272,10 +273,10 @@ class RTF extends AbstractWriter implements WriterInterface
                 if ($style instanceof Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (in_array($color, $arrColors) == false && $color != PhpWord::DEFAULT_FONT_COLOR && !empty($color)) {
+                    if (!in_array($color, $arrColors) && $color != $defaultFontColor && !empty($color)) {
                         $arrColors[] = $color;
                     }
-                    if (in_array($fgcolor, $arrColors) == false && $fgcolor != PhpWord::DEFAULT_FONT_COLOR && !empty($fgcolor)) {
+                    if (!in_array($fgcolor, $arrColors) && $fgcolor != $defaultFontColor && !empty($fgcolor)) {
                         $arrColors[] = $fgcolor;
                     }
                 }

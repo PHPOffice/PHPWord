@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
- * Word2007 footnotes part writer
+ * Word2007 footnotes part writer: word/(footnotes|endnotes).xml
  */
 class Footnotes extends AbstractPart
 {
@@ -55,13 +55,21 @@ class Footnotes extends AbstractPart
     protected $refStyle = 'FootnoteReference';
 
     /**
-     * Write word/(footnotes|endnotes).xml
+     * Footnotes/endnotes collection to be written
      *
-     * @param array $elements
+     * @var \PhpOffice\PhpWord\Collection\Footnotes|\PhpOffice\PhpWord\Collection\Endnotes
      */
-    public function write($elements)
+    protected $elements;
+
+    /**
+     * Write part
+     *
+     * @return string
+     */
+    public function write()
     {
         $xmlWriter = $this->getXmlWriter();
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement($this->rootNode);
@@ -70,7 +78,7 @@ class Footnotes extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -98,7 +106,7 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // $this->elementNode
 
         // Content
-        foreach ($elements as $element) {
+        foreach ($this->elements as $element) {
             if ($element instanceof Footnote) {
                 $this->writeNote($xmlWriter, $element);
             }
@@ -107,6 +115,19 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // $this->rootNode
 
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Set element
+     *
+     * @param \PhpOffice\PhpWord\Collection\Footnotes|\PhpOffice\PhpWord\Collection\Endnotes $elements
+     * @return self
+     */
+    public function setElements($elements)
+    {
+        $this->elements = $elements;
+
+        return $this;
     }
 
     /**

@@ -17,17 +17,17 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
-
 /**
- * Word2007 document relationship writer
+ * Word2007 document relationship writer: word/_rels/document.xml.rels
  *
  * @since 0.11.0
  */
 class RelsDocument extends Rels
 {
     /**
-     * Write _rels/.rels
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {
@@ -40,7 +40,7 @@ class RelsDocument extends Rels
             'fontTable.xml'    => 'officeDocument/2006/relationships/fontTable',
         );
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $xmlRels, $this->parentWriter->getRelationships());
+        $this->writeRels($xmlWriter, $xmlRels, $this->getParentWriter()->getRelationships());
 
         return $xmlWriter->getData();
     }

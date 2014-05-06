@@ -21,29 +21,22 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
- * ODText meta part writer
+ * ODText meta part writer: meta.xml
  */
 class Meta extends AbstractPart
 {
     /**
-     * Write Meta file to XML format
+     * Write part
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return string XML Output
+     * @return string
      */
-    public function writeMeta(PhpWord $phpWord = null)
+    public function write()
     {
-        if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
-        }
-
-        // Create XML writer
+        $phpWord = $this->getParentWriter()->getPhpWord();
+        $docProps = $phpWord->getDocumentProperties();
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
-
-        // office:document-meta
         $xmlWriter->startElement('office:document-meta');
         $xmlWriter->writeAttribute('office:version', '1.2');
         $xmlWriter->writeAttribute('xmlns:office', 'urn:oasis:names:tc:opendocument:xmlns:office:1.0');
@@ -55,27 +48,18 @@ class Meta extends AbstractPart
 
         // office:meta
         $xmlWriter->startElement('office:meta');
-
-        // dc:creator
-        $xmlWriter->writeElement('dc:creator', $phpWord->getDocumentProperties()->getLastModifiedBy());
-        // dc:date
-        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getDocumentProperties()->getModified()));
-        // dc:description
-        $xmlWriter->writeElement('dc:description', $phpWord->getDocumentProperties()->getDescription());
-        // dc:subject
-        $xmlWriter->writeElement('dc:subject', $phpWord->getDocumentProperties()->getSubject());
-        // dc:title
-        $xmlWriter->writeElement('dc:title', $phpWord->getDocumentProperties()->getTitle());
-        // meta:creation-date
-        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $phpWord->getDocumentProperties()->getCreated()));
-        // meta:initial-creator
-        $xmlWriter->writeElement('meta:initial-creator', $phpWord->getDocumentProperties()->getCreator());
-        // meta:keyword
-        $xmlWriter->writeElement('meta:keyword', $phpWord->getDocumentProperties()->getKeywords());
+        $xmlWriter->writeElement('dc:creator', $docProps->getLastModifiedBy());
+        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $docProps->getModified()));
+        $xmlWriter->writeElement('dc:description', $docProps->getDescription());
+        $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
+        $xmlWriter->writeElement('dc:title', $docProps->getTitle());
+        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
+        $xmlWriter->writeElement('meta:initial-creator', $docProps->getCreator());
+        $xmlWriter->writeElement('meta:keyword', $docProps->getKeywords());
 
         // @todo : Where these properties are written ?
-        // $phpWord->getDocumentProperties()->getCategory()
-        // $phpWord->getDocumentProperties()->getCompany()
+        // $docProps->getCategory()
+        // $docProps->getCompany()
 
         $xmlWriter->endElement();
 

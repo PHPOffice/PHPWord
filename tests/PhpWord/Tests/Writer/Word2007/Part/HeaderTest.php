@@ -43,11 +43,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $container->addWatermark($imageSrc);
 
         $writer = new Word2007();
+        $writer->setUseDiskCaching(true);
         $object = new Header();
         $object->setParentWriter($writer);
-        $object->writeHeader($container);
-        $writer->setUseDiskCaching(true);
-        $xml = simplexml_load_string($object->writeHeader($container));
+        $object->setElement($container);
+        $xml = simplexml_load_string($object->write());
 
         $this->assertInstanceOf('SimpleXMLElement', $xml);
     }

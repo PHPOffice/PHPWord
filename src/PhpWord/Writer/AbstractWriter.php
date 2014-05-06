@@ -36,6 +36,13 @@ abstract class AbstractWriter implements WriterInterface
     protected $phpWord = null;
 
     /**
+     * Part name and file name pairs
+     *
+     * @var array
+     */
+    protected $parts = array();
+
+    /**
      * Individual writers
      *
      * @var array
@@ -114,13 +121,13 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get writer part
      *
-     * @param string $pPartName Writer part name
+     * @param string $partName Writer part name
      * @return mixed
      */
-    public function getWriterPart($pPartName = '')
+    public function getWriterPart($partName = '')
     {
-        if ($pPartName != '' && isset($this->writerParts[strtolower($pPartName)])) {
-            return $this->writerParts[strtolower($pPartName)];
+        if ($partName != '' && isset($this->writerParts[strtolower($partName)])) {
+            return $this->writerParts[strtolower($partName)];
         } else {
             return null;
         }
@@ -139,19 +146,19 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Set use disk caching status
      *
-     * @param bool $pValue
-     * @param string $pDirectory
+     * @param bool $value
+     * @param string $directory
      * @return self
      */
-    public function setUseDiskCaching($pValue = false, $pDirectory = null)
+    public function setUseDiskCaching($value = false, $directory = null)
     {
-        $this->useDiskCaching = $pValue;
+        $this->useDiskCaching = $value;
 
-        if (!is_null($pDirectory)) {
-            if (is_dir($pDirectory)) {
-                $this->diskCachingDirectory = $pDirectory;
+        if (!is_null($directory)) {
+            if (is_dir($directory)) {
+                $this->diskCachingDirectory = $directory;
             } else {
-                throw new Exception("Directory does not exist: $pDirectory");
+                throw new Exception("Directory does not exist: $directory");
             }
         }
 
@@ -227,7 +234,7 @@ abstract class AbstractWriter implements WriterInterface
     {
         if ($this->originalFilename != $this->tempFilename) {
             if (copy($this->tempFilename, $this->originalFilename) === false) {
-                throw new Exception("Could not copy temporary zip file {$this->tempFilename} to {$this->originalFilename}.");
+                throw new Exception("Could not copy temporary zip file.");
             }
             @unlink($this->tempFilename);
         }
@@ -258,7 +265,6 @@ abstract class AbstractWriter implements WriterInterface
         $objZip = new $zipClass();
 
         // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
-        // This method of accessing constant values from a dynamic class should work with all appropriate versions of PHP
         $reflection = new \ReflectionObject($objZip);
         $zipOverWrite = $reflection->getConstant('OVERWRITE');
         $zipCreate = $reflection->getConstant('CREATE');

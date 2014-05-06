@@ -45,7 +45,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $writerParts = array(
             'ContentTypes' => 'ContentTypes',
             'Rels' => 'Rels',
-            'DocProps' => 'DocProps',
+            'DocPropsApp' => 'DocPropsApp',
             'Document' => 'Document',
             'Styles' => 'Styles',
             'Numbering' => 'Numbering',

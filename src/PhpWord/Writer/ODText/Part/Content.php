@@ -29,21 +29,18 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
 
 /**
- * ODText content part writer
+ * ODText content part writer: content.xml
  */
 class Content extends AbstractPart
 {
     /**
-     * Write content file to XML format
+     * Write part
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return string XML Output
+     * @return string
      */
-    public function writeContent(PhpWord $phpWord = null)
+    public function write()
     {
-        if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
-        }
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8');

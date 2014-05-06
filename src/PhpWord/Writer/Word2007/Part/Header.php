@@ -17,10 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Element\AbstractContainer as Container;
-
 /**
- * Word2007 header part writer
+ * Word2007 header part writer: word/headerx.xml
  */
 class Header extends Footer
 {
@@ -30,14 +28,4 @@ class Header extends Footer
      * @var string
      */
     protected $rootElement = 'w:hdr';
-
-    /**
-     * Write word/headerx.xml
-     *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     */
-    public function writeHeader(Container $element)
-    {
-        return $this->writeFooter($element);
-    }
 }

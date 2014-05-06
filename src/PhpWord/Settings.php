@@ -237,7 +237,8 @@ class Settings
      */
     public static function setMeasurementUnit($value)
     {
-        $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH, self::UNIT_POINT, self::UNIT_PICA);
+        $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH,
+            self::UNIT_POINT, self::UNIT_PICA);
         if (!in_array($value, $units)) {
             return false;
         }

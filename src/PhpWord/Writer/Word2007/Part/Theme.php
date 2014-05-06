@@ -18,14 +18,16 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Word2007 theme writer
+ * Word2007 theme writer: word/theme/theme1.xml
  *
  * @since 0.10.0
  */
 class Theme extends AbstractPart
 {
     /**
-     * Write theme/theme1.xml
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {

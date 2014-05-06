@@ -63,7 +63,8 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($iVal, $oSettings->getHeaderHeight());
 
         $oSettings->setSettingValue('lineNumbering', array());
-        $oSettings->setSettingValue('lineNumbering', array('start' => 1, 'increment' => 1, 'distance' => 240, 'restart' => 'newPage'));
+        $oSettings->setSettingValue('lineNumbering', array('start' => 1, 'increment' => 1,
+            'distance' => 240, 'restart' => 'newPage'));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
 
         $oSettings->setSettingValue('lineNumbering', null);

@@ -37,18 +37,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test construct with no PhpWord
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
-     */
-    public function testConstructNoPhpWord()
-    {
-        $object = new Content();
-        $object->writeContent();
-    }
-
-    /**
      * Test write content
      */
     public function testWriteContent()

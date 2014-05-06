@@ -21,26 +21,26 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
- * Word2007 core document properties part writer
+ * Word2007 core document properties part writer: docProps/core.xml
  *
  * @since 0.11.0
  */
 class DocPropsCore extends AbstractPart
 {
     /**
-     * Write docProps/core.xml
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {
-        $phpWord = $this->parentWriter->getPhpWord();
-        if (is_null($phpWord)) {
-            throw new Exception('No PhpWord assigned.');
-        }
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
+        $schema = 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('cp:coreProperties');
-        $xmlWriter->writeAttribute('xmlns:cp', 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties');
+        $xmlWriter->writeAttribute('xmlns:cp', $schema);
         $xmlWriter->writeAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
         $xmlWriter->writeAttribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $xmlWriter->writeAttribute('xmlns:dcmitype', 'http://purl.org/dc/dcmitype/');

@@ -18,12 +18,14 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
- * Word2007 web settings part writer
+ * Word2007 web settings part writer: word/webSettings.xml
  */
 class WebSettings extends Settings
 {
     /**
-     * Write word/webSettings.xml
+     * Write part
+     *
+     * @return string
      */
     public function write()
     {
@@ -45,16 +47,5 @@ class WebSettings extends Settings
         $xmlWriter->endElement(); // w:settings
 
         return $xmlWriter->getData();
-    }
-
-    /**
-     * Write word/webSettings.xml
-     *
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function writeWebSettings()
-    {
-        return $this->write();
     }
 }

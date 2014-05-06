@@ -22,23 +22,17 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
- * ODText styloes part writer
+ * ODText styloes part writer: styles.xml
  */
 class Styles extends AbstractPart
 {
     /**
-     * Write Styles file to XML format
+     * Write part
      *
-     * @param  \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return string XML Output
+     * @return string
      */
-    public function writeStyles(PhpWord $phpWord = null)
+    public function write()
     {
-        if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
-        }
-
-        // Create XML writer
         $xmlWriter = $this->getXmlWriter();
 
         // XML header

@@ -37,18 +37,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test write word/document.xm with no PhpWord
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
-     */
-    public function testWriteDocumentNoPhpWord()
-    {
-        $object = new Document();
-        $object->writeDocument();
-    }
-
-    /**
      * Write end section page numbering
      */
     public function testWriteEndSectionPageNumbering()
@@ -121,8 +109,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('align' => 'center')); // Style #1
-        $phpWord->addFontStyle('fStyle', array('size' => '20', 'doubleStrikethrough' => true, 'allCaps' => true)); // Style #2
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true)); // Style #3
+        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true)); // Style #2
+        $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
         $fontStyle = new Font('text', array('align' => 'center'));
         $section = $phpWord->addSection();
         $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #4

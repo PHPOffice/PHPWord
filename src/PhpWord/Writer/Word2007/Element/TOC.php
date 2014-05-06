@@ -81,6 +81,8 @@ class TOC extends Element
 
             if ($tocFieldWritten !== true) {
                 $tocFieldWritten = true;
+                $minDepth = $this->element->getMinDepth();
+                $maxDepth = $this->element->getMaxDepth();
 
                 $this->xmlWriter->startElement('w:r');
                 $this->xmlWriter->startElement('w:fldChar');
@@ -91,7 +93,7 @@ class TOC extends Element
                 $this->xmlWriter->startElement('w:r');
                 $this->xmlWriter->startElement('w:instrText');
                 $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-                $this->xmlWriter->writeRaw('TOC \o "' . $this->element->getMinDepth() . '-' . $this->element->getMaxDepth() . '" \h \z \u');
+                $this->xmlWriter->writeRaw("TOC \o {$minDepth}-{$maxDepth} \h \z \u");
                 $this->xmlWriter->endElement();
                 $this->xmlWriter->endElement();
 

@@ -29,8 +29,6 @@ class FooterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Write footer
-     *
-     * @covers  ::writeFooter
      */
     public function testWriteFooter()
     {
@@ -44,11 +42,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $container->addImage($imageSrc);
 
         $writer = new Word2007();
+        $writer->setUseDiskCaching(true);
         $object = new Footer();
         $object->setParentWriter($writer);
-        $object->writeFooter($container);
-        $writer->setUseDiskCaching(true);
-        $xml = simplexml_load_string($object->writeFooter($container));
+        $object->setElement($container);
+        $xml = simplexml_load_string($object->write());
 
         $this->assertInstanceOf('SimpleXMLElement', $xml);
     }

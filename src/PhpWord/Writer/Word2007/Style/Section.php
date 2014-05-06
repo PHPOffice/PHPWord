@@ -50,14 +50,20 @@ class Section extends AbstractStyle
         $this->xmlWriter->endElement(); // w:pgSz
 
         // Margins
+        $margins = array(
+            'w:top'    => array('getMarginTop', SectionStyle::DEFAULT_MARGIN),
+            'w:right'  => array('getMarginRight', SectionStyle::DEFAULT_MARGIN),
+            'w:bottom' => array('getMarginBottom', SectionStyle::DEFAULT_MARGIN),
+            'w:left'   => array('getMarginLeft', SectionStyle::DEFAULT_MARGIN),
+            'w:header' => array('getHeaderHeight', SectionStyle::DEFAULT_HEADER_HEIGHT),
+            'w:footer' => array('getFooterHeight', SectionStyle::DEFAULT_FOOTER_HEIGHT),
+            'w:gutter' => array('getGutter', SectionStyle::DEFAULT_GUTTER),
+        );
         $this->xmlWriter->startElement('w:pgMar');
-        $this->xmlWriter->writeAttribute('w:top', $this->convertTwip($this->style->getMarginTop(), SectionStyle::DEFAULT_MARGIN));
-        $this->xmlWriter->writeAttribute('w:right', $this->convertTwip($this->style->getMarginRight(), SectionStyle::DEFAULT_MARGIN));
-        $this->xmlWriter->writeAttribute('w:bottom', $this->convertTwip($this->style->getMarginBottom(), SectionStyle::DEFAULT_MARGIN));
-        $this->xmlWriter->writeAttribute('w:left', $this->convertTwip($this->style->getMarginLeft(), SectionStyle::DEFAULT_MARGIN));
-        $this->xmlWriter->writeAttribute('w:header', $this->convertTwip($this->style->getHeaderHeight(), SectionStyle::DEFAULT_HEADER_HEIGHT));
-        $this->xmlWriter->writeAttribute('w:footer', $this->convertTwip($this->style->getFooterHeight(), SectionStyle::DEFAULT_FOOTER_HEIGHT));
-        $this->xmlWriter->writeAttribute('w:gutter', $this->convertTwip($this->style->getGutter(), SectionStyle::DEFAULT_GUTTER));
+        foreach ($margins as $attribute => $value) {
+            list($method, $default) = $value;
+            $this->xmlWriter->writeAttribute($attribute, $this->convertTwip($this->style->$method(), $default));
+        }
         $this->xmlWriter->endElement();
 
         // Borders
@@ -91,7 +97,10 @@ class Section extends AbstractStyle
         // Columns
         $this->xmlWriter->startElement('w:cols');
         $this->xmlWriter->writeAttribute('w:num', $this->style->getColsNum());
-        $this->xmlWriter->writeAttribute('w:space', $this->convertTwip($this->style->getColsSpace(), SectionStyle::DEFAULT_COLUMN_SPACING));
+        $this->xmlWriter->writeAttribute('w:space', $this->convertTwip(
+            $this->style->getColsSpace(),
+            SectionStyle::DEFAULT_COLUMN_SPACING
+        ));
         $this->xmlWriter->endElement();
 
         // Line numbering

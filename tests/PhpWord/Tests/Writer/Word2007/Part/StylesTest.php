@@ -37,18 +37,6 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test construct with no PhpWord
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
-     */
-    public function testConstructNoPhpWord()
-    {
-        $object = new Styles();
-        $object->writeStyles();
-    }
-
-    /**
      * Test write styles
      */
     public function testWriteStyles()

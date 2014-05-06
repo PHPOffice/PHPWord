@@ -39,14 +39,19 @@ class ODText extends AbstractWriter implements WriterInterface
         $this->setPhpWord($phpWord);
 
         // Create parts
-        $parts = array('Content', 'Manifest', 'Meta', 'Mimetype', 'Styles');
-        foreach ($parts as $part) {
-            $partName = strtolower($part);
-            $partClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Part\\' . $part;
+        $this->parts = array(
+            'Mimetype'  => 'mimetype',
+            'Content'   => 'content.xml',
+            'Meta'      => 'meta.xml',
+            'Styles'    => 'styles.xml',
+            'Manifest'  => 'META-INF/manifest.xml',
+        );
+        foreach (array_keys($this->parts) as $partName) {
+            $partClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Part\\' . $partName;
             if (class_exists($partClass)) {
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
-                $this->writerParts[$partName] = $partObject;
+                $this->writerParts[strtolower($partName)] = $partObject;
             }
         }
 
@@ -72,12 +77,12 @@ class ODText extends AbstractWriter implements WriterInterface
                 $this->addFilesToPackage($objZip, $sectionMedia);
             }
 
-            // Add parts
-            $objZip->addFromString('mimetype', $this->getWriterPart('mimetype')->writeMimetype());
-            $objZip->addFromString('content.xml', $this->getWriterPart('content')->writeContent($this->phpWord));
-            $objZip->addFromString('meta.xml', $this->getWriterPart('meta')->writeMeta($this->phpWord));
-            $objZip->addFromString('styles.xml', $this->getWriterPart('styles')->writeStyles($this->phpWord));
-            $objZip->addFromString('META-INF/manifest.xml', $this->getWriterPart('manifest')->writeManifest());
+            // Write parts
+            foreach ($this->parts as $partName => $fileName) {
+                if ($fileName != '') {
+                    $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
+                }
+            }
 
             // Close file
             if ($objZip->close() === false) {

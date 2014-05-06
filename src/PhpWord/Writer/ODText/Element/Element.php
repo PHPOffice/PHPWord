@@ -59,9 +59,10 @@ class Element
     /**
      * Create new instance
      *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
-    public function __construct(XMLWriter $xmlWriter, AbstractPart $parentWriter, AbstractElement $element, $withoutP = false)
+    public function __construct(XMLWriter $xmlWriter, AbstractPart $parentWriter, $element, $withoutP = false)
     {
         $this->xmlWriter = $xmlWriter;
         $this->parentWriter = $parentWriter;
