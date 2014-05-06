@@ -125,6 +125,8 @@ class TOC extends Element
 
     /**
      * Write style
+     *
+     * @param int $indent
      */
     private function writeStyle($indent)
     {

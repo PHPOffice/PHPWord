@@ -58,21 +58,20 @@ class Text extends Element
             $fontStyle = $styleWriter->write();
         }
 
+        $openingTags = '';
+        $endingTags = '';
         if ($hasParagraphStyle) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
-            $html .= "<p {$attribute}=\"{$paragraphStyle}\">";
+            $openingTags = "<p {$attribute}=\"{$paragraphStyle}\">";
+            $endingTags = '</p>' . PHP_EOL;
         }
         if ($fontStyle) {
             $attribute = $fontStyleIsObject ? 'style' : 'class';
-            $html .= "<span {$attribute}=\"{$fontStyle}\">";
+            $openingTags = $openingTags . "<span {$attribute}=\"{$fontStyle}\">";
+            $endingTags = '</span>' . $endingTags;
         }
-        $html .= htmlspecialchars($this->element->getText());
-        if ($fontStyle) {
-            $html .= '</span>';
-        }
-        if ($hasParagraphStyle) {
-            $html .= '</p>' . PHP_EOL;
-        }
+
+        $html = $openingTags . htmlspecialchars($this->element->getText()) . $endingTags;
 
         return $html;
     }

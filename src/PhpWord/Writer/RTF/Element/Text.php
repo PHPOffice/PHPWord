@@ -18,8 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 
 /**
  * Text element RTF writer
@@ -51,15 +52,7 @@ class Text extends Element
 
         if ($paragraphStyle && !$this->withoutP) {
             if ($this->parentWriter->getLastParagraphStyle() != $this->element->getParagraphStyle()) {
-                $rtfText .= '\pard\nowidctlpar';
-                if ($paragraphStyle->getSpaceAfter() != null) {
-                    $rtfText .= '\sa' . $paragraphStyle->getSpaceAfter();
-                }
-                if ($paragraphStyle->getAlign() != null) {
-                    if ($paragraphStyle->getAlign() == 'center') {
-                        $rtfText .= '\qc';
-                    }
-                }
+                $rtfText .= $this->writeParagraphStyle($paragraphStyle);
                 $this->parentWriter->setLastParagraphStyle($this->element->getParagraphStyle());
             } else {
                 $this->parentWriter->setLastParagraphStyle();
@@ -80,6 +73,26 @@ class Text extends Element
         }
         if (!$this->withoutP) {
             $rtfText .= '\par' . PHP_EOL;
+        }
+
+        return $rtfText;
+    }
+
+    /**
+     * Write paragraph style
+     *
+     * @return string
+     */
+    private function writeParagraphStyle(ParagraphStyle $paragraphStyle)
+    {
+        $rtfText = '\pard\nowidctlpar';
+        if ($paragraphStyle->getSpaceAfter() != null) {
+            $rtfText .= '\sa' . $paragraphStyle->getSpaceAfter();
+        }
+        if ($paragraphStyle->getAlign() != null) {
+            if ($paragraphStyle->getAlign() == 'center') {
+                $rtfText .= '\qc';
+            }
         }
 
         return $rtfText;

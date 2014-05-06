@@ -34,7 +34,7 @@ class Image extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
             return;
         }
 
