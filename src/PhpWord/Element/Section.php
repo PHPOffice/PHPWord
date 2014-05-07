@@ -1,18 +1,22 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\TOC;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
@@ -113,6 +117,21 @@ class Section extends AbstractContainer
         $this->addElement(new PageBreak());
     }
 
+    /**
+     * Add textbox element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\TextBox
+     * @todo Merge with the same function on Footer
+     */
+    public function addTextBox($style = null)
+    {
+        $textbox = new TextBox($this->getDocPart(), $this->getDocPartId(), $style);
+        $this->addElement($textbox);
+    
+        return $textbox;
+    }
+    
     /**
      * Add table element
      *

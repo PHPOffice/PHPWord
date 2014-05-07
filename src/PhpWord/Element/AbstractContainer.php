@@ -1,21 +1,22 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Element\CheckBox;
-use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\Object;
-use PhpOffice\PhpWord\Element\TextBreak;
-use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 
@@ -303,7 +304,7 @@ abstract class AbstractContainer extends AbstractElement
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote');
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox');
         $validContainers = array(
             'Text'          => $allContainers,
             'Link'          => $allContainers,
@@ -355,7 +356,7 @@ abstract class AbstractContainer extends AbstractElement
         $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
         $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
-
+        $docPartId = $inHeaderFooter ? $this->getDocPartId() : $docPartId;
         return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 

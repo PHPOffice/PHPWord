@@ -1,9 +1,17 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -85,10 +93,11 @@ abstract class AbstractPart
         $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
         $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
         $allowedElements = array(
-            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
-            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC', 'TextBox')),
+            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
+            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
             'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
+            'TextBox'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
             'TextRun'  => array_merge($elmCommon, array('Footnote', 'Endnote')),
             'Footnote' => $elmCommon,
             'Endnote'  => $elmCommon,
@@ -96,7 +105,7 @@ abstract class AbstractPart
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
         if (!array_key_exists($containerName, $allowedElements)) {
-            throw new Exception('Invalid container.');
+            throw new Exception('Invalid container.'.$containerName. print_r($allowedElements, true));
         }
 
         // Loop through elements

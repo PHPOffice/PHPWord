@@ -4,7 +4,6 @@
 .Trashes
 Thumbs.db
 Desktop.ini
-composer.lock
 composer.phar
 phpunit.xml
 /.buildpath

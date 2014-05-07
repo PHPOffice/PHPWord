@@ -1,9 +1,17 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
+ * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -15,28 +23,30 @@ use PhpOffice\PhpWord\Style\TOC;
  * Test class for PhpOffice\PhpWord\Style\TOC
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
- * @runTestsInSeparateProcesses
  */
 class TOCTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test properties with normal value
+     * Test get/set
      */
-    public function testProperties()
+    public function testGetSet()
     {
         $object = new TOC();
-
         $properties = array(
-            'position'    => 9062,
-            'leader' => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
-            'indent'    => 200,
+            'tabLeader' => array(TOC::TAB_LEADER_DOT, TOC::TAB_LEADER_UNDERSCORE),
+            'tabPos'    => array(9062, 10),
+            'indent'    => array(200, 10),
         );
-        foreach ($properties as $key => $value) {
-            // set/get
-            $set = "set{$key}";
-            $get = "get{$key}";
-            $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+        foreach ($properties as $property => $value) {
+            list($default, $expected) = $value;
+            $get = "get{$property}";
+            $set = "set{$property}";
+
+            $this->assertEquals($default, $object->$get()); // Default value
+
+            $object->$set($expected);
+
+            $this->assertEquals($expected, $object->$get()); // New value
         }
     }
 }

@@ -12,18 +12,14 @@ Applications <http://en.wikipedia.org/wiki/OpenDocument>`__
 (OpenDocument or ODF), and `Rich Text
 Format <http://en.wikipedia.org/wiki/Rich_Text_Format>`__ (RTF).
 
-No Windows operating system is needed for usage because the resulting
-DOCX, ODT, or RTF files can be opened by all major `word processing
-softwares <http://en.wikipedia.org/wiki/List_of_word_processors>`__.
-
-PHPWord is an open source project licensed under LGPL version 3. PHPWord is `unit
-tested <https://travis-ci.org/PHPOffice/PHPWord>`__ to make sure that
-the released versions are stable.
-
-**Want to contribute?** `Fork
-us <https://github.com/PHPOffice/PHPWord/fork>`__ or
-`submit <https://github.com/PHPOffice/PHPWord/issues>`__ your bug
-reports or feature requests to us.
+PHPWord is an open source project licensed under the terms of `LGPL
+version 3 <https://github.com/PHPOffice/PHPWord/blob/develop/LICENSE.md>`__.
+PHPWord is aimed to be a high quality software product by incorporating
+`continuous integration <https://travis-ci.org/PHPOffice/PHPWord>`__ and
+`unit testing <http://phpoffice.github.io/PHPWord/coverage/develop/>`__.
+You can learn more about PHPWord by reading this Developers'
+Documentation and the `API
+Documentation <http://phpoffice.github.io/PHPWord/docs/develop/>`__.
 
 Features
 --------
@@ -180,3 +176,20 @@ Readers
 +---------------------------+----------------------+--------+-------+-------+
 |                           | Protection           |        |       |       |
 +---------------------------+----------------------+--------+-------+-------+
+
+Contributing
+------------
+
+We welcome everyone to contribute to PHPWord. Below are some of the
+things that you can do to contribute:
+
+-  Read `our contributing
+   guide <https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md>`__
+-  `Fork us <https://github.com/PHPOffice/PHPWord/fork>`__ and `request
+   a pull <https://github.com/PHPOffice/PHPWord/pulls>`__ to the
+   `develop <https://github.com/PHPOffice/PHPWord/tree/develop>`__
+   branch
+-  Submit `bug reports or feature
+   requests <https://github.com/PHPOffice/PHPWord/issues>`__ to GitHub
+-  Follow `@PHPWord <https://twitter.com/PHPWord>`__ and
+   `@PHPOffice <https://twitter.com/PHPOffice>`__ on Twitter
