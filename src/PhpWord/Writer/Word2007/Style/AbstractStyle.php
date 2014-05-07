@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -32,10 +33,10 @@ abstract class AbstractStyle
      *
      * @var \PhpOffice\PhpWord\Shared\XMLWriter
      */
-    protected $xmlWriter;
+    private $xmlWriter;
 
     /**
-     * Style
+     * Style; set protected for a while
      *
      * @var string|\PhpOffice\PhpWord\Style\AbstractStyle
      */
@@ -58,6 +59,33 @@ abstract class AbstractStyle
     }
 
     /**
+     * Get XML Writer
+     *
+     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     */
+    protected function getXmlWriter()
+    {
+        return $this->xmlWriter;
+    }
+
+    /**
+     * Get Style
+     *
+     * @return \PhpOffice\PhpWord\Style\AbstractStyle
+     */
+    protected function getStyle()
+    {
+        if (!is_null($this->style)) {
+            $styleClass = 'PhpOffice\\PhpWord\\Style\\' . basename(get_class($this->style));
+            if (is_object($this->style) && (!$this->style instanceof $styleClass)) {
+                throw new Exception('No valid style assigned.');
+            }
+        }
+
+        return $this->style;
+    }
+
+    /**
      * Convert twip value
      *
      * @param int|float $value
@@ -71,29 +99,6 @@ abstract class AbstractStyle
             return $value;
         } else {
             return $value * $unit;
-        }
-    }
-
-    /**
-     * Write element when ...
-     *
-     * @param bool $condition
-     * @param string $element
-     * @param string $attribute
-     * @param string $value
-     */
-    protected function writeElementIf($condition, $element, $attribute = null, $value = null)
-    {
-        if (!$condition) {
-            return;
-        }
-
-        if (is_null($attribute)) {
-            $this->xmlWriter->writeElement($element, $value);
-        } else {
-            $this->xmlWriter->startElement($element);
-            $this->xmlWriter->writeAttribute($attribute, $value);
-            $this->xmlWriter->endElement();
         }
     }
 }

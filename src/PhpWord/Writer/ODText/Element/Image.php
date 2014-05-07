@@ -24,43 +24,42 @@ use PhpOffice\PhpWord\Shared\Drawing;
  *
  * @since 0.10.0
  */
-class Image extends Element
+class Image extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $mediaIndex = $this->element->getMediaIndex();
-        $target = 'Pictures/' . $this->element->getTarget();
-        $style = $this->element->getStyle();
+        $mediaIndex = $element->getMediaIndex();
+        $target = 'Pictures/' . $element->getTarget();
+        $style = $element->getStyle();
         $width = Drawing::pixelsToCentimeters($style->getWidth());
         $height = Drawing::pixelsToCentimeters($style->getHeight());
 
-        $this->xmlWriter->startElement('text:p');
-        $this->xmlWriter->writeAttribute('text:style-name', 'Standard');
+        $xmlWriter->startElement('text:p');
+        $xmlWriter->writeAttribute('text:style-name', 'Standard');
 
-        $this->xmlWriter->startElement('draw:frame');
-        $this->xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
-        $this->xmlWriter->writeAttribute('draw:name', $this->element->getElementId());
-        $this->xmlWriter->writeAttribute('text:anchor-type', 'as-char');
-        $this->xmlWriter->writeAttribute('svg:width', $width . 'cm');
-        $this->xmlWriter->writeAttribute('svg:height', $height . 'cm');
-        $this->xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
+        $xmlWriter->startElement('draw:frame');
+        $xmlWriter->writeAttribute('draw:style-name', 'fr' . $mediaIndex);
+        $xmlWriter->writeAttribute('draw:name', $element->getElementId());
+        $xmlWriter->writeAttribute('text:anchor-type', 'as-char');
+        $xmlWriter->writeAttribute('svg:width', $width . 'cm');
+        $xmlWriter->writeAttribute('svg:height', $height . 'cm');
+        $xmlWriter->writeAttribute('draw:z-index', $mediaIndex);
 
-        $this->xmlWriter->startElement('draw:image');
-        $this->xmlWriter->writeAttribute('xlink:href', $target);
-        $this->xmlWriter->writeAttribute('xlink:type', 'simple');
-        $this->xmlWriter->writeAttribute('xlink:show', 'embed');
-        $this->xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
-        $this->xmlWriter->endElement(); // draw:image
+        $xmlWriter->startElement('draw:image');
+        $xmlWriter->writeAttribute('xlink:href', $target);
+        $xmlWriter->writeAttribute('xlink:type', 'simple');
+        $xmlWriter->writeAttribute('xlink:show', 'embed');
+        $xmlWriter->writeAttribute('xlink:actuate', 'onLoad');
+        $xmlWriter->endElement(); // draw:image
 
-        $this->xmlWriter->endElement(); // draw:frame
+        $xmlWriter->endElement(); // draw:frame
 
-        $this->xmlWriter->endElement(); // text:p
+        $xmlWriter->endElement(); // text:p
     }
 }

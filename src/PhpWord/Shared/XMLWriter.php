@@ -149,4 +149,39 @@ class XMLWriter
 
         return $this->text($text);
     }
+
+    /**
+     * Write element if ...
+     *
+     * @param bool $condition
+     * @param string $element
+     * @param string $attribute
+     * @param string $value
+     */
+    public function writeElementIf($condition, $element, $attribute = null, $value = null)
+    {
+        if ($condition) {
+            if (is_null($attribute)) {
+                $this->xmlWriter->writeElement($element, $value);
+            } else {
+                $this->xmlWriter->startElement($element);
+                $this->xmlWriter->writeAttribute($attribute, $value);
+                $this->xmlWriter->endElement();
+            }
+        }
+    }
+
+    /**
+     * Write attribute if ...
+     *
+     * @param bool $condition
+     * @param string $attribute
+     * @param string $value
+     */
+    public function writeAttributeIf($condition, $attribute, $value)
+    {
+        if ($condition) {
+            $this->xmlWriter->writeAttribute($attribute, $value);
+        }
+    }
 }

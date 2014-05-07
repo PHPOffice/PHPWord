@@ -509,19 +509,12 @@ class Section extends Border
     /**
      * Set line numbering
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setLineNumbering($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->lineNumbering instanceof LineNumbering) {
-                $this->lineNumbering = new LineNumbering($value);
-            }
-            $this->lineNumbering->setStyleByArray($value);
-        } else {
-            $this->lineNumbering = null;
-        }
+        $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
 
         return $this;
     }

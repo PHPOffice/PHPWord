@@ -34,32 +34,33 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = is_null($this->style->getSpaceBefore()) ? '0' : round(17.6 / $this->style->getSpaceBefore(), 2);
-        $marginBottom = is_null($this->style->getSpaceAfter()) ? '0' : round(17.6 / $this->style->getSpaceAfter(), 2);
+        $marginTop = is_null($style->getSpaceBefore()) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
+        $marginBottom = is_null($style->getSpaceAfter()) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
 
-        $this->xmlWriter->startElement('style:style');
-        $this->xmlWriter->writeAttribute('style:name', $this->style->getStyleName());
-        $this->xmlWriter->writeAttribute('style:family', 'paragraph');
+        $xmlWriter->startElement('style:style');
+        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+        $xmlWriter->writeAttribute('style:family', 'paragraph');
         if ($this->isAuto) {
-            $this->xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
-            $this->xmlWriter->writeAttribute('style:master-page-name', 'Standard');
+            $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
+            $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
         }
 
-        $this->xmlWriter->startElement('style:paragraph-properties');
+        $xmlWriter->startElement('style:paragraph-properties');
         if ($this->isAuto) {
-            $this->xmlWriter->writeAttribute('style:page-number', 'auto');
+            $xmlWriter->writeAttribute('style:page-number', 'auto');
         } else {
-            $this->xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
-            $this->xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
-            $this->xmlWriter->writeAttribute('fo:text-align', $this->style->getAlign());
+            $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
+            $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
+            $xmlWriter->writeAttribute('fo:text-align', $style->getAlign());
         }
-        $this->xmlWriter->endElement(); //style:paragraph-properties
+        $xmlWriter->endElement(); //style:paragraph-properties
 
-        $this->xmlWriter->endElement(); //style:style
+        $xmlWriter->endElement(); //style:style
     }
 
     /**

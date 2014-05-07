@@ -31,15 +31,16 @@ class LineNumbering extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\LineNumbering)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        $this->xmlWriter->startElement('w:lnNumType');
-        $this->xmlWriter->writeAttribute('w:start', $this->style->getStart() - 1);
-        $this->xmlWriter->writeAttribute('w:countBy', $this->style->getIncrement());
-        $this->xmlWriter->writeAttribute('w:distance', $this->style->getDistance());
-        $this->xmlWriter->writeAttribute('w:restart', $this->style->getRestart());
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:lnNumType');
+        $xmlWriter->writeAttribute('w:start', $style->getStart() - 1);
+        $xmlWriter->writeAttribute('w:countBy', $style->getIncrement());
+        $xmlWriter->writeAttribute('w:distance', $style->getDistance());
+        $xmlWriter->writeAttribute('w:restart', $style->getRestart());
+        $xmlWriter->endElement();
     }
 }

@@ -50,31 +50,33 @@ class MarginBorder extends AbstractStyle
      */
     public function write()
     {
+        $xmlWriter = $this->getXmlWriter();
+
         $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
         $sizeCount = count($this->sizes) - 1;
 
         for ($i = 0; $i < $sizeCount; $i++) {
             if (!is_null($this->sizes[$i])) {
-                $this->xmlWriter->startElement('w:' . $sides[$i]);
+                $xmlWriter->startElement('w:' . $sides[$i]);
                 if (!empty($this->colors)) {
                     if (is_null($this->colors[$i]) && !empty($this->attributes)) {
                         if (array_key_exists('defaultColor', $this->attributes)) {
                             $this->colors[$i] = $this->attributes['defaultColor'];
                         }
                     }
-                    $this->xmlWriter->writeAttribute('w:val', 'single');
-                    $this->xmlWriter->writeAttribute('w:sz', $this->sizes[$i]);
-                    $this->xmlWriter->writeAttribute('w:color', $this->colors[$i]);
+                    $xmlWriter->writeAttribute('w:val', 'single');
+                    $xmlWriter->writeAttribute('w:sz', $this->sizes[$i]);
+                    $xmlWriter->writeAttribute('w:color', $this->colors[$i]);
                     if (!empty($this->attributes)) {
                         if (array_key_exists('space', $this->attributes)) {
-                            $this->xmlWriter->writeAttribute('w:space', $this->attributes['space']);
+                            $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
                         }
                     }
                 } else {
-                    $this->xmlWriter->writeAttribute('w:w', $this->sizes[$i]);
-                    $this->xmlWriter->writeAttribute('w:type', 'dxa');
+                    $xmlWriter->writeAttribute('w:w', $this->sizes[$i]);
+                    $xmlWriter->writeAttribute('w:type', 'dxa');
                 }
-                $this->xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
         }
     }

@@ -72,14 +72,13 @@ class Element
      */
     public function write()
     {
-        $html = '';
-        $elmName = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($this->element));
-        $elmWriterClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $elmName;
-        if (class_exists($elmWriterClass) === true) {
-            $elmWriter = new $elmWriterClass($this->parentWriter, $this->element, $this->withoutP);
-            $html = $elmWriter->write();
+        $content = '';
+        $writerClass = dirname(get_class($this)) . '\\' . basename(get_class($this->element));
+        if (class_exists($writerClass)) {
+            $writer = new $writerClass($this->parentWriter, $this->element, $this->withoutP);
+            $content = $writer->write();
         }
 
-        return $html;
+        return $content;
     }
 }

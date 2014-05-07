@@ -69,7 +69,7 @@ class TextBreak extends AbstractElement
             $this->setParagraphStyle($paragraphStyle);
         } elseif (is_array($style)) {
             $this->fontStyle = new Font('text', $paragraphStyle);
-            $this->fontStyle->setArrayStyle($style);
+            $this->fontStyle->setStyleByArray($style);
         } else {
             $this->fontStyle = $style;
             $this->setParagraphStyle($paragraphStyle);
@@ -97,7 +97,7 @@ class TextBreak extends AbstractElement
     {
         if (is_array($style)) {
             $this->paragraphStyle = new Paragraph;
-            $this->paragraphStyle->setArrayStyle($style);
+            $this->paragraphStyle->setStyleByArray($style);
         } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } else {
@@ -114,5 +114,15 @@ class TextBreak extends AbstractElement
     public function getParagraphStyle()
     {
         return $this->paragraphStyle;
+    }
+
+    /**
+     * Has font/paragraph style defined
+     *
+     * @return bool
+     */
+    public function hasStyle()
+    {
+        return !is_null($this->fontStyle) || !is_null($this->paragraphStyle);
     }
 }

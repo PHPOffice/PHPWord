@@ -67,19 +67,19 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (!is_null($this->getPhpWord())) {
-            $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
-            $hFile = fopen($filename, 'w');
-            if ($hFile !== false) {
-                fwrite($hFile, $this->writeDocument());
-                fclose($hFile);
-            } else {
-                throw new Exception("Can't open file");
-            }
-            $this->clearTempDir();
-        } else {
-            throw new Exception("No PHPWord assigned.");
+        if (is_null($this->phpWord)) {
+            throw new Exception('PhpWord object unassigned.');
         }
+
+        $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
+        $hFile = fopen($filename, 'w');
+        if ($hFile !== false) {
+            fwrite($hFile, $this->writeDocument());
+            fclose($hFile);
+        } else {
+            throw new Exception("Can't open file");
+        }
+        $this->clearTempDir();
     }
 
     /**

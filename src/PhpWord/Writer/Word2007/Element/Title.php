@@ -24,54 +24,54 @@ use PhpOffice\PhpWord\Shared\String;
  *
  * @since 0.10.0
  */
-class Title extends Element
+class Title extends AbstractElement
 {
     /**
      * Write title element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $bookmarkId = $this->element->getBookmarkId();
+        $bookmarkId = $element->getBookmarkId();
         $anchor = '_Toc' . ($bookmarkId + 252634154);
-        $style = $this->element->getStyle();
-        $text = htmlspecialchars($this->element->getText());
+        $style = $element->getStyle();
+
+        $text = htmlspecialchars($element->getText());
         $text = String::controlCharacterPHP2OOXML($text);
 
-        $this->xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:p');
 
         if (!empty($style)) {
-            $this->xmlWriter->startElement('w:pPr');
-            $this->xmlWriter->startElement('w:pStyle');
-            $this->xmlWriter->writeAttribute('w:val', $style);
-            $this->xmlWriter->endElement();
-            $this->xmlWriter->endElement();
+            $xmlWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:pStyle');
+            $xmlWriter->writeAttribute('w:val', $style);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
         }
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:bookmarkStart');
-        $this->xmlWriter->writeAttribute('w:id', $bookmarkId);
-        $this->xmlWriter->writeAttribute('w:name', $anchor);
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:bookmarkStart');
+        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->writeAttribute('w:name', $anchor);
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:t');
-        $this->xmlWriter->writeRaw($text);
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeRaw($text);
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:bookmarkEnd');
-        $this->xmlWriter->writeAttribute('w:id', $bookmarkId);
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:bookmarkEnd');
+        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 }

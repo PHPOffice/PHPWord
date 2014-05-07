@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
+
 /**
  * Word2007 footer part writer: word/footerx.xml
  */
@@ -58,7 +60,8 @@ class Footer extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
-        $this->writeContainerElements($xmlWriter, $this->element);
+        $containerWriter = new Container($xmlWriter, $this->element);
+        $containerWriter->write();
 
         $xmlWriter->endElement(); // $this->rootElement
 

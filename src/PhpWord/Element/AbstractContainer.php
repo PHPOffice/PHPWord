@@ -39,8 +39,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     protected function addElement(AbstractElement $element)
     {
-        // $type = get_class($element);
-        // $type = str_replace('PhpOffice\\PhpWord\\Element\\', '', $type);
+        // $type = basename(get_class($element));
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);
@@ -79,7 +78,7 @@ abstract class AbstractContainer extends AbstractElement
     public function addText($text, $fontStyle = null, $paragraphStyle = null, $elementName = 'Text')
     {
         $this->checkValidity($elementName);
-        $elementClass = 'PhpOffice\\PhpWord\\Element\\' . $elementName;
+        $elementClass = dirname(get_class($this)) . '\\' . $elementName;
 
         // Reset paragraph style for footnote and textrun. They have their own
         if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
@@ -249,7 +248,7 @@ abstract class AbstractContainer extends AbstractElement
     public function addFootnote($paragraphStyle = null, $elementName = 'Footnote')
     {
         $this->checkValidity($elementName);
-        $elementClass = 'PhpOffice\\PhpWord\\Element\\' . $elementName;
+        $elementClass = dirname(get_class($this)) . '\\' . $elementName;
         $docPart = strtolower($elementName);
         $addMethod = "add{$elementName}";
 

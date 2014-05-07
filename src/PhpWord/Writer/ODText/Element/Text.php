@@ -22,19 +22,17 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  *
  * @since 0.10.0
  */
-class Text extends Element
+class Text extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
-            return;
-        }
-
-        $fontStyle = $this->element->getFontStyle();
-        $paragraphStyle = $this->element->getParagraphStyle();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        $fontStyle = $element->getFontStyle();
+        $paragraphStyle = $element->getParagraphStyle();
 
         // @todo Commented for TextRun. Should really checkout this value
         // $fStyleIsObject = ($fontStyle instanceof Font) ? true : false;
@@ -45,31 +43,31 @@ class Text extends Element
             throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
         } else {
             if (!$this->withoutP) {
-                $this->xmlWriter->startElement('text:p'); // text:p
+                $xmlWriter->startElement('text:p'); // text:p
             }
             if (empty($fontStyle)) {
                 if (empty($paragraphStyle)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', 'P1');
+                    $xmlWriter->writeAttribute('text:style-name', 'P1');
                 } elseif (is_string($paragraphStyle)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
-                $this->xmlWriter->writeRaw($this->element->getText());
+                $xmlWriter->writeRaw($element->getText());
             } else {
                 if (empty($paragraphStyle)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', 'Standard');
+                    $xmlWriter->writeAttribute('text:style-name', 'Standard');
                 } elseif (is_string($paragraphStyle)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
                 // text:span
-                $this->xmlWriter->startElement('text:span');
+                $xmlWriter->startElement('text:span');
                 if (is_string($fontStyle)) {
-                    $this->xmlWriter->writeAttribute('text:style-name', $fontStyle);
+                    $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
-                $this->xmlWriter->writeRaw($this->element->getText());
-                $this->xmlWriter->endElement();
+                $xmlWriter->writeRaw($element->getText());
+                $xmlWriter->endElement();
             }
             if (!$this->withoutP) {
-                $this->xmlWriter->endElement(); // text:p
+                $xmlWriter->endElement(); // text:p
             }
         }
     }

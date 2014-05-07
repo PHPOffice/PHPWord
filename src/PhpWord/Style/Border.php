@@ -323,4 +323,22 @@ class Border extends AbstractStyle
     {
         return $this->borderBottomColor;
     }
+
+    /**
+     * Has borders?
+     *
+     * @return bool
+     */
+    public function hasBorders()
+    {
+        $hasBorders = false;
+        $borders = $this->getBorderSize();
+        for ($i = 0; $i < count($borders); $i++) {
+            if (!is_null($borders[$i])) {
+                $hasBorders = true;
+            }
+        }
+
+        return $hasBorders;
+    }
 }

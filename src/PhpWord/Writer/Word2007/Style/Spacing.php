@@ -29,21 +29,21 @@ class Spacing extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Spacing)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
+        $before = $style->getBefore();
+        $after = $style->getAfter();
+        $line = $style->getLine();
 
-        $this->xmlWriter->startElement('w:spacing');
-        if (!is_null($this->style->getBefore())) {
-            $this->xmlWriter->writeAttribute('w:before', $this->convertTwip($this->style->getBefore()));
-        }
-        if (!is_null($this->style->getAfter())) {
-            $this->xmlWriter->writeAttribute('w:after', $this->convertTwip($this->style->getAfter()));
-        }
-        if (!is_null($this->style->getLine())) {
-            $this->xmlWriter->writeAttribute('w:line', $this->style->getLine());
-            $this->xmlWriter->writeAttribute('w:lineRule', $this->style->getRule());
-        }
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:spacing');
+
+        $xmlWriter->writeAttributeIf(!is_null($before), 'w:before', $this->convertTwip($before));
+        $xmlWriter->writeAttributeIf(!is_null($after), 'w:after', $this->convertTwip($after));
+        $xmlWriter->writeAttributeIf(!is_null($line), 'w:line', $line);
+        $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getRule());
+
+        $xmlWriter->endElement();
     }
 }

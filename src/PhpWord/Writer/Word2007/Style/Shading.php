@@ -29,14 +29,15 @@ class Shading extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Shading)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        $this->xmlWriter->startElement('w:shd');
-        $this->xmlWriter->writeAttribute('w:val', $this->style->getPattern());
-        $this->xmlWriter->writeAttribute('w:color', $this->style->getColor());
-        $this->xmlWriter->writeAttribute('w:fill', $this->style->getFill());
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:shd');
+        $xmlWriter->writeAttribute('w:val', $style->getPattern());
+        $xmlWriter->writeAttribute('w:color', $style->getColor());
+        $xmlWriter->writeAttribute('w:fill', $style->getFill());
+        $xmlWriter->endElement();
     }
 }

@@ -66,25 +66,24 @@ class RTF extends AbstractWriter implements WriterInterface
     /**
      * Save PhpWord to file
      *
-     * @param string $pFilename
+     * @param string $filename
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function save($pFilename = null)
+    public function save($filename = null)
     {
-        if (!is_null($this->phpWord)) {
-            $pFilename = $this->getTempFile($pFilename);
-
-            $hFile = fopen($pFilename, 'w');
-            if ($hFile !== false) {
-                fwrite($hFile, $this->writeDocument());
-                fclose($hFile);
-            } else {
-                throw new Exception("Can't open file");
-            }
-            $this->cleanupTempFile();
-        } else {
-            throw new Exception("PhpWord object unassigned.");
+        if (is_null($this->phpWord)) {
+            throw new Exception('PhpWord object unassigned.');
         }
+
+        $filename = $this->getTempFile($filename);
+        $hFile = fopen($filename, 'w');
+        if ($hFile !== false) {
+            fwrite($hFile, $this->writeDocument());
+            fclose($hFile);
+        } else {
+            throw new Exception("Can't open file");
+        }
+        $this->cleanupTempFile();
     }
 
     /**

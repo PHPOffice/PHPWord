@@ -36,47 +36,47 @@ class Table extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Table)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
-
-        $hasBorders = $this->style->hasBorders();
-        $hasMargins = $this->style->hasMargins();
+        $xmlWriter = $this->getXmlWriter();
+        $hasBorders = $style->hasBorders();
+        $hasMargins = $style->hasMargins();
 
         if ($hasMargins || $hasBorders) {
-            $this->xmlWriter->startElement('w:tblPr');
+            $xmlWriter->startElement('w:tblPr');
             if ($hasMargins) {
-                $mbWriter = new MarginBorder($this->xmlWriter);
-                $mbWriter->setSizes($this->style->getCellMargin());
+                $mbWriter = new MarginBorder($xmlWriter);
+                $mbWriter->setSizes($style->getCellMargin());
 
-                $this->xmlWriter->startElement('w:tblCellMar');
+                $xmlWriter->startElement('w:tblCellMar');
                 $mbWriter->write();
-                $this->xmlWriter->endElement(); // w:tblCellMar
+                $xmlWriter->endElement(); // w:tblCellMar
             }
             if ($hasBorders) {
-                $mbWriter = new MarginBorder($this->xmlWriter);
-                $mbWriter->setSizes($this->style->getBorderSize());
-                $mbWriter->setColors($this->style->getBorderColor());
+                $mbWriter = new MarginBorder($xmlWriter);
+                $mbWriter->setSizes($style->getBorderSize());
+                $mbWriter->setColors($style->getBorderColor());
 
-                $this->xmlWriter->startElement('w:tblBorders');
+                $xmlWriter->startElement('w:tblBorders');
                 $mbWriter->write();
-                $this->xmlWriter->endElement(); // w:tblBorders
+                $xmlWriter->endElement(); // w:tblBorders
             }
-            $this->xmlWriter->endElement(); // w:tblPr
+            $xmlWriter->endElement(); // w:tblPr
         }
         // Only write background color and first row for full style
         if ($this->isFullStyle) {
             // Background color
-            if (!is_null($this->style->getShading())) {
-                $this->xmlWriter->startElement('w:tcPr');
-                $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
+            if (!is_null($style->getShading())) {
+                $xmlWriter->startElement('w:tcPr');
+                $styleWriter = new Shading($xmlWriter, $style->getShading());
                 $styleWriter->write();
-                $this->xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
             // First Row
-            $firstRow = $this->style->getFirstRow();
+            $firstRow = $style->getFirstRow();
             if ($firstRow instanceof \PhpOffice\PhpWord\Style\Table) {
-                $this->writeFirstRow($firstRow, 'firstRow');
+                $this->writeFirstRow($firstRow);
             }
         }
     }
@@ -96,28 +96,30 @@ class Table extends AbstractStyle
      *
      * @param string $type
      */
-    private function writeFirstRow(\PhpOffice\PhpWord\Style\Table $style, $type)
+    private function writeFirstRow(\PhpOffice\PhpWord\Style\Table $style)
     {
-        $this->xmlWriter->startElement('w:tblStylePr');
-        $this->xmlWriter->writeAttribute('w:type', $type);
-        $this->xmlWriter->startElement('w:tcPr');
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startElement('w:tblStylePr');
+        $xmlWriter->writeAttribute('w:type', 'firstRow');
+        $xmlWriter->startElement('w:tcPr');
         if (!is_null($style->getShading())) {
-            $styleWriter = new Shading($this->xmlWriter, $style->getShading());
+            $styleWriter = new Shading($xmlWriter, $style->getShading());
             $styleWriter->write();
         }
 
         // Borders
         if ($style->hasBorders()) {
-            $mbWriter = new MarginBorder($this->xmlWriter);
+            $mbWriter = new MarginBorder($xmlWriter);
             $mbWriter->setSizes($style->getBorderSize());
             $mbWriter->setColors($style->getBorderColor());
 
-            $this->xmlWriter->startElement('w:tcBorders');
+            $xmlWriter->startElement('w:tcBorders');
             $mbWriter->write();
-            $this->xmlWriter->endElement(); // w:tcBorders
+            $xmlWriter->endElement(); // w:tcBorders
         }
 
-        $this->xmlWriter->endElement(); // w:tcPr
-        $this->xmlWriter->endElement(); // w:tblStylePr
+        $xmlWriter->endElement(); // w:tcPr
+        $xmlWriter->endElement(); // w:tblStylePr
     }
 }

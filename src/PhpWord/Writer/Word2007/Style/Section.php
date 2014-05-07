@@ -31,23 +31,21 @@ class Section extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Section)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        // Section break
-        if (!is_null($this->style->getBreakType())) {
-            $this->xmlWriter->startElement('w:type');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getBreakType());
-            $this->xmlWriter->endElement();
-        }
+        // Break type
+        $breakType = $style->getBreakType();
+        $xmlWriter->writeElementIf(!is_null($breakType), 'w:type', 'w:val', $breakType);
 
         // Page size & orientation
-        $this->xmlWriter->startElement('w:pgSz');
-        $this->xmlWriter->writeAttribute('w:orient', $this->style->getOrientation());
-        $this->xmlWriter->writeAttribute('w:w', $this->style->getPageSizeW());
-        $this->xmlWriter->writeAttribute('w:h', $this->style->getPageSizeH());
-        $this->xmlWriter->endElement(); // w:pgSz
+        $xmlWriter->startElement('w:pgSz');
+        $xmlWriter->writeAttribute('w:orient', $style->getOrientation());
+        $xmlWriter->writeAttribute('w:w', $style->getPageSizeW());
+        $xmlWriter->writeAttribute('w:h', $style->getPageSizeH());
+        $xmlWriter->endElement(); // w:pgSz
 
         // Margins
         $margins = array(
@@ -59,52 +57,40 @@ class Section extends AbstractStyle
             'w:footer' => array('getFooterHeight', SectionStyle::DEFAULT_FOOTER_HEIGHT),
             'w:gutter' => array('getGutter', SectionStyle::DEFAULT_GUTTER),
         );
-        $this->xmlWriter->startElement('w:pgMar');
+        $xmlWriter->startElement('w:pgMar');
         foreach ($margins as $attribute => $value) {
             list($method, $default) = $value;
-            $this->xmlWriter->writeAttribute($attribute, $this->convertTwip($this->style->$method(), $default));
+            $xmlWriter->writeAttribute($attribute, $this->convertTwip($style->$method(), $default));
         }
-        $this->xmlWriter->endElement();
+        $xmlWriter->endElement();
 
         // Borders
-        $borders = $this->style->getBorderSize();
-        $hasBorders = false;
-        for ($i = 0; $i < 4; $i++) {
-            if (!is_null($borders[$i])) {
-                $hasBorders = true;
-                break;
-            }
-        }
-        if ($hasBorders) {
-            $styleWriter = new MarginBorder($this->xmlWriter);
-            $styleWriter->setSizes($borders);
-            $styleWriter->setColors($this->style->getBorderColor());
+        if ($style->hasBorders()) {
+            $xmlWriter->startElement('w:pgBorders');
+            $xmlWriter->writeAttribute('w:offsetFrom', 'page');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
             $styleWriter->setAttributes(array('space' => '24'));
-
-            $this->xmlWriter->startElement('w:pgBorders');
-            $this->xmlWriter->writeAttribute('w:offsetFrom', 'page');
             $styleWriter->write();
-            $this->xmlWriter->endElement();
-        }
 
-        // Page numbering
-        if (!is_null($this->style->getPageNumberingStart())) {
-            $this->xmlWriter->startElement('w:pgNumType');
-            $this->xmlWriter->writeAttribute('w:start', $this->style->getPageNumberingStart());
-            $this->xmlWriter->endElement();
+            $xmlWriter->endElement();
         }
 
         // Columns
-        $this->xmlWriter->startElement('w:cols');
-        $this->xmlWriter->writeAttribute('w:num', $this->style->getColsNum());
-        $this->xmlWriter->writeAttribute('w:space', $this->convertTwip(
-            $this->style->getColsSpace(),
-            SectionStyle::DEFAULT_COLUMN_SPACING
-        ));
-        $this->xmlWriter->endElement();
+        $colsSpace = $style->getColsSpace();
+        $xmlWriter->startElement('w:cols');
+        $xmlWriter->writeAttribute('w:num', $style->getColsNum());
+        $xmlWriter->writeAttribute('w:space', $this->convertTwip($colsSpace, SectionStyle::DEFAULT_COLUMN_SPACING));
+        $xmlWriter->endElement();
+
+        // Page numbering start
+        $pageNum = $style->getPageNumberingStart();
+        $xmlWriter->writeElementIf(!is_null($pageNum), 'w:pgNumType', 'w:start', $pageNum);
 
         // Line numbering
-        $styleWriter = new LineNumbering($this->xmlWriter, $this->style->getLineNumbering());
+        $styleWriter = new LineNumbering($xmlWriter, $style->getLineNumbering());
         $styleWriter->write();
     }
 }

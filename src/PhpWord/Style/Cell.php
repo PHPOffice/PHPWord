@@ -42,7 +42,7 @@ class Cell extends Border
      *
      * @var string
      */
-    private $valign;
+    private $vAlign;
 
     /**
      * Text Direction
@@ -80,7 +80,7 @@ class Cell extends Border
      */
     public function getVAlign()
     {
-        return $this->valign;
+        return $this->vAlign;
     }
 
     /**
@@ -90,7 +90,7 @@ class Cell extends Border
      */
     public function setVAlign($value = null)
     {
-        $this->valign = $value;
+        $this->vAlign = $value;
     }
 
     /**
@@ -183,19 +183,12 @@ class Cell extends Border
     /**
      * Set shading
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setShading($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->shading instanceof Shading) {
-                $this->shading = new Shading();
-            }
-            $this->shading->setStyleByArray($value);
-        } else {
-            $this->shading = null;
-        }
+        $this->setObjectVal($value, 'Shading', $this->shading);
 
         return $this;
     }

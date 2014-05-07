@@ -24,14 +24,16 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
  *
  * @since 0.10.0
  */
-class Image extends Element
+class Image extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if ($this->element->isWatermark()) {
+        $element = $this->getElement();
+
+        if ($element->isWatermark()) {
             $this->writeWatermark();
         } else {
             $this->writeImage();
@@ -43,41 +45,40 @@ class Image extends Element
      */
     private function writeImage()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $rId = $this->element->getRelationId() + ($this->element->isInSection() ? 6 : 0);
-        $style = $this->element->getStyle();
-        $styleWriter = new ImageStyleWriter($this->xmlWriter, $style);
+        $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
+        $style = $element->getStyle();
+        $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
         if (!$this->withoutP) {
-            $this->xmlWriter->startElement('w:p');
+            $xmlWriter->startElement('w:p');
             if (!is_null($style->getAlign())) {
-                $this->xmlWriter->startElement('w:pPr');
-                $this->xmlWriter->startElement('w:jc');
-                $this->xmlWriter->writeAttribute('w:val', $style->getAlign());
-                $this->xmlWriter->endElement(); // w:jc
-                $this->xmlWriter->endElement(); // w:pPr
+                $xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:jc');
+                $xmlWriter->writeAttribute('w:val', $style->getAlign());
+                $xmlWriter->endElement(); // w:jc
+                $xmlWriter->endElement(); // w:pPr
             }
         }
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:pict');
-        $this->xmlWriter->startElement('v:shape');
-        $this->xmlWriter->writeAttribute('type', '#_x0000_t75');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:pict');
+        $xmlWriter->startElement('v:shape');
+        $xmlWriter->writeAttribute('type', '#_x0000_t75');
         $styleWriter->write();
-        $this->xmlWriter->startElement('v:imagedata');
-        $this->xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-        $this->xmlWriter->writeAttribute('o:title', '');
-        $this->xmlWriter->endElement(); // v:imagedata
+        $xmlWriter->startElement('v:imagedata');
+        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+        $xmlWriter->writeAttribute('o:title', '');
+        $xmlWriter->endElement(); // v:imagedata
         $styleWriter->writeW10Wrap();
-        $this->xmlWriter->endElement(); // v:shape
-        $this->xmlWriter->endElement(); // w:pict
-        $this->xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // v:shape
+        $xmlWriter->endElement(); // w:pict
+        $xmlWriter->endElement(); // w:r
 
         if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // w:p
+            $xmlWriter->endElement(); // w:p
         }
     }
     /**
@@ -85,24 +86,27 @@ class Image extends Element
      */
     private function writeWatermark()
     {
-        $rId = $this->element->getRelationId();
-        $style = $this->element->getStyle();
-        $style->setPositioning('absolute');
-        $styleWriter = new ImageStyleWriter($this->xmlWriter, $style);
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $this->xmlWriter->startElement('w:p');
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:pict');
-        $this->xmlWriter->startElement('v:shape');
-        $this->xmlWriter->writeAttribute('type', '#_x0000_t75');
+        $rId = $element->getRelationId();
+        $style = $element->getStyle();
+        $style->setPositioning('absolute');
+        $styleWriter = new ImageStyleWriter($xmlWriter, $style);
+
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:pict');
+        $xmlWriter->startElement('v:shape');
+        $xmlWriter->writeAttribute('type', '#_x0000_t75');
         $styleWriter->write();
-        $this->xmlWriter->startElement('v:imagedata');
-        $this->xmlWriter->writeAttribute('r:id', 'rId' . $rId);
-        $this->xmlWriter->writeAttribute('o:title', '');
-        $this->xmlWriter->endElement(); // v:imagedata
-        $this->xmlWriter->endElement(); // v:shape
-        $this->xmlWriter->endElement(); // w:pict
-        $this->xmlWriter->endElement(); // w:r
-        $this->xmlWriter->endElement(); // w:p
+        $xmlWriter->startElement('v:imagedata');
+        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+        $xmlWriter->writeAttribute('o:title', '');
+        $xmlWriter->endElement(); // v:imagedata
+        $xmlWriter->endElement(); // v:shape
+        $xmlWriter->endElement(); // w:pict
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:p
     }
 }
