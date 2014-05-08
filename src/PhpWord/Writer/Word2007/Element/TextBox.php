@@ -57,9 +57,7 @@ class TextBox extends Element
         $margins = implode(', ', $tbxStyle->getInnerMargin());
         $this->xmlWriter->writeAttribute('inset', $margins);
         $this->xmlWriter->startElement('w:txbxContent');
-        $this->xmlWriter->startElement('w:p');
         $this->parentWriter->writeContainerElements($this->xmlWriter, $this->element);
-        $this->xmlWriter->endElement(); // w:p
         $this->xmlWriter->endElement(); // w:txbxContent
         $this->xmlWriter->endElement(); // v: textbox
         $styleWriter->writeW10Wrap();
