@@ -97,7 +97,7 @@ abstract class AbstractPart
             'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
             'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
             'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
-            'TextBox'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
+            'TextBox'  => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
             'TextRun'  => array_merge($elmCommon, array('Footnote', 'Endnote')),
             'Footnote' => $elmCommon,
             'Endnote'  => $elmCommon,
@@ -110,7 +110,7 @@ abstract class AbstractPart
 
         // Loop through elements
         $elements = $container->getElements();
-        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
+        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof AbstractElement) {

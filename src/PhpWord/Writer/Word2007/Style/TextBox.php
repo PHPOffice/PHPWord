@@ -93,7 +93,7 @@ class TextBox extends AbstractStyle
         if ($borderSize !== null) {
             $this->xmlWriter->writeAttribute('strokeweight', $this->style->getBorderSize().'pt');
         }
-        
+
         $borderColor = $this->style->getBorderColor();
         if (empty($borderColor)) {
             $this->xmlWriter->writeAttribute('stroked', 'f');
@@ -101,7 +101,7 @@ class TextBox extends AbstractStyle
             $this->xmlWriter->writeAttribute('strokecolor', $borderColor);
         }
         //@todo <v:stroke dashstyle="dashDot" linestyle="thickBetweenThin"/>
-        
+
     }
 
     /**
@@ -114,7 +114,7 @@ class TextBox extends AbstractStyle
         if (!is_null($this->w10wrap)) {
             $this->xmlWriter->startElement('w10:wrap');
             $this->xmlWriter->writeAttribute('type', $this->w10wrap);
-            
+
             switch ($this->style->getPositioning()) {
                 case TextBoxStyle::POSITION_ABSOLUTE:
                     $this->xmlWriter->writeAttribute('anchorx', "page");
@@ -150,7 +150,7 @@ class TextBox extends AbstractStyle
                             break;
                     }
             }
-            
+
             $this->xmlWriter->endElement(); // w10:wrap
         }
     }

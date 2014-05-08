@@ -27,7 +27,11 @@ use PhpOffice\PhpWord\Style;
  */
 abstract class AbstractElement
 {
-
+    /**
+     * PhpWord object
+     *
+     * @var \PhpOffice\PhpWord\PhpWord
+     */
     protected $phpWord;
 
     /**

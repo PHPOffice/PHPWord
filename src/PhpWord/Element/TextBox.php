@@ -30,7 +30,7 @@ class TextBox extends AbstractContainer
      * @var \PhpOffice\PhpWord\Style\TextBox
      */
     private $style;
-    
+
     /**
      * Create a new textbox
      *
@@ -38,10 +38,9 @@ class TextBox extends AbstractContainer
      * @param integer $docPartId
      * @param mixed $style
      */
-    public function __construct($docPart, $docPartId, $style = null)
+    public function __construct($style = null)
     {
         $this->container = 'textbox';
-        $this->setDocPart($docPart, $docPartId);
         $this->style = $this->setStyle(new TextBoxStyle(), $style);
     }
 

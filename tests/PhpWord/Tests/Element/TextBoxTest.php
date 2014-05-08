@@ -32,8 +32,8 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $oTextBox = new TextBox('section', 1);
-    
+        $oTextBox = new TextBox();
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
         $this->assertEquals($oTextBox->getStyle(), null);
     }
@@ -43,19 +43,17 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleText()
     {
-        $oTextBox = new TextBox('section', 1, 'textBoxStyle');
-    
+        $oTextBox = new TextBox('textBoxStyle');
+
         $this->assertEquals($oTextBox->getStyle(), 'textBoxStyle');
     }
-    
+
     /**
      * Get style array
      */
     public function testStyleArray()
     {
         $oTextBox = new TextBox(
-            'section',
-            1,
             array(
                 'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(4.5),
                 'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(17.5),
@@ -68,7 +66,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
                 'borderColor' => ''
             )
         );
-    
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TextBox', $oTextBox->getStyle());
     }
 }

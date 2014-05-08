@@ -47,24 +47,26 @@ class TextBox extends Element
                 $this->xmlWriter->endElement(); // w:pPr
             }
         }
-        
+
         $this->xmlWriter->startElement('w:r');
         $this->xmlWriter->startElement('w:pict');
         $this->xmlWriter->startElement('v:shape');
         $this->xmlWriter->writeAttribute('type', '#_x0000_t0202');
         $styleWriter->write();
         $this->xmlWriter->startElement('v:textbox');
-        $margins=implode(', ',$tbxStyle->getInnerMargin());
+        $margins = implode(', ', $tbxStyle->getInnerMargin());
         $this->xmlWriter->writeAttribute('inset', $margins);
         $this->xmlWriter->startElement('w:txbxContent');
+        $this->xmlWriter->startElement('w:p');
         $this->parentWriter->writeContainerElements($this->xmlWriter, $this->element);
+        $this->xmlWriter->endElement(); // w:p
         $this->xmlWriter->endElement(); // w:txbxContent
         $this->xmlWriter->endElement(); // v: textbox
         $styleWriter->writeW10Wrap();
         $this->xmlWriter->endElement(); // v:shape
         $this->xmlWriter->endElement(); // w:pict
         $this->xmlWriter->endElement(); // w:r
-        
+
         if (!$this->withoutP) {
             $this->xmlWriter->endElement(); // w:p
         }
