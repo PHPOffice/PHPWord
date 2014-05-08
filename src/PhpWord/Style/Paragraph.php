@@ -125,10 +125,8 @@ class Paragraph extends AbstractStyle
         } elseif ($key == 'spacing') {
             $value += 240; // because line height of 1 matches 240 twips
         }
-        $method = 'set' . $key;
-        if (method_exists($this, $method)) {
-            $this->$method($value);
-        }
+
+        return parent::setStyleValue($key, $value);
     }
 
     /**

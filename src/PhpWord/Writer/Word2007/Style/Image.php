@@ -38,12 +38,35 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        if (is_null($style = $this->getStyle())) {
+        if (!is_null($this->getStyle())) {
+            $this->writeStyle();
+        }
+    }
+
+    /**
+     * Write w10 wrapping
+     *
+     * @return array
+     */
+    public function writeW10Wrap()
+    {
+        if (is_null($this->w10wrap)) {
             return;
         }
+
         $xmlWriter = $this->getXmlWriter();
-        $wrapping = $style->getWrappingStyle();
-        $positioning = $style->getPositioning();
+        $xmlWriter->startElement('w10:wrap');
+        $xmlWriter->writeAttribute('type', $this->w10wrap);
+        $xmlWriter->endElement(); // w10:wrap
+    }
+
+    /**
+     * Write style attribute
+     */
+    protected function writeStyle()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $style = $this->getStyle();
 
         // Default style array
         $styleArray = array(
@@ -52,9 +75,10 @@ class Image extends AbstractStyle
             'mso-width-relative' => 'margin',
             'mso-height-relative' => 'margin',
         );
-        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
+        $styleArray = array_merge($styleArray, $this->getElementStyle());
 
         // Absolute/relative positioning
+        $positioning = $style->getPositioning();
         $styleArray['position'] = $positioning;
         if ($positioning == ImageStyle::POSITION_ABSOLUTE) {
             $styleArray['mso-position-horizontal-relative'] = 'page';
@@ -69,6 +93,7 @@ class Image extends AbstractStyle
         }
 
         // Wrapping style
+        $wrapping = $style->getWrappingStyle();
         if ($wrapping == ImageStyle::WRAPPING_STYLE_INLINE) {
             // Nothing to do when inline
         } elseif ($wrapping == ImageStyle::WRAPPING_STYLE_BEHIND) {
@@ -92,28 +117,13 @@ class Image extends AbstractStyle
     }
 
     /**
-     * Write w10 wrapping
-     *
-     * @return array
-     */
-    public function writeW10Wrap()
-    {
-        $xmlWriter = $this->getXmlWriter();
-
-        if (!is_null($this->w10wrap)) {
-            $xmlWriter->startElement('w10:wrap');
-            $xmlWriter->writeAttribute('type', $this->w10wrap);
-            $xmlWriter->endElement(); // w10:wrap
-        }
-    }
-
-    /**
      * Get element style
      *
      * @return array
      */
-    protected function getElementStyle(ImageStyle $style)
+    private function getElementStyle()
     {
+        $style = $this->getStyle();
         $styles = array();
         $styleValues = array(
             'width' => $style->getWidth(),

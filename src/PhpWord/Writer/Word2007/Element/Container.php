@@ -32,15 +32,16 @@ class Container extends AbstractElement
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
+        $container = $this->getElement();
 
         // Loop through subelements
-        $containerClass = basename(get_class($element));
-        $subelements = $element->getElements();
+        $containerClass = basename(get_class($container));
+        $subelements = $container->getElements();
         $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
         if (count($subelements) > 0) {
             foreach ($subelements as $subelement) {
-                $writerClass = __NAMESPACE__ . '\\' . basename(get_class($subelement));
+                $writerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
+                    basename(get_class($subelement));
                 if (class_exists($writerClass)) {
                     $writer = new $writerClass($xmlWriter, $subelement, $withoutP);
                     $writer->write();
@@ -49,7 +50,7 @@ class Container extends AbstractElement
         } else {
             // Special case for Cell: They have to contain a TextBreak at least
             if ($containerClass == 'Cell') {
-                $writerClass = __NAMESPACE__ . '\\TextBreak';
+                $writerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\TextBreak';
                 $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
                 $writer->write();
             }

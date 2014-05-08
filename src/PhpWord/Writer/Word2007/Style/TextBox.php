@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 
 /**
@@ -31,71 +32,10 @@ class TextBox extends Image
      */
     public function write()
     {
-        if (is_null($style = $this->getStyle())) {
-            return;
+        if (!is_null($this->getStyle())) {
+            $this->writeStyle();
+            $this->writeBorder();
         }
-        $xmlWriter = $this->getXmlWriter();
-        $wrapping = $style->getWrappingStyle();
-        $positioning = $style->getPositioning();
-
-        // Default style array
-        $styleArray = array(
-            'mso-width-percent' => '0',
-            'mso-height-percent' => '0',
-            'mso-width-relative' => 'margin',
-            'mso-height-relative' => 'margin',
-        );
-        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
-
-        // Absolute/relative positioning
-        $styleArray['position'] = $positioning;
-        if ($positioning == TextBoxStyle::POSITION_ABSOLUTE) {
-            $styleArray['mso-position-horizontal-relative'] = 'page';
-            $styleArray['mso-position-vertical-relative'] = 'page';
-        } elseif ($positioning == TextBoxStyle::POSITION_RELATIVE) {
-            $styleArray['mso-position-horizontal'] = $style->getPosHorizontal();
-            $styleArray['mso-position-vertical'] = $style->getPosVertical();
-            $styleArray['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
-            $styleArray['mso-position-vertical-relative'] = $style->getPosVerticalRel();
-            $styleArray['margin-left'] = 0;
-            $styleArray['margin-top'] = 0;
-        }
-
-        // Wrapping style
-        if ($wrapping == TextBoxStyle::WRAPPING_STYLE_INLINE) {
-            // Nothing to do when inline
-        } elseif ($wrapping == TextBoxStyle::WRAPPING_STYLE_BEHIND) {
-            $styleArray['z-index'] = -251658752;
-        } else {
-            $styleArray['z-index'] = 251659264;
-            $styleArray['mso-position-horizontal'] = 'absolute';
-            $styleArray['mso-position-vertical'] = 'absolute';
-        }
-
-        // w10 wrapping
-        if ($wrapping == TextBoxStyle::WRAPPING_STYLE_SQUARE) {
-            $this->w10wrap = 'square';
-        } elseif ($wrapping == TextBoxStyle::WRAPPING_STYLE_TIGHT) {
-            $this->w10wrap = 'tight';
-        }
-
-        $textboxStyle = $this->assembleStyle($styleArray);
-
-        $xmlWriter->writeAttribute('style', $textboxStyle);
-
-        $borderSize = $style->getBorderSize();
-        if ($borderSize !== null) {
-            $xmlWriter->writeAttribute('strokeweight', $style->getBorderSize().'pt');
-        }
-
-        $borderColor = $style->getBorderColor();
-        if (empty($borderColor)) {
-            $xmlWriter->writeAttribute('stroked', 'f');
-        } else {
-            $xmlWriter->writeAttribute('strokecolor', $borderColor);
-        }
-        //@todo <v:stroke dashstyle="dashDot" linestyle="thickBetweenThin"/>
-
     }
 
     /**
@@ -105,49 +45,62 @@ class TextBox extends Image
      */
     public function writeW10Wrap()
     {
-        $xmlWriter = $this->getXmlWriter();
-
-        if (!is_null($this->w10wrap)) {
-            $xmlWriter->startElement('w10:wrap');
-            $xmlWriter->writeAttribute('type', $this->w10wrap);
-
-            switch ($style->getPositioning()) {
-                case TextBoxStyle::POSITION_ABSOLUTE:
-                    $xmlWriter->writeAttribute('anchorx', "page");
-                    $xmlWriter->writeAttribute('anchory', "page");
-                    break;
-                case TextBoxStyle::POSITION_RELATIVE:
-                    switch ($style->getPosVerticalRel()) {
-                        case TextBoxStyle::POSITION_RELATIVE_TO_MARGIN:
-                            $xmlWriter->writeAttribute('anchory', "margin");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_PAGE:
-                            $xmlWriter->writeAttribute('anchory', "page");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_TMARGIN:
-                            $xmlWriter->writeAttribute('anchory', "margin");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_BMARGIN:
-                            $xmlWriter->writeAttribute('anchory', "page");
-                            break;
-                    }
-                    switch ($style->getPosHorizontalRel()) {
-                        case TextBoxStyle::POSITION_RELATIVE_TO_MARGIN:
-                            $xmlWriter->writeAttribute('anchorx', "margin");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_PAGE:
-                            $xmlWriter->writeAttribute('anchorx', "page");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_LMARGIN:
-                            $xmlWriter->writeAttribute('anchorx', "margin");
-                            break;
-                        case TextBoxStyle::POSITION_RELATIVE_TO_RMARGIN:
-                            $xmlWriter->writeAttribute('anchorx', "page");
-                            break;
-                    }
-            }
-
-            $xmlWriter->endElement(); // w10:wrap
+        if (is_null($this->w10wrap)) {
+            return;
         }
+
+        $relativePositions = array(
+            TextBoxStyle::POSITION_RELATIVE_TO_MARGIN  => 'margin',
+            TextBoxStyle::POSITION_RELATIVE_TO_PAGE    => 'page',
+            TextBoxStyle::POSITION_RELATIVE_TO_TMARGIN => 'margin',
+            TextBoxStyle::POSITION_RELATIVE_TO_BMARGIN => 'page',
+            TextBoxStyle::POSITION_RELATIVE_TO_LMARGIN => 'margin',
+            TextBoxStyle::POSITION_RELATIVE_TO_RMARGIN => 'page',
+        );
+        $pos = $style->getPositioning();
+        $vPos = $style->getPosVerticalRel();
+        $hPos = $style->getPosHorizontalRel();
+
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('w10:wrap');
+        $xmlWriter->writeAttribute('type', $this->w10wrap);
+
+        if ($pos == TextBoxStyle::POSITION_ABSOLUTE) {
+            $xmlWriter->writeAttribute('anchorx', "page");
+            $xmlWriter->writeAttribute('anchory', "page");
+        } elseif ($pos == TextBoxStyle::POSITION_RELATIVE) {
+            if (array_key_exists($vPos, $relativePositions)) {
+                $xmlWriter->writeAttribute('anchory', $relativePositions[$vPos]);
+            }
+            if (array_key_exists($hPos, $relativePositions)) {
+                $xmlWriter->writeAttribute('anchorx', $relativePositions[$hPos]);
+            }
+        }
+
+        $xmlWriter->endElement(); // w10:wrap
+    }
+
+    /**
+     * Writer border
+     */
+    private function writeBorder()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $style = $this->getStyle();
+
+        // Border size
+        $borderSize = $style->getBorderSize();
+        if ($borderSize !== null) {
+            $xmlWriter->writeAttribute('strokeweight', $borderSize . 'pt');
+        }
+
+        // Border color
+        $borderColor = $style->getBorderColor();
+        if (empty($borderColor)) {
+            $xmlWriter->writeAttribute('stroked', 'f');
+        } else {
+            $xmlWriter->writeAttribute('strokecolor', $borderColor);
+        }
+        //@todo <v:stroke dashstyle="dashDot" linestyle="thickBetweenThin"/>
     }
 }

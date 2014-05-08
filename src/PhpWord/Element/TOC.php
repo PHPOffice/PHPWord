@@ -68,20 +68,14 @@ class TOC extends AbstractElement
         $this->TOCStyle = new TOCStyle();
 
         if (!is_null($tocStyle) && is_array($tocStyle)) {
-            foreach ($tocStyle as $key => $value) {
-                 $this->TOCStyle->setStyleValue($key, $value);
-            }
+            $this->TOCStyle->setStyleByArray($tocStyle);
         }
 
-        if (!is_null($fontStyle)) {
-            if (is_array($fontStyle)) {
-                 $this->fontStyle = new Font();
-                foreach ($fontStyle as $key => $value) {
-                     $this->fontStyle->setStyleValue($key, $value);
-                }
-            } else {
-                 $this->fontStyle = $fontStyle;
-            }
+        if (!is_null($fontStyle) && is_array($fontStyle)) {
+            $this->fontStyle = new Font();
+            $this->fontStyle->setStyleByArray($fontStyle);
+        } else {
+            $this->fontStyle = $fontStyle;
         }
 
         $this->minDepth = $minDepth;

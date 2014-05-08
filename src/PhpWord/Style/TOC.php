@@ -36,7 +36,7 @@ class TOC extends Tab
     /**
      * Indent
      *
-     * @var int
+     * @var int|float (twip)
      */
     private $indent = 200;
 
@@ -51,7 +51,7 @@ class TOC extends Tab
     /**
      * Get Tab Position
      *
-     * @return int
+     * @return int|float
      */
     public function getTabPos()
     {
@@ -61,11 +61,12 @@ class TOC extends Tab
     /**
      * Set Tab Position
      *
-     * @param int $value
+     * @param int|float $value
+     * @return self
      */
     public function setTabPos($value)
     {
-        $this->setPosition($value);
+        return $this->setPosition($value);
     }
 
     /**
@@ -82,16 +83,17 @@ class TOC extends Tab
      * Set Tab Leader
      *
      * @param string $value
+     * @return self
      */
     public function setTabLeader($value = self::TAB_LEADER_DOT)
     {
-        $this->setLeader($value);
+        return $this->setLeader($value);
     }
 
     /**
      * Get Indent
      *
-     * @return int
+     * @return int|float
      */
     public function getIndent()
     {
@@ -101,10 +103,13 @@ class TOC extends Tab
     /**
      * Set Indent
      *
-     * @param string $value
+     * @param int|float $value
+     * @return self
      */
     public function setIndent($value)
     {
-        $this->indent = $value;
+        $this->indent = $this->setNumericVal($value, $this->indent);
+
+        return $this;
     }
 }

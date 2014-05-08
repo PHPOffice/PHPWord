@@ -78,7 +78,7 @@ abstract class AbstractContainer extends AbstractElement
     public function addText($text, $fontStyle = null, $paragraphStyle = null, $elementName = 'Text')
     {
         $this->checkValidity($elementName);
-        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+        $elementClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $elementName;
 
         // Reset paragraph style for footnote and textrun. They have their own
         if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
@@ -248,7 +248,7 @@ abstract class AbstractContainer extends AbstractElement
     public function addFootnote($paragraphStyle = null, $elementName = 'Footnote')
     {
         $this->checkValidity($elementName);
-        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+        $elementClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $elementName;
         $docPart = strtolower($elementName);
         $addMethod = "add{$elementName}";
 

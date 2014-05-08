@@ -107,12 +107,18 @@ class Tab extends AbstractStyle
      * Set stop type
      *
      * @param string $value
+     * @return self
      */
     public function setType($value)
     {
-        $enum = array(self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
-            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR, self::TAB_STOP_NUM);
+        $enum = array(
+            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
+            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR,
+            self::TAB_STOP_NUM,
+        );
         $this->type = $this->setEnumVal($value, $enum, $this->type);
+
+        return $this;
     }
 
     /**
@@ -129,12 +135,17 @@ class Tab extends AbstractStyle
      * Set leader
      *
      * @param string $value
+     * @return self
      */
     public function setLeader($value)
     {
-        $enum = array(self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
-            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT);
+        $enum = array(
+            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
+            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
+        );
         $this->leader = $this->setEnumVal($value, $enum, $this->leader);
+
+        return $this;
     }
 
     /**
@@ -151,9 +162,12 @@ class Tab extends AbstractStyle
      * Set position
      *
      * @param int|float $value
+     * @return self
      */
     public function setPosition($value)
     {
         $this->position = $this->setNumericVal($value, $this->position);
+
+        return $this;
     }
 }

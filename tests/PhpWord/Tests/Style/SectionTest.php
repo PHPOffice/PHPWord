@@ -249,12 +249,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         // Default
         $this->assertEquals(1, $oSettings->getColsNum());
 
+        // Null value
+        $oSettings->setColsNum();
+        $this->assertEquals(1, $oSettings->getColsNum());
+
+        // Random value
         $iVal = rand(1, 1000);
         $oSettings->setColsNum($iVal);
         $this->assertEquals($iVal, $oSettings->getColsNum());
-
-        $oSettings->setColsNum();
-        $this->assertEquals(1, $oSettings->getColsNum());
     }
 
     /**

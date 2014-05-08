@@ -69,6 +69,7 @@ class Numbering extends AbstractStyle
     public function setNumId($value)
     {
         $this->numId = $this->setIntVal($value, $this->numId);
+
         return $this;
     }
 
@@ -92,6 +93,7 @@ class Numbering extends AbstractStyle
     {
         $enum = array('singleLevel', 'multilevel', 'hybridMultilevel');
         $this->type = $this->setEnumVal($value, $enum, $this->type);
+
         return $this;
     }
 

@@ -112,15 +112,11 @@ class Table extends Border
             unset($this->firstRow->borderInsideVSize);
             unset($this->firstRow->borderInsideHColor);
             unset($this->firstRow->borderInsideHSize);
-            foreach ($styleFirstRow as $key => $value) {
-                $this->firstRow->setStyleValue($key, $value);
-            }
+            $this->firstRow->setStyleByArray($styleFirstRow);
         }
 
         if (!is_null($styleTable) && is_array($styleTable)) {
-            foreach ($styleTable as $key => $value) {
-                $this->setStyleValue($key, $value);
-            }
+            $this->setStyleByArray($styleTable);
         }
     }
 

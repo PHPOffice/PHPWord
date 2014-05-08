@@ -89,9 +89,10 @@ class Shading extends AbstractStyle
      */
     public function setPattern($value = null)
     {
-        $enum = array(self::PATTERN_CLEAR, self::PATTERN_SOLID, self::PATTERN_HSTRIPE,
-            self::PATTERN_VSTRIPE, self::PATTERN_DSTRIPE, self::PATTERN_HCROSS, self::PATTERN_DCROSS);
-
+        $enum = array(
+            self::PATTERN_CLEAR, self::PATTERN_SOLID, self::PATTERN_HSTRIPE,
+            self::PATTERN_VSTRIPE, self::PATTERN_DSTRIPE, self::PATTERN_HCROSS, self::PATTERN_DCROSS
+        );
         $this->pattern = $this->setEnumVal($value, $enum, $this->pattern);
 
         return $this;

@@ -70,16 +70,17 @@ class Paragraph extends AbstractStyle
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-        $align = $style->getAlign();
-        $indentation = $style->getIndentation();
-        $spacing = $style->getSpace();
-        $tabs = $style->getTabs();
 
         if (!$this->withoutPPR) {
             $xmlWriter->startElement('w:pPr');
         }
 
+        // Style name
+        $styleName = $style->getStyleName();
+        $xmlWriter->writeElementIf(!is_null($styleName), 'w:pStyle', 'w:val', $styleName);
+
         // Alignment
+        $align = $style->getAlign();
         $xmlWriter->writeElementIf(!is_null($align), 'w:jc', 'w:val', $align);
 
         // Pagination
@@ -89,18 +90,21 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($style->hasPageBreakBefore(), 'w:pageBreakBefore', 'w:val', '1');
 
         // Indentation
+        $indentation = $style->getIndentation();
         if (!is_null($indentation)) {
             $styleWriter = new Indentation($xmlWriter, $indentation);
             $styleWriter->write();
         }
 
         // Spacing
+        $spacing = $style->getSpace();
         if (!is_null($spacing)) {
             $styleWriter = new Spacing($xmlWriter, $spacing);
             $styleWriter->write();
         }
 
         // Tabs
+        $tabs = $style->getTabs();
         if (!empty($tabs)) {
             $xmlWriter->startElement("w:tabs");
             foreach ($tabs as $tab) {

@@ -97,7 +97,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
             'hint' => 'eastAsia',
-            'line-height' => 2,
+            'lineHeight' => 2,
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {

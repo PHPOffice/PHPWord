@@ -33,15 +33,18 @@ class Spacing extends AbstractStyle
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-        $before = $style->getBefore();
-        $after = $style->getAfter();
-        $line = $style->getLine();
 
         $xmlWriter->startElement('w:spacing');
 
+        $before = $style->getBefore();
         $xmlWriter->writeAttributeIf(!is_null($before), 'w:before', $this->convertTwip($before));
+
+        $after = $style->getAfter();
         $xmlWriter->writeAttributeIf(!is_null($after), 'w:after', $this->convertTwip($after));
+
+        $line = $style->getLine();
         $xmlWriter->writeAttributeIf(!is_null($line), 'w:line', $line);
+
         $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getRule());
 
         $xmlWriter->endElement();

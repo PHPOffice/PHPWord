@@ -61,16 +61,16 @@ class Font extends AbstractStyle
             return;
         }
         $xmlWriter = $this->getXmlWriter();
-        $font = $style->getName();
-        $color = $style->getColor();
-        $size = $style->getSize();
-        $underline = $style->getUnderline();
-        $fgColor = $style->getFgColor();
-        $hint = $style->getHint();
 
         $xmlWriter->startElement('w:rPr');
 
+        // Style name
+        $styleName = $style->getStyleName();
+        $xmlWriter->writeElementIf(!is_null($styleName), 'w:rStyle', 'w:val', $styleName);
+
         // Font name/family
+        $font = $style->getName();
+        $hint = $style->getHint();
         if ($font != PhpWord::DEFAULT_FONT_NAME) {
             $xmlWriter->startElement('w:rFonts');
             $xmlWriter->writeAttribute('w:ascii', $font);
@@ -82,7 +82,11 @@ class Font extends AbstractStyle
         }
 
         // Color
+        $color = $style->getColor();
         $xmlWriter->writeElementIf($color != PhpWord::DEFAULT_FONT_COLOR, 'w:color', 'w:val', $color);
+
+        // Size
+        $size = $style->getSize();
         $xmlWriter->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:sz', 'w:val', $size * 2);
         $xmlWriter->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:szCs', 'w:val', $size * 2);
 
@@ -100,9 +104,11 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps');
 
         // Underline
+        $underline = $style->getUnderline();
         $xmlWriter->writeElementIf($underline != 'none', 'w:u', 'w:val', $underline);
 
         // Foreground-Color
+        $fgColor = $style->getFgColor();
         $xmlWriter->writeElementIf(!is_null($fgColor), 'w:highlight', 'w:val', $fgColor);
 
         // Superscript/subscript
@@ -110,8 +116,9 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
 
         // Background-Color
-        if (!is_null($style->getShading())) {
-            $styleWriter = new Shading($xmlWriter, $style->getShading());
+        $shading = $style->getShading();
+        if (!is_null($shading)) {
+            $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
 

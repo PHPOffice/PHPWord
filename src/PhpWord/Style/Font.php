@@ -217,6 +217,16 @@ class Font extends AbstractStyle
     }
 
     /**
+     * Get style type
+     *
+     * @return string
+     */
+    public function getStyleType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Get font name
      *
      * @return string
@@ -571,16 +581,6 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Get style type
-     *
-     * @return string
-     */
-    public function getStyleType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Get line height
      *
      * @return int|float
@@ -650,9 +650,9 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Toggle $target value to false when $source true
+     * Toggle $target property to false when $source true
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $target
+     * @param mixed $target Target property
      * @param bool $sourceValue
      */
     private function toggleFalse(&$target, $sourceValue)

@@ -86,14 +86,19 @@ class ListItem extends AbstractStyle
      * Set legacy list type for version < 0.10.0
      *
      * @param integer $value
+     * @return self
      */
     public function setListType($value = self::TYPE_BULLET_FILLED)
     {
-        $enum = array(self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
+        $enum = array(
+            self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
             self::TYPE_BULLET_EMPTY, self::TYPE_NUMBER,
-            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM);
+            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM
+        );
         $this->listType = $this->setEnumVal($value, $enum, $this->listType);
         $this->getListTypeStyle();
+
+        return $this;
     }
 
     /**
@@ -110,6 +115,7 @@ class ListItem extends AbstractStyle
      * Set numbering style name
      *
      * @param string $value
+     * @return self
      */
     public function setNumStyle($value)
     {
@@ -119,6 +125,8 @@ class ListItem extends AbstractStyle
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }
+
+        return $this;
     }
 
     /**

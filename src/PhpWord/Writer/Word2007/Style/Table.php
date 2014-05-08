@@ -40,9 +40,9 @@ class Table extends AbstractStyle
             return;
         }
         $xmlWriter = $this->getXmlWriter();
+
         $hasBorders = $style->hasBorders();
         $hasMargins = $style->hasMargins();
-
         if ($hasMargins || $hasBorders) {
             $xmlWriter->startElement('w:tblPr');
             if ($hasMargins) {
@@ -64,6 +64,7 @@ class Table extends AbstractStyle
             }
             $xmlWriter->endElement(); // w:tblPr
         }
+
         // Only write background color and first row for full style
         if ($this->isFullStyle) {
             // Background color

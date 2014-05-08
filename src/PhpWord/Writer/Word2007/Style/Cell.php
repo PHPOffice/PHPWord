@@ -58,8 +58,9 @@ class Cell extends AbstractStyle
         }
 
         // Shading
-        if (!is_null($style->getShading())) {
-            $styleWriter = new Shading($xmlWriter, $style->getShading());
+        $shading = $style->getShading();
+        if (!is_null($shading)) {
+            $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
 

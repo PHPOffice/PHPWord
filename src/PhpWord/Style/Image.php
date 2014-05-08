@@ -117,7 +117,7 @@ class Image extends AbstractStyle
      *
      * @var string
      */
-    private $wrappingStyle;
+    private $wrappingStyle = self::WRAPPING_STYLE_INLINE;
 
     /**
      * Positioning type (relative or absolute)
@@ -131,40 +131,28 @@ class Image extends AbstractStyle
      *
      * @var string
      */
-    private $posHorizontal;
+    private $posHorizontal = self::POSITION_HORIZONTAL_LEFT;
 
     /**
      * Horizontal Relation
      *
      * @var string
      */
-    private $posHorizontalRel;
+    private $posHorizontalRel = self::POSITION_RELATIVE_TO_CHAR;
 
     /**
      * Vertical alignment
      *
      * @var string
      */
-    private $posVertical;
+    private $posVertical = self::POSITION_VERTICAL_TOP;
 
     /**
      * Vertical Relation
      *
      * @var string
      */
-    private $posVerticalRel;
-
-    /**
-     * Create new image style
-     */
-    public function __construct()
-    {
-        $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
-        $this->setPosHorizontal(self::POSITION_HORIZONTAL_LEFT);
-        $this->setPosHorizontalRel(self::POSITION_RELATIVE_TO_CHAR);
-        $this->setPosVertical(self::POSITION_VERTICAL_TOP);
-        $this->setPosVerticalRel(self::POSITION_RELATIVE_TO_LINE);
-    }
+    private $posVerticalRel = self::POSITION_RELATIVE_TO_LINE;
 
     /**
      * Get width
@@ -283,14 +271,12 @@ class Image extends AbstractStyle
      */
     public function setWrappingStyle($wrappingStyle)
     {
-        $enum = array(self::WRAPPING_STYLE_INLINE, self::WRAPPING_STYLE_INFRONT, self::WRAPPING_STYLE_BEHIND,
-            self::WRAPPING_STYLE_SQUARE, self::WRAPPING_STYLE_TIGHT);
-
-        if (in_array($wrappingStyle, $enum)) {
-            $this->wrappingStyle = $wrappingStyle;
-        } else {
-            throw new \InvalidArgumentException('Invalid wrapping style.');
-        }
+        $enum = array(
+            self::WRAPPING_STYLE_INLINE,
+            self::WRAPPING_STYLE_INFRONT, self::WRAPPING_STYLE_BEHIND,
+            self::WRAPPING_STYLE_SQUARE, self::WRAPPING_STYLE_TIGHT,
+        );
+        $this->wrappingStyle = $this->setEnumVal($wrappingStyle, $enum, $this->wrappingStyle);
 
         return $this;
     }
@@ -315,12 +301,7 @@ class Image extends AbstractStyle
     public function setPositioning($positioning)
     {
         $enum = array(self::POSITION_RELATIVE, self::POSITION_ABSOLUTE);
-
-        if (in_array($positioning, $enum)) {
-            $this->positioning = $positioning;
-        } else {
-            throw new \InvalidArgumentException('Invalid positioning.');
-        }
+        $this->positioning = $this->setEnumVal($positioning, $enum, $this->positioning);
 
         return $this;
     }
@@ -344,14 +325,11 @@ class Image extends AbstractStyle
      */
     public function setPosHorizontal($alignment)
     {
-        $enum = array(self::POSITION_HORIZONTAL_LEFT, self::POSITION_HORIZONTAL_CENTER,
-            self::POSITION_HORIZONTAL_RIGHT);
-
-        if (in_array($alignment, $enum)) {
-            $this->posHorizontal = $alignment;
-        } else {
-            throw new \InvalidArgumentException('Invalid horizontal alignment.');
-        }
+        $enum = array(
+            self::POSITION_HORIZONTAL_LEFT, self::POSITION_HORIZONTAL_CENTER,
+            self::POSITION_HORIZONTAL_RIGHT,
+        );
+        $this->posHorizontal = $this->setEnumVal($alignment, $enum, $this->posHorizontal);
 
         return $this;
     }
@@ -375,14 +353,12 @@ class Image extends AbstractStyle
      */
     public function setPosVertical($alignment)
     {
-        $enum = array(self::POSITION_VERTICAL_TOP, self::POSITION_VERTICAL_CENTER,
-            self::POSITION_VERTICAL_BOTTOM, self::POSITION_VERTICAL_INSIDE, self::POSITION_VERTICAL_OUTSIDE);
-
-        if (in_array($alignment, $enum)) {
-            $this->posVertical = $alignment;
-        } else {
-            throw new \InvalidArgumentException('Invalid vertical alignment.');
-        }
+        $enum = array(
+            self::POSITION_VERTICAL_TOP, self::POSITION_VERTICAL_CENTER,
+            self::POSITION_VERTICAL_BOTTOM, self::POSITION_VERTICAL_INSIDE,
+            self::POSITION_VERTICAL_OUTSIDE,
+        );
+        $this->posVertical = $this->setEnumVal($alignment, $enum, $this->posVertical);
 
         return $this;
     }
@@ -406,16 +382,13 @@ class Image extends AbstractStyle
      */
     public function setPosHorizontalRel($relto)
     {
-        $enum = array(self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
+        $enum = array(
+            self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
             self::POSITION_RELATIVE_TO_COLUMN, self::POSITION_RELATIVE_TO_CHAR,
             self::POSITION_RELATIVE_TO_LMARGIN, self::POSITION_RELATIVE_TO_RMARGIN,
-            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN);
-
-        if (in_array($relto, $enum)) {
-            $this->posHorizontalRel = $relto;
-        } else {
-            throw new \InvalidArgumentException('Invalid relative horizontal alignment.');
-        }
+            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN,
+        );
+        $this->posHorizontalRel = $this->setEnumVal($relto, $enum, $this->posHorizontalRel);
 
         return $this;
     }
@@ -439,16 +412,13 @@ class Image extends AbstractStyle
      */
     public function setPosVerticalRel($relto)
     {
-        $enum = array(self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
+        $enum = array(
+            self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
             self::POSITION_RELATIVE_TO_LINE,
             self::POSITION_RELATIVE_TO_TMARGIN, self::POSITION_RELATIVE_TO_BMARGIN,
-            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN);
-
-        if (in_array($relto, $enum)) {
-            $this->posVerticalRel = $relto;
-        } else {
-            throw new \InvalidArgumentException('Invalid relative vertical alignment.');
-        }
+            self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN,
+        );
+        $this->posVerticalRel = $this->setEnumVal($relto, $enum, $this->posVerticalRel);
 
         return $this;
     }

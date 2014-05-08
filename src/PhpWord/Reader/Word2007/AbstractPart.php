@@ -138,60 +138,59 @@ abstract class AbstractPart
     /**
      * Read w:pPr
      *
-     * @return string|array|null
+     * @return array|null
      */
     protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $style = null;
-        if ($xmlReader->elementExists('w:pPr', $domNode)) {
-            if ($xmlReader->elementExists('w:pPr/w:pStyle', $domNode)) {
-                $style = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:pStyle');
-            } else {
-                $style = array();
-                $mapping = array(
-                    'w:ind' => 'indent', 'w:spacing' => 'spacing',
-                    'w:jc' => 'align', 'w:basedOn' => 'basedOn', 'w:next' => 'next',
-                    'w:widowControl' => 'widowControl', 'w:keepNext' => 'keepNext',
-                    'w:keepLines' => 'keepLines', 'w:pageBreakBefore' => 'pageBreakBefore',
-                );
+        if (!$xmlReader->elementExists('w:pPr', $domNode)) {
+            return;
+        }
 
-                $nodes = $xmlReader->getElements('w:pPr/*', $domNode);
-                foreach ($nodes as $node) {
-                    if (!array_key_exists($node->nodeName, $mapping)) {
-                        continue;
-                    }
-                    $property = $mapping[$node->nodeName];
-                    switch ($node->nodeName) {
+        $style = array();
+        $mapping = array(
+            'w:pStyle' => 'styleName',
+            'w:ind' => 'indent', 'w:spacing' => 'spacing',
+            'w:jc' => 'align', 'w:basedOn' => 'basedOn', 'w:next' => 'next',
+            'w:widowControl' => 'widowControl', 'w:keepNext' => 'keepNext',
+            'w:keepLines' => 'keepLines', 'w:pageBreakBefore' => 'pageBreakBefore',
+        );
 
-                        case 'w:ind':
-                            $style['indent'] = $xmlReader->getAttribute('w:left', $node);
-                            $style['hanging'] = $xmlReader->getAttribute('w:hanging', $node);
-                            break;
+        $nodes = $xmlReader->getElements('w:pPr/*', $domNode);
+        foreach ($nodes as $node) {
+            if (!array_key_exists($node->nodeName, $mapping)) {
+                continue;
+            }
+            $property = $mapping[$node->nodeName];
+            switch ($node->nodeName) {
 
-                        case 'w:spacing':
-                            $style['spaceAfter'] = $xmlReader->getAttribute('w:after', $node);
-                            $style['spaceBefore'] = $xmlReader->getAttribute('w:before', $node);
-                            // Commented. Need to adjust the number when return value is null
-                            // $style['spacing'] = $xmlReader->getAttribute('w:line', $node);
-                            break;
+                case 'w:ind':
+                    $style['indent'] = $xmlReader->getAttribute('w:left', $node);
+                    $style['hanging'] = $xmlReader->getAttribute('w:hanging', $node);
+                    break;
 
-                        case 'w:keepNext':
-                        case 'w:keepLines':
-                        case 'w:pageBreakBefore':
-                            $style[$property] = true;
-                            break;
+                case 'w:spacing':
+                    $style['spaceAfter'] = $xmlReader->getAttribute('w:after', $node);
+                    $style['spaceBefore'] = $xmlReader->getAttribute('w:before', $node);
+                    // Commented. Need to adjust the number when return value is null
+                    // $style['spacing'] = $xmlReader->getAttribute('w:line', $node);
+                    break;
 
-                        case 'w:widowControl':
-                            $style[$property] = false;
-                            break;
+                case 'w:keepNext':
+                case 'w:keepLines':
+                case 'w:pageBreakBefore':
+                    $style[$property] = true;
+                    break;
 
-                        case 'w:jc':
-                        case 'w:basedOn':
-                        case 'w:next':
-                            $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                            break;
-                    }
-                }
+                case 'w:widowControl':
+                    $style[$property] = false;
+                    break;
+
+                case 'w:pStyle':
+                case 'w:jc':
+                case 'w:basedOn':
+                case 'w:next':
+                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
+                    break;
             }
         }
 
@@ -201,70 +200,69 @@ abstract class AbstractPart
     /**
      * Read w:rPr
      *
-     * @return string|array|null
+     * @return array|null
      */
     protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $style = null;
+        if (is_null($domNode)) {
+            return;
+        }
         // Hyperlink has an extra w:r child
         if ($domNode->nodeName == 'w:hyperlink') {
             $domNode = $xmlReader->getElement('w:r', $domNode);
         }
-        if (is_null($domNode)) {
-            return $style;
+        if (!$xmlReader->elementExists('w:rPr', $domNode)) {
+            return;
         }
-        if ($xmlReader->elementExists('w:rPr', $domNode)) {
-            if ($xmlReader->elementExists('w:rPr/w:rStyle', $domNode)) {
-                $style = $xmlReader->getAttribute('w:val', $domNode, 'w:rPr/w:rStyle');
-            } else {
-                $style = array();
-                $mapping = array(
-                    'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color',
-                    'w:strike' => 'strikethrough', 'w:u' => 'underline',
-                    'w:highlight' => 'fgColor', 'w:sz' => 'size',
-                    'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
-                );
 
-                $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
-                foreach ($nodes as $node) {
-                    if (!array_key_exists($node->nodeName, $mapping)) {
-                        continue;
+        $style = array();
+        $mapping = array(
+            'w:rStyle' => 'styleName',
+            'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color',
+            'w:strike' => 'strikethrough', 'w:u' => 'underline',
+            'w:highlight' => 'fgColor', 'w:sz' => 'size',
+            'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
+        );
+
+        $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
+        foreach ($nodes as $node) {
+            if (!array_key_exists($node->nodeName, $mapping)) {
+                continue;
+            }
+            $property = $mapping[$node->nodeName];
+            switch ($node->nodeName) {
+
+                case 'w:rFonts':
+                    $style['name'] = $xmlReader->getAttribute('w:ascii', $node);
+                    $style['hint'] = $xmlReader->getAttribute('w:hint', $node);
+                    break;
+
+                case 'w:b':
+                case 'w:i':
+                case 'w:strike':
+                    $style[$property] = true;
+                    break;
+
+                case 'w:rStyle':
+                case 'w:u':
+                case 'w:highlight':
+                case 'w:color':
+                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
+                    break;
+
+                case 'w:sz':
+                    $style[$property] = $xmlReader->getAttribute('w:val', $node) / 2;
+                    break;
+
+                case 'w:vertAlign':
+                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
+                    if ($style[$property] == 'superscript') {
+                        $style['superScript'] = true;
+                    } else {
+                        $style['superScript'] = false;
+                        $style['subScript'] = true;
                     }
-                    $property = $mapping[$node->nodeName];
-                    switch ($node->nodeName) {
-
-                        case 'w:rFonts':
-                            $style['name'] = $xmlReader->getAttribute('w:ascii', $node);
-                            $style['hint'] = $xmlReader->getAttribute('w:hint', $node);
-                            break;
-
-                        case 'w:b':
-                        case 'w:i':
-                        case 'w:strike':
-                            $style[$property] = true;
-                            break;
-
-                        case 'w:u':
-                        case 'w:highlight':
-                        case 'w:color':
-                            $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                            break;
-
-                        case 'w:sz':
-                            $style[$property] = $xmlReader->getAttribute('w:val', $node) / 2;
-                            break;
-
-                        case 'w:vertAlign':
-                            $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                            if ($style[$property] == 'superscript') {
-                                $style['superScript'] = true;
-                            } else {
-                                $style['superScript'] = false;
-                                $style['subScript'] = true;
-                            }
-                            break;
-                    }
-                }
+                    break;
             }
         }
 

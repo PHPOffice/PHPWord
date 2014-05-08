@@ -261,7 +261,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginTop($value = '')
+    public function setMarginTop($value = null)
     {
         $this->marginTop = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -284,7 +284,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginLeft($value = '')
+    public function setMarginLeft($value = null)
     {
         $this->marginLeft = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -307,7 +307,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginRight($value = '')
+    public function setMarginRight($value = null)
     {
         $this->marginRight = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -330,7 +330,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginBottom($value = '')
+    public function setMarginBottom($value = null)
     {
         $this->marginBottom = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -353,7 +353,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setGutter($value = '')
+    public function setGutter($value = null)
     {
         $this->gutter = $this->setNumericVal($value, self::DEFAULT_GUTTER);
 
@@ -376,7 +376,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setHeaderHeight($value = '')
+    public function setHeaderHeight($value = null)
     {
         $this->headerHeight = $this->setNumericVal($value, self::DEFAULT_HEADER_HEIGHT);
 
@@ -399,7 +399,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setFooterHeight($value = '')
+    public function setFooterHeight($value = null)
     {
         $this->footerHeight = $this->setNumericVal($value, self::DEFAULT_FOOTER_HEIGHT);
 
@@ -444,7 +444,7 @@ class Section extends Border
      * @param int $value
      * @return self
      */
-    public function setColsNum($value = '')
+    public function setColsNum($value = null)
     {
         $this->colsNum = $this->setIntVal($value, self::DEFAULT_COLUMN_COUNT);
 
@@ -467,7 +467,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setColsSpace($value = '')
+    public function setColsSpace($value = null)
     {
         $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
 

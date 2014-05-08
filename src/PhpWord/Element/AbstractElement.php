@@ -231,9 +231,7 @@ abstract class AbstractElement
     protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
     {
         if (!is_null($styleValue) && is_array($styleValue)) {
-            foreach ($styleValue as $key => $value) {
-                $styleObject->setStyleValue($key, $value);
-            }
+            $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
         } else {
             $style = $returnObject ? $styleObject : $styleValue;

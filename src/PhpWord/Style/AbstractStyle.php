@@ -160,9 +160,6 @@ abstract class AbstractStyle
      */
     protected function setBoolVal($value, $default = null)
     {
-        if (is_string($value)) {
-            $value = (bool)$value;
-        }
         if (!is_bool($value)) {
             $value = $default;
         }
@@ -187,7 +184,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set integer value
+     * Set float value: Convert string that contains only numeric into integer
      *
      * @param mixed $value
      * @param int|null $default
@@ -195,7 +192,7 @@ abstract class AbstractStyle
      */
     protected function setIntVal($value, $default = null)
     {
-        if (is_string($value)) {
+        if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
             $value = intval($value);
         }
         if (!is_int($value)) {
@@ -206,7 +203,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set float value
+     * Set float value: Convert string that contains only numeric into float
      *
      * @param mixed $value
      * @param float|null $default
@@ -214,7 +211,7 @@ abstract class AbstractStyle
      */
     protected function setFloatVal($value, $default = null)
     {
-        if (is_string($value)) {
+        if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
             $value = floatval($value);
         }
         if (!is_float($value)) {
@@ -231,9 +228,11 @@ abstract class AbstractStyle
      * @param array $enum
      * @param mixed $default
      */
-    protected function setEnumVal($value, $enum, $default = null)
+    protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if (!in_array($value, $enum)) {
+        if (!is_null($value) && !empty($enum) && !in_array($value, $enum)) {
+            throw new \InvalidArgumentException('Invalid style value.');
+        } elseif (is_null($value)) {
             $value = $default;
         }
 
@@ -249,7 +248,7 @@ abstract class AbstractStyle
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
-        $styleClass = __NAMESPACE__ . '\\' . $styleName;
+        $styleClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $styleName;
         if (is_array($value)) {
             if (!$style instanceof $styleClass) {
                 $style = new $styleClass();

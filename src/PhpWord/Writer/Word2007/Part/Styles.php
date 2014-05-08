@@ -85,18 +85,20 @@ class Styles extends AbstractPart
                     $xmlWriter->startElement('w:name');
                     $xmlWriter->writeAttribute('w:val', $styleName);
                     $xmlWriter->endElement();
-                    if (!is_null($paragraphStyle)) {
-                        // Point parent style to Normal
-                        $xmlWriter->startElement('w:basedOn');
-                        $xmlWriter->writeAttribute('w:val', 'Normal');
-                        $xmlWriter->endElement();
 
+                    // Parent style
+                    $xmlWriter->writeElementIf(!is_null($paragraphStyle), 'w:basedOn', 'w:val', 'Normal');
+
+                    // w:pPr
+                    if (!is_null($paragraphStyle)) {
                         $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
                         $styleWriter->write();
                     }
 
+                    // w:rPr
                     $styleWriter = new FontStyleWriter($xmlWriter, $style);
                     $styleWriter->write();
+
                     $xmlWriter->endElement();
 
                 // Paragraph style
@@ -108,23 +110,19 @@ class Styles extends AbstractPart
                     $xmlWriter->startElement('w:name');
                     $xmlWriter->writeAttribute('w:val', $styleName);
                     $xmlWriter->endElement();
+
                     // Parent style
                     $basedOn = $style->getBasedOn();
-                    if (!is_null($basedOn)) {
-                        $xmlWriter->startElement('w:basedOn');
-                        $xmlWriter->writeAttribute('w:val', $basedOn);
-                        $xmlWriter->endElement();
-                    }
+                    $xmlWriter->writeElementIf(!is_null($basedOn), 'w:basedOn', 'w:val', $basedOn);
+
                     // Next paragraph style
                     $next = $style->getNext();
-                    if (!is_null($next)) {
-                        $xmlWriter->startElement('w:next');
-                        $xmlWriter->writeAttribute('w:val', $next);
-                        $xmlWriter->endElement();
-                    }
+                    $xmlWriter->writeElementIf(!is_null($next), 'w:next', 'w:val', $next);
 
+                    // w:pPr
                     $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
                     $styleWriter->write();
+
                     $xmlWriter->endElement();
 
                 // Table style
