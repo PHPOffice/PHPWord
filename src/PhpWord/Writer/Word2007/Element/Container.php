@@ -27,6 +27,13 @@ use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
 class Container extends AbstractElement
 {
     /**
+     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText)
+     *
+     * @var string
+     */
+    protected $namespace = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element';
+
+    /**
      * Write element
      */
     public function write()
@@ -35,13 +42,12 @@ class Container extends AbstractElement
         $container = $this->getElement();
 
         // Loop through subelements
-        $containerClass = basename(get_class($container));
+        $containerClass = substr(get_class($container), strrpos(get_class($this), '\\') + 1);
         $subelements = $container->getElements();
         $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
         if (count($subelements) > 0) {
             foreach ($subelements as $subelement) {
-                $writerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
-                    basename(get_class($subelement));
+                $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, get_class($subelement));
                 if (class_exists($writerClass)) {
                     $writer = new $writerClass($xmlWriter, $subelement, $withoutP);
                     $writer->write();
@@ -50,7 +56,7 @@ class Container extends AbstractElement
         } else {
             // Special case for Cell: They have to contain a TextBreak at least
             if ($containerClass == 'Cell') {
-                $writerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\TextBreak';
+                $writerClass = "{$this->namespace}\\TextBreak";
                 $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
                 $writer->write();
             }

@@ -24,4 +24,10 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  */
 class Container extends \PhpOffice\PhpWord\Writer\Word2007\Element\Container
 {
+    /**
+     * Namespace; Can't use __NAMESPACE__ in inherited class (ODText)
+     *
+     * @var string
+     */
+    protected $namespace = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element';
 }

@@ -75,13 +75,6 @@ abstract class AbstractStyle
      */
     protected function getStyle()
     {
-        if (!is_null($this->style)) {
-            $styleClass = 'PhpOffice\\PhpWord\\Style\\' . basename(get_class($this->style));
-            if (is_object($this->style) && (!$this->style instanceof $styleClass)) {
-                throw new Exception('No valid style assigned.');
-            }
-        }
-
         return $this->style;
     }
 

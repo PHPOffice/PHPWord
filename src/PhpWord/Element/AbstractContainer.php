@@ -39,7 +39,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     protected function addElement(AbstractElement $element)
     {
-        // $type = basename(get_class($element));
+        // $type = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($element)));
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);

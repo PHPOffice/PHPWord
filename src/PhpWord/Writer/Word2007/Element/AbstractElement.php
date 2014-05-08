@@ -84,12 +84,7 @@ abstract class AbstractElement
     protected function getElement()
     {
         if (!is_null($this->element)) {
-            $elementClass = 'PhpOffice\\PhpWord\\Element\\' . basename(get_class($this->element));
-            if ($this->element instanceof $elementClass) {
-                return $this->element;
-            } else {
-                throw new Exception('No valid element assigned.');
-            }
+            return $this->element;
         } else {
             throw new Exception('No element assigned.');
         }
