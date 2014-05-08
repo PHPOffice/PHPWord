@@ -28,20 +28,14 @@ use PhpOffice\PhpWord\Style;
 abstract class AbstractElement
 {
     /**
-     * This file is part of PHPWord - A pure PHP library for reading and writing
- * word processing documents.
- *
- * PHPWord is free software distributed under the terms of the GNU Lesser
- * General Public License version 3 as published by the Free Software Foundation.
- *
- * For the full copyright and license information, please read the LICENSE
- * file that was distributed with this source code. For the full list of
- * contributors, visit https://github.com/PHPOffice/PHPWord/contributors. object
+     * PhpWord object
+     *
+     * @var \PhpOffice\PhpWord\PhpWord
      */
     protected $phpWord;
 
     /**
-     * Container type section|header|footer|cell|textrun|footnote|endnote
+     * Container type section|header|footer|cell|textrun|footnote|endnote|textbox
      *
      * @var string
      */

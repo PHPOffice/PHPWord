@@ -296,6 +296,23 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
+     * Add textbox element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\TextBox
+     */
+    public function addTextBox($style = null)
+    {
+        $this->checkValidity('TextBox');
+
+        $textbox = new TextBox($style);
+        $textbox->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($textbox);
+
+        return $textbox;
+    }
+
+    /**
      * Check if a method is allowed for the current container
      *
      * @param string $method
@@ -304,7 +321,7 @@ abstract class AbstractContainer extends AbstractElement
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote');
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox');
         $validContainers = array(
             'Text'          => $allContainers,
             'Link'          => $allContainers,
@@ -314,6 +331,7 @@ abstract class AbstractContainer extends AbstractElement
             'TextRun'       => array('section', 'header', 'footer', 'cell'),
             'ListItem'      => array('section', 'header', 'footer', 'cell'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
+            'TextBox'       => array('section', 'header', 'footer'),
             'Footnote'      => array('section', 'textrun', 'cell'),
             'Endnote'       => array('section', 'textrun', 'cell'),
             'PreserveText'  => array('header', 'footer', 'cell'),
@@ -352,7 +370,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     private function checkElementDocPart()
     {
-        $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
+        $isCellTextrun = in_array($this->container, array('cell', 'textrun', 'textbox'));
         $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
         $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
