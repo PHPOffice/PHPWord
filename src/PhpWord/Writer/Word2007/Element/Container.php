@@ -37,10 +37,10 @@ class Container extends AbstractElement
         // Loop through subelements
         $containerClass = basename(get_class($element));
         $subelements = $element->getElements();
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
+        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
         if (count($subelements) > 0) {
             foreach ($subelements as $subelement) {
-                $writerClass = dirname(get_class($this)) . '\\' . basename(get_class($subelement));
+                $writerClass = __NAMESPACE__ . '\\' . basename(get_class($subelement));
                 if (class_exists($writerClass)) {
                     $writer = new $writerClass($xmlWriter, $subelement, $withoutP);
                     $writer->write();
@@ -49,7 +49,7 @@ class Container extends AbstractElement
         } else {
             // Special case for Cell: They have to contain a TextBreak at least
             if ($containerClass == 'Cell') {
-                $writerClass = dirname(get_class($this)) . '\\TextBreak';
+                $writerClass = __NAMESPACE__ . '\\TextBreak';
                 $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
                 $writer->write();
             }

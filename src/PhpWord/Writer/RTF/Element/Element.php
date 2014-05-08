@@ -68,7 +68,7 @@ class Element
     public function write()
     {
         $content = '';
-        $writerClass = dirname(get_class($this)) . '\\' . basename(get_class($this->element));
+        $writerClass = __NAMESPACE__ . '\\' . basename(get_class($this->element));
         if (class_exists($writerClass)) {
             $writer = new $writerClass($this->parentWriter, $this->element, $this->withoutP);
             $content = $writer->write();

@@ -249,7 +249,7 @@ abstract class AbstractStyle
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
-        $styleClass = dirname(get_class($this)) . '\\' . $styleName;
+        $styleClass = __NAMESPACE__ . '\\' . $styleName;
         if (is_array($value)) {
             if (!$style instanceof $styleClass) {
                 $style = new $styleClass();

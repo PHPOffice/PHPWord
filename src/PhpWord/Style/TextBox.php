@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Style;
 
 /**
  * TextBox style
+ *
+ * @since 0.11.0
  */
 class TextBox extends Image
 {

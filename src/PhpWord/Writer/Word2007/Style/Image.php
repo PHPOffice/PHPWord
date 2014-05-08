@@ -31,7 +31,7 @@ class Image extends AbstractStyle
      *
      * @var string
      */
-    private $w10wrap;
+    protected $w10wrap;
 
     /**
      * Write style
@@ -52,7 +52,7 @@ class Image extends AbstractStyle
             'mso-width-relative' => 'margin',
             'mso-height-relative' => 'margin',
         );
-        $styleArray = array_merge($styleArray, $this->getElementStyle($this->style));
+        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
 
         // Absolute/relative positioning
         $styleArray['position'] = $positioning;
@@ -112,7 +112,7 @@ class Image extends AbstractStyle
      *
      * @return array
      */
-    private function getElementStyle(ImageStyle $style)
+    protected function getElementStyle(ImageStyle $style)
     {
         $styles = array();
         $styleValues = array(
@@ -136,7 +136,7 @@ class Image extends AbstractStyle
      * @param array $styles
      * @return string
      */
-    private function assembleStyle($styles = array())
+    protected function assembleStyle($styles = array())
     {
         $style = '';
         foreach ($styles as $key => $value) {

@@ -23,52 +23,61 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\TextBox as TextBoxStyleWriter;
 /**
  * TextBox element writer
  *
+ * @since 0.11.0
  */
-class TextBox extends Element
+class TextBox extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        $tbxStyle = $this->element->getStyle();
-        if ($tbxStyle instanceof TextBoxStyle) {
-            $styleWriter = new TextBoxStyleWriter($this->xmlWriter, $tbxStyle);
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        $style = $element->getStyle();
+
+        if ($style instanceof TextBoxStyle) {
+            $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
             $styleWriter->write();
         }
 
         if (!$this->withoutP) {
-            $this->xmlWriter->startElement('w:p');
-            if (!is_null($tbxStyle->getAlign())) {
-                $this->xmlWriter->startElement('w:pPr');
-                $this->xmlWriter->startElement('w:jc');
-                $this->xmlWriter->writeAttribute('w:val', $tbxStyle->getAlign());
-                $this->xmlWriter->endElement(); // w:jc
-                $this->xmlWriter->endElement(); // w:pPr
+            $xmlWriter->startElement('w:p');
+            if (!is_null($style->getAlign())) {
+                $xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:jc');
+                $xmlWriter->writeAttribute('w:val', $style->getAlign());
+                $xmlWriter->endElement(); // w:jc
+                $xmlWriter->endElement(); // w:pPr
             }
         }
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:pict');
-        $this->xmlWriter->startElement('v:shape');
-        $this->xmlWriter->writeAttribute('type', '#_x0000_t0202');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:pict');
+        $xmlWriter->startElement('v:shape');
+        $xmlWriter->writeAttribute('type', '#_x0000_t0202');
         $styleWriter->write();
-        $this->xmlWriter->startElement('v:textbox');
-        $margins = implode(', ', $tbxStyle->getInnerMargin());
-        $this->xmlWriter->writeAttribute('inset', $margins);
-        $this->xmlWriter->startElement('w:txbxContent');
-        $this->xmlWriter->startElement('w:p');
-        $this->parentWriter->writeContainerElements($this->xmlWriter, $this->element);
-        $this->xmlWriter->endElement(); // w:p
-        $this->xmlWriter->endElement(); // w:txbxContent
-        $this->xmlWriter->endElement(); // v: textbox
+
+        $xmlWriter->startElement('v:textbox');
+        $margins = implode(', ', $style->getInnerMargin());
+        $xmlWriter->writeAttribute('inset', $margins);
+
+        $xmlWriter->startElement('w:txbxContent');
+        $xmlWriter->startElement('w:p');
+        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter->write();
+        $xmlWriter->endElement(); // w:p
+        $xmlWriter->endElement(); // w:txbxContent
+
+        $xmlWriter->endElement(); // v: textbox
+
         $styleWriter->writeW10Wrap();
-        $this->xmlWriter->endElement(); // v:shape
-        $this->xmlWriter->endElement(); // w:pict
-        $this->xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // v:shape
+        $xmlWriter->endElement(); // w:pict
+        $xmlWriter->endElement(); // w:r
 
         if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // w:p
+            $xmlWriter->endElement(); // w:p
         }
     }
 }

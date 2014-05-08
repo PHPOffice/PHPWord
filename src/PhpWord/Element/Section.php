@@ -223,7 +223,7 @@ class Section extends AbstractContainer
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
         $collectionArray = $header ? 'headers' : 'footers';
-        $containerClass = dirname(get_class($this)) . '\\' . ($header ? 'Header' : 'Footer');
+        $containerClass = __NAMESPACE__ . '\\' . ($header ? 'Header' : 'Footer');
         $collection = &$this->$collectionArray;
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {

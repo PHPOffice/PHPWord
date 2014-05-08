@@ -20,7 +20,9 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 
 /**
- * Table element
+ * TextBox element
+ *
+ * @since 0.11.0
  */
 class TextBox extends AbstractContainer
 {
