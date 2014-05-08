@@ -170,6 +170,24 @@ class TextBox extends Image
     }
 
     /**
+     * Has inner margin?
+     *
+     * @return bool
+     */
+    public function hasInnerMargins()
+    {
+        $hasInnerMargins = false;
+        $margins = $this->getInnerMargins();
+        for ($i = 0; $i < count($margins); $i++) {
+            if (!is_null($margins[$i])) {
+                $hasInnerMargins = true;
+            }
+        }
+
+        return $hasInnerMargins;
+    }
+
+    /**
      * Set border size
      *
      * @param int $value Size in points

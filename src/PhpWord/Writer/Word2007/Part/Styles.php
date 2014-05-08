@@ -62,7 +62,7 @@ class Styles extends AbstractPart
 
                 // Font style
                 if ($style instanceof Font) {
-                    $paragraphStyle = $style->getParagraphStyle();
+                    $paragraphStyle = $style->getParagraph();
                     $styleType = $style->getStyleType();
                     $type = ($styleType == 'title') ? 'paragraph' : 'character';
                     if (!is_null($paragraphStyle)) {

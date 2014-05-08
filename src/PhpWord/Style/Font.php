@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -652,7 +651,7 @@ class Font extends AbstractStyle
     /**
      * Toggle $target property to false when $source true
      *
-     * @param mixed $target Target property
+     * @param bool $target Target property
      * @param bool $sourceValue
      */
     private function toggleFalse(&$target, $sourceValue)

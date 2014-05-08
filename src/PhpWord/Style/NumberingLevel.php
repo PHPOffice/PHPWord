@@ -377,10 +377,11 @@ class NumberingLevel extends AbstractStyle
      * @param string $value
      * @return self
      */
-    public function setHint($value)
+    public function setHint($value = null)
     {
         $enum = array('default', 'eastAsia', 'cs');
         $this->hint = $this->setEnumVal($value, $enum, $this->hint);
+
         return $this;
     }
 }

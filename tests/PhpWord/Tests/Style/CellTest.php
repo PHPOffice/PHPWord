@@ -35,7 +35,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $object = new Cell();
 
         $attributes = array(
-            'valign' => 'left',
+            'valign' => Cell::VALIGN_TOP,
             'textDirection' => Cell::TEXT_DIR_BTLR,
             'bgColor' => 'FFFF00',
             'borderTopSize' => 120,
@@ -47,7 +47,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
             'borderBottomSize' => 120,
             'borderBottomColor' => 'FFFF00',
             'gridSpan' => 2,
-            'vMerge' => 2,
+            'vMerge' => Cell::VMERGE_RESTART,
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";

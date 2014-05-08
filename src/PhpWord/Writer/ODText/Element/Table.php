@@ -17,9 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
-use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
-
 /**
  * Table element writer
  *

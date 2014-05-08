@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\TextBox as TextBoxStyleWriter;
 
 /**
@@ -35,11 +34,7 @@ class TextBox extends AbstractElement
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
         $style = $element->getStyle();
-
-        if ($style instanceof TextBoxStyle) {
-            $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
-            $styleWriter->write();
-        }
+        $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
@@ -57,20 +52,15 @@ class TextBox extends AbstractElement
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t0202');
         $styleWriter->write();
-
         $xmlWriter->startElement('v:textbox');
-        $margins = implode(', ', $style->getInnerMargin());
-        $xmlWriter->writeAttribute('inset', $margins);
-
+        $styleWriter->writeInnerMargin();
         $xmlWriter->startElement('w:txbxContent');
         $xmlWriter->startElement('w:p');
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // w:txbxContent
-
         $xmlWriter->endElement(); // v: textbox
-
         $styleWriter->writeW10Wrap();
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict

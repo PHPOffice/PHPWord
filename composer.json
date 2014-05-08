@@ -1,10 +1,10 @@
 {
     "name": "phpoffice/phpword",
-    "description": "PHPWord - Read, Create, and Write DOCX, ODT, and RTF documents in PHP",
+    "description": "PHPWord - A pure PHP library for reading and writing word processing documents (DOCX, ODT, RTF, HTML, PDF)",
     "keywords": [
         "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
-        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument"
+        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument", "PDF", "HTML"
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",

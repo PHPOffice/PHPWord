@@ -48,6 +48,7 @@ class TextBox extends Image
         if (is_null($this->w10wrap)) {
             return;
         }
+        $style = $this->getStyle();
 
         $relativePositions = array(
             TextBoxStyle::POSITION_RELATIVE_TO_MARGIN  => 'margin',
@@ -78,6 +79,21 @@ class TextBox extends Image
         }
 
         $xmlWriter->endElement(); // w10:wrap
+    }
+
+    /**
+     * Writer inner margin
+     */
+    public function writeInnerMargin()
+    {
+        $style = $this->getStyle();
+        if (!$style->hasInnerMargins()) {
+            return;
+        }
+
+        $xmlWriter = $this->getXmlWriter();
+        $margins = implode(', ', $style->getInnerMargin());
+        $xmlWriter->writeAttribute('inset', $margins);
     }
 
     /**

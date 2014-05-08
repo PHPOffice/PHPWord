@@ -94,8 +94,6 @@ class Table extends AbstractStyle
 
     /**
      * Write row style
-     *
-     * @param string $type
      */
     private function writeFirstRow(\PhpOffice\PhpWord\Style\Table $style)
     {

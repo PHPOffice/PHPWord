@@ -36,8 +36,6 @@ class TextBox extends AbstractContainer
     /**
      * Create a new textbox
      *
-     * @param string $docPart
-     * @param integer $docPartId
      * @param mixed $style
      */
     public function __construct($style = null)
