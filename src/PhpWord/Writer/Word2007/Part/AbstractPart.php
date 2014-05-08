@@ -110,7 +110,7 @@ abstract class AbstractPart
 
         // Loop through elements
         $elements = $container->getElements();
-        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
+        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
         if (count($elements) > 0) {
             foreach ($elements as $element) {
                 if ($element instanceof AbstractElement) {
