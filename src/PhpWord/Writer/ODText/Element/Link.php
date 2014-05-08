@@ -22,29 +22,28 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  *
  * @since 0.10.0
  */
-class Link extends Element
+class Link extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
         if (!$this->withoutP) {
-            $this->xmlWriter->startElement('text:p'); // text:p
+            $xmlWriter->startElement('text:p'); // text:p
         }
 
-        $this->xmlWriter->startElement('text:a');
-        $this->xmlWriter->writeAttribute('xlink:type', 'simple');
-        $this->xmlWriter->writeAttribute('xlink:href', $this->element->getTarget());
-        $this->xmlWriter->writeRaw($this->element->getText());
-        $this->xmlWriter->endElement(); // text:a
+        $xmlWriter->startElement('text:a');
+        $xmlWriter->writeAttribute('xlink:type', 'simple');
+        $xmlWriter->writeAttribute('xlink:href', $element->getTarget());
+        $xmlWriter->writeRaw($element->getText());
+        $xmlWriter->endElement(); // text:a
 
         if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // text:p
+            $xmlWriter->endElement(); // text:p
         }
     }
 }

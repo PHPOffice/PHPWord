@@ -28,6 +28,13 @@ class Paragraph extends AbstractStyle
     const LINE_HEIGHT = 240;
 
     /**
+     * Aliases
+     *
+     * @var array
+     */
+    protected $aliases = array('line-height' => 'lineHeight');
+
+    /**
      * Paragraph alignment
      *
      * @var string
@@ -105,24 +112,6 @@ class Paragraph extends AbstractStyle
     private $spacing;
 
     /**
-     * Set style by array
-     *
-     * @param array $style
-     * @return $this
-     */
-    public function setArrayStyle(array $style = array())
-    {
-        foreach ($style as $key => $value) {
-            if ($key === 'line-height') {
-                null;
-            }
-            $this->setStyleValue($key, $value);
-        }
-
-        return $this;
-    }
-
-    /**
      * Set Style value
      *
      * @param string $key
@@ -135,9 +124,6 @@ class Paragraph extends AbstractStyle
             $value = $value * 720;
         } elseif ($key == 'spacing') {
             $value += 240; // because line height of 1 matches 240 twips
-        } elseif ($key === 'line-height') {
-            $this->setLineHeight($value);
-            return;
         }
         $method = 'set' . $key;
         if (method_exists($this, $method)) {
@@ -168,6 +154,7 @@ class Paragraph extends AbstractStyle
             $value = 'both';
         }
         $this->align = $value;
+
         return $this;
     }
 
@@ -362,6 +349,7 @@ class Paragraph extends AbstractStyle
     public function setBasedOn($value = 'Normal')
     {
         $this->basedOn = $value;
+
         return $this;
     }
 
@@ -384,6 +372,7 @@ class Paragraph extends AbstractStyle
     public function setNext($value = null)
     {
         $this->next = $value;
+
         return $this;
     }
 
@@ -405,10 +394,8 @@ class Paragraph extends AbstractStyle
      */
     public function setWidowControl($value = true)
     {
-        if (!is_bool($value)) {
-            $value = true;
-        }
-        $this->widowControl = $value;
+        $this->widowControl = $this->setBoolVal($value, $this->widowControl);
+
         return $this;
     }
 
@@ -430,10 +417,8 @@ class Paragraph extends AbstractStyle
      */
     public function setKeepNext($value = false)
     {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->keepNext = $value;
+        $this->keepNext = $this->setBoolVal($value, $this->keepNext);
+
         return $this;
     }
 
@@ -455,10 +440,8 @@ class Paragraph extends AbstractStyle
      */
     public function setKeepLines($value = false)
     {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->keepLines = $value;
+        $this->keepLines = $this->setBoolVal($value, $this->keepLines);
+
         return $this;
     }
 
@@ -480,10 +463,8 @@ class Paragraph extends AbstractStyle
      */
     public function setPageBreakBefore($value = false)
     {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->pageBreakBefore = $value;
+        $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
+
         return $this;
     }
 
@@ -500,19 +481,12 @@ class Paragraph extends AbstractStyle
     /**
      * Set shading
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setIndentation($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->indentation instanceof Indentation) {
-                $this->indentation = new Indentation();
-            }
-            $this->indentation->setStyleByArray($value);
-        } else {
-            $this->indentation = null;
-        }
+        $this->setObjectVal($value, 'Indentation', $this->indentation);
 
         return $this;
     }
@@ -531,20 +505,13 @@ class Paragraph extends AbstractStyle
     /**
      * Set shading
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      * @todo Rename to setSpacing in 1.0
      */
     public function setSpace($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->spacing instanceof Spacing) {
-                $this->spacing = new Spacing();
-            }
-            $this->spacing->setStyleByArray($value);
-        } else {
-            $this->spacing = null;
-        }
+        $this->setObjectVal($value, 'Spacing', $this->spacing);
 
         return $this;
     }

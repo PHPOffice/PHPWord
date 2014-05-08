@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
 /**
@@ -60,7 +61,10 @@ class Document extends AbstractPart
         if ($sectionCount > 0) {
             foreach ($sections as $section) {
                 $currentSection++;
-                $this->writeContainerElements($xmlWriter, $section);
+
+                $containerWriter = new Container($xmlWriter, $section);
+                $containerWriter->write();
+
                 if ($currentSection == $sectionCount) {
                     $this->writeSectionSettings($xmlWriter, $section);
                 } else {

@@ -27,18 +27,17 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Tab as TabStyleWriter;
  *
  * @since 0.10.0
  */
-class TOC extends Element
+class TOC extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\TOC) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $titles = $this->element->getTitles();
+        $titles = $element->getTitles();
         $writeFieldMark = true;
 
         foreach ($titles as $title) {
@@ -48,13 +47,13 @@ class TOC extends Element
             }
         }
 
-        $this->xmlWriter->startElement('w:p');
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 
     /**
@@ -65,13 +64,16 @@ class TOC extends Element
      */
     private function writeTitle($title, $writeFieldMark)
     {
-        $tocStyle = $this->element->getStyleTOC();
-        $fontStyle = $this->element->getStyleFont();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        $tocStyle = $element->getStyleTOC();
+        $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
         $anchor = '_Toc' . ($title->getBookmarkId() + 252634154);
         $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
 
-        $this->xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:p');
 
         // Write style and field mark
         $this->writeStyle($indent);
@@ -80,47 +82,47 @@ class TOC extends Element
         }
 
         // Hyperlink
-        $this->xmlWriter->startElement('w:hyperlink');
-        $this->xmlWriter->writeAttribute('w:anchor', $anchor);
-        $this->xmlWriter->writeAttribute('w:history', '1');
+        $xmlWriter->startElement('w:hyperlink');
+        $xmlWriter->writeAttribute('w:anchor', $anchor);
+        $xmlWriter->writeAttribute('w:history', '1');
 
         // Title text
-        $this->xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:r');
         if ($isObject) {
-            $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
+            $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
             $styleWriter->write();
         }
-        $this->xmlWriter->startElement('w:t');
-        $this->xmlWriter->writeRaw($title->getText());
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeRaw($title->getText());
+        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:r
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->writeElement('w:tab', null);
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->writeElement('w:tab', null);
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'begin');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:instrText');
-        $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw('PAGEREF ' . $anchor . ' \h');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw('PAGEREF ' . $anchor . ' \h');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->endElement(); // w:hyperlink
+        $xmlWriter->endElement(); // w:hyperlink
 
-        $this->xmlWriter->endElement(); // w:p
+        $xmlWriter->endElement(); // w:p
     }
 
     /**
@@ -130,41 +132,44 @@ class TOC extends Element
      */
     private function writeStyle($indent)
     {
-        $tocStyle = $this->element->getStyleTOC();
-        $fontStyle = $this->element->getStyleFont();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        $tocStyle = $element->getStyleTOC();
+        $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
 
-        $this->xmlWriter->startElement('w:pPr');
+        $xmlWriter->startElement('w:pPr');
 
         // Paragraph
         if ($isObject && !is_null($fontStyle->getParagraphStyle())) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $fontStyle->getParagraphStyle());
+            $styleWriter = new ParagraphStyleWriter($xmlWriter, $fontStyle->getParagraphStyle());
             $styleWriter->write();
         }
 
         // Font
         if (!empty($fontStyle) && !$isObject) {
-            $this->xmlWriter->startElement('w:rPr');
-            $this->xmlWriter->startElement('w:rStyle');
-            $this->xmlWriter->writeAttribute('w:val', $fontStyle);
-            $this->xmlWriter->endElement();
-            $this->xmlWriter->endElement(); // w:rPr
+            $xmlWriter->startElement('w:rPr');
+            $xmlWriter->startElement('w:rStyle');
+            $xmlWriter->writeAttribute('w:val', $fontStyle);
+            $xmlWriter->endElement();
+            $xmlWriter->endElement(); // w:rPr
         }
 
         // Tab
-        $this->xmlWriter->startElement('w:tabs');
-        $styleWriter = new TabStyleWriter($this->xmlWriter, $tocStyle);
+        $xmlWriter->startElement('w:tabs');
+        $styleWriter = new TabStyleWriter($xmlWriter, $tocStyle);
         $styleWriter->write();
-        $this->xmlWriter->endElement();
+        $xmlWriter->endElement();
 
         // Indent
         if ($indent > 0) {
-            $this->xmlWriter->startElement('w:ind');
-            $this->xmlWriter->writeAttribute('w:left', $indent);
-            $this->xmlWriter->endElement();
+            $xmlWriter->startElement('w:ind');
+            $xmlWriter->writeAttribute('w:left', $indent);
+            $xmlWriter->endElement();
         }
 
-        $this->xmlWriter->endElement(); // w:pPr
+        $xmlWriter->endElement(); // w:pPr
     }
 
     /**
@@ -172,26 +177,29 @@ class TOC extends Element
      */
     private function writeFieldMark()
     {
-        $minDepth = $this->element->getMinDepth();
-        $maxDepth = $this->element->getMaxDepth();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'begin');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $minDepth = $element->getMinDepth();
+        $maxDepth = $element->getMaxDepth();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:instrText');
-        $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw("TOC \o {$minDepth}-{$maxDepth} \h \z \u");
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'separate');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw("TOC \o {$minDepth}-{$maxDepth} \h \z \u");
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 }

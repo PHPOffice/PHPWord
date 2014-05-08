@@ -26,41 +26,88 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
  *
  * @since 0.10.0
  */
-class Text extends Element
+class Text extends AbstractElement
 {
     /**
      * Write text element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        $fontStyle = $this->element->getFontStyle();
-        $paragraphStyle = $this->element->getParagraphStyle();
-        $text = htmlspecialchars($this->element->getText());
+        $text = htmlspecialchars($element->getText());
         $text = String::controlCharacterPHP2OOXML($text);
 
-        if (!$this->withoutP) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
-            $styleWriter->setIsInline(true);
+        $this->writeOpeningWP();
 
-            $this->xmlWriter->startElement('w:p');
-            $styleWriter->write();
+        $xmlWriter->startElement('w:r');
+
+        $this->writeFontStyle();
+
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw($text);
+        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:r
+
+        $this->writeEndingWP();
+    }
+
+    /**
+     * Write opening
+     */
+    protected function writeOpeningWP()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('w:p');
+
+            if (method_exists($element, 'getParagraphStyle')) {
+                $this->writeParagraphStyle();
+            }
         }
-        $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeEndingWP()
+    {
+        $xmlWriter = $this->getXmlWriter();
+
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeParagraphStyle()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        $paragraphStyle = $element->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);
-
-        $this->xmlWriter->startElement('w:r');
         $styleWriter->write();
-        $this->xmlWriter->startElement('w:t');
-        $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw($text);
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement(); // w:r
-        if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // w:p
-        }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeFontStyle()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        $fontStyle = $element->getFontStyle();
+        $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+        $styleWriter->setIsInline(true);
+        $styleWriter->write();
     }
 }

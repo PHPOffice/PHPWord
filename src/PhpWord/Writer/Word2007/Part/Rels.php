@@ -28,11 +28,6 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 class Rels extends AbstractPart
 {
     /**
-     * Base relationship URL
-     */
-    const RELS_BASE = 'http://schemas.openxmlformats.org/';
-
-    /**
      * Write part
      *
      * @return string
@@ -62,7 +57,7 @@ class Rels extends AbstractPart
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
-        $xmlWriter->writeAttribute('xmlns', self::RELS_BASE . 'package/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         // XML files relationships
         if (is_array($xmlRels)) {
@@ -73,17 +68,18 @@ class Rels extends AbstractPart
 
         // Media relationships
         if (is_array($mediaRels)) {
-            $mapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
+            $typePrefix = 'officeDocument/2006/relationships/';
+            $typeMapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
             $targetPaths = array('image' => 'media/', 'object' => 'embeddings/');
+
             foreach ($mediaRels as $mediaRel) {
                 $mediaType = $mediaRel['type'];
-                $type = array_key_exists($mediaType, $mapping) ? $mapping[$mediaType] : $mediaType;
+                $type = array_key_exists($mediaType, $typeMapping) ? $typeMapping[$mediaType] : $mediaType;
                 $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
                 $target .= $mediaRel['target'];
                 $targetMode = ($type == 'hyperlink') ? 'External' : '';
-                $type = "officeDocument/2006/relationships/{$type}";
 
-                $this->writeRel($xmlWriter, $relId++, $type, $target, $targetMode);
+                $this->writeRel($xmlWriter, $relId++, $typePrefix . $type, $target, $targetMode);
             }
         }
 
@@ -110,7 +106,7 @@ class Rels extends AbstractPart
             }
             $xmlWriter->startElement('Relationship');
             $xmlWriter->writeAttribute('Id', $relId);
-            $xmlWriter->writeAttribute('Type', self::RELS_BASE . $type);
+            $xmlWriter->writeAttribute('Type', 'http://schemas.openxmlformats.org/' . $type);
             $xmlWriter->writeAttribute('Target', $target);
             if ($targetMode != '') {
                 $xmlWriter->writeAttribute('TargetMode', $targetMode);

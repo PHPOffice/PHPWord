@@ -91,7 +91,7 @@ class Styles extends AbstractPart
                 if (preg_match('#^T[0-9]+$#', $styleName) == 0
                     && preg_match('#^P[0-9]+$#', $styleName) == 0
                 ) {
-                    $styleClass = str_replace('Style', 'Writer\\ODText\\Style', get_class($style));
+                    $styleClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . basename(get_class($style));
                     if (class_exists($styleClass)) {
                         $styleWriter = new $styleClass($xmlWriter, $style);
                         $styleWriter->write();

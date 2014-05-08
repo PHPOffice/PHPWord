@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
+use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 
 /**
  * ODText content part writer: content.xml
@@ -73,12 +73,9 @@ class Content extends AbstractPart
         $sectionCount = count($sections);
         if ($sectionCount > 0) {
             foreach ($sections as $section) {
-                $elements = $section->getElements();
                 // $xmlWriter->startElement('text:section');
-                foreach ($elements as $element) {
-                    $elementWriter = new ElementWriter($xmlWriter, $this, $element, false);
-                    $elementWriter->write();
-                }
+                $containerWriter = new Container($xmlWriter, $section);
+                $containerWriter->write();
                 // $xmlWriter->endElement(); // text:section
             }
         }
@@ -104,7 +101,7 @@ class Content extends AbstractPart
                 if (preg_match('#^T[0-9]+$#', $styleName) != 0
                     || preg_match('#^P[0-9]+$#', $styleName) != 0
                 ) {
-                    $styleClass = str_replace('Style', 'Writer\\ODText\\Style', get_class($style));
+                    $styleClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . basename(get_class($style));
                     if (class_exists($styleClass)) {
                         $styleWriter = new $styleClass($xmlWriter, $style);
                         $styleWriter->setIsAuto(true);

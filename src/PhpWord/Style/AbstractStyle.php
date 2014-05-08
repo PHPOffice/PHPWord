@@ -38,9 +38,16 @@ abstract class AbstractStyle
      *
      * This number starts from one and defined in Style::setStyleValues()
      *
-     * @var integer|null
+     * @var int|null
      */
     protected $index;
+
+    /**
+     * Aliases
+     *
+     * @var array
+     */
+    protected $aliases = array();
 
     /**
      * Get style name
@@ -68,7 +75,7 @@ abstract class AbstractStyle
     /**
      * Get index number
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getIndex()
     {
@@ -78,7 +85,7 @@ abstract class AbstractStyle
     /**
      * Set index number
      *
-     * @param integer|null $value
+     * @param int|null $value
      * @return self
      */
     public function setIndex($value = null)
@@ -102,6 +109,9 @@ abstract class AbstractStyle
      */
     public function setStyleValue($key, $value)
     {
+        if (isset($this->aliases[$key])) {
+            $key = $this->aliases[$key];
+        }
         $method = 'set' . String::removeUnderscorePrefix($key);
         if (method_exists($this, $method)) {
             $this->$method($value);
@@ -150,6 +160,9 @@ abstract class AbstractStyle
      */
     protected function setBoolVal($value, $default = null)
     {
+        if (is_string($value)) {
+            $value = (bool)$value;
+        }
         if (!is_bool($value)) {
             $value = $default;
         }
@@ -161,8 +174,8 @@ abstract class AbstractStyle
      * Set numeric value
      *
      * @param mixed $value
-     * @param integer|float|null $default
-     * @return integer|float|null
+     * @param int|float|null $default
+     * @return int|float|null
      */
     protected function setNumericVal($value, $default = null)
     {
@@ -177,11 +190,14 @@ abstract class AbstractStyle
      * Set integer value
      *
      * @param mixed $value
-     * @param integer|null $default
-     * @return integer|null
+     * @param int|null $default
+     * @return int|null
      */
     protected function setIntVal($value, $default = null)
     {
+        if (is_string($value)) {
+            $value = intval($value);
+        }
         if (!is_int($value)) {
             $value = $default;
         }
@@ -198,6 +214,9 @@ abstract class AbstractStyle
      */
     protected function setFloatVal($value, $default = null)
     {
+        if (is_string($value)) {
+            $value = floatval($value);
+        }
         if (!is_float($value)) {
             $value = $default;
         }
@@ -219,5 +238,39 @@ abstract class AbstractStyle
         }
 
         return $value;
+    }
+
+    /**
+     * Set object value
+     *
+     * @param mixed $value
+     * @param string $styleName
+     * @param mixed $style
+     */
+    protected function setObjectVal($value, $styleName, &$style)
+    {
+        $styleClass = dirname(get_class($this)) . '\\' . $styleName;
+        if (is_array($value)) {
+            if (!$style instanceof $styleClass) {
+                $style = new $styleClass();
+            }
+            $style->setStyleByArray($value);
+        } else {
+            $style = $value;
+        }
+
+        return $style;
+    }
+
+    /**
+     * Set style using associative array
+     *
+     * @param array $style
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function setArrayStyle(array $style = array())
+    {
+        return $this->setStyleByArray($style);
     }
 }

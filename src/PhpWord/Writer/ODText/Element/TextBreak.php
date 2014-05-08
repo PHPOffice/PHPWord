@@ -22,15 +22,17 @@ namespace PhpOffice\PhpWord\Writer\ODText\Element;
  *
  * @since 0.10.0
  */
-class TextBreak extends Element
+class TextBreak extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        $this->xmlWriter->startElement('text:p');
-        $this->xmlWriter->writeAttribute('text:style-name', 'Standard');
-        $this->xmlWriter->endElement();
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startElement('text:p');
+        $xmlWriter->writeAttribute('text:style-name', 'Standard');
+        $xmlWriter->endElement();
     }
 }

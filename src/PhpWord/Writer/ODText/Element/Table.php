@@ -25,50 +25,42 @@ use PhpOffice\PhpWord\Writer\ODText\Element\Element as ElementWriter;
  *
  * @since 0.10.0
  */
-class Table extends Element
+class Table extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Table) {
-            return;
-        }
-
-        $rows = $this->element->getRows();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        $rows = $element->getRows();
         $rowCount = count($rows);
-        $colCount = $this->element->countColumns();
-        if ($rowCount > 0) {
-            $this->xmlWriter->startElement('table:table');
-            $this->xmlWriter->writeAttribute('table:name', $this->element->getElementId());
-            $this->xmlWriter->writeAttribute('table:style', $this->element->getElementId());
+        $colCount = $element->countColumns();
 
-            $this->xmlWriter->startElement('table:table-column');
-            $this->xmlWriter->writeAttribute('table:number-columns-repeated', $colCount);
-            $this->xmlWriter->endElement(); // table:table-column
+        if ($rowCount > 0) {
+            $xmlWriter->startElement('table:table');
+            $xmlWriter->writeAttribute('table:name', $element->getElementId());
+            $xmlWriter->writeAttribute('table:style', $element->getElementId());
+
+            $xmlWriter->startElement('table:table-column');
+            $xmlWriter->writeAttribute('table:number-columns-repeated', $colCount);
+            $xmlWriter->endElement(); // table:table-column
 
             foreach ($rows as $row) {
-                $this->xmlWriter->startElement('table:table-row');
+                $xmlWriter->startElement('table:table-row');
                 foreach ($row->getCells() as $cell) {
-                    $this->xmlWriter->startElement('table:table-cell');
-                    $this->xmlWriter->writeAttribute('office:value-type', 'string');
-                    $elements = $cell->getElements();
-                    if (count($elements) > 0) {
-                        foreach ($elements as $element) {
-                            $elementWriter = new ElementWriter($this->xmlWriter, $this->parentWriter, $element);
-                            $elementWriter->write();
-                        }
-                    } else {
-                        $element = new TextBreakElement();
-                        $elementWriter = new ElementWriter($this->xmlWriter, $this->parentWriter, $element);
-                        $elementWriter->write();
-                    }
-                    $this->xmlWriter->endElement(); // table:table-cell
+                    $xmlWriter->startElement('table:table-cell');
+                    $xmlWriter->writeAttribute('office:value-type', 'string');
+
+                    $containerWriter = new Container($xmlWriter, $cell);
+                    $containerWriter->write();
+
+                    $xmlWriter->endElement(); // table:table-cell
                 }
-                $this->xmlWriter->endElement(); // table:table-row
+                $xmlWriter->endElement(); // table:table-row
             }
-            $this->xmlWriter->endElement(); // table:table
+            $xmlWriter->endElement(); // table:table
         }
     }
 }

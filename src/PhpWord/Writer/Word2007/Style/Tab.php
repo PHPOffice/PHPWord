@@ -29,14 +29,15 @@ class Tab extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Tab)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        $this->xmlWriter->startElement("w:tab");
-        $this->xmlWriter->writeAttribute("w:val", $this->style->getType());
-        $this->xmlWriter->writeAttribute("w:leader", $this->style->getLeader());
-        $this->xmlWriter->writeAttribute('w:pos', $this->convertTwip($this->style->getPosition()));
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement("w:tab");
+        $xmlWriter->writeAttribute("w:val", $style->getType());
+        $xmlWriter->writeAttribute("w:leader", $style->getLeader());
+        $xmlWriter->writeAttribute('w:pos', $this->convertTwip($style->getPosition()));
+        $xmlWriter->endElement();
     }
 }

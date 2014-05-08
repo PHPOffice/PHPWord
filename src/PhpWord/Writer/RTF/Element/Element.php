@@ -67,14 +67,13 @@ class Element
      */
     public function write()
     {
-        $rtfText = '';
-        $elmName = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($this->element));
-        $elmWriterClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element\\' . $elmName;
-        if (class_exists($elmWriterClass) === true) {
-            $elmWriter = new $elmWriterClass($this->parentWriter, $this->element, $this->withoutP);
-            $rtfText = $elmWriter->write();
+        $content = '';
+        $writerClass = dirname(get_class($this)) . '\\' . basename(get_class($this->element));
+        if (class_exists($writerClass)) {
+            $writer = new $writerClass($this->parentWriter, $this->element, $this->withoutP);
+            $content = $writer->write();
         }
 
-        return $rtfText;
+        return $content;
     }
 }

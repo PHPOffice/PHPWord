@@ -34,37 +34,40 @@ class Font extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Font)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
 
-        $this->xmlWriter->startElement('style:style');
-        $this->xmlWriter->writeAttribute('style:name', $this->style->getStyleName());
-        $this->xmlWriter->writeAttribute('style:family', 'text');
-        $this->xmlWriter->startElement('style:text-properties');
-        if ($this->style->getName()) {
-            $this->xmlWriter->writeAttribute('style:font-name', $this->style->getName());
-            $this->xmlWriter->writeAttribute('style:font-name-complex', $this->style->getName());
-        }
-        if ($this->style->getSize()) {
-            $this->xmlWriter->writeAttribute('fo:font-size', ($this->style->getSize()) . 'pt');
-            $this->xmlWriter->writeAttribute('style:font-size-asian', ($this->style->getSize()) . 'pt');
-            $this->xmlWriter->writeAttribute('style:font-size-complex', ($this->style->getSize()) . 'pt');
-        }
-        if ($this->style->getColor()) {
-            $this->xmlWriter->writeAttribute('fo:color', '#' . $this->style->getColor());
-        }
-        if ($this->style->isItalic()) {
-            $this->xmlWriter->writeAttribute('fo:font-style', 'italic');
-            $this->xmlWriter->writeAttribute('style:font-style-asian', 'italic');
-            $this->xmlWriter->writeAttribute('style:font-style-complex', 'italic');
-        }
-        if ($this->style->isBold()) {
-            $this->xmlWriter->writeAttribute('fo:font-weight', 'bold');
-            $this->xmlWriter->writeAttribute('style:font-weight-asian', 'bold');
-        }
-        $this->xmlWriter->endElement(); // style:text-properties
-        $this->xmlWriter->endElement(); // style:style
+        $xmlWriter->startElement('style:style');
+        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+        $xmlWriter->writeAttribute('style:family', 'text');
+        $xmlWriter->startElement('style:text-properties');
+
+        // Name
+        $font = $style->getName();
+        $xmlWriter->writeAttributeIf($font, 'style:font-name', $font);
+        $xmlWriter->writeAttributeIf($font, 'style:font-name-complex', $font);
+        $size = $style->getSize();
+
+        // Size
+        $xmlWriter->writeAttributeIf($size, 'fo:font-size', $size . 'pt');
+        $xmlWriter->writeAttributeIf($size, 'style:font-size-asian', $size . 'pt');
+        $xmlWriter->writeAttributeIf($size, 'style:font-size-complex', $size . 'pt');
+
+        // Color
+        $color = $style->getColor();
+        $xmlWriter->writeAttributeIf($color, 'fo:color', '#' . $color);
+
+        // Bold & italic
+        $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');
+        $xmlWriter->writeAttributeIf($style->isBold(), 'style:font-weight-asian', 'bold');
+        $xmlWriter->writeAttributeIf($style->isItalic(), 'fo:font-style', 'italic');
+        $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-asian', 'italic');
+        $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-complex', 'italic');
+
+        $xmlWriter->endElement(); // style:text-properties
+        $xmlWriter->endElement(); // style:style
     }
 
     /**

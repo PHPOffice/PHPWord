@@ -31,64 +31,42 @@ class Cell extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Cell)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
-
-        $brdSz = $this->style->getBorderSize();
-        $brdCol = $this->style->getBorderColor();
-        $hasBorders = false;
-        for ($i = 0; $i < 4; $i++) {
-            if (!is_null($brdSz[$i])) {
-                $hasBorders = true;
-                break;
-            }
-        }
-
-        // Border
-        if ($hasBorders) {
-            $mbWriter = new MarginBorder($this->xmlWriter);
-            $mbWriter->setSizes($brdSz);
-            $mbWriter->setColors($brdCol);
-            $mbWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
-
-            $this->xmlWriter->startElement('w:tcBorders');
-            $mbWriter->write();
-            $this->xmlWriter->endElement();
-        }
+        $xmlWriter = $this->getXmlWriter();
 
         // Text direction
-        if (!is_null($this->style->getTextDirection())) {
-            $this->xmlWriter->startElement('w:textDirection');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getTextDirection());
-            $this->xmlWriter->endElement();
+        $textDir = $style->getTextDirection();
+        $xmlWriter->writeElementIf(!is_null($textDir), 'w:textDirection', 'w:val', $textDir);
+
+        // Vertical alignment
+        $vAlign = $style->getVAlign();
+        $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
+
+        // Border
+        if ($style->hasBorders()) {
+            $xmlWriter->startElement('w:tcBorders');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
+            $styleWriter->write();
+
+            $xmlWriter->endElement();
         }
 
         // Shading
-        if (!is_null($this->style->getShading())) {
-            $styleWriter = new Shading($this->xmlWriter, $this->style->getShading());
+        if (!is_null($style->getShading())) {
+            $styleWriter = new Shading($xmlWriter, $style->getShading());
             $styleWriter->write();
         }
 
-        // Alignment
-        if (!is_null($this->style->getVAlign())) {
-            $this->xmlWriter->startElement('w:vAlign');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getVAlign());
-            $this->xmlWriter->endElement();
-        }
-
-        // Colspan
-        if (!is_null($this->style->getGridSpan())) {
-            $this->xmlWriter->startElement('w:gridSpan');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getGridSpan());
-            $this->xmlWriter->endElement();
-        }
-
-        // Row span
-        if (!is_null($this->style->getVMerge())) {
-            $this->xmlWriter->startElement('w:vMerge');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getVMerge());
-            $this->xmlWriter->endElement();
-        }
+        // Colspan & rowspan
+        $gridSpan = $style->getGridSpan();
+        $vMerge = $style->getVMerge();
+        $xmlWriter->writeElementIf(!is_null($gridSpan), 'w:gridSpan', 'w:val', $gridSpan);
+        $xmlWriter->writeElementIf(!is_null($vMerge), 'w:vMerge', 'w:val', $vMerge);
     }
 }

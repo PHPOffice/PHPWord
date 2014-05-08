@@ -72,7 +72,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             'Endnotes'      => '',
         );
         foreach (array_keys($this->parts) as $partName) {
-            $partClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Part\\' . $partName;
+            $partClass = get_class($this) . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
                 $partObject = new $partClass();
                 $partObject->setParentWriter($this);
@@ -91,57 +91,57 @@ class Word2007 extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (!is_null($this->phpWord)) {
-            $filename = $this->getTempFile($filename);
-            $objZip = $this->getZipArchive($filename);
-
-            // Content types
-            $this->contentTypes['default'] = array(
-                'rels' => 'application/vnd.openxmlformats-package.relationships+xml',
-                'xml'  => 'application/xml',
-            );
-
-            // Add section media files
-            $sectionMedia = Media::getElements('section');
-            if (!empty($sectionMedia)) {
-                $this->addFilesToPackage($objZip, $sectionMedia);
-                $this->registerContentTypes($sectionMedia);
-                foreach ($sectionMedia as $element) {
-                    $this->relationships[] = $element;
-                }
-            }
-
-            // Add header/footer media files & relations
-            $this->addHeaderFooterMedia($objZip, 'header');
-            $this->addHeaderFooterMedia($objZip, 'footer');
-
-            // Add header/footer contents
-            $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
-            $sections = $this->phpWord->getSections();
-            foreach ($sections as $section) {
-                $this->addHeaderFooterContent($section, $objZip, 'header', $rId);
-                $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
-            }
-
-            $this->addNotes($objZip, $rId, 'footnote');
-            $this->addNotes($objZip, $rId, 'endnote');
-
-            // Write parts
-            foreach ($this->parts as $partName => $fileName) {
-                if ($fileName != '') {
-                    $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
-                }
-            }
-
-            // Close file
-            if ($objZip->close() === false) {
-                throw new Exception("Could not close zip file $filename.");
-            }
-
-            $this->cleanupTempFile();
-        } else {
-            throw new Exception("PhpWord object unassigned.");
+        if (is_null($this->phpWord)) {
+            throw new Exception('PhpWord object unassigned.');
         }
+
+        $filename = $this->getTempFile($filename);
+        $objZip = $this->getZipArchive($filename);
+
+        // Content types
+        $this->contentTypes['default'] = array(
+            'rels' => 'application/vnd.openxmlformats-package.relationships+xml',
+            'xml'  => 'application/xml',
+        );
+
+        // Add section media files
+        $sectionMedia = Media::getElements('section');
+        if (!empty($sectionMedia)) {
+            $this->addFilesToPackage($objZip, $sectionMedia);
+            $this->registerContentTypes($sectionMedia);
+            foreach ($sectionMedia as $element) {
+                $this->relationships[] = $element;
+            }
+        }
+
+        // Add header/footer media files & relations
+        $this->addHeaderFooterMedia($objZip, 'header');
+        $this->addHeaderFooterMedia($objZip, 'footer');
+
+        // Add header/footer contents
+        $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
+        $sections = $this->phpWord->getSections();
+        foreach ($sections as $section) {
+            $this->addHeaderFooterContent($section, $objZip, 'header', $rId);
+            $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
+        }
+
+        $this->addNotes($objZip, $rId, 'footnote');
+        $this->addNotes($objZip, $rId, 'endnote');
+
+        // Write parts
+        foreach ($this->parts as $partName => $fileName) {
+            if ($fileName != '') {
+                $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
+            }
+        }
+
+        // Close file
+        if ($objZip->close() === false) {
+            throw new Exception("Could not close zip file $filename.");
+        }
+
+        $this->cleanupTempFile();
     }
 
     /**

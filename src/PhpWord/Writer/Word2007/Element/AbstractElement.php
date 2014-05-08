@@ -17,37 +17,30 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart;
 
 /**
- * Generic element writer
+ * Abstract element writer
  *
  * @since 0.10.0
  */
-class Element
+abstract class AbstractElement
 {
     /**
      * XML writer
      *
      * @var \PhpOffice\PhpWord\Shared\XMLWriter
      */
-    protected $xmlWriter;
-
-    /**
-     * Parent writer
-     *
-     * @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart
-     */
-    protected $parentWriter;
+    private $xmlWriter;
 
     /**
      * Element
      *
      * @var \PhpOffice\PhpWord\Element\AbstractElement
      */
-    protected $element;
+    private $element;
 
     /**
      * Without paragraph
@@ -57,31 +50,48 @@ class Element
     protected $withoutP = false;
 
     /**
+     * Write element
+     */
+    abstract public function write();
+
+    /**
      * Create new instance
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
-    public function __construct(XMLWriter $xmlWriter, AbstractPart $parentWriter, $element, $withoutP = false)
+    public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
     {
         $this->xmlWriter = $xmlWriter;
-        $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
     }
 
     /**
-     * Write element
+     * Get XML Writer
      *
-     * @return string
+     * @return \PhpOffice\PhpWord\Shared\XMLWriter
      */
-    public function write()
+    protected function getXmlWriter()
     {
-        $elmName = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($this->element));
-        $elmWriterClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elmName;
-        if (class_exists($elmWriterClass) === true) {
-            $elmWriter = new $elmWriterClass($this->xmlWriter, $this->parentWriter, $this->element, $this->withoutP);
-            $elmWriter->write();
+        return $this->xmlWriter;
+    }
+
+    /**
+     * Get Element
+     *
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    protected function getElement()
+    {
+        if (!is_null($this->element)) {
+            $elementClass = 'PhpOffice\\PhpWord\\Element\\' . basename(get_class($this->element));
+            if ($this->element instanceof $elementClass) {
+                return $this->element;
+            } else {
+                throw new Exception('No valid element assigned.');
+            }
+        } else {
+            throw new Exception('No element assigned.');
         }
     }
 }

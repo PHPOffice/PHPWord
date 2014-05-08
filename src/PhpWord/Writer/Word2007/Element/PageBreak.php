@@ -22,19 +22,21 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  *
  * @since 0.10.0
  */
-class PageBreak extends Element
+class PageBreak extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        $this->xmlWriter->startElement('w:p');
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:br');
-        $this->xmlWriter->writeAttribute('w:type', 'page');
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endElement();
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startElement('w:p');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:br');
+        $xmlWriter->writeAttribute('w:type', 'page');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
     }
 }

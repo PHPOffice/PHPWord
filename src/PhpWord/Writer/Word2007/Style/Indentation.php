@@ -29,19 +29,18 @@ class Indentation extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Indentation)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
+        $firstLine = $style->getFirstLine();
+        $hanging = $style->getHanging();
 
-        $this->xmlWriter->startElement('w:ind');
-        $this->xmlWriter->writeAttribute('w:left', $this->convertTwip($this->style->getLeft()));
-        $this->xmlWriter->writeAttribute('w:right', $this->convertTwip($this->style->getRight()));
-        if (!is_null($this->style->getFirstLine())) {
-            $this->xmlWriter->writeAttribute('w:firstLine', $this->convertTwip($this->style->getFirstLine()));
-        }
-        if (!is_null($this->style->getHanging())) {
-            $this->xmlWriter->writeAttribute('w:hanging', $this->convertTwip($this->style->getHanging()));
-        }
-        $this->xmlWriter->endElement();
+        $xmlWriter->startElement('w:ind');
+        $xmlWriter->writeAttribute('w:left', $this->convertTwip($style->getLeft()));
+        $xmlWriter->writeAttribute('w:right', $this->convertTwip($style->getRight()));
+        $xmlWriter->writeAttributeIf(!is_null($firstLine), 'w:firstLine', $this->convertTwip($firstLine));
+        $xmlWriter->writeAttributeIf(!is_null($hanging), 'w:hanging', $this->convertTwip($hanging));
+        $xmlWriter->endElement();
     }
 }

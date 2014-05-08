@@ -38,12 +38,12 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        if (!$this->style instanceof \PhpOffice\PhpWord\Style\Image) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
-
-        $wrapping = $this->style->getWrappingStyle();
-        $positioning = $this->style->getPositioning();
+        $xmlWriter = $this->getXmlWriter();
+        $wrapping = $style->getWrappingStyle();
+        $positioning = $style->getPositioning();
 
         // Default style array
         $styleArray = array(
@@ -60,10 +60,10 @@ class Image extends AbstractStyle
             $styleArray['mso-position-horizontal-relative'] = 'page';
             $styleArray['mso-position-vertical-relative'] = 'page';
         } elseif ($positioning == ImageStyle::POSITION_RELATIVE) {
-            $styleArray['mso-position-horizontal'] = $this->style->getPosHorizontal();
-            $styleArray['mso-position-vertical'] = $this->style->getPosVertical();
-            $styleArray['mso-position-horizontal-relative'] = $this->style->getPosHorizontalRel();
-            $styleArray['mso-position-vertical-relative'] = $this->style->getPosVerticalRel();
+            $styleArray['mso-position-horizontal'] = $style->getPosHorizontal();
+            $styleArray['mso-position-vertical'] = $style->getPosVertical();
+            $styleArray['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
+            $styleArray['mso-position-vertical-relative'] = $style->getPosVerticalRel();
             $styleArray['margin-left'] = 0;
             $styleArray['margin-top'] = 0;
         }
@@ -88,7 +88,7 @@ class Image extends AbstractStyle
 
         $imageStyle = $this->assembleStyle($styleArray);
 
-        $this->xmlWriter->writeAttribute('style', $imageStyle);
+        $xmlWriter->writeAttribute('style', $imageStyle);
     }
 
     /**
@@ -98,10 +98,12 @@ class Image extends AbstractStyle
      */
     public function writeW10Wrap()
     {
+        $xmlWriter = $this->getXmlWriter();
+
         if (!is_null($this->w10wrap)) {
-            $this->xmlWriter->startElement('w10:wrap');
-            $this->xmlWriter->writeAttribute('type', $this->w10wrap);
-            $this->xmlWriter->endElement(); // w10:wrap
+            $xmlWriter->startElement('w10:wrap');
+            $xmlWriter->writeAttribute('type', $this->w10wrap);
+            $xmlWriter->endElement(); // w10:wrap
         }
     }
 

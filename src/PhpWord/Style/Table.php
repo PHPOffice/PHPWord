@@ -425,39 +425,14 @@ class Table extends Border
     /**
      * Set shading
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setShading($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->shading instanceof Shading) {
-                $this->shading = new Shading();
-            }
-            $this->shading->setStyleByArray($value);
-        } else {
-            $this->shading = null;
-        }
+        $this->setObjectVal($value, 'Shading', $this->shading);
 
         return $this;
-    }
-
-    /**
-     * Has borders?
-     *
-     * @return bool
-     */
-    public function hasBorders()
-    {
-        $hasBorders = false;
-        $borders = $this->getBorderSize();
-        for ($i = 0; $i < 6; $i++) {
-            if (!is_null($borders[$i])) {
-                $hasBorders = true;
-            }
-        }
-
-        return $hasBorders;
     }
 
     /**
@@ -469,7 +444,7 @@ class Table extends Border
     {
         $hasMargins = false;
         $margins = $this->getCellMargin();
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < count($margins); $i++) {
             if (!is_null($margins[$i])) {
                 $hasMargins = true;
             }

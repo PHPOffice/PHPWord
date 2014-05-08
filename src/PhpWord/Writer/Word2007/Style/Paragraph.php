@@ -43,16 +43,18 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
+        $xmlWriter = $this->getXmlWriter();
+
         $isStyleName = $this->isInline && !is_null($this->style) && is_string($this->style);
         if ($isStyleName) {
             if (!$this->withoutPPR) {
-                $this->xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:pPr');
             }
-            $this->xmlWriter->startElement('w:pStyle');
-            $this->xmlWriter->writeAttribute('w:val', $this->style);
-            $this->xmlWriter->endElement();
+            $xmlWriter->startElement('w:pStyle');
+            $xmlWriter->writeAttribute('w:val', $this->style);
+            $xmlWriter->endElement();
             if (!$this->withoutPPR) {
-                $this->xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
         } else {
             $this->writeStyle();
@@ -64,52 +66,52 @@ class Paragraph extends AbstractStyle
      */
     private function writeStyle()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
+        if (is_null($style = $this->getStyle())) {
             return;
         }
-
-        $align = $this->style->getAlign();
-        $indentation = $this->style->getIndentation();
-        $spacing = $this->style->getSpace();
-        $tabs = $this->style->getTabs();
+        $xmlWriter = $this->getXmlWriter();
+        $align = $style->getAlign();
+        $indentation = $style->getIndentation();
+        $spacing = $style->getSpace();
+        $tabs = $style->getTabs();
 
         if (!$this->withoutPPR) {
-            $this->xmlWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:pPr');
         }
 
         // Alignment
-        $this->writeElementIf(!is_null($align), 'w:jc', 'w:val', $align);
+        $xmlWriter->writeElementIf(!is_null($align), 'w:jc', 'w:val', $align);
 
         // Pagination
-        $this->writeElementIf(!$this->style->hasWidowControl(), 'w:widowControl', 'w:val', '0');
-        $this->writeElementIf($this->style->isKeepNext(), 'w:keepNext', 'w:val', '1');
-        $this->writeElementIf($this->style->isKeepLines(), 'w:keepLines', 'w:val', '1');
-        $this->writeElementIf($this->style->hasPageBreakBefore(), 'w:pageBreakBefore', 'w:val', '1');
+        $xmlWriter->writeElementIf(!$style->hasWidowControl(), 'w:widowControl', 'w:val', '0');
+        $xmlWriter->writeElementIf($style->isKeepNext(), 'w:keepNext', 'w:val', '1');
+        $xmlWriter->writeElementIf($style->isKeepLines(), 'w:keepLines', 'w:val', '1');
+        $xmlWriter->writeElementIf($style->hasPageBreakBefore(), 'w:pageBreakBefore', 'w:val', '1');
 
         // Indentation
         if (!is_null($indentation)) {
-            $styleWriter = new Indentation($this->xmlWriter, $indentation);
+            $styleWriter = new Indentation($xmlWriter, $indentation);
             $styleWriter->write();
         }
 
         // Spacing
         if (!is_null($spacing)) {
-            $styleWriter = new Spacing($this->xmlWriter, $spacing);
+            $styleWriter = new Spacing($xmlWriter, $spacing);
             $styleWriter->write();
         }
 
         // Tabs
         if (!empty($tabs)) {
-            $this->xmlWriter->startElement("w:tabs");
+            $xmlWriter->startElement("w:tabs");
             foreach ($tabs as $tab) {
-                $styleWriter = new Tab($this->xmlWriter, $tab);
+                $styleWriter = new Tab($xmlWriter, $tab);
                 $styleWriter->write();
             }
-            $this->xmlWriter->endElement();
+            $xmlWriter->endElement();
         }
 
         if (!$this->withoutPPR) {
-            $this->xmlWriter->endElement(); // w:pPr
+            $xmlWriter->endElement(); // w:pPr
         }
     }
 

@@ -15,30 +15,13 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Element;
-
-use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
+namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * TextRun element writer
+ * Container element writer (section, textrun, header, footnote, cell, etc.)
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class TextRun extends Text
+class Container extends \PhpOffice\PhpWord\Writer\Word2007\Element\Container
 {
-    /**
-     * Write textrun element
-     */
-    public function write()
-    {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
-        $this->writeOpeningWP();
-
-        $containerWriter = new Container($xmlWriter, $element);
-        $containerWriter->write();
-
-        $this->writeEndingWP();
-    }
 }

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
@@ -165,7 +166,8 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeContainerElements($xmlWriter, $element);
+        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter->write();
 
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // $this->elementNode

@@ -52,7 +52,7 @@ class PDF
             set_include_path(get_include_path() . PATH_SEPARATOR . $pdfLibraryPath);
         }
 
-        $rendererName = 'PhpOffice\\PhpWord\\Writer\\PDF\\' . $pdfLibraryName;
+        $rendererName = get_class($this) . '\\' . $pdfLibraryName;
         $this->renderer = new $rendererName($phpWord);
     }
 

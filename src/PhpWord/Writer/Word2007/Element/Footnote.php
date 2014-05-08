@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  *
  * @since 0.10.0
  */
-class Footnote extends Element
+class Footnote extends Text
 {
     /**
      * Reference type footnoteReference|endnoteReference
@@ -36,25 +36,22 @@ class Footnote extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
-            return;
-        }
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
 
-        if (!$this->withoutP) {
-            $this->xmlWriter->startElement('w:p');
-        }
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:rPr');
-        $this->xmlWriter->startElement('w:rStyle');
-        $this->xmlWriter->writeAttribute('w:val', ucfirst($this->referenceType));
-        $this->xmlWriter->endElement(); // w:rStyle
-        $this->xmlWriter->endElement(); // w:rPr
-        $this->xmlWriter->startElement("w:{$this->referenceType}");
-        $this->xmlWriter->writeAttribute('w:id', $this->element->getRelationId());
-        $this->xmlWriter->endElement(); // w:$referenceType
-        $this->xmlWriter->endElement(); // w:r
-        if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // w:p
-        }
+        $this->writeOpeningWP();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:rStyle');
+        $xmlWriter->writeAttribute('w:val', ucfirst($this->referenceType));
+        $xmlWriter->endElement(); // w:rStyle
+        $xmlWriter->endElement(); // w:rPr
+        $xmlWriter->startElement("w:{$this->referenceType}");
+        $xmlWriter->writeAttribute('w:id', $element->getRelationId());
+        $xmlWriter->endElement(); // w:$referenceType
+        $xmlWriter->endElement(); // w:r
+
+        $this->writeEndingWP();
     }
 }
