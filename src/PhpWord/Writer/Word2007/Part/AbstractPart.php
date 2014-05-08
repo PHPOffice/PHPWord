@@ -93,10 +93,11 @@ abstract class AbstractPart
         $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
         $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
         $allowedElements = array(
-            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
-            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
+            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC', 'TextBox')),
+            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
+            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText', 'TextBox')),
             'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
+            'TextBox'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
             'TextRun'  => array_merge($elmCommon, array('Footnote', 'Endnote')),
             'Footnote' => $elmCommon,
             'Endnote'  => $elmCommon,
@@ -104,7 +105,7 @@ abstract class AbstractPart
         $containerName = get_class($container);
         $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
         if (!array_key_exists($containerName, $allowedElements)) {
-            throw new Exception('Invalid container.');
+            throw new Exception('Invalid container.'.$containerName. print_r($allowedElements, true));
         }
 
         // Loop through elements

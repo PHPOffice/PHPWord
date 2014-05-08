@@ -118,6 +118,21 @@ class Section extends AbstractContainer
     }
 
     /**
+     * Add textbox element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\TextBox
+     * @todo Merge with the same function on Footer
+     */
+    public function addTextBox($style = null)
+    {
+        $textbox = new TextBox($this->getDocPart(), $this->getDocPartId(), $style);
+        $this->addElement($textbox);
+    
+        return $textbox;
+    }
+    
+    /**
      * Add table element
      *
      * @param mixed $style

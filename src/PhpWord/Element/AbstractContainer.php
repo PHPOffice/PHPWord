@@ -304,7 +304,7 @@ abstract class AbstractContainer extends AbstractElement
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote');
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox');
         $validContainers = array(
             'Text'          => $allContainers,
             'Link'          => $allContainers,
