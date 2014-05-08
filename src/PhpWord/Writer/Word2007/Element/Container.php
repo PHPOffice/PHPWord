@@ -42,9 +42,9 @@ class Container extends AbstractElement
         $container = $this->getElement();
 
         // Loop through subelements
-        $containerClass = substr(get_class($container), strrpos(get_class($this), '\\') + 1);
+        $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $subelements = $container->getElements();
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'TextBox')) ? true : false;
+        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
         if (count($subelements) > 0) {
             foreach ($subelements as $subelement) {
                 $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, get_class($subelement));

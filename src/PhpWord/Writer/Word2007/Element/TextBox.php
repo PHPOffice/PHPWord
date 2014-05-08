@@ -54,12 +54,13 @@ class TextBox extends AbstractElement
         $styleWriter->write();
         $xmlWriter->startElement('v:textbox');
         $styleWriter->writeInnerMargin();
+
+        // TextBox content, serving as a container
         $xmlWriter->startElement('w:txbxContent');
-        $xmlWriter->startElement('w:p');
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();
-        $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // w:txbxContent
+
         $xmlWriter->endElement(); // v: textbox
         $styleWriter->writeW10Wrap();
         $xmlWriter->endElement(); // v:shape

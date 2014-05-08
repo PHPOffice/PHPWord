@@ -100,7 +100,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextRun($paragraphStyle = null)
     {
-        $this->checkValidity('Textrun');
+        $this->checkValidity('TextRun');
 
         $element = new TextRun($paragraphStyle);
         $element->setDocPart($this->getDocPart(), $this->getDocPartId());
@@ -327,10 +327,10 @@ abstract class AbstractContainer extends AbstractElement
             'TextBreak'     => $allContainers,
             'Image'         => $allContainers,
             'Object'        => $allContainers,
-            'TextRun'       => array('section', 'header', 'footer', 'cell'),
-            'ListItem'      => array('section', 'header', 'footer', 'cell'),
+            'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
+            'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
-            'TextBox'       => array('section', 'header', 'footer'),
+            'TextBox'       => array('section', 'header', 'footer', 'cell'),
             'Footnote'      => array('section', 'textrun', 'cell'),
             'Endnote'       => array('section', 'textrun', 'cell'),
             'PreserveText'  => array('header', 'footer', 'cell'),
@@ -346,7 +346,7 @@ abstract class AbstractContainer extends AbstractElement
         // Check if a method is valid for current container
         if (array_key_exists($method, $validContainers)) {
             if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException();
+                throw new \BadMethodCallException("Cannot put $method in $this->container.");
             }
         }
         // Check if a method is valid for current container, located in other container
@@ -356,7 +356,7 @@ abstract class AbstractContainer extends AbstractElement
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
                 if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException();
+                    throw new \BadMethodCallException("Cannot put $method in $this->container.");
                 }
             }
         }
@@ -369,11 +369,12 @@ abstract class AbstractContainer extends AbstractElement
      */
     private function checkElementDocPart()
     {
-        $isCellTextrun = in_array($this->container, array('cell', 'textrun', 'textbox'));
-        $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
-        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
+        $inOtherPart = in_array($this->container, array('cell', 'textrun', 'textbox'));
+        $docPart = $inOtherPart ? $this->getDocPart() : $this->container;
+        $docPartId = $inOtherPart ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
         $docPartId = $inHeaderFooter ? $this->getDocPartId() : $docPartId;
+
         return $inHeaderFooter ? $docPart . $docPartId : $docPart;
     }
 
