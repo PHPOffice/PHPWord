@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  *
  * @since 0.10.0
  */
-class ListItem extends Element
+class ListItem extends AbstractElement
 {
     /**
      * Write list item
@@ -31,13 +31,9 @@ class ListItem extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\ListItem) {
-            return;
-        }
-
         $text = htmlspecialchars($this->element->getTextObject()->getText());
-        $html = '<p>' . $text . '</p>' . PHP_EOL;
+        $content = '<p>' . $text . '</p>' . PHP_EOL;
 
-        return $html;
+        return $content;
     }
 }

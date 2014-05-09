@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  *
  * @since 0.10.0
  */
-class Footnote extends Element
+class Footnote extends AbstractElement
 {
     /**
      * Note type footnote|endnote
@@ -32,21 +32,18 @@ class Footnote extends Element
     protected $noteType = 'footnote';
 
     /**
-     * Write footnote/endnote marks
+     * Write footnote/endnote marks; The actual content is written in parent writer (HTML)
      *
      * @return string
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
-            return;
-        }
-
         $noteId = count($this->parentWriter->getNotes()) + 1;
         $noteMark = $this->noteType . '-' . $this->element->getRelationId();
-        $this->parentWriter->addNote($noteId, $noteMark);
-        $html = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
+        $content = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";
 
-        return $html;
+        $this->parentWriter->addNote($noteId, $noteMark);
+
+        return $content;
     }
 }

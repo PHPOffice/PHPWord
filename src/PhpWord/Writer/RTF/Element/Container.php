@@ -17,28 +17,35 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Writer\RTF\Element\Container;
-
 /**
- * TextRun element RTF writer
+ * Container element RTF writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class TextRun extends AbstractElement
+class Container extends \PhpOffice\PhpWord\Writer\HTML\Element\Container
 {
     /**
-     * Write element
+     * Write container
      *
      * @return string
      */
     public function write()
     {
+        $container = $this->element;
+        $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
+        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
         $content = '';
 
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $writer = new Container($this->parentWriter, $this->element);
-        $content .= $writer->write();
-        $content .= '\par' . PHP_EOL;
+        $elements = $container->getElements();
+        foreach ($elements as $element) {
+            $writerClass = str_replace('\\Element', '\\Writer\\RTF\\Element', get_class($element));
+            if (class_exists($writerClass)) {
+                $writer = new $writerClass($this->parentWriter, $element, $withoutP);
+                $content .= '{';
+                $content .= $writer->write();
+                $content .= '}' . PHP_EOL;
+            }
+        }
 
         return $content;
     }

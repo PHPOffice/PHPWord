@@ -15,30 +15,36 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\RTF\Element;
-
-use PhpOffice\PhpWord\Writer\RTF\Element\Container;
+namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
- * TextRun element RTF writer
+ * RTF paragraph style writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class TextRun extends AbstractElement
+class Paragraph extends AbstractStyle
 {
     /**
-     * Write element
+     * Write style
      *
      * @return string
      */
     public function write()
     {
-        $content = '';
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+            return;
+        }
 
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $writer = new Container($this->parentWriter, $this->element);
-        $content .= $writer->write();
-        $content .= '\par' . PHP_EOL;
+        $content = '\pard\nowidctlpar';
+
+        // Alignment
+        $align = $style->getAlign();
+        $content .= $this->getValueIf(!is_null($align) && $align == 'center', '\qc');
+
+        // Spacing
+        $spaceAfter = $style->getSpaceAfter();
+        $content .= $this->getValueIf(!is_null($spaceAfter), '\sa' . $spaceAfter);
 
         return $content;
     }

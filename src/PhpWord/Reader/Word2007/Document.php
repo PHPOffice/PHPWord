@@ -133,8 +133,8 @@ class Document extends AbstractPart
         $headingMatches = array();
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_string($paragraphStyle)) {
-                preg_match('/Heading(\d)/', $paragraphStyle, $headingMatches);
+            if (is_array($paragraphStyle) && array_key_exists('styleName', $paragraphStyle)) {
+                preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
             }
         }
 

@@ -27,8 +27,36 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  *
  * @since 0.10.0
  */
-class Text extends Element
+class Text extends AbstractElement
 {
+    /**
+     * Text written after opening
+     *
+     * @var string
+     */
+    private $openingText = '';
+
+    /**
+     * Text written before closing
+     *
+     * @var string
+     */
+    private $closingText = '';
+
+    /**
+     * Opening tags
+     *
+     * @var string
+     */
+    private $openingTags = '';
+
+    /**
+     * Closing tag
+     *
+     * @var strings
+     */
+    private $closingTags = '';
+
     /**
      * Write text
      *
@@ -36,42 +64,117 @@ class Text extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
-            return;
+        $this->getFontStyle();
+
+        $content = '';
+        $content .= $this->writeOpening();
+        $content .= $this->openingTags;
+        $content .= htmlspecialchars($this->element->getText());
+        $content .= $this->closingTags;
+        $content .= $this->closingText;
+        $content .= $this->writeClosing();
+
+        return $content;
+    }
+
+    /**
+     * Set opening text
+     *
+     * @param string $value
+     */
+    public function setOpeningText($value)
+    {
+        $this->openingText = $value;
+    }
+
+    /**
+     * Set closing text
+     *
+     * @param string $value
+     */
+    public function setClosingText($value)
+    {
+        $this->closingText = $value;
+    }
+
+    /**
+     * Write opening
+     *
+     * @return string
+     */
+    protected function writeOpening()
+    {
+        $content = '';
+        if (!$this->withoutP) {
+            $style = '';
+            if (method_exists($this->element, 'getParagraphStyle')) {
+                $style = $this->getParagraphStyle();
+            }
+            $content .= "<p{$style}>";
+            $content .= $this->openingText;
         }
 
-        // Paragraph style
+        return $content;
+    }
+
+    /**
+     * Write ending
+     *
+     * @return string
+     */
+    protected function writeClosing()
+    {
+        $content = '';
+        if (!$this->withoutP) {
+            $content .= $this->closingText;
+            $content .= "</p>" . PHP_EOL;
+        }
+
+        return $content;
+    }
+
+    /**
+     * Write paragraph style
+     *
+     * @return string
+     */
+    private function getParagraphStyle()
+    {
+        $style = '';
+        if (method_exists($this->element, 'getParagraphStyle')) {
+            return $style;
+        }
+
         $paragraphStyle = $this->element->getParagraphStyle();
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
-            $paragraphStyle = $styleWriter->write();
+            $style = $styleWriter->write();
         }
-        $hasParagraphStyle = $paragraphStyle && !$this->withoutP;
-
-        // Font style
-        $fontStyle = $this->element->getFontStyle();
-        $fontStyleIsObject = ($fontStyle instanceof Font);
-        if ($fontStyleIsObject) {
-            $styleWriter = new FontStyleWriter($fontStyle);
-            $fontStyle = $styleWriter->write();
-        }
-
-        $openingTags = '';
-        $endingTags = '';
-        if ($hasParagraphStyle) {
+        if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
-            $openingTags = "<p {$attribute}=\"{$paragraphStyle}\">";
-            $endingTags = '</p>' . PHP_EOL;
-        }
-        if ($fontStyle) {
-            $attribute = $fontStyleIsObject ? 'style' : 'class';
-            $openingTags = $openingTags . "<span {$attribute}=\"{$fontStyle}\">";
-            $endingTags = '</span>' . $endingTags;
+            $style = " {$attribute}=\"{$style}\"";
         }
 
-        $html = $openingTags . htmlspecialchars($this->element->getText()) . $endingTags;
+        return $style;
+    }
 
-        return $html;
+    /**
+     * Get font style
+     */
+    private function getFontStyle()
+    {
+        $style = '';
+        $fontStyle = $this->element->getFontStyle();
+        $fStyleIsObject = ($fontStyle instanceof Font);
+        if ($fStyleIsObject) {
+            $styleWriter = new FontStyleWriter($fontStyle);
+            $style = $styleWriter->write();
+        }
+        if ($style) {
+            $attribute = $fStyleIsObject ? 'style' : 'class';
+            $this->openingTags = "<span {$attribute}=\"{$style}\">";
+            $this->closingTags = "</span>";
+        }
     }
 }

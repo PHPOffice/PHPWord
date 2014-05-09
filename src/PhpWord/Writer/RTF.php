@@ -23,7 +23,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Writer\RTF\Element\Element as ElementWriter;
+use PhpOffice\PhpWord\Writer\RTF\Element\Container;
 
 /**
  * RTF writer
@@ -131,43 +131,43 @@ class RTF extends AbstractWriter implements WriterInterface
         $this->colorTable = $this->populateColorTable();
 
         // Set the default character set
-        $sRTFContent = '{\rtf1';
-        $sRTFContent .= '\ansi\ansicpg1252'; // Set the default font (the first one)
-        $sRTFContent .= '\deff0'; // Set the default tab size (720 twips)
-        $sRTFContent .= '\deftab720';
-        $sRTFContent .= PHP_EOL;
+        $content = '{\rtf1';
+        $content .= '\ansi\ansicpg1252'; // Set the default font (the first one)
+        $content .= '\deff0'; // Set the default tab size (720 twips)
+        $content .= '\deftab720';
+        $content .= PHP_EOL;
 
         // Set the font tbl group
-        $sRTFContent .= '{\fonttbl';
+        $content .= '{\fonttbl';
         foreach ($this->fontTable as $idx => $font) {
-            $sRTFContent .= '{\f' . $idx . '\fnil\fcharset0 ' . $font . ';}';
+            $content .= '{\f' . $idx . '\fnil\fcharset0 ' . $font . ';}';
         }
-        $sRTFContent .= '}' . PHP_EOL;
+        $content .= '}' . PHP_EOL;
 
         // Set the color tbl group
-        $sRTFContent .= '{\colortbl ';
+        $content .= '{\colortbl ';
         foreach ($this->colorTable as $idx => $color) {
             $arrColor = Drawing::htmlToRGB($color);
-            $sRTFContent .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
+            $content .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }
-        $sRTFContent .= ';}' . PHP_EOL;
+        $content .= ';}' . PHP_EOL;
 
-        $sRTFContent .= '{\*\generator PhpWord;}' . PHP_EOL; // Set the generator
-        $sRTFContent .= '\viewkind4'; // Set the view mode of the document
-        $sRTFContent .= '\uc1'; // Set the numberof bytes that follows a unicode character
-        $sRTFContent .= '\pard'; // Resets to default paragraph properties.
-        $sRTFContent .= '\nowidctlpar'; // No widow/orphan control
-        $sRTFContent .= '\lang1036'; // Applies a language to a text run (1036 : French (France))
-        $sRTFContent .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
-        $sRTFContent .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2); // Set the font size in half-points
-        $sRTFContent .= PHP_EOL;
+        $content .= '{\*\generator PhpWord;}' . PHP_EOL; // Set the generator
+        $content .= '\viewkind4'; // Set the view mode of the document
+        $content .= '\uc1'; // Set the numberof bytes that follows a unicode character
+        $content .= '\pard'; // Resets to default paragraph properties.
+        $content .= '\nowidctlpar'; // No widow/orphan control
+        $content .= '\lang1036'; // Applies a language to a text run (1036 : French (France))
+        $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
+        $content .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2); // Set the font size in half-points
+        $content .= PHP_EOL;
 
         // Body
-        $sRTFContent .= $this->writeContent();
+        $content .= $this->writeContent();
 
-        $sRTFContent .= '}';
+        $content .= '}';
 
-        return $sRTFContent;
+        return $content;
     }
 
     /**
@@ -177,24 +177,15 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     private function writeContent()
     {
-        $phpWord = $this->phpWord;
-        $sRTFBody = '';
+        $content = '';
 
-        $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        $pSection = 0;
-
-        if ($countSections > 0) {
-            foreach ($sections as $section) {
-                $pSection++;
-                $elements = $section->getElements();
-                foreach ($elements as $element) {
-                    $elementWriter = new ElementWriter($this, $element);
-                    $sRTFBody .= $elementWriter->write();
-                }
-            }
+        $sections = $this->getPhpWord()->getSections();
+        foreach ($sections as $section) {
+            $writer = new Container($this, $section);
+            $content .= $writer->write();
         }
-        return $sRTFBody;
+
+        return $content;
     }
 
     /**

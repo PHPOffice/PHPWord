@@ -15,31 +15,15 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\RTF\Element;
+namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Writer\RTF\Element\Container;
+use PhpOffice\PhpWord\Style\AbstractStyle as Style;
 
 /**
- * TextRun element RTF writer
+ * Abstract RTF style writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class TextRun extends AbstractElement
+abstract class AbstractStyle extends \PhpOffice\PhpWord\Writer\HTML\Style\AbstractStyle
 {
-    /**
-     * Write element
-     *
-     * @return string
-     */
-    public function write()
-    {
-        $content = '';
-
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $writer = new Container($this->parentWriter, $this->element);
-        $content .= $writer->write();
-        $content .= '\par' . PHP_EOL;
-
-        return $content;
-    }
 }

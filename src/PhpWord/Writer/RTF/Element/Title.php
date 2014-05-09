@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  *
  * @since 0.10.0
  */
-class Title extends Element
+class Title extends AbstractElement
 {
     /**
      * Write element
@@ -35,12 +35,12 @@ class Title extends Element
             return;
         }
 
-        $rtfText = '';
+        $content = '';
 
-        $rtfText .= '\pard\nowidctlpar' . PHP_EOL;
-        $rtfText .= $this->element->getText();
-        $rtfText .= '\par' . PHP_EOL;
+        $content .= '\pard\nowidctlpar' . PHP_EOL;
+        $content .= $this->element->getText();
+        $content .= '\par' . PHP_EOL;
 
-        return $rtfText;
+        return $content;
     }
 }

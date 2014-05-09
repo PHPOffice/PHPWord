@@ -17,29 +17,11 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Writer\RTF\Element\Container;
-
 /**
- * TextRun element RTF writer
+ * Abstract RTF element writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class TextRun extends AbstractElement
+class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement
 {
-    /**
-     * Write element
-     *
-     * @return string
-     */
-    public function write()
-    {
-        $content = '';
-
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $writer = new Container($this->parentWriter, $this->element);
-        $content .= $writer->write();
-        $content .= '\par' . PHP_EOL;
-
-        return $content;
-    }
 }

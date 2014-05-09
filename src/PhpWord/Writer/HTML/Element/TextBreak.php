@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  *
  * @since 0.10.0
  */
-class TextBreak extends Element
+class TextBreak extends AbstractElement
 {
     /**
      * Write text break
@@ -32,11 +32,11 @@ class TextBreak extends Element
     public function write()
     {
         if ($this->withoutP) {
-            $html = '<br />' . PHP_EOL;
+            $content = '<br />' . PHP_EOL;
         } else {
-            $html = '<p>&nbsp;</p>' . PHP_EOL;
+            $content = '<p>&nbsp;</p>' . PHP_EOL;
         }
 
-        return $html;
+        return $content;
     }
 }

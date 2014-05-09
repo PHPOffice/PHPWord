@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  *
  * @since 0.10.0
  */
-class TextRun extends Element
+class TextRun extends Text
 {
     /**
      * Write text run
@@ -36,31 +36,13 @@ class TextRun extends Element
      */
     public function write()
     {
-        if (!($this->element instanceof TextRunElement || $this->element instanceof FootnoteElement)) {
-            return;
-        }
+        $content = '';
 
-        $html = '';
-        $elements = $this->element->getElements();
-        if (count($elements) > 0) {
-            // Paragraph style
-            $paragraphStyle = $this->element->getParagraphStyle();
-            $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
-            if ($pStyleIsObject) {
-                $styleWriter = new ParagraphStyleWriter($paragraphStyle);
-                $paragraphStyle = $styleWriter->write();
-            }
-            $tag = $this->withoutP ? 'span' : 'p';
-            $attribute = $pStyleIsObject ? 'style' : 'class';
-            $html .= "<{$tag} {$attribute}=\"{$paragraphStyle}\">";
-            foreach ($elements as $element) {
-                $elementWriter = new Element($this->parentWriter, $element, true);
-                $html .= $elementWriter->write();
-            }
-            $html .= "</{$tag}>";
-            $html .= PHP_EOL;
-        }
+        $content .= $this->writeOpening();
+        $writer = new Container($this->parentWriter, $this->element);
+        $content .= $writer->write();
+        $content .= $this->writeClosing();
 
-        return $html;
+        return $content;
     }
 }

@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
  *
  * @since 0.10.0
  */
-class Image extends Element
+class Image extends Text
 {
     /**
      * Write image
@@ -34,25 +34,20 @@ class Image extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
-            return;
-        }
-
-        $html = '';
+        $content = '';
         if (!$this->parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {
                 $styleWriter = new ImageStyleWriter($this->element->getStyle());
                 $style = $styleWriter->write();
 
-                $html = "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
-                if (!$this->withoutP) {
-                    $html = "<p>{$html}</p>" . PHP_EOL;
-                }
+                $content .= $this->writeOpening();
+                $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
+                $content .= $this->writeClosing();
             }
         }
 
-        return $html;
+        return $content;
     }
 
     /**

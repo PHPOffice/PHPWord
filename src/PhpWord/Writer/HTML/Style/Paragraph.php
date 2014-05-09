@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\Settings;
+
 /**
  * Paragraph style HTML writer
  *
@@ -31,13 +33,20 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
-            return;
-        }
-
+        $style = $this->getStyle();
         $css = array();
-        if ($this->style->getAlign()) {
-            $css['text-align'] = $this->style->getAlign();
+
+        // Alignment
+        $align = $style->getAlign();
+        $css['text-align'] = $this->getValueIf(!is_null($align), $align);
+
+        // Spacing
+        $spacing = $style->getSpace();
+        if (!is_null($spacing)) {
+            $before = $spacing->getBefore();
+            $after = $spacing->getAfter();
+            $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / Settings::UNIT_POINT) . 'pt');
+            $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / Settings::UNIT_POINT) . 'pt');
         }
 
         return $this->assembleCss($css);

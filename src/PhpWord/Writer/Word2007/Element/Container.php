@@ -40,11 +40,11 @@ class Container extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $container = $this->getElement();
+        $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
+        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
 
         // Loop through subelements
-        $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $subelements = $container->getElements();
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
         if (count($subelements) > 0) {
             foreach ($subelements as $subelement) {
                 $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, get_class($subelement));

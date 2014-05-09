@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  *
  * @since 0.10.0
  */
-class Link extends Element
+class Link extends Text
 {
     /**
      * Write link
@@ -31,15 +31,11 @@ class Link extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
-            return;
-        }
+        $content = '';
+        $content .= $this->writeOpening();
+        $content .= "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>";
+        $content .= $this->writeClosing();
 
-        $html = "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>" . PHP_EOL;
-        if (!$this->withoutP) {
-            $html = '<p>' . $html . '</p>' . PHP_EOL;
-        }
-
-        return $html;
+        return $content;
     }
 }

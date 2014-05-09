@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\Style\AbstractStyle as Style;
+
 /**
  * Style writer
  *
@@ -29,7 +31,7 @@ abstract class AbstractStyle
      *
      * @var array|\PhpOffice\PhpWord\Style\AbstractStyle
      */
-    protected $style;
+    private $style;
 
     /**
      * Write style
@@ -44,6 +46,20 @@ abstract class AbstractStyle
     public function __construct($style = null)
     {
         $this->style = $style;
+    }
+
+    /**
+     * Get style
+     *
+     * @return array|\PhpOffice\PhpWord\Style\AbstractStyle $style
+     */
+    public function getStyle()
+    {
+        if (!$this->style instanceof Style && !is_array($this->style)) {
+            return;
+        }
+
+        return $this->style;
     }
 
     /**
@@ -66,5 +82,17 @@ abstract class AbstractStyle
         }
 
         return $string;
+    }
+
+    /**
+     * Get value if ...
+     *
+     * @param bool $condition
+     * @param string $value
+     * @return string
+     */
+    protected function getValueIf($condition, $value)
+    {
+        return $condition ? $value : '';
     }
 }

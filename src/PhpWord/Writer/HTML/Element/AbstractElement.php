@@ -17,25 +17,20 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Element\AbstractElement;
-use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Generic element HTML writer
+ * Abstract HTML element writer
  *
- * Section: Text, TextRun, Link, Title, PreserveText, TextBreak, PageBreak, Table, ListItem, Image,
- *          Object, Endnote, Footnote
- * Cell: Text, TextRun, Link, PreserveText, TextBreak, ListItem, Image, Object, Endnote, Footnote
- * TextRun: Text, Link, TextBreak, Image, Endnote, Footnote
- *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Element
+abstract class AbstractElement
 {
     /**
      * Parent writer
      *
-     * @var \PhpOffice\PhpWord\Writer\HTML
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     protected $parentWriter;
 
@@ -58,7 +53,7 @@ class Element
      *
      * @param bool $withoutP
      */
-    public function __construct(HTML $parentWriter, AbstractElement $element, $withoutP = false)
+    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
     {
         $this->parentWriter = $parentWriter;
         $this->element = $element;
@@ -66,19 +61,12 @@ class Element
     }
 
     /**
-     * Write element
+     * Set without paragraph
      *
-     * @return string
+     * @param bool $value
      */
-    public function write()
+    public function setWithoutP($value)
     {
-        $content = '';
-        $writerClass = str_replace('\\Element\\', '\\Writer\\HTML\\Element\\', get_class($this->element));
-        if (class_exists($writerClass)) {
-            $writer = new $writerClass($this->parentWriter, $this->element, $this->withoutP);
-            $content = $writer->write();
-        }
-
-        return $content;
+        $this->withoutP = $value;
     }
 }

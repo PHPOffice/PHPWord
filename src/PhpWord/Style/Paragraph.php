@@ -148,7 +148,6 @@ class Paragraph extends AbstractStyle
     public function setAlign($value = null)
     {
         if (strtolower($value) == 'justify') {
-            // justify becames both
             $value = 'both';
         }
         $this->align = $value;

@@ -17,42 +17,62 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * Text element RTF writer
  *
  * @since 0.10.0
  */
-class Text extends Element
+class Text extends AbstractElement
 {
     /**
      * Write element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
-            return;
+        $fontStyle = $this->getFontStyle();
+
+        $content = '';
+        $content .= $this->writeParagraphStyle();
+        $content .= $this->writeFontStyleBegin($fontStyle);
+        if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
+            $content .= ' ';
+        }
+        $content .= $this->element->getText();
+        $content .= $this->writeFontStyleEnd($fontStyle);
+
+        if (!$this->withoutP) {
+            $content .= '\par' . PHP_EOL;
         }
 
-        $rtfText = '';
+        return $content;
+    }
 
-        $fontStyle = $this->element->getFontStyle();
-        if (is_string($fontStyle)) {
-            $fontStyle = Style::getStyle($fontStyle);
-        }
+    /**
+     * Write paragraph style
+     *
+     * @return string
+     */
+    private function writeParagraphStyle()
+    {
+        $content = '';
 
+        // Get paragraph style
         $paragraphStyle = $this->element->getParagraphStyle();
         if (is_string($paragraphStyle)) {
             $paragraphStyle = Style::getStyle($paragraphStyle);
         }
 
+        // Write style when applicable
         if ($paragraphStyle && !$this->withoutP) {
             if ($this->parentWriter->getLastParagraphStyle() != $this->element->getParagraphStyle()) {
-                $rtfText .= $this->writeParagraphStyle($paragraphStyle);
+                $styleWriter = new ParagraphStyleWriter($paragraphStyle);
+                $content = $styleWriter->write();
                 $this->parentWriter->setLastParagraphStyle($this->element->getParagraphStyle());
             } else {
                 $this->parentWriter->setLastParagraphStyle();
@@ -61,101 +81,72 @@ class Text extends Element
             $this->parentWriter->setLastParagraphStyle();
         }
 
-        if ($fontStyle instanceof FontStyle) {
-            $rtfText .= $this->writeFontStyleBegin($fontStyle);
-        }
-        if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
-            $rtfText .= ' ';
-        }
-        $rtfText .= $this->element->getText();
-        if ($fontStyle instanceof FontStyle) {
-            $rtfText .= $this->writeFontStyleEnd($fontStyle);
-        }
-        if (!$this->withoutP) {
-            $rtfText .= '\par' . PHP_EOL;
-        }
-
-        return $rtfText;
-    }
-
-    /**
-     * Write paragraph style
-     *
-     * @return string
-     */
-    private function writeParagraphStyle(ParagraphStyle $paragraphStyle)
-    {
-        $rtfText = '\pard\nowidctlpar';
-        if ($paragraphStyle->getSpaceAfter() != null) {
-            $rtfText .= '\sa' . $paragraphStyle->getSpaceAfter();
-        }
-        if ($paragraphStyle->getAlign() != null) {
-            if ($paragraphStyle->getAlign() == 'center') {
-                $rtfText .= '\qc';
-            }
-        }
-
-        return $rtfText;
+        return $content;
     }
 
     /**
      * Write font style beginning
      *
+     * @param \PhpOffice\PhpWord\Style\Font $style
      * @return string
      */
-    private function writeFontStyleBegin(FontStyle $style)
+    private function writeFontStyleBegin($style)
     {
-        $rtfText = '';
-        if ($style->getColor() != null) {
-            $idxColor = array_search($style->getColor(), $this->parentWriter->getColorTable());
-            if ($idxColor !== false) {
-                $rtfText .= '\cf' . ($idxColor + 1);
-            }
-        } else {
-            $rtfText .= '\cf0';
-        }
-        if ($style->getName() != null) {
-            $idxFont = array_search($style->getName(), $this->parentWriter->getFontTable());
-            if ($idxFont !== false) {
-                $rtfText .= '\f' . $idxFont;
-            }
-        } else {
-            $rtfText .= '\f0';
-        }
-        if ($style->isBold()) {
-            $rtfText .= '\b';
-        }
-        if ($style->isItalic()) {
-            $rtfText .= '\i';
-        }
-        if ($style->getSize()) {
-            $rtfText .= '\fs' . ($style->getSize() * 2);
+        if (!$style instanceof FontStyle) {
+            return '';
         }
 
-        return $rtfText;
+        // Create style writer and set color/name index
+        $styleWriter = new FontStyleWriter($style);
+        if ($style->getColor() != null) {
+            $colorIndex = array_search($style->getColor(), $this->parentWriter->getColorTable());
+            if ($colorIndex !== false) {
+                $styleWriter->setColorIndex($colorIndex + 1);
+            }
+        }
+        if ($style->getName() != null) {
+            $fontIndex = array_search($style->getName(), $this->parentWriter->getFontTable());
+            if ($fontIndex !== false) {
+                $styleWriter->setNameIndex($fontIndex + 1);
+            }
+        }
+
+        // Write style
+        $content = $styleWriter->write();
+
+        return $content;
     }
 
     /**
      * Write font style ending
      *
+     * @param \PhpOffice\PhpWord\Style\Font $style
      * @return string
      */
-    private function writeFontStyleEnd(FontStyle $style)
+    private function writeFontStyleEnd($style)
     {
-        $rtfText = '';
-        $rtfText .= '\cf0';
-        $rtfText .= '\f0';
-
-        if ($style->isBold()) {
-            $rtfText .= '\b0';
-        }
-        if ($style->isItalic()) {
-            $rtfText .= '\i0';
-        }
-        if ($style->getSize()) {
-            $rtfText .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2);
+        if (!$style instanceof FontStyle) {
+            return '';
         }
 
-        return $rtfText;
+        $styleWriter = new FontStyleWriter($style);
+        $content = $styleWriter->writeEnd();
+
+        return $content;
+    }
+
+    /**
+     * Get font style
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    private function getFontStyle()
+    {
+        $fontStyle = $this->element->getFontStyle();
+        if (is_string($fontStyle)) {
+            $fontStyle = Style::getStyle($fontStyle);
+        }
+
+        return $fontStyle;
     }
 }

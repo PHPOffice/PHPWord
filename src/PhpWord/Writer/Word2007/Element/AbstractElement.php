@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 /**
  * Abstract element writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
 abstract class AbstractElement
 {

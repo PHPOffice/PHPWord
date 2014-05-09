@@ -34,48 +34,29 @@ class Font extends AbstractStyle
      */
     public function write()
     {
-        if (!$this->style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
-        }
-
-        $font = $this->style->getName();
-        $size = $this->style->getSize();
-        $color = $this->style->getColor();
-        $fgColor = $this->style->getFgColor();
-        $underline = $this->style->getUnderline() != FontStyle::UNDERLINE_NONE;
-        $lineThrough = $this->style->isStrikethrough() || $this->style->isDoubleStrikethrough();
-
+        $style = $this->getStyle();
         $css = array();
+
+        $font = $style->getName();
+        $size = $style->getSize();
+        $color = $style->getColor();
+        $fgColor = $style->getFgColor();
+        $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
+        $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
         $css['font-family'] = $this->getValueIf($font != PhpWord::DEFAULT_FONT_NAME, "'{$font}'");
         $css['font-size'] = $this->getValueIf($size != PhpWord::DEFAULT_FONT_SIZE, "{$size}pt");
         $css['color'] = $this->getValueIf($color != PhpWord::DEFAULT_FONT_COLOR, "#{$color}");
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
-        $css['font-weight'] = $this->getValueIf($this->style->isBold(), 'bold');
-        $css['font-style'] = $this->getValueIf($this->style->isItalic(), 'italic');
-
+        $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
+        $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');
+        $css['vertical-align'] = $this->getValueIf($style->isSuperScript(), 'italic');
+        $css['vertical-align'] = $this->getValueIf($style->isSuperScript(), 'super');
+        $css['vertical-align'] = $this->getValueIf($style->isSubScript(), 'sub');
         $css['text-decoration'] = '';
         $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
 
-        if ($this->style->isSuperScript()) {
-            $css['vertical-align'] = 'super';
-        } elseif ($this->style->isSubScript()) {
-            $css['vertical-align'] = 'sub';
-        }
-
         return $this->assembleCss($css);
-    }
-
-    /**
-     * Get value if ...
-     *
-     * @param bool $condition
-     * @param string $value
-     * @return string
-     */
-    private function getValueIf($condition, $value)
-    {
-        return $condition ? $value : '';
     }
 }

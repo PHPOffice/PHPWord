@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  *
  * @since 0.10.0
  */
-class Title extends Element
+class Title extends AbstractElement
 {
     /**
      * Write heading
@@ -31,14 +31,10 @@ class Title extends Element
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
-        }
-
         $tag = 'h' . $this->element->getDepth();
         $text = htmlspecialchars($this->element->getText());
-        $html = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
+        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
 
-        return $html;
+        return $content;
     }
 }

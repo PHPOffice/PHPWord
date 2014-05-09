@@ -31,17 +31,11 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Image)) {
-            return;
-        }
-
+        $this->style = $this->getStyle();
         $css = array();
-        if ($this->style->getWidth()) {
-            $css['width'] = $this->style->getWidth() . 'px';
-        }
-        if ($this->style->getWidth()) {
-            $css['height'] = $this->style->getHeight() . 'px';
-        }
+
+        $css['width'] = $this->getValueIf($this->style->getWidth(), $this->style->getWidth() . 'px');
+        $css['height'] = $this->getValueIf($this->style->getHeight(), $this->style->getHeight() . 'px');
 
         return $this->assembleCss($css);
     }

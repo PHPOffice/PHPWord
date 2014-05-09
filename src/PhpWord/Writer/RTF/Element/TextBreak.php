@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
  *
  * @since 0.10.0
  */
-class TextBreak extends Element
+class TextBreak extends AbstractElement
 {
     /**
      * Write element
