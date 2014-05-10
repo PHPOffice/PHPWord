@@ -37,7 +37,7 @@ class Html
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
-        $html = str_replace(array("\n","\r"), '', $html);
+        $html = str_replace(array("\n", "\r"), '', $html);
 
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
@@ -102,7 +102,7 @@ class Html
      * @param \DOMNode $node node to parse
      * @param \PhpOffice\PhpWord\Element\AbstractElement $object object to add an element corresponding with the node
      * @param array $styles Array with all styles
-     * @param $data array to transport data to a next level in the DOM tree, for example level of listitems
+     * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
      *
      */
     protected static function parseNode(
@@ -148,7 +148,9 @@ class Html
                 break;
             case '#text':
                 $styles['fontStyle'] = self::parseInlineStyle($node, $styles['fontStyle']);
-                $object->AddText($node->nodeValue, $styles['fontStyle'], $styles['paragraphStyle']);
+                if (method_exists($object, 'addText')) {
+                    $object->addText($node->nodeValue, $styles['fontStyle'], $styles['paragraphStyle']);
+                }
                 break;
             case 'strong':
                 $styles['fontStyle']['bold'] = true;

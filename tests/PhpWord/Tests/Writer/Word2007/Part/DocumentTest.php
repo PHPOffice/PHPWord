@@ -75,6 +75,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
+        $section->addTextBox(array());
+        $section->addTextBox(array('wrappingStyle' => 'square', 'positioning' => 'relative',
+            'posHorizontalRel' => 'margin', 'posVerticalRel' => 'margin',
+            'innerMargin' => 10, 'borderSize' => 1, 'borderColor' => '#FF0'));
+        $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'align' => 'center'));
+
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // TOC
