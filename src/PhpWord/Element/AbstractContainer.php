@@ -67,6 +67,31 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
+     * Add generic element with style
+     *
+     * This is how all elements should be added with dependency injection: with
+     * just one simple $style. Currently this function supports TextRun, Table,
+     * and TextBox since all other elements have different arguments
+     *
+     * @todo Change the function name into something better?
+     *
+     * @param string $elementName
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    private function addGenericElement($elementName, $style)
+    {
+        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+
+        $this->checkValidity($elementName);
+        $element = new $elementClass($style);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
+
+        return $element;
+    }
+
+    /**
      * Add text/preservetext element
      *
      * @param string $text
@@ -100,13 +125,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextRun($paragraphStyle = null)
     {
-        $this->checkValidity('TextRun');
-
-        $element = new TextRun($paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
+        return $this->addGenericElement('TextRun', $paragraphStyle);
     }
 
     /**
@@ -184,6 +203,18 @@ abstract class AbstractContainer extends AbstractElement
         $this->addElement($element);
 
         return $element;
+    }
+
+    /**
+     * Add table element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Table
+     * @todo Merge with the same function on Footer
+     */
+    public function addTable($style = null)
+    {
+        return $this->addGenericElement('Table', $style);
     }
 
     /**
@@ -302,13 +333,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextBox($style = null)
     {
-        $this->checkValidity('TextBox');
-
-        $textbox = new TextBox($style);
-        $textbox->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($textbox);
-
-        return $textbox;
+        return $this->addGenericElement('TextBox', $style);
     }
 
     /**
@@ -329,6 +354,7 @@ abstract class AbstractContainer extends AbstractElement
             'Object'        => $allContainers,
             'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
             'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
+            'Table'         => array('section', 'header', 'footer', 'textbox'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
             'TextBox'       => array('section', 'header', 'footer', 'cell'),
             'Footnote'      => array('section', 'textrun', 'cell'),
