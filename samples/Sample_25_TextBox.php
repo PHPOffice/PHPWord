@@ -8,15 +8,17 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 
 // In section
-$textbox = $section->addTextBox(array('align' => 'left', 'width' => 400, 'borderSize' => 1, 'borderColor' => '#FF0000'));
+$textbox = $section->addTextBox(array('align' => 'left', 'width' => 400, 'height' => 150, 'borderSize' => 1, 'borderColor' => '#FF0000'));
 $textbox->addText('Text box content in section.');
 $textbox->addText('Another line.');
+$cell = $textbox->addTable()->addRow()->addCell();
+$cell->addText('Table inside textbox');
 
 // Inside table
 $section->addTextBreak(2);
 $cell = $section->addTable()->addRow()->addCell(300);
 $textbox = $cell->addTextBox(array('borderSize' => 1, 'borderColor' => '#0000FF', 'innerMargin' => 100));
-$textbox->addText('Inside table');
+$textbox->addText('Textbox inside table');
 
 // Inside header with textrun
 $header = $section->addHeader();
