@@ -53,4 +53,19 @@ class TextBox extends AbstractContainer
     {
         return $this->style;
     }
+
+    /**
+     * Add table element
+     *
+     * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Table
+     * @todo Merge with the same function on Footer
+     */
+    public function addTable($style = null)
+    {
+        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
+        $this->addElement($table);
+    
+        return $table;
+    }
 }
