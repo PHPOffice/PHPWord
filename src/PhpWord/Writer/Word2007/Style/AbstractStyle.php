@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 

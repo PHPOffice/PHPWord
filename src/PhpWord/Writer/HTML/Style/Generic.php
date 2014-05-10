@@ -31,11 +31,11 @@ class Generic extends AbstractStyle
      */
     public function write()
     {
-        $this->style = $this->getStyle();
+        $style = $this->getStyle();
         $css = array();
 
-        if (is_array($this->style) && !empty($this->style)) {
-            $css = $this->style;
+        if (is_array($style) && !empty($style)) {
+            $css = $style;
         }
 
         return $this->assembleCss($css);

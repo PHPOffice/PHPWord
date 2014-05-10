@@ -17,11 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Element\Footnote as FootnoteElement;
-use PhpOffice\PhpWord\Element\TextRun as TextRunElement;
-use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
-
 /**
  * TextRun element HTML writer
  *

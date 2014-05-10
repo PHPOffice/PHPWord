@@ -31,11 +31,11 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        $this->style = $this->getStyle();
+        $style = $this->getStyle();
         $css = array();
 
-        $css['width'] = $this->getValueIf($this->style->getWidth(), $this->style->getWidth() . 'px');
-        $css['height'] = $this->getValueIf($this->style->getHeight(), $this->style->getHeight() . 'px');
+        $css['width'] = $this->getValueIf($style->getWidth(), $style->getWidth() . 'px');
+        $css['height'] = $this->getValueIf($style->getHeight(), $style->getHeight() . 'px');
 
         return $this->assembleCss($css);
     }
