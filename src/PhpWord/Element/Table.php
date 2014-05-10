@@ -49,8 +49,6 @@ class Table extends AbstractElement
     /**
      * Create a new table
      *
-     * @param string $docPart
-     * @param integer $docPartId
      * @param mixed $style
      */
     public function __construct($style = null)

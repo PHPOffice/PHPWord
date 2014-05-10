@@ -51,8 +51,8 @@ class Html
     /**
      * parse Inline style of a node
      *
-     * @param $node node to check on attributes and to compile a style array
-     * @param $style is supplied, the inline style attributes are added to the already existing style
+     * @param \DOMNode $node Node to check on attributes and to compile a style array
+     * @param array $style is supplied, the inline style attributes are added to the already existing style
      *
      */
     protected static function parseInlineStyle($node, $style = array())
@@ -99,14 +99,18 @@ class Html
     /**
      * parse a node and add a corresponding element to the object
      *
-     * @param $node node to parse
-     * @param $object object to add an element corresponding with the node
-     * @param $styles array with all styles
+     * @param \DOMNode $node node to parse
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $object object to add an element corresponding with the node
+     * @param array $styles Array with all styles
      * @param $data array to transport data to a next level in the DOM tree, for example level of listitems
      *
      */
-    protected static function parseNode($node, $object, $styles = array('fontStyle' => array(), 'paragraphStyle' => array(), 'listStyle' => array()), $data = array())
-    {
+    protected static function parseNode(
+        $node,
+        $object,
+        $styles = array('fontStyle' => array(), 'paragraphStyle' => array(), 'listStyle' => array()),
+        $data = array()
+    ) {
         $newobject = null;
         switch ($node->nodeName) {
             case 'p':

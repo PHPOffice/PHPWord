@@ -32,7 +32,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $oTable = new Table('section', 1);
+        $oTable = new Table();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
         $this->assertEquals($oTable->getStyle(), null);
@@ -46,7 +46,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleText()
     {
-        $oTable = new Table('section', 1, 'tableStyle');
+        $oTable = new Table('tableStyle');
 
         $this->assertEquals($oTable->getStyle(), 'tableStyle');
     }
@@ -56,7 +56,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleArray()
     {
-        $oTable = new Table('section', 1, array(
+        $oTable = new Table(array(
             'borderSize' => 6,
             'borderColor' => '006699',
             'cellMargin' => 80
@@ -70,7 +70,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testWidth()
     {
-        $oTable = new Table('section', 1);
+        $oTable = new Table();
         $iVal   = rand(1, 1000);
         $oTable->setWidth($iVal);
         $this->assertEquals($oTable->getWidth(), $iVal);
@@ -81,7 +81,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testRow()
     {
-        $oTable  = new Table('section', 1);
+        $oTable  = new Table();
         $element = $oTable->addRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
         $this->assertCount(1, $oTable->getRows());
@@ -92,7 +92,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCell()
     {
-        $oTable = new Table('section', 1);
+        $oTable = new Table();
         $oTable->addRow();
         $element = $oTable->addCell();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);
@@ -103,7 +103,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountColumns()
     {
-        $oTable = new Table('section', 1);
+        $oTable = new Table();
         $oTable->addRow();
         $element = $oTable->addCell();
         $this->assertEquals($oTable->countColumns(), 1);
