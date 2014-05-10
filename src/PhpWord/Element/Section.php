@@ -118,21 +118,6 @@ class Section extends AbstractContainer
     }
 
     /**
-     * Add table element
-     *
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table
-     * @todo Merge with the same function on Footer
-     */
-    public function addTable($style = null)
-    {
-        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
-        $this->addElement($table);
-
-        return $table;
-    }
-
-    /**
      * Add a Table-of-Contents Element
      *
      * @param mixed $fontStyle

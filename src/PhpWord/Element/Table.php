@@ -53,9 +53,8 @@ class Table extends AbstractElement
      * @param integer $docPartId
      * @param mixed $style
      */
-    public function __construct($docPart, $docPartId, $style = null)
+    public function __construct($style = null)
     {
-        $this->setDocPart($docPart, $docPartId);
         $this->style = $this->setStyle(new TableStyle(), $style);
     }
 

@@ -52,7 +52,7 @@ script:
     ## PHP Copy/Paste Detector
     - php phpcpd.phar src/ tests/ --verbose
     ## PHP Mess Detector
-    - phpmd src/,tests/ text unusedcode,naming,design,controversial --exclude pclzip.lib.php
+    - phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php
     ## PHPLOC
     #- php phploc.phar src/
     ## PHPUnit

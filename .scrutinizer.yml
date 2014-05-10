@@ -5,6 +5,15 @@ before_commands:
     - "composer install --prefer-source --dev"
 
 tools:
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR2
+    php_cpd: true
+    php_mess_detector:
+        enabled: true
+        config:
+            ruleset: phpmd.xml.dist
     external_code_coverage:
         enabled: true
         timeout: 900

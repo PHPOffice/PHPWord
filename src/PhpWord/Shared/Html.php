@@ -22,28 +22,29 @@ namespace PhpOffice\PhpWord\Shared;
  */
 class Html
 {
-
     /**
-     * add HTML parts
+     * Add HTML parts
      *
-     * @param $object where the parts need to be added
-     * @param $html the code to parse
-     *            
+     * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $object Where the parts need to be added
+     * @param string $html the code to parse
+     *
      */
-    public static function addHtml($object, $html, $stylesheet = '')
+    public static function addHtml($object, $html)
     {
         /*
-         * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element, 
+         * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
         $html = str_replace(array("\n","\r"), '', $html);
-        
+
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
         $dom->loadXML('<body>' . html_entity_decode($html) . '</body>');
-        
+
         $node = $dom->getElementsByTagName('body');
-        
+
         self::parseNode($node->item(0), $object);
     }
 
@@ -58,7 +59,7 @@ class Html
     {
         if ($node->nodeType == XML_ELEMENT_NODE) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
-            
+
             foreach ($attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'style':
@@ -94,7 +95,7 @@ class Html
         }
         return $style;
     }
-    
+
     /**
      * parse a node and add a corresponding element to the object
      *
@@ -112,8 +113,8 @@ class Html
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
                 $newobject = $object->addTextRun($styles['paragraphStyle']);
                 break;
-            
-            /*
+
+            /**
              * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
              * Heading1 - Heading6 are already defined somewhere
              */
@@ -157,8 +158,8 @@ class Html
             case 'sub':
                 $styles['fontStyle']['subScript'] = true;
                 break;
-            
-            /*
+
+            /**
              * @todo As soon as TableItem, RowItem and CellItem support relative width and height
              */
             case 'table':
@@ -193,8 +194,8 @@ class Html
                 }
                 $styles['listStyle']['listType'] = 7; // TYPE_NUMBER = 7;
                 break;
-            
-            /*
+
+            /**
              * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete parsing part of childNodes
              */
             case 'li':
@@ -208,12 +209,12 @@ class Html
                     $object->addListItem($text, $data['listdepth'], $styles['fontStyle'], $styles['listStyle'], $styles['paragraphStyle']);
                 }
         }
-        
+
         if ($newobject === null) {
             $newobject = $object;
         }
-            
-            /*
+
+        /**
          * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete condition
          */
         if ($node->nodeName != 'li') {

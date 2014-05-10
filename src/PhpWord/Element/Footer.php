@@ -114,19 +114,4 @@ class Footer extends AbstractContainer
     {
         return $this->type = self::EVEN;
     }
-
-    /**
-     * Add table element
-     *
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table
-     * @todo Merge with the same function on Section
-     */
-    public function addTable($style = null)
-    {
-        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
-        $this->addElement($table);
-
-        return $table;
-    }
 }
