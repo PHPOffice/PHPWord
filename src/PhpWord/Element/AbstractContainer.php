@@ -354,7 +354,7 @@ abstract class AbstractContainer extends AbstractElement
             'Object'        => $allContainers,
             'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
             'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'Table'         => array('section', 'header', 'footer', 'textbox'),
+            'Table'         => array('section', 'header', 'footer', 'cell', 'textbox'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
             'TextBox'       => array('section', 'header', 'footer', 'cell'),
             'Footnote'      => array('section', 'textrun', 'cell'),

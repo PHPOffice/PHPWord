@@ -13,6 +13,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - TextBox: Ability to add textbox in section, header, and footer - @basjan @ivanlanin GH-228
 - TextBox: Ability to add table inside textbox - @basjan GH-231
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
+- Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
 
 ### Bugfixes
 

@@ -84,6 +84,16 @@ $table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);
 $table->addCell(2000, $cellVCentered)->addText('D', null, $cellHCentered);
 $table->addCell(null, $cellRowContinue);
 
+// 4. Nested table
+
+$section->addTextBreak(2);
+$section->addText('Nested table', $header);
+
+$cell = $section->addTable()->addRow()->addCell();
+$cell->addText('This cell contains nested table.');
+$innerCell = $cell->addTable()->addRow()->addCell();
+$innerCell->addText('Inside nested table');
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
