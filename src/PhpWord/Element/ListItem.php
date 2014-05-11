@@ -19,11 +19,12 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * List item element
  */
-class ListItem extends AbstractElement
+class ListItem extends TextRun
 {
     /**
      * ListItem Style
@@ -33,32 +34,23 @@ class ListItem extends AbstractElement
     private $style;
 
     /**
-     * Textrun
-     *
-     * @var Text
-     */
-    private $textObject;
-
-    /**
      * ListItem Depth
      *
      * @var int
      */
     private $depth;
 
-
     /**
      * Create a new ListItem
      *
-     * @param string $text
      * @param int $depth
      * @param mixed $fontStyle
      * @param array|string|null $listStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
+    public function __construct($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->textObject = new Text(String::toUTF8($text), $fontStyle, $paragraphStyle);
+        $this->container = 'listitem';
         $this->depth = $depth;
 
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method
@@ -67,6 +59,7 @@ class ListItem extends AbstractElement
         } else {
             $this->style = $this->setStyle(new ListItemStyle(), $listStyle, true);
         }
+        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 
     /**
