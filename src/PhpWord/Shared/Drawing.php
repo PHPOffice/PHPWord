@@ -108,7 +108,7 @@ class Drawing
      */
     public static function pixelsToCentimeters($value = 0)
     {
-        return $value * 0.028;
+        return $value * 0.026458333;
     }
 
     /**
@@ -120,7 +120,7 @@ class Drawing
     public static function centimetersToPixels($value = 0)
     {
         if ($value != 0) {
-            return $value / 0.028;
+            return $value / 0.026458333;
         } else {
             return 0;
         }
