@@ -43,19 +43,23 @@ class Container extends AbstractElement
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun')) ? true : false;
 
-        // Loop through subelements
-        $subelements = $container->getElements();
-        if (count($subelements) > 0) {
-            foreach ($subelements as $subelement) {
-                $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, get_class($subelement));
+        // Loop through elements
+        $elements = $container->getElements();
+        $elementClass = '';
+        if (count($elements) > 0) {
+            foreach ($elements as $element) {
+                $elementClass = get_class($element);
+                $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
                 if (class_exists($writerClass)) {
-                    $writer = new $writerClass($xmlWriter, $subelement, $withoutP);
+                    $writer = new $writerClass($xmlWriter, $element, $withoutP);
                     $writer->write();
                 }
             }
-        } else {
-            // Special case for Cell: They have to contain a TextBreak at least
-            if ($containerClass == 'Cell') {
+        }
+
+        // Special case for Cell: They have to contain a w:p element at the end
+        if ($containerClass == 'Cell') {
+            if ($elementClass == '' || $elementClass == 'PhpOffice\\PhpWord\\Element\\Table') {
                 $writerClass = "{$this->namespace}\\TextBreak";
                 $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
                 $writer->write();

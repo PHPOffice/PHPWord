@@ -217,14 +217,14 @@ abstract class AbstractContainer extends AbstractElement
     public function addListItemRun($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
         $this->checkValidity('ListItemRun');
-    
+
         $element = new ListItemRun($depth, $fontStyle, $listStyle, $paragraphStyle);
         $element->setDocPart($this->getDocPart(), $this->getDocPartId());
         $this->addElement($element);
-    
+
         return $element;
     }
-    
+
     /**
      * Add table element
      *
@@ -374,8 +374,8 @@ abstract class AbstractContainer extends AbstractElement
             'Object'        => $allContainers,
             'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
             'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'ListItemRun'      => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'Table'         => array('section', 'header', 'footer', 'textbox'),
+            'ListItemRun'   => array('section', 'header', 'footer', 'cell', 'textbox'),
+            'Table'         => array('section', 'header', 'footer', 'cell', 'textbox'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
             'TextBox'       => array('section', 'header', 'footer', 'cell'),
             'Footnote'      => array('section', 'textrun', 'cell'),
