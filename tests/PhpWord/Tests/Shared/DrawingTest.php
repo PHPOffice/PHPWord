@@ -56,10 +56,10 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(round($value / 60000), $result);
 
             $result = Drawing::pixelsToCentimeters($value);
-            $this->assertEquals($value * 0.028, $result);
+            $this->assertEquals($value * 0.026458333, $result);
 
             $result = Drawing::centimetersToPixels($value);
-            $this->assertEquals($value / 0.028, $result);
+            $this->assertEquals($value / 0.026458333, $result);
         }
     }
 
