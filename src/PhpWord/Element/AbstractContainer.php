@@ -106,7 +106,7 @@ abstract class AbstractContainer extends AbstractElement
         $elementClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $elementName;
 
         // Reset paragraph style for footnote and textrun. They have their own
-        if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
+        if (in_array($this->container, array('textrun', 'footnote', 'endnote', 'listitemrun'))) {
             $paragraphStyle = null;
         }
 
@@ -205,6 +205,26 @@ abstract class AbstractContainer extends AbstractElement
         return $element;
     }
 
+    /**
+     * Add listitemrun element
+     *
+     * @param int $depth
+     * @param mixed $fontStyle
+     * @param mixed $listStyle
+     * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\ListItemRun
+     */
+    public function addListItemRun($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
+    {
+        $this->checkValidity('ListItemRun');
+    
+        $element = new ListItemRun($depth, $fontStyle, $listStyle, $paragraphStyle);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
+    
+        return $element;
+    }
+    
     /**
      * Add table element
      *
@@ -345,7 +365,7 @@ abstract class AbstractContainer extends AbstractElement
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox');
+        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox', 'listitemrun');
         $validContainers = array(
             'Text'          => $allContainers,
             'Link'          => $allContainers,
@@ -354,6 +374,7 @@ abstract class AbstractContainer extends AbstractElement
             'Object'        => $allContainers,
             'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
             'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
+            'ListItemRun'      => array('section', 'header', 'footer', 'cell', 'textbox'),
             'Table'         => array('section', 'header', 'footer', 'textbox'),
             'CheckBox'      => array('section', 'header', 'footer', 'cell'),
             'TextBox'       => array('section', 'header', 'footer', 'cell'),
@@ -395,7 +416,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     private function checkElementDocPart()
     {
-        $inOtherPart = in_array($this->container, array('cell', 'textrun', 'textbox'));
+        $inOtherPart = in_array($this->container, array('cell', 'textrun', 'textbox', 'listitemrun'));
         $docPart = $inOtherPart ? $this->getDocPart() : $this->container;
         $docPartId = $inOtherPart ? $this->getDocPartId() : $this->sectionId;
         $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
