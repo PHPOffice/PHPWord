@@ -37,8 +37,8 @@ class Title extends AbstractElement
             return;
         }
 
-        $bookmarkId = $element->getBookmarkId();
-        $anchor = '_Toc' . ($bookmarkId + 252634154);
+        $rId = $element->getRelationId();
+        $anchor = '_Toc' . ($rId + 252634154);
         $style = $element->getStyle();
 
         $text = htmlspecialchars($element->getText());
@@ -61,7 +61,7 @@ class Title extends AbstractElement
         $xmlWriter->endElement();
 
         $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->writeAttribute('w:id', $rId);
         $xmlWriter->writeAttribute('w:name', $anchor);
         $xmlWriter->endElement();
 
@@ -72,7 +72,7 @@ class Title extends AbstractElement
         $xmlWriter->endElement();
 
         $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->writeAttribute('w:id', $rId);
         $xmlWriter->endElement();
 
         $xmlWriter->endElement();

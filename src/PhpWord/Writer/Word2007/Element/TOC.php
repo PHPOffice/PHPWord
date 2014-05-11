@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\TOC as TOCElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
@@ -44,7 +46,7 @@ class TOC extends AbstractElement
         $writeFieldMark = true;
 
         foreach ($titles as $title) {
-            $this->writeTitle($title, $writeFieldMark);
+            $this->writeTitle($xmlWriter, $element, $title, $writeFieldMark);
             if ($writeFieldMark) {
                 $writeFieldMark = false;
             }
@@ -65,23 +67,20 @@ class TOC extends AbstractElement
      * @param \PhpOffice\PhpWord\Element\Title $title
      * @param bool $writeFieldMark
      */
-    private function writeTitle($title, $writeFieldMark)
+    private function writeTitle(XMLWriter $xmlWriter, TOCElement $element, $title, $writeFieldMark)
     {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
-        $anchor = '_Toc' . ($title->getBookmarkId() + 252634154);
+        $anchor = '_Toc' . ($title->getRelationId() + 252634154);
         $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
 
         $xmlWriter->startElement('w:p');
 
         // Write style and field mark
-        $this->writeStyle($indent);
+        $this->writeStyle($xmlWriter, $element, $indent);
         if ($writeFieldMark) {
-            $this->writeFieldMark();
+            $this->writeFieldMark($xmlWriter, $element);
         }
 
         // Hyperlink
@@ -133,11 +132,8 @@ class TOC extends AbstractElement
      *
      * @param int $indent
      */
-    private function writeStyle($indent)
+    private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent)
     {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
@@ -178,11 +174,8 @@ class TOC extends AbstractElement
     /**
      * Write TOC Field
      */
-    private function writeFieldMark()
+    private function writeFieldMark(XMLWriter $xmlWriter, TOCElement $element)
     {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
         $minDepth = $element->getMinDepth();
         $maxDepth = $element->getMaxDepth();
 

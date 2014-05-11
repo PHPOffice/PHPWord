@@ -40,13 +40,6 @@ class Title extends AbstractElement
     private $depth = 1;
 
     /**
-     * Title Bookmark ID
-     *
-     * @var int
-     */
-    private $bookmarkId = 1;
-
-    /**
      * Name of the heading style, e.g. 'Heading1'
      *
      * @var string
@@ -56,7 +49,7 @@ class Title extends AbstractElement
     /**
      * Title anchor
      *
-     * @var int
+     * @var string
      * @deprecated 0.10.0
      */
     private $anchor;
@@ -77,26 +70,6 @@ class Title extends AbstractElement
         }
 
         return $this;
-    }
-
-    /**
-     * Set Bookmark ID
-     *
-     * @param int $bookmarkId
-     */
-    public function setBookmarkId($bookmarkId)
-    {
-        $this->bookmarkId = $bookmarkId;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     */
-    public function getBookmarkId()
-    {
-        return $this->bookmarkId;
     }
 
     /**
@@ -132,7 +105,7 @@ class Title extends AbstractElement
     /**
      * Set Anchor
      *
-     * @param int $anchor
+     * @param string $anchor
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
@@ -144,12 +117,36 @@ class Title extends AbstractElement
     /**
      * Get Anchor
      *
-     * @return int
+     * @return string
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
     public function getAnchor()
     {
-        return '_Toc' . (252634154 + $this->bookmarkId);
+        return '_Toc' . (252634154 + $this->getRelationId());
+    }
+
+    /**
+     * Set Bookmark ID
+     *
+     * @param int $value
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function setBookmarkId($value)
+    {
+        $this->setRelationId($value);
+    }
+
+    /**
+     * Get bookmark ID
+     *
+     * @return int
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function getBookmarkId()
+    {
+        return $this->getRelationId();
     }
 }

@@ -35,13 +35,6 @@ abstract class AbstractElement
     protected $phpWord;
 
     /**
-     * Container type section|header|footer|cell|textrun|footnote|endnote|textbox
-     *
-     * @var string
-     */
-    protected $container;
-
-    /**
      * Section Id
      *
      * @var int
@@ -57,7 +50,7 @@ abstract class AbstractElement
      *
      * @var string
      */
-    protected $docPart = 'section';
+    protected $docPart = 'Section';
 
     /**
      * Document part Id
@@ -66,21 +59,21 @@ abstract class AbstractElement
      * because the max number of header/footer in every page is 3, i.e.
      * AUTO, FIRST, and EVEN (AUTO = ODD)
      *
-     * @var integer
+     * @var int
      */
     protected $docPartId = 1;
 
     /**
      * Index of element in the elements collection (start with 1)
      *
-     * @var integer
+     * @var int
      */
     protected $elementIndex = 1;
 
     /**
      * Unique Id for element
      *
-     * @var integer
+     * @var int
      */
     protected $elementId;
 
@@ -114,7 +107,7 @@ abstract class AbstractElement
     /**
      * Get section number
      *
-     * @return integer
+     * @return int
      */
     public function getSectionId()
     {
@@ -125,7 +118,7 @@ abstract class AbstractElement
      * Set doc part
      *
      * @param string $docPart
-     * @param integer $docPartId
+     * @param int $docPartId
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -146,7 +139,7 @@ abstract class AbstractElement
     /**
      * Get doc part Id
      *
-     * @return integer
+     * @return int
      */
     public function getDocPartId()
     {
@@ -212,13 +205,13 @@ abstract class AbstractElement
     }
 
     /**
-     * Check if element is located in section doc part (as opposed to header/footer)
+     * Check if element is located in Section doc part (as opposed to Header/Footer)
      *
-     * @return boolean
+     * @return bool
      */
     public function isInSection()
     {
-        return ($this->docPart == 'section');
+        return ($this->docPart == 'Section');
     }
 
     /**
@@ -226,7 +219,7 @@ abstract class AbstractElement
      *
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
-     * @param boolean $returnObject Always return object
+     * @param bool $returnObject Always return object
      */
     protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
     {

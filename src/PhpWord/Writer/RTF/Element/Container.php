@@ -32,7 +32,7 @@ class Container extends \PhpOffice\PhpWord\Writer\HTML\Element\Container
     public function write()
     {
         $container = $this->element;
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+        if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);

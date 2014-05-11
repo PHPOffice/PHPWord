@@ -25,6 +25,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Footnote extends AbstractContainer
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'Footnote';
+
+    /**
      * Paragraph style
      *
      * @var string|\PhpOffice\PhpWord\Style\Paragraph
@@ -38,7 +43,6 @@ class Footnote extends AbstractContainer
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->container = 'footnote';
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 

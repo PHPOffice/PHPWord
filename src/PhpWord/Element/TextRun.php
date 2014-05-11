@@ -25,6 +25,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class TextRun extends AbstractContainer
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'TextRun';
+
+    /**
      * Paragraph style
      *
      * @var string|\PhpOffice\PhpWord\Style\Paragraph
@@ -38,7 +43,6 @@ class TextRun extends AbstractContainer
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->container = 'textrun';
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 

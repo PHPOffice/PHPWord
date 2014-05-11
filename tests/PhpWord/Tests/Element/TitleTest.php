@@ -57,6 +57,6 @@ class TitleTest extends \PHPUnit_Framework_TestCase
 
         $iVal = rand(1, 1000);
         $oTitle->setBookmarkId($iVal);
-        $this->assertEquals($oTitle->getBookmarkId(), $iVal);
+        $this->assertEquals($oTitle->getRelationId(), $iVal);
     }
 }

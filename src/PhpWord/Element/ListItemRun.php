@@ -26,6 +26,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class ListItemRun extends TextRun
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'ListItemRun';
+
+    /**
      * ListItem Style
      *
      * @var \PhpOffice\PhpWord\Style\ListItem
@@ -49,7 +54,6 @@ class ListItemRun extends TextRun
      */
     public function __construct($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->container = 'listitemrun';
         $this->depth = $depth;
 
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method

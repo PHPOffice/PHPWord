@@ -26,6 +26,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - Static classes `Footnotes`, `Endnotes`, and `TOC`
 - `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
 - `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
+- `Element\Title::getBookmarkId()` replaced by `Element\Title::getRelationId()`
 
 ### Miscellaneous
 

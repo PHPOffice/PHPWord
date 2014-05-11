@@ -27,13 +27,17 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Endnote extends Footnote
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'Endnote';
+
+    /**
      * Create new instance
      *
      * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->container = 'endnote';
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
     }
 }

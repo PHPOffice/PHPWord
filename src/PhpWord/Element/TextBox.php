@@ -27,6 +27,11 @@ use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 class TextBox extends AbstractContainer
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'TextBox';
+
+    /**
      * TextBox style
      *
      * @var \PhpOffice\PhpWord\Style\TextBox
@@ -40,7 +45,6 @@ class TextBox extends AbstractContainer
      */
     public function __construct($style = null)
     {
-        $this->container = 'textbox';
         $this->style = $this->setStyle(new TextBoxStyle(), $style);
     }
 

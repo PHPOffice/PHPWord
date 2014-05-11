@@ -207,6 +207,7 @@ class Html
             case 'li':
                 $cNodes = $node->childNodes;
                 if (count($cNodes) > 0) {
+                    $text = '';
                     foreach ($cNodes as $cNode) {
                         if ($cNode->nodeName == '#text') {
                             $text = $cNode->nodeValue;

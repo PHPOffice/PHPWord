@@ -35,15 +35,78 @@ abstract class AbstractContainer extends AbstractElement
     protected $elements = array();
 
     /**
-     * Set element index and unique id, and add element into elements collection
+     * Container type section|header|footer|footnote|endnote|cell|textrun|textbox
+     *
+     * @var string
      */
-    protected function addElement(AbstractElement $element)
+    protected $container;
+
+    /**
+     * Add element
+     *
+     * Each element has different number of parameters passed
+     *
+     * @param string $elementName
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    protected function addElement($elementName)
     {
-        // $type = str_replace('PhpOffice\\PhpWord\\Element\\', '', get_class($element)));
+        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+        $this->checkValidity($elementName);
+
+        // Get arguments
+        $args = func_get_args();
+        $argsCount = func_num_args();
+        $withoutP = in_array($this->container, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun'));
+        if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
+            $args[3] = null;
+        }
+
+        // Create element
+        if ($argsCount == 1) {       // Page Break
+            $element = new $elementClass();
+        } elseif ($argsCount == 2) { // TextRun, TextBox, Table, Footnote, Endnote
+            $element = new $elementClass($args[1]);
+        } elseif ($argsCount == 3) { // Object, TextBreak, Title
+            $element = new $elementClass($args[1], $args[2]);
+        } elseif ($argsCount == 4) { // PreserveText, Text, Image
+            $element = new $elementClass($args[1], $args[2], $args[3]);
+        } elseif ($argsCount == 5) { // CheckBox, Link, ListItemRun, TOC
+            $element = new $elementClass($args[1], $args[2], $args[3], $args[4]);
+        } elseif ($argsCount == 6) { // ListItem
+            $element = new $elementClass($args[1], $args[2], $args[3], $args[4], $args[5]);
+        }
+
+        // Set relation Id for media collection
+        if (in_array($elementName, array('Link', 'Image', 'Object'))) {
+            $mediaContainer = $this->getMediaContainer();
+            if ($elementName == 'Image') {
+                $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $element);
+            } else {
+                $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1]);
+            }
+            $element->setRelationId($rId);
+        }
+        if ($elementName == 'Object') {
+            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
+            $element->setImageRelationId($rIdIcon);
+        }
+
+        // Set relation Id for other collection
+        if (in_array($elementName, array('Footnote', 'Endnote', 'Title')) && $this->phpWord instanceof PhpWord) {
+            $addMethod = "add{$elementName}";
+            $rId = $this->phpWord->$addMethod($element);
+            $element->setRelationId($rId);
+        }
+
+        // Set other properties and add element into collection
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);
         $this->elements[] = $element;
+
+        return $element;
     }
 
     /**
@@ -59,36 +122,11 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Count elements
      *
-     * @return integer
+     * @return int
      */
     public function countElements()
     {
         return count($this->elements);
-    }
-
-    /**
-     * Add generic element with style
-     *
-     * This is how all elements should be added with dependency injection: with
-     * just one simple $style. Currently this function supports TextRun, Table,
-     * and TextBox since all other elements have different arguments
-     *
-     * @todo Change the function name into something better?
-     *
-     * @param string $elementName
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\AbstractElement
-     */
-    private function addGenericElement($elementName, $style)
-    {
-        $elementClass = __NAMESPACE__ . '\\' . $elementName;
-
-        $this->checkValidity($elementName);
-        $element = new $elementClass($style);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
     }
 
     /**
@@ -97,24 +135,11 @@ abstract class AbstractContainer extends AbstractElement
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @param string $elementName Text|PreserveText
      * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\PreserveText
      */
-    public function addText($text, $fontStyle = null, $paragraphStyle = null, $elementName = 'Text')
+    public function addText($text, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity($elementName);
-        $elementClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $elementName;
-
-        // Reset paragraph style for footnote and textrun. They have their own
-        if (in_array($this->container, array('textrun', 'footnote', 'endnote', 'listitemrun'))) {
-            $paragraphStyle = null;
-        }
-
-        $element = new $elementClass($text, $fontStyle, $paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('Text', $text, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -125,7 +150,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextRun($paragraphStyle = null)
     {
-        return $this->addGenericElement('TextRun', $paragraphStyle);
+        return $this->addElement('TextRun', $paragraphStyle);
     }
 
     /**
@@ -139,18 +164,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addLink($target, $text = null, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('Link');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $element = new Link($target, $text, $fontStyle, $paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-
-        $rId = Media::addElement($elementDocPart, 'link', $target);
-        $element->setRelationId($rId);
-
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('Link', $target, $text, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -163,7 +177,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addPreserveText($text, $fontStyle = null, $paragraphStyle = null)
     {
-        return $this->addText($text, $fontStyle, $paragraphStyle, 'PreserveText');
+        return $this->addElement('PreserveText', $text, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -175,12 +189,8 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('TextBreak');
-
         for ($i = 1; $i <= $count; $i++) {
-            $element = new TextBreak($fontStyle, $paragraphStyle);
-            $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-            $this->addElement($element);
+            $this->addElement('TextBreak', $fontStyle, $paragraphStyle);
         }
     }
 
@@ -196,13 +206,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addListItem($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('ListItem');
-
-        $element = new ListItem($text, $depth, $fontStyle, $listStyle, $paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('ListItem', $text, $depth, $fontStyle, $listStyle, $paragraphStyle);
     }
 
     /**
@@ -216,13 +220,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addListItemRun($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('ListItemRun');
-
-        $element = new ListItemRun($depth, $fontStyle, $listStyle, $paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('ListItemRun', $depth, $fontStyle, $listStyle, $paragraphStyle);
     }
 
     /**
@@ -234,7 +232,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTable($style = null)
     {
-        return $this->addGenericElement('Table', $style);
+        return $this->addElement('Table', $style);
     }
 
     /**
@@ -242,23 +240,12 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $source
      * @param mixed $style Image style
-     * @param boolean $isWatermark
+     * @param bool $isWatermark
      * @return \PhpOffice\PhpWord\Element\Image
      */
     public function addImage($source, $style = null, $isWatermark = false)
     {
-        $this->checkValidity('Image');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $element = new Image($source, $style, $isWatermark);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-
-        $rId = Media::addElement($elementDocPart, 'image', $source, $element);
-        $element->setRelationId($rId);
-
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('Image', $source, $style, $isWatermark);
     }
 
     /**
@@ -269,49 +256,21 @@ abstract class AbstractContainer extends AbstractElement
      * @param string $source
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Element\Object
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function addObject($source, $style = null)
     {
-        $this->checkValidity('Object');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $element = new Object($source, $style);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-
-        $rId = Media::addElement($elementDocPart, 'object', $source);
-        $element->setRelationId($rId);
-        $rIdIcon = Media::addElement($elementDocPart, 'image', $element->getIcon(), new Image($element->getIcon()));
-        $element->setImageRelationId($rIdIcon);
-
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('Object', $source, $style);
     }
 
     /**
      * Add footnote element
      *
      * @param mixed $paragraphStyle
-     * @param string $elementName
      * @return \PhpOffice\PhpWord\Element\Footnote
      */
-    public function addFootnote($paragraphStyle = null, $elementName = 'Footnote')
+    public function addFootnote($paragraphStyle = null)
     {
-        $this->checkValidity($elementName);
-        $elementClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $elementName;
-        $docPart = strtolower($elementName);
-        $addMethod = "add{$elementName}";
-
-        $element = new $elementClass($paragraphStyle);
-        $element->setDocPart($docPart, $this->getDocPartId());
-        if ($this->phpWord instanceof PhpWord) {
-            $rId = $this->phpWord->$addMethod($element);
-            $element->setRelationId($rId);
-        }
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('Footnote', $paragraphStyle);
     }
 
     /**
@@ -322,7 +281,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addEndnote($paragraphStyle = null)
     {
-        return $this->addFootnote($paragraphStyle, 'Endnote');
+        return $this->addElement('Endnote', $paragraphStyle);
     }
 
     /**
@@ -336,13 +295,7 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addCheckBox($name, $text, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->checkValidity('CheckBox');
-
-        $element = new CheckBox($name, $text, $fontStyle, $paragraphStyle);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
-
-        return $element;
+        return $this->addElement('CheckBox', $name, $text, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -353,47 +306,50 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function addTextBox($style = null)
     {
-        return $this->addGenericElement('TextBox', $style);
+        return $this->addElement('TextBox', $style);
     }
 
     /**
      * Check if a method is allowed for the current container
      *
      * @param string $method
-     * @return boolean
+     * @return bool
      */
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote', 'textbox', 'listitemrun');
+        $allContainers = array(
+            'Section', 'Header', 'Footer', 'Footnote', 'Endnote',
+            'Cell', 'TextRun', 'TextBox', 'ListItemRun',
+        );
         $validContainers = array(
             'Text'          => $allContainers,
             'Link'          => $allContainers,
             'TextBreak'     => $allContainers,
             'Image'         => $allContainers,
             'Object'        => $allContainers,
-            'TextRun'       => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'ListItem'      => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'ListItemRun'   => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'Table'         => array('section', 'header', 'footer', 'cell', 'textbox'),
-            'CheckBox'      => array('section', 'header', 'footer', 'cell'),
-            'TextBox'       => array('section', 'header', 'footer', 'cell'),
-            'Footnote'      => array('section', 'textrun', 'cell'),
-            'Endnote'       => array('section', 'textrun', 'cell'),
-            'PreserveText'  => array('header', 'footer', 'cell'),
+            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell'),
+            'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
+            'Footnote'      => array('Section', 'TextRun', 'Cell'),
+            'Endnote'       => array('Section', 'TextRun', 'Cell'),
+            'PreserveText'  => array('Header', 'Footer', 'Cell'),
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = array(
-            'PreserveText'  => array(array('cell'), array('header', 'footer')),
-            'Footnote'      => array(array('cell', 'textrun'), array('section')),
-            'Endnote'       => array(array('cell', 'textrun'), array('section')),
+            'PreserveText'  => array(array('Cell'), array('Header', 'Footer')),
+            'Footnote'      => array(array('Cell', 'TextRun'), array('Section')),
+            'Endnote'       => array(array('Cell', 'TextRun'), array('Section')),
         );
 
         // Check if a method is valid for current container
         if (array_key_exists($method, $validContainers)) {
             if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException("Cannot put $method in $this->container.");
+                throw new \BadMethodCallException("Cannot add $method in $this->container.");
             }
         }
         // Check if a method is valid for current container, located in other container
@@ -403,7 +359,7 @@ abstract class AbstractContainer extends AbstractElement
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
                 if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException("Cannot put $method in $this->container.");
+                    throw new \BadMethodCallException("Cannot add $method in $this->container.");
                 }
             }
         }
@@ -412,17 +368,21 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Return element location in document: section, headerx, or footerx
+     * Return media element (image, object, link) container name
+     *
+     * @return string section|headerx|footerx|footnote|endnote
      */
-    private function checkElementDocPart()
+    private function getMediaContainer()
     {
-        $inOtherPart = in_array($this->container, array('cell', 'textrun', 'textbox', 'listitemrun'));
-        $docPart = $inOtherPart ? $this->getDocPart() : $this->container;
-        $docPartId = $inOtherPart ? $this->getDocPartId() : $this->sectionId;
-        $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
-        $docPartId = $inHeaderFooter ? $this->getDocPartId() : $docPartId;
+        $partName = $this->container;
+        if (in_array($partName, array('Cell', 'TextRun', 'TextBox', 'ListItemRun'))) {
+            $partName = $this->getDocPart();
+        }
+        if ($partName == 'Header' || $partName == 'Footer') {
+            $partName .= $this->getDocPartId();
+        }
 
-        return $inHeaderFooter ? $docPart . $docPartId : $docPart;
+        return strtolower($partName);
     }
 
     /**

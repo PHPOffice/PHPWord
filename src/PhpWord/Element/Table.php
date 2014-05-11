@@ -41,7 +41,7 @@ class Table extends AbstractElement
     /**
      * Table width
      *
-     * @var integer
+     * @var int
      */
     private $width = null;
 
@@ -59,28 +59,32 @@ class Table extends AbstractElement
     /**
      * Add a row
      *
-     * @param integer $height
+     * @param int $height
      * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Row
      */
     public function addRow($height = null, $style = null)
     {
-        $row = new Row($this->getDocPart(), $this->getDocPartId(), $height, $style);
+        $row = new Row($height, $style);
+        $row->setDocPart($this->getDocPart(), $this->getDocPartId());
         $row->setPhpWord($this->phpWord);
         $this->rows[] = $row;
+
         return $row;
     }
 
     /**
      * Add a cell
      *
-     * @param integer $width
+     * @param int $width
      * @param mixed $style
-     * @return Cell
+     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
         $index = count($this->rows) - 1;
         $cell = $this->rows[$index]->addCell($width, $style);
+
         return $cell;
     }
 
@@ -107,7 +111,7 @@ class Table extends AbstractElement
     /**
      * Set table width
      *
-     * @param integer $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -117,7 +121,7 @@ class Table extends AbstractElement
     /**
      * Get table width
      *
-     * @return integer
+     * @return int
      */
     public function getWidth()
     {
@@ -127,7 +131,7 @@ class Table extends AbstractElement
     /**
      * Get column count
      *
-     * @return integer
+     * @return int
      */
     public function countColumns()
     {

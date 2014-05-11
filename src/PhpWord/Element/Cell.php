@@ -25,6 +25,11 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
 class Cell extends AbstractContainer
 {
     /**
+     * @var string Container type
+     */
+    protected $container = 'Cell';
+
+    /**
      * Cell width
      *
      * @var int
@@ -36,22 +41,18 @@ class Cell extends AbstractContainer
      *
      * @var \PhpOffice\PhpWord\Style\Cell
      */
-    private $cellStyle;
+    private $style;
 
     /**
      * Create new instance
      *
-     * @param string $docPart section|header|footer
-     * @param int $docPartId
      * @param int $width
      * @param array|\PhpOffice\PhpWord\Style\Cell $style
      */
-    public function __construct($docPart, $docPartId, $width = null, $style = null)
+    public function __construct($width = null, $style = null)
     {
-        $this->container = 'cell';
-        $this->setDocPart($docPart, $docPartId);
         $this->width = $width;
-        $this->cellStyle = $this->setStyle(new CellStyle(), $style, true);
+        $this->style = $this->setStyle(new CellStyle(), $style, true);
     }
 
     /**
@@ -61,7 +62,7 @@ class Cell extends AbstractContainer
      */
     public function getStyle()
     {
-        return $this->cellStyle;
+        return $this->style;
     }
 
     /**

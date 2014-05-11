@@ -47,18 +47,18 @@ class Font extends AbstractStyle
 
         // Name
         $font = $style->getName();
-        $xmlWriter->writeAttributeIf($font, 'style:font-name', $font);
-        $xmlWriter->writeAttributeIf($font, 'style:font-name-complex', $font);
+        $xmlWriter->writeAttributeIf($font != '', 'style:font-name', $font);
+        $xmlWriter->writeAttributeIf($font != '', 'style:font-name-complex', $font);
         $size = $style->getSize();
 
         // Size
-        $xmlWriter->writeAttributeIf($size, 'fo:font-size', $size . 'pt');
-        $xmlWriter->writeAttributeIf($size, 'style:font-size-asian', $size . 'pt');
-        $xmlWriter->writeAttributeIf($size, 'style:font-size-complex', $size . 'pt');
+        $xmlWriter->writeAttributeIf(is_numeric($size), 'fo:font-size', $size . 'pt');
+        $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-asian', $size . 'pt');
+        $xmlWriter->writeAttributeIf(is_numeric($size), 'style:font-size-complex', $size . 'pt');
 
         // Color
         $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color, 'fo:color', '#' . $color);
+        $xmlWriter->writeAttributeIf($color != '', 'fo:color', '#' . $color);
 
         // Bold & italic
         $xmlWriter->writeAttributeIf($style->isBold(), 'fo:font-weight', 'bold');

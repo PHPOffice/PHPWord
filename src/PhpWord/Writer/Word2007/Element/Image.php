@@ -51,7 +51,6 @@ class Image extends AbstractElement
      */
     private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
-
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
         $style = $element->getStyle();
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
