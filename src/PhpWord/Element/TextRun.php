@@ -29,7 +29,7 @@ class TextRun extends AbstractContainer
      *
      * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
-    private $paragraphStyle;
+    protected $paragraphStyle;
 
     /**
      * Create new instance
