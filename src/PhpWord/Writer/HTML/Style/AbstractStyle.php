@@ -87,12 +87,12 @@ abstract class AbstractStyle
     /**
      * Get value if ...
      *
-     * @param bool $condition
+     * @param bool|null $condition
      * @param string $value
      * @return string
      */
     protected function getValueIf($condition, $value)
     {
-        return $condition ? $value : '';
+        return $condition == true ? $value : '';
     }
 }

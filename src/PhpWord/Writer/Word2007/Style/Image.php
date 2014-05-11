@@ -42,7 +42,7 @@ class Image extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
             return;
         }
-        $this->writeStyle();
+        $this->writeStyle($style);
     }
 
     /**
@@ -65,10 +65,9 @@ class Image extends AbstractStyle
     /**
      * Write style attribute
      */
-    protected function writeStyle()
+    protected function writeStyle(ImageStyle $style)
     {
         $xmlWriter = $this->getXmlWriter();
-        $style = $this->getStyle();
 
         // Default style array
         $styleArray = array(
@@ -77,7 +76,7 @@ class Image extends AbstractStyle
             'mso-width-relative' => 'margin',
             'mso-height-relative' => 'margin',
         );
-        $styleArray = array_merge($styleArray, $this->getElementStyle());
+        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
 
         // Absolute/relative positioning
         $positioning = $style->getPositioning();
@@ -123,9 +122,8 @@ class Image extends AbstractStyle
      *
      * @return array
      */
-    private function getElementStyle()
+    private function getElementStyle(ImageStyle $style)
     {
-        $style = $this->getStyle();
         $styles = array();
         $styleValues = array(
             'width' => $style->getWidth(),

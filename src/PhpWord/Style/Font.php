@@ -651,7 +651,7 @@ class Font extends AbstractStyle
     /**
      * Toggle $target property to false when $source true
      *
-     * @param bool $target Target property
+     * @param bool|null $target Target property
      * @param bool $sourceValue
      */
     private function toggleFalse(&$target, $sourceValue)
