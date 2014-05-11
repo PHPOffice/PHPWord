@@ -33,6 +33,9 @@ class PreserveText extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
+            return;
+        }
 
         $texts = $element->getText();
         if (!is_array($texts)) {

@@ -31,6 +31,9 @@ class Link extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
 
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
 

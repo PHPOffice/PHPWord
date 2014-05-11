@@ -31,6 +31,9 @@ class Object extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Object) {
+            return;
+        }
 
         $rIdObject = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
         $rIdImage = $element->getImageRelationId() + ($element->isInSection() ? 6 : 0);

@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\Image as ImageElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 
 /**
@@ -31,22 +33,24 @@ class Image extends AbstractElement
      */
     public function write()
     {
+        $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Image) {
+            return;
+        }
 
         if ($element->isWatermark()) {
-            $this->writeWatermark();
+            $this->writeWatermark($xmlWriter, $element);
         } else {
-            $this->writeImage();
+            $this->writeImage($xmlWriter, $element);
         }
     }
 
     /**
      * Write image element
      */
-    private function writeImage()
+    private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
 
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
         $style = $element->getStyle();
@@ -84,11 +88,8 @@ class Image extends AbstractElement
     /**
      * Write watermark element
      */
-    private function writeWatermark()
+    private function writeWatermark(XMLWriter $xmlWriter, ImageElement $element)
     {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
         $rId = $element->getRelationId();
         $style = $element->getStyle();
         $style->setPositioning('absolute');

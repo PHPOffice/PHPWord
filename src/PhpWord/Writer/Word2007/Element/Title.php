@@ -33,6 +33,9 @@ class Title extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Title) {
+            return;
+        }
 
         $bookmarkId = $element->getBookmarkId();
         $anchor = '_Toc' . ($bookmarkId + 252634154);

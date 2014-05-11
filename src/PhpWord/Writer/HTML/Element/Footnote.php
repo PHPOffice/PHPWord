@@ -38,6 +38,10 @@ class Footnote extends AbstractElement
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+            return;
+        }
+
         $noteId = count($this->parentWriter->getNotes()) + 1;
         $noteMark = $this->noteType . '-' . $this->element->getRelationId();
         $content = "<a name=\"{$noteMark}\"><a href=\"#note-{$noteId}\" class=\"NoteRef\"><sup>{$noteId}</sup></a>";

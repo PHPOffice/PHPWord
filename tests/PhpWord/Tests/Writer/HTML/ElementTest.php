@@ -14,31 +14,28 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+namespace PhpOffice\PhpWord\Tests\Writer\HTML;
 
-namespace PhpOffice\PhpWord\Writer\HTML\Element;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
- * TextRun element HTML writer
- *
- * @since 0.10.0
+ * Test class for PhpOffice\PhpWord\Writer\HTML\Element subnamespace
  */
-class Title extends AbstractElement
+class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Write heading
-     *
-     * @return string
+     * Test unmatched elements
      */
-    public function write()
+    public function testUnmatchedElements()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
+        $styles = array('Container', 'Footnote', 'Image', 'Link', 'ListItem', 'Table', 'Title');
+        foreach ($styles as $style) {
+            $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element\\' . $style;
+            $parentWriter = new HTML();
+            $element = new \PhpOffice\PhpWord\Element\PageBreak();
+            $object = new $objectClass($parentWriter, $element);
+
+            $this->assertEquals('', $object->write());
         }
-
-        $tag = 'h' . $this->element->getDepth();
-        $text = htmlspecialchars($this->element->getText());
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
-
-        return $content;
     }
 }

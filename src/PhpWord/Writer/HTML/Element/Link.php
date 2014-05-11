@@ -31,6 +31,10 @@ class Link extends Text
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
+
         $content = '';
         $content .= $this->writeOpening();
         $content .= "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>";

@@ -34,6 +34,10 @@ class Image extends Text
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
+            return;
+        }
+
         $content = '';
         if (!$this->parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);

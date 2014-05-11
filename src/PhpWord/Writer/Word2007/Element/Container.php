@@ -40,6 +40,9 @@ class Container extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $container = $this->getElement();
+        if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            return;
+        }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun')) ? true : false;
 

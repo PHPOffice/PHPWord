@@ -33,6 +33,9 @@ class ListItemRun extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\ListItemRun) {
+            return;
+        }
 
         $xmlWriter->startElement('w:p');
 

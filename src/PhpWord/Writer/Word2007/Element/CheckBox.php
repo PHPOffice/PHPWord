@@ -33,6 +33,9 @@ class CheckBox extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\CheckBox) {
+            return;
+        }
 
         $name = htmlspecialchars($element->getName());
         $name = String::controlCharacterPHP2OOXML($name);

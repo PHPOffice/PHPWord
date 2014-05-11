@@ -31,6 +31,9 @@ class Text extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
         $fontStyle = $element->getFontStyle();
         $paragraphStyle = $element->getParagraphStyle();
 

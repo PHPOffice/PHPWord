@@ -33,6 +33,9 @@ class Image extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Image) {
+            return;
+        }
 
         $mediaIndex = $element->getMediaIndex();
         $target = 'Pictures/' . $element->getTarget();

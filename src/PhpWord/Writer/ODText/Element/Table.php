@@ -31,6 +31,9 @@ class Table extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Table) {
+            return;
+        }
         $rows = $element->getRows();
         $rowCount = count($rows);
         $colCount = $element->countColumns();

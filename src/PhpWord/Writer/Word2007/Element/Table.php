@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
@@ -38,6 +39,9 @@ class Table extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Table) {
+            return;
+        }
 
         $rows = $element->getRows();
         $rowCount = count($rows);
@@ -94,7 +98,7 @@ class Table extends AbstractElement
 
             // Table rows
             for ($i = 0; $i < $rowCount; $i++) {
-                $this->writeRow($rows[$i]);
+                $this->writeRow($xmlWriter, $rows[$i]);
             }
             $xmlWriter->endElement();
         }
@@ -103,10 +107,8 @@ class Table extends AbstractElement
     /**
      * Write row
      */
-    private function writeRow(RowElement $row)
+    private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
-        $xmlWriter = $this->getXmlWriter();
-
         $height = $row->getHeight();
         $rowStyle = $row->getStyle();
 
@@ -132,7 +134,7 @@ class Table extends AbstractElement
             $xmlWriter->endElement();
         }
         foreach ($row->getCells() as $cell) {
-            $this->writeCell($cell);
+            $this->writeCell($xmlWriter, $cell);
         }
         $xmlWriter->endElement(); // w:tr
     }
@@ -140,10 +142,8 @@ class Table extends AbstractElement
     /**
      * Write cell
      */
-    private function writeCell(CellElement $cell)
+    private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
-        $xmlWriter = $this->getXmlWriter();
-
         $cellStyle = $cell->getStyle();
 
         $xmlWriter->startElement('w:tc');

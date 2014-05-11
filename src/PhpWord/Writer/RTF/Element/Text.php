@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
@@ -34,10 +35,14 @@ class Text extends AbstractElement
      */
     public function write()
     {
-        $fontStyle = $this->getFontStyle();
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
+
+        $fontStyle = $this->getFontStyle($this->element);
 
         $content = '';
-        $content .= $this->writeParagraphStyle();
+        $content .= $this->writeParagraphStyle($this->element);
         $content .= $this->writeFontStyleBegin($fontStyle);
         if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
             $content .= ' ';
@@ -57,22 +62,22 @@ class Text extends AbstractElement
      *
      * @return string
      */
-    private function writeParagraphStyle()
+    private function writeParagraphStyle(TextElement $element)
     {
         $content = '';
 
         // Get paragraph style
-        $paragraphStyle = $this->element->getParagraphStyle();
+        $paragraphStyle = $element->getParagraphStyle();
         if (is_string($paragraphStyle)) {
             $paragraphStyle = Style::getStyle($paragraphStyle);
         }
 
         // Write style when applicable
         if ($paragraphStyle && !$this->withoutP) {
-            if ($this->parentWriter->getLastParagraphStyle() != $this->element->getParagraphStyle()) {
+            if ($this->parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
                 $styleWriter = new ParagraphStyleWriter($paragraphStyle);
                 $content = $styleWriter->write();
-                $this->parentWriter->setLastParagraphStyle($this->element->getParagraphStyle());
+                $this->parentWriter->setLastParagraphStyle($element->getParagraphStyle());
             } else {
                 $this->parentWriter->setLastParagraphStyle();
             }
@@ -139,9 +144,9 @@ class Text extends AbstractElement
      *
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    private function getFontStyle()
+    private function getFontStyle(TextElement $element)
     {
-        $fontStyle = $this->element->getFontStyle();
+        $fontStyle = $element->getFontStyle();
         if (is_string($fontStyle)) {
             $fontStyle = Style::getStyle($fontStyle);
         }

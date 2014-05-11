@@ -31,6 +31,9 @@ class Link extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Link) {
+            return;
+        }
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
