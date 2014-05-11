@@ -44,7 +44,7 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(round($value / 9525), $result);
 
             $result = Drawing::pixelsToPoints($value);
-            $this->assertEquals($value * 0.67777777, $result);
+            $this->assertEquals($value * 0.75, $result);
 
             $result = Drawing::pointsToPixels($value);
             $this->assertEquals($value * 1.333333333, $result);
