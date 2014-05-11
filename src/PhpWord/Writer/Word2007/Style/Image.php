@@ -38,9 +38,11 @@ class Image extends AbstractStyle
      */
     public function write()
     {
-        if (!is_null($this->getStyle())) {
-            $this->writeStyle();
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+            return;
         }
+        $this->writeStyle();
     }
 
     /**

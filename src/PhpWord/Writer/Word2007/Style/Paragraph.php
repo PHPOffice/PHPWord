@@ -66,7 +66,8 @@ class Paragraph extends AbstractStyle
      */
     private function writeStyle()
     {
-        if (is_null($style = $this->getStyle())) {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();

@@ -36,7 +36,8 @@ class Table extends AbstractStyle
      */
     public function write()
     {
-        if (is_null($style = $this->getStyle())) {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Table) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();

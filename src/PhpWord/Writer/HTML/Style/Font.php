@@ -35,6 +35,9 @@ class Font extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
+            return;
+        }
         $css = array();
 
         $font = $style->getName();

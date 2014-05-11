@@ -14,31 +14,26 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+namespace PhpOffice\PhpWord\Tests\Writer\HTML;
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Style;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Shading style writer
- *
- * @since 0.10.0
+ * Test class for PhpOffice\PhpWord\Writer\HTML\Style subnamespace
  */
-class Shading extends AbstractStyle
+class StyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Write style
+     * Test empty styles
      */
-    public function write()
+    public function testEmptyStyles()
     {
-        $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Shading) {
-            return;
-        }
-        $xmlWriter = $this->getXmlWriter();
+        $styles = array('Font', 'Paragraph', 'Image');
+        foreach ($styles as $style) {
+            $objectClass = 'PhpOffice\\PhpWord\\Writer\\HTML\\Style\\' . $style;
+            $object = new $objectClass();
 
-        $xmlWriter->startElement('w:shd');
-        $xmlWriter->writeAttribute('w:val', $style->getPattern());
-        $xmlWriter->writeAttribute('w:color', $style->getColor());
-        $xmlWriter->writeAttribute('w:fill', $style->getFill());
-        $xmlWriter->endElement();
+            $this->assertEquals('', $object->write());
+        }
     }
 }

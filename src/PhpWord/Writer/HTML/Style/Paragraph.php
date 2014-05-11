@@ -34,6 +34,9 @@ class Paragraph extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+            return;
+        }
         $css = array();
 
         // Alignment

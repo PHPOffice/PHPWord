@@ -31,10 +31,12 @@ class TextBox extends Image
      */
     public function write()
     {
-        if (!is_null($this->getStyle())) {
-            $this->writeStyle();
-            $this->writeBorder();
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\TextBox) {
+            return;
         }
+        $this->writeStyle();
+        $this->writeBorder();
     }
 
     /**

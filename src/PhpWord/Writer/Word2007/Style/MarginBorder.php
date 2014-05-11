@@ -29,14 +29,14 @@ class MarginBorder extends AbstractStyle
      *
      * @var int[]
      */
-    private $sizes;
+    private $sizes = array();
 
     /**
      * Colors
      *
      * @var string[]
      */
-    private $colors;
+    private $colors = array();
 
     /**
      * Other attributes

@@ -57,7 +57,8 @@ class Font extends AbstractStyle
      */
     private function writeStyle()
     {
-        if (is_null($style = $this->getStyle())) {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
