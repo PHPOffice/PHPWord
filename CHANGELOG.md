@@ -10,13 +10,15 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 
 - Image: Ability to define relative and absolute positioning - @basjan GH-217
 - Footer: Conform footer with header by adding firstPage, evenPage and by inheritance - @basjan @ivanlanin GH-219
-- TextBox: Ability to add textbox in section, header, and footer - @basjan @ivanlanin GH-228
+- TextBox: Ability to add textbox in section, header, and footer - @basjan @ivanlanin GH-228 GH-229
 - TextBox: Ability to add table inside textbox - @basjan GH-231
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
+- ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
 
 ### Bugfixes
 
 - Header: All images added to the second header were assigned to the first header - @basjan GH-222
+- Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan GH-233 GH-234
 
 ### Deprecated
 
