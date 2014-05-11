@@ -54,6 +54,18 @@ $section->addListItem('List Item 6', 1, 'myOwnStyle', $predefinedMultilevel, 'P-
 $section->addListItem('List Item 7', 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
 $section->addTextBreak(2);
 
+$section->addText('List with inline formatting.');
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 1');
+$listItemRun->addText(' in bold', array('bold'=>true));
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 2');
+$listItemRun->addText(' in italic', array('italic'=>true));
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 3');
+$listItemRun->addText(' underlined', array('underline'=>'dash'));
+$section->addTextBreak(2);
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
