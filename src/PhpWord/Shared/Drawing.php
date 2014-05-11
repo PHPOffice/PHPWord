@@ -56,7 +56,7 @@ class Drawing
      */
     public static function pixelsToPoints($value = 0)
     {
-        return $value * 0.67777777;
+        return $value * 0.75;
     }
 
     /**
