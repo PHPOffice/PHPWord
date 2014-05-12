@@ -22,7 +22,8 @@ $section->addTextBreak(2);
 $section->addText('I am styled by a font style definition.', 'rStyle');
 $section->addText('I am styled by a paragraph style definition.', null, 'pStyle');
 $section->addText('I am styled by both font and paragraph style.', 'rStyle', 'pStyle');
-$section->addTextBreak();
+
+$section->addPageBreak();
 
 // Inline font style
 $fontStyle['name'] = 'Times New Roman';
@@ -36,10 +37,11 @@ $fontStyle['color'] = 'FF0000';
 $fontStyle['fgColor'] = 'yellow';
 $fontStyle['smallCaps'] = true;
 $section->addText('I am inline styled.', $fontStyle);
+
 $section->addTextBreak();
 
 // Link
-$section->addLink('http://www.google.com', null, 'NLink');
+$section->addLink('http://www.google.com', 'Google');
 $section->addTextBreak();
 
 // Image

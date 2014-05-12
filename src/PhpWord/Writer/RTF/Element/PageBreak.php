@@ -17,14 +17,12 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
- * TextBreak element RTF writer
+ * PageBreak element RTF writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Title extends AbstractElement
+class PageBreak extends AbstractElement
 {
     /**
      * Write element
@@ -33,16 +31,6 @@ class Title extends AbstractElement
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
-        }
-
-        $content = '';
-
-        $content .= '\pard\nowidctlpar ';
-        $content .= String::toUnicode($this->element->getText());
-        $content .= '\par' . PHP_EOL;
-
-        return $content;
+        return '\page' . PHP_EOL;
     }
 }

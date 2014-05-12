@@ -28,7 +28,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnmatchedElements()
     {
-        $styles = array('Container', 'Text', 'Title');
+        $styles = array('Container', 'Text', 'Title', 'Link');
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element\\' . $style;
             $parentWriter = new RTF();
