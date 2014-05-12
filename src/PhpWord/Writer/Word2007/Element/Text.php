@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
@@ -39,9 +38,6 @@ class Text extends AbstractElement
             return;
         }
 
-        $text = htmlspecialchars($element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
-
         $this->writeOpeningWP();
 
         $xmlWriter->startElement('w:r');
@@ -50,11 +46,11 @@ class Text extends AbstractElement
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($text);
+        $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 
     /**
@@ -77,7 +73,7 @@ class Text extends AbstractElement
     /**
      * Write ending
      */
-    protected function writeEndingWP()
+    protected function writeClosingWP()
     {
         $xmlWriter = $this->getXmlWriter();
 

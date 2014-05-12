@@ -53,6 +53,6 @@ class Link extends Text
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:hyperlink
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 }

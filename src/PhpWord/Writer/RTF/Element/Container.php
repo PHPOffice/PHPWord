@@ -44,9 +44,7 @@ class Container extends \PhpOffice\PhpWord\Writer\HTML\Element\Container
             $writerClass = str_replace('\\Element', '\\Writer\\RTF\\Element', get_class($element));
             if (class_exists($writerClass)) {
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
-                $content .= '{';
                 $content .= $writer->write();
-                $content .= '}' . PHP_EOL;
             }
         }
 

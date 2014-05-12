@@ -37,8 +37,8 @@ class Title extends AbstractElement
 
         $content = '';
 
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $content .= $this->element->getText();
+        $content .= '\pard\nowidctlpar';
+        $content .= String::toUnicode($this->element->getText());
         $content .= '\par' . PHP_EOL;
 
         return $content;

@@ -42,7 +42,7 @@ class TextBreak extends Text
                 $xmlWriter->startElement('w:pPr');
                 $this->writeFontStyle();
                 $xmlWriter->endElement(); // w:pPr
-                $this->writeEndingWP();
+                $this->writeClosingWP();
             } else {
                 $xmlWriter->writeElement('w:p');
             }

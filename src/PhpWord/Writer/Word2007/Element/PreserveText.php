@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * PreserveText element writer
  *
@@ -76,21 +74,18 @@ class PreserveText extends Text
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             } else {
-                $text = htmlspecialchars($text);
-                $text = String::controlCharacterPHP2OOXML($text);
-
                 $xmlWriter->startElement('w:r');
 
                 $this->writeFontStyle();
 
                 $xmlWriter->startElement('w:t');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($text);
+                $xmlWriter->writeRaw($this->getText($text));
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             }
         }
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 }

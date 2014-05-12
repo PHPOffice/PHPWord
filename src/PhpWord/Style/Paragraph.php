@@ -25,7 +25,19 @@ use PhpOffice\PhpWord\Shared\String;
  */
 class Paragraph extends AbstractStyle
 {
+    /**
+     * @const int One line height equals 240 twip
+     */
     const LINE_HEIGHT = 240;
+
+    /**
+     * @const string Alignment http://www.schemacentral.com/sc/ooxml/t-w_ST_Jc.html
+     */
+    const ALIGN_LEFT = 'left'; // Align left
+    const ALIGN_RIGHT = 'right'; // Align right
+    const ALIGN_CENTER = 'center'; // Align center
+    const ALIGN_BOTH = 'both'; // Align both
+    const ALIGN_JUSTIFY = 'justify'; // Alias for align both
 
     /**
      * Aliases
@@ -147,10 +159,11 @@ class Paragraph extends AbstractStyle
      */
     public function setAlign($value = null)
     {
-        if (strtolower($value) == 'justify') {
-            $value = 'both';
+        if (strtolower($value) == self::ALIGN_JUSTIFY) {
+            $value = self::ALIGN_BOTH;
         }
-        $this->align = $value;
+        $enum = array(self::ALIGN_LEFT, self::ALIGN_RIGHT, self::ALIGN_CENTER, self::ALIGN_BOTH, self::ALIGN_JUSTIFY);
+        $this->align = $this->setEnumVal($value, $enum, $this->align);
 
         return $this;
     }

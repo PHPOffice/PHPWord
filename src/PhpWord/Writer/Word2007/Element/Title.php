@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * TextRun element writer
  *
@@ -40,9 +38,6 @@ class Title extends AbstractElement
         $rId = $element->getRelationId();
         $anchor = '_Toc' . ($rId + 252634154);
         $style = $element->getStyle();
-
-        $text = htmlspecialchars($element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
 
         $xmlWriter->startElement('w:p');
 
@@ -67,7 +62,7 @@ class Title extends AbstractElement
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw($text);
+        $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 

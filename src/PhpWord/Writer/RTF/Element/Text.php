@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
@@ -46,12 +47,17 @@ class Text extends AbstractElement
 
         $content = '';
         $content .= $this->writeParagraphStyle($this->element);
-        $content .= $this->writeFontStyleBegin($fontStyle);
-        if ($parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
+        $content .= '{';
+        $content .= $this->writeFontStyle($fontStyle);
+        if ($fontStyle || $parentWriter->getLastParagraphStyle() != '') {
             $content .= ' ';
         }
-        $content .= $this->element->getText();
-        $content .= $this->writeFontStyleEnd($fontStyle);
+        $content .= String::toUnicode($this->element->getText());
+        $content .= '}';
+
+        // Remarked to test using closure {} to avoid closing tags
+        // @since 0.11.0
+        // $content .= $this->writeFontStyleClosing($fontStyle);
 
         if (!$this->withoutP) {
             $content .= '\par' . PHP_EOL;
@@ -80,9 +86,10 @@ class Text extends AbstractElement
         // Write style when applicable
         if ($paragraphStyle && !$this->withoutP) {
             if ($parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
+                $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
+
                 $styleWriter = new ParagraphStyleWriter($paragraphStyle);
                 $content = $styleWriter->write();
-                $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
             } else {
                 $parentWriter->setLastParagraphStyle();
             }
@@ -99,7 +106,7 @@ class Text extends AbstractElement
      * @param mixed $style
      * @return string
      */
-    private function writeFontStyleBegin($style)
+    private function writeFontStyle($style)
     {
         if (!$style instanceof FontStyle) {
             return '';
@@ -135,14 +142,14 @@ class Text extends AbstractElement
      * @param \PhpOffice\PhpWord\Style\Font $style
      * @return string
      */
-    private function writeFontStyleEnd($style)
+    private function writeFontStyleClosing($style)
     {
         if (!$style instanceof FontStyle) {
             return '';
         }
 
         $styleWriter = new FontStyleWriter($style);
-        $content = $styleWriter->writeEnd();
+        $content = $styleWriter->writeClosing();
 
         return $content;
     }

@@ -37,6 +37,6 @@ class TextRun extends Text
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 }

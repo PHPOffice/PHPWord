@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.11.0 - Not yet released
 
-This release changed PHPWord license from LGPL 2.1 to LGPL 3.
+This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new relative and absolute positioning for image; new `TextBox` and `ListItemRun` element; refactorings of writer classes into parts, elements, and styles; and ability to add elements to PHPWord object via HTML.
 
 ### Features
 
@@ -15,6 +15,7 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
 - ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
 - Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
+- RTF: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
 
 ### Bugfixes
 

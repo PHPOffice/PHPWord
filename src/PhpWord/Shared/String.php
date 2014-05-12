@@ -86,6 +86,54 @@ class String
     }
 
     /**
+     * Returns unicode from UTF8 text
+     *
+     * @param string $text UTF8 text
+     * @return string Unicode text
+     * @since 0.11.0
+     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     */
+    public static function toUnicode($text)
+    {
+        $unicode = array();
+        $values = array();
+        $lookingFor = 1;
+
+        // Gets unicode for each character
+        for ($i = 0; $i < strlen($text); $i++) {
+            $thisValue = ord($text[$i]);
+            if ($thisValue < 128) {
+                $unicode[] = $thisValue;
+            } else {
+                if (count($values) == 0) {
+                    $lookingFor = $thisValue < 224 ? 2 : 3;
+                }
+                $values[] = $thisValue;
+                if (count($values) == $lookingFor) {
+                    if ($lookingFor == 3) {
+                        $number = (($values[0] % 16) * 4096) + (($values[1] % 64) * 64) + ($values[2] % 64);
+                    } else {
+                        $number = (($values[0] % 32) * 64) + ($values[1] % 64);
+                    }
+                    $unicode[] = $number;
+                    $values = array();
+                    $lookingFor = 1;
+                }
+            }
+        }
+
+        // Converts text with utf8 characters into rtf utf8 entites preserving ascii
+        $entities = '';
+        foreach ($unicode as $value) {
+            if ($value != 65279) {
+                $entities .= $value > 127 ? '\uc0{\u' . $value . '}' : chr($value);
+            }
+        }
+
+        return $entities;
+    }
+
+    /**
      * Return name without underscore for < 0.10.0 variable name compatibility
      *
      * @param string $value

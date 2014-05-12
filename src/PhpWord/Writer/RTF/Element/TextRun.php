@@ -35,10 +35,10 @@ class TextRun extends AbstractElement
     {
         $content = '';
 
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
+        $content .= '{\pard\nowidctlpar';
         $writer = new Container($this->parentWriter, $this->element);
         $content .= $writer->write();
-        $content .= '\par' . PHP_EOL;
+        $content .= '\par}' . PHP_EOL;
 
         return $content;
     }

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -77,7 +78,7 @@ abstract class AbstractElement
     }
 
     /**
-     * Get Element
+     * Get element
      *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
      */
@@ -88,5 +89,16 @@ abstract class AbstractElement
         } else {
             throw new Exception('No element assigned.');
         }
+    }
+
+    /**
+     * Convert text to valid format
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function getText($text)
+    {
+        return String::controlCharacterPHP2OOXML(htmlspecialchars($text));
     }
 }
