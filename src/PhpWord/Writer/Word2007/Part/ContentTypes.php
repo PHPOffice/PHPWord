@@ -32,7 +32,9 @@ class ContentTypes extends AbstractPart
      */
     public function write()
     {
-        $contentTypes = $this->getParentWriter()->getContentTypes();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->getParentWriter();
+        $contentTypes = $parentWriter->getContentTypes();
 
         $openXMLPrefix = 'application/vnd.openxmlformats-';
         $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';

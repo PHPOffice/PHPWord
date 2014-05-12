@@ -40,7 +40,10 @@ class RelsDocument extends Rels
             'fontTable.xml'    => 'officeDocument/2006/relationships/fontTable',
         );
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, $xmlRels, $this->getParentWriter()->getRelationships());
+
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->getParentWriter();
+        $this->writeRels($xmlWriter, $xmlRels, $parentWriter->getRelationships());
 
         return $xmlWriter->getData();
     }

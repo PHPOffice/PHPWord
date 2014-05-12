@@ -37,9 +37,11 @@ class Image extends Text
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
             return;
         }
+        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->parentWriter;
 
         $content = '';
-        if (!$this->parentWriter->isPdf()) {
+        if (!$parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {
                 $styleWriter = new ImageStyleWriter($this->element->getStyle());

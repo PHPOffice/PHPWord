@@ -53,7 +53,9 @@ class Font extends AbstractStyle
         $content .= '\f' . $this->nameIndex;
         $content .= $this->getValueIf($style->isBold(), '\b');
         $content .= $this->getValueIf($style->isItalic(), '\i');
-        $content .= $this->getValueIf($style->getSize(), '\fs' . ($style->getSize() * 2));
+
+        $size = $style->getSize();
+        $content .= $this->getValueIf(is_numeric($size), '\fs' . ($size * 2));
 
         return $content;
     }
@@ -75,7 +77,9 @@ class Font extends AbstractStyle
         $content .= '\f0';
         $content .= $this->getValueIf($style->isBold(), '\b0');
         $content .= $this->getValueIf($style->isItalic(), '\i0');
-        $content .= $this->getValueIf($style->getSize(), '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2));
+
+        $size = $style->getSize();
+        $content .= $this->getValueIf(is_numeric($size), '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2));
 
         return $content;
     }

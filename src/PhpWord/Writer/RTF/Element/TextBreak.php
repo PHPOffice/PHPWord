@@ -31,7 +31,9 @@ class TextBreak extends AbstractElement
      */
     public function write()
     {
-        $this->parentWriter->setLastParagraphStyle();
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->parentWriter;
+        $parentWriter->setLastParagraphStyle();
 
         return '\par' . PHP_EOL;
     }

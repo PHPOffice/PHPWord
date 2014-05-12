@@ -39,12 +39,15 @@ class Text extends AbstractElement
             return;
         }
 
+        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle Scrutinizer type hint */
         $fontStyle = $this->getFontStyle($this->element);
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->parentWriter;
 
         $content = '';
         $content .= $this->writeParagraphStyle($this->element);
         $content .= $this->writeFontStyleBegin($fontStyle);
-        if ($this->parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
+        if ($parentWriter->getLastParagraphStyle() != '' || $fontStyle) {
             $content .= ' ';
         }
         $content .= $this->element->getText();
@@ -64,6 +67,8 @@ class Text extends AbstractElement
      */
     private function writeParagraphStyle(TextElement $element)
     {
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->parentWriter;
         $content = '';
 
         // Get paragraph style
@@ -74,15 +79,15 @@ class Text extends AbstractElement
 
         // Write style when applicable
         if ($paragraphStyle && !$this->withoutP) {
-            if ($this->parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
+            if ($parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
                 $styleWriter = new ParagraphStyleWriter($paragraphStyle);
                 $content = $styleWriter->write();
-                $this->parentWriter->setLastParagraphStyle($element->getParagraphStyle());
+                $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
             } else {
-                $this->parentWriter->setLastParagraphStyle();
+                $parentWriter->setLastParagraphStyle();
             }
         } else {
-            $this->parentWriter->setLastParagraphStyle();
+            $parentWriter->setLastParagraphStyle();
         }
 
         return $content;
@@ -91,7 +96,7 @@ class Text extends AbstractElement
     /**
      * Write font style beginning
      *
-     * @param \PhpOffice\PhpWord\Style\Font $style
+     * @param mixed $style
      * @return string
      */
     private function writeFontStyleBegin($style)
@@ -100,16 +105,19 @@ class Text extends AbstractElement
             return '';
         }
 
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        $parentWriter = $this->parentWriter;
+
         // Create style writer and set color/name index
         $styleWriter = new FontStyleWriter($style);
         if ($style->getColor() != null) {
-            $colorIndex = array_search($style->getColor(), $this->parentWriter->getColorTable());
+            $colorIndex = array_search($style->getColor(), $parentWriter->getColorTable());
             if ($colorIndex !== false) {
                 $styleWriter->setColorIndex($colorIndex + 1);
             }
         }
         if ($style->getName() != null) {
-            $fontIndex = array_search($style->getName(), $this->parentWriter->getFontTable());
+            $fontIndex = array_search($style->getName(), $parentWriter->getFontTable());
             if ($fontIndex !== false) {
                 $styleWriter->setNameIndex($fontIndex + 1);
             }

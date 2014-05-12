@@ -35,7 +35,7 @@ abstract class AbstractContainer extends AbstractElement
     protected $elements = array();
 
     /**
-     * Container type section|header|footer|footnote|endnote|cell|textrun|textbox
+     * Container type Section|Header|Footer|Footnote|Endnote|Cell|TextRun|TextBox|ListItemRun
      *
      * @var string
      */
@@ -63,9 +63,7 @@ abstract class AbstractContainer extends AbstractElement
         }
 
         // Create element
-        if ($argsCount == 1) {       // Page Break
-            $element = new $elementClass();
-        } elseif ($argsCount == 2) { // TextRun, TextBox, Table, Footnote, Endnote
+        if ($argsCount == 2) {       // TextRun, TextBox, Table, Footnote, Endnote
             $element = new $elementClass($args[1]);
         } elseif ($argsCount == 3) { // Object, TextBreak, Title
             $element = new $elementClass($args[1], $args[2]);
@@ -75,11 +73,13 @@ abstract class AbstractContainer extends AbstractElement
             $element = new $elementClass($args[1], $args[2], $args[3], $args[4]);
         } elseif ($argsCount == 6) { // ListItem
             $element = new $elementClass($args[1], $args[2], $args[3], $args[4], $args[5]);
+        } else {                     // Page Break
+            $element = new $elementClass();
         }
 
         // Set relation Id for media collection
+        $mediaContainer = $this->getMediaContainer();
         if (in_array($elementName, array('Link', 'Image', 'Object'))) {
-            $mediaContainer = $this->getMediaContainer();
             if ($elementName == 'Image') {
                 $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $element);
             } else {
@@ -228,7 +228,6 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param mixed $style
      * @return \PhpOffice\PhpWord\Element\Table
-     * @todo Merge with the same function on Footer
      */
     public function addTable($style = null)
     {

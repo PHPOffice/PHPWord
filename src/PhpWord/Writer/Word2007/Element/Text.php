@@ -92,8 +92,9 @@ class Text extends AbstractElement
     protected function writeParagraphStyle()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
 
+        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        $element = $this->getElement();
         $paragraphStyle = $element->getParagraphStyle();
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);
@@ -106,8 +107,9 @@ class Text extends AbstractElement
     protected function writeFontStyle()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
 
+        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        $element = $this->getElement();
         $fontStyle = $element->getFontStyle();
         $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
         $styleWriter->setIsInline(true);
