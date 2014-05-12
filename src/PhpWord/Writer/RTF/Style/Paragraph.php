@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\Style\Alignment;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 
 /**
@@ -39,10 +40,10 @@ class Paragraph extends AbstractStyle
         }
 
         $alignments = array(
-            ParagraphStyle::ALIGN_LEFT => '\ql',
-            ParagraphStyle::ALIGN_RIGHT => '\qr',
-            ParagraphStyle::ALIGN_CENTER => '\qc',
-            ParagraphStyle::ALIGN_BOTH => '\qj',
+            Alignment::ALIGN_LEFT => '\ql',
+            Alignment::ALIGN_RIGHT => '\qr',
+            Alignment::ALIGN_CENTER => '\qc',
+            Alignment::ALIGN_BOTH => '\qj',
         );
 
         $align = $style->getAlign();

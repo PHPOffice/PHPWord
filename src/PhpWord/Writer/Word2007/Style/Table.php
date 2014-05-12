@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+
 /**
  * Table style writer
  *
@@ -42,29 +44,45 @@ class Table extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $hasBorders = $style->hasBorders();
+
+        // w:tblPr
         $hasMargins = $style->hasMargins();
-        if ($hasMargins || $hasBorders) {
-            $xmlWriter->startElement('w:tblPr');
-            if ($hasMargins) {
-                $mbWriter = new MarginBorder($xmlWriter);
-                $mbWriter->setSizes($style->getCellMargin());
+        $hasBorders = $style->hasBorders();
+        $align = $style->getAlign();
 
-                $xmlWriter->startElement('w:tblCellMar');
-                $mbWriter->write();
-                $xmlWriter->endElement(); // w:tblCellMar
-            }
-            if ($hasBorders) {
-                $mbWriter = new MarginBorder($xmlWriter);
-                $mbWriter->setSizes($style->getBorderSize());
-                $mbWriter->setColors($style->getBorderColor());
+        $xmlWriter->startElement('w:tblPr');
 
-                $xmlWriter->startElement('w:tblBorders');
-                $mbWriter->write();
-                $xmlWriter->endElement(); // w:tblBorders
-            }
-            $xmlWriter->endElement(); // w:tblPr
+        $xmlWriter->startElement('w:tblW');
+        $xmlWriter->writeAttribute('w:w', $style->getWidth());
+        $xmlWriter->writeAttribute('w:type', $style->getUnit());
+        $xmlWriter->endElement(); // w:tblW
+
+        // Alignment
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $align)));
+        $styleWriter->write();
+
+        // Margins
+        if ($hasMargins) {
+            $mbWriter = new MarginBorder($xmlWriter);
+            $mbWriter->setSizes($style->getCellMargin());
+
+            $xmlWriter->startElement('w:tblCellMar');
+            $mbWriter->write();
+            $xmlWriter->endElement(); // w:tblCellMar
         }
+
+        // Borders
+        if ($hasBorders) {
+            $mbWriter = new MarginBorder($xmlWriter);
+            $mbWriter->setSizes($style->getBorderSize());
+            $mbWriter->setColors($style->getBorderColor());
+
+            $xmlWriter->startElement('w:tblBorders');
+            $mbWriter->write();
+            $xmlWriter->endElement(); // w:tblBorders
+        }
+
+        $xmlWriter->endElement(); // w:tblPr
 
         // Only write background color and first row for full style
         if ($this->isFullStyle) {

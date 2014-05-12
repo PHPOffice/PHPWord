@@ -87,11 +87,12 @@ $table->addCell(null, $cellRowContinue);
 // 4. Nested table
 
 $section->addTextBreak(2);
-$section->addText('Nested table', $header);
+$section->addText('Nested table in a centered and 50% width table.', $header);
 
-$cell = $section->addTable()->addRow()->addCell();
+$table = $section->addTable(array('width' => 50 * 50, 'unit' => 'pct', 'align' => 'center'));
+$cell = $table->addRow()->addCell();
 $cell->addText('This cell contains nested table.');
-$innerCell = $cell->addTable()->addRow()->addCell();
+$innerCell = $cell->addTable(array('align' => 'center'))->addRow()->addCell();
 $innerCell->addText('Inside nested table');
 
 // Save file

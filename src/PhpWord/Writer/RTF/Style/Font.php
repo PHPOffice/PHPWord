@@ -67,35 +67,6 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Write end style
-     *
-     * @return string
-     */
-    public function writeClosing()
-    {
-        $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
-        }
-
-        $content = '';
-        $content .= '\cf0';
-        $content .= '\f0';
-
-        $size = $style->getSize();
-        $content .= $this->getValueIf(is_numeric($size), '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2));
-
-        $content .= $this->getValueIf($style->isBold(), '\b0');
-        $content .= $this->getValueIf($style->isItalic(), '\i0');
-        $content .= $this->getValueIf($style->getUnderline() != FontStyle::UNDERLINE_NONE, '\ul0');
-        $content .= $this->getValueIf($style->isStrikethrough(), '\strike0');
-        $content .= $this->getValueIf($style->isSuperScript(), '\super0');
-        $content .= $this->getValueIf($style->isSubScript(), '\sub0');
-
-        return $content;
-    }
-
-    /**
      * Set font name index
      *
      * @param int $value

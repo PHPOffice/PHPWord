@@ -15,34 +15,30 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\RTF\Element;
-
-use PhpOffice\PhpWord\Shared\String;
+namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
- * TextBreak element RTF writer
+ * Alignment style writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Title extends AbstractElement
+class Alignment extends AbstractStyle
 {
     /**
-     * Write element
-     *
-     * @return string
+     * Write style
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Alignment) {
             return;
         }
-
-        $content = '';
-
-        $content .= '\pard\nowidctlpar';
-        $content .= String::toUnicode($this->element->getText());
-        $content .= '\par' . PHP_EOL;
-
-        return $content;
+        $value = $style->getValue();
+        if ($value !== null) {
+            $xmlWriter = $this->getXmlWriter();
+            $xmlWriter->startElement('w:jc');
+            $xmlWriter->writeAttribute('w:val', $value);
+            $xmlWriter->endElement(); // w:jc
+        }
     }
 }

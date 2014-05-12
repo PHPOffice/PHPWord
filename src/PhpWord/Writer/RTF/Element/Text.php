@@ -55,10 +55,6 @@ class Text extends AbstractElement
         $content .= String::toUnicode($this->element->getText());
         $content .= '}';
 
-        // Remarked to test using closure {} to avoid closing tags
-        // @since 0.11.0
-        // $content .= $this->writeFontStyleClosing($fontStyle);
-
         if (!$this->withoutP) {
             $content .= '\par' . PHP_EOL;
         }
@@ -132,24 +128,6 @@ class Text extends AbstractElement
 
         // Write style
         $content = $styleWriter->write();
-
-        return $content;
-    }
-
-    /**
-     * Write font style ending
-     *
-     * @param \PhpOffice\PhpWord\Style\Font $style
-     * @return string
-     */
-    private function writeFontStyleClosing($style)
-    {
-        if (!$style instanceof FontStyle) {
-            return '';
-        }
-
-        $styleWriter = new FontStyleWriter($style);
-        $content = $styleWriter->writeClosing();
 
         return $content;
     }

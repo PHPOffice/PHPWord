@@ -31,27 +31,11 @@ class Paragraph extends AbstractStyle
     const LINE_HEIGHT = 240;
 
     /**
-     * @const string Alignment http://www.schemacentral.com/sc/ooxml/t-w_ST_Jc.html
-     */
-    const ALIGN_LEFT = 'left'; // Align left
-    const ALIGN_RIGHT = 'right'; // Align right
-    const ALIGN_CENTER = 'center'; // Align center
-    const ALIGN_BOTH = 'both'; // Align both
-    const ALIGN_JUSTIFY = 'justify'; // Alias for align both
-
-    /**
      * Aliases
      *
      * @var array
      */
     protected $aliases = array('line-height' => 'lineHeight');
-
-    /**
-     * Paragraph alignment
-     *
-     * @var string
-     */
-    private $align;
 
     /**
      * Text line height
@@ -124,6 +108,21 @@ class Paragraph extends AbstractStyle
     private $spacing;
 
     /**
+     * Alignment
+     *
+     * @var \PhpOffice\PhpWord\Style\Alignment
+     */
+    private $alignment;
+
+    /**
+     * Create new instance
+     */
+    public function __construct()
+    {
+        $this->alignment = new Alignment();
+    }
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -142,28 +141,24 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Get Paragraph Alignment
+     * Get alignment
      *
      * @return string
      */
     public function getAlign()
     {
-        return $this->align;
+        return $this->alignment->getValue();
     }
 
     /**
-     * Set Paragraph Alignment
+     * Set alignment
      *
      * @param string $value
      * @return self
      */
     public function setAlign($value = null)
     {
-        if (strtolower($value) == self::ALIGN_JUSTIFY) {
-            $value = self::ALIGN_BOTH;
-        }
-        $enum = array(self::ALIGN_LEFT, self::ALIGN_RIGHT, self::ALIGN_CENTER, self::ALIGN_BOTH, self::ALIGN_JUSTIFY);
-        $this->align = $this->setEnumVal($value, $enum, $this->align);
+        $this->alignment->setValue($value);
 
         return $this;
     }

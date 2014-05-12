@@ -16,6 +16,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
 - Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
 - RTF: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
+- Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
 
 ### Bugfixes
 

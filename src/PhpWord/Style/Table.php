@@ -23,6 +23,13 @@ namespace PhpOffice\PhpWord\Style;
 class Table extends Border
 {
     /**
+     * @const string Table width units http://www.schemacentral.com/sc/ooxml/t-w_ST_TblWidth.html
+     */
+    const WIDTH_AUTO = 'auto'; // Automatically determined width
+    const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
+    const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
+
+    /**
      * Style for first row
      *
      * @var \PhpOffice\PhpWord\Style\Table
@@ -93,14 +100,30 @@ class Table extends Border
     private $shading;
 
     /**
+     * @var \PhpOffice\PhpWord\Style\Alignment Alignment
+     */
+    private $alignment;
+
+    /**
+     * @var int|float Width value
+     */
+    private $width = 0;
+
+    /**
+     * @var string Width unit
+     */
+    private $unit = self::WIDTH_AUTO;
+
+    /**
      * Create new table style
      *
-     * @param mixed $styleTable
-     * @param mixed $styleFirstRow
+     * @param mixed $tableStyle
+     * @param mixed $firstRowStyle
      */
-    public function __construct($styleTable = null, $styleFirstRow = null)
+    public function __construct($tableStyle = null, $firstRowStyle = null)
     {
-        if (!is_null($styleFirstRow) && is_array($styleFirstRow)) {
+        $this->alignment = new Alignment();
+        if (!is_null($firstRowStyle) && is_array($firstRowStyle)) {
             $this->firstRow = clone $this;
 
             unset($this->firstRow->firstRow);
@@ -112,11 +135,11 @@ class Table extends Border
             unset($this->firstRow->borderInsideVSize);
             unset($this->firstRow->borderInsideHColor);
             unset($this->firstRow->borderInsideHSize);
-            $this->firstRow->setStyleByArray($styleFirstRow);
+            $this->firstRow->setStyleByArray($firstRowStyle);
         }
 
-        if (!is_null($styleTable) && is_array($styleTable)) {
-            $this->setStyleByArray($styleTable);
+        if (!is_null($tableStyle) && is_array($tableStyle)) {
+            $this->setStyleByArray($tableStyle);
         }
     }
 
@@ -409,6 +432,24 @@ class Table extends Border
     }
 
     /**
+     * Has margins?
+     *
+     * @return bool
+     */
+    public function hasMargins()
+    {
+        $hasMargins = false;
+        $margins = $this->getCellMargin();
+        for ($i = 0; $i < count($margins); $i++) {
+            if (!is_null($margins[$i])) {
+                $hasMargins = true;
+            }
+        }
+
+        return $hasMargins;
+    }
+
+    /**
      * Get shading
      *
      * @return \PhpOffice\PhpWord\Style\Shading
@@ -432,20 +473,72 @@ class Table extends Border
     }
 
     /**
-     * Has margins?
+     * Get alignment
      *
-     * @return bool
+     * @return string
      */
-    public function hasMargins()
+    public function getAlign()
     {
-        $hasMargins = false;
-        $margins = $this->getCellMargin();
-        for ($i = 0; $i < count($margins); $i++) {
-            if (!is_null($margins[$i])) {
-                $hasMargins = true;
-            }
-        }
+        return $this->alignment->getValue();
+    }
 
-        return $hasMargins;
+    /**
+     * Set alignment
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setAlign($value = null)
+    {
+        $this->alignment->setValue($value);
+
+        return $this;
+    }
+
+    /**
+     * Get width
+     *
+     * @return int|float
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set width
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setWidth($value = null)
+    {
+        $this->width = $this->setNumericVal($value, $this->width);
+
+        return $this;
+    }
+
+    /**
+     * Get width unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * Set width unit
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setUnit($value = null)
+    {
+        $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
+        $this->unit = $this->setEnumVal($value, $enum, $this->unit);
+
+        return $this;
     }
 }
