@@ -420,7 +420,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setKeepNext($value = false)
+    public function setKeepNext($value = true)
     {
         $this->keepNext = $this->setBoolVal($value, $this->keepNext);
 
@@ -443,7 +443,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setKeepLines($value = false)
+    public function setKeepLines($value = true)
     {
         $this->keepLines = $this->setBoolVal($value, $this->keepLines);
 
@@ -466,7 +466,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setPageBreakBefore($value = false)
+    public function setPageBreakBefore($value = true)
     {
         $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
 

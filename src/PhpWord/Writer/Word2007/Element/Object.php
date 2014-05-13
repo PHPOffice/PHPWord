@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
+
 /**
  * Object element writer
  *
@@ -40,17 +42,11 @@ class Object extends AbstractElement
         $shapeId = md5($rIdObject . '_' . $rIdImage);
         $objectId = $element->getRelationId() + 1325353440;
         $style = $element->getStyle();
-        $align = $style->getAlign();
+        $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
-        }
-        if (!is_null($align)) {
-            $xmlWriter->startElement('w:pPr');
-            $xmlWriter->startElement('w:jc');
-            $xmlWriter->writeAttribute('w:val', $align);
-            $xmlWriter->endElement();
-            $xmlWriter->endElement();
+            $styleWriter->writeAlignment();
         }
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:object');

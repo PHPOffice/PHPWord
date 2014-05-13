@@ -68,7 +68,7 @@ class Row extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setTblHeader($value = false)
+    public function setTblHeader($value = true)
     {
         $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
 
@@ -91,7 +91,7 @@ class Row extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setCantSplit($value = false)
+    public function setCantSplit($value = true)
     {
         $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
 
@@ -114,7 +114,7 @@ class Row extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setExactHeight($value = false)
+    public function setExactHeight($value = true)
     {
         $this->exactHeight = $this->setBoolVal($value, $this->exactHeight);
 

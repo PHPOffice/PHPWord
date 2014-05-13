@@ -51,7 +51,7 @@ for($i = 1; $i <= 8; $i++) {
 
 // 3. colspan (gridSpan) and rowspan (vMerge)
 
-$section->addTextBreak(1);
+$section->addPageBreak();
 $section->addText("Table with colspan and rowspan", $header);
 
 $styleTable = array('borderSize' => 6, 'borderColor' => '999999');

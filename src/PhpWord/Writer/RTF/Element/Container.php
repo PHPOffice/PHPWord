@@ -25,29 +25,9 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 class Container extends \PhpOffice\PhpWord\Writer\HTML\Element\Container
 {
     /**
-     * Write container
+     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF)
      *
-     * @return string
+     * @var string
      */
-    public function write()
-    {
-        $container = $this->element;
-        if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
-            return;
-        }
-        $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
-        $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
-        $content = '';
-
-        $elements = $container->getElements();
-        foreach ($elements as $element) {
-            $writerClass = str_replace('\\Element', '\\Writer\\RTF\\Element', get_class($element));
-            if (class_exists($writerClass)) {
-                $writer = new $writerClass($this->parentWriter, $element, $withoutP);
-                $content .= $writer->write();
-            }
-        }
-
-        return $content;
-    }
+    protected $namespace = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element';
 }

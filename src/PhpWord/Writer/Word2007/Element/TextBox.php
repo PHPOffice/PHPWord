@@ -41,13 +41,7 @@ class TextBox extends AbstractElement
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
-            if (!is_null($style->getAlign())) {
-                $xmlWriter->startElement('w:pPr');
-                $xmlWriter->startElement('w:jc');
-                $xmlWriter->writeAttribute('w:val', $style->getAlign());
-                $xmlWriter->endElement(); // w:jc
-                $xmlWriter->endElement(); // w:pPr
-            }
+            $styleWriter->writeAlignment();
         }
 
         $xmlWriter->startElement('w:r');

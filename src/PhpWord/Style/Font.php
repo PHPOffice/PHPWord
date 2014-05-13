@@ -333,7 +333,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setBold($value = false)
+    public function setBold($value = true)
     {
         $this->bold = $this->setBoolVal($value, $this->bold);
 
@@ -356,7 +356,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setItalic($value = false)
+    public function setItalic($value = true)
     {
         $this->italic = $this->setBoolVal($value, $this->italic);
 
@@ -402,7 +402,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSuperScript($value = false)
+    public function setSuperScript($value = true)
     {
         $this->superScript = $this->setBoolVal($value, $this->superScript);
         $this->toggleFalse($this->subScript, $this->superScript);
@@ -426,13 +426,10 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSubScript($value = false)
+    public function setSubScript($value = true)
     {
         $this->subScript = $this->setBoolVal($value, $this->subScript);
         $this->toggleFalse($this->subScript, $this->superScript);
-        if ($this->subScript) {
-            $this->superScript = false;
-        }
 
         return $this;
     }
@@ -453,7 +450,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setStrikethrough($value = false)
+    public function setStrikethrough($value = true)
     {
         $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
         $this->toggleFalse($this->doubleStrikethrough, $this->strikethrough);
@@ -477,7 +474,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setDoubleStrikethrough($value = false)
+    public function setDoubleStrikethrough($value = true)
     {
         $this->doubleStrikethrough = $this->setBoolVal($value, $this->doubleStrikethrough);
         $this->toggleFalse($this->strikethrough, $this->doubleStrikethrough);
@@ -501,7 +498,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSmallCaps($value = false)
+    public function setSmallCaps($value = true)
     {
         $this->smallCaps = $this->setBoolVal($value, $this->smallCaps);
         $this->toggleFalse($this->allCaps, $this->smallCaps);
@@ -525,7 +522,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setAllCaps($value = false)
+    public function setAllCaps($value = true)
     {
         $this->allCaps = $this->setBoolVal($value, $this->allCaps);
         $this->toggleFalse($this->smallCaps, $this->allCaps);

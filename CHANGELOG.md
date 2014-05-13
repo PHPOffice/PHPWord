@@ -42,6 +42,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
 - Writer: Refactor writer parts using composite pattern - @ivanlanin
 - Docs: Show code quality and test code coverage badge on README
+- Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
 
 ## 0.10.0 - 4 May 2014
 

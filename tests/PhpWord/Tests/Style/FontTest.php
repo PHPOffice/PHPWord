@@ -59,17 +59,21 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'size' => PhpWord::DEFAULT_FONT_SIZE,
             'bold' => false,
             'italic' => false,
+            'underline' => Font::UNDERLINE_NONE,
             'superScript' => false,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_NONE,
             'strikethrough' => false,
+            'doubleStrikethrough' => false,
+            'smallCaps' => false,
+            'allCaps' => false,
+            'doubleStrikethrough' => false,
             'color' => PhpWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
             'bgColor' => null,
             'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
         );
         foreach ($attributes as $key => $default) {
-            $get = "get{$key}";
+            $get = is_bool($default) ? "is{$key}" : "get{$key}";
             $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", '');
@@ -89,10 +93,13 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'size' => 9,
             'bold' => true,
             'italic' => true,
+            'underline' => Font::UNDERLINE_HEAVY,
             'superScript' => true,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
+            'doubleStrikethrough' => false,
+            'smallCaps' => true,
+            'allCaps' => false,
             'color' => '999999',
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
@@ -101,7 +108,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
-            $get = "get{$key}";
+            $get = is_bool($value) ? "is{$key}" : "get{$key}";
             $this->assertEquals($value, $object->$get());
         }
     }

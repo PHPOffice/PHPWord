@@ -38,25 +38,23 @@ class Container extends AbstractElement
      */
     public function write()
     {
-        $xmlWriter = $this->getXmlWriter();
         $container = $this->getElement();
         if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $withoutP = in_array($containerClass, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun')) ? true : false;
+        $xmlWriter = $this->getXmlWriter();
 
         // Loop through elements
         $elements = $container->getElements();
         $elementClass = '';
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                $elementClass = get_class($element);
-                $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
-                if (class_exists($writerClass)) {
-                    $writer = new $writerClass($xmlWriter, $element, $withoutP);
-                    $writer->write();
-                }
+        foreach ($elements as $element) {
+            $elementClass = get_class($element);
+            $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
+            if (class_exists($writerClass)) {
+                $writer = new $writerClass($xmlWriter, $element, $withoutP);
+                $writer->write();
             }
         }
 

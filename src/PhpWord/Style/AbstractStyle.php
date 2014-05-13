@@ -152,13 +152,13 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set boolean value
+     * Set bool value
      *
-     * @param mixed $value
-     * @param boolean|null $default
-     * @return boolean|null
+     * @param bool $value
+     * @param bool $default
+     * @return bool
      */
-    protected function setBoolVal($value, $default = null)
+    protected function setBoolVal($value, $default)
     {
         if (!is_bool($value)) {
             $value = $default;
@@ -184,7 +184,7 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set float value: Convert string that contains only numeric into integer
+     * Set integer value: Convert string that contains only numeric into integer
      *
      * @param mixed $value
      * @param int|null $default

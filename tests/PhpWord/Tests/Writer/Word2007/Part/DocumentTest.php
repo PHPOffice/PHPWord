@@ -179,7 +179,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $textrun->addTextBreak();
         $textrun = $section->addTextRun($aStyle);
         $textrun->addLink('http://test.com');
-        $textrun->addImage($imageSrc, array('align' => 'top'));
+        $textrun->addImage($imageSrc, array('align' => 'center'));
         $textrun->addFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 

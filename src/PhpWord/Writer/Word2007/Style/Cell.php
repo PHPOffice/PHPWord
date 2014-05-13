@@ -27,6 +27,11 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
 class Cell extends AbstractStyle
 {
     /**
+     * @var int Cell width
+     */
+    private $width;
+
+    /**
      * Write style
      */
     public function write()
@@ -36,6 +41,14 @@ class Cell extends AbstractStyle
             return;
         }
         $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startElement('w:tcPr');
+
+        // Width
+        $xmlWriter->startElement('w:tcW');
+        $xmlWriter->writeAttribute('w:w', $this->width);
+        $xmlWriter->writeAttribute('w:type', 'dxa');
+        $xmlWriter->endElement(); // w:tcW
 
         // Text direction
         $textDir = $style->getTextDirection();
@@ -70,5 +83,17 @@ class Cell extends AbstractStyle
         $vMerge = $style->getVMerge();
         $xmlWriter->writeElementIf(!is_null($gridSpan), 'w:gridSpan', 'w:val', $gridSpan);
         $xmlWriter->writeElementIf(!is_null($vMerge), 'w:vMerge', 'w:val', $vMerge);
+
+        $xmlWriter->endElement(); // w:tcPr
+    }
+
+    /**
+     * Set width
+     *
+     * @param int $value
+     */
+    public function setWidth($value = null)
+    {
+        $this->width = $value;
     }
 }

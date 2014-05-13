@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 use PhpOffice\PhpWord\Style\Alignment;
-use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 
 /**
  * RTF paragraph style writer

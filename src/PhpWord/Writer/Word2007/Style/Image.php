@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
@@ -43,23 +44,6 @@ class Image extends AbstractStyle
             return;
         }
         $this->writeStyle($style);
-    }
-
-    /**
-     * Write w10 wrapping
-     *
-     * @return array
-     */
-    public function writeW10Wrap()
-    {
-        if (is_null($this->w10wrap)) {
-            return;
-        }
-
-        $xmlWriter = $this->getXmlWriter();
-        $xmlWriter->startElement('w10:wrap');
-        $xmlWriter->writeAttribute('type', $this->w10wrap);
-        $xmlWriter->endElement(); // w10:wrap
     }
 
     /**
@@ -115,6 +99,38 @@ class Image extends AbstractStyle
         $imageStyle = $this->assembleStyle($styleArray);
 
         $xmlWriter->writeAttribute('style', $imageStyle);
+    }
+
+    /**
+     * Write alignment
+     */
+    public function writeAlignment()
+    {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+            return;
+        }
+
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('w:pPr');
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
+        $styleWriter->write();
+        $xmlWriter->endElement(); // w:pPr
+    }
+
+    /**
+     * Write w10 wrapping
+     */
+    public function writeW10Wrap()
+    {
+        if (is_null($this->w10wrap)) {
+            return;
+        }
+
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('w10:wrap');
+        $xmlWriter->writeAttribute('type', $this->w10wrap);
+        $xmlWriter->endElement(); // w10:wrap
     }
 
     /**

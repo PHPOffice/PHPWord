@@ -25,6 +25,13 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 class Container extends AbstractElement
 {
     /**
+     * Namespace; Can't use __NAMESPACE__ in inherited class (RTF)
+     *
+     * @var string
+     */
+    protected $namespace = 'PhpOffice\\PhpWord\\Writer\\HTML\\Element';
+
+    /**
      * Write container
      *
      * @return string
@@ -40,8 +47,10 @@ class Container extends AbstractElement
         $content = '';
 
         $elements = $container->getElements();
+        $elementClass = '';
         foreach ($elements as $element) {
-            $writerClass = str_replace('\\Element', '\\Writer\\HTML\\Element', get_class($element));
+            $elementClass = get_class($element);
+            $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
             if (class_exists($writerClass)) {
                 $writer = new $writerClass($this->parentWriter, $element, $withoutP);
                 $content .= $writer->write();

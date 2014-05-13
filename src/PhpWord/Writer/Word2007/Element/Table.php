@@ -21,8 +21,10 @@ use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
+use PhpOffice\PhpWord\Style\Row as RowStyle;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Row as RowStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 
 /**
@@ -109,33 +111,21 @@ class Table extends AbstractElement
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
-        $height = $row->getHeight();
-        $rowStyle = $row->getStyle();
-
         $xmlWriter->startElement('w:tr');
-        if (!is_null($height) || $rowStyle->isTblHeader() || $rowStyle->isCantSplit()) {
-            $xmlWriter->startElement('w:trPr');
-            if (!is_null($height)) {
-                $xmlWriter->startElement('w:trHeight');
-                $xmlWriter->writeAttribute('w:val', $height);
-                $xmlWriter->writeAttribute('w:hRule', ($rowStyle->isExactHeight() ? 'exact' : 'atLeast'));
-                $xmlWriter->endElement();
-            }
-            if ($rowStyle->isTblHeader()) {
-                $xmlWriter->startElement('w:tblHeader');
-                $xmlWriter->writeAttribute('w:val', '1');
-                $xmlWriter->endElement();
-            }
-            if ($rowStyle->isCantSplit()) {
-                $xmlWriter->startElement('w:cantSplit');
-                $xmlWriter->writeAttribute('w:val', '1');
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement();
+
+        // Write style
+        $rowStyle = $row->getStyle();
+        if ($rowStyle instanceof RowStyle) {
+            $styleWriter = new RowStyleWriter($xmlWriter, $rowStyle);
+            $styleWriter->setHeight($row->getHeight());
+            $styleWriter->write();
         }
+
+        // Write cells
         foreach ($row->getCells() as $cell) {
             $this->writeCell($xmlWriter, $cell);
         }
+
         $xmlWriter->endElement(); // w:tr
     }
 
@@ -144,20 +134,18 @@ class Table extends AbstractElement
      */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
-        $cellStyle = $cell->getStyle();
 
         $xmlWriter->startElement('w:tc');
-        $xmlWriter->startElement('w:tcPr');
-        $xmlWriter->startElement('w:tcW');
-        $xmlWriter->writeAttribute('w:w', $cell->getWidth());
-        $xmlWriter->writeAttribute('w:type', 'dxa');
-        $xmlWriter->endElement(); // w:tcW
+
+        // Write style
+        $cellStyle = $cell->getStyle();
         if ($cellStyle instanceof CellStyle) {
             $styleWriter = new CellStyleWriter($xmlWriter, $cellStyle);
+            $styleWriter->setWidth($cell->getWidth());
             $styleWriter->write();
         }
-        $xmlWriter->endElement(); // w:tcPr
 
+        // Write content
         $containerWriter = new Container($xmlWriter, $cell);
         $containerWriter->write();
 

@@ -219,7 +219,13 @@ class Html
                             $text = $cNode->nodeValue;
                         }
                     }
-                    $object->addListItem($text, $data['listdepth'], $styles['fontStyle'], $styles['listStyle'], $styles['paragraphStyle']);
+                    $object->addListItem(
+                        $text,
+                        $data['listdepth'],
+                        $styles['fontStyle'],
+                        $styles['listStyle'],
+                        $styles['paragraphStyle']
+                    );
                 }
         }
 

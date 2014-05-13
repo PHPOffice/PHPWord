@@ -8,11 +8,12 @@
     <rule ref="rulesets/design.xml/ExitExpression" />
     <rule ref="rulesets/design.xml/EvalExpression" />
     <rule ref="rulesets/design.xml/GotoStatement" />
-    <rule ref="rulesets/design.xml/NumberOfChildren" />
     <rule ref="rulesets/design.xml/DepthOfInheritance" />
-    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects" />
+    <rule ref="rulesets/design.xml/NumberOfChildren">
+        <!-- AbstractElement and AbstractStyle still needs a lot of children classes -->
         <properties>
-            <property name="minimum" value="15" />
+            <property name="minimum" value="20" />
         </properties>
     </rule>
     <rule ref="rulesets/unusedcode.xml" />
