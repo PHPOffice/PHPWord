@@ -17,10 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Element\Text as TextElement;
-use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Style;
-
 /**
  * Text element RTF writer
  *
@@ -35,8 +31,11 @@ class Text extends AbstractElement
      */
     public function write()
     {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+
         $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
-        if (!$this->element instanceof $elementClass) {
+        $element = $this->element;
+        if (!$element instanceof $elementClass) {
             return;
         }
 
@@ -46,7 +45,7 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{';
         $content .= $this->writeFontStyle();
-        $content .= $this->writeText($this->element->getText());
+        $content .= $this->writeText($element->getText());
         $content .= '}';
         $content .= $this->writeClosing();
 

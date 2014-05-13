@@ -51,26 +51,29 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
     protected function getStyles()
     {
         /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+
         $parentWriter = $this->parentWriter;
+        $element = $this->element;
 
         // Font style
-        if (method_exists($this->element, 'getFontStyle')) {
-            $this->fontStyle = $this->element->getFontStyle();
+        if (method_exists($element, 'getFontStyle')) {
+            $this->fontStyle = $element->getFontStyle();
             if (is_string($this->fontStyle)) {
                 $this->fontStyle = Style::getStyle($this->fontStyle);
             }
         }
 
         // Paragraph style
-        if (method_exists($this->element, 'getParagraphStyle')) {
-            $this->paragraphStyle = $this->element->getParagraphStyle();
+        if (method_exists($element, 'getParagraphStyle')) {
+            $this->paragraphStyle = $element->getParagraphStyle();
             if (is_string($this->paragraphStyle)) {
                 $this->paragraphStyle = Style::getStyle($this->paragraphStyle);
             }
 
             if ($this->paragraphStyle !== null && !$this->withoutP) {
-                if ($parentWriter->getLastParagraphStyle() != $this->element->getParagraphStyle()) {
-                    $parentWriter->setLastParagraphStyle($this->element->getParagraphStyle());
+                if ($parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
+                    $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
                 } else {
                     $parentWriter->setLastParagraphStyle();
                     $this->paragraphStyle = null;
@@ -147,7 +150,7 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
         if ($this->fontStyle->getName() != null) {
             $fontIndex = array_search($this->fontStyle->getName(), $parentWriter->getFontTable());
             if ($fontIndex !== false) {
-                $styleWriter->setNameIndex($fontIndex + 1);
+                $styleWriter->setNameIndex($fontIndex);
             }
         }
 

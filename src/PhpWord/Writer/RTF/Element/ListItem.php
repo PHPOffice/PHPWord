@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * ListItem element RTF writer; extends from text
  *
