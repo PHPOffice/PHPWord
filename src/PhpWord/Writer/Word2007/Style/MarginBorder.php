@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
 /**
  * Margin border style writer
  *
@@ -56,29 +58,45 @@ class MarginBorder extends AbstractStyle
         $sizeCount = count($this->sizes) - 1;
 
         for ($i = 0; $i < $sizeCount; $i++) {
-            if (!is_null($this->sizes[$i])) {
-                $xmlWriter->startElement('w:' . $sides[$i]);
-                if (!empty($this->colors)) {
-                    if (is_null($this->colors[$i]) && !empty($this->attributes)) {
-                        if (array_key_exists('defaultColor', $this->attributes)) {
-                            $this->colors[$i] = $this->attributes['defaultColor'];
-                        }
-                    }
-                    $xmlWriter->writeAttribute('w:val', 'single');
-                    $xmlWriter->writeAttribute('w:sz', $this->sizes[$i]);
-                    $xmlWriter->writeAttribute('w:color', $this->colors[$i]);
-                    if (!empty($this->attributes)) {
-                        if (array_key_exists('space', $this->attributes)) {
-                            $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
-                        }
-                    }
-                } else {
-                    $xmlWriter->writeAttribute('w:w', $this->sizes[$i]);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
+            if ($this->sizes[$i] !== null) {
+                $color = null;
+                if (isset($this->colors[$i])) {
+                    $color = $this->colors[$i];
                 }
-                $xmlWriter->endElement();
+                $this->writeSide($xmlWriter, $sides[$i], $this->sizes[$i], $color);
             }
         }
+    }
+
+    /**
+     * Write side
+     *
+     * @param string $side
+     * @param int $width
+     * @param string $color
+     */
+    private function writeSide(XMLWriter $xmlWriter, $side, $width, $color = null)
+    {
+        $xmlWriter->startElement('w:' . $side);
+        if (!empty($this->colors)) {
+            if ($color === null && !empty($this->attributes)) {
+                if (array_key_exists('defaultColor', $this->attributes)) {
+                    $color = $this->attributes['defaultColor'];
+                }
+            }
+            $xmlWriter->writeAttribute('w:val', 'single');
+            $xmlWriter->writeAttribute('w:sz', $width);
+            $xmlWriter->writeAttribute('w:color', $color);
+            if (!empty($this->attributes)) {
+                if (array_key_exists('space', $this->attributes)) {
+                    $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
+                }
+            }
+        } else {
+            $xmlWriter->writeAttribute('w:w', $width);
+            $xmlWriter->writeAttribute('w:type', 'dxa');
+        }
+        $xmlWriter->endElement();
     }
 
     /**

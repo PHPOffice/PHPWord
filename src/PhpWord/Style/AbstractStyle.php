@@ -138,7 +138,7 @@ abstract class AbstractStyle
     /**
      * Set default for null and empty value
      *
-     * @param mixed $value
+     * @param string $value
      * @param mixed $default
      * @return mixed
      */
@@ -186,7 +186,7 @@ abstract class AbstractStyle
     /**
      * Set integer value: Convert string that contains only numeric into integer
      *
-     * @param mixed $value
+     * @param int|null $value
      * @param int|null $default
      * @return int|null
      */

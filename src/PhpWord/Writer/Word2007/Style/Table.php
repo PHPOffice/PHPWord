@@ -17,7 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
  * Table style writer
@@ -27,11 +29,9 @@ use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 class Table extends AbstractStyle
 {
     /**
-     * Is full style
-     *
-     * @var bool
+     * @var int Table width
      */
-    private $isFullStyle = true;
+    private $width;
 
     /**
      * Write style
@@ -39,105 +39,137 @@ class Table extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Table) {
-            return;
-        }
         $xmlWriter = $this->getXmlWriter();
 
-
-        // w:tblPr
-        $hasMargins = $style->hasMargins();
-        $hasBorders = $style->hasBorders();
-        $align = $style->getAlign();
-
-        $xmlWriter->startElement('w:tblPr');
-
-        $xmlWriter->startElement('w:tblW');
-        $xmlWriter->writeAttribute('w:w', $style->getWidth());
-        $xmlWriter->writeAttribute('w:type', $style->getUnit());
-        $xmlWriter->endElement(); // w:tblW
-
-        // Alignment
-        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $align)));
-        $styleWriter->write();
-
-        // Margins
-        if ($hasMargins) {
-            $mbWriter = new MarginBorder($xmlWriter);
-            $mbWriter->setSizes($style->getCellMargin());
-
-            $xmlWriter->startElement('w:tblCellMar');
-            $mbWriter->write();
-            $xmlWriter->endElement(); // w:tblCellMar
-        }
-
-        // Borders
-        if ($hasBorders) {
-            $mbWriter = new MarginBorder($xmlWriter);
-            $mbWriter->setSizes($style->getBorderSize());
-            $mbWriter->setColors($style->getBorderColor());
-
-            $xmlWriter->startElement('w:tblBorders');
-            $mbWriter->write();
-            $xmlWriter->endElement(); // w:tblBorders
-        }
-
-        $xmlWriter->endElement(); // w:tblPr
-
-        // Only write background color and first row for full style
-        if ($this->isFullStyle) {
-            // Background color
-            if (!is_null($style->getShading())) {
-                $xmlWriter->startElement('w:tcPr');
-                $styleWriter = new Shading($xmlWriter, $style->getShading());
-                $styleWriter->write();
-                $xmlWriter->endElement();
+        if ($style instanceof \PhpOffice\PhpWord\Style\Table) {
+            $this->writeStyle($xmlWriter, $style);
+        } elseif (is_string($style)) {
+            $xmlWriter->startElement('w:tblPr');
+            $xmlWriter->startElement('w:tblStyle');
+            $xmlWriter->writeAttribute('w:val', $style);
+            $xmlWriter->endElement();
+            if ($this->width !== null) {
+                $this->writeWidth($xmlWriter, $this->width, 'pct');
             }
-            // First Row
-            $firstRow = $style->getFirstRow();
-            if ($firstRow instanceof \PhpOffice\PhpWord\Style\Table) {
-                $this->writeFirstRow($firstRow);
-            }
+            $xmlWriter->endElement();
         }
     }
 
     /**
-     * Set is full style
-     *
-     * @param bool $value
+     * Write full style
      */
-    public function setIsFullStyle($value)
+    private function writeStyle(XMLWriter $xmlWriter, TableStyle $style)
     {
-        $this->isFullStyle = $value;
+        // w:tblPr
+        $xmlWriter->startElement('w:tblPr');
+
+        // Alignment
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
+        $styleWriter->write();
+
+        $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
+        $this->writeMargin($xmlWriter, $style);
+        $this->writeBorder($xmlWriter, $style);
+
+        $xmlWriter->endElement(); // w:tblPr
+
+        $this->writeShading($xmlWriter, $style);
+
+        // First row style
+        $firstRow = $style->getFirstRow();
+        if ($firstRow instanceof \PhpOffice\PhpWord\Style\Table) {
+            $this->writeFirstRow($xmlWriter, $firstRow);
+        }
+    }
+
+    /**
+     * Write width
+     *
+     * @param int $width
+     * @param string $unit
+     */
+    private function writeWidth(XMLWriter $xmlWriter, $width, $unit)
+    {
+        $xmlWriter->startElement('w:tblW');
+        $xmlWriter->writeAttribute('w:w', $width);
+        $xmlWriter->writeAttribute('w:type', $unit);
+        $xmlWriter->endElement(); // w:tblW
+    }
+
+    /**
+     * Write margin
+     */
+    private function writeMargin(XMLWriter $xmlWriter, TableStyle $style)
+    {
+        if ($style->hasMargins()) {
+            $xmlWriter->startElement('w:tblCellMar');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getCellMargin());
+            $styleWriter->write();
+
+            $xmlWriter->endElement(); // w:tblCellMar
+        }
+    }
+
+    /**
+     * Write border
+     */
+    private function writeBorder(XMLWriter $xmlWriter, TableStyle $style)
+    {
+        if ($style->hasBorders()) {
+            $xmlWriter->startElement('w:tblBorders');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->write();
+
+            $xmlWriter->endElement(); // w:tblBorders
+        }
     }
 
     /**
      * Write row style
      */
-    private function writeFirstRow(\PhpOffice\PhpWord\Style\Table $style)
+    private function writeFirstRow(XMLWriter $xmlWriter, TableStyle $style)
     {
-        $xmlWriter = $this->getXmlWriter();
-
         $xmlWriter->startElement('w:tblStylePr');
         $xmlWriter->writeAttribute('w:type', 'firstRow');
         $xmlWriter->startElement('w:tcPr');
-        if (!is_null($style->getShading())) {
-            $styleWriter = new Shading($xmlWriter, $style->getShading());
-            $styleWriter->write();
-        }
 
-        // Borders
-        if ($style->hasBorders()) {
-            $mbWriter = new MarginBorder($xmlWriter);
-            $mbWriter->setSizes($style->getBorderSize());
-            $mbWriter->setColors($style->getBorderColor());
-
-            $xmlWriter->startElement('w:tcBorders');
-            $mbWriter->write();
-            $xmlWriter->endElement(); // w:tcBorders
-        }
+        $this->writeBorder($xmlWriter, $style);
+        $this->writeShading($xmlWriter, $style);
 
         $xmlWriter->endElement(); // w:tcPr
         $xmlWriter->endElement(); // w:tblStylePr
+    }
+
+    /**
+     * Write shading
+     *
+     * @param int $width
+     * @param string $unit
+     */
+    private function writeShading(XMLWriter $xmlWriter, TableStyle $style)
+    {
+        if ($style->getShading() !== null) {
+            $xmlWriter->startElement('w:tcPr');
+
+            $styleWriter = new Shading($xmlWriter, $style->getShading());
+            $styleWriter->write();
+
+            $xmlWriter->endElement();
+        }
+    }
+
+    /**
+     * Set width
+     *
+     * @param int $value
+     */
+    public function setWidth($value = null)
+    {
+        $this->width = $value;
     }
 }

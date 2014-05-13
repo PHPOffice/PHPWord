@@ -99,7 +99,7 @@ class Text extends AbstractElement
     /**
      * Write font style beginning
      *
-     * @param mixed $style
+     * @param \PhpOffice\PhpWord\Style\Font $style
      * @return string
      */
     private function writeFontStyle($style)

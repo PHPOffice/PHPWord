@@ -47,7 +47,6 @@ class Container extends AbstractElement
         $content = '';
 
         $elements = $container->getElements();
-        $elementClass = '';
         foreach ($elements as $element) {
             $elementClass = get_class($element);
             $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);

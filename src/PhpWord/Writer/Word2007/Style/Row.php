@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Style\Row as RowStyle;
-
 /**
  * Row style writer
  *

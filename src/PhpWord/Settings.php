@@ -95,7 +95,7 @@ class Settings
     /**
      * Measurement unit
      *
-     * @var string
+     * @var int|float
      */
     private static $measurementUnit = self::UNIT_TWIP;
 
