@@ -147,9 +147,6 @@ class Table extends AbstractStyle
 
     /**
      * Write shading
-     *
-     * @param int $width
-     * @param string $unit
      */
     private function writeShading(XMLWriter $xmlWriter, TableStyle $style)
     {

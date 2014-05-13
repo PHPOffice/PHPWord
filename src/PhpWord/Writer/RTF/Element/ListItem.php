@@ -17,34 +17,13 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
+use PhpOffice\PhpWord\Shared\String;
+
 /**
- * Link element RTF writer
+ * ListItem element RTF writer; extends from text
  *
  * @since 0.11.0
  */
-class Link extends AbstractElement
+class ListItem extends Text
 {
-    /**
-     * Write element
-     *
-     * @return string
-     */
-    public function write()
-    {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
-            return;
-        }
-
-        $this->getStyles();
-
-        $content = '';
-        $content .= $this->writeOpening();
-        $content .= '{\field {\*\fldinst {HYPERLINK "' . $this->element->getTarget() . '"}}{\\fldrslt {';
-        $content .= $this->writeFontStyle();
-        $content .= $this->writeText($this->element->getText());
-        $content .= '}}}';
-        $content .= $this->writeClosing();
-
-        return $content;
-    }
 }

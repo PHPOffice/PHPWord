@@ -63,7 +63,7 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isSuperScript(), '\super');
         $content .= $this->getValueIf($style->isSubScript(), '\sub');
 
-        return $content;
+        return $content .  ' ';
     }
 
     /**

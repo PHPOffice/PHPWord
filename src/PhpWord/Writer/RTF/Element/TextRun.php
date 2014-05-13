@@ -33,12 +33,14 @@ class TextRun extends AbstractElement
      */
     public function write()
     {
-        $content = '';
-
-        $content .= '{\pard\nowidctlpar';
         $writer = new Container($this->parentWriter, $this->element);
+
+        $content = '';
+        $content .= $this->writeOpening();
+        $content .= '{';
         $content .= $writer->write();
-        $content .= '\par}' . PHP_EOL;
+        $content .= '}';
+        $content .= $this->writeClosing();
 
         return $content;
     }

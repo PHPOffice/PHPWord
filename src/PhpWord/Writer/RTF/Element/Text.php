@@ -20,9 +20,6 @@ namespace PhpOffice\PhpWord\Writer\RTF\Element;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Style\Font as FontStyle;
-use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
-use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * Text element RTF writer
@@ -33,117 +30,26 @@ class Text extends AbstractElement
 {
     /**
      * Write element
+     *
+     * @return string
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Text) {
+        $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
+        if (!$this->element instanceof $elementClass) {
             return;
         }
 
-        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle Scrutinizer type hint */
-        $fontStyle = $this->getFontStyle($this->element);
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
-        $parentWriter = $this->parentWriter;
+        $this->getStyles();
 
         $content = '';
-        $content .= $this->writeParagraphStyle($this->element);
+        $content .= $this->writeOpening();
         $content .= '{';
-        $content .= $this->writeFontStyle($fontStyle);
-        if ($fontStyle || $parentWriter->getLastParagraphStyle() != '') {
-            $content .= ' ';
-        }
-        $content .= String::toUnicode($this->element->getText());
+        $content .= $this->writeFontStyle();
+        $content .= $this->writeText($this->element->getText());
         $content .= '}';
-
-        if (!$this->withoutP) {
-            $content .= '\par' . PHP_EOL;
-        }
+        $content .= $this->writeClosing();
 
         return $content;
-    }
-
-    /**
-     * Write paragraph style
-     *
-     * @return string
-     */
-    private function writeParagraphStyle(TextElement $element)
-    {
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
-        $parentWriter = $this->parentWriter;
-        $content = '';
-
-        // Get paragraph style
-        $paragraphStyle = $element->getParagraphStyle();
-        if (is_string($paragraphStyle)) {
-            $paragraphStyle = Style::getStyle($paragraphStyle);
-        }
-
-        // Write style when applicable
-        if ($paragraphStyle && !$this->withoutP) {
-            if ($parentWriter->getLastParagraphStyle() != $element->getParagraphStyle()) {
-                $parentWriter->setLastParagraphStyle($element->getParagraphStyle());
-
-                $styleWriter = new ParagraphStyleWriter($paragraphStyle);
-                $content = $styleWriter->write();
-            } else {
-                $parentWriter->setLastParagraphStyle();
-            }
-        } else {
-            $parentWriter->setLastParagraphStyle();
-        }
-
-        return $content;
-    }
-
-    /**
-     * Write font style beginning
-     *
-     * @param \PhpOffice\PhpWord\Style\Font $style
-     * @return string
-     */
-    private function writeFontStyle($style)
-    {
-        if (!$style instanceof FontStyle) {
-            return '';
-        }
-
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
-        $parentWriter = $this->parentWriter;
-
-        // Create style writer and set color/name index
-        $styleWriter = new FontStyleWriter($style);
-        if ($style->getColor() != null) {
-            $colorIndex = array_search($style->getColor(), $parentWriter->getColorTable());
-            if ($colorIndex !== false) {
-                $styleWriter->setColorIndex($colorIndex + 1);
-            }
-        }
-        if ($style->getName() != null) {
-            $fontIndex = array_search($style->getName(), $parentWriter->getFontTable());
-            if ($fontIndex !== false) {
-                $styleWriter->setNameIndex($fontIndex + 1);
-            }
-        }
-
-        // Write style
-        $content = $styleWriter->write();
-
-        return $content;
-    }
-
-    /**
-     * Get font style
-     *
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    private function getFontStyle(TextElement $element)
-    {
-        $fontStyle = $element->getFontStyle();
-        if (is_string($fontStyle)) {
-            $fontStyle = Style::getStyle($fontStyle);
-        }
-
-        return $fontStyle;
     }
 }

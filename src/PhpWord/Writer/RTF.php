@@ -226,7 +226,7 @@ class RTF extends AbstractWriter implements WriterInterface
                 $elements = $section->getElements();
 
                 foreach ($elements as $element) {
-                    if ($element instanceof Text) {
+                    if (method_exists($element, 'getFontStyle')) {
                         $fontStyle = $element->getFontStyle();
 
                         if ($fontStyle instanceof Font) {
@@ -284,7 +284,7 @@ class RTF extends AbstractWriter implements WriterInterface
                 $elements = $section->getElements();
 
                 foreach ($elements as $element) {
-                    if ($element instanceof Text) {
+                    if (method_exists($element, 'getFontStyle')) {
                         $fontStyle = $element->getFontStyle();
 
                         if ($fontStyle instanceof Font) {
