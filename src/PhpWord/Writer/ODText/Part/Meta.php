@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * ODText meta part writer: meta.xml
  */

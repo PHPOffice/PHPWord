@@ -36,7 +36,7 @@ class Font extends AbstractStyle
     {
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
+            return '';
         }
         $css = array();
 

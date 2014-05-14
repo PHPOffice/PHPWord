@@ -47,6 +47,7 @@ class XMLReader
      * @param string $zipFile
      * @param string $xmlFile
      * @return \DOMDocument|false
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -76,6 +77,7 @@ class XMLReader
      * Get elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMNodeList
      */
     public function getElements($path, \DOMElement $contextNode = null)
@@ -94,6 +96,7 @@ class XMLReader
      * Get element
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMElement|null
      */
     public function getElement($path, \DOMElement $contextNode = null)
@@ -110,6 +113,7 @@ class XMLReader
      * Get element attribute
      *
      * @param string $attribute
+     * @param \DOMElement $contextNode
      * @param string $path
      * @return string|null
      */
@@ -134,6 +138,7 @@ class XMLReader
      * Get element value
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return string|null
      */
     public function getValue($path, \DOMElement $contextNode = null)
@@ -150,6 +155,7 @@ class XMLReader
      * Count elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return integer
      */
     public function countElements($path, \DOMElement $contextNode = null)
@@ -163,6 +169,7 @@ class XMLReader
      * Element exists
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return boolean
      */
     public function elementExists($path, \DOMElement $contextNode = null)

@@ -90,10 +90,12 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
      *      'arialunicid0-japanese'
      *
      * @param string $fontName
+     * @return self
      */
     public function setFont($fontName)
     {
         $this->font = $fontName;
+
         return $this;
     }
 
@@ -146,6 +148,7 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
      *
      * @param string $pFilename Name of the file to save as
      * @return resource
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function prepareForSave($pFilename = null)
     {

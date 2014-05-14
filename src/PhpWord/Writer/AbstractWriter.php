@@ -149,6 +149,7 @@ abstract class AbstractWriter implements WriterInterface
      * @param bool $value
      * @param string $directory
      * @return self
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function setUseDiskCaching($value = false, $directory = null)
     {
@@ -257,6 +258,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param string $filename
      * @return mixed ZipArchive object
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function getZipArchive($filename)
     {

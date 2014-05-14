@@ -53,7 +53,7 @@ class Text extends AbstractElement
     /**
      * Closing tag
      *
-     * @var strings
+     * @var string
      */
     private $closingTags = '';
 
@@ -64,7 +64,7 @@ class Text extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $this->getFontStyle();
 
@@ -142,7 +142,7 @@ class Text extends AbstractElement
      */
     private function getParagraphStyle()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
         if (method_exists($element, 'getParagraphStyle')) {
@@ -168,7 +168,7 @@ class Text extends AbstractElement
      */
     private function getFontStyle()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
         $fontStyle = $element->getFontStyle();

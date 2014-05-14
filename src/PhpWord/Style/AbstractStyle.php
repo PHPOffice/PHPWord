@@ -227,6 +227,8 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param array $enum
      * @param mixed $default
+     * @return mixed
+     * @throws \InvalidArgumentException
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
@@ -245,11 +247,13 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param string $styleName
      * @param mixed $style
+     * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
         $styleClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $styleName;
         if (is_array($value)) {
+            /** @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint */
             if (!$style instanceof $styleClass) {
                 $style = new $styleClass();
             }
@@ -265,6 +269,7 @@ abstract class AbstractStyle
      * Set style using associative array
      *
      * @param array $style
+     * @return self
      * @deprecated 0.11.0
      * @codeCoverageIgnore
      */

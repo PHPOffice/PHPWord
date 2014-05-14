@@ -283,6 +283,8 @@ class Image extends AbstractElement
      * Check memory image, supported type, image functions, and proportional width/height
      *
      * @param string $source
+     * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
+     * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
     private function checkImage($source)
     {

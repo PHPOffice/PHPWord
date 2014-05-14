@@ -32,7 +32,7 @@ class ContentTypes extends AbstractPart
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Type hint */
         $parentWriter = $this->getParentWriter();
         $contentTypes = $parentWriter->getContentTypes();
 
@@ -82,16 +82,12 @@ class ContentTypes extends AbstractPart
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {
         foreach ($parts as $partName => $contentType) {
-            if ($partName != '' && $contentType != '') {
-                $partType = $isDefault ? 'Default' : 'Override';
-                $partAttribute = $isDefault ? 'Extension' : 'PartName';
-                $xmlWriter->startElement($partType);
-                $xmlWriter->writeAttribute($partAttribute, $partName);
-                $xmlWriter->writeAttribute('ContentType', $contentType);
-                $xmlWriter->endElement();
-            } else {
-                throw new Exception("Invalid parameters passed.");
-            }
+            $partType = $isDefault ? 'Default' : 'Override';
+            $partAttribute = $isDefault ? 'Extension' : 'PartName';
+            $xmlWriter->startElement($partType);
+            $xmlWriter->writeAttribute($partAttribute, $partName);
+            $xmlWriter->writeAttribute('ContentType', $contentType);
+            $xmlWriter->endElement();
         }
     }
 }

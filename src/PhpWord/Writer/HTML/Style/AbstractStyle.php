@@ -56,7 +56,7 @@ abstract class AbstractStyle
     public function getStyle()
     {
         if (!$this->style instanceof Style && !is_array($this->style)) {
-            return;
+            return '';
         }
 
         return $this->style;

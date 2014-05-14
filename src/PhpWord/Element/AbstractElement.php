@@ -220,6 +220,7 @@ abstract class AbstractElement
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
      * @param bool $returnObject Always return object
+     * @return mixed
      */
     protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
     {

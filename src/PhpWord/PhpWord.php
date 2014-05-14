@@ -301,13 +301,13 @@ class PhpWord
     /**
      * Adds a heading style definition to styles.xml
      *
-     * @param int $titleCount
+     * @param int $depth
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
-    public function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
+    public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        Style::addTitleStyle($titleCount, $fontStyle, $paragraphStyle);
+        Style::addTitleStyle($depth, $fontStyle, $paragraphStyle);
     }
 
     /**

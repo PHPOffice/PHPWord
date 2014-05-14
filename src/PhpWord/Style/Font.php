@@ -562,6 +562,8 @@ class Font extends AbstractStyle
     {
         if (!is_null($this->shading)) {
             return $this->shading->getFill();
+        } else {
+            return null;
         }
     }
 

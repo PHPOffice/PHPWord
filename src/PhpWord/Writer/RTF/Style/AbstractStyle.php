@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Style\AbstractStyle as Style;
-
 /**
  * Abstract RTF style writer
  *

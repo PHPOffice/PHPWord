@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
@@ -34,14 +34,14 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
     /**
      * Font style
      *
-     * @var \PhpWord\PhpOffice\Style\Font
+     * @var \PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var \PhpWord\PhpOffice\Style\Paragraph
+     * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
@@ -50,10 +50,10 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
      */
     protected function getStyles()
     {
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
 
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
 
         // Font style
@@ -93,7 +93,7 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
     protected function writeOpening()
     {
         if ($this->withoutP || !$this->paragraphStyle instanceof ParagraphStyle) {
-            return;
+            return '';
         }
 
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
@@ -119,7 +119,7 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
     protected function writeClosing()
     {
         if ($this->withoutP) {
-            return;
+            return '';
         }
 
         return '\par' . PHP_EOL;
@@ -136,7 +136,7 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
             return '';
         }
 
-        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
 
         // Create style writer and set color/name index

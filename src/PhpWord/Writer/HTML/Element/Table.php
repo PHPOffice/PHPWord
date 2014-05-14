@@ -32,7 +32,7 @@ class Table extends AbstractElement
     public function write()
     {
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Table) {
-            return;
+            return '';
         }
 
         $content = '';

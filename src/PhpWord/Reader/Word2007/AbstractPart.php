@@ -138,12 +138,14 @@ abstract class AbstractPart
     /**
      * Read w:pPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return array|null
      */
     protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         if (!$xmlReader->elementExists('w:pPr', $domNode)) {
-            return;
+            return '';
         }
 
         $style = array();
@@ -200,19 +202,21 @@ abstract class AbstractPart
     /**
      * Read w:rPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return array|null
      */
     protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         if (is_null($domNode)) {
-            return;
+            return null;
         }
         // Hyperlink has an extra w:r child
         if ($domNode->nodeName == 'w:hyperlink') {
             $domNode = $xmlReader->getElement('w:r', $domNode);
         }
         if (!$xmlReader->elementExists('w:rPr', $domNode)) {
-            return;
+            return null;
         }
 
         $style = array();
@@ -272,6 +276,8 @@ abstract class AbstractPart
     /**
      * Read w:tblPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
      */

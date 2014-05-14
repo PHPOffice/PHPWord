@@ -121,6 +121,8 @@ class Document extends AbstractPart
     /**
      * Read w:p
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      *
@@ -209,6 +211,8 @@ class Document extends AbstractPart
     /**
      * Read w:tbl
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      */
@@ -266,6 +270,8 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return array|null
      */
     private function readSectionStyle(XMLReader $xmlReader, \DOMElement $domNode)
@@ -326,6 +332,8 @@ class Document extends AbstractPart
     /**
      * Read w:tcPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return array|null
      */
     private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)

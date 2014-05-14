@@ -30,6 +30,7 @@ class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\Write
      * Create new instance
      *
      * @param PhpWord $phpWord PhpWord object
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
     {

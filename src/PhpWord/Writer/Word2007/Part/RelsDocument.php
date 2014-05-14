@@ -41,7 +41,7 @@ class RelsDocument extends Rels
         );
         $xmlWriter = $this->getXmlWriter();
 
-        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Type hint */
         $parentWriter = $this->getParentWriter();
         $this->writeRels($xmlWriter, $xmlRels, $parentWriter->getRelationships());
 

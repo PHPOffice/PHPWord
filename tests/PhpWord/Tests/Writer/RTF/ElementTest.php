@@ -28,12 +28,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnmatchedElements()
     {
-        $styles = array('Container', 'Text', 'Title', 'Link');
-        foreach ($styles as $style) {
-            $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element\\' . $style;
+        $elements = array('Container', 'Text', 'Title', 'Link');
+        foreach ($elements as $element) {
+            $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Element\\' . $element;
             $parentWriter = new RTF();
-            $element = new \PhpOffice\PhpWord\Element\PageBreak();
-            $object = new $objectClass($parentWriter, $element);
+            $newElement = new \PhpOffice\PhpWord\Element\PageBreak();
+            $object = new $objectClass($parentWriter, $newElement);
 
             $this->assertEquals('', $object->write());
         }

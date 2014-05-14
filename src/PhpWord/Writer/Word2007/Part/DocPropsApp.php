@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Word2007 extended document properties part writer: docProps/app.xml
  *

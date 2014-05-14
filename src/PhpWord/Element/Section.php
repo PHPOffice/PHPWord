@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
 
 /**

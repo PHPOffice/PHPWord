@@ -58,6 +58,7 @@ class Object extends AbstractElement
      *
      * @param string $source
      * @param mixed $style
+     * @throws \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function __construct($source, $style = null)
     {

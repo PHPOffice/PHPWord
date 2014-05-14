@@ -97,6 +97,7 @@ class Rels extends AbstractPart
      * @param string $type Relationship type
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = '')
     {

@@ -35,7 +35,7 @@ class Paragraph extends AbstractStyle
     {
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
-            return;
+            return '';
         }
         $css = array();
 

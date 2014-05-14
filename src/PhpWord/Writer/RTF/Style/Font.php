@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
@@ -46,7 +45,7 @@ class Font extends AbstractStyle
     {
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
+            return '';
         }
 
         $content = '';

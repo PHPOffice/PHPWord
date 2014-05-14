@@ -31,11 +31,11 @@ class Text extends AbstractElement
      */
     public function write()
     {
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
         if (!$element instanceof $elementClass) {
-            return;
+            return '';
         }
 
         $this->getStyles();

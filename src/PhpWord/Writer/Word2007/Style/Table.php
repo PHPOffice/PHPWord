@@ -85,6 +85,7 @@ class Table extends AbstractStyle
     /**
      * Write width
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $width
      * @param string $unit
      */

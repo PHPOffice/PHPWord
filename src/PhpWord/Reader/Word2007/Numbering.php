@@ -87,6 +87,8 @@ class Numbering extends AbstractPart
     /**
      * Read numbering level definition from w:abstractNum and w:num
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $subnode
      * @param integer $levelId
      * @return array
      */

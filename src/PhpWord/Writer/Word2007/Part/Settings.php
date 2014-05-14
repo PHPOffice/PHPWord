@@ -127,7 +127,7 @@ class Settings extends AbstractPart
         } else {
             $xmlWriter->startElement($settingKey);
 
-            /** @var array $settingValue Scrutinizer type hint */
+            /** @var array $settingValue Type hint */
             foreach ($settingValue as $childKey => $childValue) {
                 if ($childKey == '@attributes') {
                     foreach ($childValue as $key => $val) {
