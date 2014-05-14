@@ -27,10 +27,8 @@ before_script:
     # - php composer.phar install --prefer-source
     - composer self-update
     - composer require dompdf/dompdf:0.6.*
+    - composer update --prefer-source --dev
     - composer install --prefer-source --dev
-    ## PHP_CodeSniffer
-    - pyrus install pear/PHP_CodeSniffer
-    - phpenv rehash
     ## PHP Copy/Paste Detector
     - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
     ## PHP Mess Detector
@@ -48,7 +46,7 @@ before_script:
 
 script:
     ## PHP_CodeSniffer
-    - phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
+    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
     ## PHP Copy/Paste Detector
     - php phpcpd.phar src/ tests/ --verbose
     ## PHP Mess Detector
