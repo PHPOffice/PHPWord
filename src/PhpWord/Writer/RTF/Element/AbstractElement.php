@@ -51,9 +51,9 @@ class AbstractElement extends \PhpOffice\PhpWord\Writer\HTML\Element\AbstractEle
     protected function getStyles()
     {
         /** @var \PhpOffice\PhpWord\Writer\RTF $parentWriter Scrutinizer type hint */
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
-
         $parentWriter = $this->parentWriter;
+
+        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
         $element = $this->element;
 
         // Font style

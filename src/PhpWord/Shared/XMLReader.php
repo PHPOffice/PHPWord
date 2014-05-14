@@ -96,7 +96,7 @@ class XMLReader
      * @param string $path
      * @return \DOMElement|null
      */
-    public function getElement($path, \DOMElement $contextNode)
+    public function getElement($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -113,16 +113,17 @@ class XMLReader
      * @param string $path
      * @return string|null
      */
-    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
+    public function getAttribute($attribute, \DOMElement $contextNode = null, $path = null)
     {
-        if (is_null($path)) {
-            $return = $contextNode->getAttribute($attribute);
-        } else {
+        $return = null;
+        if ($path !== null) {
             $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
                 $return = $elements->item(0)->getAttribute($attribute);
-            } else {
-                $return = null;
+            }
+        } else {
+            if ($contextNode !== null) {
+                $return = $contextNode->getAttribute($attribute);
             }
         }
 
@@ -135,7 +136,7 @@ class XMLReader
      * @param string $path
      * @return string|null
      */
-    public function getValue($path, \DOMElement $contextNode)
+    public function getValue($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -151,7 +152,7 @@ class XMLReader
      * @param string $path
      * @return integer
      */
-    public function countElements($path, \DOMElement $contextNode)
+    public function countElements($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
 
@@ -164,7 +165,7 @@ class XMLReader
      * @param string $path
      * @return boolean
      */
-    public function elementExists($path, \DOMElement $contextNode)
+    public function elementExists($path, \DOMElement $contextNode = null)
     {
         return $this->getElements($path, $contextNode)->length > 0;
     }
