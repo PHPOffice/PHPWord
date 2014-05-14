@@ -168,7 +168,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $oCell = new Cell();
         $element = $oCell->addImage(
-            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+            'http://php.net/images/logos/php-med-trans-light.gif'
         );
 
         $this->assertCount(1, $oCell->getElements());

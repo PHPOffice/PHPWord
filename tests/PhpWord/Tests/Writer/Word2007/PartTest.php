@@ -14,7 +14,7 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
+namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
 use PhpOffice\PhpWord\Writer\Word2007\Part\RelsPart;
 
@@ -35,7 +35,7 @@ class PartTest extends \PHPUnit_Framework_TestCase
     public function testRelsWriteRelException()
     {
         $object = new RelsPart();
-        $object->setMedia(array(array('foo' => 'bar')));
+        $object->setMedia(array(array('type' => '', 'target' => '')));
         $object->write();
     }
 }
