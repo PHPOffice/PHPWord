@@ -37,6 +37,7 @@ class PDF
      * Instantiate a new renderer of the configured type within this container class
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
     {
@@ -62,6 +63,7 @@ class PDF
      * @param string $name Renderer library method name
      * @param mixed[] $arguments Array of arguments to pass to the renderer method
      * @return mixed Returned data from the PDF renderer wrapper method
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __call($name, $arguments)
     {

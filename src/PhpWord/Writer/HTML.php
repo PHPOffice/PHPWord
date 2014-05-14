@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Element\Container;
 use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;

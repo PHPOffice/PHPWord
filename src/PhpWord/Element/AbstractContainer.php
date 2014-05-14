@@ -313,6 +313,7 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $method
      * @return bool
+     * @throws \BadMethodCallException
      */
     private function checkValidity($method)
     {
@@ -389,6 +390,7 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $src
      * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Image
      * @deprecated 0.9.0
      * @codeCoverageIgnore
      */
@@ -401,6 +403,7 @@ abstract class AbstractContainer extends AbstractElement
      * Create textrun element
      *
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\TextRun
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
@@ -413,6 +416,7 @@ abstract class AbstractContainer extends AbstractElement
      * Create footnote element
      *
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\Footnote
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */

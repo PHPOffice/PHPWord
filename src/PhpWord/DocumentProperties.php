@@ -416,8 +416,9 @@ class DocumentProperties
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['value'];
+        } else {
+            return null;
         }
-
     }
 
     /**
@@ -430,8 +431,9 @@ class DocumentProperties
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['type'];
+        } else {
+            return null;
         }
-
     }
 
     /**

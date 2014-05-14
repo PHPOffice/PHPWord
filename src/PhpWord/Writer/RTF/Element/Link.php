@@ -32,7 +32,7 @@ class Link extends AbstractElement
     public function write()
     {
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
-            return;
+            return '';
         }
 
         $this->getStyles();

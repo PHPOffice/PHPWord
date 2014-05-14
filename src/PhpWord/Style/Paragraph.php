@@ -127,6 +127,7 @@ class Paragraph extends AbstractStyle
      *
      * @param string $key
      * @param mixed $value
+     * @return self
      */
     public function setStyleValue($key, $value)
     {
@@ -172,6 +173,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getBefore();
+        } else {
+            return null;
         }
     }
 
@@ -195,6 +198,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getAfter();
+        } else {
+            return null;
         }
     }
 
@@ -218,6 +223,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getLine();
+        } else {
+            return null;
         }
     }
 
@@ -246,7 +253,7 @@ class Paragraph extends AbstractStyle
      * Set the line height
      *
      * @param int|float|string $lineHeight
-     * @return $this
+     * @return self
      * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
@@ -273,6 +280,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->indentation)) {
             return $this->indentation->getLeft();
+        } else {
+            return null;
         }
     }
 
@@ -296,6 +305,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->indentation)) {
             return $this->indentation->getHanging();
+        } else {
+            return null;
         }
     }
 

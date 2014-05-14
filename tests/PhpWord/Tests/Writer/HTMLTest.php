@@ -64,6 +64,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $docProps = $phpWord->getDocumentProperties();
         $docProps->setTitle('HTML Test');
 
+        $phpWord->addTitleStyle(1, array('bold' => true));
         $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
             'color' => 'FF0000', 'fgColor' => 'FF0000'));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));

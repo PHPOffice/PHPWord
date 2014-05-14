@@ -27,6 +27,8 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractP
     /**
      * Read w:r (override)
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle

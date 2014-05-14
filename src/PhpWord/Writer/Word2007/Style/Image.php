@@ -136,6 +136,7 @@ class Image extends AbstractStyle
     /**
      * Get element style
      *
+     * @param \PhpOffice\PhpWord\Style\Image $style
      * @return array
      */
     private function getElementStyle(ImageStyle $style)

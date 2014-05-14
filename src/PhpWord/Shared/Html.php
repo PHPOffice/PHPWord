@@ -52,6 +52,7 @@ class Html
      *
      * @param \DOMNode $node Node to check on attributes and to compile a style array
      * @param array $style is supplied, the inline style attributes are added to the already existing style
+     * @return array
      */
     protected static function parseInlineStyle($node, $style = array())
     {
@@ -91,6 +92,7 @@ class Html
                 }
             }
         }
+
         return $style;
     }
 
@@ -173,7 +175,7 @@ class Html
                 // }
                 break;
             case 'tr':
-                /** @var \PhpOffice\PhpWord\Element\Table $object Scrutinizer type hint */
+                /** @var \PhpOffice\PhpWord\Element\Table $object Type hint */
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
                 $newobject = $object->addRow();
                 // if ($attributes->getNamedItem('height') !== null) {
@@ -181,7 +183,7 @@ class Html
                 // }
                 break;
             case 'td':
-                /** @var \PhpOffice\PhpWord\Element\Row $object Scrutinizer type hint */
+                /** @var \PhpOffice\PhpWord\Element\Row $object Type hint */
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
                 // if ($attributes->getNamedItem('width') !== null) {
                     // $newobject=$object->addCell($width=$attributes->getNamedItem('width')->value);

@@ -84,8 +84,9 @@ class ZipArchive
     /**
      * Add a new file to the zip archive (emulate \ZipArchive)
      *
-     * @param string $filename  Directory/Name of the file to add to the zip archive
+     * @param string $filename Directory/Name of the file to add to the zip archive
      * @param string $localname Directory/Name of the file added to the zip
+     * @return bool
      */
     public function addFile($filename, $localname = null)
     {
@@ -117,7 +118,8 @@ class ZipArchive
      * Add a new file to the zip archive from a string of raw data (emulate \ZipArchive)
      *
      * @param string $localname Directory/Name of the file to add to the zip archive
-     * @param string $contents  String of data to add to the zip archive
+     * @param string $contents String of data to add to the zip archive
+     * @return bool
      */
     public function addFromString($localname, $contents)
     {

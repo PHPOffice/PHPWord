@@ -145,7 +145,7 @@ class RTF extends AbstractWriter implements WriterInterface
 
         // Set the color tbl group
         $content .= '{\colortbl ';
-        foreach ($this->colorTable as $idx => $color) {
+        foreach ($this->colorTable as $color) {
             $arrColor = Drawing::htmlToRGB($color);
             $content .= ';\red' . $arrColor[0] . '\green' . $arrColor[1] . '\blue' . $arrColor[2] . '';
         }

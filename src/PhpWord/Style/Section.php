@@ -420,7 +420,7 @@ class Section extends Border
      * Set page numbering start
      *
      * @param null|int $pageNumberingStart
-     * @return $this
+     * @return self
      */
     public function setPageNumberingStart($pageNumberingStart = null)
     {

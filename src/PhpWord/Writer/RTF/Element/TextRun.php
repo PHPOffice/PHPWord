@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
-use PhpOffice\PhpWord\Writer\RTF\Element\Container;
-
 /**
  * TextRun element RTF writer
  *

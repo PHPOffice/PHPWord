@@ -83,13 +83,13 @@ class Style
     /**
      * Add title style
      *
-     * @param int $titleCount
+     * @param int $depth
      * @param array $fontStyle
      * @param array $paragraphStyle
      */
-    public static function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
+    public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        self::setStyleValues("Heading_{$titleCount}", new Font('title', $paragraphStyle), $fontStyle);
+        self::setStyleValues("Heading_{$depth}", new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**

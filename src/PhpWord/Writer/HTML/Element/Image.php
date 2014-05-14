@@ -35,9 +35,9 @@ class Image extends Text
     public function write()
     {
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
-            return;
+            return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
 
         $content = '';
@@ -59,6 +59,7 @@ class Image extends Text
     /**
      * Get Base64 image data
      *
+     * @param \PhpOffice\PhpWord\Element\Image $element
      * @return string|null
      */
     private function getBase64ImageData(ImageElement $element)

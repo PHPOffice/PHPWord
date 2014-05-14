@@ -32,7 +32,7 @@ class Title extends AbstractElement
     public function write()
     {
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
+            return '';
         }
 
         $tag = 'h' . $this->element->getDepth();

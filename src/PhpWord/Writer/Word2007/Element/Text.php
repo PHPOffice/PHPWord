@@ -89,7 +89,7 @@ class Text extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
 
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->getElement();
         $paragraphStyle = $element->getParagraphStyle();
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
@@ -104,7 +104,7 @@ class Text extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
 
-        /** @var \PhpOffice\PhpWord\Element\Text $element Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->getElement();
         $fontStyle = $element->getFontStyle();
         $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);

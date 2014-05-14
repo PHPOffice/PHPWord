@@ -39,9 +39,9 @@ class Footnote extends AbstractElement
     public function write()
     {
         if (!$this->element instanceof \PhpOffice\PhpWord\Element\Footnote) {
-            return;
+            return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Scrutinizer type hint */
+        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
         $parentWriter = $this->parentWriter;
 
         $noteId = count($parentWriter->getNotes()) + 1;

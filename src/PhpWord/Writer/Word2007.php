@@ -88,6 +88,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Save document by name
      *
      * @param string $filename
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
@@ -191,6 +192,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer content
      *
+     * @param \PhpOffice\PhpWord\Element\Section $section
      * @param mixed $objZip
      * @param string $elmType header|footer
      * @param integer $rId

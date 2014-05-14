@@ -72,6 +72,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section->addListItem('List Item 1', 0);
         $section->addListItem('List Item 2', 0);
         $section->addListItem('List Item 3', 0);
+
         $section = $phpWord->addSection();
         $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
@@ -80,6 +81,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             'posHorizontalRel' => 'margin', 'posVerticalRel' => 'margin',
             'innerMargin' => 10, 'borderSize' => 1, 'borderColor' => '#FF0'));
         $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'align' => 'center'));
+        $section->addListItemRun()->addText('List item run 1');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -113,22 +115,27 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $objectSrc = __DIR__ . "/../../../_files/documents/sheet.xls";
 
+        $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('pStyle', array('align' => 'center')); // Style #1
+        $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'tabs' => $tabs)); // Style #1
         $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true)); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
+        $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
         $fontStyle = new Font('text', array('align' => 'center'));
+
         $section = $phpWord->addSection();
-        $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #4
+        $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #5
         $section->addObject($objectSrc, array('align' => 'center'));
         $section->addTOC($fontStyle);
         $section->addTitle('Title 1', 1);
         $section->addTOC('fStyle');
+        $table = $section->addTable('tStyle');
+        $table->setWidth(100);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         // List item
         $element = $doc->getElement('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId');
-        $this->assertEquals(4, $element->getAttribute('w:val'));
+        $this->assertEquals(5, $element->getAttribute('w:val'));
 
         // Object
         $element = $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:object/o:OLEObject');
@@ -496,6 +503,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $table->addCell(40);
         $table->addCell(40);
         $table->addCell(40);
+
+        $table->addRow();
+        $cell = $table->addCell(200, array('borderRightColor' => 'FF0000'));
+        $cell->getStyle()->setGridSpan(5);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:gridSpan');

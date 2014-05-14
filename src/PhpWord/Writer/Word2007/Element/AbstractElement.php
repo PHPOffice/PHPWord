@@ -58,6 +58,8 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
     public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
@@ -81,14 +83,11 @@ abstract class AbstractElement
      * Get element
      *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function getElement()
     {
-        if (!is_null($this->element)) {
-            return $this->element;
-        } else {
-            throw new Exception('No element assigned.');
-        }
+        return $this->element;
     }
 
     /**

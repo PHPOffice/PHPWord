@@ -71,6 +71,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Write side
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $side
      * @param int $width
      * @param string $color
