@@ -66,7 +66,7 @@ class Section extends AbstractStyle
         $xmlWriter->endElement();
 
         // Borders
-        if ($style->hasBorders()) {
+        if ($style->hasBorder()) {
             $xmlWriter->startElement('w:pgBorders');
             $xmlWriter->writeAttribute('w:offsetFrom', 'page');
 

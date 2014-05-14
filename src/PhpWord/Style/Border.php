@@ -79,22 +79,6 @@ class Border extends AbstractStyle
     protected $borderBottomColor;
 
     /**
-     * Set border size
-     *
-     * @param int|float $value
-     * @return self
-     */
-    public function setBorderSize($value = null)
-    {
-        $this->setBorderTopSize($value);
-        $this->setBorderLeftSize($value);
-        $this->setBorderRightSize($value);
-        $this->setBorderBottomSize($value);
-
-        return $this;
-    }
-
-    /**
      * Get border size
      *
      * @return int[]
@@ -110,17 +94,17 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set border color
+     * Set border size
      *
-     * @param string $value
+     * @param int|float $value
      * @return self
      */
-    public function setBorderColor($value = null)
+    public function setBorderSize($value = null)
     {
-        $this->setBorderTopColor($value);
-        $this->setBorderLeftColor($value);
-        $this->setBorderRightColor($value);
-        $this->setBorderBottomColor($value);
+        $this->setBorderTopSize($value);
+        $this->setBorderLeftSize($value);
+        $this->setBorderRightSize($value);
+        $this->setBorderBottomSize($value);
 
         return $this;
     }
@@ -141,14 +125,17 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set border top size
+     * Set border color
      *
-     * @param int|float $value
+     * @param string $value
      * @return self
      */
-    public function setBorderTopSize($value = null)
+    public function setBorderColor($value = null)
     {
-        $this->borderTopSize = $value;
+        $this->setBorderTopColor($value);
+        $this->setBorderLeftColor($value);
+        $this->setBorderRightColor($value);
+        $this->setBorderBottomColor($value);
 
         return $this;
     }
@@ -161,6 +148,29 @@ class Border extends AbstractStyle
     public function getBorderTopSize()
     {
         return $this->borderTopSize;
+    }
+
+    /**
+     * Set border top size
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setBorderTopSize($value = null)
+    {
+        $this->borderTopSize = $this->setNumericVal($value, $this->borderTopSize);
+
+        return $this;
+    }
+
+    /**
+     * Get border top color
+     *
+     * @return string
+     */
+    public function getBorderTopColor()
+    {
+        return $this->borderTopColor;
     }
 
     /**
@@ -177,13 +187,13 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Get border top color
+     * Get border left size
      *
-     * @return string
+     * @return int|float
      */
-    public function getBorderTopColor()
+    public function getBorderLeftSize()
     {
-        return $this->borderTopColor;
+        return $this->borderLeftSize;
     }
 
     /**
@@ -194,19 +204,19 @@ class Border extends AbstractStyle
      */
     public function setBorderLeftSize($value = null)
     {
-        $this->borderLeftSize = $value;
+        $this->borderLeftSize = $this->setNumericVal($value, $this->borderLeftSize);
 
         return $this;
     }
 
     /**
-     * Get border left size
+     * Get border left color
      *
-     * @return int|float
+     * @return string
      */
-    public function getBorderLeftSize()
+    public function getBorderLeftColor()
     {
-        return $this->borderLeftSize;
+        return $this->borderLeftColor;
     }
 
     /**
@@ -223,13 +233,13 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Get border left color
+     * Get border right size
      *
-     * @return string
+     * @return int|float
      */
-    public function getBorderLeftColor()
+    public function getBorderRightSize()
     {
-        return $this->borderLeftColor;
+        return $this->borderRightSize;
     }
 
     /**
@@ -240,19 +250,19 @@ class Border extends AbstractStyle
      */
     public function setBorderRightSize($value = null)
     {
-        $this->borderRightSize = $value;
+        $this->borderRightSize = $this->setNumericVal($value, $this->borderRightSize);
 
         return $this;
     }
 
     /**
-     * Get border right size
+     * Get border right color
      *
-     * @return int|float
+     * @return string
      */
-    public function getBorderRightSize()
+    public function getBorderRightColor()
     {
-        return $this->borderRightSize;
+        return $this->borderRightColor;
     }
 
     /**
@@ -269,13 +279,13 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Get border right color
+     * Get border bottom size
      *
-     * @return string
+     * @return int|float
      */
-    public function getBorderRightColor()
+    public function getBorderBottomSize()
     {
-        return $this->borderRightColor;
+        return $this->borderBottomSize;
     }
 
     /**
@@ -286,19 +296,19 @@ class Border extends AbstractStyle
      */
     public function setBorderBottomSize($value = null)
     {
-        $this->borderBottomSize = $value;
+        $this->borderBottomSize = $this->setNumericVal($value, $this->borderBottomSize);
 
         return $this;
     }
 
     /**
-     * Get border bottom size
+     * Get border bottom color
      *
-     * @return int|float
+     * @return string
      */
-    public function getBorderBottomSize()
+    public function getBorderBottomColor()
     {
-        return $this->borderBottomSize;
+        return $this->borderBottomColor;
     }
 
     /**
@@ -315,30 +325,14 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Get border bottom color
-     *
-     * @return string
-     */
-    public function getBorderBottomColor()
-    {
-        return $this->borderBottomColor;
-    }
-
-    /**
-     * Has borders?
+     * Check if any of the border is not null
      *
      * @return bool
      */
-    public function hasBorders()
+    public function hasBorder()
     {
-        $hasBorders = false;
         $borders = $this->getBorderSize();
-        for ($i = 0; $i < count($borders); $i++) {
-            if (!is_null($borders[$i])) {
-                $hasBorders = true;
-            }
-        }
 
-        return $hasBorders;
+        return $borders !== array_filter($borders, 'is_null');
     }
 }

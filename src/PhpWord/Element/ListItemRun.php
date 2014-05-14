@@ -48,11 +48,10 @@ class ListItemRun extends TextRun
      * Create a new ListItem
      *
      * @param int $depth
-     * @param mixed $fontStyle
      * @param array|string|null $listStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
+    public function __construct($depth = 0, $listStyle = null, $paragraphStyle = null)
     {
         $this->depth = $depth;
 

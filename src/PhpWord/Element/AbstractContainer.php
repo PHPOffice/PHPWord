@@ -213,14 +213,13 @@ abstract class AbstractContainer extends AbstractElement
      * Add listitemrun element
      *
      * @param int $depth
-     * @param mixed $fontStyle
      * @param mixed $listStyle
      * @param mixed $paragraphStyle
      * @return \PhpOffice\PhpWord\Element\ListItemRun
      */
-    public function addListItemRun($depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
+    public function addListItemRun($depth = 0, $listStyle = null, $paragraphStyle = null)
     {
-        return $this->addElement('ListItemRun', $depth, $fontStyle, $listStyle, $paragraphStyle);
+        return $this->addElement('ListItemRun', $depth, $listStyle, $paragraphStyle);
     }
 
     /**

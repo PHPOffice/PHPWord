@@ -47,14 +47,6 @@ class Title extends AbstractElement
     private $style;
 
     /**
-     * Title anchor
-     *
-     * @var string
-     * @deprecated 0.10.0
-     */
-    private $anchor;
-
-    /**
      * Create a new Title Element
      *
      * @param string $text
@@ -100,53 +92,5 @@ class Title extends AbstractElement
     public function getStyle()
     {
         return $this->style;
-    }
-
-    /**
-     * Set Anchor
-     *
-     * @param string $anchor
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
-     */
-    public function setAnchor($anchor)
-    {
-        $this->anchor = $anchor;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return string
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
-     */
-    public function getAnchor()
-    {
-        return '_Toc' . (252634154 + $this->getRelationId());
-    }
-
-    /**
-     * Set Bookmark ID
-     *
-     * @param int $value
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function setBookmarkId($value)
-    {
-        $this->setRelationId($value);
-    }
-
-    /**
-     * Get bookmark ID
-     *
-     * @return int
-     * @deprecated 0.11.0
-     * @codeCoverageIgnore
-     */
-    public function getBookmarkId()
-    {
-        return $this->getRelationId();
     }
 }

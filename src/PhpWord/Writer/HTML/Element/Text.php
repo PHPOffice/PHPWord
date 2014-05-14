@@ -145,7 +145,7 @@ class Text extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $style = '';
-        if (method_exists($element, 'getParagraphStyle')) {
+        if (!method_exists($element, 'getParagraphStyle')) {
             return $style;
         }
 

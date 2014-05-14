@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -83,7 +82,6 @@ abstract class AbstractElement
      * Get element
      *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function getElement()
     {

@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -77,7 +76,6 @@ class ContentTypes extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param boolean $isDefault
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {

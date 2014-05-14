@@ -18,6 +18,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - RTF: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
 - Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
 - RTF: Ability to add links and page breaks in RTF - @ivanlanin GH-196
+- ListItemRun: Remove fontStyle parameter because ListItemRun is inherited from TextRun and TextRun doesn't have fontStyle - @ivanlanin
 
 ### Bugfixes
 

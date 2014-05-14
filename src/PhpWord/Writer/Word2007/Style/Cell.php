@@ -59,7 +59,7 @@ class Cell extends AbstractStyle
         $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
 
         // Border
-        if ($style->hasBorders()) {
+        if ($style->hasBorder()) {
             $xmlWriter->startElement('w:tcBorders');
 
             $styleWriter = new MarginBorder($xmlWriter);

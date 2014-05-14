@@ -9,7 +9,6 @@ tools:
         enabled: true
         config:
             standard: PSR2
-    php_cpd: true
     php_mess_detector:
         enabled: true
         config:

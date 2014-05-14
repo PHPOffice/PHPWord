@@ -102,7 +102,7 @@ class Table extends AbstractStyle
      */
     private function writeMargin(XMLWriter $xmlWriter, TableStyle $style)
     {
-        if ($style->hasMargins()) {
+        if ($style->hasMargin()) {
             $xmlWriter->startElement('w:tblCellMar');
 
             $styleWriter = new MarginBorder($xmlWriter);
@@ -118,7 +118,7 @@ class Table extends AbstractStyle
      */
     private function writeBorder(XMLWriter $xmlWriter, TableStyle $style)
     {
-        if ($style->hasBorders()) {
+        if ($style->hasBorder()) {
             $xmlWriter->startElement('w:tblBorders');
 
             $styleWriter = new MarginBorder($xmlWriter);
