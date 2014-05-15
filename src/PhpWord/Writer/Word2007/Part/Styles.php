@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Settings as PhpWordSettings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -158,8 +158,8 @@ class Styles extends AbstractPart
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
-        $fontName = Settings::getDefaultFontName();
-        $fontSize = Settings::getDefaultFontSize();
+        $fontName = PhpWordSettings::getDefaultFontName();
+        $fontSize = PhpWordSettings::getDefaultFontSize();
 
         // Default font
         $xmlWriter->startElement('w:docDefaults');

@@ -28,12 +28,13 @@ if (!defined('DATE_W3C')) {
 /**
  * XMLWriter wrapper
  *
- * @method bool writeElement(string $name, string $content = null)
- * @method bool startElement(string $name)
- * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
  * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
+ * @method bool startElement(string $name)
  * @method bool text(string $content)
+ * @method bool writeAttribute(string $name, string $value)
+ * @method bool writeElement(string $name, string $content = null)
+ * @method bool writeRaw(string $content)
  */
 class XMLWriter
 {
