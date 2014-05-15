@@ -49,22 +49,19 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $rStyle = array('size' => 20);
         $tStyle = array(
             'bgColor' => 'FF0000',
-            'cellMarginTop' => 120,
-            'cellMarginBottom' => 120,
-            'cellMarginLeft' => 120,
-            'cellMarginRight' => 120,
-            'borderTopSize' => 120,
-            'borderBottomSize' => 120,
-            'borderLeftSize' => 120,
-            'borderRightSize' => 120,
-            'borderInsideHSize' => 120,
-            'borderInsideVSize' => 120,
+            'cellMargin' => 120,
+            'borderSize' => 120,
+        );
+        $firstRowStyle = array(
+            'bgColor' => '0000FF',
+            'borderSize' => 120,
+            'borderColor' => '00FF00',
         );
         $phpWord->setDefaultParagraphStyle($pStyle);
         $phpWord->addParagraphStyle('Base Style', $pBase);
         $phpWord->addParagraphStyle('New Style', $pNew);
         $phpWord->addFontStyle('New Style', $rStyle, $pStyle);
-        $phpWord->addTableStyle('Table Style', $tStyle, $tStyle);
+        $phpWord->addTableStyle('Table Style', $tStyle, $firstRowStyle);
         $phpWord->addTitleStyle(1, $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 

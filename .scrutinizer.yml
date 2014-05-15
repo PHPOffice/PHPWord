@@ -17,7 +17,6 @@ tools:
         enabled: true
         timeout: 900
     php_sim:
-        enabled: true
         min_mass: 40
     php_pdepend: true
     php_analyzer: true

@@ -124,7 +124,8 @@ class Table extends Border
     {
         $this->alignment = new Alignment();
 
-        if ($firstRowStyle  !== null && is_array($firstRowStyle)) {
+        // Clone first row from table style, but with certain properties disabled
+        if ($firstRowStyle !== null && is_array($firstRowStyle)) {
             $this->firstRow = clone $this;
             unset($this->firstRow->firstRow);
             unset($this->firstRow->borderInsideHSize);
@@ -257,7 +258,7 @@ class Table extends Border
      */
     public function getBorderInsideHSize()
     {
-        return isset($this->borderInsideHSize) ? $this->borderInsideHSize : null;
+        return $this->getTableOnlyProperty('borderInsideHSize');
     }
 
     /**
@@ -268,9 +269,7 @@ class Table extends Border
      */
     public function setBorderInsideHSize($value = null)
     {
-        $this->borderInsideHSize = $this->setNumericVal($value, $this->borderInsideHSize);
-
-        return $this;
+        return $this->setTableOnlyProperty('borderInsideHSize', $value);
     }
 
     /**
@@ -280,7 +279,7 @@ class Table extends Border
      */
     public function getBorderInsideHColor()
     {
-        return isset($this->borderInsideHColor) ? $this->borderInsideHColor : null;
+        return $this->getTableOnlyProperty('borderInsideHColor');
     }
 
     /**
@@ -291,9 +290,7 @@ class Table extends Border
      */
     public function setBorderInsideHColor($value = null)
     {
-        $this->borderInsideHColor = $value ;
-
-        return $this;
+        return $this->setTableOnlyProperty('borderInsideHColor', $value, false);
     }
 
     /**
@@ -303,7 +300,7 @@ class Table extends Border
      */
     public function getBorderInsideVSize()
     {
-        return isset($this->borderInsideVSize) ? $this->borderInsideVSize : null;
+        return $this->getTableOnlyProperty('borderInsideVSize');
     }
 
     /**
@@ -314,9 +311,7 @@ class Table extends Border
      */
     public function setBorderInsideVSize($value = null)
     {
-        $this->borderInsideVSize = $this->setNumericVal($value, $this->borderInsideVSize);
-
-        return $this;
+        return $this->setTableOnlyProperty('borderInsideVSize', $value);
     }
 
     /**
@@ -326,7 +321,7 @@ class Table extends Border
      */
     public function getBorderInsideVColor()
     {
-        return isset($this->borderInsideVColor) ? $this->borderInsideVColor : null;
+        return $this->getTableOnlyProperty('borderInsideVColor');
     }
 
     /**
@@ -337,9 +332,7 @@ class Table extends Border
      */
     public function setBorderInsideVColor($value = null)
     {
-        $this->borderInsideVColor = $value;
-
-        return $this;
+        return $this->setTableOnlyProperty('borderInsideVColor', $value, false);
     }
 
     /**
@@ -349,7 +342,7 @@ class Table extends Border
      */
     public function getCellMarginTop()
     {
-        return $this->cellMarginTop;
+        return $this->getTableOnlyProperty('cellMarginTop');
     }
 
     /**
@@ -360,9 +353,7 @@ class Table extends Border
      */
     public function setCellMarginTop($value = null)
     {
-        $this->cellMarginTop = $this->setNumericVal($value, $this->cellMarginTop);
-
-        return $this;
+        return $this->setTableOnlyProperty('cellMarginTop', $value);
     }
 
     /**
@@ -372,7 +363,7 @@ class Table extends Border
      */
     public function getCellMarginLeft()
     {
-        return $this->cellMarginLeft;
+        return $this->getTableOnlyProperty('cellMarginLeft');
     }
 
     /**
@@ -383,9 +374,7 @@ class Table extends Border
      */
     public function setCellMarginLeft($value = null)
     {
-        $this->cellMarginLeft = $this->setNumericVal($value, $this->cellMarginLeft);
-
-        return $this;
+        return $this->setTableOnlyProperty('cellMarginLeft', $value);
     }
 
     /**
@@ -395,7 +384,7 @@ class Table extends Border
      */
     public function getCellMarginRight()
     {
-        return $this->cellMarginRight;
+        return $this->getTableOnlyProperty('cellMarginRight');
     }
 
     /**
@@ -406,9 +395,7 @@ class Table extends Border
      */
     public function setCellMarginRight($value = null)
     {
-        $this->cellMarginRight = $this->setNumericVal($value, $this->cellMarginRight);
-
-        return $this;
+        return $this->setTableOnlyProperty('cellMarginRight', $value);
     }
 
     /**
@@ -418,7 +405,7 @@ class Table extends Border
      */
     public function getCellMarginBottom()
     {
-        return $this->cellMarginBottom;
+        return $this->getTableOnlyProperty('cellMarginBottom');
     }
 
     /**
@@ -429,9 +416,7 @@ class Table extends Border
      */
     public function setCellMarginBottom($value = null)
     {
-        $this->cellMarginBottom = $this->setNumericVal($value, $this->cellMarginBottom);
-
-        return $this;
+        return $this->setTableOnlyProperty('cellMarginBottom', $value);
     }
 
     /**
@@ -566,6 +551,48 @@ class Table extends Border
     {
         $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
         $this->unit = $this->setEnumVal($value, $enum, $this->unit);
+
+        return $this;
+    }
+
+    /**
+     * Get table style only property by checking if firstRow is set
+     *
+     * This is necessary since firstRow style is cloned from table style but
+     * without certain properties activated, e.g. margins
+     *
+     * @param string $property
+     * @return int|string|null
+     */
+    private function getTableOnlyProperty($property)
+    {
+        if (isset($this->firstRow)) {
+            return $this->$property;
+        }
+
+        return null;
+    }
+
+    /**
+     * Set table style only property by checking if firstRow is set
+     *
+     * This is necessary since firstRow style is cloned from table style but
+     * without certain properties activated, e.g. margins
+     *
+     * @param string $property
+     * @param int|string $value
+     * @param bool $isNumeric
+     * @return self
+     */
+    private function setTableOnlyProperty($property, $value, $isNumeric = true)
+    {
+        if (isset($this->firstRow)) {
+            if ($isNumeric) {
+                $this->$property = $this->setNumericVal($value, $this->$property);
+            } else {
+                $this->$property = $value;
+            }
+        }
 
         return $this;
     }

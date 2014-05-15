@@ -404,10 +404,7 @@ class Font extends AbstractStyle
      */
     public function setSuperScript($value = true)
     {
-        $this->superScript = $this->setBoolVal($value, $this->superScript);
-        $this->toggleFalse($this->subScript, $this->superScript);
-
-        return $this;
+        return $this->setPairedProperty($this->superScript, $this->subScript, $value);
     }
 
     /**
@@ -428,10 +425,7 @@ class Font extends AbstractStyle
      */
     public function setSubScript($value = true)
     {
-        $this->subScript = $this->setBoolVal($value, $this->subScript);
-        $this->toggleFalse($this->subScript, $this->superScript);
-
-        return $this;
+        return $this->setPairedProperty($this->subScript, $this->superScript, $value);
     }
 
     /**
@@ -452,10 +446,7 @@ class Font extends AbstractStyle
      */
     public function setStrikethrough($value = true)
     {
-        $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
-        $this->toggleFalse($this->doubleStrikethrough, $this->strikethrough);
-
-        return $this;
+        return $this->setPairedProperty($this->strikethrough, $this->doubleStrikethrough, $value);
     }
 
     /**
@@ -476,10 +467,7 @@ class Font extends AbstractStyle
      */
     public function setDoubleStrikethrough($value = true)
     {
-        $this->doubleStrikethrough = $this->setBoolVal($value, $this->doubleStrikethrough);
-        $this->toggleFalse($this->strikethrough, $this->doubleStrikethrough);
-
-        return $this;
+        return $this->setPairedProperty($this->doubleStrikethrough, $this->strikethrough, $value);
     }
 
     /**
@@ -500,10 +488,7 @@ class Font extends AbstractStyle
      */
     public function setSmallCaps($value = true)
     {
-        $this->smallCaps = $this->setBoolVal($value, $this->smallCaps);
-        $this->toggleFalse($this->allCaps, $this->smallCaps);
-
-        return $this;
+        return $this->setPairedProperty($this->smallCaps, $this->allCaps, $value);
     }
 
     /**
@@ -524,10 +509,7 @@ class Font extends AbstractStyle
      */
     public function setAllCaps($value = true)
     {
-        $this->allCaps = $this->setBoolVal($value, $this->allCaps);
-        $this->toggleFalse($this->smallCaps, $this->allCaps);
-
-        return $this;
+        return $this->setPairedProperty($this->allCaps, $this->smallCaps, $value);
     }
 
     /**
@@ -648,16 +630,21 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Toggle $target property to false when $source true
+     * Set $property value and set $pairProperty = false when $value = true
      *
-     * @param bool|null $target Target property
-     * @param bool $sourceValue
+     * @param bool $property
+     * @param bool $pair
+     * @param bool $value
+     * @return self
      */
-    private function toggleFalse(&$target, $sourceValue)
+    private function setPairedProperty(&$property, &$pairProperty, $value)
     {
-        if ($sourceValue == true) {
-            $target = false;
+        $property = $this->setBoolVal($value, $property);
+        if ($value == true) {
+            $pairProperty = false;
         }
+
+        return $this;
     }
 
     /**
