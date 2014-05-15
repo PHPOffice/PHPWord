@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
@@ -47,9 +47,9 @@ class Font extends AbstractStyle
         $underline = $style->getUnderline() != FontStyle::UNDERLINE_NONE;
         $lineThrough = $style->isStrikethrough() || $style->isDoubleStrikethrough();
 
-        $css['font-family'] = $this->getValueIf($font != PhpWord::DEFAULT_FONT_NAME, "'{$font}'");
-        $css['font-size'] = $this->getValueIf($size != PhpWord::DEFAULT_FONT_SIZE, "{$size}pt");
-        $css['color'] = $this->getValueIf($color != PhpWord::DEFAULT_FONT_COLOR, "#{$color}");
+        $css['font-family'] = $this->getValueIf($font !== null, "'{$font}'");
+        $css['font-size'] = $this->getValueIf($size !== null, "{$size}pt");
+        $css['color'] = $this->getValueIf($color != Settings::DEFAULT_FONT_COLOR, "#{$color}");
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
         $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
         $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');

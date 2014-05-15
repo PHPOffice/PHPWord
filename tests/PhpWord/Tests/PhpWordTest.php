@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Tests;
 
 use PhpOffice\PhpWord\DocumentProperties;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -35,8 +36,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $this->assertEquals(new DocumentProperties(), $phpWord->getDocumentProperties());
-        $this->assertEquals(PhpWord::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
-        $this->assertEquals(PhpWord::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
     }
 
     /**
@@ -69,7 +70,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $fontName = 'Times New Roman';
-        $this->assertEquals(PhpWord::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         $phpWord->setDefaultFontName($fontName);
         $this->assertEquals($fontName, $phpWord->getDefaultFontName());
     }
@@ -81,7 +82,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $fontSize = 16;
-        $this->assertEquals(PhpWord::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
         $phpWord->setDefaultFontSize($fontSize);
         $this->assertEquals($fontSize, $phpWord->getDefaultFontSize());
     }

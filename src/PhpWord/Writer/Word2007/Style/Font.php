@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Font style writer
  *
@@ -72,24 +70,24 @@ class Font extends AbstractStyle
         // Font name/family
         $font = $style->getName();
         $hint = $style->getHint();
-        if ($font != PhpWord::DEFAULT_FONT_NAME) {
+        if ($font !== null) {
             $xmlWriter->startElement('w:rFonts');
             $xmlWriter->writeAttribute('w:ascii', $font);
             $xmlWriter->writeAttribute('w:hAnsi', $font);
             $xmlWriter->writeAttribute('w:eastAsia', $font);
             $xmlWriter->writeAttribute('w:cs', $font);
-            $xmlWriter->writeAttributeIf($hint != PhpWord::DEFAULT_FONT_CONTENT_TYPE, 'w:hint', $hint);
+            $xmlWriter->writeAttributeIf($hint !== null, 'w:hint', $hint);
             $xmlWriter->endElement();
         }
 
         // Color
         $color = $style->getColor();
-        $xmlWriter->writeElementIf($color != PhpWord::DEFAULT_FONT_COLOR, 'w:color', 'w:val', $color);
+        $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
 
         // Size
         $size = $style->getSize();
-        $xmlWriter->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:sz', 'w:val', $size * 2);
-        $xmlWriter->writeElementIf($size != PhpWord::DEFAULT_FONT_SIZE, 'w:szCs', 'w:val', $size * 2);
+        $xmlWriter->writeElementIf($size !== null, 'w:sz', 'w:val', $size * 2);
+        $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $size * 2);
 
         // Bold, italic
         $xmlWriter->writeElementIf($style->isBold(), 'w:b');

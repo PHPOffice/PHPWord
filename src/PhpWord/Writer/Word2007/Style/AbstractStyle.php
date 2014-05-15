@@ -87,11 +87,18 @@ abstract class AbstractStyle
      */
     protected function convertTwip($value, $default = 0)
     {
+        $conversions = array(
+            Settings::UNIT_CM => 567,
+            Settings::UNIT_MM => 56.7,
+            Settings::UNIT_INCH => 1440,
+            Settings::UNIT_POINT => 20,
+            Settings::UNIT_PICA => 240,
+        );
         $unit = Settings::getMeasurementUnit();
-        if ($unit == Settings::UNIT_TWIP || $value == $default) {
-            return $value;
+        if (in_array($unit, $conversions) && $value != $default) {
+            return $value * $conversions[$unit];
         } else {
-            return $value * $unit;
+            return $value;
         }
     }
 }

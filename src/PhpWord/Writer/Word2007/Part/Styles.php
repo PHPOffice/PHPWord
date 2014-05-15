@@ -17,11 +17,11 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
@@ -41,7 +41,6 @@ class Styles extends AbstractPart
      */
     public function write()
     {
-        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -51,7 +50,7 @@ class Styles extends AbstractPart
 
         // Write default styles
         $styles = Style::getStyles();
-        $this->writeDefaultStyles($xmlWriter, $phpWord, $styles);
+        $this->writeDefaultStyles($xmlWriter, $styles);
 
         // Write styles
         if (count($styles) > 0) {
@@ -155,13 +154,12 @@ class Styles extends AbstractPart
      * Write default font and other default styles
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $styles
      */
-    private function writeDefaultStyles(XMLWriter $xmlWriter, PhpWord $phpWord, $styles)
+    private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
-        $fontName = $phpWord->getDefaultFontName();
-        $fontSize = $phpWord->getDefaultFontSize();
+        $fontName = Settings::getDefaultFontName();
+        $fontSize = Settings::getDefaultFontSize();
 
         // Default font
         $xmlWriter->startElement('w:docDefaults');

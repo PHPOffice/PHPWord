@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader\ODText;
 
-use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
+use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -153,7 +154,7 @@ class RTF extends AbstractWriter implements WriterInterface
         $content .= '\nowidctlpar'; // No widow/orphan control
         $content .= '\lang1036'; // Applies a language to a text run (1036 : French (France))
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
-        $content .= '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2); // Set the font size in half-points
+        $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
         $content .= PHP_EOL;
 
         // Body
@@ -191,7 +192,7 @@ class RTF extends AbstractWriter implements WriterInterface
     {
         $phpWord = $this->getPhpWord();
         $fontTable = array();
-        $fontTable[] = PhpWord::DEFAULT_FONT_NAME;
+        $fontTable[] = Settings::getDefaultFontName();
 
         // Browse styles
         $styles = Style::getStyles();
@@ -236,7 +237,7 @@ class RTF extends AbstractWriter implements WriterInterface
     private function populateColorTable()
     {
         $phpWord = $this->getPhpWord();
-        $defaultFontColor = PhpWord::DEFAULT_FONT_COLOR;
+        $defaultFontColor = Settings::DEFAULT_FONT_COLOR;
         $colorTable = array();
 
         // Browse styles

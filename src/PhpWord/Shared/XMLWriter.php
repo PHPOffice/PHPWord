@@ -136,21 +136,6 @@ class XMLWriter
     }
 
     /**
-     * Fallback method for writeRaw, introduced in PHP 5.2
-     *
-     * @param string $text
-     * @return bool
-     */
-    public function writeRaw($text)
-    {
-        if (isset($this->xmlWriter) && is_object($this->xmlWriter) && (method_exists($this->xmlWriter, 'writeRaw'))) {
-            return $this->xmlWriter->writeRaw($text);
-        }
-
-        return $this->text($text);
-    }
-
-    /**
      * Write element if ...
      *
      * @param bool|null $condition

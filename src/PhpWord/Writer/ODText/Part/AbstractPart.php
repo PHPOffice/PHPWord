@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -68,7 +68,7 @@ abstract class AbstractPart extends Word2007AbstractPart
     protected function writeFontFaces(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('office:font-face-decls');
-        $arrFonts = array();
+        $fontTable = array();
         $styles = Style::getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
@@ -77,8 +77,8 @@ abstract class AbstractPart extends Word2007AbstractPart
                 if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
-                    if (!in_array($name, $arrFonts)) {
-                        $arrFonts[] = $name;
+                    if (!in_array($name, $fontTable)) {
+                        $fontTable[] = $name;
 
                         // style:font-face
                         $xmlWriter->startElement('style:font-face');
@@ -89,10 +89,10 @@ abstract class AbstractPart extends Word2007AbstractPart
                 }
             }
         }
-        if (!in_array(PhpWord::DEFAULT_FONT_NAME, $arrFonts)) {
+        if (!in_array(Settings::getDefaultFontName(), $fontTable)) {
             $xmlWriter->startElement('style:font-face');
-            $xmlWriter->writeAttribute('style:name', PhpWord::DEFAULT_FONT_NAME);
-            $xmlWriter->writeAttribute('svg:font-family', PhpWord::DEFAULT_FONT_NAME);
+            $xmlWriter->writeAttribute('style:name', Settings::getDefaultFontName());
+            $xmlWriter->writeAttribute('svg:font-family', Settings::getDefaultFontName());
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement();
