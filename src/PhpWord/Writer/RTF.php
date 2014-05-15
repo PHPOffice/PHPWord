@@ -58,7 +58,6 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     public function __construct(PhpWord $phpWord = null)
     {
-        // Assign PhpWord
         $this->setPhpWord($phpWord);
     }
 
@@ -70,10 +69,6 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
         $filename = $this->getTempFile($filename);
         $hFile = fopen($filename, 'w');
         if ($hFile !== false) {
@@ -194,12 +189,9 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     private function populateFontTable()
     {
-        $phpWord = $this->phpWord;
-
-        $arrFonts = array();
-        // Default font : PhpWord::DEFAULT_FONT_NAME
-        $arrFonts[] = PhpWord::DEFAULT_FONT_NAME;
-        // PhpWord object : $this->phpWord
+        $phpWord = $this->getPhpWord();
+        $fontTable = array();
+        $fontTable[] = PhpWord::DEFAULT_FONT_NAME;
 
         // Browse styles
         $styles = Style::getStyles();
@@ -207,8 +199,8 @@ class RTF extends AbstractWriter implements WriterInterface
             foreach ($styles as $style) {
                 // Font
                 if ($style instanceof Font) {
-                    if (in_array($style->getName(), $arrFonts) == false) {
-                        $arrFonts[] = $style->getName();
+                    if (in_array($style->getName(), $fontTable) == false) {
+                        $fontTable[] = $style->getName();
                     }
                 }
             }
@@ -218,19 +210,14 @@ class RTF extends AbstractWriter implements WriterInterface
         $sections = $phpWord->getSections();
         $countSections = count($sections);
         if ($countSections > 0) {
-            $pSection = 0;
-
             foreach ($sections as $section) {
-                $pSection++;
                 $elements = $section->getElements();
-
                 foreach ($elements as $element) {
                     if (method_exists($element, 'getFontStyle')) {
                         $fontStyle = $element->getFontStyle();
-
                         if ($fontStyle instanceof Font) {
-                            if (in_array($fontStyle->getName(), $arrFonts) == false) {
-                                $arrFonts[] = $fontStyle->getName();
+                            if (in_array($fontStyle->getName(), $fontTable) == false) {
+                                $fontTable[] = $fontStyle->getName();
                             }
                         }
                     }
@@ -238,7 +225,7 @@ class RTF extends AbstractWriter implements WriterInterface
             }
         }
 
-        return $arrFonts;
+        return $fontTable;
     }
 
     /**
@@ -248,11 +235,9 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     private function populateColorTable()
     {
-        $phpWord = $this->phpWord;
+        $phpWord = $this->getPhpWord();
         $defaultFontColor = PhpWord::DEFAULT_FONT_COLOR;
-
-        $arrColors = array();
-        // PhpWord object : $this->phpWord
+        $colorTable = array();
 
         // Browse styles
         $styles = Style::getStyles();
@@ -262,11 +247,11 @@ class RTF extends AbstractWriter implements WriterInterface
                 if ($style instanceof Font) {
                     $color = $style->getColor();
                     $fgcolor = $style->getFgColor();
-                    if (!in_array($color, $arrColors) && $color != $defaultFontColor && !empty($color)) {
-                        $arrColors[] = $color;
+                    if (!in_array($color, $colorTable) && $color != $defaultFontColor && !empty($color)) {
+                        $colorTable[] = $color;
                     }
-                    if (!in_array($fgcolor, $arrColors) && $fgcolor != $defaultFontColor && !empty($fgcolor)) {
-                        $arrColors[] = $fgcolor;
+                    if (!in_array($fgcolor, $colorTable) && $fgcolor != $defaultFontColor && !empty($fgcolor)) {
+                        $colorTable[] = $fgcolor;
                     }
                 }
             }
@@ -276,22 +261,17 @@ class RTF extends AbstractWriter implements WriterInterface
         $sections = $phpWord->getSections();
         $countSections = count($sections);
         if ($countSections > 0) {
-            $pSection = 0;
-
             foreach ($sections as $section) {
-                $pSection++;
                 $elements = $section->getElements();
-
                 foreach ($elements as $element) {
                     if (method_exists($element, 'getFontStyle')) {
                         $fontStyle = $element->getFontStyle();
-
                         if ($fontStyle instanceof Font) {
-                            if (in_array($fontStyle->getColor(), $arrColors) == false) {
-                                $arrColors[] = $fontStyle->getColor();
+                            if (in_array($fontStyle->getColor(), $colorTable) == false) {
+                                $colorTable[] = $fontStyle->getColor();
                             }
-                            if (in_array($fontStyle->getFgColor(), $arrColors) == false) {
-                                $arrColors[] = $fontStyle->getFgColor();
+                            if (in_array($fontStyle->getFgColor(), $colorTable) == false) {
+                                $colorTable[] = $fontStyle->getFgColor();
                             }
                         }
                     }
@@ -299,6 +279,6 @@ class RTF extends AbstractWriter implements WriterInterface
             }
         }
 
-        return $arrColors;
+        return $colorTable;
     }
 }

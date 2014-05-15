@@ -21,11 +21,12 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
 
 /**
  * ODText writer part abstract
  */
-abstract class AbstractPart extends \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart
+abstract class AbstractPart extends Word2007AbstractPart
 {
     /**
      * Write common root attributes

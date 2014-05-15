@@ -41,7 +41,7 @@ class Table extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Table) {
+        if (!$element instanceof TableElement) {
             return;
         }
 

@@ -38,7 +38,7 @@ class TOC extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\TOC) {
+        if (!$element instanceof TOCElement) {
             return;
         }
 

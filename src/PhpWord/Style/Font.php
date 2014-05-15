@@ -633,7 +633,7 @@ class Font extends AbstractStyle
      * Set $property value and set $pairProperty = false when $value = true
      *
      * @param bool $property
-     * @param bool $pair
+     * @param bool $pairProperty
      * @param bool $value
      * @return self
      */

@@ -32,7 +32,7 @@ class TextBox extends Image
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\TextBox) {
+        if (!$style instanceof TextBoxStyle) {
             return;
         }
         $this->writeStyle($style);
@@ -50,7 +50,7 @@ class TextBox extends Image
             return;
         }
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\TextBox) {
+        if (!$style instanceof TextBoxStyle) {
             return;
         }
 
@@ -91,7 +91,7 @@ class TextBox extends Image
     public function writeInnerMargin()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\TextBox || !$style->hasInnerMargins()) {
+        if (!$style instanceof TextBoxStyle || !$style->hasInnerMargins()) {
             return;
         }
 

@@ -40,7 +40,7 @@ class Image extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+        if (!$style instanceof ImageStyle) {
             return;
         }
         $this->writeStyle($style);
@@ -107,7 +107,7 @@ class Image extends AbstractStyle
     public function writeAlignment()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
+        if (!$style instanceof ImageStyle) {
             return;
         }
 

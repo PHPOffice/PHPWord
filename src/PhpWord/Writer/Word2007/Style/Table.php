@@ -41,7 +41,7 @@ class Table extends AbstractStyle
         $style = $this->getStyle();
         $xmlWriter = $this->getXmlWriter();
 
-        if ($style instanceof \PhpOffice\PhpWord\Style\Table) {
+        if ($style instanceof TableStyle) {
             $this->writeStyle($xmlWriter, $style);
         } elseif (is_string($style)) {
             $xmlWriter->startElement('w:tblPr');
@@ -77,7 +77,7 @@ class Table extends AbstractStyle
 
         // First row style
         $firstRow = $style->getFirstRow();
-        if ($firstRow instanceof \PhpOffice\PhpWord\Style\Table) {
+        if ($firstRow instanceof TableStyle) {
             $this->writeFirstRow($xmlWriter, $firstRow);
         }
     }

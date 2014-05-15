@@ -110,18 +110,6 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Save with no PhpWord object assigned
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new ODText();
-        $writer->save();
-    }
-
-    /**
      * Get writer part return null value
      */
     public function testGetWriterPartNull()

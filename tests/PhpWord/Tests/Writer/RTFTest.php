@@ -98,16 +98,4 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $writer = new RTF($phpWord);
         $writer->save('php://output');
     }
-
-    /**
-     * Save with no PhpWord object assigned
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new RTF();
-        $writer->save();
-    }
 }

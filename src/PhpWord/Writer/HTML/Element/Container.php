@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
+
 /**
  * Container element HTML writer
  *
@@ -39,7 +41,7 @@ class Container extends AbstractElement
     public function write()
     {
         $container = $this->element;
-        if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+        if (!$container instanceof ContainerElement) {
             return '';
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);

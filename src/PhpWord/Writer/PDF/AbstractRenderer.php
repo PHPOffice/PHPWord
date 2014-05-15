@@ -19,11 +19,12 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Abstract PDF renderer
  */
-abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
+abstract class AbstractRenderer extends HTML
 {
     /**
      * Temporary storage directory
@@ -112,12 +113,12 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     /**
      * Set Paper Size
      *
-     * @param int $pValue Paper size = PAPERSIZE_A4
+     * @param int $value Paper size = PAPERSIZE_A4
      * @return self
      */
-    public function setPaperSize($pValue = 9)
+    public function setPaperSize($value = 9)
     {
-        $this->paperSize = $pValue;
+        $this->paperSize = $value;
         return $this;
     }
 
@@ -134,27 +135,27 @@ abstract class AbstractRenderer extends \PhpOffice\PhpWord\Writer\HTML
     /**
      * Set Orientation
      *
-     * @param string $pValue Page orientation ORIENTATION_DEFAULT
+     * @param string $value Page orientation ORIENTATION_DEFAULT
      * @return self
      */
-    public function setOrientation($pValue = 'default')
+    public function setOrientation($value = 'default')
     {
-        $this->orientation = $pValue;
+        $this->orientation = $value;
         return $this;
     }
 
     /**
      * Save PhpWord to PDF file, pre-save
      *
-     * @param string $pFilename Name of the file to save as
+     * @param string $filename Name of the file to save as
      * @return resource
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function prepareForSave($pFilename = null)
+    protected function prepareForSave($filename = null)
     {
-        $fileHandle = fopen($pFilename, 'w');
+        $fileHandle = fopen($filename, 'w');
         if ($fileHandle === false) {
-            throw new Exception("Could not open file $pFilename for writing.");
+            throw new Exception("Could not open file $filename for writing.");
         }
         $this->isPdf = true;
 

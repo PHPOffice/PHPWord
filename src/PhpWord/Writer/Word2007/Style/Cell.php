@@ -37,7 +37,7 @@ class Cell extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Cell) {
+        if (!$style instanceof CellStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();

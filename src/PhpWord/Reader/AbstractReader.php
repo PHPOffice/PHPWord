@@ -54,47 +54,47 @@ abstract class AbstractReader implements ReaderInterface
     /**
      * Set read data only
      *
-     * @param bool $pValue
+     * @param bool $value
      * @return self
      */
-    public function setReadDataOnly($pValue = true)
+    public function setReadDataOnly($value = true)
     {
-        $this->readDataOnly = $pValue;
+        $this->readDataOnly = $value;
         return $this;
     }
 
     /**
      * Open file for reading
      *
-     * @param string $pFilename
+     * @param string $filename
      * @return resource
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function openFile($pFilename)
+    protected function openFile($filename)
     {
         // Check if file exists
-        if (!file_exists($pFilename) || !is_readable($pFilename)) {
-            throw new Exception("Could not open " . $pFilename . " for reading! File does not exist.");
+        if (!file_exists($filename) || !is_readable($filename)) {
+            throw new Exception("Could not open " . $filename . " for reading! File does not exist.");
         }
 
         // Open file
-        $this->fileHandle = fopen($pFilename, 'r');
+        $this->fileHandle = fopen($filename, 'r');
         if ($this->fileHandle === false) {
-            throw new Exception("Could not open file " . $pFilename . " for reading.");
+            throw new Exception("Could not open file " . $filename . " for reading.");
         }
     }
 
     /**
      * Can the current ReaderInterface read the file?
      *
-     * @param string $pFilename
+     * @param string $filename
      * @return bool
      */
-    public function canRead($pFilename)
+    public function canRead($filename)
     {
         // Check if file exists
         try {
-            $this->openFile($pFilename);
+            $this->openFile($filename);
         } catch (Exception $e) {
             return false;
         }

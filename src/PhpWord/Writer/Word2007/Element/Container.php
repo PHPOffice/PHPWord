@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
+use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
 
 /**
  * Container element writer (section, textrun, header, footnote, cell, etc.)
@@ -39,7 +40,7 @@ class Container extends AbstractElement
     public function write()
     {
         $container = $this->getElement();
-        if (!$container instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+        if (!$container instanceof ContainerElement) {
             return;
         }
         $containerClass = substr(get_class($container), strrpos(get_class($container), '\\') + 1);

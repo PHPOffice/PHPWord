@@ -30,11 +30,18 @@ class Table extends Border
     const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
 
     /**
+     * Is this a first row style?
+     *
+     * @var bool
+     */
+    private $isFirstRow = false;
+
+    /**
      * Style for first row
      *
      * @var \PhpOffice\PhpWord\Style\Table
      */
-    private $firstRow;
+    private $firstRowStyle;
 
     /**
      * Cell margin top
@@ -126,17 +133,18 @@ class Table extends Border
 
         // Clone first row from table style, but with certain properties disabled
         if ($firstRowStyle !== null && is_array($firstRowStyle)) {
-            $this->firstRow = clone $this;
-            unset($this->firstRow->firstRow);
-            unset($this->firstRow->borderInsideHSize);
-            unset($this->firstRow->borderInsideHColor);
-            unset($this->firstRow->borderInsideVSize);
-            unset($this->firstRow->borderInsideVColor);
-            unset($this->firstRow->cellMarginTop);
-            unset($this->firstRow->cellMarginLeft);
-            unset($this->firstRow->cellMarginRight);
-            unset($this->firstRow->cellMarginBottom);
-            $this->firstRow->setStyleByArray($firstRowStyle);
+            $this->firstRowStyle = clone $this;
+            $this->firstRowStyle->isFirstRow = true;
+            unset($this->firstRowStyle->firstRowStyle);
+            unset($this->firstRowStyle->borderInsideHSize);
+            unset($this->firstRowStyle->borderInsideHColor);
+            unset($this->firstRowStyle->borderInsideVSize);
+            unset($this->firstRowStyle->borderInsideVColor);
+            unset($this->firstRowStyle->cellMarginTop);
+            unset($this->firstRowStyle->cellMarginLeft);
+            unset($this->firstRowStyle->cellMarginRight);
+            unset($this->firstRowStyle->cellMarginBottom);
+            $this->firstRowStyle->setStyleByArray($firstRowStyle);
         }
 
         if ($tableStyle !== null && is_array($tableStyle)) {
@@ -145,13 +153,13 @@ class Table extends Border
     }
 
     /**
-     * Get First Row Style
+     * Set first row
      *
      * @return \PhpOffice\PhpWord\Style\Table
      */
     public function getFirstRow()
     {
-        return $this->firstRow;
+        return $this->firstRowStyle;
     }
 
     /**
@@ -556,7 +564,7 @@ class Table extends Border
     }
 
     /**
-     * Get table style only property by checking if firstRow is set
+     * Get table style only property by checking if it's a firstRow
      *
      * This is necessary since firstRow style is cloned from table style but
      * without certain properties activated, e.g. margins
@@ -566,7 +574,7 @@ class Table extends Border
      */
     private function getTableOnlyProperty($property)
     {
-        if (isset($this->firstRow)) {
+        if ($this->isFirstRow === false) {
             return $this->$property;
         }
 
@@ -574,7 +582,7 @@ class Table extends Border
     }
 
     /**
-     * Set table style only property by checking if firstRow is set
+     * Set table style only property by checking if it's a firstRow
      *
      * This is necessary since firstRow style is cloned from table style but
      * without certain properties activated, e.g. margins
@@ -586,8 +594,8 @@ class Table extends Border
      */
     private function setTableOnlyProperty($property, $value, $isNumeric = true)
     {
-        if (isset($this->firstRow)) {
-            if ($isNumeric) {
+        if ($this->isFirstRow === false) {
+            if ($isNumeric === true) {
                 $this->$property = $this->setNumericVal($value, $this->$property);
             } else {
                 $this->$property = $value;

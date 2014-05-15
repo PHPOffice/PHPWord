@@ -18,11 +18,12 @@
 namespace PhpOffice\PhpWord\Reader\ODText;
 
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
 
 /**
  * Abstract part reader
  */
-abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractPart
+abstract class AbstractPart extends Word2007AbstractPart
 {
     /**
      * Read w:r (override)

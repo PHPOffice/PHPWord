@@ -67,10 +67,6 @@ class ODText extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
         $filename = $this->getTempFile($filename);
         $objZip = $this->getZipArchive($filename);
 

@@ -335,7 +335,7 @@ abstract class AbstractWriter implements WriterInterface
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
 
-            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
+            $zipClass = Settings::getZipClass();
             $zip = new $zipClass();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {

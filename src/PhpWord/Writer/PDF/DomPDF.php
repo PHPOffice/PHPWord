@@ -20,11 +20,12 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
  * DomPDF writer
  */
-class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\WriterInterface
+class DomPDF extends AbstractRenderer implements WriterInterface
 {
     /**
      * Create new instance
@@ -46,12 +47,12 @@ class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\Write
     /**
      * Save PhpWord to file
      *
-     * @param string $pFilename Name of the file to save as
+     * @param string $filename Name of the file to save as
      * @throws  Exception
      */
-    public function save($pFilename = null)
+    public function save($filename = null)
     {
-        $fileHandle = parent::prepareForSave($pFilename);
+        $fileHandle = parent::prepareForSave($filename);
 
         //  Default PDF paper size
         $paperSize = 'A4';

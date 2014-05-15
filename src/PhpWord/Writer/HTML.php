@@ -62,14 +62,10 @@ class HTML extends AbstractWriter implements WriterInterface
      * Save PhpWord to file
      *
      * @param string $filename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
         $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
         $hFile = fopen($filename, 'w');
         if ($hFile !== false) {
@@ -111,7 +107,8 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeHead()
     {
-        $properties = $this->getPhpWord()->getDocumentProperties();
+        $phpWord = $this->getPhpWord();
+        $properties = $phpWord->getDocumentProperties();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',
@@ -171,13 +168,14 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeStyles()
     {
+        $phpWord = $this->getPhpWord();
         $css = '<style>' . PHP_EOL;
 
         // Default styles
         $defaultStyles = array(
             '*' => array(
-                'font-family' => $this->getPhpWord()->getDefaultFontName(),
-                'font-size' => $this->getPhpWord()->getDefaultFontSize() . 'pt',
+                'font-family' => $phpWord->getDefaultFontName(),
+                'font-size' => $phpWord->getDefaultFontSize() . 'pt',
             ),
             'a.NoteRef' => array(
                 'text-decoration' => 'none',

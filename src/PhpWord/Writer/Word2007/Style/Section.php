@@ -32,7 +32,7 @@ class Section extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Section) {
+        if (!$style instanceof SectionStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();

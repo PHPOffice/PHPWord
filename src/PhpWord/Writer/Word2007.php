@@ -92,10 +92,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
+        $phpWord = $this->getPhpWord();
         $filename = $this->getTempFile($filename);
         $objZip = $this->getZipArchive($filename);
 
@@ -121,7 +118,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
         // Add header/footer contents
         $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
-        $sections = $this->phpWord->getSections();
+        $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $this->addHeaderFooterContent($section, $objZip, 'header', $rId);
             $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
@@ -223,10 +220,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
      */
     private function addNotes($objZip, &$rId, $noteType = 'footnote')
     {
+        $phpWord = $this->getPhpWord();
         $noteType = ($noteType == 'endnote') ? 'endnote' : 'footnote';
         $partName = "{$noteType}s";
         $method = 'get' . $partName;
-        $collection = $this->phpWord->$method();
+        $collection = $phpWord->$method();
 
         // Add footnotes media files, relations, and contents
         if ($collection->countItems() > 0) {

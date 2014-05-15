@@ -25,15 +25,15 @@ interface ReaderInterface
     /**
      * Can the current ReaderInterface read the file?
      *
-     * @param  string $pFilename
+     * @param  string $filename
      * @return boolean
      */
-    public function canRead($pFilename);
+    public function canRead($filename);
 
     /**
      * Loads PhpWord from file
      *
-     * @param string $pFilename
+     * @param string $filename
      */
-    public function load($pFilename);
+    public function load($filename);
 }

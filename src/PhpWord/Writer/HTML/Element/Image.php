@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
 
 /**
@@ -34,7 +35,7 @@ class Image extends Text
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Image) {
+        if (!$this->element instanceof ImageElement) {
             return '';
         }
         /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
@@ -76,7 +77,7 @@ class Image extends Text
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
 
-            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
+            $zipClass = Settings::getZipClass();
             $zip = new $zipClass();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
