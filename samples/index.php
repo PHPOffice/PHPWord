@@ -10,7 +10,7 @@ if (!CLI) {
     <a class="btn btn-lg btn-primary" href="http://phpword.readthedocs.org/en/develop/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
 </p>
 </div>
-<?
+<?php
 $requirements = array(
     'php' => array('PHP 5.3.0', version_compare(phpversion(), '5.3.0', '>=')),
     'zip' => array('PHP extension ZipArchive', extension_loaded('zip')),
