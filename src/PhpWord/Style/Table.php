@@ -123,22 +123,23 @@ class Table extends Border
     public function __construct($tableStyle = null, $firstRowStyle = null)
     {
         $this->alignment = new Alignment();
-        if ($tableStyle !== null && is_array($tableStyle)) {
-            $this->setStyleByArray($tableStyle);
-        }
 
         if ($firstRowStyle  !== null && is_array($firstRowStyle)) {
             $this->firstRow = clone $this;
             unset($this->firstRow->firstRow);
-            unset($this->firstRow->cellMarginBottom);
+            unset($this->firstRow->borderInsideHSize);
+            unset($this->firstRow->borderInsideHColor);
+            unset($this->firstRow->borderInsideVSize);
+            unset($this->firstRow->borderInsideVColor);
             unset($this->firstRow->cellMarginTop);
             unset($this->firstRow->cellMarginLeft);
             unset($this->firstRow->cellMarginRight);
-            unset($this->firstRow->borderInsideVColor);
-            unset($this->firstRow->borderInsideVSize);
-            unset($this->firstRow->borderInsideHColor);
-            unset($this->firstRow->borderInsideHSize);
+            unset($this->firstRow->cellMarginBottom);
             $this->firstRow->setStyleByArray($firstRowStyle);
+        }
+
+        if ($tableStyle !== null && is_array($tableStyle)) {
+            $this->setStyleByArray($tableStyle);
         }
     }
 

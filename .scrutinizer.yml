@@ -18,7 +18,7 @@ tools:
         timeout: 900
     php_sim:
         enabled: true
-        min_mass: 30
+        min_mass: 40
     php_pdepend: true
     php_analyzer: true
     sensiolabs_security_checker: true
