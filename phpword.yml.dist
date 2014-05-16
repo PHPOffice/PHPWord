@@ -1,9 +1,0 @@
-# Default config file for PHPWord
-# Copy and this file into phpword.yml and use Settings::loadConfig to load
-
-compatibility: true
-zipClass: ZipArchive
-pdfRendererName: DomPDF
-pdfRendererPath:
-defaultFontName: "Arial"
-defaultFontSize: 10

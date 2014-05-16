@@ -132,16 +132,14 @@ class Settings
      * This sets the setIndent and setIndentString for better compatibility
      *
      * @param bool $compatibility
-     * @return bool
+     * @return true
      */
     public static function setCompatibility($compatibility)
     {
-        if (is_bool($compatibility)) {
-            self::$xmlWriterCompatibility = $compatibility;
-            return true;
-        }
+        $compatibility = (bool)$compatibility;
+        self::$xmlWriterCompatibility = $compatibility;
 
-        return false;
+        return true;
     }
 
     /**
@@ -328,7 +326,11 @@ class Settings
         // Get config file
         $configFile = null;
         $configPath = __DIR__ . '/../../';
-        $files = array($filename, "{$configPath}phpword.yml", "{$configPath}phpword.yml.dist");
+        if ($filename !== null) {
+            $files = array($filename);
+        } else {
+            $files = array("{$configPath}phpword.ini", "{$configPath}phpword.ini.dist");
+        }
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $configFile = realpath($file);
@@ -336,12 +338,13 @@ class Settings
             }
         }
 
-        // Use Spyc to load config file
+        // Parse config file
         $config = array();
-        $spycLibrary = realpath(__DIR__ . '/Shared/Spyc/Spyc.php');
-        if (file_exists($spycLibrary) && $configFile !== null) {
-            require_once $spycLibrary;
-            $config = spyc_load_file($configFile);
+        if ($configFile !== null) {
+            $config = parse_ini_file($configFile);
+            if ($config === false) {
+                return $config;
+            }
         }
 
         // Set config value

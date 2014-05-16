@@ -44,11 +44,11 @@ before_script:
 
 script:
     ## PHP_CodeSniffer
-    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip --ignore=src/PhpWord/Shared/Spyc
+    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
     ## PHP Copy/Paste Detector
     - php phpcpd.phar src/ tests/ --verbose
     ## PHP Mess Detector
-    - phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php,Spyc.php
+    - phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php
     ## PHPLOC
     #- php phploc.phar src/
     ## PHPUnit
