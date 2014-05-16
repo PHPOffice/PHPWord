@@ -21,8 +21,6 @@ before_script:
     - sudo apt-get -qq update > /dev/null
     - sudo apt-get -qq install graphviz > /dev/null
     ## Composer
-    # - curl -s http://getcomposer.org/installer | php
-    # - php composer.phar install --prefer-source
     - composer self-update
     - composer require dompdf/dompdf:0.6.*
     - composer update --prefer-source --dev
