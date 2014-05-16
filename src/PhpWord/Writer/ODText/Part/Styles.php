@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -64,17 +64,17 @@ class Styles extends AbstractPart
         // style:text-properties
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
-        $xmlWriter->writeAttribute('style:font-name', PhpWord::DEFAULT_FONT_NAME);
-        $xmlWriter->writeAttribute('fo:font-size', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
+        $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('fo:language', 'fr');
         $xmlWriter->writeAttribute('fo:country', 'FR');
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
-        $xmlWriter->writeAttribute('style:font-name-asian', PhpWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-asian', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', 'zh');
         $xmlWriter->writeAttribute('style:country-asian', 'CN');
-        $xmlWriter->writeAttribute('style:font-name-complex', PhpWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-complex', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-complex', Settings::getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-complex', 'hi');
         $xmlWriter->writeAttribute('style:country-complex', 'IN');
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');

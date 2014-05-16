@@ -34,7 +34,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Settings::hasCompatibility());
         $this->assertTrue(Settings::setCompatibility(false));
         $this->assertFalse(Settings::hasCompatibility());
-        $this->assertFalse(Settings::setCompatibility('Non boolean'));
     }
 
     /**
@@ -69,5 +68,41 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
         $this->assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
         $this->assertFalse(Settings::setMeasurementUnit('foo'));
+    }
+
+    /**
+     * Test set/get default font name
+     */
+    public function testSetGetDefaultFontName()
+    {
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
+        $this->assertTrue(Settings::setDefaultFontName('Times New Roman'));
+        $this->assertFalse(Settings::setDefaultFontName(' '));
+    }
+
+    /**
+     * Test set/get default font size
+     */
+    public function testSetGetDefaultFontSize()
+    {
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
+        $this->assertTrue(Settings::setDefaultFontSize(12));
+        $this->assertFalse(Settings::setDefaultFontSize(null));
+    }
+
+    /**
+     * Test load config
+     */
+    public function testLoadConfig()
+    {
+        $expected = array(
+            'compatibility' => true,
+            'zipClass' => 'ZipArchive',
+            'pdfRendererName' => 'DomPDF',
+            'pdfRendererPath' => '',
+            'defaultFontName' => 'Arial',
+            'defaultFontSize' => 10,
+        );
+        $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../../phpword.ini.dist'));
     }
 }

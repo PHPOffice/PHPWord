@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Font style
  */
@@ -86,30 +84,30 @@ class Font extends AbstractStyle
     /**
      * Font name
      *
-     * @var int|float
+     * @var string
      */
-    private $name = PhpWord::DEFAULT_FONT_NAME;
+    private $name;
 
     /**
      * Font Content Type
      *
      * @var string
      */
-    private $hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+    private $hint;
 
     /**
      * Font size
      *
      * @var int|float
      */
-    private $size = PhpWord::DEFAULT_FONT_SIZE;
+    private $size;
 
     /**
      * Font color
      *
      * @var string
      */
-    private $color = PhpWord::DEFAULT_FONT_COLOR;
+    private $color;
 
     /**
      * Bold
@@ -241,9 +239,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setName($value = PhpWord::DEFAULT_FONT_NAME)
+    public function setName($value = null)
     {
-        $this->name = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_NAME);
+        $this->name = $value;
 
         return $this;
     }
@@ -264,9 +262,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setHint($value = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
+    public function setHint($value = null)
     {
-        $this->hint = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_CONTENT_TYPE);
+        $this->hint = $value;
 
         return $this;
     }
@@ -287,9 +285,9 @@ class Font extends AbstractStyle
      * @param  int|float $value
      * @return self
      */
-    public function setSize($value = PhpWord::DEFAULT_FONT_SIZE)
+    public function setSize($value = null)
     {
-        $this->size = $this->setNumericVal($value, PhpWord::DEFAULT_FONT_SIZE);
+        $this->size = $this->setNumericVal($value, $this->size);
 
         return $this;
     }
@@ -310,9 +308,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setColor($value = PhpWord::DEFAULT_FONT_COLOR)
+    public function setColor($value = null)
     {
-        $this->color = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_COLOR);
+        $this->color = $value;
 
         return $this;
     }

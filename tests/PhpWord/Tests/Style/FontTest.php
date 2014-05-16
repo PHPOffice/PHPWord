@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
@@ -55,8 +56,10 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $object = new Font();
 
         $attributes = array(
-            'name' => PhpWord::DEFAULT_FONT_NAME,
-            'size' => PhpWord::DEFAULT_FONT_SIZE,
+            'name' => null,
+            'size' => null,
+            'hint' => null,
+            'color' => null,
             'bold' => false,
             'italic' => false,
             'underline' => Font::UNDERLINE_NONE,
@@ -66,11 +69,8 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'doubleStrikethrough' => false,
             'smallCaps' => false,
             'allCaps' => false,
-            'doubleStrikethrough' => false,
-            'color' => PhpWord::DEFAULT_FONT_COLOR,
             'fgColor' => null,
             'bgColor' => null,
-            'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -91,6 +91,8 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $attributes = array(
             'name' => 'Times New Roman',
             'size' => 9,
+            'color' => '999999',
+            'hint' => 'eastAsia',
             'bold' => true,
             'italic' => true,
             'underline' => Font::UNDERLINE_HEAVY,
@@ -100,10 +102,8 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'doubleStrikethrough' => false,
             'smallCaps' => true,
             'allCaps' => false,
-            'color' => '999999',
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
-            'hint' => 'eastAsia',
             'lineHeight' => 2,
         );
         $object->setStyleByArray($attributes);

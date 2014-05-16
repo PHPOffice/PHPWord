@@ -21,9 +21,9 @@ use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement as HTMLAbstractElement;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
-use PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement as HTMLAbstractElement;
 
 /**
  * Abstract RTF element writer

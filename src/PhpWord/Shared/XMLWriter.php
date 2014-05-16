@@ -28,12 +28,13 @@ if (!defined('DATE_W3C')) {
 /**
  * XMLWriter wrapper
  *
- * @method bool writeElement(string $name, string $content = null)
- * @method bool startElement(string $name)
- * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
  * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
+ * @method bool startElement(string $name)
  * @method bool text(string $content)
+ * @method bool writeAttribute(string $name, string $value)
+ * @method bool writeElement(string $name, string $content = null)
+ * @method bool writeRaw(string $content)
  */
 class XMLWriter
 {
@@ -133,21 +134,6 @@ class XMLWriter
             $this->xmlWriter->flush();
             return file_get_contents($this->tempFile);
         }
-    }
-
-    /**
-     * Fallback method for writeRaw, introduced in PHP 5.2
-     *
-     * @param string $text
-     * @return bool
-     */
-    public function writeRaw($text)
-    {
-        if (isset($this->xmlWriter) && is_object($this->xmlWriter) && (method_exists($this->xmlWriter, 'writeRaw'))) {
-            return $this->xmlWriter->writeRaw($text);
-        }
-
-        return $this->text($text);
     }
 
     /**
