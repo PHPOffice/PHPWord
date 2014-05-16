@@ -132,7 +132,7 @@ class Settings
      * This sets the setIndent and setIndentString for better compatibility
      *
      * @param bool $compatibility
-     * @return true
+     * @return bool
      */
     public static function setCompatibility($compatibility)
     {

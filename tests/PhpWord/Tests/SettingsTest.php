@@ -103,6 +103,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
             'defaultFontName' => 'Arial',
             'defaultFontSize' => 10,
         );
-        $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../../phpword.yml.dist'));
+        $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../../phpword.ini.dist'));
     }
 }
