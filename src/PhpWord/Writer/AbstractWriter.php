@@ -281,11 +281,10 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Add files to package
      *
-     * @param $zip
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param mixed $elements
-     * @return \PhpOffice\PhpWord\Shared\ZipArchive $zip
      */
-    protected function addFilesToPackage($zip, $elements)
+    protected function addFilesToPackage(ZipArchive $zip, $elements)
     {
         foreach ($elements as $element) {
             $type = $element['type']; // image|object|link

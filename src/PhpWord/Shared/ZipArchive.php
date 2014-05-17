@@ -31,9 +31,9 @@ use PhpOffice\PhpWord\Settings;
  * @method  bool addFromString(string $localname, string $contents)
  * @method  bool close()
  * @method  bool extractTo(string $destination, mixed $entries = null)
- * @method  bool getFromName(string $name)
- * @method  bool getNameIndex(int $index)
- * @method  bool locateName (string $name)
+ * @method  string getFromName(string $name)
+ * @method  string getNameIndex(int $index)
+ * @method  int locateName(string $name)
  * @method  bool open(string $filename, int $flags = null)
  * @since   0.10.0
  */
@@ -142,7 +142,7 @@ class ZipArchive
      *
      * @param string $destination
      * @param string|array $entries
-     * @return boolean
+     * @return bool
      * @since 0.10.0
      */
     public function extractTo($destination, $entries = null)
@@ -266,7 +266,7 @@ class ZipArchive
      *
      * @param string $destination
      * @param string|array $entries
-     * @return boolean
+     * @return bool
      * @since 0.10.0
      */
     public function pclzipExtractTo($destination, $entries = null)
@@ -320,7 +320,7 @@ class ZipArchive
     /**
      * Returns the name of an entry using its index (emulate \ZipArchive)
      *
-     * @param integer $index
+     * @param int $index
      * @return string|false
      * @since 0.10.0
      */
@@ -338,7 +338,7 @@ class ZipArchive
      * Returns the index of the entry in the archive (emulate \ZipArchive)
      *
      * @param string $filename Filename for the file in zip archive
-     * @return integer|false
+     * @return int|false
      */
     public function pclzipLocateName($filename)
     {
