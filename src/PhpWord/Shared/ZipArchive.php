@@ -89,8 +89,6 @@ class ZipArchive
                 define('PCLZIP_TEMPORARY_DIR', sys_get_temp_dir() . '/');
             }
             require_once 'PCLZip/pclzip.lib.php';
-        } else {
-            $this->zip = new \ZipArchive();
         }
     }
 
@@ -116,6 +114,31 @@ class ZipArchive
 
         // Run function
         $result = @call_user_func_array(array($zipObject, $zipFunction), $args);
+
+        return $result;
+    }
+
+    /**
+     * Open a new zip archive
+     *
+     * @param string $filename The file name of the ZIP archive to open
+     * @param int $flags The mode to use to open the archive
+     * @return bool
+     */
+    public function open($filename, $flags = null)
+    {
+        $result = true;
+        $this->filename = $filename;
+
+        if (!$this->usePclzip) {
+            $this->zip = new \ZipArchive();
+            $result = $this->zip->open($this->filename, $flags);
+            $this->numFiles = $this->zip->numFiles;
+        } else {
+            $this->zip = new \PclZip($this->filename);
+            $this->tempDir = sys_get_temp_dir();
+            $this->numFiles = count($this->zip->listContent());
+        }
 
         return $result;
     }
@@ -156,30 +179,6 @@ class ZipArchive
         } else {
             return $this->pclzipExtractTo($destination, $entries);
         }
-    }
-
-    /**
-     * Open a new zip archive
-     *
-     * @param string $filename The file name of the ZIP archive to open
-     * @param int $flags The mode to use to open the archive
-     * @return bool
-     */
-    public function open($filename, $flags = null)
-    {
-        $result = true;
-        $this->filename = $filename;
-
-        if (!$this->usePclzip) {
-            $result = $this->zip->open($this->filename, $flags);
-            $this->numFiles = $this->zip->numFiles;
-        } else {
-            $this->tempDir = sys_get_temp_dir();
-            $this->zip = new \PclZip($this->filename);
-            $this->numFiles = count($this->zip->listContent());
-        }
-
-        return $result;
     }
 
     /**
