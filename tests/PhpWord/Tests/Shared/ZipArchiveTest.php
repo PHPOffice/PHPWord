@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Shared;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
@@ -32,23 +33,24 @@ class ZipArchiveTest extends \PHPUnit_Framework_TestCase
      *
      * @covers ::<public>
      */
-    public function testAllMethods()
+    public function testZipArchive()
     {
         // Preparation
         $existingFile = __DIR__ . "/../_files/documents/sheet.xls";
         $zipFile      = __DIR__ . "/../_files/documents/ziptest.zip";
-        $destination1 = __DIR__ . "/../_files/extract1";
-        $destination2 = __DIR__ . "/../_files/extract2";
-        $destination3 = __DIR__ . "/../_files/extract3";
+        $destination1 = __DIR__ . "/../_files/documents/extract1";
+        $destination2 = __DIR__ . "/../_files/documents/extract2";
         @mkdir($destination1);
         @mkdir($destination2);
-        @mkdir($destination3);
+
+        Settings::setZipClass('PhpOffice\PhpWord\Shared\ZipArchive');
 
         $object = new ZipArchive();
-        $object->open($zipFile);
+        $object->open($zipFile, ZipArchive::CREATE);
         $object->addFile($existingFile, 'xls/new.xls');
         $object->addFromString('content/string.txt', 'Test');
         $object->close();
+        $object->open($zipFile);
 
         // Run tests
         $this->assertEquals(0, $object->locateName('xls/new.xls'));
@@ -68,7 +70,51 @@ class ZipArchiveTest extends \PHPUnit_Framework_TestCase
         // Cleanup
         $this->deleteDir($destination1);
         $this->deleteDir($destination2);
-        $this->deleteDir($destination3);
+        @unlink($zipFile);
+    }
+
+    /**
+     * Test all methods
+     *
+     * @covers ::<public>
+     */
+    public function testPCLZip()
+    {
+        // Preparation
+        $existingFile = __DIR__ . "/../_files/documents/sheet.xls";
+        $zipFile      = __DIR__ . "/../_files/documents/ziptest.zip";
+        $destination1 = __DIR__ . "/../_files/documents/extract1";
+        $destination2 = __DIR__ . "/../_files/documents/extract2";
+        @mkdir($destination1);
+        @mkdir($destination2);
+
+        Settings::setZipClass('ZipArchive');
+
+        $object = new ZipArchive();
+        $object->open($zipFile, ZipArchive::CREATE);
+        $object->addFile($existingFile, 'xls/new.xls');
+        $object->addFromString('content/string.txt', 'Test');
+        $object->close();
+        $object->open($zipFile);
+
+        // Run tests
+        $this->assertEquals(0, $object->locateName('xls/new.xls'));
+        $this->assertFalse($object->locateName('blablabla'));
+
+        $this->assertEquals('Test', $object->getFromName('content/string.txt'));
+        $this->assertEquals('Test', $object->getFromName('/content/string.txt'));
+
+        $this->assertFalse($object->getNameIndex(-1));
+        $this->assertEquals('content/string.txt', $object->getNameIndex(1));
+
+        $this->assertFalse($object->extractTo('blablabla'));
+        $this->assertTrue($object->extractTo($destination1));
+        $this->assertTrue($object->extractTo($destination2, 'xls/new.xls'));
+        $this->assertFalse($object->extractTo($destination2, 'blablabla'));
+
+        // Cleanup
+        $this->deleteDir($destination1);
+        $this->deleteDir($destination2);
         @unlink($zipFile);
     }
 

@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * XML Reader wrapper
@@ -47,7 +47,6 @@ class XMLReader
      * @param string $zipFile
      * @param string $xmlFile
      * @return \DOMDocument|false
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -55,12 +54,8 @@ class XMLReader
             throw new Exception('Cannot find archive file.');
         }
 
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
-        $canOpen = $zip->open($zipFile);
-        if ($canOpen === false) {
-            throw new Exception('Cannot open archive file.');
-        }
+        $zip = new ZipArchive();
+        $zip->open($zipFile);
         $contents = $zip->getFromName($xmlFile);
         $zip->close();
 

@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 
@@ -63,31 +62,27 @@ class ODText extends AbstractWriter implements WriterInterface
      * Save PhpWord to file
      *
      * @param  string $filename
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
         $filename = $this->getTempFile($filename);
-        $objZip = $this->getZipArchive($filename);
+        $zip = $this->getZipArchive($filename);
 
         // Add section media files
         $sectionMedia = Media::getElements('section');
         if (!empty($sectionMedia)) {
-            $this->addFilesToPackage($objZip, $sectionMedia);
+            $this->addFilesToPackage($zip, $sectionMedia);
         }
 
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
             if ($fileName != '') {
-                $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
+                $zip->addFromString($fileName, $this->getWriterPart($partName)->write());
             }
         }
 
-        // Close file
-        if ($objZip->close() === false) {
-            throw new Exception("Could not close zip file $filename.");
-        }
-
+        // Close zip archive and cleanup temp file
+        $zip->close();
         $this->cleanupTempFile();
     }
 }

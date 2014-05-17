@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Abstract writer class
@@ -257,42 +257,35 @@ abstract class AbstractWriter implements WriterInterface
      * Get ZipArchive object
      *
      * @param string $filename
-     * @return mixed ZipArchive object
+     * @return \PhpOffice\PhpWord\Shared\ZipArchive
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function getZipArchive($filename)
     {
-        // Create new ZIP file and open it for writing
-        $zipClass = Settings::getZipClass();
-        $objZip = new $zipClass();
-
-        // Retrieve OVERWRITE and CREATE constants from the instantiated zip class
-        $reflection = new \ReflectionObject($objZip);
-        $zipOverWrite = $reflection->getConstant('OVERWRITE');
-        $zipCreate = $reflection->getConstant('CREATE');
-
         // Remove any existing file
         if (file_exists($filename)) {
             unlink($filename);
         }
 
         // Try opening the ZIP file
-        if ($objZip->open($filename, $zipOverWrite) !== true) {
-            if ($objZip->open($filename, $zipCreate) !== true) {
+        $zip = new ZipArchive();
+        if ($zip->open($filename, ZipArchive::OVERWRITE) !== true) {
+            if ($zip->open($filename, ZipArchive::CREATE) !== true) {
                 throw new Exception("Could not open " . $filename . " for writing.");
             }
         }
 
-        return $objZip;
+        return $zip;
     }
 
     /**
      * Add files to package
      *
-     * @param mixed $objZip
+     * @param $zip
      * @param mixed $elements
+     * @return \PhpOffice\PhpWord\Shared\ZipArchive $zip
      */
-    protected function addFilesToPackage($objZip, $elements)
+    protected function addFilesToPackage($zip, $elements)
     {
         foreach ($elements as $element) {
             $type = $element['type']; // image|object|link
@@ -310,10 +303,10 @@ abstract class AbstractWriter implements WriterInterface
                 call_user_func($element['imageFunction'], $image);
                 $imageContents = ob_get_contents();
                 ob_end_clean();
-                $objZip->addFromString($target, $imageContents);
+                $zip->addFromString($target, $imageContents);
                 imagedestroy($image);
             } else {
-                $this->addFileToPackage($objZip, $element['source'], $target);
+                $this->addFileToPackage($zip, $element['source'], $target);
             }
         }
     }
@@ -323,11 +316,11 @@ abstract class AbstractWriter implements WriterInterface
      *
      * Get the actual source from an archive image
      *
-     * @param mixed $objZip
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zipPackage
      * @param string $source
      * @param string $target
      */
-    protected function addFileToPackage($objZip, $source, $target)
+    protected function addFileToPackage($zipPackage, $source, $target)
     {
         $isArchive = strpos($source, 'zip://') !== false;
         $actualSource = null;
@@ -335,8 +328,7 @@ abstract class AbstractWriter implements WriterInterface
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
 
-            $zipClass = Settings::getZipClass();
-            $zip = new $zipClass();
+            $zip = new ZipArchive;
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
                     $zip->extractTo($this->getTempDir(), $imageFilename);
@@ -349,7 +341,7 @@ abstract class AbstractWriter implements WriterInterface
         }
 
         if (!is_null($actualSource)) {
-            $objZip->addFile($actualSource, $target);
+            $zipPackage->addFile($actualSource, $target);
         }
     }
 
