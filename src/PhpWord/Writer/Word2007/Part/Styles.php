@@ -154,7 +154,7 @@ class Styles extends AbstractPart
      * Write default font and other default styles
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param array $styles
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $styles
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {

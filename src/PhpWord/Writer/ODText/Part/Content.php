@@ -27,6 +27,8 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
+use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
+use PhpOffice\PhpWord\Writer\ODText\Style\Section as SectionStyleWriter;
 
 /**
  * ODText content part writer: content.xml
@@ -58,9 +60,10 @@ class Content extends AbstractPart
 
         // Automatic styles
         $xmlWriter->startElement('office:automatic-styles');
-        $this->writeTextAutoStyles($xmlWriter);
-        $this->writeImageAutoStyles($xmlWriter);
-        $this->writeTableAutoStyles($xmlWriter, $phpWord);
+        $this->writeSectionStyles($xmlWriter, $phpWord);
+        $this->writeTextStyles($xmlWriter);
+        $this->writeImageStyles($xmlWriter);
+        $this->writeTableStyles($xmlWriter, $phpWord);
         $xmlWriter->endElement(); // office:automatic-styles
 
         // Body
@@ -81,10 +84,13 @@ class Content extends AbstractPart
         // Sections
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
-            // $xmlWriter->startElement('text:section');
+            $name = 'Section' . $section->getSectionId();
+            $xmlWriter->startElement('text:section');
+            $xmlWriter->writeAttribute('text:name', $name);
+            $xmlWriter->writeAttribute('text:style-name', $name);
             $containerWriter = new Container($xmlWriter, $section);
             $containerWriter->write();
-            // $xmlWriter->endElement(); // text:section
+            $xmlWriter->endElement(); // text:section
         }
 
         $xmlWriter->endElement(); // office:text
@@ -96,9 +102,26 @@ class Content extends AbstractPart
     }
 
     /**
+     * Write section automatic styles
+     *
+     * @since 0.11.0
+     * @todo Put more section properties/styles
+     */
+    private function writeSectionStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
+    {
+        $sections = $phpWord->getSections();
+        foreach ($sections as $section) {
+            $style = $section->getSettings();
+            $style->setStyleName("Section{$section->getSectionId()}");
+            $styleWriter = new SectionStyleWriter($xmlWriter, $style);
+            $styleWriter->write();
+        }
+    }
+
+    /**
      * Write automatic styles
      */
-    private function writeTextAutoStyles(XMLWriter $xmlWriter)
+    private function writeTextStyles(XMLWriter $xmlWriter)
     {
         $styles = Style::getStyles();
         $paragraphStyleCount = 0;
@@ -119,7 +142,7 @@ class Content extends AbstractPart
                 $style = new Paragraph();
                 $style->setStyleName('P1');
                 $style->setAuto();
-                $styleWriter = new \PhpOffice\PhpWord\Writer\ODText\Style\Paragraph($xmlWriter, $style);
+                $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
                 $styleWriter->write();
             }
         }
@@ -128,7 +151,7 @@ class Content extends AbstractPart
     /**
      * Write image automatic styles
      */
-    private function writeImageAutoStyles(XMLWriter $xmlWriter)
+    private function writeImageStyles(XMLWriter $xmlWriter)
     {
         $images = Media::getElements('section');
         foreach ($images as $image) {
@@ -149,7 +172,7 @@ class Content extends AbstractPart
     /**
      * Write table automatic styles
      */
-    private function writeTableAutoStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
+    private function writeTableStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
     {
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {

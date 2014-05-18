@@ -18,26 +18,34 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 /**
- * Master style writer
+ * Section style writer
  *
  * @since 0.11.0
  */
-class MasterStyle extends AbstractStyle
+class Section extends AbstractStyle
 {
     /**
      * Write style
      */
     public function write()
     {
+        /** @var \PhpOffice\PhpWord\Style\Section $style Type hint */
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Section) {
+            return;
+        }
         $xmlWriter = $this->getXmlWriter();
 
-        $xmlWriter->startElement('office:master-styles');
+        $xmlWriter->startElement('style:style');
+        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+        $xmlWriter->writeAttribute('style:family', "section");
+        $xmlWriter->startElement('style:section-properties');
 
-        $xmlWriter->startElement('style:master-page');
-        $xmlWriter->writeAttribute('style:name', 'Standard');
-        $xmlWriter->writeAttribute('style:page-layout-name', 'Mpm1');
-        $xmlWriter->endElement(); // style:master-page
+        $xmlWriter->startElement('style:columns');
+        $xmlWriter->writeAttribute('fo:column-count', $style->getColsNum());
+        $xmlWriter->endElement(); // style:columns
 
-        $xmlWriter->endElement(); // office:master-styles
+        $xmlWriter->endElement(); // style:section-properties
+        $xmlWriter->endElement(); // style:style
     }
 }

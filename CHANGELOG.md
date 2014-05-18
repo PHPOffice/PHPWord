@@ -22,6 +22,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - Config: Ability to use a config file to store various common settings - @ivanlanin GH-200
 - ODT: Enable inline font style in TextRun - @ivanlanin
 - ODT: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
+- ODT: Enable section and column - @ivanlanin
 
 ### Bugfixes
 
