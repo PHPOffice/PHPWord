@@ -17,24 +17,34 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
-use PhpOffice\PhpWord\Writer\ODText\Style\Section as SectionStyleWriter;
 
 /**
  * ODText content part writer: content.xml
  */
 class Content extends AbstractPart
 {
+    /**
+     * Auto style collection
+     *
+     * Collect inline style information from section, image, and table elements
+     *
+     * @todo Merge font and paragraph styles
+     * @var array
+     */
+    private $autoStyles = array('Section' => array(), 'Image' => array(), 'Table' => array());
+
     /**
      * Write part
      *
@@ -56,15 +66,9 @@ class Content extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:field', 'urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0');
         $xmlWriter->writeAttribute('xmlns:formx', 'urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0');
 
+        // Font declarations and automatic styles
         $this->writeFontFaces($xmlWriter); // office:font-face-decls
-
-        // Automatic styles
-        $xmlWriter->startElement('office:automatic-styles');
-        $this->writeSectionStyles($xmlWriter, $phpWord);
-        $this->writeTextStyles($xmlWriter);
-        $this->writeImageStyles($xmlWriter);
-        $this->writeTableStyles($xmlWriter, $phpWord);
-        $xmlWriter->endElement(); // office:automatic-styles
+        $this->writeAutoStyles($xmlWriter); // office:automatic-styles
 
         // Body
         $xmlWriter->startElement('office:body');
@@ -102,20 +106,24 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write section automatic styles
+     * Write automatic styles other than fonts and paragraphs
      *
      * @since 0.11.0
-     * @todo Put more section properties/styles
      */
-    private function writeSectionStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
+    private function writeAutoStyles(XMLWriter $xmlWriter)
     {
-        $sections = $phpWord->getSections();
-        foreach ($sections as $section) {
-            $style = $section->getSettings();
-            $style->setStyleName("Section{$section->getSectionId()}");
-            $styleWriter = new SectionStyleWriter($xmlWriter, $style);
+        $xmlWriter->startElement('office:automatic-styles');
+
+        $this->writeTextStyles($xmlWriter);
+        foreach ($this->autoStyles as $element => $style) {
+            $writerClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $element;
+
+            /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
+            $styleWriter = new $writerClass($xmlWriter, $style);
             $styleWriter->write();
         }
+
+        $xmlWriter->endElement(); // office:automatic-styles
     }
 
     /**
@@ -149,51 +157,6 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write image automatic styles
-     */
-    private function writeImageStyles(XMLWriter $xmlWriter)
-    {
-        $images = Media::getElements('section');
-        foreach ($images as $image) {
-            if ($image['type'] == 'image') {
-                $xmlWriter->startElement('style:style');
-                $xmlWriter->writeAttribute('style:name', 'fr' . $image['rID']);
-                $xmlWriter->writeAttribute('style:family', 'graphic');
-                $xmlWriter->writeAttribute('style:parent-style-name', 'Graphics');
-                $xmlWriter->startElement('style:graphic-properties');
-                $xmlWriter->writeAttribute('style:vertical-pos', 'top');
-                $xmlWriter->writeAttribute('style:vertical-rel', 'baseline');
-                $xmlWriter->endElement(); // style:graphic-properties
-                $xmlWriter->endElement(); // style:style
-            }
-        }
-    }
-
-    /**
-     * Write table automatic styles
-     */
-    private function writeTableStyles(XMLWriter $xmlWriter, PhpWord $phpWord)
-    {
-        $sections = $phpWord->getSections();
-        foreach ($sections as $section) {
-            $elements = $section->getElements();
-            foreach ($elements as $element) {
-                if ($elements instanceof Table) {
-                    $xmlWriter->startElement('style:style');
-                    $xmlWriter->writeAttribute('style:name', $element->getElementId());
-                    $xmlWriter->writeAttribute('style:family', 'table');
-                    $xmlWriter->startElement('style:table-properties');
-                    //$xmlWriter->writeAttribute('style:width', 'table');
-                    $xmlWriter->writeAttribute('style:rel-width', 100);
-                    $xmlWriter->writeAttribute('table:align', 'center');
-                    $xmlWriter->endElement();
-                    $xmlWriter->endElement();
-                }
-            }
-        }
-    }
-
-    /**
      * Get automatic styles
      */
     private function getAutoStyles(PhpWord $phpWord)
@@ -202,6 +165,9 @@ class Content extends AbstractPart
         $paragraphStyleCount = 0;
         $fontStyleCount = 0;
         foreach ($sections as $section) {
+            $style = $section->getSettings();
+            $style->setStyleName("Section{$section->getSectionId()}");
+            $this->autoStyles['Section'][] = $style;
             $this->getContainerStyle($section, $paragraphStyleCount, $fontStyleCount);
         }
     }
@@ -209,9 +175,12 @@ class Content extends AbstractPart
     /**
      * Get all styles of each elements in container recursively
      *
+     * Table style can be null or string of the style name
+     *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
+     * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
     {
@@ -221,6 +190,19 @@ class Content extends AbstractPart
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
                 $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+            } elseif ($element instanceof Image) {
+                $style = $element->getStyle();
+                $style->setStyleName('fr' . $element->getMediaIndex());
+                $this->autoStyles['Image'][] = $style;
+            } elseif ($element instanceof Table) {
+                $style = $element->getStyle();
+                if ($style === null) {
+                    $style = new TableStyle();
+                } elseif (is_string($style)) {
+                    $style = Style::getStyle($style);
+                }
+                $style->setStyleName($element->getElementId());
+                $this->autoStyles['Table'][] = $style;
             }
         }
     }
