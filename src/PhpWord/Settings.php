@@ -29,8 +29,9 @@ class Settings
      *
      * @const string
      */
-    const PCLZIP     = 'PhpOffice\\PhpWord\\Shared\\ZipArchive';
     const ZIPARCHIVE = 'ZipArchive';
+    const PCLZIP     = 'PclZip';
+    const OLD_LIB    = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
 
     /**
      * PDF rendering libraries
@@ -160,7 +161,7 @@ class Settings
      */
     public static function setZipClass($zipClass)
     {
-        if (in_array($zipClass, array(self::PCLZIP, self::ZIPARCHIVE))) {
+        if (in_array($zipClass, array(self::PCLZIP, self::ZIPARCHIVE, self::OLD_LIB))) {
             self::$zipClass = $zipClass;
             return true;
         }
