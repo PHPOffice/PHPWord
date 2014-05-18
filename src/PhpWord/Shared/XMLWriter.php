@@ -19,12 +19,6 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Settings;
 
-// @codeCoverageIgnoreStart
-if (!defined('DATE_W3C')) {
-    define('DATE_W3C', 'Y-m-d\TH:i:sP');
-}
-// @codeCoverageIgnoreEnd
-
 /**
  * XMLWriter wrapper
  *
@@ -64,6 +58,11 @@ class XMLWriter
      */
     public function __construct($tempLocation = self::STORAGE_MEMORY, $tempFolder = './')
     {
+        // Define date format
+        if (!defined('DATE_W3C')) {
+            define('DATE_W3C', 'Y-m-d\TH:i:sP');
+        }
+
         // Create internal XMLWriter
         $this->xmlWriter = new \XMLWriter();
 
