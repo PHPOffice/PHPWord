@@ -18,7 +18,6 @@
             <directory suffix=".php">./src</directory>
             <exclude>
                 <directory suffix=".php">./src/PhpWord/Shared/PCLZip</directory>
-                <directory suffix=".php">./src/PhpWord/Shared/Spyc</directory>
             </exclude>
         </whitelist>
     </filter>

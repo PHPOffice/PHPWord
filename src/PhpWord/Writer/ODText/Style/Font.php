@@ -25,11 +25,6 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
 class Font extends AbstractStyle
 {
     /**
-     * Is automatic style
-     */
-    private $isAuto = false;
-
-    /**
      * Write style
      */
     public function write()
@@ -67,17 +62,28 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-asian', 'italic');
         $xmlWriter->writeAttributeIf($style->isItalic(), 'style:font-style-complex', 'italic');
 
+        // Underline
+        // @todo Various mode of underline
+        $underline = $style->getUnderline();
+        $xmlWriter->writeAttributeIf($underline != 'none', 'style:text-underline-style', 'solid');
+
+        // Strikethrough, double strikethrough
+        $xmlWriter->writeAttributeIf($style->isStrikethrough(), 'style:text-line-through-type', 'single');
+        $xmlWriter->writeAttributeIf($style->isDoubleStrikethrough(), 'style:text-line-through-type', 'double');
+
+        // Small caps, all caps
+        $xmlWriter->writeAttributeIf($style->isSmallCaps(), 'fo:font-variant', 'small-caps');
+        $xmlWriter->writeAttributeIf($style->isAllCaps(), 'fo:text-transform', 'uppercase');
+
+        // Superscript/subscript
+        $xmlWriter->writeAttributeIf($style->isSuperScript(), 'style:text-position', 'super');
+        $xmlWriter->writeAttributeIf($style->isSubScript(), 'style:text-position', 'sub');
+
+        // @todo Foreground-Color
+
+        // @todo Background color
+
         $xmlWriter->endElement(); // style:text-properties
         $xmlWriter->endElement(); // style:style
-    }
-
-    /**
-     * Set is automatic style
-     *
-     * @param bool $value
-     */
-    public function setIsAuto($value)
-    {
-        $this->isAuto = $value;
     }
 }

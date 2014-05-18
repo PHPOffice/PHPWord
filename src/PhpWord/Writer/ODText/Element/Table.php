@@ -49,6 +49,7 @@ class Table extends AbstractElement
 
             foreach ($rows as $row) {
                 $xmlWriter->startElement('table:table-row');
+                /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 foreach ($row->getCells() as $cell) {
                     $xmlWriter->startElement('table:table-cell');
                     $xmlWriter->writeAttribute('office:value-type', 'string');

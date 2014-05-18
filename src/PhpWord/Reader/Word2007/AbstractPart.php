@@ -222,10 +222,11 @@ abstract class AbstractPart
         $style = array();
         $mapping = array(
             'w:rStyle' => 'styleName',
-            'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color',
-            'w:strike' => 'strikethrough', 'w:u' => 'underline',
+            'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color', 'w:u' => 'underline',
+            'w:strike' => 'strikethrough', 'w:dstrike' => 'doubleStrikethrough',
             'w:highlight' => 'fgColor', 'w:sz' => 'size',
             'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
+            'w:smallCaps' => 'smallCaps', 'w:caps' => 'allCaps',
         );
 
         $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
@@ -244,6 +245,9 @@ abstract class AbstractPart
                 case 'w:b':
                 case 'w:i':
                 case 'w:strike':
+                case 'w:dstrike':
+                case 'w:smallCaps':
+                case 'w:caps':
                     $style[$property] = true;
                     break;
 

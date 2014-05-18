@@ -28,7 +28,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnmatchedElements()
     {
-        $elements = array('Image', 'Link', 'Table', 'Text');
+        $elements = array('Image', 'Link', 'Table', 'Text', 'Title');
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Element\\' . $element;
             $xmlWriter = new XMLWriter();

@@ -50,6 +50,14 @@ abstract class AbstractStyle
     protected $aliases = array();
 
     /**
+     * Is this an automatic style? (Used primarily in OpenDocument driver)
+     *
+     * @var bool
+     * @since 0.11.0
+     */
+    private $isAuto = false;
+
+    /**
      * Get style name
      *
      * @return string
@@ -96,6 +104,29 @@ abstract class AbstractStyle
     }
 
     /**
+     * Get is automatic style flag
+     *
+     * @return bool
+     */
+    public function isAuto()
+    {
+        return $this->isAuto;
+    }
+
+    /**
+     * Set is automatic style flag
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setAuto($value = true)
+    {
+        $this->isAuto = $this->setBoolVal($value, $this->isAuto);
+
+        return $this;
+    }
+
+    /**
      * Set style value template method
      *
      * Some child classes have their own specific overrides.
@@ -123,12 +154,12 @@ abstract class AbstractStyle
     /**
      * Set style by using associative array
      *
-     * @param array $styles
+     * @param array $values
      * @return self
      */
-    public function setStyleByArray($styles = array())
+    public function setStyleByArray($values = array())
     {
-        foreach ($styles as $key => $value) {
+        foreach ($values as $key => $value) {
             $this->setStyleValue($key, $value);
         }
 

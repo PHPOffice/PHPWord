@@ -240,10 +240,11 @@ class PhpWord
      * Set default paragraph style definition to styles.xml
      *
      * @param array $styles Paragraph style definition
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setDefaultParagraphStyle($styles)
     {
-        Style::setDefaultParagraphStyle($styles);
+        return Style::setDefaultParagraphStyle($styles);
     }
 
     /**
@@ -251,10 +252,11 @@ class PhpWord
      *
      * @param string $styleName
      * @param array $styles
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function addParagraphStyle($styleName, $styles)
     {
-        Style::addParagraphStyle($styleName, $styles);
+        return Style::addParagraphStyle($styleName, $styles);
     }
 
     /**
@@ -263,10 +265,11 @@ class PhpWord
      * @param string $styleName
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
+        return Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -275,10 +278,35 @@ class PhpWord
      * @param string $styleName
      * @param mixed $styleTable
      * @param mixed $styleFirstRow
+     * @return \PhpOffice\PhpWord\Style\Table
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
+        return Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
+    }
+
+    /**
+     * Adds a numbering style
+     *
+     * @param string $styleName
+     * @param mixed $styles
+     * @return \PhpOffice\PhpWord\Style\Numbering
+     */
+    public function addNumberingStyle($styleName, $styles)
+    {
+        return Style::addNumberingStyle($styleName, $styles);
+    }
+
+    /**
+     * Adds a hyperlink style to styles.xml
+     *
+     * @param string $styleName
+     * @param mixed $styles
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addLinkStyle($styleName, $styles)
+    {
+        return Style::addLinkStyle($styleName, $styles);
     }
 
     /**
@@ -287,32 +315,11 @@ class PhpWord
      * @param int $depth
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        Style::addTitleStyle($depth, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Adds a hyperlink style to styles.xml
-     *
-     * @param string $styleName
-     * @param mixed $styles
-     */
-    public function addLinkStyle($styleName, $styles)
-    {
-        Style::addLinkStyle($styleName, $styles);
-    }
-
-    /**
-     * Adds a numbering style
-     *
-     * @param string $styleName
-     * @param mixed $styles
-     */
-    public function addNumberingStyle($styleName, $styles)
-    {
-        Style::addNumberingStyle($styleName, $styles);
+        return Style::addTitleStyle($depth, $fontStyle, $paragraphStyle);
     }
 
     /**

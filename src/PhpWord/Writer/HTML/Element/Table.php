@@ -41,9 +41,10 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $content .= '<table>' . PHP_EOL;
             foreach ($rows as $row) {
-                // $height = $row->getHeight();
+                /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $row->getStyle();
-                $tblHeader = $rowStyle->getTblHeader();
+                // $height = $row->getHeight();
+                $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 foreach ($row->getCells() as $cell) {
                     $writer = new Container($this->parentWriter, $cell);
