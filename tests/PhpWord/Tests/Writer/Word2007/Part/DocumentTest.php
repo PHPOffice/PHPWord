@@ -68,6 +68,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
+        $section->addText('After page break.');
         $section->addTitle('Title 1', 1);
         $section->addListItem('List Item 1', 0);
         $section->addListItem('List Item 2', 0);
