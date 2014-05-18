@@ -175,8 +175,6 @@ class Styles extends AbstractPart
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {
-        $xmlWriter = $this->getXmlWriter();
-
         $xmlWriter->startElement('office:master-styles');
 
         $xmlWriter->startElement('style:master-page');
