@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 /**
  * Word2007 settings part writer: word/settings.xml
+ *
+ * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_Settings.html
  */
 class Settings extends AbstractPart
 {

@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
@@ -55,6 +56,8 @@ class Text extends AbstractElement
 
     /**
      * Write opening
+     *
+     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
      */
     protected function writeOpeningWP()
     {
@@ -63,9 +66,14 @@ class Text extends AbstractElement
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
-
+            // Paragraph style
             if (method_exists($element, 'getParagraphStyle')) {
                 $this->writeParagraphStyle();
+            }
+            // PageBreak
+            if ($this->hasPageBreakBefore()) {
+                $elementWriter = new PageBreak($xmlWriter, new PageBreakElement());
+                $elementWriter->write();
             }
         }
     }

@@ -51,18 +51,33 @@ class Container extends AbstractElement
         $elements = $container->getElements();
         $elementClass = '';
         foreach ($elements as $element) {
-            $elementClass = get_class($element);
-            $writerClass = str_replace('PhpOffice\\PhpWord\\Element', $this->namespace, $elementClass);
+            $elementClass = substr(get_class($element), strrpos(get_class($element), '\\') + 1);
+            $writerClass = $this->namespace . '\\' . $elementClass;
+
+            // Check it's a page break. No need to write it, instead, flag containers' pageBreakBefore
+            // to be assigned to the next element
+            if ($elementClass == 'PageBreak') {
+                $this->setPageBreakBefore(true);
+                continue;
+            }
             if (class_exists($writerClass)) {
+                // Get container's page break before and reset it
+                $pageBreakBefore = $this->hasPageBreakBefore();
+                $this->setPageBreakBefore(false);
+
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
                 $writer = new $writerClass($xmlWriter, $element, $withoutP);
+                $writer->setPageBreakBefore($pageBreakBefore);
                 $writer->write();
             }
         }
 
-        // Special case for Cell: They have to contain a w:p element at the end
+        // Special case for Cell: They have to contain a w:p element at the end. The $elementClass contains
+        // the last element name. If it's empty string or Table, the last element is not w:p
         if ($containerClass == 'Cell') {
-            if ($elementClass == '' || $elementClass == 'PhpOffice\\PhpWord\\Element\\Table') {
-                $writerClass = "{$this->namespace}\\TextBreak";
+            if ($elementClass == '' || $elementClass == 'Table') {
+                $writerClass = $this->namespace . '\\TextBreak';
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
                 $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
                 $writer->write();
             }
