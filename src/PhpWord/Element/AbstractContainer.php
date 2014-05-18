@@ -62,7 +62,9 @@ abstract class AbstractContainer extends AbstractElement
             $args[3] = null;
         }
 
-        // Create element
+        // Create element dynamically
+
+        /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         if ($argsCount == 2) {       // TextRun, TextBox, Table, Footnote, Endnote
             $element = new $elementClass($args[1]);
         } elseif ($argsCount == 3) { // Object, TextBreak, Title
@@ -88,6 +90,7 @@ abstract class AbstractContainer extends AbstractElement
             $element->setRelationId($rId);
         }
         if ($elementName == 'Object') {
+            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
             $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
             $element->setImageRelationId($rIdIcon);
         }

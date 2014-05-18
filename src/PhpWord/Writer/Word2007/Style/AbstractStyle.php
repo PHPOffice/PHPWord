@@ -82,12 +82,12 @@ abstract class AbstractStyle
      * Convert twip value
      *
      * @param int|float $value
-     * @param int|float $default
+     * @param int $default (int|float)
      * @return int|float
      */
     protected function convertTwip($value, $default = 0)
     {
-        $conversions = array(
+        $factors = array(
             Settings::UNIT_CM => 567,
             Settings::UNIT_MM => 56.7,
             Settings::UNIT_INCH => 1440,
@@ -95,10 +95,11 @@ abstract class AbstractStyle
             Settings::UNIT_PICA => 240,
         );
         $unit = Settings::getMeasurementUnit();
-        if (in_array($unit, $conversions) && $value != $default) {
-            return $value * $conversions[$unit];
-        } else {
-            return $value;
+        $factor = 1;
+        if (in_array($unit, $factors) && $value != $default) {
+            $factor = $factors[$unit];
         }
+
+        return $value * $factor;
     }
 }

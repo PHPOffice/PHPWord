@@ -224,6 +224,7 @@ class Document extends AbstractPart
             $tblStyle = $this->readTableStyle($xmlReader, $domNode);
         }
 
+        /** @var \PhpOffice\PhpWord\Element\Table $table Type hint */
         $table = $parent->addTable($tblStyle);
         $tblNodes = $xmlReader->getElements('*', $domNode);
         foreach ($tblNodes as $tblNode) {

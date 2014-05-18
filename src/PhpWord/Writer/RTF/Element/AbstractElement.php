@@ -30,7 +30,7 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
  *
  * @since 0.11.0
  */
-class AbstractElement extends HTMLAbstractElement
+abstract class AbstractElement extends HTMLAbstractElement
 {
     /**
      * Font style

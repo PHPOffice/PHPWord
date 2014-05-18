@@ -34,7 +34,7 @@ class Table extends AbstractElement
     /**
      * Table rows
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\Row[]
      */
     private $rows = array();
 
@@ -83,7 +83,8 @@ class Table extends AbstractElement
     public function addCell($width = null, $style = null)
     {
         $index = count($this->rows) - 1;
-        $cell = $this->rows[$index]->addCell($width, $style);
+        $row = $this->rows[$index];
+        $cell = $row->addCell($width, $style);
 
         return $cell;
     }
@@ -91,7 +92,7 @@ class Table extends AbstractElement
     /**
      * Get all rows
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\Row[]
      */
     public function getRows()
     {
@@ -139,7 +140,9 @@ class Table extends AbstractElement
         if (is_array($this->rows)) {
             $rowCount = count($this->rows);
             for ($i = 0; $i < $rowCount; $i++) {
-                $cellCount = count($this->rows[$i]->getCells());
+                /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
+                $row = $this->rows[$i];
+                $cellCount = count($row->getCells());
                 if ($columnCount < $cellCount) {
                     $columnCount = $cellCount;
                 }

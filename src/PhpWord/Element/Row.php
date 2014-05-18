@@ -43,7 +43,7 @@ class Row extends AbstractElement
     /**
      * Row cells
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\Cell[]
      */
     private $cells = array();
 
@@ -79,7 +79,7 @@ class Row extends AbstractElement
     /**
      * Get all cells
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\Cell[]
      */
     public function getCells()
     {

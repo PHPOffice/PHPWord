@@ -169,13 +169,13 @@ abstract class AbstractStyle
     /**
      * Set default for null and empty value
      *
-     * @param string $value
-     * @param mixed $default
-     * @return mixed
+     * @param string $value (was: mixed)
+     * @param string $default (was: mixed)
+     * @return string (was: mixed)
      */
     protected function setNonEmptyVal($value, $default)
     {
-        if (is_null($value) || $value == '') {
+        if ($value === null || $value == '') {
             $value = $default;
         }
 

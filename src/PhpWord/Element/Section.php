@@ -206,6 +206,7 @@ class Section extends AbstractContainer
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
+            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
             $container->setPhpWord($this->phpWord);
 

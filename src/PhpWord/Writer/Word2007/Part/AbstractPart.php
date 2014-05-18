@@ -34,6 +34,13 @@ abstract class AbstractPart
     protected $parentWriter;
 
     /**
+     * Write part
+     *
+     * @return string
+     */
+    abstract public function write();
+
+    /**
      * Set parent writer
      *
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer

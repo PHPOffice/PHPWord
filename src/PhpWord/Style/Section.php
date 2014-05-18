@@ -181,15 +181,19 @@ class Section extends Border
     {
         $enum = array(self::ORIENTATION_PORTRAIT, self::ORIENTATION_LANDSCAPE);
         $this->orientation = $this->setEnumVal($value, $enum, $this->orientation);
-        $longSize = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
-        $shortSize = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        /** @var int|float $longSide Type hint */
+        $longSide = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        /** @var int|float $shortSide Type hint */
+        $shortSide = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
 
         if ($this->orientation == self::ORIENTATION_PORTRAIT) {
-            $this->pageSizeW = $shortSize;
-            $this->pageSizeH = $longSize;
+            $this->pageSizeW = $shortSide;
+            $this->pageSizeH = $longSide;
         } else {
-            $this->pageSizeW = $longSize;
-            $this->pageSizeH = $shortSize;
+            $this->pageSizeW = $longSide;
+            $this->pageSizeH = $shortSide;
         }
 
         return $this;

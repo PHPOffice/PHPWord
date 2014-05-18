@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * XML Reader wrapper
@@ -47,6 +46,7 @@ class XMLReader
      * @param string $zipFile
      * @param string $xmlFile
      * @return \DOMDocument|false
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -118,7 +118,9 @@ class XMLReader
         if ($path !== null) {
             $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
-                $return = $elements->item(0)->getAttribute($attribute);
+                /** @var \DOMElement $node Type hint */
+                $node = $elements->item(0);
+                $return = $node->getAttribute($attribute);
             }
         } else {
             if ($contextNode !== null) {

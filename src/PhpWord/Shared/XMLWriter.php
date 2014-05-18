@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Settings;
  * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
  * @method bool startElement(string $name)
  * @method bool text(string $content)
- * @method bool writeAttribute(string $name, string $value)
+ * @method bool writeAttribute(string $name, mixed $value)
  * @method bool writeElement(string $name, string $content = null)
  * @method bool writeRaw(string $content)
  */
@@ -138,10 +138,10 @@ class XMLWriter
     /**
      * Write element if ...
      *
-     * @param bool|null $condition
+     * @param bool $condition
      * @param string $element
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      */
     public function writeElementIf($condition, $element, $attribute = null, $value = null)
     {
@@ -159,9 +159,9 @@ class XMLWriter
     /**
      * Write attribute if ...
      *
-     * @param bool|null $condition
+     * @param bool $condition
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      */
     public function writeAttributeIf($condition, $attribute, $value)
     {

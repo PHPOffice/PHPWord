@@ -95,6 +95,7 @@ class TOC extends AbstractElement
 
         $titles = $this->phpWord->getTitles()->getItems();
         foreach ($titles as $i => $title) {
+            /** @var \PhpOffice\PhpWord\Element\Title $title Type hint */
             $depth = $title->getDepth();
             if ($this->minDepth > $depth) {
                 unset($titles[$i]);
