@@ -215,6 +215,7 @@ abstract class AbstractPart
                     'w:strike' => 'strikethrough', 'w:u' => 'underline',
                     'w:highlight' => 'fgColor', 'w:sz' => 'size',
                     'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
+                    'w:smallCaps' => 'smallCaps', 'w:caps' => 'allCaps',
                 );
 
                 $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
@@ -233,6 +234,8 @@ abstract class AbstractPart
                         case 'w:b':
                         case 'w:i':
                         case 'w:strike':
+                        case 'w:smallCaps':
+                        case 'w:caps':
                             $style[$property] = true;
                             break;
 
