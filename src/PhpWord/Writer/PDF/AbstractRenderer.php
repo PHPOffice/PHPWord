@@ -19,13 +19,23 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\HTML;
 
 /**
  * Abstract PDF renderer
+ *
+ * @since 0.10.0
  */
 abstract class AbstractRenderer extends HTML
 {
+    /**
+     * Name of renderer include file
+     *
+     * @var string
+     */
+    protected $includeFile;
+
     /**
      * Temporary storage directory
      *
@@ -45,14 +55,14 @@ abstract class AbstractRenderer extends HTML
      *
      * @var int
      */
-    protected $paperSize = null;
+    protected $paperSize;
 
     /**
      * Orientation
      *
      * @var string
      */
-    protected $orientation = null;
+    protected $orientation;
 
     /**
      * Paper Sizes xRef List
@@ -67,10 +77,17 @@ abstract class AbstractRenderer extends HTML
      * Create new instance
      *
      * @param PhpWord $phpWord PhpWord object
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
+        $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
+        if (file_exists($includeFile)) {
+            require_once $includeFile;
+        } else {
+            throw new Exception('Unable to load PDF Rendering library');
+        }
     }
 
     /**

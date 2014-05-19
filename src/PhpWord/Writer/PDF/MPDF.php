@@ -20,19 +20,19 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
- * DomPDF writer
+ * MPDF writer
  *
- * @link https://github.com/dompdf/dompdf
- * @since 0.10.0
+ * @link http://www.mpdf1.com/
+ * @since 0.11.0
  */
-class DomPDF extends AbstractRenderer implements WriterInterface
+class MPDF extends AbstractRenderer implements WriterInterface
 {
     /**
      * Name of renderer include file
      *
      * @var string
      */
-    protected $includeFile = 'dompdf_config.inc.php';
+    protected $includeFile = 'mdf.php';
 
     /**
      * Save PhpWord to file
@@ -44,17 +44,28 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         $fileHandle = parent::prepareForSave($filename);
 
         //  PDF settings
-        $paperSize = 'A4';
-        $orientation = 'portrait';
+        $paperSize = strtoupper('A4');
+        $orientation = strtoupper('portrait');
 
         //  Create PDF
-        $pdf = new \DOMPDF();
-        $pdf->set_paper(strtolower($paperSize), $orientation);
-        $pdf->load_html($this->writeDocument());
-        $pdf->render();
+        $pdf = new \mpdf();
+        $pdf->_setPageSize($paperSize, $orientation);
+        $pdf->defOrientation = $orientation;
+        $pdf->addPage($orientation);
+
+        // Write document properties
+        $phpWord = $this->getPhpWord();
+        $docProps = $phpWord->getDocumentProperties();
+        $pdf->setTitle($docProps->getTitle());
+        $pdf->setAuthor($docProps->getCreator());
+        $pdf->setSubject($docProps->getSubject());
+        $pdf->setKeywords($docProps->getKeywords());
+        $pdf->setCreator($docProps->getCreator());
+
+        $pdf->writeHTML($this->writeDocument());
 
         //  Write to file
-        fwrite($fileHandle, $pdf->output());
+        fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
     }

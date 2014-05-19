@@ -23,6 +23,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - ODT: Enable inline font style in TextRun - @ivanlanin
 - ODT: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
 - ODT: Enable section and column - @ivanlanin
+- PDF: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
 
 ### Bugfixes
 

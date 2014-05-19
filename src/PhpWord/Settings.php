@@ -39,6 +39,8 @@ class Settings
      * @const string
      */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
+    const PDF_RENDERER_TCPDF  = 'TCPDF';
+    const PDF_RENDERER_MPDF   = 'MPDF';
 
     /**
      * Measurement units multiplication factor
@@ -201,7 +203,7 @@ class Settings
      */
     public static function setPdfRendererName($libraryName)
     {
-        $pdfRenderers = array(self::PDF_RENDERER_DOMPDF);
+        $pdfRenderers = array(self::PDF_RENDERER_DOMPDF, self::PDF_RENDERER_TCPDF, self::PDF_RENDERER_MPDF);
         if (!in_array($libraryName, $pdfRenderers)) {
             return false;
         }

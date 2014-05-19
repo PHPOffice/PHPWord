@@ -20,19 +20,19 @@ namespace PhpOffice\PhpWord\Writer\PDF;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
- * DomPDF writer
+ * TCPDF writer
  *
- * @link https://github.com/dompdf/dompdf
- * @since 0.10.0
+ * @link http://www.tcpdf.org/
+ * @since 0.11.0
  */
-class DomPDF extends AbstractRenderer implements WriterInterface
+class TCPDF extends AbstractRenderer implements WriterInterface
 {
     /**
      * Name of renderer include file
      *
      * @var string
      */
-    protected $includeFile = 'dompdf_config.inc.php';
+    protected $includeFile = 'tcpdf.php';
 
     /**
      * Save PhpWord to file
@@ -45,16 +45,28 @@ class DomPDF extends AbstractRenderer implements WriterInterface
 
         //  PDF settings
         $paperSize = 'A4';
-        $orientation = 'portrait';
+        $orientation = 'P';
 
-        //  Create PDF
-        $pdf = new \DOMPDF();
-        $pdf->set_paper(strtolower($paperSize), $orientation);
-        $pdf->load_html($this->writeDocument());
-        $pdf->render();
+        // Create PDF
+        $pdf = new \TCPDF($orientation, 'pt', $paperSize);
+        $pdf->setFontSubsetting(false);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->addPage();
+        $pdf->setFont($this->getFont());
+        $pdf->writeHTML($this->writeDocument());
+
+        // Write document properties
+        $phpWord = $this->getPhpWord();
+        $docProps = $phpWord->getDocumentProperties();
+        $pdf->setTitle($docProps->getTitle());
+        $pdf->setAuthor($docProps->getCreator());
+        $pdf->setSubject($docProps->getSubject());
+        $pdf->setKeywords($docProps->getKeywords());
+        $pdf->setCreator($docProps->getCreator());
 
         //  Write to file
-        fwrite($fileHandle, $pdf->output());
+        fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
     }

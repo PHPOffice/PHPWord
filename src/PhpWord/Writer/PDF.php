@@ -23,6 +23,8 @@ use PhpOffice\PhpWord\Settings;
 
 /**
  * PDF Writer
+ *
+ * @since 0.10.0
  */
 class PDF
 {
