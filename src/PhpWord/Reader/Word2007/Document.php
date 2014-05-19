@@ -56,9 +56,7 @@ class Document extends AbstractPart
                             if (!is_null($settingsNode)) {
                                 $settings = $this->readSectionStyle($xmlReader, $settingsNode);
                                 $section->setSettings($settings);
-                                if (!is_null($settings)) {
-                                    $this->readHeaderFooter($settings, $section);
-                                }
+                                $this->readHeaderFooter($settings, $section);
                             }
                             $section = $phpWord->addSection();
                         }
@@ -71,9 +69,7 @@ class Document extends AbstractPart
                     case 'w:sectPr': // Last section
                         $settings = $this->readSectionStyle($xmlReader, $node);
                         $section->setSettings($settings);
-                        if (!is_null($settings)) {
-                            $this->readHeaderFooter($settings, $section);
-                        }
+                        $this->readHeaderFooter($settings, $section);
                         break;
                 }
             }
@@ -273,61 +269,41 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @return array|null
+     * @return array
      */
     private function readSectionStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $ret = null;
-        $mapping = array(
-            'w:type' => 'breakType', 'w:pgSz' => 'pageSize',
-            'w:pgMar' => 'pageMargin', 'w:cols' => 'columns',
-            'w:headerReference' => 'header', 'w:footerReference' => 'footer',
+        $styleDefs = array(
+            'breakType'     => array(self::READ_VALUE, 'w:type'),
+            'pageSizeW'     => array(self::READ_VALUE, 'w:pgSz', 'w:w'),
+            'pageSizeH'     => array(self::READ_VALUE, 'w:pgSz', 'w:h'),
+            'orientation'   => array(self::READ_VALUE, 'w:pgSz', 'w:orient'),
+            'colsNum'       => array(self::READ_VALUE, 'w:cols', 'w:num'),
+            'colsSpace'     => array(self::READ_VALUE, 'w:cols', 'w:space'),
+            'topMargin'     => array(self::READ_VALUE, 'w:pgMar', 'w:top'),
+            'leftMargin'    => array(self::READ_VALUE, 'w:pgMar', 'w:left'),
+            'bottomMargin'  => array(self::READ_VALUE, 'w:pgMar', 'w:bottom'),
+            'rightMargin'   => array(self::READ_VALUE, 'w:pgMar', 'w:right'),
+            'headerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:header'),
+            'footerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:footer'),
+            'gutter'        => array(self::READ_VALUE, 'w:pgMar', 'w:gutter'),
         );
+        $styles = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+
+        // Header and footer
+        // @todo Cleanup this part
         $nodes = $xmlReader->getElements('*', $domNode);
         foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:type':
-                    $ret['breakType'] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-
-                case 'w:pgSz':
-                    $ret['pageSizeW'] = $xmlReader->getAttribute('w:w', $node);
-                    $ret['pageSizeH'] = $xmlReader->getAttribute('w:h', $node);
-                    $ret['orientation'] = $xmlReader->getAttribute('w:orient', $node);
-                    break;
-
-                case 'w:pgMar':
-                    $ret['topMargin'] = $xmlReader->getAttribute('w:top', $node);
-                    $ret['leftMargin'] = $xmlReader->getAttribute('w:left', $node);
-                    $ret['bottomMargin'] = $xmlReader->getAttribute('w:bottom', $node);
-                    $ret['rightMargin'] = $xmlReader->getAttribute('w:right', $node);
-                    $ret['headerHeight'] = $xmlReader->getAttribute('w:header', $node);
-                    $ret['footerHeight'] = $xmlReader->getAttribute('w:footer', $node);
-                    $ret['gutter'] = $xmlReader->getAttribute('w:gutter', $node);
-                    break;
-
-                case 'w:cols':
-                    $ret['colsNum'] = $xmlReader->getAttribute('w:num', $node);
-                    $ret['colsSpace'] = $xmlReader->getAttribute('w:space', $node);
-                    break;
-
-                case 'w:headerReference':
-                case 'w:footerReference':
-                    $id = $xmlReader->getAttribute('r:id', $node);
-                    $ret['hf'][$id] = array(
-                        'method' => $property,
-                        'type' => $xmlReader->getAttribute('w:type', $node),
-                    );
-                    break;
+            if ($node->nodeName == 'w:headerReference' || $node->nodeName == 'w:footerReference') {
+                $id = $xmlReader->getAttribute('r:id', $node);
+                $styles['hf'][$id] = array(
+                    'method' => str_replace('w:', '', str_replace('Reference', '', $node->nodeName)),
+                    'type' => $xmlReader->getAttribute('w:type', $node),
+                );
             }
         }
 
-        return $ret;
+        return $styles;
     }
 
     /**
@@ -335,33 +311,18 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @return array|null
+     * @return array
      */
     private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $style = null;
-        $mapping = array(
-            'w:shd' => 'bgColor',
-            'w:vAlign' => 'valign', 'w:textDirection' => 'textDirection',
-            'w:gridSpan' => 'gridSpan', 'w:vMerge' => 'vMerge',
+        $styleDefs = array(
+            'valign'        => array(self::READ_VALUE, 'w:vAlign'),
+            'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
+            'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
+            'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
+            'bgColor'       => array(self::READ_VALUE, 'w:shd/w:fill'),
         );
-        $nodes = $xmlReader->getElements('*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-                case 'w:shd':
-                    $style['bgColor'] = $xmlReader->getAttribute('w:fill', $node);
-                    break;
 
-                default:
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-            }
-        }
-
-        return $style;
+        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
     }
 }

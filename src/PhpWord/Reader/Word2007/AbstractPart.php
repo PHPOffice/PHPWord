@@ -22,9 +22,22 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
+ *
+ * This class is inherited by ODText reader
  */
 abstract class AbstractPart
 {
+    /**
+     * Conversion method
+     *
+     * @const int
+     */
+    const READ_VALUE = 'attributeValue';            // Read attribute value
+    const READ_EQUAL = 'attributeEquals';           // Read `true` when attribute value equals specified value
+    const READ_TRUE  = 'attributeTrue';             // Read `true` when element exists
+    const READ_FALSE = 'attributeFalse';            // Read `false` when element exists
+    const READ_SIZE  = 'attributeMultiplyByTwo';    // Read special attribute value for Font::$size
+
     /**
      * Document file
      *
@@ -145,58 +158,26 @@ abstract class AbstractPart
     protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         if (!$xmlReader->elementExists('w:pPr', $domNode)) {
-            return '';
+            return null;
         }
 
-        $style = array();
-        $mapping = array(
-            'w:pStyle' => 'styleName',
-            'w:ind' => 'indent', 'w:spacing' => 'spacing',
-            'w:jc' => 'align', 'w:basedOn' => 'basedOn', 'w:next' => 'next',
-            'w:widowControl' => 'widowControl', 'w:keepNext' => 'keepNext',
-            'w:keepLines' => 'keepLines', 'w:pageBreakBefore' => 'pageBreakBefore',
+        $styleNode = $xmlReader->getElement('w:pPr', $domNode);
+        $styleDefs = array(
+            'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
+            'align'           => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
+            'next'            => array(self::READ_VALUE, 'w:next'),
+            'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'         => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'      => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'     => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'    => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'        => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'       => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore' => array(self::READ_TRUE,  'w:pageBreakBefore'),
         );
 
-        $nodes = $xmlReader->getElements('w:pPr/*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:ind':
-                    $style['indent'] = $xmlReader->getAttribute('w:left', $node);
-                    $style['hanging'] = $xmlReader->getAttribute('w:hanging', $node);
-                    break;
-
-                case 'w:spacing':
-                    $style['spaceAfter'] = $xmlReader->getAttribute('w:after', $node);
-                    $style['spaceBefore'] = $xmlReader->getAttribute('w:before', $node);
-                    // Commented. Need to adjust the number when return value is null
-                    // $style['spacing'] = $xmlReader->getAttribute('w:line', $node);
-                    break;
-
-                case 'w:keepNext':
-                case 'w:keepLines':
-                case 'w:pageBreakBefore':
-                    $style[$property] = true;
-                    break;
-
-                case 'w:widowControl':
-                    $style[$property] = false;
-                    break;
-
-                case 'w:pStyle':
-                case 'w:jc':
-                case 'w:basedOn':
-                case 'w:next':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-            }
-        }
-
-        return $style;
+        return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
     }
 
     /**
@@ -204,7 +185,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @return array|null
+     * @return array
      */
     protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
@@ -219,62 +200,26 @@ abstract class AbstractPart
             return null;
         }
 
-        $style = array();
-        $mapping = array(
-            'w:rStyle' => 'styleName',
-            'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color', 'w:u' => 'underline',
-            'w:strike' => 'strikethrough', 'w:dstrike' => 'doubleStrikethrough',
-            'w:highlight' => 'fgColor', 'w:sz' => 'size',
-            'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
-            'w:smallCaps' => 'smallCaps', 'w:caps' => 'allCaps',
+        $styleNode = $xmlReader->getElement('w:rPr', $domNode);
+        $styleDefs = array(
+            'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
+            'name'                => array(self::READ_VALUE, 'w:rFonts', 'w:ascii'),
+            'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
+            'size'                => array(self::READ_SIZE,  'w:sz'),
+            'color'               => array(self::READ_VALUE, 'w:color'),
+            'underline'           => array(self::READ_VALUE, 'w:u'),
+            'bold'                => array(self::READ_TRUE,  'w:b'),
+            'italic'              => array(self::READ_TRUE,  'w:i'),
+            'strikethrough'       => array(self::READ_TRUE,  'w:strike'),
+            'doubleStrikethrough' => array(self::READ_TRUE,  'w:dstrike'),
+            'smallCaps'           => array(self::READ_TRUE,  'w:smallCaps'),
+            'allCaps'             => array(self::READ_TRUE,  'w:caps'),
+            'superScript'         => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
+            'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
+            'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
         );
 
-        $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:rFonts':
-                    $style['name'] = $xmlReader->getAttribute('w:ascii', $node);
-                    $style['hint'] = $xmlReader->getAttribute('w:hint', $node);
-                    break;
-
-                case 'w:b':
-                case 'w:i':
-                case 'w:strike':
-                case 'w:dstrike':
-                case 'w:smallCaps':
-                case 'w:caps':
-                    $style[$property] = true;
-                    break;
-
-                case 'w:rStyle':
-                case 'w:u':
-                case 'w:highlight':
-                case 'w:color':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-
-                case 'w:sz':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node) / 2;
-                    break;
-
-                case 'w:vertAlign':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    if ($style[$property] == 'superscript') {
-                        $style['superScript'] = true;
-                    } else {
-                        $style['superScript'] = false;
-                        $style['subScript'] = true;
-                    }
-                    break;
-            }
-        }
-
-        return $style;
+        return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
     }
 
     /**
@@ -295,40 +240,62 @@ abstract class AbstractPart
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
                 $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
             } else {
-                $style = array();
-                $mapping = array(
-                    'w:tblCellMar' => 'cellMargin',
-                    'w:tblBorders' => 'border',
-                );
-
-                $nodes = $xmlReader->getElements('w:tblPr/*', $domNode);
-                foreach ($nodes as $node) {
-                    if (!array_key_exists($node->nodeName, $mapping)) {
-                        continue;
-                    }
-                    // $property = $mapping[$node->nodeName];
-                    switch ($node->nodeName) {
-
-                        case 'w:tblCellMar':
-                            foreach ($margins as $side) {
-                                $ucfSide = ucfirst($side);
-                                $style["cellMargin$ucfSide"] = $xmlReader->getAttribute('w:w', $node, "w:$side");
-                            }
-                            break;
-
-                        case 'w:tblBorders':
-                            foreach ($borders as $side) {
-                                $ucfSide = ucfirst($side);
-                                $style["border{$ucfSide}Size"] = $xmlReader->getAttribute('w:sz', $node, "w:$side");
-                                $style["border{$ucfSide}Color"] = $xmlReader->getAttribute('w:color', $node, "w:$side");
-                            }
-                            break;
-                    }
+                $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
+                // $styleDefs['styleName'] = array(self::READ_VALUE, 'w:tblStyle');
+                foreach ($margins as $side) {
+                    $ucfSide = ucfirst($side);
+                    $styleDefs["cellMargin$ucfSide"] = array(self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w');
                 }
+                foreach ($borders as $side) {
+                    $ucfSide = ucfirst($side);
+                    $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
+                    $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
+                }
+                $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
             }
         }
 
         return $style;
+    }
+
+    /**
+     * Read style definition
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param array $styleDefs
+     * @return array
+     */
+    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode, $styleDefs)
+    {
+        $styles = array();
+
+        foreach ($styleDefs as $styleProp => $styleVal) {
+            @list($method, $element, $attribute, $expected) = $styleVal;
+
+            if ($xmlReader->elementExists($element, $parentNode)) {
+                $node = $xmlReader->getElement($element, $parentNode);
+
+                // Use w:val as default if no attribute assigned
+                $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                $attributeValue = $xmlReader->getAttribute($attribute, $node);
+
+                // Assign style value based on conversion model
+                if ($method == self::READ_VALUE) {
+                    $styles[$styleProp] = $attributeValue;
+                } elseif ($method == self::READ_SIZE) {
+                    $styles[$styleProp] = $attributeValue / 2;
+                } elseif ($method == self::READ_TRUE) {
+                    $styles[$styleProp] = true;
+                } elseif ($method == self::READ_FALSE) {
+                    $styles[$styleProp] = false;
+                } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
+                    $styles[$styleProp] = true;
+                }
+            }
+        }
+
+        return $styles;
     }
 
     /**
