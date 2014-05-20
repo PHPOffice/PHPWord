@@ -50,7 +50,6 @@ class MPDF extends AbstractRenderer implements WriterInterface
         //  Create PDF
         $pdf = new \mpdf();
         $pdf->_setPageSize($paperSize, $orientation);
-        $pdf->defOrientation = $orientation;
         $pdf->addPage($orientation);
 
         // Write document properties

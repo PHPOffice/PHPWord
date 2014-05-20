@@ -26,6 +26,20 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 abstract class AbstractPart extends Word2007AbstractPart
 {
     /**
+     * Read w:p (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     *
+     * @todo Get font style for preserve text
+     */
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    {
+    }
+
+    /**
      * Read w:r (override)
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
@@ -35,6 +49,18 @@ abstract class AbstractPart extends Word2007AbstractPart
      * @param mixed $paragraphStyle
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $paragraphStyle = null)
+    {
+    }
+
+    /**
+     * Read w:tbl (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     */
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
     {
     }
 
