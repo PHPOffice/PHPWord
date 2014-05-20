@@ -78,12 +78,11 @@ Below are the supported features for each file formats.
 
 | Features                |                    | DOCX | ODT | RTF | HTML | PDF |
 |-------------------------|--------------------|------|-----|-----|------|-----|
-| **Document Properties** | Standard           | ✓    |     |     |      |     |
-|                         | Extended           | ✓    |     |     |      |     |
-|                         | UserDefined        | ✓    |     |     |      |     |
+| **Document Properties** | Standard           | ✓    | ✓   |     |      |     |
+|                         | Custom             | ✓    | ✓   |     |      |     |
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Title              | ✓    |     |     | ✓    | ✓   |
+|                         | Title              | ✓    | ✓   |     | ✓    | ✓   |
 |                         | Link               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Preserve Text      | ✓    |     |     |      |     |
 |                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
@@ -111,8 +110,7 @@ Below are the supported features for each file formats.
 | Features                |                    | DOCX | ODT | RTF |
 |-------------------------|--------------------|------|-----|-----|
 | **Document Properties** | Standard           | ✓    |     |     |
-|                         | Extended           | ✓    |     |     |
-|                         | UserDefined        | ✓    |     |     |
+|                         | Custom             | ✓    |     |     |
 | **Element Type**        | Text               | ✓    | ✓   |     |
 |                         | Text Run           | ✓    |     |     |
 |                         | Title              | ✓    | ✓   |     |

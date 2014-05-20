@@ -15,15 +15,16 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
 - ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
 - Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
-- RTF: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
+- RTF Writer: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
 - Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
-- RTF: Ability to add links and page breaks in RTF - @ivanlanin GH-196
+- RTF Writer: Ability to add links and page breaks in RTF - @ivanlanin GH-196
 - ListItemRun: Remove fontStyle parameter because ListItemRun is inherited from TextRun and TextRun doesn't have fontStyle - @ivanlanin
 - Config: Ability to use a config file to store various common settings - @ivanlanin GH-200
-- ODT: Enable inline font style in TextRun - @ivanlanin
-- ODT: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
-- ODT: Enable section and column - @ivanlanin
-- PDF: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
+- ODT Writer: Enable inline font style in TextRun - @ivanlanin
+- ODT Writer: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
+- ODT Writer: Enable section and column - @ivanlanin
+- PDF Writer: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
+- ODT Writer: Enable title element and custom document properties - @ivanlanin
 
 ### Bugfixes
 
