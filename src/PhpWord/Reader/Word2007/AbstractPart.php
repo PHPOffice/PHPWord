@@ -391,6 +391,7 @@ abstract class AbstractPart
                 $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
             } else {
                 $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
+                $styleDefs = array();
                 // $styleDefs['styleName'] = array(self::READ_VALUE, 'w:tblStyle');
                 foreach ($margins as $side) {
                     $ucfSide = ucfirst($side);
@@ -432,11 +433,11 @@ abstract class AbstractPart
      * Read style definition
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
-     * @param \DOMElement $domNode
+     * @param \DOMElement $parentNode
      * @param array $styleDefs
      * @return array
      */
-    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode, $styleDefs)
+    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
     {
         $styles = array();
 

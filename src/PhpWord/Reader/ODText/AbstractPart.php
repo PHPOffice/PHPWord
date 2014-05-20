@@ -84,4 +84,16 @@ abstract class AbstractPart extends Word2007AbstractPart
     protected function readTableStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
     }
+
+    /**
+     * Read style definition (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param array $styleDefs
+     * @return array
+     */
+    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
+    {
+    }
 }
