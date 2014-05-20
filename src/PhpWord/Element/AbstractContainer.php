@@ -129,6 +129,20 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
+     * Add field element
+     * @param
+     */
+    public function addField($type = null, $properties = array(), $options = array()){
+        //$this->checkValidity('Field');
+        $elementDocPart = $this->checkElementDocPart();
+        $element = new Field($type, $properties, $options);
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $this->addElement($element);
+        
+        return $element;
+    }
+    
+    /**
      * Add link element
      *
      * @param string $target
