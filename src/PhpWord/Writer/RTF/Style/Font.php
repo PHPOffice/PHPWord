@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
  * RTF font style writer
@@ -44,40 +44,25 @@ class Font extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
+        if (!$style instanceof FontStyle) {
+            return '';
         }
 
         $content = '';
         $content .= '\cf' . $this->colorIndex;
         $content .= '\f' . $this->nameIndex;
+
+        $size = $style->getSize();
+        $content .= $this->getValueIf(is_numeric($size), '\fs' . ($size * 2));
+
         $content .= $this->getValueIf($style->isBold(), '\b');
         $content .= $this->getValueIf($style->isItalic(), '\i');
-        $content .= $this->getValueIf($style->getSize(), '\fs' . ($style->getSize() * 2));
+        $content .= $this->getValueIf($style->getUnderline() != FontStyle::UNDERLINE_NONE, '\ul');
+        $content .= $this->getValueIf($style->isStrikethrough(), '\strike');
+        $content .= $this->getValueIf($style->isSuperScript(), '\super');
+        $content .= $this->getValueIf($style->isSubScript(), '\sub');
 
-        return $content;
-    }
-
-    /**
-     * Write end style
-     *
-     * @return string
-     */
-    public function writeEnd()
-    {
-        $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
-            return;
-        }
-
-        $content = '';
-        $content .= '\cf0';
-        $content .= '\f0';
-        $content .= $this->getValueIf($style->isBold(), '\b0');
-        $content .= $this->getValueIf($style->isItalic(), '\i0');
-        $content .= $this->getValueIf($style->getSize(), '\fs' . (PhpWord::DEFAULT_FONT_SIZE * 2));
-
-        return $content;
+        return $content .  ' ';
     }
 
     /**

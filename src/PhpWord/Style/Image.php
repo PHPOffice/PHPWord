@@ -94,9 +94,9 @@ class Image extends AbstractStyle
     /**
      * Alignment
      *
-     * @var string
+     * @var \PhpOffice\PhpWord\Style\Alignment
      */
-    private $align;
+    private $alignment;
 
     /**
      * Margin Top
@@ -155,7 +155,17 @@ class Image extends AbstractStyle
     private $posVerticalRel = self::POSITION_RELATIVE_TO_LINE;
 
     /**
+     * Create new instance
+     */
+    public function __construct()
+    {
+        $this->alignment = new Alignment();
+    }
+
+    /**
      * Get width
+     *
+     * @return int
      */
     public function getWidth()
     {
@@ -166,14 +176,19 @@ class Image extends AbstractStyle
      * Set width
      *
      * @param int $value
+     * @return self
      */
     public function setWidth($value = null)
     {
         $this->width = $value;
+
+        return $this;
     }
 
     /**
      * Get height
+     *
+     * @return int
      */
     public function getHeight()
     {
@@ -184,32 +199,40 @@ class Image extends AbstractStyle
      * Set height
      *
      * @param int $value
+     * @return self
      */
     public function setHeight($value = null)
     {
         $this->height = $value;
+
+        return $this;
     }
 
     /**
      * Get alignment
+     *
+     * @return string
      */
     public function getAlign()
     {
-        return $this->align;
+        return $this->alignment->getValue();
     }
 
     /**
      * Set alignment
      *
      * @param string $value
+     * @return self
      */
     public function setAlign($value = null)
     {
-        $this->align = $value;
+        $this->alignment->setValue($value);
+
+        return $this;
     }
 
     /**
-     * Get Margin Top
+     * Get margin top
      *
      * @return int
      */
@@ -219,7 +242,7 @@ class Image extends AbstractStyle
     }
 
     /**
-     * Set Margin Top
+     * Set margin top
      *
      * @param int $value
      * @return self
@@ -227,11 +250,12 @@ class Image extends AbstractStyle
     public function setMarginTop($value = null)
     {
         $this->marginTop = $value;
+
         return $this;
     }
 
     /**
-     * Get Margin Left
+     * Get margin left
      *
      * @return int
      */
@@ -241,7 +265,7 @@ class Image extends AbstractStyle
     }
 
     /**
-     * Set Margin Left
+     * Set margin left
      *
      * @param int $value
      * @return self
@@ -249,6 +273,7 @@ class Image extends AbstractStyle
     public function setMarginLeft($value = null)
     {
         $this->marginLeft = $value;
+
         return $this;
     }
 

@@ -17,21 +17,50 @@
 
 namespace PhpOffice\PhpWord\Reader\ODText;
 
+use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
 use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
  */
-abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractPart
+abstract class AbstractPart extends Word2007AbstractPart
 {
+    /**
+     * Read w:p (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     *
+     * @todo Get font style for preserve text
+     */
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    {
+    }
+
     /**
      * Read w:r (override)
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $paragraphStyle = null)
+    {
+    }
+
+    /**
+     * Read w:tbl (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     */
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
     {
     }
 
@@ -53,6 +82,18 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Reader\Word2007\AbstractP
      * Read w:tblPr (override)
      */
     protected function readTableStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+    }
+
+    /**
+     * Read style definition (override)
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param array $styleDefs
+     * @return array
+     */
+    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
     {
     }
 }

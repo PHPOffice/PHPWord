@@ -32,7 +32,7 @@ class Section extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Section) {
+        if (!$style instanceof SectionStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -66,7 +66,7 @@ class Section extends AbstractStyle
         $xmlWriter->endElement();
 
         // Borders
-        if ($style->hasBorders()) {
+        if ($style->hasBorder()) {
             $xmlWriter->startElement('w:pgBorders');
             $xmlWriter->writeAttribute('w:offsetFrom', 'page');
 

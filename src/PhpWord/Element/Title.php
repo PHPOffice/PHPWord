@@ -40,26 +40,11 @@ class Title extends AbstractElement
     private $depth = 1;
 
     /**
-     * Title Bookmark ID
-     *
-     * @var int
-     */
-    private $bookmarkId = 1;
-
-    /**
      * Name of the heading style, e.g. 'Heading1'
      *
      * @var string
      */
     private $style;
-
-    /**
-     * Title anchor
-     *
-     * @var int
-     * @deprecated 0.10.0
-     */
-    private $anchor;
 
     /**
      * Create a new Title Element
@@ -77,26 +62,6 @@ class Title extends AbstractElement
         }
 
         return $this;
-    }
-
-    /**
-     * Set Bookmark ID
-     *
-     * @param int $bookmarkId
-     */
-    public function setBookmarkId($bookmarkId)
-    {
-        $this->bookmarkId = $bookmarkId;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     */
-    public function getBookmarkId()
-    {
-        return $this->bookmarkId;
     }
 
     /**
@@ -127,29 +92,5 @@ class Title extends AbstractElement
     public function getStyle()
     {
         return $this->style;
-    }
-
-    /**
-     * Set Anchor
-     *
-     * @param int $anchor
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
-     */
-    public function setAnchor($anchor)
-    {
-        $this->anchor = $anchor;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     * @deprecated 0.10.0
-     * @codeCoverageIgnore
-     */
-    public function getAnchor()
-    {
-        return '_Toc' . (252634154 + $this->bookmarkId);
     }
 }

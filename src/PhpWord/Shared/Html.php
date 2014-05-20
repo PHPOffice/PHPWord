@@ -27,9 +27,8 @@ class Html
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $object Where the parts need to be added
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $object Where the parts need to be added
      * @param string $html the code to parse
-     *
      */
     public static function addHtml($object, $html)
     {
@@ -53,7 +52,7 @@ class Html
      *
      * @param \DOMNode $node Node to check on attributes and to compile a style array
      * @param array $style is supplied, the inline style attributes are added to the already existing style
-     *
+     * @return array
      */
     protected static function parseInlineStyle($node, $style = array())
     {
@@ -93,6 +92,7 @@ class Html
                 }
             }
         }
+
         return $style;
     }
 
@@ -100,10 +100,9 @@ class Html
      * parse a node and add a corresponding element to the object
      *
      * @param \DOMNode $node node to parse
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $object object to add an element corresponding with the node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $object object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
-     *
      */
     protected static function parseNode(
         $node,
@@ -171,17 +170,26 @@ class Html
             case 'table':
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
                 $newobject = $object->addTable();
-                // if ($attributes->getNamedItem('width') !== null)$newobject->setWidth($attributes->getNamedItem('width')->value);
+                // if ($attributes->getNamedItem('width') !== null) {
+                    // $newobject->setWidth($attributes->getNamedItem('width')->value);
+                // }
                 break;
             case 'tr':
+                /** @var \PhpOffice\PhpWord\Element\Table $object Type hint */
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
                 $newobject = $object->addRow();
-                // if ($attributes->getNamedItem('height') !== null)$newobject->setHeight($attributes->getNamedItem('height')->value);
+                // if ($attributes->getNamedItem('height') !== null) {
+                    // $newobject->setHeight($attributes->getNamedItem('height')->value);
+                // }
                 break;
             case 'td':
+                /** @var \PhpOffice\PhpWord\Element\Row $object Type hint */
                 $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
-                // if ($attributes->getNamedItem('width') !== null)$newobject=$object->addCell($width=$attributes->getNamedItem('width')->value);
-                // else $newobject=$object->addCell();
+                // if ($attributes->getNamedItem('width') !== null) {
+                    // $newobject=$object->addCell($width=$attributes->getNamedItem('width')->value);
+                // } else {
+                    // $newobject=$object->addCell();
+                // }
                 $newobject = $object->addCell();
                 break;
             case 'ul':
@@ -207,12 +215,19 @@ class Html
             case 'li':
                 $cNodes = $node->childNodes;
                 if (count($cNodes) > 0) {
+                    $text = '';
                     foreach ($cNodes as $cNode) {
                         if ($cNode->nodeName == '#text') {
                             $text = $cNode->nodeValue;
                         }
                     }
-                    $object->addListItem($text, $data['listdepth'], $styles['fontStyle'], $styles['listStyle'], $styles['paragraphStyle']);
+                    $object->addListItem(
+                        $text,
+                        $data['listdepth'],
+                        $styles['fontStyle'],
+                        $styles['listStyle'],
+                        $styles['paragraphStyle']
+                    );
                 }
         }
 

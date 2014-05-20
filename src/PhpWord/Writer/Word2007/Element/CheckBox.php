@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * CheckBox element writer
  *
@@ -33,11 +31,9 @@ class CheckBox extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-
-        $name = htmlspecialchars($element->getName());
-        $name = String::controlCharacterPHP2OOXML($name);
-        $text = htmlspecialchars($element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
+        if (!$element instanceof \PhpOffice\PhpWord\Element\CheckBox) {
+            return;
+        }
 
         $this->writeOpeningWP();
 
@@ -46,7 +42,7 @@ class CheckBox extends Text
         $xmlWriter->writeAttribute('w:fldCharType', 'begin');
         $xmlWriter->startElement('w:ffData');
         $xmlWriter->startElement('w:name');
-        $xmlWriter->writeAttribute('w:val', $name);
+        $xmlWriter->writeAttribute('w:val', $this->getText($element->getName()));
         $xmlWriter->endElement(); //w:name
         $xmlWriter->writeAttribute('w:enabled', '');
         $xmlWriter->startElement('w:calcOnExit');
@@ -85,10 +81,10 @@ class CheckBox extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($text);
+        $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 }

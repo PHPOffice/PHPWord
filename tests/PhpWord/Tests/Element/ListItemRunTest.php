@@ -44,7 +44,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructString()
     {
-        $oListItemRun = new ListItemRun(0, null, null, 'pStyle');
+        $oListItemRun = new ListItemRun(0, null, 'pStyle');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
@@ -56,29 +56,22 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructArray()
     {
-        $oListItemRun = new ListItemRun(0, null, null, array('spacing' => 100));
+        $oListItemRun = new ListItemRun(0, null, array('spacing' => 100));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oListItemRun->getParagraphStyle());
     }
-    
+
     /**
      * Get style
      */
     public function testStyle()
     {
-        $oListItemRun = new ListItemRun(
-            1,
-            null,
-            array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER)
-        );
-    
+        $oListItemRun = new ListItemRun(1, array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER));
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItemRun->getStyle());
-        $this->assertEquals(
-            $oListItemRun->getStyle()->getListType(),
-            \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER
-        );
+        $this->assertEquals($oListItemRun->getStyle()->getListType(), \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER);
     }
     /**
      * getDepth
@@ -87,10 +80,10 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     {
         $iVal = rand(1, 1000);
         $oListItemRun = new ListItemRun($iVal);
-    
+
         $this->assertEquals($oListItemRun->getDepth(), $iVal);
     }
-    
+
     /**
      * Add text
      */

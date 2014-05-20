@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
 
 /**
@@ -26,6 +25,11 @@ use PhpOffice\PhpWord\Style\Section as SectionSettings;
  */
 class Section extends AbstractContainer
 {
+    /**
+     * @var string Container type
+     */
+    protected $container = 'Section';
+
     /**
      * Section settings
      *
@@ -55,7 +59,6 @@ class Section extends AbstractContainer
      */
     public function __construct($sectionCount, $settings = null)
     {
-        $this->container = 'section';
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
         $this->settings = new SectionSettings();
@@ -98,15 +101,7 @@ class Section extends AbstractContainer
      */
     public function addTitle($text, $depth = 1)
     {
-        $title = new Title($text, $depth);
-        $title->setDocPart($this->getDocPart(), $this->getDocPartId());
-        if ($this->phpWord instanceof PhpWord) {
-            $bookmarkId = $this->phpWord->addTitle($title);
-            $title->setBookmarkId($bookmarkId);
-        }
-        $this->addElement($title);
-
-        return $title;
+        return $this->addElement('Title', $text, $depth);
     }
 
     /**
@@ -114,7 +109,7 @@ class Section extends AbstractContainer
      */
     public function addPageBreak()
     {
-        $this->addElement(new PageBreak());
+        return $this->addElement('PageBreak');
     }
 
     /**
@@ -128,10 +123,7 @@ class Section extends AbstractContainer
      */
     public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
-        $toc = new TOC($fontStyle, $tocStyle, $minDepth, $maxDepth);
-        $this->addElement($toc);
-
-        return $toc;
+        return $this->addElement('TOC', $fontStyle, $tocStyle, $minDepth, $maxDepth);
     }
 
     /**
@@ -214,6 +206,7 @@ class Section extends AbstractContainer
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
+            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
             $container->setPhpWord($this->phpWord);
 

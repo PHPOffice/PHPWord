@@ -33,11 +33,9 @@ class Footer extends AbstractContainer
     const EVEN  = 'even';
 
     /**
-     * Container type
-     *
-     * @var string
+     * @var string Container type
      */
-    protected $container = 'footer';
+    protected $container = 'Footer';
 
     /**
      * Header type

@@ -47,16 +47,4 @@ class TitleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($oTitle->getStyle(), null);
     }
-
-    /**
-     * Get bookmark Id
-     */
-    public function testBookmarkID()
-    {
-        $oTitle = new Title('text');
-
-        $iVal = rand(1, 1000);
-        $oTitle->setBookmarkId($iVal);
-        $this->assertEquals($oTitle->getBookmarkId(), $iVal);
-    }
 }

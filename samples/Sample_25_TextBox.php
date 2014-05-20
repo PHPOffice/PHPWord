@@ -8,7 +8,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 
 // In section
-$textbox = $section->addTextBox(array('align' => 'left', 'width' => 400, 'height' => 150, 'borderSize' => 1, 'borderColor' => '#FF0000'));
+$textbox = $section->addTextBox(array('align' => 'center', 'width' => 400, 'height' => 150, 'borderSize' => 1, 'borderColor' => '#FF0000'));
 $textbox->addText('Text box content in section.');
 $textbox->addText('Another line.');
 $cell = $textbox->addTable()->addRow()->addCell();
@@ -22,7 +22,7 @@ $textbox->addText('Textbox inside table');
 
 // Inside header with textrun
 $header = $section->addHeader();
-$textbox = $header->addTextBox(array('align' => 'center', 'width' => 600, 'borderSize' => 1, 'borderColor' => '#00FF00'));
+$textbox = $header->addTextBox(array('width' => 600, 'borderSize' => 1, 'borderColor' => '#00FF00'));
 $textrun = $textbox->addTextRun();
 $textrun->addText('TextBox in header. TextBox can contain a TextRun ');
 $textrun->addText('with bold text', array('bold' => true));

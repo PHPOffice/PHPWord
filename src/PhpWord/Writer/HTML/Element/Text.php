@@ -53,7 +53,7 @@ class Text extends AbstractElement
     /**
      * Closing tag
      *
-     * @var strings
+     * @var string
      */
     private $closingTags = '';
 
@@ -64,12 +64,14 @@ class Text extends AbstractElement
      */
     public function write()
     {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
         $this->getFontStyle();
 
         $content = '';
         $content .= $this->writeOpening();
         $content .= $this->openingTags;
-        $content .= htmlspecialchars($this->element->getText());
+        $content .= htmlspecialchars($element->getText());
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -140,12 +142,14 @@ class Text extends AbstractElement
      */
     private function getParagraphStyle()
     {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
         $style = '';
-        if (method_exists($this->element, 'getParagraphStyle')) {
+        if (!method_exists($element, 'getParagraphStyle')) {
             return $style;
         }
 
-        $paragraphStyle = $this->element->getParagraphStyle();
+        $paragraphStyle = $element->getParagraphStyle();
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
@@ -164,8 +168,10 @@ class Text extends AbstractElement
      */
     private function getFontStyle()
     {
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->element;
         $style = '';
-        $fontStyle = $this->element->getFontStyle();
+        $fontStyle = $element->getFontStyle();
         $fStyleIsObject = ($fontStyle instanceof Font);
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);

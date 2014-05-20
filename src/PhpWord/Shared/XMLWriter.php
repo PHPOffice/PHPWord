@@ -19,21 +19,16 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Settings;
 
-// @codeCoverageIgnoreStart
-if (!defined('DATE_W3C')) {
-    define('DATE_W3C', 'Y-m-d\TH:i:sP');
-}
-// @codeCoverageIgnoreEnd
-
 /**
  * XMLWriter wrapper
  *
- * @method bool writeElement(string $name, string $content = null)
- * @method bool startElement(string $name)
- * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
  * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
+ * @method bool startElement(string $name)
  * @method bool text(string $content)
+ * @method bool writeAttribute(string $name, mixed $value)
+ * @method bool writeElement(string $name, string $content = null)
+ * @method bool writeRaw(string $content)
  */
 class XMLWriter
 {
@@ -63,6 +58,11 @@ class XMLWriter
      */
     public function __construct($tempLocation = self::STORAGE_MEMORY, $tempFolder = './')
     {
+        // Define date format
+        if (!defined('DATE_W3C')) {
+            define('DATE_W3C', 'Y-m-d\TH:i:sP');
+        }
+
         // Create internal XMLWriter
         $this->xmlWriter = new \XMLWriter();
 
@@ -136,31 +136,16 @@ class XMLWriter
     }
 
     /**
-     * Fallback method for writeRaw, introduced in PHP 5.2
-     *
-     * @param string $text
-     * @return bool
-     */
-    public function writeRaw($text)
-    {
-        if (isset($this->xmlWriter) && is_object($this->xmlWriter) && (method_exists($this->xmlWriter, 'writeRaw'))) {
-            return $this->xmlWriter->writeRaw($text);
-        }
-
-        return $this->text($text);
-    }
-
-    /**
      * Write element if ...
      *
      * @param bool $condition
      * @param string $element
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      */
     public function writeElementIf($condition, $element, $attribute = null, $value = null)
     {
-        if ($condition) {
+        if ($condition == true) {
             if (is_null($attribute)) {
                 $this->xmlWriter->writeElement($element, $value);
             } else {
@@ -176,11 +161,11 @@ class XMLWriter
      *
      * @param bool $condition
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      */
     public function writeAttributeIf($condition, $attribute, $value)
     {
-        if ($condition) {
+        if ($condition == true) {
             $this->xmlWriter->writeAttribute($attribute, $value);
         }
     }

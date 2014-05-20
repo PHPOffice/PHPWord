@@ -19,9 +19,10 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Element\Container;
 use PhpOffice\PhpWord\Writer\HTML\Element\TextRun as TextRunWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
@@ -62,14 +63,10 @@ class HTML extends AbstractWriter implements WriterInterface
      * Save PhpWord to file
      *
      * @param string $filename
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
         $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
         $hFile = fopen($filename, 'w');
         if ($hFile !== false) {
@@ -111,7 +108,8 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     private function writeHead()
     {
-        $properties = $this->getPhpWord()->getDocumentProperties();
+        $phpWord = $this->getPhpWord();
+        $properties = $phpWord->getDocumentProperties();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',
@@ -176,8 +174,8 @@ class HTML extends AbstractWriter implements WriterInterface
         // Default styles
         $defaultStyles = array(
             '*' => array(
-                'font-family' => $this->getPhpWord()->getDefaultFontName(),
-                'font-size' => $this->getPhpWord()->getDefaultFontSize() . 'pt',
+                'font-family' => Settings::getDefaultFontName(),
+                'font-size' => Settings::getDefaultFontSize() . 'pt',
             ),
             'a.NoteRef' => array(
                 'text-decoration' => 'none',

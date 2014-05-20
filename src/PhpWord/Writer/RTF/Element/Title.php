@@ -18,29 +18,10 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 /**
- * TextBreak element RTF writer
+ * Title element RTF writer; extends from text
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Title extends AbstractElement
+class Title extends Text
 {
-    /**
-     * Write element
-     *
-     * @return string
-     */
-    public function write()
-    {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return;
-        }
-
-        $content = '';
-
-        $content .= '\pard\nowidctlpar' . PHP_EOL;
-        $content .= $this->element->getText();
-        $content .= '\par' . PHP_EOL;
-
-        return $content;
-    }
 }

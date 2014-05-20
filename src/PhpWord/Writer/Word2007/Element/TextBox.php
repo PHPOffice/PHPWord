@@ -33,18 +33,15 @@ class TextBox extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\TextBox) {
+            return;
+        }
         $style = $element->getStyle();
         $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
-            if (!is_null($style->getAlign())) {
-                $xmlWriter->startElement('w:pPr');
-                $xmlWriter->startElement('w:jc');
-                $xmlWriter->writeAttribute('w:val', $style->getAlign());
-                $xmlWriter->endElement(); // w:jc
-                $xmlWriter->endElement(); // w:pPr
-            }
+            $styleWriter->writeAlignment();
         }
 
         $xmlWriter->startElement('w:r');

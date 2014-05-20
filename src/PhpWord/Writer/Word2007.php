@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Word2007 writer
@@ -74,9 +74,10 @@ class Word2007 extends AbstractWriter implements WriterInterface
         foreach (array_keys($this->parts) as $partName) {
             $partClass = get_class($this) . '\\Part\\' . $partName;
             if (class_exists($partClass)) {
-                $partObject = new $partClass();
-                $partObject->setParentWriter($this);
-                $this->writerParts[strtolower($partName)] = $partObject;
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $part Type hint */
+                $part = new $partClass();
+                $part->setParentWriter($this);
+                $this->writerParts[strtolower($partName)] = $part;
             }
         }
 
@@ -91,12 +92,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        if (is_null($this->phpWord)) {
-            throw new Exception('PhpWord object unassigned.');
-        }
-
         $filename = $this->getTempFile($filename);
-        $objZip = $this->getZipArchive($filename);
+        $zip = $this->getZipArchive($filename);
+        $phpWord = $this->getPhpWord();
 
         // Content types
         $this->contentTypes['default'] = array(
@@ -107,7 +105,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         // Add section media files
         $sectionMedia = Media::getElements('section');
         if (!empty($sectionMedia)) {
-            $this->addFilesToPackage($objZip, $sectionMedia);
+            $this->addFilesToPackage($zip, $sectionMedia);
             $this->registerContentTypes($sectionMedia);
             foreach ($sectionMedia as $element) {
                 $this->relationships[] = $element;
@@ -115,32 +113,29 @@ class Word2007 extends AbstractWriter implements WriterInterface
         }
 
         // Add header/footer media files & relations
-        $this->addHeaderFooterMedia($objZip, 'header');
-        $this->addHeaderFooterMedia($objZip, 'footer');
+        $this->addHeaderFooterMedia($zip, 'header');
+        $this->addHeaderFooterMedia($zip, 'footer');
 
         // Add header/footer contents
         $rId = Media::countElements('section') + 6; // @see Rels::writeDocRels for 6 first elements
-        $sections = $this->phpWord->getSections();
+        $sections = $phpWord->getSections();
         foreach ($sections as $section) {
-            $this->addHeaderFooterContent($section, $objZip, 'header', $rId);
-            $this->addHeaderFooterContent($section, $objZip, 'footer', $rId);
+            $this->addHeaderFooterContent($section, $zip, 'header', $rId);
+            $this->addHeaderFooterContent($section, $zip, 'footer', $rId);
         }
 
-        $this->addNotes($objZip, $rId, 'footnote');
-        $this->addNotes($objZip, $rId, 'endnote');
+        $this->addNotes($zip, $rId, 'footnote');
+        $this->addNotes($zip, $rId, 'endnote');
 
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
             if ($fileName != '') {
-                $objZip->addFromString($fileName, $this->getWriterPart($partName)->write());
+                $zip->addFromString($fileName, $this->getWriterPart($partName)->write());
             }
         }
 
-        // Close file
-        if ($objZip->close() === false) {
-            throw new Exception("Could not close zip file $filename.");
-        }
-
+        // Close zip archive and cleanup temp file
+        $zip->close();
         $this->cleanupTempFile();
     }
 
@@ -167,22 +162,23 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer media files, e.g. footer1.xml.rels
      *
-     * @param mixed $objZip
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $docPart
      */
-    private function addHeaderFooterMedia($objZip, $docPart)
+    private function addHeaderFooterMedia(ZipArchive $zip, $docPart)
     {
         $elements = Media::getElements($docPart);
         if (!empty($elements)) {
             foreach ($elements as $file => $media) {
                 if (count($media) > 0) {
                     if (!empty($media)) {
-                        $this->addFilesToPackage($objZip, $media);
+                        $this->addFilesToPackage($zip, $media);
                         $this->registerContentTypes($media);
                     }
 
+                    /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
                     $writerPart = $this->getWriterPart('relspart')->setMedia($media);
-                    $objZip->addFromString("word/_rels/{$file}.xml.rels", $writerPart->write());
+                    $zip->addFromString("word/_rels/{$file}.xml.rels", $writerPart->write());
                 }
             }
         }
@@ -191,58 +187,64 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer content
      *
-     * @param mixed $objZip
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
      * @param integer $rId
      */
-    private function addHeaderFooterContent(Section &$section, $objZip, $elmType, &$rId)
+    private function addHeaderFooterContent(Section &$section, ZipArchive $zip, $elmType, &$rId)
     {
         $getFunction = $elmType == 'header' ? 'getHeaders' : 'getFooters';
         $elmCount = ($section->getSectionId() - 1) * 3;
         $elements = $section->$getFunction();
         foreach ($elements as &$element) {
+            /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
             $elmCount++;
             $element->setRelationId(++$rId);
             $elmFile = "{$elmType}{$elmCount}.xml"; // e.g. footer1.xml
             $this->contentTypes['override']["/word/$elmFile"] = $elmType;
             $this->relationships[] = array('target' => $elmFile, 'type' => $elmType, 'rID' => $rId);
 
+            /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
             $writerPart = $this->getWriterPart($elmType)->setElement($element);
-            $objZip->addFromString("word/$elmFile", $writerPart->write());
+            $zip->addFromString("word/$elmFile", $writerPart->write());
         }
     }
 
     /**
      * Add footnotes/endnotes
      *
-     * @param mixed $objZip
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param integer $rId
      * @param string $noteType
      */
-    private function addNotes($objZip, &$rId, $noteType = 'footnote')
+    private function addNotes(ZipArchive $zip, &$rId, $noteType = 'footnote')
     {
+        $phpWord = $this->getPhpWord();
         $noteType = ($noteType == 'endnote') ? 'endnote' : 'footnote';
         $partName = "{$noteType}s";
         $method = 'get' . $partName;
-        $collection = $this->phpWord->$method();
+        $collection = $phpWord->$method();
 
         // Add footnotes media files, relations, and contents
+        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
         if ($collection->countItems() > 0) {
             $media = Media::getElements($noteType);
-            $this->addFilesToPackage($objZip, $media);
+            $this->addFilesToPackage($zip, $media);
             $this->registerContentTypes($media);
             $this->contentTypes['override']["/word/{$partName}.xml"] = $partName;
             $this->relationships[] = array('target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId);
 
             // Write relationships file, e.g. word/_rels/footnotes.xml
             if (!empty($media)) {
+                /** @var \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart $writerPart Type hint */
                 $writerPart = $this->getWriterPart('relspart')->setMedia($media);
-                $objZip->addFromString("word/_rels/{$partName}.xml.rels", $writerPart->write());
+                $zip->addFromString("word/_rels/{$partName}.xml.rels", $writerPart->write());
             }
 
             // Write content file, e.g. word/footnotes.xml
             $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
-            $objZip->addFromString("word/{$partName}.xml", $writerPart->write());
+            $zip->addFromString("word/{$partName}.xml", $writerPart->write());
         }
     }
 

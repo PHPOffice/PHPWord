@@ -17,11 +17,12 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 
 /**
- * ODText styloes part writer: styles.xml
+ * ODText styles part writer: styles.xml
  */
 class Styles extends AbstractPart
 {
@@ -36,22 +37,38 @@ class Styles extends AbstractPart
 
         // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
-
-        // Styles:Styles
         $xmlWriter->startElement('office:document-styles');
         $this->writeCommonRootAttributes($xmlWriter);
 
-        // office:font-face-decls
+        // Font declarations
         $this->writeFontFaces($xmlWriter);
 
-        // office:styles
+        // Office styles
         $xmlWriter->startElement('office:styles');
+        $this->writeDefault($xmlWriter);
+        $this->writeNamed($xmlWriter);
+        $xmlWriter->endElement();
 
-        // style:default-style
+        // Automatic styles
+        $xmlWriter->startElement('office:automatic-styles');
+        $this->writePageLayout($xmlWriter);
+        $this->writeMaster($xmlWriter);
+        $xmlWriter->endElement();
+
+        $xmlWriter->endElement(); // office:document-styles
+
+        return $xmlWriter->getData();
+    }
+
+    /**
+     * Write default styles
+     */
+    private function writeDefault(XMLWriter $xmlWriter)
+    {
         $xmlWriter->startElement('style:default-style');
         $xmlWriter->writeAttribute('style:family', 'paragraph');
 
-        // style:paragraph-properties
+        // Paragraph
         $xmlWriter->startElement('style:paragraph-properties');
         $xmlWriter->writeAttribute('fo:hyphenation-ladder-count', 'no-limit');
         $xmlWriter->writeAttribute('style:text-autospace', 'ideograph-alpha');
@@ -59,54 +76,59 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('style:line-break', 'strict');
         $xmlWriter->writeAttribute('style:tab-stop-distance', '1.249cm');
         $xmlWriter->writeAttribute('style:writing-mode', 'page');
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // style:paragraph-properties
 
-        // style:text-properties
+        // Font
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
-        $xmlWriter->writeAttribute('style:font-name', PhpWord::DEFAULT_FONT_NAME);
-        $xmlWriter->writeAttribute('fo:font-size', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
+        $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('fo:language', 'fr');
         $xmlWriter->writeAttribute('fo:country', 'FR');
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
-        $xmlWriter->writeAttribute('style:font-name-asian', PhpWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-asian', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', 'zh');
         $xmlWriter->writeAttribute('style:country-asian', 'CN');
-        $xmlWriter->writeAttribute('style:font-name-complex', PhpWord::DEFAULT_FONT_NAME . '2');
-        $xmlWriter->writeAttribute('style:font-size-complex', PhpWord::DEFAULT_FONT_SIZE . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-complex', Settings::getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-complex', 'hi');
         $xmlWriter->writeAttribute('style:country-complex', 'IN');
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');
         $xmlWriter->writeAttribute('fo:hyphenation-remain-char-count', '2');
         $xmlWriter->writeAttribute('fo:hyphenation-push-char-count', '2');
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // style:text-properties
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // style:default-style
+    }
 
-        // Write Style Definitions
+    /**
+     * Write named styles
+     */
+    private function writeNamed(XMLWriter $xmlWriter)
+    {
         $styles = Style::getStyles();
         if (count($styles) > 0) {
-            foreach ($styles as $styleName => $style) {
-                if (preg_match('#^T[0-9]+$#', $styleName) == 0
-                    && preg_match('#^P[0-9]+$#', $styleName) == 0
-                ) {
+            foreach ($styles as $style) {
+                if ($style->isAuto() === false) {
                     $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
                     if (class_exists($styleClass)) {
+                        /** @var $styleWriter \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle Type hint */
                         $styleWriter = new $styleClass($xmlWriter, $style);
                         $styleWriter->write();
                     }
                 }
             }
         }
-        $xmlWriter->endElement();
-
-        // office:automatic-styles
-        $xmlWriter->startElement('office:automatic-styles');
-        // style:page-layout
+    }
+    /**
+     * Write page layout styles
+     */
+    private function writePageLayout(XMLWriter $xmlWriter)
+    {
         $xmlWriter->startElement('style:page-layout');
         $xmlWriter->writeAttribute('style:name', 'Mpm1');
-        // style:page-layout-properties
+
         $xmlWriter->startElement('style:page-layout-properties');
         $xmlWriter->writeAttribute('fo:page-width', "21.001cm");
         $xmlWriter->writeAttribute('fo:page-height', '29.7cm');
@@ -128,36 +150,38 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('style:layout-grid-base-width', '0.37cm');
         $xmlWriter->writeAttribute('style:layout-grid-snap-to', 'true');
         $xmlWriter->writeAttribute('style:footnote-max-height', '0cm');
-        //style:footnote-sep
+
         $xmlWriter->startElement('style:footnote-sep');
         $xmlWriter->writeAttribute('style:width', '0.018cm');
         $xmlWriter->writeAttribute('style:line-style', 'solid');
         $xmlWriter->writeAttribute('style:adjustment', 'left');
         $xmlWriter->writeAttribute('style:rel-width', '25%');
         $xmlWriter->writeAttribute('style:color', '#000000');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-        // style:header-style
-        $xmlWriter->startElement('style:header-style');
-        $xmlWriter->endElement();
-        // style:footer-style
-        $xmlWriter->startElement('style:footer-style');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); //style:footnote-sep
 
-        // office:master-styles
+        $xmlWriter->endElement(); // style:page-layout-properties
+
+
+        $xmlWriter->startElement('style:header-style');
+        $xmlWriter->endElement(); // style:header-style
+
+        $xmlWriter->startElement('style:footer-style');
+        $xmlWriter->endElement(); // style:footer-style
+
+        $xmlWriter->endElement(); // style:page-layout
+    }
+    /**
+     * Write master style
+     */
+    private function writeMaster(XMLWriter $xmlWriter)
+    {
         $xmlWriter->startElement('office:master-styles');
-        // style:master-page
+
         $xmlWriter->startElement('style:master-page');
         $xmlWriter->writeAttribute('style:name', 'Standard');
         $xmlWriter->writeAttribute('style:page-layout-name', 'Mpm1');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // style:master-page
 
-        $xmlWriter->endElement();
-
-        // Return
-        return $xmlWriter->getData();
+        $xmlWriter->endElement(); // office:master-styles
     }
 }

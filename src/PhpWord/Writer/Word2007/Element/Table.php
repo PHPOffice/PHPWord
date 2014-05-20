@@ -19,9 +19,12 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
+use PhpOffice\PhpWord\Element\Table as TableElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
-use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Style\Row as RowStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Row as RowStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 
 /**
@@ -38,6 +41,9 @@ class Table extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof TableElement) {
+            return;
+        }
 
         $rows = $element->getRows();
         $rowCount = count($rows);
@@ -45,119 +51,96 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $xmlWriter->startElement('w:tbl');
 
-            // Table grid
+            // Write columns
+            $this->writeColumns($xmlWriter, $element);
+
+            // Write style
+            $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());
+            $styleWriter->setWidth($element->getWidth());
+            $styleWriter->write();
+
+            // Write rows
+            for ($i = 0; $i < $rowCount; $i++) {
+                $this->writeRow($xmlWriter, $rows[$i]);
+            }
+
+            $xmlWriter->endElement(); // w:tbl
+        }
+    }
+
+    /**
+     * Write column
+     */
+    private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
+    {
+        $rows = $element->getRows();
+        $rowCount = count($rows);
+
+        $cellWidths = array();
+        for ($i = 0; $i < $rowCount; $i++) {
+            $row = $rows[$i];
+            $cells = $row->getCells();
+            if (count($cells) <= count($cellWidths)) {
+                continue;
+            }
             $cellWidths = array();
-            for ($i = 0; $i < $rowCount; $i++) {
-                $row = $rows[$i];
-                $cells = $row->getCells();
-                if (count($cells) <= count($cellWidths)) {
-                    continue;
-                }
-                $cellWidths = array();
-                foreach ($cells as $cell) {
-                    $cellWidths[] = $cell->getWidth();
-                }
+            foreach ($cells as $cell) {
+                $cellWidths[] = $cell->getWidth();
             }
-            $xmlWriter->startElement('w:tblGrid');
-            foreach ($cellWidths as $width) {
-                $xmlWriter->startElement('w:gridCol');
-                if (!is_null($width)) {
-                    $xmlWriter->writeAttribute('w:w', $width);
-                    $xmlWriter->writeAttribute('w:type', 'dxa');
-                }
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement(); // w:tblGrid
+        }
 
-            // Table style
-            $tblStyle = $element->getStyle();
-            $tblWidth = $element->getWidth();
-            if ($tblStyle instanceof TableStyle) {
-                $styleWriter = new TableStyleWriter($xmlWriter, $tblStyle);
-                $styleWriter->setIsFullStyle(false);
-                $styleWriter->write();
-            } else {
-                if (!empty($tblStyle)) {
-                    $xmlWriter->startElement('w:tblPr');
-                    $xmlWriter->startElement('w:tblStyle');
-                    $xmlWriter->writeAttribute('w:val', $tblStyle);
-                    $xmlWriter->endElement();
-                    if (!is_null($tblWidth)) {
-                        $xmlWriter->startElement('w:tblW');
-                        $xmlWriter->writeAttribute('w:w', $tblWidth);
-                        $xmlWriter->writeAttribute('w:type', 'pct');
-                        $xmlWriter->endElement();
-                    }
-                    $xmlWriter->endElement();
-                }
-            }
-
-            // Table rows
-            for ($i = 0; $i < $rowCount; $i++) {
-                $this->writeRow($rows[$i]);
+        $xmlWriter->startElement('w:tblGrid');
+        foreach ($cellWidths as $width) {
+            $xmlWriter->startElement('w:gridCol');
+            if ($width !== null) {
+                $xmlWriter->writeAttribute('w:w', $width);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
             }
             $xmlWriter->endElement();
         }
+        $xmlWriter->endElement(); // w:tblGrid
     }
 
     /**
      * Write row
      */
-    private function writeRow(RowElement $row)
+    private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
-        $xmlWriter = $this->getXmlWriter();
-
-        $height = $row->getHeight();
-        $rowStyle = $row->getStyle();
-
         $xmlWriter->startElement('w:tr');
-        if (!is_null($height) || $rowStyle->isTblHeader() || $rowStyle->isCantSplit()) {
-            $xmlWriter->startElement('w:trPr');
-            if (!is_null($height)) {
-                $xmlWriter->startElement('w:trHeight');
-                $xmlWriter->writeAttribute('w:val', $height);
-                $xmlWriter->writeAttribute('w:hRule', ($rowStyle->isExactHeight() ? 'exact' : 'atLeast'));
-                $xmlWriter->endElement();
-            }
-            if ($rowStyle->isTblHeader()) {
-                $xmlWriter->startElement('w:tblHeader');
-                $xmlWriter->writeAttribute('w:val', '1');
-                $xmlWriter->endElement();
-            }
-            if ($rowStyle->isCantSplit()) {
-                $xmlWriter->startElement('w:cantSplit');
-                $xmlWriter->writeAttribute('w:val', '1');
-                $xmlWriter->endElement();
-            }
-            $xmlWriter->endElement();
+
+        // Write style
+        $rowStyle = $row->getStyle();
+        if ($rowStyle instanceof RowStyle) {
+            $styleWriter = new RowStyleWriter($xmlWriter, $rowStyle);
+            $styleWriter->setHeight($row->getHeight());
+            $styleWriter->write();
         }
+
+        // Write cells
         foreach ($row->getCells() as $cell) {
-            $this->writeCell($cell);
+            $this->writeCell($xmlWriter, $cell);
         }
+
         $xmlWriter->endElement(); // w:tr
     }
 
     /**
      * Write cell
      */
-    private function writeCell(CellElement $cell)
+    private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
-        $xmlWriter = $this->getXmlWriter();
-
-        $cellStyle = $cell->getStyle();
 
         $xmlWriter->startElement('w:tc');
-        $xmlWriter->startElement('w:tcPr');
-        $xmlWriter->startElement('w:tcW');
-        $xmlWriter->writeAttribute('w:w', $cell->getWidth());
-        $xmlWriter->writeAttribute('w:type', 'dxa');
-        $xmlWriter->endElement(); // w:tcW
+
+        // Write style
+        $cellStyle = $cell->getStyle();
         if ($cellStyle instanceof CellStyle) {
             $styleWriter = new CellStyleWriter($xmlWriter, $cellStyle);
+            $styleWriter->setWidth($cell->getWidth());
             $styleWriter->write();
         }
-        $xmlWriter->endElement(); // w:tcPr
 
+        // Write content
         $containerWriter = new Container($xmlWriter, $cell);
         $containerWriter->write();
 

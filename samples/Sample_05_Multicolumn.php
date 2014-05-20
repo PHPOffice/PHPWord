@@ -18,7 +18,7 @@ $section = $phpWord->addSection(array(
     'colsNum' => 2,
     'colsSpace' => 1440,
     'breakType' => 'continuous'));
-$section->addText('Three columns, one inch (1440 twips) spacing. ' . $filler);
+$section->addText('Two columns, one inch (1440 twips) spacing. ' . $filler);
 
 // Normal
 $section = $phpWord->addSection(array('breakType' => 'continuous'));

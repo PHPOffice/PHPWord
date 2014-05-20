@@ -27,15 +27,28 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
 class Cell extends AbstractStyle
 {
     /**
+     * @var int Cell width
+     */
+    private $width;
+
+    /**
      * Write style
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Cell) {
+        if (!$style instanceof CellStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startElement('w:tcPr');
+
+        // Width
+        $xmlWriter->startElement('w:tcW');
+        $xmlWriter->writeAttribute('w:w', $this->width);
+        $xmlWriter->writeAttribute('w:type', 'dxa');
+        $xmlWriter->endElement(); // w:tcW
 
         // Text direction
         $textDir = $style->getTextDirection();
@@ -46,7 +59,7 @@ class Cell extends AbstractStyle
         $xmlWriter->writeElementIf(!is_null($vAlign), 'w:vAlign', 'w:val', $vAlign);
 
         // Border
-        if ($style->hasBorders()) {
+        if ($style->hasBorder()) {
             $xmlWriter->startElement('w:tcBorders');
 
             $styleWriter = new MarginBorder($xmlWriter);
@@ -70,5 +83,17 @@ class Cell extends AbstractStyle
         $vMerge = $style->getVMerge();
         $xmlWriter->writeElementIf(!is_null($gridSpan), 'w:gridSpan', 'w:val', $gridSpan);
         $xmlWriter->writeElementIf(!is_null($vMerge), 'w:vMerge', 'w:val', $vMerge);
+
+        $xmlWriter->endElement(); // w:tcPr
+    }
+
+    /**
+     * Set width
+     *
+     * @param int $value
+     */
+    public function setWidth($value = null)
+    {
+        $this->width = $value;
     }
 }

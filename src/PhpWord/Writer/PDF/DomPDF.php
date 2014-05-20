@@ -17,56 +17,39 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
  * DomPDF writer
+ *
+ * @link https://github.com/dompdf/dompdf
+ * @since 0.10.0
  */
-class DomPDF extends AbstractRenderer implements \PhpOffice\PhpWord\Writer\WriterInterface
+class DomPDF extends AbstractRenderer implements WriterInterface
 {
     /**
-     * Create new instance
+     * Name of renderer include file
      *
-     * @param PhpWord $phpWord PhpWord object
+     * @var string
      */
-    public function __construct(PhpWord $phpWord)
-    {
-        parent::__construct($phpWord);
-        $configFile = Settings::getPdfRendererPath() . '/dompdf_config.inc.php';
-        if (file_exists($configFile)) {
-            require_once $configFile;
-        } else {
-            throw new Exception('Unable to load PDF Rendering library');
-        }
-    }
+    protected $includeFile = 'dompdf_config.inc.php';
 
     /**
      * Save PhpWord to file
      *
-     * @param string $pFilename Name of the file to save as
-     * @throws  Exception
+     * @param string $filename Name of the file to save as
      */
-    public function save($pFilename = null)
+    public function save($filename = null)
     {
-        $fileHandle = parent::prepareForSave($pFilename);
+        $fileHandle = parent::prepareForSave($filename);
 
-        //  Default PDF paper size
+        //  PDF settings
         $paperSize = 'A4';
-        $orientation = 'P';
-        $printPaperSize = 9;
-
-        if (isset(self::$paperSizes[$printPaperSize])) {
-            $paperSize = self::$paperSizes[$printPaperSize];
-        }
-
-        $orientation = ($orientation == 'L') ? 'landscape' : 'portrait';
+        $orientation = 'portrait';
 
         //  Create PDF
         $pdf = new \DOMPDF();
         $pdf->set_paper(strtolower($paperSize), $orientation);
-
         $pdf->load_html($this->writeDocument());
         $pdf->render();
 

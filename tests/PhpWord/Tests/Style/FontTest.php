@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
@@ -55,21 +56,24 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $object = new Font();
 
         $attributes = array(
-            'name' => PhpWord::DEFAULT_FONT_NAME,
-            'size' => PhpWord::DEFAULT_FONT_SIZE,
+            'name' => null,
+            'size' => null,
+            'hint' => null,
+            'color' => null,
             'bold' => false,
             'italic' => false,
+            'underline' => Font::UNDERLINE_NONE,
             'superScript' => false,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_NONE,
             'strikethrough' => false,
-            'color' => PhpWord::DEFAULT_FONT_COLOR,
+            'doubleStrikethrough' => false,
+            'smallCaps' => false,
+            'allCaps' => false,
             'fgColor' => null,
             'bgColor' => null,
-            'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
         );
         foreach ($attributes as $key => $default) {
-            $get = "get{$key}";
+            $get = is_bool($default) ? "is{$key}" : "get{$key}";
             $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", '');
@@ -87,21 +91,24 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $attributes = array(
             'name' => 'Times New Roman',
             'size' => 9,
+            'color' => '999999',
+            'hint' => 'eastAsia',
             'bold' => true,
             'italic' => true,
+            'underline' => Font::UNDERLINE_HEAVY,
             'superScript' => true,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
-            'color' => '999999',
+            'doubleStrikethrough' => false,
+            'smallCaps' => true,
+            'allCaps' => false,
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
-            'hint' => 'eastAsia',
             'lineHeight' => 2,
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
-            $get = "get{$key}";
+            $get = is_bool($value) ? "is{$key}" : "get{$key}";
             $this->assertEquals($value, $object->$get());
         }
     }

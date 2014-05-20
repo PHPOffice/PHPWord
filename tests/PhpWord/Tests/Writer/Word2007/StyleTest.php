@@ -29,8 +29,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testEmptyStyles()
     {
         $styles = array(
-            'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
-            'Paragraph', 'Section', 'Shading', 'Spacing', 'Tab', 'Table', 'TextBox'
+            'Alignment', 'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
+            'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table', 'TextBox'
         );
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;

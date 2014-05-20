@@ -31,8 +31,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $iVal = rand(1, 1000);
-        $oCell = new Cell('section', $iVal);
+        $oCell = new Cell();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $oCell);
         $this->assertEquals($oCell->getWidth(), null);
@@ -43,8 +42,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithStyleArray()
     {
-        $iVal = rand(1, 1000);
-        $oCell = new Cell('section', $iVal, null, array('valign' => 'center'));
+        $oCell = new Cell(null, array('valign' => 'center'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Cell', $oCell->getStyle());
         $this->assertEquals($oCell->getWidth(), null);
@@ -55,7 +53,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddText()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addText('text');
 
         $this->assertCount(1, $oCell->getElements());
@@ -67,7 +65,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddTextNotUTF8()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addText(utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
@@ -80,7 +78,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddLink()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addLink(utf8_decode('ééé'), utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
@@ -92,7 +90,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddTextBreak()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $oCell->addTextBreak();
 
         $this->assertCount(1, $oCell->getElements());
@@ -103,7 +101,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddListItem()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addListItem('text');
 
         $this->assertCount(1, $oCell->getElements());
@@ -116,7 +114,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddListItemNotUTF8()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addListItem(utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
@@ -130,7 +128,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddImageSection()
     {
         $src = __DIR__ . "/../_files/images/earth.jpg";
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addImage($src);
 
         $this->assertCount(1, $oCell->getElements());
@@ -168,37 +166,9 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageSectionByUrl()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addImage(
-            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
-        );
-
-        $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
-    }
-
-    /**
-     * Add image header by URL
-     */
-    public function testAddImageHeaderByUrl()
-    {
-        $oCell = new Cell('header', 1);
-        $element = $oCell->addImage(
-            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
-        );
-
-        $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
-    }
-
-    /**
-     * Add image footer by URL
-     */
-    public function testAddImageFooterByUrl()
-    {
-        $oCell = new Cell('footer', 1);
-        $element = $oCell->addImage(
-            'https://assets.mozillalabs.com/Brands-Logos/Thunderbird/logo-only/thunderbird_logo-only_RGB.png'
+            'http://php.net/images/logos/php-med-trans-light.gif'
         );
 
         $this->assertCount(1, $oCell->getElements());
@@ -211,7 +181,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddObjectXLS()
     {
         $src = __DIR__ . "/../_files/documents/sheet.xls";
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addObject($src);
 
         $this->assertCount(1, $oCell->getElements());
@@ -226,7 +196,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddObjectException()
     {
         $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $oCell->addObject($src);
     }
 
@@ -235,7 +205,8 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddPreserveText()
     {
-        $oCell = new Cell('header', 1);
+        $oCell = new Cell();
+        $oCell->setDocPart('Header', 1);
         $element = $oCell->addPreserveText('text');
 
         $this->assertCount(1, $oCell->getElements());
@@ -247,7 +218,8 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddPreserveTextNotUTF8()
     {
-        $oCell = new Cell('header', 1);
+        $oCell = new Cell();
+        $oCell->setDocPart('Header', 1);
         $element = $oCell->addPreserveText(utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
@@ -262,7 +234,8 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddPreserveTextException()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
+        $oCell->setDocPart('Section', 1);
         $oCell->addPreserveText('text');
     }
 
@@ -271,7 +244,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTextRun()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addTextRun();
 
         $this->assertCount(1, $oCell->getElements());
@@ -283,7 +256,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddCheckBox()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
         $element = $oCell->addCheckBox(utf8_decode('ééé'), utf8_decode('ééé'));
 
         $this->assertCount(1, $oCell->getElements());
@@ -295,7 +268,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElements()
     {
-        $oCell = new Cell('section', 1);
+        $oCell = new Cell();
 
         $this->assertInternalType('array', $oCell->getElements());
     }

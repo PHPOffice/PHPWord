@@ -8,11 +8,17 @@
     <rule ref="rulesets/design.xml/ExitExpression" />
     <rule ref="rulesets/design.xml/EvalExpression" />
     <rule ref="rulesets/design.xml/GotoStatement" />
-    <rule ref="rulesets/design.xml/NumberOfChildren" />
     <rule ref="rulesets/design.xml/DepthOfInheritance" />
     <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <!-- AbstractContainer needs more coupling (default: 13) -->
         <properties>
-            <property name="minimum" value="15" />
+            <property name="minimum" value="20" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/design.xml/NumberOfChildren">
+        <!-- AbstractStyle needs more children (default: 15) -->
+        <properties>
+            <property name="minimum" value="20" />
         </properties>
     </rule>
     <rule ref="rulesets/unusedcode.xml" />

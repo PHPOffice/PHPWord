@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -32,7 +31,9 @@ class ContentTypes extends AbstractPart
      */
     public function write()
     {
-        $contentTypes = $this->getParentWriter()->getContentTypes();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Type hint */
+        $parentWriter = $this->getParentWriter();
+        $contentTypes = $parentWriter->getContentTypes();
 
         $openXMLPrefix = 'application/vnd.openxmlformats-';
         $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
@@ -75,21 +76,16 @@ class ContentTypes extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param boolean $isDefault
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {
         foreach ($parts as $partName => $contentType) {
-            if ($partName != '' && $contentType != '') {
-                $partType = $isDefault ? 'Default' : 'Override';
-                $partAttribute = $isDefault ? 'Extension' : 'PartName';
-                $xmlWriter->startElement($partType);
-                $xmlWriter->writeAttribute($partAttribute, $partName);
-                $xmlWriter->writeAttribute('ContentType', $contentType);
-                $xmlWriter->endElement();
-            } else {
-                throw new Exception("Invalid parameters passed.");
-            }
+            $partType = $isDefault ? 'Default' : 'Override';
+            $partAttribute = $isDefault ? 'Extension' : 'PartName';
+            $xmlWriter->startElement($partType);
+            $xmlWriter->writeAttribute($partAttribute, $partName);
+            $xmlWriter->writeAttribute('ContentType', $contentType);
+            $xmlWriter->endElement();
         }
     }
 }

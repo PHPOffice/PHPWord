@@ -49,6 +49,7 @@ abstract class AbstractStyle
     /**
      * Create new instance
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
     public function __construct(XMLWriter $xmlWriter, $style = null)
@@ -81,16 +82,24 @@ abstract class AbstractStyle
      * Convert twip value
      *
      * @param int|float $value
-     * @param int|float $default
+     * @param int $default (int|float)
      * @return int|float
      */
     protected function convertTwip($value, $default = 0)
     {
+        $factors = array(
+            Settings::UNIT_CM => 567,
+            Settings::UNIT_MM => 56.7,
+            Settings::UNIT_INCH => 1440,
+            Settings::UNIT_POINT => 20,
+            Settings::UNIT_PICA => 240,
+        );
         $unit = Settings::getMeasurementUnit();
-        if ($unit == Settings::UNIT_TWIP || $value == $default) {
-            return $value;
-        } else {
-            return $value * $unit;
+        $factor = 1;
+        if (in_array($unit, $factors) && $value != $default) {
+            $factor = $factors[$unit];
         }
+
+        return $value * $factor;
     }
 }

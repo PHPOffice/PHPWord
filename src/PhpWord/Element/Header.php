@@ -22,13 +22,10 @@ namespace PhpOffice\PhpWord\Element;
  */
 class Header extends Footer
 {
-
     /**
-     * Container type
-     *
-     * @var string
+     * @var string Container type
      */
-    protected $container = 'header';
+    protected $container = 'Header';
 
     /**
      * Add a Watermark Element

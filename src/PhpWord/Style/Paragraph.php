@@ -25,6 +25,9 @@ use PhpOffice\PhpWord\Shared\String;
  */
 class Paragraph extends AbstractStyle
 {
+    /**
+     * @const int One line height equals 240 twip
+     */
     const LINE_HEIGHT = 240;
 
     /**
@@ -33,13 +36,6 @@ class Paragraph extends AbstractStyle
      * @var array
      */
     protected $aliases = array('line-height' => 'lineHeight');
-
-    /**
-     * Paragraph alignment
-     *
-     * @var string
-     */
-    private $align;
 
     /**
      * Text line height
@@ -112,10 +108,26 @@ class Paragraph extends AbstractStyle
     private $spacing;
 
     /**
+     * Alignment
+     *
+     * @var \PhpOffice\PhpWord\Style\Alignment
+     */
+    private $alignment;
+
+    /**
+     * Create new instance
+     */
+    public function __construct()
+    {
+        $this->alignment = new Alignment();
+    }
+
+    /**
      * Set Style value
      *
      * @param string $key
      * @param mixed $value
+     * @return self
      */
     public function setStyleValue($key, $value)
     {
@@ -130,27 +142,24 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Get Paragraph Alignment
+     * Get alignment
      *
      * @return string
      */
     public function getAlign()
     {
-        return $this->align;
+        return $this->alignment->getValue();
     }
 
     /**
-     * Set Paragraph Alignment
+     * Set alignment
      *
      * @param string $value
      * @return self
      */
     public function setAlign($value = null)
     {
-        if (strtolower($value) == 'justify') {
-            $value = 'both';
-        }
-        $this->align = $value;
+        $this->alignment->setValue($value);
 
         return $this;
     }
@@ -164,6 +173,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getBefore();
+        } else {
+            return null;
         }
     }
 
@@ -187,6 +198,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getAfter();
+        } else {
+            return null;
         }
     }
 
@@ -210,6 +223,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->spacing)) {
             return $this->spacing->getLine();
+        } else {
+            return null;
         }
     }
 
@@ -238,7 +253,7 @@ class Paragraph extends AbstractStyle
      * Set the line height
      *
      * @param int|float|string $lineHeight
-     * @return $this
+     * @return self
      * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
@@ -265,6 +280,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->indentation)) {
             return $this->indentation->getLeft();
+        } else {
+            return null;
         }
     }
 
@@ -288,6 +305,8 @@ class Paragraph extends AbstractStyle
     {
         if (!is_null($this->indentation)) {
             return $this->indentation->getHanging();
+        } else {
+            return null;
         }
     }
 
@@ -412,7 +431,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setKeepNext($value = false)
+    public function setKeepNext($value = true)
     {
         $this->keepNext = $this->setBoolVal($value, $this->keepNext);
 
@@ -435,7 +454,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setKeepLines($value = false)
+    public function setKeepLines($value = true)
     {
         $this->keepLines = $this->setBoolVal($value, $this->keepLines);
 
@@ -458,7 +477,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setPageBreakBefore($value = false)
+    public function setPageBreakBefore($value = true)
     {
         $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
 

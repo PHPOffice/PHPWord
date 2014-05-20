@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
-use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
@@ -50,6 +50,13 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
+     * Has page break before
+     *
+     * @var bool
+     */
+    private $pageBreakBefore = false;
+
+    /**
      * Write element
      */
     abstract public function write();
@@ -57,6 +64,8 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
     public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
@@ -77,16 +86,43 @@ abstract class AbstractElement
     }
 
     /**
-     * Get Element
+     * Get element
      *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
      */
     protected function getElement()
     {
-        if (!is_null($this->element)) {
-            return $this->element;
-        } else {
-            throw new Exception('No element assigned.');
-        }
+        return $this->element;
+    }
+
+    /**
+     * Has page break before
+     *
+     * @return bool
+     */
+    public function hasPageBreakBefore()
+    {
+        return $this->pageBreakBefore;
+    }
+
+    /**
+     * Set page break before
+     *
+     * @param bool $value
+     */
+    public function setPageBreakBefore($value = true)
+    {
+        $this->pageBreakBefore = (bool)$value;
+    }
+
+    /**
+     * Convert text to valid format
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function getText($text)
+    {
+        return String::controlCharacterPHP2OOXML(htmlspecialchars($text));
     }
 }

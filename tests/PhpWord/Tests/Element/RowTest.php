@@ -32,8 +32,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $iVal = rand(1, 1000);
-        $oRow = new Row('section', $iVal);
+        $oRow = new Row();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
         $this->assertEquals($oRow->getHeight(), null);
@@ -48,15 +47,9 @@ class RowTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithParams()
     {
         $iVal = rand(1, 1000);
-        $iVal2 = rand(1, 1000);
-        $oRow = new Row(
-            'section',
-            $iVal,
-            $iVal2,
-            array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF')
-        );
+        $oRow = new Row($iVal, array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'));
 
-        $this->assertEquals($oRow->getHeight(), $iVal2);
+        $this->assertEquals($oRow->getHeight(), $iVal);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
@@ -65,7 +58,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddCell()
     {
-        $oRow = new Row('section', 1);
+        $oRow = new Row();
         $element = $oRow->addCell();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);

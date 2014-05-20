@@ -49,8 +49,15 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
+     * Write element
+     */
+    abstract public function write();
+
+    /**
      * Create new instance
      *
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $parentWriter
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
     public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)

@@ -50,6 +50,14 @@ abstract class AbstractStyle
     protected $aliases = array();
 
     /**
+     * Is this an automatic style? (Used primarily in OpenDocument driver)
+     *
+     * @var bool
+     * @since 0.11.0
+     */
+    private $isAuto = false;
+
+    /**
      * Get style name
      *
      * @return string
@@ -96,6 +104,29 @@ abstract class AbstractStyle
     }
 
     /**
+     * Get is automatic style flag
+     *
+     * @return bool
+     */
+    public function isAuto()
+    {
+        return $this->isAuto;
+    }
+
+    /**
+     * Set is automatic style flag
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setAuto($value = true)
+    {
+        $this->isAuto = $this->setBoolVal($value, $this->isAuto);
+
+        return $this;
+    }
+
+    /**
      * Set style value template method
      *
      * Some child classes have their own specific overrides.
@@ -123,12 +154,12 @@ abstract class AbstractStyle
     /**
      * Set style by using associative array
      *
-     * @param array $styles
+     * @param array $values
      * @return self
      */
-    public function setStyleByArray($styles = array())
+    public function setStyleByArray($values = array())
     {
-        foreach ($styles as $key => $value) {
+        foreach ($values as $key => $value) {
             $this->setStyleValue($key, $value);
         }
 
@@ -138,13 +169,13 @@ abstract class AbstractStyle
     /**
      * Set default for null and empty value
      *
-     * @param mixed $value
-     * @param mixed $default
-     * @return mixed
+     * @param string $value (was: mixed)
+     * @param string $default (was: mixed)
+     * @return string (was: mixed)
      */
     protected function setNonEmptyVal($value, $default)
     {
-        if (is_null($value) || $value == '') {
+        if ($value === null || $value == '') {
             $value = $default;
         }
 
@@ -152,13 +183,13 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set boolean value
+     * Set bool value
      *
-     * @param mixed $value
-     * @param boolean|null $default
-     * @return boolean|null
+     * @param bool $value
+     * @param bool $default
+     * @return bool
      */
-    protected function setBoolVal($value, $default = null)
+    protected function setBoolVal($value, $default)
     {
         if (!is_bool($value)) {
             $value = $default;
@@ -184,9 +215,9 @@ abstract class AbstractStyle
     }
 
     /**
-     * Set float value: Convert string that contains only numeric into integer
+     * Set integer value: Convert string that contains only numeric into integer
      *
-     * @param mixed $value
+     * @param int|null $value
      * @param int|null $default
      * @return int|null
      */
@@ -227,6 +258,8 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param array $enum
      * @param mixed $default
+     * @return mixed
+     * @throws \InvalidArgumentException
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
@@ -245,11 +278,13 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param string $styleName
      * @param mixed $style
+     * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
     {
         $styleClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $styleName;
         if (is_array($value)) {
+            /** @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint */
             if (!$style instanceof $styleClass) {
                 $style = new $styleClass();
             }
@@ -265,6 +300,7 @@ abstract class AbstractStyle
      * Set style using associative array
      *
      * @param array $style
+     * @return self
      * @deprecated 0.11.0
      * @codeCoverageIgnore
      */

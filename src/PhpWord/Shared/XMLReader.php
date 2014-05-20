@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 
 /**
  * XML Reader wrapper
@@ -47,6 +46,7 @@ class XMLReader
      * @param string $zipFile
      * @param string $xmlFile
      * @return \DOMDocument|false
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -54,12 +54,8 @@ class XMLReader
             throw new Exception('Cannot find archive file.');
         }
 
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
-        $canOpen = $zip->open($zipFile);
-        if ($canOpen === false) {
-            throw new Exception('Cannot open archive file.');
-        }
+        $zip = new ZipArchive();
+        $zip->open($zipFile);
         $contents = $zip->getFromName($xmlFile);
         $zip->close();
 
@@ -76,6 +72,7 @@ class XMLReader
      * Get elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMNodeList
      */
     public function getElements($path, \DOMElement $contextNode = null)
@@ -94,9 +91,10 @@ class XMLReader
      * Get element
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMElement|null
      */
-    public function getElement($path, \DOMElement $contextNode)
+    public function getElement($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -110,19 +108,23 @@ class XMLReader
      * Get element attribute
      *
      * @param string $attribute
+     * @param \DOMElement $contextNode
      * @param string $path
      * @return string|null
      */
-    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
+    public function getAttribute($attribute, \DOMElement $contextNode = null, $path = null)
     {
-        if (is_null($path)) {
-            $return = $contextNode->getAttribute($attribute);
-        } else {
+        $return = null;
+        if ($path !== null) {
             $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
-                $return = $elements->item(0)->getAttribute($attribute);
-            } else {
-                $return = null;
+                /** @var \DOMElement $node Type hint */
+                $node = $elements->item(0);
+                $return = $node->getAttribute($attribute);
+            }
+        } else {
+            if ($contextNode !== null) {
+                $return = $contextNode->getAttribute($attribute);
             }
         }
 
@@ -133,9 +135,10 @@ class XMLReader
      * Get element value
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return string|null
      */
-    public function getValue($path, \DOMElement $contextNode)
+    public function getValue($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -149,9 +152,10 @@ class XMLReader
      * Count elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return integer
      */
-    public function countElements($path, \DOMElement $contextNode)
+    public function countElements($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
 
@@ -162,9 +166,10 @@ class XMLReader
      * Element exists
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return boolean
      */
-    public function elementExists($path, \DOMElement $contextNode)
+    public function elementExists($path, \DOMElement $contextNode = null)
     {
         return $this->getElements($path, $contextNode)->length > 0;
     }

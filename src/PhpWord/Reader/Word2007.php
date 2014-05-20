@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Reader for Word2007
@@ -87,6 +87,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\Word2007\\{$partName}";
         if (class_exists($partClass)) {
+            /** @var \PhpOffice\PhpWord\Reader\Word2007\AbstractPart $part Type hint */
             $part = new $partClass($docFile, $xmlFile);
             $part->setRels($relationships);
             $part->read($phpWord);
@@ -109,8 +110,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
 
         // word/_rels/*.xml.rels
         $wordRelsPath = 'word/_rels/';
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
+        $zip = new ZipArchive();
         if ($zip->open($docFile) === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $xmlFile = $zip->getNameIndex($i);

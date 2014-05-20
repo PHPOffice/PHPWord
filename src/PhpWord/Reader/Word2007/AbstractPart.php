@@ -22,9 +22,22 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
+ *
+ * This class is inherited by ODText reader
  */
 abstract class AbstractPart
 {
+    /**
+     * Conversion method
+     *
+     * @const int
+     */
+    const READ_VALUE = 'attributeValue';            // Read attribute value
+    const READ_EQUAL = 'attributeEquals';           // Read `true` when attribute value equals specified value
+    const READ_TRUE  = 'attributeTrue';             // Read `true` when element exists
+    const READ_FALSE = 'attributeFalse';            // Read `false` when element exists
+    const READ_SIZE  = 'attributeMultiplyByTwo';    // Read special attribute value for Font::$size
+
     /**
      * Document file
      *
@@ -71,6 +84,96 @@ abstract class AbstractPart
     public function setRels($value)
     {
         $this->rels = $value;
+    }
+
+    /**
+     * Read w:p
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     *
+     * @todo Get font style for preserve text
+     */
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    {
+        // Paragraph style
+        $paragraphStyle = null;
+        $headingMatches = array();
+        if ($xmlReader->elementExists('w:pPr', $domNode)) {
+            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
+            if (is_array($paragraphStyle) && array_key_exists('styleName', $paragraphStyle)) {
+                preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            }
+        }
+
+        // PreserveText
+        if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
+            $ignoreText = false;
+            $textContent = '';
+            $fontStyle = $this->readFontStyle($xmlReader, $domNode);
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $instrText = $xmlReader->getValue('w:instrText', $node);
+                if ($xmlReader->elementExists('w:fldChar', $node)) {
+                    $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
+                    if ($fldCharType == 'begin') {
+                        $ignoreText = true;
+                    } elseif ($fldCharType == 'end') {
+                        $ignoreText = false;
+                    }
+                }
+                if (!is_null($instrText)) {
+                    $textContent .= '{' . $instrText . '}';
+                } else {
+                    if ($ignoreText === false) {
+                        $textContent .= $xmlReader->getValue('w:t', $node);
+                    }
+                }
+            }
+            $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
+
+        // List item
+        } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
+            $textContent = '';
+            $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
+            $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
+
+        // Heading
+        } elseif (!empty($headingMatches)) {
+            $textContent = '';
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addTitle($textContent, $headingMatches[1]);
+
+        // Text and TextRun
+        } else {
+            $runCount = $xmlReader->countElements('w:r', $domNode);
+            $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
+            $runLinkCount = $runCount + $linkCount;
+            if ($runLinkCount == 0) {
+                $parent->addTextBreak(null, $paragraphStyle);
+            } else {
+                if ($runLinkCount > 1) {
+                    $textrun = $parent->addTextRun($paragraphStyle);
+                    $textParent = &$textrun;
+                } else {
+                    $textParent = &$parent;
+                }
+                $nodes = $xmlReader->getElements('*', $domNode);
+                foreach ($nodes as $node) {
+                    $this->readRun($xmlReader, $node, $textParent, $docPart, $paragraphStyle);
+                }
+            }
+        }
     }
 
     /**
@@ -136,142 +239,144 @@ abstract class AbstractPart
     }
 
     /**
+     * Read w:tbl
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @param mixed $parent
+     * @param string $docPart
+     */
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    {
+        // Table style
+        $tblStyle = null;
+        if ($xmlReader->elementExists('w:tblPr', $domNode)) {
+            $tblStyle = $this->readTableStyle($xmlReader, $domNode);
+        }
+
+        /** @var \PhpOffice\PhpWord\Element\Table $table Type hint */
+        $table = $parent->addTable($tblStyle);
+        $tblNodes = $xmlReader->getElements('*', $domNode);
+        foreach ($tblNodes as $tblNode) {
+            if ($tblNode->nodeName == 'w:tblGrid') { // Column
+                // @todo Do something with table columns
+
+            } elseif ($tblNode->nodeName == 'w:tr') { // Row
+                $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
+                $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
+                $rowHRule = $rowHRule == 'exact' ? true : false;
+                $rowStyle = array(
+                    'tblHeader' => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
+                    'cantSplit' => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
+                    'exactHeight' => $rowHRule,
+                );
+
+                $row = $table->addRow($rowHeight, $rowStyle);
+                $rowNodes = $xmlReader->getElements('*', $tblNode);
+                foreach ($rowNodes as $rowNode) {
+                    if ($rowNode->nodeName == 'w:trPr') { // Row style
+                        // @todo Do something with row style
+
+                    } elseif ($rowNode->nodeName == 'w:tc') { // Cell
+                        $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
+                        $cellStyle = null;
+                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
+                        if (!is_null($cellStyleNode)) {
+                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
+                        }
+
+                        $cell = $row->addCell($cellWidth, $cellStyle);
+                        $cellNodes = $xmlReader->getElements('*', $rowNode);
+                        foreach ($cellNodes as $cellNode) {
+                            if ($cellNode->nodeName == 'w:p') { // Paragraph
+                                $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Read w:pPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return array|null
      */
     protected function readParagraphStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         if (!$xmlReader->elementExists('w:pPr', $domNode)) {
-            return;
+            return null;
         }
 
-        $style = array();
-        $mapping = array(
-            'w:pStyle' => 'styleName',
-            'w:ind' => 'indent', 'w:spacing' => 'spacing',
-            'w:jc' => 'align', 'w:basedOn' => 'basedOn', 'w:next' => 'next',
-            'w:widowControl' => 'widowControl', 'w:keepNext' => 'keepNext',
-            'w:keepLines' => 'keepLines', 'w:pageBreakBefore' => 'pageBreakBefore',
+        $styleNode = $xmlReader->getElement('w:pPr', $domNode);
+        $styleDefs = array(
+            'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
+            'align'           => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
+            'next'            => array(self::READ_VALUE, 'w:next'),
+            'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'         => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'      => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'     => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'    => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'        => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'       => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore' => array(self::READ_TRUE,  'w:pageBreakBefore'),
         );
 
-        $nodes = $xmlReader->getElements('w:pPr/*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:ind':
-                    $style['indent'] = $xmlReader->getAttribute('w:left', $node);
-                    $style['hanging'] = $xmlReader->getAttribute('w:hanging', $node);
-                    break;
-
-                case 'w:spacing':
-                    $style['spaceAfter'] = $xmlReader->getAttribute('w:after', $node);
-                    $style['spaceBefore'] = $xmlReader->getAttribute('w:before', $node);
-                    // Commented. Need to adjust the number when return value is null
-                    // $style['spacing'] = $xmlReader->getAttribute('w:line', $node);
-                    break;
-
-                case 'w:keepNext':
-                case 'w:keepLines':
-                case 'w:pageBreakBefore':
-                    $style[$property] = true;
-                    break;
-
-                case 'w:widowControl':
-                    $style[$property] = false;
-                    break;
-
-                case 'w:pStyle':
-                case 'w:jc':
-                case 'w:basedOn':
-                case 'w:next':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-            }
-        }
-
-        return $style;
+        return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
     }
 
     /**
      * Read w:rPr
      *
-     * @return array|null
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return array
      */
     protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
         if (is_null($domNode)) {
-            return;
+            return null;
         }
         // Hyperlink has an extra w:r child
         if ($domNode->nodeName == 'w:hyperlink') {
             $domNode = $xmlReader->getElement('w:r', $domNode);
         }
         if (!$xmlReader->elementExists('w:rPr', $domNode)) {
-            return;
+            return null;
         }
 
-        $style = array();
-        $mapping = array(
-            'w:rStyle' => 'styleName',
-            'w:b' => 'bold', 'w:i' => 'italic', 'w:color' => 'color',
-            'w:strike' => 'strikethrough', 'w:u' => 'underline',
-            'w:highlight' => 'fgColor', 'w:sz' => 'size',
-            'w:rFonts' => 'name', 'w:vertAlign' => 'superScript',
+        $styleNode = $xmlReader->getElement('w:rPr', $domNode);
+        $styleDefs = array(
+            'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
+            'name'                => array(self::READ_VALUE, 'w:rFonts', 'w:ascii'),
+            'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
+            'size'                => array(self::READ_SIZE,  'w:sz'),
+            'color'               => array(self::READ_VALUE, 'w:color'),
+            'underline'           => array(self::READ_VALUE, 'w:u'),
+            'bold'                => array(self::READ_TRUE,  'w:b'),
+            'italic'              => array(self::READ_TRUE,  'w:i'),
+            'strikethrough'       => array(self::READ_TRUE,  'w:strike'),
+            'doubleStrikethrough' => array(self::READ_TRUE,  'w:dstrike'),
+            'smallCaps'           => array(self::READ_TRUE,  'w:smallCaps'),
+            'allCaps'             => array(self::READ_TRUE,  'w:caps'),
+            'superScript'         => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
+            'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
+            'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
         );
 
-        $nodes = $xmlReader->getElements('w:rPr/*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:rFonts':
-                    $style['name'] = $xmlReader->getAttribute('w:ascii', $node);
-                    $style['hint'] = $xmlReader->getAttribute('w:hint', $node);
-                    break;
-
-                case 'w:b':
-                case 'w:i':
-                case 'w:strike':
-                    $style[$property] = true;
-                    break;
-
-                case 'w:rStyle':
-                case 'w:u':
-                case 'w:highlight':
-                case 'w:color':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-
-                case 'w:sz':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node) / 2;
-                    break;
-
-                case 'w:vertAlign':
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    if ($style[$property] == 'superscript') {
-                        $style['superScript'] = true;
-                    } else {
-                        $style['superScript'] = false;
-                        $style['subScript'] = true;
-                    }
-                    break;
-            }
-        }
-
-        return $style;
+        return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
     }
 
     /**
      * Read w:tblPr
      *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
      */
@@ -285,40 +390,83 @@ abstract class AbstractPart
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
                 $style = $xmlReader->getAttribute('w:val', $domNode, 'w:tblPr/w:tblStyle');
             } else {
-                $style = array();
-                $mapping = array(
-                    'w:tblCellMar' => 'cellMargin',
-                    'w:tblBorders' => 'border',
-                );
-
-                $nodes = $xmlReader->getElements('w:tblPr/*', $domNode);
-                foreach ($nodes as $node) {
-                    if (!array_key_exists($node->nodeName, $mapping)) {
-                        continue;
-                    }
-                    // $property = $mapping[$node->nodeName];
-                    switch ($node->nodeName) {
-
-                        case 'w:tblCellMar':
-                            foreach ($margins as $side) {
-                                $ucfSide = ucfirst($side);
-                                $style["cellMargin$ucfSide"] = $xmlReader->getAttribute('w:w', $node, "w:$side");
-                            }
-                            break;
-
-                        case 'w:tblBorders':
-                            foreach ($borders as $side) {
-                                $ucfSide = ucfirst($side);
-                                $style["border{$ucfSide}Size"] = $xmlReader->getAttribute('w:sz', $node, "w:$side");
-                                $style["border{$ucfSide}Color"] = $xmlReader->getAttribute('w:color', $node, "w:$side");
-                            }
-                            break;
-                    }
+                $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
+                $styleDefs = array();
+                // $styleDefs['styleName'] = array(self::READ_VALUE, 'w:tblStyle');
+                foreach ($margins as $side) {
+                    $ucfSide = ucfirst($side);
+                    $styleDefs["cellMargin$ucfSide"] = array(self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w');
                 }
+                foreach ($borders as $side) {
+                    $ucfSide = ucfirst($side);
+                    $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
+                    $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
+                }
+                $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
             }
         }
 
         return $style;
+    }
+
+    /**
+     * Read w:tcPr
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return array
+     */
+    private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+        $styleDefs = array(
+            'valign'        => array(self::READ_VALUE, 'w:vAlign'),
+            'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
+            'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
+            'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
+            'bgColor'       => array(self::READ_VALUE, 'w:shd/w:fill'),
+        );
+
+        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+    }
+
+    /**
+     * Read style definition
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param array $styleDefs
+     * @return array
+     */
+    protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
+    {
+        $styles = array();
+
+        foreach ($styleDefs as $styleProp => $styleVal) {
+            @list($method, $element, $attribute, $expected) = $styleVal;
+
+            if ($xmlReader->elementExists($element, $parentNode)) {
+                $node = $xmlReader->getElement($element, $parentNode);
+
+                // Use w:val as default if no attribute assigned
+                $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                $attributeValue = $xmlReader->getAttribute($attribute, $node);
+
+                // Assign style value based on conversion model
+                if ($method == self::READ_VALUE) {
+                    $styles[$styleProp] = $attributeValue;
+                } elseif ($method == self::READ_SIZE) {
+                    $styles[$styleProp] = $attributeValue / 2;
+                } elseif ($method == self::READ_TRUE) {
+                    $styles[$styleProp] = true;
+                } elseif ($method == self::READ_FALSE) {
+                    $styles[$styleProp] = false;
+                } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
+                    $styles[$styleProp] = true;
+                }
+            }
+        }
+
+        return $styles;
     }
 
     /**

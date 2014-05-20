@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
 
 /**
@@ -34,8 +35,14 @@ class Image extends Text
      */
     public function write()
     {
+        if (!$this->element instanceof ImageElement) {
+            return '';
+        }
+        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
+        $parentWriter = $this->parentWriter;
+
         $content = '';
-        if (!$this->parentWriter->isPdf()) {
+        if (!$parentWriter->isPdf()) {
             $imageData = $this->getBase64ImageData($this->element);
             if (!is_null($imageData)) {
                 $styleWriter = new ImageStyleWriter($this->element->getStyle());
@@ -53,6 +60,7 @@ class Image extends Text
     /**
      * Get Base64 image data
      *
+     * @param \PhpOffice\PhpWord\Element\Image $element
      * @return string|null
      */
     private function getBase64ImageData(ImageElement $element)
@@ -69,8 +77,7 @@ class Image extends Text
             $source = substr($source, 6);
             list($zipFilename, $imageFilename) = explode('#', $source);
 
-            $zipClass = \PhpOffice\PhpWord\Settings::getZipClass();
-            $zip = new $zipClass();
+            $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
                     $zip->extractTo($this->parentWriter->getTempDir(), $imageFilename);

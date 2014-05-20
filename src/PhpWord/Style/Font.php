@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Font style
  */
@@ -86,30 +84,30 @@ class Font extends AbstractStyle
     /**
      * Font name
      *
-     * @var int|float
+     * @var string
      */
-    private $name = PhpWord::DEFAULT_FONT_NAME;
+    private $name;
 
     /**
      * Font Content Type
      *
      * @var string
      */
-    private $hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+    private $hint;
 
     /**
      * Font size
      *
      * @var int|float
      */
-    private $size = PhpWord::DEFAULT_FONT_SIZE;
+    private $size;
 
     /**
      * Font color
      *
      * @var string
      */
-    private $color = PhpWord::DEFAULT_FONT_COLOR;
+    private $color;
 
     /**
      * Bold
@@ -241,9 +239,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setName($value = PhpWord::DEFAULT_FONT_NAME)
+    public function setName($value = null)
     {
-        $this->name = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_NAME);
+        $this->name = $value;
 
         return $this;
     }
@@ -264,9 +262,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setHint($value = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
+    public function setHint($value = null)
     {
-        $this->hint = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_CONTENT_TYPE);
+        $this->hint = $value;
 
         return $this;
     }
@@ -287,9 +285,9 @@ class Font extends AbstractStyle
      * @param  int|float $value
      * @return self
      */
-    public function setSize($value = PhpWord::DEFAULT_FONT_SIZE)
+    public function setSize($value = null)
     {
-        $this->size = $this->setNumericVal($value, PhpWord::DEFAULT_FONT_SIZE);
+        $this->size = $this->setNumericVal($value, $this->size);
 
         return $this;
     }
@@ -310,9 +308,9 @@ class Font extends AbstractStyle
      * @param  string $value
      * @return self
      */
-    public function setColor($value = PhpWord::DEFAULT_FONT_COLOR)
+    public function setColor($value = null)
     {
-        $this->color = $this->setNonEmptyVal($value, PhpWord::DEFAULT_FONT_COLOR);
+        $this->color = $value;
 
         return $this;
     }
@@ -333,7 +331,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setBold($value = false)
+    public function setBold($value = true)
     {
         $this->bold = $this->setBoolVal($value, $this->bold);
 
@@ -356,7 +354,7 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setItalic($value = false)
+    public function setItalic($value = true)
     {
         $this->italic = $this->setBoolVal($value, $this->italic);
 
@@ -402,12 +400,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSuperScript($value = false)
+    public function setSuperScript($value = true)
     {
-        $this->superScript = $this->setBoolVal($value, $this->superScript);
-        $this->toggleFalse($this->subScript, $this->superScript);
-
-        return $this;
+        return $this->setPairedProperty($this->superScript, $this->subScript, $value);
     }
 
     /**
@@ -426,15 +421,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSubScript($value = false)
+    public function setSubScript($value = true)
     {
-        $this->subScript = $this->setBoolVal($value, $this->subScript);
-        $this->toggleFalse($this->subScript, $this->superScript);
-        if ($this->subScript) {
-            $this->superScript = false;
-        }
-
-        return $this;
+        return $this->setPairedProperty($this->subScript, $this->superScript, $value);
     }
 
     /**
@@ -453,12 +442,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setStrikethrough($value = false)
+    public function setStrikethrough($value = true)
     {
-        $this->strikethrough = $this->setBoolVal($value, $this->strikethrough);
-        $this->toggleFalse($this->doubleStrikethrough, $this->strikethrough);
-
-        return $this;
+        return $this->setPairedProperty($this->strikethrough, $this->doubleStrikethrough, $value);
     }
 
     /**
@@ -477,12 +463,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setDoubleStrikethrough($value = false)
+    public function setDoubleStrikethrough($value = true)
     {
-        $this->doubleStrikethrough = $this->setBoolVal($value, $this->doubleStrikethrough);
-        $this->toggleFalse($this->strikethrough, $this->doubleStrikethrough);
-
-        return $this;
+        return $this->setPairedProperty($this->doubleStrikethrough, $this->strikethrough, $value);
     }
 
     /**
@@ -501,12 +484,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setSmallCaps($value = false)
+    public function setSmallCaps($value = true)
     {
-        $this->smallCaps = $this->setBoolVal($value, $this->smallCaps);
-        $this->toggleFalse($this->allCaps, $this->smallCaps);
-
-        return $this;
+        return $this->setPairedProperty($this->smallCaps, $this->allCaps, $value);
     }
 
     /**
@@ -525,12 +505,9 @@ class Font extends AbstractStyle
      * @param  bool $value
      * @return self
      */
-    public function setAllCaps($value = false)
+    public function setAllCaps($value = true)
     {
-        $this->allCaps = $this->setBoolVal($value, $this->allCaps);
-        $this->toggleFalse($this->smallCaps, $this->allCaps);
-
-        return $this;
+        return $this->setPairedProperty($this->allCaps, $this->smallCaps, $value);
     }
 
     /**
@@ -565,6 +542,8 @@ class Font extends AbstractStyle
     {
         if (!is_null($this->shading)) {
             return $this->shading->getFill();
+        } else {
+            return null;
         }
     }
 
@@ -649,16 +628,21 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Toggle $target property to false when $source true
+     * Set $property value and set $pairProperty = false when $value = true
      *
-     * @param bool $target Target property
-     * @param bool $sourceValue
+     * @param bool $property
+     * @param bool $pairProperty
+     * @param bool $value
+     * @return self
      */
-    private function toggleFalse(&$target, $sourceValue)
+    private function setPairedProperty(&$property, &$pairProperty, $value)
     {
-        if ($sourceValue == true) {
-            $target = false;
+        $property = $this->setBoolVal($value, $property);
+        if ($value == true) {
+            $pairProperty = false;
         }
+
+        return $this;
     }
 
     /**

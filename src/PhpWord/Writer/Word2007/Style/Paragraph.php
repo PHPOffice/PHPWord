@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+
 /**
  * Paragraph style writer
  *
@@ -81,8 +83,8 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf(!is_null($styleName), 'w:pStyle', 'w:val', $styleName);
 
         // Alignment
-        $align = $style->getAlign();
-        $xmlWriter->writeElementIf(!is_null($align), 'w:jc', 'w:val', $align);
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
+        $styleWriter->write();
 
         // Pagination
         $xmlWriter->writeElementIf(!$style->hasWidowControl(), 'w:widowControl', 'w:val', '0');

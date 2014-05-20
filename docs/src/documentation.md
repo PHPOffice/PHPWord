@@ -78,16 +78,15 @@ Below are the supported features for each file formats.
 
 | Features                |                    | DOCX | ODT | RTF | HTML | PDF |
 |-------------------------|--------------------|------|-----|-----|------|-----|
-| **Document Properties** | Standard           | ✓    |     |     |      |     |
-|                         | Extended           | ✓    |     |     |      |     |
-|                         | UserDefined        | ✓    |     |     |      |     |
+| **Document Properties** | Standard           | ✓    | ✓   |     |      |     |
+|                         | Custom             | ✓    | ✓   |     |      |     |
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Title              | ✓    |     |     | ✓    | ✓   |
-|                         | Link               | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Title              | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Link               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Preserve Text      | ✓    |     |     |      |     |
 |                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Page Break         | ✓    |     |     |      |     |
+|                         | Page Break         | ✓    |     |  ✓  |      |     |
 |                         | List               | ✓    |     |     |      |     |
 |                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
 |                         | Image              | ✓    | ✓   |     | ✓    |     |
@@ -111,8 +110,7 @@ Below are the supported features for each file formats.
 | Features                |                    | DOCX | ODT | RTF |
 |-------------------------|--------------------|------|-----|-----|
 | **Document Properties** | Standard           | ✓    |     |     |
-|                         | Extended           | ✓    |     |     |
-|                         | UserDefined        | ✓    |     |     |
+|                         | Custom             | ✓    |     |     |
 | **Element Type**        | Text               | ✓    | ✓   |     |
 |                         | Text Run           | ✓    |     |     |
 |                         | Title              | ✓    | ✓   |     |

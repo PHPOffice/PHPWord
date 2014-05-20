@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
-use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
@@ -283,6 +283,8 @@ class Image extends AbstractElement
      * Check memory image, supported type, image functions, and proportional width/height
      *
      * @param string $source
+     * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
+     * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
     private function checkImage($source)
     {
@@ -346,8 +348,7 @@ class Image extends AbstractElement
         list($zipFilename, $imageFilename) = explode('#', $source);
         $tempFilename = tempnam(sys_get_temp_dir(), 'PHPWordImage');
 
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
+        $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
             if ($zip->locateName($imageFilename)) {
                 $imageContent = $zip->getFromName($imageFilename);

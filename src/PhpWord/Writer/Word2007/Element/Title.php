@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * TextRun element writer
  *
@@ -33,13 +31,13 @@ class Title extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Title) {
+            return;
+        }
 
-        $bookmarkId = $element->getBookmarkId();
-        $anchor = '_Toc' . ($bookmarkId + 252634154);
+        $rId = $element->getRelationId();
+        $anchor = '_Toc' . ($rId + 252634154);
         $style = $element->getStyle();
-
-        $text = htmlspecialchars($element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
 
         $xmlWriter->startElement('w:p');
 
@@ -58,18 +56,18 @@ class Title extends AbstractElement
         $xmlWriter->endElement();
 
         $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->writeAttribute('w:id', $rId);
         $xmlWriter->writeAttribute('w:name', $anchor);
         $xmlWriter->endElement();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw($text);
+        $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
         $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $bookmarkId);
+        $xmlWriter->writeAttribute('w:id', $rId);
         $xmlWriter->endElement();
 
         $xmlWriter->endElement();

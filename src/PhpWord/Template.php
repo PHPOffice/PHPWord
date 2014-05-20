@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Template
@@ -78,8 +79,7 @@ class Template
             throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
         }
 
-        $zipClass = Settings::getZipClass();
-        $this->zipClass = new $zipClass();
+        $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempFileName);
 
         // Find and load headers and footers

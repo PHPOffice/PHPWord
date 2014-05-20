@@ -32,11 +32,11 @@ class TextBox extends Image
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\TextBox) {
+        if (!$style instanceof TextBoxStyle) {
             return;
         }
-        $this->writeStyle();
-        $this->writeBorder();
+        $this->writeStyle($style);
+        $this->writeBorder($style);
     }
 
     /**
@@ -50,6 +50,9 @@ class TextBox extends Image
             return;
         }
         $style = $this->getStyle();
+        if (!$style instanceof TextBoxStyle) {
+            return;
+        }
 
         $relativePositions = array(
             TextBoxStyle::POSITION_RELATIVE_TO_MARGIN  => 'margin',
@@ -88,7 +91,7 @@ class TextBox extends Image
     public function writeInnerMargin()
     {
         $style = $this->getStyle();
-        if (!$style->hasInnerMargins()) {
+        if (!$style instanceof TextBoxStyle || !$style->hasInnerMargins()) {
             return;
         }
 
@@ -100,10 +103,9 @@ class TextBox extends Image
     /**
      * Writer border
      */
-    private function writeBorder()
+    private function writeBorder(TextBoxStyle $style)
     {
         $xmlWriter = $this->getXmlWriter();
-        $style = $this->getStyle();
 
         // Border size
         $borderSize = $style->getBorderSize();

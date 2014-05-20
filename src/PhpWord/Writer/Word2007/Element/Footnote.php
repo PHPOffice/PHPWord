@@ -38,6 +38,9 @@ class Footnote extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Footnote) {
+            return;
+        }
 
         $this->writeOpeningWP();
 
@@ -52,6 +55,6 @@ class Footnote extends Text
         $xmlWriter->endElement(); // w:$referenceType
         $xmlWriter->endElement(); // w:r
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 }

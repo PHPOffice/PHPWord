@@ -25,11 +25,6 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
 class Paragraph extends AbstractStyle
 {
     /**
-     * Is automatic style
-     */
-    private $isAuto = false;
-
-    /**
      * Write style
      */
     public function write()
@@ -46,13 +41,13 @@ class Paragraph extends AbstractStyle
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
         $xmlWriter->writeAttribute('style:family', 'paragraph');
-        if ($this->isAuto) {
+        if ($style->isAuto()) {
             $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
             $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
         }
 
         $xmlWriter->startElement('style:paragraph-properties');
-        if ($this->isAuto) {
+        if ($style->isAuto()) {
             $xmlWriter->writeAttribute('style:page-number', 'auto');
         } else {
             $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
@@ -62,15 +57,5 @@ class Paragraph extends AbstractStyle
         $xmlWriter->endElement(); //style:paragraph-properties
 
         $xmlWriter->endElement(); //style:style
-    }
-
-    /**
-     * Set is automatic style
-     *
-     * @param bool $value
-     */
-    public function setIsAuto($value)
-    {
-        $this->isAuto = $value;
     }
 }

@@ -31,6 +31,9 @@ class TextBreak extends Text
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\TextBreak) {
+            return;
+        }
 
         if (!$this->withoutP) {
             $hasStyle = $element->hasStyle();
@@ -39,7 +42,7 @@ class TextBreak extends Text
                 $xmlWriter->startElement('w:pPr');
                 $this->writeFontStyle();
                 $xmlWriter->endElement(); // w:pPr
-                $this->writeEndingWP();
+                $this->writeClosingWP();
             } else {
                 $xmlWriter->writeElement('w:p');
             }

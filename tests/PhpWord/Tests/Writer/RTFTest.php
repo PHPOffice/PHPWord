@@ -59,7 +59,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
-            'color' => 'FF0000', 'fgColor' => 'FF0000'));
+            'color' => 'FF0000', 'fgColor' => '00FF00'));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
@@ -97,17 +97,5 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addText('Test');
         $writer = new RTF($phpWord);
         $writer->save('php://output');
-    }
-
-    /**
-     * Save with no PhpWord object assigned
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new RTF();
-        $writer->save();
     }
 }

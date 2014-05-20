@@ -33,7 +33,7 @@ class DomPDFTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . "/../../_files/temp.pdf";
+        $file = __DIR__ . "/../../_files/dompdf.pdf";
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();

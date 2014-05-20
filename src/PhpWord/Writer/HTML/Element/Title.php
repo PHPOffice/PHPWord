@@ -31,6 +31,10 @@ class Title extends AbstractElement
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+            return '';
+        }
+
         $tag = 'h' . $this->element->getDepth();
         $text = htmlspecialchars($this->element->getText());
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;

@@ -33,12 +33,14 @@ class Image extends AbstractStyle
     {
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Image) {
-            return;
+            return '';
         }
         $css = array();
 
-        $css['width'] = $this->getValueIf($style->getWidth(), $style->getWidth() . 'px');
-        $css['height'] = $this->getValueIf($style->getHeight(), $style->getHeight() . 'px');
+        $width = $style->getWidth();
+        $height = $style->getHeight();
+        $css['width'] = $this->getValueIf(is_numeric($width), $width . 'px');
+        $css['height'] = $this->getValueIf(is_numeric($height), $height . 'px');
 
         return $this->assembleCss($css);
     }

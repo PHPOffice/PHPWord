@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.11.0 - Not yet released
 
-This release changed PHPWord license from LGPL 2.1 to LGPL 3.
+This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new relative and absolute positioning for image; new `TextBox` and `ListItemRun` element; refactorings of writer classes into parts, elements, and styles; and ability to add elements to PHPWord object via HTML.
 
 ### Features
 
@@ -15,17 +15,30 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
 - ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
 - Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
+- RTF Writer: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
+- Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
+- RTF Writer: Ability to add links and page breaks in RTF - @ivanlanin GH-196
+- ListItemRun: Remove fontStyle parameter because ListItemRun is inherited from TextRun and TextRun doesn't have fontStyle - @ivanlanin
+- Config: Ability to use a config file to store various common settings - @ivanlanin GH-200
+- ODT Writer: Enable inline font style in TextRun - @ivanlanin
+- ODT Writer: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
+- ODT Writer: Enable section and column - @ivanlanin
+- PDF Writer: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
+- ODT Writer: Enable title element and custom document properties - @ivanlanin
+- ODT Reader: Ability to read standard and custom document properties - @ivanlanin
 
 ### Bugfixes
 
 - Header: All images added to the second header were assigned to the first header - @basjan GH-222
 - Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan GH-233 GH-234
+- PageBreak: Page break adds new line in the beginning of the new page - @ivanlanin GH-150
 
 ### Deprecated
 
 - Static classes `Footnotes`, `Endnotes`, and `TOC`
 - `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
 - `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
+- `Element\Title::getBookmarkId()` replaced by `Element\Title::getRelationId()`
 
 ### Miscellaneous
 
@@ -38,6 +51,8 @@ This release changed PHPWord license from LGPL 2.1 to LGPL 3.
 - QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
 - Writer: Refactor writer parts using composite pattern - @ivanlanin
 - Docs: Show code quality and test code coverage badge on README
+- Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
+- Shared: Unify PHP ZipArchive and PCLZip features into PhpWord ZipArchive - @ivanlanin
 
 ## 0.10.0 - 4 May 2014
 

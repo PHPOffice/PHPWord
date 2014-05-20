@@ -106,8 +106,9 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // $this->elementNode
 
-        // Content
-        foreach ($this->elements as $element) {
+        /** @var array $elements Type hint */
+        $elements = $this->elements;
+        foreach ($elements as $element) {
             if ($element instanceof Footnote) {
                 $this->writeNote($xmlWriter, $element);
             }

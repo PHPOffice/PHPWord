@@ -84,7 +84,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
-        $element = "/office:document-content/office:body/office:text/text:p";
+        $element = "/office:document-content/office:body/office:text/text:section/text:p";
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
     }
 

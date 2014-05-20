@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
@@ -35,9 +35,9 @@ class Text extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-
-        $text = htmlspecialchars($element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
+        if (!$element instanceof \PhpOffice\PhpWord\Element\Text) {
+            return;
+        }
 
         $this->writeOpeningWP();
 
@@ -47,15 +47,17 @@ class Text extends AbstractElement
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($text);
+        $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 
-        $this->writeEndingWP();
+        $this->writeClosingWP();
     }
 
     /**
      * Write opening
+     *
+     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
      */
     protected function writeOpeningWP()
     {
@@ -64,9 +66,14 @@ class Text extends AbstractElement
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
-
+            // Paragraph style
             if (method_exists($element, 'getParagraphStyle')) {
                 $this->writeParagraphStyle();
+            }
+            // PageBreak
+            if ($this->hasPageBreakBefore()) {
+                $elementWriter = new PageBreak($xmlWriter, new PageBreakElement());
+                $elementWriter->write();
             }
         }
     }
@@ -74,7 +81,7 @@ class Text extends AbstractElement
     /**
      * Write ending
      */
-    protected function writeEndingWP()
+    protected function writeClosingWP()
     {
         $xmlWriter = $this->getXmlWriter();
 
@@ -89,8 +96,9 @@ class Text extends AbstractElement
     protected function writeParagraphStyle()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
 
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->getElement();
         $paragraphStyle = $element->getParagraphStyle();
         $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
         $styleWriter->setIsInline(true);
@@ -103,8 +111,9 @@ class Text extends AbstractElement
     protected function writeFontStyle()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
 
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->getElement();
         $fontStyle = $element->getFontStyle();
         $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
         $styleWriter->setIsInline(true);

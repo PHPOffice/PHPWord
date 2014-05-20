@@ -31,15 +31,20 @@ class Table extends AbstractElement
      */
     public function write()
     {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Table) {
+            return '';
+        }
+
         $content = '';
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
             $content .= '<table>' . PHP_EOL;
             foreach ($rows as $row) {
-                // $height = $row->getHeight();
+                /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $row->getStyle();
-                $tblHeader = $rowStyle->getTblHeader();
+                // $height = $row->getHeight();
+                $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 foreach ($row->getCells() as $cell) {
                     $writer = new Container($this->parentWriter, $cell);

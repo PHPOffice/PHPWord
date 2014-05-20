@@ -22,24 +22,22 @@ use PhpOffice\PhpWord\Collection\Footnotes;
 use PhpOffice\PhpWord\Collection\Titles;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Style;
 
 /**
  * PHPWord main class
  */
 class PhpWord
 {
-    const DEFAULT_FONT_COLOR        = '000000';  // HEX
-    const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
-    const DEFAULT_FONT_NAME         = 'Arial';
-
     /**
-     * Default font size, in points.
+     * Default font settings
      *
-     * OOXML defined font size values in halfpoints, i.e. twice of what PhpWord
-     * use, and the conversion will be conducted during XML writing.
+     * @const string|int
+     * @deprecated 0.11.0 Use Settings constants
      */
-    const DEFAULT_FONT_SIZE = 10;
+    const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
+    const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
+    const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
+    const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
      * Document properties object
@@ -77,19 +75,6 @@ class PhpWord
     private $endnotes;
 
     /**
-     * Default font name
-     *
-     * @var string
-     */
-    private $defaultFontName;
-
-    /**
-     * Default font size
-     * @var int
-     */
-    private $defaultFontSize;
-
-    /**
      * Create new
      */
     public function __construct()
@@ -98,8 +83,6 @@ class PhpWord
         $this->titles = new Titles();
         $this->footnotes = new Footnotes();
         $this->endnotes = new Endnotes();
-        $this->defaultFontName = self::DEFAULT_FONT_NAME;
-        $this->defaultFontSize = self::DEFAULT_FONT_SIZE;
     }
 
     /**
@@ -220,7 +203,7 @@ class PhpWord
      */
     public function getDefaultFontName()
     {
-        return $this->defaultFontName;
+        return Settings::getDefaultFontName();
     }
 
     /**
@@ -230,7 +213,7 @@ class PhpWord
      */
     public function setDefaultFontName($fontName)
     {
-        $this->defaultFontName = $fontName;
+        Settings::setDefaultFontName($fontName);
     }
 
     /**
@@ -240,7 +223,7 @@ class PhpWord
      */
     public function getDefaultFontSize()
     {
-        return $this->defaultFontSize;
+        return Settings::getDefaultFontSize();
     }
 
     /**
@@ -250,17 +233,18 @@ class PhpWord
      */
     public function setDefaultFontSize($fontSize)
     {
-        $this->defaultFontSize = $fontSize;
+        Settings::setDefaultFontSize($fontSize);
     }
 
     /**
      * Set default paragraph style definition to styles.xml
      *
      * @param array $styles Paragraph style definition
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function setDefaultParagraphStyle($styles)
     {
-        Style::setDefaultParagraphStyle($styles);
+        return Style::setDefaultParagraphStyle($styles);
     }
 
     /**
@@ -268,10 +252,11 @@ class PhpWord
      *
      * @param string $styleName
      * @param array $styles
+     * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public function addParagraphStyle($styleName, $styles)
     {
-        Style::addParagraphStyle($styleName, $styles);
+        return Style::addParagraphStyle($styleName, $styles);
     }
 
     /**
@@ -280,10 +265,11 @@ class PhpWord
      * @param string $styleName
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
      */
     public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
+        return Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
     }
 
     /**
@@ -292,33 +278,11 @@ class PhpWord
      * @param string $styleName
      * @param mixed $styleTable
      * @param mixed $styleFirstRow
+     * @return \PhpOffice\PhpWord\Style\Table
      */
     public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
-    }
-
-    /**
-     * Adds a heading style definition to styles.xml
-     *
-     * @param int $titleCount
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     */
-    public function addTitleStyle($titleCount, $fontStyle, $paragraphStyle = null)
-    {
-        Style::addTitleStyle($titleCount, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Adds a hyperlink style to styles.xml
-     *
-     * @param string $styleName
-     * @param mixed $styles
-     */
-    public function addLinkStyle($styleName, $styles)
-    {
-        Style::addLinkStyle($styleName, $styles);
+        return Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
     }
 
     /**
@@ -326,10 +290,36 @@ class PhpWord
      *
      * @param string $styleName
      * @param mixed $styles
+     * @return \PhpOffice\PhpWord\Style\Numbering
      */
     public function addNumberingStyle($styleName, $styles)
     {
-        Style::addNumberingStyle($styleName, $styles);
+        return Style::addNumberingStyle($styleName, $styles);
+    }
+
+    /**
+     * Adds a hyperlink style to styles.xml
+     *
+     * @param string $styleName
+     * @param mixed $styles
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addLinkStyle($styleName, $styles)
+    {
+        return Style::addLinkStyle($styleName, $styles);
+    }
+
+    /**
+     * Adds a heading style definition to styles.xml
+     *
+     * @param int $depth
+     * @param mixed $fontStyle
+     * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
+    {
+        return Style::addTitleStyle($depth, $fontStyle, $paragraphStyle);
     }
 
     /**

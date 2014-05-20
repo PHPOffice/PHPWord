@@ -26,26 +26,25 @@ use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
 class ListItem extends AbstractElement
 {
     /**
-     * ListItem Style
+     * Element style
      *
      * @var \PhpOffice\PhpWord\Style\ListItem
      */
     private $style;
 
     /**
-     * Textrun
+     * Text object
      *
-     * @var Text
+     * @var \PhpOffice\PhpWord\Element\Text
      */
     private $textObject;
 
     /**
-     * ListItem Depth
+     * Depth
      *
      * @var int
      */
     private $depth;
-
 
     /**
      * Create a new ListItem
@@ -70,7 +69,9 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get ListItem style
+     * Get style
+     *
+     * @return \PhpOffice\PhpWord\Style\ListItem
      */
     public function getStyle()
     {
@@ -78,7 +79,9 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get ListItem TextRun
+     * Get Text object
+     *
+     * @return \PhpOffice\PhpWord\Element\Text
      */
     public function getTextObject()
     {
@@ -86,10 +89,23 @@ class ListItem extends AbstractElement
     }
 
     /**
-     * Get ListItem depth
+     * Get depth
+     *
+     * @return int
      */
     public function getDepth()
     {
         return $this->depth;
+    }
+
+    /**
+     * Get text
+     *
+     * @return string
+     * @since 0.11.0
+     */
+    public function getText()
+    {
+        return $this->textObject->getText();
     }
 }

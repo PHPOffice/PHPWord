@@ -123,18 +123,6 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Save with no PhpWord object assigned
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new Word2007();
-        $writer->save();
-    }
-
-    /**
      * Check content types
      */
     public function testCheckContentTypes()
