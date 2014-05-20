@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Content reader
+ *
+ * @since 0.10.0
  */
 class Content extends AbstractPart
 {

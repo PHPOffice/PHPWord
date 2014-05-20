@@ -21,6 +21,8 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * ODText meta part writer: meta.xml
+ *
+ * @since 0.11.0
  */
 class Meta extends AbstractPart
 {
@@ -47,19 +49,19 @@ class Meta extends AbstractPart
         $xmlWriter->startElement('office:meta');
 
         // Core properties
+        $xmlWriter->writeElement('dc:title', $docProps->getTitle());
+        $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
+        $xmlWriter->writeElement('dc:description', $docProps->getDescription());
         $xmlWriter->writeElement('dc:creator', $docProps->getLastModifiedBy());
         $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $docProps->getModified()));
-        $xmlWriter->writeElement('dc:description', $docProps->getDescription());
-        $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
-        $xmlWriter->writeElement('dc:title', $docProps->getTitle());
 
         // Extended properties
         $xmlWriter->writeElement('meta:generator', 'PHPWord');
-        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
         $xmlWriter->writeElement('meta:initial-creator', $docProps->getCreator());
+        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
         $xmlWriter->writeElement('meta:keyword', $docProps->getKeywords());
 
-        // Category, company, and manager should be put in meta namespace
+        // Category, company, and manager are put in meta namespace
         $properties = array('Category', 'Company', 'Manager');
         foreach ($properties as $property) {
             $method = "get{$property}";
@@ -87,12 +89,17 @@ class Meta extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
-     * @param string $type
+     * @param string $type string (default/null)
+     *
+     * @todo Handle other `$type`: double|date|dateTime|duration|boolean
      */
     private function writeCustomProperty(XMLWriter $xmlWriter, $property, $value, $type = null)
     {
         $xmlWriter->startElement('meta:user-defined');
         $xmlWriter->writeAttribute('meta:name', $property);
+        if ($type !== null) {
+            $xmlWriter->writeAttribute('meta:value-type', $type);
+        }
         $xmlWriter->writeRaw($value);
         $xmlWriter->endElement(); // meta:user-defined
     }
