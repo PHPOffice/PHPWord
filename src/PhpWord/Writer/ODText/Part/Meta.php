@@ -17,8 +17,12 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+
 /**
  * ODText meta part writer: meta.xml
+ *
+ * @since 0.11.0
  */
 class Meta extends AbstractPart
 {
@@ -42,27 +46,61 @@ class Meta extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:meta', 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0');
         $xmlWriter->writeAttribute('xmlns:ooo', 'http://openoffice.org/2004/office');
         $xmlWriter->writeAttribute('xmlns:grddl', 'http://www.w3.org/2003/g/data-view#');
-
-        // office:meta
         $xmlWriter->startElement('office:meta');
+
+        // Core properties
+        $xmlWriter->writeElement('dc:title', $docProps->getTitle());
+        $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
+        $xmlWriter->writeElement('dc:description', $docProps->getDescription());
         $xmlWriter->writeElement('dc:creator', $docProps->getLastModifiedBy());
         $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $docProps->getModified()));
-        $xmlWriter->writeElement('dc:description', $docProps->getDescription());
-        $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
-        $xmlWriter->writeElement('dc:title', $docProps->getTitle());
-        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
+
+        // Extended properties
+        $xmlWriter->writeElement('meta:generator', 'PHPWord');
         $xmlWriter->writeElement('meta:initial-creator', $docProps->getCreator());
+        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
         $xmlWriter->writeElement('meta:keyword', $docProps->getKeywords());
 
-        // @todo : Where these properties are written ?
-        // $docProps->getCategory()
-        // $docProps->getCompany()
+        // Category, company, and manager are put in meta namespace
+        $properties = array('Category', 'Company', 'Manager');
+        foreach ($properties as $property) {
+            $method = "get{$property}";
+            if ($docProps->$method() !== null) {
+                $this->writeCustomProperty($xmlWriter, $property, $docProps->$method());
+            }
+        }
 
-        $xmlWriter->endElement();
+        // Other custom properties
+        // @todo Check type. Currently all assumed as string
+        foreach ($docProps->getCustomProperties() as $property) {
+            $value = $docProps->getCustomPropertyValue($property);
+            $this->writeCustomProperty($xmlWriter, $property, $value);
+        }
 
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // office:meta
+        $xmlWriter->endElement(); // office:document-meta
 
-        // Return
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Write individual property
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $property
+     * @param string $value
+     * @param string $type string (default/null)
+     *
+     * @todo Handle other `$type`: double|date|dateTime|duration|boolean
+     */
+    private function writeCustomProperty(XMLWriter $xmlWriter, $property, $value, $type = null)
+    {
+        $xmlWriter->startElement('meta:user-defined');
+        $xmlWriter->writeAttribute('meta:name', $property);
+        if ($type !== null) {
+            $xmlWriter->writeAttribute('meta:value-type', $type);
+        }
+        $xmlWriter->writeRaw($value);
+        $xmlWriter->endElement(); // meta:user-defined
     }
 }

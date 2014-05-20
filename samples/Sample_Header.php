@@ -6,7 +6,7 @@ use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));

@@ -21,26 +21,25 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\PDF;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\PDF\DomPDF
+ * Test class for PhpOffice\PhpWord\Writer\PDF\MPDF
  *
  * @runTestsInSeparateProcesses
  */
-class DomPDFTest extends \PHPUnit_Framework_TestCase
+class MPDFTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test construct
      */
     public function testConstruct()
     {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . "/../../_files/dompdf.pdf";
+        $file = __DIR__ . "/../../_files/mpdf.pdf";
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
 
-        $rendererName = Settings::PDF_RENDERER_DOMPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
+        $rendererName = Settings::PDF_RENDERER_MPDF;
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF($phpWord);
         $writer->save($file);
@@ -48,30 +47,5 @@ class DomPDFTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($file));
 
         unlink($file);
-    }
-
-    /**
-     * Test set/get abstract renderer properties
-     */
-    public function testSetGetAbstractRendererProperties()
-    {
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
-
-        $rendererName = Settings::PDF_RENDERER_DOMPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');
-        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-        $writer = new PDF(new PhpWord());
-
-        $writer->setFont('arial');
-        $this->assertEquals('arial', $writer->getFont());
-
-        $writer->setPaperSize();
-        $this->assertEquals(9, $writer->getPaperSize());
-
-        $writer->setOrientation();
-        $this->assertEquals('default', $writer->getOrientation());
-
-        $writer->setTempDir(sys_get_temp_dir());
-        $this->assertEquals(sys_get_temp_dir(), $writer->getTempDir());
     }
 }

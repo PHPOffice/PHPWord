@@ -22,8 +22,6 @@ before_script:
     - sudo apt-get -qq install graphviz > /dev/null
     ## Composer
     - composer self-update
-    - composer require dompdf/dompdf:0.6.*
-    - composer update --prefer-source --dev
     - composer install --prefer-source --dev
     ## PHP Copy/Paste Detector
     - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar

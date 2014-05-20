@@ -39,7 +39,10 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "phpdocumentor/phpdocumentor":"2.*",
-        "squizlabs/php_codesniffer": "1.*"
+        "squizlabs/php_codesniffer": "1.*",
+        "dompdf/dompdf":"0.6.*",
+        "tecnick.com/tcpdf": "6.*",
+        "mpdf/mpdf": "5.*"
     },
     "suggest": {
         "ext-gd2": "Required to add images",

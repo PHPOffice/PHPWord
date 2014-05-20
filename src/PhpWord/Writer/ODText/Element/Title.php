@@ -35,8 +35,9 @@ class Title extends AbstractElement
             return;
         }
 
-        $xmlWriter->startElement('text:p');
+        $xmlWriter->startElement('text:h');
+        $xmlWriter->writeAttribute('text:outline-level', $element->getDepth());
         $xmlWriter->writeRaw($element->getText());
-        $xmlWriter->endElement(); // text:p
+        $xmlWriter->endElement(); // text:h
     }
 }
