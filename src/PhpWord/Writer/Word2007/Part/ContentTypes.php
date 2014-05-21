@@ -40,6 +40,7 @@ class ContentTypes extends AbstractPart
         $overrides = array(
             '/docProps/core.xml'     => $openXMLPrefix . 'package.core-properties+xml',
             '/docProps/app.xml'      => $openXMLPrefix . 'officedocument.extended-properties+xml',
+            '/docProps/custom.xml'   => $openXMLPrefix . 'officedocument.custom-properties+xml',
             '/word/document.xml'     => $wordMLPrefix  . 'document.main+xml',
             '/word/styles.xml'       => $wordMLPrefix  . 'styles+xml',
             '/word/numbering.xml'    => $wordMLPrefix  . 'numbering+xml',

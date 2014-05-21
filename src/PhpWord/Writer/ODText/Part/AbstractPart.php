@@ -29,6 +29,11 @@ use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
 abstract class AbstractPart extends Word2007AbstractPart
 {
     /**
+     * @var string Date format
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:s.000';
+
+    /**
      * Write common root attributes
      */
     protected function writeCommonRootAttributes(XMLWriter $xmlWriter)

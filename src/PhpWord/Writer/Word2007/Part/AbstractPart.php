@@ -34,6 +34,11 @@ abstract class AbstractPart
     protected $parentWriter;
 
     /**
+     * @var string Date format
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:sP';
+
+    /**
      * Write part
      *
      * @return string

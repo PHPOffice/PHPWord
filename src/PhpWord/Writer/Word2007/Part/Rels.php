@@ -35,9 +35,10 @@ class Rels extends AbstractPart
     public function write()
     {
         $xmlRels = array(
-            'docProps/core.xml' => 'package/2006/relationships/metadata/core-properties',
-            'docProps/app.xml'  => 'officeDocument/2006/relationships/extended-properties',
-            'word/document.xml' => 'officeDocument/2006/relationships/officeDocument',
+            'docProps/core.xml'   => 'package/2006/relationships/metadata/core-properties',
+            'docProps/app.xml'    => 'officeDocument/2006/relationships/extended-properties',
+            'docProps/custom.xml' => 'officeDocument/2006/relationships/custom-properties',
+            'word/document.xml'   => 'officeDocument/2006/relationships/officeDocument',
         );
         $xmlWriter = $this->getXmlWriter();
         $this->writeRels($xmlWriter, $xmlRels);
