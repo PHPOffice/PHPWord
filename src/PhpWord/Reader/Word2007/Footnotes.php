@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Footnotes reader
+ *
+ * @since 0.10.0
  */
 class Footnotes extends AbstractPart
 {

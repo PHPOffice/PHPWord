@@ -22,6 +22,9 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
+ *
+ * @since 0.10.0
+ * @codeCoverageIgnore Nothing in here yet
  */
 abstract class AbstractPart extends Word2007AbstractPart
 {

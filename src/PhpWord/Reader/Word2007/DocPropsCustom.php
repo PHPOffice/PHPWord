@@ -23,6 +23,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Custom properties reader
+ *
+ * @since 0.11.0
  */
 class DocPropsCustom extends AbstractPart
 {

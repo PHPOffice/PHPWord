@@ -24,6 +24,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  * Abstract part reader
  *
  * This class is inherited by ODText reader
+ *
+ * @since 0.10.0
  */
 abstract class AbstractPart
 {
@@ -466,6 +468,7 @@ abstract class AbstractPart
             }
         }
 
+        /** @var array $styles Type hint */
         return $styles;
     }
 

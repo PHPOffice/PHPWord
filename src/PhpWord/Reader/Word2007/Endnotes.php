@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 /**
  * Endnotes reader
+ *
+ * @since 0.10.0
  */
 class Endnotes extends Footnotes
 {

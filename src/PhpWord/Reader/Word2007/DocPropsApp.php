@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 /**
  * Extended properties reader
+ *
+ * @since 0.10.0
  */
 class DocPropsApp extends DocPropsCore
 {
