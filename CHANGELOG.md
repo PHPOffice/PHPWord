@@ -28,6 +28,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - ODT Reader: Ability to read standard and custom document properties - @ivanlanin
 - Word2007 Writer: Enable the missing custom document properties writer - @ivanlanin
 - Image: Enable "image float left" - @ivanlanin GH-244
+- RTF Writer: Ability to write document properties - @ivanlanin
 
 ### Bugfixes
 
