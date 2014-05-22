@@ -98,7 +98,7 @@ abstract class AbstractPart
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
     {
         // Paragraph style
         $paragraphStyle = null;
@@ -248,7 +248,7 @@ abstract class AbstractPart
      * @param mixed $parent
      * @param string $docPart
      */
-    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
     {
         // Table style
         $tblStyle = null;

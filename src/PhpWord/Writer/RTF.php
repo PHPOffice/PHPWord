@@ -33,18 +33,18 @@ use PhpOffice\PhpWord\Writer\RTF\Element\Container;
 class RTF extends AbstractWriter implements WriterInterface
 {
     /**
-     * Color register
+     * Font table
      *
      * @var array
      */
-    private $colorTable;
+    private $fontTable = array();
 
     /**
-     * Font register
+     * Color table
      *
      * @var array
      */
-    private $fontTable;
+    private $colorTable = array();
 
     /**
      * Last paragraph style
@@ -82,19 +82,19 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get color table
-     */
-    public function getColorTable()
-    {
-        return $this->colorTable;
-    }
-
-    /**
      * Get font table
      */
     public function getFontTable()
     {
         return $this->fontTable;
+    }
+
+    /**
+     * Get color table
+     */
+    public function getColorTable()
+    {
+        return $this->colorTable;
     }
 
     /**
@@ -122,8 +122,7 @@ class RTF extends AbstractWriter implements WriterInterface
      */
     private function writeDocument()
     {
-        $this->fontTable = $this->populateFontTable();
-        $this->colorTable = $this->populateColorTable();
+        $this->populateTableGroups();
 
         // Set the default character set
         $content = '{\rtf1';
@@ -148,6 +147,8 @@ class RTF extends AbstractWriter implements WriterInterface
         $content .= ';}' . PHP_EOL;
 
         $content .= '{\*\generator PhpWord;}' . PHP_EOL; // Set the generator
+
+        // Document formatting
         $content .= '\viewkind4'; // Set the view mode of the document
         $content .= '\uc1'; // Set the numberof bytes that follows a unicode character
         $content .= '\pard'; // Resets to default paragraph properties.
@@ -155,7 +156,7 @@ class RTF extends AbstractWriter implements WriterInterface
         $content .= '\lang1036'; // Applies a language to a text run (1036 : French (France))
         $content .= '\kerning1'; // Point size (in half-points) above which to kern character pairs
         $content .= '\fs' . (Settings::getDefaultFontSize() * 2); // Set the font size in half-points
-        $content .= PHP_EOL;
+        $content .= PHP_EOL . PHP_EOL;
 
         // Body
         $content .= $this->writeContent();
@@ -184,102 +185,58 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get all fonts
-     *
-     * @return array
+     * Populate font and color table group
      */
-    private function populateFontTable()
+    private function populateTableGroups()
     {
         $phpWord = $this->getPhpWord();
-        $fontTable = array();
-        $fontTable[] = Settings::getDefaultFontName();
+        $this->fontTable[] = Settings::getDefaultFontName();
 
-        // Browse styles
+        // Search font in styles
         $styles = Style::getStyles();
-        if (count($styles) > 0) {
-            foreach ($styles as $style) {
-                // Font
-                if ($style instanceof Font) {
-                    if (in_array($style->getName(), $fontTable) == false) {
-                        $fontTable[] = $style->getName();
-                    }
-                }
-            }
+        foreach ($styles as $style) {
+            $this->pushTableGroupItems($style);
         }
 
-        // Search all fonts used
+        // Search font in elements
         $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
-            foreach ($sections as $section) {
-                $elements = $section->getElements();
-                foreach ($elements as $element) {
-                    if (method_exists($element, 'getFontStyle')) {
-                        $fontStyle = $element->getFontStyle();
-                        if ($fontStyle instanceof Font) {
-                            if (in_array($fontStyle->getName(), $fontTable) == false) {
-                                $fontTable[] = $fontStyle->getName();
-                            }
-                        }
-                    }
+        foreach ($sections as $section) {
+            $elements = $section->getElements();
+            foreach ($elements as $element) {
+                if (method_exists($element, 'getFontStyle')) {
+                    $this->pushTableGroupItems($element->getFontStyle());
                 }
             }
         }
-
-        return $fontTable;
     }
 
     /**
-     * Get all colors
+     * Push font and color table group items
      *
-     * @return array
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle
      */
-    private function populateColorTable()
+    private function pushTableGroupItems($style)
     {
-        $phpWord = $this->getPhpWord();
-        $defaultFontColor = Settings::DEFAULT_FONT_COLOR;
-        $colorTable = array();
-
-        // Browse styles
-        $styles = Style::getStyles();
-        if (count($styles) > 0) {
-            foreach ($styles as $style) {
-                // Font
-                if ($style instanceof Font) {
-                    $color = $style->getColor();
-                    $fgcolor = $style->getFgColor();
-                    if (!in_array($color, $colorTable) && $color != $defaultFontColor && !empty($color)) {
-                        $colorTable[] = $color;
-                    }
-                    if (!in_array($fgcolor, $colorTable) && $fgcolor != $defaultFontColor && !empty($fgcolor)) {
-                        $colorTable[] = $fgcolor;
-                    }
-                }
-            }
+        $defaultFont = Settings::getDefaultFontName();
+        $defaultColor = Settings::DEFAULT_FONT_COLOR;
+        if ($style instanceof Font) {
+            $this->pushTableGroupItem($this->fontTable, $style->getName(), $defaultFont);
+            $this->pushTableGroupItem($this->colorTable, $style->getColor(), $defaultColor);
+            $this->pushTableGroupItem($this->colorTable, $style->getFgColor(), $defaultColor);
         }
+    }
 
-        // Search all fonts used
-        $sections = $phpWord->getSections();
-        $countSections = count($sections);
-        if ($countSections > 0) {
-            foreach ($sections as $section) {
-                $elements = $section->getElements();
-                foreach ($elements as $element) {
-                    if (method_exists($element, 'getFontStyle')) {
-                        $fontStyle = $element->getFontStyle();
-                        if ($fontStyle instanceof Font) {
-                            if (in_array($fontStyle->getColor(), $colorTable) == false) {
-                                $colorTable[] = $fontStyle->getColor();
-                            }
-                            if (in_array($fontStyle->getFgColor(), $colorTable) == false) {
-                                $colorTable[] = $fontStyle->getFgColor();
-                            }
-                        }
-                    }
-                }
-            }
+    /**
+     * Push individual font and color into corresponding table group
+     *
+     * @param array $tableGroup
+     * @param string $item
+     * @param string $default
+     */
+    private function pushTableGroupItem(&$tableGroup, $item, $default)
+    {
+        if (!in_array($item, $tableGroup) && $item !== null && $item != $default) {
+            $tableGroup[] = $item;
         }
-
-        return $colorTable;
     }
 }
