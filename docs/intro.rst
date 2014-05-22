@@ -13,7 +13,7 @@ Applications <http://en.wikipedia.org/wiki/OpenDocument>`__
 Format <http://en.wikipedia.org/wiki/Rich_Text_Format>`__ (RTF).
 
 PHPWord is an open source project licensed under the terms of `LGPL
-version 3 <https://github.com/PHPOffice/PHPWord/blob/develop/LICENSE.md>`__.
+version 3 <https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER>`__.
 PHPWord is aimed to be a high quality software product by incorporating
 `continuous integration <https://travis-ci.org/PHPOffice/PHPWord>`__ and
 `unit testing <http://phpoffice.github.io/PHPWord/coverage/develop/>`__.

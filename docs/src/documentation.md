@@ -47,7 +47,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), and [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF).
 
-PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/LICENSE.md). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
+PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
 ## Features
 
