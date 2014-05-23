@@ -32,7 +32,6 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  */
 class Head extends AbstractPart
 {
-
     /**
      * Write part
      *

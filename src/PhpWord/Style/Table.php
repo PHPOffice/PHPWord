@@ -430,7 +430,7 @@ class Table extends Border
     /**
      * Get cell margin
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getCellMargin()
     {

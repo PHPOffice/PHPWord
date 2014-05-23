@@ -89,7 +89,7 @@ Below are the supported features for each file formats.
 |                         | Page Break         | ✓    |     |  ✓  |      |     |
 |                         | List               | ✓    |     |     |      |     |
 |                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
-|                         | Image              | ✓    | ✓   |     | ✓    |     |
+|                         | Image              | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Object             | ✓    |     |     |      |     |
 |                         | Watermark          | ✓    |     |     |      |     |
 |                         | Table of Contents  | ✓    |     |     |      |     |

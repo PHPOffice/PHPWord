@@ -280,6 +280,65 @@ class Image extends AbstractElement
     }
 
     /**
+     * Get image string data
+     *
+     * @param bool $base64
+     * @return string|null
+     */
+    public function getImageStringData($base64 = false)
+    {
+        $source = $this->source;
+        $actualSource = null;
+        $imageBinary = null;
+        $imageData = null;
+
+        // Get actual source from archive image or other source
+        // Return null if not found
+        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+
+            $zip = new ZipArchive();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $zip->extractTo(sys_get_temp_dir(), $imageFilename);
+                    $actualSource = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+        if ($actualSource === null) {
+            return null;
+        }
+
+        // Read image binary data and convert to hex
+        if ($this->sourceType == self::SOURCE_GD) {
+            $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            ob_start();
+            call_user_func($this->imageFunc, $imageResource);
+            $imageBinary = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $fileHandle = fopen($actualSource, 'rb', false);
+            if ($fileHandle !== false) {
+                $imageBinary = fread($fileHandle, filesize($actualSource));
+                fclose($fileHandle);
+            }
+        }
+        if ($imageBinary !== null) {
+            if ($base64) {
+                $imageData = chunk_split(base64_encode($imageBinary));
+            } else {
+                $imageData = chunk_split(bin2hex($imageBinary));
+            }
+        }
+
+        return $imageData;
+    }
+
+    /**
      * Check memory image, supported type, image functions, and proportional width/height
      *
      * @param string $source

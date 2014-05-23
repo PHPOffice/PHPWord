@@ -83,6 +83,7 @@ abstract class AbstractContainer extends AbstractElement
         $mediaContainer = $this->getMediaContainer();
         if (in_array($elementName, array('Link', 'Image', 'Object'))) {
             if ($elementName == 'Image') {
+                /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
                 $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $element);
             } else {
                 $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1]);
