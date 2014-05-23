@@ -78,7 +78,7 @@ Below are the supported features for each file formats.
 
 | Features                |                    | DOCX | ODT | RTF | HTML | PDF |
 |-------------------------|--------------------|------|-----|-----|------|-----|
-| **Document Properties** | Standard           | ✓    | ✓   |     |      |     |
+| **Document Properties** | Standard           | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Custom             | ✓    | ✓   |     |      |     |
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
