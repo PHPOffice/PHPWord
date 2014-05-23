@@ -86,7 +86,7 @@ class String
     }
 
     /**
-     * Returns unicode array from UTF8 text
+     * Returns unicode from UTF8 text
      *
      * The function is splitted to reduce cyclomatic complexity
      *
@@ -100,7 +100,7 @@ class String
     }
 
     /**
-     * Returns unicode from UTF8 text
+     * Returns unicode array from UTF8 text
      *
      * @param string $text UTF8 text
      * @return array

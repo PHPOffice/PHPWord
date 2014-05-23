@@ -92,8 +92,8 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $textrun = $section->addTextRun('Paragraph');
         $textrun->addLink('http://test.com');
         $textrun->addImage($localImage);
-        $textrun->addFootnote();
-        $textrun->addEndnote();
+        $textrun->addFootnote()->addText('Footnote');
+        $textrun->addEndnote()->addText('Endnote');
 
         $section = $phpWord->addSection();
 
