@@ -84,6 +84,7 @@ abstract class AbstractRenderer extends HTML
         parent::__construct($phpWord);
         $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
         if (file_exists($includeFile)) {
+            /** @noinspection PhpIncludeInspection Dynamic includes */
             require_once $includeFile;
         } else {
             throw new Exception('Unable to load PDF Rendering library');

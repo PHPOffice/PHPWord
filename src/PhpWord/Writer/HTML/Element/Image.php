@@ -88,7 +88,7 @@ class Image extends Text
         } else {
             $actualSource = $source;
         }
-        if (is_null($actualSource)) {
+        if ($actualSource === null) {
             return null;
         }
 
@@ -100,12 +100,13 @@ class Image extends Text
             $imageBinary = ob_get_contents();
             ob_end_clean();
         } else {
-            if ($fileHandle = fopen($actualSource, 'rb', false)) {
+            $fileHandle = fopen($actualSource, 'rb', false);
+            if ($fileHandle !== false) {
                 $imageBinary = fread($fileHandle, filesize($actualSource));
                 fclose($fileHandle);
             }
         }
-        if (!is_null($imageBinary)) {
+        if ($imageBinary !== null) {
             $base64 = chunk_split(base64_encode($imageBinary));
             $imageData = 'data:' . $imageType . ';base64,' . $base64;
         }

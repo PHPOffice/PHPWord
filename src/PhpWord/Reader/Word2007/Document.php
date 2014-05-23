@@ -158,7 +158,9 @@ class Document extends AbstractPart
         // Section properties
         if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
             $sectPrNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
-            $this->readWSectPrNode($xmlReader, $sectPrNode, $section);
+            if ($sectPrNode !== null) {
+                $this->readWSectPrNode($xmlReader, $sectPrNode, $section);
+            }
             $section = $this->phpWord->addSection();
         }
     }
@@ -172,10 +174,8 @@ class Document extends AbstractPart
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        if ($node !== null) {
-            $settings = $this->readSectionStyle($xmlReader, $node);
-            $section->setSettings($settings);
-            $this->readHeaderFooter($settings, $section);
-        }
+        $settings = $this->readSectionStyle($xmlReader, $node);
+        $section->setSettings($settings);
+        $this->readHeaderFooter($settings, $section);
     }
 }

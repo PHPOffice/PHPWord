@@ -35,7 +35,8 @@ class RTF extends AbstractWriter implements WriterInterface
     private $lastParagraphStyle;
 
     /**
-     * Create new RTF writer
+     * Create new instance
+     *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public function __construct(PhpWord $phpWord = null)
@@ -52,7 +53,6 @@ class RTF extends AbstractWriter implements WriterInterface
                 $this->writerParts[strtolower($partName)] = $part;
             }
         }
-
     }
 
     /**
