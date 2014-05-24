@@ -29,7 +29,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Sizes
      *
-     * @var int[]
+     * @var integer[]
      */
     private $sizes = array();
 
@@ -103,7 +103,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set sizes
      *
-     * @param int[] $value
+     * @param integer[] $value
      */
     public function setSizes($value)
     {

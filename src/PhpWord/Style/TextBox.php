@@ -162,7 +162,7 @@ class TextBox extends Image
     /**
      * Get cell margin
      *
-     * @return int[]
+     * @return integer[]
      */
     public function getInnerMargin()
     {

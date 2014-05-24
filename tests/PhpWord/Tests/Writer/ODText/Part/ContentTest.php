@@ -50,6 +50,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
         $section = $phpWord->addSection(array('colsNum' => 2));
         $section->addText($expected);

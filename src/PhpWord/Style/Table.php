@@ -192,7 +192,7 @@ class Table extends Border
     /**
      * Get TLRBHV Border Size
      *
-     * @return int[]
+     * @return integer[]
      */
     public function getBorderSize()
     {
@@ -430,7 +430,7 @@ class Table extends Border
     /**
      * Get cell margin
      *
-     * @return int[]
+     * @return integer[]
      */
     public function getCellMargin()
     {
