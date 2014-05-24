@@ -58,6 +58,12 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
 - Shared: Unify PHP ZipArchive and PCLZip features into PhpWord ZipArchive - @ivanlanin
 
+## 0.10.1 - 21 May 2014
+
+This is a bugfix release for `php-zip` requirement in Composer.
+
+- Change Composer requirements for php-zip from `require` to `suggest` - @bskrtich GH-246
+
 ## 0.10.0 - 4 May 2014
 
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
