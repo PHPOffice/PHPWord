@@ -39,7 +39,7 @@ class RelsPart extends Rels
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $this->writeRels($xmlWriter, null, $this->media);
+        $this->writeRels($xmlWriter, array(), $this->media);
 
         return $xmlWriter->getData();
     }

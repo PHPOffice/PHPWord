@@ -214,7 +214,7 @@ class Html
              */
             case 'li':
                 $cNodes = $node->childNodes;
-                if (count($cNodes) > 0) {
+                if ($cNodes->length > 0) {
                     $text = '';
                     foreach ($cNodes as $cNode) {
                         if ($cNode->nodeName == '#text') {
@@ -240,7 +240,7 @@ class Html
          */
         if ($node->nodeName != 'li') {
             $cNodes = $node->childNodes;
-            if (count($cNodes) > 0) {
+            if ($cNodes->length > 0) {
                 foreach ($cNodes as $cNode) {
                     self::parseNode($cNode, $newobject, $styles, $data);
                 }

@@ -56,38 +56,24 @@ abstract class AbstractContainer extends AbstractElement
 
         // Get arguments
         $args = func_get_args();
-        $argsCount = func_num_args();
         $withoutP = in_array($this->container, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun'));
         if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
-            $args[3] = null;
+            $args[3] = null; // Remove paragraph style for texts in textrun
         }
 
-        // Create element dynamically
-
+        // Create element using reflection
+        $reflection = new \ReflectionClass($elementClass);
+        $elementArgs = $args;
+        array_shift($elementArgs); // Shift an element off the beginning of array: the $elementName
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
-        if ($argsCount == 2) {       // TextRun, TextBox, Table, Footnote, Endnote
-            $element = new $elementClass($args[1]);
-        } elseif ($argsCount == 3) { // Object, TextBreak, Title
-            $element = new $elementClass($args[1], $args[2]);
-        } elseif ($argsCount == 4) { // PreserveText, Text, Image
-            $element = new $elementClass($args[1], $args[2], $args[3]);
-        } elseif ($argsCount == 5) { // CheckBox, Link, ListItemRun, TOC
-            $element = new $elementClass($args[1], $args[2], $args[3], $args[4]);
-        } elseif ($argsCount == 6) { // ListItem
-            $element = new $elementClass($args[1], $args[2], $args[3], $args[4], $args[5]);
-        } else {                     // Page Break
-            $element = new $elementClass();
-        }
+        $element = $reflection->newInstanceArgs($elementArgs);
 
         // Set relation Id for media collection
         $mediaContainer = $this->getMediaContainer();
         if (in_array($elementName, array('Link', 'Image', 'Object'))) {
-            if ($elementName == 'Image') {
-                /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
-                $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $element);
-            } else {
-                $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1]);
-            }
+            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
+            $image = ($elementName == 'Image') ? $element : null;
+            $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $image);
             $element->setRelationId($rId);
         }
         if ($elementName == 'Object') {

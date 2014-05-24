@@ -24,6 +24,8 @@ use PhpOffice\PhpWord\Style\NumberingLevel;
 
 /**
  * Word2007 numbering part writer: word/numbering.xml
+ *
+ * @since 0.10.0
  */
 class Numbering extends AbstractPart
 {
@@ -97,12 +99,6 @@ class Numbering extends AbstractPart
      */
     private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
     {
-        $tabPos = $level->getTabPos();
-        $left = $level->getLeft();
-        $hanging = $level->getHanging();
-        $font = $level->getFont();
-        $hint = $level->getHint();
-
         $xmlWriter->startElement('w:lvl');
         $xmlWriter->writeAttribute('w:ilvl', $level->getLevel());
 
@@ -124,46 +120,62 @@ class Numbering extends AbstractPart
             }
         }
 
-        // Paragraph styles
-        if (!is_null($tabPos) || !is_null($left) || !is_null($hanging)) {
-            $xmlWriter->startElement('w:pPr');
-            if (!is_null($tabPos)) {
-                $xmlWriter->startElement('w:tabs');
-                $xmlWriter->startElement('w:tab');
-                $xmlWriter->writeAttribute('w:val', 'num');
-                $xmlWriter->writeAttribute('w:pos', $tabPos);
-                $xmlWriter->endElement(); // w:tab
-                $xmlWriter->endElement(); // w:tabs
-            }
-            if (!is_null($left) || !is_null($hanging)) {
-                $xmlWriter->startElement('w:ind');
-                if (!is_null($left)) {
-                    $xmlWriter->writeAttribute('w:left', $left);
-                }
-                if (!is_null($hanging)) {
-                    $xmlWriter->writeAttribute('w:hanging', $hanging);
-                }
-                $xmlWriter->endElement(); // w:ind
-            }
-            $xmlWriter->endElement(); // w:pPr
-        }
+        // Paragraph & font styles
+        $this->writeParagraph($xmlWriter, $level);
+        $this->writeFont($xmlWriter, $level);
 
-        // Font styles
-        if (!is_null($font) || !is_null($hint)) {
-            $xmlWriter->startElement('w:rPr');
-            $xmlWriter->startElement('w:rFonts');
-            if (!is_null($font)) {
-                $xmlWriter->writeAttribute('w:ascii', $font);
-                $xmlWriter->writeAttribute('w:hAnsi', $font);
-                $xmlWriter->writeAttribute('w:cs', $font);
-            }
-            if (!is_null($hint)) {
-                $xmlWriter->writeAttribute('w:hint', $hint);
-            }
-            $xmlWriter->endElement(); // w:rFonts
-            $xmlWriter->endElement(); // w:rPr
-        }
         $xmlWriter->endElement(); // w:lvl
+    }
+
+    /**
+     * Write level paragraph
+     *
+     * @since 0.11.0
+     * @todo Use paragraph style writer
+     */
+    private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $tabPos = $level->getTabPos();
+        $left = $level->getLeft();
+        $hanging = $level->getHanging();
+
+        $xmlWriter->startElement('w:pPr');
+
+        $xmlWriter->startElement('w:tabs');
+        $xmlWriter->startElement('w:tab');
+        $xmlWriter->writeAttribute('w:val', 'num');
+        $xmlWriter->writeAttributeIf($tabPos !== null, 'w:pos', $tabPos);
+        $xmlWriter->writeAttribute('w:pos', $tabPos);
+        $xmlWriter->endElement(); // w:tab
+        $xmlWriter->endElement(); // w:tabs
+
+        $xmlWriter->startElement('w:ind');
+        $xmlWriter->writeAttributeIf($left !== null, 'w:left', $left);
+        $xmlWriter->writeAttributeIf($hanging !== null, 'w:hanging', $hanging);
+        $xmlWriter->endElement(); // w:ind
+
+        $xmlWriter->endElement(); // w:pPr
+    }
+
+    /**
+     * Write level font
+     *
+     * @since 0.11.0
+     * @todo Use font style writer
+     */
+    private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $font = $level->getFont();
+        $hint = $level->getHint();
+
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:rFonts');
+        $xmlWriter->writeAttributeIf($font !== null, 'w:ascii', $font);
+        $xmlWriter->writeAttributeIf($font !== null, 'w:hAnsi', $font);
+        $xmlWriter->writeAttributeIf($font !== null, 'w:cs', $font);
+        $xmlWriter->writeAttributeIf($hint !== null, 'w:hint', $hint);
+        $xmlWriter->endElement(); // w:rFonts
+        $xmlWriter->endElement(); // w:rPr
     }
 
     /**

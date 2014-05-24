@@ -284,6 +284,7 @@ class Image extends AbstractElement
      *
      * @param bool $base64
      * @return string|null
+     * @since 0.11.0
      */
     public function getImageStringData($base64 = false)
     {
@@ -291,6 +292,7 @@ class Image extends AbstractElement
         $actualSource = null;
         $imageBinary = null;
         $imageData = null;
+        $isTemp = false;
 
         // Get actual source from archive image or other source
         // Return null if not found
@@ -301,6 +303,7 @@ class Image extends AbstractElement
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
                 if ($zip->locateName($imageFilename)) {
+                    $isTemp = true;
                     $zip->extractTo(sys_get_temp_dir(), $imageFilename);
                     $actualSource = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $imageFilename;
                 }
@@ -313,7 +316,7 @@ class Image extends AbstractElement
             return null;
         }
 
-        // Read image binary data and convert to hex
+        // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {
             $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
             ob_start();
@@ -333,6 +336,11 @@ class Image extends AbstractElement
             } else {
                 $imageData = chunk_split(bin2hex($imageBinary));
             }
+        }
+
+        // Delete temporary file if necessary
+        if ($isTemp === true) {
+            @unlink($actualSource);
         }
 
         return $imageData;

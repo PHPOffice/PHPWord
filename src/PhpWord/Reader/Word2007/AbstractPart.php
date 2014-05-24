@@ -453,23 +453,39 @@ abstract class AbstractPart
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
                 $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
-                // Assign style value based on conversion model
-                if ($method == self::READ_VALUE) {
-                    $styles[$styleProp] = $attributeValue;
-                } elseif ($method == self::READ_SIZE) {
-                    $styles[$styleProp] = $attributeValue / 2;
-                } elseif ($method == self::READ_TRUE) {
-                    $styles[$styleProp] = true;
-                } elseif ($method == self::READ_FALSE) {
-                    $styles[$styleProp] = false;
-                } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
-                    $styles[$styleProp] = true;
+                $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
+                if ($styleValue !== null) {
+                    $styles[$styleProp] = $styleValue;
                 }
             }
         }
 
-        /** @var array $styles Type hint */
         return $styles;
+    }
+
+    /**
+     * Return style definition based on conversion method
+     *
+     * @param string $method
+     * @param mixed $attributeValue
+     * @param mixed $expected
+     * @return mixed
+     */
+    private function readStyleDef($method, $attributeValue, $expected)
+    {
+        $style = $attributeValue;
+
+        if ($method == self::READ_SIZE) {
+            $style = $attributeValue / 2;
+        } elseif ($method == self::READ_TRUE) {
+            $style = true;
+        } elseif ($method == self::READ_FALSE) {
+            $style = false;
+        } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
+            $style = true;
+        }
+
+        return $style;
     }
 
     /**

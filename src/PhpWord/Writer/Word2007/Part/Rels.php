@@ -50,41 +50,49 @@ class Rels extends AbstractPart
      * Write relationships
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param null|array $xmlRels
-     * @param null|array $mediaRels
-     * @param integer $relId
+     * @param array $xmlRels
+     * @param array $mediaRels
+     * @param int $relId
      */
-    protected function writeRels(XMLWriter $xmlWriter, $xmlRels = null, $mediaRels = null, $relId = 1)
+    protected function writeRels(XMLWriter $xmlWriter, $xmlRels = array(), $mediaRels = array(), $relId = 1)
     {
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('Relationships');
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
 
         // XML files relationships
-        if (is_array($xmlRels)) {
-            foreach ($xmlRels as $target => $type) {
-                $this->writeRel($xmlWriter, $relId++, $type, $target);
-            }
+        foreach ($xmlRels as $target => $type) {
+            $this->writeRel($xmlWriter, $relId++, $type, $target);
         }
 
         // Media relationships
-        if (is_array($mediaRels)) {
-            $typePrefix = 'officeDocument/2006/relationships/';
-            $typeMapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
-            $targetPaths = array('image' => 'media/', 'object' => 'embeddings/');
-
-            foreach ($mediaRels as $mediaRel) {
-                $mediaType = $mediaRel['type'];
-                $type = array_key_exists($mediaType, $typeMapping) ? $typeMapping[$mediaType] : $mediaType;
-                $target = array_key_exists($mediaType, $targetPaths) ? $targetPaths[$mediaType] : '';
-                $target .= $mediaRel['target'];
-                $targetMode = ($type == 'hyperlink') ? 'External' : '';
-
-                $this->writeRel($xmlWriter, $relId++, $typePrefix . $type, $target, $targetMode);
-            }
+        foreach ($mediaRels as $mediaRel) {
+            $this->writeMediaRel($xmlWriter, $relId++, $mediaRel);
         }
 
         $xmlWriter->endElement(); // Relationships
+    }
+
+    /**
+     * Write media relationships
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param int $relId
+     * @param array $mediaRel
+     */
+    private function writeMediaRel(XMLWriter $xmlWriter, $relId, $mediaRel)
+    {
+        $typePrefix = 'officeDocument/2006/relationships/';
+        $typeMapping = array('image' => 'image', 'object' => 'oleObject', 'link' => 'hyperlink');
+        $targetMapping = array('image' => 'media/', 'object' => 'embeddings/');
+
+        $mediaType = $mediaRel['type'];
+        $type = array_key_exists($mediaType, $typeMapping) ? $typeMapping[$mediaType] : $mediaType;
+        $targetPrefix = array_key_exists($mediaType, $targetMapping) ? $targetMapping[$mediaType] : '';
+        $target = $mediaRel['target'];
+        $targetMode = ($type == 'hyperlink') ? 'External' : '';
+
+        $this->writeRel($xmlWriter, $relId, $typePrefix . $type, $targetPrefix . $target, $targetMode);
     }
 
     /**

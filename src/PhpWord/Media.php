@@ -139,37 +139,53 @@ class Media
      * Get media elements
      *
      * @param string $container section|headerx|footerx|footnote|endnote
-     * @param string $mediaType image|object|link
+     * @param string $type image|object|link
      * @return array
      * @since 0.10.0
      */
-    public static function getElements($container, $mediaType = null)
+    public static function getElements($container, $type = null)
     {
-        $mediaElements = array();
+        $elements = array();
 
         // If header/footer, search for headerx and footerx where x is number
         if ($container == 'header' || $container == 'footer') {
             foreach (self::$elements as $key => $val) {
                 if (substr($key, 0, 6) == $container) {
-                    $mediaElements[$key] = $val;
+                    $elements[$key] = $val;
                 }
             }
+            return $elements;
         } else {
             if (!array_key_exists($container, self::$elements)) {
-                return $mediaElements;
+                return $elements;
             }
-            foreach (self::$elements[$container] as $mediaKey => $mediaData) {
-                if (!is_null($mediaType)) {
-                    if ($mediaType == $mediaData['type']) {
-                        $mediaElements[$mediaKey] = $mediaData;
-                    }
-                } else {
-                    $mediaElements[$mediaKey] = $mediaData;
+            return self::getElementsByType($container, $type);
+        }
+    }
+
+    /**
+     * Get elements by media type
+     *
+     * @param string $container section|footnote|endnote
+     * @param string $type image|object|link
+     * @return array
+     * @since 0.11.0 Splitted from `getElements` to reduce complexity
+     */
+    private static function getElementsByType($container, $type = null)
+    {
+        $elements = array();
+
+        foreach (self::$elements[$container] as $key => $data) {
+            if ($type !== null) {
+                if ($type == $data['type']) {
+                    $elements[$key] = $data;
                 }
+            } else {
+                $elements[$key] = $data;
             }
         }
 
-        return $mediaElements;
+        return $elements;
     }
 
     /**
