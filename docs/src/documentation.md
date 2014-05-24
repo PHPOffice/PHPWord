@@ -40,6 +40,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [RTF](#rtf)
     - [HTML](#html)
     - [PDF](#pdf)
+- [Recipes](#recipes)
 - [Frequently asked questions](#frequently-asked-questions)
 - [References](#references)
 
@@ -928,6 +929,44 @@ To be completed.
 ## PDF
 
 To be completed.
+
+# Recipes
+
+## Create float left image
+
+Use absolute positioning relative to margin horizontally and to line vertically.
+
+```php
+$imageStyle = array(
+    'width' => 40,
+    'height' => 40
+    'wrappingStyle' => 'square',
+    'positioning' => 'absolute',
+    'posHorizontalRel' => 'margin',
+    'posVerticalRel' => 'line',
+);
+$textrun->addImage('resources/_earth.jpg', $imageStyle);
+$textrun->addText($lipsumText);
+```
+
+## Download the produced file automatically
+
+Use `php://output` as the filename.
+
+```php
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$section = $phpWord->createSection();
+$section->addText('Hello World!');
+$file = 'HelloWorld.docx';
+header("Content-Description: File Transfer");
+header('Content-Disposition: attachment; filename="' . $file . '"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+header('Content-Transfer-Encoding: binary');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Expires: 0');
+$xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+$xmlWriter->save("php://output");
+```
 
 # Frequently asked questions
 
