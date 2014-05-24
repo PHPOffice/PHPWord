@@ -344,7 +344,7 @@ class Settings
         // Parse config file
         $config = array();
         if ($configFile !== null) {
-            $config = parse_ini_file($configFile);
+            $config = @parse_ini_file($configFile);
             if ($config === false) {
                 return $config;
             }

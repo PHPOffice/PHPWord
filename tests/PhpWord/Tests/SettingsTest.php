@@ -111,6 +111,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../../phpword.ini.dist'));
 
         // Test with invalid file
-        $this->assertEmpty(Settings::loadConfig(__DIR__ . '/files/xsl/passthrough.xsl'));
+        $this->assertEmpty(Settings::loadConfig(__DIR__ . '/../../../phpunit.xml.dist'));
     }
 }

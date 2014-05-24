@@ -312,9 +312,13 @@ class Image extends AbstractElement
         } else {
             $actualSource = $source;
         }
-        if ($actualSource === null) {
-            return null;
-        }
+
+        // Can't find any case where $actualSource = null hasn't captured by
+        // preceding exceptions. Please uncomment when you find the case and
+        // put the case into Element\ImageTest.
+        // if ($actualSource === null) {
+        //     return null;
+        // }
 
         // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {

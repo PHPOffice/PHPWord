@@ -38,6 +38,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($oImage->getSource(), $src);
         $this->assertEquals($oImage->getMediaId(), md5($src));
         $this->assertEquals($oImage->isWatermark(), false);
+        $this->assertEquals($oImage->getSourceType(), Image::SOURCE_LOCAL);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
