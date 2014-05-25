@@ -15,20 +15,20 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML\Element;
+namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
-use PhpOffice\PhpWord\Writer\HTML\Style\Image as ImageStyleWriter;
+use PhpOffice\PhpWord\Shared\Font;
 
 /**
- * Image element HTML writer
+ * Image element RTF writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Image extends Text
+class Image extends AbstractElement
 {
     /**
-     * Write image
+     * Write element
      *
      * @return string
      */
@@ -37,22 +37,20 @@ class Image extends Text
         if (!$this->element instanceof ImageElement) {
             return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
-        $parentWriter = $this->parentWriter;
+
+        $this->getStyles();
+        $style = $this->element->getStyle();
 
         $content = '';
-        if (!$parentWriter->isPdf()) {
-            $imageData = $this->element->getImageStringData(true);
-            if ($imageData !== null) {
-                $styleWriter = new ImageStyleWriter($this->element->getStyle());
-                $style = $styleWriter->write();
-                $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
-
-                $content .= $this->writeOpening();
-                $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
-                $content .= $this->writeClosing();
-            }
-        }
+        $content .= $this->writeOpening();
+        $content .= '{\*\shppict {\pict';
+        $content .= '\pngblip\picscalex100\picscaley100';
+        $content .= '\picwgoal' . round(Font::pixelSizeToTwips($style->getWidth()));
+        $content .= '\pichgoal' . round(Font::pixelSizeToTwips($style->getHeight()));
+        $content .= PHP_EOL;
+        $content .= $this->element->getImageStringData();
+        $content .= '}}';
+        $content .= $this->writeClosing();
 
         return $content;
     }

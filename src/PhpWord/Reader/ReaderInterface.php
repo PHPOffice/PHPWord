@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader;
 
 /**
  * Reader interface
+ *
+ * @since 0.8.0
  */
 interface ReaderInterface
 {

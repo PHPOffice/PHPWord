@@ -15,14 +15,15 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Part;
+namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Word2007 writer part abstract class
+ * Abstract HTML part writer
+ *
+ * @since 0.11.0
  */
 abstract class AbstractPart
 {
@@ -31,12 +32,7 @@ abstract class AbstractPart
      *
      * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
-    protected $parentWriter;
-
-    /**
-     * @var string Date format
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:sP';
+    private $parentWriter;
 
     /**
      * Write part
@@ -63,30 +59,10 @@ abstract class AbstractPart
      */
     public function getParentWriter()
     {
-        if (!is_null($this->parentWriter)) {
+        if ($this->parentWriter !== null) {
             return $this->parentWriter;
         } else {
             throw new Exception('No parent WriterInterface assigned.');
-        }
-    }
-
-    /**
-     * Get XML Writer
-     *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
-     */
-    protected function getXmlWriter()
-    {
-        $useDiskCaching = false;
-        if (!is_null($this->parentWriter)) {
-            if ($this->parentWriter->isUseDiskCaching()) {
-                $useDiskCaching = true;
-            }
-        }
-        if ($useDiskCaching) {
-            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory());
-        } else {
-            return new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
     }
 }

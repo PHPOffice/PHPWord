@@ -74,6 +74,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
             'cellMarginLeft' => 240,
             'cellMarginRight' => 240,
             'cellMarginBottom' => 240,
+            'align' => 'center',
+            'width' => 100,
+            'unit' => 'pct',
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
@@ -146,6 +149,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
         }
         $this->assertEquals($values, $object->getCellMargin());
+        $this->assertTrue($object->hasMargin());
     }
 
     /**

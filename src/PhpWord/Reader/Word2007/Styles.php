@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Styles reader
+ *
+ * @since 0.10.0
  */
 class Styles extends AbstractPart
 {

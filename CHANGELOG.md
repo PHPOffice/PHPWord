@@ -26,6 +26,10 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - PDF Writer: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
 - ODT Writer: Enable title element and custom document properties - @ivanlanin
 - ODT Reader: Ability to read standard and custom document properties - @ivanlanin
+- Word2007 Writer: Enable the missing custom document properties writer - @ivanlanin
+- Image: Enable "image float left" - @ivanlanin GH-244
+- RTF Writer: Ability to write document properties - @ivanlanin
+- RTF Writer: Ability to write image - @ivanlanin
 
 ### Bugfixes
 
@@ -39,6 +43,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
 - `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
 - `Element\Title::getBookmarkId()` replaced by `Element\Title::getRelationId()`
+- `Writer\HTML::writeDocument`: Replaced by `Writer\HTML::getContent`
 
 ### Miscellaneous
 
@@ -53,6 +58,12 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - Docs: Show code quality and test code coverage badge on README
 - Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
 - Shared: Unify PHP ZipArchive and PCLZip features into PhpWord ZipArchive - @ivanlanin
+
+## 0.10.1 - 21 May 2014
+
+This is a bugfix release for `php-zip` requirement in Composer.
+
+- Change Composer requirements for php-zip from `require` to `suggest` - @bskrtich GH-246
 
 ## 0.10.0 - 4 May 2014
 

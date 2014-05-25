@@ -40,6 +40,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [RTF](#rtf)
     - [HTML](#html)
     - [PDF](#pdf)
+- [Recipes](#recipes)
 - [Frequently asked questions](#frequently-asked-questions)
 - [References](#references)
 
@@ -47,7 +48,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), and [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF).
 
-PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/LICENSE.md). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
+PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
 ## Features
 
@@ -78,7 +79,7 @@ Below are the supported features for each file formats.
 
 | Features                |                    | DOCX | ODT | RTF | HTML | PDF |
 |-------------------------|--------------------|------|-----|-----|------|-----|
-| **Document Properties** | Standard           | ✓    | ✓   |     |      |     |
+| **Document Properties** | Standard           | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Custom             | ✓    | ✓   |     |      |     |
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
@@ -89,7 +90,7 @@ Below are the supported features for each file formats.
 |                         | Page Break         | ✓    |     |  ✓  |      |     |
 |                         | List               | ✓    |     |     |      |     |
 |                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
-|                         | Image              | ✓    | ✓   |     | ✓    |     |
+|                         | Image              | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Object             | ✓    |     |     |      |     |
 |                         | Watermark          | ✓    |     |     |      |     |
 |                         | Table of Contents  | ✓    |     |     |      |     |
@@ -928,6 +929,44 @@ To be completed.
 ## PDF
 
 To be completed.
+
+# Recipes
+
+## Create float left image
+
+Use absolute positioning relative to margin horizontally and to line vertically.
+
+```php
+$imageStyle = array(
+    'width' => 40,
+    'height' => 40
+    'wrappingStyle' => 'square',
+    'positioning' => 'absolute',
+    'posHorizontalRel' => 'margin',
+    'posVerticalRel' => 'line',
+);
+$textrun->addImage('resources/_earth.jpg', $imageStyle);
+$textrun->addText($lipsumText);
+```
+
+## Download the produced file automatically
+
+Use `php://output` as the filename.
+
+```php
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$section = $phpWord->createSection();
+$section->addText('Hello World!');
+$file = 'HelloWorld.docx';
+header("Content-Description: File Transfer");
+header('Content-Disposition: attachment; filename="' . $file . '"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+header('Content-Transfer-Encoding: binary');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Expires: 0');
+$xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+$xmlWriter->save("php://output");
+```
 
 # Frequently asked questions
 

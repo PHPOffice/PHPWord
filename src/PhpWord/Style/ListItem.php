@@ -65,7 +65,7 @@ class ListItem extends AbstractStyle
      */
     public function __construct($numStyle = null)
     {
-        if (!is_null($numStyle)) {
+        if ($numStyle !== null) {
             $this->setNumStyle($numStyle);
         } else {
             $this->setListType();
@@ -149,7 +149,7 @@ class ListItem extends AbstractStyle
     {
         // Check if legacy style already registered in global Style collection
         $numStyle = "PHPWordList{$this->listType}";
-        if (!is_null(Style::getStyle($numStyle))) {
+        if (Style::getStyle($numStyle) !== null) {
             $this->setNumStyle($numStyle);
             return;
         }

@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Core properties reader
+ *
+ * @since 0.10.0
  */
 class DocPropsCore extends AbstractPart
 {

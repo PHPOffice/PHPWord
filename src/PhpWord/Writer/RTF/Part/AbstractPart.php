@@ -15,16 +15,15 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Reader\ODText;
+namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
-use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
+use PhpOffice\PhpWord\Writer\HTML\Part\AbstractPart as HTMLAbstractPart;
 
 /**
- * Abstract part reader
+ * Abstract RTF part writer
  *
- * @since 0.10.0
- * @codeCoverageIgnore Nothing in here yet
+ * @since 0.11.0
  */
-abstract class AbstractPart extends Word2007AbstractPart
+abstract class AbstractPart extends HTMLAbstractPart
 {
 }

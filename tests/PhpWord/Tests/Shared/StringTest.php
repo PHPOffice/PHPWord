@@ -54,4 +54,14 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', String::controlCharacterPHP2OOXML(''));
         $this->assertEquals('_x0008_', String::controlCharacterPHP2OOXML(chr(0x08)));
     }
+
+    /**
+     * Test unicode conversion
+     */
+    public function testToUnicode()
+    {
+        $this->assertEquals('a', String::toUnicode('a'));
+        $this->assertEquals('\uc0{\u8364}', String::toUnicode('€'));
+        $this->assertEquals('\uc0{\u233}', String::toUnicode('é'));
+    }
 }

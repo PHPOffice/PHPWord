@@ -28,7 +28,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyStyles()
     {
-        $styles = array('Font', 'Paragraph');
+        $styles = array('Font', 'Paragraph', 'Image', 'Section', 'Table');
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $style;
             $xmlWriter = new XMLWriter();

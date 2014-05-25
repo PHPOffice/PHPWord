@@ -54,7 +54,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
         $pdf->setPrintFooter(false);
         $pdf->addPage();
         $pdf->setFont($this->getFont());
-        $pdf->writeHTML($this->writeDocument());
+        $pdf->writeHTML($this->getContent());
 
         // Write document properties
         $phpWord = $this->getPhpWord();

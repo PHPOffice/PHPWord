@@ -74,6 +74,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
+            $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", '');

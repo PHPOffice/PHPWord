@@ -58,11 +58,6 @@ class XMLWriter
      */
     public function __construct($tempLocation = self::STORAGE_MEMORY, $tempFolder = './')
     {
-        // Define date format
-        if (!defined('DATE_W3C')) {
-            define('DATE_W3C', 'Y-m-d\TH:i:sP');
-        }
-
         // Create internal XMLWriter
         $this->xmlWriter = new \XMLWriter();
 
@@ -73,9 +68,8 @@ class XMLWriter
             // Create temporary filename
             $this->tempFile = @tempnam($tempFolder, 'xml');
 
-            // Open storage
+            // Fallback to memory when temporary file cannot be used
             if ($this->xmlWriter->openUri($this->tempFile) === false) {
-                // Fallback to memory...
                 $this->xmlWriter->openMemory();
             }
         }
@@ -110,9 +104,16 @@ class XMLWriter
      *
      * @param mixed $function
      * @param mixed $args
+     * @throws \BadMethodCallException
      */
     public function __call($function, $args)
     {
+        // Catch exception
+        if (method_exists($this->xmlWriter, $function) === false) {
+            throw new \BadMethodCallException("Method '{$function}' does not exists.");
+        }
+
+        // Run method
         try {
             @call_user_func_array(array($this->xmlWriter, $function), $args);
         } catch (\Exception $ex) {

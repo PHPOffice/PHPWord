@@ -97,6 +97,20 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get null style value
+     */
+    public function testGetNullStyleValue()
+    {
+        $object = new Paragraph();
+
+        $attributes = array('spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter');
+        foreach ($attributes as $key) {
+            $get = "get{$key}";
+            $this->assertNull($object->$get());
+        }
+    }
+
+    /**
      * Test tabs
      */
     public function testTabs()

@@ -24,6 +24,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  * Abstract part reader
  *
  * This class is inherited by ODText reader
+ *
+ * @since 0.10.0
  */
 abstract class AbstractPart
 {
@@ -96,7 +98,7 @@ abstract class AbstractPart
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
     {
         // Paragraph style
         $paragraphStyle = null;
@@ -246,7 +248,7 @@ abstract class AbstractPart
      * @param mixed $parent
      * @param string $docPart
      */
-    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
     {
         // Table style
         $tblStyle = null;
@@ -451,22 +453,39 @@ abstract class AbstractPart
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
                 $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
-                // Assign style value based on conversion model
-                if ($method == self::READ_VALUE) {
-                    $styles[$styleProp] = $attributeValue;
-                } elseif ($method == self::READ_SIZE) {
-                    $styles[$styleProp] = $attributeValue / 2;
-                } elseif ($method == self::READ_TRUE) {
-                    $styles[$styleProp] = true;
-                } elseif ($method == self::READ_FALSE) {
-                    $styles[$styleProp] = false;
-                } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
-                    $styles[$styleProp] = true;
+                $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
+                if ($styleValue !== null) {
+                    $styles[$styleProp] = $styleValue;
                 }
             }
         }
 
         return $styles;
+    }
+
+    /**
+     * Return style definition based on conversion method
+     *
+     * @param string $method
+     * @param mixed $attributeValue
+     * @param mixed $expected
+     * @return mixed
+     */
+    private function readStyleDef($method, $attributeValue, $expected)
+    {
+        $style = $attributeValue;
+
+        if ($method == self::READ_SIZE) {
+            $style = $attributeValue / 2;
+        } elseif ($method == self::READ_TRUE) {
+            $style = true;
+        } elseif ($method == self::READ_FALSE) {
+            $style = false;
+        } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
+            $style = true;
+        }
+
+        return $style;
     }
 
     /**

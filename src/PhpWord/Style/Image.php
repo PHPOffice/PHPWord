@@ -61,6 +61,7 @@ class Image extends AbstractStyle
     const POSITION_RELATIVE_TO_PAGE = 'page';
     const POSITION_RELATIVE_TO_COLUMN = 'column'; // horizontal only
     const POSITION_RELATIVE_TO_CHAR = 'char'; // horizontal only
+    const POSITION_RELATIVE_TO_TEXT = 'text'; // vertical only
     const POSITION_RELATIVE_TO_LINE = 'line'; // vertical only
     const POSITION_RELATIVE_TO_LMARGIN = 'left-margin-area'; // horizontal only
     const POSITION_RELATIVE_TO_RMARGIN = 'right-margin-area'; // horizontal only
@@ -103,14 +104,14 @@ class Image extends AbstractStyle
      *
      * @var int
      */
-    private $marginTop;
+    private $marginTop = 0;
 
     /**
      * Margin Left
      *
      * @var int
      */
-    private $marginLeft;
+    private $marginLeft = 0;
 
     /**
      * Wrapping style
@@ -247,9 +248,9 @@ class Image extends AbstractStyle
      * @param int $value
      * @return self
      */
-    public function setMarginTop($value = null)
+    public function setMarginTop($value = 0)
     {
-        $this->marginTop = $value;
+        $this->marginTop = $this->setIntVal($value, 0);
 
         return $this;
     }
@@ -270,9 +271,9 @@ class Image extends AbstractStyle
      * @param int $value
      * @return self
      */
-    public function setMarginLeft($value = null)
+    public function setMarginLeft($value = 0)
     {
-        $this->marginLeft = $value;
+        $this->marginLeft = $this->setIntVal($value, 0);
 
         return $this;
     }
@@ -352,7 +353,7 @@ class Image extends AbstractStyle
     {
         $enum = array(
             self::POSITION_HORIZONTAL_LEFT, self::POSITION_HORIZONTAL_CENTER,
-            self::POSITION_HORIZONTAL_RIGHT,
+            self::POSITION_HORIZONTAL_RIGHT, self::POSITION_ABSOLUTE
         );
         $this->posHorizontal = $this->setEnumVal($alignment, $enum, $this->posHorizontal);
 
@@ -381,7 +382,7 @@ class Image extends AbstractStyle
         $enum = array(
             self::POSITION_VERTICAL_TOP, self::POSITION_VERTICAL_CENTER,
             self::POSITION_VERTICAL_BOTTOM, self::POSITION_VERTICAL_INSIDE,
-            self::POSITION_VERTICAL_OUTSIDE,
+            self::POSITION_VERTICAL_OUTSIDE, self::POSITION_ABSOLUTE
         );
         $this->posVertical = $this->setEnumVal($alignment, $enum, $this->posVertical);
 
@@ -439,7 +440,7 @@ class Image extends AbstractStyle
     {
         $enum = array(
             self::POSITION_RELATIVE_TO_MARGIN, self::POSITION_RELATIVE_TO_PAGE,
-            self::POSITION_RELATIVE_TO_LINE,
+            self::POSITION_RELATIVE_TO_TEXT, self::POSITION_RELATIVE_TO_LINE,
             self::POSITION_RELATIVE_TO_TMARGIN, self::POSITION_RELATIVE_TO_BMARGIN,
             self::POSITION_RELATIVE_TO_IMARGIN, self::POSITION_RELATIVE_TO_OMARGIN,
         );

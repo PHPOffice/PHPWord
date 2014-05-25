@@ -45,6 +45,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, self::callProtectedMethod($stub, 'setBoolVal', array(true, false)));
         $this->assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', array(12, 200)));
         $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array(871.1, 2.1)));
+        $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array('871.1', 2.1)));
         $this->assertEquals('a', self::callProtectedMethod($stub, 'setEnumVal', array('a', array('a', 'b'), 'b')));
     }
 

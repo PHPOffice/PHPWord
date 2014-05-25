@@ -88,12 +88,26 @@ class String
     /**
      * Returns unicode from UTF8 text
      *
+     * The function is splitted to reduce cyclomatic complexity
+     *
      * @param string $text UTF8 text
      * @return string Unicode text
      * @since 0.11.0
-     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
      */
     public static function toUnicode($text)
+    {
+        return self::unicodeToEntities(self::utf8ToUnicode($text));
+    }
+
+    /**
+     * Returns unicode array from UTF8 text
+     *
+     * @param string $text UTF8 text
+     * @return array
+     * @since 0.11.0
+     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     */
+    private static function utf8ToUnicode($text)
     {
         $unicode = array();
         $values = array();
@@ -122,8 +136,21 @@ class String
             }
         }
 
-        // Converts text with utf8 characters into rtf utf8 entites preserving ascii
+        return $unicode;
+    }
+
+    /**
+     * Returns entites from unicode array
+     *
+     * @param array $unicode
+     * @return string
+     * @since 0.11.0
+     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     */
+    private static function unicodeToEntities($unicode)
+    {
         $entities = '';
+
         foreach ($unicode as $value) {
             if ($value != 65279) {
                 $entities .= $value > 127 ? '\uc0{\u' . $value . '}' : chr($value);

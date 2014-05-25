@@ -20,11 +20,12 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Line numbering style
  *
- * @link http://www.schemacentral.com/sc/ooxml/e-w_lnNumType-1.html
+ * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_LineNumber.html
  * @since 0.10.0
  */
 class LineNumbering extends AbstractStyle
 {
+    /** @const string Line numbering restart setting http://www.schemacentral.com/sc/ooxml/a-w_restart-1.html */
     const LINE_NUMBERING_CONTINUOUS  = 'continuous';
     const LINE_NUMBERING_NEW_PAGE    = 'newPage';
     const LINE_NUMBERING_NEW_SECTION = 'newSection';

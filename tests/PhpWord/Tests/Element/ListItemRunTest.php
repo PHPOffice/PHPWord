@@ -52,6 +52,17 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * New instance with string
+     */
+    public function testConstructListString()
+    {
+        $oListItemRun = new ListItemRun(0, 'numberingStyle');
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
+        $this->assertCount(0, $oListItemRun->getElements());
+    }
+
+    /**
      * New instance with array
      */
     public function testConstructArray()

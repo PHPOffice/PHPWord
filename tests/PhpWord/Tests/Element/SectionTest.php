@@ -73,7 +73,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'landscape';
         $object = new Section(0);
-        $object->setSettings(array('orientation' => $expected));
+        $object->setSettings(array('orientation' => $expected, 'foo' => null));
         $this->assertEquals($expected, $object->getSettings()->getOrientation());
     }
 

@@ -169,7 +169,7 @@ class Table extends Border
      */
     public function getBgColor()
     {
-        if (!is_null($this->shading)) {
+        if ($this->shading !== null) {
             return $this->shading->getFill();
         }
 
@@ -192,7 +192,7 @@ class Table extends Border
     /**
      * Get TLRBHV Border Size
      *
-     * @return int[]
+     * @return integer[]
      */
     public function getBorderSize()
     {

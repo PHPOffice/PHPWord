@@ -15,16 +15,26 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Reader\ODText;
+namespace PhpOffice\PhpWord\Tests\Shared;
 
-use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Abstract part reader
- *
- * @since 0.10.0
- * @codeCoverageIgnore Nothing in here yet
+ * Test class for PhpOffice\PhpWord\Shared\XMLWriter
  */
-abstract class AbstractPart extends Word2007AbstractPart
+class XMLWriterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test method exception
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Method 'foo' does not exists.
+     */
+    public function testCallException()
+    {
+        Settings::setCompatibility(false);
+        $object = new XMLWriter();
+        $object->foo();
+    }
 }

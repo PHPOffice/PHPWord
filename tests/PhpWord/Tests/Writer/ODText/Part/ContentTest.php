@@ -50,8 +50,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
-        $section = $phpWord->addSection();
+        $section = $phpWord->addSection(array('colsNum' => 2));
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
@@ -60,14 +61,14 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addListItem('Test list item');
-        $section->addImage($imageSrc);
+        $section->addImage($imageSrc, array('width' => 50));
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
 
-        $table = $section->addTable();
+        $table = $section->addTable(array('width' => 50));
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
         $cell->addText('Test');
@@ -81,6 +82,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}');
+
+        $table = $section->addTable('tblStyle')->addRow()->addCell();
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 

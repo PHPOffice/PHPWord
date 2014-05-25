@@ -65,16 +65,11 @@ class Image extends AbstractStyle
         // Absolute/relative positioning
         $positioning = $style->getPositioning();
         $styleArray['position'] = $positioning;
-        if ($positioning == ImageStyle::POSITION_ABSOLUTE) {
-            $styleArray['mso-position-horizontal-relative'] = 'page';
-            $styleArray['mso-position-vertical-relative'] = 'page';
-        } elseif ($positioning == ImageStyle::POSITION_RELATIVE) {
+        if ($positioning !== null) {
             $styleArray['mso-position-horizontal'] = $style->getPosHorizontal();
             $styleArray['mso-position-vertical'] = $style->getPosVertical();
             $styleArray['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
             $styleArray['mso-position-vertical-relative'] = $style->getPosVerticalRel();
-            $styleArray['margin-left'] = 0;
-            $styleArray['margin-top'] = 0;
         }
 
         // Wrapping style

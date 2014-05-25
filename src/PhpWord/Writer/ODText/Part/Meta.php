@@ -53,12 +53,12 @@ class Meta extends AbstractPart
         $xmlWriter->writeElement('dc:subject', $docProps->getSubject());
         $xmlWriter->writeElement('dc:description', $docProps->getDescription());
         $xmlWriter->writeElement('dc:creator', $docProps->getLastModifiedBy());
-        $xmlWriter->writeElement('dc:date', gmdate('Y-m-d\TH:i:s.000', $docProps->getModified()));
+        $xmlWriter->writeElement('dc:date', gmdate($this->dateFormat, $docProps->getModified()));
 
         // Extended properties
         $xmlWriter->writeElement('meta:generator', 'PHPWord');
         $xmlWriter->writeElement('meta:initial-creator', $docProps->getCreator());
-        $xmlWriter->writeElement('meta:creation-date', gmdate('Y-m-d\TH:i:s.000', $docProps->getCreated()));
+        $xmlWriter->writeElement('meta:creation-date', gmdate($this->dateFormat, $docProps->getCreated()));
         $xmlWriter->writeElement('meta:keyword', $docProps->getKeywords());
 
         // Category, company, and manager are put in meta namespace

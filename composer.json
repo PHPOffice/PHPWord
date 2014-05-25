@@ -44,11 +44,11 @@
         "mpdf/mpdf": "5.*"
     },
     "suggest": {
-        "ext-zip": "Used to create docx files",
-        "ext-gd2": "Required to add images",
-        "ext-xmlwriter": "Required to write DOCX and ODT",
-        "ext-xsl": "Required to apply XSL style sheet to template part",
-        "dompdf/dompdf": "Required to write PDF"
+        "ext-zip": "Used to write DOCX and ODT",
+        "ext-gd2": "Used to add images",
+        "ext-xmlwriter": "Used to write DOCX and ODT",
+        "ext-xsl": "Used to apply XSL style sheet to template part",
+        "dompdf/dompdf": "Used to write PDF"
     },
     "autoload": {
         "psr-4": {

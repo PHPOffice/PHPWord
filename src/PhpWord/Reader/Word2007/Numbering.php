@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Numbering reader
+ *
+ * @since 0.10.0
  */
 class Numbering extends AbstractPart
 {
