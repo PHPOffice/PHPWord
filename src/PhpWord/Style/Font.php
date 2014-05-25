@@ -540,7 +540,7 @@ class Font extends AbstractStyle
      */
     public function getBgColor()
     {
-        if (!is_null($this->shading)) {
+        if ($this->shading !== null) {
             return $this->shading->getFill();
         } else {
             return null;

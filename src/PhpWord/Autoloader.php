@@ -22,6 +22,7 @@ namespace PhpOffice\PhpWord;
  */
 class Autoloader
 {
+    /** @const string */
     const NAMESPACE_PREFIX = 'PhpOffice\\PhpWord\\';
 
     /**

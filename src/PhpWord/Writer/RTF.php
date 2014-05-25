@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -56,29 +55,34 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save PhpWord to file
+     * Save content to file
      *
      * @param string $filename
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
     {
-        $content = '';
-        $filename = $this->getTempFile($filename);
-        $hFile = fopen($filename, 'w');
-        if ($hFile !== false) {
-            $content .= '{';
-            $content .= '\rtf1' . PHP_EOL;
-            $content .= $this->getWriterPart('Header')->write();
-            $content .= $this->getWriterPart('Document')->write();
-            $content .= '}';
+        $fileHandle = $this->openFile($filename);
+        $this->writeFile($fileHandle, $this->getContent());
+    }
 
-            fwrite($hFile, $content);
-            fclose($hFile);
-        } else {
-            throw new Exception("Can't open file");
-        }
-        $this->cleanupTempFile();
+    /**
+     * Get content
+     *
+     * @return string
+     * @since 0.11.0
+     */
+    private function getContent()
+    {
+        $content = '';
+
+        $content .= '{';
+        $content .= '\rtf1' . PHP_EOL;
+        $content .= $this->getWriterPart('Header')->write();
+        $content .= $this->getWriterPart('Document')->write();
+        $content .= '}';
+
+        return $content;
     }
 
     /**

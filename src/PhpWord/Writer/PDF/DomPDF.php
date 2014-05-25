@@ -50,7 +50,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         //  Create PDF
         $pdf = new \DOMPDF();
         $pdf->set_paper(strtolower($paperSize), $orientation);
-        $pdf->load_html($this->writeDocument());
+        $pdf->load_html($this->getContent());
         $pdf->render();
 
         //  Write to file

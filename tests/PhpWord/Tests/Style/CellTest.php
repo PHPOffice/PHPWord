@@ -52,7 +52,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
+
+            $this->assertNull($object->$get()); // Init with null value
+
             $object->$set($value);
+
             $this->assertEquals($value, $object->$get());
         }
     }

@@ -258,7 +258,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param string $filename
      * @return \PhpOffice\PhpWord\Shared\ZipArchive
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws \Exception
      */
     protected function getZipArchive($filename)
     {
@@ -271,11 +271,44 @@ abstract class AbstractWriter implements WriterInterface
         $zip = new ZipArchive();
         if ($zip->open($filename, ZipArchive::OVERWRITE) !== true) {
             if ($zip->open($filename, ZipArchive::CREATE) !== true) {
-                throw new Exception("Could not open " . $filename . " for writing.");
+                throw new \Exception("Could not open '{$filename}' for writing.");
             }
         }
 
         return $zip;
+    }
+
+    /**
+     * Open file for writing
+     *
+     * @param string $filename
+     * @return resource
+     * @throws \Exception
+     * @since 0.11.0
+     */
+    protected function openFile($filename)
+    {
+        $filename = $this->getTempFile($filename);
+        $fileHandle = fopen($filename, 'w');
+        if ($fileHandle === false) {
+            throw new \Exception("Could not open '{$filename}' for writing.");
+        }
+
+        return $fileHandle;
+    }
+
+    /**
+     * Write content to file
+     *
+     * @param resource $fileHandle
+     * @param string $content
+     * @since 0.11.0
+     */
+    protected function writeFile(&$fileHandle, $content)
+    {
+        fwrite($fileHandle, $content);
+        fclose($fileHandle);
+        $this->cleanupTempFile();
     }
 
     /**

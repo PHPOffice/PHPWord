@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord;
  */
 class DocumentProperties
 {
-    /** Constants */
+    /** @const string Property type constants */
     const PROPERTY_TYPE_BOOLEAN = 'b';
     const PROPERTY_TYPE_INTEGER = 'i';
     const PROPERTY_TYPE_FLOAT = 'f';

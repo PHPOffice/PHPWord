@@ -61,7 +61,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $pdf->setKeywords($docProps->getKeywords());
         $pdf->setCreator($docProps->getCreator());
 
-        $pdf->writeHTML($this->writeDocument());
+        $pdf->writeHTML($this->getContent());
 
         //  Write to file
         fwrite($fileHandle, $pdf->output($filename, 'S'));
