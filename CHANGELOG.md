@@ -36,6 +36,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - Header: All images added to the second header were assigned to the first header - @basjan GH-222
 - Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan GH-233 GH-234
 - PageBreak: Page break adds new line in the beginning of the new page - @ivanlanin GH-150
+- Image: `marginLeft` and `marginTop` cannot accept float value - @ivanlanin GH-248
 
 ### Deprecated
 

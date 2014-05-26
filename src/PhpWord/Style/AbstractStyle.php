@@ -245,7 +245,7 @@ abstract class AbstractStyle
         if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
             $value = floatval($value);
         }
-        if (!is_float($value)) {
+        if (!is_numeric($value)) {
             $value = $default;
         }
 
