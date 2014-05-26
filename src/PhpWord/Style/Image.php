@@ -102,14 +102,14 @@ class Image extends AbstractStyle
     /**
      * Margin Top
      *
-     * @var int
+     * @var int|float
      */
     private $marginTop = 0;
 
     /**
      * Margin Left
      *
-     * @var int
+     * @var int|float
      */
     private $marginLeft = 0;
 
@@ -235,7 +235,7 @@ class Image extends AbstractStyle
     /**
      * Get margin top
      *
-     * @return int
+     * @return int|float
      */
     public function getMarginTop()
     {
@@ -245,12 +245,12 @@ class Image extends AbstractStyle
     /**
      * Set margin top
      *
-     * @param int $value
+     * @param int|float $value
      * @return self
      */
     public function setMarginTop($value = 0)
     {
-        $this->marginTop = $this->setIntVal($value, 0);
+        $this->marginTop = $this->setFloatVal($value, 0);
 
         return $this;
     }
@@ -258,7 +258,7 @@ class Image extends AbstractStyle
     /**
      * Get margin left
      *
-     * @return int
+     * @return int|float
      */
     public function getMarginLeft()
     {
@@ -268,12 +268,12 @@ class Image extends AbstractStyle
     /**
      * Set margin left
      *
-     * @param int $value
+     * @param int|float $value
      * @return self
      */
     public function setMarginLeft($value = 0)
     {
-        $this->marginLeft = $this->setIntVal($value, 0);
+        $this->marginLeft = $this->setFloatVal($value, 0);
 
         return $this;
     }
