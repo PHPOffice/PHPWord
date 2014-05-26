@@ -250,7 +250,7 @@ class Image extends AbstractStyle
      */
     public function setMarginTop($value = 0)
     {
-        $this->marginTop = $this->setFloatVal($value, 0);
+        $this->marginTop = $this->setNumericVal($value, 0);
 
         return $this;
     }
@@ -273,7 +273,7 @@ class Image extends AbstractStyle
      */
     public function setMarginLeft($value = 0)
     {
-        $this->marginLeft = $this->setFloatVal($value, 0);
+        $this->marginLeft = $this->setNumericVal($value, 0);
 
         return $this;
     }
