@@ -123,7 +123,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\fonttbl';
         foreach ($this->fontTable as $index => $font) {
-            $content .= "{\\f{$index}\\fnil\\fcharset0{$font};}";
+            $content .= "{\\f{$index}\\fnil\\fcharset0 {$font};}";
         }
         $content .= '}';
         $content .= PHP_EOL;
