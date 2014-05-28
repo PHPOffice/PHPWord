@@ -13,7 +13,7 @@ vertically.
 
     $imageStyle = array(
         'width' => 40,
-        'height' => 40
+        'height' => 40,
         'wrappingStyle' => 'square',
         'positioning' => 'absolute',
         'posHorizontalRel' => 'margin',
