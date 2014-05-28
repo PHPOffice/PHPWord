@@ -56,16 +56,28 @@ class XMLReader
 
         $zip = new ZipArchive();
         $zip->open($zipFile);
-        $contents = $zip->getFromName($xmlFile);
+        $content = $zip->getFromName($xmlFile);
         $zip->close();
 
-        if ($contents === false) {
+        if ($content === false) {
             return false;
         } else {
-            $this->dom = new \DOMDocument();
-            $this->dom->loadXML($contents);
-            return $this->dom;
+            return $this->getDomFromString($content);
         }
+    }
+
+    /**
+     * Get DOMDocument from content string
+     *
+     * @param string $content
+     * @return \DOMDocument
+     */
+    public function getDomFromString($content)
+    {
+        $this->dom = new \DOMDocument();
+        $this->dom->loadXML($content);
+
+        return $this->dom;
     }
 
     /**
