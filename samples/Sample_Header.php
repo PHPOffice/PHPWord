@@ -6,13 +6,13 @@ use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
 
-error_reporting(E_ALL & ~E_DEPRECATED);
+error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
-require_once '../src/PhpWord/Autoloader.php';
+require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
 Autoloader::register();
 Settings::loadConfig();
 
