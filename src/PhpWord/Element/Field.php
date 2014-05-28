@@ -128,7 +128,7 @@ class Field extends AbstractElement
     public function setProperties($properties = array())
     {
         if (is_array($properties)) {
-            foreach ($properties as $propkey => $propval) {
+            foreach (array_keys($properties) as $propkey) {
                 if (!(array_key_exists($propkey, $this->fieldsArray[$this->type]['properties']))) {
                         throw new \InvalidArgumentException("Invalid property");
                 }
@@ -157,7 +157,7 @@ class Field extends AbstractElement
     public function setOptions($options = array())
     {
         if (is_array($options)) {
-            foreach ($options as $optionkey => $optionval) {
+            foreach (array_keys($options) as $optionkey) {
                 if (!(array_key_exists($optionkey, $this->fieldsArray[$this->type]['options']))) {
                     throw new \InvalidArgumentException("Invalid option");
                 }
