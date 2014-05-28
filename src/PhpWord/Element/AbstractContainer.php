@@ -56,7 +56,7 @@ abstract class AbstractContainer extends AbstractElement
 
         // Get arguments
         $args = func_get_args();
-        $withoutP = in_array($this->container, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun'));
+        $withoutP = in_array($this->container, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun', 'Field'));
         if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
             $args[3] = null; // Remove paragraph style for texts in textrun
         }
@@ -147,14 +147,10 @@ abstract class AbstractContainer extends AbstractElement
      * Add field element
      * @param
      */
-    public function addField($type = null, $properties = array(), $options = array()){
-        //$this->checkValidity('Field');
-        $elementDocPart = $this->checkElementDocPart();
-        $element = new Field($type, $properties, $options);
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($element);
+    public function addField($type = null, $properties = array(), $options = array())
+    {
+        return $this->addElement('Field', $type, $properties, $options);
         
-        return $element;
     }
     
     /**
