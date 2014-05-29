@@ -117,7 +117,7 @@ class Line extends Image
      *
      * @return boolean
      */
-    public function getFlip()
+    public function isFlip()
     {
         return $this->flip;
     }

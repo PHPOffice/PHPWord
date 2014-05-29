@@ -124,13 +124,17 @@ class Line extends Image
                 $styles[$key] = $value . 'px';
             }
         }
-        if ($style->getFlip()) {
+        if ($style->isFlip()) {
             $styles['flip']='y';
         }
     
         return $styles;
     }
     
+    /**
+     * Write Line stroke
+     *
+     */
     public function writeStroke()
     {
         $style = $this->getStyle();
