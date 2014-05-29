@@ -35,7 +35,6 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $object = new Line();
 
         $properties = array(
-            'flip' => true,
             'connectorType' => \PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT,
             'beginArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
             'endArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
@@ -59,7 +58,6 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $object = new Line();
 
         $properties = array(
-           'flip' => true,
             'connectorType' => \PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT,
             'beginArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
             'endArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
@@ -82,7 +80,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $expected=true;
         $object = new Line();
         $object->setFlip($expected);
-        $this->assertEquals($expected, $object->getFlip());
+        $this->assertEquals($expected, $object->isFlip());
     }
 
     /**

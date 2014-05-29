@@ -41,14 +41,14 @@ class Line extends AbstractElement
         $style = $element->getStyle();
         $styleWriter = new LineStyleWriter($xmlWriter, $style);
         
-        $id=$element->getElementIndex();
+        $elementId=$element->getElementIndex();
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
-        if ($id==1) {  //shapetype could be defined for each line separately, but then a unique id would be necessary
+        if ($elementId==1) {  //shapetype could be defined for each line separately, but then a unique id would be necessary
             $xmlWriter->startElement('v:shapetype');
             $xmlWriter->writeAttribute('id', '_x0000_t32');
             $xmlWriter->writeAttribute('coordsize', '21600,21600');
@@ -68,7 +68,7 @@ class Line extends AbstractElement
             $xmlWriter->endElement(); // v:shapetype
         }
         $xmlWriter->startElement('v:shape');
-        $xmlWriter->writeAttribute('id', sprintf('_x0000_s1%1$03d', $id));
+        $xmlWriter->writeAttribute('id', sprintf('_x0000_s1%1$03d', $elementId));
         $xmlWriter->writeAttribute('type', '#_x0000_t32'); //type should correspond to shapetype id
         $styleWriter->write();
         $styleWriter->writeStroke();
