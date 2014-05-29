@@ -36,7 +36,7 @@ class Line extends Image
         if (!$style instanceof LineStyle) {
             return;
         }
-        $this->writeStyle($style);
+        $this->writeLineStyle($style);
     }
     
     /**
@@ -44,7 +44,7 @@ class Line extends Image
      * 
      * Copied function from Image/writeStyle in order to override getElementStyle
      */
-    protected function writeStyle(ImageStyle $style)
+    protected function writeLineStyle(LineStyle $style)
     {
         $xmlWriter = $this->getXmlWriter();
         
