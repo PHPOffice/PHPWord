@@ -88,7 +88,7 @@ Inline style examples:
     $textrun = $section->addTextRun();
     $textrun->addText('I am bold', array('bold' => true));
     $textrun->addText('I am italic', array('italic' => true));
-    $textrun->addText('I am colored, array('color' => 'AACC00'));
+    $textrun->addText('I am colored', array('color' => 'AACC00'));
 
 Defined style examples:
 

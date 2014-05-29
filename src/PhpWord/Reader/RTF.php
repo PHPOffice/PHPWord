@@ -15,25 +15,37 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Tests\Reader;
+namespace PhpOffice\PhpWord\Reader;
 
-use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Reader\RTF\Document;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\ODText
+ * RTF Reader class
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
- * @runTestsInSeparateProcesses
+ * @since 0.11.0
  */
-class ODTextTest extends \PHPUnit_Framework_TestCase
+class RTF extends AbstractReader implements ReaderInterface
 {
     /**
-     * Load
+     * Loads PhpWord from file
+     *
+     * @param string $docFile
+     * @throws \Exception
+     * @return \PhpOffice\PhpWord\PhpWord
      */
-    public function testLoad()
+    public function load($docFile)
     {
-        $filename = __DIR__ . '/../_files/documents/reader.odt';
-        $phpWord = IOFactory::load($filename, 'ODText');
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        $phpWord = new PhpWord();
+
+        if ($this->canRead($docFile)) {
+            $doc = new Document();
+            $doc->rtf = file_get_contents($docFile);
+            $doc->read($phpWord);
+        } else {
+            throw new \Exception("Cannot read {$docFile}.");
+        }
+
+        return $phpWord;
     }
 }

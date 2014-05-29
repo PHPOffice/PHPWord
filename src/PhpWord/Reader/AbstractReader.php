@@ -39,7 +39,7 @@ abstract class AbstractReader implements ReaderInterface
      *
      * @var bool|resource
      */
-    protected $fileHandle = true;
+    protected $fileHandle;
 
     /**
      * Read data only?
