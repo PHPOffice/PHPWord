@@ -18,8 +18,6 @@
 namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * RTF document reader
@@ -35,9 +33,9 @@ use PhpOffice\PhpWord\Element\TextRun;
 class Document
 {
     /** @const int */
-    const PARA = 0;
-    const STYL = 1;
-    const SKIP = 2;
+    const PARA = 'readParagraph';
+    const STYL = 'readStyle';
+    const SKIP = 'readSkip';
 
     /**
      * PhpWord object
@@ -247,8 +245,8 @@ class Document
     private function flushControl($isControl = false)
     {
         if (preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match) === 1) {
-            list(, $control, $parameter) = $match;
-            $this->parseControl($control, $parameter);
+            list(, $control) = $match;
+            $this->parseControl($control);
         }
 
         if ($isControl === true) {
@@ -256,23 +254,25 @@ class Document
         }
     }
 
-    /*
+    /**
      * Flush text in queue
      */
     private function flushText()
     {
         if ($this->text != '') {
-            if (isset($this->flags['property'])) {
+            if (isset($this->flags['property'])) { // Set property
                 $this->flags['value'] = $this->text;
-                var_dump($this->flags);
-            } else {
+            } else { // Set text
                 if ($this->flags['paragraph'] === true) {
                     $this->flags['paragraph'] = false;
                     $this->flags['text'] = $this->text;
                 }
             }
+
+            // Add text if it's not flagged as skipped
             if (!isset($this->flags['skipped'])) {
-                $this->textrun->addText($this->text);
+                $textrun = $this->textrun->addText($this->text);
+                $this->flags['element'] = &$textrun;
             }
 
             $this->text = '';
@@ -282,7 +282,7 @@ class Document
     /**
      * Reset control word and first char state
      *
-     * @param bool $state
+     * @param bool $value
      */
     private function setControl($value)
     {
@@ -312,7 +312,7 @@ class Document
      * @param string $control
      * @param string $parameter
      */
-    private function parseControl($control, $parameter)
+    private function parseControl($control)
     {
         $controls = array(
             'par'       => array(self::PARA, 'paragraph',    true),
@@ -333,19 +333,49 @@ class Document
         );
 
         if (array_key_exists($control, $controls)) {
-            list($mode, $property, $value) = $controls[$control];
-            switch ($mode) {
-                case self::PARA: // Paragraph
-                    $this->textrun = $this->section->addTextRun();
-                    $this->flags[$property] = $value;
-                    break;
-                case self::STYL: // Style
-                    $this->flags[$property] = $value;
-                    break;
-                case self::SKIP: // Destination
-                    $this->flags['property'] = $property;
-                    $this->flags['skipped'] = true;
+            list($function) = $controls[$control];
+            if (method_exists($this, $function)) {
+                $this->$function($controls[$control]);
             }
         }
+    }
+
+    /**
+     * Read paragraph
+     *
+     * @param array $directives
+     */
+    private function readParagraph($directives)
+    {
+        list(, $property, $value) = $directives;
+        $this->textrun = $this->section->addTextRun();
+        $this->flags[$property] = $value;
+    }
+
+    /**
+     * Read style
+     *
+     * @param array $directives
+     */
+    private function readStyle($directives)
+    {
+        list(, $property, $value) = $directives;
+        $this->flags[$property] = $value;
+        if (isset($this->flags['element'])) {
+            $element = &$this->flags['element'];
+            $element->getFontStyle()->setStyleValue($property, $value);
+        }
+    }
+
+    /**
+     * Read skip
+     *
+     * @param array $directives
+     */
+    private function readSkip($directives)
+    {
+        list(, $property) = $directives;
+        $this->flags['property'] = $property;
+        $this->flags['skipped'] = true;
     }
 }

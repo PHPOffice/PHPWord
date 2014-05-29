@@ -3,7 +3,8 @@ include_once 'Sample_Header.php';
 
 // Read contents
 $name = basename(__FILE__, '.php');
-$source = "resources/{$name}.odt";
+$source = __DIR__ . "/resources/{$name}.odt";
+
 echo date('H:i:s'), " Reading contents from `{$source}`", EOL;
 $phpWord = \PhpOffice\PhpWord\IOFactory::load($source, 'ODText');
 
