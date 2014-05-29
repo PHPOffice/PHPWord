@@ -83,6 +83,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             'innerMargin' => 10, 'borderSize' => 1, 'borderColor' => '#FF0'));
         $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'align' => 'center'));
         $section->addListItemRun()->addText('List item run 1');
+        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'LunarCalendar'));
+        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'SakaEraCalendar'));
+        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'LastUsedFormat'));
+        $section->addField('PAGE', array('format'=>'ArabicDash'));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 

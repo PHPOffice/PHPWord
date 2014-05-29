@@ -4,16 +4,15 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.11.0 - Not yet released
 
-This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new relative and absolute positioning for image; new `TextBox` and `ListItemRun` element; refactorings of writer classes into parts, elements, and styles; and ability to add elements to PHPWord object via HTML.
+This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Three new elements were added: TextBox, ListItemRun, and Field. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemeted.
 
 ### Features
 
 - Image: Ability to define relative and absolute positioning - @basjan GH-217
 - Footer: Conform footer with header by adding firstPage, evenPage and by inheritance - @basjan @ivanlanin GH-219
-- TextBox: Ability to add textbox in section, header, and footer - @basjan @ivanlanin GH-228 GH-229
-- TextBox: Ability to add table inside textbox - @basjan GH-231
+- Element: New `TextBox` element - @basjan @ivanlanin GH-228 GH-229 GH-231
 - HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
-- ListItemRun: New element that can add a list item with inline formatting like a textrun - @basjan GH-235
+- Element: New `ListItemRun` element that can add a list item with inline formatting like a textrun - @basjan GH-235
 - Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
 - RTF Writer: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
 - Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
@@ -30,6 +29,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3; new r
 - Image: Enable "image float left" - @ivanlanin GH-244
 - RTF Writer: Ability to write document properties - @ivanlanin
 - RTF Writer: Ability to write image - @ivanlanin
+- Element: New `Field` element - @basjan GH-251
 
 ### Bugfixes
 
