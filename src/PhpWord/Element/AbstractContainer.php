@@ -145,14 +145,17 @@ abstract class AbstractContainer extends AbstractElement
 
     /**
      * Add field element
-     * @param
+     *
+     * @param string $type
+     * @param array $properties
+     * @param array $options
      */
     public function addField($type = null, $properties = array(), $options = array())
     {
         return $this->addElement('Field', $type, $properties, $options);
-        
+
     }
-    
+
     /**
      * Add link element
      *
@@ -327,6 +330,7 @@ abstract class AbstractContainer extends AbstractElement
             'TextBreak'     => $allContainers,
             'Image'         => $allContainers,
             'Object'        => $allContainers,
+            'Field'         => $allContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),

@@ -1,35 +1,34 @@
 <?php
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
-* word processing documents.
-*
-* PHPWord is free software distributed under the terms of the GNU Lesser
-* General Public License version 3 as published by the Free Software Foundation.
-*
-* For the full copyright and license information, please read the LICENSE
-* file that was distributed with this source code. For the full list of
-* contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
-*
-* @link        https://github.com/PHPOffice/PHPWord
-* @copyright   2010-2014 PHPWord contributors
-* @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
-*/
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * Field element
+ *
+ * @since 0.11.0
+ * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_SimpleField.html
  */
 class Field extends AbstractElement
 {
-    
-    
     /**
      * Field properties and options. Depending on type, a field can have different properties
      * and options
-     * 
+     *
      * @var array
      */
     protected $fieldsArray = array(
@@ -55,7 +54,7 @@ class Field extends AbstractElement
             'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
         )
     );
-    
+
     /**
      * Field type
      *
@@ -81,8 +80,8 @@ class Field extends AbstractElement
      * Create a new Field Element
      *
      * @param string $type
-     * @param mixed $properties
-     * @param mixed $options
+     * @param array $properties
+     * @param array $options
      */
     public function __construct($type = null, $properties = array(), $options = array())
     {
@@ -94,7 +93,7 @@ class Field extends AbstractElement
     /**
      * Set Field type
      *
-     * @param string
+     * @param string $type
      * @return string
      */
     public function setType($type = null)
@@ -122,7 +121,7 @@ class Field extends AbstractElement
     /**
      * Set Field properties
      *
-     * @param array
+     * @param array $properties
      * @return self
      */
     public function setProperties($properties = array())
@@ -130,10 +129,10 @@ class Field extends AbstractElement
         if (is_array($properties)) {
             foreach (array_keys($properties) as $propkey) {
                 if (!(array_key_exists($propkey, $this->fieldsArray[$this->type]['properties']))) {
-                        throw new \InvalidArgumentException("Invalid property");
+                    throw new \InvalidArgumentException("Invalid property");
                 }
             }
-            $this->properties=array_merge($this->properties, $properties);
+            $this->properties = array_merge($this->properties, $properties);
         }
         return $this->properties;
     }
@@ -151,7 +150,7 @@ class Field extends AbstractElement
     /**
      * Set Field options
      *
-     * @param array
+     * @param array $options
      * @return self
      */
     public function setOptions($options = array())
@@ -162,11 +161,11 @@ class Field extends AbstractElement
                     throw new \InvalidArgumentException("Invalid option");
                 }
             }
-            $this->options=array_merge($this->options, $options);
+            $this->options = array_merge($this->options, $options);
         }
         return $this->options;
     }
-    
+
     /**
      * Get Field properties
      *

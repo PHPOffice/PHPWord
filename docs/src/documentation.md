@@ -33,6 +33,8 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Table of contents](#table-of-contents)
     - [Footnotes & endnotes](#footnotes-endnotes)
     - [Checkboxes](#checkboxes)
+    - [Textboxes](#textboxes)
+    - [Fields](#fields)
 - [Templates](#templates)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
@@ -447,7 +449,7 @@ Below are the matrix of element availability in each container. The column shows
 | 2   | Text Run      | v       | v      | v      | v    | -        | -        |
 | 3   | Link          | v       | v      | v      | v    | v        | v        |
 | 4   | Title         | v       | ?      | ?      | ?    | ?        | ?        |
-| 5   | Preserve Text | ?       | v      | v      | v*   | ?        | ?        |
+| 5   | Preserve Text | ?       | v      | v      | v*   | -        | -        |
 | 6   | Text Break    | v       | v      | v      | v    | v        | v        |
 | 7   | Page Break    | v       | -      | -      | -    | -        | -        |
 | 8   | List          | v       | v      | v      | v    | -        | -        |
@@ -458,7 +460,9 @@ Below are the matrix of element availability in each container. The column shows
 | 13  | TOC           | v       | -      | -      | -    | -        | -        |
 | 14  | Footnote      | v       | -      | -      | v**  | v**      | -        |
 | 15  | Endnote       | v       | -      | -      | v**  | v**      | -        |
-| 16  | CheckBox      | v       | v      | v      | v    | ?        | ?        |
+| 16  | CheckBox      | v       | v      | v      | v    | -        | -        |
+| 17  | TextBox       | v       | v      | v      | v    | -        | -        |
+| 18  | Field         | v       | v      | v      | v    | v        | v        |
 
 Legend:
 
@@ -831,6 +835,14 @@ $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
 - `$text` Text following the check box
 - `$fontStyle` See "Font style" section.
 - `$paragraphStyle` See "Paragraph style" section.
+
+## Textboxes
+
+To be completed.
+
+## Fields
+
+To be completed.
 
 # Templates
 

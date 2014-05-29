@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 /**
  * Field element writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
 class Field extends Text
 {
@@ -30,44 +30,43 @@ class Field extends Text
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
+        $element   = $this->getElement();
         if (!$element instanceof \PhpOffice\PhpWord\Element\Field) {
             return;
         }
 
-        $instruction=' '.$element->getType().' ';
-        $properties=$element->getProperties();
+        $instruction = ' ' . $element->getType() . ' ';
+        $properties  = $element->getProperties();
         foreach ($properties as $propkey => $propval) {
             switch ($propkey) {
                 case 'format':
-                    $instruction.='\* '.$propval.' ';
-                    break;
                 case 'numformat':
-                    $instruction.='\* '.$propval.' ';
+                    $instruction .= '\* ' . $propval . ' ';
                     break;
                 case 'dateformat':
-                    $instruction.='\@ "'.$propval.'" ';
+                    $instruction .= '\@ "' . $propval . '" ';
                     break;
             }
         }
-        
-        $options=$element->getOptions();
+
+        $options = $element->getOptions();
         foreach ($options as $option) {
             switch ($option) {
                 case 'PreserveFormat':
-                    $instruction.='\* MERGEFORMAT ';
+                    $instruction .= '\* MERGEFORMAT ';
                     break;
                 case 'LunarCalendar':
-                    $instruction.='\h ';
+                    $instruction .= '\h ';
                     break;
                 case 'SakaEraCalendar':
-                    $instruction.='\s ';
+                    $instruction .= '\s ';
                     break;
                 case 'LastUsedFormat':
-                    $instruction.='\l ';
+                    $instruction .= '\l ';
                     break;
             }
         }
+
         $this->writeOpeningWP();
         $xmlWriter->startElement('w:fldSimple');
         $xmlWriter->writeAttribute('w:instr', $instruction);
@@ -76,7 +75,7 @@ class Field extends Text
         $xmlWriter->startElement('w:noProof');
         $xmlWriter->endElement(); // w:noProof
         $xmlWriter->endElement(); // w:rPr
-        
+
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeRaw('1');
         $xmlWriter->endElement(); // w:t
