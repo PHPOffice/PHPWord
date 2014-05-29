@@ -18,7 +18,7 @@ $phpWord->addNumberingStyle(
         array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
         array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
         )
-     )
+    )
 );
 $predefinedMultilevel = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
 
@@ -65,6 +65,25 @@ $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 3');
 $listItemRun->addText(' underlined', array('underline'=>'dash'));
 $section->addTextBreak(2);
+
+// Numbered heading
+
+$phpWord->addNumberingStyle(
+    'headingNumbering',
+    array('type' => 'multilevel', 'levels' => array(
+        array('pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'),
+        array('pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'),
+        array('pStyle' => 'Heading3', 'format' => 'decimal', 'text' => '%1.%2.%3'),
+        )
+    )
+);
+$phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => 'headingNumbering', 'numLevel' => 0));
+$phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => 'headingNumbering', 'numLevel' => 1));
+$phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => 'headingNumbering', 'numLevel' => 2));
+
+$section->addTitle('Heading 1', 1);
+$section->addTitle('Heading 2', 2);
+$section->addTitle('Heading 3', 3);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

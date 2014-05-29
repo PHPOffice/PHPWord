@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 
 /**
@@ -115,6 +116,24 @@ class Paragraph extends AbstractStyle
                 $styleWriter->write();
             }
             $xmlWriter->endElement();
+        }
+
+        // Numbering
+        $numStyleName = $style->getNumStyle();
+        $numStyleObject = Style::getStyle($numStyleName);
+        if ($numStyleName !== null && $numStyleObject !== null) {
+            $xmlWriter->startElement('w:numPr');
+            $xmlWriter->startElement('w:numId');
+            $xmlWriter->writeAttribute('w:val', $numStyleObject->getIndex());
+            $xmlWriter->endElement(); // w:numId
+            $xmlWriter->startElement('w:ilvl');
+            $xmlWriter->writeAttribute('w:val', $style->getNumLevel());
+            $xmlWriter->endElement(); // w:ilvl
+            $xmlWriter->endElement(); // w:numPr
+
+            $xmlWriter->startElement('w:outlineLvl');
+            $xmlWriter->writeAttribute('w:val', $style->getNumLevel());
+            $xmlWriter->endElement(); // w:outlineLvl
         }
 
         if (!$this->withoutPPR) {
