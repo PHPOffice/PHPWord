@@ -1,0 +1,256 @@
+<?php
+/**
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
+ *
+ * @link        https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ */
+namespace PhpOffice\PhpWord\Style;
+
+/**
+ * Line style
+ */
+class Line extends Image
+{
+    /**
+     * Connector types
+     *
+     * @const string
+     */
+    const CONNECTOR_TYPE_STRAIGHT = 'straight';
+
+    /**
+     * Arrow styles
+     *
+     * @const string
+     */
+    const ARROW_STYLE_BLOCK = 'block';
+    const ARROW_STYLE_OPEN = 'open';
+    const ARROW_STYLE_CLASSIC = 'classic';
+    const ARROW_STYLE_DIAMOND = 'diamond';
+    const ARROW_STYLE_OVAL = 'oval';
+
+    /**
+     * Dash styles
+     *
+     * @const string
+     */
+    const DASH_STYLE_DASH = 'dash';
+    const DASH_STYLE_ROUND_DOT = 'rounddot';
+    const DASH_STYLE_SQUARE_DOT = 'squaredot';
+    const DASH_STYLE_DASH_DOT = 'dashdot';
+    const DASH_STYLE_LONG_DASH = 'longdash';
+    const DASH_STYLE_LONG_DASH_DOT = 'longdashdot';
+    const DASH_STYLE_LONG_DASH_DOT_DOT = 'longdashdotdot';
+    
+    /**
+     * flip Line
+     *
+     * @var boolean
+     */
+    private $flip = false;
+    
+    /**
+     * connectorType
+     *
+     * @var string
+     */
+    private $connectorType = self::CONNECTOR_TYPE_STRAIGHT;
+    
+    /**
+     * Line Weight
+     *
+     * @var int
+     */
+    private $weight = null;
+    
+    /**
+     * Line color
+     *
+     * @var string
+     */
+    private $color;
+
+    /**
+     * Dash style
+     *
+     * @var string
+     */
+    private $dash = null;
+    
+    /**
+     * Begin arrow
+     *
+     * @var string
+     */
+    private $beginArrow = null;
+    
+    /**
+     * End arrow
+     *
+     * @var string
+     */
+    private $endArrow = null;
+    
+    
+    /**
+     * Set flip
+     *
+     * @param boolean $value
+     */
+    public function setFlip($value = null)
+    {
+        $this->flip = $value;
+    }
+    
+    /**
+     * Get flip
+     *
+     * @return boolean
+     */
+    public function getFlip()
+    {
+        return $this->flip;
+    }
+    
+    /**
+     * Set connectorType
+     *
+     * @param string $value
+     */
+    public function setConnectorType($value = null)
+    {
+        $enum = array(
+            self::CONNECTOR_TYPE_STRAIGHT
+        );
+        $this->connectorType = $this->setEnumVal($value, $enum, $this->connectorType);
+    }
+    
+    /**
+     * Get connectorType
+     *
+     * @return string
+     */
+    public function getConnectorType()
+    {
+        return $this->connectorType;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param int $value Weight in points
+     */
+    public function setWeight($value = null)
+    {
+        $this->weight = $value;
+    }
+    
+    /**
+     * Get weight
+     *
+     * @return int
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+    
+    /**
+     * Set color
+     *
+     * @param string $value
+     */
+    public function setColor($value = null)
+    {
+        $this->color = $value;
+    }
+    
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+    
+    /**
+     * Set beginArrow
+     *
+     * @param string $value
+     */
+    public function setBeginArrow($value = null)
+    {
+        $enum = array(
+            self::ARROW_STYLE_BLOCK, self::ARROW_STYLE_CLASSIC, self::ARROW_STYLE_DIAMOND,
+            self::ARROW_STYLE_OPEN, self::ARROW_STYLE_OVAL
+        );
+        $this->beginArrow = $this->setEnumVal($value, $enum, $this->beginArrow);
+    }
+
+    /**
+     * Get beginArrow
+     *
+     * @return string
+     */
+    public function getBeginArrow()
+    {
+        return $this->beginArrow;
+    }
+    /**
+     * Set endArrow
+     *
+     * @param string $value
+     */
+    public function setEndArrow($value = null)
+    {
+        $enum = array(
+            self::ARROW_STYLE_BLOCK, self::ARROW_STYLE_CLASSIC, self::ARROW_STYLE_DIAMOND,
+            self::ARROW_STYLE_OPEN, self::ARROW_STYLE_OVAL
+        );
+        $this->endArrow = $this->setEnumVal($value, $enum, $this->endArrow);
+    }
+    /**
+     * Get endArrow
+     *
+     * @return string
+     */
+    public function getEndArrow()
+    {
+        return $this->endArrow;
+    }
+    /**
+     * Set Dash
+     *
+     * @param string $value
+     */
+    public function setDash($value = null)
+    {
+        $enum = array(
+            self::DASH_STYLE_DASH, self::DASH_STYLE_DASH_DOT, self::DASH_STYLE_LONG_DASH,
+            self::DASH_STYLE_LONG_DASH_DOT, self::DASH_STYLE_LONG_DASH_DOT_DOT, self::DASH_STYLE_ROUND_DOT,
+            self::DASH_STYLE_SQUARE_DOT
+        );
+        $this->dash = $this->setEnumVal($value, $enum, $this->dash);
+    }
+    /**
+     * Get Dash
+     *
+     * @return string
+     */
+    public function getDash()
+    {
+        return $this->dash;
+    }
+}

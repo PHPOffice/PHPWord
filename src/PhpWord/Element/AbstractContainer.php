@@ -157,6 +157,19 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
+     * Add line element
+     *
+     * @param mixed $lineStyle
+     * @return \PhpOffice\PhpWord\Element\Line
+     */
+    public function addLine($lineStyle = null)
+    {
+        return $this->addElement('Line', $lineStyle);
+    
+    }
+    
+    
+    /**
      * Add link element
      *
      * @param string $target
@@ -331,6 +344,7 @@ abstract class AbstractContainer extends AbstractElement
             'Image'         => $allContainers,
             'Object'        => $allContainers,
             'Field'         => $allContainers,
+            'Line'          => $allContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
