@@ -149,11 +149,11 @@ abstract class AbstractContainer extends AbstractElement
      * @param string $type
      * @param array $properties
      * @param array $options
+     * @return \PhpOffice\PhpWord\Element\Field
      */
     public function addField($type = null, $properties = array(), $options = array())
     {
         return $this->addElement('Field', $type, $properties, $options);
-
     }
 
     /**

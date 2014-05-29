@@ -35,6 +35,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Checkboxes](#checkboxes)
     - [Textboxes](#textboxes)
     - [Fields](#fields)
+    - [Lines](#lines)
 - [Templates](#templates)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
@@ -463,6 +464,7 @@ Below are the matrix of element availability in each container. The column shows
 | 16  | CheckBox      | v       | v      | v      | v    | -        | -        |
 | 17  | TextBox       | v       | v      | v      | v    | -        | -        |
 | 18  | Field         | v       | v      | v      | v    | v        | v        |
+| 19  | Line          | v       | v      | v      | v    | v        | v        |
 
 Legend:
 
@@ -841,6 +843,10 @@ $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
 To be completed.
 
 ## Fields
+
+To be completed.
+
+## Lines
 
 To be completed.
 

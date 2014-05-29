@@ -95,6 +95,7 @@ class Field extends AbstractElement
      *
      * @param string $type
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function setType($type = null)
     {
@@ -123,6 +124,7 @@ class Field extends AbstractElement
      *
      * @param array $properties
      * @return self
+     * @throws \InvalidArgumentException
      */
     public function setProperties($properties = array())
     {
@@ -152,6 +154,7 @@ class Field extends AbstractElement
      *
      * @param array $options
      * @return self
+     * @throws \InvalidArgumentException
      */
     public function setOptions($options = array())
     {

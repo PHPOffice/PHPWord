@@ -30,7 +30,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     {
         $styles = array(
             'Alignment', 'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
-            'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table', 'TextBox'
+            'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table',
+            'TextBox', 'Line'
         );
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;

@@ -17,9 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Line as LineStyle;
-use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
  * Line style writer
@@ -36,148 +34,76 @@ class Line extends Image
         if (!$style instanceof LineStyle) {
             return;
         }
-        $this->writeLineStyle($style);
+        $this->writeStyle($style);
     }
-    
+
     /**
      * Write style attribute
-     * 
-     * Copied function from Image/writeStyle in order to override getElementStyle
+     *
+     * @param \PhpOffice\PhpWord\Style\Line $style
      */
-    protected function writeLineStyle(LineStyle $style)
+    protected function writeStyle($style)
     {
         $xmlWriter = $this->getXmlWriter();
-        
-        // Default style array
-        $styleArray = array(
-            'mso-width-percent' => '0',
-            'mso-height-percent' => '0',
-            'mso-width-relative' => 'margin',
-            'mso-height-relative' => 'margin',
-        );
-        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
-    
-        // Absolute/relative positioning
-        $positioning = $style->getPositioning();
-        $styleArray['position'] = $positioning;
-        if ($positioning !== null) {
-            $styleArray['mso-position-horizontal'] = $style->getPosHorizontal();
-            $styleArray['mso-position-vertical'] = $style->getPosVertical();
-            $styleArray['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
-            $styleArray['mso-position-vertical-relative'] = $style->getPosVerticalRel();
+
+        $styles = $this->getElementStyle($style);
+        if ($style->isFlip()) {
+            $styles['flip'] = 'y';
         }
-    
-        // Wrapping style
-        $wrapping = $style->getWrappingStyle();
-        if ($wrapping == LineStyle::WRAPPING_STYLE_INLINE) {
-            // Nothing to do when inline
-        } elseif ($wrapping == LineStyle::WRAPPING_STYLE_BEHIND) {
-            $styleArray['z-index'] = -251658752;
-        } else {
-            $styleArray['z-index'] = 251659264;
-            $styleArray['mso-position-horizontal'] = 'absolute';
-            $styleArray['mso-position-vertical'] = 'absolute';
-        }
-    
-        // w10 wrapping
-        if ($wrapping == LineStyle::WRAPPING_STYLE_SQUARE) {
-            $this->w10wrap = 'square';
-        } elseif ($wrapping == LineStyle::WRAPPING_STYLE_TIGHT) {
-            $this->w10wrap = 'tight';
-        }
-    
-        $imageStyle = $this->assembleStyle($styleArray);
-    
+        $imageStyle = $this->assembleStyle($styles);
         $xmlWriter->writeAttribute('style', $imageStyle);
+
+        // Connector type
         $xmlWriter->writeAttribute('o:connectortype', $style->getConnectorType());
-        
+
         // Weight
         $weight = $style->getWeight();
-        if ($weight !== null) {
-            $xmlWriter->writeAttribute('strokeweight', $weight . 'pt');
-        }
-        
+        $xmlWriter->writeAttributeIf($weight !== null, 'strokeweight', $weight . 'pt');
+
         // Color
         $color = $style->getColor();
-        if ($color !== null) {
-            $xmlWriter->writeAttribute('strokecolor', $color);
-        }
+        $xmlWriter->writeAttributeIf($color !== null, 'strokecolor', $color);
     }
-    
-    /**
-     * Get element style
-     *
-     * @param \PhpOffice\PhpWord\Style\Image $style
-     * @return array
-     */
-    private function getElementStyle(LineStyle $style)
-    {
-        $styles = array();
-        $styleValues = array(
-            'width' => $style->getWidth(),
-            'height' => $style->getHeight(),
-            'margin-top' => $style->getMarginTop(),
-            'margin-left' => $style->getMarginLeft()
-        );
-        foreach ($styleValues as $key => $value) {
-            if (!is_null($value)) {
-                $styles[$key] = $value . 'px';
-            }
-        }
-        if ($style->isFlip()) {
-            $styles['flip']='y';
-        }
-    
-        return $styles;
-    }
-    
+
     /**
      * Write Line stroke
-     *
      */
     public function writeStroke()
     {
-        $style = $this->getStyle();
         $xmlWriter = $this->getXmlWriter();
-        
+        $style = $this->getStyle();
+        if (!$style instanceof LineStyle) {
+            return;
+        }
+
         $dash = $style->getDash();
         $beginArrow = $style->getBeginArrow();
         $endArrow = $style->getEndArrow();
-        
+        $dashStyles = array(
+            LineStyle::DASH_STYLE_DASH              => 'dash',
+            LineStyle::DASH_STYLE_ROUND_DOT         => '1 1',
+            LineStyle::DASH_STYLE_SQUARE_DOT        => '1 1',
+            LineStyle::DASH_STYLE_DASH_DOT          => 'dashDot',
+            LineStyle::DASH_STYLE_LONG_DASH         => 'longDash',
+            LineStyle::DASH_STYLE_LONG_DASH_DOT     => 'longDashDot',
+            LineStyle::DASH_STYLE_LONG_DASH_DOT_DOT => 'longDashDotDot',
+        );
+
         if (($dash !== null) || ($beginArrow !== null) || ($endArrow !== null)) {
             $xmlWriter->startElement('v:stroke');
-            if ($beginArrow !== null) {
-                $xmlWriter->writeAttribute('startarrow', $beginArrow);
-            }
-            if ($endArrow !== null) {
-                $xmlWriter->writeAttribute('endarrow', $endArrow);
-            }
-            if ($dash !==null) {
-                switch ($dash) {
-                    case LineStyle::DASH_STYLE_DASH:
-                        $xmlWriter->writeAttribute('dashstyle', 'dash');
-                        break;
-                    case LineStyle::DASH_STYLE_ROUND_DOT:
-                        $xmlWriter->writeAttribute('dashstyle', '1 1');
-                        $xmlWriter->writeAttribute('endcap', 'round');
-                        break;
-                    case LineStyle::DASH_STYLE_SQUARE_DOT:
-                        $xmlWriter->writeAttribute('dashstyle', '1 1');
-                        break;
-                    case LineStyle::DASH_STYLE_DASH_DOT:
-                        $xmlWriter->writeAttribute('dashstyle', 'dashDot');
-                        break;
-                    case LineStyle::DASH_STYLE_LONG_DASH:
-                        $xmlWriter->writeAttribute('dashstyle', 'longDash');
-                        break;
-                    case LineStyle::DASH_STYLE_LONG_DASH_DOT:
-                        $xmlWriter->writeAttribute('dashstyle', 'longDashDot');
-                        break;
-                    case LineStyle::DASH_STYLE_LONG_DASH_DOT_DOT:
-                        $xmlWriter->writeAttribute('dashstyle', 'longDashDotDot');
-                        break;
+
+            $xmlWriter->writeAttributeIf($beginArrow !== null, 'startarrow', $beginArrow);
+            $xmlWriter->writeAttributeIf($endArrow !== null, 'endarrow', $endArrow);
+
+            if ($dash !== null) {
+                if (array_key_exists($dash, $dashStyles)) {
+                    $xmlWriter->writeAttribute('dashstyle', $dashStyles[$dash]);
+                }
+                if ($dash == LineStyle::DASH_STYLE_ROUND_DOT) {
+                    $xmlWriter->writeAttribute('endcap', 'round');
                 }
             }
+
             $xmlWriter->endElement(); //v:stroke
         }
     }

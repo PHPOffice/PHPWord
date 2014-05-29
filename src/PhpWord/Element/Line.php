@@ -27,25 +27,24 @@ class Line extends AbstractElement
     /**
      * Line style
      *
-     * @var LineStyle
+     * @var \PhpOffice\PhpWord\Style\Line
      */
     private $style;
-    
+
     /**
      * Create new line element
      *
-     * @param string $source
      * @param mixed $style
      */
     public function __construct($style = null)
     {
         $this->style = $this->setStyle(new LineStyle(), $style);
     }
-    
+
     /**
-     * Get Image style
+     * Get line style
      *
-     * @return ImageStyle
+     * @return \PhpOffice\PhpWord\Style\Line
      */
     public function getStyle()
     {

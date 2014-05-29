@@ -48,50 +48,15 @@ class Image extends AbstractStyle
 
     /**
      * Write style attribute
+     *
+     * @param \PhpOffice\PhpWord\Style\Image $style
      */
-    protected function writeStyle(ImageStyle $style)
+    protected function writeStyle($style)
     {
         $xmlWriter = $this->getXmlWriter();
 
-        // Default style array
-        $styleArray = array(
-            'mso-width-percent' => '0',
-            'mso-height-percent' => '0',
-            'mso-width-relative' => 'margin',
-            'mso-height-relative' => 'margin',
-        );
-        $styleArray = array_merge($styleArray, $this->getElementStyle($style));
-
-        // Absolute/relative positioning
-        $positioning = $style->getPositioning();
-        $styleArray['position'] = $positioning;
-        if ($positioning !== null) {
-            $styleArray['mso-position-horizontal'] = $style->getPosHorizontal();
-            $styleArray['mso-position-vertical'] = $style->getPosVertical();
-            $styleArray['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
-            $styleArray['mso-position-vertical-relative'] = $style->getPosVerticalRel();
-        }
-
-        // Wrapping style
-        $wrapping = $style->getWrappingStyle();
-        if ($wrapping == ImageStyle::WRAPPING_STYLE_INLINE) {
-            // Nothing to do when inline
-        } elseif ($wrapping == ImageStyle::WRAPPING_STYLE_BEHIND) {
-            $styleArray['z-index'] = -251658752;
-        } else {
-            $styleArray['z-index'] = 251659264;
-            $styleArray['mso-position-horizontal'] = 'absolute';
-            $styleArray['mso-position-vertical'] = 'absolute';
-        }
-
-        // w10 wrapping
-        if ($wrapping == ImageStyle::WRAPPING_STYLE_SQUARE) {
-            $this->w10wrap = 'square';
-        } elseif ($wrapping == ImageStyle::WRAPPING_STYLE_TIGHT) {
-            $this->w10wrap = 'tight';
-        }
-
-        $imageStyle = $this->assembleStyle($styleArray);
+        $styles = $this->getElementStyle($style);
+        $imageStyle = $this->assembleStyle($styles);
 
         $xmlWriter->writeAttribute('style', $imageStyle);
     }
@@ -134,19 +99,55 @@ class Image extends AbstractStyle
      * @param \PhpOffice\PhpWord\Style\Image $style
      * @return array
      */
-    private function getElementStyle(ImageStyle $style)
+    protected function getElementStyle(ImageStyle $style)
     {
-        $styles = array();
-        $styleValues = array(
+        $styles = array(
+            'mso-width-percent' => '0',
+            'mso-height-percent' => '0',
+            'mso-width-relative' => 'margin',
+            'mso-height-relative' => 'margin',
+        );
+
+        // Dimension
+        $dimensions = array(
             'width' => $style->getWidth(),
             'height' => $style->getHeight(),
             'margin-top' => $style->getMarginTop(),
             'margin-left' => $style->getMarginLeft()
         );
-        foreach ($styleValues as $key => $value) {
-            if (!is_null($value) && $value != '') {
+        foreach ($dimensions as $key => $value) {
+            if ($value !== null) {
                 $styles[$key] = $value . 'px';
             }
+        }
+
+        // Absolute/relative positioning
+        $positioning = $style->getPositioning();
+        $styles['position'] = $positioning;
+        if ($positioning !== null) {
+            $styles['mso-position-horizontal'] = $style->getPosHorizontal();
+            $styles['mso-position-vertical'] = $style->getPosVertical();
+            $styles['mso-position-horizontal-relative'] = $style->getPosHorizontalRel();
+            $styles['mso-position-vertical-relative'] = $style->getPosVerticalRel();
+        }
+
+        // Wrapping style
+        $wrapping = $style->getWrappingStyle();
+        if ($wrapping == ImageStyle::WRAPPING_STYLE_INLINE) {
+            // Nothing to do when inline
+        } elseif ($wrapping == ImageStyle::WRAPPING_STYLE_BEHIND) {
+            $styles['z-index'] = -251658752;
+        } else {
+            $styles['z-index'] = 251659264;
+            $styles['mso-position-horizontal'] = 'absolute';
+            $styles['mso-position-vertical'] = 'absolute';
+        }
+
+        // w10 wrapping
+        if ($wrapping == ImageStyle::WRAPPING_STYLE_SQUARE) {
+            $this->w10wrap = 'square';
+        } elseif ($wrapping == ImageStyle::WRAPPING_STYLE_TIGHT) {
+            $this->w10wrap = 'tight';
         }
 
         return $styles;

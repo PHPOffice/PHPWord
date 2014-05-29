@@ -51,28 +51,28 @@ class Line extends Image
     const DASH_STYLE_LONG_DASH = 'longdash';
     const DASH_STYLE_LONG_DASH_DOT = 'longdashdot';
     const DASH_STYLE_LONG_DASH_DOT_DOT = 'longdashdotdot';
-    
+
     /**
      * flip Line
      *
      * @var boolean
      */
     private $flip = false;
-    
+
     /**
      * connectorType
      *
      * @var string
      */
     private $connectorType = self::CONNECTOR_TYPE_STRAIGHT;
-    
+
     /**
      * Line Weight
      *
      * @var int
      */
-    private $weight = null;
-    
+    private $weight;
+
     /**
      * Line color
      *
@@ -85,33 +85,22 @@ class Line extends Image
      *
      * @var string
      */
-    private $dash = null;
-    
+    private $dash;
+
     /**
      * Begin arrow
      *
      * @var string
      */
-    private $beginArrow = null;
-    
+    private $beginArrow;
+
     /**
      * End arrow
      *
      * @var string
      */
-    private $endArrow = null;
-    
-    
-    /**
-     * Set flip
-     *
-     * @param boolean $value
-     */
-    public function setFlip($value = null)
-    {
-        $this->flip = $value;
-    }
-    
+    private $endArrow;
+
     /**
      * Get flip
      *
@@ -121,20 +110,20 @@ class Line extends Image
     {
         return $this->flip;
     }
-    
+
     /**
-     * Set connectorType
+     * Set flip
      *
-     * @param string $value
+     * @param boolean $value
+     * @return self
      */
-    public function setConnectorType($value = null)
+    public function setFlip($value = false)
     {
-        $enum = array(
-            self::CONNECTOR_TYPE_STRAIGHT
-        );
-        $this->connectorType = $this->setEnumVal($value, $enum, $this->connectorType);
+        $this->flip = $this->setBoolVal($value, $this->flip);
+
+        return $this;
     }
-    
+
     /**
      * Get connectorType
      *
@@ -146,15 +135,21 @@ class Line extends Image
     }
 
     /**
-     * Set weight
+     * Set connectorType
      *
-     * @param int $value Weight in points
+     * @param string $value
+     * @return self
      */
-    public function setWeight($value = null)
+    public function setConnectorType($value = null)
     {
-        $this->weight = $value;
+        $enum = array(
+            self::CONNECTOR_TYPE_STRAIGHT
+        );
+        $this->connectorType = $this->setEnumVal($value, $enum, $this->connectorType);
+
+        return $this;
     }
-    
+
     /**
      * Get weight
      *
@@ -164,17 +159,20 @@ class Line extends Image
     {
         return $this->weight;
     }
-    
+
     /**
-     * Set color
+     * Set weight
      *
-     * @param string $value
+     * @param int $value Weight in points
+     * @return self
      */
-    public function setColor($value = null)
+    public function setWeight($value = null)
     {
-        $this->color = $value;
+        $this->weight = $this->setNumericVal($value, $this->weight);
+
+        return $this;
     }
-    
+
     /**
      * Get color
      *
@@ -184,19 +182,18 @@ class Line extends Image
     {
         return $this->color;
     }
-    
+
     /**
-     * Set beginArrow
+     * Set color
      *
      * @param string $value
+     * @return self
      */
-    public function setBeginArrow($value = null)
+    public function setColor($value = null)
     {
-        $enum = array(
-            self::ARROW_STYLE_BLOCK, self::ARROW_STYLE_CLASSIC, self::ARROW_STYLE_DIAMOND,
-            self::ARROW_STYLE_OPEN, self::ARROW_STYLE_OVAL
-        );
-        $this->beginArrow = $this->setEnumVal($value, $enum, $this->beginArrow);
+        $this->color = $value;
+
+        return $this;
     }
 
     /**
@@ -208,19 +205,24 @@ class Line extends Image
     {
         return $this->beginArrow;
     }
+
     /**
-     * Set endArrow
+     * Set beginArrow
      *
      * @param string $value
+     * @return self
      */
-    public function setEndArrow($value = null)
+    public function setBeginArrow($value = null)
     {
         $enum = array(
             self::ARROW_STYLE_BLOCK, self::ARROW_STYLE_CLASSIC, self::ARROW_STYLE_DIAMOND,
             self::ARROW_STYLE_OPEN, self::ARROW_STYLE_OVAL
         );
-        $this->endArrow = $this->setEnumVal($value, $enum, $this->endArrow);
+        $this->beginArrow = $this->setEnumVal($value, $enum, $this->beginArrow);
+
+        return $this;
     }
+
     /**
      * Get endArrow
      *
@@ -230,10 +232,39 @@ class Line extends Image
     {
         return $this->endArrow;
     }
+
+    /**
+     * Set endArrow
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setEndArrow($value = null)
+    {
+        $enum = array(
+            self::ARROW_STYLE_BLOCK, self::ARROW_STYLE_CLASSIC, self::ARROW_STYLE_DIAMOND,
+            self::ARROW_STYLE_OPEN, self::ARROW_STYLE_OVAL
+        );
+        $this->endArrow = $this->setEnumVal($value, $enum, $this->endArrow);
+
+        return $this;
+    }
+
+    /**
+     * Get Dash
+     *
+     * @return string
+     */
+    public function getDash()
+    {
+        return $this->dash;
+    }
+
     /**
      * Set Dash
      *
      * @param string $value
+     * @return self
      */
     public function setDash($value = null)
     {
@@ -243,14 +274,7 @@ class Line extends Image
             self::DASH_STYLE_SQUARE_DOT
         );
         $this->dash = $this->setEnumVal($value, $enum, $this->dash);
-    }
-    /**
-     * Get Dash
-     *
-     * @return string
-     */
-    public function getDash()
-    {
-        return $this->dash;
+
+        return $this;
     }
 }

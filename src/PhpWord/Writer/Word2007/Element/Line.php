@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\Line as LineElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Line as LineStyleWriter;
 
 /**
@@ -33,22 +32,23 @@ class Line extends AbstractElement
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
+        $element   = $this->getElement();
         if (!$element instanceof LineElement) {
             return;
         }
 
-        $style = $element->getStyle();
+        $style       = $element->getStyle();
         $styleWriter = new LineStyleWriter($xmlWriter, $style);
-        
-        $elementId=$element->getElementIndex();
+
+        $elementId = $element->getElementIndex();
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
-        if ($elementId==1) {  //shapetype could be defined for each line separately, but then a unique id would be necessary
+        // Shapetype could be defined for each line separately, but then a unique id would be necessary
+        if ($elementId == 1) {
             $xmlWriter->startElement('v:shapetype');
             $xmlWriter->writeAttribute('id', '_x0000_t32');
             $xmlWriter->writeAttribute('coordsize', '21600,21600');
@@ -76,7 +76,7 @@ class Line extends AbstractElement
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
-        
+
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // w:p
         }

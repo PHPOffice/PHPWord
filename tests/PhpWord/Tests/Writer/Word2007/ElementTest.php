@@ -30,7 +30,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $elements = array(
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
-            'Object', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC', 'Field'
+            'Object', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
+            'Field', 'Line'
         );
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $element;
