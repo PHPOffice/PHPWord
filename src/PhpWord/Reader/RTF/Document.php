@@ -245,8 +245,8 @@ class Document
     private function flushControl($isControl = false)
     {
         if (preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match) === 1) {
-            list(, $control) = $match;
-            $this->parseControl($control);
+            list(, $control, $parameter) = $match;
+            $this->parseControl($control, $parameter);
         }
 
         if ($isControl === true) {
@@ -271,8 +271,7 @@ class Document
 
             // Add text if it's not flagged as skipped
             if (!isset($this->flags['skipped'])) {
-                $textrun = $this->textrun->addText($this->text);
-                $this->flags['element'] = &$textrun;
+                $this->readText();
             }
 
             $this->text = '';
@@ -312,30 +311,36 @@ class Document
      * @param string $control
      * @param string $parameter
      */
-    private function parseControl($control)
+    private function parseControl($control, $parameter)
     {
         $controls = array(
-            'par'       => array(self::PARA, 'paragraph',    true),
-            'b'         => array(self::STYL, 'bold',         true),
-            'i'         => array(self::STYL, 'italic',       true),
-            'u'         => array(self::STYL, 'underline',    true),
-            'fonttbl'   => array(self::SKIP, 'fonttbl',      null),
-            'colortbl'  => array(self::SKIP, 'colortbl',     null),
-            'info'      => array(self::SKIP, 'info',         null),
-            'generator' => array(self::SKIP, 'generator',    null),
-            'title'     => array(self::SKIP, 'title',        null),
-            'subject'   => array(self::SKIP, 'subject',      null),
-            'category'  => array(self::SKIP, 'category',     null),
-            'keywords'  => array(self::SKIP, 'keywords',     null),
-            'comment'   => array(self::SKIP, 'comment',      null),
-            'shppict'   => array(self::SKIP, 'pic',          null),
-            'fldinst'   => array(self::SKIP, 'link',         null),
+            'par'       => array(self::PARA,    'paragraph',    true),
+            'b'         => array(self::STYL,    'font',         'bold',         true),
+            'i'         => array(self::STYL,    'font',         'italic',       true),
+            'u'         => array(self::STYL,    'font',         'underline',    true),
+            'strike'    => array(self::STYL,    'font',         'strikethrough',true),
+            'fs'        => array(self::STYL,    'font',         'size',         $parameter),
+            'qc'        => array(self::STYL,    'paragraph',    'align',        'center'),
+            'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',   $parameter),
+            'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
+            'colortbl'  => array(self::SKIP,    'colortbl',     null),
+            'info'      => array(self::SKIP,    'info',         null),
+            'generator' => array(self::SKIP,    'generator',    null),
+            'title'     => array(self::SKIP,    'title',        null),
+            'subject'   => array(self::SKIP,    'subject',      null),
+            'category'  => array(self::SKIP,    'category',     null),
+            'keywords'  => array(self::SKIP,    'keywords',     null),
+            'comment'   => array(self::SKIP,    'comment',      null),
+            'shppict'   => array(self::SKIP,    'pic',          null),
+            'fldinst'   => array(self::SKIP,    'link',         null),
         );
 
         if (array_key_exists($control, $controls)) {
             list($function) = $controls[$control];
             if (method_exists($this, $function)) {
-                $this->$function($controls[$control]);
+                $directives = $controls[$control];
+                array_shift($directives); // remove the function variable; we won't need it
+                $this->$function($directives);
             }
         }
     }
@@ -347,7 +352,7 @@ class Document
      */
     private function readParagraph($directives)
     {
-        list(, $property, $value) = $directives;
+        list($property, $value) = $directives;
         $this->textrun = $this->section->addTextRun();
         $this->flags[$property] = $value;
     }
@@ -359,12 +364,8 @@ class Document
      */
     private function readStyle($directives)
     {
-        list(, $property, $value) = $directives;
-        $this->flags[$property] = $value;
-        if (isset($this->flags['element'])) {
-            $element = &$this->flags['element'];
-            $element->getFontStyle()->setStyleValue($property, $value);
-        }
+        list($style, $property, $value) = $directives;
+        $this->flags['styles'][$style][$property] = $value;
     }
 
     /**
@@ -374,8 +375,19 @@ class Document
      */
     private function readSkip($directives)
     {
-        list(, $property) = $directives;
+        list($property) = $directives;
         $this->flags['property'] = $property;
         $this->flags['skipped'] = true;
+    }
+
+    /**
+     * Read text
+     */
+    private function readText()
+    {
+        $text = $this->textrun->addText($this->text);
+        if (isset($this->flags['styles']['font'])) {
+            $text->getFontStyle()->setStyleByArray($this->flags['styles']['font']);
+        }
     }
 }

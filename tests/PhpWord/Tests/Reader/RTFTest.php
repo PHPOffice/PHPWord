@@ -20,20 +20,32 @@ namespace PhpOffice\PhpWord\Tests\Reader;
 use PhpOffice\PhpWord\IOFactory;
 
 /**
- * Test class for PhpOffice\PhpWord\Reader\ODText
+ * Test class for PhpOffice\PhpWord\Reader\RTF
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
+ * @coversDefaultClass \PhpOffice\PhpWord\Reader\RTF
  * @runTestsInSeparateProcesses
  */
-class ODTextTest extends \PHPUnit_Framework_TestCase
+class RTFTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Load
+     * Test load
      */
     public function testLoad()
     {
-        $filename = __DIR__ . '/../_files/documents/reader.odt';
-        $phpWord = IOFactory::load($filename, 'ODText');
+        $filename = __DIR__ . '/../_files/documents/reader.rtf';
+        $phpWord = IOFactory::load($filename, 'RTF');
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+    }
+
+    /**
+     * Test load exception
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cannot read
+     */
+    public function testLoadException()
+    {
+        $filename = __DIR__ . '/../_files/documents/foo.rtf';
+        IOFactory::load($filename, 'RTF');
     }
 }

@@ -114,7 +114,7 @@ Below are the supported features for each file formats.
 |-------------------------|--------------------|------|-----|-----|
 | **Document Properties** | Standard           | ✓    |     |     |
 |                         | Custom             | ✓    |     |     |
-| **Element Type**        | Text               | ✓    | ✓   |     |
+| **Element Type**        | Text               | ✓    | ✓   | ✓   |
 |                         | Text Run           | ✓    |     |     |
 |                         | Title              | ✓    | ✓   |     |
 |                         | Link               | ✓    |     |     |
