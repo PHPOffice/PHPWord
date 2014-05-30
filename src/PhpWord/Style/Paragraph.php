@@ -186,6 +186,7 @@ class Paragraph extends AbstractStyle
      * reduce function call and increase cohesion between functions. Should be
      * implemented in all styles.
      *
+     * @ignoreScrutinizerPatch
      * @return array
      */
     public function getStyleValues()

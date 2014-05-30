@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.11.0 - Not yet released
 
-This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemeted. RTF reader were initiated.
+This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemeted. RTF and HTML reader were initiated.
 
 ### Features
 
@@ -33,6 +33,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - RTF Reader: Basic RTF reader - @ivanlanin GH-72 GH-252
 - Element: New `Line` element - @basjan GH-253
 - Title: Ability to apply numbering in heading - @ivanlanin GH-193
+- HTML Reader: Basic HTML reader - @ivanlanin GH-80 GH-254
 
 ### Bugfixes
 

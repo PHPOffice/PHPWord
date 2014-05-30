@@ -58,8 +58,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $section = new Section(1);
         $content = '';
         $content .= '<table><tr><th>Header</th><td>Content</td></tr></table>';
-        $content .= '<ul><li>Bullet</li></ul>';
+        $content .= '<ul><li>Bullet</li><ul><li>Bullet</li></ul></ul>';
         $content .= '<ol><li>Bullet</li></ol>';
-        Html::addHtml($section, $content, null, array('listdepth' => 2));
+        Html::addHtml($section, $content);
     }
 }
