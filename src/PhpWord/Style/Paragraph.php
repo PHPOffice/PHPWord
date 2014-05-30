@@ -115,6 +115,20 @@ class Paragraph extends AbstractStyle
     private $alignment;
 
     /**
+     * Numbering style name
+     *
+     * @var string
+     */
+    private $numStyle;
+
+    /**
+     * Numbering level
+     *
+     * @var int
+     */
+    private $numLevel = 0;
+
+    /**
      * Create new instance
      */
     public function __construct()
@@ -528,6 +542,52 @@ class Paragraph extends AbstractStyle
     public function setSpace($value = null)
     {
         $this->setObjectVal($value, 'Spacing', $this->spacing);
+
+        return $this;
+    }
+
+    /**
+     * Get numbering style name
+     *
+     * @return string
+     */
+    public function getNumStyle()
+    {
+        return $this->numStyle;
+    }
+
+    /**
+     * Set numbering style name
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setNumStyle($value)
+    {
+        $this->numStyle = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get numbering level
+     *
+     * @return int
+     */
+    public function getNumLevel()
+    {
+        return $this->numLevel;
+    }
+
+    /**
+     * Set numbering level
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setNumLevel($value = 0)
+    {
+        $this->numLevel = $this->setIntVal($value, $this->numLevel);
 
         return $this;
     }

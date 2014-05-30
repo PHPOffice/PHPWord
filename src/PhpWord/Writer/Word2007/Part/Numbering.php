@@ -58,7 +58,7 @@ class Numbering extends AbstractPart
                 $levels = $style->getLevels();
 
                 $xmlWriter->startElement('w:abstractNum');
-                $xmlWriter->writeAttribute('w:abstractNumId', $style->getNumId());
+                $xmlWriter->writeAttribute('w:abstractNumId', $style->getIndex());
 
                 $xmlWriter->startElement('w:nsid');
                 $xmlWriter->writeAttribute('w:val', $this->getRandomHexNumber());
@@ -81,9 +81,9 @@ class Numbering extends AbstractPart
         foreach ($styles as $style) {
             if ($style instanceof NumberingStyle) {
                 $xmlWriter->startElement('w:num');
-                $xmlWriter->writeAttribute('w:numId', $style->getNumId());
+                $xmlWriter->writeAttribute('w:numId', $style->getIndex());
                 $xmlWriter->startElement('w:abstractNumId');
-                $xmlWriter->writeAttribute('w:val', $style->getNumId());
+                $xmlWriter->writeAttribute('w:val', $style->getIndex());
                 $xmlWriter->endElement(); // w:abstractNumId
                 $xmlWriter->endElement(); // w:num
             }
@@ -107,6 +107,7 @@ class Numbering extends AbstractPart
             'start'   => 'start',
             'format'  => 'numFmt',
             'restart' => 'lvlRestart',
+            'pStyle'  => 'pStyle',
             'suffix'  => 'suff',
             'text'    => 'lvlText',
             'align'   => 'lvlJc'

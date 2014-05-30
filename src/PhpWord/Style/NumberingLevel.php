@@ -57,6 +57,14 @@ class NumberingLevel extends AbstractStyle
     private $restart;
 
     /**
+     * Related paragraph style
+     *
+     * @var string
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_pStyle-2.html
+     */
+    private $pStyle;
+
+    /**
      * Content between numbering symbol and paragraph text
      *
      * @var string tab|space|nothing
@@ -202,6 +210,28 @@ class NumberingLevel extends AbstractStyle
     public function setRestart($value)
     {
         $this->restart = $this->setIntVal($value, $this->restart);
+        return $this;
+    }
+
+    /**
+     * Get related paragraph style
+     *
+     * @return string
+     */
+    public function getPStyle()
+    {
+        return $this->pStyle;
+    }
+
+    /**
+     * Set  related paragraph style
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setPStyle($value)
+    {
+        $this->pStyle = $value;
         return $this;
     }
 
