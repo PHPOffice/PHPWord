@@ -32,20 +32,27 @@ class Html
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
-     * @param string $html the code to parse
+     * @param string $html The code to parse
+     * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      */
-    public static function addHtml($element, $html)
+    public static function addHtml($element, $html, $fullHTML = false)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
-        $html = str_replace(array("\n", "\r"), '', $html);
 
+        // Preprocess: remove all line ends, decode HTML entity, and add body tag for HTML fragments
+        $html = str_replace(array("\n", "\r"), '', $html);
+        $html = html_entity_decode($html);
+        if ($fullHTML === false) {
+            $html = '<body>' . $html . '</body>';
+        }
+
+        // Load DOM
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
-        $dom->loadXML('<body>' . html_entity_decode($html) . '</body>');
-
+        $dom->loadXML($html);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
