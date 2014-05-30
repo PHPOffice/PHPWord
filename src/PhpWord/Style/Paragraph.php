@@ -190,7 +190,7 @@ class Paragraph extends AbstractStyle
      */
     public function getStyleValues()
     {
-        return array(
+        $styles = array(
             'name'              => $this->getStyleName(),
             'basedOn'           => $this->getBasedOn(),
             'next'              => $this->getNext(),
@@ -209,6 +209,8 @@ class Paragraph extends AbstractStyle
             ),
             'tabs'              => $this->getTabs(),
         );
+
+        return $styles;
     }
 
     /**

@@ -242,7 +242,9 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    self::parseNode($cNode, $newobject, $styles, $data);
+                    if ($newobject instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+                        self::parseNode($cNode, $newobject, $styles, $data);
+                    }
                 }
             }
         }

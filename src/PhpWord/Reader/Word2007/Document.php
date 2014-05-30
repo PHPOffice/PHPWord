@@ -99,6 +99,7 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
+     * @ignoreScrutinizerPatch
      * @return array
      */
     private function readSectionStyle(XMLReader $xmlReader, \DOMElement $domNode)

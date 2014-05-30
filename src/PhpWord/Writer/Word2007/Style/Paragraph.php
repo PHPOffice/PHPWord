@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 
 /**
  * Paragraph style writer
@@ -71,7 +72,7 @@ class Paragraph extends AbstractStyle
     private function writeStyle()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof ParagraphStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -114,7 +115,7 @@ class Paragraph extends AbstractStyle
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      */
     private function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
     {
@@ -131,7 +132,7 @@ class Paragraph extends AbstractStyle
      * Write tabs
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param array $tabs
+     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs)
     {

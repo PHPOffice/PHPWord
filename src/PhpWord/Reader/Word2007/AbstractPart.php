@@ -437,6 +437,7 @@ abstract class AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $parentNode
      * @param array $styleDefs
+     * @ignoreScrutinizerPatch
      * @return array
      */
     protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
@@ -467,6 +468,7 @@ abstract class AbstractPart
      * Return style definition based on conversion method
      *
      * @param string $method
+     * @ignoreScrutinizerPatch
      * @param mixed $attributeValue
      * @param mixed $expected
      * @return mixed

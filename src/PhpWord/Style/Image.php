@@ -245,6 +245,7 @@ class Image extends AbstractStyle
     /**
      * Set margin top
      *
+     * @ignoreScrutinizerPatch
      * @param int|float $value
      * @return self
      */
@@ -268,6 +269,7 @@ class Image extends AbstractStyle
     /**
      * Set margin left
      *
+     * @ignoreScrutinizerPatch
      * @param int|float $value
      * @return self
      */
