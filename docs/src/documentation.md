@@ -111,34 +111,34 @@ Below are the supported features for each file formats.
 
 ### Readers
 
-| Features                |                    | DOCX | ODT | RTF |
-|-------------------------|--------------------|------|-----|-----|
-| **Document Properties** | Standard           | ✓    |     |     |
-|                         | Custom             | ✓    |     |     |
-| **Element Type**        | Text               | ✓    | ✓   | ✓   |
-|                         | Text Run           | ✓    |     |     |
-|                         | Title              | ✓    | ✓   |     |
-|                         | Link               | ✓    |     |     |
-|                         | Preserve Text      | ✓    |     |     |
-|                         | Text Break         | ✓    |     |     |
-|                         | Page Break         | ✓    |     |     |
-|                         | List               | ✓    | ✓   |     |
-|                         | Table              | ✓    |     |     |
-|                         | Image              | ✓    |     |     |
-|                         | Object             |      |     |     |
-|                         | Watermark          |      |     |     |
-|                         | Table of Contents  |      |     |     |
-|                         | Header             | ✓    |     |     |
-|                         | Footer             | ✓    |     |     |
-|                         | Footnote           | ✓    |     |     |
-|                         | Endnote            | ✓    |     |     |
-| **Graphs**              | 2D basic graphs    |      |     |     |
-|                         | 2D advanced graphs |      |     |     |
-|                         | 3D graphs          |      |     |     |
-| **Math**                | OMML support       |      |     |     |
-|                         | MathML support     |      |     |     |
-| **Bonus**               | Encryption         |      |     |     |
-|                         | Protection         |      |     |     |
+| Features                |                    | DOCX | ODT | RTF | HTML|
+|-------------------------|--------------------|------|-----|-----|-----|
+| **Document Properties** | Standard           | ✓    |     |     |     |
+|                         | Custom             | ✓    |     |     |     |
+| **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓   |
+|                         | Text Run           | ✓    |     |     |     |
+|                         | Title              | ✓    | ✓   |     |     |
+|                         | Link               | ✓    |     |     |     |
+|                         | Preserve Text      | ✓    |     |     |     |
+|                         | Text Break         | ✓    |     |     |     |
+|                         | Page Break         | ✓    |     |     |     |
+|                         | List               | ✓    | ✓   |     | ✓   |
+|                         | Table              | ✓    |     |     | ✓   |
+|                         | Image              | ✓    |     |     |     |
+|                         | Object             |      |     |     |     |
+|                         | Watermark          |      |     |     |     |
+|                         | Table of Contents  |      |     |     |     |
+|                         | Header             | ✓    |     |     |     |
+|                         | Footer             | ✓    |     |     |     |
+|                         | Footnote           | ✓    |     |     |     |
+|                         | Endnote            | ✓    |     |     |     |
+| **Graphs**              | 2D basic graphs    |      |     |     |     |
+|                         | 2D advanced graphs |      |     |     |     |
+|                         | 3D graphs          |      |     |     |     |
+| **Math**                | OMML support       |      |     |     |     |
+|                         | MathML support     |      |     |     |     |
+| **Bonus**               | Encryption         |      |     |     |     |
+|                         | Protection         |      |     |     |     |
 
 ## Contributing
 

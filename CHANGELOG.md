@@ -33,7 +33,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - RTF Reader: Basic RTF reader - @ivanlanin GH-72 GH-252
 - Element: New `Line` element - @basjan GH-253
 - Title: Ability to apply numbering in heading - @ivanlanin GH-193
-- HTML Reader: Basic HTML reader - @ivanlanin GH-80
+- HTML Reader: Basic HTML reader - @ivanlanin GH-80 GH-254
 
 ### Bugfixes
 
