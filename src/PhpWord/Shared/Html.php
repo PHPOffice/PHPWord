@@ -17,8 +17,12 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+use PhpOffice\PhpWord\Element\AbstractContainer;
+
 /**
  * Common Html functions
+ *
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
  */
 class Html
 {
@@ -27,10 +31,10 @@ class Html
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
      *
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $object Where the parts need to be added
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html the code to parse
      */
-    public static function addHtml($object, $html)
+    public static function addHtml($element, $html)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -44,17 +48,17 @@ class Html
 
         $node = $dom->getElementsByTagName('body');
 
-        self::parseNode($node->item(0), $object);
+        self::parseNode($node->item(0), $element);
     }
 
     /**
      * parse Inline style of a node
      *
      * @param \DOMNode $node Node to check on attributes and to compile a style array
-     * @param array $style is supplied, the inline style attributes are added to the already existing style
+     * @param array $styles is supplied, the inline style attributes are added to the already existing style
      * @return array
      */
-    protected static function parseInlineStyle($node, $style = array())
+    protected static function parseInlineStyle($node, $styles = array())
     {
         if ($node->nodeType == XML_ELEMENT_NODE) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
@@ -62,191 +66,295 @@ class Html
             foreach ($attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'style':
-                        $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
-                        foreach ($properties as $property) {
-                            list ($cKey, $cValue) = explode(':', $property, 2);
-                            $cValue = trim($cValue);
-                            switch (trim($cKey)) {
-                                case 'text-decoration':
-                                    switch ($cValue) {
-                                        case 'underline':
-                                            $style['underline'] = 'single';
-                                            break;
-                                        case 'line-through':
-                                            $style['strikethrough'] = true;
-                                            break;
-                                    }
-                                    break;
-                                case 'text-align':
-                                    $style['align'] = $cValue;
-                                    break;
-                                case 'color':
-                                    $style['color'] = trim($cValue, "#");
-                                    break;
-                                case 'background-color':
-                                    $style['bgColor'] = trim($cValue, "#");
-                                    break;
-                            }
-                        }
+                        $styles = self::parseStyle($attribute, $styles);
                         break;
                 }
             }
         }
 
-        return $style;
+        return $styles;
     }
 
     /**
-     * parse a node and add a corresponding element to the object
+     * Parse a node and add a corresponding element to the parent element
      *
      * @param \DOMNode $node node to parse
-     * @param \PhpOffice\PhpWord\Element\AbstractContainer $object object to add an element corresponding with the node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
      */
-    protected static function parseNode(
-        $node,
-        $object,
-        $styles = array('fontStyle' => array(), 'paragraphStyle' => array(), 'listStyle' => array()),
-        $data = array()
-    ) {
-        $newobject = null;
-        switch ($node->nodeName) {
-            case 'p':
-                $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-
-            /**
-             * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
-             * Heading1 - Heading6 are already defined somewhere
-             */
-            case 'h1':
-                $styles['paragraphStyle'] = 'Heading1';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case 'h2':
-                $styles['paragraphStyle'] = 'Heading2';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case 'h3':
-                $styles['paragraphStyle'] = 'Heading3';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case 'h4':
-                $styles['paragraphStyle'] = 'Heading4';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case 'h5':
-                $styles['paragraphStyle'] = 'Heading5';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case 'h6':
-                $styles['paragraphStyle'] = 'Heading6';
-                $newobject = $object->addTextRun($styles['paragraphStyle']);
-                break;
-            case '#text':
-                $styles['fontStyle'] = self::parseInlineStyle($node, $styles['fontStyle']);
-                if (method_exists($object, 'addText')) {
-                    $object->addText($node->nodeValue, $styles['fontStyle'], $styles['paragraphStyle']);
-                }
-                break;
-            case 'strong':
-                $styles['fontStyle']['bold'] = true;
-                break;
-            case 'em':
-                $styles['fontStyle']['italic'] = true;
-                break;
-            case 'sup':
-                $styles['fontStyle']['superScript'] = true;
-                break;
-            case 'sub':
-                $styles['fontStyle']['subScript'] = true;
-                break;
-
-            /**
-             * @todo As soon as TableItem, RowItem and CellItem support relative width and height
-             */
-            case 'table':
-                $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
-                $newobject = $object->addTable();
-                // if ($attributes->getNamedItem('width') !== null) {
-                    // $newobject->setWidth($attributes->getNamedItem('width')->value);
-                // }
-                break;
-            case 'tr':
-                /** @var \PhpOffice\PhpWord\Element\Table $object Type hint */
-                $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
-                $newobject = $object->addRow();
-                // if ($attributes->getNamedItem('height') !== null) {
-                    // $newobject->setHeight($attributes->getNamedItem('height')->value);
-                // }
-                break;
-            case 'td':
-                /** @var \PhpOffice\PhpWord\Element\Row $object Type hint */
-                $styles['paragraphStyle'] = self::parseInlineStyle($node, $styles['paragraphStyle']);
-                // if ($attributes->getNamedItem('width') !== null) {
-                    // $newobject=$object->addCell($width=$attributes->getNamedItem('width')->value);
-                // } else {
-                    // $newobject=$object->addCell();
-                // }
-                $newobject = $object->addCell();
-                break;
-            case 'ul':
-                if (isset($data['listdepth'])) {
-                    $data['listdepth'] ++;
-                } else {
-                    $data['listdepth'] = 0;
-                }
-                $styles['listStyle']['listType'] = 3; // TYPE_BULLET_FILLED = 3;
-                break;
-            case 'ol':
-                if (isset($data['listdepth'])) {
-                    $data['listdepth'] ++;
-                } else {
-                    $data['listdepth'] = 0;
-                }
-                $styles['listStyle']['listType'] = 7; // TYPE_NUMBER = 7;
-                break;
-
-            /**
-             * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete parsing part of childNodes
-             */
-            case 'li':
-                $cNodes = $node->childNodes;
-                if (count($cNodes) > 0) {
-                    $text = '';
-                    foreach ($cNodes as $cNode) {
-                        if ($cNode->nodeName == '#text') {
-                            $text = $cNode->nodeValue;
-                        }
-                    }
-                    $object->addListItem(
-                        $text,
-                        $data['listdepth'],
-                        $styles['fontStyle'],
-                        $styles['listStyle'],
-                        $styles['paragraphStyle']
-                    );
-                }
+    protected static function parseNode($node, $element, $styles = array(), $data = array())
+    {
+        // Populate styles array
+        $styleTypes = array('font', 'paragraph', 'list');
+        foreach ($styleTypes as $styleType) {
+            if (!isset($styles[$styleType])) {
+                $styles[$styleType] = array();
+            }
         }
 
-        if ($newobject === null) {
-            $newobject = $object;
+        // Node mapping table
+        $nodes = array(
+                              // $method        $node   $element    $styles     $data   $argument1      $argument2
+            'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
+            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
+            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
+            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
+            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     null),
+            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
+            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
+            '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
+            'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
+            'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
+            'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
+            'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
+            'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
+            'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
+            'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+        );
+
+        $newElement = null;
+        $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
+
+        if (array_key_exists($node->nodeName, $nodes)) {
+
+            // Execute method based on node mapping table and return $newElement or null
+            // Arguments are passed by reference
+            $arguments = array();
+            $args = array();
+            list($method, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5]) = $nodes[$node->nodeName];
+            for ($i = 0; $i <= 5; $i++) {
+                if ($args[$i] !== null) {
+                    $arguments[$keys[$i]] = &$args[$i];
+                }
+            }
+            $method = "parse{$method}";
+            $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), $arguments);
+
+            // Retrieve back variables from arguments
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $arguments)) {
+                    $$key = $arguments[$key];
+                }
+            }
         }
 
-        /**
-         * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete condition
-         */
+        if ($newElement === null) {
+            $newElement = $element;
+        }
+
+        self::parseChildNodes($node, $newElement, $styles, $data);
+    }
+
+    /**
+     * Parse child nodes
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @param array $data
+     */
+    private static function parseChildNodes($node, $element, $styles, $data)
+    {
         if ($node->nodeName != 'li') {
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($newobject instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
-                        self::parseNode($cNode, $newobject, $styles, $data);
+                    if ($element instanceof AbstractContainer) {
+                        self::parseNode($cNode, $element, $styles, $data);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Parse paragraph node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @return \PhpOffice\PhpWord\Element\TextRun
+     */
+    private static function parseParagraph($node, $element, &$styles)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $newElement = $element->addTextRun($styles['paragraph']);
+
+        return $newElement;
+    }
+
+    /**
+     * Parse heading node
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @param string $argument1 Name of heading style
+     * @return \PhpOffice\PhpWord\Element\TextRun
+     *
+     * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
+     * Heading1 - Heading6 are already defined somewhere
+     */
+    private static function parseHeading($element, &$styles, $argument1)
+    {
+        $styles['paragraph'] = $argument1;
+        $newElement = $element->addTextRun($styles['paragraph']);
+
+        return $newElement;
+    }
+
+    /**
+     * Parse text node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @return null
+     */
+    private static function parseText($node, $element, &$styles)
+    {
+        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+        if (method_exists($element, 'addText')) {
+            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse property node
+     *
+     * @param array $styles
+     * @param string $argument1 Style name
+     * @param string $argument2 Style value
+     * @return null
+     */
+    private static function parseProperty(&$styles, $argument1, $argument2)
+    {
+        $styles['font'][$argument1] = $argument2;
+
+        return null;
+    }
+
+    /**
+     * Parse table node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @param string $argument1 Method name
+     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     *
+     * @todo As soon as TableItem, RowItem and CellItem support relative width and height
+     */
+    private static function parseTable($node, $element, &$styles, $argument1)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+
+        $newElement = $element->$argument1();
+
+        // $attributes = $node->attributes;
+        // if ($attributes->getNamedItem('width') !== null) {
+            // $newElement->setWidth($attributes->getNamedItem('width')->value);
+        // }
+
+        // if ($attributes->getNamedItem('height') !== null) {
+            // $newElement->setHeight($attributes->getNamedItem('height')->value);
+        // }
+        // if ($attributes->getNamedItem('width') !== null) {
+            // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
+        // }
+
+        return $newElement;
+    }
+
+    /**
+     * Parse list node
+     *
+     * @param array $styles
+     * @param array $data
+     * @param string $argument1 List type
+     * @return null
+     */
+    private static function parseList(&$styles, &$data, $argument1)
+    {
+        if (isset($data['listdepth'])) {
+            $data['listdepth']++;
+        } else {
+            $data['listdepth'] = 0;
+        }
+        $styles['list']['listType'] = $argument1;
+
+        return null;
+    }
+
+    /**
+     * Parse list item node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @param array $data
+     * @return null
+     *
+     * @todo This function is almost the same like `parseChildNodes`. Merged?
+     * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete parsing part of childNodes
+     */
+    private static function parseListItem($node, $element, &$styles, $data)
+    {
+        $cNodes = $node->childNodes;
+        if (count($cNodes) > 0) {
+            $text = '';
+            foreach ($cNodes as $cNode) {
+                if ($cNode->nodeName == '#text') {
+                    $text = $cNode->nodeValue;
+                }
+            }
+            $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse style
+     *
+     * @param \DOMAttr $attribute
+     * @param array $styles
+     * @return array
+     */
+    private static function parseStyle($attribute, $styles)
+    {
+        $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+        foreach ($properties as $property) {
+            list($cKey, $cValue) = explode(':', $property, 2);
+            $cValue = trim($cValue);
+            switch (trim($cKey)) {
+                case 'text-decoration':
+                    switch ($cValue) {
+                        case 'underline':
+                            $styles['underline'] = 'single';
+                            break;
+                        case 'line-through':
+                            $styles['strikethrough'] = true;
+                            break;
+                    }
+                    break;
+                case 'text-align':
+                    $styles['align'] = $cValue;
+                    break;
+                case 'color':
+                    $styles['color'] = trim($cValue, "#");
+                    break;
+                case 'background-color':
+                    $styles['bgColor'] = trim($cValue, "#");
+                    break;
+            }
+        }
+
+        return $styles;
     }
 }
