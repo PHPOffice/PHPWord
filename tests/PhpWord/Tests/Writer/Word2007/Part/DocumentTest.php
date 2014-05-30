@@ -342,8 +342,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
         $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
-        $element = "/w:document/w:body/w:p/w:r/w:fldChar";
-        $this->assertEquals('end', $doc->getElementAttribute($element, 'w:fldCharType'));
     }
 
     /**

@@ -74,7 +74,7 @@ class TOC extends AbstractElement
         $tocStyle = $element->getStyleTOC();
         $fontStyle = $element->getStyleFont();
         $isObject = ($fontStyle instanceof Font) ? true : false;
-        $anchor = '_Toc' . ($title->getRelationId() + 252634154);
+        $rId = $title->getRelationId();
         $indent = ($title->getDepth() - 1) * $tocStyle->getIndent();
 
         $xmlWriter->startElement('w:p');
@@ -87,7 +87,7 @@ class TOC extends AbstractElement
 
         // Hyperlink
         $xmlWriter->startElement('w:hyperlink');
-        $xmlWriter->writeAttribute('w:anchor', $anchor);
+        $xmlWriter->writeAttribute('w:anchor', "_Toc{$rId}");
         $xmlWriter->writeAttribute('w:history', '1');
 
         // Title text
@@ -114,7 +114,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw('PAGEREF ' . $anchor . ' \h');
+        $xmlWriter->writeRaw("PAGEREF _Toc{$rId} \h");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 

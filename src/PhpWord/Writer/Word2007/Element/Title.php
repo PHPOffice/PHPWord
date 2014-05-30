@@ -35,8 +35,6 @@ class Title extends AbstractElement
             return;
         }
 
-        $rId = $element->getRelationId();
-        $anchor = '_Toc' . ($rId + 252634154);
         $style = $element->getStyle();
 
         $xmlWriter->startElement('w:p');
@@ -49,23 +47,22 @@ class Title extends AbstractElement
             $xmlWriter->endElement();
         }
 
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $rId = $element->getRelationId();
 
+        // Bookmark start for TOC
         $xmlWriter->startElement('w:bookmarkStart');
         $xmlWriter->writeAttribute('w:id', $rId);
-        $xmlWriter->writeAttribute('w:name', $anchor);
+        $xmlWriter->writeAttribute('w:name', "_Toc{$rId}");
         $xmlWriter->endElement();
 
+        // Actual text
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
+        // Bookmark end
         $xmlWriter->startElement('w:bookmarkEnd');
         $xmlWriter->writeAttribute('w:id', $rId);
         $xmlWriter->endElement();

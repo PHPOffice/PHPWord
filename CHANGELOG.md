@@ -32,6 +32,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - Element: New `Field` element - @basjan GH-251
 - RTF Reader: Basic RTF reader - @ivanlanin GH-72 GH-252
 - Element: New `Line` element - @basjan GH-253
+- Title: Ability to apply numbering in heading - @ivanlanin GH-193
 
 ### Bugfixes
 
@@ -39,6 +40,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan GH-233 GH-234
 - PageBreak: Page break adds new line in the beginning of the new page - @ivanlanin GH-150
 - Image: `marginLeft` and `marginTop` cannot accept float value - @ivanlanin GH-248
+- Title: Orphan `w:fldChar` caused OpenOffice to crash when opening DOCX - @ivanlanin GH-236
 
 ### Deprecated
 
@@ -61,6 +63,9 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - Docs: Show code quality and test code coverage badge on README
 - Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
 - Shared: Unify PHP ZipArchive and PCLZip features into PhpWord ZipArchive - @ivanlanin
+- Docs: Create VERSION file - @ivanlanin
+- QA: Improve dan update requirement check in `samples` folder - @ivanlanin
+
 
 ## 0.10.1 - 21 May 2014
 
