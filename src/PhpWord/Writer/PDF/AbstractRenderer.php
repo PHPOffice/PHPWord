@@ -87,7 +87,10 @@ abstract class AbstractRenderer extends HTML
             /** @noinspection PhpIncludeInspection Dynamic includes */
             require_once $includeFile;
         } else {
+            // @codeCoverageIgnoreStart
+            // Can't find any test case. Uncomment when found.
             throw new Exception('Unable to load PDF Rendering library');
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -172,9 +175,12 @@ abstract class AbstractRenderer extends HTML
     protected function prepareForSave($filename = null)
     {
         $fileHandle = fopen($filename, 'w');
+        // @codeCoverageIgnoreStart
+        // Can't find any test case. Uncomment when found.
         if ($fileHandle === false) {
             throw new Exception("Could not open file $filename for writing.");
         }
+        // @codeCoverageIgnoreEnd
         $this->isPdf = true;
 
         return $fileHandle;

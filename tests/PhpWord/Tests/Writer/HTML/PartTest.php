@@ -14,17 +14,23 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+namespace PhpOffice\PhpWord\Tests\Writer\HTML;
 
-namespace PhpOffice\PhpWord\Reader\ODText;
-
-use PhpOffice\PhpWord\Reader\Word2007\AbstractPart as Word2007AbstractPart;
+use PhpOffice\PhpWord\Writer\HTML\Part\Body;
 
 /**
- * Abstract part reader
- *
- * @since 0.10.0
- * @codeCoverageIgnore
+ * Test class for PhpOffice\PhpWord\Writer\HTML\Part subnamespace
  */
-abstract class AbstractPart extends Word2007AbstractPart
+class PartTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test get parent writer exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     */
+    public function testGetParentWriterException()
+    {
+        $object = new Body();
+        $object->getParentWriter();
+    }
 }

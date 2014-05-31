@@ -16,7 +16,9 @@
  */
 namespace PhpOffice\PhpWord\Tests\Writer\HTML;
 
+use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Writer\HTML\Element\Text;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML\Element subnamespace
@@ -37,5 +39,18 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
             $this->assertEquals('', $object->write());
         }
+    }
+
+    /**
+     * Test write element text
+     */
+    public function testWriteTextElement()
+    {
+        $object = new Text(new HTML(), new TextElement('A'));
+        $object->setOpeningText('-');
+        $object->setClosingText('-');
+        $object->setWithoutP(true);
+
+        $this->assertEquals('-A-', $object->write());
     }
 }

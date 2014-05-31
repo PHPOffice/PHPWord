@@ -75,6 +75,8 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
             'spacing' => 120,
             'basedOn' => 'Normal',
             'next' => 'Normal',
+            'numStyle' => 'numStyle',
+            'numLevel' => 1,
             'widowControl' => false,
             'keepNext' => true,
             'keepLines' => true,

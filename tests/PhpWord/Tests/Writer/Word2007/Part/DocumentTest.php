@@ -43,6 +43,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
+        $section->addHeader();
+        $section->addHeader('first');
         $settings = $section->getSettings();
         $settings->setLandscape();
         $settings->setPageNumberingStart(2);

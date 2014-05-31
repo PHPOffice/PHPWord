@@ -67,7 +67,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $phpWord->addTitleStyle(1, array('bold' => true));
         $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
             'color' => 'FF0000', 'fgColor' => 'FF0000'));
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center', 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();

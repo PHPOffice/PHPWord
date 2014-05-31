@@ -219,9 +219,12 @@ abstract class AbstractWriter implements WriterInterface
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
             $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
+            // @codeCoverageIgnoreStart
+            // Can't find any test case. Uncomment when found.
             if ($filename == '') {
                 $filename = $this->originalFilename;
             }
+            // @codeCoverageIgnoreEnd
         }
         $this->tempFilename = $filename;
 
@@ -234,9 +237,12 @@ abstract class AbstractWriter implements WriterInterface
     protected function cleanupTempFile()
     {
         if ($this->originalFilename != $this->tempFilename) {
+            // @codeCoverageIgnoreStart
+            // Can't find any test case. Uncomment when found.
             if (copy($this->tempFilename, $this->originalFilename) === false) {
                 throw new Exception("Could not copy temporary zip file.");
             }
+            // @codeCoverageIgnoreEnd
             @unlink($this->tempFilename);
         }
 
@@ -269,11 +275,15 @@ abstract class AbstractWriter implements WriterInterface
 
         // Try opening the ZIP file
         $zip = new ZipArchive();
+
+        // @codeCoverageIgnoreStart
+        // Can't find any test case. Uncomment when found.
         if ($zip->open($filename, ZipArchive::OVERWRITE) !== true) {
             if ($zip->open($filename, ZipArchive::CREATE) !== true) {
                 throw new \Exception("Could not open '{$filename}' for writing.");
             }
         }
+        // @codeCoverageIgnoreEnd
 
         return $zip;
     }
@@ -290,9 +300,12 @@ abstract class AbstractWriter implements WriterInterface
     {
         $filename = $this->getTempFile($filename);
         $fileHandle = fopen($filename, 'w');
+        // @codeCoverageIgnoreStart
+        // Can't find any test case. Uncomment when found.
         if ($fileHandle === false) {
             throw new \Exception("Could not open '{$filename}' for writing.");
         }
+        // @codeCoverageIgnoreEnd
 
         return $fileHandle;
     }

@@ -16,13 +16,23 @@
  */
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
  */
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Executed before each method of the class
+     */
+    public function tearDown()
+    {
+        TestHelperDOCX::clear();
+    }
+
     /**
      * Test unmatched element
      */
@@ -42,5 +52,19 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
             $this->assertEquals('', $xmlWriter->getData());
         }
+    }
+
+    /**
+     * Test line element
+     */
+    public function testLineElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addLine(array('width' => 1000, 'height' => 1000, 'positioning' => 'absolute', 'flip' => true));
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = "/w:document/w:body/w:p/w:r/w:pict/v:shapetype";
+        $this->assertTrue($doc->elementExists($element));
     }
 }

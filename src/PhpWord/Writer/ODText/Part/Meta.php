@@ -89,17 +89,16 @@ class Meta extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
-     * @param string $type string (default/null)
      *
-     * @todo Handle other `$type`: double|date|dateTime|duration|boolean
+     * @todo Handle other `$type`: double|date|dateTime|duration|boolean (4th arguments)
      */
-    private function writeCustomProperty(XMLWriter $xmlWriter, $property, $value, $type = null)
+    private function writeCustomProperty(XMLWriter $xmlWriter, $property, $value)
     {
         $xmlWriter->startElement('meta:user-defined');
         $xmlWriter->writeAttribute('meta:name', $property);
-        if ($type !== null) {
-            $xmlWriter->writeAttribute('meta:value-type', $type);
-        }
+        // if ($type !== null) {
+        //     $xmlWriter->writeAttribute('meta:value-type', $type);
+        // }
         $xmlWriter->writeRaw($value);
         $xmlWriter->endElement(); // meta:user-defined
     }

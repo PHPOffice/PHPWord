@@ -38,6 +38,7 @@ class NumberingLevelTest extends \PHPUnit_Framework_TestCase
             'start' => 1,
             'format' => 'decimal',
             'restart' => 1,
+            'pStyle' => 'pStyle',
             'suffix' => 'space',
             'text' => '%1.',
             'align' => 'left',

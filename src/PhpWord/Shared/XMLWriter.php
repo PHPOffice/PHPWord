@@ -69,9 +69,12 @@ class XMLWriter
             $this->tempFile = @tempnam($tempFolder, 'xml');
 
             // Fallback to memory when temporary file cannot be used
+            // @codeCoverageIgnoreStart
+            // Can't find any test case. Uncomment when found.
             if ($this->xmlWriter->openUri($this->tempFile) === false) {
                 $this->xmlWriter->openMemory();
             }
+            // @codeCoverageIgnoreEnd
         }
 
         // Set xml Compatibility

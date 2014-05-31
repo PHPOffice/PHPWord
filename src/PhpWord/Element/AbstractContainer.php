@@ -60,49 +60,29 @@ abstract class AbstractContainer extends AbstractElement
         if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
             $args[3] = null; // Remove paragraph style for texts in textrun
         }
+        $source = '';
+        if (count($args) > 1) {
+            $source = $args[1];
+        }
 
         // Create element using reflection
         $reflection = new \ReflectionClass($elementClass);
         $elementArgs = $args;
-        array_shift($elementArgs); // Shift an element off the beginning of array: the $elementName
+        array_shift($elementArgs); // Shift the $elementName off the beginning of array
 
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
 
-        // Set nested level
-        if ($this->container == 'Cell') {
-            $element->setNestedLevel($this->getNestedLevel() + 1);
-        } else {
-            $element->setNestedLevel($this->getNestedLevel());
-        }
-
-
-        // Set relation Id for media collection
-        $mediaContainer = $this->getMediaContainer();
-        if (in_array($elementName, array('Link', 'Image', 'Object'))) {
-            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
-            $image = ($elementName == 'Image') ? $element : null;
-            $rId = Media::addElement($mediaContainer, strtolower($elementName), $args[1], $image);
-            $element->setRelationId($rId);
-        }
-        if ($elementName == 'Object') {
-            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
-            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
-            $element->setImageRelationId($rIdIcon);
-        }
-
-        // Set relation Id for other collection
-        if (in_array($elementName, array('Footnote', 'Endnote', 'Title')) && $this->phpWord instanceof PhpWord) {
-            $addMethod = "add{$elementName}";
-            $rId = $this->phpWord->$addMethod($element);
-            $element->setRelationId($rId);
-        }
+        // Set nested level and relation Id
+        $this->setElementNestedLevel($element);
+        $this->setElementRelationId($element, $elementName, $source);
 
         // Set other properties and add element into collection
         $element->setDocPart($this->getDocPart(), $this->getDocPartId());
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);
+
         $this->elements[] = $element;
 
         return $element;
@@ -126,6 +106,54 @@ abstract class AbstractContainer extends AbstractElement
     public function countElements()
     {
         return count($this->elements);
+    }
+
+    /**
+     * Set element nested level based on container; add one when it's inside a cell
+     */
+    private function setElementNestedLevel(AbstractElement $element)
+    {
+        if ($this->container == 'Cell') {
+            $element->setNestedLevel($this->getNestedLevel() + 1);
+        } else {
+            $element->setNestedLevel($this->getNestedLevel());
+        }
+    }
+
+    /**
+     * Set relation Id
+     *
+     * @param string $elementName
+     * @param string $source
+     */
+    private function setElementRelationId(AbstractElement $element, $elementName, $source)
+    {
+        $mediaContainer = $this->getMediaContainer();
+        $hasMediaRelation = in_array($elementName, array('Link', 'Image', 'Object'));
+        $hasOtherRelation = in_array($elementName, array('Footnote', 'Endnote', 'Title'));
+
+        // Set relation Id for media elements (link, image, object; legacy of OOXML)
+        // Only Image that needs to be passed to Media class
+        if ($hasMediaRelation) {
+            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
+            $image = ($elementName == 'Image') ? $element : null;
+            $rId = Media::addElement($mediaContainer, strtolower($elementName), $source, $image);
+            $element->setRelationId($rId);
+        }
+
+        // Set relation Id for icon of object element
+        if ($elementName == 'Object') {
+            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
+            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
+            $element->setImageRelationId($rIdIcon);
+        }
+
+        // Set relation Id for elements that will be registered in the Collection subnamespaces
+        if ($hasOtherRelation && $this->phpWord instanceof PhpWord) {
+            $addMethod = "add{$elementName}";
+            $rId = $this->phpWord->$addMethod($element);
+            $element->setRelationId($rId);
+        }
     }
 
     /**

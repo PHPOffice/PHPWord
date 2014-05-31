@@ -43,7 +43,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithType()
     {
         $oField = new Field('DATE');
-    
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         $this->assertEquals($oField->getType(), 'DATE');
     }
@@ -54,7 +54,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithTypeProperties()
     {
         $oField = new Field('DATE', array('dateformat'=>'d-M-yyyy'));
-    
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         $this->assertEquals($oField->getType(), 'DATE');
         $this->assertEquals($oField->getProperties(), array('dateformat'=>'d-M-yyyy'));
@@ -66,10 +66,46 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithTypePropertiesOptions()
     {
         $oField = new Field('DATE', array('dateformat'=>'d-M-yyyy'), array('SakaEraCalendar', 'PreserveFormat'));
-    
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         $this->assertEquals($oField->getType(), 'DATE');
         $this->assertEquals($oField->getProperties(), array('dateformat'=>'d-M-yyyy'));
         $this->assertEquals($oField->getOptions(), array('SakaEraCalendar', 'PreserveFormat'));
+    }
+
+    /**
+     * Test setType exception
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid type
+     */
+    public function testSetTypeException()
+    {
+        $object = new Field();
+        $object->setType('foo');
+    }
+
+    /**
+     * Test setProperties exception
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid property
+     */
+    public function testSetPropertiesException()
+    {
+        $object = new Field('PAGE');
+        $object->setProperties(array('foo' => 'bar'));
+    }
+
+    /**
+     * Test setOptions exception
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid option
+     */
+    public function testSetOptionsException()
+    {
+        $object = new Field('PAGE');
+        $object->setOptions(array('foo' => 'bar'));
     }
 }

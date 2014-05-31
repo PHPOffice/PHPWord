@@ -68,7 +68,16 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();
-        $section->addTable()->addRow()->addCell()->addText('Test');
+
+        // Rowspan
+        $table = $section->addTable();
+        $table->addRow()->addCell(null, array('vMerge' => 'restart'))->addText('Test');
+        $table->addRow()->addCell(null, array('vMerge' => 'continue'))->addText('Test');
+
+        // Nested table
+        $cell = $section->addTable()->addRow()->addCell();
+        $cell->addTable()->addRow()->addCell();
+
         $section->addListItem('Test');
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);

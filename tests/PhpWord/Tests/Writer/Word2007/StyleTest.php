@@ -42,4 +42,23 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('', $xmlWriter->getData());
         }
     }
+
+    /**
+     * Test method exceptions
+     */
+    public function testMethodExceptions()
+    {
+        $styles = array(
+            'Image' => 'writeAlignment',
+            'Line'  => 'writeStroke',
+        );
+        foreach ($styles as $style => $method) {
+            $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;
+            $xmlWriter = new XMLWriter();
+            $object = new $objectClass($xmlWriter);
+            $object->$method();
+
+            $this->assertEquals('', $xmlWriter->getData());
+        }
+    }
 }

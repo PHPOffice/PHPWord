@@ -28,6 +28,19 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 class XMLReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Test get DOMDocument from ZipArchive exception
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Cannot find archive file.
+     */
+    public function testGetDomFromZipException()
+    {
+        $filename = __DIR__ . "/../_files/documents/foo.zip";
+        $object = new XMLReader();
+        $object->getDomFromZip($filename, 'yadayadaya');
+    }
+
+    /**
      * Test get DOMDocument from ZipArchive returns false
      */
     public function testGetDomFromZipReturnsFalse()

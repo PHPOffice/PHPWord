@@ -70,6 +70,7 @@ class Text extends AbstractElement
 
         $content = '';
         $content .= $this->writeOpening();
+        $content .= $this->openingText;
         $content .= $this->openingTags;
         $content .= htmlspecialchars($element->getText());
         $content .= $this->closingTags;
@@ -113,7 +114,6 @@ class Text extends AbstractElement
                 $style = $this->getParagraphStyle();
             }
             $content .= "<p{$style}>";
-            $content .= $this->openingText;
         }
 
         return $content;

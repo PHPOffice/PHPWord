@@ -152,6 +152,7 @@ class ZipArchive
      *
      * @return bool
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @codeCoverageIgnore Can't find any test case. Uncomment when found.
      */
     public function close()
     {
