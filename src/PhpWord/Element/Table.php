@@ -45,7 +45,6 @@ class Table extends AbstractElement
      */
     private $width = null;
 
-
     /**
      * Create a new table
      *
@@ -68,6 +67,7 @@ class Table extends AbstractElement
         $row = new Row($height, $style);
         $row->setDocPart($this->getDocPart(), $this->getDocPartId());
         $row->setPhpWord($this->phpWord);
+        $row->setNestedLevel($this->getNestedLevel());
         $this->rows[] = $row;
 
         return $row;
@@ -110,16 +110,6 @@ class Table extends AbstractElement
     }
 
     /**
-     * Set table width
-     *
-     * @param int $width
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-    }
-
-    /**
      * Get table width
      *
      * @return int
@@ -127,6 +117,16 @@ class Table extends AbstractElement
     public function getWidth()
     {
         return $this->width;
+    }
+
+    /**
+     * Set table width
+     *
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
     }
 
     /**

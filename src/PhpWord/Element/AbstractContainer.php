@@ -65,8 +65,17 @@ abstract class AbstractContainer extends AbstractElement
         $reflection = new \ReflectionClass($elementClass);
         $elementArgs = $args;
         array_shift($elementArgs); // Shift an element off the beginning of array: the $elementName
+
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
+
+        // Set nested level
+        if ($this->container == 'Cell') {
+            $element->setNestedLevel($this->getNestedLevel() + 1);
+        } else {
+            $element->setNestedLevel($this->getNestedLevel());
+        }
+
 
         // Set relation Id for media collection
         $mediaContainer = $this->getMediaContainer();
@@ -143,32 +152,6 @@ abstract class AbstractContainer extends AbstractElement
         return $this->addElement('TextRun', $paragraphStyle);
     }
 
-    /**
-     * Add field element
-     *
-     * @param string $type
-     * @param array $properties
-     * @param array $options
-     * @return \PhpOffice\PhpWord\Element\Field
-     */
-    public function addField($type = null, $properties = array(), $options = array())
-    {
-        return $this->addElement('Field', $type, $properties, $options);
-    }
-
-    /**
-     * Add line element
-     *
-     * @param mixed $lineStyle
-     * @return \PhpOffice\PhpWord\Element\Line
-     */
-    public function addLine($lineStyle = null)
-    {
-        return $this->addElement('Line', $lineStyle);
-    
-    }
-    
-    
     /**
      * Add link element
      *
@@ -321,6 +304,31 @@ abstract class AbstractContainer extends AbstractElement
     public function addTextBox($style = null)
     {
         return $this->addElement('TextBox', $style);
+    }
+
+    /**
+     * Add field element
+     *
+     * @param string $type
+     * @param array $properties
+     * @param array $options
+     * @return \PhpOffice\PhpWord\Element\Field
+     */
+    public function addField($type = null, $properties = array(), $options = array())
+    {
+        return $this->addElement('Field', $type, $properties, $options);
+    }
+
+    /**
+     * Add line element
+     *
+     * @param mixed $lineStyle
+     * @return \PhpOffice\PhpWord\Element\Line
+     */
+    public function addLine($lineStyle = null)
+    {
+        return $this->addElement('Line', $lineStyle);
+
     }
 
     /**

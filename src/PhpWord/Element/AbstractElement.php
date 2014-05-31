@@ -85,6 +85,15 @@ abstract class AbstractElement
     protected $relationId;
 
     /**
+     * Depth of table container nested level; Primarily used for RTF writer/reader
+     *
+     * 0 = Not in a table; 1 = in a table; 2 = in a table inside another table, etc.
+     *
+     * @var int
+     */
+    private $nestedLevel = 0;
+
+    /**
      * Get PhpWord
      *
      * @return \PhpOffice\PhpWord\PhpWord
@@ -197,11 +206,31 @@ abstract class AbstractElement
     /**
      * Set relation Id
      *
-     * @param int $rId
+     * @param int $value
      */
-    public function setRelationId($rId)
+    public function setRelationId($value)
     {
-        $this->relationId = $rId;
+        $this->relationId = $value;
+    }
+
+    /**
+     * Get nested level
+     *
+     * @return int
+     */
+    public function getNestedLevel()
+    {
+        return $this->nestedLevel;
+    }
+
+    /**
+     * Set nested level
+     *
+     * @param int $value
+     */
+    public function setNestedLevel($value)
+    {
+        $this->nestedLevel = $value;
     }
 
     /**

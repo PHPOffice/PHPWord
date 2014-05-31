@@ -71,6 +71,7 @@ class Row extends AbstractElement
         $cell = new Cell($width, $style);
         $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
         $cell->setPhpWord($this->phpWord);
+        $cell->setNestedLevel($this->getNestedLevel());
         $this->cells[] = $cell;
 
         return $cell;
