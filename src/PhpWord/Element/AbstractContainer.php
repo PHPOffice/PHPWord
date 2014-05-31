@@ -23,6 +23,23 @@ use PhpOffice\PhpWord\PhpWord;
 /**
  * Container abstract class
  *
+ * @method Text addText($text, $fStyle = null, $pStyle = null)
+ * @method TextRun addTextRun($pStyle = null)
+ * @method Link addLink($target, $text = null, $fStyle = null, $pStyle = null)
+ * @method PreserveText addPreserveText($text, $fStyle = null, $pStyle = null)
+ * @method void addTextBreak($count = 1, $fStyle = null, $pStyle = null)
+ * @method ListItem addListItem($text, $depth = 0, $fStyle = null, $listStyle = null, $pStyle = null)
+ * @method ListItemRun addListItemRun($depth = 0, $listStyle = null, $pStyle = null)
+ * @method Table addTable($style = null)
+ * @method Image addImage($source, $style = null, $isWatermark = false)
+ * @method Object addObject($source, $style = null)
+ * @method Footnote addFootnote($pStyle = null)
+ * @method Endnote addEndnote($pStyle = null)
+ * @method CheckBox addCheckBox($name, $text, $fStyle = null, $pStyle = null)
+ * @method TextBox addTextBox($style = null)
+ * @method Field addField($type = null, $properties = array(), $options = array())
+ * @method Line addLine($lineStyle = null)
+ *
  * @since 0.10.0
  */
 abstract class AbstractContainer extends AbstractElement
@@ -40,6 +57,53 @@ abstract class AbstractContainer extends AbstractElement
      * @var string
      */
     protected $container;
+
+    /**
+     * Magic method to catch all 'addElement' variation
+     *
+     * This removes addText, addTextRun, etc. When adding new element, we have to
+     * add the model in the class docblock with `@method`.
+     *
+     * Warning: This makes capitalization matters, e.g. addCheckbox or addcheckbox won't work.
+     *
+     * @param mixed $function
+     * @param mixed $args
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    public function __call($function, $args)
+    {
+        $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
+            'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line');
+        $functions = array();
+        for ($i = 0; $i < count($elements); $i++) {
+            $functions[$i] = 'add' . $elements[$i];
+        }
+
+        // Run valid `add` command
+        if (in_array($function, $functions)) {
+            $element = str_replace('add', '', $function);
+
+            // Special case for TextBreak
+            // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
+            if ($element == 'TextBreak') {
+                @list($count, $fontStyle, $paragraphStyle) = $args; // Suppress error
+                if ($count === null) {
+                    $count = 1;
+                }
+                for ($i = 1; $i <= $count; $i++) {
+                    $this->addElement($element, $fontStyle, $paragraphStyle);
+                }
+
+            // All other elements
+            } else {
+                array_unshift($args, $element); // Prepend element name to the beginning of args array
+                return call_user_func_array(array($this, 'addElement'), $args);
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Add element
@@ -154,209 +218,6 @@ abstract class AbstractContainer extends AbstractElement
             $rId = $this->phpWord->$addMethod($element);
             $element->setRelationId($rId);
         }
-    }
-
-    /**
-     * Add text/preservetext element
-     *
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Text|\PhpOffice\PhpWord\Element\PreserveText
-     */
-    public function addText($text, $fontStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('Text', $text, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add textrun element
-     *
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\TextRun
-     */
-    public function addTextRun($paragraphStyle = null)
-    {
-        return $this->addElement('TextRun', $paragraphStyle);
-    }
-
-    /**
-     * Add link element
-     *
-     * @param string $target
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Link
-     */
-    public function addLink($target, $text = null, $fontStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('Link', $target, $text, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add preserve text element
-     *
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\PreserveText
-     */
-    public function addPreserveText($text, $fontStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('PreserveText', $text, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add text break element
-     *
-     * @param int $count
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     */
-    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
-    {
-        for ($i = 1; $i <= $count; $i++) {
-            $this->addElement('TextBreak', $fontStyle, $paragraphStyle);
-        }
-    }
-
-    /**
-     * Add listitem element
-     *
-     * @param string $text
-     * @param int $depth
-     * @param mixed $fontStyle
-     * @param mixed $listStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\ListItem
-     */
-    public function addListItem($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('ListItem', $text, $depth, $fontStyle, $listStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add listitemrun element
-     *
-     * @param int $depth
-     * @param mixed $listStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\ListItemRun
-     */
-    public function addListItemRun($depth = 0, $listStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('ListItemRun', $depth, $listStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add table element
-     *
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Table
-     */
-    public function addTable($style = null)
-    {
-        return $this->addElement('Table', $style);
-    }
-
-    /**
-     * Add image element
-     *
-     * @param string $source
-     * @param mixed $style Image style
-     * @param bool $isWatermark
-     * @return \PhpOffice\PhpWord\Element\Image
-     */
-    public function addImage($source, $style = null, $isWatermark = false)
-    {
-        return $this->addElement('Image', $source, $style, $isWatermark);
-    }
-
-    /**
-     * Add OLE-object element
-     *
-     * All exceptions should be handled by \PhpOffice\PhpWord\Element\Object
-     *
-     * @param string $source
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\Object
-     */
-    public function addObject($source, $style = null)
-    {
-        return $this->addElement('Object', $source, $style);
-    }
-
-    /**
-     * Add footnote element
-     *
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Footnote
-     */
-    public function addFootnote($paragraphStyle = null)
-    {
-        return $this->addElement('Footnote', $paragraphStyle);
-    }
-
-    /**
-     * Add endnote element
-     *
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Endnote
-     */
-    public function addEndnote($paragraphStyle = null)
-    {
-        return $this->addElement('Endnote', $paragraphStyle);
-    }
-
-    /**
-     * Add a CheckBox Element
-     *
-     * @param string $name
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\CheckBox
-     */
-    public function addCheckBox($name, $text, $fontStyle = null, $paragraphStyle = null)
-    {
-        return $this->addElement('CheckBox', $name, $text, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Add textbox element
-     *
-     * @param mixed $style
-     * @return \PhpOffice\PhpWord\Element\TextBox
-     */
-    public function addTextBox($style = null)
-    {
-        return $this->addElement('TextBox', $style);
-    }
-
-    /**
-     * Add field element
-     *
-     * @param string $type
-     * @param array $properties
-     * @param array $options
-     * @return \PhpOffice\PhpWord\Element\Field
-     */
-    public function addField($type = null, $properties = array(), $options = array())
-    {
-        return $this->addElement('Field', $type, $properties, $options);
-    }
-
-    /**
-     * Add line element
-     *
-     * @param mixed $lineStyle
-     * @return \PhpOffice\PhpWord\Element\Line
-     */
-    public function addLine($lineStyle = null)
-    {
-        return $this->addElement('Line', $lineStyle);
-
     }
 
     /**
