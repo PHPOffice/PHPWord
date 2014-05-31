@@ -68,7 +68,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();
-        $section->addTable();
+        $section->addTable()->addRow()->addCell()->addText('Test');
         $section->addListItem('Test');
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);

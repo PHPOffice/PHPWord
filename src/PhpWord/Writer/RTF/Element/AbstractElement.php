@@ -98,6 +98,7 @@ abstract class AbstractElement extends HTMLAbstractElement
         }
 
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
+        $styleWriter->setNestedLevel($this->element->getNestedLevel());
         return $styleWriter->write();
     }
 

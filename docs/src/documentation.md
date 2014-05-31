@@ -90,9 +90,9 @@ Below are the supported features for each file formats.
 |                         | Link               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Preserve Text      | ✓    |     |     |      |     |
 |                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Page Break         | ✓    |     |  ✓  |      |     |
+|                         | Page Break         | ✓    |     | ✓  |      |     |
 |                         | List               | ✓    |     |     |      |     |
-|                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Table              | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Image              | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Object             | ✓    |     |     |      |     |
 |                         | Watermark          | ✓    |     |     |      |     |
@@ -454,7 +454,7 @@ Below are the matrix of element availability in each container. The column shows
 | 6   | Text Break    | v       | v      | v      | v    | v        | v        |
 | 7   | Page Break    | v       | -      | -      | -    | -        | -        |
 | 8   | List          | v       | v      | v      | v    | -        | -        |
-| 9   | Table         | v       | v      | v      | ?    | -        | -        |
+| 9   | Table         | v       | v      | v      | v    | -        | -        |
 | 10  | Image         | v       | v      | v      | v    | v        | v        |
 | 11  | Watermark     | -       | v      | -      | -    | -        | -        |
 | 12  | Object        | v       | v      | v      | v    | v        | v        |
