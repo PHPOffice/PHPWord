@@ -1,15 +1,21 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
-
-use PhpOffice\PhpWord\Style\Shading;
 
 /**
  * Table cell style
@@ -17,12 +23,30 @@ use PhpOffice\PhpWord\Style\Shading;
 class Cell extends Border
 {
     /**
+     * Vertical alignment constants
+     *
+     * @const string
+     */
+    const VALIGN_TOP = 'top';
+    const VALIGN_CENTER = 'center';
+    const VALIGN_BOTTOM = 'bottom';
+    const VALIGN_BOTH = 'both';
+
+    /**
      * Text direction constants
      *
      * @const string
      */
     const TEXT_DIR_BTLR = 'btLr';
     const TEXT_DIR_TBRL = 'tbRl';
+
+    /**
+     * Vertical merge (rowspan) constants
+     *
+     * @const string
+     */
+    const VMERGE_RESTART = 'restart';
+    const VMERGE_CONTINUE = 'continue';
 
     /**
      * Default border color
@@ -36,7 +60,7 @@ class Cell extends Border
      *
      * @var string
      */
-    private $valign;
+    private $vAlign;
 
     /**
      * Text Direction
@@ -50,7 +74,7 @@ class Cell extends Border
      *
      * @var integer
      */
-    private $gridSpan = null;
+    private $gridSpan;
 
     /**
      * rowspan (restart, continue)
@@ -60,7 +84,7 @@ class Cell extends Border
      *
      * @var string
      */
-    private $vMerge = null;
+    private $vMerge;
 
     /**
      * Shading
@@ -74,17 +98,21 @@ class Cell extends Border
      */
     public function getVAlign()
     {
-        return $this->valign;
+        return $this->vAlign;
     }
 
     /**
      * Set vertical align
      *
      * @param string $value
+     * @return self
      */
     public function setVAlign($value = null)
     {
-        $this->valign = $value;
+        $enum = array(self::VALIGN_TOP, self::VALIGN_CENTER, self::VALIGN_BOTTOM, self::VALIGN_BOTH);
+        $this->vAlign = $this->setEnumVal($value, $enum, $this->vAlign);
+
+        return $this;
     }
 
     /**
@@ -99,10 +127,14 @@ class Cell extends Border
      * Set text direction
      *
      * @param string $value
+     * @return self
      */
     public function setTextDirection($value = null)
     {
-        $this->textDirection = $value;
+        $enum = array(self::TEXT_DIR_BTLR, self::TEXT_DIR_TBRL);
+        $this->textDirection = $this->setEnumVal($value, $enum, $this->textDirection);
+
+        return $this;
     }
 
     /**
@@ -112,8 +144,10 @@ class Cell extends Border
      */
     public function getBgColor()
     {
-        if (!is_null($this->shading)) {
+        if ($this->shading !== null) {
             return $this->shading->getFill();
+        } else {
+            return null;
         }
     }
 
@@ -129,16 +163,6 @@ class Cell extends Border
     }
 
     /**
-     * Set grid span (colspan)
-     *
-     * @param int $value
-     */
-    public function setGridSpan($value = null)
-    {
-        $this->gridSpan = $value;
-    }
-
-    /**
      * Get grid span (colspan)
      */
     public function getGridSpan()
@@ -147,13 +171,16 @@ class Cell extends Border
     }
 
     /**
-     * Set vertical merge (rowspan)
+     * Set grid span (colspan)
      *
-     * @param string $value
+     * @param int $value
+     * @return self
      */
-    public function setVMerge($value = null)
+    public function setGridSpan($value = null)
     {
-        $this->vMerge = $value;
+        $this->gridSpan = $this->setIntVal($value, $this->gridSpan);
+
+        return $this;
     }
 
     /**
@@ -162,6 +189,20 @@ class Cell extends Border
     public function getVMerge()
     {
         return $this->vMerge;
+    }
+
+    /**
+     * Set vertical merge (rowspan)
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setVMerge($value = null)
+    {
+        $enum = array(self::VMERGE_RESTART, self::VMERGE_CONTINUE);
+        $this->vMerge = $this->setEnumVal($value, $enum, $this->vMerge);
+
+        return $this;
     }
 
     /**
@@ -177,19 +218,12 @@ class Cell extends Border
     /**
      * Set shading
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setShading($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->shading instanceof Shading) {
-                $this->shading = new Shading();
-            }
-            $this->shading->setStyleByArray($value);
-        } else {
-            $this->shading = null;
-        }
+        $this->setObjectVal($value, 'Shading', $this->shading);
 
         return $this;
     }

@@ -1,14 +1,23 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -19,11 +28,11 @@ use PhpOffice\PhpWord\Style;
 abstract class AbstractElement
 {
     /**
-     * Container type section|header|footer|cell|textrun|footnote|endnote
+     * PhpWord object
      *
-     * @var string
+     * @var \PhpOffice\PhpWord\PhpWord
      */
-    protected $container;
+    protected $phpWord;
 
     /**
      * Section Id
@@ -41,7 +50,7 @@ abstract class AbstractElement
      *
      * @var string
      */
-    protected $docPart = 'section';
+    protected $docPart = 'Section';
 
     /**
      * Document part Id
@@ -50,21 +59,21 @@ abstract class AbstractElement
      * because the max number of header/footer in every page is 3, i.e.
      * AUTO, FIRST, and EVEN (AUTO = ODD)
      *
-     * @var integer
+     * @var int
      */
     protected $docPartId = 1;
 
     /**
      * Index of element in the elements collection (start with 1)
      *
-     * @var integer
+     * @var int
      */
     protected $elementIndex = 1;
 
     /**
      * Unique Id for element
      *
-     * @var integer
+     * @var int
      */
     protected $elementId;
 
@@ -76,9 +85,38 @@ abstract class AbstractElement
     protected $relationId;
 
     /**
+     * Depth of table container nested level; Primarily used for RTF writer/reader
+     *
+     * 0 = Not in a table; 1 = in a table; 2 = in a table inside another table, etc.
+     *
+     * @var int
+     */
+    private $nestedLevel = 0;
+
+    /**
+     * Get PhpWord
+     *
+     * @return \PhpOffice\PhpWord\PhpWord
+     */
+    public function getPhpWord()
+    {
+        return $this->phpWord;
+    }
+
+    /**
+     * Set PhpWord as reference
+     *
+     * @param \PhpOffice\PhpWord\PhpWord
+     */
+    public function setPhpWord(PhpWord &$phpWord = null)
+    {
+        $this->phpWord = &$phpWord;
+    }
+
+    /**
      * Get section number
      *
-     * @return integer
+     * @return int
      */
     public function getSectionId()
     {
@@ -89,7 +127,7 @@ abstract class AbstractElement
      * Set doc part
      *
      * @param string $docPart
-     * @param integer $docPartId
+     * @param int $docPartId
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -110,7 +148,7 @@ abstract class AbstractElement
     /**
      * Get doc part Id
      *
-     * @return integer
+     * @return int
      */
     public function getDocPartId()
     {
@@ -168,21 +206,41 @@ abstract class AbstractElement
     /**
      * Set relation Id
      *
-     * @param int $rId
+     * @param int $value
      */
-    public function setRelationId($rId)
+    public function setRelationId($value)
     {
-        $this->relationId = $rId;
+        $this->relationId = $value;
     }
 
     /**
-     * Check if element is located in section doc part (as opposed to header/footer)
+     * Get nested level
      *
-     * @return boolean
+     * @return int
+     */
+    public function getNestedLevel()
+    {
+        return $this->nestedLevel;
+    }
+
+    /**
+     * Set nested level
+     *
+     * @param int $value
+     */
+    public function setNestedLevel($value)
+    {
+        $this->nestedLevel = $value;
+    }
+
+    /**
+     * Check if element is located in Section doc part (as opposed to Header/Footer)
+     *
+     * @return bool
      */
     public function isInSection()
     {
-        return ($this->docPart == 'section');
+        return ($this->docPart == 'Section');
     }
 
     /**
@@ -190,14 +248,13 @@ abstract class AbstractElement
      *
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
-     * @param boolean $returnObject Always return object
+     * @param bool $returnObject Always return object
+     * @return mixed
      */
     protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
     {
         if (!is_null($styleValue) && is_array($styleValue)) {
-            foreach ($styleValue as $key => $value) {
-                $styleObject->setStyleValue($key, $value);
-            }
+            $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
         } else {
             $style = $returnObject ? $styleObject : $styleValue;

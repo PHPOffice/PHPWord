@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
@@ -35,21 +43,18 @@ class Row extends AbstractElement
     /**
      * Row cells
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\Cell[]
      */
     private $cells = array();
 
     /**
      * Create a new table row
      *
-     * @param string $docPart
-     * @param int $docPartId
      * @param int $height
      * @param mixed $style
      */
-    public function __construct($docPart, $docPartId, $height = null, $style = null)
+    public function __construct($height = null, $style = null)
     {
-        $this->setDocPart($docPart, $docPartId);
         $this->height = $height;
         $this->style = $this->setStyle(new RowStyle(), $style, true);
     }
@@ -59,18 +64,23 @@ class Row extends AbstractElement
      *
      * @param int $width
      * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
-        $cell = new Cell($this->getDocPart(), $this->getDocPartId(), $width, $style);
+        $cell = new Cell($width, $style);
+        $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $cell->setPhpWord($this->phpWord);
+        $cell->setNestedLevel($this->getNestedLevel());
         $this->cells[] = $cell;
+
         return $cell;
     }
 
     /**
      * Get all cells
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\Cell[]
      */
     public function getCells()
     {

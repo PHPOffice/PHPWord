@@ -1,46 +1,65 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Style\Indentation;
-use PhpOffice\PhpWord\Style\Spacing;
 
 /**
  * Paragraph style
+ *
+ * OOXML:
+ * - General: alignment, outline level
+ * - Indentation: left, right, firstline, hanging
+ * - Spacing: before, after, line spacing
+ * - Pagination: widow control, keep next, keep line, page break before
+ * - Formatting exception: suppress line numbers, don't hyphenate
+ * - Textbox options
+ * - Tabs
+ * - Shading
+ * - Borders
+ *
+ * OpenOffice:
+ * - Indents & spacing
+ * - Alignment
+ * - Text flow
+ * - Outline & numbering
+ * - Tabs
+ * - Dropcaps
+ * - Tabs
+ * - Borders
+ * - Background
+ *
+ * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_PPr.html
  */
 class Paragraph extends AbstractStyle
 {
+    /**
+     * @const int One line height equals 240 twip
+     */
     const LINE_HEIGHT = 240;
 
     /**
-     * Paragraph alignment
+     * Aliases
      *
-     * @var string
+     * @var array
      */
-    private $align;
-
-    /**
-     * Text line height
-     *
-     * @var int
-     */
-    private $lineHeight;
-
-    /**
-     * Set of Custom Tab Stops
-     *
-     * @var \PhpOffice\PhpWord\Style\Tab[]
-     */
-    private $tabs = array();
+    protected $aliases = array('line-height' => 'lineHeight');
 
     /**
      * Parent style
@@ -55,6 +74,34 @@ class Paragraph extends AbstractStyle
      * @var string
      */
     private $next;
+
+    /**
+     * Alignment
+     *
+     * @var \PhpOffice\PhpWord\Style\Alignment
+     */
+    private $alignment;
+
+    /**
+     * Indentation
+     *
+     * @var \PhpOffice\PhpWord\Style\Indentation
+     */
+    private $indentation;
+
+    /**
+     * Spacing
+     *
+     * @var \PhpOffice\PhpWord\Style\Spacing
+     */
+    private $spacing;
+
+    /**
+     * Text line height
+     *
+     * @var int
+     */
+    private $lineHeight;
 
     /**
      * Allow first/last line to display on a separate page
@@ -85,35 +132,32 @@ class Paragraph extends AbstractStyle
     private $pageBreakBefore = false;
 
     /**
-     * Indentation
+     * Numbering style name
      *
-     * @var \PhpOffice\PhpWord\Style\Indentation
+     * @var string
      */
-    private $indentation;
+    private $numStyle;
 
     /**
-     * Spacing
+     * Numbering level
      *
-     * @var \PhpOffice\PhpWord\Style\Spacing
+     * @var int
      */
-    private $spacing;
+    private $numLevel = 0;
 
     /**
-     * Set style by array
+     * Set of Custom Tab Stops
      *
-     * @param array $style
-     * @return $this
+     * @var \PhpOffice\PhpWord\Style\Tab[]
      */
-    public function setArrayStyle(array $style = array())
+    private $tabs = array();
+
+    /**
+     * Create new instance
+     */
+    public function __construct()
     {
-        foreach ($style as $key => $value) {
-            if ($key === 'line-height') {
-                null;
-            }
-            $this->setStyleValue($key, $value);
-        }
-
-        return $this;
+        $this->alignment = new Alignment();
     }
 
     /**
@@ -121,6 +165,7 @@ class Paragraph extends AbstractStyle
      *
      * @param string $key
      * @param mixed $value
+     * @return self
      */
     public function setStyleValue($key, $value)
     {
@@ -129,39 +174,210 @@ class Paragraph extends AbstractStyle
             $value = $value * 720;
         } elseif ($key == 'spacing') {
             $value += 240; // because line height of 1 matches 240 twips
-        } elseif ($key === 'line-height') {
-            $this->setLineHeight($value);
-            return;
         }
-        $method = 'set' . $key;
-        if (method_exists($this, $method)) {
-            $this->$method($value);
-        }
+
+        return parent::setStyleValue($key, $value);
     }
 
     /**
-     * Get Paragraph Alignment
+     * Get style values
+     *
+     * An experiment to retrieve all style values in one function. This will
+     * reduce function call and increase cohesion between functions. Should be
+     * implemented in all styles.
+     *
+     * @ignoreScrutinizerPatch
+     * @return array
+     */
+    public function getStyleValues()
+    {
+        $styles = array(
+            'name'              => $this->getStyleName(),
+            'basedOn'           => $this->getBasedOn(),
+            'next'              => $this->getNext(),
+            'alignment'         => $this->getAlign(),
+            'indentation'       => $this->getIndentation(),
+            'spacing'           => $this->getSpace(),
+            'pagination'        => array(
+                'widowControl'  => $this->hasWidowControl(),
+                'keepNext'      => $this->isKeepNext(),
+                'keepLines'     => $this->isKeepLines(),
+                'pageBreak'     => $this->hasPageBreakBefore(),
+            ),
+            'numbering'         => array(
+                'style'         => $this->getNumStyle(),
+                'level'         => $this->getNumLevel(),
+            ),
+            'tabs'              => $this->getTabs(),
+        );
+
+        return $styles;
+    }
+
+    /**
+     * Get alignment
      *
      * @return string
      */
     public function getAlign()
     {
-        return $this->align;
+        return $this->alignment->getValue();
     }
 
     /**
-     * Set Paragraph Alignment
+     * Set alignment
      *
      * @param string $value
      * @return self
      */
     public function setAlign($value = null)
     {
-        if (strtolower($value) == 'justify') {
-            // justify becames both
-            $value = 'both';
+        $this->alignment->setValue($value);
+
+        return $this;
+    }
+
+    /**
+     * Get parent style ID
+     *
+     * @return string
+     */
+    public function getBasedOn()
+    {
+        return $this->basedOn;
+    }
+
+    /**
+     * Set parent style ID
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setBasedOn($value = 'Normal')
+    {
+        $this->basedOn = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get style for next paragraph
+     *
+     * @return string
+     */
+    public function getNext()
+    {
+        return $this->next;
+    }
+
+    /**
+     * Set style for next paragraph
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setNext($value = null)
+    {
+        $this->next = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Indentation
+     */
+    public function getIndentation()
+    {
+        return $this->indentation;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setIndentation($value = null)
+    {
+        $this->setObjectVal($value, 'Indentation', $this->indentation);
+
+        return $this;
+    }
+
+    /**
+     * Get indentation
+     *
+     * @return int
+     */
+    public function getIndent()
+    {
+        if ($this->indentation !== null) {
+            return $this->indentation->getLeft();
+        } else {
+            return null;
         }
-        $this->align = $value;
+    }
+
+    /**
+     * Set indentation
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setIndent($value = null)
+    {
+        return $this->setIndentation(array('left' => $value));
+    }
+
+    /**
+     * Get hanging
+     *
+     * @return int
+     */
+    public function getHanging()
+    {
+        if ($this->indentation !== null) {
+            return $this->indentation->getHanging();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Set hanging
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setHanging($value = null)
+    {
+        return $this->setIndentation(array('hanging' => $value));
+    }
+
+    /**
+     * Get spacing
+     *
+     * @return \PhpOffice\PhpWord\Style\Spacing
+     * @todo Rename to getSpacing in 1.0
+     */
+    public function getSpace()
+    {
+        return $this->spacing;
+    }
+
+    /**
+     * Set spacing
+     *
+     * @param mixed $value
+     * @return self
+     * @todo Rename to setSpacing in 1.0
+     */
+    public function setSpace($value = null)
+    {
+        $this->setObjectVal($value, 'Spacing', $this->spacing);
+
         return $this;
     }
 
@@ -172,8 +388,10 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceBefore()
     {
-        if (!is_null($this->spacing)) {
+        if ($this->spacing !== null) {
             return $this->spacing->getBefore();
+        } else {
+            return null;
         }
     }
 
@@ -195,8 +413,10 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceAfter()
     {
-        if (!is_null($this->spacing)) {
+        if ($this->spacing !== null) {
             return $this->spacing->getAfter();
+        } else {
+            return null;
         }
     }
 
@@ -218,8 +438,10 @@ class Paragraph extends AbstractStyle
      */
     public function getSpacing()
     {
-        if (!is_null($this->spacing)) {
+        if ($this->spacing !== null) {
             return $this->spacing->getLine();
+        } else {
+            return null;
         }
     }
 
@@ -248,7 +470,7 @@ class Paragraph extends AbstractStyle
      * Set the line height
      *
      * @param int|float|string $lineHeight
-     * @return $this
+     * @return self
      * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
@@ -267,49 +489,141 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Get indentation
+     * Get allow first/last line to display on a separate page setting
      *
-     * @return int
+     * @return bool
      */
-    public function getIndent()
+    public function hasWidowControl()
     {
-        if (!is_null($this->indentation)) {
-            return $this->indentation->getLeft();
-        }
+        return $this->widowControl;
     }
 
     /**
-     * Set indentation
+     * Set keep paragraph with next paragraph setting
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setWidowControl($value = true)
+    {
+        $this->widowControl = $this->setBoolVal($value, $this->widowControl);
+
+        return $this;
+    }
+
+    /**
+     * Get keep paragraph with next paragraph setting
+     *
+     * @return bool
+     */
+    public function isKeepNext()
+    {
+        return $this->keepNext;
+    }
+
+    /**
+     * Set keep paragraph with next paragraph setting
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setKeepNext($value = true)
+    {
+        $this->keepNext = $this->setBoolVal($value, $this->keepNext);
+
+        return $this;
+    }
+
+    /**
+     * Get keep all lines on one page setting
+     *
+     * @return bool
+     */
+    public function isKeepLines()
+    {
+        return $this->keepLines;
+    }
+
+    /**
+     * Set keep all lines on one page setting
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setKeepLines($value = true)
+    {
+        $this->keepLines = $this->setBoolVal($value, $this->keepLines);
+
+        return $this;
+    }
+
+    /**
+     * Get start paragraph on next page setting
+     *
+     * @return bool
+     */
+    public function hasPageBreakBefore()
+    {
+        return $this->pageBreakBefore;
+    }
+
+    /**
+     * Set start paragraph on next page setting
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setPageBreakBefore($value = true)
+    {
+        $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
+
+        return $this;
+    }
+
+    /**
+     * Get numbering style name
+     *
+     * @return string
+     */
+    public function getNumStyle()
+    {
+        return $this->numStyle;
+    }
+
+    /**
+     * Set numbering style name
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setNumStyle($value)
+    {
+        $this->numStyle = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get numbering level
+     *
+     * @return int
+     */
+    public function getNumLevel()
+    {
+        return $this->numLevel;
+    }
+
+    /**
+     * Set numbering level
      *
      * @param int $value
      * @return self
      */
-    public function setIndent($value = null)
+    public function setNumLevel($value = 0)
     {
-        return $this->setIndentation(array('left' => $value));
-    }
+        $this->numLevel = $this->setIntVal($value, $this->numLevel);
 
-    /**
-     * Get hanging
-     *
-     * @return int
-     */
-    public function getHanging()
-    {
-        if (!is_null($this->indentation)) {
-            return $this->indentation->getHanging();
-        }
-    }
-
-    /**
-     * Set hanging
-     *
-     * @param int $value
-     * @return self
-     */
-    public function setHanging($value = null)
-    {
-        return $this->setIndentation(array('hanging' => $value));
+        return $this;
     }
 
     /**
@@ -338,208 +652,46 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Get parent style ID
-     *
-     * @return  string
-     */
-    public function getBasedOn()
-    {
-        return $this->basedOn;
-    }
-
-    /**
-     * Set parent style ID
-     *
-     * @param   string $value
-     * @return  self
-     */
-    public function setBasedOn($value = 'Normal')
-    {
-        $this->basedOn = $value;
-        return $this;
-    }
-
-    /**
-     * Get style for next paragraph
-     *
-     * @return string
-     */
-    public function getNext()
-    {
-        return $this->next;
-    }
-
-    /**
-     * Set style for next paragraph
-     *
-     * @param   string $value
-     * @return  self
-     */
-    public function setNext($value = null)
-    {
-        $this->next = $value;
-        return $this;
-    }
-
-    /**
      * Get allow first/last line to display on a separate page setting
      *
-     * @return  bool
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getWidowControl()
     {
-        return $this->widowControl;
-    }
-
-    /**
-     * Set keep paragraph with next paragraph setting
-     *
-     * @param   bool $value
-     * @return  self
-     */
-    public function setWidowControl($value = true)
-    {
-        if (!is_bool($value)) {
-            $value = true;
-        }
-        $this->widowControl = $value;
-        return $this;
+        return $this->hasWidowControl();
     }
 
     /**
      * Get keep paragraph with next paragraph setting
      *
-     * @return  bool
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getKeepNext()
     {
-        return $this->keepNext;
-    }
-
-    /**
-     * Set keep paragraph with next paragraph setting
-     *
-     * @param   bool $value
-     * @return  self
-     */
-    public function setKeepNext($value = false)
-    {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->keepNext = $value;
-        return $this;
+        return $this->isKeepNext();
     }
 
     /**
      * Get keep all lines on one page setting
      *
-     * @return  bool
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getKeepLines()
     {
-        return $this->keepLines;
-    }
-
-    /**
-     * Set keep all lines on one page setting
-     *
-     * @param   bool $value
-     * @return  self
-     */
-    public function setKeepLines($value = false)
-    {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->keepLines = $value;
-        return $this;
+        return $this->isKeepLines();
     }
 
     /**
      * Get start paragraph on next page setting
      *
-     * @return bool
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getPageBreakBefore()
     {
-        return $this->pageBreakBefore;
-    }
-
-    /**
-     * Set start paragraph on next page setting
-     *
-     * @param   bool $value
-     * @return  self
-     */
-    public function setPageBreakBefore($value = false)
-    {
-        if (!is_bool($value)) {
-            $value = false;
-        }
-        $this->pageBreakBefore = $value;
-        return $this;
-    }
-
-    /**
-     * Get shading
-     *
-     * @return \PhpOffice\PhpWord\Style\Indentation
-     */
-    public function getIndentation()
-    {
-        return $this->indentation;
-    }
-
-    /**
-     * Set shading
-     *
-     * @param array $value
-     * @return self
-     */
-    public function setIndentation($value = null)
-    {
-        if (is_array($value)) {
-            if (!$this->indentation instanceof Indentation) {
-                $this->indentation = new Indentation();
-            }
-            $this->indentation->setStyleByArray($value);
-        } else {
-            $this->indentation = null;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get shading
-     *
-     * @return \PhpOffice\PhpWord\Style\Spacing
-     * @todo Rename to getSpacing in 1.0
-     */
-    public function getSpace()
-    {
-        return $this->spacing;
-    }
-
-    /**
-     * Set shading
-     *
-     * @param array $value
-     * @return self
-     * @todo Rename to setSpacing in 1.0
-     */
-    public function setSpace($value = null)
-    {
-        if (is_array($value)) {
-            if (!$this->spacing instanceof Spacing) {
-                $this->spacing = new Spacing();
-            }
-            $this->spacing->setStyleByArray($value);
-        } else {
-            $this->spacing = null;
-        }
-
-        return $this;
+        return $this->hasPageBreakBefore();
     }
 }

@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer;
 
@@ -56,8 +64,10 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $docProps = $phpWord->getDocumentProperties();
         $docProps->setTitle('HTML Test');
 
-        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000'));
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addTitleStyle(1, array('bold' => true));
+        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
+            'color' => 'FF0000', 'fgColor' => 'FF0000'));
+        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center', 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
@@ -82,8 +92,8 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $textrun = $section->addTextRun('Paragraph');
         $textrun->addLink('http://test.com');
         $textrun->addImage($localImage);
-        $textrun->addFootnote();
-        $textrun->addEndnote();
+        $textrun->addFootnote()->addText('Footnote');
+        $textrun->addEndnote()->addText('Endnote');
 
         $section = $phpWord->addSection();
 

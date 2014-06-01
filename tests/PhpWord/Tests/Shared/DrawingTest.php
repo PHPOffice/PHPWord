@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Shared;
@@ -32,11 +40,11 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $result = Drawing::pixelsToEMU($value);
             $this->assertEquals(round($value * 9525), $result);
 
-            $result = Drawing::EMUToPixels($value);
+            $result = Drawing::emuToPixels($value);
             $this->assertEquals(round($value / 9525), $result);
 
             $result = Drawing::pixelsToPoints($value);
-            $this->assertEquals($value * 0.67777777, $result);
+            $this->assertEquals($value * 0.75, $result);
 
             $result = Drawing::pointsToPixels($value);
             $this->assertEquals($value * 1.333333333, $result);
@@ -48,10 +56,10 @@ class DrawingTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(round($value / 60000), $result);
 
             $result = Drawing::pixelsToCentimeters($value);
-            $this->assertEquals($value * 0.028, $result);
+            $this->assertEquals($value * 0.026458333, $result);
 
             $result = Drawing::centimetersToPixels($value);
-            $this->assertEquals($value / 0.028, $result);
+            $this->assertEquals($value / 0.026458333, $result);
         }
     }
 

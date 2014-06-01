@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
@@ -14,7 +22,7 @@ namespace PhpOffice\PhpWord;
  */
 class DocumentProperties
 {
-    /** Constants */
+    /** @const string Property type constants */
     const PROPERTY_TYPE_BOOLEAN = 'b';
     const PROPERTY_TYPE_INTEGER = 'i';
     const PROPERTY_TYPE_FLOAT = 'f';
@@ -408,8 +416,9 @@ class DocumentProperties
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['value'];
+        } else {
+            return null;
         }
-
     }
 
     /**
@@ -422,8 +431,9 @@ class DocumentProperties
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['type'];
+        } else {
+            return null;
         }
-
     }
 
     /**
@@ -478,49 +488,23 @@ class DocumentProperties
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
-        switch ($propertyType) {
-            case 'empty': //    Empty
+        $conversion = self::getConversion($propertyType);
+
+        switch ($conversion) {
+            case 'empty': // Empty
                 return '';
-            case 'null': //    Null
+            case 'null': // Null
                 return null;
-            case 'i1': //    1-Byte Signed Integer
-            case 'i2': //    2-Byte Signed Integer
-            case 'i4': //    4-Byte Signed Integer
-            case 'i8': //    8-Byte Signed Integer
-            case 'int': //    Integer
+            case 'int': // Signed integer
                 return (int) $propertyValue;
-            case 'ui1': //    1-Byte Unsigned Integer
-            case 'ui2': //    2-Byte Unsigned Integer
-            case 'ui4': //    4-Byte Unsigned Integer
-            case 'ui8': //    8-Byte Unsigned Integer
-            case 'uint': //    Unsigned Integer
+            case 'uint': // Unsigned integer
                 return abs((int) $propertyValue);
-            case 'r4': //    4-Byte Real Number
-            case 'r8': //    8-Byte Real Number
-            case 'decimal': //    Decimal
+            case 'float': // Float
                 return (float) $propertyValue;
-            case 'date': //    Date and Time
-            case 'filetime': //    File Time
+            case 'date': // Date
                 return strtotime($propertyValue);
-            case 'bool': //    Boolean
+            case 'bool': // Boolean
                 return ($propertyValue == 'true') ? true : false;
-            case 'lpstr': //    LPSTR
-            case 'lpwstr': //    LPWSTR
-            case 'bstr': //    Basic String
-            case 'cy': //    Currency
-            case 'error': //    Error Status Code
-            case 'vector': //    Vector
-            case 'array': //    Array
-            case 'blob': //    Binary Blob
-            case 'oblob': //    Binary Blob Object
-            case 'stream': //    Binary Stream
-            case 'ostream': //    Binary Stream Object
-            case 'storage': //    Binary Storage
-            case 'ostorage': //    Binary Storage Object
-            case 'vstream': //    Binary Versioned Stream
-            case 'clsid': //    Class ID
-            case 'cf': //    Clipboard Data
-                return $propertyValue;
         }
 
         return $propertyValue;
@@ -559,10 +543,36 @@ class DocumentProperties
      */
     private function setValue($value, $default)
     {
-        if (is_null($value) || $value == '') {
+        if ($value === null || $value == '') {
             $value = $default;
         }
 
         return $value;
+    }
+
+    /**
+     * Get conversion model depending on property type
+     *
+     * @param string $propertyType
+     * @return string
+     */
+    private static function getConversion($propertyType)
+    {
+        $conversions = array(
+            'empty' => array('empty'),
+            'null'  => array('null'),
+            'int'   => array('i1', 'i2', 'i4', 'i8', 'int'),
+            'uint'  => array('ui1', 'ui2', 'ui4', 'ui8', 'uint'),
+            'float' => array('r4', 'r8', 'decimal'),
+            'bool'  => array('bool'),
+            'date'  => array('date', 'filetime'),
+        );
+        foreach ($conversions as $conversion => $types) {
+            if (in_array($propertyType, $types)) {
+                return $conversion;
+            }
+        }
+
+        return 'string';
     }
 }

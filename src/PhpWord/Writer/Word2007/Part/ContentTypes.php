@@ -1,47 +1,59 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
- * Word2007 contenttypes part writer
+ * Word2007 contenttypes part writer: [Content_Types].xml
  */
 class ContentTypes extends AbstractPart
 {
     /**
-     * Write [Content_Types].xml
+     * Write part
      *
-     * @param array $contentTypes
+     * @return string
      */
-    public function writeContentTypes($contentTypes)
+    public function write()
     {
-        $OpenXMLPrefix = 'application/vnd.openxmlformats-';
-        $WordMLPrefix  = $OpenXMLPrefix . 'officedocument.wordprocessingml.';
+        /** @var \PhpOffice\PhpWord\Writer\Word2007 $parentWriter Type hint */
+        $parentWriter = $this->getParentWriter();
+        $contentTypes = $parentWriter->getContentTypes();
+
+        $openXMLPrefix = 'application/vnd.openxmlformats-';
+        $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
         $overrides = array(
-            '/docProps/core.xml'     => $OpenXMLPrefix . 'package.core-properties+xml',
-            '/docProps/app.xml'      => $OpenXMLPrefix . 'officedocument.extended-properties+xml',
-            '/word/document.xml'     => $WordMLPrefix  . 'document.main+xml',
-            '/word/styles.xml'       => $WordMLPrefix  . 'styles+xml',
-            '/word/numbering.xml'    => $WordMLPrefix  . 'numbering+xml',
-            '/word/settings.xml'     => $WordMLPrefix  . 'settings+xml',
-            '/word/theme/theme1.xml' => $OpenXMLPrefix . 'officedocument.theme+xml',
-            '/word/webSettings.xml'  => $WordMLPrefix  . 'webSettings+xml',
-            '/word/fontTable.xml'    => $WordMLPrefix  . 'fontTable+xml',
+            '/docProps/core.xml'     => $openXMLPrefix . 'package.core-properties+xml',
+            '/docProps/app.xml'      => $openXMLPrefix . 'officedocument.extended-properties+xml',
+            '/docProps/custom.xml'   => $openXMLPrefix . 'officedocument.custom-properties+xml',
+            '/word/document.xml'     => $wordMLPrefix  . 'document.main+xml',
+            '/word/styles.xml'       => $wordMLPrefix  . 'styles+xml',
+            '/word/numbering.xml'    => $wordMLPrefix  . 'numbering+xml',
+            '/word/settings.xml'     => $wordMLPrefix  . 'settings+xml',
+            '/word/theme/theme1.xml' => $openXMLPrefix . 'officedocument.theme+xml',
+            '/word/webSettings.xml'  => $wordMLPrefix  . 'webSettings+xml',
+            '/word/fontTable.xml'    => $wordMLPrefix  . 'fontTable+xml',
         );
 
         $defaults = $contentTypes['default'];
         if (!empty($contentTypes['override'])) {
             foreach ($contentTypes['override'] as $key => $val) {
-                $overrides[$key] = $WordMLPrefix . $val . '+xml';
+                $overrides[$key] = $wordMLPrefix . $val . '+xml';
             }
         }
 
@@ -65,21 +77,16 @@ class ContentTypes extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param boolean $isDefault
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {
         foreach ($parts as $partName => $contentType) {
-            if ($partName != '' && $contentType != '') {
-                $partType = $isDefault ? 'Default' : 'Override';
-                $partAttribute = $isDefault ? 'Extension' : 'PartName';
-                $xmlWriter->startElement($partType);
-                $xmlWriter->writeAttribute($partAttribute, $partName);
-                $xmlWriter->writeAttribute('ContentType', $contentType);
-                $xmlWriter->endElement();
-            } else {
-                throw new Exception("Invalid parameters passed.");
-            }
+            $partType = $isDefault ? 'Default' : 'Override';
+            $partAttribute = $isDefault ? 'Extension' : 'PartName';
+            $xmlWriter->startElement($partType);
+            $xmlWriter->writeAttribute($partAttribute, $partName);
+            $xmlWriter->writeAttribute('ContentType', $contentType);
+            $xmlWriter->endElement();
         }
     }
 }

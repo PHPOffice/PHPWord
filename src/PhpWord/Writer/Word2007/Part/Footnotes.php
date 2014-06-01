@@ -1,20 +1,29 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Element\Footnote;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
- * Word2007 footnotes part writer
+ * Word2007 footnotes part writer: word/(footnotes|endnotes).xml
  */
 class Footnotes extends AbstractPart
 {
@@ -47,13 +56,21 @@ class Footnotes extends AbstractPart
     protected $refStyle = 'FootnoteReference';
 
     /**
-     * Write word/(footnotes|endnotes).xml
+     * Footnotes/endnotes collection to be written
      *
-     * @param array $elements
+     * @var \PhpOffice\PhpWord\Collection\Footnotes|\PhpOffice\PhpWord\Collection\Endnotes
      */
-    public function write($elements)
+    protected $elements;
+
+    /**
+     * Write part
+     *
+     * @return string
+     */
+    public function write()
     {
         $xmlWriter = $this->getXmlWriter();
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement($this->rootNode);
@@ -62,7 +79,7 @@ class Footnotes extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -89,7 +106,8 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // $this->elementNode
 
-        // Content
+        /** @var array $elements Type hint */
+        $elements = $this->elements;
         foreach ($elements as $element) {
             if ($element instanceof Footnote) {
                 $this->writeNote($xmlWriter, $element);
@@ -99,6 +117,19 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // $this->rootNode
 
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Set element
+     *
+     * @param \PhpOffice\PhpWord\Collection\Footnotes|\PhpOffice\PhpWord\Collection\Endnotes $elements
+     * @return self
+     */
+    public function setElements($elements)
+    {
+        $this->elements = $elements;
+
+        return $this;
     }
 
     /**
@@ -136,7 +167,8 @@ class Footnotes extends AbstractPart
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeContainerElements($xmlWriter, $element);
+        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter->write();
 
         $xmlWriter->endElement(); // w:p
         $xmlWriter->endElement(); // $this->elementNode

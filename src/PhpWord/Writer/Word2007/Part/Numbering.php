@@ -1,31 +1,44 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 use PhpOffice\PhpWord\Style\NumberingLevel;
 
 /**
- * Word2007 numbering part writer
+ * Word2007 numbering part writer: word/numbering.xml
+ *
+ * @since 0.10.0
  */
 class Numbering extends AbstractPart
 {
     /**
-     * Write word/numbering.xml
+     * Write part
+     *
+     * @return string
      */
-    public function writeNumbering()
+    public function write()
     {
-        $styles = Style::getStyles();
-
         $xmlWriter = $this->getXmlWriter();
+        $styles = Style::getStyles();
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:numbering');
@@ -34,7 +47,7 @@ class Numbering extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -45,7 +58,7 @@ class Numbering extends AbstractPart
                 $levels = $style->getLevels();
 
                 $xmlWriter->startElement('w:abstractNum');
-                $xmlWriter->writeAttribute('w:abstractNumId', $style->getNumId());
+                $xmlWriter->writeAttribute('w:abstractNumId', $style->getIndex());
 
                 $xmlWriter->startElement('w:nsid');
                 $xmlWriter->writeAttribute('w:val', $this->getRandomHexNumber());
@@ -56,91 +69,8 @@ class Numbering extends AbstractPart
                 $xmlWriter->endElement(); // w:multiLevelType
 
                 if (is_array($levels)) {
-                    foreach ($levels as $levelNum => $levelObject) {
-                        if ($levelObject instanceof NumberingLevel) {
-                            $start = $levelObject->getStart();
-                            $format = $levelObject->getFormat();
-                            $restart = $levelObject->getRestart();
-                            $suffix = $levelObject->getSuffix();
-                            $text = $levelObject->getText();
-                            $align = $levelObject->getAlign();
-                            $tabPos = $levelObject->getTabPos();
-                            $left = $levelObject->getLeft();
-                            $hanging = $levelObject->getHanging();
-                            $font = $levelObject->getFont();
-                            $hint = $levelObject->getHint();
-
-                            $xmlWriter->startElement('w:lvl');
-                            $xmlWriter->writeAttribute('w:ilvl', $levelNum);
-
-                            if (!is_null($start)) {
-                                $xmlWriter->startElement('w:start');
-                                $xmlWriter->writeAttribute('w:val', $start);
-                                $xmlWriter->endElement(); // w:start
-                            }
-                            if (!is_null($format)) {
-                                $xmlWriter->startElement('w:numFmt');
-                                $xmlWriter->writeAttribute('w:val', $format);
-                                $xmlWriter->endElement(); // w:numFmt
-                            }
-                            if (!is_null($restart)) {
-                                $xmlWriter->startElement('w:lvlRestart');
-                                $xmlWriter->writeAttribute('w:val', $restart);
-                                $xmlWriter->endElement(); // w:lvlRestart
-                            }
-                            if (!is_null($suffix)) {
-                                $xmlWriter->startElement('w:suff');
-                                $xmlWriter->writeAttribute('w:val', $suffix);
-                                $xmlWriter->endElement(); // w:suff
-                            }
-                            if (!is_null($text)) {
-                                $xmlWriter->startElement('w:lvlText');
-                                $xmlWriter->writeAttribute('w:val', $text);
-                                $xmlWriter->endElement(); // w:start
-                            }
-                            if (!is_null($align)) {
-                                $xmlWriter->startElement('w:lvlJc');
-                                $xmlWriter->writeAttribute('w:val', $align);
-                                $xmlWriter->endElement(); // w:lvlJc
-                            }
-                            if (!is_null($tabPos) || !is_null($left) || !is_null($hanging)) {
-                                $xmlWriter->startElement('w:pPr');
-                                if (!is_null($tabPos)) {
-                                    $xmlWriter->startElement('w:tabs');
-                                    $xmlWriter->startElement('w:tab');
-                                    $xmlWriter->writeAttribute('w:val', 'num');
-                                    $xmlWriter->writeAttribute('w:pos', $tabPos);
-                                    $xmlWriter->endElement(); // w:tab
-                                    $xmlWriter->endElement(); // w:tabs
-                                }
-                                if (!is_null($left) || !is_null($hanging)) {
-                                    $xmlWriter->startElement('w:ind');
-                                    if (!is_null($left)) {
-                                        $xmlWriter->writeAttribute('w:left', $left);
-                                    }
-                                    if (!is_null($hanging)) {
-                                        $xmlWriter->writeAttribute('w:hanging', $hanging);
-                                    }
-                                    $xmlWriter->endElement(); // w:ind
-                                }
-                                $xmlWriter->endElement(); // w:pPr
-                            }
-                            if (!is_null($font) || !is_null($hint)) {
-                                $xmlWriter->startElement('w:rPr');
-                                $xmlWriter->startElement('w:rFonts');
-                                if (!is_null($font)) {
-                                    $xmlWriter->writeAttribute('w:ascii', $font);
-                                    $xmlWriter->writeAttribute('w:hAnsi', $font);
-                                    $xmlWriter->writeAttribute('w:cs', $font);
-                                }
-                                if (!is_null($hint)) {
-                                    $xmlWriter->writeAttribute('w:hint', $hint);
-                                }
-                                $xmlWriter->endElement(); // w:rFonts
-                                $xmlWriter->endElement(); // w:rPr
-                            }
-                            $xmlWriter->endElement(); // w:lvl
-                        }
+                    foreach ($levels as $level) {
+                        $this->writeLevel($xmlWriter, $level);
                     }
                 }
                 $xmlWriter->endElement(); // w:abstractNum
@@ -151,9 +81,9 @@ class Numbering extends AbstractPart
         foreach ($styles as $style) {
             if ($style instanceof NumberingStyle) {
                 $xmlWriter->startElement('w:num');
-                $xmlWriter->writeAttribute('w:numId', $style->getNumId());
+                $xmlWriter->writeAttribute('w:numId', $style->getIndex());
                 $xmlWriter->startElement('w:abstractNumId');
-                $xmlWriter->writeAttribute('w:val', $style->getNumId());
+                $xmlWriter->writeAttribute('w:val', $style->getIndex());
                 $xmlWriter->endElement(); // w:abstractNumId
                 $xmlWriter->endElement(); // w:num
             }
@@ -162,6 +92,90 @@ class Numbering extends AbstractPart
         $xmlWriter->endElement(); // w:numbering
 
         return $xmlWriter->getData();
+    }
+
+    /**
+     * Write level
+     */
+    private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $xmlWriter->startElement('w:lvl');
+        $xmlWriter->writeAttribute('w:ilvl', $level->getLevel());
+
+        // Numbering level properties
+        $properties = array(
+            'start'   => 'start',
+            'format'  => 'numFmt',
+            'restart' => 'lvlRestart',
+            'pStyle'  => 'pStyle',
+            'suffix'  => 'suff',
+            'text'    => 'lvlText',
+            'align'   => 'lvlJc'
+        );
+        foreach ($properties as $property => $nodeName) {
+            $getMethod = "get{$property}";
+            if (!is_null($level->$getMethod())) {
+                $xmlWriter->startElement("w:{$nodeName}");
+                $xmlWriter->writeAttribute('w:val', $level->$getMethod());
+                $xmlWriter->endElement(); // w:start
+            }
+        }
+
+        // Paragraph & font styles
+        $this->writeParagraph($xmlWriter, $level);
+        $this->writeFont($xmlWriter, $level);
+
+        $xmlWriter->endElement(); // w:lvl
+    }
+
+    /**
+     * Write level paragraph
+     *
+     * @since 0.11.0
+     * @todo Use paragraph style writer
+     */
+    private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $tabPos = $level->getTabPos();
+        $left = $level->getLeft();
+        $hanging = $level->getHanging();
+
+        $xmlWriter->startElement('w:pPr');
+
+        $xmlWriter->startElement('w:tabs');
+        $xmlWriter->startElement('w:tab');
+        $xmlWriter->writeAttribute('w:val', 'num');
+        $xmlWriter->writeAttributeIf($tabPos !== null, 'w:pos', $tabPos);
+        $xmlWriter->endElement(); // w:tab
+        $xmlWriter->endElement(); // w:tabs
+
+        $xmlWriter->startElement('w:ind');
+        $xmlWriter->writeAttributeIf($left !== null, 'w:left', $left);
+        $xmlWriter->writeAttributeIf($hanging !== null, 'w:hanging', $hanging);
+        $xmlWriter->endElement(); // w:ind
+
+        $xmlWriter->endElement(); // w:pPr
+    }
+
+    /**
+     * Write level font
+     *
+     * @since 0.11.0
+     * @todo Use font style writer
+     */
+    private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level)
+    {
+        $font = $level->getFont();
+        $hint = $level->getHint();
+
+        $xmlWriter->startElement('w:rPr');
+        $xmlWriter->startElement('w:rFonts');
+        $xmlWriter->writeAttributeIf($font !== null, 'w:ascii', $font);
+        $xmlWriter->writeAttributeIf($font !== null, 'w:hAnsi', $font);
+        $xmlWriter->writeAttributeIf($font !== null, 'w:cs', $font);
+        $xmlWriter->writeAttributeIf($hint !== null, 'w:hint', $hint);
+        $xmlWriter->endElement(); // w:rFonts
+        $xmlWriter->endElement(); // w:rPr
     }
 
     /**

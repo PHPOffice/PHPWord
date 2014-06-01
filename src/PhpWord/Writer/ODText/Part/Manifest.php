@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
@@ -12,49 +20,38 @@ namespace PhpOffice\PhpWord\Writer\ODText\Part;
 use PhpOffice\PhpWord\Media;
 
 /**
- * ODText manifest part writer
+ * ODText manifest part writer: META-INF/manifest.xml
  */
 class Manifest extends AbstractPart
 {
     /**
-     * Write Manifest file to XML format
+     * Write part
      *
-     * @return string XML Output
+     * @return string
      */
-    public function writeManifest()
+    public function write()
     {
-        // Create XML writer
+        $parts = array('content.xml', 'meta.xml', 'styles.xml');
         $xmlWriter = $this->getXmlWriter();
 
-        // XML header
         $xmlWriter->startDocument('1.0', 'UTF-8');
-
-        // manifest:manifest
         $xmlWriter->startElement('manifest:manifest');
         $xmlWriter->writeAttribute('manifest:version', '1.2');
         $xmlWriter->writeAttribute('xmlns:manifest', 'urn:oasis:names:tc:opendocument:xmlns:manifest:1.0');
 
-        // manifest:file-entry
         $xmlWriter->startElement('manifest:file-entry');
         $xmlWriter->writeAttribute('manifest:media-type', 'application/vnd.oasis.opendocument.text');
-        $xmlWriter->writeAttribute('manifest:version', '1.2');
         $xmlWriter->writeAttribute('manifest:full-path', '/');
+        $xmlWriter->writeAttribute('manifest:version', '1.2');
         $xmlWriter->endElement();
-        // manifest:file-entry
-        $xmlWriter->startElement('manifest:file-entry');
-        $xmlWriter->writeAttribute('manifest:media-type', 'text/xml');
-        $xmlWriter->writeAttribute('manifest:full-path', 'content.xml');
-        $xmlWriter->endElement();
-        // manifest:file-entry
-        $xmlWriter->startElement('manifest:file-entry');
-        $xmlWriter->writeAttribute('manifest:media-type', 'text/xml');
-        $xmlWriter->writeAttribute('manifest:full-path', 'meta.xml');
-        $xmlWriter->endElement();
-        // manifest:file-entry
-        $xmlWriter->startElement('manifest:file-entry');
-        $xmlWriter->writeAttribute('manifest:media-type', 'text/xml');
-        $xmlWriter->writeAttribute('manifest:full-path', 'styles.xml');
-        $xmlWriter->endElement();
+
+        // Parts
+        foreach ($parts as $part) {
+            $xmlWriter->startElement('manifest:file-entry');
+            $xmlWriter->writeAttribute('manifest:media-type', 'text/xml');
+            $xmlWriter->writeAttribute('manifest:full-path', $part);
+            $xmlWriter->endElement();
+        }
 
         // Media files
         $media = Media::getElements('section');

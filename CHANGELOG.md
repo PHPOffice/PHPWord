@@ -2,6 +2,73 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+## 0.11.0 - 1 June 2014
+
+This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemented. RTF and HTML reader were initiated.
+
+### Features
+
+- Image: Ability to define relative and absolute positioning - @basjan GH-217
+- Footer: Conform footer with header by adding firstPage, evenPage and by inheritance - @basjan @ivanlanin GH-219
+- Element: New `TextBox` element - @basjan @ivanlanin GH-228 GH-229 GH-231
+- HTML: Ability to add elements to PHPWord object via html - @basjan GH-231
+- Element: New `ListItemRun` element that can add a list item with inline formatting like a textrun - @basjan GH-235
+- Table: Ability to add table inside a cell (nested table) - @ivanlanin GH-149
+- RTF Writer: UTF8 support for RTF: Internal UTF8 text is converted to Unicode before writing - @ivanlanin GH-158
+- Table: Ability to define table width (in percent and twip) and position - @ivanlanin GH-237
+- RTF Writer: Ability to add links and page breaks in RTF - @ivanlanin GH-196
+- ListItemRun: Remove fontStyle parameter because ListItemRun is inherited from TextRun and TextRun doesn't have fontStyle - @ivanlanin
+- Config: Ability to use a config file to store various common settings - @ivanlanin GH-200
+- ODT Writer: Enable inline font style in TextRun - @ivanlanin
+- ODT Writer: Enable underline, strike/doublestrike, smallcaps/allcaps, superscript/subscript font style - @ivanlanin
+- ODT Writer: Enable section and column - @ivanlanin
+- PDF Writer: Add TCPDF and mPDF as optional PDF renderer library - @ivanlanin
+- ODT Writer: Enable title element and custom document properties - @ivanlanin
+- ODT Reader: Ability to read standard and custom document properties - @ivanlanin
+- Word2007 Writer: Enable the missing custom document properties writer - @ivanlanin
+- Image: Enable "image float left" - @ivanlanin GH-244
+- RTF Writer: Ability to write document properties - @ivanlanin
+- RTF Writer: Ability to write image - @ivanlanin
+- Element: New `Field` element - @basjan GH-251
+- RTF Reader: Basic RTF reader - @ivanlanin GH-72 GH-252
+- Element: New `Line` element - @basjan GH-253
+- Title: Ability to apply numbering in heading - @ivanlanin GH-193
+- HTML Reader: Basic HTML reader - @ivanlanin GH-80 GH-254
+- RTF Writer: Basic table writing - @ivanlanin GH-245
+
+### Bugfixes
+
+- Header: All images added to the second header were assigned to the first header - @basjan GH-222
+- Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan GH-233 GH-234
+- PageBreak: Page break adds new line in the beginning of the new page - @ivanlanin GH-150
+- Image: `marginLeft` and `marginTop` cannot accept float value - @ivanlanin GH-248
+- Title: Orphan `w:fldChar` caused OpenOffice to crash when opening DOCX - @ivanlanin GH-236
+
+### Deprecated
+
+- Static classes `Footnotes`, `Endnotes`, and `TOC`
+- `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
+- `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
+- `Element\Title::getBookmarkId()` replaced by `Element\Title::getRelationId()`
+- `Writer\HTML::writeDocument`: Replaced by `Writer\HTML::getContent`
+
+### Miscellaneous
+
+- License: Change the project license from LGPL 2.1 into LGPL 3.0 - GH-211
+- Word2007 Writer: New `Style\Image` class - @ivanlanin
+- Refactor: Replace static classes `Footnotes`, `Endnotes`, and `TOC` with `Collections` - @ivanlanin GH-206
+- QA: Reactivate `phpcpd` and `phpmd` on Travis - @ivanlanin
+- Refactor: PHPMD recommendation: Change all `get...` method that returns `boolean` into `is...` or `has...` - @ivanlanin
+- Docs: Create gh-pages branch for API documentation - @Progi1984 GH-154
+- QA: Add `.scrutinizer.yml` and include `composer.lock` for preparation to Scrutinizer - @ivanlanin GH-186
+- Writer: Refactor writer parts using composite pattern - @ivanlanin
+- Docs: Show code quality and test code coverage badge on README
+- Style: Change behaviour of `set...` function of boolean properties; when none is defined, assumed true - @ivanlanin
+- Shared: Unify PHP ZipArchive and PCLZip features into PhpWord ZipArchive - @ivanlanin
+- Docs: Create VERSION file - @ivanlanin
+- QA: Improve dan update requirement check in `samples` folder - @ivanlanin
+
+
 ## 0.10.1 - 21 May 2014
 
 This is a bugfix release for `php-zip` requirement in Composer.
@@ -32,7 +99,7 @@ This release marked heavy refactorings on internal code structure with the creat
 - Link: Ability to add link in header/footer - @ivanlanin GH-187
 - Object: Ability to add object in header, footer, textrun, and footnote - @ivanlanin GH-187
 - Media: Add `Media::resetElements()` to reset all media data - @juzi GH-19
-- General: Add `Style::resetStyles()`, `Footnote::resetElements()`, and `TOC::resetTitles()` - @ivanlanin GH-187
+- General: Add `Style::resetStyles()` - @ivanlanin GH-187
 - DOCX Reader: Ability to read header, footer, footnotes, link, preservetext, textbreak, pagebreak, table, list, image, and title - @ivanlanin
 - Endnote: Ability to add endnotes - @ivanlanin
 - ListItem: Ability to create custom list and reset list number - @ivanlanin GH-10 GH-198

@@ -1,16 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\Word2007\Part\Styles;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\Word2007\Part\Styles;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles
@@ -29,18 +37,6 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test construct with no PhpWord
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
-     */
-    public function testConstructNoPhpWord()
-    {
-        $object = new Styles();
-        $object->writeStyles();
-    }
-
-    /**
      * Test write styles
      */
     public function testWriteStyles()
@@ -53,22 +49,19 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $rStyle = array('size' => 20);
         $tStyle = array(
             'bgColor' => 'FF0000',
-            'cellMarginTop' => 120,
-            'cellMarginBottom' => 120,
-            'cellMarginLeft' => 120,
-            'cellMarginRight' => 120,
-            'borderTopSize' => 120,
-            'borderBottomSize' => 120,
-            'borderLeftSize' => 120,
-            'borderRightSize' => 120,
-            'borderInsideHSize' => 120,
-            'borderInsideVSize' => 120,
+            'cellMargin' => 120,
+            'borderSize' => 120,
+        );
+        $firstRowStyle = array(
+            'bgColor' => '0000FF',
+            'borderSize' => 120,
+            'borderColor' => '00FF00',
         );
         $phpWord->setDefaultParagraphStyle($pStyle);
         $phpWord->addParagraphStyle('Base Style', $pBase);
         $phpWord->addParagraphStyle('New Style', $pNew);
         $phpWord->addFontStyle('New Style', $rStyle, $pStyle);
-        $phpWord->addTableStyle('Table Style', $tStyle, $tStyle);
+        $phpWord->addTableStyle('Table Style', $tStyle, $firstRowStyle);
         $phpWord->addTitleStyle(1, $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 

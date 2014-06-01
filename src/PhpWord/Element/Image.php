@@ -1,17 +1,25 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
@@ -52,7 +60,7 @@ class Image extends AbstractElement
      *
      * @var boolean
      */
-    private $isWatermark;
+    private $watermark;
 
     /**
      * Image type
@@ -87,7 +95,7 @@ class Image extends AbstractElement
      *
      * @var boolean
      */
-    private $isMemImage;
+    private $memoryImage;
 
     /**
      * Image target file name
@@ -108,14 +116,14 @@ class Image extends AbstractElement
      *
      * @param string $source
      * @param mixed $style
-     * @param boolean $isWatermark
+     * @param boolean $watermark
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
-    public function __construct($source, $style = null, $isWatermark = false)
+    public function __construct($source, $style = null, $watermark = false)
     {
         $this->source = $source;
-        $this->setIsWatermark($isWatermark);
+        $this->setIsWatermark($watermark);
         $this->style = $this->setStyle(new ImageStyle(), $style, true);
 
         $this->checkImage($source);
@@ -166,19 +174,19 @@ class Image extends AbstractElement
      *
      * @return boolean
      */
-    public function getIsWatermark()
+    public function isWatermark()
     {
-        return $this->isWatermark;
+        return $this->watermark;
     }
 
     /**
      * Set is watermark
      *
-     * @param boolean $pValue
+     * @param boolean $value
      */
-    public function setIsWatermark($pValue)
+    public function setIsWatermark($value)
     {
-        $this->isWatermark = $pValue;
+        $this->watermark = $value;
     }
 
     /**
@@ -226,9 +234,9 @@ class Image extends AbstractElement
      *
      * @return boolean
      */
-    public function getIsMemImage()
+    public function isMemImage()
     {
-        return $this->isMemImage;
+        return $this->memoryImage;
     }
 
     /**
@@ -272,9 +280,82 @@ class Image extends AbstractElement
     }
 
     /**
+     * Get image string data
+     *
+     * @param bool $base64
+     * @return string|null
+     * @since 0.11.0
+     */
+    public function getImageStringData($base64 = false)
+    {
+        $source = $this->source;
+        $actualSource = null;
+        $imageBinary = null;
+        $imageData = null;
+        $isTemp = false;
+
+        // Get actual source from archive image or other source
+        // Return null if not found
+        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+            $source = substr($source, 6);
+            list($zipFilename, $imageFilename) = explode('#', $source);
+
+            $zip = new ZipArchive();
+            if ($zip->open($zipFilename) !== false) {
+                if ($zip->locateName($imageFilename)) {
+                    $isTemp = true;
+                    $zip->extractTo(sys_get_temp_dir(), $imageFilename);
+                    $actualSource = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $imageFilename;
+                }
+            }
+            $zip->close();
+        } else {
+            $actualSource = $source;
+        }
+
+        // Can't find any case where $actualSource = null hasn't captured by
+        // preceding exceptions. Please uncomment when you find the case and
+        // put the case into Element\ImageTest.
+        // if ($actualSource === null) {
+        //     return null;
+        // }
+
+        // Read image binary data and convert to hex/base64 string
+        if ($this->sourceType == self::SOURCE_GD) {
+            $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            ob_start();
+            call_user_func($this->imageFunc, $imageResource);
+            $imageBinary = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $fileHandle = fopen($actualSource, 'rb', false);
+            if ($fileHandle !== false) {
+                $imageBinary = fread($fileHandle, filesize($actualSource));
+                fclose($fileHandle);
+            }
+        }
+        if ($imageBinary !== null) {
+            if ($base64) {
+                $imageData = chunk_split(base64_encode($imageBinary));
+            } else {
+                $imageData = chunk_split(bin2hex($imageBinary));
+            }
+        }
+
+        // Delete temporary file if necessary
+        if ($isTemp === true) {
+            @unlink($actualSource);
+        }
+
+        return $imageData;
+    }
+
+    /**
      * Check memory image, supported type, image functions, and proportional width/height
      *
      * @param string $source
+     * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
+     * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
     private function checkImage($source)
     {
@@ -314,14 +395,14 @@ class Image extends AbstractElement
     private function setSourceType($source)
     {
         if (stripos(strrev($source), strrev('.php')) === 0) {
-            $this->isMemImage = true;
+            $this->memoryImage = true;
             $this->sourceType = self::SOURCE_GD;
         } elseif (strpos($source, 'zip://') !== false) {
-            $this->isMemImage = false;
+            $this->memoryImage = false;
             $this->sourceType = self::SOURCE_ARCHIVE;
         } else {
-            $this->isMemImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
-            $this->sourceType = $this->isMemImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
+            $this->memoryImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
+            $this->sourceType = $this->memoryImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
         }
     }
 
@@ -338,8 +419,7 @@ class Image extends AbstractElement
         list($zipFilename, $imageFilename) = explode('#', $source);
         $tempFilename = tempnam(sys_get_temp_dir(), 'PHPWordImage');
 
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
+        $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
             if ($zip->locateName($imageFilename)) {
                 $imageContent = $zip->getFromName($imageFilename);
@@ -408,5 +488,27 @@ class Image extends AbstractElement
                 $this->style->setWidth($actualWidth * ($styleHeight / $actualHeight));
             }
         }
+    }
+
+    /**
+     * Get is watermark
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getIsWatermark()
+    {
+        return $this->isWatermark();
+    }
+
+    /**
+     * Get is memory image
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getIsMemImage()
+    {
+        return $this->isMemImage();
     }
 }

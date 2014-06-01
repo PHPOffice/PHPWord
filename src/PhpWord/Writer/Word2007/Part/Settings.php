@@ -1,25 +1,35 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
-
 /**
- * Word2007 settings part writer
+ * Word2007 settings part writer: word/settings.xml
+ *
+ * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_Settings.html
  */
 class Settings extends AbstractPart
 {
     /**
-     * Write word/settings.xml
+     * Write part
+     *
+     * @return string
      */
-    public function writeSettings()
+    public function write()
     {
         $settings = array(
             'w:zoom' => array('@attributes' => array('w:percent' => '100')),
@@ -118,6 +128,8 @@ class Settings extends AbstractPart
             $xmlWriter->writeElement($settingKey);
         } else {
             $xmlWriter->startElement($settingKey);
+
+            /** @var array $settingValue Type hint */
             foreach ($settingValue as $childKey => $childValue) {
                 if ($childKey == '@attributes') {
                     foreach ($childValue as $key => $val) {

@@ -1,13 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
+
+use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Title element
@@ -26,87 +37,31 @@ class Title extends AbstractElement
      *
      * @var int
      */
-    private $depth;
+    private $depth = 1;
 
     /**
-     * Title anchor
-     *
-     * @var int
-     */
-    private $anchor;
-
-    /**
-     * Title Bookmark ID
-     *
-     * @var int
-     */
-    private $bookmarkId;
-
-    /**
-     * Title style
+     * Name of the heading style, e.g. 'Heading1'
      *
      * @var string
      */
     private $style;
-
 
     /**
      * Create a new Title Element
      *
      * @param string $text
      * @param int $depth
-     * @param string $style Name of the heading style, e.g. 'Heading1'
      */
-    public function __construct($text, $depth = 1, $style = null)
+    public function __construct($text, $depth = 1)
     {
-        if (!is_null($style)) {
-            $this->style = $style;
+
+        $this->text = String::toUTF8($text);
+        $this->depth = $depth;
+        if (array_key_exists('Heading_' . $this->depth, Style::getStyles())) {
+            $this->style = 'Heading' . $this->depth;
         }
 
-        $this->text = $text;
-        $this->depth = $depth;
-
         return $this;
-    }
-
-    /**
-     * Set Anchor
-     *
-     * @param int $anchor
-     */
-    public function setAnchor($anchor)
-    {
-        $this->anchor = $anchor;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     */
-    public function getAnchor()
-    {
-        return $this->anchor;
-    }
-
-    /**
-     * Set Bookmark ID
-     *
-     * @param int $bookmarkId
-     */
-    public function setBookmarkId($bookmarkId)
-    {
-        $this->bookmarkId = $bookmarkId;
-    }
-
-    /**
-     * Get Anchor
-     *
-     * @return int
-     */
-    public function getBookmarkId()
-    {
-        return $this->bookmarkId;
     }
 
     /**

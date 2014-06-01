@@ -33,6 +33,9 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Table of contents](#table-of-contents)
     - [Footnotes & endnotes](#footnotes-endnotes)
     - [Checkboxes](#checkboxes)
+    - [Textboxes](#textboxes)
+    - [Fields](#fields)
+    - [Lines](#lines)
 - [Templates](#templates)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
@@ -40,6 +43,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [RTF](#rtf)
     - [HTML](#html)
     - [PDF](#pdf)
+- [Recipes](#recipes)
 - [Frequently asked questions](#frequently-asked-questions)
 - [References](#references)
 
@@ -47,11 +51,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), and [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF).
 
-No Windows operating system is needed for usage because the resulting DOCX, ODT, or RTF files can be opened by all major [word processing softwares](http://en.wikipedia.org/wiki/List_of_word_processors).
-
-PHPWord is an open source project licensed under LGPL. PHPWord is [unit tested](https://travis-ci.org/PHPOffice/PHPWord) to make sure that the released versions are stable.
-
-**Want to contribute?** [Fork us](https://github.com/PHPOffice/PHPWord/fork) or [submit](https://github.com/PHPOffice/PHPWord/issues) your bug reports or feature requests to us.
+PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading this Developers' Documentation and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
 ## Features
 
@@ -82,19 +82,18 @@ Below are the supported features for each file formats.
 
 | Features                |                    | DOCX | ODT | RTF | HTML | PDF |
 |-------------------------|--------------------|------|-----|-----|------|-----|
-| **Document Properties** | Standard           | ✓    |     |     |      |     |
-|                         | Extended           | ✓    |     |     |      |     |
-|                         | UserDefined        | ✓    |     |     |      |     |
+| **Document Properties** | Standard           | ✓    | ✓   | ✓   | ✓    |     |
+|                         | Custom             | ✓    | ✓   |     |      |     |
 | **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Text Run           | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Title              | ✓    |     |     | ✓    | ✓   |
-|                         | Link               | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Title              | ✓    | ✓   |     | ✓    | ✓   |
+|                         | Link               | ✓    | ✓   | ✓   | ✓    | ✓   |
 |                         | Preserve Text      | ✓    |     |     |      |     |
 |                         | Text Break         | ✓    | ✓   | ✓   | ✓    | ✓   |
-|                         | Page Break         | ✓    |     |     |      |     |
+|                         | Page Break         | ✓    |     | ✓  |      |     |
 |                         | List               | ✓    |     |     |      |     |
-|                         | Table              | ✓    | ✓   |     | ✓    | ✓   |
-|                         | Image              | ✓    | ✓   |     | ✓    |     |
+|                         | Table              | ✓    | ✓   | ✓   | ✓    | ✓   |
+|                         | Image              | ✓    | ✓   | ✓   | ✓    |     |
 |                         | Object             | ✓    |     |     |      |     |
 |                         | Watermark          | ✓    |     |     |      |     |
 |                         | Table of Contents  | ✓    |     |     |      |     |
@@ -112,35 +111,43 @@ Below are the supported features for each file formats.
 
 ### Readers
 
-| Features                |                    | DOCX | ODT | RTF |
-|-------------------------|--------------------|------|-----|-----|
-| **Document Properties** | Standard           | ✓    |     |     |
-|                         | Extended           | ✓    |     |     |
-|                         | UserDefined        | ✓    |     |     |
-| **Element Type**        | Text               | ✓    | ✓   |     |
-|                         | Text Run           | ✓    |     |     |
-|                         | Title              | ✓    | ✓   |     |
-|                         | Link               | ✓    |     |     |
-|                         | Preserve Text      | ✓    |     |     |
-|                         | Text Break         | ✓    |     |     |
-|                         | Page Break         | ✓    |     |     |
-|                         | List               | ✓    | ✓   |     |
-|                         | Table              | ✓    |     |     |
-|                         | Image              | ✓    |     |     |
-|                         | Object             |      |     |     |
-|                         | Watermark          |      |     |     |
-|                         | Table of Contents  |      |     |     |
-|                         | Header             | ✓    |     |     |
-|                         | Footer             | ✓    |     |     |
-|                         | Footnote           | ✓    |     |     |
-|                         | Endnote            | ✓    |     |     |
-| **Graphs**              | 2D basic graphs    |      |     |     |
-|                         | 2D advanced graphs |      |     |     |
-|                         | 3D graphs          |      |     |     |
-| **Math**                | OMML support       |      |     |     |
-|                         | MathML support     |      |     |     |
-| **Bonus**               | Encryption         |      |     |     |
-|                         | Protection         |      |     |     |
+| Features                |                    | DOCX | ODT | RTF | HTML|
+|-------------------------|--------------------|------|-----|-----|-----|
+| **Document Properties** | Standard           | ✓    |     |     |     |
+|                         | Custom             | ✓    |     |     |     |
+| **Element Type**        | Text               | ✓    | ✓   | ✓   | ✓   |
+|                         | Text Run           | ✓    |     |     |     |
+|                         | Title              | ✓    | ✓   |     |     |
+|                         | Link               | ✓    |     |     |     |
+|                         | Preserve Text      | ✓    |     |     |     |
+|                         | Text Break         | ✓    |     |     |     |
+|                         | Page Break         | ✓    |     |     |     |
+|                         | List               | ✓    | ✓   |     | ✓   |
+|                         | Table              | ✓    |     |     | ✓   |
+|                         | Image              | ✓    |     |     |     |
+|                         | Object             |      |     |     |     |
+|                         | Watermark          |      |     |     |     |
+|                         | Table of Contents  |      |     |     |     |
+|                         | Header             | ✓    |     |     |     |
+|                         | Footer             | ✓    |     |     |     |
+|                         | Footnote           | ✓    |     |     |     |
+|                         | Endnote            | ✓    |     |     |     |
+| **Graphs**              | 2D basic graphs    |      |     |     |     |
+|                         | 2D advanced graphs |      |     |     |     |
+|                         | 3D graphs          |      |     |     |     |
+| **Math**                | OMML support       |      |     |     |     |
+|                         | MathML support     |      |     |     |     |
+| **Bonus**               | Encryption         |      |     |     |     |
+|                         | Protection         |      |     |     |     |
+
+## Contributing
+
+We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute:
+
+- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md)
+- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch
+- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub
+- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter
 
 # Installing/configuring
 
@@ -443,18 +450,21 @@ Below are the matrix of element availability in each container. The column shows
 | 2   | Text Run      | v       | v      | v      | v    | -        | -        |
 | 3   | Link          | v       | v      | v      | v    | v        | v        |
 | 4   | Title         | v       | ?      | ?      | ?    | ?        | ?        |
-| 5   | Preserve Text | ?       | v      | v      | v*   | ?        | ?        |
+| 5   | Preserve Text | ?       | v      | v      | v*   | -        | -        |
 | 6   | Text Break    | v       | v      | v      | v    | v        | v        |
 | 7   | Page Break    | v       | -      | -      | -    | -        | -        |
 | 8   | List          | v       | v      | v      | v    | -        | -        |
-| 9   | Table         | v       | v      | v      | ?    | -        | -        |
+| 9   | Table         | v       | v      | v      | v    | -        | -        |
 | 10  | Image         | v       | v      | v      | v    | v        | v        |
 | 11  | Watermark     | -       | v      | -      | -    | -        | -        |
 | 12  | Object        | v       | v      | v      | v    | v        | v        |
 | 13  | TOC           | v       | -      | -      | -    | -        | -        |
 | 14  | Footnote      | v       | -      | -      | v**  | v**      | -        |
 | 15  | Endnote       | v       | -      | -      | v**  | v**      | -        |
-| 16  | CheckBox      | v       | v      | v      | v    | ?        | ?        |
+| 16  | CheckBox      | v       | v      | v      | v    | -        | -        |
+| 17  | TextBox       | v       | v      | v      | v    | -        | -        |
+| 18  | Field         | v       | v      | v      | v    | v        | v        |
+| 19  | Line          | v       | v      | v      | v    | v        | v        |
 
 Legend:
 
@@ -487,7 +497,7 @@ $section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
 $textrun = $section->addTextRun();
 $textrun->addText('I am bold', array('bold' => true));
 $textrun->addText('I am italic', array('italic' => true));
-$textrun->addText('I am colored, array('color' => 'AACC00'));
+$textrun->addText('I am colored', array('color' => 'AACC00'));
 ```
 
 Defined style examples:
@@ -828,6 +838,18 @@ $section->addCheckBox($name, $text, [$fontStyle], [$paragraphStyle])
 - `$fontStyle` See "Font style" section.
 - `$paragraphStyle` See "Paragraph style" section.
 
+## Textboxes
+
+To be completed.
+
+## Fields
+
+To be completed.
+
+## Lines
+
+To be completed.
+
 # Templates
 
 You can create a docx template with included search-patterns that can be replaced by any value you wish. Only single-line values can be replaced. To load a template file, use the `loadTemplate` method. After loading the docx template, you can use the `setValue` method to change the value of a search pattern. The search-pattern model is: `${search-pattern}`. It is not possible to add new PHPWord elements to a loaded template file.
@@ -926,6 +948,67 @@ To be completed.
 
 To be completed.
 
+# Recipes
+
+## Create float left image
+
+Use absolute positioning relative to margin horizontally and to line vertically.
+
+```php
+$imageStyle = array(
+    'width' => 40,
+    'height' => 40
+    'wrappingStyle' => 'square',
+    'positioning' => 'absolute',
+    'posHorizontalRel' => 'margin',
+    'posVerticalRel' => 'line',
+);
+$textrun->addImage('resources/_earth.jpg', $imageStyle);
+$textrun->addText($lipsumText);
+```
+
+## Download the produced file automatically
+
+Use `php://output` as the filename.
+
+```php
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$section = $phpWord->createSection();
+$section->addText('Hello World!');
+$file = 'HelloWorld.docx';
+header("Content-Description: File Transfer");
+header('Content-Disposition: attachment; filename="' . $file . '"');
+header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+header('Content-Transfer-Encoding: binary');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Expires: 0');
+$xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+$xmlWriter->save("php://output");
+```
+
+## Create numbered headings
+
+Define a numbering style and title styles, and match the two styles (with `pStyle` and `numStyle`) like below.
+
+```php
+$phpWord->addNumberingStyle(
+    'hNum',
+    array('type' => 'multilevel', 'levels' => array(
+        array('pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'),
+        array('pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'),
+        array('pStyle' => 'Heading3', 'format' => 'decimal', 'text' => '%1.%2.%3'),
+        )
+    )
+);
+$phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => 'hNum', 'numLevel' => 0));
+$phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => 'hNum', 'numLevel' => 1));
+$phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => 'hNum', 'numLevel' => 2));
+
+$section->addTitle('Heading 1', 1);
+$section->addTitle('Heading 2', 2);
+$section->addTitle('Heading 3', 3);
+```
+
 # Frequently asked questions
 
 ## Is this the same with PHPWord that I found in CodePlex?
@@ -938,13 +1021,18 @@ PHPWord requires PHP 5.3+ since 0.8, while PHPWord 0.6.3 from CodePlex can run w
 
 # References
 
+## ISO/IEC 29500, Third edition, 2012-09-01
+
+-   [Part 1: Fundamentals and Markup Language Reference](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061750_ISO_IEC_29500-1_2012.zip)
+-   [Part 2: Open Packaging Conventions](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061796_ISO_IEC_29500-2_2012.zip)
+-   [Part 3: Markup Compatibility and Extensibility](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061797_ISO_IEC_29500-3_2012.zip)
+-   [Part 4: Transitional Migration Features](http://standards.iso.org/ittf/PubliclyAvailableStandards/c061798_ISO_IEC_29500-4_2012.zip)
+
 ## Formal specifications
 
-- [Office Open XML (OOXML) (ECMA-376) Schema](http://www.schemacentral.com/sc/ooxml/ss.html)
-- [Oasis OpenDocument Standard Version 1.2](http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os.html)
-- [Rich Text Format (RTF) Specification, version 1.9.1](http://www.microsoft.com/en-us/download/details.aspx?id=10725)
+-   [Oasis OpenDocument Standard Version 1.2](http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os.html)
+-   [Rich Text Format (RTF) Specification, version 1.9.1](http://www.microsoft.com/en-us/download/details.aspx?id=10725)
 
 ## Other resources
 
-- [DocumentFormat.OpenXml.Wordprocessing Namespace on MSDN](http://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing%28v=office.14%29.aspx)
-
+-   [DocumentFormat.OpenXml.Wordprocessing Namespace on MSDN](http://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing%28v=office.14%29.aspx)

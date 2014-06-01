@@ -1,24 +1,35 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Section as SectionSettings;
-use PhpOffice\PhpWord\Element\PageBreak;
-use PhpOffice\PhpWord\Element\TOC;
 
 /**
  * Section
  */
 class Section extends AbstractContainer
 {
+    /**
+     * @var string Container type
+     */
+    protected $container = 'Section';
+
     /**
      * Section settings
      *
@@ -48,7 +59,6 @@ class Section extends AbstractContainer
      */
     public function __construct($sectionCount, $settings = null)
     {
-        $this->container = 'section';
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
         $this->settings = new SectionSettings();
@@ -83,11 +93,23 @@ class Section extends AbstractContainer
     }
 
     /**
+     * Add a Title Element
+     *
+     * @param string $text
+     * @param int $depth
+     * @return \PhpOffice\PhpWord\Element\Title
+     */
+    public function addTitle($text, $depth = 1)
+    {
+        return $this->addElement('Title', $text, $depth);
+    }
+
+    /**
      * Add a PageBreak Element
      */
     public function addPageBreak()
     {
-        $this->elements[] = new PageBreak();
+        return $this->addElement('PageBreak');
     }
 
     /**
@@ -101,9 +123,7 @@ class Section extends AbstractContainer
      */
     public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {
-        $toc = new TOC($fontStyle, $tocStyle, $minDepth, $maxDepth);
-        $this->elements[] = $toc;
-        return $toc;
+        return $this->addElement('TOC', $fontStyle, $tocStyle, $minDepth, $maxDepth);
     }
 
     /**
@@ -179,14 +199,17 @@ class Section extends AbstractContainer
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
+        $containerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
+            ($header ? 'Header' : 'Footer');
         $collectionArray = $header ? 'headers' : 'footers';
-        $containerClass = 'PhpOffice\\PhpWord\\Element\\';
-        $containerClass .= ($header ? 'Header' : 'Footer');
         $collection = &$this->$collectionArray;
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
+            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
+            $container->setPhpWord($this->phpWord);
+
             $collection[$index] = $container;
             return $container;
         } else {

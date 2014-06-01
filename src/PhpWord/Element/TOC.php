@@ -1,15 +1,23 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\TOC as Titles;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\TOC as TOCStyle;
 
@@ -60,20 +68,14 @@ class TOC extends AbstractElement
         $this->TOCStyle = new TOCStyle();
 
         if (!is_null($tocStyle) && is_array($tocStyle)) {
-            foreach ($tocStyle as $key => $value) {
-                 $this->TOCStyle->setStyleValue($key, $value);
-            }
+            $this->TOCStyle->setStyleByArray($tocStyle);
         }
 
-        if (!is_null($fontStyle)) {
-            if (is_array($fontStyle)) {
-                 $this->fontStyle = new Font();
-                foreach ($fontStyle as $key => $value) {
-                     $this->fontStyle->setStyleValue($key, $value);
-                }
-            } else {
-                 $this->fontStyle = $fontStyle;
-            }
+        if (!is_null($fontStyle) && is_array($fontStyle)) {
+            $this->fontStyle = new Font();
+            $this->fontStyle->setStyleByArray($fontStyle);
+        } else {
+            $this->fontStyle = $fontStyle;
         }
 
         $this->minDepth = $minDepth;
@@ -87,16 +89,21 @@ class TOC extends AbstractElement
      */
     public function getTitles()
     {
-        $titles = Titles::getTitles();
+        if (!$this->phpWord instanceof PhpWord) {
+            return array();
+        }
+
+        $titles = $this->phpWord->getTitles()->getItems();
         foreach ($titles as $i => $title) {
-            if ($this->minDepth > $title['depth']) {
+            /** @var \PhpOffice\PhpWord\Element\Title $title Type hint */
+            $depth = $title->getDepth();
+            if ($this->minDepth > $depth) {
                 unset($titles[$i]);
             }
-            if (($this->maxDepth != 0) && ($this->maxDepth < $title['depth'])) {
+            if (($this->maxDepth != 0) && ($this->maxDepth < $depth)) {
                 unset($titles[$i]);
             }
         }
-        $titles = array_merge(array(), $titles);
 
         return $titles;
     }

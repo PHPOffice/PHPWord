@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
@@ -21,8 +29,9 @@ class Settings
      *
      * @const string
      */
-    const PCLZIP     = 'PhpOffice\\PhpWord\\Shared\\ZipArchive';
     const ZIPARCHIVE = 'ZipArchive';
+    const PCLZIP     = 'PclZip';
+    const OLD_LIB    = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
 
     /**
      * PDF rendering libraries
@@ -30,6 +39,8 @@ class Settings
      * @const string
      */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
+    const PDF_RENDERER_TCPDF  = 'TCPDF';
+    const PDF_RENDERER_MPDF   = 'MPDF';
 
     /**
      * Measurement units multiplication factor
@@ -40,14 +51,25 @@ class Settings
      * - Indentation: left, right, firstLine, hanging
      * - Spacing: before, after
      *
-     * @const int|float
+     * @const string
      */
-    const UNIT_TWIP  = 1; // = 1/20 point
-    const UNIT_CM    = 567;
-    const UNIT_MM    = 56.7;
-    const UNIT_INCH  = 1440;
-    const UNIT_POINT = 20; // = 1/72 inch
-    const UNIT_PICA  = 240; // = 1/6 inch = 12 points
+    const UNIT_TWIP  = 'twip'; // = 1/20 point
+    const UNIT_CM    = 'cm';
+    const UNIT_MM    = 'mm';
+    const UNIT_INCH  = 'inch';
+    const UNIT_POINT = 'point'; // = 1/72 inch
+    const UNIT_PICA  = 'pica'; // = 1/6 inch = 12 points
+
+    /**
+     * Default font settings
+     *
+     * OOXML defined font size values in halfpoints, i.e. twice of what PhpWord
+     * use, and the conversion will be conducted during XML writing.
+     */
+    const DEFAULT_FONT_NAME = 'Arial';
+    const DEFAULT_FONT_SIZE = 10;
+    const DEFAULT_FONT_COLOR = '000000';
+    const DEFAULT_FONT_CONTENT_TYPE = 'default'; // default|eastAsia|cs
 
     /**
      * Compatibility option for XMLWriter
@@ -62,13 +84,6 @@ class Settings
      * @var string
      */
     private static $zipClass = self::ZIPARCHIVE;
-
-    /**
-     * Name of the classes used for PDF renderer
-     *
-     * @var array
-     */
-    private static $pdfRenderers = array(self::PDF_RENDERER_DOMPDF);
 
     /**
      * Name of the external Library used for rendering PDF files
@@ -87,9 +102,32 @@ class Settings
     /**
      * Measurement unit
      *
-     * @var string
+     * @var int|float
      */
     private static $measurementUnit = self::UNIT_TWIP;
+
+    /**
+     * Default font name
+     *
+     * @var string
+     */
+    private static $defaultFontName = self::DEFAULT_FONT_NAME;
+
+    /**
+     * Default font size
+     * @var int
+     */
+    private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
+
+    /**
+     * Return the compatibility option used by the XMLWriter
+     *
+     * @return bool Compatibility
+     */
+    public static function hasCompatibility()
+    {
+        return self::$xmlWriterCompatibility;
+    }
 
     /**
      * Set the compatibility option used by the XMLWriter
@@ -101,39 +139,10 @@ class Settings
      */
     public static function setCompatibility($compatibility)
     {
-        if (is_bool($compatibility)) {
-            self::$xmlWriterCompatibility = $compatibility;
-            return true;
-        }
+        $compatibility = (bool)$compatibility;
+        self::$xmlWriterCompatibility = $compatibility;
 
-        return false;
-    }
-
-    /**
-     * Return the compatibility option used by the XMLWriter
-     *
-     * @return bool Compatibility
-     */
-    public static function getCompatibility()
-    {
-        return self::$xmlWriterCompatibility;
-    }
-
-    /**
-     * Set zip handler class
-     *
-     * @param  string $zipClass
-     * @return bool
-     */
-    public static function setZipClass($zipClass)
-    {
-        if (($zipClass === self::PCLZIP) ||
-            ($zipClass === self::ZIPARCHIVE)) {
-            self::$zipClass = $zipClass;
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -144,6 +153,22 @@ class Settings
     public static function getZipClass()
     {
         return self::$zipClass;
+    }
+
+    /**
+     * Set zip handler class
+     *
+     * @param  string $zipClass
+     * @return bool
+     */
+    public static function setZipClass($zipClass)
+    {
+        if (in_array($zipClass, array(self::PCLZIP, self::ZIPARCHIVE, self::OLD_LIB))) {
+            self::$zipClass = $zipClass;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -178,7 +203,8 @@ class Settings
      */
     public static function setPdfRendererName($libraryName)
     {
-        if (!in_array($libraryName, self::$pdfRenderers)) {
+        $pdfRenderers = array(self::PDF_RENDERER_DOMPDF, self::PDF_RENDERER_TCPDF, self::PDF_RENDERER_MPDF);
+        if (!in_array($libraryName, $pdfRenderers)) {
             return false;
         }
         self::$pdfRendererName = $libraryName;
@@ -214,7 +240,7 @@ class Settings
     /**
      * Get measurement unit
      *
-     * @return int|float
+     * @return string
      */
     public static function getMeasurementUnit()
     {
@@ -224,17 +250,125 @@ class Settings
     /**
      * Set measurement unit
      *
-     * @param int|float $value
+     * @param string $value
      * @return bool
      */
     public static function setMeasurementUnit($value)
     {
-        $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH, self::UNIT_POINT, self::UNIT_PICA);
+        $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH,
+            self::UNIT_POINT, self::UNIT_PICA);
         if (!in_array($value, $units)) {
             return false;
         }
         self::$measurementUnit = $value;
 
         return true;
+    }
+
+    /**
+     * Get default font name
+     *
+     * @return string
+     */
+    public static function getDefaultFontName()
+    {
+        return self::$defaultFontName;
+    }
+
+    /**
+     * Set default font name
+     *
+     * @param string $value
+     * @return bool
+     */
+    public static function setDefaultFontName($value)
+    {
+        if (is_string($value) && trim($value) !== '') {
+            self::$defaultFontName = $value;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get default font size
+     *
+     * @return integer
+     */
+    public static function getDefaultFontSize()
+    {
+        return self::$defaultFontSize;
+    }
+
+    /**
+     * Set default font size
+     *
+     * @param int $value
+     * @return bool
+     */
+    public static function setDefaultFontSize($value)
+    {
+        $value = intval($value);
+        if ($value > 0) {
+            self::$defaultFontSize = $value;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Load setting from phpword.yml or phpword.yml.dist
+     *
+     * @param string $filename
+     * @return array
+     */
+    public static function loadConfig($filename = null)
+    {
+        // Get config file
+        $configFile = null;
+        $configPath = __DIR__ . '/../../';
+        if ($filename !== null) {
+            $files = array($filename);
+        } else {
+            $files = array("{$configPath}phpword.ini", "{$configPath}phpword.ini.dist");
+        }
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                $configFile = realpath($file);
+                break;
+            }
+        }
+
+        // Parse config file
+        $config = array();
+        if ($configFile !== null) {
+            $config = @parse_ini_file($configFile);
+            if ($config === false) {
+                return $config;
+            }
+        }
+
+        // Set config value
+        foreach ($config as $key => $value) {
+            $method = "set{$key}";
+            if (method_exists(__CLASS__, $method)) {
+                self::$method($value);
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * Return the compatibility option used by the XMLWriter
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public static function getCompatibility()
+    {
+        return self::hasCompatibility();
     }
 }

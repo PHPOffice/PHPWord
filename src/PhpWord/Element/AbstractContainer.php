@@ -1,24 +1,44 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Endnotes;
-use PhpOffice\PhpWord\Footnotes;
 use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\TOC as Titles;
-use PhpOffice\PhpWord\Exception\InvalidObjectException;
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Container abstract class
+ *
+ * @method Text addText($text, $fStyle = null, $pStyle = null)
+ * @method TextRun addTextRun($pStyle = null)
+ * @method Link addLink($target, $text = null, $fStyle = null, $pStyle = null)
+ * @method PreserveText addPreserveText($text, $fStyle = null, $pStyle = null)
+ * @method void addTextBreak($count = 1, $fStyle = null, $pStyle = null)
+ * @method ListItem addListItem($text, $depth = 0, $fStyle = null, $listStyle = null, $pStyle = null)
+ * @method ListItemRun addListItemRun($depth = 0, $listStyle = null, $pStyle = null)
+ * @method Table addTable($style = null)
+ * @method Image addImage($source, $style = null, $isWatermark = false)
+ * @method Object addObject($source, $style = null)
+ * @method Footnote addFootnote($pStyle = null)
+ * @method Endnote addEndnote($pStyle = null)
+ * @method CheckBox addCheckBox($name, $text, $fStyle = null, $pStyle = null)
+ * @method TextBox addTextBox($style = null)
+ * @method Field addField($type = null, $properties = array(), $options = array())
+ * @method Line addLine($lineStyle = null)
  *
  * @since 0.10.0
  */
@@ -32,13 +52,104 @@ abstract class AbstractContainer extends AbstractElement
     protected $elements = array();
 
     /**
-     * Set element index and unique id, and add element into elements collection
+     * Container type Section|Header|Footer|Footnote|Endnote|Cell|TextRun|TextBox|ListItemRun
+     *
+     * @var string
      */
-    protected function addElement(AbstractElement $element)
+    protected $container;
+
+    /**
+     * Magic method to catch all 'addElement' variation
+     *
+     * This removes addText, addTextRun, etc. When adding new element, we have to
+     * add the model in the class docblock with `@method`.
+     *
+     * Warning: This makes capitalization matters, e.g. addCheckbox or addcheckbox won't work.
+     *
+     * @param mixed $function
+     * @param mixed $args
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    public function __call($function, $args)
     {
+        $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
+            'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line');
+        $functions = array();
+        for ($i = 0; $i < count($elements); $i++) {
+            $functions[$i] = 'add' . $elements[$i];
+        }
+
+        // Run valid `add` command
+        if (in_array($function, $functions)) {
+            $element = str_replace('add', '', $function);
+
+            // Special case for TextBreak
+            // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
+            if ($element == 'TextBreak') {
+                @list($count, $fontStyle, $paragraphStyle) = $args; // Suppress error
+                if ($count === null) {
+                    $count = 1;
+                }
+                for ($i = 1; $i <= $count; $i++) {
+                    $this->addElement($element, $fontStyle, $paragraphStyle);
+                }
+
+            // All other elements
+            } else {
+                array_unshift($args, $element); // Prepend element name to the beginning of args array
+                return call_user_func_array(array($this, 'addElement'), $args);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Add element
+     *
+     * Each element has different number of parameters passed
+     *
+     * @param string $elementName
+     * @return \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    protected function addElement($elementName)
+    {
+        $elementClass = __NAMESPACE__ . '\\' . $elementName;
+        $this->checkValidity($elementName);
+
+        // Get arguments
+        $args = func_get_args();
+        $withoutP = in_array($this->container, array('TextRun', 'Footnote', 'Endnote', 'ListItemRun', 'Field'));
+        if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
+            $args[3] = null; // Remove paragraph style for texts in textrun
+        }
+        $source = '';
+        if (count($args) > 1) {
+            $source = $args[1];
+        }
+
+        // Create element using reflection
+        $reflection = new \ReflectionClass($elementClass);
+        $elementArgs = $args;
+        array_shift($elementArgs); // Shift the $elementName off the beginning of array
+
+        /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
+        $element = $reflection->newInstanceArgs($elementArgs);
+
+        // Set nested level and relation Id
+        $this->setElementNestedLevel($element);
+        $this->setElementRelationId($element, $elementName, $source);
+
+        // Set other properties and add element into collection
+        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
+        $element->setPhpWord($this->phpWord);
+
         $this->elements[] = $element;
+
+        return $element;
     }
 
     /**
@@ -54,7 +165,7 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Count elements
      *
-     * @return integer
+     * @return int
      */
     public function countElements()
     {
@@ -62,331 +173,97 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Add text element
-     *
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return Text
+     * Set element nested level based on container; add one when it's inside a cell
      */
-    public function addText($text, $fontStyle = null, $paragraphStyle = null)
+    private function setElementNestedLevel(AbstractElement $element)
     {
-        $this->checkValidity('text');
-
-        // Reset paragraph style for footnote and textrun. They have their own
-        if (in_array($this->container, array('textrun', 'footnote', 'endnote'))) {
-            $paragraphStyle = null;
-        }
-
-        $text = String::toUTF8($text);
-        $textObject = new Text($text, $fontStyle, $paragraphStyle);
-        $textObject->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($textObject);
-
-        return $textObject;
-    }
-
-    /**
-     * Add textrun element
-     *
-     * @param mixed $paragraphStyle
-     * @return TextRun
-     */
-    public function addTextRun($paragraphStyle = null)
-    {
-        $this->checkValidity('textrun');
-
-        $textRun = new TextRun($paragraphStyle);
-        $textRun->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($textRun);
-
-        return $textRun;
-    }
-
-    /**
-     * Add link element
-     *
-     * @param string $linkSrc
-     * @param string $linkName
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return Link
-     */
-    public function addLink($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
-    {
-        $this->checkValidity('link');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $link = new Link(String::toUTF8($linkSrc), String::toUTF8($linkName), $fontStyle, $paragraphStyle);
-        $link->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rId = Media::addElement($elementDocPart, 'link', $linkSrc);
-        $link->setRelationId($rId);
-        $this->addElement($link);
-
-        return $link;
-    }
-
-    /**
-     * Add a Title Element
-     *
-     * @param string $text
-     * @param int $depth
-     * @return Title
-     * @todo Enable title element in other containers
-     */
-    public function addTitle($text, $depth = 1)
-    {
-        $this->checkValidity('title');
-
-        $styles = Style::getStyles();
-        if (array_key_exists('Heading_' . $depth, $styles)) {
-            $style = 'Heading' . $depth;
+        if ($this->container == 'Cell') {
+            $element->setNestedLevel($this->getNestedLevel() + 1);
         } else {
-            $style = null;
-        }
-        $text = String::toUTF8($text);
-        $title = new Title($text, $depth, $style);
-        $title->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $data = Titles::addTitle($text, $depth);
-        $anchor = $data[0];
-        $bookmarkId = $data[1];
-        $title->setAnchor($anchor);
-        $title->setBookmarkId($bookmarkId);
-        $this->addElement($title);
-
-        return $title;
-    }
-
-    /**
-     * Add preserve text element
-     *
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return PreserveText
-     */
-    public function addPreserveText($text, $fontStyle = null, $paragraphStyle = null)
-    {
-        $this->checkValidity('preservetext');
-
-        $preserveText = new PreserveText(String::toUTF8($text), $fontStyle, $paragraphStyle);
-        $preserveText->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($preserveText);
-
-        return $preserveText;
-    }
-
-    /**
-     * Add text break element
-     *
-     * @param int $count
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     */
-    public function addTextBreak($count = 1, $fontStyle = null, $paragraphStyle = null)
-    {
-        $this->checkValidity('textbreak');
-
-        for ($i = 1; $i <= $count; $i++) {
-            $textBreak = new TextBreak($fontStyle, $paragraphStyle);
-            $textBreak->setDocPart($this->getDocPart(), $this->getDocPartId());
-            $this->addElement($textBreak);
+            $element->setNestedLevel($this->getNestedLevel());
         }
     }
 
     /**
-     * Add listitem element
+     * Set relation Id
      *
-     * @param string $text
-     * @param int $depth
-     * @param mixed $fontStyle
-     * @param mixed $styleList
-     * @param mixed $paragraphStyle
-     * @return ListItem
+     * @param string $elementName
+     * @param string $source
      */
-    public function addListItem($text, $depth = 0, $fontStyle = null, $styleList = null, $paragraphStyle = null)
+    private function setElementRelationId(AbstractElement $element, $elementName, $source)
     {
-        $this->checkValidity('listitem');
+        $mediaContainer = $this->getMediaContainer();
+        $hasMediaRelation = in_array($elementName, array('Link', 'Image', 'Object'));
+        $hasOtherRelation = in_array($elementName, array('Footnote', 'Endnote', 'Title'));
 
-        $listItem = new ListItem(String::toUTF8($text), $depth, $fontStyle, $styleList, $paragraphStyle);
-        $listItem->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($listItem);
-
-        return $listItem;
-    }
-
-    /**
-     * Add table element
-     *
-     * @param mixed $style
-     * @return Table
-     */
-    public function addTable($style = null)
-    {
-        $this->checkValidity('table');
-
-        $table = new Table($this->getDocPart(), $this->getDocPartId(), $style);
-        $this->addElement($table);
-
-        return $table;
-    }
-
-    /**
-     * Add image element
-     *
-     * @param string $src
-     * @param mixed $style Image style
-     * @param boolean $isWatermark
-     * @return Image
-     */
-    public function addImage($src, $style = null, $isWatermark = false)
-    {
-        $this->checkValidity('image');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $image = new Image($src, $style, $isWatermark);
-        $image->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $rId = Media::addElement($elementDocPart, 'image', $src, $image);
-        $image->setRelationId($rId);
-        $this->addElement($image);
-
-        return $image;
-    }
-
-    /**
-     * Add OLE-object element
-     *
-     * All exceptions should be handled by \PhpOffice\PhpWord\Element\Object
-     *
-     * @param string $src
-     * @param mixed $style
-     * @return Object
-     * @throws \PhpOffice\PhpWord\Exception\Exception
-     * @todo Enable OLE object element in header and footer
-     */
-    public function addObject($src, $style = null)
-    {
-        $this->checkValidity('object');
-        $elementDocPart = $this->checkElementDocPart();
-
-        $object = new Object($src, $style);
-        $object->setDocPart($this->getDocPart(), $this->getDocPartId());
-        if (!is_null($object->getSource())) {
-            $inf = pathinfo($src);
-            $ext = $inf['extension'];
-            if (strlen($ext) == 4 && strtolower(substr($ext, -1)) == 'x') {
-                $ext = substr($ext, 0, -1);
-            }
-            $icon = realpath(__DIR__ . "/../resources/{$ext}.png");
-            $rId = Media::addElement($elementDocPart, 'object', $src);
-            $object->setRelationId($rId);
-            $rIdimg = Media::addElement($elementDocPart, 'image', $icon, new Image($icon));
-            $object->setImageRelationId($rIdimg);
-            $this->addElement($object);
-
-            return $object;
-        } else {
-            throw new InvalidObjectException();
+        // Set relation Id for media elements (link, image, object; legacy of OOXML)
+        // Only Image that needs to be passed to Media class
+        if ($hasMediaRelation) {
+            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
+            $image = ($elementName == 'Image') ? $element : null;
+            $rId = Media::addElement($mediaContainer, strtolower($elementName), $source, $image);
+            $element->setRelationId($rId);
         }
-    }
 
-    /**
-     * Add footnote element
-     *
-     * @param mixed $paragraphStyle
-     * @return Footnote
-     */
-    public function addFootnote($paragraphStyle = null)
-    {
-        $this->checkValidity('footnote');
+        // Set relation Id for icon of object element
+        if ($elementName == 'Object') {
+            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
+            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
+            $element->setImageRelationId($rIdIcon);
+        }
 
-        $footnote = new Footnote($paragraphStyle);
-        $rId = Footnotes::addElement($footnote);
-
-        $footnote->setDocPart('footnote', $this->getDocPartId());
-        $footnote->setRelationId($rId);
-        $this->addElement($footnote);
-
-        return $footnote;
-    }
-
-    /**
-     * Add endnote element
-     *
-     * @param mixed $paragraphStyle
-     * @return Endnote
-     */
-    public function addEndnote($paragraphStyle = null)
-    {
-        $this->checkValidity('endnote');
-
-        $endnote = new Endnote($paragraphStyle);
-        $rId = Endnotes::addElement($endnote);
-
-        $endnote->setDocPart('endnote', $this->getDocPartId());
-        $endnote->setRelationId($rId);
-        $this->addElement($endnote);
-
-        return $endnote;
-    }
-
-    /**
-     * Add a CheckBox Element
-     *
-     * @param string $name
-     * @param string $text
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return CheckBox
-     */
-    public function addCheckBox($name, $text, $fontStyle = null, $paragraphStyle = null)
-    {
-        $this->checkValidity('checkbox');
-
-        $checkBox = new CheckBox(String::toUTF8($name), String::toUTF8($text), $fontStyle, $paragraphStyle);
-        $checkBox->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $this->addElement($checkBox);
-
-        return $checkBox;
+        // Set relation Id for elements that will be registered in the Collection subnamespaces
+        if ($hasOtherRelation && $this->phpWord instanceof PhpWord) {
+            $addMethod = "add{$elementName}";
+            $rId = $this->phpWord->$addMethod($element);
+            $element->setRelationId($rId);
+        }
     }
 
     /**
      * Check if a method is allowed for the current container
      *
      * @param string $method
-     * @return boolean
+     * @return bool
+     * @throws \BadMethodCallException
      */
     private function checkValidity($method)
     {
         // Valid containers for each element
-        $allContainers = array('section', 'header', 'footer', 'cell', 'textrun', 'footnote', 'endnote');
+        $allContainers = array(
+            'Section', 'Header', 'Footer', 'Footnote', 'Endnote',
+            'Cell', 'TextRun', 'TextBox', 'ListItemRun',
+        );
         $validContainers = array(
-            'text'          => $allContainers,
-            'link'          => $allContainers,
-            'textbreak'     => $allContainers,
-            'image'         => $allContainers,
-            'object'        => $allContainers,
-            'textrun'       => array('section', 'header', 'footer', 'cell'),
-            'listitem'      => array('section', 'header', 'footer', 'cell'),
-            'checkbox'      => array('section', 'header', 'footer', 'cell'),
-            'table'         => array('section', 'header', 'footer'),
-            'footnote'      => array('section', 'textrun', 'cell'),
-            'endnote'       => array('section', 'textrun', 'cell'),
-            'preservetext'  => array('header', 'footer', 'cell'),
-            'title'         => array('section'),
+            'Text'          => $allContainers,
+            'Link'          => $allContainers,
+            'TextBreak'     => $allContainers,
+            'Image'         => $allContainers,
+            'Object'        => $allContainers,
+            'Field'         => $allContainers,
+            'Line'          => $allContainers,
+            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell'),
+            'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
+            'Footnote'      => array('Section', 'TextRun', 'Cell'),
+            'Endnote'       => array('Section', 'TextRun', 'Cell'),
+            'PreserveText'  => array('Header', 'Footer', 'Cell'),
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = array(
-            'preservetext'  => array(array('cell'), array('header', 'footer')),
-            'footnote'      => array(array('cell', 'textrun'), array('section')),
-            'endnote'       => array(array('cell', 'textrun'), array('section')),
+            'PreserveText'  => array(array('Cell'), array('Header', 'Footer')),
+            'Footnote'      => array(array('Cell', 'TextRun'), array('Section')),
+            'Endnote'       => array(array('Cell', 'TextRun'), array('Section')),
         );
 
         // Check if a method is valid for current container
         if (array_key_exists($method, $validContainers)) {
             if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException();
+                throw new \BadMethodCallException("Cannot add $method in $this->container.");
             }
         }
         // Check if a method is valid for current container, located in other container
@@ -396,7 +273,7 @@ abstract class AbstractContainer extends AbstractElement
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
                 if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException();
+                    throw new \BadMethodCallException("Cannot add $method in $this->container.");
                 }
             }
         }
@@ -405,16 +282,21 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Return element location in document: section, headerx, or footerx
+     * Return media element (image, object, link) container name
+     *
+     * @return string section|headerx|footerx|footnote|endnote
      */
-    private function checkElementDocPart()
+    private function getMediaContainer()
     {
-        $isCellTextrun = in_array($this->container, array('cell', 'textrun'));
-        $docPart = $isCellTextrun ? $this->getDocPart() : $this->container;
-        $docPartId = $isCellTextrun ? $this->getDocPartId() : $this->sectionId;
-        $inHeaderFooter = ($docPart == 'header' || $docPart == 'footer');
+        $partName = $this->container;
+        if (in_array($partName, array('Cell', 'TextRun', 'TextBox', 'ListItemRun'))) {
+            $partName = $this->getDocPart();
+        }
+        if ($partName == 'Header' || $partName == 'Footer') {
+            $partName .= $this->getDocPartId();
+        }
 
-        return $inHeaderFooter ? $docPart . $docPartId : $docPart;
+        return strtolower($partName);
     }
 
     /**
@@ -422,6 +304,7 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $src
      * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Image
      * @deprecated 0.9.0
      * @codeCoverageIgnore
      */
@@ -434,6 +317,7 @@ abstract class AbstractContainer extends AbstractElement
      * Create textrun element
      *
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\TextRun
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */
@@ -446,6 +330,7 @@ abstract class AbstractContainer extends AbstractElement
      * Create footnote element
      *
      * @param mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\Footnote
      * @deprecated 0.10.0
      * @codeCoverageIgnore
      */

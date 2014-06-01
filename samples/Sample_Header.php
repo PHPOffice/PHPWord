@@ -2,23 +2,25 @@
 /**
  * Header file
  */
+use PhpOffice\PhpWord\Autoloader;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\IOFactory;
+
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
-require_once '../src/PhpWord/Autoloader.php';
-\PhpOffice\PhpWord\Autoloader::register();
+require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
+Autoloader::register();
+Settings::loadConfig();
 
 // Set writers
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
 // Set PDF renderer
-$rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;
-$rendererLibraryPath = ''; // DomPDF library path
-
-if (!\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath)) {
+if (Settings::getPdfRendererPath() === null) {
     $writers['PDF'] = null;
 }
 
@@ -60,9 +62,9 @@ function write($phpWord, $filename, $writers)
     foreach ($writers as $writer => $extension) {
         $result .= date('H:i:s') . " Write to {$writer} format";
         if (!is_null($extension)) {
-            $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-            $xmlWriter->save("{$filename}.{$extension}");
-            rename("{$filename}.{$extension}", "results/{$filename}.{$extension}");
+            $xmlWriter = IOFactory::createWriter($phpWord, $writer);
+            $xmlWriter->save(__DIR__ . "/{$filename}.{$extension}");
+            rename(__DIR__ . "/{$filename}.{$extension}", __DIR__ . "/results/{$filename}.{$extension}");
         } else {
             $result .= ' ... NOT DONE!';
         }

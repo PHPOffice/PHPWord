@@ -1,17 +1,26 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Writer\Word2007\Style\Tab;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Indentation;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Spacing;
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 
 /**
  * Paragraph style writer
@@ -39,16 +48,18 @@ class Paragraph extends AbstractStyle
      */
     public function write()
     {
+        $xmlWriter = $this->getXmlWriter();
+
         $isStyleName = $this->isInline && !is_null($this->style) && is_string($this->style);
         if ($isStyleName) {
             if (!$this->withoutPPR) {
-                $this->xmlWriter->startElement('w:pPr');
+                $xmlWriter->startElement('w:pPr');
             }
-            $this->xmlWriter->startElement('w:pStyle');
-            $this->xmlWriter->writeAttribute('w:val', $this->style);
-            $this->xmlWriter->endElement();
+            $xmlWriter->startElement('w:pStyle');
+            $xmlWriter->writeAttribute('w:val', $this->style);
+            $xmlWriter->endElement();
             if (!$this->withoutPPR) {
-                $this->xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
         } else {
             $this->writeStyle();
@@ -60,73 +71,107 @@ class Paragraph extends AbstractStyle
      */
     private function writeStyle()
     {
-        if (!($this->style instanceof \PhpOffice\PhpWord\Style\Paragraph)) {
+        $style = $this->getStyle();
+        if (!$style instanceof ParagraphStyle) {
             return;
         }
-
-        $widowControl = $this->style->getWidowControl();
-        $keepNext = $this->style->getKeepNext();
-        $keepLines = $this->style->getKeepLines();
-        $pageBreakBefore = $this->style->getPageBreakBefore();
+        $xmlWriter = $this->getXmlWriter();
+        $styles = $style->getStyleValues();
 
         if (!$this->withoutPPR) {
-            $this->xmlWriter->startElement('w:pPr');
+            $xmlWriter->startElement('w:pPr');
         }
+
+        // Style name
+        $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
 
         // Alignment
-        if (!is_null($this->style->getAlign())) {
-            $this->xmlWriter->startElement('w:jc');
-            $this->xmlWriter->writeAttribute('w:val', $this->style->getAlign());
-            $this->xmlWriter->endElement();
-        }
-
-        // Indentation
-        if (!is_null($this->style->getIndentation())) {
-            $styleWriter = new Indentation($this->xmlWriter, $this->style->getIndentation());
-            $styleWriter->write();
-        }
-
-        // Spacing
-        if (!is_null($this->style->getSpace())) {
-            $styleWriter = new Spacing($this->xmlWriter, $this->style->getSpace());
-            $styleWriter->write();
-        }
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $styles['alignment'])));
+        $styleWriter->write();
 
         // Pagination
-        if (!$widowControl) {
-            $this->xmlWriter->startElement('w:widowControl');
-            $this->xmlWriter->writeAttribute('w:val', '0');
-            $this->xmlWriter->endElement();
-        }
-        if ($keepNext) {
-            $this->xmlWriter->startElement('w:keepNext');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
-        if ($keepLines) {
-            $this->xmlWriter->startElement('w:keepLines');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
-        if ($pageBreakBefore) {
-            $this->xmlWriter->startElement('w:pageBreakBefore');
-            $this->xmlWriter->writeAttribute('w:val', '1');
-            $this->xmlWriter->endElement();
-        }
+        $xmlWriter->writeElementIf($styles['pagination']['widowControl'] === false, 'w:widowControl', 'w:val', '0');
+        $xmlWriter->writeElementIf($styles['pagination']['keepNext'] === true, 'w:keepNext', 'w:val', '1');
+        $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
+        $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
+
+        // Indentation & spacing
+        $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
+        $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
 
         // Tabs
-        $tabs = $this->style->getTabs();
-        if (!empty($tabs)) {
-            $this->xmlWriter->startElement("w:tabs");
-            foreach ($tabs as $tab) {
-                $styleWriter = new Tab($this->xmlWriter, $tab);
-                $styleWriter->write();
-            }
-            $this->xmlWriter->endElement();
-        }
+        $this->writeTabs($xmlWriter, $styles['tabs']);
+
+        // Numbering
+        $this->writeNumbering($xmlWriter, $styles['numbering']);
 
         if (!$this->withoutPPR) {
-            $this->xmlWriter->endElement(); // w:pPr
+            $xmlWriter->endElement(); // w:pPr
+        }
+    }
+
+    /**
+     * Write child style
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $name
+     * @param mixed $value
+     */
+    private function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
+    {
+        if ($value !== null) {
+            $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\" . $name;
+
+            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
+            $writer = new $class($xmlWriter, $value);
+            $writer->write();
+        }
+    }
+
+    /**
+     * Write tabs
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     */
+    private function writeTabs(XMLWriter $xmlWriter, $tabs)
+    {
+        if (!empty($tabs)) {
+            $xmlWriter->startElement("w:tabs");
+            foreach ($tabs as $tab) {
+                $styleWriter = new Tab($xmlWriter, $tab);
+                $styleWriter->write();
+            }
+            $xmlWriter->endElement();
+        }
+    }
+
+    /**
+     * Write numbering
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param array $numbering
+     */
+    private function writeNumbering(XMLWriter $xmlWriter, $numbering)
+    {
+        $numStyle = $numbering['style'];
+        $numLevel = $numbering['level'];
+
+        /** @var \PhpOffice\PhpWord\Style\Numbering $numbering */
+        $numbering = Style::getStyle($numStyle);
+        if ($numStyle !== null && $numbering !== null) {
+            $xmlWriter->startElement('w:numPr');
+            $xmlWriter->startElement('w:numId');
+            $xmlWriter->writeAttribute('w:val', $numbering->getIndex());
+            $xmlWriter->endElement(); // w:numId
+            $xmlWriter->startElement('w:ilvl');
+            $xmlWriter->writeAttribute('w:val', $numLevel);
+            $xmlWriter->endElement(); // w:ilvl
+            $xmlWriter->endElement(); // w:numPr
+
+            $xmlWriter->startElement('w:outlineLvl');
+            $xmlWriter->writeAttribute('w:val', $numLevel);
+            $xmlWriter->endElement(); // w:outlineLvl
         }
     }
 

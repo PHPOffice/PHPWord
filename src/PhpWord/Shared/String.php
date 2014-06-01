@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
@@ -75,6 +83,81 @@ class String
         }
 
         return $value;
+    }
+
+    /**
+     * Returns unicode from UTF8 text
+     *
+     * The function is splitted to reduce cyclomatic complexity
+     *
+     * @param string $text UTF8 text
+     * @return string Unicode text
+     * @since 0.11.0
+     */
+    public static function toUnicode($text)
+    {
+        return self::unicodeToEntities(self::utf8ToUnicode($text));
+    }
+
+    /**
+     * Returns unicode array from UTF8 text
+     *
+     * @param string $text UTF8 text
+     * @return array
+     * @since 0.11.0
+     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     */
+    private static function utf8ToUnicode($text)
+    {
+        $unicode = array();
+        $values = array();
+        $lookingFor = 1;
+
+        // Gets unicode for each character
+        for ($i = 0; $i < strlen($text); $i++) {
+            $thisValue = ord($text[$i]);
+            if ($thisValue < 128) {
+                $unicode[] = $thisValue;
+            } else {
+                if (count($values) == 0) {
+                    $lookingFor = $thisValue < 224 ? 2 : 3;
+                }
+                $values[] = $thisValue;
+                if (count($values) == $lookingFor) {
+                    if ($lookingFor == 3) {
+                        $number = (($values[0] % 16) * 4096) + (($values[1] % 64) * 64) + ($values[2] % 64);
+                    } else {
+                        $number = (($values[0] % 32) * 64) + ($values[1] % 64);
+                    }
+                    $unicode[] = $number;
+                    $values = array();
+                    $lookingFor = 1;
+                }
+            }
+        }
+
+        return $unicode;
+    }
+
+    /**
+     * Returns entites from unicode array
+     *
+     * @param array $unicode
+     * @return string
+     * @since 0.11.0
+     * @link http://www.randomchaos.com/documents/?source=php_and_unicode
+     */
+    private static function unicodeToEntities($unicode)
+    {
+        $entities = '';
+
+        foreach ($unicode as $value) {
+            if ($value != 65279) {
+                $entities .= $value > 127 ? '\uc0{\u' . $value . '}' : chr($value);
+            }
+        }
+
+        return $entities;
     }
 
     /**

@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests;
@@ -23,10 +31,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetCompatibility()
     {
-        $this->assertTrue(Settings::getCompatibility());
+        $this->assertTrue(Settings::hasCompatibility());
         $this->assertTrue(Settings::setCompatibility(false));
-        $this->assertFalse(Settings::getCompatibility());
-        $this->assertFalse(Settings::setCompatibility('Non boolean'));
+        $this->assertFalse(Settings::hasCompatibility());
     }
 
     /**
@@ -61,5 +68,49 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
         $this->assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
         $this->assertFalse(Settings::setMeasurementUnit('foo'));
+    }
+
+    /**
+     * Test set/get default font name
+     */
+    public function testSetGetDefaultFontName()
+    {
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, Settings::getDefaultFontName());
+        $this->assertTrue(Settings::setDefaultFontName('Times New Roman'));
+        $this->assertFalse(Settings::setDefaultFontName(' '));
+    }
+
+    /**
+     * Test set/get default font size
+     */
+    public function testSetGetDefaultFontSize()
+    {
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
+        $this->assertTrue(Settings::setDefaultFontSize(12));
+        $this->assertFalse(Settings::setDefaultFontSize(null));
+    }
+
+    /**
+     * Test load config
+     */
+    public function testLoadConfig()
+    {
+        $expected = array(
+            'compatibility' => true,
+            'zipClass' => 'ZipArchive',
+            'pdfRendererName' => 'DomPDF',
+            'pdfRendererPath' => '',
+            'defaultFontName' => 'Arial',
+            'defaultFontSize' => 10,
+        );
+
+        // Test default value
+        $this->assertEquals($expected, Settings::loadConfig());
+
+        // Test with valid file
+        $this->assertEquals($expected, Settings::loadConfig(__DIR__ . '/../../../phpword.ini.dist'));
+
+        // Test with invalid file
+        $this->assertEmpty(Settings::loadConfig(__DIR__ . '/../../../phpunit.xml.dist'));
     }
 }

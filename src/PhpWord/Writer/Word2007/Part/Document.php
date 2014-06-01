@@ -1,41 +1,46 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
 /**
- * Word2007 document part writer
+ * Word2007 document part writer: word/document.xml
  */
 class Document extends AbstractPart
 {
     /**
-     * Write word/document.xml
+     * Write part
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return string
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function writeDocument(PhpWord $phpWord = null)
+    public function write()
     {
-        if (is_null($phpWord)) {
-            throw new Exception("No PhpWord assigned.");
-        }
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
+
         $sections = $phpWord->getSections();
         $sectionCount = count($sections);
         $currentSection = 0;
+        $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
         $xmlWriter->startElement('w:document');
@@ -44,7 +49,7 @@ class Document extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:wp', 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing');
+        $xmlWriter->writeAttribute('xmlns:wp', $drawingSchema);
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
         $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
@@ -55,7 +60,10 @@ class Document extends AbstractPart
         if ($sectionCount > 0) {
             foreach ($sections as $section) {
                 $currentSection++;
-                $this->writeContainerElements($xmlWriter, $section);
+
+                $containerWriter = new Container($xmlWriter, $section);
+                $containerWriter->write();
+
                 if ($currentSection == $sectionCount) {
                     $this->writeSectionSettings($xmlWriter, $section);
                 } else {

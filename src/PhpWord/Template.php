@@ -1,16 +1,25 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Template
@@ -70,8 +79,7 @@ class Template
             throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
         }
 
-        $zipClass = Settings::getZipClass();
-        $this->zipClass = new $zipClass();
+        $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempFileName);
 
         // Find and load headers and footers
@@ -184,7 +192,7 @@ class Template
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            $extraRowStart = $rowEnd;
+            // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
@@ -197,7 +205,8 @@ class Template
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -226,7 +235,11 @@ class Template
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
@@ -236,7 +249,11 @@ class Template
             }
 
             if ($replace) {
-                $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], implode('', $cloned), $this->documentXML);
+                $this->documentXML = str_replace(
+                    $matches[2] . $matches[3] . $matches[4],
+                    implode('', $cloned),
+                    $this->documentXML
+                );
             }
         }
 
@@ -251,10 +268,18 @@ class Template
      */
     public function replaceBlock($blockname, $replacement)
     {
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
-            $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], $replacement, $this->documentXML);
+            $this->documentXML = str_replace(
+                $matches[2] . $matches[3] . $matches[4],
+                $replacement,
+                $this->documentXML
+            );
         }
     }
 

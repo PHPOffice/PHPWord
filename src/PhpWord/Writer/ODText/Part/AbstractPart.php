@@ -1,24 +1,38 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
 
 /**
  * ODText writer part abstract
  */
-abstract class AbstractPart extends \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart
+abstract class AbstractPart extends Word2007AbstractPart
 {
+    /**
+     * @var string Date format
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:s.000';
+
     /**
      * Write common root attributes
      */
@@ -59,7 +73,7 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Writer\Word2007\Part\Abst
     protected function writeFontFaces(XMLWriter $xmlWriter)
     {
         $xmlWriter->startElement('office:font-face-decls');
-        $arrFonts = array();
+        $fontTable = array();
         $styles = Style::getStyles();
         $numFonts = 0;
         if (count($styles) > 0) {
@@ -68,8 +82,8 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Writer\Word2007\Part\Abst
                 if ($style instanceof Font) {
                     $numFonts++;
                     $name = $style->getName();
-                    if (!in_array($name, $arrFonts)) {
-                        $arrFonts[] = $name;
+                    if (!in_array($name, $fontTable)) {
+                        $fontTable[] = $name;
 
                         // style:font-face
                         $xmlWriter->startElement('style:font-face');
@@ -80,10 +94,10 @@ abstract class AbstractPart extends \PhpOffice\PhpWord\Writer\Word2007\Part\Abst
                 }
             }
         }
-        if (!in_array(PhpWord::DEFAULT_FONT_NAME, $arrFonts)) {
+        if (!in_array(Settings::getDefaultFontName(), $fontTable)) {
             $xmlWriter->startElement('style:font-face');
-            $xmlWriter->writeAttribute('style:name', PhpWord::DEFAULT_FONT_NAME);
-            $xmlWriter->writeAttribute('svg:font-family', PhpWord::DEFAULT_FONT_NAME);
+            $xmlWriter->writeAttribute('style:name', Settings::getDefaultFontName());
+            $xmlWriter->writeAttribute('svg:font-family', Settings::getDefaultFontName());
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement();

@@ -25,6 +25,7 @@ $table->addCell(4500)->addImage(
 // Add header for all other pages
 $subsequent = $section->addHeader();
 $subsequent->addText("Subsequent pages in Section 1 will Have this!");
+$subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80));
 
 // Add footer
 $footer = $section->addFooter();

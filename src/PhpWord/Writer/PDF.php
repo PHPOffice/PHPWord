@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PhpWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer;
@@ -15,6 +23,8 @@ use PhpOffice\PhpWord\Settings;
 
 /**
  * PDF Writer
+ *
+ * @since 0.10.0
  */
 class PDF
 {
@@ -29,6 +39,7 @@ class PDF
      * Instantiate a new renderer of the configured type within this container class
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
     {
@@ -44,7 +55,7 @@ class PDF
             set_include_path(get_include_path() . PATH_SEPARATOR . $pdfLibraryPath);
         }
 
-        $rendererName = 'PhpOffice\\PhpWord\\Writer\\PDF\\' . $pdfLibraryName;
+        $rendererName = get_class($this) . '\\' . $pdfLibraryName;
         $this->renderer = new $rendererName($phpWord);
     }
 
@@ -57,9 +68,10 @@ class PDF
      */
     public function __call($name, $arguments)
     {
-        if ($this->renderer === null) {
-            throw new Exception("PDF Rendering library has not been defined.");
-        }
+        // Note: Commented because all exceptions should already be catched by `__construct`
+        // if ($this->renderer === null) {
+        //     throw new Exception("PDF Rendering library has not been defined.");
+        // }
 
         return call_user_func_array(array($this->renderer, $name), $arguments);
     }

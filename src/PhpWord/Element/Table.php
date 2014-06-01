@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
@@ -26,62 +34,65 @@ class Table extends AbstractElement
     /**
      * Table rows
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\Row[]
      */
     private $rows = array();
 
     /**
      * Table width
      *
-     * @var integer
+     * @var int
      */
     private $width = null;
-
 
     /**
      * Create a new table
      *
-     * @param string $docPart
-     * @param integer $docPartId
      * @param mixed $style
      */
-    public function __construct($docPart, $docPartId, $style = null)
+    public function __construct($style = null)
     {
-        $this->setDocPart($docPart, $docPartId);
         $this->style = $this->setStyle(new TableStyle(), $style);
     }
 
     /**
      * Add a row
      *
-     * @param integer $height
+     * @param int $height
      * @param mixed $style
+     * @return \PhpOffice\PhpWord\Element\Row
      */
     public function addRow($height = null, $style = null)
     {
-        $row = new Row($this->getDocPart(), $this->getDocPartId(), $height, $style);
+        $row = new Row($height, $style);
+        $row->setDocPart($this->getDocPart(), $this->getDocPartId());
+        $row->setPhpWord($this->phpWord);
+        $row->setNestedLevel($this->getNestedLevel());
         $this->rows[] = $row;
+
         return $row;
     }
 
     /**
      * Add a cell
      *
-     * @param integer $width
+     * @param int $width
      * @param mixed $style
-     * @return Cell
+     * @return \PhpOffice\PhpWord\Element\Cell
      */
     public function addCell($width = null, $style = null)
     {
         $index = count($this->rows) - 1;
-        $cell = $this->rows[$index]->addCell($width, $style);
+        $row = $this->rows[$index];
+        $cell = $row->addCell($width, $style);
+
         return $cell;
     }
 
     /**
      * Get all rows
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\Row[]
      */
     public function getRows()
     {
@@ -99,19 +110,9 @@ class Table extends AbstractElement
     }
 
     /**
-     * Set table width
-     *
-     * @param integer $width
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-    }
-
-    /**
      * Get table width
      *
-     * @return integer
+     * @return int
      */
     public function getWidth()
     {
@@ -119,9 +120,19 @@ class Table extends AbstractElement
     }
 
     /**
+     * Set table width
+     *
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
      * Get column count
      *
-     * @return integer
+     * @return int
      */
     public function countColumns()
     {
@@ -129,7 +140,9 @@ class Table extends AbstractElement
         if (is_array($this->rows)) {
             $rowCount = count($this->rows);
             for ($i = 0; $i < $rowCount; $i++) {
-                $cellCount = count($this->rows[$i]->getCells());
+                /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
+                $row = $this->rows[$i];
+                $cellCount = count($row->getCells());
                 if ($columnCount < $cellCount) {
                     $columnCount = $cellCount;
                 }

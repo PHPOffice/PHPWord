@@ -1,15 +1,21 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
-
-use PhpOffice\PhpWord\Style\LineNumbering;
 
 /**
  * Section settings
@@ -175,15 +181,19 @@ class Section extends Border
     {
         $enum = array(self::ORIENTATION_PORTRAIT, self::ORIENTATION_LANDSCAPE);
         $this->orientation = $this->setEnumVal($value, $enum, $this->orientation);
-        $longSize = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
-        $shortSize = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        /** @var int|float $longSide Type hint */
+        $longSide = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        /** @var int|float $shortSide Type hint */
+        $shortSide = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
 
         if ($this->orientation == self::ORIENTATION_PORTRAIT) {
-            $this->pageSizeW = $shortSize;
-            $this->pageSizeH = $longSize;
+            $this->pageSizeW = $shortSide;
+            $this->pageSizeH = $longSide;
         } else {
-            $this->pageSizeW = $longSize;
-            $this->pageSizeH = $shortSize;
+            $this->pageSizeW = $longSide;
+            $this->pageSizeH = $shortSide;
         }
 
         return $this;
@@ -255,7 +265,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginTop($value = '')
+    public function setMarginTop($value = null)
     {
         $this->marginTop = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -278,7 +288,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginLeft($value = '')
+    public function setMarginLeft($value = null)
     {
         $this->marginLeft = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -301,7 +311,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginRight($value = '')
+    public function setMarginRight($value = null)
     {
         $this->marginRight = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -324,7 +334,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setMarginBottom($value = '')
+    public function setMarginBottom($value = null)
     {
         $this->marginBottom = $this->setNumericVal($value, self::DEFAULT_MARGIN);
 
@@ -347,7 +357,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setGutter($value = '')
+    public function setGutter($value = null)
     {
         $this->gutter = $this->setNumericVal($value, self::DEFAULT_GUTTER);
 
@@ -370,7 +380,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setHeaderHeight($value = '')
+    public function setHeaderHeight($value = null)
     {
         $this->headerHeight = $this->setNumericVal($value, self::DEFAULT_HEADER_HEIGHT);
 
@@ -393,7 +403,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setFooterHeight($value = '')
+    public function setFooterHeight($value = null)
     {
         $this->footerHeight = $this->setNumericVal($value, self::DEFAULT_FOOTER_HEIGHT);
 
@@ -414,7 +424,7 @@ class Section extends Border
      * Set page numbering start
      *
      * @param null|int $pageNumberingStart
-     * @return $this
+     * @return self
      */
     public function setPageNumberingStart($pageNumberingStart = null)
     {
@@ -438,7 +448,7 @@ class Section extends Border
      * @param int $value
      * @return self
      */
-    public function setColsNum($value = '')
+    public function setColsNum($value = null)
     {
         $this->colsNum = $this->setIntVal($value, self::DEFAULT_COLUMN_COUNT);
 
@@ -461,7 +471,7 @@ class Section extends Border
      * @param int|float $value
      * @return self
      */
-    public function setColsSpace($value = '')
+    public function setColsSpace($value = null)
     {
         $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
 
@@ -503,19 +513,12 @@ class Section extends Border
     /**
      * Set line numbering
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
     public function setLineNumbering($value = null)
     {
-        if (is_array($value)) {
-            if (!$this->lineNumbering instanceof LineNumbering) {
-                $this->lineNumbering = new LineNumbering($value);
-            }
-            $this->lineNumbering->setStyleByArray($value);
-        } else {
-            $this->lineNumbering = null;
-        }
+        $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
 
         return $this;
     }

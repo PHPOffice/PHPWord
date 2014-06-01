@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer;
 
@@ -50,7 +58,8 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $file = __DIR__ . "/../_files/temp.rtf";
 
         $phpWord = new PhpWord();
-        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000'));
+        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
+            'color' => 'FF0000', 'fgColor' => '00FF00'));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->addSection();
         $section->addText('Test 1', 'Font', 'Paragraph');
@@ -59,7 +68,16 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addLink('http://test.com');
         $section->addTitle('Test', 1);
         $section->addPageBreak();
-        $section->addTable();
+
+        // Rowspan
+        $table = $section->addTable();
+        $table->addRow()->addCell(null, array('vMerge' => 'restart'))->addText('Test');
+        $table->addRow()->addCell(null, array('vMerge' => 'continue'))->addText('Test');
+
+        // Nested table
+        $cell = $section->addTable()->addRow()->addCell();
+        $cell->addTable()->addRow()->addCell();
+
         $section->addListItem('Test');
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
@@ -88,17 +106,5 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $section->addText('Test');
         $writer = new RTF($phpWord);
         $writer->save('php://output');
-    }
-
-    /**
-     * Save with no PhpWord object assigned
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage PhpWord object unassigned.
-     */
-    public function testSaveException()
-    {
-        $writer = new RTF();
-        $writer->save();
     }
 }

@@ -1,31 +1,34 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Settings;
 
-// @codeCoverageIgnoreStart
-if (!defined('DATE_W3C')) {
-    define('DATE_W3C', 'Y-m-d\TH:i:sP');
-}
-// @codeCoverageIgnoreEnd
-
 /**
  * XMLWriter wrapper
  *
- * @method bool writeElement(string $name, string $content = null)
- * @method bool startElement(string $name)
- * @method bool writeAttribute(string $name, string $value)
  * @method bool endElement()
  * @method bool startDocument(string $version = 1.0, string $encoding = null, string $standalone = null)
+ * @method bool startElement(string $name)
  * @method bool text(string $content)
+ * @method bool writeAttribute(string $name, mixed $value)
+ * @method bool writeElement(string $name, string $content = null)
+ * @method bool writeRaw(string $content)
  */
 class XMLWriter
 {
@@ -65,15 +68,17 @@ class XMLWriter
             // Create temporary filename
             $this->tempFile = @tempnam($tempFolder, 'xml');
 
-            // Open storage
+            // Fallback to memory when temporary file cannot be used
+            // @codeCoverageIgnoreStart
+            // Can't find any test case. Uncomment when found.
             if ($this->xmlWriter->openUri($this->tempFile) === false) {
-                // Fallback to memory...
                 $this->xmlWriter->openMemory();
             }
+            // @codeCoverageIgnoreEnd
         }
 
         // Set xml Compatibility
-        $compatibility = Settings::getCompatibility();
+        $compatibility = Settings::hasCompatibility();
         if ($compatibility) {
             $this->xmlWriter->setIndent(false);
             $this->xmlWriter->setIndentString('');
@@ -102,9 +107,16 @@ class XMLWriter
      *
      * @param mixed $function
      * @param mixed $args
+     * @throws \BadMethodCallException
      */
     public function __call($function, $args)
     {
+        // Catch exception
+        if (method_exists($this->xmlWriter, $function) === false) {
+            throw new \BadMethodCallException("Method '{$function}' does not exists.");
+        }
+
+        // Run method
         try {
             @call_user_func_array(array($this->xmlWriter, $function), $args);
         } catch (\Exception $ex) {
@@ -128,17 +140,37 @@ class XMLWriter
     }
 
     /**
-     * Fallback method for writeRaw, introduced in PHP 5.2
+     * Write element if ...
      *
-     * @param string $text
-     * @return bool
+     * @param bool $condition
+     * @param string $element
+     * @param string $attribute
+     * @param mixed $value
      */
-    public function writeRaw($text)
+    public function writeElementIf($condition, $element, $attribute = null, $value = null)
     {
-        if (isset($this->xmlWriter) && is_object($this->xmlWriter) && (method_exists($this->xmlWriter, 'writeRaw'))) {
-            return $this->xmlWriter->writeRaw($text);
+        if ($condition == true) {
+            if (is_null($attribute)) {
+                $this->xmlWriter->writeElement($element, $value);
+            } else {
+                $this->xmlWriter->startElement($element);
+                $this->xmlWriter->writeAttribute($attribute, $value);
+                $this->xmlWriter->endElement();
+            }
         }
+    }
 
-        return $this->text($text);
+    /**
+     * Write attribute if ...
+     *
+     * @param bool $condition
+     * @param string $attribute
+     * @param mixed $value
+     */
+    public function writeAttributeIf($condition, $attribute, $value)
+    {
+        if ($condition == true) {
+            $this->xmlWriter->writeAttribute($attribute, $value);
+        }
     }
 }

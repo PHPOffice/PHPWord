@@ -1,21 +1,25 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Element\AbstractElement;
-use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Writer\Word2007\Element\Element as ElementWriter;
-use PhpOffice\PhpWord\Writer\WriterInterface;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
  * Word2007 writer part abstract class
@@ -25,24 +29,36 @@ abstract class AbstractPart
     /**
      * Parent writer
      *
-     * @var \PhpOffice\PhpWord\Writer\WriterInterface
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     protected $parentWriter;
 
     /**
+     * @var string Date format
+     */
+    protected $dateFormat = 'Y-m-d\TH:i:sP';
+
+    /**
+     * Write part
+     *
+     * @return string
+     */
+    abstract public function write();
+
+    /**
      * Set parent writer
      *
-     * @param \PhpOffice\PhpWord\Writer\WriterInterface $pWriter
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
      */
-    public function setParentWriter(WriterInterface $pWriter = null)
+    public function setParentWriter(AbstractWriter $writer = null)
     {
-        $this->parentWriter = $pWriter;
+        $this->parentWriter = $writer;
     }
 
     /**
      * Get parent writer
      *
-     * @return \PhpOffice\PhpWord\Writer\WriterInterface
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getParentWriter()
@@ -50,7 +66,7 @@ abstract class AbstractPart
         if (!is_null($this->parentWriter)) {
             return $this->parentWriter;
         } else {
-            throw new Exception("No parent WriterInterface assigned.");
+            throw new Exception('No parent WriterInterface assigned.');
         }
     }
 
@@ -63,7 +79,7 @@ abstract class AbstractPart
     {
         $useDiskCaching = false;
         if (!is_null($this->parentWriter)) {
-            if ($this->parentWriter->getUseDiskCaching()) {
+            if ($this->parentWriter->isUseDiskCaching()) {
                 $useDiskCaching = true;
             }
         }
@@ -71,50 +87,6 @@ abstract class AbstractPart
             return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory());
         } else {
             return new XMLWriter(XMLWriter::STORAGE_MEMORY);
-        }
-    }
-
-    /**
-     * Write container elements
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $container
-     */
-    public function writeContainerElements(XMLWriter $xmlWriter, AbstractElement $container)
-    {
-        // Check allowed elements
-        $elmCommon = array('Text', 'Link', 'TextBreak', 'Image', 'Object');
-        $elmMainCell = array_merge($elmCommon, array('TextRun', 'ListItem', 'CheckBox'));
-        $allowedElements = array(
-            'Section'  => array_merge($elmMainCell, array('Table', 'Footnote', 'Title', 'PageBreak', 'TOC')),
-            'Header'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Footer'   => array_merge($elmMainCell, array('Table', 'PreserveText')),
-            'Cell'     => array_merge($elmMainCell, array('PreserveText', 'Footnote', 'Endnote')),
-            'TextRun'  => array_merge($elmCommon, array('Footnote', 'Endnote')),
-            'Footnote' => $elmCommon,
-            'Endnote'  => $elmCommon,
-        );
-        $containerName = get_class($container);
-        $containerName = substr($containerName, strrpos($containerName, '\\') + 1);
-        if (!array_key_exists($containerName, $allowedElements)) {
-            throw new Exception('Invalid container.');
-        }
-
-        // Loop through elements
-        $elements = $container->getElements();
-        $withoutP = in_array($containerName, array('TextRun', 'Footnote', 'Endnote')) ? true : false;
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                if ($element instanceof AbstractElement) {
-                    $elementWriter = new ElementWriter($xmlWriter, $this, $element, $withoutP);
-                    $elementWriter->write();
-                }
-            }
-        } else {
-            if ($containerName == 'Cell') {
-                $elementWriter = new ElementWriter($xmlWriter, $this, new TextBreak(), $withoutP);
-                $elementWriter->write();
-            }
         }
     }
 }

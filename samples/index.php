@@ -1,5 +1,13 @@
 <?php
 include_once 'Sample_Header.php';
+$requirements = array(
+    'php'   => array('PHP 5.3.0', version_compare(phpversion(), '5.3.0', '>=')),
+    'xml'   => array('PHP extension XML', extension_loaded('xml')),
+    'zip'   => array('PHP extension ZipArchive (optional)', extension_loaded('zip')),
+    'gd'    => array('PHP extension GD (optional)', extension_loaded('gd')),
+    'xmlw'  => array('PHP extension XMLWriter (optional)', extension_loaded('xmlwriter')),
+    'xsl'   => array('PHP extension XSL (optional)', extension_loaded('xsl')),
+);
 if (!CLI) {
 ?>
 <div class="jumbotron">
@@ -10,21 +18,23 @@ if (!CLI) {
     <a class="btn btn-lg btn-primary" href="http://phpword.readthedocs.org/en/develop/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
 </p>
 </div>
-<?
-$requirements = array(
-    'php' => array('PHP 5.3.0', version_compare(phpversion(), '5.3.0', '>=')),
-    'zip' => array('PHP extension ZipArchive', extension_loaded('zip')),
-    'xml' => array('PHP extension XML', extension_loaded('xml')),
-    'gd'  => array('PHP extension GD (optional)', extension_loaded('gd')),
-);
-echo "<h3>Requirements</h3>";
-echo "<ul>";
-foreach ($requirements as $key => $value) {
-    $status = $value[1] ? 'passed' : 'failed';
-    echo "<li>{$value[0]} ... <span class='{$status}'>{$status}</span></li>";
-}
-echo "</ul>";
+<?php
 }
 if (!CLI) {
+    echo "<h3>Requirement check:</h3>";
+    echo "<ul>";
+    foreach ($requirements as $key => $value) {
+        list($label, $result) = $value;
+        $status = $result ? 'passed' : 'failed';
+        echo "<li>{$label} ... <span class='{$status}'>{$status}</span></li>";
+    }
+    echo "</ul>";
     include_once 'Sample_Footer.php';
+} else {
+    echo 'Requirement check:' . PHP_EOL;
+    foreach ($requirements as $key => $value) {
+        list($label, $result) = $value;
+        $status = $result ? '32m passed' : '31m failed';
+        echo "{$label} ... \033[{$status}\033[0m" . PHP_EOL;
+    }
 }

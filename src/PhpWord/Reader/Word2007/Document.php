@@ -1,22 +1,41 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Element\Section;
 
 /**
  * Document reader
+ *
+ * @since 0.10.0
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
  */
 class Document extends AbstractPart
 {
+    /**
+     * PhpWord object
+     *
+     * @var \PhpOffice\PhpWord\PhpWord
+     */
+    private $phpWord;
+
     /**
      * Read document.xml
      *
@@ -24,49 +43,18 @@ class Document extends AbstractPart
      */
     public function read(PhpWord &$phpWord)
     {
+        $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
+        $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
 
         $nodes = $xmlReader->getElements('w:body/*');
         if ($nodes->length > 0) {
-            $section = $phpWord->addSection();
+            $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
-                switch ($node->nodeName) {
-
-                    case 'w:p': // Paragraph
-                        // Page break
-                        // @todo <w:lastRenderedPageBreak>
-                        if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
-                            $section->addPageBreak(); // PageBreak
-                        }
-
-                        // Paragraph
-                        $this->readParagraph($xmlReader, $node, $section, 'document');
-                        // Section properties
-                        if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
-                            $settingsNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
-                            if (!is_null($settingsNode)) {
-                                $settings = $this->readSectionStyle($xmlReader, $settingsNode);
-                                $section->setSettings($settings);
-                                if (!is_null($settings)) {
-                                    $this->readHeaderFooter($settings, $section);
-                                }
-                            }
-                            $section = $phpWord->addSection();
-                        }
-                        break;
-
-                    case 'w:tbl': // Table
-                        $this->readTable($xmlReader, $node, $section, 'document');
-                        break;
-
-                    case 'w:sectPr': // Last section
-                        $settings = $this->readSectionStyle($xmlReader, $node);
-                        $section->setSettings($settings);
-                        if (!is_null($settings)) {
-                            $this->readHeaderFooter($settings, $section);
-                        }
-                        break;
+                if (array_key_exists($node->nodeName, $readMethods)) {
+                    $readMethod = $readMethods[$node->nodeName];
+                    $this->$readMethod($xmlReader, $node, $section);
                 }
             }
         }
@@ -78,14 +66,16 @@ class Document extends AbstractPart
      * @param array $settings
      * @param \PhpOffice\PhpWord\Element\Section $section
      */
-    private function readHeaderFooter($settings, &$section)
+    private function readHeaderFooter($settings, Section &$section)
     {
+        $readMethods = array('w:p' => 'readParagraph', 'w:tbl' => 'readTable');
+
         if (is_array($settings) && array_key_exists('hf', $settings)) {
             foreach ($settings['hf'] as $rId => $hfSetting) {
                 if (array_key_exists($rId, $this->rels['document'])) {
                     list($hfType, $xmlFile, $docPart) = array_values($this->rels['document'][$rId]);
-                    $method = "add{$hfType}";
-                    $hfObject = $section->$method($hfSetting['type']);
+                    $addMethod = "add{$hfType}";
+                    $hfObject = $section->$addMethod($hfSetting['type']);
 
                     // Read header/footer content
                     $xmlReader = new XMLReader();
@@ -93,160 +83,9 @@ class Document extends AbstractPart
                     $nodes = $xmlReader->getElements('*');
                     if ($nodes->length > 0) {
                         foreach ($nodes as $node) {
-                            switch ($node->nodeName) {
-
-                                case 'w:p': // Paragraph
-                                    $this->readParagraph($xmlReader, $node, $hfObject, $docPart);
-                                    break;
-
-                                case 'w:tbl': // Table
-                                    $this->readTable($xmlReader, $node, $hfObject, $docPart);
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Read w:p
-     *
-     * @param mixed $parent
-     * @param string $docPart
-     *
-     * @todo Get font style for preserve text
-     */
-    private function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
-    {
-        // Paragraph style
-        $paragraphStyle = null;
-        $headingMatches = array();
-        if ($xmlReader->elementExists('w:pPr', $domNode)) {
-            $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_string($paragraphStyle)) {
-                preg_match('/Heading(\d)/', $paragraphStyle, $headingMatches);
-            }
-        }
-
-        // PreserveText
-        if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
-            $ignoreText = false;
-            $textContent = '';
-            $fontStyle = $this->readFontStyle($xmlReader, $domNode);
-            $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $instrText = $xmlReader->getValue('w:instrText', $node);
-                if ($xmlReader->elementExists('w:fldChar', $node)) {
-                    $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
-                    if ($fldCharType == 'begin') {
-                        $ignoreText = true;
-                    } elseif ($fldCharType == 'end') {
-                        $ignoreText = false;
-                    }
-                }
-                if (!is_null($instrText)) {
-                    $textContent .= '{' . $instrText . '}';
-                } else {
-                    if ($ignoreText === false) {
-                        $textContent .= $xmlReader->getValue('w:t', $node);
-                    }
-                }
-            }
-            $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
-
-        // List item
-        } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
-            $textContent = '';
-            $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
-            $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
-            $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
-            }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
-
-        // Heading
-        } elseif (!empty($headingMatches)) {
-            $textContent = '';
-            $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
-            }
-            $parent->addTitle($textContent, $headingMatches[1]);
-
-        // Text and TextRun
-        } else {
-            $runCount = $xmlReader->countElements('w:r', $domNode);
-            $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
-            $runLinkCount = $runCount + $linkCount;
-            if ($runLinkCount == 0) {
-                $parent->addTextBreak(null, $paragraphStyle);
-            } else {
-                if ($runLinkCount > 1) {
-                    $textrun = $parent->addTextRun($paragraphStyle);
-                    $textParent = &$textrun;
-                } else {
-                    $textParent = &$parent;
-                }
-                $nodes = $xmlReader->getElements('*', $domNode);
-                foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $textParent, $docPart, $paragraphStyle);
-                }
-            }
-        }
-    }
-
-    /**
-     * Read w:tbl
-     *
-     * @param mixed $parent
-     * @param string $docPart
-     */
-    private function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart)
-    {
-        // Table style
-        $tblStyle = null;
-        if ($xmlReader->elementExists('w:tblPr', $domNode)) {
-            $tblStyle = $this->readTableStyle($xmlReader, $domNode);
-        }
-
-        $table = $parent->addTable($tblStyle);
-        $tblNodes = $xmlReader->getElements('*', $domNode);
-        foreach ($tblNodes as $tblNode) {
-            if ($tblNode->nodeName == 'w:tblGrid') { // Column
-                // @todo Do something with table columns
-
-            } elseif ($tblNode->nodeName == 'w:tr') { // Row
-                $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
-                $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
-                $rowHRule = $rowHRule == 'exact' ? true : false;
-                $rowStyle = array(
-                    'tblHeader' => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
-                    'cantSplit' => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
-                    'exactHeight' => $rowHRule,
-                );
-
-                $row = $table->addRow($rowHeight, $rowStyle);
-                $rowNodes = $xmlReader->getElements('*', $tblNode);
-                foreach ($rowNodes as $rowNode) {
-                    if ($rowNode->nodeName == 'w:trPr') { // Row style
-                        // @todo Do something with row style
-
-                    } elseif ($rowNode->nodeName == 'w:tc') { // Cell
-                        $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
-                        $cellStyle = null;
-                        $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
-                        if (!is_null($cellStyleNode)) {
-                            $cellStyle = $this->readCellStyle($xmlReader, $cellStyleNode);
-                        }
-
-                        $cell = $row->addCell($cellWidth, $cellStyle);
-                        $cellNodes = $xmlReader->getElements('*', $rowNode);
-                        foreach ($cellNodes as $cellNode) {
-                            if ($cellNode->nodeName == 'w:p') { // Paragraph
-                                $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
+                            if (array_key_exists($node->nodeName, $readMethods)) {
+                                $readMethod = $readMethods[$node->nodeName];
+                                $this->$readMethod($xmlReader, $node, $hfObject, $docPart);
                             }
                         }
                     }
@@ -258,93 +97,86 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr
      *
-     * @return array|null
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @ignoreScrutinizerPatch
+     * @return array
      */
     private function readSectionStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {
-        $ret = null;
-        $mapping = array(
-            'w:type' => 'breakType', 'w:pgSz' => 'pageSize',
-            'w:pgMar' => 'pageMargin', 'w:cols' => 'columns',
-            'w:headerReference' => 'header', 'w:footerReference' => 'footer',
+        $styleDefs = array(
+            'breakType'     => array(self::READ_VALUE, 'w:type'),
+            'pageSizeW'     => array(self::READ_VALUE, 'w:pgSz', 'w:w'),
+            'pageSizeH'     => array(self::READ_VALUE, 'w:pgSz', 'w:h'),
+            'orientation'   => array(self::READ_VALUE, 'w:pgSz', 'w:orient'),
+            'colsNum'       => array(self::READ_VALUE, 'w:cols', 'w:num'),
+            'colsSpace'     => array(self::READ_VALUE, 'w:cols', 'w:space'),
+            'topMargin'     => array(self::READ_VALUE, 'w:pgMar', 'w:top'),
+            'leftMargin'    => array(self::READ_VALUE, 'w:pgMar', 'w:left'),
+            'bottomMargin'  => array(self::READ_VALUE, 'w:pgMar', 'w:bottom'),
+            'rightMargin'   => array(self::READ_VALUE, 'w:pgMar', 'w:right'),
+            'headerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:header'),
+            'footerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:footer'),
+            'gutter'        => array(self::READ_VALUE, 'w:pgMar', 'w:gutter'),
         );
+        $styles = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+
+        // Header and footer
+        // @todo Cleanup this part
         $nodes = $xmlReader->getElements('*', $domNode);
         foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-
-                case 'w:type':
-                    $ret['breakType'] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-
-                case 'w:pgSz':
-                    $ret['pageSizeW'] = $xmlReader->getAttribute('w:w', $node);
-                    $ret['pageSizeH'] = $xmlReader->getAttribute('w:h', $node);
-                    $ret['orientation'] = $xmlReader->getAttribute('w:orient', $node);
-                    break;
-
-                case 'w:pgMar':
-                    $ret['topMargin'] = $xmlReader->getAttribute('w:top', $node);
-                    $ret['leftMargin'] = $xmlReader->getAttribute('w:left', $node);
-                    $ret['bottomMargin'] = $xmlReader->getAttribute('w:bottom', $node);
-                    $ret['rightMargin'] = $xmlReader->getAttribute('w:right', $node);
-                    $ret['headerHeight'] = $xmlReader->getAttribute('w:header', $node);
-                    $ret['footerHeight'] = $xmlReader->getAttribute('w:footer', $node);
-                    $ret['gutter'] = $xmlReader->getAttribute('w:gutter', $node);
-                    break;
-
-                case 'w:cols':
-                    $ret['colsNum'] = $xmlReader->getAttribute('w:num', $node);
-                    $ret['colsSpace'] = $xmlReader->getAttribute('w:space', $node);
-                    break;
-
-                case 'w:headerReference':
-                case 'w:footerReference':
-                    $id = $xmlReader->getAttribute('r:id', $node);
-                    $ret['hf'][$id] = array(
-                        'method' => $property,
-                        'type' => $xmlReader->getAttribute('w:type', $node),
-                    );
-                    break;
+            if ($node->nodeName == 'w:headerReference' || $node->nodeName == 'w:footerReference') {
+                $id = $xmlReader->getAttribute('r:id', $node);
+                $styles['hf'][$id] = array(
+                    'method' => str_replace('w:', '', str_replace('Reference', '', $node->nodeName)),
+                    'type' => $xmlReader->getAttribute('w:type', $node),
+                );
             }
         }
 
-        return $ret;
+        return $styles;
     }
 
     /**
-     * Read w:tcPr
+     * Read w:p node
      *
-     * @return array|null
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     *
+     * @todo <w:lastRenderedPageBreak>
      */
-    private function readCellStyle(XMLReader $xmlReader, \DOMElement $domNode)
+    private function readWPNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        $style = null;
-        $mapping = array(
-            'w:shd' => 'bgColor',
-            'w:vAlign' => 'valign', 'w:textDirection' => 'textDirection',
-            'w:gridSpan' => 'gridSpan', 'w:vMerge' => 'vMerge',
-        );
-        $nodes = $xmlReader->getElements('*', $domNode);
-        foreach ($nodes as $node) {
-            if (!array_key_exists($node->nodeName, $mapping)) {
-                continue;
-            }
-            $property = $mapping[$node->nodeName];
-            switch ($node->nodeName) {
-                case 'w:shd':
-                    $style['bgColor'] = $xmlReader->getAttribute('w:fill', $node);
-                    break;
-
-                default:
-                    $style[$property] = $xmlReader->getAttribute('w:val', $node);
-                    break;
-            }
+        // Page break
+        if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
+            $section->addPageBreak(); // PageBreak
         }
 
-        return $style;
+        // Paragraph
+        $this->readParagraph($xmlReader, $node, $section);
+
+        // Section properties
+        if ($xmlReader->elementExists('w:pPr/w:sectPr', $node)) {
+            $sectPrNode = $xmlReader->getElement('w:pPr/w:sectPr', $node);
+            if ($sectPrNode !== null) {
+                $this->readWSectPrNode($xmlReader, $sectPrNode, $section);
+            }
+            $section = $this->phpWord->addSection();
+        }
+    }
+
+    /**
+     * Read w:sectPr node
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     */
+    private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
+    {
+        $settings = $this->readSectionStyle($xmlReader, $node);
+        $section->setSettings($settings);
+        $this->readHeaderFooter($settings, $section);
     }
 }

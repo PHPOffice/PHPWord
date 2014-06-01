@@ -1,16 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\ODText\Part\Content;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\ODText\Part\Content;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content
@@ -29,18 +37,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test construct with no PhpWord
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage No PhpWord assigned.
-     */
-    public function testConstructNoPhpWord()
-    {
-        $object = new Content();
-        $object->writeContent();
-    }
-
-    /**
      * Test write content
      */
     public function testWriteContent()
@@ -51,11 +47,15 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
 
+        $docProps = $phpWord->getDocumentProperties();
+        $docProps->setCustomProperty('Company', 'PHPWord');
+
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
-        $section = $phpWord->addSection();
+        $section = $phpWord->addSection(array('colsNum' => 2));
         $section->addText($expected);
         $section->addText('Test font style', 'Font');
         $section->addText('Test paragraph style', null, 'Paragraph');
@@ -64,14 +64,14 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addListItem('Test list item');
-        $section->addImage($imageSrc);
+        $section->addImage($imageSrc, array('width' => 50));
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
         $textrun->addText('Test text run');
 
-        $table = $section->addTable();
+        $table = $section->addTable(array('width' => 50));
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
         $cell->addText('Test');
@@ -86,9 +86,11 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}');
 
+        $table = $section->addTable('tblStyle')->addRow()->addCell();
+
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
-        $element = "/office:document-content/office:body/office:text/text:p";
+        $element = "/office:document-content/office:body/office:text/text:section/text:p";
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
     }
 

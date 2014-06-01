@@ -1,16 +1,23 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Writer\Word2007\Part\Header;
 use PhpOffice\PhpWord\Writer\Word2007;
-use PhpOffice\PhpWord\Tests\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\Word2007\Part\Header;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Header
@@ -36,11 +43,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $container->addWatermark($imageSrc);
 
         $writer = new Word2007();
+        $writer->setUseDiskCaching(true);
         $object = new Header();
         $object->setParentWriter($writer);
-        $object->writeHeader($container);
-        $writer->setUseDiskCaching(true);
-        $xml = simplexml_load_string($object->writeHeader($container));
+        $object->setElement($container);
+        $xml = simplexml_load_string($object->write());
 
         $this->assertInstanceOf('SimpleXMLElement', $xml);
     }

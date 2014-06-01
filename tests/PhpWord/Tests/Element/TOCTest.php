@@ -1,15 +1,25 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
+use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\Element\TOC;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TOC
@@ -24,11 +34,11 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithStyleArray()
     {
         $expected = array(
-            'tabPos'    => 9062,
-            'tabLeader' => \PhpOffice\PhpWord\Style\TOC::TABLEADER_DOT,
+            'position'    => 9062,
+            'leader' => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
             'indent'    => 200,
         );
-        $object = new TOC(array('_size' => 11), array('_tabPos' => $expected['tabPos']));
+        $object = new TOC(array('size' => 11), array('position' => $expected['position']));
         $tocStyle = $object->getStyleTOC();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);
@@ -46,9 +56,20 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithStyleName()
     {
         $object = new TOC('Font Style');
-        $tocStyle = $object->getStyleTOC();
+        // $tocStyle = $object->getStyleTOC();
 
         $this->assertEquals('Font Style', $object->getStyleFont());
+    }
+
+    /**
+     * Test when no PHPWord object is assigned:
+     */
+    public function testNoPhpWord()
+    {
+        $object = new TOC();
+
+        $this->assertEmpty($object->getTitles());
+        $this->assertNull($object->getPhpWord());
     }
 
     /**
@@ -56,17 +77,19 @@ class TOCTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetMinMaxDepth()
     {
-        $toc = new TOC();
         $titles = array(
             'Heading 1' => 1,
             'Heading 2' => 2,
             'Heading 3' => 3,
             'Heading 4' => 4,
         );
-        foreach ($titles as $text => $depth) {
-            \PhpOffice\PhpWord\TOC::addTitle($text, $depth);
-        }
 
+        $phpWord = new PhpWord();
+        foreach ($titles as $text => $depth) {
+            $phpWord->addTitle(new Title($text, $depth));
+        }
+        $toc = new TOC();
+        $toc->setPhpWord($phpWord);
         $this->assertEquals(1, $toc->getMinDepth());
         $this->assertEquals(9, $toc->getMaxDepth());
 

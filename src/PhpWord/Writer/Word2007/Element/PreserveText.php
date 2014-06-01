@@ -1,90 +1,91 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
-
-use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * PreserveText element writer
  *
  * @since 0.10.0
  */
-class PreserveText extends Element
+class PreserveText extends Text
 {
     /**
      * Write preserve text element
      */
     public function write()
     {
-        $fontStyle = $this->element->getFontStyle();
-        $paragraphStyle = $this->element->getParagraphStyle();
-        $texts = $this->element->getText();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\PreserveText) {
+            return;
+        }
+
+        $texts = $element->getText();
         if (!is_array($texts)) {
             $texts = array($texts);
         }
 
-        $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
-        $styleWriter->setIsInline(true);
-
-        $this->xmlWriter->startElement('w:p');
-        $styleWriter->write();
+        $this->writeOpeningWP();
 
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
                 $text = substr($text, 1, -1);
-                $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
-                $styleWriter->setIsInline(true);
 
-                $this->xmlWriter->startElement('w:r');
-                $this->xmlWriter->startElement('w:fldChar');
-                $this->xmlWriter->writeAttribute('w:fldCharType', 'begin');
-                $this->xmlWriter->endElement();
-                $this->xmlWriter->endElement();
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:fldChar');
+                $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
 
-                $this->xmlWriter->startElement('w:r');
-                $styleWriter->write();
-                $this->xmlWriter->startElement('w:instrText');
-                $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-                $this->xmlWriter->writeRaw($text);
-                $this->xmlWriter->endElement();
-                $this->xmlWriter->endElement();
+                $xmlWriter->startElement('w:r');
 
-                $this->xmlWriter->startElement('w:r');
-                $this->xmlWriter->startElement('w:fldChar');
-                $this->xmlWriter->writeAttribute('w:fldCharType', 'separate');
-                $this->xmlWriter->endElement();
-                $this->xmlWriter->endElement();
+                $this->writeFontStyle();
 
-                $this->xmlWriter->startElement('w:r');
-                $this->xmlWriter->startElement('w:fldChar');
-                $this->xmlWriter->writeAttribute('w:fldCharType', 'end');
-                $this->xmlWriter->endElement();
-                $this->xmlWriter->endElement();
+                $xmlWriter->startElement('w:instrText');
+                $xmlWriter->writeAttribute('xml:space', 'preserve');
+                $xmlWriter->writeRaw($text);
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:fldChar');
+                $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
+
+                $xmlWriter->startElement('w:r');
+                $xmlWriter->startElement('w:fldChar');
+                $xmlWriter->writeAttribute('w:fldCharType', 'end');
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
             } else {
-                $text = htmlspecialchars($text);
-                $text = String::controlCharacterPHP2OOXML($text);
-                $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
-                $styleWriter->setIsInline(true);
+                $xmlWriter->startElement('w:r');
 
-                $this->xmlWriter->startElement('w:r');
-                $styleWriter->write();
-                $this->xmlWriter->startElement('w:t');
-                $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-                $this->xmlWriter->writeRaw($text);
-                $this->xmlWriter->endElement();
-                $this->xmlWriter->endElement();
+                $this->writeFontStyle();
+
+                $xmlWriter->startElement('w:t');
+                $xmlWriter->writeAttribute('xml:space', 'preserve');
+                $xmlWriter->writeRaw($this->getText($text));
+                $xmlWriter->endElement();
+                $xmlWriter->endElement();
             }
         }
 
-        $this->xmlWriter->endElement(); // p
+        $this->writeClosingWP();
     }
 }

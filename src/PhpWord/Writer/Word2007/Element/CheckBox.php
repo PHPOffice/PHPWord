@@ -1,96 +1,90 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
-
-use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
 /**
  * CheckBox element writer
  *
  * @since 0.10.0
  */
-class CheckBox extends Element
+class CheckBox extends Text
 {
     /**
      * Write element
      */
     public function write()
     {
-        $name = htmlspecialchars($this->element->getName());
-        $name = String::controlCharacterPHP2OOXML($name);
-        $text = htmlspecialchars($this->element->getText());
-        $text = String::controlCharacterPHP2OOXML($text);
-        $fontStyle = $this->element->getFontStyle();
-        $paragraphStyle = $this->element->getParagraphStyle();
-
-        if (!$this->withoutP) {
-            $styleWriter = new ParagraphStyleWriter($this->xmlWriter, $paragraphStyle);
-            $styleWriter->setIsInline(true);
-
-            $this->xmlWriter->startElement('w:p');
-            $styleWriter->write();
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+        if (!$element instanceof \PhpOffice\PhpWord\Element\CheckBox) {
+            return;
         }
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'begin');
-        $this->xmlWriter->startElement('w:ffData');
-        $this->xmlWriter->startElement('w:name');
-        $this->xmlWriter->writeAttribute('w:val', $name);
-        $this->xmlWriter->endElement(); //w:name
-        $this->xmlWriter->writeAttribute('w:enabled', '');
-        $this->xmlWriter->startElement('w:calcOnExit');
-        $this->xmlWriter->writeAttribute('w:val', '0');
-        $this->xmlWriter->endElement(); //w:calcOnExit
-        $this->xmlWriter->startElement('w:checkBox');
-        $this->xmlWriter->writeAttribute('w:sizeAuto', '');
-        $this->xmlWriter->startElement('w:default');
-        $this->xmlWriter->writeAttribute('w:val', 0);
-        $this->xmlWriter->endElement(); //w:default
-        $this->xmlWriter->endElement(); //w:checkBox
-        $this->xmlWriter->endElement(); // w:ffData
-        $this->xmlWriter->endElement(); // w:fldChar
-        $this->xmlWriter->endElement(); // w:r
+        $this->writeOpeningWP();
 
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:instrText');
-        $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw(' FORMCHECKBOX ');
-        $this->xmlWriter->endElement();// w:instrText
-        $this->xmlWriter->endElement(); // w:r
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'seperate');
-        $this->xmlWriter->endElement();// w:fldChar
-        $this->xmlWriter->endElement(); // w:r
-        $this->xmlWriter->startElement('w:r');
-        $this->xmlWriter->startElement('w:fldChar');
-        $this->xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $this->xmlWriter->endElement();// w:fldChar
-        $this->xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->startElement('w:ffData');
+        $xmlWriter->startElement('w:name');
+        $xmlWriter->writeAttribute('w:val', $this->getText($element->getName()));
+        $xmlWriter->endElement(); //w:name
+        $xmlWriter->writeAttribute('w:enabled', '');
+        $xmlWriter->startElement('w:calcOnExit');
+        $xmlWriter->writeAttribute('w:val', '0');
+        $xmlWriter->endElement(); //w:calcOnExit
+        $xmlWriter->startElement('w:checkBox');
+        $xmlWriter->writeAttribute('w:sizeAuto', '');
+        $xmlWriter->startElement('w:default');
+        $xmlWriter->writeAttribute('w:val', 0);
+        $xmlWriter->endElement(); //w:default
+        $xmlWriter->endElement(); //w:checkBox
+        $xmlWriter->endElement(); // w:ffData
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
 
-        $styleWriter = new FontStyleWriter($this->xmlWriter, $fontStyle);
-        $styleWriter->setIsInline(true);
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw(' FORMCHECKBOX ');
+        $xmlWriter->endElement();// w:instrText
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'seperate');
+        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:r
 
-        $this->xmlWriter->startElement('w:r');
-        $styleWriter->write();
-        $this->xmlWriter->startElement('w:t');
-        $this->xmlWriter->writeAttribute('xml:space', 'preserve');
-        $this->xmlWriter->writeRaw($text);
-        $this->xmlWriter->endElement(); // w:t
-        $this->xmlWriter->endElement(); // w:r
+        $xmlWriter->startElement('w:r');
 
-        if (!$this->withoutP) {
-            $this->xmlWriter->endElement(); // w:p
-        }
+        $this->writeFontStyle();
+
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->writeRaw($this->getText($element->getText()));
+        $xmlWriter->endElement(); // w:t
+        $xmlWriter->endElement(); // w:r
+
+        $this->writeClosingWP();
     }
 }
