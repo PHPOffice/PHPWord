@@ -20,6 +20,12 @@ None yet.
 
 None yet.
 
+## 0.11.1 - 2 June 2014
+
+This is an immediate bugfix release for HTML reader.
+
+- HTML Reader: `<p>` and header tags puts no output - @canyildiz @ivanlanin GH-257
+
 ## 0.11.0 - 1 June 2014
 
 This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemented. RTF and HTML reader were initiated.
