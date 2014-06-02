@@ -111,24 +111,6 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write child style
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $name
-     * @param mixed $value
-     */
-    private function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
-    {
-        if ($value !== null) {
-            $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\" . $name;
-
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
-            $writer = new $class($xmlWriter, $value);
-            $writer->write();
-        }
-    }
-
-    /**
      * Write tabs
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter

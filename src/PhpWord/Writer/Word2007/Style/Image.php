@@ -152,22 +152,4 @@ class Image extends AbstractStyle
 
         return $styles;
     }
-
-    /**
-     * Assemble style array into style string
-     *
-     * @param array $styles
-     * @return string
-     */
-    protected function assembleStyle($styles = array())
-    {
-        $style = '';
-        foreach ($styles as $key => $value) {
-            if (!is_null($value) && $value != '') {
-                $style .= "{$key}:{$value}; ";
-            }
-        }
-
-        return trim($style);
-    }
 }

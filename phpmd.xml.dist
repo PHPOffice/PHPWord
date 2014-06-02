@@ -18,7 +18,7 @@
     <rule ref="rulesets/design.xml/NumberOfChildren">
         <!-- AbstractStyle needs more children (default: 15) -->
         <properties>
-            <property name="minimum" value="20" />
+            <property name="minimum" value="30" />
         </properties>
     </rule>
     <rule ref="rulesets/unusedcode.xml" />
