@@ -143,7 +143,7 @@ class Shape extends AbstractElement
      * Set points
      *
      * @param string $type
-     * @param array $value
+     * @param string $value
      * @return array
      */
     private function getPoints($type, $value)
