@@ -36,6 +36,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Textboxes](#textboxes)
     - [Fields](#fields)
     - [Lines](#lines)
+    - [Shapes](#shapes)
 - [Templates](#templates)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
@@ -101,9 +102,9 @@ Below are the supported features for each file formats.
 |                         | Footer             | ✓    |     |     |      |     |
 |                         | Footnote           | ✓    |     |     | ✓    |     |
 |                         | Endnote            | ✓    |     |     | ✓    |     |
-| **Graphs**              | 2D basic graphs    |      |     |     |      |     |
+| **Graphs**              | 2D basic graphs    | ✓    |     |     |      |     |
 |                         | 2D advanced graphs |      |     |     |      |     |
-|                         | 3D graphs          |      |     |     |      |     |
+|                         | 3D graphs          | ✓    |     |     |      |     |
 | **Math**                | OMML support       |      |     |     |      |     |
 |                         | MathML support     |      |     |     |      |     |
 | **Bonus**               | Encryption         |      |     |     |      |     |
@@ -465,6 +466,7 @@ Below are the matrix of element availability in each container. The column shows
 | 17  | TextBox       | v       | v      | v      | v    | -        | -        |
 | 18  | Field         | v       | v      | v      | v    | v        | v        |
 | 19  | Line          | v       | v      | v      | v    | v        | v        |
+| 20  | Shape         | v       | v      | v      | v    | v        | v        |
 
 Legend:
 
@@ -847,6 +849,10 @@ To be completed.
 To be completed.
 
 ## Lines
+
+To be completed.
+
+## Shapes
 
 To be completed.
 

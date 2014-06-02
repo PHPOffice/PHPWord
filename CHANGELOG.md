@@ -6,7 +6,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ### Features
 
-None yet.
+- Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin GH-123
 
 ### Bugfixes
 

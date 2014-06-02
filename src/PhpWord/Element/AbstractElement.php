@@ -262,4 +262,25 @@ abstract class AbstractElement
 
         return $style;
     }
+
+    /**
+     * Set enum value
+     *
+     * @param mixed $value
+     * @param array $enum
+     * @param mixed $default
+     * @return mixed
+     * @throws \InvalidArgumentException
+     * @todo Merge with the same method in AbstractStyle
+     */
+    protected function setEnumVal($value = null, $enum = array(), $default = null)
+    {
+        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+            throw new \InvalidArgumentException("Invalid style value: {$value}");
+        } elseif ($value === null || trim($value) == '') {
+            $value = $default;
+        }
+
+        return $value;
+    }
 }

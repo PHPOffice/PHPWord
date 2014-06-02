@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 
 /**
