@@ -27,19 +27,13 @@ abstract class IOFactory
     /**
      * Create new writer
      *
-     * @param PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $name
      * @return \PhpOffice\PhpWord\Writer\WriterInterface
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
-        $class = 'PhpOffice\\PhpWord\\Writer\\' . $name;
-        if (class_exists($class) && self::isConcreteClass($class)) {
-            return new $class($phpWord);
-        } else {
-            throw new Exception("\"{$name}\" is not a valid writer.");
-        }
+        return self::createObject('Writer', $name, $phpWord);
     }
 
     /**
@@ -47,15 +41,28 @@ abstract class IOFactory
      *
      * @param string $name
      * @return \PhpOffice\PhpWord\Reader\ReaderInterface
-     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createReader($name = 'Word2007')
     {
-        $class = 'PhpOffice\\PhpWord\\Reader\\' . $name;
+        return self::createObject('Reader', $name);
+    }
+
+    /**
+     * Create new object
+     *
+     * @param string $type
+     * @param string $name
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    private static function createObject($type, $name, $phpWord = null)
+    {
+        $class = "PhpOffice\\PhpWord\\{$type}\\{$name}";
         if (class_exists($class) && self::isConcreteClass($class)) {
-            return new $class();
+            return new $class($phpWord);
         } else {
-            throw new Exception("\"{$name}\" is not a valid reader.");
+            throw new Exception("\"{$name}\" is not a valid {$type}.");
         }
     }
 
@@ -64,7 +71,7 @@ abstract class IOFactory
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return PhpWord
+     * @return \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {
