@@ -18,7 +18,7 @@ None yet.
 
 ### Miscellaneous
 
-None yet.
+- Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
 
 ## 0.11.1 - 2 June 2014
 

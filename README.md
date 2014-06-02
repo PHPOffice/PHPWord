@@ -111,6 +111,10 @@ $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
 $objWriter->save('helloWorld.rtf');
 ```
 
+## Known issues
+
+- GH-238: PHPWord uses temporary folder with `sys_get_temp_dir()` extensively. The default setting on some systems (especially Windows) do not give appropriate read/write permission to this folder. Run `samples/index.php` either by CLI or by web browsers to check if you have this requirement fulfilled.
+
 ## Contributing
 
 We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute:
