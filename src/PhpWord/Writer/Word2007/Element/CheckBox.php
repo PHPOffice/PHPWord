@@ -85,6 +85,6 @@ class CheckBox extends Text
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

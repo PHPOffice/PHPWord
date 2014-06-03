@@ -55,6 +55,6 @@ class Footnote extends Text
         $xmlWriter->endElement(); // w:$referenceType
         $xmlWriter->endElement(); // w:r
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

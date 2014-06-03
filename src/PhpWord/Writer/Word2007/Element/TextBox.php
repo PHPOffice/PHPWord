@@ -36,6 +36,7 @@ class TextBox extends AbstractElement
         if (!$element instanceof \PhpOffice\PhpWord\Element\TextBox) {
             return;
         }
+
         $style = $element->getStyle();
         $styleWriter = new TextBoxStyleWriter($xmlWriter, $style);
 
@@ -48,7 +49,9 @@ class TextBox extends AbstractElement
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t0202');
+
         $styleWriter->write();
+
         $xmlWriter->startElement('v:textbox');
         $styleWriter->writeInnerMargin();
 
@@ -64,8 +67,6 @@ class TextBox extends AbstractElement
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+        $this->endElementP(); // w:p
     }
 }

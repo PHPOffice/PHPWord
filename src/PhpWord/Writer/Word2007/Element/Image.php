@@ -52,6 +52,7 @@ class Image extends AbstractElement
     private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
+
         $style = $element->getStyle();
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
@@ -59,23 +60,25 @@ class Image extends AbstractElement
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
+
         $styleWriter->write();
+        $styleWriter->writeW10Wrap();
+
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('o:title', '');
         $xmlWriter->endElement(); // v:imagedata
-        $styleWriter->writeW10Wrap();
+
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+        $this->endElementP(); // w:p
     }
     /**
      * Write watermark element
@@ -83,23 +86,29 @@ class Image extends AbstractElement
     private function writeWatermark(XMLWriter $xmlWriter, ImageElement $element)
     {
         $rId = $element->getRelationId();
+
         $style = $element->getStyle();
-        $style->setPositioning('absolute');
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
         $xmlWriter->startElement('w:p');
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
+
+        $style->setPositioning('absolute');
         $styleWriter->write();
+
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('o:title', '');
         $xmlWriter->endElement(); // v:imagedata
+
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
+
         $xmlWriter->endElement(); // w:p
     }
 }

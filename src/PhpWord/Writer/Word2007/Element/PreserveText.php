@@ -86,6 +86,6 @@ class PreserveText extends Text
             }
         }
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

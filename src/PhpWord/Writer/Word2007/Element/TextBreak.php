@@ -38,12 +38,14 @@ class TextBreak extends Text
         if (!$this->withoutP) {
             $hasStyle = $element->hasStyle();
             $this->writeOpeningWP();
+
             if ($hasStyle) {
                 $xmlWriter->startElement('w:pPr');
                 $this->writeFontStyle();
                 $xmlWriter->endElement(); // w:pPr
             }
-            $this->writeClosingWP();
+
+            $this->endElementP(); // w:p
         } else {
             $xmlWriter->writeElement('w:br');
         }

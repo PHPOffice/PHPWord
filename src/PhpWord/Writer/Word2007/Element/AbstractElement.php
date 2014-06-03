@@ -116,6 +116,16 @@ abstract class AbstractElement
     }
 
     /**
+     * Write ending
+     */
+    protected function endElementP()
+    {
+        if (!$this->withoutP) {
+            $this->xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
      * Convert text to valid format
      *
      * @param string $text

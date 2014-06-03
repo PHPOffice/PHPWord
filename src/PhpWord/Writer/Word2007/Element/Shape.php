@@ -42,6 +42,8 @@ class Shape extends AbstractElement
         }
 
         $style = $element->getStyle();
+        $styleWriter = new ShapeStyleWriter($xmlWriter, $style);
+
         $type = $element->getType();
         if ($type == 'rect' && $style->getRoundness() !== null) {
             $type = 'roundrect';
@@ -62,16 +64,13 @@ class Shape extends AbstractElement
         }
 
         // Child style
-        $styleWriter = new ShapeStyleWriter($xmlWriter, $style);
         $styleWriter->write();
 
         $xmlWriter->endElement(); // v:$type
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+        $this->endElementP(); // w:p
     }
 
     /**

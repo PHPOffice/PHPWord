@@ -51,7 +51,7 @@ class Text extends AbstractElement
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 
     /**
@@ -75,18 +75,6 @@ class Text extends AbstractElement
                 $elementWriter = new PageBreak($xmlWriter, new PageBreakElement());
                 $elementWriter->write();
             }
-        }
-    }
-
-    /**
-     * Write ending
-     */
-    protected function writeClosingWP()
-    {
-        $xmlWriter = $this->getXmlWriter();
-
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
         }
     }
 

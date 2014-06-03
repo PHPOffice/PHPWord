@@ -82,6 +82,6 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:fldSimple
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }
