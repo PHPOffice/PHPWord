@@ -23,22 +23,43 @@ $section->addText('I am styled by a font style definition.', 'rStyle');
 $section->addText('I am styled by a paragraph style definition.', null, 'pStyle');
 $section->addText('I am styled by both font and paragraph style.', 'rStyle', 'pStyle');
 
-$section->addPageBreak();
+$section->addTextBreak();
 
 // Inline font style
 $fontStyle['name'] = 'Times New Roman';
 $fontStyle['size'] = 20;
-$fontStyle['bold'] = true;
-$fontStyle['italic'] = true;
-$fontStyle['underline'] = 'dash';
-$fontStyle['strikethrough'] = true;
-$fontStyle['superScript'] = true;
-$fontStyle['color'] = 'FF0000';
-$fontStyle['fgColor'] = 'yellow';
-$fontStyle['smallCaps'] = true;
-$section->addText('I am inline styled.', $fontStyle);
 
-$section->addTextBreak();
+$textrun = $section->addTextRun();
+$textrun->addText('I am inline styled ', $fontStyle);
+$textrun->addText('with ');
+$textrun->addText('color', array('color' => '996699'));
+$textrun->addText(', ');
+$textrun->addText('bold', array('bold' => true));
+$textrun->addText(', ');
+$textrun->addText('italic', array('italic' => true));
+$textrun->addText(', ');
+$textrun->addText('underline', array('underline' => 'dash'));
+$textrun->addText(', ');
+$textrun->addText('strikethrough', array('strikethrough' => true));
+$textrun->addText(', ');
+$textrun->addText('doubleStrikethrough', array('doubleStrikethrough' => true));
+$textrun->addText(', ');
+$textrun->addText('superScript', array('superScript' => true));
+$textrun->addText(', ');
+$textrun->addText('subScript', array('subScript' => true));
+$textrun->addText(', ');
+$textrun->addText('smallCaps', array('smallCaps' => true));
+$textrun->addText(', ');
+$textrun->addText('allCaps', array('allCaps' => true));
+$textrun->addText(', ');
+$textrun->addText('fgColor', array('fgColor' => 'yellow'));
+$textrun->addText(', ');
+$textrun->addText('scale', array('scale' => 200));
+$textrun->addText(', ');
+$textrun->addText('spacing', array('spacing' => 120));
+$textrun->addText(', ');
+$textrun->addText('kerning', array('kerning' => 10));
+$textrun->addText('. ');
 
 // Link
 $section->addLink('http://www.google.com', 'Google');

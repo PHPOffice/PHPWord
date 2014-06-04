@@ -313,11 +313,7 @@ class Paragraph extends AbstractStyle
      */
     public function getIndent()
     {
-        if ($this->indentation !== null) {
-            return $this->indentation->getLeft();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->indentation, 'left');
     }
 
     /**
@@ -338,11 +334,7 @@ class Paragraph extends AbstractStyle
      */
     public function getHanging()
     {
-        if ($this->indentation !== null) {
-            return $this->indentation->getHanging();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->indentation, 'hanging');
     }
 
     /**
@@ -388,11 +380,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceBefore()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getBefore();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'before');
     }
 
     /**
@@ -413,11 +401,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceAfter()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getAfter();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'after');
     }
 
     /**
@@ -438,11 +422,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpacing()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getLine();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'line');
     }
 
     /**

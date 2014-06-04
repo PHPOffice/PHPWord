@@ -136,7 +136,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'tabs' => $tabs)); // Style #1
-        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true)); // Style #2
+        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true,
+            'scale' => 200, 'spacing' => 240, 'kerning' => 10)); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
         $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
         $fontStyle = new Font('text', array('align' => 'center'));

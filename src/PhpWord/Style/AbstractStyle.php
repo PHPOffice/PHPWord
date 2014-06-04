@@ -127,6 +127,24 @@ abstract class AbstractStyle
     }
 
     /**
+     * Return style value of child style object, e.g. `left` from `Indentation` child style of `Paragraph`
+     *
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
+     * @param string $substyleProperty
+     * @return mixed
+     * @since 0.12.0
+     */
+    public function getChildStyleValue($substyleObject, $substyleProperty)
+    {
+        if ($substyleObject !== null) {
+            $method = "get{$substyleProperty}";
+            return $substyleObject->$method();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Set style value template method
      *
      * Some child classes have their own specific overrides.
@@ -294,6 +312,24 @@ abstract class AbstractStyle
         }
 
         return $style;
+    }
+
+    /**
+     * Set $property value and set $pairProperty = false when $value = true
+     *
+     * @param bool $property
+     * @param bool $pairProperty
+     * @param bool $value
+     * @return self
+     */
+    protected function setPairedVal(&$property, &$pairProperty, $value)
+    {
+        $property = $this->setBoolVal($value, $property);
+        if ($value == true) {
+            $pairProperty = false;
+        }
+
+        return $this;
     }
 
     /**

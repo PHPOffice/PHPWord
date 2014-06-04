@@ -75,6 +75,7 @@ abstract class IOFactory
      */
     public static function load($filename, $readerName = 'Word2007')
     {
+        /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
         $reader = self::createReader($readerName);
 
         return $reader->load($filename);
