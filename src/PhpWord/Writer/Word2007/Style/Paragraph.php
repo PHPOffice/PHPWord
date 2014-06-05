@@ -95,16 +95,10 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
 
-        // Indentation & spacing
+        // Child style: indentation, spacing, and shading
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
-
-        // Background-Color
-        $shading = $style->getShading();
-        if (!is_null($shading)) {
-            $styleWriter = new Shading($xmlWriter, $shading);
-            $styleWriter->write();
-        }
+        $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);
 
         // Tabs
         $this->writeTabs($xmlWriter, $styles['tabs']);
