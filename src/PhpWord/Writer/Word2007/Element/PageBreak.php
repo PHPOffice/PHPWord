@@ -30,7 +30,7 @@ class PageBreak extends AbstractElement
     /**
      * Write element
      *
-     * @usedby \PhpOffice\PhpWord\Writer\Word2007\Element\Text::writeOpeningWP()
+     * @usedby \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement::startElementP()
      */
     public function write()
     {

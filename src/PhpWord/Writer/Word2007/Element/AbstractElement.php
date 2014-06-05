@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -116,13 +117,71 @@ abstract class AbstractElement
     }
 
     /**
-     * Write ending
+     * Start w:p DOM element
+     *
+     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
+     */
+    protected function startElementP()
+    {
+        if (!$this->withoutP) {
+            $this->xmlWriter->startElement('w:p');
+            // Paragraph style
+            if (method_exists($this->element, 'getParagraphStyle')) {
+                $this->writeParagraphStyle();
+            }
+            // PageBreak
+            if ($this->pageBreakBefore) {
+                $elementWriter = new PageBreak($this->xmlWriter, new PageBreakElement());
+                $elementWriter->write();
+            }
+        }
+    }
+
+    /**
+     * End w:p DOM element
      */
     protected function endElementP()
     {
         if (!$this->withoutP) {
             $this->xmlWriter->endElement(); // w:p
         }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeParagraphStyle()
+    {
+        $this->writeTextStyle('Paragraph');
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeFontStyle()
+    {
+        $this->writeTextStyle('Font');
+    }
+
+
+    /**
+     * Write text style
+     *
+     * @param string $styleType Font|Paragraph
+     */
+    private function writeTextStyle($styleType)
+    {
+        $method = "get{$styleType}Style";
+        $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\{$styleType}";
+        $styleObject = $this->element->$method();
+
+        $styleWriter = new $class($this->xmlWriter, $styleObject);
+        if (method_exists($styleWriter, 'setIsInline')) {
+            $styleWriter->setIsInline(true);
+        }
+
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter */
+        $styleWriter->write();
     }
 
     /**

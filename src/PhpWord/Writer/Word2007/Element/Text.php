@@ -17,10 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
-use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
-
 /**
  * Text element writer
  *
@@ -39,7 +35,7 @@ class Text extends AbstractElement
             return;
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $xmlWriter->startElement('w:r');
 
@@ -52,59 +48,5 @@ class Text extends AbstractElement
         $xmlWriter->endElement(); // w:r
 
         $this->endElementP(); // w:p
-    }
-
-    /**
-     * Write opening
-     *
-     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
-     */
-    protected function writeOpeningWP()
-    {
-        $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-
-        if (!$this->withoutP) {
-            $xmlWriter->startElement('w:p');
-            // Paragraph style
-            if (method_exists($element, 'getParagraphStyle')) {
-                $this->writeParagraphStyle();
-            }
-            // PageBreak
-            if ($this->hasPageBreakBefore()) {
-                $elementWriter = new PageBreak($xmlWriter, new PageBreakElement());
-                $elementWriter->write();
-            }
-        }
-    }
-
-    /**
-     * Write ending
-     */
-    protected function writeParagraphStyle()
-    {
-        $xmlWriter = $this->getXmlWriter();
-
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
-        $element = $this->getElement();
-        $paragraphStyle = $element->getParagraphStyle();
-        $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
-        $styleWriter->setIsInline(true);
-        $styleWriter->write();
-    }
-
-    /**
-     * Write ending
-     */
-    protected function writeFontStyle()
-    {
-        $xmlWriter = $this->getXmlWriter();
-
-        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
-        $element = $this->getElement();
-        $fontStyle = $element->getFontStyle();
-        $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
-        $styleWriter->setIsInline(true);
-        $styleWriter->write();
     }
 }

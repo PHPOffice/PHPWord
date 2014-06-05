@@ -37,7 +37,7 @@ class Link extends Text
 
         $rId = $element->getRelationId() + ($element->isInSection() ? 6 : 0);
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $xmlWriter->startElement('w:hyperlink');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);

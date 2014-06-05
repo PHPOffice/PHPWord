@@ -134,6 +134,7 @@ class Frame extends AbstractStyle
     /**
      * Get style values in associative array
      *
+     * @param \PhpOffice\PhpWord\Style\Frame $style
      * @param array $properties
      * @param string $suffix
      * @return array

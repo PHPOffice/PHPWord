@@ -32,7 +32,7 @@ class TextRun extends Text
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $containerWriter = new Container($xmlWriter, $element);
         $containerWriter->write();

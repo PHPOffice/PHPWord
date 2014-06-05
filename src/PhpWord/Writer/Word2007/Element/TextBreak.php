@@ -37,7 +37,7 @@ class TextBreak extends Text
 
         if (!$this->withoutP) {
             $hasStyle = $element->hasStyle();
-            $this->writeOpeningWP();
+            $this->startElementP();
 
             if ($hasStyle) {
                 $xmlWriter->startElement('w:pPr');

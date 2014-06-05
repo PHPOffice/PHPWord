@@ -40,7 +40,7 @@ class PreserveText extends Text
             $texts = array($texts);
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {

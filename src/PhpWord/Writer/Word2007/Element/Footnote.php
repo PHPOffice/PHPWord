@@ -42,7 +42,7 @@ class Footnote extends Text
             return;
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');

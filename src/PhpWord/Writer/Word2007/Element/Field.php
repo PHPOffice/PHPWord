@@ -67,7 +67,8 @@ class Field extends Text
             }
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
+
         $xmlWriter->startElement('w:fldSimple');
         $xmlWriter->writeAttribute('w:instr', $instruction);
         $xmlWriter->startElement('w:r');
