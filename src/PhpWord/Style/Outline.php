@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord\Style;
  * Outline defines the line/border of the object
  *
  * @link http://www.schemacentral.com/sc/ooxml/t-v_CT_Stroke.html
+ * @link http://www.w3.org/TR/1998/NOTE-VML-19980513#_Toc416858395
  * @since 0.12.0
  */
 class Outline extends AbstractStyle
@@ -38,6 +39,16 @@ class Outline extends AbstractStyle
     const LINE_THICK_BETWEEN_THIN = 'thickBetweenThin';
 
     /**
+     * Line style constants
+     *
+     * @link http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeEndCap.html
+     * @const string
+     */
+    const ENDCAP_FLAT = 'flat';
+    const ENDCAP_SQUARE = 'square';
+    const ENDCAP_ROUND = 'round';
+
+    /**
      * Arrowhead type constants
      *
      * @link http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeArrowType.html
@@ -49,6 +60,13 @@ class Outline extends AbstractStyle
     const ARROW_OVAL = 'oval';
     const ARROW_DIAMOND = 'diamond';
     const ARROW_OPEN = 'open';
+
+    /**
+     * Unit; No set method for now
+     *
+     * @var string
+     */
+    private $unit = 'pt';
 
     /**
      * Outline weight
@@ -79,6 +97,14 @@ class Outline extends AbstractStyle
     private $line;
 
     /**
+     * End cap
+     *
+     * @var string
+     * @link http://www.schemacentral.com/sc/ooxml/t-v_ST_StrokeEndCap.html
+     */
+    private $endCap;
+
+    /**
      * Start arrow type
      *
      * @var string
@@ -100,6 +126,16 @@ class Outline extends AbstractStyle
     public function __construct($style = array())
     {
         $this->setStyleByArray($style);
+    }
+
+    /**
+     * Get unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
     }
 
     /**
@@ -192,6 +228,30 @@ class Outline extends AbstractStyle
         $enum = array(self::LINE_SINGLE, self::LINE_THIN_THIN, self::LINE_THIN_THICK,
             self::LINE_THICK_THIN, self::LINE_THICK_BETWEEN_THIN);
         $this->line = $this->setEnumVal($value, $enum, null);
+
+        return $this;
+    }
+
+    /**
+     * Get endCap style
+     *
+     * @return string
+     */
+    public function getEndCap()
+    {
+        return $this->endCap;
+    }
+
+    /**
+     * Set endCap style
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setEndCap($value = null)
+    {
+        $enum = array(self::ENDCAP_FLAT, self::ENDCAP_SQUARE, self::ENDCAP_ROUND);
+        $this->endCap = $this->setEnumVal($value, $enum, null);
 
         return $this;
     }

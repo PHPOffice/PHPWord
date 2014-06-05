@@ -17,6 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
+use PhpOffice\PhpWord\Style\Frame as FrameStyle;
+
 /**
  * Frame style writer
  *
@@ -30,27 +34,122 @@ class Frame extends AbstractStyle
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Frame) {
+        if (!$style instanceof FrameStyle) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $styles = array();
+        $zIndices = array(FrameStyle::WRAP_INFRONT => PHP_INT_MAX, FrameStyle::WRAP_BEHIND => -PHP_INT_MAX);
+
         $properties = array(
-            'left' => 'margin-left',
-            'top' => 'margin-top',
-            'width' => 'width',
-            'height' => 'height',
+            'width'     => 'width',
+            'height'    => 'height',
+            'left'      => 'margin-left',
+            'top'       => 'margin-top',
         );
+        $sizeStyles = $this->getStyles($style, $properties, $style->getUnit());
+
+        $properties = array(
+            'pos'       => 'position',
+            'hPos'      => 'mso-position-horizontal',
+            'vPos'      => 'mso-position-vertical',
+            'hPosRelTo' => 'mso-position-horizontal-relative',
+            'vPosRelTo' => 'mso-position-vertical-relative',
+        );
+        $posStyles = $this->getStyles($style, $properties);
+
+        $styles = array_merge($sizeStyles, $posStyles);
+
+       // zIndex for infront & behind wrap
+        $wrap = $style->getWrap();
+        if ($wrap !== null && array_key_exists($wrap, $zIndices)) {
+            $styles['z-index'] = $zIndices[$wrap];
+            $wrap = null;
+        }
+
+        // Style attribute
+        $xmlWriter->writeAttribute('style', $this->assembleStyle($styles));
+
+        $this->writeWrap($xmlWriter, $style, $wrap);
+    }
+
+    /**
+     * Write alignment
+     */
+    public function writeAlignment()
+    {
+        $style = $this->getStyle();
+        if (!$style instanceof FrameStyle) {
+            return;
+        }
+
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('w:pPr');
+        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
+        $styleWriter->write();
+        $xmlWriter->endElement(); // w:pPr
+    }
+
+    /**
+     * Write alignment
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Frame $style
+     * @param string $wrap
+     */
+    private function writeWrap(XMLWriter $xmlWriter, FrameStyle $style, $wrap)
+    {
+        if ($wrap !== null) {
+            $xmlWriter->startElement('w10:wrap');
+            $xmlWriter->writeAttribute('type', $wrap);
+
+            $relativePositions = array(
+                FrameStyle::POS_RELTO_MARGIN  => 'margin',
+                FrameStyle::POS_RELTO_PAGE    => 'page',
+                FrameStyle::POS_RELTO_TMARGIN => 'margin',
+                FrameStyle::POS_RELTO_BMARGIN => 'page',
+                FrameStyle::POS_RELTO_LMARGIN => 'margin',
+                FrameStyle::POS_RELTO_RMARGIN => 'page',
+            );
+            $pos = $style->getPos();
+            $hPos = $style->getHPosRelTo();
+            $vPos = $style->getVPosRelTo();
+
+            if ($pos == FrameStyle::POS_ABSOLUTE) {
+                $xmlWriter->writeAttribute('anchorx', "page");
+                $xmlWriter->writeAttribute('anchory', "page");
+            } elseif ($pos == FrameStyle::POS_RELATIVE) {
+                if (array_key_exists($hPos, $relativePositions)) {
+                    $xmlWriter->writeAttribute('anchorx', $relativePositions[$hPos]);
+                }
+                if (array_key_exists($vPos, $relativePositions)) {
+                    $xmlWriter->writeAttribute('anchory', $relativePositions[$vPos]);
+                }
+            }
+
+            $xmlWriter->endElement(); // w10:wrap
+        }
+    }
+
+    /**
+     * Get style values in associative array
+     *
+     * @param array $properties
+     * @param string $suffix
+     * @return array
+     */
+    private function getStyles(FrameStyle $style, $properties, $suffix = '')
+    {
+        $styles = array();
 
         foreach ($properties as $key => $property) {
             $method = "get{$key}";
             $value = $style->$method();
             if ($value !== null) {
-                $styles[$property] = $style->$method() . 'pt';
+                $styles[$property] = $style->$method() . $suffix;
             }
         }
 
-        $xmlWriter->writeAttribute('style', $this->assembleStyle($styles));
+        return $styles;
     }
 }

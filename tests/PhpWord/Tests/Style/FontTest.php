@@ -46,6 +46,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
+        $this->assertTrue(is_array($object->getStyleValues()));
     }
 
     /**

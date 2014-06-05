@@ -103,7 +103,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             array(
                 'points' => '1,1 150,30',
                 'outline' => array('color' => '#cc00ff', 'line' => 'thickThin', 'weight' => 3,
-                    'startArrow' => 'oval', 'endArrow' => 'classic'),
+                    'startArrow' => 'oval', 'endArrow' => 'classic', 'endCap' => 'round'),
             )
         );
 

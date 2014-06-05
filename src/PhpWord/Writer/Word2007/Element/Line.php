@@ -76,7 +76,6 @@ class Line extends AbstractElement
         $xmlWriter->writeAttribute('type', '#_x0000_t32'); //type should correspond to shapetype id
 
         $styleWriter->write();
-        $styleWriter->writeW10Wrap();
         $styleWriter->writeStroke();
 
         $xmlWriter->endElement(); // v:shape
