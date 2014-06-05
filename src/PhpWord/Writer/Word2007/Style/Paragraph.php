@@ -99,6 +99,13 @@ class Paragraph extends AbstractStyle
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
 
+        // Background-Color
+        $shading = $style->getShading();
+        if (!is_null($shading)) {
+            $styleWriter = new Shading($xmlWriter, $shading);
+            $styleWriter->write();
+        }
+
         // Tabs
         $this->writeTabs($xmlWriter, $styles['tabs']);
 
