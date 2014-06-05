@@ -224,7 +224,9 @@ class ZipArchive
 
         // To Rename the file while adding it to the zip we
         //   need to create a temp file with the correct name
+        $temp_file = false;
         if ($filenameParts['basename'] != $localnameParts['basename']) {
+            $temp_file = true; // temp file created
             $temppath = $this->tempDir . '/' . $localnameParts['basename'];
             copy($filename, $temppath);
             $filename = $temppath;
@@ -235,6 +237,11 @@ class ZipArchive
         $pathAdded = $localnameParts['dirname'];
 
         $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
+
+        if($temp_file) {
+            // Remove temp file, if created
+            @unlink($this->tempDir . '/' . $localnameParts["basename"]);
+        }
 
         return ($res == 0) ? false : true;
     }
