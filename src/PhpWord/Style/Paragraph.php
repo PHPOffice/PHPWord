@@ -153,6 +153,13 @@ class Paragraph extends AbstractStyle
     private $tabs = array();
 
     /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
+
+    /**
      * Create new instance
      */
     public function __construct()
@@ -209,6 +216,7 @@ class Paragraph extends AbstractStyle
                 'level'         => $this->getNumLevel(),
             ),
             'tabs'              => $this->getTabs(),
+            'shading'           => $this->getShading(),
         );
 
         return $styles;
@@ -693,5 +701,28 @@ class Paragraph extends AbstractStyle
     public function getPageBreakBefore()
     {
         return $this->hasPageBreakBefore();
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
     }
 }
