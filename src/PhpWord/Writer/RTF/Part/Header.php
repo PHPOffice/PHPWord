@@ -25,7 +25,15 @@ use PhpOffice\PhpWord\Style\Font;
 /**
  * RTF header part writer
  *
+ * - Character set
+ * - Font table
+ * - File table (not supported yet)
+ * - Color table
+ * - Style sheet (not supported yet)
+ * - List table (not supported yet)
+ *
  * @since 0.11.0
+ * @link http://www.biblioscape.com/rtf15_spec.htm#Heading6
  */
 class Header extends AbstractPart
 {
@@ -141,10 +149,10 @@ class Header extends AbstractPart
         $content = '';
 
         $content .= '{';
-        $content .= '\colortbl';
+        $content .= '\colortbl;';
         foreach ($this->colorTable as $color) {
             list($red, $green, $blue) = Drawing::htmlToRGB($color);
-            $content .= ";\\red{$red}\\green{$green}\\blue{$blue}";
+            $content .= "\\red{$red}\\green{$green}\\blue{$blue};";
         }
         $content .= '}';
         $content .= PHP_EOL;
@@ -185,11 +193,27 @@ class Header extends AbstractPart
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $elements = $section->getElements();
+            $this->registerBorderColor($section->getSettings());
             foreach ($elements as $element) {
                 if (method_exists($element, 'getFontStyle')) {
                     $style = $element->getFontStyle();
                     $this->registerFontItems($style);
                 }
+            }
+        }
+    }
+
+    /**
+     * Register border colors
+     *
+     * @param \PhpOffice\PhpWord\Style\Border $style
+     */
+    private function registerBorderColor($style)
+    {
+        $colors = $style->getBorderColor();
+        foreach ($colors as $color) {
+            if ($color !== null) {
+                $this->registerTableItem($this->colorTable, $color);
             }
         }
     }
@@ -205,9 +229,9 @@ class Header extends AbstractPart
         $defaultColor = Settings::DEFAULT_FONT_COLOR;
 
         if ($style instanceof Font) {
-            $this->registerFontItem($this->fontTable, $style->getName(), $defaultFont);
-            $this->registerFontItem($this->colorTable, $style->getColor(), $defaultColor);
-            $this->registerFontItem($this->colorTable, $style->getFgColor(), $defaultColor);
+            $this->registerTableItem($this->fontTable, $style->getName(), $defaultFont);
+            $this->registerTableItem($this->colorTable, $style->getColor(), $defaultColor);
+            $this->registerTableItem($this->colorTable, $style->getFgColor(), $defaultColor);
         }
     }
 
@@ -218,7 +242,7 @@ class Header extends AbstractPart
      * @param string $value
      * @param string $default
      */
-    private function registerFontItem(&$table, $value, $default)
+    private function registerTableItem(&$table, $value, $default = null)
     {
         if (in_array($value, $table) === false && $value !== null && $value != $default) {
             $table[] = $value;

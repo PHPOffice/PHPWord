@@ -9,6 +9,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin GH-123
 - Font: New `scale`, `spacing`, and `kerning` property of font style - @ivanlanin
 - Paragraph:  Added shading to the paragraph style for full width shading - @lrobert GH-264
+- RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
 
 ### Bugfixes
 

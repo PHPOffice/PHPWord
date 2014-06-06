@@ -19,11 +19,13 @@ namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF\Element\Container;
+use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
 
 /**
  * RTF document part writer
  *
  * @since 0.11.0
+ * @link http://www.biblioscape.com/rtf15_spec.htm#Heading24
  */
 class Document extends AbstractPart
 {
@@ -103,12 +105,19 @@ class Document extends AbstractPart
      */
     private function writeSections()
     {
+
         $content = '';
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         foreach ($sections as $section) {
-            $writer = new Container($this->getParentWriter(), $section);
-            $content .= $writer->write();
+            $styleWriter = new SectionStyleWriter($section->getSettings());
+            $styleWriter->setParentWriter($this->getParentWriter());
+            $content .= $styleWriter->write();
+
+            $elementWriter = new Container($this->getParentWriter(), $section);
+            $content .= $elementWriter->write();
+
+            $content .= '\sect' . PHP_EOL;
         }
 
         return $content;
