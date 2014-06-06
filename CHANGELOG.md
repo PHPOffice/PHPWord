@@ -10,6 +10,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 - Font: New `scale`, `spacing`, and `kerning` property of font style - @ivanlanin
 - Paragraph:  Added shading to the paragraph style for full width shading - @lrobert GH-264
 - RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
+- Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
 
 ### Bugfixes
 

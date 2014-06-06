@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
-
 /**
  * Border style writer
  *
