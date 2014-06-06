@@ -43,16 +43,16 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW(), '\pgwsxn' . $style->getPageSizeW());
-        $content .= $this->getValueIf($style->getPageSizeH(), '\pghsxn' . $style->getPageSizeH());
+        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . $style->getPageSizeW());
+        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . $style->getPageSizeH());
         $content .= ' ';
-        $content .= $this->getValueIf($style->getMarginTop(), '\margtsxn' . $style->getMarginTop());
-        $content .= $this->getValueIf($style->getMarginRight(), '\margrsxn' . $style->getMarginRight());
-        $content .= $this->getValueIf($style->getMarginBottom(), '\margbsxn' . $style->getMarginBottom());
-        $content .= $this->getValueIf($style->getMarginLeft(), '\marglsxn' . $style->getMarginLeft());
-        $content .= $this->getValueIf($style->getHeaderHeight(), '\headery' . $style->getHeaderHeight());
-        $content .= $this->getValueIf($style->getFooterHeight(), '\footery' . $style->getFooterHeight());
-        $content .= $this->getValueIf($style->getGutter(), '\guttersxn' . $style->getGutter());
+        $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . $style->getMarginTop());
+        $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . $style->getMarginRight());
+        $content .= $this->getValueIf($style->getMarginBottom() !== null, '\margbsxn' . $style->getMarginBottom());
+        $content .= $this->getValueIf($style->getMarginLeft() !== null, '\marglsxn' . $style->getMarginLeft());
+        $content .= $this->getValueIf($style->getHeaderHeight() !== null, '\headery' . $style->getHeaderHeight());
+        $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . $style->getFooterHeight());
+        $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . $style->getGutter());
         $content .= ' ';
 
         // Borders
