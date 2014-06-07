@@ -14,7 +14,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ### Bugfixes
 
-None yet.
+- Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo GH-261
 
 ### Deprecated
 
@@ -23,6 +23,8 @@ None yet.
 ### Miscellaneous
 
 - Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
+- PclZip: Remove temporary file after used - @andrew-kzoo GH-265
+- Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
 
 ## 0.11.1 - 2 June 2014
 

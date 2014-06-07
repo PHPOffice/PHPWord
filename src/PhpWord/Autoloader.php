@@ -28,6 +28,8 @@ class Autoloader
     /**
      * Register
      *
+     * @param bool $throw
+     * @param bool $prepend
      * @return void
      */
     public static function register($throw = true, $prepend = false)

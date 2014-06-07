@@ -218,18 +218,21 @@ class ZipArchive
     {
         /** @var \PclZip $zip Type hint */
         $zip = $this->zip;
-        $test_filename = realpath($filename);
-        if($test_filename !== false) {
-            $filename = $test_filename;
+
+        // Bugfix GH-261 https://github.com/PHPOffice/PHPWord/pull/261
+        $realpathFilename = realpath($filename);
+        if ($realpathFilename !== false) {
+            $filename = $realpathFilename;
         }
+
         $filenameParts = pathinfo($filename);
         $localnameParts = pathinfo($localname);
 
         // To Rename the file while adding it to the zip we
         //   need to create a temp file with the correct name
-        $temp_file = false;
+        $tempFile = false;
         if ($filenameParts['basename'] != $localnameParts['basename']) {
-            $temp_file = true; // temp file created
+            $tempFile = true; // temp file created
             $temppath = $this->tempDir . '/' . $localnameParts['basename'];
             copy($filename, $temppath);
             $filename = $temppath;
@@ -241,7 +244,7 @@ class ZipArchive
 
         $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
 
-        if($temp_file) {
+        if ($tempFile) {
             // Remove temp file, if created
             @unlink($this->tempDir . '/' . $localnameParts["basename"]);
         }
