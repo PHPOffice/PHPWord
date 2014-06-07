@@ -112,6 +112,13 @@ class Image extends AbstractElement
     private $mediaIndex;
 
     /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
      * Create new image element
      *
      * @param string $source

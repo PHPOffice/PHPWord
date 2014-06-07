@@ -93,40 +93,6 @@ class Section extends AbstractContainer
     }
 
     /**
-     * Add a Title Element
-     *
-     * @param string $text
-     * @param int $depth
-     * @return \PhpOffice\PhpWord\Element\Title
-     */
-    public function addTitle($text, $depth = 1)
-    {
-        return $this->addElement('Title', $text, $depth);
-    }
-
-    /**
-     * Add a PageBreak Element
-     */
-    public function addPageBreak()
-    {
-        return $this->addElement('PageBreak');
-    }
-
-    /**
-     * Add a Table-of-Contents Element
-     *
-     * @param mixed $fontStyle
-     * @param mixed $tocStyle
-     * @param integer $minDepth
-     * @param integer $maxDepth
-     * @return \PhpOffice\PhpWord\Element\TOC
-     */
-    public function addTOC($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
-    {
-        return $this->addElement('TOC', $fontStyle, $tocStyle, $minDepth, $maxDepth);
-    }
-
-    /**
      * Add header
      *
      * @param string $type

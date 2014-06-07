@@ -54,6 +54,13 @@ class Object extends AbstractElement
     private $imageRelationId;
 
     /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
      * Create a new Ole-Object Element
      *
      * @param string $source

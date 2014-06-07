@@ -36,8 +36,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $oLink = new Link('http://www.google.com');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals($oLink->getTarget(), 'http://www.google.com');
-        $this->assertEquals($oLink->getText(), $oLink->getTarget());
+        $this->assertEquals($oLink->getSource(), 'http://www.google.com');
+        $this->assertEquals($oLink->getText(), $oLink->getSource());
         $this->assertEquals($oLink->getFontStyle(), null);
         $this->assertEquals($oLink->getParagraphStyle(), null);
     }
@@ -55,7 +55,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals($oLink->getTarget(), 'http://www.google.com');
+        $this->assertEquals($oLink->getSource(), 'http://www.google.com');
         $this->assertEquals($oLink->getText(), 'Search Engine');
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());

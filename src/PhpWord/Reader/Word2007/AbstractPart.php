@@ -483,8 +483,8 @@ abstract class AbstractPart
             $style = true;
         } elseif ($method == self::READ_FALSE) {
             $style = false;
-        } elseif ($method == self::READ_EQUAL && $attributeValue == $expected) {
-            $style = true;
+        } elseif ($method == self::READ_EQUAL) {
+            $style = $attributeValue == $expected;
         }
 
         return $style;

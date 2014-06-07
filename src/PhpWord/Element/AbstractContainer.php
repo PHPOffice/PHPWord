@@ -17,9 +17,6 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Container abstract class
  *
@@ -33,6 +30,10 @@ use PhpOffice\PhpWord\PhpWord;
  * @method Footnote addFootnote(mixed $pStyle = null)
  * @method Endnote addEndnote(mixed $pStyle = null)
  * @method CheckBox addCheckBox(string $name, $text, mixed $fStyle = null, mixed $pStyle = null)
+ * @method Title addTitle(string $text, int $depth = 1)
+ * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
+ *
+ * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
  * @method Object addObject(string $source, mixed $style = null)
@@ -125,10 +126,6 @@ abstract class AbstractContainer extends AbstractElement
         if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
             $args[3] = null; // Remove paragraph style for texts in textrun
         }
-        $source = '';
-        if (count($args) > 1) {
-            $source = $args[1];
-        }
 
         // Create element using reflection
         $reflection = new \ReflectionClass($elementClass);
@@ -138,15 +135,10 @@ abstract class AbstractContainer extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
 
-        // Set nested level and relation Id
-        $this->setElementNestedLevel($element);
-        $this->setElementRelationId($element, $elementName, $source);
-
-        // Set other properties and add element into collection
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        // Set parent container
+        $element->setParentContainer($this);
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
-        $element->setPhpWord($this->phpWord);
 
         $this->elements[] = $element;
 
@@ -171,55 +163,6 @@ abstract class AbstractContainer extends AbstractElement
     public function countElements()
     {
         return count($this->elements);
-    }
-
-    /**
-     * Set element nested level based on container; add one when it's inside a cell
-     */
-    private function setElementNestedLevel(AbstractElement $element)
-    {
-        if ($this->container == 'Cell') {
-            $element->setNestedLevel($this->getNestedLevel() + 1);
-        } else {
-            $element->setNestedLevel($this->getNestedLevel());
-        }
-    }
-
-    /**
-     * Set relation Id
-     *
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $element
-     * @param string $elementName
-     * @param string $source
-     */
-    private function setElementRelationId(AbstractElement $element, $elementName, $source)
-    {
-        $mediaContainer = $this->getMediaContainer();
-        $hasMediaRelation = in_array($elementName, array('Link', 'Image', 'Object'));
-        $hasOtherRelation = in_array($elementName, array('Footnote', 'Endnote', 'Title'));
-
-        // Set relation Id for media elements (link, image, object; legacy of OOXML)
-        // Only Image that needs to be passed to Media class
-        if ($hasMediaRelation) {
-            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
-            $image = ($elementName == 'Image') ? $element : null;
-            $rId = Media::addElement($mediaContainer, strtolower($elementName), $source, $image);
-            $element->setRelationId($rId);
-        }
-
-        // Set relation Id for icon of object element
-        if ($elementName == 'Object') {
-            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
-            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
-            $element->setImageRelationId($rIdIcon);
-        }
-
-        // Set relation Id for elements that will be registered in the Collection subnamespaces
-        if ($hasOtherRelation && $this->phpWord instanceof PhpWord) {
-            $addMethod = "add{$elementName}";
-            $rId = $this->phpWord->$addMethod($element);
-            $element->setRelationId($rId);
-        }
     }
 
     /**
@@ -254,6 +197,9 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote'      => array('Section', 'TextRun', 'Cell'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
             'PreserveText'  => array('Header', 'Footer', 'Cell'),
+            'Title'         => array('Section'),
+            'TOC'           => array('Section'),
+            'PageBreak'     => array('Section'),
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
@@ -282,24 +228,6 @@ abstract class AbstractContainer extends AbstractElement
         }
 
         return true;
-    }
-
-    /**
-     * Return media element (image, object, link) container name
-     *
-     * @return string section|headerx|footerx|footnote|endnote
-     */
-    private function getMediaContainer()
-    {
-        $partName = $this->container;
-        if (in_array($partName, array('Cell', 'TextRun', 'TextBox', 'ListItemRun'))) {
-            $partName = $this->getDocPart();
-        }
-        if ($partName == 'Header' || $partName == 'Footer') {
-            $partName .= $this->getDocPartId();
-        }
-
-        return strtolower($partName);
     }
 
     /**

@@ -37,6 +37,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('portrait', $oSettings->getOrientation());
         $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
         $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
+        $this->assertEquals('A4', $oSettings->getPaperSize());
 
         $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());

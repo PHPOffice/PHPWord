@@ -47,6 +47,13 @@ class Title extends AbstractElement
     private $style;
 
     /**
+     * Is part of collection; true for Title, Footnote, and Endnote
+     *
+     * @var bool
+     */
+    protected $collectionRelation = true;
+
+    /**
      * Create a new Title Element
      *
      * @param string $text

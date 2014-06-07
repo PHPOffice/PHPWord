@@ -37,7 +37,7 @@ class Link extends Text
 
         $content = '';
         $content .= $this->writeOpening();
-        $content .= "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>";
+        $content .= "<a href=\"{$this->element->getSource()}\">{$this->element->getText()}</a>";
         $content .= $this->writeClosing();
 
         return $content;

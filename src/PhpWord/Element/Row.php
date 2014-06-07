@@ -69,9 +69,7 @@ class Row extends AbstractElement
     public function addCell($width = null, $style = null)
     {
         $cell = new Cell($width, $style);
-        $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $cell->setPhpWord($this->phpWord);
-        $cell->setNestedLevel($this->getNestedLevel());
+        $cell->setParentContainer($this);
         $this->cells[] = $cell;
 
         return $cell;

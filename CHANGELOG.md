@@ -4,6 +4,8 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.12.0 - Not yet released
 
+This release added drawing shapes (arc, curve, line, polyline, rect, oval) element and some new styles.
+
 ### Features
 
 - Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin GH-123
@@ -18,13 +20,14 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ### Deprecated
 
-None yet.
+- `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
 
 ### Miscellaneous
 
 - Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
 - PclZip: Remove temporary file after used - @andrew-kzoo GH-265
 - Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
+- Element: Refactor elements to move set relation Id from container to element - @ivanlanin
 
 ## 0.11.1 - 2 June 2014
 

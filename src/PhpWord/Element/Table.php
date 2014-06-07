@@ -65,9 +65,7 @@ class Table extends AbstractElement
     public function addRow($height = null, $style = null)
     {
         $row = new Row($height, $style);
-        $row->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $row->setPhpWord($this->phpWord);
-        $row->setNestedLevel($this->getNestedLevel());
+        $row->setParentContainer($this);
         $this->rows[] = $row;
 
         return $row;

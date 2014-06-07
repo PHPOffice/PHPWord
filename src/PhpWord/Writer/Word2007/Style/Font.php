@@ -64,8 +64,10 @@ class Font extends AbstractStyle
         $xmlWriter->startElement('w:rPr');
 
         // Style name
-        $styleName = $style->getStyleName();
-        $xmlWriter->writeElementIf(!is_null($styleName), 'w:rStyle', 'w:val', $styleName);
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName !== null, 'w:rStyle', 'w:val', $styleName);
+        }
 
         // Font name/family
         $font = $style->getName();

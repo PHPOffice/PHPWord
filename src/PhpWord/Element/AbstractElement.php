@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
@@ -42,7 +43,7 @@ abstract class AbstractElement
     protected $sectionId;
 
     /**
-     * Document part type: section|header|footer
+     * Document part type: Section|Header|Footer|Footnote|Endnote
      *
      * Used by textrun and cell container to determine where the element is
      * located because it will affect the availability of other element,
@@ -92,6 +93,27 @@ abstract class AbstractElement
      * @var int
      */
     private $nestedLevel = 0;
+
+    /**
+     * Parent container type
+     *
+     * @var string
+     */
+    private $parentContainer;
+
+    /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = false;
+
+    /**
+     * Is part of collection; true for Title, Footnote, and Endnote
+     *
+     * @var bool
+     */
+    protected $collectionRelation = false;
 
     /**
      * Get PhpWord
@@ -153,6 +175,21 @@ abstract class AbstractElement
     public function getDocPartId()
     {
         return $this->docPartId;
+    }
+
+    /**
+     * Return media element (image, object, link) container name
+     *
+     * @return string section|headerx|footerx|footnote|endnote
+     */
+    private function getMediaPart()
+    {
+        $mediaPart = $this->docPart;
+        if ($mediaPart == 'Header' || $mediaPart == 'Footer') {
+            $mediaPart .= $this->docPartId;
+        }
+
+        return strtolower($mediaPart);
     }
 
     /**
@@ -224,13 +261,74 @@ abstract class AbstractElement
     }
 
     /**
-     * Set nested level
+     * Set parent container
      *
-     * @param int $value
+     * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
-    public function setNestedLevel($value)
+    public function setParentContainer(AbstractElement $container)
     {
-        $this->nestedLevel = $value;
+        $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
+
+        // Set nested level
+        $this->nestedLevel = $container->getNestedLevel();
+        if ($this->parentContainer == 'Cell') {
+            $this->nestedLevel++;
+        }
+
+        // Set phpword
+        $phpWord = $container->getPhpWord();
+        $this->setPhpWord($phpWord);
+
+        // Set doc part
+        if (!$this instanceof Footnote) {
+            $this->setDocPart($container->getDocPart(), $container->getDocPartId());
+        }
+
+        $this->setMediaRelation();
+        $this->setCollectionRelation();
+    }
+
+    /**
+     * Set relation Id for media elements (link, image, object; legacy of OOXML)
+     *
+     * - Image element needs to be passed to Media object
+     * - Icon needs to be set for Object element
+     */
+    private function setMediaRelation()
+    {
+        if ($this->mediaRelation === false) {
+            return;
+        }
+
+        $mediaPart = $this->getMediaPart();
+        $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+
+        /** @var \PhpOffice\PhpWord\Element\Image $this Type hint */
+        $source = $this->getSource();
+        $image = ($elementName == 'Image') ? $this : null;
+        $rId = Media::addElement($mediaPart, strtolower($elementName), $source, $image);
+        $this->setRelationId($rId);
+
+        if ($elementName == 'Object') {
+            /** @var \PhpOffice\PhpWord\Element\Object $this Type hint */
+            $rId = Media::addElement($mediaPart, 'image', $this->getIcon(), new Image($this->getIcon()));
+            $this->setImageRelationId($rId);
+        }
+    }
+
+    /**
+     * Set relation Id for elements that will be registered in the Collection subnamespaces
+     */
+    private function setCollectionRelation()
+    {
+        if ($this->collectionRelation === true && $this->phpWord instanceof PhpWord) {
+            $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+            $addMethod = "add{$elementName}";
+            $rId = $this->phpWord->$addMethod($this);
+            $this->setRelationId($rId);
+        }
     }
 
     /**

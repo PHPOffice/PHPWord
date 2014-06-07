@@ -83,7 +83,9 @@ class Paragraph extends AbstractStyle
         }
 
         // Style name
-        $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
+        if ($this->isInline === true) {
+            $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
+        }
 
         // Alignment
         $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $styles['alignment'])));

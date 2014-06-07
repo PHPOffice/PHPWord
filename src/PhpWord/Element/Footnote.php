@@ -37,6 +37,13 @@ class Footnote extends AbstractContainer
     protected $paragraphStyle;
 
     /**
+     * Is part of collection; true for Title, Footnote, and Endnote
+     *
+     * @var bool
+     */
+    protected $collectionRelation = true;
+
+    /**
      * Create new instance
      *
      * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
@@ -44,6 +51,7 @@ class Footnote extends AbstractContainer
     public function __construct($paragraphStyle = null)
     {
         $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->setDocPart($this->container);
     }
 
     /**
