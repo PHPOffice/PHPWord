@@ -298,22 +298,23 @@ abstract class AbstractElement
      */
     private function setMediaRelation()
     {
-        if ($this->mediaRelation === false) {
+        if (!$this instanceof Link && !$this instanceof Image && !$this instanceof Object) {
             return;
         }
 
-        $mediaPart = $this->getMediaPart();
         $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
-
-        /** @var \PhpOffice\PhpWord\Element\Image $this Type hint */
+        $mediaPart = $this->getMediaPart();
         $source = $this->getSource();
-        $image = ($elementName == 'Image') ? $this : null;
+        $image = null;
+        if ($this instanceof Image) {
+            $image = $this;
+        }
         $rId = Media::addElement($mediaPart, strtolower($elementName), $source, $image);
         $this->setRelationId($rId);
 
-        if ($elementName == 'Object') {
-            /** @var \PhpOffice\PhpWord\Element\Object $this Type hint */
-            $rId = Media::addElement($mediaPart, 'image', $this->getIcon(), new Image($this->getIcon()));
+        if ($this instanceof Object) {
+            $icon = $this->getIcon();
+            $rId = Media::addElement($mediaPart, 'image', $icon, new Image($icon));
             $this->setImageRelationId($rId);
         }
     }
