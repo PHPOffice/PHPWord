@@ -30,9 +30,9 @@ class Autoloader
      *
      * @return void
      */
-    public static function register()
+    public static function register($throw = true, $prepend = false)
     {
-        spl_autoload_register(array(new self, 'autoload'));
+        spl_autoload_register(array(new self, 'autoload'), $throw, $prepend);
     }
 
     /**
