@@ -218,7 +218,10 @@ class ZipArchive
     {
         /** @var \PclZip $zip Type hint */
         $zip = $this->zip;
-        $filename = realpath($filename);
+        $test_filename = realpath($filename);
+        if($test_filename !== false) {
+            $filename = $test_filename;
+        }
         $filenameParts = pathinfo($filename);
         $localnameParts = pathinfo($localname);
 
