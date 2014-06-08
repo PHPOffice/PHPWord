@@ -47,7 +47,7 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 19    | Line            | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 20    | Shapes          | v         | v        | v        | v       | v          | v          |
+| 20    | Shape           | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
@@ -72,9 +72,6 @@ as follow:
 
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->addTextRun([$paragraphStyle]);
-
-Text styles
-~~~~~~~~~~~
 
 You can use the ``$fontStyle`` and ``$paragraphStyle`` variable to
 define text formatting. There are 2 options to style the inserted text
@@ -105,47 +102,6 @@ Defined style examples:
     $paragraphStyle = array('align' => 'center');
     $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
     $text = $section->addText('Hello world!', 'pStyle');
-
-Font style
-^^^^^^^^^^
-
-Available font styles:
-
--  ``name`` Font name, e.g. *Arial*
--  ``size`` Font size, e.g. *20*, *22*,
--  ``hint`` Font content type, *default*, *eastAsia*, or *cs*
--  ``bold`` Bold, *true* or *false*
--  ``italic`` Italic, *true* or *false*
--  ``superScript`` Superscript, *true* or *false*
--  ``subScript`` Subscript, *true* or *false*
--  ``underline`` Underline, *dash*, *dotted*, etc.
--  ``strikethrough`` Strikethrough, *true* or *false*
--  ``doubleStrikethrough`` Double strikethrough, *true* or *false*
--  ``color`` Font color, e.g. *FF0000*
--  ``fgColor`` Font highlight color, e.g. *yellow*, *green*, *blue*
--  ``bgColor`` Font background color, e.g. *FF0000*
--  ``smallCaps`` Small caps, *true* or *false*
--  ``allCaps`` All caps, *true* or *false*
-
-Paragraph style
-^^^^^^^^^^^^^^^
-
-Available paragraph styles:
-
--  ``align`` Paragraph alignment, *left*, *right* or *center*
--  ``spaceBefore`` Space before paragraph
--  ``spaceAfter`` Space after paragraph
--  ``indent`` Indent by how much
--  ``hanging`` Hanging by how much
--  ``basedOn`` Parent style
--  ``next`` Style for next paragraph
--  ``widowControl`` Allow first/last line to display on a separate page,
-   *true* or *false*
--  ``keepNext`` Keep paragraph with next paragraph, *true* or *false*
--  ``keepLines`` Keep all lines on one page, *true* or *false*
--  ``pageBreakBefore`` Start paragraph on next page, *true* or *false*
--  ``lineHeight`` text line height, e.g. *1.0*, *1.5*, ect...
--  ``tabs`` Set of custom tab stops
 
 Titles
 ~~~~~~
@@ -209,9 +165,9 @@ Page breaks
 There are two ways to insert a page breaks, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-:: code-block:: php
+.. code-block:: php
 
-    \\$section->addPageBreak();
+    $section->addPageBreak();
 
 Lists
 -----
@@ -254,23 +210,6 @@ You can also create your own numbering style by changing the
     $section->addListItem('List Item I.b', 1, null, 'multilevel');
     $section->addListItem('List Item II', 0, null, 'multilevel');
 
-Level styles:
-
--  ``start`` Starting value
--  ``format`` Numbering format
-   bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter
--  ``restart`` Restart numbering level symbol
--  ``suffix`` Content between numbering symbol and paragraph text
-   tab\|space\|nothing
--  ``text`` Numbering level text e.g. %1 for nonbullet or bullet
-   character
--  ``align`` Numbering symbol align left\|center\|right\|both
--  ``left`` See paragraph style
--  ``hanging`` See paragraph style
--  ``tabPos`` See paragraph style
--  ``font`` Font name
--  ``hint`` See font style
-
 Tables
 ------
 
@@ -295,34 +234,6 @@ Table style can be defined with ``addTableStyle``:
     $firstRowStyle = array('bgColor' => '66BBFF');
     $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
     $table = $section->addTable('myTable');
-
-Table, row, and cell styles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Table styles:
-
--  ``width`` Table width in percent
--  ``bgColor`` Background color, e.g. '9966CC'
--  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
-
-Row styles:
-
--  ``tblHeader`` Repeat table row on every new page, *true* or *false*
--  ``cantSplit`` Table row cannot break across pages, *true* or *false*
--  ``exactHeight`` Row height is exact or at least
-
-Cell styles:
-
--  ``width`` Cell width in twips
--  ``valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
--  ``textDirection`` Direction of text
--  ``bgColor`` Background color, e.g. '9966CC'
--  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``gridSpan`` Number of columns spanned
--  ``vMerge`` *restart* or *continue*
 
 Cell span
 ~~~~~~~~~
@@ -369,19 +280,6 @@ Examples:
     $footer->addImage('http://example.com/image.php');
     $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
-
-Image styles
-~~~~~~~~~~~~
-
-Available image styles:
-
--  ``width`` Width in pixels
--  ``height`` Height in pixels
--  ``align`` Image alignment, *left*, *right*, or *center*
--  ``marginTop`` Top margin in inches, can be negative
--  ``marginLeft`` Left margin in inches, can be negative
--  ``wrappingStyle`` Wrapping style, *inline*, *square*, *tight*,
-   *behind*, or *infront*
 
 Watermarks
 ~~~~~~~~~~
@@ -485,19 +383,19 @@ Checkbox elements can be added to sections or table cells by using
 Textboxes
 ---------
 
-To be completed
+To be completed.
 
 Fields
 ------
 
-To be completed
+To be completed.
 
 Lines
 -----
 
-To be completed
+To be completed.
 
 Shapes
 ------
 
-To be completed
+To be completed.

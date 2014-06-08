@@ -16,51 +16,18 @@ section, use the following code:
 
 .. code-block:: php
 
-    $section = $phpWord->addSection($sectionSettings);
+    $section = $phpWord->addSection($sectionStyle);
 
-The ``$sectionSettings`` is an optional associative array that sets the
+The ``$sectionStyle`` is an optional associative array that sets the
 section. Example:
 
 .. code-block:: php
 
-    $sectionSettings = array(
+    $sectionStyle = array(
         'orientation' => 'landscape',
         'marginTop' => 600,
         'colsNum' => 2,
     );
-
-Section settings
-~~~~~~~~~~~~~~~~
-
-Below are the available styles for section:
-
--  ``orientation`` Page orientation, i.e. 'portrait' (default) or
-   'landscape'
--  ``marginTop`` Page margin top in twips
--  ``marginLeft`` Page margin left in twips
--  ``marginRight`` Page margin right in twips
--  ``marginBottom`` Page margin bottom in twips
--  ``borderTopSize`` Border top size in twips
--  ``borderTopColor`` Border top color
--  ``borderLeftSize`` Border left size in twips
--  ``borderLeftColor`` Border left color
--  ``borderRightSize`` Border right size in twips
--  ``borderRightColor`` Border right color
--  ``borderBottomSize`` Border bottom size in twips
--  ``borderBottomColor`` Border bottom color
--  ``headerHeight`` Spacing to top of header
--  ``footerHeight`` Spacing to bottom of footer
--  ``gutter`` Page gutter spacing
--  ``colsNum`` Number of columns
--  ``colsSpace`` Spacing between columns
--  ``breakType`` Section break type (nextPage, nextColumn, continuous,
-   evenPage, oddPage)
-
-The following two styles are automatically set by the use of the
-``orientation`` style. You can alter them but that's not recommended.
-
--  ``pageSizeW`` Page width in twips
--  ``pageSizeH`` Page height in twips
 
 Page number
 ~~~~~~~~~~~
@@ -93,8 +60,8 @@ using the ``breakType`` and ``colsNum`` style of the section.
     $section->getStyle()->setBreakType('continuous');
     $section->getStyle()->setColsNum(2);
 
-
-### Line numbering
+Line numbering
+~~~~~~~~~~~~~~
 
 You can apply line numbering to a section by using the ``lineNumbering``
 style of the section.
@@ -113,7 +80,8 @@ Below are the properties of the line numbering style.
 -  ``start`` Line numbering starting value
 -  ``increment`` Line number increments
 -  ``distance`` Distance between text and line numbering in twip
--  ``restart`` Line numbering restart setting continuous|newPage|newSection
+-  ``restart`` Line numbering restart setting
+   continuous\|newPage\|newSection
 
 Headers
 -------

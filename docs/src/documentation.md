@@ -37,6 +37,11 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Fields](#fields)
     - [Lines](#lines)
     - [Shapes](#shapes)
+- [Styles](#styles)
+    - [Section](#section)
+    - [Font](#font)
+    - [Paragraph](#paragraph)
+    - [Table](#table)
 - [Templates](#templates)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
@@ -320,47 +325,19 @@ Containers are objects where you can put elements (texts, lists, tables, etc). T
 Every visible element in word is placed inside of a section. To create a section, use the following code:
 
 ```php
-$section = $phpWord->addSection($sectionSettings);
+$section = $phpWord->addSection($sectionStyle);
 ```
 
-The `$sectionSettings` is an optional associative array that sets the section. Example:
+The `$sectionStyle` is an optional associative array that sets the section. Example:
 
 ```php
-$sectionSettings = array(
+$sectionStyle = array(
     'orientation' => 'landscape',
     'marginTop' => 600,
     'colsNum' => 2,
 );
 ```
 
-### Section style
-
-Below are the available styles for section:
-
-- `orientation` Page orientation, i.e. 'portrait' (default) or 'landscape'
-- `marginTop` Page margin top in twips
-- `marginLeft` Page margin left in twips
-- `marginRight` Page margin right in twips
-- `marginBottom` Page margin bottom in twips
-- `borderTopSize` Border top size in twips
-- `borderTopColor` Border top color
-- `borderLeftSize` Border left size in twips
-- `borderLeftColor` Border left color
-- `borderRightSize` Border right size in twips
-- `borderRightColor` Border right color
-- `borderBottomSize` Border bottom size in twips
-- `borderBottomColor` Border bottom color
-- `headerHeight` Spacing to top of header
-- `footerHeight` Spacing to bottom of footer
-- `gutter` Page gutter spacing
-- `colsNum` Number of columns
-- `colsSpace` Spacing between columns
-- `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
-
-The following two styles are automatically set by the use of the `orientation` style. You can alter them but that's not recommended.
-
-- `pageSizeW` Page width in twips
-- `pageSizeH` Page height in twips
 
 ### Page number
 
@@ -485,8 +462,6 @@ $section->addText($text, [$fontStyle], [$paragraphStyle]);
 $textrun = $section->addTextRun([$paragraphStyle]);
 ```
 
-### Text styles
-
 You can use the `$fontStyle` and `$paragraphStyle` variable to define text formatting. There are 2 options to style the inserted text elements, i.e. inline style by using array or defined style by adding style definition.
 
 Inline style examples:
@@ -513,44 +488,6 @@ $paragraphStyle = array('align' => 'center');
 $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
 $text = $section->addText('Hello world!', 'pStyle');
 ```
-
-#### Font style
-
-Available font styles:
-
-- `name` Font name, e.g. *Arial*
-- `size` Font size, e.g. *20*, *22*,
-- `hint` Font content type, *default*, *eastAsia*, or *cs*
-- `bold` Bold, *true* or *false*
-- `italic` Italic, *true* or *false*
-- `superScript` Superscript, *true* or *false*
-- `subScript` Subscript, *true* or *false*
-- `underline` Underline, *dash*, *dotted*, etc.
-- `strikethrough` Strikethrough, *true* or *false*
-- `doubleStrikethrough` Double strikethrough, *true* or *false*
-- `color` Font color, e.g. *FF0000*
-- `fgColor` Font highlight color, e.g. *yellow*, *green*, *blue*
-- `bgColor` Font background color, e.g. *FF0000*
-- `smallCaps` Small caps, *true* or *false*
-- `allCaps` All caps, *true* or *false*
-
-#### Paragraph style
-
-Available paragraph styles:
-
-- `align` Paragraph alignment, *left*, *right* or *center*
-- `spaceBefore` Space before paragraph
-- `spaceAfter` Space after paragraph
-- `indent` Indent by how much
-- `hanging` Hanging by how much
-- `basedOn` Parent style
-- `next` Style for next paragraph
-- `widowControl` Allow first/last line to display on a separate page, *true* or *false*
-- `keepNext` Keep paragraph with next paragraph, *true* or *false*
-- `keepLines` Keep all lines on one page, *true* or *false*
-- `pageBreakBefore` Start paragraph on next page, *true* or *false*
-- `lineHeight` text line height, e.g. *1.0*, *1.5*, ect...
-- `tabs` Set of custom tab stops
 
 ### Titles
 
@@ -602,9 +539,9 @@ $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 
 There are two ways to insert a page breaks, using the `addPageBreak` method or using the `pageBreakBefore` style of paragraph.
 
-:: code-block:: php
-
-> \$section-\>addPageBreak();
+```php
+$section->addPageBreak();
+```
 
 ## Lists
 
@@ -643,20 +580,6 @@ $section->addListItem('List Item I.b', 1, null, 'multilevel');
 $section->addListItem('List Item II', 0, null, 'multilevel');
 ```
 
-Level styles:
-
-- `start` Starting value
-- `format` Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
-- `restart` Restart numbering level symbol
-- `suffix` Content between numbering symbol and paragraph text tab|space|nothing
-- `text` Numbering level text e.g. %1 for nonbullet or bullet character
-- `align` Numbering symbol align left|center|right|both
-- `left` See paragraph style
-- `hanging` See paragraph style
-- `tabPos` See paragraph style
-- `font` Font name
-- `hint` See font style
-
 ## Tables
 
 To add tables, rows, and cells, use the `addTable`, `addRow`, and `addCell` methods:
@@ -679,33 +602,6 @@ $firstRowStyle = array('bgColor' => '66BBFF');
 $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
 $table = $section->addTable('myTable');
 ```
-
-### Table, row, and cell styles
-
-Table styles:
-
-- `width` Table width in percent
-- `bgColor` Background color, e.g. '9966CC'
-- `border(Top|Right|Bottom|Left)Size` Border size in twips
-- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
-- `cellMargin(Top|Right|Bottom|Left)` Cell margin in twips
-
-Row styles:
-
-- `tblHeader` Repeat table row on every new page, *true* or *false*
-- `cantSplit` Table row cannot break across pages, *true* or *false*
-- `exactHeight` Row height is exact or at least
-
-Cell styles:
-
-- `width` Cell width in twips
-- `valign` Vertical alignment, *top*, *center*, *both*, *bottom*
-- `textDirection` Direction of text
-- `bgColor` Background color, e.g. '9966CC'
-- `border(Top|Right|Bottom|Left)Size` Border size in twips
-- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
-- `gridSpan` Number of columns spanned
-- `vMerge` *restart* or *continue*
 
 ### Cell span
 
@@ -748,17 +644,6 @@ $footer->addImage('http://example.com/image.php');
 $textrun = $section->addTextRun();
 $textrun->addImage('http://php.net/logo.jpg');
 ```
-
-### Image styles
-
-Available image styles:
-
-- `width` Width in pixels
-- `height` Height in pixels
-- `align` Image alignment, *left*, *right*, or *center*
-- `marginTop` Top margin in inches, can be negative
-- `marginLeft` Left margin in inches, can be negative
-- `wrappingStyle` Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*
 
 ### Watermarks
 
@@ -855,6 +740,127 @@ To be completed.
 ## Shapes
 
 To be completed.
+
+# Styles
+
+## Section
+
+Below are the available styles for section:
+
+- `orientation` Page orientation, i.e. 'portrait' (default) or 'landscape'
+- `marginTop` Page margin top in twips
+- `marginLeft` Page margin left in twips
+- `marginRight` Page margin right in twips
+- `marginBottom` Page margin bottom in twips
+- `borderTopSize` Border top size in twips
+- `borderTopColor` Border top color
+- `borderLeftSize` Border left size in twips
+- `borderLeftColor` Border left color
+- `borderRightSize` Border right size in twips
+- `borderRightColor` Border right color
+- `borderBottomSize` Border bottom size in twips
+- `borderBottomColor` Border bottom color
+- `headerHeight` Spacing to top of header
+- `footerHeight` Spacing to bottom of footer
+- `gutter` Page gutter spacing
+- `colsNum` Number of columns
+- `colsSpace` Spacing between columns
+- `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
+
+The following two styles are automatically set by the use of the `orientation` style. You can alter them but that's not recommended.
+
+- `pageSizeW` Page width in twips
+- `pageSizeH` Page height in twips
+
+## Font
+
+Available font styles:
+
+- `name` Font name, e.g. *Arial*
+- `size` Font size, e.g. *20*, *22*,
+- `hint` Font content type, *default*, *eastAsia*, or *cs*
+- `bold` Bold, *true* or *false*
+- `italic` Italic, *true* or *false*
+- `superScript` Superscript, *true* or *false*
+- `subScript` Subscript, *true* or *false*
+- `underline` Underline, *dash*, *dotted*, etc.
+- `strikethrough` Strikethrough, *true* or *false*
+- `doubleStrikethrough` Double strikethrough, *true* or *false*
+- `color` Font color, e.g. *FF0000*
+- `fgColor` Font highlight color, e.g. *yellow*, *green*, *blue*
+- `bgColor` Font background color, e.g. *FF0000*
+- `smallCaps` Small caps, *true* or *false*
+- `allCaps` All caps, *true* or *false*
+
+## Paragraph
+
+Available paragraph styles:
+
+- `align` Paragraph alignment, *left*, *right* or *center*
+- `spaceBefore` Space before paragraph
+- `spaceAfter` Space after paragraph
+- `indent` Indent by how much
+- `hanging` Hanging by how much
+- `basedOn` Parent style
+- `next` Style for next paragraph
+- `widowControl` Allow first/last line to display on a separate page, *true* or *false*
+- `keepNext` Keep paragraph with next paragraph, *true* or *false*
+- `keepLines` Keep all lines on one page, *true* or *false*
+- `pageBreakBefore` Start paragraph on next page, *true* or *false*
+- `lineHeight` text line height, e.g. *1.0*, *1.5*, ect...
+- `tabs` Set of custom tab stops
+
+## Table
+
+Table styles:
+
+- `width` Table width in percent
+- `bgColor` Background color, e.g. '9966CC'
+- `border(Top|Right|Bottom|Left)Size` Border size in twips
+- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
+- `cellMargin(Top|Right|Bottom|Left)` Cell margin in twips
+
+Row styles:
+
+- `tblHeader` Repeat table row on every new page, *true* or *false*
+- `cantSplit` Table row cannot break across pages, *true* or *false*
+- `exactHeight` Row height is exact or at least
+
+Cell styles:
+
+- `width` Cell width in twips
+- `valign` Vertical alignment, *top*, *center*, *both*, *bottom*
+- `textDirection` Direction of text
+- `bgColor` Background color, e.g. '9966CC'
+- `border(Top|Right|Bottom|Left)Size` Border size in twips
+- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
+- `gridSpan` Number of columns spanned
+- `vMerge` *restart* or *continue*
+
+## Image
+
+Available image styles:
+
+- `width` Width in pixels
+- `height` Height in pixels
+- `align` Image alignment, *left*, *right*, or *center*
+- `marginTop` Top margin in inches, can be negative
+- `marginLeft` Left margin in inches, can be negative
+- `wrappingStyle` Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*
+
+## Numbering level
+
+- `start` Starting value
+- `format` Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
+- `restart` Restart numbering level symbol
+- `suffix` Content between numbering symbol and paragraph text tab|space|nothing
+- `text` Numbering level text e.g. %1 for nonbullet or bullet character
+- `align` Numbering symbol align left|center|right|both
+- `left` See paragraph style
+- `hanging` See paragraph style
+- `tabPos` See paragraph style
+- `font` Font name
+- `hint` See font style
 
 # Templates
 
