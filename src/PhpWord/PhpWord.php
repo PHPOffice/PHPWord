@@ -17,14 +17,25 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Collection\Endnotes;
-use PhpOffice\PhpWord\Collection\Footnotes;
-use PhpOffice\PhpWord\Collection\Titles;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * PHPWord main class
+ *
+ * @method Collection\Titles getTitles()
+ * @method Collection\Footnotes getFootnotes()
+ * @method Collection\Endnotes getEndnotes()
+ * @method int addTitle(Element\Title $title)
+ * @method int addFootnote(Element\Footnote $footnote)
+ * @method int addEndnote(Element\Endnote $endnote)
+ *
+ * @method Style\Paragraph addParagraphStyle(string $styleName, array $styles)
+ * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
+ * @method Style\Font addLinkStyle(string $styleName, mixed $styles)
+ * @method Style\Font addTitleStyle(int $depth, mixed $fontStyle, mixed $paragraphStyle = null)
+ * @method Style\Table addTableStyle(string $styleName, mixed $styleTable, mixed $styleFirstRow = null)
+ * @method Style\Numbering addNumberingStyle(string $styleName, mixed $styles)
  */
 class PhpWord
 {
@@ -54,35 +65,84 @@ class PhpWord
     private $sections = array();
 
     /**
-     * Collection of titles
+     * Collections
      *
-     * @var \PhpOffice\PhpWord\Collection\Titles
+     * @var array
      */
-    private $titles;
+    private $collections = array();
 
     /**
-     * Collection of footnotes
+     * Create new instance
      *
-     * @var \PhpOffice\PhpWord\Collection\Footnotes
-     */
-    private $footnotes;
-
-    /**
-     * Collection of endnotes
-     *
-     * @var \PhpOffice\PhpWord\Collection\Endnotes
-     */
-    private $endnotes;
-
-    /**
-     * Create new
+     * Collections are created dynamically
      */
     public function __construct()
     {
         $this->documentProperties = new DocumentProperties();
-        $this->titles = new Titles();
-        $this->footnotes = new Footnotes();
-        $this->endnotes = new Endnotes();
+
+        $collections = array('Titles', 'Footnotes', 'Endnotes');
+        foreach ($collections as $collection) {
+            $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
+            $this->collections[$collection] = new $class();
+        }
+    }
+
+    /**
+     * Dynamic function call to reduce static dependency
+     *
+     * Usage:
+     * - Getting and adding collections (Titles, Footnotes, and Endnotes)
+     * - Adding style
+     *
+     * @param mixed $function
+     * @param mixed $args
+     * @return mixed
+     *
+     * @since 0.12.0
+     */
+    public function __call($function, $args)
+    {
+        $function = strtolower($function);
+
+        $getCollection = array();
+        $addCollection = array();
+        $addStyle = array();
+
+        $collections = array('Title', 'Footnote', 'Endnote');
+        foreach ($collections as $collection) {
+            $getCollection[] = strtolower("get{$collection}s");
+            $addCollection[] = strtolower("add{$collection}");
+        }
+
+        $styles = array('Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title');
+        foreach ($styles as $style) {
+            $addStyle[] = strtolower("add{$style}style");
+        }
+
+        // Run get collection method
+        if (in_array($function, $getCollection)) {
+            $key = ucfirst(str_replace('get', '', $function));
+
+            return $this->collections[$key];
+        }
+
+        // Run add collection item method
+        if (in_array($function, $addCollection)) {
+            $key = ucfirst(str_replace('add', '', $function) . 's');
+
+            /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
+            $collectionObject = $this->collections[$key];
+
+            return $collectionObject->addItem($args[0]);
+        }
+
+        // Run add style method
+        if (in_array($function, $addStyle)) {
+            return forward_static_call_array(array('PhpOffice\\PhpWord\\Style', $function), $args);
+        }
+
+        // All other methods
+        return null;
     }
 
     /**
@@ -134,69 +194,6 @@ class PhpWord
     }
 
     /**
-     * Get titles
-     *
-     * @return \PhpOffice\PhpWord\Collection\Titles
-     */
-    public function getTitles()
-    {
-        return $this->titles;
-    }
-
-    /**
-     * Add new title
-     *
-     * @param \PhpOffice\PhpWord\Element\Title $title
-     * @return int
-     */
-    public function addTitle($title)
-    {
-        return $this->titles->addItem($title);
-    }
-
-    /**
-     * Get footnotes
-     *
-     * @return \PhpOffice\PhpWord\Collection\Footnotes
-     */
-    public function getFootnotes()
-    {
-        return $this->footnotes;
-    }
-
-    /**
-     * Add new footnote
-     *
-     * @param \PhpOffice\PhpWord\Element\Footnote $footnote
-     * @return int
-     */
-    public function addFootnote($footnote)
-    {
-        return $this->footnotes->addItem($footnote);
-    }
-
-    /**
-     * Get endnotes
-     *
-     * @return \PhpOffice\PhpWord\Collection\Endnotes
-     */
-    public function getEndnotes()
-    {
-        return $this->endnotes;
-    }
-
-    /**
-     * Add new endnote
-     *
-     * @param \PhpOffice\PhpWord\Element\Endnote $endnote
-     * @return int
-     */
-    public function addEndnote($endnote)
-    {
-        return $this->endnotes->addItem($endnote);
-    }
-
-    /**
      * Get default font name
      *
      * @return string
@@ -245,81 +242,6 @@ class PhpWord
     public function setDefaultParagraphStyle($styles)
     {
         return Style::setDefaultParagraphStyle($styles);
-    }
-
-    /**
-     * Adds a paragraph style definition to styles.xml
-     *
-     * @param string $styleName
-     * @param array $styles
-     * @return \PhpOffice\PhpWord\Style\Paragraph
-     */
-    public function addParagraphStyle($styleName, $styles)
-    {
-        return Style::addParagraphStyle($styleName, $styles);
-    }
-
-    /**
-     * Adds a font style definition to styles.xml
-     *
-     * @param string $styleName
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
-    {
-        return Style::addFontStyle($styleName, $fontStyle, $paragraphStyle);
-    }
-
-    /**
-     * Adds a table style definition to styles.xml
-     *
-     * @param string $styleName
-     * @param mixed $styleTable
-     * @param mixed $styleFirstRow
-     * @return \PhpOffice\PhpWord\Style\Table
-     */
-    public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
-    {
-        return Style::addTableStyle($styleName, $styleTable, $styleFirstRow);
-    }
-
-    /**
-     * Adds a numbering style
-     *
-     * @param string $styleName
-     * @param mixed $styles
-     * @return \PhpOffice\PhpWord\Style\Numbering
-     */
-    public function addNumberingStyle($styleName, $styles)
-    {
-        return Style::addNumberingStyle($styleName, $styles);
-    }
-
-    /**
-     * Adds a hyperlink style to styles.xml
-     *
-     * @param string $styleName
-     * @param mixed $styles
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function addLinkStyle($styleName, $styles)
-    {
-        return Style::addLinkStyle($styleName, $styles);
-    }
-
-    /**
-     * Adds a heading style definition to styles.xml
-     *
-     * @param int $depth
-     * @param mixed $fontStyle
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
-    {
-        return Style::addTitleStyle($depth, $fontStyle, $paragraphStyle);
     }
 
     /**

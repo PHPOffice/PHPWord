@@ -25,7 +25,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null)
  * @method PreserveText addPreserveText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method void addTextBreak(int $count = 1, mixed $fStyle = null, mixed $pStyle = null)
- * @method ListItem addListItem(string $text, int $depth = 0, mixed $fStyle = null, mixed $listStyle = null, mixed $pStyle = null)
+ * @method ListItem addListItem(string $txt, int $depth = 0, mixed $font = null, mixed $list = null, mixed $para = null)
  * @method ListItemRun addListItemRun(int $depth = 0, mixed $listStyle = null, mixed $pStyle = null)
  * @method Footnote addFootnote(mixed $pStyle = null)
  * @method Endnote addEndnote(mixed $pStyle = null)

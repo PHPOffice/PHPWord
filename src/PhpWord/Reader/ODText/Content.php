@@ -57,7 +57,7 @@ class Content extends AbstractPart
                         $listItems = $xmlReader->getElements('text:list-item/text:p', $node);
                         foreach ($listItems as $listItem) {
                             // $listStyleName = $xmlReader->getAttribute('text:style-name', $listItem);
-                            $section->addListItem($listItem->nodeValue);
+                            $section->addListItem($listItem->nodeValue, 0);
                         }
                         break;
                 }
