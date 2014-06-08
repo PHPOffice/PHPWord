@@ -261,6 +261,43 @@ class PhpWord
     }
 
     /**
+     * Save to file or download
+     *
+     * All exceptions should already been handled by the writers
+     *
+     * @param string $filename
+     * @param string $format
+     * @param bool $download
+     * @return bool
+     */
+    public function save($filename, $format = 'Word2007', $download = false)
+    {
+        $mime = array(
+            'Word2007'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'ODT'       => 'application/vnd.oasis.opendocument.text',
+            'RTF'       => 'application/rtf',
+            'HTML'      => 'text/html',
+            'PDF'       => 'application/pdf',
+        );
+
+        $writer = IOFactory::createWriter($this, $format);
+
+        if ($download === true) {
+            header("Content-Description: File Transfer");
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Content-Type: ' . $mime[$format]);
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Expires: 0');
+            $filename = 'php://output'; // Change filename to force download
+        }
+
+        $writer->save($filename);
+
+        return true;
+    }
+
+    /**
      * Create new section
      *
      * @param array $settings

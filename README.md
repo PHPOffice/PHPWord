@@ -100,15 +100,10 @@ $fontStyle->setSize(22);
 $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
-// Finally, write the document:
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-$objWriter->save('helloWorld.docx');
-
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
-$objWriter->save('helloWorld.odt');
-
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-$objWriter->save('helloWorld.rtf');
+// Finally, save the document:
+$phpWord->save('helloWorld.docx');
+$phpWord->save('helloWorld.odt', 'ODText');
+$phpWord->save('helloWorld.rtf', 'RTF');
 ```
 
 ## Known issues

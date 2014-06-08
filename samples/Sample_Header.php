@@ -4,7 +4,6 @@
  */
 use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory;
 
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
@@ -59,12 +58,11 @@ function write($phpWord, $filename, $writers)
     $result = '';
 
     // Write documents
-    foreach ($writers as $writer => $extension) {
-        $result .= date('H:i:s') . " Write to {$writer} format";
-        if (!is_null($extension)) {
-            $xmlWriter = IOFactory::createWriter($phpWord, $writer);
-            $xmlWriter->save(__DIR__ . "/{$filename}.{$extension}");
-            rename(__DIR__ . "/{$filename}.{$extension}", __DIR__ . "/results/{$filename}.{$extension}");
+    foreach ($writers as $format => $extension) {
+        $result .= date('H:i:s') . " Write to {$format} format";
+        if ($extension !== null) {
+            $targetFile = __DIR__ . "/results/{$filename}.{$extension}";
+            $phpWord->save($targetFile, $format);
         } else {
             $result .= ' ... NOT DONE!';
         }
