@@ -231,10 +231,11 @@ $section->addText('Hello world! I am formatted by a user defined style',
     'myOwnStyle');
 
 // You can also put the appended element to local object like this:
-$fontStyle = new \PhpOffice\PhpWord\Style\Font();
-$fontStyle->setBold(true);
-$fontStyle->setName('Verdana');
-$fontStyle->setSize(22);
+$fontStyle = array(
+    'name' => 'Verdana',
+    'size' => 22,
+    'bold' => true,
+);
 $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 

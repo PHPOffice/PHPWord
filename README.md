@@ -67,11 +67,14 @@ require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 ```
 
-## Usages
+## Getting started
 
-The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
+The following is a basic usage example of the PHPWord library.
 
 ```php
+require_once 'src/PhpWord/Autoloader.php';
+\PhpOffice\PhpWord\Autoloader::register();
+
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Every element you want to append to the word document is placed in a section.
@@ -93,10 +96,11 @@ $section->addText('Hello world! I am formatted by a user defined style',
     'myOwnStyle');
 
 // You can also put the appended element to local object like this:
-$fontStyle = new \PhpOffice\PhpWord\Style\Font();
-$fontStyle->setBold(true);
-$fontStyle->setName('Verdana');
-$fontStyle->setSize(22);
+$fontStyle = array(
+    'name' => 'Verdana',
+    'size' => 22,
+    'bold' => true,
+);
 $myTextElement = $section->addText('Hello World!');
 $myTextElement->setFontStyle($fontStyle);
 
@@ -105,6 +109,8 @@ $phpWord->save('helloWorld.docx');
 $phpWord->save('helloWorld.odt', 'ODText');
 $phpWord->save('helloWorld.rtf', 'RTF');
 ```
+
+More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/) for more detail.
 
 ## Known issues
 
