@@ -128,7 +128,7 @@ class Document extends AbstractPart
         }
 
         // Section settings
-        $styleWriter = new SectionStyleWriter($xmlWriter, $section->getSettings());
+        $styleWriter = new SectionStyleWriter($xmlWriter, $section->getStyle());
         $styleWriter->write();
 
         $xmlWriter->endElement(); // w:sectPr

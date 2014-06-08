@@ -38,6 +38,6 @@ class Endnote extends Footnote
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
     }
 }

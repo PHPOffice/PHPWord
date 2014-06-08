@@ -79,7 +79,7 @@ class Object extends AbstractElement
             }
 
             $this->source = $source;
-            $this->style = $this->setStyle(new ImageStyle(), $style, true);
+            $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
             $this->icon = realpath(__DIR__ . "/../resources/{$ext}.png");
 
             return $this;

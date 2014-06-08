@@ -343,14 +343,14 @@ abstract class AbstractElement
     }
 
     /**
-     * Set style value
+     * Set new style value
      *
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
      * @param bool $returnObject Always return object
      * @return mixed
      */
-    protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
+    protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
         if (!is_null($styleValue) && is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);

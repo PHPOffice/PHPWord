@@ -45,7 +45,7 @@ class TextBox extends AbstractContainer
      */
     public function __construct($style = null)
     {
-        $this->style = $this->setStyle(new TextBoxStyle(), $style);
+        $this->style = $this->setNewStyle(new TextBoxStyle(), $style);
     }
 
     /**

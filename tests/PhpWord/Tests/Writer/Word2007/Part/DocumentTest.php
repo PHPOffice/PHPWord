@@ -45,11 +45,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addHeader();
         $section->addHeader('first');
-        $settings = $section->getSettings();
-        $settings->setLandscape();
-        $settings->setPageNumberingStart(2);
-        $settings->setBorderSize(240);
-        $settings->setBreakType('nextPage');
+        $style = $section->getStyle();
+        $style->setLandscape();
+        $style->setPageNumberingStart(2);
+        $style->setBorderSize(240);
+        $style->setBreakType('nextPage');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');

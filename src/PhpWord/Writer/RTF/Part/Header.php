@@ -193,7 +193,7 @@ class Header extends AbstractPart
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
             $elements = $section->getElements();
-            $this->registerBorderColor($section->getSettings());
+            $this->registerBorderColor($section->getStyle());
             foreach ($elements as $element) {
                 if (method_exists($element, 'getFontStyle')) {
                     $style = $element->getFontStyle();

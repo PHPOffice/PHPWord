@@ -175,8 +175,8 @@ class Document extends AbstractPart
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        $settings = $this->readSectionStyle($xmlReader, $node);
-        $section->setSettings($settings);
-        $this->readHeaderFooter($settings, $section);
+        $style = $this->readSectionStyle($xmlReader, $node);
+        $section->setStyle($style);
+        $this->readHeaderFooter($style, $section);
     }
 }

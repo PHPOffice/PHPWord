@@ -168,7 +168,7 @@ class Content extends AbstractPart
         $paragraphStyleCount = 0;
         $fontStyleCount = 0;
         foreach ($sections as $section) {
-            $style = $section->getSettings();
+            $style = $section->getStyle();
             $style->setStyleName("Section{$section->getSectionId()}");
             $this->autoStyles['Section'][] = $style;
             $this->getContainerStyle($section, $paragraphStyleCount, $fontStyleCount);

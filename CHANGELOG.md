@@ -21,6 +21,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 ### Deprecated
 
 - `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
+- `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
 
 ### Miscellaneous
 

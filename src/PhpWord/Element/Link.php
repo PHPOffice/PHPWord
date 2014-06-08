@@ -73,8 +73,8 @@ class Link extends AbstractElement
     {
         $this->source = String::toUTF8($source);
         $this->text = is_null($text) ? $this->source : String::toUTF8($text);
-        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
 
         return $this;
     }

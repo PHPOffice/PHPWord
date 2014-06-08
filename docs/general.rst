@@ -138,7 +138,7 @@ points to twips.
     );
 
     $section = $phpWord->addSection();
-    $sectionStyle = $section->getSettings();
+    $sectionStyle = $section->getStyle();
     // half inch left margin
     $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
     // 2 cm right margin

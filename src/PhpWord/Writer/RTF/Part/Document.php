@@ -110,7 +110,7 @@ class Document extends AbstractPart
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         foreach ($sections as $section) {
-            $styleWriter = new SectionStyleWriter($section->getSettings());
+            $styleWriter = new SectionStyleWriter($section->getStyle());
             $styleWriter->setParentWriter($this->getParentWriter());
             $content .= $styleWriter->write();
 

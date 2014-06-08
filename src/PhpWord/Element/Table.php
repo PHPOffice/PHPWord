@@ -52,7 +52,7 @@ class Table extends AbstractElement
      */
     public function __construct($style = null)
     {
-        $this->style = $this->setStyle(new TableStyle(), $style);
+        $this->style = $this->setNewStyle(new TableStyle(), $style);
     }
 
     /**

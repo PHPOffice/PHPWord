@@ -58,8 +58,8 @@ class PreserveText extends AbstractElement
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
-        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
 
         $this->text = String::toUTF8($text);
         $matches = preg_split('/({.*?})/', $this->text, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);

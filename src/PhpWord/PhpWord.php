@@ -121,12 +121,12 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param array $settings
+     * @param array $style
      * @return \PhpOffice\PhpWord\Element\Section
      */
-    public function addSection($settings = null)
+    public function addSection($style = null)
     {
-        $section = new Section(count($this->sections) + 1, $settings);
+        $section = new Section(count($this->sections) + 1, $style);
         $section->setPhpWord($this);
         $this->sections[] = $section;
 

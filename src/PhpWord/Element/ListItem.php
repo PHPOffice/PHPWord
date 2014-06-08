@@ -64,7 +64,7 @@ class ListItem extends AbstractElement
         if (!is_null($listStyle) && is_string($listStyle)) {
             $this->style = new ListItemStyle($listStyle);
         } else {
-            $this->style = $this->setStyle(new ListItemStyle(), $listStyle, true);
+            $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
     }
 

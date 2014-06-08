@@ -31,12 +31,12 @@ use PhpOffice\PhpWord\Style;
 class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Get settings
+     * Get style
      */
-    public function testGetSettings()
+    public function testGetStyle()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getSettings(), 'settings', new Section(0));
+        $this->assertAttributeEquals($oSection->getStyle(), 'style', new Section(0));
     }
 
     /**
@@ -69,12 +69,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Set settings
      */
-    public function testSetSettings()
+    public function testSetStyle()
     {
         $expected = 'landscape';
         $object = new Section(0);
-        $object->setSettings(array('orientation' => $expected, 'foo' => null));
-        $this->assertEquals($expected, $object->getSettings()->getOrientation());
+        $object->setStyle(array('orientation' => $expected, 'foo' => null));
+        $this->assertEquals($expected, $object->getStyle()->getOrientation());
     }
 
     /**

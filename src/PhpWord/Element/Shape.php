@@ -49,7 +49,7 @@ class Shape extends AbstractElement
     public function __construct($type, $style = null)
     {
         $this->setType($type);
-        $this->style = $this->setStyle(new ShapeStyle(), $style);
+        $this->style = $this->setNewStyle(new ShapeStyle(), $style);
     }
 
     /**

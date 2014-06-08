@@ -304,7 +304,7 @@ $phpWord->addParagraphStyle('My Style', array(
 );
 
 $section = $phpWord->addSection();
-$sectionStyle = $section->getSettings();
+$sectionStyle = $section->getStyle();
 // half inch left margin
 $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
 // 2 cm right margin
@@ -333,9 +333,9 @@ $sectionSettings = array(
 );
 ```
 
-### Section settings
+### Section style
 
-Below are the available settings for section:
+Below are the available styles for section:
 
 - `orientation` Page orientation, i.e. 'portrait' (default) or 'landscape'
 - `marginTop` Page margin top in twips
@@ -357,14 +357,14 @@ Below are the available settings for section:
 - `colsSpace` Spacing between columns
 - `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
 
-The following two settings are automatically set by the use of the `orientation` setting. You can alter them but that's not recommended.
+The following two styles are automatically set by the use of the `orientation` style. You can alter them but that's not recommended.
 
 - `pageSizeW` Page width in twips
 - `pageSizeH` Page height in twips
 
 ### Page number
 
-You can change a section page number by using the `pageNumberingStart` property of the section.
+You can change a section page number by using the `pageNumberingStart` style of the section.
 
 ```php
 // Method 1
@@ -372,12 +372,12 @@ $section = $phpWord->addSection(array('pageNumberingStart' => 1));
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setPageNumberingStart(1);
+$section->getStyle()->setPageNumberingStart(1);
 ```
 
 ### Multicolumn
 
-You can change a section layout to multicolumn (like in a newspaper) by using the `breakType` and `colsNum` property of the section.
+You can change a section layout to multicolumn (like in a newspaper) by using the `breakType` and `colsNum` style of the section.
 
 ```php
 // Method 1
@@ -385,13 +385,13 @@ $section = $phpWord->addSection(array('breakType' => 'continuous', 'colsNum' => 
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setBreakType('continuous');
-$section->getSettings()->setColsNum(2);
+$section->getStyle()->setBreakType('continuous');
+$section->getStyle()->setColsNum(2);
 ```
 
 ### Line numbering
 
-You can apply line numbering to a section by using the `lineNumbering` property of the section.
+You can apply line numbering to a section by using the `lineNumbering` style of the section.
 
 ```php
 // Method 1
@@ -399,7 +399,7 @@ $section = $phpWord->addSection(array('lineNumbering' => array()));
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setLineNumbering(array());
+$section->getStyle()->setLineNumbering(array());
 ```
 
 Below are the properties of the line numbering style.
