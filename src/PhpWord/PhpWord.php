@@ -274,7 +274,7 @@ class PhpWord
     {
         $mime = array(
             'Word2007'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'ODT'       => 'application/vnd.oasis.opendocument.text',
+            'ODText'    => 'application/vnd.oasis.opendocument.text',
             'RTF'       => 'application/rtf',
             'HTML'      => 'text/html',
             'PDF'       => 'application/pdf',
