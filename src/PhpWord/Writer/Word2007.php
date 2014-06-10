@@ -71,6 +71,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             'Footer'         => '',
             'Footnotes'      => '',
             'Endnotes'       => '',
+            'Chart'          => '',
         );
         foreach (array_keys($this->parts) as $partName) {
             $partClass = get_class($this) . '\\Part\\' . $partName;
@@ -127,6 +128,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
         $this->addNotes($zip, $rId, 'footnote');
         $this->addNotes($zip, $rId, 'endnote');
+        $this->addChart($zip, $rId);
 
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
@@ -246,6 +248,40 @@ class Word2007 extends AbstractWriter implements WriterInterface
             // Write content file, e.g. word/footnotes.xml
             $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
             $zip->addFromString("word/{$partName}.xml", $writerPart->write());
+        }
+    }
+
+    /**
+     * Add chart
+     *
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
+     * @param integer $rId
+     */
+    private function addChart(ZipArchive $zip, &$rId)
+    {
+        $phpWord = $this->getPhpWord();
+
+        $collection = $phpWord->getCharts();
+        $index = 0;
+        if ($collection->countItems() > 0) {
+            foreach ($collection->getItems() as $chart) {
+                $index++;
+                $rId++;
+                $filename = "charts/chart{$index}.xml";
+
+                // ContentTypes.xml
+                $this->contentTypes['override']["/word/{$filename}"] = 'chart';
+
+                // word/_rels/document.xml.rel
+                $this->relationships[] = array('target' => $filename, 'type' => 'chart', 'rID' => $rId);
+
+                // word/charts/chartN.xml
+                /** @var \PhpOffice\PhpWord\Element\Chart $chart */
+                $chart->setRelationId($rId);
+                $writerPart = $this->getWriterPart('Chart');
+                $writerPart->setElement($chart);
+                $zip->addFromString("word/{$filename}", $writerPart->write());
+            }
         }
     }
 

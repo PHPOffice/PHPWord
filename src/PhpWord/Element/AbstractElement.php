@@ -109,7 +109,7 @@ abstract class AbstractElement
     protected $mediaRelation = false;
 
     /**
-     * Is part of collection; true for Title, Footnote, and Endnote
+     * Is part of collection; true for Title, Footnote, Endnote, and Chart
      *
      * @var bool
      */

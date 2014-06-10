@@ -140,6 +140,29 @@ class XMLWriter
     }
 
     /**
+     * Write simple element and attribute(s) block
+     *
+     * There are two options:
+     * 1. If the `$attributes` is an array, then it's an associative array of attributes
+     * 2. If not, then it's a simple attribute-value pair
+     *
+     * @param string $element
+     * @param string|array $attributes
+     * @param string $value
+     */
+    public function writeBlock($element, $attributes, $value = null)
+    {
+        $this->xmlWriter->startElement($element);
+        if (!is_array($attributes)) {
+            $attributes = array($attributes => $value);
+        }
+        foreach ($attributes as $attribute => $value) {
+            $this->xmlWriter->writeAttribute($attribute, $value);
+        }
+        $this->xmlWriter->endElement();
+    }
+
+    /**
      * Write element if ...
      *
      * @param bool $condition

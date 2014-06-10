@@ -26,9 +26,11 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method Collection\Titles getTitles()
  * @method Collection\Footnotes getFootnotes()
  * @method Collection\Endnotes getEndnotes()
+ * @method Collection\Charts getCharts()
  * @method int addTitle(Element\Title $title)
  * @method int addFootnote(Element\Footnote $footnote)
  * @method int addEndnote(Element\Endnote $endnote)
+ * @method int addChart(Element\Chart $chart)
  *
  * @method Style\Paragraph addParagraphStyle(string $styleName, array $styles)
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
@@ -80,7 +82,7 @@ class PhpWord
     {
         $this->documentProperties = new DocumentProperties();
 
-        $collections = array('Titles', 'Footnotes', 'Endnotes');
+        $collections = array('Titles', 'Footnotes', 'Endnotes', 'Charts');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
@@ -108,7 +110,7 @@ class PhpWord
         $addCollection = array();
         $addStyle = array();
 
-        $collections = array('Title', 'Footnote', 'Endnote');
+        $collections = array('Title', 'Footnote', 'Endnote', 'Chart');
         foreach ($collections as $collection) {
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
