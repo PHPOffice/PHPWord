@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Element\Chart as ChartElement;
  * Word2007 chart part writer: word/charts/chartx.xml
  *
  * @since 0.12.0
+ * @link http://www.datypic.com/sc/ooxml/e-draw-chart_chartSpace.html
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class Chart extends AbstractPart
@@ -34,6 +35,18 @@ class Chart extends AbstractPart
      * @var \PhpOffice\PhpWord\Element\Chart $element
      */
     private $element;
+
+    private $types = array(
+        'pie'       => array('type' => 'pieChart', 'colors' => 1),
+        'doughnut'  => array('type' => 'doughnutChart', 'colors' => 1, 'hole' => 75),
+        'bar'       => array('type' => 'barChart', 'colors' => 0, 'axes' => true, 'bar' => 'col'),
+        'line'      => array('type' => 'lineChart', 'colors' => 0, 'axes' => true),
+        'area'      => array('type' => 'areaChart', 'colors' => 0, 'axes' => true),
+        'radar'     => array('type' => 'radarChart', 'colors' => 0, 'axes' => true, 'radar' => 'standard'),
+        'scatter'   => array('type' => 'scatterChart', 'colors' => 0, 'axes' => true, 'scatter' => 'marker'),
+    );
+
+    private $options = array();
 
     /**
      * Set chart element
@@ -58,11 +71,13 @@ class Chart extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
 
-        $xmlWriter->writeBlock('c:roundedCorners', 'val', '0');
+        $xmlWriter->writeBlock('c:date1904', 'val', 1);
+        $xmlWriter->writeBlock('c:lang', 'val', 'en-US');
+        $xmlWriter->writeBlock('c:roundedCorners', 'val', 0);
 
-        $xmlWriter->startElement('c:chart');
-        $this->writePlotArea($xmlWriter);
-        $xmlWriter->endElement(); // c:chart
+        $this->writeChart($xmlWriter);
+        $this->writeShape($xmlWriter);
+
 
         $xmlWriter->endElement(); // c:chartSpace
 
@@ -70,162 +85,76 @@ class Chart extends AbstractPart
     }
 
     /**
+     * Write chart
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
+     */
+    private function writeChart(XMLWriter $xmlWriter)
+    {
+        $xmlWriter->startElement('c:chart');
+
+        $xmlWriter->writeBlock('c:autoTitleDeleted', 'val', 1);
+        $xmlWriter->writeBlock('c:dispBlanksAs', 'val', 'zero');
+
+        $this->writePlotArea($xmlWriter);
+        // $this->writeLegend($xmlWriter);
+
+        $xmlWriter->endElement(); // c:chart
+    }
+
+    /**
      * Write plot area
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PlotArea.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PieChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_DoughnutChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_BarChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_LineChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
      */
     private function writePlotArea(XMLWriter $xmlWriter)
     {
-        $xmlWriter->startElement('c:plotArea');
+        $type = $this->element->getType();
+        $this->options = $this->types[$type];
 
-        $method = "write{$this->element->getType()}Chart";
-        $this->$method($xmlWriter);
+        $xmlWriter->startElement('c:plotArea');
+        $xmlWriter->writeElement('c:layout');
+
+        // Chart
+        $xmlWriter->startElement('c:' . $this->options['type']);
+
+        $xmlWriter->writeBlock('c:varyColors', 'val', $this->options['colors']);
+        if (isset($this->options['hole'])) {
+            $xmlWriter->writeBlock('c:holeSize', 'val', $this->options['hole']);
+        }
+        if (isset($this->options['bar'])) {
+            $xmlWriter->writeBlock('c:barDir', 'val', $this->options['bar']); // bar|col
+        }
+        if (isset($this->options['radar'])) {
+            $xmlWriter->writeBlock('c:radarStyle', 'val', $this->options['radar']);
+        }
+        if (isset($this->options['scatter'])) {
+            $xmlWriter->writeBlock('c:scatterStyle', 'val', $this->options['scatter']);
+        }
+        if (isset($this->options['axes'])) {
+            $xmlWriter->writeBlock('c:axId', 'val', 1);
+            $xmlWriter->writeBlock('c:axId', 'val', 2);
+        }
+
+        // Series
+        $this->writeSeries($xmlWriter, isset($this->options['scatter']));
+
+        $xmlWriter->endElement(); // chart type
+
+        // Axes
+        if (isset($this->options['axes'])) {
+            $this->writeAxis($xmlWriter, 'cat');
+            $this->writeAxis($xmlWriter, 'val');
+        }
 
         $xmlWriter->endElement(); // c:plotArea
-    }
-
-    /**
-     * Write pie chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PieChart.html
-     */
-    private function writePieChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:pieChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '1');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:pie3DChart
-    }
-
-    /**
-     * Write doughnut chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_DoughnutChart.html
-     */
-    private function writeDoughnutChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:doughnutChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '1');
-        $xmlWriter->writeBlock('c:holeSize', 'val', '75');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:doughnutChart
-    }
-
-    /**
-     * Write bar chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_BarChart.html
-     */
-    private function writeBarChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:barChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '0');
-        $xmlWriter->writeBlock('c:barDir', 'val', 'col'); // bar|col
-        $xmlWriter->writeBlock('c:axId', 'val', '1');
-        $xmlWriter->writeBlock('c:axId', 'val', '2');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:barChart
-
-        // Axes
-        $this->writeAxis($xmlWriter, 'cat');
-        $this->writeAxis($xmlWriter, 'val');
-    }
-
-    /**
-     * Write line chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_LineChart.html
-     */
-    private function writeLineChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:lineChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '0');
-        $xmlWriter->writeBlock('c:axId', 'val', '1');
-        $xmlWriter->writeBlock('c:axId', 'val', '2');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:lineChart
-
-        // Axes
-        $this->writeAxis($xmlWriter, 'cat');
-        $this->writeAxis($xmlWriter, 'val');
-    }
-
-    /**
-     * Write area chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
-     */
-    private function writeAreaChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:areaChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '0');
-        $xmlWriter->writeBlock('c:axId', 'val', '1');
-        $xmlWriter->writeBlock('c:axId', 'val', '2');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:areaChart
-
-        // Axes
-        $this->writeAxis($xmlWriter, 'cat');
-        $this->writeAxis($xmlWriter, 'val');
-    }
-
-    /**
-     * Write radar chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
-     */
-    private function writeRadarChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:radarChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '0');
-        $xmlWriter->writeBlock('c:radarStyle', 'val', 'standard');
-        $xmlWriter->writeBlock('c:axId', 'val', '1');
-        $xmlWriter->writeBlock('c:axId', 'val', '2');
-
-        $this->writeSeries($xmlWriter);
-
-        $xmlWriter->endElement(); // c:radarChart
-
-        // Axes
-        $this->writeAxis($xmlWriter, 'cat');
-        $this->writeAxis($xmlWriter, 'val');
-    }
-
-    /**
-     * Write scatter chart
-     *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
-     */
-    private function writeScatterChart(XMLWriter $xmlWriter)
-    {
-        $xmlWriter->startElement('c:scatterChart');
-
-        $xmlWriter->writeBlock('c:varyColors', 'val', '0');
-        $xmlWriter->writeBlock('c:scatterStyle', 'val', 'lineMarker');
-        $xmlWriter->writeBlock('c:axId', 'val', '1');
-        $xmlWriter->writeBlock('c:axId', 'val', '2');
-
-        $this->writeSeries($xmlWriter, true);
-
-        $xmlWriter->endElement(); // c:scatterChart
-
-        // Axes
-        $this->writeAxis($xmlWriter, 'cat');
-        $this->writeAxis($xmlWriter, 'val');
     }
 
     /**
@@ -238,8 +167,16 @@ class Chart extends AbstractPart
     {
         $xmlWriter->startElement('c:ser');
 
-        $xmlWriter->writeBlock('c:idx', 'val', '0');
-        $xmlWriter->writeBlock('c:order', 'val', '0');
+        $xmlWriter->writeBlock('c:idx', 'val', 0);
+        $xmlWriter->writeBlock('c:order', 'val', 0);
+
+        if (isset($this->options['scatter'])) {
+            $xmlWriter->startElement('c:spPr');
+            $xmlWriter->startElement('a:ln');
+            $xmlWriter->writeElement('a:noFill');
+            $xmlWriter->endElement(); // a:ln
+            $xmlWriter->endElement(); // c:spPr
+        }
 
         if ($scatter === true) {
             $this->writeSeriesItems($xmlWriter, 'xVal', $this->element->getLabels());
@@ -262,16 +199,15 @@ class Chart extends AbstractPart
     private function writeSeriesItems(XMLWriter $xmlWriter, $type, $values)
     {
         $types = array(
-            'cat' => array('c:cat', 'c:strRef', 'c:strCache'),
-            'val' => array('c:val', 'c:numRef', 'c:numCache'),
-            'xVal' => array('c:xVal', 'c:strRef', 'c:strCache'),
-            'yVal' => array('c:yVal', 'c:numRef', 'c:numCache'),
+            'cat' => array('c:cat', 'c:strLit'),
+            'val' => array('c:val', 'c:numLit'),
+            'xVal' => array('c:xVal', 'c:strLit'),
+            'yVal' => array('c:yVal', 'c:numLit'),
         );
-        list($itemType, $itemRef, $itemCache) = $types[$type];
+        list($itemType, $itemLit) = $types[$type];
 
         $xmlWriter->startElement($itemType);
-        $xmlWriter->startElement($itemRef);
-        $xmlWriter->startElement($itemCache);
+        $xmlWriter->startElement($itemLit);
 
         $index = 0;
         foreach ($values as $value) {
@@ -286,9 +222,7 @@ class Chart extends AbstractPart
             $index++;
         }
 
-        $xmlWriter->endElement(); // $itemCache
-
-        $xmlWriter->endElement(); // $itemRef
+        $xmlWriter->endElement(); // $itemLit
         $xmlWriter->endElement(); // $itemType
     }
 
@@ -302,8 +236,8 @@ class Chart extends AbstractPart
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
         $types = array(
-            'cat' => array('c:catAx', '1', 'b', '2'),
-            'val' => array('c:valAx', '2', 'l', '1'),
+            'cat' => array('c:catAx', 1, 'b', 2),
+            'val' => array('c:valAx', 2, 'l', 1),
         );
         list($axisType, $axisId, $axisPos, $axisCross) = $types[$type];
 
@@ -312,6 +246,18 @@ class Chart extends AbstractPart
         $xmlWriter->writeBlock('c:axId', 'val', $axisId);
         $xmlWriter->writeBlock('c:axPos', 'val', $axisPos);
         $xmlWriter->writeBlock('c:crossAx', 'val', $axisCross);
+        $xmlWriter->writeBlock('c:auto', 'val', 1);
+
+        if (isset($this->options['axes'])) {
+            $xmlWriter->writeBlock('c:delete', 'val', 0);
+            $xmlWriter->writeBlock('c:majorTickMark', 'val', 'none');
+            $xmlWriter->writeBlock('c:minorTickMark', 'val', 'none');
+            $xmlWriter->writeBlock('c:tickLblPos', 'val', 'none'); // nextTo
+            // $xmlWriter->writeBlock('c:crosses', 'val', 'autoZero');
+        }
+        if (isset($this->options['radar'])) {
+            $xmlWriter->writeElement('c:majorGridlines');
+        }
 
         $xmlWriter->startElement('c:scaling');
         $xmlWriter->writeBlock('c:orientation', 'val', 'minMax');
@@ -319,13 +265,42 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement('c:spPr');
         $xmlWriter->writeElement('a:noFill');
+
         $xmlWriter->startElement('a:ln');
         $xmlWriter->startElement('a:solidFill');
-        $xmlWriter->writeBlock('a:srgbClr', 'val', '0FB7');
+        // $xmlWriter->writeBlock('a:srgbClr', 'val', '0FF000');
         $xmlWriter->endElement(); // a:solidFill
         $xmlWriter->endElement(); // a:ln
-        $xmlWriter->endElement(); // c:crossAx
 
-        $xmlWriter->endElement(); // $type
+        $xmlWriter->endElement(); // c:spPr
+
+        $xmlWriter->endElement(); // $axisType
+    }
+
+    /**
+     * Write legend
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Legend.html
+     */
+    private function writeLegend(XMLWriter $xmlWriter)
+    {
+        $xmlWriter->startElement('c:legend');
+        $xmlWriter->writeElement('c:layout');
+        $xmlWriter->writeBlock('c:legendPos', 'val', 'r');
+        $xmlWriter->endElement(); // c:legend
+    }
+
+    /**
+     * Write shape
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
+     */
+    private function writeShape(XMLWriter $xmlWriter)
+    {
+        $xmlWriter->startElement('c:spPr');
+        $xmlWriter->startElement('a:ln');
+        $xmlWriter->writeElement('a:noFill');
+        $xmlWriter->endElement(); // a:ln
+        $xmlWriter->endElement(); // c:spPr
     }
 }

@@ -37,6 +37,8 @@ class Chart extends AbstractElement
             return;
         }
 
+        $rId = $element->getRelationId();
+
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
         }
@@ -46,15 +48,8 @@ class Chart extends AbstractElement
         $xmlWriter->startElement('wp:inline');
 
         // EMU
-        $xmlWriter->startElement('wp:extent');
-        $xmlWriter->writeAttribute('cx', '2000000');
-        $xmlWriter->writeAttribute('cy', '2000000');
-        $xmlWriter->endElement(); // wp:extent
-
-        $xmlWriter->startElement('wp:docPr');
-        $xmlWriter->writeAttribute('id', $element->getRelationId());
-        $xmlWriter->writeAttribute('name', 'Chart'. $element->getRelationId());
-        $xmlWriter->endElement(); // wp:docPr
+        $xmlWriter->writeBlock('wp:extent', array('cx' => '2000000', 'cy' => '2000000'));
+        $xmlWriter->writeBlock('wp:docPr', array('id' => $rId, 'name' => "Chart{$rId}"));
 
         $xmlWriter->startElement('a:graphic');
         $xmlWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
@@ -62,7 +57,7 @@ class Chart extends AbstractElement
         $xmlWriter->writeAttribute('uri', 'http://schemas.openxmlformats.org/drawingml/2006/chart');
 
         $xmlWriter->startElement('c:chart');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $element->getRelationId());
+        $xmlWriter->writeAttribute('r:id', "rId{$rId}");
         $xmlWriter->writeAttribute('xmlns:c', 'http://schemas.openxmlformats.org/drawingml/2006/chart');
         $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $xmlWriter->endElement(); // c:chart

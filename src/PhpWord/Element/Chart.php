@@ -69,7 +69,7 @@ class Chart extends AbstractElement
     /**
      * Get type
      *
-     * @return array
+     * @return string
      */
     public function getType()
     {
@@ -79,7 +79,7 @@ class Chart extends AbstractElement
     /**
      * Set type
      *
-     * @param array $value
+     * @param string $value
      */
     public function setType($value)
     {
