@@ -19,6 +19,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 
 - Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo GH-261
 - `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich GH-270
+- Page breaks on titles and tables - @ivanlanin GH-274
 
 ### Deprecated
 

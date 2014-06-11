@@ -81,21 +81,9 @@ class Container extends AbstractElement
         $elementClass = substr(get_class($element), strrpos(get_class($element), '\\') + 1);
         $writerClass = $this->namespace . '\\' . $elementClass;
 
-        // Check it's a page break. No need to write it, instead, flag containers'
-        // pageBreakBefore to be assigned to the next element
-        if ($elementClass == 'PageBreak') {
-            $this->setPageBreakBefore(true);
-            return $elementClass;
-        }
-
         if (class_exists($writerClass)) {
-            // Get container's page break before and reset it
-            $pageBreakBefore = $this->hasPageBreakBefore();
-            $this->setPageBreakBefore(false);
-
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
             $writer = new $writerClass($xmlWriter, $element, $withoutP);
-            $writer->setPageBreakBefore($pageBreakBefore);
             $writer->write();
         }
 
