@@ -91,7 +91,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(file_exists($file));
 
-        unlink($file);
+        @unlink($file);
     }
 
     /**

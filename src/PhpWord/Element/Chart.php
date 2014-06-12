@@ -39,31 +39,23 @@ class Chart extends AbstractElement
     private $type = 'pie';
 
     /**
-     * Labels
+     * Series
      *
      * @var array
      */
-    private $labels = array();
-
-    /**
-     * Data
-     *
-     * @var array
-     */
-    private $data = array();
+    private $series = array();
 
     /**
      * Create new instance
      *
      * @param string $type
-     * @param array $labels
-     * @param array $data
+     * @param array $categories
+     * @param array $values
      */
-    public function __construct($type, $labels, $data)
+    public function __construct($type, $categories, $values)
     {
         $this->setType($type);
-        $this->setLabels($labels);
-        $this->setData($data);
+        $this->addSeries($categories, $values);
     }
 
     /**
@@ -88,42 +80,23 @@ class Chart extends AbstractElement
     }
 
     /**
-     * Get labels
+     * Add series
+     *
+     * @param array $categories
+     * @param array $values
+     */
+    public function addSeries($categories, $values)
+    {
+        $this->series[] = array('categories' => $categories, 'values' => $values);
+    }
+
+    /**
+     * Get series
      *
      * @return array
      */
-    public function getLabels()
+    public function getSeries()
     {
-        return $this->labels;
-    }
-
-    /**
-     * Set labels
-     *
-     * @param array $value
-     */
-    public function setLabels($value)
-    {
-        $this->labels = $value;
-    }
-
-    /**
-     * Get data
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Set data
-     *
-     * @param array $value
-     */
-    public function setData($value)
-    {
-        $this->data = $value;
+        return $this->series;
     }
 }

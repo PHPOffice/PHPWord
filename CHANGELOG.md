@@ -14,6 +14,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 - RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
 - Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
 - General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
+- Element: Basic 2D charts (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
 
 ### Bugfixes
 

@@ -48,8 +48,8 @@ class Chart extends AbstractElement
         $xmlWriter->startElement('wp:inline');
 
         // EMU
-        $xmlWriter->writeBlock('wp:extent', array('cx' => '2000000', 'cy' => '2000000'));
-        $xmlWriter->writeBlock('wp:docPr', array('id' => $rId, 'name' => "Chart{$rId}"));
+        $xmlWriter->writeElementBlock('wp:extent', array('cx' => '2000000', 'cy' => '2000000'));
+        $xmlWriter->writeElementBlock('wp:docPr', array('id' => $rId, 'name' => "Chart{$rId}"));
 
         $xmlWriter->startElement('a:graphic');
         $xmlWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');

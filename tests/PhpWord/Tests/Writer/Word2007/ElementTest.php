@@ -148,4 +148,30 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($doc->elementExists($path));
         }
     }
+
+    /**
+     * Test shape elements
+     */
+    public function testChartElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
+        $categories = array('A', 'B', 'C', 'D', 'E');
+        $series1 = array(1, 3, 2, 5, 4);
+        foreach ($chartTypes as $chartType) {
+            $section->addChart($chartType, $categories, $series1);
+        }
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $index = 0;
+        foreach ($chartTypes as $chartType) {
+            $index++;
+            $file = "word/charts/chart{$index}.xml";
+            $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
+            $this->assertTrue($doc->elementExists($path, $file));
+        }
+    }
 }

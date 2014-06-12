@@ -150,7 +150,7 @@ class XMLWriter
      * @param string|array $attributes
      * @param string $value
      */
-    public function writeBlock($element, $attributes, $value = null)
+    public function writeElementBlock($element, $attributes, $value = null)
     {
         $this->xmlWriter->startElement($element);
         if (!is_array($attributes)) {
