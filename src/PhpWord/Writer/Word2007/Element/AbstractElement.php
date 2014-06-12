@@ -51,13 +51,6 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
-     * Has page break before
-     *
-     * @var bool
-     */
-    private $pageBreakBefore = false;
-
-    /**
      * Write element
      */
     abstract public function write();
@@ -97,26 +90,6 @@ abstract class AbstractElement
     }
 
     /**
-     * Has page break before
-     *
-     * @return bool
-     */
-    public function hasPageBreakBefore()
-    {
-        return $this->pageBreakBefore;
-    }
-
-    /**
-     * Set page break before
-     *
-     * @param bool $value
-     */
-    public function setPageBreakBefore($value = true)
-    {
-        $this->pageBreakBefore = (bool)$value;
-    }
-
-    /**
      * Start w:p DOM element
      *
      * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
@@ -128,11 +101,6 @@ abstract class AbstractElement
             // Paragraph style
             if (method_exists($this->element, 'getParagraphStyle')) {
                 $this->writeParagraphStyle();
-            }
-            // PageBreak
-            if ($this->pageBreakBefore) {
-                $elementWriter = new PageBreak($this->xmlWriter, new PageBreakElement());
-                $elementWriter->write();
             }
         }
     }

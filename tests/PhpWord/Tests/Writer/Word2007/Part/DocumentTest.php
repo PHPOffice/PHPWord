@@ -114,15 +114,15 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('page', $element->getAttribute('w:type'));
 
         // Title
-        $element = $doc->getElement('/w:document/w:body/w:p[5]/w:pPr/w:pStyle');
+        $element = $doc->getElement('/w:document/w:body/w:p[6]/w:pPr/w:pStyle');
         $this->assertEquals('Heading1', $element->getAttribute('w:val'));
 
         // List item
-        $element = $doc->getElement('/w:document/w:body/w:p[6]/w:pPr/w:numPr/w:numId');
+        $element = $doc->getElement('/w:document/w:body/w:p[7]/w:pPr/w:numPr/w:numId');
         $this->assertEquals(3, $element->getAttribute('w:val'));
 
         // Object
-        $element = $doc->getElement('/w:document/w:body/w:p[11]/w:r/w:object/o:OLEObject');
+        $element = $doc->getElement('/w:document/w:body/w:p[12]/w:r/w:object/o:OLEObject');
         $this->assertEquals('Embed', $element->getAttribute('Type'));
     }
 

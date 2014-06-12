@@ -50,7 +50,8 @@ class Settings extends AbstractPart
                 'w:autofitToFirstFixedWidthCell' => '',
                 'w:underlineTabInNumList' => '',
                 'w:displayHangulFixedWidth' => '',
-                'w:splitPgBreakAndParaMark' => '',
+                // Commented for GH-274
+                // 'w:splitPgBreakAndParaMark' => '',
                 'w:doNotVertAlignCellWithSp' => '',
                 'w:doNotBreakConstrainedForcedTable' => '',
                 'w:doNotVertAlignInTxbx' => '',
