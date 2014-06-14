@@ -37,6 +37,7 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Fields](#fields)
     - [Lines](#lines)
     - [Shapes](#shapes)
+    - [Charts](#charts)
 - [Styles](#styles)
     - [Section](#section)
     - [Font](#font)
@@ -76,6 +77,8 @@ PHPWord is an open source project licensed under the terms of [LGPL version 3](h
 - Insert list items as bulleted, numbered, or multilevel
 - Insert hyperlinks
 - Insert footnotes and endnotes
+- Insert drawing shapes (arc, curve, line, polyline, rect, oval)
+- Insert charts (pie, doughnut, bar, line, area, scatter, radar)
 - Create document from templates
 - Use XSL 1.0 style sheets to transform main document part of OOXML template
 - ... and many more features on progress
@@ -440,6 +443,7 @@ Below are the matrix of element availability in each container. The column shows
 | 18  | Field         | v       | v      | v      | v    | v        | v        |
 | 19  | Line          | v       | v      | v      | v    | v        | v        |
 | 20  | Shape         | v       | v      | v      | v    | v        | v        |
+| 21  | Chart         | v       | -      | -      | -    | -        | -        |
 
 Legend:
 
@@ -734,6 +738,10 @@ To be completed.
 To be completed.
 
 ## Shapes
+
+To be completed.
+
+## Charts
 
 To be completed.
 

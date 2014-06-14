@@ -41,7 +41,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $elements = array(
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
             'Object', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
-            'Field', 'Line', 'Shape'
+            'Field', 'Line', 'Shape', 'Chart'
         );
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $element;
@@ -146,6 +146,32 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         foreach ($elements as $element) {
             $path = "/w:document/w:body/w:p/w:r/w:pict/v:{$element}";
             $this->assertTrue($doc->elementExists($path));
+        }
+    }
+
+    /**
+     * Test shape elements
+     */
+    public function testChartElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
+        $categories = array('A', 'B', 'C', 'D', 'E');
+        $series1 = array(1, 3, 2, 5, 4);
+        foreach ($chartTypes as $chartType) {
+            $section->addChart($chartType, $categories, $series1);
+        }
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $index = 0;
+        foreach ($chartTypes as $chartType) {
+            $index++;
+            $file = "word/charts/chart{$index}.xml";
+            $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
+            $this->assertTrue($doc->elementExists($path, $file));
         }
     }
 }

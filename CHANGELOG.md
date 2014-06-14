@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.12.0 - Not yet released
 
-This release added drawing shapes (arc, curve, line, polyline, rect, oval) element and some new styles.
+This release added drawing shapes (arc, curve, line, polyline, rect, oval) and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles.
 
 ### Features
 
@@ -15,6 +15,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 - Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
 - General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
 - General: New `Shared\Converter` static class - @ivanlanin
+- Element: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
 
 ### Bugfixes
 

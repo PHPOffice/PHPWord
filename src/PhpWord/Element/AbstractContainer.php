@@ -41,6 +41,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Field addField(string $type = null, array $properties = array(), array $options = array())
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addObject(string $type, mixed $style = null)
+ * @method Chart addChart()
  *
  * @since 0.10.0
  */
@@ -77,7 +78,7 @@ abstract class AbstractContainer extends AbstractElement
         $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
             'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line', 'Shape',
-            'Title', 'TOC', 'PageBreak');
+            'Title', 'TOC', 'PageBreak', 'Chart');
         $functions = array();
         for ($i = 0; $i < count($elements); $i++) {
             $functions[$i] = 'add' . $elements[$i];
@@ -201,6 +202,7 @@ abstract class AbstractContainer extends AbstractElement
             'Title'         => array('Section'),
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
+            'Chart'         => array('Section'),
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer

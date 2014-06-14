@@ -47,7 +47,7 @@ class Title extends AbstractElement
     private $style;
 
     /**
-     * Is part of collection; true for Title, Footnote, and Endnote
+     * Is part of collection
      *
      * @var bool
      */

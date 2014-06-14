@@ -37,7 +37,7 @@ class Footnote extends AbstractContainer
     protected $paragraphStyle;
 
     /**
-     * Is part of collection; true for Title, Footnote, and Endnote
+     * Is part of collection
      *
      * @var bool
      */
