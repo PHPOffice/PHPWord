@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Shared\Drawing;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Image element writer
@@ -40,8 +40,8 @@ class Image extends AbstractElement
         $mediaIndex = $element->getMediaIndex();
         $target = 'Pictures/' . $element->getTarget();
         $style = $element->getStyle();
-        $width = Drawing::pixelsToCentimeters($style->getWidth());
-        $height = Drawing::pixelsToCentimeters($style->getHeight());
+        $width = Converter::pixelToCm($style->getWidth());
+        $height = Converter::pixelToCm($style->getHeight());
 
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');

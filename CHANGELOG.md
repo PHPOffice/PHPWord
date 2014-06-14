@@ -14,6 +14,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 - RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
 - Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
 - General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
+- General: New `Shared\Converter` static class - @ivanlanin
 
 ### Bugfixes
 
@@ -25,6 +26,8 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) eleme
 
 - `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
 - `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
+- `Shared\Drawing` and `Shared\Font` merged into `Shared\Converter`
+
 
 ### Miscellaneous
 

@@ -37,14 +37,14 @@ $section->addText('Absolute positioning: see top right corner of page');
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
-        'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
         'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
         'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
         'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
         'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'marginLeft' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(15.5),
-        'marginTop' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(1.55)
+        'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
+        'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55)
     )
 );
 
@@ -55,8 +55,8 @@ $section->addText('Vertical position top relative to line');
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
-        'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
         'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
         'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
         'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,

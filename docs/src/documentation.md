@@ -301,15 +301,15 @@ You can use PHPWord helper functions to convert inches, centimeters, or points t
 ```php
 // Paragraph with 6 points space after
 $phpWord->addParagraphStyle('My Style', array(
-    'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
+    'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(6))
 );
 
 $section = $phpWord->addSection();
 $sectionStyle = $section->getStyle();
 // half inch left margin
-$sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
+$sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Converter::inchToTwip(.5));
 // 2 cm right margin
-$sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
+$sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
 ```
 
 # Containers

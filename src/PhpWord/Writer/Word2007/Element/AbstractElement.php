@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
-use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 

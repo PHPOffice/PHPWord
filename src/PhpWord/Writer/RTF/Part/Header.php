@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\Drawing;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 
@@ -151,7 +151,7 @@ class Header extends AbstractPart
         $content .= '{';
         $content .= '\colortbl;';
         foreach ($this->colorTable as $color) {
-            list($red, $green, $blue) = Drawing::htmlToRGB($color);
+            list($red, $green, $blue) = Converter::htmlToRgb($color);
             $content .= "\\red{$red}\\green{$green}\\blue{$blue};";
         }
         $content .= '}';

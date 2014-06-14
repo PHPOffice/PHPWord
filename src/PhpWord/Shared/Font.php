@@ -18,9 +18,12 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common font functions
+ * Common font functions; replaced by `Converter`
+ *
+ * @deprecated 0.12.0
+ * @codeCoverageIgnore
  */
-class Font
+class Font extends Converter
 {
     /**
      * Calculate an (approximate) pixel size, based on a font points size
@@ -30,7 +33,7 @@ class Font
      */
     public static function fontSizeToPixels($fontSizeInPoints = 12)
     {
-        return ((16 / 12) * $fontSizeInPoints);
+        return self::pointToPixel($fontSizeInPoints);
     }
 
     /**
@@ -41,7 +44,7 @@ class Font
      */
     public static function inchSizeToPixels($sizeInInch = 1)
     {
-        return ($sizeInInch * 96);
+        return self::inchToPixel($sizeInInch);
     }
 
     /**
@@ -52,7 +55,7 @@ class Font
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
-        return ($sizeInCm * 37.795275591);
+        return self::cmToPixel($sizeInCm);
     }
 
     /**
@@ -63,7 +66,7 @@ class Font
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return ($sizeInCm * 565.217);
+        return self::cmToTwip($sizeInCm);
     }
 
     /**
@@ -74,7 +77,7 @@ class Font
      */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
-        return self::centimeterSizeToTwips($sizeInInch * 2.54);
+        return self::inchToTwip($sizeInInch);
     }
 
     /**
@@ -85,7 +88,7 @@ class Font
      */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
-        return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
+        return self::pixelToTwip($sizeInPixel);
     }
 
     /**
@@ -96,6 +99,6 @@ class Font
      */
     public static function pointSizeToTwips($sizeInPoint = 1)
     {
-        return ($sizeInPoint * 20);
+        return self::pointToTwip($sizeInPoint);
     }
 }

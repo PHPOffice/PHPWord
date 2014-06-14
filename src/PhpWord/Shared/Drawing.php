@@ -18,9 +18,12 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common drawing functions
+ * Common drawing functions; replaced by `Converter`
+ *
+ * @deprecated 0.12.0
+ * @codeCoverageIgnore
  */
-class Drawing
+class Drawing extends Converter
 {
     /**
      * Convert pixels to EMU
@@ -30,7 +33,7 @@ class Drawing
      */
     public static function pixelsToEMU($value = 0)
     {
-        return round($value * 9525);
+        return self::pixelToEmu($value);
     }
 
     /**
@@ -41,11 +44,7 @@ class Drawing
      */
     public static function emuToPixels($value = 0)
     {
-        if ($value != 0) {
-            return round($value / 9525);
-        } else {
-            return 0;
-        }
+        return self::emuToPixel($value);
     }
 
     /**
@@ -56,7 +55,7 @@ class Drawing
      */
     public static function pixelsToPoints($value = 0)
     {
-        return $value * 0.75;
+        return self::pixelToPoint($value);
     }
 
     /**
@@ -67,11 +66,7 @@ class Drawing
      */
     public static function pointsToPixels($value = 0)
     {
-        if ($value != 0) {
-            return $value * 1.333333333;
-        } else {
-            return 0;
-        }
+        return self::pointToPixel($value);
     }
 
     /**
@@ -82,7 +77,7 @@ class Drawing
      */
     public static function degreesToAngle($value = 0)
     {
-        return (integer)round($value * 60000);
+        return self::degreeToAngle($value);
     }
 
     /**
@@ -93,11 +88,7 @@ class Drawing
      */
     public static function angleToDegrees($value = 0)
     {
-        if ($value != 0) {
-            return round($value / 60000);
-        } else {
-            return 0;
-        }
+        return self::angleToDegree($value);
     }
 
     /**
@@ -108,7 +99,7 @@ class Drawing
      */
     public static function pixelsToCentimeters($value = 0)
     {
-        return $value * 0.026458333;
+        return self::pixelToCm($value);
     }
 
     /**
@@ -119,37 +110,6 @@ class Drawing
      */
     public static function centimetersToPixels($value = 0)
     {
-        if ($value != 0) {
-            return $value / 0.026458333;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Convert HTML hexadecimal to RGB
-     *
-     * @param string $value HTML Color in hexadecimal
-     * @return array Value in RGB
-     */
-    public static function htmlToRGB($value)
-    {
-        if ($value[0] == '#') {
-            $value = substr($value, 1);
-        }
-
-        if (strlen($value) == 6) {
-            list($red, $green, $blue) = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
-        } elseif (strlen($value) == 3) {
-            list($red, $green, $blue) = array($value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]);
-        } else {
-            return false;
-        }
-
-        $red = hexdec($red);
-        $green = hexdec($green);
-        $blue = hexdec($blue);
-
-        return array($red, $green, $blue);
+        return self::cmToPixel($value);
     }
 }
