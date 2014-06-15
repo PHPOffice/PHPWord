@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Chart as ChartStyle;
 
-
 /**
  * Chart element
  *
@@ -61,6 +60,7 @@ class Chart extends AbstractElement
      * @param string $type
      * @param array $categories
      * @param array $values
+     * @param array $style
      */
     public function __construct($type, $categories, $values, $style = null)
     {

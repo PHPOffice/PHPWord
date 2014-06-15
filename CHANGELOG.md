@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.12.0 - Not yet released
 
-This release added drawing shapes (arc, curve, line, polyline, rect, oval) and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles.
+This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles.
 
 ### Features
 
@@ -17,6 +17,7 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) and b
 - General: New `Shared\Converter` static class - @ivanlanin
 - Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
 - Chart: 3D charts and ability to set width and height - @ivanlanin
+- FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin GH-266
 
 ### Bugfixes
 

@@ -152,11 +152,11 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     /**
      * Test shape elements
      */
-    public function testChartElement()
+    public function testChartElements()
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array('width' => 1000000, 'height' => 1000000, '3d' => true);
+        $style = array('width' => 1000000, 'height' => 1000000);
 
         $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
         $categories = array('A', 'B', 'C', 'D', 'E');
@@ -164,6 +164,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         foreach ($chartTypes as $chartType) {
             $section->addChart($chartType, $categories, $series1, $style);
         }
+        $section->addChart('pie', $categories, $series1, array('3d' => true));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -174,5 +175,25 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
             $this->assertTrue($doc->elementExists($path, $file));
         }
+    }
+
+    /**
+     * Test form fields
+     */
+    public function testFormFieldElements()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addFormField('textinput')->setName('MyTextBox');
+        $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
+        $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $path = "/w:document/w:body/w:p/w:r/w:fldChar/w:ffData";
+        $this->assertTrue($doc->elementExists($path . '/w:textInput'));
+        $this->assertTrue($doc->elementExists($path . '/w:checkBox'));
+        $this->assertTrue($doc->elementExists($path . '/w:ddList'));
     }
 }

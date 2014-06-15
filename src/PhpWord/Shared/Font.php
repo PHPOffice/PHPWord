@@ -18,12 +18,12 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common font functions; replaced by `Converter`
+ * DEPRECATED: Common font functions; Use 'Converter'
  *
  * @deprecated 0.12.0
  * @codeCoverageIgnore
  */
-class Font extends Converter
+class Font
 {
     /**
      * Calculate an (approximate) pixel size, based on a font points size
@@ -33,7 +33,7 @@ class Font extends Converter
      */
     public static function fontSizeToPixels($fontSizeInPoints = 12)
     {
-        return self::pointToPixel($fontSizeInPoints);
+        return Converter::pointToPixel($fontSizeInPoints);
     }
 
     /**
@@ -44,7 +44,7 @@ class Font extends Converter
      */
     public static function inchSizeToPixels($sizeInInch = 1)
     {
-        return self::inchToPixel($sizeInInch);
+        return Converter::inchToPixel($sizeInInch);
     }
 
     /**
@@ -55,7 +55,7 @@ class Font extends Converter
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
-        return self::cmToPixel($sizeInCm);
+        return Converter::cmToPixel($sizeInCm);
     }
 
     /**
@@ -66,7 +66,7 @@ class Font extends Converter
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return self::cmToTwip($sizeInCm);
+        return Converter::cmToTwip($sizeInCm);
     }
 
     /**
@@ -77,7 +77,7 @@ class Font extends Converter
      */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
-        return self::inchToTwip($sizeInInch);
+        return Converter::inchToTwip($sizeInInch);
     }
 
     /**
@@ -88,7 +88,7 @@ class Font extends Converter
      */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
-        return self::pixelToTwip($sizeInPixel);
+        return Converter::pixelToTwip($sizeInPixel);
     }
 
     /**
@@ -99,6 +99,6 @@ class Font extends Converter
      */
     public static function pointSizeToTwips($sizeInPoint = 1)
     {
-        return self::pointToTwip($sizeInPoint);
+        return Converter::pointToTwip($sizeInPoint);
     }
 }

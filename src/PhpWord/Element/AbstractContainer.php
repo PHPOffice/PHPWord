@@ -41,7 +41,8 @@ namespace PhpOffice\PhpWord\Element;
  * @method Field addField(string $type = null, array $properties = array(), array $options = array())
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addObject(string $type, mixed $style = null)
- * @method Chart addChart()
+ * @method Chart addChart(string $type, array $categories, array $values, array $style = null)
+ * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  *
  * @since 0.10.0
  */
@@ -78,7 +79,7 @@ abstract class AbstractContainer extends AbstractElement
         $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
             'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line', 'Shape',
-            'Title', 'TOC', 'PageBreak', 'Chart');
+            'Title', 'TOC', 'PageBreak', 'Chart', 'FormField');
         $functions = array();
         for ($i = 0; $i < count($elements); $i++) {
             $functions[$i] = 'add' . $elements[$i];
@@ -190,6 +191,7 @@ abstract class AbstractContainer extends AbstractElement
             'Field'         => $allContainers,
             'Line'          => $allContainers,
             'Shape'         => $allContainers,
+            'FormField'     => $allContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),

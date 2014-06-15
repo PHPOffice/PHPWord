@@ -18,12 +18,12 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common drawing functions; replaced by `Converter`
+ * DEPRECATED: Common drawing functions; Use 'Converter'
  *
  * @deprecated 0.12.0
  * @codeCoverageIgnore
  */
-class Drawing extends Converter
+class Drawing
 {
     /**
      * Convert pixels to EMU
@@ -33,7 +33,7 @@ class Drawing extends Converter
      */
     public static function pixelsToEMU($value = 0)
     {
-        return self::pixelToEmu($value);
+        return Converter::pixelToEmu($value);
     }
 
     /**
@@ -44,7 +44,7 @@ class Drawing extends Converter
      */
     public static function emuToPixels($value = 0)
     {
-        return self::emuToPixel($value);
+        return Converter::emuToPixel($value);
     }
 
     /**
@@ -55,7 +55,7 @@ class Drawing extends Converter
      */
     public static function pixelsToPoints($value = 0)
     {
-        return self::pixelToPoint($value);
+        return Converter::pixelToPoint($value);
     }
 
     /**
@@ -66,7 +66,7 @@ class Drawing extends Converter
      */
     public static function pointsToPixels($value = 0)
     {
-        return self::pointToPixel($value);
+        return Converter::pointToPixel($value);
     }
 
     /**
@@ -77,7 +77,7 @@ class Drawing extends Converter
      */
     public static function degreesToAngle($value = 0)
     {
-        return self::degreeToAngle($value);
+        return Converter::degreeToAngle($value);
     }
 
     /**
@@ -88,7 +88,7 @@ class Drawing extends Converter
      */
     public static function angleToDegrees($value = 0)
     {
-        return self::angleToDegree($value);
+        return Converter::angleToDegree($value);
     }
 
     /**
@@ -99,7 +99,7 @@ class Drawing extends Converter
      */
     public static function pixelsToCentimeters($value = 0)
     {
-        return self::pixelToCm($value);
+        return Converter::pixelToCm($value);
     }
 
     /**
@@ -110,6 +110,6 @@ class Drawing extends Converter
      */
     public static function centimetersToPixels($value = 0)
     {
-        return self::cmToPixel($value);
+        return Converter::cmToPixel($value);
     }
 }

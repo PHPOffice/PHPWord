@@ -32,6 +32,7 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 - Insert footnotes and endnotes
 - Insert drawing shapes (arc, curve, line, polyline, rect, oval)
 - Insert charts (pie, doughnut, bar, line, area, scatter, radar)
+- Insert form fields (textinput, checkbox, and dropdown)
 - Create document from templates
 - Use XSL 1.0 style sheets to transform main document part of OOXML template
 - ... and many more features on progress
