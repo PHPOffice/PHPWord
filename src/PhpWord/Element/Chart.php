@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Chart as ChartStyle;
+
+
 /**
  * Chart element
  *
@@ -46,16 +49,24 @@ class Chart extends AbstractElement
     private $series = array();
 
     /**
+     * Chart style
+     *
+     * @var \PhpOffice\PhpWord\Style\Chart
+     */
+    private $style;
+
+    /**
      * Create new instance
      *
      * @param string $type
      * @param array $categories
      * @param array $values
      */
-    public function __construct($type, $categories, $values)
+    public function __construct($type, $categories, $values, $style = null)
     {
         $this->setType($type);
         $this->addSeries($categories, $values);
+        $this->style = $this->setNewStyle(new ChartStyle(), $style, true);
     }
 
     /**
@@ -75,7 +86,7 @@ class Chart extends AbstractElement
      */
     public function setType($value)
     {
-        $enum = array('pie', 'doughnut', 'line', 'bar', 'area', 'radar', 'scatter');
+        $enum = array('pie', 'doughnut', 'line', 'bar', 'column', 'area', 'radar', 'scatter');
         $this->type = $this->setEnumVal($value, $enum, 'pie');
     }
 
@@ -98,5 +109,15 @@ class Chart extends AbstractElement
     public function getSeries()
     {
         return $this->series;
+    }
+
+    /**
+     * Get chart style
+     *
+     * @return \PhpOffice\PhpWord\Style\Chart
+     */
+    public function getStyle()
+    {
+        return $this->style;
     }
 }

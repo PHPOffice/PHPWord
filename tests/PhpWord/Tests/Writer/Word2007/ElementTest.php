@@ -156,12 +156,13 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
+        $style = array('width' => 1000000, 'height' => 1000000, '3d' => true);
 
         $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
         $categories = array('A', 'B', 'C', 'D', 'E');
         $series1 = array(1, 3, 2, 5, 4);
         foreach ($chartTypes as $chartType) {
-            $section->addChart($chartType, $categories, $series1);
+            $section->addChart($chartType, $categories, $series1, $style);
         }
 
         $doc = TestHelperDOCX::getDocument($phpWord);

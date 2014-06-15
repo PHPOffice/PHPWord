@@ -41,13 +41,14 @@ class Chart extends AbstractPart
      * @var array
      */
     private $types = array(
-        'pie'       => array('type' => 'pieChart', 'colors' => 1),
-        'doughnut'  => array('type' => 'doughnutChart', 'colors' => 1, 'hole' => 75),
-        'bar'       => array('type' => 'barChart', 'colors' => 0, 'axes' => true, 'bar' => 'col'),
-        'line'      => array('type' => 'lineChart', 'colors' => 0, 'axes' => true),
-        'area'      => array('type' => 'areaChart', 'colors' => 0, 'axes' => true),
-        'radar'     => array('type' => 'radarChart', 'colors' => 0, 'axes' => true, 'radar' => 'standard'),
-        'scatter'   => array('type' => 'scatterChart', 'colors' => 0, 'axes' => true, 'scatter' => 'marker'),
+        'pie'       => array('type' => 'pie', 'colors' => 1),
+        'doughnut'  => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
+        'bar'       => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar'),
+        'column'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col'),
+        'line'      => array('type' => 'line', 'colors' => 0, 'axes' => true),
+        'area'      => array('type' => 'area', 'colors' => 0, 'axes' => true),
+        'radar'     => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
+        'scatter'   => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
     );
 
     /**
@@ -119,13 +120,17 @@ class Chart extends AbstractPart
     private function writePlotArea(XMLWriter $xmlWriter)
     {
         $type = $this->element->getType();
+        $style = $this->element->getStyle();
         $this->options = $this->types[$type];
 
         $xmlWriter->startElement('c:plotArea');
         $xmlWriter->writeElement('c:layout');
 
         // Chart
-        $xmlWriter->startElement('c:' . $this->options['type']);
+        $chartType = $this->options['type'];
+        $chartType .= $style->is3d() && !isset($this->options['no3d'])? '3D' : '';
+        $chartType .= 'Chart';
+        $xmlWriter->startElement("c:{$chartType}");
 
         $xmlWriter->writeElementBlock('c:varyColors', 'val', $this->options['colors']);
         if ($type == 'area') {
@@ -136,7 +141,7 @@ class Chart extends AbstractPart
         }
         if (isset($this->options['bar'])) {
             $xmlWriter->writeElementBlock('c:barDir', 'val', $this->options['bar']); // bar|col
-            $xmlWriter->writeElementBlock('c:grouping', 'val', 'clustered');
+            $xmlWriter->writeElementBlock('c:grouping', 'val', 'clustered'); // 3d; standard = percentStacked
         }
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElementBlock('c:radarStyle', 'val', $this->options['radar']);

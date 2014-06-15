@@ -38,6 +38,7 @@ class Chart extends AbstractElement
         }
 
         $rId = $element->getRelationId();
+        $style = $element->getStyle();
 
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
@@ -48,7 +49,7 @@ class Chart extends AbstractElement
         $xmlWriter->startElement('wp:inline');
 
         // EMU
-        $xmlWriter->writeElementBlock('wp:extent', array('cx' => '2000000', 'cy' => '2000000'));
+        $xmlWriter->writeElementBlock('wp:extent', array('cx' => $style->getWidth(), 'cy' => $style->getHeight()));
         $xmlWriter->writeElementBlock('wp:docPr', array('id' => $rId, 'name' => "Chart{$rId}"));
 
         $xmlWriter->startElement('a:graphic');

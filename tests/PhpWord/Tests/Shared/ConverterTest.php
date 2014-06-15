@@ -45,6 +45,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             $result = Converter::cmToPixel($value);
             $this->assertEquals($value / 2.54 * 96, $result);
 
+            $result = Converter::cmToPoint($value);
+            $this->assertEquals($value / 2.54 * 72, $result);
+
+            $result = Converter::cmToEmu($value);
+            $this->assertEquals(round($value / 2.54 * 96 * 9525), $result);
+
             $result = Converter::inchToTwip($value);
             $this->assertEquals($value * 1440, $result);
 
@@ -56,6 +62,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
             $result = Converter::inchToPoint($value);
             $this->assertEquals($value * 72, $result);
+
+            $result = Converter::inchToEmu($value);
+            $this->assertEquals(round($value * 96 * 9525), $result);
 
             $result = Converter::pixelToTwip($value);
             $this->assertEquals($value / 96 * 1440, $result);

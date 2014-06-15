@@ -15,7 +15,8 @@ This release added drawing shapes (arc, curve, line, polyline, rect, oval) and b
 - Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
 - General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
 - General: New `Shared\Converter` static class - @ivanlanin
-- Element: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
+- Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
+- Chart: 3D charts and ability to set width and height - @ivanlanin
 
 ### Bugfixes
 

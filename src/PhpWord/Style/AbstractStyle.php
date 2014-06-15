@@ -244,8 +244,10 @@ abstract class AbstractStyle
         if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
             $value = intval($value);
         }
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             $value = $default;
+        } else {
+            $value = intval($value);
         }
 
         return $value;

@@ -63,6 +63,28 @@ class Converter
     }
 
     /**
+     * Convert centimeter to point
+     *
+     * @param int $centimeter
+     * @return float
+     */
+    public static function cmToPoint($centimeter = 1)
+    {
+        return $centimeter / self::INCH_TO_CM * self::INCH_TO_POINT;
+    }
+
+    /**
+     * Convert centimeter to EMU
+     *
+     * @param int $centimeter
+     * @return int
+     */
+    public static function cmToEmu($centimeter = 1)
+    {
+        return round($centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+    }
+
+    /**
      * Convert inch to twip
      *
      * @param int $inch
@@ -104,6 +126,17 @@ class Converter
     public static function inchToPoint($inch = 1)
     {
         return $inch * self::INCH_TO_POINT;
+    }
+
+    /**
+     * Convert inch to EMU
+     *
+     * @param int $inch
+     * @return int
+     */
+    public static function inchToEmu($inch = 1)
+    {
+        return round($inch * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
     }
 
     /**
