@@ -97,15 +97,15 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
-Document properties
--------------------
+Document information
+--------------------
 
-You can set the document properties such as title, creator, and company
+You can set the document information such as title, creator, and company
 name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getDocumentProperties();
+    $properties = $phpWord->getDocInfo();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');

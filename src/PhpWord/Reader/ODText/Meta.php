@@ -37,7 +37,7 @@ class Meta extends AbstractPart
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
 
         $metaNode = $xmlReader->getElement('office:meta');
 

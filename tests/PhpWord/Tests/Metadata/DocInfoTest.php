@@ -15,23 +15,23 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Tests;
+namespace PhpOffice\PhpWord\Tests\Metadata;
 
-use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Metadata\DocInfo;
 
 /**
- * Test class for PhpOffice\PhpWord\DocumentProperties
+ * Test class for PhpOffice\PhpWord\Metadata\DocInfo
  *
  * @runTestsInSeparateProcesses
  */
-class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
+class DocInfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Creator
      */
     public function testCreator()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setCreator();
         $this->assertEquals('', $oProperties->getCreator());
 
@@ -44,7 +44,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testLastModifiedBy()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setLastModifiedBy();
         $this->assertEquals('', $oProperties->getLastModifiedBy());
 
@@ -57,7 +57,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreated()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setCreated();
         $this->assertEquals(time(), $oProperties->getCreated());
 
@@ -71,7 +71,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testModified()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setModified();
         $this->assertEquals(time(), $oProperties->getModified());
 
@@ -85,7 +85,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testTitle()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setTitle();
         $this->assertEquals('', $oProperties->getTitle());
 
@@ -98,7 +98,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testDescription()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setDescription();
         $this->assertEquals('', $oProperties->getDescription());
 
@@ -111,7 +111,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubject()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setSubject();
         $this->assertEquals('', $oProperties->getSubject());
 
@@ -124,7 +124,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testKeywords()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setKeywords();
         $this->assertEquals('', $oProperties->getKeywords());
 
@@ -137,7 +137,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCategory()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setCategory();
         $this->assertEquals('', $oProperties->getCategory());
 
@@ -150,7 +150,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompany()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setCompany();
         $this->assertEquals('', $oProperties->getCompany());
 
@@ -163,7 +163,7 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testManager()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setManager();
         $this->assertEquals('', $oProperties->getManager());
 
@@ -176,30 +176,30 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomProperty()
     {
-        $oProperties = new DocumentProperties();
+        $oProperties = new DocInfo();
         $oProperties->setCustomProperty('key1', null);
         $oProperties->setCustomProperty('key2', true);
         $oProperties->setCustomProperty('key3', 3);
         $oProperties->setCustomProperty('key4', 4.4);
         $oProperties->setCustomProperty('key5', 'value5');
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_STRING,
+            DocInfo::PROPERTY_TYPE_STRING,
             $oProperties->getCustomPropertyType('key1')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_BOOLEAN,
+            DocInfo::PROPERTY_TYPE_BOOLEAN,
             $oProperties->getCustomPropertyType('key2')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_INTEGER,
+            DocInfo::PROPERTY_TYPE_INTEGER,
             $oProperties->getCustomPropertyType('key3')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_FLOAT,
+            DocInfo::PROPERTY_TYPE_FLOAT,
             $oProperties->getCustomPropertyType('key4')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_STRING,
+            DocInfo::PROPERTY_TYPE_STRING,
             $oProperties->getCustomPropertyType('key5')
         );
         $this->assertEquals(null, $oProperties->getCustomPropertyType('key6'));
@@ -225,50 +225,50 @@ class DocumentPropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertProperty()
     {
-        $this->assertEquals('', DocumentProperties::convertProperty('a', 'empty'));
-        $this->assertEquals(null, DocumentProperties::convertProperty('a', 'null'));
-        $this->assertEquals(8, DocumentProperties::convertProperty('8', 'int'));
-        $this->assertEquals(8, DocumentProperties::convertProperty('8.3', 'uint'));
-        $this->assertEquals(8.3, DocumentProperties::convertProperty('8.3', 'decimal'));
-        $this->assertEquals('8.3', DocumentProperties::convertProperty('8.3', 'lpstr'));
-        $this->assertEquals(strtotime('10/11/2013'), DocumentProperties::convertProperty('10/11/2013', 'date'));
-        $this->assertEquals(true, DocumentProperties::convertProperty('true', 'bool'));
-        $this->assertEquals(false, DocumentProperties::convertProperty('1', 'bool'));
-        $this->assertEquals('1', DocumentProperties::convertProperty('1', 'array'));
-        $this->assertEquals('1', DocumentProperties::convertProperty('1', ''));
+        $this->assertEquals('', DocInfo::convertProperty('a', 'empty'));
+        $this->assertEquals(null, DocInfo::convertProperty('a', 'null'));
+        $this->assertEquals(8, DocInfo::convertProperty('8', 'int'));
+        $this->assertEquals(8, DocInfo::convertProperty('8.3', 'uint'));
+        $this->assertEquals(8.3, DocInfo::convertProperty('8.3', 'decimal'));
+        $this->assertEquals('8.3', DocInfo::convertProperty('8.3', 'lpstr'));
+        $this->assertEquals(strtotime('10/11/2013'), DocInfo::convertProperty('10/11/2013', 'date'));
+        $this->assertEquals(true, DocInfo::convertProperty('true', 'bool'));
+        $this->assertEquals(false, DocInfo::convertProperty('1', 'bool'));
+        $this->assertEquals('1', DocInfo::convertProperty('1', 'array'));
+        $this->assertEquals('1', DocInfo::convertProperty('1', ''));
 
 
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_INTEGER,
-            DocumentProperties::convertPropertyType('int')
+            DocInfo::PROPERTY_TYPE_INTEGER,
+            DocInfo::convertPropertyType('int')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_INTEGER,
-            DocumentProperties::convertPropertyType('uint')
+            DocInfo::PROPERTY_TYPE_INTEGER,
+            DocInfo::convertPropertyType('uint')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_FLOAT,
-            DocumentProperties::convertPropertyType('decimal')
+            DocInfo::PROPERTY_TYPE_FLOAT,
+            DocInfo::convertPropertyType('decimal')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_STRING,
-            DocumentProperties::convertPropertyType('lpstr')
+            DocInfo::PROPERTY_TYPE_STRING,
+            DocInfo::convertPropertyType('lpstr')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_DATE,
-            DocumentProperties::convertPropertyType('date')
+            DocInfo::PROPERTY_TYPE_DATE,
+            DocInfo::convertPropertyType('date')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_BOOLEAN,
-            DocumentProperties::convertPropertyType('bool')
+            DocInfo::PROPERTY_TYPE_BOOLEAN,
+            DocInfo::convertPropertyType('bool')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_UNKNOWN,
-            DocumentProperties::convertPropertyType('array')
+            DocInfo::PROPERTY_TYPE_UNKNOWN,
+            DocInfo::convertPropertyType('array')
         );
         $this->assertEquals(
-            DocumentProperties::PROPERTY_TYPE_UNKNOWN,
-            DocumentProperties::convertPropertyType('')
+            DocInfo::PROPERTY_TYPE_UNKNOWN,
+            DocInfo::convertPropertyType('')
         );
     }
 }

@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
-use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
@@ -35,22 +35,9 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new DocumentProperties(), $phpWord->getDocumentProperties());
+        $this->assertEquals(new DocInfo(), $phpWord->getDocInfo());
         $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
-    }
-
-    /**
-     * Test set/get document properties
-     */
-    public function testSetGetDocumentProperties()
-    {
-        $phpWord = new PhpWord();
-        $creator = 'PhpWord';
-        $properties = $phpWord->getDocumentProperties();
-        $properties->setCreator($creator);
-        $phpWord->setDocumentProperties($properties);
-        $this->assertEquals($creator, $phpWord->getDocumentProperties()->getCreator());
     }
 
     /**

@@ -39,7 +39,7 @@ class DocPropsCustom extends AbstractPart
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties');
         $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $properties = $docProps->getCustomProperties();
         foreach ($properties as $key => $property) {
             $propertyValue = $docProps->getCustomPropertyValue($property);

@@ -34,7 +34,7 @@ class Meta extends AbstractPart
     public function write()
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8');

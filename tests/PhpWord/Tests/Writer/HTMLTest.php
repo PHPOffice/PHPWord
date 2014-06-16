@@ -61,7 +61,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $docProps->setTitle('HTML Test');
 
         $phpWord->addTitleStyle(1, array('bold' => true));

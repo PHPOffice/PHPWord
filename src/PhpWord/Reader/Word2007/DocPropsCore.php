@@ -61,7 +61,7 @@ class DocPropsCore extends AbstractPart
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
 
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {

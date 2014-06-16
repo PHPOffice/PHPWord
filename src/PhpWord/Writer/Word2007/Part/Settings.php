@@ -31,8 +31,91 @@ class Settings extends AbstractPart
      */
     public function write()
     {
-        $settings = array(
+        $settings = $this->getSettings();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
+        $xmlWriter->startElement('w:settings');
+        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
+        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
+        $xmlWriter->writeAttribute('xmlns:sl', 'http://schemas.openxmlformats.org/schemaLibrary/2006/main');
+        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
+        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
+        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
+
+        foreach ($settings as $settingKey => $settingValue) {
+            $this->writeSetting($xmlWriter, $settingKey, $settingValue);
+        }
+
+        $xmlWriter->endElement(); // w:settings
+
+        return $xmlWriter->getData();
+    }
+
+    /**
+     * Write indivual setting, recursive to any child settings
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $settingKey
+     * @param array|string $settingValue
+     */
+    protected function writeSetting($xmlWriter, $settingKey, $settingValue)
+    {
+        if ($settingValue == '') {
+            $xmlWriter->writeElement($settingKey);
+        } else {
+            $xmlWriter->startElement($settingKey);
+
+            /** @var array $settingValue Type hint */
+            foreach ($settingValue as $childKey => $childValue) {
+                if ($childKey == '@attributes') {
+                    foreach ($childValue as $key => $val) {
+                        $xmlWriter->writeAttribute($key, $val);
+                    }
+                } else {
+                    $this->writeSetting($xmlWriter, $childKey, $childValue);
+                }
+            }
+            $xmlWriter->endElement();
+        }
+    }
+
+    /**
+     * Get settings
+     *
+     * @return array
+     */
+    private function getSettings()
+    {
+        // Default settings
+        $settings = $this->getDefaultSettings();
+
+        // Protection
+        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
+        if ($protection->getEditing() !== null) {
+            $settings['w:documentProtection'] = array(
+                '@attributes' => array(
+                    'w:enforcement' => 1,
+                    'w:edit' => $protection->getEditing(),
+                )
+            );
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Get default settings
+     *
+     * @return array
+     */
+    private function getDefaultSettings()
+    {
+        return array(
             'w:zoom' => array('@attributes' => array('w:percent' => '100')),
+            'w:view' => array('@attributes' => array('w:val' => 'print')),
             'w:embedSystemFonts' => '',
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
@@ -94,53 +177,5 @@ class Settings extends AbstractPart
             'w:decimalSymbol' => array('@attributes' => array('w:val' => ',')),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
         );
-
-        $xmlWriter = $this->getXmlWriter();
-
-        $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
-        $xmlWriter->startElement('w:settings');
-        $xmlWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
-        $xmlWriter->writeAttribute('xmlns:w', 'http://schemas.openxmlformats.org/wordprocessingml/2006/main');
-        $xmlWriter->writeAttribute('xmlns:m', 'http://schemas.openxmlformats.org/officeDocument/2006/math');
-        $xmlWriter->writeAttribute('xmlns:sl', 'http://schemas.openxmlformats.org/schemaLibrary/2006/main');
-        $xmlWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
-        $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
-        $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
-
-        foreach ($settings as $settingKey => $settingValue) {
-            $this->writeSetting($xmlWriter, $settingKey, $settingValue);
-        }
-
-        $xmlWriter->endElement(); // w:settings
-
-        return $xmlWriter->getData();
-    }
-
-    /**
-     * Write indivual setting, recursive to any child settings
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $settingKey
-     * @param array|string $settingValue
-     */
-    protected function writeSetting($xmlWriter, $settingKey, $settingValue)
-    {
-        if ($settingValue == '') {
-            $xmlWriter->writeElement($settingKey);
-        } else {
-            $xmlWriter->startElement($settingKey);
-
-            /** @var array $settingValue Type hint */
-            foreach ($settingValue as $childKey => $childValue) {
-                if ($childKey == '@attributes') {
-                    foreach ($childValue as $key => $val) {
-                        $xmlWriter->writeAttribute($key, $val);
-                    }
-                } else {
-                    $this->writeSetting($xmlWriter, $childKey, $childValue);
-                }
-            }
-            $xmlWriter->endElement();
-        }
     }
 }

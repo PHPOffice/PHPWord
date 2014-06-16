@@ -39,7 +39,7 @@ class Head extends AbstractPart
      */
     public function write()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',

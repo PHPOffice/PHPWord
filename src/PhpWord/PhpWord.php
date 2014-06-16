@@ -53,13 +53,6 @@ class PhpWord
     const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
-     * Document properties object
-     *
-     * @var DocumentProperties
-     */
-    private $documentProperties;
-
-    /**
      * Collection of sections
      *
      * @var \PhpOffice\PhpWord\Element\Section[]
@@ -74,19 +67,31 @@ class PhpWord
     private $collections = array();
 
     /**
+     * Metadata
+     *
+     * @var array
+     * @since 0.12.0
+     */
+    private $metadata = array();
+
+    /**
      * Create new instance
      *
      * Collections are created dynamically
      */
     public function __construct()
     {
-        $this->documentProperties = new DocumentProperties();
-
         $collections = array('Titles', 'Footnotes', 'Endnotes', 'Charts');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
         }
+
+        $metadata = 'PhpOffice\\PhpWord\\Metadata\\Protection';
+        $this->metadata['Protection'] = new $metadata();
+
+        $metadata = 'PhpOffice\\PhpWord\\Metadata\\DocInfo';
+        $this->metadata['DocInfo'] = new $metadata();
     }
 
     /**
@@ -150,24 +155,22 @@ class PhpWord
     /**
      * Get document properties object
      *
-     * @return DocumentProperties
+     * @return \PhpOffice\PhpWord\Metadata\DocInfo
      */
-    public function getDocumentProperties()
+    public function getDocInfo()
     {
-        return $this->documentProperties;
+        return $this->metadata['DocInfo'];
     }
 
     /**
-     * Set document properties object
+     * Get protection
      *
-     * @param DocumentProperties $documentProperties
-     * @return self
+     * @return \PhpOffice\PhpWord\Metadata\Protection
+     * @since 0.12.0
      */
-    public function setDocumentProperties(DocumentProperties $documentProperties)
+    public function getProtection()
     {
-        $this->documentProperties = $documentProperties;
-
-        return $this;
+        return $this->metadata['Protection'];
     }
 
     /**
@@ -311,5 +314,32 @@ class PhpWord
     public function createSection($settings = null)
     {
         return $this->addSection($settings);
+    }
+
+    /**
+     * Get document properties object
+     *
+     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function getDocumentProperties()
+    {
+        return $this->getDocInfo();
+    }
+
+    /**
+     * Set document properties object
+     *
+     * @param \PhpOffice\PhpWord\Metadata\DocInfo
+     * @return self
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function setDocumentProperties($documentProperties)
+    {
+        $this->metadata['Document'] = $documentProperties;
+
+        return $this;
     }
 }

@@ -18,6 +18,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
 - Chart: 3D charts and ability to set width and height - @ivanlanin
 - FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin GH-266
+- Security: Ability to define document protection (readOnly, comments, trackedChanges, forms) - @ivanlanin
 
 ### Bugfixes
 
@@ -30,7 +31,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
 - `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
 - `Shared\Drawing` and `Shared\Font` merged into `Shared\Converter`
-
+- `DocumentProperties` replaced by `Metadata\DocInfo`
 
 ### Miscellaneous
 

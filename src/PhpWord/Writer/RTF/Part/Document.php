@@ -52,7 +52,7 @@ class Document extends AbstractPart
      */
     private function writeInfo()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $properties = array('title', 'subject', 'category', 'keywords', 'comment',
             'author', 'operator', 'creatim', 'revtim', 'company', 'manager');
         $mapping = array('comment' => 'description', 'author' => 'creator', 'operator' => 'lastModifiedBy',
