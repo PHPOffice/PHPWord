@@ -25,6 +25,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo GH-261
 - `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich GH-270
 - Page breaks on titles and tables - @ivanlanin GH-274
+- Table inside vertical border does not rendered properly - @ivanlanin GH-280
 
 ### Deprecated
 
