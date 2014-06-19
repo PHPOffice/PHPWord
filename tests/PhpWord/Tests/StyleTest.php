@@ -53,7 +53,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
             'Link'      => 'Font',
             'Table'     => 'Table',
             'Heading_1' => 'Font',
-            'Normal'    => 'Paragraph'
+            'Normal'    => 'Paragraph',
         );
 
         Style::addParagraphStyle('Paragraph', $paragraph);
