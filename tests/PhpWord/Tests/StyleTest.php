@@ -75,6 +75,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test default paragraph style
+     *
      * @covers ::setDefaultParagraphStyle
      * @test
      */
