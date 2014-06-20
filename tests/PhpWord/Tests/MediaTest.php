@@ -40,7 +40,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::countElements('section'), 0);
+        $this->assertEquals(0, Media::countElements('section'));
     }
 
     /**
@@ -57,7 +57,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('section', 'object', $object);
         Media::addElement('section', 'object', $object);
 
-        $this->assertEquals(3, Media::countElements('section'));
+        $this->assertCount(3, Media::getElements('section'));
     }
 
     /**
@@ -69,8 +69,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $actual = Media::addElement('section', 'link', 'http://test.com');
 
         $this->assertEquals($expected, $actual);
-        $this->assertEquals(1, Media::countElements('section', 'link'));
-        $this->assertEquals(1, count(Media::getElements('section', 'link')));
+        $this->assertCount(1, Media::getElements('section', 'link'));
     }
 
     /**
@@ -84,8 +83,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countElements('header1'));
-        $this->assertEquals(2, count(Media::getElements('header1')));
+        $this->assertCount(2, Media::getElements('header1'));
         $this->assertEmpty(Media::getElements('header2'));
     }
 
@@ -100,10 +98,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countElements('footer1'));
+        $this->assertCount(2, Media::getElements('footer1'));
 
         Media::resetElements();
-        $this->assertEquals(0, Media::countElements('footer1'));
+        $this->assertCount(0, Media::getElements('footer1'));
     }
 
     /**

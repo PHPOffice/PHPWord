@@ -119,7 +119,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Paragraph();
         $object->setTabs(array(new Tab('left', 1550), new Tab('right', 5300)));
-        $this->assertEquals(2, count($object->getTabs()));
+        $this->assertCount(2, $object->getTabs());
     }
 
     /**

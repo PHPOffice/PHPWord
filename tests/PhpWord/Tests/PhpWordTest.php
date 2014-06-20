@@ -47,7 +47,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addSection();
-        $this->assertEquals(1, count($phpWord->getSections()));
+        $this->assertCount(1, $phpWord->getSections());
     }
 
     /**
