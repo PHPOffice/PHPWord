@@ -64,7 +64,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
         Style::addTableStyle('Table', $table);
         Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertEquals(count($styles), Style::countStyles());
+        $this->assertCount(count($styles), Style::getStyles());
         foreach ($styles as $name => $style) {
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
