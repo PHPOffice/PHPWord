@@ -11,6 +11,8 @@ composer.lock
 composer.phar
 vendor
 /report
+/samples/resources
+/samples/results
 /.settings
 /.buildpath
 /.project
