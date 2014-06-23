@@ -81,17 +81,19 @@ class PhpWord
      */
     public function __construct()
     {
+        // Collection
         $collections = array('Titles', 'Footnotes', 'Endnotes', 'Charts');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
         }
 
-        $metadata = 'PhpOffice\\PhpWord\\Metadata\\Protection';
-        $this->metadata['Protection'] = new $metadata();
-
-        $metadata = 'PhpOffice\\PhpWord\\Metadata\\DocInfo';
-        $this->metadata['DocInfo'] = new $metadata();
+        // Metadata
+        $metadata = array('DocInfo', 'Protection', 'Compatibility');
+        foreach ($metadata as $meta) {
+            $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
+            $this->metadata[$meta] = new $class();
+        }
     }
 
     /**
@@ -147,9 +149,6 @@ class PhpWord
         if (in_array($function, $addStyle)) {
             return forward_static_call_array(array('PhpOffice\\PhpWord\\Style', $function), $args);
         }
-
-        // All other methods
-        return null;
     }
 
     /**
@@ -171,6 +170,17 @@ class PhpWord
     public function getProtection()
     {
         return $this->metadata['Protection'];
+    }
+
+    /**
+     * Get compatibility
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Compatibility
+     * @since 0.12.0
+     */
+    public function getCompatibility()
+    {
+        return $this->metadata['Compatibility'];
     }
 
     /**
@@ -331,7 +341,7 @@ class PhpWord
     /**
      * Set document properties object
      *
-     * @param \PhpOffice\PhpWord\Metadata\DocInfo
+     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
      * @return self
      * @deprecated 0.12.0
      * @codeCoverageIgnore

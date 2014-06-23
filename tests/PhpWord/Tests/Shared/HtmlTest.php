@@ -34,7 +34,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         // Default
         $section = new Section(1);
-        $this->assertEquals(0, $section->countElements());
+        $this->assertCount(0, $section->getElements());
 
         // Heading
         $styles = array('strong', 'em', 'sup', 'sub');
@@ -52,7 +52,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         // Add HTML
         Html::addHtml($section, $content);
-        $this->assertEquals(7, $section->countElements());
+        $this->assertCount(7, $section->getElements());
 
         // Other parts
         $section = new Section(1);

@@ -1053,6 +1053,14 @@ $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord', 'Link');
 $section->addLink('https://github.com/', 'GitHub', 'Link', 'Heading2');
 ```
 
+## Remove [Compatibility Mode] text in the MS Word title bar
+
+Use the `Metadata\Compatibility\setOoxmlVersion(n)` method with `n` is the version of Office (14 = Office 2010, 15 = Office 2013).
+
+```php
+$phpWord->getCompatibility()->setOoxmlVersion(15);
+```
+
 # Frequently asked questions
 
 ## Is this the same with PHPWord that I found in CodePlex?

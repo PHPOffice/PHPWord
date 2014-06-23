@@ -87,3 +87,12 @@ Apply 'HeadingN' paragraph style to TextRun or Link. Sample code:
 
     // Link
     $section->addLink('https://github.com/', 'GitHub', 'Link', 'Heading2');
+
+Remove [Compatibility Mode] text in the MS Word title bar
+---------------------------------------------------------
+
+Use the ``Metadata\Compatibility\setOoxmlVersion(n)`` method with ``n`` is the version of Office (14 = Office 2010, 15 = Office 2013).
+
+.. code-block:: php
+
+    $phpWord->getCompatibility()->setOoxmlVersion(15);

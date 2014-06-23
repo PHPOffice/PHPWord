@@ -49,4 +49,20 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $path = '/w:settings/w:documentProtection';
         $this->assertTrue($doc->elementExists($path, $file));
     }
+
+    /**
+     * Test compatibility
+     */
+    public function testCompatibility()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getCompatibility()->setOoxmlVersion(15);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:compat/w:compatSetting';
+        $this->assertTrue($doc->elementExists($path, $file));
+    }
 }

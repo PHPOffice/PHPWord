@@ -43,12 +43,11 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAutoload()
     {
-        $declared = get_declared_classes();
-        $declaredCount = count($declared);
+        $declaredCount = count(get_declared_classes());
         Autoloader::autoload('Foo');
-        $this->assertEquals(
+        $this->assertCount(
             $declaredCount,
-            count(get_declared_classes()),
+            get_declared_classes(),
             'PhpOffice\\PhpWord\\Autoloader::autoload() is trying to load ' .
             'classes outside of the PhpOffice\\PhpWord namespace'
         );

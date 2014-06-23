@@ -25,13 +25,20 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 class Settings extends AbstractPart
 {
     /**
+     * Settings value
+     *
+     * @var array
+     */
+    private $settings = array();
+
+    /**
      * Write part
      *
      * @return string
      */
     public function write()
     {
-        $settings = $this->getSettings();
+        $this->getSettings();
 
         $xmlWriter = $this->getXmlWriter();
 
@@ -45,7 +52,7 @@ class Settings extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
 
-        foreach ($settings as $settingKey => $settingValue) {
+        foreach ($this->settings as $settingKey => $settingValue) {
             $this->writeSetting($xmlWriter, $settingKey, $settingValue);
         }
 
@@ -84,63 +91,19 @@ class Settings extends AbstractPart
 
     /**
      * Get settings
-     *
-     * @return array
      */
     private function getSettings()
     {
         // Default settings
-        $settings = $this->getDefaultSettings();
-
-        // Protection
-        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
-        if ($protection->getEditing() !== null) {
-            $settings['w:documentProtection'] = array(
-                '@attributes' => array(
-                    'w:enforcement' => 1,
-                    'w:edit' => $protection->getEditing(),
-                )
-            );
-        }
-
-        return $settings;
-    }
-
-    /**
-     * Get default settings
-     *
-     * @return array
-     */
-    private function getDefaultSettings()
-    {
-        return array(
+        $this->settings = array(
             'w:zoom' => array('@attributes' => array('w:percent' => '100')),
-            'w:view' => array('@attributes' => array('w:val' => 'print')),
-            'w:embedSystemFonts' => '',
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
-            'w:doNotHyphenateCaps' => '',
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
-            'w:doNotValidateAgainstSchema' => '',
-            'w:doNotDemarcateInvalidXml' => '',
-            'w:compat' => array(
-                'w:useNormalStyleForList' => '',
-                'w:doNotUseIndentAsNumberingTabStop' => '',
-                'w:useAltKinsokuLineBreakRules' => '',
-                'w:allowSpaceOfSameStyleInTable' => '',
-                'w:doNotSuppressIndentation' => '',
-                'w:doNotAutofitConstrainedTables' => '',
-                'w:autofitToFirstFixedWidthCell' => '',
-                'w:underlineTabInNumList' => '',
-                'w:displayHangulFixedWidth' => '',
-                // Commented for GH-274
-                // 'w:splitPgBreakAndParaMark' => '',
-                'w:doNotVertAlignCellWithSp' => '',
-                'w:doNotBreakConstrainedForcedTable' => '',
-                'w:doNotVertAlignInTxbx' => '',
-                'w:useAnsiKerningPairs' => '',
-                'w:cachedColBalance' => '',
-            ),
+            'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
+            'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
+            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
+            'w:compat' => '',
             'm:mathPr' => array(
                 'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
                 'm:brkBin' => array('@attributes' => array('m:val' => 'before')),
@@ -154,8 +117,6 @@ class Settings extends AbstractPart
                 'm:intLim' => array('@attributes' => array('m:val' => 'subSup')),
                 'm:naryLim' => array('@attributes' => array('m:val' => 'undOvr')),
             ),
-            'w:uiCompat97To2003' => '',
-            'w:themeFontLang' => array('@attributes' => array('w:val' => 'de-DE')),
             'w:clrSchemeMapping' => array(
                 '@attributes' => array(
                     'w:bg1' => 'light1',
@@ -172,10 +133,41 @@ class Settings extends AbstractPart
                     'w:followedHyperlink' => 'followedHyperlink',
                 ),
             ),
-            'w:doNotIncludeSubdocsInStats' => '',
-            'w:doNotAutoCompressPictures' => '',
-            'w:decimalSymbol' => array('@attributes' => array('w:val' => ',')),
-            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
         );
+
+        // Other settings
+        $this->getProtection();
+        $this->getCompatibility();
+    }
+
+    /**
+     * Get protection settings
+     */
+    private function getProtection()
+    {
+        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
+        if ($protection->getEditing() !== null) {
+            $this->settings['w:documentProtection'] = array(
+                '@attributes' => array(
+                    'w:enforcement' => 1,
+                    'w:edit' => $protection->getEditing(),
+                )
+            );
+        }
+    }
+
+    /**
+     * Get compatibility setting
+     */
+    private function getCompatibility()
+    {
+        $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
+        if ($compatibility->getOoxmlVersion() !== null) {
+            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
+                'w:name'    => 'compatibilityMode',
+                'w:uri'     => 'http://schemas.microsoft.com/office/word',
+                'w:val'     => $compatibility->getOoxmlVersion(),
+            ));
+        }
     }
 }
