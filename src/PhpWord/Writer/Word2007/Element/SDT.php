@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
  *
  * @since 0.12.0
  * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtBlock.html
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class SDT extends Text
 {
@@ -100,7 +101,9 @@ class SDT extends Text
      */
     private function writeDate(XMLWriter $xmlWriter, SDTElement $element)
     {
-        $xmlWriter->startElement("w:date");
+        $type = $element->getType();
+
+        $xmlWriter->startElement("w:{$type}");
         $xmlWriter->writeElementBlock('w:dateFormat', 'w:val', 'd/M/yyyy');
         $xmlWriter->writeElementBlock('w:lid', 'w:val', 'en-US');
         $xmlWriter->writeElementBlock('w:storeMappedDataAs', 'w:val', 'dateTime');
