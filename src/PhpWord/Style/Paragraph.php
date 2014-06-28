@@ -47,7 +47,7 @@ use PhpOffice\PhpWord\Shared\String;
  *
  * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_PPr.html
  */
-class Paragraph extends AbstractStyle
+class Paragraph extends Border
 {
     /**
      * @const int One line height equals 240 twip

@@ -139,6 +139,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             'align' => 'center',
             'tabs' => $tabs,
             'shading' => array('fill' => 'FFFF99'),
+            'borderSize' => 4,
         )); // Style #1
         $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true,
             'scale' => 200, 'spacing' => 240, 'kerning' => 10)); // Style #2

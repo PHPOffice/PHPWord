@@ -108,6 +108,18 @@ class Paragraph extends AbstractStyle
         // Numbering
         $this->writeNumbering($xmlWriter, $styles['numbering']);
 
+        // Border
+        if ($style->hasBorder()) {
+            $xmlWriter->startElement('w:pBdr');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->write();
+
+            $xmlWriter->endElement();
+        }
+
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
         }
