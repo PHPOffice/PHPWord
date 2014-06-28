@@ -20,6 +20,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin GH-266
 - Setting: Ability to define document protection (readOnly, comments, trackedChanges, forms) - @ivanlanin
 - Setting: Ability to remove [Compatibility Mode] text in the MS Word title bar - @ivanlanin
+- SDT: Ability to add structured document tag elements (comboBox, dropDownList, date) - @ivanlanin
 
 ### Bugfixes
 

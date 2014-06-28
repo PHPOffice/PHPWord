@@ -193,6 +193,7 @@ abstract class AbstractContainer extends AbstractElement
             'Line'          => $allContainers,
             'Shape'         => $allContainers,
             'FormField'     => $allContainers,
+            'SDT'           => $allContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
@@ -206,7 +207,6 @@ abstract class AbstractContainer extends AbstractElement
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
             'Chart'         => array('Section'),
-            'SDT'           => array('Section'),
         );
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer

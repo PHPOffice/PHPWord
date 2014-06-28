@@ -39,33 +39,72 @@ class SDT extends Text
             return;
         }
         $type = $element->getType();
-        $listItems = $element->getListItems();
+        $writeFormField = "write{$type}";
 
         $this->startElementP();
 
         $xmlWriter->startElement('w:sdt');
 
+        // Properties
         $xmlWriter->startElement('w:sdtPr');
         $xmlWriter->writeElementBlock('w:id', 'w:val', rand(100000000, 999999999));
         $xmlWriter->writeElementBlock('w:lock', 'w:val', 'sdtLocked');
+        $this->$writeFormField($xmlWriter, $element);
+        $xmlWriter->endElement(); // w:sdtPr
 
-        $xmlWriter->startElement('w:placeholder');
-        $xmlWriter->writeElementBlock('w:docPart', 'w:val', 'string');
-        $xmlWriter->endElement(); // w:placeholder
+        // Content
+        $xmlWriter->startElement('w:sdtContent');
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:t');
+        $xmlWriter->writeRaw('Pick value');
+        $xmlWriter->endElement(); // w:t
+        $xmlWriter->endElement(); // w:r
+        $xmlWriter->endElement(); // w:sdtContent
+
+        $xmlWriter->endElement(); // w:sdt
+
+        $this->endElementP(); // w:p
+    }
+
+    /**
+     * Write combo box
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtComboBox.html
+     */
+    private function writeComboBox(XMLWriter $xmlWriter, SDTElement $element)
+    {
+        $type = $element->getType();
+        $listItems = $element->getListItems();
 
         $xmlWriter->startElement("w:{$type}");
         foreach ($listItems as $key => $val) {
             $xmlWriter->writeElementBlock('w:listItem', array('w:value' => $key, 'w:displayText' => $val));
         }
         $xmlWriter->endElement(); // w:{$type}
+    }
 
-        $xmlWriter->endElement(); // w:sdtPr
+    /**
+     * Write drop down list
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDropDownList.html
+     */
+    private function writeDropDownList(XMLWriter $xmlWriter, SDTElement $element)
+    {
+        $this->writecomboBox($xmlWriter, $element);
+    }
 
-        $xmlWriter->startElement('w:sdtContent');
-        $xmlWriter->endElement(); // w:sdtContent
-
-        $xmlWriter->endElement(); // w:sdt
-
-        $this->endElementP(); // w:p
+    /**
+     * Write date
+     *
+     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDate.html
+     */
+    private function writeDate(XMLWriter $xmlWriter, SDTElement $element)
+    {
+        $xmlWriter->startElement("w:date");
+        $xmlWriter->writeElementBlock('w:dateFormat', 'w:val', 'd/M/yyyy');
+        $xmlWriter->writeElementBlock('w:lid', 'w:val', 'en-US');
+        $xmlWriter->writeElementBlock('w:storeMappedDataAs', 'w:val', 'dateTime');
+        $xmlWriter->writeElementBlock('w:calendar', 'w:val', 'gregorian');
+        $xmlWriter->endElement(); // w:date
     }
 }

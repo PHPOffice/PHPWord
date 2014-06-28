@@ -196,4 +196,24 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc->elementExists($path . '/w:checkBox'));
         $this->assertTrue($doc->elementExists($path . '/w:ddList'));
     }
+
+    /**
+     * Test SDT elements
+     */
+    public function testSDTElements()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addSDT('comboBox');
+        $section->addSDT('dropDownList');
+        $section->addSDT('date');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $path = "/w:document/w:body/w:p/w:sdt/w:sdtPr";
+        $this->assertTrue($doc->elementExists($path . '/w:comboBox'));
+        $this->assertTrue($doc->elementExists($path . '/w:dropDownList'));
+        $this->assertTrue($doc->elementExists($path . '/w:date'));
+    }
 }
