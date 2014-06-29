@@ -35,8 +35,8 @@ class SDTTest extends \PHPUnit_Framework_TestCase
         $type = $types[rand(0, 2)];
         $value = rand(0, 100);
         $object = new SDT($type);
-        $object->setValue($value);;
-        $object->setListItems($types);;
+        $object->setValue($value);
+        $object->setListItems($types);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
         $this->assertEquals($type, $object->getType());
