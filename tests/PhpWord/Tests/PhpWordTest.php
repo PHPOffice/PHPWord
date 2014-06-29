@@ -157,4 +157,16 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($phpWord->save('test.docx', 'Word2007', true));
     }
+
+    /**
+     * Test calling undefined method
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage is not defined
+     */
+    public function testCallUndefinedMethod()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->undefinedMethod();
+    }
 }

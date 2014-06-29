@@ -99,14 +99,10 @@ class PhpWord
     /**
      * Dynamic function call to reduce static dependency
      *
-     * Usage:
-     * - Getting and adding collections (Titles, Footnotes, and Endnotes)
-     * - Adding style
-     *
      * @param mixed $function
      * @param mixed $args
+     * @throws \BadMethodCallException
      * @return mixed
-     *
      * @since 0.12.0
      */
     public function __call($function, $args)
@@ -149,6 +145,9 @@ class PhpWord
         if (in_array($function, $addStyle)) {
             return forward_static_call_array(array('PhpOffice\\PhpWord\\Style', $function), $args);
         }
+
+        // Exception
+        throw new \BadMethodCallException("Method $function is not defined.");
     }
 
     /**
