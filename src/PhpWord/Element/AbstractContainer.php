@@ -77,18 +77,22 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function __call($function, $args)
     {
-        $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
-            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
-            'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line', 'Shape',
-            'Title', 'TOC', 'PageBreak', 'Chart', 'FormField', 'SDT');
+        $elements = array(
+            'Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
+            'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
+            'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
+            'Chart', 'FormField', 'SDT'
+        );
         $functions = array();
-        for ($i = 0; $i < count($elements); $i++) {
-            $functions[$i] = 'add' . $elements[$i];
+        foreach ($elements as $element) {
+            $functions['add' . strtolower($element)] = $element;
         }
 
         // Run valid `add` command
-        if (in_array($function, $functions)) {
-            $element = str_replace('add', '', $function);
+        $function = strtolower($function);
+        if (array_key_exists($function, $functions)) {
+            $element = $functions[$function];
 
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
