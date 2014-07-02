@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -233,14 +234,16 @@ abstract class AbstractWriter implements WriterInterface
 
     /**
      * Cleanup temporary file
+     *
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
     protected function cleanupTempFile()
     {
         if ($this->originalFilename != $this->tempFilename) {
             // @codeCoverageIgnoreStart
             // Can't find any test case. Uncomment when found.
-            if (copy($this->tempFilename, $this->originalFilename) === false) {
-                throw new Exception("Could not copy temporary zip file.");
+            if (false === copy($this->tempFilename, $this->originalFilename)) {
+                throw new CopyFileException($this->tempFilename, $this->originalFilename);
             }
             // @codeCoverageIgnoreEnd
             @unlink($this->tempFilename);

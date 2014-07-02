@@ -44,7 +44,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - PclZip: Remove temporary file after used - @andrew-kzoo GH-265
 - Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
 - Element: Refactor elements to move set relation Id from container to element - @ivanlanin
-- Introduced CreateTemporaryFileException - @RomanSyroeshko
+- Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
 
 ## 0.11.1 - 2 June 2014
 

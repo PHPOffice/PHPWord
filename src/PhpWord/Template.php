@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
@@ -58,11 +59,11 @@ class Template
     /**
      * Create a new Template Object
      *
-     * @since 0.12.0 Throws CreateTemporaryFileException instead of Exception.
+     * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
      * @param string $strFilename
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
     public function __construct($strFilename)
     {
@@ -72,8 +73,8 @@ class Template
         }
 
         // Copy the source File to the temp File
-        if (!copy($strFilename, $this->tempFileName)) {
-            throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
+        if (false === copy($strFilename, $this->tempFileName)) {
+            throw new CopyFileException($strFilename, $this->tempFileName);
         }
 
         $this->zipClass = new ZipArchive();
