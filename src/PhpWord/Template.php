@@ -36,28 +36,28 @@ class Template
     private $zipClass;
 
     /**
-     * Temporary file name
+     * Temporary file name.
      *
      * @var string
      */
     private $tempFileName;
 
     /**
-     * Document XML
+     * Document XML.
      *
      * @var string
      */
     private $documentXML;
 
     /**
-     * Document header XML
+     * Document header XML.
      *
      * @var string[]
      */
     private $headerXMLs = array();
 
     /**
-     * Create a new Template Object
+     * Create a new Template Object.
      *
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
@@ -97,18 +97,19 @@ class Template
     }
 
     /**
-     * Document footer XML
+     * Document footer XML.
      *
      * @var string[]
      */
     private $footerXMLs = array();
 
     /**
-     * Applies XSL style sheet to template's parts
+     * Applies XSL style sheet to template's parts.
      *
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
@@ -135,11 +136,12 @@ class Template
     }
 
     /**
-     * Set a Template value
+     * Set a Template value.
      *
      * @param mixed $search
      * @param mixed $replace
      * @param integer $limit
+     * @return void
      */
     public function setValue($search, $replace, $limit = -1)
     {
@@ -155,7 +157,8 @@ class Template
     }
 
     /**
-     * Returns array of all variables in template
+     * Returns array of all variables in template.
+     *
      * @return string[]
      */
     public function getVariables()
@@ -174,7 +177,7 @@ class Template
     }
 
     /**
-     * Clone a table row in a template document
+     * Clone a table row in a template document.
      *
      * @param string $search
      * @param integer $numberOfClones
@@ -230,7 +233,7 @@ class Template
     }
 
     /**
-     * Clone a block
+     * Clone a block.
      *
      * @param string $blockname
      * @param integer $clones
@@ -266,10 +269,11 @@ class Template
     }
 
     /**
-     * Replace a block
+     * Replace a block.
      *
      * @param string $blockname
      * @param string $replacement
+     * @return void
      */
     public function replaceBlock($blockname, $replacement)
     {
@@ -289,9 +293,10 @@ class Template
     }
 
     /**
-     * Delete a block of text
+     * Delete a block of text.
      *
      * @param string $blockname
+     * @return void
      */
     public function deleteBlock($blockname)
     {
@@ -299,7 +304,7 @@ class Template
     }
 
     /**
-     * Save XML to temporary file
+     * Save XML to temporary file.
      *
      * @return string
      * @throws \PhpOffice\PhpWord\Exception\Exception
@@ -325,10 +330,12 @@ class Template
     }
 
     /**
-     * Save XML to defined name
+     * Save XML to defined name.
+     *
+     * @since 0.8.0
      *
      * @param string $fileName
-     * @since 0.8.0
+     * @return void
      */
     public function saveAs($fileName)
     {
@@ -375,7 +382,8 @@ class Template
     }
 
     /**
-     * Find all variables in $documentPartXML
+     * Find all variables in $documentPartXML.
+     *
      * @param string $documentPartXML
      * @return string[]
      */
@@ -387,7 +395,8 @@ class Template
     }
 
     /**
-     * Get the name of the footer file for $index
+     * Get the name of the footer file for $index.
+     *
      * @param integer $index
      * @return string
      */
@@ -397,7 +406,8 @@ class Template
     }
 
     /**
-     * Get the name of the header file for $index
+     * Get the name of the header file for $index.
+     *
      * @param integer $index
      * @return string
      */
@@ -407,7 +417,7 @@ class Template
     }
 
     /**
-     * Find the start position of the nearest table row before $offset
+     * Find the start position of the nearest table row before $offset.
      *
      * @param integer $offset
      * @return integer
@@ -426,7 +436,7 @@ class Template
     }
 
     /**
-     * Find the end position of the nearest table row after $offset
+     * Find the end position of the nearest table row after $offset.
      *
      * @param integer $offset
      * @return integer
@@ -438,7 +448,7 @@ class Template
     }
 
     /**
-     * Get a slice of a string
+     * Get a slice of a string.
      *
      * @param integer $startPosition
      * @param integer $endPosition
