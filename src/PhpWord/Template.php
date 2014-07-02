@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\ZipArchive;
@@ -55,23 +56,19 @@ class Template
     private $headerXMLs = array();
 
     /**
-     * Document footer XML
-     *
-     * @var string[]
-     */
-    private $footerXMLs = array();
-
-    /**
      * Create a new Template Object
      *
+     * @since 0.12.0 Throws CreateTemporaryFileException instead of Exception.
+     *
      * @param string $strFilename
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct($strFilename)
     {
         $this->tempFileName = tempnam(sys_get_temp_dir(), '');
         if ($this->tempFileName === false) {
-            throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
+            throw new CreateTemporaryFileException();
         }
 
         // Copy the source File to the temp File
@@ -97,6 +94,13 @@ class Template
 
         $this->documentXML = $this->zipClass->getFromName('word/document.xml');
     }
+
+    /**
+     * Document footer XML
+     *
+     * @var string[]
+     */
+    private $footerXMLs = array();
 
     /**
      * Applies XSL style sheet to template's parts
