@@ -22,10 +22,16 @@ namespace PhpOffice\PhpWord\Exception;
  */
 final class CreateTemporaryFileException extends Exception
 {
-    protected $message = 'Could not create a temporary file with unique name in the specified directory.';
-
-    final public function __construct()
+    /**
+     * @param integer $code The user defined exception code.
+     * @param \Exception $previous The previous exception used for the exception chaining.
+     */
+    final public function __construct($code = 0, \Exception $previous = null)
     {
-        parent::__construct($this->message);
+        parent::__construct(
+            'Could not create a temporary file with unique name in the specified directory.',
+            $code,
+            $previous
+        );
     }
 }
