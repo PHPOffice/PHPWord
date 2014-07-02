@@ -362,7 +362,7 @@ class Frame extends AbstractStyle
      */
     public function setHPos($value)
     {
-        $enum = array(self::POS_LEFT, self::POS_CENTER, self::POS_RIGHT, self::POS_INSIDE, self::POS_OUTSIDE);
+        $enum = array(self::POS_LEFT, self::POS_CENTER, self::POS_RIGHT, self::POS_INSIDE, self::POS_OUTSIDE, self::POS_ABSOLUTE);
         $this->hPos = $this->setEnumVal($value, $enum, $this->hPos);
 
         return $this;
@@ -386,7 +386,7 @@ class Frame extends AbstractStyle
      */
     public function setVPos($value)
     {
-        $enum = array(self::POS_TOP, self::POS_CENTER, self::POS_BOTTOM, self::POS_INSIDE, self::POS_OUTSIDE);
+        $enum = array(self::POS_TOP, self::POS_CENTER, self::POS_BOTTOM, self::POS_INSIDE, self::POS_OUTSIDE, self::POS_ABSOLUTE);
         $this->vPos = $this->setEnumVal($value, $enum, $this->vPos);
 
         return $this;
