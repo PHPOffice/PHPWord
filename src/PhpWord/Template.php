@@ -29,7 +29,7 @@ use PhpOffice\PhpWord\Shared\ZipArchive;
 class Template
 {
     /**
-     * ZipArchive object
+     * ZipArchive object.
      *
      * @var mixed
      */
@@ -61,20 +61,20 @@ class Template
      *
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
-     * @param string $strFilename
+     * @param string $fileName The fully qualified template file name.
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
-    public function __construct($strFilename)
+    public function __construct($fileName)
     {
         $this->tempFileName = tempnam(sys_get_temp_dir(), '');
-        if ($this->tempFileName === false) {
+        if (false === $this->tempFileName) {
             throw new CreateTemporaryFileException();
         }
 
         // Copy the source File to the temp File
-        if (false === copy($strFilename, $this->tempFileName)) {
-            throw new CopyFileException($strFilename, $this->tempFileName);
+        if (false === copy($fileName, $this->tempFileName)) {
+            throw new CopyFileException($fileName, $this->tempFileName);
         }
 
         $this->zipClass = new ZipArchive();
@@ -117,17 +117,17 @@ class Template
 
         $processor->importStylesheet($xslDOMDocument);
 
-        if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
+        if (false === $processor->setParameter($xslOptionsURI, $xslOptions)) {
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
 
         $xmlDOMDocument = new \DOMDocument();
-        if ($xmlDOMDocument->loadXML($this->documentXML) === false) {
+        if (false === $xmlDOMDocument->loadXML($this->documentXML)) {
             throw new Exception('Could not load XML from the given template.');
         }
 
         $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
-        if ($xmlTransformed === false) {
+        if (false === $xmlTransformed) {
             throw new Exception('Could not transform the given XML document.');
         }
 
@@ -317,7 +317,7 @@ class Template
         }
 
         // Close zip file
-        if ($this->zipClass->close() === false) {
+        if (false === $this->zipClass->close()) {
             throw new Exception('Could not close zip file.');
         }
 
@@ -327,18 +327,18 @@ class Template
     /**
      * Save XML to defined name
      *
-     * @param string $strFilename
+     * @param string $fileName
      * @since 0.8.0
      */
-    public function saveAs($strFilename)
+    public function saveAs($fileName)
     {
-        $tempFilename = $this->save();
+        $tempFileName = $this->save();
 
-        if (file_exists($strFilename)) {
-            unlink($strFilename);
+        if (file_exists($fileName)) {
+            unlink($fileName);
         }
 
-        rename($tempFilename, $strFilename);
+        rename($tempFileName, $fileName);
     }
 
     /**
