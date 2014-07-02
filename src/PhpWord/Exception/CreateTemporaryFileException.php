@@ -24,7 +24,8 @@ final class CreateTemporaryFileException extends Exception
 {
     protected $message = 'Could not create a temporary file with unique name in the specified directory.';
 
-    final public function __construct() {
+    final public function __construct()
+    {
         parent::__construct($this->message);
     }
 }
