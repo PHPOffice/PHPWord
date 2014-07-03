@@ -75,11 +75,10 @@ during development to make the resulting XML file easier to read.
 Zip class
 ~~~~~~~~~
 
-By default, PHPWord uses PHP
-`ZipArchive <http://php.net/manual/en/book.zip.php>`__ to read or write
-ZIP compressed archive and the files inside them. If you can't have
-ZipArchive installed on your server, you can use pure PHP library
-alternative, `PCLZip <http://www.phpconcept.net/pclzip/>`__, which
+By default, PHPWord uses `Zip extension <http://php.net/manual/en/book.zip.php>`__
+to deal with ZIP compressed archives and files inside them. If you can't have
+Zip extension installed on your server, you can use pure PHP library
+alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which
 included with PHPWord.
 
 .. code-block:: php
