@@ -30,7 +30,9 @@ class Row extends AbstractStyle
     private $height;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -55,9 +57,10 @@ class Row extends AbstractStyle
     }
 
     /**
-     * Set height
+     * Set height.
      *
      * @param int $value
+     * @return void
      */
     public function setHeight($value = null)
     {

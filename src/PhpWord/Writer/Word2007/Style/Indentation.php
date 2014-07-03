@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 class Indentation extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {

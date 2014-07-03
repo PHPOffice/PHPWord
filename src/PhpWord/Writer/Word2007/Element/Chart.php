@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Element\Chart as ChartElement;
 class Chart extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

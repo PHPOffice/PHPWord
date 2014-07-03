@@ -47,7 +47,7 @@ abstract class AbstractStyle
     abstract public function write();
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
@@ -104,11 +104,12 @@ abstract class AbstractStyle
     }
 
     /**
-     * Write child style
+     * Write child style.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $name
      * @param mixed $value
+     * @return void
      */
     protected function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
     {

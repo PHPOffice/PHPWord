@@ -61,9 +61,10 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
      * @param string $filename
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
@@ -113,10 +114,11 @@ class HTML extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add note
+     * Add note.
      *
      * @param int $noteId
      * @param string $noteMark
+     * @return void
      */
     public function addNote($noteId, $noteMark)
     {

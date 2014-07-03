@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class CheckBox extends Text
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

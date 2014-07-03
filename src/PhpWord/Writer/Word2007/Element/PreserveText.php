@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class PreserveText extends Text
 {
     /**
-     * Write preserve text element
+     * Write preserve text element.
+     *
+     * @return void
      */
     public function write()
     {

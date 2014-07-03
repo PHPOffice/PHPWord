@@ -218,9 +218,10 @@ class PhpWord
     }
 
     /**
-     * Set default font name
+     * Set default font name.
      *
      * @param string $fontName
+     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -238,9 +239,10 @@ class PhpWord
     }
 
     /**
-     * Set default font size
+     * Set default font size.
      *
      * @param int $fontSize
+     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {

@@ -118,9 +118,10 @@ class Table extends AbstractElement
     }
 
     /**
-     * Set table width
+     * Set table width.
      *
      * @param int $width
+     * @return void
      */
     public function setWidth($width)
     {

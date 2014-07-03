@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class TextRun extends Text
 {
     /**
-     * Write textrun element
+     * Write textrun element.
+     *
+     * @return void
      */
     public function write()
     {

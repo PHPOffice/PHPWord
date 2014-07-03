@@ -79,10 +79,11 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write begin section
+     * Write begin section.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return void
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -94,10 +95,11 @@ class Document extends AbstractPart
     }
 
     /**
-     * Write end section
+     * Write end section.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return void
      */
     private function writeSectionSettings(XMLWriter $xmlWriter, Section $section)
     {

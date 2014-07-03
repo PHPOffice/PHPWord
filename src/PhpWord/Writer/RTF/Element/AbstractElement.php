@@ -47,7 +47,9 @@ abstract class AbstractElement extends HTMLAbstractElement
     private $paragraphStyle;
 
     /**
-     * Get font and paragraph styles
+     * Get font and paragraph styles.
+     *
+     * @return void
      */
     protected function getStyles()
     {

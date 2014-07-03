@@ -257,9 +257,10 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set target file name
+     * Set target file name.
      *
      * @param string $value
+     * @return void
      */
     public function setTarget($value)
     {
@@ -277,9 +278,10 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set media index
+     * Set media index.
      *
      * @param integer $value
+     * @return void
      */
     public function setMediaIndex($value)
     {
@@ -358,9 +360,10 @@ class Image extends AbstractElement
     }
 
     /**
-     * Check memory image, supported type, image functions, and proportional width/height
+     * Check memory image, supported type, image functions, and proportional width/height.
      *
      * @param string $source
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
@@ -395,9 +398,10 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set source type
+     * Set source type.
      *
      * @param string $source
+     * @return void
      */
     private function setSourceType($source)
     {
@@ -443,7 +447,9 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set image functions and extensions
+     * Set image functions and extensions.
+     *
+     * @return void
      */
     private function setFunctions()
     {
@@ -476,10 +482,11 @@ class Image extends AbstractElement
     }
 
     /**
-     * Set proportional width/height if one dimension not available
+     * Set proportional width/height if one dimension not available.
      *
      * @param integer $actualWidth
      * @param integer $actualHeight
+     * @return void
      */
     private function setProportionalSize($actualWidth, $actualHeight)
     {

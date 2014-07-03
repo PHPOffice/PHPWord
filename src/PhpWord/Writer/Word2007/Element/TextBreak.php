@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class TextBreak extends Text
 {
     /**
-     * Write text break element
+     * Write text break element.
+     *
+     * @return void
      */
     public function write()
     {

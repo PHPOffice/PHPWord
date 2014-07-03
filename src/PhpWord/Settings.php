@@ -188,7 +188,9 @@ class Settings
     }
 
     /**
-     * Return the PDF Rendering Library
+     * Return the PDF Rendering Library.
+     *
+     * @return string
      */
     public static function getPdfRendererName()
     {
@@ -214,7 +216,9 @@ class Settings
 
 
     /**
-     * Return the directory path to the PDF Rendering Library
+     * Return the directory path to the PDF Rendering Library.
+     *
+     * @return string
      */
     public static function getPdfRendererPath()
     {

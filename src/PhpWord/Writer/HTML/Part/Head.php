@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
@@ -71,6 +71,7 @@ class Head extends AbstractPart
 
         return $content;
     }
+
     /**
      * Get styles
      *

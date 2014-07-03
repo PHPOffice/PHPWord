@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 class Object extends AbstractElement
 {
     /**
-     * Write object element
+     * Write object element.
+     *
+     * @return void
      */
     public function write()
     {

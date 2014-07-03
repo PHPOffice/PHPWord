@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
-use PhpOffice\PhpWord\Element\Section;
 
 /**
  * Document reader
@@ -37,9 +37,10 @@ class Document extends AbstractPart
     private $phpWord;
 
     /**
-     * Read document.xml
+     * Read document.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
     public function read(PhpWord &$phpWord)
     {
@@ -61,10 +62,11 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read header footer
+     * Read header footer.
      *
      * @param array $settings
      * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return void
      */
     private function readHeaderFooter($settings, Section &$section)
     {
@@ -138,11 +140,12 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read w:p node
+     * Read w:p node.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return void
      *
      * @todo <w:lastRenderedPageBreak>
      */
@@ -167,11 +170,12 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read w:sectPr node
+     * Read w:sectPr node.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section $section
+     * @return void
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {

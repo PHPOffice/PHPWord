@@ -123,8 +123,11 @@ class Style
     }
 
     /**
-     * Reset styles
+     * Reset styles.
+     *
      * @since 0.10.0
+     *
+     * @return void
      */
     public static function resetStyles()
     {

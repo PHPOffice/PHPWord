@@ -190,6 +190,7 @@ abstract class AbstractRenderer extends HTML
      * Save PhpWord to PDF file, post-save
      *
      * @param resource $fileHandle
+     * @return void
      * @throws Exception
      */
     protected function restoreStateAfterSave($fileHandle)

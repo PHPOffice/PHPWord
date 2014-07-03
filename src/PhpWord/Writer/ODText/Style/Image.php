@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\ODText\Style;
 class Image extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {

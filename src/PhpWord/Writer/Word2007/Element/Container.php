@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
+use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 
@@ -37,7 +37,9 @@ class Container extends AbstractElement
     protected $namespace = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element';
 
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

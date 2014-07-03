@@ -101,9 +101,10 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set sizes
+     * Set sizes.
      *
      * @param integer[] $value
+     * @return void
      */
     public function setSizes($value)
     {
@@ -111,9 +112,10 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set colors
+     * Set colors.
      *
      * @param string[] $value
+     * @return void
      */
     public function setColors($value)
     {

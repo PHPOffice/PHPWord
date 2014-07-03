@@ -130,6 +130,7 @@ class Document
      * - Pushes every other character into the text queue
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      * @todo Use `fread` stream for scalability
      */
     public function read(PhpWord &$phpWord)
@@ -181,7 +182,9 @@ class Document
     }
 
     /**
-     * Mark opening braket `{` character
+     * Mark opening braket `{` character.
+     *
+     * @return void
      */
     private function markOpening()
     {
@@ -190,7 +193,9 @@ class Document
     }
 
     /**
-     * Mark closing braket `}` character
+     * Mark closing braket `}` character.
+     *
+     * @return void
      */
     private function markClosing()
     {
@@ -199,7 +204,9 @@ class Document
     }
 
     /**
-     * Mark backslash `\` character
+     * Mark backslash `\` character.
+     *
+     * @return void
      */
     private function markBackslash()
     {
@@ -214,7 +221,9 @@ class Document
     }
 
     /**
-     * Mark newline character: Flush control word because it's not possible to span multiline
+     * Mark newline character: Flush control word because it's not possible to span multiline.
+     *
+     * @return void
      */
     private function markNewline()
     {
@@ -224,9 +233,10 @@ class Document
     }
 
     /**
-     * Flush control word or text
+     * Flush control word or text.
      *
      * @param bool $isControl
+     * @return void
      */
     private function flush($isControl = false)
     {
@@ -238,9 +248,10 @@ class Document
     }
 
     /**
-     * Flush control word
+     * Flush control word.
      *
      * @param bool $isControl
+     * @return void
      */
     private function flushControl($isControl = false)
     {
@@ -255,7 +266,9 @@ class Document
     }
 
     /**
-     * Flush text in queue
+     * Flush text in queue.
+     *
+     * @return void
      */
     private function flushText()
     {
@@ -279,9 +292,10 @@ class Document
     }
 
     /**
-     * Reset control word and first char state
+     * Reset control word and first char state.
      *
      * @param bool $value
+     * @return void
      */
     private function setControl($value)
     {
@@ -290,9 +304,10 @@ class Document
     }
 
     /**
-     * Push text into queue
+     * Push text into queue.
      *
      * @param string $char
+     * @return void
      */
     private function pushText($char)
     {
@@ -306,10 +321,11 @@ class Document
     }
 
     /**
-     * Parse control
+     * Parse control.
      *
      * @param string $control
      * @param string $parameter
+     * @return void
      */
     private function parseControl($control, $parameter)
     {
@@ -346,9 +362,10 @@ class Document
     }
 
     /**
-     * Read paragraph
+     * Read paragraph.
      *
      * @param array $directives
+     * @return void
      */
     private function readParagraph($directives)
     {
@@ -358,9 +375,10 @@ class Document
     }
 
     /**
-     * Read style
+     * Read style.
      *
      * @param array $directives
+     * @return void
      */
     private function readStyle($directives)
     {
@@ -369,9 +387,10 @@ class Document
     }
 
     /**
-     * Read skip
+     * Read skip.
      *
      * @param array $directives
+     * @return void
      */
     private function readSkip($directives)
     {
@@ -381,7 +400,9 @@ class Document
     }
 
     /**
-     * Read text
+     * Read text.
+     *
+     * @return void
      */
     private function readText()
     {

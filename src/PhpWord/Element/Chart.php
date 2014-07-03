@@ -80,9 +80,10 @@ class Chart extends AbstractElement
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $value
+     * @return void
      */
     public function setType($value)
     {
@@ -95,6 +96,7 @@ class Chart extends AbstractElement
      *
      * @param array $categories
      * @param array $values
+     * @return void
      */
     public function addSeries($categories, $values)
     {

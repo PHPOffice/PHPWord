@@ -233,8 +233,9 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Cleanup temporary file
+     * Cleanup temporary file.
      *
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
     protected function cleanupTempFile()
@@ -253,7 +254,9 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Clear temporary directory
+     * Clear temporary directory.
+     *
+     * @return void
      */
     protected function clearTempDir()
     {
@@ -314,11 +317,13 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Write content to file
+     * Write content to file.
      *
-     * @param resource $fileHandle
-     * @param string $content
      * @since 0.11.0
+     *
+     * @param resource &$fileHandle
+     * @param string $content
+     * @return void
      */
     protected function writeFile(&$fileHandle, $content)
     {
@@ -328,10 +333,11 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add files to package
+     * Add files to package.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param mixed $elements
+     * @return void
      */
     protected function addFilesToPackage(ZipArchive $zip, $elements)
     {
@@ -360,13 +366,14 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add file to package
+     * Add file to package.
      *
-     * Get the actual source from an archive image
+     * Get the actual source from an archive image.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zipPackage
      * @param string $source
      * @param string $target
+     * @return void
      */
     protected function addFileToPackage($zipPackage, $source, $target)
     {
@@ -394,9 +401,10 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Delete directory
+     * Delete directory.
      *
      * @param string $dir
+     * @return void
      */
     private function deleteDir($dir)
     {

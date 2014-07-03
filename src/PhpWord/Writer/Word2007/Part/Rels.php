@@ -47,12 +47,13 @@ class Rels extends AbstractPart
     }
 
     /**
-     * Write relationships
+     * Write relationships.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $xmlRels
      * @param array $mediaRels
      * @param int $relId
+     * @return void
      */
     protected function writeRels(XMLWriter $xmlWriter, $xmlRels = array(), $mediaRels = array(), $relId = 1)
     {
@@ -74,11 +75,12 @@ class Rels extends AbstractPart
     }
 
     /**
-     * Write media relationships
+     * Write media relationships.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $relId
      * @param array $mediaRel
+     * @return void
      */
     private function writeMediaRel(XMLWriter $xmlWriter, $relId, $mediaRel)
     {
@@ -96,7 +98,7 @@ class Rels extends AbstractPart
     }
 
     /**
-     * Write individual rels entry
+     * Write individual rels entry.
      *
      * Format:
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
@@ -106,6 +108,7 @@ class Rels extends AbstractPart
      * @param string $type Relationship type
      * @param string $target Relationship target
      * @param string $targetMode Relationship target mode
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function writeRel(XMLWriter $xmlWriter, $relId, $type, $target, $targetMode = '')

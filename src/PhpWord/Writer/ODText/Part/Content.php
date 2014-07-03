@@ -23,10 +23,10 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
 
@@ -106,9 +106,12 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles other than fonts and paragraphs
+     * Write automatic styles other than fonts and paragraphs.
      *
      * @since 0.11.0
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
     {
@@ -129,7 +132,10 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles
+     * Write automatic styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
@@ -160,7 +166,10 @@ class Content extends AbstractPart
     }
 
     /**
-     * Get automatic styles
+     * Get automatic styles.
+     *
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
     private function getAutoStyles(PhpWord $phpWord)
     {
@@ -183,6 +192,7 @@ class Content extends AbstractPart
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
+     * @return void
      * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
@@ -216,6 +226,7 @@ class Content extends AbstractPart
      * @param \PhpOffice\PhpWord\Element\Text $element
      * @param int $paragraphStyleCount
      * @param int $fontStyleCount
+     * @return void
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
     {

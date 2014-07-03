@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Paragraph style writer
@@ -44,7 +44,9 @@ class Paragraph extends AbstractStyle
     private $isInline = false;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -67,7 +69,9 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
+     *
+     * @return void
      */
     private function writeStyle()
     {
@@ -126,10 +130,11 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write tabs
+     * Write tabs.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     * @return void
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs)
     {
@@ -144,10 +149,11 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write numbering
+     * Write numbering.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $numbering
+     * @return void
      */
     private function writeNumbering(XMLWriter $xmlWriter, $numbering)
     {
@@ -173,9 +179,10 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set without w:pPr
+     * Set without w:pPr.
      *
      * @param bool $value
+     * @return void
      */
     public function setWithoutPPR($value)
     {
@@ -183,9 +190,10 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set is inline
+     * Set is inline.
      *
      * @param bool $value
+     * @return void
      */
     public function setIsInline($value)
     {

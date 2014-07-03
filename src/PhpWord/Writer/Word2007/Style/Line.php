@@ -26,8 +26,9 @@ use PhpOffice\PhpWord\Style\Line as LineStyle;
 class Line extends Frame
 {
     /**
-     * Write Line stroke
+     * Write Line stroke.
      *
+     * @return void
      * @todo Merge with `Stroke` style
      */
     public function writeStroke()

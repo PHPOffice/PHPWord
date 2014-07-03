@@ -181,6 +181,7 @@ class Template
      *
      * @param string $search
      * @param integer $numberOfClones
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneRow($search, $numberOfClones)

@@ -41,6 +41,7 @@ class Autoloader
      * Autoload
      *
      * @param string $class
+     * @return void
      */
     public static function autoload($class)
     {

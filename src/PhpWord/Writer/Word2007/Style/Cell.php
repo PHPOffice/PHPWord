@@ -32,7 +32,9 @@ class Cell extends AbstractStyle
     private $width;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -88,9 +90,10 @@ class Cell extends AbstractStyle
     }
 
     /**
-     * Set width
+     * Set width.
      *
      * @param int $value
+     * @return void
      */
     public function setWidth($value = null)
     {

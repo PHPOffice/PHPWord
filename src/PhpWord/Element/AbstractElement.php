@@ -126,9 +126,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set PhpWord as reference
+     * Set PhpWord as reference.
      *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
+     * @return void
      */
     public function setPhpWord(PhpWord &$phpWord = null)
     {
@@ -146,10 +147,11 @@ abstract class AbstractElement
     }
 
     /**
-     * Set doc part
+     * Set doc part.
      *
      * @param string $docPart
      * @param int $docPartId
+     * @return void
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -203,9 +205,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set element index
+     * Set element index.
      *
      * @param int $value
+     * @return void
      */
     public function setElementIndex($value)
     {
@@ -223,7 +226,9 @@ abstract class AbstractElement
     }
 
     /**
-     * Set element unique ID from 6 first digit of md5
+     * Set element unique ID from 6 first digit of md5.
+     *
+     * @return void
      */
     public function setElementId()
     {
@@ -241,9 +246,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set relation Id
+     * Set relation Id.
      *
      * @param int $value
+     * @return void
      */
     public function setRelationId($value)
     {
@@ -266,6 +272,7 @@ abstract class AbstractElement
      * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $container
+     * @return void
      */
     public function setParentContainer(AbstractElement $container)
     {
@@ -295,6 +302,8 @@ abstract class AbstractElement
      *
      * - Image element needs to be passed to Media object
      * - Icon needs to be set for Object element
+     *
+     * @return void
      */
     private function setMediaRelation()
     {
@@ -320,7 +329,9 @@ abstract class AbstractElement
     }
 
     /**
-     * Set relation Id for elements that will be registered in the Collection subnamespaces
+     * Set relation Id for elements that will be registered in the Collection subnamespaces.
+     *
+     * @return void
      */
     private function setCollectionRelation()
     {

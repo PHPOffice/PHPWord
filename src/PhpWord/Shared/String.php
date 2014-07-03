@@ -178,7 +178,9 @@ class String
     }
 
     /**
-     * Build control characters array
+     * Build control characters array.
+     *
+     * @return void
      */
     private static function buildControlCharacters()
     {

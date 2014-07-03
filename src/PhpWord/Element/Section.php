@@ -66,9 +66,10 @@ class Section extends AbstractContainer
     }
 
     /**
-     * Set section style
+     * Set section style.
      *
      * @param array $style
+     * @return void
      */
     public function setStyle($style = null)
     {

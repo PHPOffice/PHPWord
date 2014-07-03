@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Style\TextBox as TextBoxStyle;
 class TextBox extends Frame
 {
     /**
-     * Writer inner margin
+     * Writer inner margin.
+     *
+     * @return void
      */
     public function writeInnerMargin()
     {
@@ -43,7 +45,9 @@ class TextBox extends Frame
     }
 
     /**
-     * Writer border
+     * Writer border.
+     *
+     * @return void
      */
     public function writeBorder()
     {

@@ -34,7 +34,10 @@ abstract class AbstractPart extends Word2007AbstractPart
     protected $dateFormat = 'Y-m-d\TH:i:s.000';
 
     /**
-     * Write common root attributes
+     * Write common root attributes.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     protected function writeCommonRootAttributes(XMLWriter $xmlWriter)
     {
@@ -68,7 +71,10 @@ abstract class AbstractPart extends Word2007AbstractPart
     }
 
     /**
-     * Write font faces declaration
+     * Write font faces declaration.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     protected function writeFontFaces(XMLWriter $xmlWriter)
     {

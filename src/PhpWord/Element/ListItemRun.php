@@ -65,7 +65,9 @@ class ListItemRun extends TextRun
     }
 
     /**
-     * Get ListItem style
+     * Get ListItem style.
+     *
+     * @return \PhpOffice\PhpWord\Style\ListItem
      */
     public function getStyle()
     {
@@ -73,7 +75,9 @@ class ListItemRun extends TextRun
     }
 
      /**
-     * Get ListItem depth
+     * Get ListItem depth.
+      *
+      * @return int
      */
     public function getDepth()
     {

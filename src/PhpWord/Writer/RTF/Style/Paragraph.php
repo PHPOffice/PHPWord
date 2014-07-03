@@ -73,9 +73,10 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set nested level
+     * Set nested level.
      *
      * @param int $value
+     * @return void
      */
     public function setNestedLevel($value)
     {

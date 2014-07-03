@@ -62,7 +62,7 @@ abstract class AbstractPart
     protected $rels = array();
 
     /**
-     * Read part
+     * Read part.
      */
     abstract public function read(PhpWord &$phpWord);
 
@@ -79,9 +79,10 @@ abstract class AbstractPart
     }
 
     /**
-     * Set relationships
+     * Set relationships.
      *
      * @param array $value
+     * @return void
      */
     public function setRels($value)
     {
@@ -89,12 +90,13 @@ abstract class AbstractPart
     }
 
     /**
-     * Read w:p
+     * Read w:p.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
+     * @return void
      *
      * @todo Get font style for preserve text
      */
@@ -179,13 +181,14 @@ abstract class AbstractPart
     }
 
     /**
-     * Read w:r
+     * Read w:r.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
+     * @return void
      *
      * @todo Footnote paragraph style
      */
@@ -241,12 +244,13 @@ abstract class AbstractPart
     }
 
     /**
-     * Read w:tbl
+     * Read w:tbl.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
+     * @return void
      */
     protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
     {
@@ -301,7 +305,7 @@ abstract class AbstractPart
     }
 
     /**
-     * Read w:pPr
+     * Read w:pPr.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
@@ -337,7 +341,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @return array
+     * @return array|null
      */
     protected function readFontStyle(XMLReader $xmlReader, \DOMElement $domNode)
     {

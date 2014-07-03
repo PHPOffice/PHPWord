@@ -81,9 +81,10 @@ class Text extends AbstractElement
     }
 
     /**
-     * Set opening text
+     * Set opening text.
      *
      * @param string $value
+     * @return void
      */
     public function setOpeningText($value)
     {
@@ -91,9 +92,10 @@ class Text extends AbstractElement
     }
 
     /**
-     * Set closing text
+     * Set closing text.
      *
      * @param string $value
+     * @return void
      */
     public function setClosingText($value)
     {
@@ -164,7 +166,9 @@ class Text extends AbstractElement
     }
 
     /**
-     * Get font style
+     * Get font style.
+     *
+     * @return void
      */
     private function getFontStyle()
     {

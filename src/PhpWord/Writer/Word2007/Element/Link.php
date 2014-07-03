@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Link extends Text
 {
     /**
-     * Write link element
+     * Write link element.
+     *
+     * @return void
      */
     public function write()
     {

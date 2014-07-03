@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 class Spacing extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {

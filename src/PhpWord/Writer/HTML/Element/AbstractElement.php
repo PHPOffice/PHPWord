@@ -68,9 +68,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set without paragraph
+     * Set without paragraph.
      *
      * @param bool $value
+     * @return void
      */
     public function setWithoutP($value)
     {

@@ -35,9 +35,10 @@ class MPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'mpdf.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
+     * @return void
      */
     public function save($filename = null)
     {

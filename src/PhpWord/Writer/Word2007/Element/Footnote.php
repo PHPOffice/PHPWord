@@ -32,7 +32,9 @@ class Footnote extends Text
     protected $referenceType = 'footnoteReference';
 
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

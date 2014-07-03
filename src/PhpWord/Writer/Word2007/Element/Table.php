@@ -35,7 +35,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
 class Table extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -69,7 +71,11 @@ class Table extends AbstractElement
     }
 
     /**
-     * Write column
+     * Write column.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @return void
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
@@ -102,7 +108,11 @@ class Table extends AbstractElement
     }
 
     /**
-     * Write row
+     * Write row.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Row $row
+     * @return void
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
@@ -125,7 +135,11 @@ class Table extends AbstractElement
     }
 
     /**
-     * Write cell
+     * Write cell.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\Cell $cell
+     * @return void
      */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {

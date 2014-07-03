@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Text extends AbstractElement
 {
     /**
-     * Write text element
+     * Write text element.
+     *
+     * @return void
      */
     public function write()
     {

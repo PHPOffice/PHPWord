@@ -89,9 +89,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Start w:p DOM element
+     * Start w:p DOM element.
      *
      * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
+     * @return void
      */
     protected function startElementP()
     {
@@ -105,7 +106,9 @@ abstract class AbstractElement
     }
 
     /**
-     * End w:p DOM element
+     * End w:p DOM element.
+     *
+     * @return void
      */
     protected function endElementP()
     {
@@ -115,7 +118,9 @@ abstract class AbstractElement
     }
 
     /**
-     * Write ending
+     * Write ending.
+     *
+     * @return void
      */
     protected function writeParagraphStyle()
     {
@@ -123,7 +128,9 @@ abstract class AbstractElement
     }
 
     /**
-     * Write ending
+     * Write ending.
+     *
+     * @return void
      */
     protected function writeFontStyle()
     {
@@ -132,9 +139,10 @@ abstract class AbstractElement
 
 
     /**
-     * Write text style
+     * Write text style.
      *
      * @param string $styleType Font|Paragraph
+     * @return void
      */
     private function writeTextStyle($styleType)
     {

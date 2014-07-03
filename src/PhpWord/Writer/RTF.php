@@ -55,9 +55,10 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save content to file
+     * Save content to file.
      *
      * @param string $filename
+     * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
@@ -86,7 +87,9 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get font table
+     * Get font table.
+     *
+     * @return array
      */
     public function getFontTable()
     {
@@ -94,7 +97,9 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get color table
+     * Get color table.
+     *
+     * @return array
      */
     public function getColorTable()
     {
@@ -102,7 +107,9 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Get last paragraph style
+     * Get last paragraph style.
+     *
+     * @return mixed
      */
     public function getLastParagraphStyle()
     {
@@ -110,9 +117,10 @@ class RTF extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Set last paragraph style
+     * Set last paragraph style.
      *
      * @param mixed $value
+     * @return void
      */
     public function setLastParagraphStyle($value = '')
     {

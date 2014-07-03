@@ -35,7 +35,9 @@ class FormField extends Text
     const FILLER_LENGTH = 30;
 
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -102,9 +104,12 @@ class FormField extends Text
     }
 
     /**
-     * Write textinput
+     * Write textinput.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\FormField $element
+     * @return void
      */
     private function writeTextInput(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -116,9 +121,12 @@ class FormField extends Text
     }
 
     /**
-     * Write checkbox
+     * Write checkbox.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\FormField $element
+     * @return void
      */
     private function writeCheckBox(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -137,9 +145,12 @@ class FormField extends Text
     }
 
     /**
-     * Write dropdown
+     * Write dropdown.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\FormField $element
+     * @return void
      */
     private function writeDropDown(XMLWriter $xmlWriter, FormFieldElement $element)
     {

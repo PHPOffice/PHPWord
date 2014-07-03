@@ -29,7 +29,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 class Image extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -47,7 +49,9 @@ class Image extends AbstractElement
     }
 
     /**
-     * Write image element
+     * Write image element.
+     *
+     * @return void
      */
     private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
@@ -78,8 +82,11 @@ class Image extends AbstractElement
 
         $this->endElementP();
     }
+
     /**
-     * Write watermark element
+     * Write watermark element.
+     *
+     * @return void
      */
     private function writeWatermark(XMLWriter $xmlWriter, ImageElement $element)
     {

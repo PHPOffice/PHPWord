@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Line as LineStyleWriter;
 class Line extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

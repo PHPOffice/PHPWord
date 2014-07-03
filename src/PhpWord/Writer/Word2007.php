@@ -88,9 +88,10 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save document by name
+     * Save document by name.
      *
      * @param string $filename
+     * @return void
      */
     public function save($filename = null)
     {
@@ -163,10 +164,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add header/footer media files, e.g. footer1.xml.rels
+     * Add header/footer media files, e.g. footer1.xml.rels.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $docPart
+     * @return void
      */
     private function addHeaderFooterMedia(ZipArchive $zip, $docPart)
     {
@@ -188,12 +190,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add header/footer content
+     * Add header/footer content.
      *
      * @param \PhpOffice\PhpWord\Element\Section $section
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
      * @param integer $rId
+     * @return void
      */
     private function addHeaderFooterContent(Section &$section, ZipArchive $zip, $elmType, &$rId)
     {
@@ -220,6 +223,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param integer $rId
      * @param string $noteType
+     * @return void
      */
     private function addNotes(ZipArchive $zip, &$rId, $noteType = 'footnote')
     {
@@ -252,10 +256,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add chart
+     * Add chart.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param integer $rId
+     * @return void
      */
     private function addChart(ZipArchive $zip, &$rId)
     {
@@ -286,9 +291,10 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Register content types for each media
+     * Register content types for each media.
      *
      * @param array $media
+     * @return void
      */
     private function registerContentTypes($media)
     {

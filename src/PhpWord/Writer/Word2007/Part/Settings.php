@@ -62,11 +62,12 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Write indivual setting, recursive to any child settings
+     * Write indivual setting, recursive to any child settings.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $settingKey
      * @param array|string $settingValue
+     * @return void
      */
     protected function writeSetting($xmlWriter, $settingKey, $settingValue)
     {
@@ -90,7 +91,9 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Get settings
+     * Get settings.
+     *
+     * @return void
      */
     private function getSettings()
     {
@@ -141,7 +144,9 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Get protection settings
+     * Get protection settings.
+     *
+     * @return void
      */
     private function getProtection()
     {
@@ -157,7 +162,9 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Get compatibility setting
+     * Get compatibility setting.
+     *
+     * @return void
      */
     private function getCompatibility()
     {

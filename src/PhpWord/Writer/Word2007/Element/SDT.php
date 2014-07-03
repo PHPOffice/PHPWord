@@ -30,7 +30,9 @@ use PhpOffice\PhpWord\Shared\XMLWriter;
 class SDT extends Text
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -68,9 +70,12 @@ class SDT extends Text
     }
 
     /**
-     * Write combo box
+     * Write combo box.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtComboBox.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\SDT $element
+     * @return void
      */
     private function writeComboBox(XMLWriter $xmlWriter, SDTElement $element)
     {
@@ -85,9 +90,12 @@ class SDT extends Text
     }
 
     /**
-     * Write drop down list
+     * Write drop down list.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDropDownList.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\SDT $element
+     * @return void
      */
     private function writeDropDownList(XMLWriter $xmlWriter, SDTElement $element)
     {
@@ -95,9 +103,12 @@ class SDT extends Text
     }
 
     /**
-     * Write date
+     * Write date.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDate.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\SDT $element
+     * @return void
      */
     private function writeDate(XMLWriter $xmlWriter, SDTElement $element)
     {

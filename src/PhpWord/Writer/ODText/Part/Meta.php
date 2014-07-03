@@ -89,6 +89,7 @@ class Meta extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
+     * @return void
      *
      * @todo Handle other `$type`: double|date|dateTime|duration|boolean (4th arguments)
      */

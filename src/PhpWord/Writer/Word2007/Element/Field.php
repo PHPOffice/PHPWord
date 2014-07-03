@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Field extends Text
 {
     /**
-     * Write field element
+     * Write field element.
+     *
+     * @return void
      */
     public function write()
     {

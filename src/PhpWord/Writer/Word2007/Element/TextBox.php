@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\TextBox as TextBoxStyleWriter;
 class TextBox extends Image
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {

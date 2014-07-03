@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Element\Chart as ChartElement;
+use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 chart part writer: word/charts/chartx.xml
@@ -59,7 +59,10 @@ class Chart extends AbstractPart
     private $options = array();
 
     /**
-     * Set chart element
+     * Set chart element.
+     *
+     * @param \PhpOffice\PhpWord\Element\Chart $element
+     * @return void
      */
     public function setElement(ChartElement $element)
     {
@@ -93,6 +96,8 @@ class Chart extends AbstractPart
      * Write chart
      *
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeChart(XMLWriter $xmlWriter)
     {
@@ -106,7 +111,7 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write plot area
+     * Write plot area.
      *
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PlotArea.html
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PieChart.html
@@ -116,6 +121,8 @@ class Chart extends AbstractPart
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writePlotArea(XMLWriter $xmlWriter)
     {
@@ -171,10 +178,11 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write series
+     * Write series.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $scatter
+     * @return void
      */
     private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
     {
@@ -209,11 +217,12 @@ class Chart extends AbstractPart
     }
 
     /**
-     * Write series items
+     * Write series items.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
      * @param array $values
+     * @return void
      */
     private function writeSeriesItem(XMLWriter $xmlWriter, $type, $values)
     {
@@ -248,9 +257,10 @@ class Chart extends AbstractPart
     /**
      * Write axis
      *
+     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $type
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
+     * @return void
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
@@ -290,9 +300,10 @@ class Chart extends AbstractPart
     /**
      * Write shape
      *
+     * @link http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param bool $line
-     * @link http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
+     * @return void
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)
     {

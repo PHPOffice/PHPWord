@@ -25,9 +25,10 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class PageBreak extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
      *
      * @usedby \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement::startElementP()
+     * @return void
      */
     public function write()
     {

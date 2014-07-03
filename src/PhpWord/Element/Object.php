@@ -129,9 +129,10 @@ class Object extends AbstractElement
     }
 
     /**
-     * Set Image Relation ID
+     * Set Image Relation ID.
      *
      * @param int $rId
+     * @return void
      */
     public function setImageRelationId($rId)
     {

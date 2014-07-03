@@ -66,9 +66,11 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Set font name index
+     * Set font name index.
+     *
      *
      * @param int $value
+     * @return void
      */
     public function setNameIndex($value = 0)
     {
@@ -76,9 +78,10 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Set font color index
+     * Set font color index.
      *
      * @param int $value
+     * @return void
      */
     public function setColorIndex($value = 0)
     {

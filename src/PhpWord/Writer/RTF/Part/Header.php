@@ -19,8 +19,8 @@ namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style;
 
 /**
  * RTF header part writer
@@ -52,7 +52,9 @@ class Header extends AbstractPart
     private $colorTable = array();
 
     /**
-     * Get font table
+     * Get font table.
+     *
+     * @return array
      */
     public function getFontTable()
     {
@@ -60,7 +62,9 @@ class Header extends AbstractPart
     }
 
     /**
-     * Get color table
+     * Get color table.
+     *
+     * @return array
      */
     public function getColorTable()
     {
@@ -176,7 +180,9 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register all fonts and colors in both named and inline styles to appropriate header table
+     * Register all fonts and colors in both named and inline styles to appropriate header table.
+     *
+     * @return void
      */
     private function registerFont()
     {
@@ -204,9 +210,10 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register border colors
+     * Register border colors.
      *
      * @param \PhpOffice\PhpWord\Style\Border $style
+     * @return void
      */
     private function registerBorderColor($style)
     {
@@ -219,9 +226,10 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register fonts and colors
+     * Register fonts and colors.
      *
      * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @return void
      */
     private function registerFontItems($style)
     {
@@ -236,11 +244,12 @@ class Header extends AbstractPart
     }
 
     /**
-     * Register individual font and color
+     * Register individual font and color.
      *
      * @param array $table
      * @param string $value
      * @param string $default
+     * @return void
      */
     private function registerTableItem(&$table, $value, $default = null)
     {

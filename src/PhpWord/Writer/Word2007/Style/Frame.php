@@ -29,7 +29,9 @@ use PhpOffice\PhpWord\Style\Frame as FrameStyle;
 class Frame extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -74,7 +76,9 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Write alignment
+     * Write alignment.
+     *
+     * @return void
      */
     public function writeAlignment()
     {
@@ -91,11 +95,12 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Write alignment
+     * Write alignment.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Frame $style
      * @param string $wrap
+     * @return void
      */
     private function writeWrap(XMLWriter $xmlWriter, FrameStyle $style, $wrap)
     {
