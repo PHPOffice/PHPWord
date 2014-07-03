@@ -69,6 +69,12 @@ class Frame extends AbstractStyle
 
         // Style attribute
         $xmlWriter->writeAttribute('style', $this->assembleStyle($styles));
+        
+        if ($style->getOverlap()) {
+            $xmlWriter->writeAttribute('o:allowoverlap', 't');
+        } else {
+            $xmlWriter->writeAttribute('o:allowoverlap', 'f');
+        }
 
         $this->writeWrap($xmlWriter, $style, $wrap);
     }

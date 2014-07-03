@@ -172,6 +172,14 @@ class Frame extends AbstractStyle
     private $wrap;
 
     /**
+     * Allow overlap
+     *
+     * @var bool
+     */
+    private $overlap = false;
+    
+    
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -470,6 +478,28 @@ class Frame extends AbstractStyle
         );
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
 
+        return $this;
+    }
+    
+    /**
+     * Get overlap
+     *
+     * @return bool
+     */
+    public function getOverlap()
+    {
+        return $this->overlap;
+    }
+    
+    /**
+     * Set overlap
+     *
+     * @param bool
+     * @return self
+     */
+    public function setOverlap($value)
+    {
+        $this->overlap = $this->setBoolVal($value, false);
         return $this;
     }
 }

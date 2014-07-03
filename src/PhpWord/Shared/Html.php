@@ -126,6 +126,7 @@ class Html
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'img'       => array('Image',       $node,  $element,   $styles,    $data,  null,           null),
         );
 
         $newElement = null;
@@ -143,6 +144,7 @@ class Html
                     $arguments[$keys[$i]] = &$args[$i];
                 }
             }
+
             $method = "parse{$method}";
             $newElement = call_user_func_array(array('PhpOffice\PhpWord\Shared\Html', $method), $arguments);
 
@@ -334,6 +336,66 @@ class Html
         return null;
     }
 
+    /**
+     * Parse image node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @param array $data
+     * @return null
+     *
+     */
+    private static function parseImage($node, $element, &$styles, $data)
+    {
+        $style=array();
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+            	case 'src':
+            	    $src=$attribute->value;
+            	    break;
+            	case 'width':
+            	    $width=$attribute->value;
+            	    $style['width']=$width;
+            	    break;
+            	case 'height':
+            	    $height=$attribute->value;
+            	    $style['height']=$height;
+            	    break;
+            	case 'style':
+            	    $styleattr=explode(';', $attribute->value);
+            	    foreach ($styleattr as $attr) {
+            	        if (strpos($attr, ':')) {
+            	            list($k, $v) = explode(':', $attr);
+            	            switch ($k) {
+            	            	case 'float':
+            	            	    if (trim($v)=='right') {
+            	            	        $style['hPos']=\PhpOffice\PhpWord\Style\Image::POS_RIGHT;
+            	            	        $style['hPosRelTo']=\PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+            	            	        $style['pos']=\PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
+            	            	        $style['wrap']=\PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
+            	            	        $style['overlap']=true;
+            	            	    }
+            	            	    if (trim($v)=='left') {
+            	            	        $style['hPos']=\PhpOffice\PhpWord\Style\Image::POS_LEFT;
+            	            	        $style['hPosRelTo']=\PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+            	            	        $style['pos']=\PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
+            	            	        $style['wrap']=\PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
+            	            	        $style['overlap']=true;
+            	            	    }
+            	            	    break;
+            	            }
+            	        }
+            	        
+            	    }
+            	    break;
+            }
+        }
+        $newElement = $element->addImage($src, $style);
+        return $newElement;
+    }
+    
+    
     /**
      * Parse style
      *

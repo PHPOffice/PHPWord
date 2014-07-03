@@ -33,7 +33,8 @@ class Image extends AbstractElement
     const SOURCE_LOCAL = 'local'; // Local images
     const SOURCE_GD = 'gd'; // Generated using GD
     const SOURCE_ARCHIVE = 'archive'; // Image in archives zip://$archive#$image
-
+    const SOURCE_INLINE = 'inline'; // Image in inline base64 encoding
+    
     /**
      * Image source
      *
@@ -341,6 +342,11 @@ class Image extends AbstractElement
                 fclose($fileHandle);
             }
         }
+        
+        if ($this->sourceType == self::SOURCE_INLINE) {
+            $imageBinary = substr($source, strpos($source, 'base64,')+7);
+            $base64=true;
+        }
         if ($imageBinary !== null) {
             if ($base64) {
                 $imageData = chunk_split(base64_encode($imageBinary));
@@ -367,10 +373,11 @@ class Image extends AbstractElement
     private function checkImage($source)
     {
         $this->setSourceType($source);
-
         // Check image data
         if ($this->sourceType == self::SOURCE_ARCHIVE) {
             $imageData = $this->getArchiveImageSize($source);
+        } elseif ($this->sourceType == self::SOURCE_INLINE) {
+            $imageData = $this->getInlineImageSize($source);
         } else {
             $imageData = @getimagesize($source);
         }
@@ -407,6 +414,9 @@ class Image extends AbstractElement
         } elseif (strpos($source, 'zip://') !== false) {
             $this->memoryImage = false;
             $this->sourceType = self::SOURCE_ARCHIVE;
+        } elseif (strpos($source, 'data:') !== false) {
+            $this->memoryImage = true;
+            $this->sourceType = self::SOURCE_INLINE;
         } else {
             $this->memoryImage = (filter_var($source, FILTER_VALIDATE_URL) !== false);
             $this->sourceType = $this->memoryImage ? self::SOURCE_GD : self::SOURCE_LOCAL;
@@ -442,6 +452,27 @@ class Image extends AbstractElement
         return $imageData;
     }
 
+    /**
+     * Get image size from inline
+     *
+     * @param string $source
+     * @return array|null
+     */
+    private function getInlineImageSize($source)
+    {
+        $imageData = null;
+        $imageContent = base64_decode(substr($source, strpos($source, 'base64,')+7));
+        $tempFilename = tempnam(sys_get_temp_dir(), 'PHPWordImage');
+        
+        if ($imageContent !== false) {
+            file_put_contents($tempFilename, $imageContent);
+            $imageData = @getimagesize($tempFilename);
+            unlink($tempFilename);
+        }
+        
+        return $imageData;
+    }
+    
     /**
      * Set image functions and extensions
      */
