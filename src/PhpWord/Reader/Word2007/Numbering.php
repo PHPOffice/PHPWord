@@ -30,7 +30,7 @@ class Numbering extends AbstractPart
     /**
      * Read numbering.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
      * @return void
      */
     public function read(PhpWord &$phpWord)

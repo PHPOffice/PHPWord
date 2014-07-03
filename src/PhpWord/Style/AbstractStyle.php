@@ -297,7 +297,7 @@ abstract class AbstractStyle
      *
      * @param mixed $value
      * @param string $styleName
-     * @param mixed $style
+     * @param mixed &$style
      * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
@@ -319,8 +319,8 @@ abstract class AbstractStyle
     /**
      * Set $property value and set $pairProperty = false when $value = true
      *
-     * @param bool $property
-     * @param bool $pairProperty
+     * @param bool &$property
+     * @param bool &$pairProperty
      * @param bool $value
      * @return self
      */

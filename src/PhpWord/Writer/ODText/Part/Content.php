@@ -23,10 +23,10 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
 
@@ -190,8 +190,8 @@ class Content extends AbstractPart
      * Table style can be null or string of the style name
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
      * @return void
      * @todo Simplify the logic
      */
@@ -223,9 +223,9 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text $element
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param \PhpOffice\PhpWord\Element\Text &$element
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
      * @return void
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)

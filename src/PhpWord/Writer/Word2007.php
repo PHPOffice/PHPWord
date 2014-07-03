@@ -192,10 +192,10 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer content.
      *
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
-     * @param integer $rId
+     * @param integer &$rId
      * @return void
      */
     private function addHeaderFooterContent(Section &$section, ZipArchive $zip, $elmType, &$rId)
@@ -221,7 +221,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add footnotes/endnotes
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer $rId
+     * @param integer &$rId
      * @param string $noteType
      * @return void
      */
@@ -259,7 +259,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add chart.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer $rId
+     * @param integer &$rId
      * @return void
      */
     private function addChart(ZipArchive $zip, &$rId)

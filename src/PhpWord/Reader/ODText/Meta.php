@@ -30,7 +30,7 @@ class Meta extends AbstractPart
     /**
      * Read meta.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
      * @return void
      * @todo Process property type
      */

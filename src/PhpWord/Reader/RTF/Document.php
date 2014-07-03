@@ -129,7 +129,7 @@ class Document
      * - Builds control words and control symbols
      * - Pushes every other character into the text queue
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
      * @return void
      * @todo Use `fread` stream for scalability
      */

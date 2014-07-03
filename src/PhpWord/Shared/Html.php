@@ -191,7 +191,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @return \PhpOffice\PhpWord\Element\TextRun
      */
     private static function parseParagraph($node, $element, &$styles)
@@ -206,7 +206,7 @@ class Html
      * Parse heading node
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Name of heading style
      * @return \PhpOffice\PhpWord\Element\TextRun
      *
@@ -226,7 +226,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @return null
      */
     private static function parseText($node, $element, &$styles)
@@ -245,7 +245,7 @@ class Html
     /**
      * Parse property node
      *
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Style name
      * @param string $argument2 Style value
      * @return null
@@ -262,7 +262,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Method name
      * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
      *
@@ -292,8 +292,8 @@ class Html
     /**
      * Parse list node
      *
-     * @param array $styles
-     * @param array $data
+     * @param array &$styles
+     * @param array &$data
      * @param string $argument1 List type
      * @return null
      */
@@ -314,7 +314,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param array $data
      * @return null
      *

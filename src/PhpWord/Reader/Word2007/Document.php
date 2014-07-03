@@ -39,7 +39,7 @@ class Document extends AbstractPart
     /**
      * Read document.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
      * @return void
      */
     public function read(PhpWord &$phpWord)
@@ -65,7 +65,7 @@ class Document extends AbstractPart
      * Read header footer.
      *
      * @param array $settings
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
      */
     private function readHeaderFooter($settings, Section &$section)
@@ -144,7 +144,7 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
      *
      * @todo <w:lastRenderedPageBreak>
@@ -174,7 +174,7 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)

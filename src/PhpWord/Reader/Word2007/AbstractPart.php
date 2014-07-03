@@ -94,7 +94,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param mixed &$parent
      * @param string $docPart
      * @return void
      *
@@ -185,7 +185,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param mixed &$parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      * @return void
@@ -248,7 +248,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param mixed &$parent
      * @param string $docPart
      * @return void
      */

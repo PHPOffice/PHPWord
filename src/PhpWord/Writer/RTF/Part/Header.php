@@ -19,8 +19,8 @@ namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Converter;
-use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * RTF header part writer
@@ -246,7 +246,7 @@ class Header extends AbstractPart
     /**
      * Register individual font and color.
      *
-     * @param array $table
+     * @param array &$table
      * @param string $value
      * @param string $default
      * @return void
