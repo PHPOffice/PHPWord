@@ -131,7 +131,7 @@ abstract class AbstractElement
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function setPhpWord(PhpWord $phpWord)
+    public function setPhpWord(PhpWord $phpWord = null)
     {
         $this->phpWord = $phpWord;
     }
