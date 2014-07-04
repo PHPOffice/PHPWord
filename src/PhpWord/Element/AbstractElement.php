@@ -133,7 +133,7 @@ abstract class AbstractElement
      */
     public function setPhpWord(PhpWord &$phpWord = null)
     {
-        $this->phpWord = &$phpWord;
+        $this->phpWord = $phpWord;
     }
 
     /**
