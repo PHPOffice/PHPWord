@@ -26,6 +26,8 @@ class Title extends AbstractElement
 {
     /**
      * Write title element
+	 *
+	 * @return void
      */
     public function write()
     {

@@ -26,6 +26,8 @@ class Link extends Text
 {
     /**
      * Write link element
+	 *
+	 * @return void
      */
     public function write()
     {
