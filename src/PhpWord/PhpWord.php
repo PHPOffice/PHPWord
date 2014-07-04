@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method Collection\Footnotes getFootnotes()
  * @method Collection\Endnotes getEndnotes()
  * @method Collection\Charts getCharts()
+ * @method int addBookmark(Element\Bookmark $bookmark)
  * @method int addTitle(Element\Title $title)
  * @method int addFootnote(Element\Footnote $footnote)
  * @method int addEndnote(Element\Endnote $endnote)
@@ -82,7 +83,7 @@ class PhpWord
     public function __construct()
     {
         // Collection
-        $collections = array('Titles', 'Footnotes', 'Endnotes', 'Charts');
+        $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
@@ -113,7 +114,7 @@ class PhpWord
         $addCollection = array();
         $addStyle = array();
 
-        $collections = array('Title', 'Footnote', 'Endnote', 'Chart');
+        $collections = array('Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart');
         foreach ($collections as $collection) {
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
@@ -218,10 +219,9 @@ class PhpWord
     }
 
     /**
-     * Set default font name.
+     * Set default font name
      *
      * @param string $fontName
-     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -239,10 +239,9 @@ class PhpWord
     }
 
     /**
-     * Set default font size.
+     * Set default font size
      *
      * @param int $fontSize
-     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {

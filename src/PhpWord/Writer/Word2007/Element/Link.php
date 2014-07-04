@@ -25,9 +25,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Link extends Text
 {
     /**
-     * Write link element.
-     *
-     * @return void
+     * Write link element
      */
     public function write()
     {
@@ -42,7 +40,11 @@ class Link extends Text
         $this->startElementP();
 
         $xmlWriter->startElement('w:hyperlink');
-        $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+        if($element->isInternal()) {
+        	$xmlWriter->writeAttribute('w:anchor', $element->getSource());
+        }else {
+        	$xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+        }
         $xmlWriter->writeAttribute('w:history', '1');
         $xmlWriter->startElement('w:r');
 
