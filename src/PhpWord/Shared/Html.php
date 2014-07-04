@@ -343,7 +343,7 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
      * @param array $data
-     * @return null
+     * @return \PhpOffice\PhpWord\Element\Image $element
      *
      */
     private static function parseImage($node, $element, &$styles, $data)
