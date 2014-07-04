@@ -164,7 +164,7 @@ class Section extends AbstractContainer
         $containerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
             ($header ? 'Header' : 'Footer');
         $collectionArray = $header ? 'headers' : 'footers';
-        $collection = &$collectionArray;
+        $collection = &$this->$collectionArray;
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
