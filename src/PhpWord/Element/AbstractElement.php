@@ -128,10 +128,10 @@ abstract class AbstractElement
     /**
      * Set PhpWord as reference.
      *
-     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function setPhpWord(PhpWord &$phpWord = null)
+    public function setPhpWord(PhpWord $phpWord)
     {
         $this->phpWord = $phpWord;
     }
@@ -285,8 +285,7 @@ abstract class AbstractElement
         }
 
         // Set phpword
-        $phpWord = $container->getPhpWord();
-        $this->setPhpWord($phpWord);
+        $this->setPhpWord($container->getPhpWord());
 
         // Set doc part
         if (!$this instanceof Footnote) {

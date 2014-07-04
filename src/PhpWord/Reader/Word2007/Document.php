@@ -39,10 +39,10 @@ class Document extends AbstractPart
     /**
      * Read document.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();

@@ -129,11 +129,11 @@ class Document
      * - Builds control words and control symbols
      * - Pushes every other character into the text queue
      *
-     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      * @todo Use `fread` stream for scalability
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $markers = array(
             123 => 'markOpening',   // {

@@ -106,13 +106,13 @@ class Template
     /**
      * Applies XSL style sheet to template's parts.
      *
-     * @param \DOMDocument &$xslDOMDocument
+     * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
      * @return void
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
+    public function applyXslStyleSheet($xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
         $processor = new \XSLTProcessor();
 

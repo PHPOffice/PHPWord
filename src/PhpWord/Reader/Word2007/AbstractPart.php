@@ -64,7 +64,7 @@ abstract class AbstractPart
     /**
      * Read part.
      */
-    abstract public function read(PhpWord &$phpWord);
+    abstract public function read(PhpWord $phpWord);
 
     /**
      * Create new instance

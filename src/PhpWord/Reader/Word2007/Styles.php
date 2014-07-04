@@ -30,10 +30,10 @@ class Styles extends AbstractPart
     /**
      * Read styles.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord &$phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
