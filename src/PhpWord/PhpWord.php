@@ -222,7 +222,7 @@ class PhpWord
      * Set default font name.
      *
      * @param string $fontName
-	 * @return void
+     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -243,7 +243,7 @@ class PhpWord
      * Set default font size.
      *
      * @param int $fontSize
-	 * @return void
+     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {
