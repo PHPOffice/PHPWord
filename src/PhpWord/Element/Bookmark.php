@@ -60,5 +60,4 @@ class Bookmark extends AbstractElement
     {
         return $this->name;
     }
-
 }

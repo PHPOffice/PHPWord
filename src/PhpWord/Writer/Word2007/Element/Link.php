@@ -42,10 +42,10 @@ class Link extends Text
         $this->startElementP();
 
         $xmlWriter->startElement('w:hyperlink');
-        if($element->isInternal()) {
-        	$xmlWriter->writeAttribute('w:anchor', $element->getSource());
-        }else {
-        	$xmlWriter->writeAttribute('r:id', 'rId' . $rId);
+        if ($element->isInternal()) {
+            $xmlWriter->writeAttribute('w:anchor', $element->getSource());
+        } else {
+            $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         }
         $xmlWriter->writeAttribute('w:history', '1');
         $xmlWriter->startElement('w:r');
