@@ -25,7 +25,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Title extends AbstractElement
 {
     /**
-     * Write title element
+     * Write title element.
      *
      * @return void
      */
