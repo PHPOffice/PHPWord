@@ -248,11 +248,11 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed &$parent
+     * @param mixed $parent
      * @param string $docPart
      * @return void
      */
-    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
+    protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {
         // Table style
         $tblStyle = null;

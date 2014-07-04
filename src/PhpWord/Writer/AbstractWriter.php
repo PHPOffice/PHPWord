@@ -321,11 +321,11 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @since 0.11.0
      *
-     * @param resource &$fileHandle
+     * @param resource $fileHandle
      * @param string $content
      * @return void
      */
-    protected function writeFile(&$fileHandle, $content)
+    protected function writeFile($fileHandle, $content)
     {
         fwrite($fileHandle, $content);
         fclose($fileHandle);

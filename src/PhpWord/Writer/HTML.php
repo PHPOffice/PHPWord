@@ -69,8 +69,7 @@ class HTML extends AbstractWriter implements WriterInterface
      */
     public function save($filename = null)
     {
-        $fileHandle = $this->openFile($filename);
-        $this->writeFile($fileHandle, $this->getContent());
+        $this->writeFile($this->openFile($filename), $this->getContent());
     }
 
     /**
