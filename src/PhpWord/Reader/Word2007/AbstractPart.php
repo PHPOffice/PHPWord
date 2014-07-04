@@ -94,13 +94,13 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed &$parent
+     * @param mixed $parent
      * @param string $docPart
      * @return void
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart = 'document')
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {
         // Paragraph style
         $paragraphStyle = null;
@@ -168,7 +168,7 @@ abstract class AbstractPart
             } else {
                 $textParent = $parent;
                 if ($runLinkCount > 1) {
-                    $textParent = &$parent->addTextRun($paragraphStyle);
+                    $textParent = $parent->addTextRun($paragraphStyle);
                 }
                 $nodes = $xmlReader->getElements('*', $domNode);
                 foreach ($nodes as $node) {
@@ -183,14 +183,14 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed &$parent
+     * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      * @return void
      *
      * @todo Footnote paragraph style
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, &$parent, $docPart, $paragraphStyle = null)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
