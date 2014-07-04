@@ -139,7 +139,7 @@ class PhpWord
             /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
             $collectionObject = $this->collections[$key];
 
-            return $collectionObject->addItem(array_key_exists(0,$args) ? $args[0] : null);
+            return $collectionObject->addItem(array_key_exists(0, $args) ? $args[0] : null);
         }
 
         // Run add style method
