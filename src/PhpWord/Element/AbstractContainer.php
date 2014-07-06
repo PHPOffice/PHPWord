@@ -22,6 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @method Text addText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method TextRun addTextRun(mixed $pStyle = null)
+ * @method Bookmark addBookmark(string $name)
  * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null)
  * @method PreserveText addPreserveText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method void addTextBreak(int $count = 1, mixed $fStyle = null, mixed $pStyle = null)
@@ -78,7 +79,7 @@ abstract class AbstractContainer extends AbstractElement
     public function __call($function, $args)
     {
         $elements = array(
-            'Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
+            'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
@@ -189,6 +190,7 @@ abstract class AbstractContainer extends AbstractElement
         );
         $validContainers = array(
             'Text'          => $allContainers,
+            'Bookmark'      => $allContainers,
             'Link'          => $allContainers,
             'TextBreak'     => $allContainers,
             'Image'         => $allContainers,

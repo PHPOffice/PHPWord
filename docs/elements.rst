@@ -53,6 +53,8 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 22    | Form fields     | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 23    | Bookmarks       | v         | -        | -        | v       | v          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
 
@@ -129,12 +131,13 @@ You can add Hyperlinks to the document by using the function addLink:
 
 .. code-block:: php
 
-    $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle]);
+    $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle], [$isInternal]);
 
 -  ``$linkSrc`` The URL of the link.
 -  ``$linkName`` Placeholder of the URL that appears in the document.
 -  ``$fontStyle`` See "Font style" section.
 -  ``$paragraphStyle`` See "Paragraph style" section.
+-  ``$isInternal`` Set to true, if the link points to a bookmark inside the document
 
 Preserve texts
 ~~~~~~~~~~~~~~
@@ -429,3 +432,14 @@ Form fields
 -----------
 
 To be completed.
+
+Bookmarks
+~~~~~
+
+You can add Bookmarks to the document by using the function addBookmark:
+
+.. code-block:: php
+
+    $section->addBookmark($name);
+
+-  ``$name`` The name of the bookmark which can be referenced in the addLink-Function as target. Should obviously be unique throughout the document.

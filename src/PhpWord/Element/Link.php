@@ -62,6 +62,13 @@ class Link extends AbstractElement
     protected $mediaRelation = true;
 
     /**
+     * Has internal flag - anchor to internal bookmark
+     *
+     * @var bool
+     */
+    protected $internal = false;
+
+    /**
      * Create a new Link Element
      *
      * @param string $source
@@ -69,13 +76,13 @@ class Link extends AbstractElement
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null)
+    public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
         $this->source = String::toUTF8($source);
         $this->text = is_null($text) ? $this->source : String::toUTF8($text);
         $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
-
+        $this->internal = $internal;
         return $this;
     }
 
@@ -153,5 +160,15 @@ class Link extends AbstractElement
     public function getLinkName()
     {
         return $this->getText();
+    }
+
+    /**
+     * is internal
+     *
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->internal;
     }
 }
