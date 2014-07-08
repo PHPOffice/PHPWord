@@ -238,6 +238,19 @@ class Section extends Border
     {
         return $this->pageSizeW;
     }
+    
+    /**
+     * Set Page Width
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setPageSizeW($value = null)
+    {
+        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        return $this;
+    }
+
 
     /**
      * Get Page Size Height
@@ -248,6 +261,19 @@ class Section extends Border
     {
         return $this->pageSizeH;
     }
+    
+    /**
+     * Set Page Height
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setPageSizeH($value = null)
+    {
+        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        return $this;
+    }
+
 
     /**
      * Get Margin Top
