@@ -247,7 +247,7 @@ class Section extends Border
      */
     public function setPageSizeW($value = null)
     {
-        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_WIDTH);
         return $this;
     }
 
@@ -270,7 +270,7 @@ class Section extends Border
      */
     public function setPageSizeH($value = null)
     {
-        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_HEIGHT);
         return $this;
     }
 
