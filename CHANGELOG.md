@@ -41,6 +41,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 ### Miscellaneous
 
 - Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
+- Docs: Correct elements.rst about Line - @chrissharkman GH-292
 - PclZip: Remove temporary file after used - @andrew-kzoo GH-265
 - Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
 - Element: Refactor elements to move set relation Id from container to element - @ivanlanin
