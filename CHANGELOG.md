@@ -30,7 +30,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Page breaks on titles and tables - @ivanlanin GH-274
 - Table inside vertical border does not rendered properly - @ivanlanin GH-280
 - `add<elementName>` of container should be case insensitive, e.g. `addToc` should be accepted, not only `addTOC` - @ivanlanin GH-294
-- Fix specific borders (and margins) were not written correctly in word2007 writer
+- Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit GH-327
 
 ### Deprecated
 
