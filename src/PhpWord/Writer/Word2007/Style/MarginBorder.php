@@ -57,7 +57,6 @@ class MarginBorder extends AbstractStyle
         $xmlWriter = $this->getXmlWriter();
 
         $sides = array('top', 'left', 'right', 'bottom', 'insideH', 'insideV');
-        $sizeCount = count($this->sizes);
 
         foreach ($this->sizes as $i => $size) {
             if ($size !== null) {
