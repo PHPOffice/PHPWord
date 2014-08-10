@@ -67,7 +67,7 @@ class Template
      */
     public function __construct($fileName)
     {
-        $this->tempFileName = tempnam(sys_get_temp_dir(), '');
+        $this->tempFileName = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === $this->tempFileName) {
             throw new CreateTemporaryFileException();
         }

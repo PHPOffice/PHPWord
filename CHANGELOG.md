@@ -47,6 +47,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
 - Element: Refactor elements to move set relation Id from container to element - @ivanlanin
 - Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
+- Settings: added method to set user defined temporary directory - @RomanSyroeshko GH-310
 
 ## 0.11.1 - 2 June 2014
 

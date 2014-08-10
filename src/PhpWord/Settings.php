@@ -120,6 +120,13 @@ class Settings
     private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
     /**
+     * The user defined temporary directory.
+     *
+     * @var string
+     */
+    private static $tempDir = '';
+
+    /**
      * Return the compatibility option used by the XMLWriter
      *
      * @return bool Compatibility
@@ -267,6 +274,35 @@ class Settings
         self::$measurementUnit = $value;
 
         return true;
+    }
+
+    /**
+     * Sets the user defined path to temporary directory.
+     *
+     * @param string $tempDir The user defined path to temporary directory.
+     * @return void
+     * @since 0.12.0
+     */
+    public static function setTempDir($tempDir)
+    {
+        self::$tempDir = $tempDir;
+    }
+
+    /**
+     * Returns path to temporary directory.
+     *
+     * @return string
+     * @since 0.12.0
+     */
+    public static function getTempDir()
+    {
+        $tempDir = sys_get_temp_dir();
+
+        if (!empty(self::$tempDir)) {
+            $tempDir = self::$tempDir;
+        }
+
+        return $tempDir;
     }
 
     /**

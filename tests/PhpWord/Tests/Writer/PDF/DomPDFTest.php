@@ -71,7 +71,7 @@ class DomPDFTest extends \PHPUnit_Framework_TestCase
         $writer->setOrientation();
         $this->assertEquals('default', $writer->getOrientation());
 
-        $writer->setTempDir(sys_get_temp_dir());
-        $this->assertEquals(sys_get_temp_dir(), $writer->getTempDir());
+        $writer->setTempDir(Settings::getTempDir());
+        $this->assertEquals(Settings::getTempDir(), $writer->getTempDir());
     }
 }

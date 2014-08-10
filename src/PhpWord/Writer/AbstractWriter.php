@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
@@ -214,12 +215,12 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
+        $this->setTempDir(Settings::getTempDir() . '/PHPWordWriter/');
 
         // Temporary file
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
-            $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
+            $filename = tempnam(Settings::getTempDir(), 'phpword_');
             // @codeCoverageIgnoreStart
             // Can't find any test case. Uncomment when found.
             if ($filename == '') {
