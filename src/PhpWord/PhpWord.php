@@ -297,7 +297,6 @@ class PhpWord
             'PDF'       => 'application/pdf',
         );
 
-        /** @var \PhpOffice\PhpWord\Writer\WriterInterface $writer */
         $writer = IOFactory::createWriter($this, $format);
 
         if ($download === true) {
