@@ -66,12 +66,12 @@ class XMLWriter
             $this->xmlWriter->openMemory();
         } else {
             // Create temporary filename
-            $this->tempFile = @tempnam($tempFolder, 'xml');
+            $this->tempFile = tempnam($tempFolder, 'xml');
 
             // Fallback to memory when temporary file cannot be used
             // @codeCoverageIgnoreStart
             // Can't find any test case. Uncomment when found.
-            if ($this->xmlWriter->openUri($this->tempFile) === false) {
+            if (false === $this->tempFile || false === $this->xmlWriter->openUri($this->tempFile)) {
                 $this->xmlWriter->openMemory();
             }
             // @codeCoverageIgnoreEnd

@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -39,10 +40,15 @@ class TestHelperDOCX
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      * @return \PhpOffice\PhpWord\Tests\XmlDocument
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {
         self::$file = tempnam(Settings::getTempDir(), 'PhpWord');
+        if (false === self::$file) {
+            throw new CreateTemporaryFileException();
+        }
+
         if (!is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
             mkdir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
         }

@@ -220,13 +220,10 @@ abstract class AbstractWriter implements WriterInterface
         // Temporary file
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
-            $filename = tempnam(Settings::getTempDir(), 'phpword_');
-            // @codeCoverageIgnoreStart
-            // Can't find any test case. Uncomment when found.
-            if ($filename == '') {
+            $filename = tempnam(Settings::getTempDir(), 'PhpWord');
+            if (false === $filename) {
                 $filename = $this->originalFilename;
             }
-            // @codeCoverageIgnoreEnd
         }
         $this->tempFilename = $filename;
 

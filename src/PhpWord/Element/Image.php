@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\InvalidImageException;
 use PhpOffice\PhpWord\Exception\UnsupportedImageTypeException;
 use PhpOffice\PhpWord\Settings;
@@ -423,13 +424,18 @@ class Image extends AbstractElement
      *
      * @param string $source
      * @return array|null
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      */
     private function getArchiveImageSize($source)
     {
         $imageData = null;
         $source = substr($source, 6);
         list($zipFilename, $imageFilename) = explode('#', $source);
+
         $tempFilename = tempnam(Settings::getTempDir(), 'PHPWordImage');
+        if (false === $tempFilename) {
+            throw new CreateTemporaryFileException();
+        }
 
         $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
@@ -437,7 +443,7 @@ class Image extends AbstractElement
                 $imageContent = $zip->getFromName($imageFilename);
                 if ($imageContent !== false) {
                     file_put_contents($tempFilename, $imageContent);
-                    $imageData = @getimagesize($tempFilename);
+                    $imageData = getimagesize($tempFilename);
                     unlink($tempFilename);
                 }
             }
