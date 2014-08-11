@@ -422,6 +422,8 @@ class Image extends AbstractElement
     /**
      * Get image size from archive
      *
+     * @since 0.12.0 Throws CreateTemporaryFileException.
+     *
      * @param string $source
      * @return array|null
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException

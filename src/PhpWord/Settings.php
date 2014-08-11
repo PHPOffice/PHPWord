@@ -279,9 +279,10 @@ class Settings
     /**
      * Sets the user defined path to temporary directory.
      *
+     * @since 0.12.0
+     *
      * @param string $tempDir The user defined path to temporary directory.
      * @return void
-     * @since 0.12.0
      */
     public static function setTempDir($tempDir)
     {
@@ -291,8 +292,9 @@ class Settings
     /**
      * Returns path to temporary directory.
      *
-     * @return string
      * @since 0.12.0
+     *
+     * @return string
      */
     public static function getTempDir()
     {
