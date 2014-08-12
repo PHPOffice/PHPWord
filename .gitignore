@@ -13,3 +13,4 @@ phpword.ini
 /.settings
 /build
 /vendor
+/phpunit.bat

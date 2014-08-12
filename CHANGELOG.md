@@ -22,6 +22,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Setting: Ability to remove [Compatibility Mode] text in the MS Word title bar - @ivanlanin
 - SDT: Ability to add structured document tag elements (comboBox, dropDownList, date) - @ivanlanin
 - Paragraph: Support for paragraph with borders - @ivanlanin GH-294
+- Word2007 Writer : Support for RTL - @Progi1984 GH-331
 
 ### Bugfixes
 

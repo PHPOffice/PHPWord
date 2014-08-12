@@ -56,6 +56,7 @@ Available font styles:
 -  ``bgColor`` Font background color, e.g. *FF0000*
 -  ``smallCaps`` Small caps, *true* or *false*
 -  ``allCaps`` All caps, *true* or *false*
+-  ``rtl`` Right to Left language, *true* or *false*
 
 Paragraph
 ---------

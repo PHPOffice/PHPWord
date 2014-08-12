@@ -129,6 +129,12 @@ class Font extends AbstractStyle
             $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
+        
+        // RTL
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
+        }
 
         $xmlWriter->endElement();
     }

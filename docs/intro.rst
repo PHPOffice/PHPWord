@@ -37,6 +37,7 @@ Features
    run) that contains other elements
 -  Insert titles (headers) and table of contents
 -  Insert text breaks and page breaks
+-  Insert right-to-left text
 -  Insert and format images, either local, remote, or as page watermarks
 -  Insert binary OLE Objects such as Excel or Visio
 -  Insert and format table with customized properties for each rows

@@ -373,6 +373,7 @@ abstract class AbstractPart
             'superScript'         => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'superscript'),
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
+            'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

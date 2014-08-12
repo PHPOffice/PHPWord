@@ -223,6 +223,12 @@ class Font extends AbstractStyle
     private $shading;
 
     /**
+     * Right to left languages 
+     * @var boolean
+     */
+    private $rtl = false;
+
+    /**
      * Create new font style
      *
      * @param string $type Type of font
@@ -268,6 +274,7 @@ class Font extends AbstractStyle
                 'kerning'   => $this->getKerning(),
             ),
             'paragraph'     => $this->getParagraph(),
+            'rtl'           => $this->isRTL(),
             'shading'       => $this->getShading(),
         );
 
@@ -726,6 +733,29 @@ class Font extends AbstractStyle
     public function setParagraph($value = null)
     {
         $this->setObjectVal($value, 'Paragraph', $this->paragraph);
+
+        return $this;
+    }
+
+    /**
+     * Get rtl
+     *
+     * @return bool
+     */
+    public function isRTL()
+    {
+        return $this->rtl;
+    }
+
+    /**
+     * Set rtl
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setRTL($value = true)
+    {
+        $this->rtl = $this->setBoolVal($value, $this->rtl);
 
         return $this;
     }
