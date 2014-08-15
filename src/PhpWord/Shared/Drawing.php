@@ -119,6 +119,76 @@ class Drawing
     }
 
     /**
+     * Convert centimeters width to twips
+     *
+     * @param integer $pValue
+     */
+    public static function centimetersToTwips($pValue = 0)
+    {
+        if ($pValue != 0) {
+            return $pValue * 566.928;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Convert twips width to centimeters
+     *
+     * @param integer $pValue
+     */
+    public static function twipsToCentimeters($pValue = 0)
+    {
+        if ($pValue != 0) {
+            return $pValue / 566.928;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Convert inches width to twips
+     *
+     * @param integer $pValue
+     */
+    public static function inchesToTwips($pValue = 0)
+    {
+        if ($pValue != 0) {
+            return $pValue * 1440;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Convert twips width to inches
+     *
+     * @param integer $pValue
+     */
+    public static function twipsToInches($pValue = 0)
+    {
+        if ($pValue != 0) {
+            return $pValue / 1440;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Convert twips width to pixels
+     *
+     * @param integer $pValue
+     */
+    public static function twipsToPixels($pValue = 0)
+    {
+        if ($pValue != 0) {
+            return round($pValue / 15.873984);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * Convert HTML hexadecimal to RGB
      *
      * @param string $pValue HTML Color in hexadecimal

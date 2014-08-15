@@ -225,7 +225,6 @@ class Font extends AbstractStyle
         return $this;
     }
 
-
     /**
      * Get font size
      *
