@@ -31,7 +31,7 @@ class Drawing
      * @param integer $pValue Value in EMU
      * @return integer Value in pixels
      */
-    public static function EMUToPixels($pValue = 0)
+    public static function emuToPixels($pValue = 0)
     {
         if ($pValue != 0) {
             return round($pValue / 9525);
@@ -201,17 +201,17 @@ class Drawing
         }
 
         if (strlen($pValue) == 6) {
-            list($color_R, $color_G, $color_B) = array($pValue[0] . $pValue[1], $pValue[2] . $pValue[3], $pValue[4] . $pValue[5]);
+            list($colorR, $colorG, $colorB) = array($pValue[0] . $pValue[1], $pValue[2] . $pValue[3], $pValue[4] . $pValue[5]);
         } elseif (strlen($pValue) == 3) {
-            list($color_R, $color_G, $color_B) = array($pValue[0] . $pValue[0], $pValue[1] . $pValue[1], $pValue[2] . $pValue[2]);
+            list($colorR, $colorG, $colorB) = array($pValue[0] . $pValue[0], $pValue[1] . $pValue[1], $pValue[2] . $pValue[2]);
         } else {
             return false;
         }
 
-        $color_R = hexdec($color_R);
-        $color_G = hexdec($color_G);
-        $color_B = hexdec($color_B);
+        $colorR = hexdec($colorR);
+        $colorG = hexdec($colorG);
+        $colorB = hexdec($colorB);
 
-        return array($color_R, $color_G, $color_B);
+        return array($colorR, $colorG, $colorB);
     }
 }

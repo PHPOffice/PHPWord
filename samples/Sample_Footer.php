@@ -2,6 +2,9 @@
 /**
  * Footer file
  */
+if (CLI) {
+    return;
+}
 ?>
 </div>
 <script src="bootstrap/js/jquery.min.js"></script>

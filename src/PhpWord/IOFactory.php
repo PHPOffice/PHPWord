@@ -48,20 +48,46 @@ abstract class IOFactory
         return self::createObject('Reader', $name);
     }
 
-        $fqName = "PhpOffice\\PhpWord\\Reader\\{$name}";
-        return new $fqName();
+    /**
+     * Create new object
+     *
+     * @param string $type
+     * @param string $name
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    private static function createObject($type, $name, $phpWord = null)
+    {
+        $class = "PhpOffice\\PhpWord\\{$type}\\{$name}";
+        if (class_exists($class) && self::isConcreteClass($class)) {
+            return new $class($phpWord);
+        } else {
+            throw new Exception("\"{$name}\" is not a valid {$type}.");
+        }
     }
-
     /**
      * Loads PhpWord from file
      *
      * @param string $filename The name of the file
      * @param string $readerName
-     * @return PhpWord
+     * @return \PhpOffice\PhpWord\PhpWord $phpWord
      */
     public static function load($filename, $readerName = 'Word2007')
     {
+        /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
         $reader = self::createReader($readerName);
         return $reader->load($filename);
+    }
+    /**
+     * Check if it's a concrete class (not abstract nor interface)
+     *
+     * @param string $class
+     * @return bool
+     */
+    private static function isConcreteClass($class)
+    {
+        $reflection = new \ReflectionClass($class);
+        return !$reflection->isAbstract() && !$reflection->isInterface();
     }
 }
