@@ -39,6 +39,8 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
 - `Shared\Drawing` and `Shared\Font` merged into `Shared\Converter`
 - `DocumentProperties` replaced by `Metadata\DocInfo`
+- `Template` replaced by `TemplateProcessor`
+- `PhpWord->loadTemplate($filename)`
 
 ### Miscellaneous
 
@@ -49,6 +51,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Element: Refactor elements to move set relation Id from container to element - @ivanlanin
 - Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
 - Settings: added method to set user defined temporary directory - @RomanSyroeshko GH-310
+- Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko GH-216
 
 ## 0.11.1 - 2 June 2014
 

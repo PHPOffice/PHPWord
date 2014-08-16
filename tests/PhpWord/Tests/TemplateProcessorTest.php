@@ -17,35 +17,33 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
-use PhpOffice\PhpWord\Template;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 /**
- * Test class for PhpOffice\PhpWord\Template
- *
- * @covers \PhpOffice\PhpWord\Template
- * @coversDefaultClass \PhpOffice\PhpWord\Template
+ * @covers \PhpOffice\PhpWord\TemplateProcessor
+ * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
  * @runTestsInSeparateProcesses
  */
-final class TemplateTest extends \PHPUnit_Framework_TestCase
+final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Template can be saved in temporary location
+     * Template can be saved in temporary location.
      *
      * @covers ::save
      * @test
      */
     final public function testTemplateCanBeSavedInTemporaryLocation()
     {
-        $templateFqfn = __DIR__ . "/_files/templates/with_table_macros.docx";
+        $templateFqfn = __DIR__ . '/_files/templates/with_table_macros.docx';
 
-        $document = new Template($templateFqfn);
+        $templateProcessor = new TemplateProcessor($templateFqfn);
         $xslDOMDocument = new \DOMDocument();
         $xslDOMDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
         foreach (array('${employee.', '${scoreboard.') as $needle) {
-            $document->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
+            $templateProcessor->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
         }
 
-        $documentFqfn = $document->save();
+        $documentFqfn = $templateProcessor->save();
 
         $this->assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
         $this->assertFileExists($documentFqfn, "The saved document \"{$documentFqfn}\" doesn't exist.");
@@ -70,9 +68,10 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * XSL stylesheet can be applied
+     * XSL stylesheet can be applied.
      *
      * @param string $actualDocumentFqfn
+     * @throws \Exception
      * @covers ::applyXslStyleSheet
      * @depends testTemplateCanBeSavedInTemporaryLocation
      * @test
@@ -99,7 +98,7 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * XSL stylesheet cannot be applied on failure in setting parameter value
+     * XSL stylesheet cannot be applied on failure in setting parameter value.
      *
      * @covers                   ::applyXslStyleSheet
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
@@ -108,20 +107,20 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfSettingParameterValue()
     {
-        $template = new Template(__DIR__ . "/_files/templates/blank.docx");
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
         $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(__DIR__ . "/_files/xsl/passthrough.xsl");
+        $xslDOMDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
 
         /*
          * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
          * This warning fails the test.
          */
-        @$template->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
+        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
     }
 
     /**
-     * XSL stylesheet can be applied on failure of loading XML from template
+     * XSL stylesheet can be applied on failure of loading XML from template.
      *
      * @covers                   ::applyXslStyleSheet
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
@@ -130,83 +129,88 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
-        $template = new Template(__DIR__ . "/_files/templates/corrupted_main_document_part.docx");
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
         $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(__DIR__ . "/_files/xsl/passthrough.xsl");
+        $xslDOMDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
 
         /*
          * We have to use error control below, because \DOMDocument::loadXML omits warning on failure.
          * This warning fails the test.
          */
-        @$template->applyXslStyleSheet($xslDOMDocument);
+        @$templateProcessor->applyXslStyleSheet($xslDOMDocument);
     }
 
     /**
-     * Get variables and clone row
+     * @civers ::setValue
+     * @covers ::cloneRow
+     * @covers ::saveAs
+     * @test
      */
     public function testCloneRow()
     {
-        $template = __DIR__ . "/_files/templates/clone-merge.docx";
-        $expectedVar = array('tableHeader', 'userId', 'userName', 'userLocation');
-        $docName = 'clone-test-result.docx';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
 
-        $document = new Template($template);
-        $actualVar = $document->getVariables();
-        $document->setValue('tableHeader', utf8_decode('ééé'));
-        $document->cloneRow('userId', 1);
-        $document->setValue('userId#1', 'Test');
-        $document->saveAs($docName);
+        $this->assertEquals(
+            array('tableHeader', 'userId', 'userName', 'userLocation'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'clone-test-result.docx';
+        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
+        $templateProcessor->cloneRow('userId', 1);
+        $templateProcessor->setValue('userId#1', 'Test');
+        $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
-
-        $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
     }
 
     /**
-     * Replace variables in header and footer
+     * @covers ::setValue
+     * @covers ::saveAs
+     * @test
      */
     public function testVariablesCanBeReplacedInHeaderAndFooter()
     {
-        $template = __DIR__ . "/_files/templates/header-footer.docx";
-        $expectedVar = array('documentContent', 'headerValue', 'footerValue');
-        $docName = 'header-footer-test-result.docx';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 
-        $document = new Template($template);
-        $actualVar = $document->getVariables();
-        $document->setValue('headerValue', 'Header Value');
-        $document->setValue('documentContent', 'Document text.');
-        $document->setValue('footerValue', 'Footer Value');
-        $document->saveAs($docName);
+        $this->assertEquals(
+            array('documentContent', 'headerValue', 'footerValue'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'header-footer-test-result.docx';
+        $templateProcessor->setValue('headerValue', 'Header Value');
+        $templateProcessor->setValue('documentContent', 'Document text.');
+        $templateProcessor->setValue('footerValue', 'Footer Value');
+        $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
-
-        $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
-
     }
 
     /**
-     * Clone and delete block
+     * @covers ::cloneBlock
+     * @covers ::deleteBlock
+     * @covers ::saveAs
+     * @test
      */
     public function testCloneDeleteBlock()
     {
-        $template = __DIR__ . "/_files/templates/clone-delete-block.docx";
-        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME');
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-delete-block.docx');
+
+        $this->assertEquals(
+            array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME'),
+            $templateProcessor->getVariables()
+        );
+
         $docName = 'clone-delete-block-result.docx';
-
-        $document = new Template($template);
-        $actualVar = $document->getVariables();
-
-        $document->cloneBlock('CLONEME', 3);
-        $document->deleteBlock('DELETEME');
-
-        $document->saveAs($docName);
+        $templateProcessor->cloneBlock('CLONEME', 3);
+        $templateProcessor->deleteBlock('DELETEME');
+        $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
-
-        $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
     }
 }
