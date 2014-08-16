@@ -1,0 +1,24 @@
+filter:
+    excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
+
+before_commands:
+    - "composer install --prefer-source --dev"
+
+tools:
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR2
+    php_mess_detector:
+        enabled: true
+        config:
+            ruleset: phpmd.xml.dist
+    external_code_coverage:
+        enabled: true
+        timeout: 900
+    php_cpd: true
+    # php_sim: # Temporarily disabled to allow focus on things other than duplicates
+    #    min_mass: 40
+    php_pdepend: true
+    php_analyzer: true
+    sensiolabs_security_checker: true

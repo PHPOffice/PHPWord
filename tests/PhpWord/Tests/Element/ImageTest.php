@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
@@ -29,7 +37,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
         $this->assertEquals($oImage->getSource(), $src);
         $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->getIsWatermark(), false);
+        $this->assertEquals($oImage->isWatermark(), false);
+        $this->assertEquals($oImage->getSourceType(), Image::SOURCE_LOCAL);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
@@ -51,34 +60,29 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     /**
      * Valid image types
      */
-    public function testValidImageTypes()
+    public function testImages()
     {
-        new Image(__DIR__ . "/../_files/images/mars_noext_jpg");
-        new Image(__DIR__ . "/../_files/images/mars.jpg");
-        new Image(__DIR__ . "/../_files/images/mario.gif");
-        new Image(__DIR__ . "/../_files/images/firefox.png");
-        new Image(__DIR__ . "/../_files/images/duke_nukem.bmp");
-        new Image(__DIR__ . "/../_files/images/angela_merkel.tif");
-    }
+        $images = array(
+            array('mars.jpg', 'image/jpeg', 'jpg', 'imagecreatefromjpeg', 'imagejpeg'),
+            array('mario.gif', 'image/gif', 'gif', 'imagecreatefromgif', 'imagegif'),
+            array('firefox.png', 'image/png', 'png', 'imagecreatefrompng', 'imagepng'),
+            array('duke_nukem.bmp', 'image/bmp', 'bmp', null, null),
+            array('angela_merkel.tif', 'image/tiff', 'tif', null, null),
+        );
 
-    /**
-     * Image not found
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
-     */
-    public function testImageNotFound()
-    {
-        new Image(__DIR__ . "/../_files/images/thisisnotarealimage");
-    }
-
-    /**
-     * Invalid image types
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
-     */
-    public function testInvalidImageTypes()
-    {
-        new Image(__DIR__ . "/../_files/images/alexz-johnson.pcx");
+        foreach ($images as $imageData) {
+            list($source, $type, $extension, $createFunction, $imageFunction) = $imageData;
+            $source = __DIR__ . "/../_files/images/" . $source;
+            $image = new Image($source);
+            $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+            $this->assertEquals($image->getSource(), $source);
+            $this->assertEquals($image->getMediaId(), md5($source));
+            $this->assertEquals($image->getImageType(), $type);
+            $this->assertEquals($image->getImageExtension(), $extension);
+            $this->assertEquals($image->getImageCreateFunction(), $createFunction);
+            $this->assertEquals($image->getImageFunction(), $imageFunction);
+            $this->assertFalse($image->isMemImage());
+        }
     }
 
     /**
@@ -88,18 +92,42 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $oImage = new Image(
             __DIR__ . "/../_files/images/earth.jpg",
-            array('width' => 210, 'height' => 210, 'align' => 'center')
+            array('height' => 210, 'align' => 'center')
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
     /**
-     * Test set wrapping style
+     * Test invalid local image
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
      */
-    public function testStyleWrappingStyle()
+    public function testInvalidImageLocal()
     {
+        new Image(__DIR__ . "/../_files/images/thisisnotarealimage");
+    }
 
+    /**
+     * Test invalid PHP Image
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
+     */
+    public function testInvalidImagePhp()
+    {
+        $object = new Image('test.php');
+        $object->getSource();
+    }
+
+    /**
+     * Test unsupported image
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
+     */
+    public function testUnsupportedImage()
+    {
+        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        $object->getSource();
     }
 
     /**
@@ -107,117 +135,20 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testRelationID()
     {
-        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
+        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg", array('width' => 100));
         $iVal = rand(1, 1000);
         $oImage->setRelationId($iVal);
         $this->assertEquals($oImage->getRelationId(), $iVal);
     }
 
     /**
-     * Get is watermark
+     * Test archived image
      */
-    public function testWatermark()
+    public function testArchivedImage()
     {
-        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg");
-        $oImage->setIsWatermark(true);
-        $this->assertEquals($oImage->getIsWatermark(), true);
-    }
-
-    /**
-     * Test PNG
-     */
-    public function testPNG()
-    {
-        $src = __DIR__ . "/../_files/images/firefox.png";
-        $oImage = new Image($src);
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getSource(), $src);
-        $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefrompng');
-        $this->assertEquals($oImage->getImageFunction(), 'imagepng');
-        $this->assertEquals($oImage->getImageExtension(), 'png');
-        $this->assertEquals($oImage->getImageType(), 'image/png');
-    }
-
-    /**
-     * Test GIF
-     */
-    public function testGIF()
-    {
-        $src = __DIR__ . "/../_files/images/mario.gif";
-        $oImage = new Image($src);
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getSource(), $src);
-        $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefromgif');
-        $this->assertEquals($oImage->getImageFunction(), 'imagegif');
-        $this->assertEquals($oImage->getImageExtension(), 'gif');
-        $this->assertEquals($oImage->getImageType(), 'image/gif');
-    }
-
-    /**
-     * Test JPG
-     */
-    public function testJPG()
-    {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
-        $oImage = new Image($src);
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getSource(), $src);
-        $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->getImageCreateFunction(), 'imagecreatefromjpeg');
-        $this->assertEquals($oImage->getImageFunction(), 'imagejpeg');
-        $this->assertEquals($oImage->getImageExtension(), 'jpg');
-        $this->assertEquals($oImage->getImageType(), 'image/jpeg');
-    }
-
-    /**
-     * Test BMP
-     */
-    public function testBMP()
-    {
-        $oImage = new Image(__DIR__ . "/../_files/images/duke_nukem.bmp");
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getImageCreateFunction(), null);
-        $this->assertEquals($oImage->getImageFunction(), null);
-        $this->assertEquals($oImage->getImageExtension(), 'bmp');
-        $this->assertEquals($oImage->getImageType(), 'image/bmp');
-    }
-
-    /**
-     * Test TIFF
-     */
-    public function testTIFF()
-    {
-        $oImage = new Image(__DIR__ . "/../_files/images/angela_merkel.tif");
-
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getImageCreateFunction(), null);
-        $this->assertEquals($oImage->getImageFunction(), null);
-        $this->assertEquals($oImage->getImageType(), 'image/tiff');
-    }
-
-    /**
-     * Test PHP Image
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
-     */
-    public function testPhpImage()
-    {
-        $object = new Image('test.php');
-    }
-
-    /**
-     * Test PCX Image and Memory
-     *
-     * @expectedException \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
-     */
-    public function testPcxImage()
-    {
-        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        $archiveFile = __DIR__ . "/../_files/documents/reader.docx";
+        $imageFile = 'word/media/image1.jpeg';
+        $image = new Image("zip://{$archiveFile}#{$imageFile}");
+        $this->assertEquals('image/jpeg', $image->getImageType());
     }
 }

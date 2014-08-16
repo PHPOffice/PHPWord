@@ -1,139 +1,127 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\String;
-
 /**
  * Section settings
  */
-class Section extends AbstractStyle
+class Section extends Border
 {
     /**
-     * Default Page Size Width
+     * Page orientation
      *
-     * @var int
+     * @const string
      */
-    private $defaultPageSizeW = 11906;
+    const ORIENTATION_PORTRAIT = 'portrait';
+    const ORIENTATION_LANDSCAPE = 'landscape';
 
     /**
-     * Default Page Size Height
+     * Page default constants
      *
-     * @var int
+     * @const int|float
      */
-    private $defaultPageSizeH = 16838;
+    const DEFAULT_WIDTH = 11870; // In twip
+    const DEFAULT_HEIGHT = 16787; // In twip
+    const DEFAULT_MARGIN = 1440; // In twip
+    const DEFAULT_GUTTER = 0; // In twip
+    const DEFAULT_HEADER_HEIGHT = 720; // In twip
+    const DEFAULT_FOOTER_HEIGHT = 720; // In twip
+    const DEFAULT_COLUMN_COUNT = 1;
+    const DEFAULT_COLUMN_SPACING = 720; // In twip
 
     /**
      * Page Orientation
      *
      * @var string
+     * @link http://www.schemacentral.com/sc/ooxml/a-w_orient-1.html
      */
-    private $orientation;
+    private $orientation = self::ORIENTATION_PORTRAIT;
 
     /**
-     * Page Margin Top
+     * Paper size
      *
-     * @var int
+     * @var \PhpOffice\PhpWord\Style\Paper
      */
-    private $marginTop;
-
-    /**
-     * Page Margin Left
-     *
-     * @var int
-     */
-    private $marginLeft;
-
-    /**
-     * Page Margin Right
-     *
-     * @var int
-     */
-    private $marginRight;
-
-    /**
-     * Page Margin Bottom
-     *
-     * @var int
-     */
-    private $marginBottom;
+    private $paper;
 
     /**
      * Page Size Width
      *
-     * @var int
+     * @var int|float
      */
-    private $pageSizeW;
+    private $pageSizeW = self::DEFAULT_WIDTH;
 
     /**
      * Page Size Height
      *
-     * @var int
+     * @var int|float
      */
-    private $pageSizeH;
+    private $pageSizeH = self::DEFAULT_HEIGHT;
 
     /**
-     * Page Border Top Size
+     * Top margin spacing
      *
-     * @var int
+     * @var int|float
      */
-    private $borderTopSize;
+    private $marginTop = self::DEFAULT_MARGIN;
 
     /**
-     * Page Border Top Color
+     * Left margin spacing
      *
-     * @var int
+     * @var int|float
      */
-    private $borderTopColor;
+    private $marginLeft = self::DEFAULT_MARGIN;
 
     /**
-     * Page Border Left Size
+     * Right margin spacing
      *
-     * @var int
+     * @var int|float
      */
-    private $borderLeftSize;
+    private $marginRight = self::DEFAULT_MARGIN;
 
     /**
-     * Page Border Left Color
+     * Bottom margin spacing
      *
-     * @var int
+     * @var int|float
      */
-    private $borderLeftColor;
+    private $marginBottom = self::DEFAULT_MARGIN;
 
     /**
-     * Page Border Right Size
+     * Page gutter spacing
      *
-     * @var int
+     * @var int|float
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_pgMar-1.html
      */
-    private $borderRightSize;
+    private $gutter = self::DEFAULT_GUTTER;
 
     /**
-     * Page Border Right Color
+     * Header height
      *
-     * @var int
+     * @var int|float
      */
-    private $borderRightColor;
+    private $headerHeight = self::DEFAULT_HEADER_HEIGHT;
 
     /**
-     * Page Border Bottom Size
+     * Footer height
      *
-     * @var int
+     * @var int|float
      */
-    private $borderBottomSize;
-
-    /**
-     * Page Border Bottom Color
-     *
-     * @var int
-     */
-    private $borderBottomColor;
+    private $footerHeight = self::DEFAULT_FOOTER_HEIGHT;
 
     /**
      * Page Numbering Start
@@ -143,32 +131,18 @@ class Section extends AbstractStyle
     private $pageNumberingStart;
 
     /**
-     * Header height
-     *
-     * @var int
-     */
-    private $headerHeight;
-
-    /**
-     * Footer height
-     *
-     * @var int
-     */
-    private $footerHeight;
-
-    /**
      * Section columns count
      *
      * @var int
      */
-    private $colsNum;
+    private $colsNum = self::DEFAULT_COLUMN_COUNT;
 
     /**
      * Section spacing between columns
      *
-     * @var int
+     * @var int|float
      */
-    private $colsSpace;
+    private $colsSpace = self::DEFAULT_COLUMN_SPACING;
 
     /**
      * Section break type
@@ -185,30 +159,47 @@ class Section extends AbstractStyle
     private $breakType;
 
     /**
-     * Create new Section Settings
+     * Line numbering
+     *
+     * @var \PhpOffice\PhpWord\Style\LineNumbering
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_lnNumType-1.html
+     */
+    private $lineNumbering;
+
+    /**
+     * Create new instance
      */
     public function __construct()
     {
-        $this->orientation = null;
-        $this->marginTop = 1418;
-        $this->marginLeft = 1418;
-        $this->marginRight = 1418;
-        $this->marginBottom = 1134;
-        $this->pageSizeW = $this->defaultPageSizeW;
-        $this->pageSizeH = $this->defaultPageSizeH;
-        $this->borderTopSize = null;
-        $this->borderTopColor = null;
-        $this->borderLeftSize = null;
-        $this->borderLeftColor = null;
-        $this->borderRightSize = null;
-        $this->borderRightColor = null;
-        $this->borderBottomSize = null;
-        $this->borderBottomColor = null;
-        $this->headerHeight = 720; // set default header and footer to 720 twips (.5 inches)
-        $this->footerHeight = 720;
-        $this->colsNum = 1;
-        $this->colsSpace = 720;
-        $this->breakType = null;
+        $this->setPaperSize();
+    }
+
+    /**
+     * Get paper size
+     *
+     * @return string
+     */
+    public function getPaperSize()
+    {
+        return $this->paper->getSize();
+    }
+
+    /**
+     * Set paper size
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setPaperSize($value = 'A4')
+    {
+        if ($this->paper === null) {
+            $this->paper = new Paper();
+        }
+        $this->paper->setSize($value);
+        $this->pageSizeW = $this->paper->getWidth();
+        $this->pageSizeH = $this->paper->getHeight();
+
+        return $this;
     }
 
     /**
@@ -216,148 +207,39 @@ class Section extends AbstractStyle
      *
      * @param string $key
      * @param string $value
+     * @return self
      */
     public function setSettingValue($key, $value)
     {
-        $key = String::removeUnderscorePrefix($key);
-        if ($key == 'orientation' && $value == 'landscape') {
-            $this->setLandscape();
-        } elseif ($key == 'orientation' && is_null($value)) {
-            $this->setPortrait();
-        } elseif ($key == 'borderSize') {
-            $this->setBorderSize($value);
-        } elseif ($key == 'borderColor') {
-            $this->setBorderColor($value);
+        return $this->setStyleValue($key, $value);
+    }
+
+    /**
+     * Set orientation
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setOrientation($value = null)
+    {
+        $enum = array(self::ORIENTATION_PORTRAIT, self::ORIENTATION_LANDSCAPE);
+        $this->orientation = $this->setEnumVal($value, $enum, $this->orientation);
+
+        /** @var int|float $longSide Type hint */
+        $longSide = $this->pageSizeW >= $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        /** @var int|float $shortSide Type hint */
+        $shortSide = $this->pageSizeW < $this->pageSizeH ? $this->pageSizeW : $this->pageSizeH;
+
+        if ($this->orientation == self::ORIENTATION_PORTRAIT) {
+            $this->pageSizeW = $shortSide;
+            $this->pageSizeH = $longSide;
         } else {
-            $method = 'set' . $key;
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
+            $this->pageSizeW = $longSide;
+            $this->pageSizeH = $shortSide;
         }
-    }
 
-    /**
-     * Get Margin Top
-     *
-     * @return int
-     */
-    public function getMarginTop()
-    {
-        return $this->marginTop;
-    }
-
-    /**
-     * Set Margin Top
-     *
-     * @param int $pValue
-     */
-    public function setMarginTop($pValue = '')
-    {
-        $this->marginTop = $pValue;
         return $this;
-    }
-
-    /**
-     * Get Margin Left
-     *
-     * @return int
-     */
-    public function getMarginLeft()
-    {
-        return $this->marginLeft;
-    }
-
-    /**
-     * Set Margin Left
-     *
-     * @param int $pValue
-     */
-    public function setMarginLeft($pValue = '')
-    {
-        $this->marginLeft = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get Margin Right
-     *
-     * @return int
-     */
-    public function getMarginRight()
-    {
-        return $this->marginRight;
-    }
-
-    /**
-     * Set Margin Right
-     *
-     * @param int $pValue
-     */
-    public function setMarginRight($pValue = '')
-    {
-        $this->marginRight = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get Margin Bottom
-     *
-     * @return int
-     */
-    public function getMarginBottom()
-    {
-        return $this->marginBottom;
-    }
-
-    /**
-     * Set Margin Bottom
-     *
-     * @param int $pValue
-     */
-    public function setMarginBottom($pValue = '')
-    {
-        $this->marginBottom = $pValue;
-        return $this;
-    }
-
-    /**
-     * Set Landscape Orientation
-     */
-    public function setLandscape()
-    {
-        $this->orientation = 'landscape';
-        $this->pageSizeW = $this->defaultPageSizeH;
-        $this->pageSizeH = $this->defaultPageSizeW;
-    }
-
-    /**
-     * Set Portrait Orientation
-     */
-    public function setPortrait()
-    {
-        $this->orientation = null;
-        $this->pageSizeW = $this->defaultPageSizeW;
-        $this->pageSizeH = $this->defaultPageSizeH;
-    }
-
-    /**
-     * Get Page Size Width
-     *
-     * @return int
-     */
-    public function getPageSizeW()
-    {
-        return $this->pageSizeW;
-    }
-
-    /**
-     * Get Page Size Height
-     *
-     * @return int
-     */
-    public function getPageSizeH()
-    {
-        return $this->pageSizeH;
     }
 
     /**
@@ -371,230 +253,203 @@ class Section extends AbstractStyle
     }
 
     /**
-     * Set Border Size
+     * Set Portrait Orientation
      *
-     * @param int $pValue
+     * @return self
      */
-    public function setBorderSize($pValue = null)
+    public function setPortrait()
     {
-        $this->borderTopSize = $pValue;
-        $this->borderLeftSize = $pValue;
-        $this->borderRightSize = $pValue;
-        $this->borderBottomSize = $pValue;
+        return $this->setOrientation(self::ORIENTATION_PORTRAIT);
     }
 
     /**
-     * Get Border Size
+     * Set Landscape Orientation
      *
-     * @return array
+     * @return self
      */
-    public function getBorderSize()
+    public function setLandscape()
     {
-        $t = $this->getBorderTopSize();
-        $l = $this->getBorderLeftSize();
-        $r = $this->getBorderRightSize();
-        $b = $this->getBorderBottomSize();
-
-        return array($t, $l, $r, $b);
+        return $this->setOrientation(self::ORIENTATION_LANDSCAPE);
     }
 
     /**
-     * Set Border Color
+     * Get Page Size Width
      *
-     * @param string $pValue
+     * @return int|float
      */
-    public function setBorderColor($pValue = null)
+    public function getPageSizeW()
     {
-        $this->borderTopColor = $pValue;
-        $this->borderLeftColor = $pValue;
-        $this->borderRightColor = $pValue;
-        $this->borderBottomColor = $pValue;
+        return $this->pageSizeW;
     }
 
     /**
-     * Get Border Color
+     * Get Page Size Height
      *
-     * @return array
+     * @return int|float
      */
-    public function getBorderColor()
+    public function getPageSizeH()
     {
-        $t = $this->getBorderTopColor();
-        $l = $this->getBorderLeftColor();
-        $r = $this->getBorderRightColor();
-        $b = $this->getBorderBottomColor();
-
-        return array($t, $l, $r, $b);
+        return $this->pageSizeH;
     }
 
     /**
-     * Set Border Top Size
+     * Get Margin Top
      *
-     * @param int $pValue
+     * @return int|float
      */
-    public function setBorderTopSize($pValue = null)
+    public function getMarginTop()
     {
-        $this->borderTopSize = $pValue;
+        return $this->marginTop;
     }
 
     /**
-     * Get Border Top Size
+     * Set Margin Top
      *
-     * @return int
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderTopSize()
+    public function setMarginTop($value = null)
     {
-        return $this->borderTopSize;
+        $this->marginTop = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+
+        return $this;
     }
 
     /**
-     * Set Border Top Color
+     * Get Margin Left
      *
-     * @param string $pValue
+     * @return int|float
      */
-    public function setBorderTopColor($pValue = null)
+    public function getMarginLeft()
     {
-        $this->borderTopColor = $pValue;
+        return $this->marginLeft;
     }
 
     /**
-     * Get Border Top Color
+     * Set Margin Left
      *
-     * @return string
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderTopColor()
+    public function setMarginLeft($value = null)
     {
-        return $this->borderTopColor;
+        $this->marginLeft = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+
+        return $this;
     }
 
     /**
-     * Set Border Left Size
+     * Get Margin Right
      *
-     * @param int $pValue
+     * @return int|float
      */
-    public function setBorderLeftSize($pValue = null)
+    public function getMarginRight()
     {
-        $this->borderLeftSize = $pValue;
+        return $this->marginRight;
     }
 
     /**
-     * Get Border Left Size
+     * Set Margin Right
      *
-     * @return int
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderLeftSize()
+    public function setMarginRight($value = null)
     {
-        return $this->borderLeftSize;
+        $this->marginRight = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+
+        return $this;
     }
 
     /**
-     * Set Border Left Color
+     * Get Margin Bottom
      *
-     * @param string $pValue
+     * @return int|float
      */
-    public function setBorderLeftColor($pValue = null)
+    public function getMarginBottom()
     {
-        $this->borderLeftColor = $pValue;
+        return $this->marginBottom;
     }
 
     /**
-     * Get Border Left Color
+     * Set Margin Bottom
      *
-     * @return string
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderLeftColor()
+    public function setMarginBottom($value = null)
     {
-        return $this->borderLeftColor;
+        $this->marginBottom = $this->setNumericVal($value, self::DEFAULT_MARGIN);
+
+        return $this;
     }
 
     /**
-     * Set Border Right Size
+     * Get gutter
      *
-     * @param int $pValue
+     * @return int|float
      */
-    public function setBorderRightSize($pValue = null)
+    public function getGutter()
     {
-        $this->borderRightSize = $pValue;
+        return $this->gutter;
     }
 
     /**
-     * Get Border Right Size
+     * Set gutter
      *
-     * @return int
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderRightSize()
+    public function setGutter($value = null)
     {
-        return $this->borderRightSize;
+        $this->gutter = $this->setNumericVal($value, self::DEFAULT_GUTTER);
+
+        return $this;
     }
 
     /**
-     * Set Border Right Color
+     * Get Header Height
      *
-     * @param string $pValue
+     * @return int|float
      */
-    public function setBorderRightColor($pValue = null)
+    public function getHeaderHeight()
     {
-        $this->borderRightColor = $pValue;
+        return $this->headerHeight;
     }
 
     /**
-     * Get Border Right Color
+     * Set Header Height
      *
-     * @return string
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderRightColor()
+    public function setHeaderHeight($value = null)
     {
-        return $this->borderRightColor;
+        $this->headerHeight = $this->setNumericVal($value, self::DEFAULT_HEADER_HEIGHT);
+
+        return $this;
     }
 
     /**
-     * Set Border Bottom Size
+     * Get Footer Height
      *
-     * @param int $pValue
+     * @return int|float
      */
-    public function setBorderBottomSize($pValue = null)
+    public function getFooterHeight()
     {
-        $this->borderBottomSize = $pValue;
+        return $this->footerHeight;
     }
 
     /**
-     * Get Border Bottom Size
+     * Set Footer Height
      *
-     * @return int
+     * @param int|float $value
+     * @return self
      */
-    public function getBorderBottomSize()
+    public function setFooterHeight($value = null)
     {
-        return $this->borderBottomSize;
-    }
+        $this->footerHeight = $this->setNumericVal($value, self::DEFAULT_FOOTER_HEIGHT);
 
-    /**
-     * Set Border Bottom Color
-     *
-     * @param string $pValue
-     */
-    public function setBorderBottomColor($pValue = null)
-    {
-        $this->borderBottomColor = $pValue;
-    }
-
-    /**
-     * Get Border Bottom Color
-     *
-     * @return string
-     */
-    public function getBorderBottomColor()
-    {
-        return $this->borderBottomColor;
-    }
-
-    /**
-     * Set page numbering start
-     *
-     * @param null|int $pageNumberingStart
-     * @return $this
-     */
-    public function setPageNumberingStart($pageNumberingStart = null)
-    {
-        $this->pageNumberingStart = $pageNumberingStart;
         return $this;
     }
 
@@ -609,64 +464,14 @@ class Section extends AbstractStyle
     }
 
     /**
-     * Get Header Height
+     * Set page numbering start
      *
-     * @return int
+     * @param null|int $pageNumberingStart
+     * @return self
      */
-    public function getHeaderHeight()
+    public function setPageNumberingStart($pageNumberingStart = null)
     {
-        return $this->headerHeight;
-    }
-
-    /**
-     * Set Header Height
-     *
-     * @param int $pValue
-     */
-    public function setHeaderHeight($pValue = '')
-    {
-        if (!is_numeric($pValue)) {
-            $pValue = 720;
-        }
-        $this->headerHeight = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get Footer Height
-     *
-     * @return int
-     */
-    public function getFooterHeight()
-    {
-        return $this->footerHeight;
-    }
-
-    /**
-     * Set Footer Height
-     *
-     * @param int $pValue
-     */
-    public function setFooterHeight($pValue = '')
-    {
-        if (!is_numeric($pValue)) {
-            $pValue = 720;
-        }
-        $this->footerHeight = $pValue;
-        return $this;
-    }
-
-    /**
-     * Set Section Columns Count
-     *
-     * @param int $pValue
-     */
-    public function setColsNum($pValue = '')
-    {
-        if (!is_numeric($pValue)) {
-            $pValue = 1;
-        }
-        $this->colsNum = $pValue;
+        $this->pageNumberingStart = $pageNumberingStart;
         return $this;
     }
 
@@ -681,23 +486,22 @@ class Section extends AbstractStyle
     }
 
     /**
-     * Set Section Space Between Columns
+     * Set Section Columns Count
      *
-     * @param int $pValue
+     * @param int $value
+     * @return self
      */
-    public function setColsSpace($pValue = '')
+    public function setColsNum($value = null)
     {
-        if (!is_numeric($pValue)) {
-            $pValue = 720;
-        }
-        $this->colsSpace = $pValue;
+        $this->colsNum = $this->setIntVal($value, self::DEFAULT_COLUMN_COUNT);
+
         return $this;
     }
 
     /**
      * Get Section Space Between Columns
      *
-     * @return int
+     * @return int|float
      */
     public function getColsSpace()
     {
@@ -705,13 +509,15 @@ class Section extends AbstractStyle
     }
 
     /**
-     * Set Break Type
+     * Set Section Space Between Columns
      *
-     * @param string $pValue
+     * @param int|float $value
+     * @return self
      */
-    public function setBreakType($pValue = null)
+    public function setColsSpace($value = null)
     {
-        $this->breakType = $pValue;
+        $this->colsSpace = $this->setNumericVal($value, self::DEFAULT_COLUMN_SPACING);
+
         return $this;
     }
 
@@ -723,5 +529,40 @@ class Section extends AbstractStyle
     public function getBreakType()
     {
         return $this->breakType;
+    }
+
+    /**
+     * Set Break Type
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setBreakType($value = null)
+    {
+        $this->breakType = $value;
+        return $this;
+    }
+
+    /**
+     * Get line numbering
+     *
+     * @return \PhpOffice\PhpWord\Style\LineNumbering
+     */
+    public function getLineNumbering()
+    {
+        return $this->lineNumbering;
+    }
+
+    /**
+     * Set line numbering
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setLineNumbering($value = null)
+    {
+        $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
+
+        return $this;
     }
 }

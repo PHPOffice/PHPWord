@@ -1,14 +1,23 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -25,69 +34,82 @@ class Link extends AbstractElement
     private $source;
 
     /**
-     * Link name
+     * Link text
      *
      * @var string
      */
-    private $name;
+    private $text;
 
     /**
      * Font style
      *
-     * @var string|Font
+     * @var string|\PhpOffice\PhpWord\Style\Font
      */
     private $fontStyle;
 
     /**
      * Paragraph style
      *
-     * @var string|Paragraph
+     * @var string|\PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
 
+    /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
+     * Has internal flag - anchor to internal bookmark
+     *
+     * @var bool
+     */
+    protected $internal = false;
 
     /**
      * Create a new Link Element
      *
-     * @param string $linkSrc
-     * @param string $linkName
+     * @param string $source
+     * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($linkSrc, $linkName = null, $fontStyle = null, $paragraphStyle = null)
+    public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
-        $this->source = $linkSrc;
-        $this->name = $linkName;
-        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
-
+        $this->source = String::toUTF8($source);
+        $this->text = is_null($text) ? $this->source : String::toUTF8($text);
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->internal = $internal;
         return $this;
     }
 
     /**
-     * Get Link source
+     * Get link source
      *
      * @return string
      */
-    public function getLinkSrc()
+    public function getSource()
     {
         return $this->source;
     }
 
     /**
-     * Get Link name
+     * Get link text
      *
      * @return string
      */
-    public function getLinkName()
+    public function getText()
     {
-        return $this->name;
+        return $this->text;
     }
 
     /**
      * Get Text style
      *
-     * @return string|Font
+     * @return string|\PhpOffice\PhpWord\Style\Font
      */
     public function getFontStyle()
     {
@@ -97,10 +119,56 @@ class Link extends AbstractElement
     /**
      * Get Paragraph style
      *
-     * @return string|Paragraph
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
      */
     public function getParagraphStyle()
     {
         return $this->paragraphStyle;
+    }
+
+    /**
+     * Get link target
+     *
+     * @return string
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function getTarget()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Get Link source
+     *
+     * @return string
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getLinkSrc()
+    {
+        return $this->getSource();
+    }
+
+    /**
+     * Get Link name
+     *
+     * @return string
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getLinkName()
+    {
+        return $this->getText();
+    }
+
+    /**
+     * is internal
+     *
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->internal;
     }
 }

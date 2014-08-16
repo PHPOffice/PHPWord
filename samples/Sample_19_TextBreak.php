@@ -25,16 +25,8 @@ $section->addText('Text break with inline paragraph style:');
 $section->addTextBreak(1, null, $paragraphStyle);
 $section->addText('Done.');
 
-// End code
-
 // Save file
-$name = basename(__FILE__, '.php');
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
-foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-    $xmlWriter->save("{$name}.{$extension}");
-    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
+if (!CLI) {
+    include_once 'Sample_Footer.php';
 }
-
-include_once 'Sample_Footer.php';

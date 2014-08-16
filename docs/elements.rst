@@ -3,70 +3,81 @@
 Elements
 ========
 
-Below are the matrix of element availability in each container. The column shows
-the containers while the rows lists the elements.
+Below are the matrix of element availability in each container. The
+column shows the containers while the rows lists the elements.
 
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| Num | Element       | Section | Header | Footer | Cell | Text Run | Footnote |
-+=====+===============+=========+========+========+======+==========+==========+
-| 1   | Text          |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 2   | Text Run      |   v     |   v    |   v    |  v   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 3   | Link          |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 4   | Title         |   v     |   ?    |   ?    |  ?   |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 5   | Preserve Text |   ?     |   v    |   v    |  v\* |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 6   | Text Break    |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 7   | Page Break    |   v     |   \-   |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 8   | List          |   v     |   v    |   v    |  v   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 9   | Table         |   v     |   v    |   v    |  ?   |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 10  | Image         |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 11  | Watermark     |   \-    |   v    |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 12  | Object        |   v     |   v    |   v    |  v   |   v      |   v      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 13  | TOC           |   v     |   \-   |   \-   |  \-  |   \-     |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 14  | Footnote      |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 15  | Endnote       |   v     |   \-   |   \-   | v\*\*|   v\*\*  |   \-     |
-+-----+---------------+---------+--------+--------+------+----------+----------+
-| 16  | CheckBox      |   v     |   v    |   v    |  v   |   ?      |   ?      |
-+-----+---------------+---------+--------+--------+------+----------+----------+
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| Num   | Element         | Section   | Header   | Footer   | Cell    | Text Run   | Footnote   |
++=======+=================+===========+==========+==========+=========+============+============+
+| 1     | Text            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 2     | Text Run        | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 3     | Link            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 4     | Title           | v         | ?        | ?        | ?       | ?          | ?          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 5     | Preserve Text   | ?         | v        | v        | v\*     | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 6     | Text Break      | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 7     | Page Break      | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 8     | List            | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 9     | Table           | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 10    | Image           | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 11    | Watermark       | -         | v        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 12    | Object          | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 13    | TOC             | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 14    | Footnote        | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 16    | CheckBox        | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 17    | TextBox         | v         | v        | v        | v       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 18    | Field           | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 19    | Line            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 20    | Shape           | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 21    | Chart           | v         | -        | -        | -       | -          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 22    | Form fields     | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 23    | Bookmarks       | v         | -        | -        | v       | v          | -          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
 
-- ``v`` Available
-- ``v*`` Available only when inside header/footer
-- ``v**`` Available only when inside section
-- ``-`` Not available
-- ``?`` Should be available
+-  ``v`` Available
+-  ``v*`` Available only when inside header/footer
+-  ``v**`` Available only when inside section
+-  ``-`` Not available
+-  ``?`` Should be available
 
 Texts
 -----
 
 Text can be added by using ``addText`` and ``addTextRun`` method.
 ``addText`` is used for creating simple paragraphs that only contain
-texts with the same style. ``addTextRun`` is used for creating
-complex paragraphs that contain text with different style (some bold,
-other italics, etc) or other elements, e.g. images or links. The
-syntaxes are as follow:
+texts with the same style. ``addTextRun`` is used for creating complex
+paragraphs that contain text with different style (some bold, other
+italics, etc) or other elements, e.g. images or links. The syntaxes are
+as follow:
 
 .. code-block:: php
 
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->addTextRun([$paragraphStyle]);
-
-Text styles
-~~~~~~~~~~~
 
 You can use the ``$fontStyle`` and ``$paragraphStyle`` variable to
 define text formatting. There are 2 options to style the inserted text
@@ -84,7 +95,7 @@ Inline style examples:
     $textrun = $section->addTextRun();
     $textrun->addText('I am bold', array('bold' => true));
     $textrun->addText('I am italic', array('italic' => true));
-    $textrun->addText('I am colored, array('color' => 'AACC00'));
+    $textrun->addText('I am colored', array('color' => 'AACC00'));
 
 Defined style examples:
 
@@ -97,44 +108,6 @@ Defined style examples:
     $paragraphStyle = array('align' => 'center');
     $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
     $text = $section->addText('Hello world!', 'pStyle');
-
-Font style
-^^^^^^^^^^
-
-Available font styles:
-
--  ``name`` Font name, e.g. *Arial*
--  ``size`` Font size, e.g. *20*, *22*,
--  ``hint`` Font content type, *default*, *eastAsia*, or *cs*
--  ``bold`` Bold, *true* or *false*
--  ``italic`` Italic, *true* or *false*
--  ``superScript`` Superscript, *true* or *false*
--  ``subScript`` Subscript, *true* or *false*
--  ``underline`` Underline, *dash*, *dotted*, etc.
--  ``strikethrough`` Strikethrough, *true* or *false*
--  ``color`` Font color, e.g. *FF0000*
--  ``fgColor`` Font highlight color, e.g. *yellow*, *green*, *blue*
--  ``bgColor`` Font background color, e.g. *FF0000*
-
-Paragraph style
-^^^^^^^^^^^^^^^
-
-Available paragraph styles:
-
--  ``align`` Paragraph alignment, *left*, *right* or *center*
--  ``spaceBefore`` Space before paragraph
--  ``spaceAfter`` Space after paragraph
--  ``indent`` Indent by how much
--  ``hanging`` Hanging by how much
--  ``basedOn`` Parent style
--  ``next`` Style for next paragraph
--  ``widowControl`` Allow first/last line to display on a separate page,
-   *true* or *false*
--  ``keepNext`` Keep paragraph with next paragraph, *true* or *false*
--  ``keepLines`` Keep all lines on one page, *true* or *false*
--  ``pageBreakBefore`` Start paragraph on next page, *true* or *false*
--  ``lineHeight`` text line height, e.g. *1.0*, *1.5*, ect...
--  ``tabs`` Set of custom tab stops
 
 Titles
 ~~~~~~
@@ -158,12 +131,13 @@ You can add Hyperlinks to the document by using the function addLink:
 
 .. code-block:: php
 
-    $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle]);
+    $section->addLink($linkSrc, [$linkName], [$fontStyle], [$paragraphStyle], [$isInternal]);
 
 -  ``$linkSrc`` The URL of the link.
 -  ``$linkName`` Placeholder of the URL that appears in the document.
 -  ``$fontStyle`` See "Font style" section.
 -  ``$paragraphStyle`` See "Paragraph style" section.
+-  ``$isInternal`` Set to true, if the link points to a bookmark inside the document
 
 Preserve texts
 ~~~~~~~~~~~~~~
@@ -198,7 +172,7 @@ Page breaks
 There are two ways to insert a page breaks, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-:: code-block:: php
+.. code-block:: php
 
     $section->addPageBreak();
 
@@ -225,8 +199,8 @@ Parameters:
 
 Advanced usage:
 
-You can also create your own numbering style by changing the ``$listStyle`` parameter
-with the name of your numbering style.
+You can also create your own numbering style by changing the
+``$listStyle`` parameter with the name of your numbering style.
 
 .. code-block:: php
 
@@ -242,20 +216,6 @@ with the name of your numbering style.
     $section->addListItem('List Item I.a', 1, null, 'multilevel');
     $section->addListItem('List Item I.b', 1, null, 'multilevel');
     $section->addListItem('List Item II', 0, null, 'multilevel');
-
-Level styles:
-
--  ``start`` Starting value
--  ``format``  Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
--  ``restart`` Restart numbering level symbol
--  ``suffix`` Content between numbering symbol and paragraph text tab|space|nothing
--  ``text`` Numbering level text e.g. %1 for nonbullet or bullet character
--  ``align`` Numbering symbol align left|center|right|both
--  ``left`` See paragraph style
--  ``hanging`` See paragraph style
--  ``tabPos`` See paragraph style
--  ``font`` Font name
--  ``hint`` See font style
 
 Tables
 ------
@@ -282,34 +242,6 @@ Table style can be defined with ``addTableStyle``:
     $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
     $table = $section->addTable('myTable');
 
-Table, row, and cell styles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Table styles:
-
--  ``width`` Table width in percent
--  ``bgColor`` Background color, e.g. '9966CC'
--  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``cellMargin(Top|Right|Bottom|Left)`` Cell margin in twips
-
-Row styles:
-
--  ``tblHeader`` Repeat table row on every new page, *true* or *false*
--  ``cantSplit`` Table row cannot break across pages, *true* or *false*
--  ``exactHeight`` Row height is exact or at least
-
-Cell styles:
-
--  ``width`` Cell width in twips
--  ``valign`` Vertical alignment, *top*, *center*, *both*, *bottom*
--  ``textDirection`` Direction of text
--  ``bgColor`` Background color, e.g. '9966CC'
--  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
--  ``border(Top|Right|Bottom|Left)Color`` Border color, e.g. '9966CC'
--  ``gridSpan`` Number of columns spanned
--  ``vMerge`` *restart* or *continue*
-
 Cell span
 ~~~~~~~~~
 
@@ -326,15 +258,15 @@ See ``Sample_09_Tables.php`` for more code sample.
 Images
 ------
 
-To add an image, use the ``addImage`` method to sections, headers, footers,
-textruns, or table cells.
+To add an image, use the ``addImage`` method to sections, headers,
+footers, textruns, or table cells.
 
 .. code-block:: php
 
     $section->addImage($src, [$style]);
 
-- `source` String path to a local image or URL of a remote image
-- `styles` Array fo styles for the image. See below.
+-  source String path to a local image or URL of a remote image
+-  styles Array fo styles for the image. See below.
 
 Examples:
 
@@ -355,19 +287,6 @@ Examples:
     $footer->addImage('http://example.com/image.php');
     $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
-
-Image styles
-~~~~~~~~~~~~
-
-Available image styles:
-
--  ``width`` Width in pixels
--  ``height`` Height in pixels
--  ``align`` Image alignment, *left*, *right*, or *center*
--  ``marginTop`` Top margin in inches, can be negative
--  ``marginLeft`` Left margin in inches, can be negative
--  ``wrappingStyle`` Wrapping style, *inline*, *square*, *tight*,
-   *behind*, or *infront*
 
 Watermarks
 ~~~~~~~~~~
@@ -419,10 +338,10 @@ Options for ``$tocStyle``:
 Footnotes & endnotes
 --------------------
 
-You can create footnotes with ``addFootnote`` and endnotes with ``addEndnote``
-in texts or textruns, but it's recommended to use textrun to have better layout.
-You can use ``addText``, ``addLink``, ``addTextBreak``, ``addImage``,
-``addObject`` on footnotes and endnotes.
+You can create footnotes with ``addFootnote`` and endnotes with
+``addEndnote`` in texts or textruns, but it's recommended to use textrun
+to have better layout. You can use ``addText``, ``addLink``,
+``addTextBreak``, ``addImage``, ``addObject`` on footnotes and endnotes.
 
 On textrun:
 
@@ -448,9 +367,9 @@ On text:
     $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
 
-The footnote reference number will be displayed with decimal number starting
-from 1. This number use ``FooterReference`` style which you can redefine by
-``addFontStyle`` method. Default value for this style is
+The footnote reference number will be displayed with decimal number
+starting from 1. This number use ``FooterReference`` style which you can
+redefine by ``addFontStyle`` method. Default value for this style is
 ``array('superScript' => true)``;
 
 Checkboxes
@@ -467,3 +386,60 @@ Checkbox elements can be added to sections or table cells by using
 -  ``$text`` Text following the check box
 -  ``$fontStyle`` See "Font style" section.
 -  ``$paragraphStyle`` See "Paragraph style" section.
+
+Textboxes
+---------
+
+To be completed.
+
+Fields
+------
+
+To be completed.
+
+Lines
+-----
+
+Line elements can be added to sections by using ``addLine``.
+
+.. code-block:: php
+
+    $linestyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => '#b2a68b');
+    $section->addLine($lineStyle)
+
+Available line style attributes:
+
+-  ``weight`` Line width in twips
+-  ``color`` Defines the color of stroke. The hex value must be introduced with #.
+-  ``dash`` Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot
+-  ``beginArrow`` Start type of arrow: block, open, classic, diamond, oval
+-  ``endArrow`` End type of arrow: block, open, classic, diamond, ovel
+-  ``width`` Line-object width in pt
+-  ``height`` Line-object height in pt
+-  ``flip`` Flip the line element: true, false
+
+Shapes
+------
+
+To be completed.
+
+Charts
+------
+
+To be completed.
+
+Form fields
+-----------
+
+To be completed.
+
+Bookmarks
+~~~~~
+
+You can add Bookmarks to the document by using the function addBookmark:
+
+.. code-block:: php
+
+    $section->addBookmark($name);
+
+-  ``$name`` The name of the bookmark which can be referenced in the addLink-Function as target. Should obviously be unique throughout the document.

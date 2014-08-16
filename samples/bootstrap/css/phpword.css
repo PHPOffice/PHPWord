@@ -1,6 +1,7 @@
 body {
     padding-top: 20px;
     padding-bottom: 20px;
+    min-height: 1000px;
 }
 .navbar {
     margin-bottom: 20px;

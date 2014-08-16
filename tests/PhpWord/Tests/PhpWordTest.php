@@ -1,17 +1,25 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests;
 
+use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\DocumentProperties;
-use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -27,22 +35,9 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new DocumentProperties(), $phpWord->getDocumentProperties());
-        $this->assertEquals(PhpWord::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
-        $this->assertEquals(PhpWord::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
-    }
-
-    /**
-     * Test set/get document properties
-     */
-    public function testSetGetDocumentProperties()
-    {
-        $phpWord = new PhpWord();
-        $creator = 'PhpWord';
-        $properties = $phpWord->getDocumentProperties();
-        $properties->setCreator($creator);
-        $phpWord->setDocumentProperties($properties);
-        $this->assertEquals($creator, $phpWord->getDocumentProperties()->getCreator());
+        $this->assertEquals(new DocInfo(), $phpWord->getDocInfo());
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
     }
 
     /**
@@ -51,9 +46,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     public function testCreateGetSections()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new Section(1), $phpWord->addSection());
         $phpWord->addSection();
-        $this->assertEquals(2, count($phpWord->getSections()));
+        $this->assertCount(1, $phpWord->getSections());
     }
 
     /**
@@ -63,7 +57,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $fontName = 'Times New Roman';
-        $this->assertEquals(PhpWord::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
+        $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         $phpWord->setDefaultFontName($fontName);
         $this->assertEquals($fontName, $phpWord->getDefaultFontName());
     }
@@ -75,7 +69,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $fontSize = 16;
-        $this->assertEquals(PhpWord::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
         $phpWord->setDefaultFontSize($fontSize);
         $this->assertEquals($fontSize, $phpWord->getDefaultFontSize());
     }
@@ -150,5 +144,29 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
+    }
+
+    /**
+     * Test save
+     */
+    public function testSave()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Hello world!');
+
+        $this->assertTrue($phpWord->save('test.docx', 'Word2007', true));
+    }
+
+    /**
+     * Test calling undefined method
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage is not defined
+     */
+    public function testCallUndefinedMethod()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->undefinedMethod();
     }
 }

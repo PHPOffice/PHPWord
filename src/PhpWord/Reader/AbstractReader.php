@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
@@ -14,6 +22,7 @@ use PhpOffice\PhpWord\Exception\Exception;
 /**
  * Reader abstract class
  *
+ * @since 0.8.0
  * @codeCoverageIgnore Abstract class
  */
 abstract class AbstractReader implements ReaderInterface
@@ -30,14 +39,14 @@ abstract class AbstractReader implements ReaderInterface
      *
      * @var bool|resource
      */
-    protected $fileHandle = true;
+    protected $fileHandle;
 
     /**
      * Read data only?
      *
      * @return bool
      */
-    public function getReadDataOnly()
+    public function isReadDataOnly()
     {
         // return $this->readDataOnly;
         return true;
@@ -46,47 +55,47 @@ abstract class AbstractReader implements ReaderInterface
     /**
      * Set read data only
      *
-     * @param bool $pValue
+     * @param bool $value
      * @return self
      */
-    public function setReadDataOnly($pValue = true)
+    public function setReadDataOnly($value = true)
     {
-        $this->readDataOnly = $pValue;
+        $this->readDataOnly = $value;
         return $this;
     }
 
     /**
      * Open file for reading
      *
-     * @param string $pFilename
+     * @param string $filename
      * @return resource
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function openFile($pFilename)
+    protected function openFile($filename)
     {
         // Check if file exists
-        if (!file_exists($pFilename) || !is_readable($pFilename)) {
-            throw new Exception("Could not open " . $pFilename . " for reading! File does not exist.");
+        if (!file_exists($filename) || !is_readable($filename)) {
+            throw new Exception("Could not open " . $filename . " for reading! File does not exist.");
         }
 
         // Open file
-        $this->fileHandle = fopen($pFilename, 'r');
+        $this->fileHandle = fopen($filename, 'r');
         if ($this->fileHandle === false) {
-            throw new Exception("Could not open file " . $pFilename . " for reading.");
+            throw new Exception("Could not open file " . $filename . " for reading.");
         }
     }
 
     /**
      * Can the current ReaderInterface read the file?
      *
-     * @param string $pFilename
+     * @param string $filename
      * @return bool
      */
-    public function canRead($pFilename)
+    public function canRead($filename)
     {
         // Check if file exists
         try {
-            $this->openFile($pFilename);
+            $this->openFile($filename);
         } catch (Exception $e) {
             return false;
         }
@@ -95,5 +104,16 @@ abstract class AbstractReader implements ReaderInterface
         }
 
         return true;
+    }
+
+    /**
+     * Read data only?
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getReadDataOnly()
+    {
+        return $this->isReadDataOnly();
     }
 }

@@ -14,5 +14,6 @@ vendor
 /samples/resources
 /samples/results
 /.settings
+phpword.ini
 /.buildpath
 /.project

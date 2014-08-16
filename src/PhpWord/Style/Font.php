@@ -1,22 +1,32 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
-
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Exception\InvalidStyleException;
 
 /**
  * Font style
  */
 class Font extends AbstractStyle
 {
+    /**
+     * Underline types
+     *
+     * @const string
+     */
     const UNDERLINE_NONE = 'none';
     const UNDERLINE_DASH = 'dash';
     const UNDERLINE_DASHHEAVY = 'dashHeavy';
@@ -35,6 +45,12 @@ class Font extends AbstractStyle
     const UNDERLINE_WAVYDOUBLE = 'wavyDbl';
     const UNDERLINE_WAVYHEAVY = 'wavyHeavy';
     const UNDERLINE_WORDS = 'words';
+
+    /**
+     * Foreground colors
+     *
+     * @const string
+     */
     const FGCOLOR_YELLOW = 'yellow';
     const FGCOLOR_LIGHTGREEN = 'green';
     const FGCOLOR_CYAN = 'cyan';
@@ -52,6 +68,13 @@ class Font extends AbstractStyle
     const FGCOLOR_BLACK = 'black';
 
     /**
+     * Aliases
+     *
+     * @var array
+     */
+    protected $aliases = array('line-height' => 'lineHeight');
+
+    /**
      * Font style type
      *
      * @var string
@@ -59,25 +82,32 @@ class Font extends AbstractStyle
     private $type;
 
     /**
-     * Paragraph style
-     *
-     * @var \PhpOffice\PhpWord\Style\Paragraph
-     */
-    private $paragraphStyle;
-
-    /**
      * Font name
      *
-     * @var int|float
+     * @var string
      */
-    private $name = PhpWord::DEFAULT_FONT_NAME;
+    private $name;
+
+    /**
+     * Font Content Type
+     *
+     * @var string
+     */
+    private $hint;
 
     /**
      * Font size
      *
      * @var int|float
      */
-    private $size = PhpWord::DEFAULT_FONT_SIZE;
+    private $size;
+
+    /**
+     * Font color
+     *
+     * @var string
+     */
+    private $color;
 
     /**
      * Bold
@@ -94,6 +124,13 @@ class Font extends AbstractStyle
     private $italic = false;
 
     /**
+     * Undeline
+     *
+     * @var string
+     */
+    private $underline = self::UNDERLINE_NONE;
+
+    /**
      * Superscript
      *
      * @var bool
@@ -108,13 +145,6 @@ class Font extends AbstractStyle
     private $subScript = false;
 
     /**
-     * Undeline
-     *
-     * @var string
-     */
-    private $underline = self::UNDERLINE_NONE;
-
-    /**
      * Strikethrough
      *
      * @var bool
@@ -122,88 +152,149 @@ class Font extends AbstractStyle
     private $strikethrough = false;
 
     /**
-     * Font color
+     * Double strikethrough
      *
-     * @var string
+     * @var bool
      */
-    private $color = PhpWord::DEFAULT_FONT_COLOR;
+    private $doubleStrikethrough = false;
+
+    /**
+     * Small caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
+     */
+    private $smallCaps = false;
+
+    /**
+     * All caps
+     *
+     * @var bool
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
+     */
+    private $allCaps = false;
 
     /**
      * Foreground/highlight
      *
      * @var string
      */
-    private $fgColor = null;
+    private $fgColor;
 
     /**
-     * Background color
-     *
-     * @var string
-     */
-    private $bgColor = null;
-    /**
-     * Text line height
+     * Expanded/compressed text: 0-600 (percent)
      *
      * @var int
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
      */
+    private $scale;
 
     /**
-     * Text line height
+     * Character spacing adjustment: twip
      *
-     * @var int
+     * @var int|float
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
      */
-    private $lineHeight = 1.0;
+    private $spacing;
 
     /**
-     * Font Content Type
+     * Font kerning: halfpoint
      *
-     * @var string
+     * @var int|float
+     * @since 0.12.0
+     * @link http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
      */
-    private $hint = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
+    private $kerning;
+
+    /**
+     * Paragraph style
+     *
+     * @var \PhpOffice\PhpWord\Style\Paragraph
+     */
+    private $paragraph;
+
+    /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
+
+    /**
+     * Right to left languages 
+     * @var boolean
+     */
+    private $rtl = false;
 
     /**
      * Create new font style
      *
      * @param string $type Type of font
-     * @param array $paragraphStyle Paragraph styles definition
+     * @param array $paragraph Paragraph styles definition
      */
-    public function __construct($type = 'text', $paragraphStyle = null)
+    public function __construct($type = 'text', $paragraph = null)
     {
         $this->type = $type;
-
-        if ($paragraphStyle instanceof Paragraph) {
-            $this->paragraphStyle = $paragraphStyle;
-        } elseif (is_array($paragraphStyle)) {
-            $this->paragraphStyle = new Paragraph;
-            $this->paragraphStyle->setArrayStyle($paragraphStyle);
-        } else {
-            $this->paragraphStyle = $paragraphStyle;
-        }
+        $this->setParagraph($paragraph);
     }
 
     /**
-     * Set style using associative array
+     * Get style values
      *
-     * @param array $style
-     * @return $this
+     * @return array
+     * @since 0.12.0
      */
-    public function setArrayStyle(array $style = array())
+    public function getStyleValues()
     {
-        foreach ($style as $key => $value) {
-            if ($key === 'line-height') {
-                $this->setLineHeight($value);
-                null;
-            }
-            $this->setStyleValue($key, $value);
-        }
+        $styles = array(
+            'name'          => $this->getStyleName(),
+            'basic'         => array(
+                'name'      => $this->getName(),
+                'size'      => $this->getSize(),
+                'color'     => $this->getColor(),
+                'hint'      => $this->getHint(),
+            ),
+            'style'         => array(
+                'bold'      => $this->isBold(),
+                'italic'    => $this->isItalic(),
+                'underline' => $this->getUnderline(),
+                'strike'    => $this->isStrikethrough(),
+                'dStrike'   => $this->isDoubleStrikethrough(),
+                'super'     => $this->isSuperScript(),
+                'sub'       => $this->isSubScript(),
+                'smallCaps' => $this->isSmallCaps(),
+                'allCaps'   => $this->isAllCaps(),
+                'fgColor'   => $this->getFgColor(),
+            ),
+            'spacing'       => array(
+                'scale'     => $this->getScale(),
+                'spacing'   => $this->getSpacing(),
+                'kerning'   => $this->getKerning(),
+            ),
+            'paragraph'     => $this->getParagraph(),
+            'rtl'           => $this->isRTL(),
+            'shading'       => $this->getShading(),
+        );
 
-        return $this;
+        return $styles;
+    }
+
+    /**
+     * Get style type
+     *
+     * @return string
+     */
+    public function getStyleType()
+    {
+        return $this->type;
     }
 
     /**
      * Get font name
      *
-     * @return bool
+     * @return string
      */
     public function getName()
     {
@@ -213,22 +304,43 @@ class Font extends AbstractStyle
     /**
      * Set font name
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param string $value
+     * @return self
      */
-    public function setName($pValue = PhpWord::DEFAULT_FONT_NAME)
+    public function setName($value = null)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_NAME;
-        }
-        $this->name = $pValue;
+        $this->name = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Font Content Type
+     *
+     * @return string
+     */
+    public function getHint()
+    {
+        return $this->hint;
+    }
+
+    /**
+     * Set Font Content Type
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setHint($value = null)
+    {
+        $this->hint = $value;
+
         return $this;
     }
 
     /**
      * Get font size
      *
-     * @return  int|float
+     * @return int|float
      */
     public function getSize()
     {
@@ -238,167 +350,13 @@ class Font extends AbstractStyle
     /**
      * Set font size
      *
-     * @param  int|float $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param int|float $value
+     * @return self
      */
-    public function setSize($pValue = PhpWord::DEFAULT_FONT_SIZE)
+    public function setSize($value = null)
     {
-        if (!is_numeric($pValue)) {
-            $pValue = PhpWord::DEFAULT_FONT_SIZE;
-        }
-        $this->size = $pValue;
-        return $this;
-    }
+        $this->size = $this->setNumericVal($value, $this->size);
 
-    /**
-     * Get bold
-     *
-     * @return bool
-     */
-    public function getBold()
-    {
-        return $this->bold;
-    }
-
-    /**
-     * Set bold
-     *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setBold($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->bold = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get italic
-     *
-     * @return bool
-     */
-    public function getItalic()
-    {
-        return $this->italic;
-    }
-
-    /**
-     * Set italic
-     *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setItalic($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->italic = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get superscript
-     *
-     * @return bool
-     */
-    public function getSuperScript()
-    {
-        return $this->superScript;
-    }
-
-    /**
-     * Set superscript
-     *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setSuperScript($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->superScript = $pValue;
-        $this->subScript = !$pValue;
-        return $this;
-    }
-
-    /**
-     * Get subscript
-     *
-     * @return bool
-     */
-    public function getSubScript()
-    {
-        return $this->subScript;
-    }
-
-    /**
-     * Set subscript
-     *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setSubScript($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->subScript = $pValue;
-        $this->superScript = !$pValue;
-        return $this;
-    }
-
-    /**
-     * Get underline
-     *
-     * @return string
-     */
-    public function getUnderline()
-    {
-        return $this->underline;
-    }
-
-    /**
-     * Set underline
-     *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setUnderline($pValue = self::UNDERLINE_NONE)
-    {
-        if ($pValue == '') {
-            $pValue = self::UNDERLINE_NONE;
-        }
-        $this->underline = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get strikethrough
-     *
-     * @return bool
-     */
-    public function getStrikethrough()
-    {
-        return $this->strikethrough;
-    }
-
-    /**
-     * Set strikethrough
-     *
-     * @param  bool $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setStrikethrough($pValue = false)
-    {
-        if (!is_bool($pValue)) {
-            $pValue = false;
-        }
-        $this->strikethrough = $pValue;
         return $this;
     }
 
@@ -415,16 +373,209 @@ class Font extends AbstractStyle
     /**
      * Set font color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param string $value
+     * @return self
      */
-    public function setColor($pValue = PhpWord::DEFAULT_FONT_COLOR)
+    public function setColor($value = null)
     {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_COLOR;
-        }
-        $this->color = $pValue;
+        $this->color = $value;
+
         return $this;
+    }
+
+    /**
+     * Get bold
+     *
+     * @return bool
+     */
+    public function isBold()
+    {
+        return $this->bold;
+    }
+
+    /**
+     * Set bold
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setBold($value = true)
+    {
+        $this->bold = $this->setBoolVal($value, $this->bold);
+
+        return $this;
+    }
+
+    /**
+     * Get italic
+     *
+     * @return bool
+     */
+    public function isItalic()
+    {
+        return $this->italic;
+    }
+
+    /**
+     * Set italic
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setItalic($value = true)
+    {
+        $this->italic = $this->setBoolVal($value, $this->italic);
+
+        return $this;
+    }
+
+    /**
+     * Get underline
+     *
+     * @return string
+     */
+    public function getUnderline()
+    {
+        return $this->underline;
+    }
+
+    /**
+     * Set underline
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setUnderline($value = self::UNDERLINE_NONE)
+    {
+        $this->underline = $this->setNonEmptyVal($value, self::UNDERLINE_NONE);
+
+        return $this;
+    }
+
+    /**
+     * Get superscript
+     *
+     * @return bool
+     */
+    public function isSuperScript()
+    {
+        return $this->superScript;
+    }
+
+    /**
+     * Set superscript
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setSuperScript($value = true)
+    {
+        return $this->setPairedVal($this->superScript, $this->subScript, $value);
+    }
+
+    /**
+     * Get subscript
+     *
+     * @return bool
+     */
+    public function isSubScript()
+    {
+        return $this->subScript;
+    }
+
+    /**
+     * Set subscript
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setSubScript($value = true)
+    {
+        return $this->setPairedVal($this->subScript, $this->superScript, $value);
+    }
+
+    /**
+     * Get strikethrough
+     *
+     * @return bool
+     */
+    public function isStrikethrough()
+    {
+        return $this->strikethrough;
+    }
+
+    /**
+     * Set strikethrough
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setStrikethrough($value = true)
+    {
+        return $this->setPairedVal($this->strikethrough, $this->doubleStrikethrough, $value);
+    }
+
+    /**
+     * Get double strikethrough
+     *
+     * @return bool
+     */
+    public function isDoubleStrikethrough()
+    {
+        return $this->doubleStrikethrough;
+    }
+
+    /**
+     * Set double strikethrough
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setDoubleStrikethrough($value = true)
+    {
+        return $this->setPairedVal($this->doubleStrikethrough, $this->strikethrough, $value);
+    }
+
+    /**
+     * Get small caps
+     *
+     * @return bool
+     */
+    public function isSmallCaps()
+    {
+        return $this->smallCaps;
+    }
+
+    /**
+     * Set small caps
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setSmallCaps($value = true)
+    {
+        return $this->setPairedVal($this->smallCaps, $this->allCaps, $value);
+    }
+
+    /**
+     * Get all caps
+     *
+     * @return bool
+     */
+    public function isAllCaps()
+    {
+        return $this->allCaps;
+    }
+
+    /**
+     * Set all caps
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setAllCaps($value = true)
+    {
+        return $this->setPairedVal($this->allCaps, $this->smallCaps, $value);
     }
 
     /**
@@ -440,76 +591,103 @@ class Font extends AbstractStyle
     /**
      * Set foreground/highlight color
      *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @param string $value
+     * @return self
      */
-    public function setFgColor($pValue = null)
+    public function setFgColor($value = null)
     {
-        $this->fgColor = $pValue;
+        $this->fgColor = $value;
+
         return $this;
     }
 
     /**
-     * Get background color
-     *
-     * @return  string
-     */
-    public function getBgColor()
-    {
-        return $this->bgColor;
-    }
-
-    /**
-     * Set background color
-     *
-     * @param string $pValue
-     * @return $this
-     */
-    public function setBgColor($pValue = null)
-    {
-        $this->bgColor = $pValue;
-        return $this;
-    }
-
-    /**
-     * Get style type
+     * Get background
      *
      * @return string
      */
-    public function getStyleType()
+    public function getBgColor()
     {
-        return $this->type;
+        return $this->getChildStyleValue($this->shading, 'fill');
     }
 
     /**
-     * Get paragraph style
+     * Set background
      *
-     * @return \PhpOffice\PhpWord\Style\Paragraph
+     * @param string $value
+     * @return \PhpOffice\PhpWord\Style\Table
      */
-    public function getParagraphStyle()
+    public function setBgColor($value = null)
     {
-        return $this->paragraphStyle;
+        $this->setShading(array('fill' => $value));
     }
 
     /**
-     * Set lineheight
+     * Get scale
      *
-     * @param  int|float|string $lineHeight
-     * @return $this
-     * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
+     * @return int
      */
-    public function setLineHeight($lineHeight)
+    public function getScale()
     {
-        if (is_string($lineHeight)) {
-            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
-        }
+        return $this->scale;
+    }
 
-        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
-            throw new InvalidStyleException('Line height must be a valid number');
-        }
+    /**
+     * Set scale
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setScale($value = null)
+    {
+        $this->scale = $this->setIntVal($value, null);
 
-        $this->lineHeight = $lineHeight;
-        $this->getParagraphStyle()->setLineHeight($lineHeight);
+        return $this;
+    }
+
+    /**
+     * Get font spacing
+     *
+     * @return int|float
+     */
+    public function getSpacing()
+    {
+        return $this->spacing;
+    }
+
+    /**
+     * Set font spacing
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setSpacing($value = null)
+    {
+        $this->spacing = $this->setNumericVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get font kerning
+     *
+     * @return int|float
+     */
+    public function getKerning()
+    {
+        return $this->kerning;
+    }
+
+    /**
+     * Set font kerning
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setKerning($value = null)
+    {
+        $this->kerning = $this->setNumericVal($value, null);
+
         return $this;
     }
 
@@ -520,31 +698,154 @@ class Font extends AbstractStyle
      */
     public function getLineHeight()
     {
-        return $this->lineHeight;
+        return $this->getParagraph()->getLineHeight();
     }
 
     /**
-     * Get Font Content Type
+     * Set lineheight
      *
-     * @return string
+     * @param int|float|string $value
+     * @return self
      */
-    public function getHint()
+    public function setLineHeight($value)
     {
-        return $this->hint;
-    }
+        $this->setParagraph(array('lineHeight' => $value));
 
-    /**
-     * Set Font Content Type
-     *
-     * @param  string $pValue
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setHint($pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE)
-    {
-        if (is_null($pValue) || $pValue == '') {
-            $pValue = PhpWord::DEFAULT_FONT_CONTENT_TYPE;
-        }
-        $this->hint = $pValue;
         return $this;
+    }
+
+    /**
+     * Get paragraph style
+     *
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function getParagraph()
+    {
+        return $this->paragraph;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setParagraph($value = null)
+    {
+        $this->setObjectVal($value, 'Paragraph', $this->paragraph);
+
+        return $this;
+    }
+
+    /**
+     * Get rtl
+     *
+     * @return bool
+     */
+    public function isRTL()
+    {
+        return $this->rtl;
+    }
+
+    /**
+     * Set rtl
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setRTL($value = true)
+    {
+        $this->rtl = $this->setBoolVal($value, $this->rtl);
+
+        return $this;
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get bold
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getBold()
+    {
+        return $this->isBold();
+    }
+
+    /**
+     * Get italic
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getItalic()
+    {
+        return $this->isItalic();
+    }
+
+    /**
+     * Get superscript
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getSuperScript()
+    {
+        return $this->isSuperScript();
+    }
+
+    /**
+     * Get subscript
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getSubScript()
+    {
+        return $this->isSubScript();
+    }
+
+    /**
+     * Get strikethrough
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getStrikethrough()
+    {
+        return $this->isStrikethrough();
+    }
+
+    /**
+     * Get paragraph style
+     *
+     * @deprecated 0.11.0
+     * @codeCoverageIgnore
+     */
+    public function getParagraphStyle()
+    {
+        return $this->getParagraph();
     }
 }

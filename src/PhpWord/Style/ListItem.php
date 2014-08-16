@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
@@ -57,7 +65,7 @@ class ListItem extends AbstractStyle
      */
     public function __construct($numStyle = null)
     {
-        if (!is_null($numStyle)) {
+        if ($numStyle !== null) {
             $this->setNumStyle($numStyle);
         } else {
             $this->setListType();
@@ -78,14 +86,19 @@ class ListItem extends AbstractStyle
      * Set legacy list type for version < 0.10.0
      *
      * @param integer $value
+     * @return self
      */
     public function setListType($value = self::TYPE_BULLET_FILLED)
     {
-        $enum = array(self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
+        $enum = array(
+            self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
             self::TYPE_BULLET_EMPTY, self::TYPE_NUMBER,
-            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM);
+            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM
+        );
         $this->listType = $this->setEnumVal($value, $enum, $this->listType);
         $this->getListTypeStyle();
+
+        return $this;
     }
 
     /**
@@ -102,6 +115,7 @@ class ListItem extends AbstractStyle
      * Set numbering style name
      *
      * @param string $value
+     * @return self
      */
     public function setNumStyle($value)
     {
@@ -111,6 +125,8 @@ class ListItem extends AbstractStyle
             $this->numId = $numStyleObject->getIndex();
             $numStyleObject->setNumId($this->numId);
         }
+
+        return $this;
     }
 
     /**
@@ -133,7 +149,7 @@ class ListItem extends AbstractStyle
     {
         // Check if legacy style already registered in global Style collection
         $numStyle = "PHPWordList{$this->listType}";
-        if (!is_null(Style::getStyle($numStyle))) {
+        if (Style::getStyle($numStyle) !== null) {
             $this->setNumStyle($numStyle);
             return;
         }

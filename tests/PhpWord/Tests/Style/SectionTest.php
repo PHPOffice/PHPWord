@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Style;
@@ -24,28 +32,27 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingValue()
     {
-        // Section Settings
         $oSettings = new Section();
 
-        $oSettings->setSettingValue('_orientation', 'landscape');
-        $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(16838, $oSettings->getPageSizeW());
-        $this->assertEquals(11906, $oSettings->getPageSizeH());
+        $this->assertEquals('portrait', $oSettings->getOrientation());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
+        $this->assertEquals('A4', $oSettings->getPaperSize());
 
-        $oSettings->setSettingValue('_orientation', null);
-        $this->assertNull($oSettings->getOrientation());
-        $this->assertEquals(11906, $oSettings->getPageSizeW());
-        $this->assertEquals(16838, $oSettings->getPageSizeH());
+        $oSettings->setSettingValue('orientation', 'landscape');
+        $this->assertEquals('landscape', $oSettings->getOrientation());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH());
 
         $iVal = rand(1, 1000);
-        $oSettings->setSettingValue('_borderSize', $iVal);
+        $oSettings->setSettingValue('borderSize', $iVal);
         $this->assertEquals(array($iVal, $iVal, $iVal, $iVal), $oSettings->getBorderSize());
         $this->assertEquals($iVal, $oSettings->getBorderBottomSize());
         $this->assertEquals($iVal, $oSettings->getBorderLeftSize());
         $this->assertEquals($iVal, $oSettings->getBorderRightSize());
         $this->assertEquals($iVal, $oSettings->getBorderTopSize());
 
-        $oSettings->setSettingValue('_borderColor', 'FF00AA');
+        $oSettings->setSettingValue('borderColor', 'FF00AA');
         $this->assertEquals(array('FF00AA', 'FF00AA', 'FF00AA', 'FF00AA'), $oSettings->getBorderColor());
         $this->assertEquals('FF00AA', $oSettings->getBorderBottomColor());
         $this->assertEquals('FF00AA', $oSettings->getBorderLeftColor());
@@ -55,6 +62,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('headerHeight', $iVal);
         $this->assertEquals($iVal, $oSettings->getHeaderHeight());
+
+        $oSettings->setSettingValue('lineNumbering', array());
+        $oSettings->setSettingValue('lineNumbering', array('start' => 1, 'increment' => 1,
+            'distance' => 240, 'restart' => 'newPage'));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\LineNumbering', $oSettings->getLineNumbering());
+
+        $oSettings->setSettingValue('lineNumbering', null);
+        $this->assertNull($oSettings->getLineNumbering());
     }
 
     /**
@@ -92,8 +107,8 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(16838, $oSettings->getPageSizeW());
-        $this->assertEquals(11906, $oSettings->getPageSizeH());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH());
     }
 
     /**
@@ -105,9 +120,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $oSettings = new Section();
 
         $oSettings->setPortrait();
-        $this->assertNull($oSettings->getOrientation());
-        $this->assertEquals(11906, $oSettings->getPageSizeW());
-        $this->assertEquals(16838, $oSettings->getPageSizeH());
+        $this->assertEquals('portrait', $oSettings->getOrientation());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
     }
 
     /**
@@ -235,12 +250,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         // Default
         $this->assertEquals(1, $oSettings->getColsNum());
 
+        // Null value
+        $oSettings->setColsNum();
+        $this->assertEquals(1, $oSettings->getColsNum());
+
+        // Random value
         $iVal = rand(1, 1000);
         $oSettings->setColsNum($iVal);
         $this->assertEquals($iVal, $oSettings->getColsNum());
-
-        $oSettings->setColsNum();
-        $this->assertEquals(1, $oSettings->getColsNum());
     }
 
     /**

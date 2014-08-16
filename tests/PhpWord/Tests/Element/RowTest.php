@@ -1,10 +1,18 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
@@ -24,8 +32,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $iVal = rand(1, 1000);
-        $oRow = new Row('section', $iVal);
+        $oRow = new Row();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $oRow);
         $this->assertEquals($oRow->getHeight(), null);
@@ -40,15 +47,9 @@ class RowTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithParams()
     {
         $iVal = rand(1, 1000);
-        $iVal2 = rand(1, 1000);
-        $oRow = new Row(
-            'section',
-            $iVal,
-            $iVal2,
-            array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF')
-        );
+        $oRow = new Row($iVal, array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF'));
 
-        $this->assertEquals($oRow->getHeight(), $iVal2);
+        $this->assertEquals($oRow->getHeight(), $iVal);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Row', $oRow->getStyle());
     }
 
@@ -57,7 +58,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddCell()
     {
-        $oRow = new Row('section', 1);
+        $oRow = new Row();
         $element = $oRow->addCell();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $element);

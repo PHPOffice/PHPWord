@@ -1,17 +1,26 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Element;
 
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Header;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -22,12 +31,12 @@ use PhpOffice\PhpWord\Style;
 class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Get settings
+     * Get style
      */
-    public function testGetSettings()
+    public function testGetStyle()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getSettings(), 'settings', new Section(0));
+        $this->assertAttributeEquals($oSection->getStyle(), 'style', new Section(0));
     }
 
     /**
@@ -60,12 +69,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Set settings
      */
-    public function testSetSettings()
+    public function testSetStyle()
     {
         $expected = 'landscape';
         $object = new Section(0);
-        $object->setSettings(array('orientation' => $expected));
-        $this->assertEquals($expected, $object->getSettings()->getOrientation());
+        $object->setStyle(array('orientation' => $expected, 'foo' => null));
+        $this->assertEquals($expected, $object->getStyle()->getOrientation());
     }
 
     /**
@@ -75,9 +84,10 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         $objectSource = __DIR__ . "/../_files/documents/reader.docx";
         $imageSource = __DIR__ . "/../_files/images/PhpWord.png";
-        $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
+        // $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addText(utf8_decode('ä'));
         $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
@@ -95,13 +105,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $elementCollection = $section->getElements();
         $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
             'Table', 'ListItem', 'Object', 'Image',
-            'Title', 'TextRun', 'Footnote', 'CheckBox');
-        $i = 0;
+            'Title', 'TextRun', 'Footnote', 'CheckBox', 'TOC');
+        $elmCount = 0;
         foreach ($elementTypes as $elementType) {
-            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$i]);
-            $i++;
+            $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$elmCount]);
+            $elmCount++;
         }
-        $this->assertInstanceOf("PhpOffice\\PhpWord\\TOC", $elementCollection[$i]);
     }
 
     /**
@@ -123,6 +132,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     {
         Style::addTitleStyle(1, array('size' => 14));
         $section = new Section(0);
+        $section->setPhpWord(new PhpWord());
         $section->addTitle('Test', 1);
         $elementCollection = $section->getElements();
 
@@ -164,6 +174,6 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testAddHeaderException()
     {
         $object = new Section(1);
-        $header = $object->addHeader('ODD');
+        $object->addHeader('ODD');
     }
 }

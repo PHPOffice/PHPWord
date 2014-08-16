@@ -1,17 +1,27 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * Template
@@ -19,103 +29,106 @@ use PhpOffice\PhpWord\Shared\String;
 class Template
 {
     /**
-     * ZipArchive object
+     * ZipArchive object.
      *
      * @var mixed
      */
     private $zipClass;
 
     /**
-     * Temporary file name
+     * Temporary file name.
      *
      * @var string
      */
     private $tempFileName;
 
     /**
-     * Document XML
+     * Document XML.
      *
      * @var string
      */
     private $documentXML;
 
     /**
-     * Document header XML
+     * Document header XML.
      *
      * @var string[]
      */
     private $headerXMLs = array();
 
     /**
-     * Document footer XML
+     * Create a new Template Object.
      *
-     * @var string[]
-     */
-    private $footerXMLs = array();
-
-    /**
-     * Create a new Template Object
+     * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
-     * @param string $strFilename
-     * @throws Exception
+     * @param string $fileName The fully qualified template file name.
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
-    public function __construct($strFilename)
+    public function __construct($fileName)
     {
-        $this->tempFileName = tempnam(sys_get_temp_dir(), '');
-        if ($this->tempFileName === false) {
-            throw new Exception('Could not create temporary file with unique name in the default temporary directory.');
+        $this->tempFileName = tempnam(Settings::getTempDir(), 'PhpWord');
+        if (false === $this->tempFileName) {
+            throw new CreateTemporaryFileException();
         }
 
         // Copy the source File to the temp File
-        if (!copy($strFilename, $this->tempFileName)) {
-            throw new Exception("Could not copy the template from {$strFilename} to {$this->tempFileName}.");
+        if (false === copy($fileName, $this->tempFileName)) {
+            throw new CopyFileException($fileName, $this->tempFileName);
         }
 
-        $zipClass = Settings::getZipClass();
-        $this->zipClass = new $zipClass();
+        $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->tempFileName);
 
         // Find and load headers and footers
-        $i = 1;
-        while ($this->zipClass->locateName($this->getHeaderName($i)) !== false) {
-            $this->headerXMLs[$i] = $this->zipClass->getFromName($this->getHeaderName($i));
-            $i++;
+        $index = 1;
+        while ($this->zipClass->locateName($this->getHeaderName($index)) !== false) {
+            $this->headerXMLs[$index] = $this->zipClass->getFromName($this->getHeaderName($index));
+            $index++;
         }
 
-        $i = 1;
-        while ($this->zipClass->locateName($this->getFooterName($i)) !== false) {
-            $this->footerXMLs[$i] = $this->zipClass->getFromName($this->getFooterName($i));
-            $i++;
+        $index = 1;
+        while ($this->zipClass->locateName($this->getFooterName($index)) !== false) {
+            $this->footerXMLs[$index] = $this->zipClass->getFromName($this->getFooterName($index));
+            $index++;
         }
 
         $this->documentXML = $this->zipClass->getFromName('word/document.xml');
     }
 
     /**
-     * Applies XSL style sheet to template's parts
+     * Document footer XML.
+     *
+     * @var string[]
+     */
+    private $footerXMLs = array();
+
+    /**
+     * Applies XSL style sheet to template's parts.
      *
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
-     * @throws Exception
+     * @return void
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function applyXslStyleSheet(&$xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
+    public function applyXslStyleSheet($xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
     {
         $processor = new \XSLTProcessor();
 
         $processor->importStylesheet($xslDOMDocument);
 
-        if ($processor->setParameter($xslOptionsURI, $xslOptions) === false) {
+        if (false === $processor->setParameter($xslOptionsURI, $xslOptions)) {
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
 
         $xmlDOMDocument = new \DOMDocument();
-        if ($xmlDOMDocument->loadXML($this->documentXML) === false) {
+        if (false === $xmlDOMDocument->loadXML($this->documentXML)) {
             throw new Exception('Could not load XML from the given template.');
         }
 
         $xmlTransformed = $processor->transformToXml($xmlDOMDocument);
-        if ($xmlTransformed === false) {
+        if (false === $xmlTransformed) {
             throw new Exception('Could not transform the given XML document.');
         }
 
@@ -123,11 +136,12 @@ class Template
     }
 
     /**
-     * Set a Template value
+     * Set a Template value.
      *
      * @param mixed $search
      * @param mixed $replace
      * @param integer $limit
+     * @return void
      */
     public function setValue($search, $replace, $limit = -1)
     {
@@ -143,7 +157,8 @@ class Template
     }
 
     /**
-     * Returns array of all variables in template
+     * Returns array of all variables in template.
+     *
      * @return string[]
      */
     public function getVariables()
@@ -162,11 +177,12 @@ class Template
     }
 
     /**
-     * Clone a table row in a template document
+     * Clone a table row in a template document.
      *
      * @param string $search
      * @param integer $numberOfClones
-     * @throws Exception
+     * @return void
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneRow($search, $numberOfClones)
     {
@@ -185,7 +201,7 @@ class Template
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            $extraRowStart = $rowEnd;
+            // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
@@ -198,7 +214,8 @@ class Template
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -217,7 +234,7 @@ class Template
     }
 
     /**
-     * Clone a block
+     * Clone a block.
      *
      * @param string $blockname
      * @param integer $clones
@@ -227,7 +244,11 @@ class Template
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
@@ -237,7 +258,11 @@ class Template
             }
 
             if ($replace) {
-                $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], implode('', $cloned), $this->documentXML);
+                $this->documentXML = str_replace(
+                    $matches[2] . $matches[3] . $matches[4],
+                    implode('', $cloned),
+                    $this->documentXML
+                );
             }
         }
 
@@ -245,24 +270,34 @@ class Template
     }
 
     /**
-     * Replace a block
+     * Replace a block.
      *
      * @param string $blockname
      * @param string $replacement
+     * @return void
      */
     public function replaceBlock($blockname, $replacement)
     {
-        preg_match('/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is', $this->documentXML, $matches);
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->documentXML,
+            $matches
+        );
 
         if (isset($matches[3])) {
-            $this->documentXML = str_replace($matches[2] . $matches[3] . $matches[4], $replacement, $this->documentXML);
+            $this->documentXML = str_replace(
+                $matches[2] . $matches[3] . $matches[4],
+                $replacement,
+                $this->documentXML
+            );
         }
     }
 
     /**
-     * Delete a block of text
+     * Delete a block of text.
      *
      * @param string $blockname
+     * @return void
      */
     public function deleteBlock($blockname)
     {
@@ -270,10 +305,10 @@ class Template
     }
 
     /**
-     * Save XML to temporary file
+     * Save XML to temporary file.
      *
      * @return string
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save()
     {
@@ -288,7 +323,7 @@ class Template
         }
 
         // Close zip file
-        if ($this->zipClass->close() === false) {
+        if (false === $this->zipClass->close()) {
             throw new Exception('Could not close zip file.');
         }
 
@@ -296,19 +331,22 @@ class Template
     }
 
     /**
-     * Save XML to defined name
+     * Save XML to defined name.
      *
-     * @param string $strFilename
+     * @since 0.8.0
+     *
+     * @param string $fileName
+     * @return void
      */
-    public function saveAs($strFilename)
+    public function saveAs($fileName)
     {
-        $tempFilename = $this->save();
+        $tempFileName = $this->save();
 
-        if (file_exists($strFilename)) {
-            unlink($strFilename);
+        if (file_exists($fileName)) {
+            unlink($fileName);
         }
 
-        rename($tempFilename, $strFilename);
+        rename($tempFileName, $fileName);
     }
 
     /**
@@ -345,7 +383,8 @@ class Template
     }
 
     /**
-     * Find all variables in $documentPartXML
+     * Find all variables in $documentPartXML.
+     *
      * @param string $documentPartXML
      * @return string[]
      */
@@ -357,7 +396,8 @@ class Template
     }
 
     /**
-     * Get the name of the footer file for $index
+     * Get the name of the footer file for $index.
+     *
      * @param integer $index
      * @return string
      */
@@ -367,7 +407,8 @@ class Template
     }
 
     /**
-     * Get the name of the header file for $index
+     * Get the name of the header file for $index.
+     *
      * @param integer $index
      * @return string
      */
@@ -377,11 +418,11 @@ class Template
     }
 
     /**
-     * Find the start position of the nearest table row before $offset
+     * Find the start position of the nearest table row before $offset.
      *
      * @param integer $offset
      * @return integer
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function findRowStart($offset)
     {
@@ -396,7 +437,7 @@ class Template
     }
 
     /**
-     * Find the end position of the nearest table row after $offset
+     * Find the end position of the nearest table row after $offset.
      *
      * @param integer $offset
      * @return integer
@@ -408,7 +449,7 @@ class Template
     }
 
     /**
-     * Get a slice of a string
+     * Get a slice of a string.
      *
      * @param integer $startPosition
      * @param integer $endPosition

@@ -18,7 +18,7 @@ $phpWord->addNumberingStyle(
         array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
         array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
         )
-     )
+    )
 );
 $predefinedMultilevel = array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER_NESTED);
 
@@ -54,15 +54,39 @@ $section->addListItem('List Item 6', 1, 'myOwnStyle', $predefinedMultilevel, 'P-
 $section->addListItem('List Item 7', 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
 $section->addTextBreak(2);
 
+$section->addText('List with inline formatting.');
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 1');
+$listItemRun->addText(' in bold', array('bold'=>true));
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 2');
+$listItemRun->addText(' in italic', array('italic'=>true));
+$listItemRun = $section->addListItemRun();
+$listItemRun->addText('List item 3');
+$listItemRun->addText(' underlined', array('underline'=>'dash'));
+$section->addTextBreak(2);
+
+// Numbered heading
+
+$phpWord->addNumberingStyle(
+    'headingNumbering',
+    array('type' => 'multilevel', 'levels' => array(
+        array('pStyle' => 'Heading1', 'format' => 'decimal', 'text' => '%1'),
+        array('pStyle' => 'Heading2', 'format' => 'decimal', 'text' => '%1.%2'),
+        array('pStyle' => 'Heading3', 'format' => 'decimal', 'text' => '%1.%2.%3'),
+        )
+    )
+);
+$phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => 'headingNumbering', 'numLevel' => 0));
+$phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => 'headingNumbering', 'numLevel' => 1));
+$phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => 'headingNumbering', 'numLevel' => 2));
+
+$section->addTitle('Heading 1', 1);
+$section->addTitle('Heading 2', 2);
+$section->addTitle('Heading 3', 3);
 
 // Save file
-$name = basename(__FILE__, '.php');
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
-foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-    $xmlWriter->save("{$name}.{$extension}");
-    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
+if (!CLI) {
+    include_once 'Sample_Footer.php';
 }
-
-include_once 'Sample_Footer.php';

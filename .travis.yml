@@ -1,49 +1,49 @@
 language: php
 
 php:
-  - 5.3.3
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - hhvm
+    - 5.3.3
+    - 5.3
+    - 5.4
+    - 5.5
+    - 5.6
+    - hhvm
 
 matrix:
-  allow_failures:
-    - php: 5.3.3
-    - php: 5.6
-    - php: hhvm
+    allow_failures:
+        - php: hhvm
+
+env:
+    global:
+        - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
 
 before_script:
-  ## Composer
-  # - curl -s http://getcomposer.org/installer | php
-  # - php composer.phar install --prefer-source
-  - composer install --prefer-source
-  - composer selfupdate --quiet
-  ## PHP_CodeSniffer
-  - pyrus install pear/PHP_CodeSniffer
-  - phpenv rehash
-  ## PHP Copy/Paste Detector
-  #- curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
-  ## PHP Mess Detector
-  #- pear config-set preferred_state beta
-  #- printf "\n" | pecl install imagick
-  #- pear channel-discover pear.phpmd.org
-  #- pear channel-discover pear.pdepend.org
-  #- pear install --alldeps phpmd/PHP_PMD
-  #- phpenv rehash
-  ## PHPLOC
-  #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+    ## Packages
+    - sudo apt-get -qq update > /dev/null
+    - sudo apt-get -qq install graphviz > /dev/null
+    ## Composer
+    - composer self-update
+    - composer install --prefer-source --dev
+    ## PHPDocumentor
+    - mkdir -p build/docs
+    - mkdir -p build/coverage
 
 script:
-  ## PHP_CodeSniffer
-  - phpcs --standard=PSR2 -n src/ --ignore=src/PhpWord/Shared/PCLZip
-  - phpcs --standard=PSR2 -n tests/
-  ## PHP Copy/Paste Detector
-  #- php phpcpd.phar --verbose src/
-  ## PHP Mess Detector
-  #- phpmd src/ text unusedcode,naming,design
-  ## PHPLOC
-  #- php phploc.phar src/
-  ## PHPUnit
-  - phpunit -c ./ --coverage-text
+    ## PHP_CodeSniffer
+    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
+    ## PHP Copy/Paste Detector
+    - ./vendor/bin/phpcpd src/ tests/ --verbose
+    ## PHP Mess Detector
+    - ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php
+    ## PHPUnit
+    - ./vendor/bin/phpunit -c ./ --coverage-text --coverage-html ./build/coverage
+    ## PHPLOC
+    - ./vendor/bin/phploc src/
+    ## PHPDocumentor
+    - ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig"
+
+after_script:
+    ## PHPDocumentor
+    - bash .travis_shell_after_success.sh
+    ## Scrutinizer
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml

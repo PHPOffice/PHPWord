@@ -1,17 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests;
 
-use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Media;
 
 /**
  * Test class for PhpOffice\PhpWord\Media
@@ -33,7 +40,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::countElements('section'), 0);
+        $this->assertEquals(0, Media::countElements('section'));
     }
 
     /**
@@ -50,7 +57,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('section', 'object', $object);
         Media::addElement('section', 'object', $object);
 
-        $this->assertEquals(3, Media::countElements('section'));
+        $this->assertCount(3, Media::getElements('section'));
     }
 
     /**
@@ -62,8 +69,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $actual = Media::addElement('section', 'link', 'http://test.com');
 
         $this->assertEquals($expected, $actual);
-        $this->assertEquals(1, Media::countElements('section', 'link'));
-        $this->assertEquals(1, count(Media::getElements('section', 'link')));
+        $this->assertCount(1, Media::getElements('section', 'link'));
     }
 
     /**
@@ -77,8 +83,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countElements('header1'));
-        $this->assertEquals(2, count(Media::getElements('header1')));
+        $this->assertCount(2, Media::getElements('header1'));
         $this->assertEmpty(Media::getElements('header2'));
     }
 
@@ -93,10 +98,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $remote, new Image($remote));
 
-        $this->assertEquals(2, Media::countElements('footer1'));
+        $this->assertCount(2, Media::getElements('footer1'));
 
         Media::resetElements();
-        $this->assertEquals(0, Media::countElements('footer1'));
+        $this->assertCount(0, Media::getElements('footer1'));
     }
 
     /**

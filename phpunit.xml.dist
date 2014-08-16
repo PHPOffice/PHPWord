@@ -10,7 +10,7 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="PhpWord Test Suite">
-            <directory>./tests/PhpWord/</directory>
+            <directory>./tests/PhpWord</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -21,4 +21,8 @@
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="./build/coverage" charset="UTF-8" highlight="true" />
+        <log type="coverage-clover" target="./build/logs/clover.xml" />
+    </logging>
 </phpunit>

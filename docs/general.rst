@@ -36,22 +36,18 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
         'myOwnStyle');
 
     // You can also put the appended element to local object like this:
-    $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-    $fontStyle->setBold(true);
-    $fontStyle->setName('Verdana');
-    $fontStyle->setSize(22);
+    $fontStyle = array(
+        'name' => 'Verdana',
+        'size' => 22,
+        'bold' => true,
+    );
     $myTextElement = $section->addText('Hello World!');
     $myTextElement->setFontStyle($fontStyle);
 
-    // Finally, write the document:
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-    $objWriter->save('helloWorld.docx');
-
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
-    $objWriter->save('helloWorld.odt');
-
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-    $objWriter->save('helloWorld.rtf');
+    // Finally, save the document:
+    $phpWord->save('helloWorld.docx');
+    $phpWord->save('helloWorld.odt', 'ODText');
+    $phpWord->save('helloWorld.rtf', 'RTF');
 
 Settings
 --------
@@ -67,7 +63,8 @@ This option sets
 and
 `XMLWriter::setIndentString <http://www.php.net/manual/en/function.xmlwriter-set-indent-string.php>`__.
 The default value of this option is ``true`` (compatible), which is
-`required for OpenOffice <https://github.com/PHPOffice/PHPWord/issues/103>`__ to
+`required for
+OpenOffice <https://github.com/PHPOffice/PHPWord/issues/103>`__ to
 render OOXML document correctly. You can set this option to ``false``
 during development to make the resulting XML file easier to read.
 
@@ -78,11 +75,10 @@ during development to make the resulting XML file easier to read.
 Zip class
 ~~~~~~~~~
 
-By default, PHPWord uses PHP
-`ZipArchive <http://php.net/manual/en/book.zip.php>`__ to read or write
-ZIP compressed archive and the files inside them. If you can't have
-ZipArchive installed on your server, you can use pure PHP library
-alternative, `PCLZip <http://www.phpconcept.net/pclzip/>`__, which
+By default, PHPWord uses `Zip extension <http://php.net/manual/en/book.zip.php>`__
+to deal with ZIP compressed archives and files inside them. If you can't have
+Zip extension installed on your server, you can use pure PHP library
+alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which
 included with PHPWord.
 
 .. code-block:: php
@@ -100,15 +96,15 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
-Document properties
--------------------
+Document information
+--------------------
 
-You can set the document properties such as title, creator, and company
+You can set the document information such as title, creator, and company
 name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getDocumentProperties();
+    $properties = $phpWord->getDocInfo();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');
@@ -133,13 +129,13 @@ points to twips.
 
     // Paragraph with 6 points space after
     $phpWord->addParagraphStyle('My Style', array(
-        'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
+        'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(6))
     );
 
     $section = $phpWord->addSection();
-    $sectionStyle = $section->getSettings();
+    $sectionStyle = $section->getStyle();
     // half inch left margin
-    $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
+    $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Converter::inchToTwip(.5));
     // 2 cm right margin
-    $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
+    $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
 

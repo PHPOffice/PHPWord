@@ -1,198 +1,121 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
  * Image and memory image style
  */
-class Image extends AbstractStyle
+class Image extends Frame
 {
-    const WRAPPING_STYLE_INLINE = 'inline';
-    const WRAPPING_STYLE_SQUARE = 'square';
-    const WRAPPING_STYLE_TIGHT = 'tight';
-    const WRAPPING_STYLE_BEHIND = 'behind';
-    const WRAPPING_STYLE_INFRONT = 'infront';
-
     /**
-     * Image width
+     * Backward compatibility constants
      *
-     * @var int
+     * @const string
      */
-    private $width;
+    const WRAPPING_STYLE_INLINE = self::WRAP_INLINE;
+    const WRAPPING_STYLE_SQUARE = self::WRAP_SQUARE;
+    const WRAPPING_STYLE_TIGHT = self::WRAP_TIGHT;
+    const WRAPPING_STYLE_BEHIND = self::WRAP_BEHIND;
+    const WRAPPING_STYLE_INFRONT = self::WRAP_INFRONT;
+    const POSITION_HORIZONTAL_LEFT = self::POS_LEFT;
+    const POSITION_HORIZONTAL_CENTER = self::POS_CENTER;
+    const POSITION_HORIZONTAL_RIGHT = self::POS_RIGHT;
+    const POSITION_VERTICAL_TOP = self::POS_TOP;
+    const POSITION_VERTICAL_CENTER = self::POS_CENTER;
+    const POSITION_VERTICAL_BOTTOM = self::POS_BOTTOM;
+    const POSITION_VERTICAL_INSIDE = self::POS_INSIDE;
+    const POSITION_VERTICAL_OUTSIDE = self::POS_OUTSIDE;
+    const POSITION_RELATIVE_TO_MARGIN = self::POS_RELTO_MARGIN;
+    const POSITION_RELATIVE_TO_PAGE = self::POS_RELTO_PAGE;
+    const POSITION_RELATIVE_TO_COLUMN = self::POS_RELTO_COLUMN;
+    const POSITION_RELATIVE_TO_CHAR = self::POS_RELTO_CHAR;
+    const POSITION_RELATIVE_TO_TEXT = self::POS_RELTO_TEXT;
+    const POSITION_RELATIVE_TO_LINE = self::POS_RELTO_LINE;
+    const POSITION_RELATIVE_TO_LMARGIN = self::POS_RELTO_LMARGIN;
+    const POSITION_RELATIVE_TO_RMARGIN = self::POS_RELTO_RMARGIN;
+    const POSITION_RELATIVE_TO_TMARGIN = self::POS_RELTO_TMARGIN;
+    const POSITION_RELATIVE_TO_BMARGIN = self::POS_RELTO_BMARGIN;
+    const POSITION_RELATIVE_TO_IMARGIN = self::POS_RELTO_IMARGIN;
+    const POSITION_RELATIVE_TO_OMARGIN = self::POS_RELTO_OMARGIN;
+    const POSITION_ABSOLUTE = self::POS_ABSOLUTE;
+    const POSITION_RELATIVE = self::POS_RELATIVE;
 
     /**
-     * Image width
-     *
-     * @var int
-     */
-    private $height;
-
-    /**
-     * Alignment
-     *
-     * @var string
-     */
-    private $align;
-
-    /**
-     * Margin Top
-     *
-     * @var int
-     */
-    private $marginTop;
-
-    /**
-     * Margin Left
-     *
-     * @var int
-     */
-    private $marginLeft;
-
-    /**
-     * Wrapping style
-     *
-     * @var string
-     */
-    private $wrappingStyle;
-
-    /**
-     * Create new image style
+     * Create new instance
      */
     public function __construct()
     {
-        $this->width = null;
-        $this->height = null;
-        $this->align = null;
-        $this->marginTop = null;
-        $this->marginLeft = null;
-        $this->setWrappingStyle(self::WRAPPING_STYLE_INLINE);
+        parent::__construct();
+        $this->setUnit('px');
+
+        // Backward compatilibity setting
+        // @todo Remove on 1.0.0
+        $this->setWrap(self::WRAPPING_STYLE_INLINE);
+        $this->setHPos(self::POSITION_HORIZONTAL_LEFT);
+        $this->setHPosRelTo(self::POSITION_RELATIVE_TO_CHAR);
+        $this->setVPos(self::POSITION_VERTICAL_TOP);
+        $this->setVPosRelTo(self::POSITION_RELATIVE_TO_LINE);
     }
 
     /**
-     * Get width
-     */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    /**
-     * Set width
+     * Get margin top
      *
-     * @param int $pValue
-     */
-    public function setWidth($pValue = null)
-    {
-        $this->width = $pValue;
-    }
-
-    /**
-     * Get height
-     */
-    public function getHeight()
-    {
-        return $this->height;
-    }
-
-    /**
-     * Set height
-     *
-     * @param int $pValue
-     */
-    public function setHeight($pValue = null)
-    {
-        $this->height = $pValue;
-    }
-
-    /**
-     * Get alignment
-     */
-    public function getAlign()
-    {
-        return $this->align;
-    }
-
-    /**
-     * Set alignment
-     *
-     * @param string $pValue
-     */
-    public function setAlign($pValue = null)
-    {
-        $this->align = $pValue;
-    }
-
-    /**
-     * Get Margin Top
-     *
-     * @return int
+     * @return int|float
      */
     public function getMarginTop()
     {
-        return $this->marginTop;
+        return $this->getTop();
     }
 
     /**
-     * Set Margin Top
+     * Set margin top
      *
-     * @param int $pValue
-     * @return $this
+     * @ignoreScrutinizerPatch
+     * @param int|float $value
+     * @return self
      */
-    public function setMarginTop($pValue = null)
+    public function setMarginTop($value = 0)
     {
-        $this->marginTop = $pValue;
+        $this->setTop($value);
+
         return $this;
     }
 
     /**
-     * Get Margin Left
+     * Get margin left
      *
-     * @return int
+     * @return int|float
      */
     public function getMarginLeft()
     {
-        return $this->marginLeft;
+        return $this->getLeft();
     }
 
     /**
-     * Set Margin Left
+     * Set margin left
      *
-     * @param int $pValue
-     * @return $this
+     * @ignoreScrutinizerPatch
+     * @param int|float $value
+     * @return self
      */
-    public function setMarginLeft($pValue = null)
+    public function setMarginLeft($value = 0)
     {
-        $this->marginLeft = $pValue;
-        return $this;
-    }
+        $this->setLeft($value);
 
-    /**
-     * Set wrapping style
-     *
-     * @param string $wrappingStyle
-     * @throws \InvalidArgumentException
-     * @return $this
-     */
-    public function setWrappingStyle($wrappingStyle)
-    {
-        switch ($wrappingStyle) {
-            case self::WRAPPING_STYLE_BEHIND:
-            case self::WRAPPING_STYLE_INFRONT:
-            case self::WRAPPING_STYLE_INLINE:
-            case self::WRAPPING_STYLE_SQUARE:
-            case self::WRAPPING_STYLE_TIGHT:
-                $this->wrappingStyle = $wrappingStyle;
-                break;
-            default:
-                throw new \InvalidArgumentException('Wrapping style does not exists');
-        }
         return $this;
     }
 
@@ -203,6 +126,140 @@ class Image extends AbstractStyle
      */
     public function getWrappingStyle()
     {
-        return $this->wrappingStyle;
+        return $this->getWrap();
+    }
+
+    /**
+     * Set wrapping style
+     *
+     * @param string $wrappingStyle
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setWrappingStyle($wrappingStyle)
+    {
+        $this->setWrap($wrappingStyle);
+
+        return $this;
+    }
+
+    /**
+     * Get positioning type
+     *
+     * @return string
+     */
+    public function getPositioning()
+    {
+        return $this->getPos();
+    }
+
+    /**
+     * Set positioning type
+     *
+     * @param string $positioning
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPositioning($positioning)
+    {
+        $this->setPos($positioning);
+
+        return $this;
+    }
+
+    /**
+     * Get horizontal alignment
+     *
+     * @return string
+     */
+    public function getPosHorizontal()
+    {
+        return $this->getHPos();
+    }
+
+    /**
+     * Set horizontal alignment
+     *
+     * @param string $alignment
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPosHorizontal($alignment)
+    {
+        $this->setHPos($alignment);
+
+        return $this;
+    }
+
+    /**
+     * Get vertical alignment
+     *
+     * @return string
+     */
+    public function getPosVertical()
+    {
+        return $this->getVPos();
+    }
+
+    /**
+     * Set vertical alignment
+     *
+     * @param string $alignment
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPosVertical($alignment)
+    {
+        $this->setVPos($alignment);
+
+        return $this;
+    }
+
+    /**
+     * Get horizontal relation
+     *
+     * @return string
+     */
+    public function getPosHorizontalRel()
+    {
+        return $this->getHPosRelTo();
+    }
+
+    /**
+     * Set horizontal relation
+     *
+     * @param string $relto
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPosHorizontalRel($relto)
+    {
+        $this->setHPosRelTo($relto);
+
+        return $this;
+    }
+
+    /**
+     * Get vertical relation
+     *
+     * @return string
+     */
+    public function getPosVerticalRel()
+    {
+        return $this->getVPosRelTo();
+    }
+
+    /**
+     * Set vertical relation
+     *
+     * @param string $relto
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function setPosVerticalRel($relto)
+    {
+        $this->setVPosRelTo($relto);
+
+        return $this;
     }
 }

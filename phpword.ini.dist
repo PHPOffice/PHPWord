@@ -1,0 +1,15 @@
+; Default config file for PHPWord
+; Copy this file into phpword.ini and use Settings::loadConfig to load
+
+[General]
+
+compatibility   = true
+zipClass        = ZipArchive
+pdfRendererName = DomPDF
+pdfRendererPath =
+; tempDir         = "C:\PhpWordTemp"
+
+[Font]
+
+defaultFontName = Arial
+defaultFontSize = 10

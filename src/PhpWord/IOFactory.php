@@ -45,9 +45,8 @@ abstract class IOFactory
      */
     public static function createReader($name = 'Word2007')
     {
-        if ($name !== 'ReaderInterface' && !in_array($name, array('Word2007', 'MsDoc'))) {
-            throw new Exception("\"{$name}\" is not a valid reader.");
-        }
+        return self::createObject('Reader', $name);
+    }
 
         $fqName = "PhpOffice\\PhpWord\\Reader\\{$name}";
         return new $fqName();

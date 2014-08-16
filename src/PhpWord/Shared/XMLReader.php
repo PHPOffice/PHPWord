@@ -1,16 +1,23 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 
 /**
  * XML Reader wrapper
@@ -39,6 +46,7 @@ class XMLReader
      * @param string $zipFile
      * @param string $xmlFile
      * @return \DOMDocument|false
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)
     {
@@ -46,28 +54,37 @@ class XMLReader
             throw new Exception('Cannot find archive file.');
         }
 
-        $zipClass = Settings::getZipClass();
-        $zip = new $zipClass();
-        $canOpen = $zip->open($zipFile);
-        if ($canOpen === false) {
-            throw new Exception('Cannot open archive file.');
-        }
-        $contents = $zip->getFromName($xmlFile);
+        $zip = new ZipArchive();
+        $zip->open($zipFile);
+        $content = $zip->getFromName($xmlFile);
         $zip->close();
 
-        if ($contents === false) {
+        if ($content === false) {
             return false;
         } else {
-            $this->dom = new \DOMDocument();
-            $this->dom->loadXML($contents);
-            return $this->dom;
+            return $this->getDomFromString($content);
         }
+    }
+
+    /**
+     * Get DOMDocument from content string
+     *
+     * @param string $content
+     * @return \DOMDocument
+     */
+    public function getDomFromString($content)
+    {
+        $this->dom = new \DOMDocument();
+        $this->dom->loadXML($content);
+
+        return $this->dom;
     }
 
     /**
      * Get elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMNodeList
      */
     public function getElements($path, \DOMElement $contextNode = null)
@@ -79,16 +96,21 @@ class XMLReader
             $this->xpath = new \DOMXpath($this->dom);
         }
 
-        return $this->xpath->query($path, $contextNode);
+        if (is_null($contextNode)) {
+            return $this->xpath->query($path);
+        } else {
+            return $this->xpath->query($path, $contextNode);
+        }
     }
 
     /**
      * Get element
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return \DOMElement|null
      */
-    public function getElement($path, \DOMElement $contextNode)
+    public function getElement($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -102,19 +124,23 @@ class XMLReader
      * Get element attribute
      *
      * @param string $attribute
+     * @param \DOMElement $contextNode
      * @param string $path
      * @return string|null
      */
-    public function getAttribute($attribute, \DOMElement $contextNode, $path = null)
+    public function getAttribute($attribute, \DOMElement $contextNode = null, $path = null)
     {
-        if (is_null($path)) {
-            $return = $contextNode->getAttribute($attribute);
-        } else {
+        $return = null;
+        if ($path !== null) {
             $elements = $this->getElements($path, $contextNode);
             if ($elements->length > 0) {
-                $return = $elements->item(0)->getAttribute($attribute);
-            } else {
-                $return = null;
+                /** @var \DOMElement $node Type hint */
+                $node = $elements->item(0);
+                $return = $node->getAttribute($attribute);
+            }
+        } else {
+            if ($contextNode !== null) {
+                $return = $contextNode->getAttribute($attribute);
             }
         }
 
@@ -125,9 +151,10 @@ class XMLReader
      * Get element value
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return string|null
      */
-    public function getValue($path, \DOMElement $contextNode)
+    public function getValue($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
         if ($elements->length > 0) {
@@ -141,9 +168,10 @@ class XMLReader
      * Count elements
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return integer
      */
-    public function countElements($path, \DOMElement $contextNode)
+    public function countElements($path, \DOMElement $contextNode = null)
     {
         $elements = $this->getElements($path, $contextNode);
 
@@ -154,9 +182,10 @@ class XMLReader
      * Element exists
      *
      * @param string $path
+     * @param \DOMElement $contextNode
      * @return boolean
      */
-    public function elementExists($path, \DOMElement $contextNode)
+    public function elementExists($path, \DOMElement $contextNode = null)
     {
         return $this->getElements($path, $contextNode)->length > 0;
     }

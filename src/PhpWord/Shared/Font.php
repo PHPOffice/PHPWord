@@ -1,16 +1,27 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Common font functions
+ * DEPRECATED: Common font functions; Use 'Converter'
+ *
+ * @deprecated 0.12.0
+ * @codeCoverageIgnore
  */
 class Font
 {
@@ -22,7 +33,7 @@ class Font
      */
     public static function fontSizeToPixels($fontSizeInPoints = 12)
     {
-        return ((16 / 12) * $fontSizeInPoints);
+        return Converter::pointToPixel($fontSizeInPoints);
     }
 
     /**
@@ -33,7 +44,7 @@ class Font
      */
     public static function inchSizeToPixels($sizeInInch = 1)
     {
-        return ($sizeInInch * 96);
+        return Converter::inchToPixel($sizeInInch);
     }
 
     /**
@@ -44,7 +55,7 @@ class Font
      */
     public static function centimeterSizeToPixels($sizeInCm = 1)
     {
-        return ($sizeInCm * 37.795275591);
+        return Converter::cmToPixel($sizeInCm);
     }
 
     /**
@@ -55,7 +66,7 @@ class Font
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return ($sizeInCm * 565.217);
+        return Converter::cmToTwip($sizeInCm);
     }
 
     /**
@@ -66,7 +77,7 @@ class Font
      */
     public static function inchSizeToTwips($sizeInInch = 1)
     {
-        return self::centimeterSizeToTwips($sizeInInch * 2.54);
+        return Converter::inchToTwip($sizeInInch);
     }
 
     /**
@@ -77,7 +88,7 @@ class Font
      */
     public static function pixelSizeToTwips($sizeInPixel = 1)
     {
-        return self::centimeterSizeToTwips($sizeInPixel / 37.795275591);
+        return Converter::pixelToTwip($sizeInPixel);
     }
 
     /**
@@ -88,6 +99,6 @@ class Font
      */
     public static function pointSizeToTwips($sizeInPoint = 1)
     {
-        return ($sizeInPoint * 20);
+        return Converter::pointToTwip($sizeInPoint);
     }
 }

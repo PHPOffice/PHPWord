@@ -1,29 +1,41 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Style\Section as SectionSettings;
-use PhpOffice\PhpWord\TOC;
+use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
  * Section
  */
-class Section extends AbstractElement
+class Section extends AbstractContainer
 {
     /**
-     * Section settings
-     *
-     * @var SectionSettings
+     * @var string Container type
      */
-    private $settings;
+    protected $container = 'Section';
+
+    /**
+     * Section style
+     *
+     * @var \PhpOffice\PhpWord\Style\Section
+     */
+    private $style;
 
     /**
      * Section headers, indexed from 1, not zero
@@ -43,66 +55,37 @@ class Section extends AbstractElement
      * Create new instance
      *
      * @param int $sectionCount
-     * @param array $settings
+     * @param array $style
      */
-    public function __construct($sectionCount, $settings = null)
+    public function __construct($sectionCount, $style = null)
     {
-        $this->container = 'section';
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
-        $this->settings = new SectionSettings();
-        $this->setSettings($settings);
+        $this->style = new SectionStyle();
+        $this->setStyle($style);
     }
 
     /**
-     * Set section settings
+     * Set section style.
      *
-     * @param array $settings
+     * @param array $style
+     * @return void
      */
-    public function setSettings($settings = null)
+    public function setStyle($style = null)
     {
-        if (!is_null($settings) && is_array($settings)) {
-            foreach ($settings as $key => $value) {
-                if (is_null($value)) {
-                    continue;
-                }
-                $this->settings->setSettingValue($key, $value);
-            }
+        if (!is_null($style) && is_array($style)) {
+            $this->style->setStyleByArray($style);
         }
     }
 
     /**
-     * Get Section Settings
+     * Get section style
      *
-     * @return SectionSettings
+     * @return \PhpOffice\PhpWord\Style\Section
      */
-    public function getSettings()
+    public function getStyle()
     {
-        return $this->settings;
-    }
-
-    /**
-     * Add a PageBreak Element
-     */
-    public function addPageBreak()
-    {
-        $this->elements[] = new PageBreak();
-    }
-
-    /**
-     * Add a Table-of-Contents Element
-     *
-     * @param mixed $styleFont
-     * @param mixed $styleTOC
-     * @param integer $minDepth
-     * @param integer $maxDepth
-     * @return TOC
-     */
-    public function addTOC($styleFont = null, $styleTOC = null, $minDepth = 1, $maxDepth = 9)
-    {
-        $toc = new TOC($styleFont, $styleTOC, $minDepth, $maxDepth);
-        $this->elements[] = $toc;
-        return $toc;
+        return $this->style;
     }
 
     /**
@@ -173,25 +156,52 @@ class Section extends AbstractElement
      * @param string $type
      * @param boolean $header
      * @return Header|Footer
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      * @since 0.10.0
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
+        $containerClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' .
+            ($header ? 'Header' : 'Footer');
         $collectionArray = $header ? 'headers' : 'footers';
-        $containerClass = 'PhpOffice\\PhpWord\\Element\\';
-        $containerClass .= ($header ? 'Header' : 'Footer');
         $collection = &$this->$collectionArray;
 
         if (in_array($type, array(Header::AUTO, Header::FIRST, Header::EVEN))) {
             $index = count($collection);
+            /** @var \PhpOffice\PhpWord\Element\AbstractContainer $container Type hint */
             $container = new $containerClass($this->sectionId, ++$index, $type);
+            $container->setPhpWord($this->phpWord);
+
             $collection[$index] = $container;
             return $container;
         } else {
             throw new Exception('Invalid header/footer type.');
         }
 
+    }
+
+    /**
+     * Set section style
+     *
+     * @param array $settings
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function setSettings($settings = null)
+    {
+        $this->setStyle($settings);
+    }
+
+    /**
+     * Get section style
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function getSettings()
+    {
+        return $this->getStyle();
     }
 
     /**

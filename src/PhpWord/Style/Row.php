@@ -1,16 +1,26 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
 /**
  * Table row style
+ *
+ * @since 0.8.0
  */
 class Row extends AbstractStyle
 {
@@ -43,45 +53,59 @@ class Row extends AbstractStyle
     }
 
     /**
-     * Set tblHeader
+     * Is tblHeader
      *
-     * @param boolean $value
-     * @return self
+     * @return bool
      */
-    public function setTblHeader($value = false)
-    {
-        $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
-    }
-
-    /**
-     * Get tblHeader
-     *
-     * @return boolean
-     */
-    public function getTblHeader()
+    public function isTblHeader()
     {
         return $this->tblHeader;
     }
 
     /**
-     * Set cantSplit
+     * Is tblHeader
      *
-     * @param boolean $value
+     * @param bool $value
      * @return self
      */
-    public function setCantSplit($value = false)
+    public function setTblHeader($value = true)
     {
-        $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
+        $this->tblHeader = $this->setBoolVal($value, $this->tblHeader);
+
+        return $this;
     }
 
     /**
-     * Get cantSplit
+     * Is cantSplit
      *
-     * @return boolean
+     * @return bool
      */
-    public function getCantSplit()
+    public function isCantSplit()
     {
         return $this->cantSplit;
+    }
+
+    /**
+     * Is cantSplit
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setCantSplit($value = true)
+    {
+        $this->cantSplit = $this->setBoolVal($value, $this->cantSplit);
+
+        return $this;
+    }
+
+    /**
+     * Is exactHeight
+     *
+     * @return bool
+     */
+    public function isExactHeight()
+    {
+        return $this->exactHeight;
     }
 
     /**
@@ -90,19 +114,43 @@ class Row extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setExactHeight($value = false)
+    public function setExactHeight($value = true)
     {
         $this->exactHeight = $this->setBoolVal($value, $this->exactHeight);
+
         return $this;
+    }
+
+    /**
+     * Get tblHeader
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getTblHeader()
+    {
+        return $this->isTblHeader();
+    }
+
+    /**
+     * Get cantSplit
+     *
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
+     */
+    public function getCantSplit()
+    {
+        return $this->isCantSplit();
     }
 
     /**
      * Get exactHeight
      *
-     * @return boolean
+     * @deprecated 0.10.0
+     * @codeCoverageIgnore
      */
     public function getExactHeight()
     {
-        return $this->exactHeight;
+        return $this->isExactHeight();
     }
 }

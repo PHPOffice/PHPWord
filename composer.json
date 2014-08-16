@@ -1,14 +1,14 @@
 {
     "name": "phpoffice/phpword",
-    "description": "PHPWord - Read, Create, and Write DOCX, ODT, and RTF documents in PHP",
+    "description": "PHPWord - A pure PHP library for reading and writing word processing documents (DOCX, ODT, RTF, HTML, PDF)",
     "keywords": [
         "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
-        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument"
+        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument", "PDF", "HTML"
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
-    "license": "LGPL-3.0+",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "Mark Baker"
@@ -33,16 +33,25 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "ext-xml": "*",
-        "ext-zip": "*"
+        "ext-xml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "phpdocumentor/phpdocumentor":"2.*",
+        "squizlabs/php_codesniffer": "1.*",
+        "phpmd/phpmd": "2.*",
+        "sebastian/phpcpd": "2.*",
+        "phploc/phploc": "2.*",
+        "dompdf/dompdf":"0.6.*",
+        "tecnick.com/tcpdf": "6.*",
+        "mpdf/mpdf": "5.*"
     },
     "suggest": {
-        "ext-gd2": "*",
-        "ext-xmlwriter": "*",
-        "ext-xsl": "*"
+        "ext-zip": "Used to write DOCX and ODT",
+        "ext-gd2": "Used to add images",
+        "ext-xmlwriter": "Used to write DOCX and ODT",
+        "ext-xsl": "Used to apply XSL style sheet to template part",
+        "dompdf/dompdf": "Used to write PDF"
     },
     "autoload": {
         "psr-4": {

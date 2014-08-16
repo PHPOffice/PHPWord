@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset name="PHPWord PHP Mess Detector Rule Set"
+    xmlns="http://pmd.sf.net/ruleset/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <rule ref="rulesets/naming.xml"/>
+    <rule ref="rulesets/design.xml/ExitExpression" />
+    <rule ref="rulesets/design.xml/EvalExpression" />
+    <rule ref="rulesets/design.xml/GotoStatement" />
+    <rule ref="rulesets/design.xml/DepthOfInheritance" />
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <!-- AbstractContainer needs more coupling (default: 13) -->
+        <properties>
+            <property name="minimum" value="20" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/design.xml/NumberOfChildren">
+        <!-- AbstractStyle needs more children (default: 15) -->
+        <properties>
+            <property name="minimum" value="30" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/unusedcode.xml" />
+    <rule ref="rulesets/controversial.xml" />
+</ruleset>

@@ -25,6 +25,7 @@ $table->addCell(4500)->addImage(
 // Add header for all other pages
 $subsequent = $section->addHeader();
 $subsequent->addText("Subsequent pages in Section 1 will Have this!");
+$subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80));
 
 // Add footer
 $footer = $section->addFooter();
@@ -59,15 +60,8 @@ $sec2Header->addText("All pages in Section 2 will Have this!");
 $section2->addTextBreak();
 $section2->addText('Some text...');
 
-
 // Save file
-$name = basename(__FILE__, '.php');
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf');
-foreach ($writers as $writer => $extension) {
-    echo date('H:i:s'), " Write to {$writer} format", EOL;
-    $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, $writer);
-    $xmlWriter->save("{$name}.{$extension}");
-    rename("{$name}.{$extension}", "results/{$name}.{$extension}");
+echo write($phpWord, basename(__FILE__, '.php'), $writers);
+if (!CLI) {
+    include_once 'Sample_Footer.php';
 }
-
-include_once 'Sample_Footer.php';

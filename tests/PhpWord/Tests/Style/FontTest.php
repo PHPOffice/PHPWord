@@ -1,15 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2014 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
@@ -37,6 +46,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
+        $this->assertTrue(is_array($object->getStyleValues()));
     }
 
     /**
@@ -47,21 +57,28 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $object = new Font();
 
         $attributes = array(
-            'name' => PhpWord::DEFAULT_FONT_NAME,
-            'size' => PhpWord::DEFAULT_FONT_SIZE,
+            'name' => null,
+            'size' => null,
+            'hint' => null,
+            'color' => null,
             'bold' => false,
             'italic' => false,
+            'underline' => Font::UNDERLINE_NONE,
             'superScript' => false,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_NONE,
             'strikethrough' => false,
-            'color' => PhpWord::DEFAULT_FONT_COLOR,
+            'doubleStrikethrough' => false,
+            'smallCaps' => false,
+            'allCaps' => false,
             'fgColor' => null,
             'bgColor' => null,
-            'hint' => PhpWord::DEFAULT_FONT_CONTENT_TYPE,
+            'scale' => null,
+            'spacing' => null,
+            'kerning' => null,
         );
         foreach ($attributes as $key => $default) {
-            $get = "get{$key}";
+            $get = is_bool($default) ? "is{$key}" : "get{$key}";
+            $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", null);
             $this->assertEquals($default, $object->$get());
             $object->setStyleValue("$key", '');
@@ -79,20 +96,27 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $attributes = array(
             'name' => 'Times New Roman',
             'size' => 9,
+            'color' => '999999',
+            'hint' => 'eastAsia',
             'bold' => true,
             'italic' => true,
+            'underline' => Font::UNDERLINE_HEAVY,
             'superScript' => true,
             'subScript' => false,
-            'underline' => Font::UNDERLINE_HEAVY,
             'strikethrough' => true,
-            'color' => '999999',
+            'doubleStrikethrough' => false,
+            'smallCaps' => true,
+            'allCaps' => false,
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
-            'hint' => 'eastAsia',
+            'lineHeight' => 2,
+            'scale' => 150,
+            'spacing' => 240,
+            'kerning' => 10,
         );
-        $object->setArrayStyle($attributes);
+        $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
-            $get = "get{$key}";
+            $get = is_bool($value) ? "is{$key}" : "get{$key}";
             $this->assertEquals($value, $object->$get());
         }
     }
