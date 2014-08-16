@@ -4,7 +4,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 ## 0.12.0 - Not yet released
 
-This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles.
+This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
 
 ### Features
 
@@ -23,6 +23,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - SDT: Ability to add structured document tag elements (comboBox, dropDownList, date) - @ivanlanin
 - Paragraph: Support for paragraph with borders - @ivanlanin GH-294
 - Word2007 Writer : Support for RTL - @Progi1984 GH-331
+- MsDOC Reader: Basic MsDOC Reader - @Progi1984 GH-23 GH-287
 
 ### Bugfixes
 
