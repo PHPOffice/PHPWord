@@ -318,7 +318,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                 $pos = $this->readBlockFibRgFcLcb($data, $pos, self::VERSION_2000);
                 $pos = $this->readBlockFibRgFcLcb($data, $pos, self::VERSION_2002);
                 break;
-            case 0x00A4 :
+            case 0x00A4:
                 $pos = $this->readBlockFibRgFcLcb($data, $pos, self::VERSION_97);
                 $pos = $this->readBlockFibRgFcLcb($data, $pos, self::VERSION_2000);
                 $pos = $this->readBlockFibRgFcLcb($data, $pos, self::VERSION_2002);
@@ -1438,10 +1438,10 @@ class MsDoc extends AbstractReader implements ReaderInterface
             $aPnBteChpx[$inc] = self::getInt4d($this->data1Table, $posMem);
             $posMem += 4;
         }
-        $PnFkpChpx = self::getInt4d($this->data1Table, $posMem);
+        $pnFkpChpx = self::getInt4d($this->data1Table, $posMem);
         $posMem += 4;
 
-        $offsetBase = $PnFkpChpx * 512;
+        $offsetBase = $pnFkpChpx * 512;
         $offset = $offsetBase;
 
         // ChpxFkp
@@ -2258,7 +2258,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             if (empty($sHYPERLINK)) {
                                 if (ord($sText[0]) > 20) {
                                     if (strpos(trim($sText), 'HYPERLINK "') === 0) {
-                                       $sHYPERLINK = $sText;
+                                        $sHYPERLINK = $sText;
                                     } else {
                                         $oSection->addText($sText, $styleFont);
                                         // print_r('>addText<'.$sText.'>'.ord($sText[0]).EOL);
