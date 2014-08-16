@@ -119,6 +119,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test load template
+     *
+     * @deprecated 0.12.0
      */
     public function testLoadTemplate()
     {
@@ -126,13 +128,15 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $this->assertInstanceOf(
-            'PhpOffice\\PhpWord\\Template',
+            'PhpOffice\\PhpWord\\TemplateProcessor',
             $phpWord->loadTemplate($templateFqfn)
         );
     }
 
     /**
      * Test load template exception
+     *
+     * @deprecated 0.12.0
      *
      * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */

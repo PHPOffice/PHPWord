@@ -264,14 +264,16 @@ class PhpWord
     /**
      * Load template by filename
      *
+     * @deprecated 0.12.0 Use `new TemplateProcessor($documentTemplate)` instead.
+     *
      * @param  string $filename Fully qualified filename.
-     * @return Template
+     * @return TemplateProcessor
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function loadTemplate($filename)
     {
         if (file_exists($filename)) {
-            return new Template($filename);
+            return new TemplateProcessor($filename);
         } else {
             throw new Exception("Template file {$filename} not found.");
         }

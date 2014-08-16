@@ -23,7 +23,7 @@ Format (RTF).
    containers
    elements
    styles
-   templates
+   templates-processing
    writersreaders
    recipes
    faq
