@@ -141,6 +141,7 @@ class Image extends AbstractStyle
             $styles['z-index'] = 251659264;
             $styles['mso-position-horizontal'] = 'absolute';
             $styles['mso-position-vertical'] = 'absolute';
+            $styles['position'] = 'absolute';
         }
 
         // w10 wrapping
