@@ -1,6 +1,6 @@
 # Contributing to PHPWord
 
-PHPWord is build by the crowd and for the crowd. Every contributions are welcomed; either by [submitting](https://github.com/PHPOffice/PHPWord/issues) bug issues or suggesting improvements, or in a more active form like [requesting](https://github.com/PHPOffice/PHPWord/pulls) a pull.
+PHPWord is built by the crowd and for the crowd. Every contribution is welcome; either by [submitting](https://github.com/PHPOffice/PHPWord/issues) bug issues or suggesting improvements, or in a more active form like [requesting](https://github.com/PHPOffice/PHPWord/pulls) a pull.
 
 We want to create a high quality document writer and reader library that people can use with more confidence and less bugs. We want to collaborate happily, code joyfully, and get a life merrily. Thus, below are some guidelines that we expect to be followed by each contributor.
 
