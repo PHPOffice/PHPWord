@@ -68,6 +68,7 @@ class Table extends AbstractElement
         $row->setDocPart($this->getDocPart(), $this->getDocPartId());
         $row->setPhpWord($this->phpWord);
         $row->setNestedLevel($this->getNestedLevel());
+        $row->setParent($this);
         $this->rows[] = $row;
 
         return $row;

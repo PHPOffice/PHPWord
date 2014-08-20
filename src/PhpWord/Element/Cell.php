@@ -44,6 +44,13 @@ class Cell extends AbstractContainer
     private $style;
 
     /**
+     * Cell's column number
+     *
+     * @var int
+     */
+    private $column;
+
+    /**
      * Create new instance
      *
      * @param int $width
@@ -73,5 +80,21 @@ class Cell extends AbstractContainer
     public function getWidth()
     {
         return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * @param int $column
+     */
+    public function setColumn($column)
+    {
+        $this->column = $column;
     }
 }

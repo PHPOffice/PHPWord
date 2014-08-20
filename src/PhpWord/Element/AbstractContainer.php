@@ -146,6 +146,7 @@ abstract class AbstractContainer extends AbstractElement
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
         $element->setPhpWord($this->phpWord);
+        $element->setParent($this);
 
         $this->elements[] = $element;
 

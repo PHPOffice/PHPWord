@@ -94,6 +94,13 @@ abstract class AbstractElement
     private $nestedLevel = 0;
 
     /**
+     * Element container, if exists
+     *
+     * @var null|AbstractElement
+     */
+    private $parent = null;
+
+    /**
      * Get PhpWord
      *
      * @return \PhpOffice\PhpWord\PhpWord
@@ -261,5 +268,23 @@ abstract class AbstractElement
         }
 
         return $style;
+    }
+
+    /**
+     * Returns a parent of this element, if exists
+     * @return null|AbstractElement
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Sets a parent for this element
+     * @param null|AbstractElement $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
     }
 }
