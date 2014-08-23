@@ -33,6 +33,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Table inside vertical border does not rendered properly - @ivanlanin GH-280
 - `add<elementName>` of container should be case insensitive, e.g. `addToc` should be accepted, not only `addTOC` - @ivanlanin GH-294
 - Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit GH-327
+- "HTML is not a valid writer" exception while running "Sample_36_RTL.php" - @RomanSyroeshko GH-340
 
 ### Deprecated
 
