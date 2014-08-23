@@ -10,12 +10,9 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Writer\WriterInterface;
 use PhpOffice\PhpWord\Reader\ReaderInterface;
+use PhpOffice\PhpWord\Writer\WriterInterface;
 
-/**
- * IO factory
- */
 abstract class IOFactory
 {
     /**
@@ -24,15 +21,16 @@ abstract class IOFactory
      * @param PhpWord $phpWord
      * @param string $name
      * @return WriterInterface
-     * @throws Exception
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
-        if ($name !== 'WriterInterface' && $name !== 'ODText' && $name !== 'RTF' && $name !== 'Word2007') {
+        if ($name !== 'WriterInterface' && !in_array($name, array('ODText', 'RTF', 'Word2007', 'HTML', 'PDF'), true)) {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
         $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
+
         return new $fqName($phpWord);
     }
 
