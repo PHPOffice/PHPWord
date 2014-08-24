@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Exception\NotFoundRowException;
+use PhpOffice\PhpWord\Exception\NotFoundVariableException;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
@@ -62,6 +64,14 @@ class Template
     private $footerXMLs = array();
 
     /**
+     * Left and right tag variables
+     *
+     * @var string
+     */
+    protected $tagVariableLeft = '${';
+    protected $tagVariableRight = '}';
+
+    /**
      * Create a new Template Object
      *
      * @param string $strFilename
@@ -96,6 +106,18 @@ class Template
         }
 
         $this->documentXML = $this->zipClass->getFromName('word/document.xml');
+    }
+
+    /**
+     * Allows you to set custom open and close tag for variables
+     *
+     * @param $leftTag
+     * @param $rightTag
+     */
+    public function setTagVariable($leftTag, $rightTag)
+    {
+        $this->tagVariableLeft = $leftTag;
+        $this->tagVariableRight = $rightTag;
     }
 
     /**
@@ -177,17 +199,20 @@ class Template
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
+        if (substr($search, 0, 2) !== $this->tagVariableLeft && substr($search, -1) !== $this->tagVariableRight) {
+            $search = $this->tagVariableLeft . $search . $this->tagVariableRight;
         }
 
         $tagPos = strpos($this->documentXML, $search);
         if (!$tagPos) {
-            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
+            throw new NotFoundVariableException("Can not clone row, template variable not found or variable contains markup.");
         }
 
         $rowStart = $this->findRowStart($tagPos);
         $rowEnd = $this->findRowEnd($tagPos);
+        if ($tagPos >  $rowEnd) {
+            throw new NotFoundRowException('Template variable not in row');
+        }
         $xmlRow = $this->getSlice($rowStart, $rowEnd);
 
         // Check if there's a cell spanning multiple rows.
@@ -216,8 +241,11 @@ class Template
         }
 
         $result = $this->getSlice(0, $rowStart);
+        $left = preg_quote($this->tagVariableLeft. '|');
+        $right = preg_quote($this->tagVariableRight. '|');
+        $regExpPattern = '|'.$left.'(.*?)'.$right.'|';
         for ($i = 1; $i <= $numberOfClones; $i++) {
-            $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
+            $result .= preg_replace($regExpPattern, $this->tagVariableLeft . '\\1#' . $i . $this->tagVariableRight, $xmlRow);
         }
         $result .= $this->getSlice($rowEnd);
 
@@ -235,8 +263,10 @@ class Template
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
+        $left = preg_quote($this->tagVariableLeft, '/');
+        $right = preg_quote($this->tagVariableRight, '/');
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $left . $blockname . $right . '<\/w:.*?p>)(.*)(<w:p.*' . $left . '\/' . $blockname . $right . '<\/w:.*?p>)/is',
             $this->documentXML,
             $matches
         );
@@ -268,8 +298,10 @@ class Template
      */
     public function replaceBlock($blockname, $replacement)
     {
+        $left = preg_quote($this->tagVariableLeft, '/');
+        $right = preg_quote($this->tagVariableRight, '/');
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $left . $blockname . $right . '<\/w:.*?p>)(.*)(<w:p.*' . $left . '\/' . $blockname . $right . '<\/w:.*?p>)/is',
             $this->documentXML,
             $matches
         );
@@ -347,7 +379,9 @@ class Template
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        $pattern = '|\$\{([^\}]+)\}|U';
+        $left = preg_quote($this->tagVariableLeft, '|');
+        $right = preg_quote($this->tagVariableRight, '|');
+        $pattern = '|'.$left.'(.*?)'.$right.'|';
         preg_match_all($pattern, $documentPartXML, $matches);
         foreach ($matches[0] as $value) {
             $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
@@ -355,8 +389,8 @@ class Template
             $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
         }
 
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
+        if (substr($search, 0, 2) !== $this->tagVariableLeft && substr($search, -1) !== $this->tagVariableRight) {
+            $search = $this->tagVariableLeft . $search . $this->tagVariableRight;
         }
 
         if (!String::isUTF8($replace)) {
@@ -376,7 +410,7 @@ class Template
      */
     protected function getVariablesForPart($documentPartXML)
     {
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        preg_match_all('|'.preg_quote($this->tagVariableLeft, '|').'(.*?)'.preg_quote($this->tagVariableRight, '|').'|i', $documentPartXML, $matches);
 
         return $matches[1];
     }
