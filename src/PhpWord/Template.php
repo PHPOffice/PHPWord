@@ -160,6 +160,8 @@ class Template
      */
     public function setValue($search, $replace, $limit = -1)
     {
+        $search = $this->stripSearch($search);
+
         foreach ($this->headerXMLs as $index => $headerXML) {
             $this->headerXMLs[$index] = $this->setValueForPart($this->headerXMLs[$index], $search, $replace, $limit);
         }
@@ -199,14 +201,16 @@ class Template
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if (substr($search, 0, 2) !== $this->tagVariableLeft && substr($search, -1) !== $this->tagVariableRight) {
-            $search = $this->tagVariableLeft . $search . $this->tagVariableRight;
-        }
+        $left = $this->getLeftTagRegexp('/');
+        $right = $this->getRightTagRegexp('/');
+        $search = $this->stripSearch($search);
+        $search = preg_quote($search, '|');
 
-        $tagPos = strpos($this->documentXML, $search);
-        if (!$tagPos) {
+        preg_match("|{$left}{$search}{$right}|", $this->documentXML, $matches, PREG_OFFSET_CAPTURE);
+        if (!isset($matches[0][1])) {
             throw new NotFoundVariableException("Can not clone row, template variable not found or variable contains markup.");
         }
+        $tagPos = $matches[0][1];
 
         $rowStart = $this->findRowStart($tagPos);
         $rowEnd = $this->findRowEnd($tagPos);
@@ -241,8 +245,8 @@ class Template
         }
 
         $result = $this->getSlice(0, $rowStart);
-        $left = preg_quote($this->tagVariableLeft. '|');
-        $right = preg_quote($this->tagVariableRight. '|');
+        $left = $this->getLeftTagRegexp('|');
+        $right = $this->getRightTagRegexp('|');
         $regExpPattern = '|'.$left.'(.*?)'.$right.'|';
         for ($i = 1; $i <= $numberOfClones; $i++) {
             $result .= preg_replace($regExpPattern, $this->tagVariableLeft . '\\1#' . $i . $this->tagVariableRight, $xmlRow);
@@ -263,8 +267,8 @@ class Template
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        $left = preg_quote($this->tagVariableLeft, '/');
-        $right = preg_quote($this->tagVariableRight, '/');
+        $left = $this->getLeftTagRegexp('/');
+        $right = $this->getRightTagRegexp('/');
         preg_match(
             '/(<\?xml.*)(<w:p.*>' . $left . $blockname . $right . '<\/w:.*?p>)(.*)(<w:p.*' . $left . '\/' . $blockname . $right . '<\/w:.*?p>)/is',
             $this->documentXML,
@@ -298,8 +302,8 @@ class Template
      */
     public function replaceBlock($blockname, $replacement)
     {
-        $left = preg_quote($this->tagVariableLeft, '/');
-        $right = preg_quote($this->tagVariableRight, '/');
+        $left = $this->getLeftTagRegexp('/');
+        $right = $this->getRightTagRegexp('/');
         preg_match(
             '/(<\?xml.*)(<w:p.*>' . $left . $blockname . $right . '<\/w:.*?p>)(.*)(<w:p.*' . $left . '\/' . $blockname . $right . '<\/w:.*?p>)/is',
             $this->documentXML,
@@ -379,9 +383,7 @@ class Template
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        $left = preg_quote($this->tagVariableLeft, '|');
-        $right = preg_quote($this->tagVariableRight, '|');
-        $pattern = '|'.$left.'(.*?)'.$right.'|';
+        $pattern = '|'.$this->getLeftTagRegexp('|').'(.*?)'.$this->getRightTagRegexp('|').'|';
         preg_match_all($pattern, $documentPartXML, $matches);
         foreach ($matches[0] as $value) {
             $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
@@ -389,17 +391,13 @@ class Template
             $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
         }
 
-        if (substr($search, 0, 2) !== $this->tagVariableLeft && substr($search, -1) !== $this->tagVariableRight) {
-            $search = $this->tagVariableLeft . $search . $this->tagVariableRight;
-        }
-
         if (!String::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
         $replace = htmlspecialchars($replace);
 
-        $regExpDelim = '/';
-        $escapedSearch = preg_quote($search, $regExpDelim);
+        $regExpDelim = '|';
+        $escapedSearch = $this->getLeftTagRegexp($regExpDelim).preg_quote($search, $regExpDelim).$this->getRightTagRegexp($regExpDelim);
         return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
     }
 
@@ -410,7 +408,7 @@ class Template
      */
     protected function getVariablesForPart($documentPartXML)
     {
-        preg_match_all('|'.preg_quote($this->tagVariableLeft, '|').'(.*?)'.preg_quote($this->tagVariableRight, '|').'|i', $documentPartXML, $matches);
+        preg_match_all('|'.$this->getLeftTagRegexp('|').'(.*?)'.$this->getRightTagRegexp('|').'|i', $documentPartXML, $matches);
 
         return $matches[1];
     }
@@ -479,5 +477,53 @@ class Template
             $endPosition = strlen($this->documentXML);
         }
         return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Allows to get current document's xml. Useful in unit tests
+     * @return string
+     */
+    public function getDocumentXml()
+    {
+        return $this->documentXML;
+    }
+
+    /**
+     * Returns a regexp for left variable delimiter
+     *
+     * @param null|string $delimiter
+     *
+     * @return string
+     */
+    protected function getLeftTagRegexp($delimiter = null)
+    {
+        return preg_quote($this->tagVariableLeft, $delimiter).'\s*';
+    }
+
+    /**
+     * Returns a regexp for left variable delimiter
+     *
+     * @param null|string $delimiter
+     *
+     * @return string
+     */
+    protected function getRightTagRegexp($delimiter = null)
+    {
+        return '\s*'.preg_quote($this->tagVariableRight, $delimiter);
+    }
+
+    /**
+     * Strips from search variable tags
+     *
+     * @param $search
+     *
+     * @return string
+     */
+    protected function stripSearch($search)
+    {
+        $search = preg_replace('|^'.$this->getLeftTagRegexp('|').'|', '', $search);
+        $search = preg_replace('|'.$this->getRightTagRegexp('|').'$|', '', $search);
+
+        return $search;
     }
 }

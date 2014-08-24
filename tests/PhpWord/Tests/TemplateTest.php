@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Template;
  *
  * @covers \PhpOffice\PhpWord\Template
  * @coversDefaultClass \PhpOffice\PhpWord\Template
- * @runTestsInSeparateProcesses
+ * @_runTestsInSeparateProcesses
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -208,5 +208,55 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedVar, $actualVar);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @dataProvider provideVariableNameToSearch
+     *
+     * @param $prefix
+     * @param $suffix
+     */
+    public function testVariableSpacesWrappedReplacesCorrectly($prefix, $suffix)
+    {
+        $template = new Template(__DIR__.'/_files/templates/var-wrapped-by-spaces.docx');
+        $template->setTagVariable('{{', '}}');
+        $this->assertSame(
+            array('VariableName'),
+            $template->getVariables()
+        );
+        $search = $prefix.'VariableName'.$suffix;
+        $template->setValue($search, 'VariableValue');
+        $this->assertSame(false, strpos($template->getDocumentXml(), 'VariableName'), 'Variable still exists');
+        $this->assertNotSame(false, strpos($template->getDocumentXml(), 'VariableValue'));
+    }
+
+    /**
+     * @dataProvider provideVariableNameToSearch
+     *
+     * @param $prefix
+     * @param $suffix
+     */
+    public function testRowClonedIfVariableWrappedBySpaces($prefix, $suffix)
+    {
+        $template = new Template(__DIR__.'/_files/templates/var-wrapped-by-spaces-in-table.docx');
+        $template->setTagVariable('{{', '}}');
+        $this->assertSame(
+            array('VariableName'),
+            $template->getVariables()
+        );
+        $template->cloneRow($prefix.'VariableName'.$suffix, 2);
+        $template->setValue($prefix.'VariableName#1'.$suffix, 'VariableValue#1');
+        $template->setValue($prefix.'VariableName#2'.$suffix, 'VariableValue#2');
+        $this->assertNotSame(false, strpos($template->getDocumentXml(), 'VariableValue#1'));
+        $this->assertNotSame(false, strpos($template->getDocumentXml(), 'VariableValue#2'));
+    }
+
+    public function provideVariableNameToSearch()
+    {
+        return array(
+            array('', ''),
+            array('{{', '}}'),
+            array('{{ ', ' }}'),
+        );
     }
 }
