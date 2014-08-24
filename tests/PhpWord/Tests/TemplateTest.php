@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Template;
  *
  * @covers \PhpOffice\PhpWord\Template
  * @coversDefaultClass \PhpOffice\PhpWord\Template
- * @_runTestsInSeparateProcesses
+ * @runTestsInSeparateProcesses
  */
 final class TemplateTest extends \PHPUnit_Framework_TestCase
 {
