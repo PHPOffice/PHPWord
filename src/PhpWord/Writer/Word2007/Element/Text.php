@@ -47,15 +47,15 @@ class Text extends AbstractElement
 
         $this->writeFontStyle();
 
-        $text_element = 'w:t';
+        $textElement = 'w:t';
         //'w:delText' in case of deleted text
         $changed = $element->getChanged();
         if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
             if ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
-                $text_element = 'w:delText';
+                $textElement = 'w:delText';
             }
         }
-        $xmlWriter->startElement($text_element);
+        $xmlWriter->startElement($textElement);
 
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->writeRaw($this->getText($element->getText()));
