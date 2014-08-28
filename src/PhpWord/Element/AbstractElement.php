@@ -95,6 +95,13 @@ abstract class AbstractElement
     private $nestedLevel = 0;
 
     /**
+     * changed element info
+     *
+     * @var object
+     */
+    private $changed;
+
+    /**
      * Parent container type
      *
      * @var string
@@ -373,23 +380,24 @@ abstract class AbstractElement
     }
 
     /**
-     * Set enum value
+     * Set changed
      *
-     * @param mixed $value
-     * @param array $enum
-     * @param mixed $default
-     * @return mixed
-     * @throws \InvalidArgumentException
-     * @todo Merge with the same method in AbstractStyle
+     * @param int $type TYPE_INSERTED|TYPE_DELETED
+     * @param string $author
+     * @param timestamp $date allways in UTC
      */
-    protected function setEnumVal($value = null, $enum = array(), $default = null)
+    public function setChanged($type, $author, $date)
     {
-        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
-            throw new \InvalidArgumentException("Invalid style value: {$value}");
-        } elseif ($value === null || trim($value) == '') {
-            $value = $default;
-        }
+        $this->changed = new ChangedElement($type, $author, $date);
+    }
 
-        return $value;
+    /**
+     * Get changed
+     *
+     * @return object
+     */
+    public function getChanged()
+    {
+        return $this->changed;
     }
 }

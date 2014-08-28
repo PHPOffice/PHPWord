@@ -17,6 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Element\PageBreak as PageBreakElement;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
+
 /**
  * Text element writer
  *
@@ -25,9 +29,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Text extends AbstractElement
 {
     /**
-     * Write text element.
-     *
-     * @return void
+     * Write text element
      */
     public function write()
     {
@@ -37,18 +39,136 @@ class Text extends AbstractElement
             return;
         }
 
-        $this->startElementP();
+        $this->writeOpeningWP();
+
+        $this->writeOpeningChanged();
 
         $xmlWriter->startElement('w:r');
 
         $this->writeFontStyle();
 
-        $xmlWriter->startElement('w:t');
+        $textElement = 'w:t';
+        //'w:delText' in case of deleted text
+        $changed = $element->getChanged();
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $textElement = 'w:delText';
+            }
+        }
+        $xmlWriter->startElement($textElement);
+
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 
-        $this->endElementP(); // w:p
+        $this->writeClosingChanged();
+
+        $this->writeClosingWP();
+    }
+
+    /**
+     * Write opening
+     *
+     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
+     */
+    protected function writeOpeningWP()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element = $this->getElement();
+
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('w:p');
+            // Paragraph style
+            if (method_exists($element, 'getParagraphStyle')) {
+                $this->writeParagraphStyle();
+            }
+            // PageBreak
+            if ($this->hasPageBreakBefore()) {
+                $elementWriter = new PageBreak($xmlWriter, new PageBreakElement());
+                $elementWriter->write();
+            }
+        }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeClosingWP()
+    {
+        $xmlWriter = $this->getXmlWriter();
+
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeParagraphStyle()
+    {
+        $xmlWriter = $this->getXmlWriter();
+
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->getElement();
+        $paragraphStyle = $element->getParagraphStyle();
+        $styleWriter = new ParagraphStyleWriter($xmlWriter, $paragraphStyle);
+        $styleWriter->setIsInline(true);
+        $styleWriter->write();
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeFontStyle()
+    {
+        $xmlWriter = $this->getXmlWriter();
+
+        /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
+        $element = $this->getElement();
+        $fontStyle = $element->getFontStyle();
+        $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+        $styleWriter->setIsInline(true);
+        $styleWriter->write();
+    }
+
+    /**
+      * Write opening of changed element
+      */
+    protected function writeOpeningChanged()
+    {
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $xmlWriter->startElement('w:ins');
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $xmlWriter->startElement('w:del');
+            }
+            $xmlWriter->writeAttribute('w:author', $changed->getAuthor());
+            $date = $changed->getDate();
+            $date = date("Y-m-d\TH:i:s\Z", $date);
+            $xmlWriter->writeAttribute('w:date', $date);
+            $xmlWriter->writeAttribute('w:id', $element->getElementId());
+        }
+    }
+
+    /**
+      * Write ending
+      */
+    protected function writeClosingChanged()
+    {
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            $xmlWriter->endElement(); // w:ins|w:del
+        }
     }
 }
