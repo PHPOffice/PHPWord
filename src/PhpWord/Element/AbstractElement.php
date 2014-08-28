@@ -93,6 +93,11 @@ abstract class AbstractElement
      */
     private $nestedLevel = 0;
     
+    /**
+     * changed element info
+     *
+     * @var object
+     */
     private $changed;
 
     /**
