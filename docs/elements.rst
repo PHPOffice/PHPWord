@@ -79,8 +79,6 @@ as follow:
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->addTextRun([$paragraphStyle]);
 
-<<<<<<< HEAD
-=======
 If you want to enable track changes on added text you can mark it as INSERTED or DELETED by a specific user at a given time:
     $text = $section->addText('Hello World!');
     $text->setChanged(\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED, 'Fred', time());
@@ -88,7 +86,6 @@ If you want to enable track changes on added text you can mark it as INSERTED or
 Text styles
 ~~~~~~~~~~~
 
->>>>>>> a68ba12224a83a2b6d44ef1e9a87d676a689ef69
 You can use the ``$fontStyle`` and ``$paragraphStyle`` variable to
 define text formatting. There are 2 options to style the inserted text
 elements, i.e. inline style by using array or defined style by adding
