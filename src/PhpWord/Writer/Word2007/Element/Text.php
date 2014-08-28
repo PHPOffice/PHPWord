@@ -168,7 +168,7 @@ class Text extends AbstractElement
         $xmlWriter = $this->getXmlWriter();
 
         if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
-            $xmlWriter->endElement(); //w:ins|w:del
+            $xmlWriter->endElement(); // w:ins|w:del
         }
     }
 }
