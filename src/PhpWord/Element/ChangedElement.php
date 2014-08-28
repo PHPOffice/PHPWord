@@ -27,7 +27,7 @@ class ChangedElement
       *
       * @var int
       */
-    private $change_type;
+    private $changeType;
 
     /**
       * author name of change
@@ -49,13 +49,13 @@ class ChangedElement
     /**
       * Create a new Changed Element
       *
-      * @param int $change_type
+      * @param int $changeType
       * @param string $author
       * @param timestamp $date allways in UTC
       */
-    public function __construct($change_type, $author, $date)
+    public function __construct($changeType, $author, $date)
     {
-        $this->change_type = $change_type;
+        $this->changeType = $changeType;
         $this->author = $author;
         $this->date = $date;
     }
@@ -67,7 +67,7 @@ class ChangedElement
        */
     public function getChangeType()
     {
-        return $this->change_type;
+        return $this->changeType;
     }
 
     /**
