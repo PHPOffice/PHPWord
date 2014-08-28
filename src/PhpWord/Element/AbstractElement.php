@@ -92,6 +92,8 @@ abstract class AbstractElement
      * @var int
      */
     private $nestedLevel = 0;
+    
+    private $changed;
 
     /**
      * Get PhpWord
@@ -261,5 +263,27 @@ abstract class AbstractElement
         }
 
         return $style;
+    }
+    
+    /**
+     * Set changed
+     *
+     * @param int $type TYPE_INSERTED|TYPE_DELETED
+     * @param string $author
+     * @param timestamp $date allways in UTC
+     */
+    public function setChanged($type, $author, $date)
+    {
+        $this->changed = new ChangedElement($type, $author, $date);
+    }
+    
+    /**
+     * Get changed
+     *
+     * @return object
+     */
+    public function getChanged()
+    {
+        return $this->changed;
     }
 }
