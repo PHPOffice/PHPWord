@@ -79,6 +79,16 @@ as follow:
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->addTextRun([$paragraphStyle]);
 
+<<<<<<< HEAD
+=======
+If you want to enable track changes on added text you can mark it as INSERTED or DELETED by a specific user at a given time:
+    $text = $section->addText('Hello World!');
+    $text->setChanged(\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED, 'Fred', time());
+
+Text styles
+~~~~~~~~~~~
+
+>>>>>>> a68ba12224a83a2b6d44ef1e9a87d676a689ef69
 You can use the ``$fontStyle`` and ``$paragraphStyle`` variable to
 define text formatting. There are 2 options to style the inserted text
 elements, i.e. inline style by using array or defined style by adding
@@ -426,6 +436,7 @@ To be completed.
 Charts
 ------
 
+<<<<<<< HEAD
 To be completed.
 
 Form fields
@@ -443,3 +454,22 @@ You can add Bookmarks to the document by using the function addBookmark:
     $section->addBookmark($name);
 
 -  ``$name`` The name of the bookmark which can be referenced in the addLink-Function as target. Should obviously be unique throughout the document.
+=======
+Line elements can be added to sections by using ``addLine``.
+
+.. code-block:: php
+
+    $linestyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
+    $section->addLine($lineStyle)
+
+Available line style attributes:
+
+-  ``weight`` Line width in twips
+-  ``color`` Defines the color of stroke
+-  ``dash`` Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot
+-  ``beginArrow`` Start type of arrow: block, open, classic, diamond, oval
+-  ``endArrow`` End type of arrow: block, open, classic, diamond, ovel
+-  ``width`` Line-object width in pt
+-  ``height`` Line-object height in pt
+-  ``flip`` Flip the line element: true, false
+>>>>>>> a68ba12224a83a2b6d44ef1e9a87d676a689ef69
