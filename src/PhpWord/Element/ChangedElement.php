@@ -20,71 +20,73 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * ChangedElement class
  */
-class ChangedElement {
-  /**
-    * change type TYPE_INSERTED|TYPE_DELETED
-    *
-    * @var int
-    */
-  private $change_type;
-  
-  /**
-    * author name of change
-    *
-    * @var string
-    */
-  private $author;
-  
-  /**
-    * date of change
-    *
-    * @var timestamp UTC
-    */
-  private $date;
-    
-  const TYPE_INSERTED = 1;
-  const TYPE_DELETED  = 2;
-  
-  /**
-    * Create a new Changed Element
-    *
-    * @param int $change_type
-    * @param string $author
-    * @param timestamp $date allways in UTC
-    */
-  function __construct($change_type, $author, $date) {
-    $this->change_type = $change_type;
-    $this->author = $author;
-    $this->date = $date;
-  }
-  
-  /**
-     * Get change type
-     *
-     * @return int
-     */
-  public function getChangeType()
-  {
-    return $this->change_type;
-  }
-  
-  /**
-     * Get author name of change
-     *
-     * @return string
-     */
-  public function getAuthor()
-  {
-    return $this->author;
-  }
-  
-  /**
-     * Get date of change
-     *
-     * @return timestamp
-     */
-  public function getDate()
-  {
-    return $this->date;
-  }
+class ChangedElement
+{
+    /**
+      * change type TYPE_INSERTED|TYPE_DELETED
+      *
+      * @var int
+      */
+    private $change_type;
+
+    /**
+      * author name of change
+      *
+      * @var string
+      */
+    private $author;
+
+    /**
+      * date of change
+      *
+      * @var timestamp UTC
+      */
+    private $date;
+
+    const TYPE_INSERTED = 1;
+    const TYPE_DELETED  = 2;
+
+    /**
+      * Create a new Changed Element
+      *
+      * @param int $change_type
+      * @param string $author
+      * @param timestamp $date allways in UTC
+      */
+    public function __construct($change_type, $author, $date)
+    {
+        $this->change_type = $change_type;
+        $this->author = $author;
+        $this->date = $date;
+    }
+
+    /**
+       * Get change type
+       *
+       * @return int
+       */
+    public function getChangeType()
+    {
+        return $this->change_type;
+    }
+
+    /**
+       * Get author name of change
+       *
+       * @return string
+       */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+       * Get date of change
+       *
+       * @return timestamp
+       */
+    public function getDate()
+    {
+        return $this->date;
+    }
 }

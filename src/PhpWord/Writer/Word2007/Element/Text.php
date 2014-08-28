@@ -38,9 +38,9 @@ class Text extends AbstractElement
         if (!$element instanceof \PhpOffice\PhpWord\Element\Text) {
             return;
         }
-        
+
         $this->writeOpeningWP();
-        
+
         $this->writeOpeningChanged();
 
         $xmlWriter->startElement('w:r');
@@ -50,18 +50,18 @@ class Text extends AbstractElement
         $text_element = 'w:t';
         //'w:delText' in case of deleted text
         $changed = $element->getChanged();
-        if($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
-          if($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
-            $text_element = 'w:delText';
-          }
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $text_element = 'w:delText';
+            }
         }
         $xmlWriter->startElement($text_element);
-                
+
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->writeRaw($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
-        
+
         $this->writeClosingChanged();
 
         $this->writeClosingWP();
@@ -132,44 +132,43 @@ class Text extends AbstractElement
         $styleWriter->setIsInline(true);
         $styleWriter->write();
     }
-    
+
     /**
       * Write opening of changed element
       */
     protected function writeOpeningChanged()
     {
-      $element = $this->getElement();
-      $changed = $element->getChanged();
-      
-      $xmlWriter = $this->getXmlWriter();
-      
-      if($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
-        if(($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
-          $xmlWriter->startElement('w:ins');  
-        } elseif($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
-          $xmlWriter->startElement('w:del');  
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $xmlWriter->startElement('w:ins');
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $xmlWriter->startElement('w:del');
+            }
+            $xmlWriter->writeAttribute('w:author', $changed->getAuthor());
+            $date = $changed->getDate();
+            $date = date("Y-m-d\TH:i:s\Z", $date);
+            $xmlWriter->writeAttribute('w:date', $date);
+            $xmlWriter->writeAttribute('w:id', $element->getElementId());
         }
-        $xmlWriter->writeAttribute('w:author', $changed->getAuthor());
-        $date = $changed->getDate();
-        $date = date("Y-m-d\TH:i:s\Z", $date);
-        $xmlWriter->writeAttribute('w:date', $date);
-        $xmlWriter->writeAttribute('w:id', $element->getElementId());
-      }
     }
-    
+
     /**
       * Write ending
       */
     protected function writeClosingChanged()
     {
-      $element = $this->getElement();
-      $changed = $element->getChanged();
-      
-      $xmlWriter = $this->getXmlWriter();
-      
-      if($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
-        $xmlWriter->endElement(); //w:ins | w:del
-      }
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            $xmlWriter->endElement(); //w:ins | w:del
+        }
     }
 }
-
