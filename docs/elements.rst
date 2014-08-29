@@ -71,6 +71,13 @@ as follow:
     $section->addText($text, [$fontStyle], [$paragraphStyle]);
     $textrun = $section->addTextRun([$paragraphStyle]);
 
+If you want to enable track changes on added text you can mark it as INSERTED or DELETED by a specific user at a given time:
+
+.. code-block:: php
+
+    $text = $section->addText('Hello World!');
+    $text->setChanged(\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED, 'Fred', time());
+
 Text styles
 ~~~~~~~~~~~
 
