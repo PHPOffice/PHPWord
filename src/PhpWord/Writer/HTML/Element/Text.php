@@ -116,6 +116,27 @@ class Text extends AbstractElement
             $content .= "<p{$style}>";
         }
 
+        //open changed tag
+        $element = $this->element;
+        $changed = $element->getChanged();
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $content .= '<ins data-phpword-prop=\'';
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $content .= '<del data-phpword-prop=\'';
+            }
+
+            $date = date("Y-m-d\TH:i:s\Z", $changed->getDate());
+            $changedProp = array('changed' => array('author'=>$changed->getAuthor(),
+                                                    'date'=>$date,
+                                                    'id'=>$element->getElementId()));
+            $content .= json_encode($changedProp);
+            $content .= '\' ';
+            $date_user = date("Y-m-d H:i:s", $changed->getDate());
+            $content .= 'title="'.$changed->getAuthor().' - '.$date_user.'" ';
+            $content .= '>';
+        }
+
         return $content;
     }
 
@@ -127,6 +148,18 @@ class Text extends AbstractElement
     protected function writeClosing()
     {
         $content = '';
+
+        //close changed tag
+        $element = $this->element;
+        $changed = $element->getChanged();
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $content .= '</ins>';
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $content .= '</del>';
+            }
+        }
+        
         if (!$this->withoutP) {
             $content .= $this->closingText;
             $content .= "</p>" . PHP_EOL;
