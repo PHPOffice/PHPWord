@@ -36,7 +36,7 @@ class Frame extends AbstractStyle
     const UNIT_PX = 'px'; // Mostly for images
 
     /**
-     * Position type, relative/absolute
+     * General positioning options.
      *
      * @const string
      */
@@ -338,7 +338,10 @@ class Frame extends AbstractStyle
      */
     public function setPos($value)
     {
-        $enum = array(self::POS_RELATIVE, self::POS_ABSOLUTE);
+        $enum = array(
+            self::POS_ABSOLUTE,
+            self::POS_RELATIVE,
+        );
         $this->pos = $this->setEnumVal($value, $enum, $this->pos);
 
         return $this;
@@ -357,12 +360,21 @@ class Frame extends AbstractStyle
     /**
      * Set horizontal position
      *
+     * @since 0.12.0 "absolute" option is available.
+     *
      * @param string $value
      * @return self
      */
     public function setHPos($value)
     {
-        $enum = array(self::POS_LEFT, self::POS_CENTER, self::POS_RIGHT, self::POS_INSIDE, self::POS_OUTSIDE, self::POS_ABSOLUTE);
+        $enum = array(
+            self::POS_ABSOLUTE,
+            self::POS_LEFT,
+            self::POS_CENTER,
+            self::POS_RIGHT,
+            self::POS_INSIDE,
+            self::POS_OUTSIDE,
+        );
         $this->hPos = $this->setEnumVal($value, $enum, $this->hPos);
 
         return $this;
@@ -381,12 +393,21 @@ class Frame extends AbstractStyle
     /**
      * Set vertical position
      *
+     * @since 0.12.0 "absolute" option is available.
+     *
      * @param string $value
      * @return self
      */
     public function setVPos($value)
     {
-        $enum = array(self::POS_TOP, self::POS_CENTER, self::POS_BOTTOM, self::POS_INSIDE, self::POS_OUTSIDE, self::POS_ABSOLUTE);
+        $enum = array(
+            self::POS_ABSOLUTE,
+            self::POS_TOP,
+            self::POS_CENTER,
+            self::POS_BOTTOM,
+            self::POS_INSIDE,
+            self::POS_OUTSIDE,
+        );
         $this->vPos = $this->setEnumVal($value, $enum, $this->vPos);
 
         return $this;
@@ -411,8 +432,14 @@ class Frame extends AbstractStyle
     public function setHPosRelTo($value)
     {
         $enum = array(
-            self::POS_RELTO_MARGIN, self::POS_RELTO_PAGE, self::POS_RELTO_COLUMN, self::POS_RELTO_CHAR,
-            self::POS_RELTO_LMARGIN, self::POS_RELTO_RMARGIN, self::POS_RELTO_IMARGIN, self::POS_RELTO_OMARGIN,
+            self::POS_RELTO_MARGIN,
+            self::POS_RELTO_PAGE,
+            self::POS_RELTO_COLUMN,
+            self::POS_RELTO_CHAR,
+            self::POS_RELTO_LMARGIN,
+            self::POS_RELTO_RMARGIN,
+            self::POS_RELTO_IMARGIN,
+            self::POS_RELTO_OMARGIN,
         );
         $this->hPosRelTo = $this->setEnumVal($value, $enum, $this->hPosRelTo);
 
@@ -438,8 +465,14 @@ class Frame extends AbstractStyle
     public function setVPosRelTo($value)
     {
         $enum = array(
-            self::POS_RELTO_MARGIN, self::POS_RELTO_PAGE, self::POS_RELTO_TEXT, self::POS_RELTO_LINE,
-            self::POS_RELTO_TMARGIN, self::POS_RELTO_BMARGIN, self::POS_RELTO_IMARGIN, self::POS_RELTO_OMARGIN,
+            self::POS_RELTO_MARGIN,
+            self::POS_RELTO_PAGE,
+            self::POS_RELTO_TEXT,
+            self::POS_RELTO_LINE,
+            self::POS_RELTO_TMARGIN,
+            self::POS_RELTO_BMARGIN,
+            self::POS_RELTO_IMARGIN,
+            self::POS_RELTO_OMARGIN,
         );
         $this->vPosRelTo = $this->setEnumVal($value, $enum, $this->vPosRelTo);
 
@@ -465,8 +498,13 @@ class Frame extends AbstractStyle
     public function setWrap($value)
     {
         $enum = array(
-            self::WRAP_INLINE, self::WRAP_SQUARE, self::WRAP_TIGHT, self::WRAP_THROUGH,
-            self::WRAP_TOPBOTTOM, self::WRAP_BEHIND, self::WRAP_INFRONT
+            self::WRAP_INLINE,
+            self::WRAP_SQUARE,
+            self::WRAP_TIGHT,
+            self::WRAP_THROUGH,
+            self::WRAP_TOPBOTTOM,
+            self::WRAP_BEHIND,
+            self::WRAP_INFRONT
         );
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
 
