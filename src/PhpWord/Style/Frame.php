@@ -504,7 +504,7 @@ class Frame extends AbstractStyle
             self::WRAP_THROUGH,
             self::WRAP_TOPBOTTOM,
             self::WRAP_BEHIND,
-            self::WRAP_INFRONT
+            self::WRAP_INFRONT,
         );
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
 
