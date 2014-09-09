@@ -45,6 +45,8 @@ class Text extends AbstractElement
 
         $xmlWriter->startElement('w:r');
 
+        $this->writeFontStyle();
+
         $textElement = 'w:t';
         //'w:delText' in case of deleted text
         $changed = $element->getChanged();
