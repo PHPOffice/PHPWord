@@ -45,6 +45,7 @@ class Html
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
+        $html = preg_replace('~>\s+<~', '><', $html);
         $html = str_replace(array("\n", "\r"), '', $html);
         $html = str_replace(array('&lt;', '&gt;', '&amp;'), array('_lt_', '_gt_', '_amp_'), $html);
         $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
