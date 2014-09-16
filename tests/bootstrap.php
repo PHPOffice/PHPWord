@@ -31,7 +31,7 @@ if (file_exists($vendor . "/autoload.php")) {
     if (file_exists($vendor . "/autoload.php")) {
         require $vendor . "/autoload.php";
     } else {
-        throw new Exception("Unable to load dependencies");
+        throw new Exception("Unable to load dependencies from file '" . $vendor . "/autoload.php'");
     }
 }
 
