@@ -26,6 +26,7 @@ Installation
 There are two ways to install PHPWord, i.e. via
 `Composer <http://getcomposer.org/>`__ or manually by downloading the
 library.
+You must install it by Composer if you want to contribute as a developer. Otherwise the PHPUnit tests will not execute.
 
 Using Composer
 ~~~~~~~~~~~~~~
