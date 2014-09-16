@@ -31,7 +31,7 @@ if (file_exists($vendor . "/autoload.php")) {
     if (file_exists($vendor . "/autoload.php")) {
         require $vendor . "/autoload.php";
     } else {
-        throw new Exception("Unable to load dependencies from file '" . $vendor . "/autoload.php'");
+        throw new Exception("Unable to load dependency file '" . $vendor . "/autoload.php'. Did you use Composer to install PHPWord?");
     }
 }
 
