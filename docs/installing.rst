@@ -44,16 +44,24 @@ To install via Composer, add the following lines to your
 Manual install
 ~~~~~~~~~~~~~~
 
-To install manually, `download PHPWord package from
-github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
-Extract the package and put the contents to your machine. To use the
-library, include ``src/PhpWord/Autoloader.php`` in your script and
+To install manually, you change to the webserver directory of your file system . 
+Then you have 2 possibilities.
+
+ 1. `download PHPWord package from github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
+   Extract the package and put the contents to your machine. 
+ 2. Alternatively you can use Git to install it:
+  .. code-block:: console
+
+    git clone https://github.com/PHPOffice/PHPWord.git  
+
+To use the library, include ``src/PhpWord/Autoloader.php`` in your PHP script and
 invoke ``Autoloader::register``.
 
 .. code-block:: php
 
     require_once '/path/to/src/PhpWord/Autoloader.php';
     \PhpOffice\PhpWord\Autoloader::register();
+
 
 Using samples
 -------------
