@@ -41,6 +41,18 @@ To install via Composer, add the following lines to your
         }
     }
 
+If you are a developer or if you want to help us with testing then fetch the latest branch for developers.
+Notice: All contributions must be done against the developer branch.
+
+.. code-block:: json
+
+    {
+        "require": {
+           "phpoffice/phpword": "dev-develop"
+        }
+    }
+
+
 Manual install
 ~~~~~~~~~~~~~~
 
