@@ -239,6 +239,13 @@ class Section extends Border
         return $this->pageSizeW;
     }
 
+    public function setPageSizeW($value = null)
+    {
+        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_WIDTH);
+
+        return $this;
+    }
+
     /**
      * Get Page Size Height
      *
@@ -247,6 +254,13 @@ class Section extends Border
     public function getPageSizeH()
     {
         return $this->pageSizeH;
+    }
+
+    public function setPageSizeH($value = null)
+    {
+        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_HEIGHT);
+
+        return $this;
     }
 
     /**
