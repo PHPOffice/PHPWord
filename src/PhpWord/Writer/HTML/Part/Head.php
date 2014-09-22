@@ -97,6 +97,14 @@ class Head extends AbstractPart
                 'border' => '0',
                 'border-top' => '1px solid #CCC',
             ),
+            'table' => array(
+                'border' => '1px solid black',
+                'border-spacing' => '0px',
+                'width' => '100%',
+            ),
+            'td' => array(
+                'border' => '1px solid black',
+            ),
         );
         foreach ($defaultStyles as $selector => $style) {
             $styleWriter = new GenericStyleWriter($style);
