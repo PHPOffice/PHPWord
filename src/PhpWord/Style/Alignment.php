@@ -33,6 +33,9 @@ class Alignment extends AbstractStyle
     const ALIGN_CENTER = 'center'; // Align center
     const ALIGN_BOTH = 'both'; // Align both
     const ALIGN_JUSTIFY = 'justify'; // Alias for align both
+    const ALIGN_START = 'start'; // Alias for align left
+    const ALIGN_END = 'end'; // Alias for align right
+    const ALIGN_DISTRIBUTE = 'distribute'; // Align distribute
 
     /**
      * @var string Alignment
@@ -70,7 +73,16 @@ class Alignment extends AbstractStyle
         if (strtolower($value) == self::ALIGN_JUSTIFY) {
             $value = self::ALIGN_BOTH;
         }
-        $enum = array(self::ALIGN_LEFT, self::ALIGN_RIGHT, self::ALIGN_CENTER, self::ALIGN_BOTH, self::ALIGN_JUSTIFY);
+            $enum = array(
+			self::ALIGN_LEFT,
+			self::ALIGN_RIGHT,
+			self::ALIGN_CENTER,
+			self::ALIGN_BOTH,
+			self::ALIGN_JUSTIFY,
+			self::ALIGN_START,
+			self::ALIGN_END,
+			self::ALIGN_DISTRIBUTE
+		);
         $this->value = $this->setEnumVal($value, $enum, $this->value);
 
         return $this;
