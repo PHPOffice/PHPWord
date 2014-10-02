@@ -97,6 +97,34 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Set/get page width
+     */
+    public function testPageWidth()
+    {
+        // Section Settings
+        $oSettings = new Section();
+
+        $this->assertEquals(11906, $oSettings->getPageSizeW());
+        $iVal = rand(1, 1000);
+        $oSettings->setSettingValue('pageSizeW', $iVal);
+        $this->assertEquals($iVal, $oSettings->getPageSizeW());
+    }
+
+    /**
+     * Set/get page height
+     */
+    public function testPageHeight()
+    {
+        // Section Settings
+        $oSettings = new Section();
+
+        $this->assertEquals(16838, $oSettings->getPageSizeH());
+        $iVal = rand(1, 1000);
+        $oSettings->setSettingValue('pageSizeH', $iVal);
+        $this->assertEquals($iVal, $oSettings->getPageSizeH());
+    }
+
+    /**
      * Set/get landscape orientation
      */
     public function testOrientationLandscape()
