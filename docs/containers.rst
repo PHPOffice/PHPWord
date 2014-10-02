@@ -34,8 +34,6 @@ Section settings
 
 Below are the available settings for section:
 
--  ``pageSizeW`` Page width in twips (the default is 11906/A4 size)
--  ``pageSizeH`` Page height in twips (the default is 16838/A4 size)
 -  ``orientation`` Page orientation, i.e. 'portrait' (default) or
    'landscape'
 -  ``marginTop`` Page margin top in twips
@@ -57,6 +55,12 @@ Below are the available settings for section:
 -  ``colsSpace`` Spacing between columns
 -  ``breakType`` Section break type (nextPage, nextColumn, continuous,
    evenPage, oddPage)
+
+The following two settings are automatically set by the use of the
+``orientation`` setting. You can alter them but that's not recommended.
+
+-  ``pageSizeW`` Page width in twips
+-  ``pageSizeH`` Page height in twips
 
 Page number
 ~~~~~~~~~~~
