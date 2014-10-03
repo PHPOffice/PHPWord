@@ -36,6 +36,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit GH-327
 - "HTML is not a valid writer" exception while running "Sample_36_RTL.php" - @RomanSyroeshko GH-340
 - "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA GH-356
+- `Element\Section::setPageSizeW()` and `Element\Section::setPageSizeH()` were mentioned in the docs but not implemented.
 
 ### Deprecated
 
