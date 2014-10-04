@@ -203,10 +203,11 @@ class Template
                     break;
                 }
 
-                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                // If tmpXmlRow doesn't contain continue, or the table ends, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                if (preg_match('#</w:tbl>#', $tmpXmlRow) ||
+                  (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                   !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow))) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
