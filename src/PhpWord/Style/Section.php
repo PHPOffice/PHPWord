@@ -275,13 +275,22 @@ class Section extends Border
     /**
      * Get Page Size Width
      *
-     * @return int|float
+     * @return int|float|null
+     *
+     * @since 0.12.0
      */
     public function getPageSizeW()
     {
         return $this->pageSizeW;
     }
 
+    /**
+     * @param int|float|null $value
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     *
+     * @since 0.12.0
+     */
     public function setPageSizeW($value = null)
     {
         $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_WIDTH);
@@ -292,13 +301,22 @@ class Section extends Border
     /**
      * Get Page Size Height
      *
-     * @return int|float
+     * @return int|float|null
+     *
+     * @since 0.12.0
      */
     public function getPageSizeH()
     {
         return $this->pageSizeH;
     }
 
+    /**
+     * @param int|float|null $value
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     *
+     * @since 0.12.0
+     */
     public function setPageSizeH($value = null)
     {
         $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_HEIGHT);
