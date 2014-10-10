@@ -155,7 +155,7 @@ class Document
             $char  = $this->rtf[$this->offset];
             $ascii = ord($char);
 
-            if (array_key_exists($ascii, $markers)) { // Marker found: {, }, \, LF, or CR
+            if (isset($markers[$ascii])) { // Marker found: {, }, \, LF, or CR
                 $markerFunction = $markers[$ascii];
                 $this->$markerFunction();
             } else {
@@ -351,7 +351,7 @@ class Document
             'fldinst'   => array(self::SKIP,    'link',         null),
         );
 
-        if (array_key_exists($control, $controls)) {
+        if (isset($controls[$control])) {
             list($function) = $controls[$control];
             if (method_exists($this, $function)) {
                 $directives = $controls[$control];

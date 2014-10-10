@@ -67,12 +67,12 @@ class DocPropsCore extends AbstractPart
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                if (!array_key_exists($node->nodeName, $this->mapping)) {
+                if (!isset($this->mapping[$node->nodeName])) {
                     continue;
                 }
                 $method = $this->mapping[$node->nodeName];
                 $value = $node->nodeValue == '' ? null : $node->nodeValue;
-                if (array_key_exists($node->nodeName, $this->callbacks)) {
+                if (isset($this->callbacks[$node->nodeName])) {
                     $value = $this->callbacks[$node->nodeName]($value);
                 }
                 if (method_exists($docProps, $method)) {

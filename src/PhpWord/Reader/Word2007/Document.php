@@ -53,7 +53,7 @@ class Document extends AbstractPart
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
-                if (array_key_exists($node->nodeName, $readMethods)) {
+                if (isset($readMethods[$node->nodeName])) {
                     $readMethod = $readMethods[$node->nodeName];
                     $this->$readMethod($xmlReader, $node, $section);
                 }
@@ -72,9 +72,9 @@ class Document extends AbstractPart
     {
         $readMethods = array('w:p' => 'readParagraph', 'w:tbl' => 'readTable');
 
-        if (is_array($settings) && array_key_exists('hf', $settings)) {
+        if (is_array($settings) && isset($settings['hf'])) {
             foreach ($settings['hf'] as $rId => $hfSetting) {
-                if (array_key_exists($rId, $this->rels['document'])) {
+                if (isset($this->rels['document'][$rId])) {
                     list($hfType, $xmlFile, $docPart) = array_values($this->rels['document'][$rId]);
                     $addMethod = "add{$hfType}";
                     $hfObject = $section->$addMethod($hfSetting['type']);
@@ -85,7 +85,7 @@ class Document extends AbstractPart
                     $nodes = $xmlReader->getElements('*');
                     if ($nodes->length > 0) {
                         foreach ($nodes as $node) {
-                            if (array_key_exists($node->nodeName, $readMethods)) {
+                            if (isset($readMethods[$node->nodeName])) {
                                 $readMethod = $readMethods[$node->nodeName];
                                 $this->$readMethod($xmlReader, $node, $hfObject, $docPart);
                             }

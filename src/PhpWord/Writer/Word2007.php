@@ -302,11 +302,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $mediumType = $medium['type'];
             if ($mediumType == 'image') {
                 $extension = $medium['imageExtension'];
-                if (!array_key_exists($extension, $this->contentTypes['default'])) {
+                if (!isset($this->contentTypes['default'][$extension])) {
                     $this->contentTypes['default'][$extension] = $medium['imageType'];
                 }
             } elseif ($mediumType == 'object') {
-                if (!array_key_exists('bin', $this->contentTypes['default'])) {
+                if (!isset($this->contentTypes['default']['bin'])) {
                     $this->contentTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
                 }
             }

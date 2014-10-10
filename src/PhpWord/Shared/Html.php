@@ -133,8 +133,7 @@ class Html
         $newElement = null;
         $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
 
-        if (array_key_exists($node->nodeName, $nodes)) {
-
+        if (isset($nodes[$node->nodeName])) {
             // Execute method based on node mapping table and return $newElement or null
             // Arguments are passed by reference
             $arguments = array();

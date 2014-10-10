@@ -61,11 +61,10 @@ class Title extends AbstractElement
      */
     public function __construct($text, $depth = 1)
     {
-
         $this->text = String::toUTF8($text);
         $this->depth = $depth;
-        if (array_key_exists('Heading_' . $this->depth, Style::getStyles())) {
-            $this->style = 'Heading' . $this->depth;
+        if (array_key_exists("Heading_{$this->depth}", Style::getStyles())) {
+            $this->style = "Heading{$this->depth}";
         }
 
         return $this;

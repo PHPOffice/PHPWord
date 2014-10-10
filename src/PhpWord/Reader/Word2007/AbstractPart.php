@@ -107,7 +107,7 @@ abstract class AbstractPart
         $headingMatches = array();
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_array($paragraphStyle) && array_key_exists('styleName', $paragraphStyle)) {
+            if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
                 preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
             }
         }
@@ -505,10 +505,9 @@ abstract class AbstractPart
     private function getMediaTarget($docPart, $rId)
     {
         $target = null;
-        if (array_key_exists($docPart, $this->rels)) {
-            if (array_key_exists($rId, $this->rels[$docPart])) {
-                $target = $this->rels[$docPart][$rId]['target'];
-            }
+
+        if (isset($this->rels[$docPart]) && isset($this->rels[$docPart][$rId])) {
+            $target = $this->rels[$docPart][$rId]['target'];
         }
 
         return $target;

@@ -89,8 +89,8 @@ class Rels extends AbstractPart
         $targetMapping = array('image' => 'media/', 'object' => 'embeddings/');
 
         $mediaType = $mediaRel['type'];
-        $type = array_key_exists($mediaType, $typeMapping) ? $typeMapping[$mediaType] : $mediaType;
-        $targetPrefix = array_key_exists($mediaType, $targetMapping) ? $targetMapping[$mediaType] : '';
+        $type = isset($typeMapping[$mediaType]) ? $typeMapping[$mediaType] : $mediaType;
+        $targetPrefix = isset($targetMapping[$mediaType]) ? $targetMapping[$mediaType] : '';
         $target = $mediaRel['target'];
         $targetMode = ($type == 'hyperlink') ? 'External' : '';
 

@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Settings as PhpWordSettings;
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
@@ -114,14 +114,14 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
-        if (array_key_exists('Normal', $styles)) {
+        if (isset($styles['Normal'])) {
             $styleWriter = new ParagraphStyleWriter($xmlWriter, $styles['Normal']);
             $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style
 
         // FootnoteReference style
-        if (!array_key_exists('FootnoteReference', $styles)) {
+        if (!isset($styles['FootnoteReference'])) {
             $xmlWriter->startElement('w:style');
             $xmlWriter->writeAttribute('w:type', 'character');
             $xmlWriter->writeAttribute('w:styleId', 'FootnoteReference');

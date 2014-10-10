@@ -64,7 +64,7 @@ class Document extends AbstractPart
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
-            $method = 'get' . (array_key_exists($property, $mapping) ? $mapping[$property] : $property);
+            $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
             $value = $docProps->$method();
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
             $content .= "{\\{$property} {$value}}";

@@ -92,7 +92,7 @@ abstract class AbstractContainer extends AbstractElement
 
         // Run valid `add` command
         $function = strtolower($function);
-        if (array_key_exists($function, $functions)) {
+        if (isset($functions[$function])) {
             $element = $functions[$function];
 
             // Special case for TextBreak
@@ -183,23 +183,22 @@ abstract class AbstractContainer extends AbstractElement
      */
     private function checkValidity($method)
     {
-        // Valid containers for each element
-        $allContainers = array(
-            'Section', 'Header', 'Footer', 'Footnote', 'Endnote',
-            'Cell', 'TextRun', 'TextBox', 'ListItemRun',
+        $generalContainers = array(
+            'Section', 'Header', 'Footer', 'Footnote', 'Endnote', 'Cell', 'TextRun', 'TextBox', 'ListItemRun',
         );
+
         $validContainers = array(
-            'Text'          => $allContainers,
-            'Bookmark'      => $allContainers,
-            'Link'          => $allContainers,
-            'TextBreak'     => $allContainers,
-            'Image'         => $allContainers,
-            'Object'        => $allContainers,
-            'Field'         => $allContainers,
-            'Line'          => $allContainers,
-            'Shape'         => $allContainers,
-            'FormField'     => $allContainers,
-            'SDT'           => $allContainers,
+            'Text'          => $generalContainers,
+            'Bookmark'      => $generalContainers,
+            'Link'          => $generalContainers,
+            'TextBreak'     => $generalContainers,
+            'Image'         => $generalContainers,
+            'Object'        => $generalContainers,
+            'Field'         => $generalContainers,
+            'Line'          => $generalContainers,
+            'Shape'         => $generalContainers,
+            'FormField'     => $generalContainers,
+            'SDT'           => $generalContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
@@ -214,6 +213,7 @@ abstract class AbstractContainer extends AbstractElement
             'PageBreak'     => array('Section'),
             'Chart'         => array('Section'),
         );
+
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = array(
@@ -223,19 +223,20 @@ abstract class AbstractContainer extends AbstractElement
         );
 
         // Check if a method is valid for current container
-        if (array_key_exists($method, $validContainers)) {
+        if (isset($validContainers[$method])) {
             if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException("Cannot add $method in $this->container.");
+                throw new \BadMethodCallException("Cannot add {$method} in {$this->container}.");
             }
         }
+
         // Check if a method is valid for current container, located in other container
-        if (array_key_exists($method, $validSubcontainers)) {
+        if (isset($validSubcontainers[$method])) {
             $rules = $validSubcontainers[$method];
             $containers = $rules[0];
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
                 if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException("Cannot add $method in $this->container.");
+                    throw new \BadMethodCallException("Cannot add {$method} in {$this->container}.");
                 }
             }
         }

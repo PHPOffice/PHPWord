@@ -64,7 +64,7 @@ class Frame extends AbstractStyle
 
        // zIndex for infront & behind wrap
         $wrap = $style->getWrap();
-        if ($wrap !== null && array_key_exists($wrap, $zIndices)) {
+        if ($wrap !== null && isset($zIndices[$wrap])) {
             $styles['z-index'] = $zIndices[$wrap];
             $wrap = null;
         }
@@ -124,10 +124,10 @@ class Frame extends AbstractStyle
                 $xmlWriter->writeAttribute('anchorx', "page");
                 $xmlWriter->writeAttribute('anchory', "page");
             } elseif ($pos == FrameStyle::POS_RELATIVE) {
-                if (array_key_exists($hPos, $relativePositions)) {
+                if (isset($relativePositions[$hPos])) {
                     $xmlWriter->writeAttribute('anchorx', $relativePositions[$hPos]);
                 }
-                if (array_key_exists($vPos, $relativePositions)) {
+                if (isset($relativePositions[$vPos])) {
                     $xmlWriter->writeAttribute('anchory', $relativePositions[$vPos]);
                 }
             }

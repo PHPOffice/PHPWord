@@ -63,7 +63,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $stepItems = $step['stepItems'];
             foreach ($relationships[$stepPart] as $relItem) {
                 $relType = $relItem['type'];
-                if (array_key_exists($relType, $stepItems)) {
+                if (isset($stepItems[$relType])) {
                     $partName = $stepItems[$relType];
                     $xmlFile = $relItem['target'];
                     $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);

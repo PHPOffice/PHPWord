@@ -83,7 +83,7 @@ class MarginBorder extends AbstractStyle
         $xmlWriter->startElement('w:' . $side);
         if (!empty($this->colors)) {
             if ($color === null && !empty($this->attributes)) {
-                if (array_key_exists('defaultColor', $this->attributes)) {
+                if (isset($this->attributes['defaultColor'])) {
                     $color = $this->attributes['defaultColor'];
                 }
             }
@@ -91,7 +91,7 @@ class MarginBorder extends AbstractStyle
             $xmlWriter->writeAttribute('w:sz', $width);
             $xmlWriter->writeAttribute('w:color', $color);
             if (!empty($this->attributes)) {
-                if (array_key_exists('space', $this->attributes)) {
+                if (isset($this->attributes['space'])) {
                     $xmlWriter->writeAttribute('w:space', $this->attributes['space']);
                 }
             }

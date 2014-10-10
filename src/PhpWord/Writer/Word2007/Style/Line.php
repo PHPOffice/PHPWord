@@ -58,7 +58,7 @@ class Line extends Frame
         $xmlWriter->writeAttributeIf($style->getEndArrow() !== null, 'endarrow', $style->getEndArrow());
 
         if ($dash !== null) {
-            if (array_key_exists($dash, $dashStyles)) {
+            if (isset($dashStyles[$dash])) {
                 $xmlWriter->writeAttribute('dashstyle', $dashStyles[$dash]);
             }
             if ($dash == LineStyle::DASH_STYLE_ROUND_DOT) {

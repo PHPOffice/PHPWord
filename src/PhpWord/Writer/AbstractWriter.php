@@ -343,7 +343,7 @@ abstract class AbstractWriter implements WriterInterface
             $type = $element['type']; // image|object|link
 
             // Skip nonregistered types and set target
-            if (!array_key_exists($type, $this->mediaPaths)) {
+            if (!isset($this->mediaPaths[$type])) {
                 continue;
             }
             $target = $this->mediaPaths[$type] . $element['target'];
