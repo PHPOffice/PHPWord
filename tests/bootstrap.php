@@ -23,16 +23,10 @@ if (!defined('PHPWORD_TESTS_BASE_DIR')) {
 }
 
 $vendor = realpath(__DIR__ . '/../vendor');
-
-if (file_exists($vendor . "/autoload.php")) {
-    require $vendor . "/autoload.php";
+if (file_exists($vendor . '/autoload.php')) {
+    require $vendor . '/autoload.php';
 } else {
-    $vendor = realpath(__DIR__ . '/../../../');
-    if (file_exists($vendor . "/autoload.php")) {
-        require $vendor . "/autoload.php";
-    } else {
-        throw new Exception("Unable to load dependencies");
-    }
+    throw new Exception('Unable to load dependencies');
 }
 
 spl_autoload_register(function ($class) {
@@ -49,5 +43,5 @@ spl_autoload_register(function ($class) {
     }
 });
 
-require_once __DIR__ . "/../src/PhpWord/Autoloader.php";
+require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
