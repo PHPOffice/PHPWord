@@ -240,7 +240,7 @@ class Settings
      */
     public static function setPdfRendererPath($libraryBaseDir)
     {
-        if ((file_exists($libraryBaseDir) === false) || (is_readable($libraryBaseDir) === false)) {
+        if (false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
         }
         self::$pdfRendererPath = $libraryBaseDir;
