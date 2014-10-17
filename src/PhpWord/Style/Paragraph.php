@@ -475,6 +475,33 @@ class Paragraph extends Border
         $this->setSpacing($lineHeight * self::LINE_HEIGHT);
         return $this;
     }
+    
+    /**
+     * Get rule for line height
+     * 
+     * @return string
+     * 
+     */
+     
+    public function getRule()
+    {
+        return $this->getChildStyleValue($this->spacing, 'rule');
+    }
+    
+    
+    
+    /**
+     * Set rule for line height
+     * 
+     * @param string $value
+     * @return string
+     * 
+     */
+    public function setRule($value = 'auto')
+    {
+        return $this->setSpace(array('rule' => $value));
+    }
+    
 
     /**
      * Get allow first/last line to display on a separate page setting
