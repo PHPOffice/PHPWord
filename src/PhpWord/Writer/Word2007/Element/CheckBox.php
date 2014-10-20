@@ -68,7 +68,7 @@ class CheckBox extends Text
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'seperate');
+        $xmlWriter->writeAttribute('w:fldCharType', 'separate');
         $xmlWriter->endElement();// w:fldChar
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
