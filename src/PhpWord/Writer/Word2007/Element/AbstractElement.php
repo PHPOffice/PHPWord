@@ -167,6 +167,6 @@ abstract class AbstractElement
      */
     protected function getText($text)
     {
-        return String::controlCharacterPHP2OOXML(htmlspecialchars($text));
+        return String::controlCharacterPHP2OOXML($text);
     }
 }
