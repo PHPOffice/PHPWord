@@ -63,7 +63,7 @@ class Font
      */
     public static function centimeterSizeToTwips($sizeInCm = 1)
     {
-        return ($sizeInCm * 565.217);
+        return ($sizeInCm * 566.925);
     }
 
     /**
