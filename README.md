@@ -17,7 +17,6 @@ Read more about PHPWord:
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Getting started](#getting-started)
-- [Known issues](#known-issues)
 - [Contributing](#contributing)
 - [Developers' Documentation](http://phpword.readthedocs.org/)
 - [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/)
@@ -125,10 +124,6 @@ $phpWord->save('helloWorld.rtf', 'RTF');
 ```
 
 More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
-
-## Known issues
-
-- GH-238: PHPWord uses temporary folder with `sys_get_temp_dir()` extensively. The default setting on some systems (especially Windows) do not give appropriate read/write permission to this folder. Run `samples/index.php` either by CLI or by web browsers to check if you have this requirement fulfilled.
 
 ## Contributing
 
