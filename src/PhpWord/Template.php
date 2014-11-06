@@ -135,17 +135,18 @@ class Template
      * @param mixed $search
      * @param mixed $replace
      * @param integer $limit
+     * @param bollean $isSafe
      */
-    public function setValue($search, $replace, $limit = -1)
+    public function setValue($search, $replace, $limit = -1, $isSafe = false)
     {
         foreach ($this->headerXMLs as $index => $headerXML) {
-            $this->headerXMLs[$index] = $this->setValueForPart($this->headerXMLs[$index], $search, $replace, $limit);
+            $this->headerXMLs[$index] = $this->setValueForPart($this->headerXMLs[$index], $search, $replace, $limit, $isSafe);
         }
 
-        $this->documentXML = $this->setValueForPart($this->documentXML, $search, $replace, $limit);
+        $this->documentXML = $this->setValueForPart($this->documentXML, $search, $replace, $limit, $isSafe);
 
         foreach ($this->footerXMLs as $index => $headerXML) {
-            $this->footerXMLs[$index] = $this->setValueForPart($this->footerXMLs[$index], $search, $replace, $limit);
+            $this->footerXMLs[$index] = $this->setValueForPart($this->footerXMLs[$index], $search, $replace, $limit, $isSafe);
         }
     }
 
@@ -343,9 +344,10 @@ class Template
      * @param string $search
      * @param string $replace
      * @param integer $limit
+     * @param boolean $isSafe
      * @return string
      */
-    protected function setValueForPart($documentPartXML, $search, $replace, $limit)
+    protected function setValueForPart($documentPartXML, $search, $replace, $limit, $isSafe = false)
     {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $documentPartXML, $matches);
@@ -362,7 +364,10 @@ class Template
         if (!String::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
-        $replace = htmlspecialchars($replace);
+
+        if (false === $isSafe) {
+            $replace = htmlspecialchars($replace);
+        }
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
