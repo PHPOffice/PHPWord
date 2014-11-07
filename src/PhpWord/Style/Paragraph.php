@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -14,7 +15,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
@@ -49,6 +49,7 @@ use PhpOffice\PhpWord\Shared\String;
  */
 class Paragraph extends AbstractStyle
 {
+
     /**
      * @const int One line height equals 240 twip
      */
@@ -153,6 +154,13 @@ class Paragraph extends AbstractStyle
     private $tabs = array();
 
     /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
+
+    /**
      * Create new instance
      */
     public function __construct()
@@ -192,23 +200,23 @@ class Paragraph extends AbstractStyle
     public function getStyleValues()
     {
         $styles = array(
-            'name'              => $this->getStyleName(),
-            'basedOn'           => $this->getBasedOn(),
-            'next'              => $this->getNext(),
-            'alignment'         => $this->getAlign(),
-            'indentation'       => $this->getIndentation(),
-            'spacing'           => $this->getSpace(),
-            'pagination'        => array(
-                'widowControl'  => $this->hasWidowControl(),
-                'keepNext'      => $this->isKeepNext(),
-                'keepLines'     => $this->isKeepLines(),
-                'pageBreak'     => $this->hasPageBreakBefore(),
+            'name' => $this->getStyleName(),
+            'basedOn' => $this->getBasedOn(),
+            'next' => $this->getNext(),
+            'alignment' => $this->getAlign(),
+            'indentation' => $this->getIndentation(),
+            'spacing' => $this->getSpace(),
+            'pagination' => array(
+                'widowControl' => $this->hasWidowControl(),
+                'keepNext' => $this->isKeepNext(),
+                'keepLines' => $this->isKeepLines(),
+                'pageBreak' => $this->hasPageBreakBefore(),
             ),
-            'numbering'         => array(
-                'style'         => $this->getNumStyle(),
-                'level'         => $this->getNumLevel(),
+            'numbering' => array(
+                'style' => $this->getNumStyle(),
+                'level' => $this->getNumLevel(),
             ),
-            'tabs'              => $this->getTabs(),
+            'tabs' => $this->getTabs(),
         );
 
         return $styles;
@@ -694,4 +702,53 @@ class Paragraph extends AbstractStyle
     {
         return $this->hasPageBreakBefore();
     }
+
+    /**
+     * Get background
+     *
+     * @return string
+     */
+    public function getBgColor()
+    {
+        if ($this->shading !== null) {
+            return $this->shading->getFill();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Set background
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setBgColor($value = null)
+    {
+        return $this->setShading(array('fill' => $value));
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
 }
