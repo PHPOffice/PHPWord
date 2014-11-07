@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -14,7 +15,6 @@
  * @copyright   2010-2014 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Element\Image;
@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Style\Column as ColumnStyle;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
 
@@ -35,6 +36,7 @@ use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
  */
 class Content extends AbstractPart
 {
+
     /**
      * Auto style collection
      *
@@ -43,7 +45,8 @@ class Content extends AbstractPart
      * @todo Merge font and paragraph styles
      * @var array
      */
-    private $autoStyles = array('Section' => array(), 'Image' => array(), 'Table' => array());
+    private $autoStyles = array('Section' => array(), 'Image' => array(), 'Table' => array(),
+        'Column' => array());
 
     /**
      * Write part
@@ -69,7 +72,6 @@ class Content extends AbstractPart
         // Font declarations and automatic styles
         $this->writeFontFaces($xmlWriter); // office:font-face-decls
         $this->writeAutoStyles($xmlWriter); // office:automatic-styles
-
         // Body
         $xmlWriter->startElement('office:body');
         $xmlWriter->startElement('office:text');
@@ -84,7 +86,6 @@ class Content extends AbstractPart
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement(); // text:sequence-decl
-
         // Sections
         $sections = $phpWord->getSections();
         foreach ($sections as $section) {
@@ -216,6 +217,20 @@ class Content extends AbstractPart
                 }
                 $style->setStyleName($element->getElementId());
                 $this->autoStyles['Table'][] = $style;
+
+                // column styles
+                $rows = $element->getRows();
+                $colCount = $element->countColumns();
+                for ($i = 0; $i < $colCount; $i++) {
+                    $colStyle = new ColumnStyle();
+                    // get column width from first row:
+                    if (count($rows) > 0) {
+                        $cells = $rows[0]->getCells();
+                        $colStyle->setWidth($cells[$i]->getWidth());
+                    }
+                    $colStyle->setStyleName($element->getElementId() . '.' . $i);
+                    $this->autoStyles['Column'][] = $colStyle;
+                }
             }
         }
     }
@@ -241,7 +256,7 @@ class Content extends AbstractPart
             $style->setAuto();
             $element->setFontStyle("T{$fontStyleCount}");
 
-        // Paragraph
+            // Paragraph
         } elseif ($paragraphStyle instanceof Paragraph) {
             $paragraphStyleCount++;
             $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
@@ -249,4 +264,5 @@ class Content extends AbstractPart
             $element->setParagraphStyle("P{$paragraphStyleCount}");
         }
     }
+
 }
