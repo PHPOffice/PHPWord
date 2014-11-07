@@ -364,7 +364,6 @@ class TemplateProcessor
         if (!String::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
-        $replace = htmlspecialchars($replace);
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
