@@ -58,6 +58,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
 - Settings: added method to set user defined temporary directory - @RomanSyroeshko GH-310
 - Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko GH-216
+- Reverted GH-51 - @RomanSyroeshko
 
 ## 0.11.1 - 2 June 2014
 
