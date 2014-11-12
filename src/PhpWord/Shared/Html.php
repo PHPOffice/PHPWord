@@ -34,8 +34,9 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
+     * @param array $styles Array with all styles
      */
-    public static function addHtml($element, $html, $fullHTML = false)
+    public static function addHtml($element, $html, $fullHTML = false, $styles = array())
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -55,7 +56,7 @@ class Html
         $dom->loadXML($html);
         $node = $dom->getElementsByTagName('body');
 
-        self::parseNode($node->item(0), $element);
+        self::parseNode($node->item(0), $element, $styles);
     }
 
     /**
@@ -93,7 +94,7 @@ class Html
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
         // Populate styles array
-        $styleTypes = array('font', 'paragraph', 'list');
+        $styleTypes = array('font', 'paragraph', 'list', 'table', 'cell');
         foreach ($styleTypes as $styleType) {
             if (!isset($styles[$styleType])) {
                 $styles[$styleType] = array();
@@ -115,9 +116,10 @@ class Html
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
-            'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
-            'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
+            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
+            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
@@ -170,9 +172,7 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
-                        self::parseNode($cNode, $element, $styles, $data);
-                    }
+                    self::parseNode($cNode, $element, $styles, $data);
                 }
             }
         }
@@ -225,11 +225,9 @@ class Html
     {
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
-        // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
-        // @todo Find better error checking for this one
-        // if (method_exists($element, 'addText')) {
+        if ($element instanceof AbstractContainer) {
             $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
-        // }
+        }
 
         return null;
     }
@@ -255,16 +253,15 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
-     * @param string $argument1 Method name
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return \PhpOffice\PhpWord\Section\Table
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles, $argument1)
+    private static function parseTable($node, $element, &$styles)
     {
         $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
-
-        $newElement = $element->$argument1();
+        
+        return $element->addTable($styles['table']);
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
@@ -279,6 +276,38 @@ class Html
         // }
 
         return $newElement;
+    }
+    
+    /**
+     * Parse a table row node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array $styles
+     */
+    private static function parseRow($node, $table, &$styles)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $table->addRow(0, $styles['row']);
+    }
+    
+    /**
+     * Parse a table cell node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array $styles
+     */
+    private static function parseCell($node, $table, &$styles)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        
+        $style = $styles['cell'];
+        if ($node->attributes->getNamedItem('colspan')) {
+            $style['gridSpan'] = $node->attributes->getNamedItem('colspan')->value;
+        }
+        
+        return $table->addCell(2000, $style);
     }
 
     /**
