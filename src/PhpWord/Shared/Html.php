@@ -27,30 +27,25 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 class Html
 {
     /**
-     * Add HTML parts.
+     * Add HTML parts
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
-     * @return void
+     * @param array $styles Array with all styles
      */
-    public static function addHtml($element, $html, $fullHTML = false)
+    public static function addHtml($element, $html, $fullHTML = false, $styles = array())
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
 
-        // Preprocess: remove all line ends, decode HTML entity,
-        // fix ampersand and angle brackets and add body tag for HTML fragments
+        // Preprocess: remove all line ends, decode HTML entity, and add body tag for HTML fragments
         $html = str_replace(array("\n", "\r"), '', $html);
-        $html = str_replace(array('&lt;', '&gt;', '&amp;'), array('_lt_', '_gt_', '_amp_'), $html);
-        $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
-        $html = str_replace('&', '&amp;', $html);
-        $html = str_replace(array('_lt_', '_gt_', '_amp_'), array('&lt;', '&gt;', '&amp;'), $html);
-
+        $html = html_entity_decode($html);
         if ($fullHTML === false) {
             $html = '<body>' . $html . '</body>';
         }
@@ -61,7 +56,7 @@ class Html
         $dom->loadXML($html);
         $node = $dom->getElementsByTagName('body');
 
-        self::parseNode($node->item(0), $element);
+        self::parseNode($node->item(0), $element, $styles);
     }
 
     /**
@@ -89,18 +84,17 @@ class Html
     }
 
     /**
-     * Parse a node and add a corresponding element to the parent element.
+     * Parse a node and add a corresponding element to the parent element
      *
      * @param \DOMNode $node node to parse
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
-     * @return void
      */
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
         // Populate styles array
-        $styleTypes = array('font', 'paragraph', 'list');
+        $styleTypes = array('font', 'paragraph', 'list', 'table', 'row', 'cell');
         foreach ($styleTypes as $styleType) {
             if (!isset($styles[$styleType])) {
                 $styles[$styleType] = array();
@@ -122,9 +116,10 @@ class Html
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
-            'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
-            'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
+            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
+            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
@@ -133,7 +128,8 @@ class Html
         $newElement = null;
         $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
 
-        if (isset($nodes[$node->nodeName])) {
+        if (array_key_exists($node->nodeName, $nodes)) {
+
             // Execute method based on node mapping table and return $newElement or null
             // Arguments are passed by reference
             $arguments = array();
@@ -163,13 +159,12 @@ class Html
     }
 
     /**
-     * Parse child nodes.
+     * Parse child nodes
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
      * @param array $data
-     * @return void
      */
     private static function parseChildNodes($node, $element, $styles, $data)
     {
@@ -177,9 +172,7 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
-                        self::parseNode($cNode, $element, $styles, $data);
-                    }
+                    self::parseNode($cNode, $element, $styles, $data);
                 }
             }
         }
@@ -190,7 +183,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
+     * @param array $styles
      * @return \PhpOffice\PhpWord\Element\TextRun
      */
     private static function parseParagraph($node, $element, &$styles)
@@ -205,7 +198,7 @@ class Html
      * Parse heading node
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
+     * @param array $styles
      * @param string $argument1 Name of heading style
      * @return \PhpOffice\PhpWord\Element\TextRun
      *
@@ -225,18 +218,16 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
+     * @param array $styles
      * @return null
      */
     private static function parseText($node, $element, &$styles)
     {
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
-        // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
-        // @todo Find better error checking for this one
-        // if (method_exists($element, 'addText')) {
+        if ($element instanceof AbstractContainer) {
             $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
-        // }
+        }
 
         return null;
     }
@@ -244,7 +235,7 @@ class Html
     /**
      * Parse property node
      *
-     * @param array &$styles
+     * @param array $styles
      * @param string $argument1 Style name
      * @param string $argument2 Style value
      * @return null
@@ -261,17 +252,16 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
-     * @param string $argument1 Method name
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     * @return \PhpOffice\PhpWord\Section\Table
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles, $argument1)
+    private static function parseTable($node, $element, &$styles)
     {
         $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
-
-        $newElement = $element->$argument1();
+        
+        return $element->addTable($styles['table']);
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
@@ -287,12 +277,44 @@ class Html
 
         return $newElement;
     }
+    
+    /**
+     * Parse a table row node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array $styles
+     */
+    private static function parseRow($node, $table, &$styles)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $table->addRow(0, $styles['row']);
+    }
+    
+    /**
+     * Parse a table cell node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array $styles
+     */
+    private static function parseCell($node, $table, &$styles)
+    {
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        
+        $style = $styles['cell'];
+        if ($node->attributes->getNamedItem('colspan')) {
+            $style['gridSpan'] = $node->attributes->getNamedItem('colspan')->value;
+        }
+        
+        return $table->addCell(2000, $style);
+    }
 
     /**
      * Parse list node
      *
-     * @param array &$styles
-     * @param array &$data
+     * @param array $styles
+     * @param array $data
      * @param string $argument1 List type
      * @return null
      */
@@ -313,7 +335,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
+     * @param array $styles
      * @param array $data
      * @return null
      *
