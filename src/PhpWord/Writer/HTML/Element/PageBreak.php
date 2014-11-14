@@ -24,4 +24,13 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class PageBreak extends TextBreak
 {
+    /**
+     * Write page break
+     *
+     * @return string
+     */
+    public function write()
+    {
+        return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
+    }
 }
