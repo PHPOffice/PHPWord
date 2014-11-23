@@ -122,7 +122,7 @@ $phpWord->save('helloWorld.docx');
 $phpWord->save('helloWorld.odt', 'ODText');
 $phpWord->save('helloWorld.rtf', 'RTF');
 ```
-
+:exclamation: Don't forget to escape any string you pass to PHPWord API.
 More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 
 ## Contributing
