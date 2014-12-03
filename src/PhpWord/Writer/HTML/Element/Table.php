@@ -51,7 +51,7 @@ class Table extends AbstractElement
                     $cellTag = $tblHeader ? 'th' : 'td';
                     $content .= "<{$cellTag}>" . PHP_EOL;
                     $content .= $writer->write();
-                    $content .= '</td>' . PHP_EOL;
+                    $content .= "</{$cellTag}>" . PHP_EOL;
                 }
                 $content .= '</tr>' . PHP_EOL;
             }
