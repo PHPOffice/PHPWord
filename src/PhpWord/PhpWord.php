@@ -122,7 +122,7 @@ class PhpWord
 
         $styles = array('Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title');
         foreach ($styles as $style) {
-            $addStyle[] = strtolower("add{$style}style");
+            $addStyle[] = strtolower("add{$style}Style");
         }
 
         // Run get collection method
