@@ -38,6 +38,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA GH-356
 - `Element\Section::setPageSizeW()` and `Element\Section::setPageSizeH()` were mentioned in the docs but not implemented.
 - Special Characters (ampersand) in Title break docx output - @RomanSyroeshko GH-401
+- `<th>` tag is closed with `</td>` tag: - @franzholz GH-438
 
 ### Deprecated
 
