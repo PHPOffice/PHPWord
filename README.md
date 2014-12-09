@@ -112,7 +112,7 @@ $section->addText(
  * - using explicitly created font style object.
  */
 
-// Adding Text element having font customized inline...
+// Adding Text element with font customized inline...
 $section->addText(
     htmlspecialchars(
         '"Great achievement is usually born of great sacrifice, '
@@ -122,7 +122,7 @@ $section->addText(
     array('name' => 'Tahoma', 'size' => 10)
 );
 
-// Adding Text element having font customized using named font style...
+// Adding Text element with font customized using named font style...
 $fontStyleName = 'oneUserDefinedStyle';
 $phpWord->addFontStyle(
     $fontStyleName,
@@ -137,7 +137,7 @@ $section->addText(
     $fontStyleName
 );
 
-// Adding Text element having font customized using explicitly created font style object...
+// Adding Text element with font customized using explicitly created font style object...
 $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Tahoma');
@@ -159,8 +159,8 @@ $objWriter->save('helloWorld.odt');
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
 $objWriter->save('helloWorld.html');
 
-/* Note: RTF was skipped, because it's not XML-based and requires a different example. */
-/* Note: PDF was skipped, because we use "HTML-to-PDF" approach to create PDF documents. */
+/* Note: we skip RTF, because it's not XML-based and requires a different example. */
+/* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
 :warning: Escape any string you pass to OOXML/ODF/HTML document, otherwise it may get broken.
 
