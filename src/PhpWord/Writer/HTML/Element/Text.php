@@ -72,7 +72,7 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        $content .= htmlspecialchars($element->getText());
+        $content .= $element->getText();
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
