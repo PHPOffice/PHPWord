@@ -2,6 +2,9 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+## 0.11.2 - 10 December 2014
+- Add new-page function for PDF generation. For multiple PDF-backends - @chc88 GH-426
+
 ## 0.11.1 - 2 June 2014
 
 This is an immediate bugfix release for HTML reader.
