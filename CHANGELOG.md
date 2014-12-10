@@ -2,8 +2,65 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-## 0.11.2 - 10 December 2014
+## 0.12.0 - Not yet released
+
+This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
+
+### Features
+
+- Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin GH-123
+- Font: New `scale`, `spacing`, and `kerning` property of font style - @ivanlanin
+- Paragraph:  Added shading to the paragraph style for full width shading - @lrobert GH-264
+- RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
+- Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
+- General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
+- General: New `Shared\Converter` static class - @ivanlanin
+- Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
+- Chart: 3D charts and ability to set width and height - @ivanlanin
+- FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin GH-266
+- Setting: Ability to define document protection (readOnly, comments, trackedChanges, forms) - @ivanlanin
+- Setting: Ability to remove [Compatibility Mode] text in the MS Word title bar - @ivanlanin
+- SDT: Ability to add structured document tag elements (comboBox, dropDownList, date) - @ivanlanin
+- Paragraph: Support for paragraph with borders - @ivanlanin GH-294
+- Word2007 Writer : Support for RTL - @Progi1984 GH-331
+- MsDOC Reader: Basic MsDOC Reader - @Progi1984 GH-23 GH-287
+- "absolute" horizontal and vertical positioning of Frame - @basjan GH-302
 - Add new-page function for PDF generation. For multiple PDF-backends - @chc88 GH-426
+
+### Bugfixes
+
+- Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo GH-261
+- `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich GH-270
+- Page breaks on titles and tables - @ivanlanin GH-274
+- Table inside vertical border does not rendered properly - @ivanlanin GH-280
+- `add<elementName>` of container should be case insensitive, e.g. `addToc` should be accepted, not only `addTOC` - @ivanlanin GH-294
+- Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit GH-327
+- "HTML is not a valid writer" exception while running "Sample_36_RTL.php" - @RomanSyroeshko GH-340
+- "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA GH-356
+- `Element\Section::setPageSizeW()` and `Element\Section::setPageSizeH()` were mentioned in the docs but not implemented.
+- Special Characters (ampersand) in Title break docx output - @RomanSyroeshko GH-401
+- `<th>` tag is closed with `</td>` tag: - @franzholz GH-438
+
+### Deprecated
+
+- `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
+- `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
+- `Shared\Drawing` and `Shared\Font` merged into `Shared\Converter`
+- `DocumentProperties` replaced by `Metadata\DocInfo`
+- `Template` replaced by `TemplateProcessor`
+- `PhpWord->loadTemplate($filename)`
+
+### Miscellaneous
+
+- Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
+- Docs: Correct elements.rst about Line - @chrissharkman GH-292
+- PclZip: Remove temporary file after used - @andrew-kzoo GH-265
+- Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
+- Element: Refactor elements to move set relation Id from container to element - @ivanlanin
+- Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
+- Settings: added method to set user defined temporary directory - @RomanSyroeshko GH-310
+- Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko GH-216
+- Reverted GH-51 - @RomanSyroeshko
 
 ## 0.11.1 - 2 June 2014
 
