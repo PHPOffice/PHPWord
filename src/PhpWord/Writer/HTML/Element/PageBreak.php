@@ -31,6 +31,11 @@ class PageBreak extends TextBreak
      */
     public function write()
     {
-        return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
+        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
+        $parentWriter = $this->parentWriter;
+        if ($parentWriter->isPdf()) {
+            return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
+        }
+        return "";
     }
 }
