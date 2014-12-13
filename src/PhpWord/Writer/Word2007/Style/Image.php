@@ -117,7 +117,7 @@ class Image extends AbstractStyle
         );
         foreach ($dimensions as $key => $value) {
             if ($value !== null) {
-                $styles[$key] = $value . 'px';
+                $styles[$key] = $value * 0.75 . 'pt'; //Convert to pt to get same result on mac and windows
             }
         }
 
