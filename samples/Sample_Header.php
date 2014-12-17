@@ -1,6 +1,6 @@
 <?php
 
-date_default_timezone_set('Europe/Paris');
+date_default_timezone_set('UTC');
 
 /**
  * Header file
