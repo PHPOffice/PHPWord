@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
 
 date_default_timezone_set('UTC');
 
@@ -14,7 +15,6 @@ define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
-require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
 Autoloader::register();
 Settings::loadConfig();
 
@@ -22,7 +22,7 @@ Settings::loadConfig();
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
 // Set PDF renderer
-if (Settings::getPdfRendererPath() === null) {
+if (null === Settings::getPdfRendererPath()) {
     $writers['PDF'] = null;
 }
 
@@ -65,7 +65,7 @@ function write($phpWord, $filename, $writers)
     // Write documents
     foreach ($writers as $format => $extension) {
         $result .= date('H:i:s') . " Write to {$format} format";
-        if ($extension !== null) {
+        if (null !== $extension) {
             $targetFile = __DIR__ . "/results/{$filename}.{$extension}";
             $phpWord->save($targetFile, $format);
         } else {
