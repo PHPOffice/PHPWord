@@ -27,6 +27,8 @@ class PageBreak extends TextBreak
     /**
      * Write page break
      *
+     * @since 0.12.0
+     *
      * @return string
      */
     public function write()
@@ -36,6 +38,7 @@ class PageBreak extends TextBreak
         if ($parentWriter->isPdf()) {
             return '<pagebreak style="page-break-before: always;" pagebreak="true"></pagebreak>';
         }
+
         return "";
     }
 }
