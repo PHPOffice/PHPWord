@@ -55,6 +55,8 @@ if ($handle = opendir('.')) {
  * @param \PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
  * @param array $writers
+ *
+ * @return string
  */
 function write($phpWord, $filename, $writers)
 {
@@ -81,6 +83,8 @@ function write($phpWord, $filename, $writers)
  * Get ending notes
  *
  * @param array $writers
+ *
+ * @return string
  */
 function getEndingNotes($writers)
 {
