@@ -25,6 +25,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Word2007 Writer : Support for RTL - @Progi1984 GH-331
 - MsDOC Reader: Basic MsDOC Reader - @Progi1984 GH-23 GH-287
 - "absolute" horizontal and vertical positioning of Frame - @basjan GH-302
+- Add new-page function for PDF generation. For multiple PDF-backends - @chc88 GH-426
 
 ### Bugfixes
 
@@ -38,6 +39,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA GH-356
 - `Element\Section::setPageSizeW()` and `Element\Section::setPageSizeH()` were mentioned in the docs but not implemented.
 - Special Characters (ampersand) in Title break docx output - @RomanSyroeshko GH-401
+- `<th>` tag is closed with `</td>` tag: - @franzholz GH-438
 
 ### Deprecated
 

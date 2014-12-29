@@ -181,15 +181,15 @@ Contributing
 ------------
 
 We welcome everyone to contribute to PHPWord. Below are some of the
-things that you can do to contribute:
+things that you can do to contribute.
 
 -  Read `our contributing
-   guide <https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md>`__
+   guide <https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md>`__.
 -  `Fork us <https://github.com/PHPOffice/PHPWord/fork>`__ and `request
    a pull <https://github.com/PHPOffice/PHPWord/pulls>`__ to the
    `develop <https://github.com/PHPOffice/PHPWord/tree/develop>`__
-   branch
+   branch.
 -  Submit `bug reports or feature
-   requests <https://github.com/PHPOffice/PHPWord/issues>`__ to GitHub
+   requests <https://github.com/PHPOffice/PHPWord/issues>`__ to GitHub.
 -  Follow `@PHPWord <https://twitter.com/PHPWord>`__ and
-   `@PHPOffice <https://twitter.com/PHPOffice>`__ on Twitter
+   `@PHPOffice <https://twitter.com/PHPOffice>`__ on Twitter.

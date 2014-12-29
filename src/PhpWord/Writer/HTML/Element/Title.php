@@ -36,7 +36,7 @@ class Title extends AbstractElement
         }
 
         $tag = 'h' . $this->element->getDepth();
-        $text = htmlspecialchars($this->element->getText());
+        $text = $this->element->getText();
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;

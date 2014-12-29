@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
@@ -57,13 +57,13 @@ class Head extends AbstractPart
 
         $content .= '<head>' . PHP_EOL;
         $content .= '<meta charset="UTF-8" />' . PHP_EOL;
-        $content .= '<title>' . htmlspecialchars($title) . '</title>' . PHP_EOL;
+        $content .= '<title>' . $title . '</title>' . PHP_EOL;
         foreach ($propertiesMapping as $key => $value) {
             $value = ($value == '') ? $key : $value;
             $method = "get" . $key;
             if ($docProps->$method() != '') {
                 $content .= '<meta name="' . $value . '" content="' .
-                    htmlspecialchars($docProps->$method()) . '" />' . PHP_EOL;
+                    $docProps->$method() . '" />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();
