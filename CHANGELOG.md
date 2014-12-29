@@ -26,6 +26,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - MsDOC Reader: Basic MsDOC Reader - @Progi1984 GH-23 GH-287
 - "absolute" horizontal and vertical positioning of Frame - @basjan GH-302
 - Add new-page function for PDF generation. For multiple PDF-backends - @chc88 GH-426
+- Report style options enumerated when style unknown - @h6w
 
 ### Bugfixes
 
