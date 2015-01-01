@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
@@ -13,17 +13,17 @@ $phpWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
 $fontStyle = array('size' => 24);
 
 $section = $phpWord->addSection();
-$section->addText('Text break with no style:');
+$section->addText(htmlspecialchars('Text break with no style:'));
 $section->addTextBreak();
-$section->addText('Text break with defined font style:');
+$section->addText(htmlspecialchars('Text break with defined font style:'));
 $section->addTextBreak(1, 'fontStyle');
-$section->addText('Text break with defined paragraph style:');
+$section->addText(htmlspecialchars('Text break with defined paragraph style:'));
 $section->addTextBreak(1, null, 'paragraphStyle');
-$section->addText('Text break with inline font style:');
+$section->addText(htmlspecialchars('Text break with inline font style:'));
 $section->addTextBreak(1, $fontStyle);
-$section->addText('Text break with inline paragraph style:');
+$section->addText(htmlspecialchars('Text break with inline paragraph style:'));
 $section->addTextBreak(1, null, $paragraphStyle);
-$section->addText('Done.');
+$section->addText(htmlspecialchars('Done.'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

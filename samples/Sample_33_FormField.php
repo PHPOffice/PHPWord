@@ -2,22 +2,22 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $phpWord->getProtection()->setEditing('forms');
 
 $section = $phpWord->addSection();
 
 $textrun = $section->addTextRun();
-$textrun->addText('Form fields can be added in a text run and can be in form of textinput ');
+$textrun->addText(htmlspecialchars('Form fields can be added in a text run and can be in form of textinput '));
 $textrun->addFormField('textinput')->setName('MyTextBox');
-$textrun->addText(', checkbox ');
+$textrun->addText(htmlspecialchars(', checkbox '));
 $textrun->addFormField('checkbox')->setDefault(true);
-$textrun->addText(', or dropdown ');
+$textrun->addText(htmlspecialchars(', or dropdown '));
 $textrun->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
-$textrun->addText('. You have to set document protection to "forms" to enable dropdown.');
+$textrun->addText(htmlspecialchars('. You have to set document protection to "forms" to enable dropdown.'));
 
-$section->addText('They can also be added as a stand alone paragraph.');
+$section->addText(htmlspecialchars('They can also be added as a stand alone paragraph.'));
 $section->addFormField('textinput')->setValue('Your name');
 
 // Save file

@@ -2,22 +2,22 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
-$section->addText('Local image without any styles:');
+$section->addText(htmlspecialchars('Local image without any styles:'));
 $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);
 
-$section->addText('Local image with styles:');
+$section->addText(htmlspecialchars('Local image with styles:'));
 $section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'align' => 'center'));
 $section->addTextBreak(2);
 
 // Remote image
 $source = 'http://php.net/images/logos/php-med-trans-light.gif';
-$section->addText("Remote image from: {$source}");
+$section->addText(htmlspecialchars("Remote image from: {$source}"));
 $section->addImage($source);
 
 //Wrapping style
@@ -25,43 +25,52 @@ $text = str_repeat('Hello World! ', 15);
 $wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');
 foreach ($wrappingStyles as $wrappingStyle) {
     $section->addTextBreak(5);
-    $section->addText('Wrapping style ' . $wrappingStyle);
-    $section->addImage('resources/_earth.jpg', array('positioning' => 'relative', 'marginTop' => -1, 'marginLeft' => 1,
-        'width' => 80, 'height' => 80, 'wrappingStyle' => $wrappingStyle));
-    $section->addText($text);
+    $section->addText(htmlspecialchars("Wrapping style {$wrappingStyle}"));
+    $section->addImage(
+        'resources/_earth.jpg',
+        array(
+            'positioning'   => 'relative',
+            'marginTop'     => -1,
+            'marginLeft'    => 1,
+            'width'         => 80,
+            'height'        => 80,
+            'wrappingStyle' => $wrappingStyle,
+        )
+    );
+    $section->addText(htmlspecialchars($text));
 }
 
 //Absolute positioning
 $section->addTextBreak(3);
-$section->addText('Absolute positioning: see top right corner of page');
+$section->addText(htmlspecialchars('Absolute positioning: see top right corner of page'));
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
-        'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
+        'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
+        'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_RIGHT,
         'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
-        'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
-        'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55)
+        'posVerticalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_PAGE,
+        'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
+        'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55),
     )
 );
 
 //Relative positioning
 $section->addTextBreak(3);
-$section->addText('Relative positioning: Horizontal position center relative to column,');
-$section->addText('Vertical position top relative to line');
+$section->addText(htmlspecialchars('Relative positioning: Horizontal position center relative to column,'));
+$section->addText(htmlspecialchars('Vertical position top relative to line'));
 $section->addImage(
     'resources/_mars.jpg',
     array(
-        'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-        'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-        'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+        'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+        'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+        'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
         'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-        'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-        'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE
+        'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
+        'posVerticalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
     )
 );
 

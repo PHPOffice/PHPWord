@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word Document
-echo date('H:i:s') , " Create new PhpWord object" , EOL;
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $phpWord->addFontStyle('rStyle', array('bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true));
 $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'spaceAfter' => 100));
@@ -12,16 +12,16 @@ $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
 $section = $phpWord->addSection();
 
 // Simple text
-$section->addTitle('Welcome to PhpWord', 1);
-$section->addText('Hello World!');
+$section->addTitle(htmlspecialchars('Welcome to PhpWord'), 1);
+$section->addText(htmlspecialchars('Hello World!'));
 
 // Two text break
 $section->addTextBreak(2);
 
 // Defined style
-$section->addText('I am styled by a font style definition.', 'rStyle');
-$section->addText('I am styled by a paragraph style definition.', null, 'pStyle');
-$section->addText('I am styled by both font and paragraph style.', 'rStyle', 'pStyle');
+$section->addText(htmlspecialchars('I am styled by a font style definition.'), 'rStyle');
+$section->addText(htmlspecialchars('I am styled by a paragraph style definition.'), null, 'pStyle');
+$section->addText(htmlspecialchars('I am styled by both font and paragraph style.'), 'rStyle', 'pStyle');
 
 $section->addTextBreak();
 
@@ -30,39 +30,39 @@ $fontStyle['name'] = 'Times New Roman';
 $fontStyle['size'] = 20;
 
 $textrun = $section->addTextRun();
-$textrun->addText('I am inline styled ', $fontStyle);
-$textrun->addText('with ');
-$textrun->addText('color', array('color' => '996699'));
-$textrun->addText(', ');
-$textrun->addText('bold', array('bold' => true));
-$textrun->addText(', ');
-$textrun->addText('italic', array('italic' => true));
-$textrun->addText(', ');
-$textrun->addText('underline', array('underline' => 'dash'));
-$textrun->addText(', ');
-$textrun->addText('strikethrough', array('strikethrough' => true));
-$textrun->addText(', ');
-$textrun->addText('doubleStrikethrough', array('doubleStrikethrough' => true));
-$textrun->addText(', ');
-$textrun->addText('superScript', array('superScript' => true));
-$textrun->addText(', ');
-$textrun->addText('subScript', array('subScript' => true));
-$textrun->addText(', ');
-$textrun->addText('smallCaps', array('smallCaps' => true));
-$textrun->addText(', ');
-$textrun->addText('allCaps', array('allCaps' => true));
-$textrun->addText(', ');
-$textrun->addText('fgColor', array('fgColor' => 'yellow'));
-$textrun->addText(', ');
-$textrun->addText('scale', array('scale' => 200));
-$textrun->addText(', ');
-$textrun->addText('spacing', array('spacing' => 120));
-$textrun->addText(', ');
-$textrun->addText('kerning', array('kerning' => 10));
-$textrun->addText('. ');
+$textrun->addText(htmlspecialchars('I am inline styled '), $fontStyle);
+$textrun->addText(htmlspecialchars('with '));
+$textrun->addText(htmlspecialchars('color'), array('color' => '996699'));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('bold'), array('bold' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('italic'), array('italic' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('underline'), array('underline' => 'dash'));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('strikethrough'), array('strikethrough' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('doubleStrikethrough'), array('doubleStrikethrough' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('superScript'), array('superScript' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('subScript'), array('subScript' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('smallCaps'), array('smallCaps' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('allCaps'), array('allCaps' => true));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('fgColor'), array('fgColor' => 'yellow'));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('scale'), array('scale' => 200));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('spacing'), array('spacing' => 120));
+$textrun->addText(htmlspecialchars(', '));
+$textrun->addText(htmlspecialchars('kerning'), array('kerning' => 10));
+$textrun->addText(htmlspecialchars('. '));
 
 // Link
-$section->addLink('http://www.google.com', 'Google');
+$section->addLink('http://www.google.com', htmlspecialchars('Google'));
 $section->addTextBreak();
 
 // Image
