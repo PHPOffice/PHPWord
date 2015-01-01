@@ -8,39 +8,39 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 
 ### Features
 
-- Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin GH-123
+- Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin #123
 - Font: New `scale`, `spacing`, and `kerning` property of font style - @ivanlanin
-- Paragraph:  Added shading to the paragraph style for full width shading - @lrobert GH-264
-- RTF Writer: Support for sections, margins, and borders - @ivanlanin GH-249
-- Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin GH-249
+- Paragraph:  Added shading to the paragraph style for full width shading - @lrobert #264
+- RTF Writer: Support for sections, margins, and borders - @ivanlanin #249
+- Section: Ability to set paper size, e.g. A4, A3, and Legal - @ivanlanin #249
 - General: New `PhpWord::save()` method to encapsulate `IOFactory` - @ivanlanin
 - General: New `Shared\Converter` static class - @ivanlanin
-- Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin GH-278
+- Chart: Basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) - @ivanlanin #278
 - Chart: 3D charts and ability to set width and height - @ivanlanin
-- FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin GH-266
+- FormField: Ability to add textinput, checkbox, and dropdown form elements - @ivanlanin #266
 - Setting: Ability to define document protection (readOnly, comments, trackedChanges, forms) - @ivanlanin
 - Setting: Ability to remove [Compatibility Mode] text in the MS Word title bar - @ivanlanin
 - SDT: Ability to add structured document tag elements (comboBox, dropDownList, date) - @ivanlanin
-- Paragraph: Support for paragraph with borders - @ivanlanin GH-294
-- Word2007 Writer : Support for RTL - @Progi1984 GH-331
-- MsDOC Reader: Basic MsDOC Reader - @Progi1984 GH-23 GH-287
-- "absolute" horizontal and vertical positioning of Frame - @basjan GH-302
-- Add new-page function for PDF generation. For multiple PDF-backends - @chc88 GH-426
+- Paragraph: Support for paragraph with borders - @ivanlanin #294
+- Word2007 Writer : Support for RTL - @Progi1984 #331
+- MsDOC Reader: Basic MsDOC Reader - @Progi1984 #23, #287
+- "absolute" horizontal and vertical positioning of Frame - @basjan #302
+- Add new-page function for PDF generation. For multiple PDF-backends - @chc88 #426
 - Report style options enumerated when style unknown - @h6w
 
 ### Bugfixes
 
-- Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo GH-261
-- `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich GH-270
-- Page breaks on titles and tables - @ivanlanin GH-274
-- Table inside vertical border does not rendered properly - @ivanlanin GH-280
-- `add<elementName>` of container should be case insensitive, e.g. `addToc` should be accepted, not only `addTOC` - @ivanlanin GH-294
-- Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit GH-327
-- "HTML is not a valid writer" exception while running "Sample_36_RTL.php" - @RomanSyroeshko GH-340
-- "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA GH-356
+- Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo #261
+- `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich #270
+- Page breaks on titles and tables - @ivanlanin #274
+- Table inside vertical border does not rendered properly - @ivanlanin #280
+- `add<elementName>` of container should be case insensitive, e.g. `addToc` should be accepted, not only `addTOC` - @ivanlanin #294
+- Fix specific borders (and margins) were not written correctly in word2007 writer - @pscheit #327
+- "HTML is not a valid writer" exception while running "Sample_36_RTL.php" - @RomanSyroeshko #340
+- "addShape()" magic method in AbstractContainer is mistakenly named as "addObject()" - @GMTA #356
 - `Element\Section::setPageSizeW()` and `Element\Section::setPageSizeH()` were mentioned in the docs but not implemented.
-- Special Characters (ampersand) in Title break docx output - @RomanSyroeshko GH-401
-- `<th>` tag is closed with `</td>` tag: - @franzholz GH-438
+- Special Characters (ampersand) in Title break docx output - @RomanSyroeshko #401
+- `<th>` tag is closed with `</td>` tag: - @franzholz #438
 
 ### Deprecated
 
@@ -53,14 +53,14 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 
 ### Miscellaneous
 
-- Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin GH-238
-- Docs: Correct elements.rst about Line - @chrissharkman GH-292
-- PclZip: Remove temporary file after used - @andrew-kzoo GH-265
-- Autoloader: Add the ability to set the autoloader options - @bskrtich GH-267
+- Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin #238
+- Docs: Correct elements.rst about Line - @chrissharkman #292
+- PclZip: Remove temporary file after used - @andrew-kzoo #265
+- Autoloader: Add the ability to set the autoloader options - @bskrtich #267
 - Element: Refactor elements to move set relation Id from container to element - @ivanlanin
 - Introduced CreateTemporaryFileException, CopyFileException - @RomanSyroeshko
-- Settings: added method to set user defined temporary directory - @RomanSyroeshko GH-310
-- Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko GH-216
+- Settings: added method to set user defined temporary directory - @RomanSyroeshko #310
+- Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko #216
 - Reverted #51. All text escaping must be performed out of the library - @RomanSyroeshko #51
 
 ## 0.11.1 - 2 June 2014
