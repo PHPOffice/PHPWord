@@ -230,9 +230,10 @@ class Template
      * @param string $blockname
      * @param integer $clones
      * @param boolean $replace
+     * @param boolean $incrementVariables
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $incrementVariables = true)
     {
         $xmlBlock = null;
         preg_match(
@@ -245,7 +246,9 @@ class Template
             $xmlBlock = $matches[3];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
-                $cloned[] = $xmlBlock;
+                $incrementVariables 
+				? $cloned[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock) 
+				: $cloned[] = $xmlBlock;
             }
 
             if ($replace) {

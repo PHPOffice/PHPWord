@@ -200,7 +200,12 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
         $actualVar = $document->getVariables();
 
         $document->cloneBlock('CLONEME', 3);
-        $document->deleteBlock('DELETEME');
+		
+		$document->setValue('cloneValue#1', 'Sun');
+		$document->setValue('cloneValue#2', 'Mercury');
+		$document->setValue('cloneValue#3', 'Venus');
+        
+		$document->deleteBlock('DELETEME');
 
         $document->saveAs($docName);
         $docFound = file_exists($docName);
