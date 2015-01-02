@@ -193,13 +193,43 @@ final class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testCloneDeleteBlock()
     {
         $template = __DIR__ . "/_files/templates/clone-delete-block.docx";
-        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME');
+        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME', 'cloneValue');
         $docName = 'clone-delete-block-result.docx';
 
         $document = new Template($template);
         $actualVar = $document->getVariables();
 
+        $document->cloneBlock('CLONEME', 3, true, false);
+		
+		$document->setValue('cloneValue#1', 'Sun');
+		$document->setValue('cloneValue#2', 'Mercury');
+		$document->setValue('cloneValue#3', 'Venus');
+        
+		$document->deleteBlock('DELETEME');
+
+        $document->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+
+        $this->assertEquals($expectedVar, $actualVar);
+        $this->assertTrue($docFound);
+    }
+	
+	
+	/**
+     * Clone block with variables and increment the variables from the block
+     */
+    public function testVariablesAfterCloneBlock()
+    {
+        $template = __DIR__ . "/_files/templates/clone-delete-block.docx";
+        $expectedVar = array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME', 'cloneValue#1', 'cloneValue#2', 'cloneValue#3');
+        $docName = 'clone-delete-block-result.docx';
+
+        $document = new Template($template);
+        
         $document->cloneBlock('CLONEME', 3);
+		
+		$actualVar = $document->getVariables();
 		
 		$document->setValue('cloneValue#1', 'Sun');
 		$document->setValue('cloneValue#2', 'Mercury');

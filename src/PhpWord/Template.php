@@ -246,9 +246,11 @@ class Template
             $xmlBlock = $matches[3];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
-                $incrementVariables 
-				? $cloned[] = preg_replace('/\$\{(\w)\w+\}/', '\${\\1#' . $i . '}', $xmlBlock) 
-				: $cloned[] = $xmlBlock;
+                if($incrementVariables){
+					$cloned[] = preg_replace('/\$\{(\w)\w+\}/', '\${\\1#' . $i . '}', $xmlBlock);
+				}else{
+					$cloned[] = $xmlBlock;
+				}
             }
 
             if ($replace) {
