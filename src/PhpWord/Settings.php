@@ -120,6 +120,13 @@ class Settings
     private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
     /**
+     * The user defined temporary directory.
+     *
+     * @var string
+     */
+    private static $tempDir = '';
+
+    /**
      * Return the compatibility option used by the XMLWriter
      *
      * @return bool Compatibility
@@ -188,7 +195,9 @@ class Settings
     }
 
     /**
-     * Return the PDF Rendering Library
+     * Return the PDF Rendering Library.
+     *
+     * @return string
      */
     public static function getPdfRendererName()
     {
@@ -214,7 +223,9 @@ class Settings
 
 
     /**
-     * Return the directory path to the PDF Rendering Library
+     * Return the directory path to the PDF Rendering Library.
+     *
+     * @return string
      */
     public static function getPdfRendererPath()
     {
@@ -229,7 +240,7 @@ class Settings
      */
     public static function setPdfRendererPath($libraryBaseDir)
     {
-        if ((file_exists($libraryBaseDir) === false) || (is_readable($libraryBaseDir) === false)) {
+        if (false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
         }
         self::$pdfRendererPath = $libraryBaseDir;
@@ -263,6 +274,37 @@ class Settings
         self::$measurementUnit = $value;
 
         return true;
+    }
+
+    /**
+     * Sets the user defined path to temporary directory.
+     *
+     * @since 0.12.0
+     *
+     * @param string $tempDir The user defined path to temporary directory.
+     * @return void
+     */
+    public static function setTempDir($tempDir)
+    {
+        self::$tempDir = $tempDir;
+    }
+
+    /**
+     * Returns path to temporary directory.
+     *
+     * @since 0.12.0
+     *
+     * @return string
+     */
+    public static function getTempDir()
+    {
+        $tempDir = sys_get_temp_dir();
+
+        if (!empty(self::$tempDir)) {
+            $tempDir = self::$tempDir;
+        }
+
+        return $tempDir;
     }
 
     /**

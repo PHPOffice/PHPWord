@@ -21,6 +21,8 @@ use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Check box element
+ *
+ * @since 0.10.0
  */
 class CheckBox extends Text
 {

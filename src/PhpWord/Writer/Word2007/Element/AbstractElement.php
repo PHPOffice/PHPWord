@@ -50,13 +50,6 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
-     * Has page break before
-     *
-     * @var bool
-     */
-    private $pageBreakBefore = false;
-
-    /**
      * Write element
      */
     abstract public function write();
@@ -96,23 +89,74 @@ abstract class AbstractElement
     }
 
     /**
-     * Has page break before
+     * Start w:p DOM element.
      *
-     * @return bool
+     * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
+     * @return void
      */
-    public function hasPageBreakBefore()
+    protected function startElementP()
     {
-        return $this->pageBreakBefore;
+        if (!$this->withoutP) {
+            $this->xmlWriter->startElement('w:p');
+            // Paragraph style
+            if (method_exists($this->element, 'getParagraphStyle')) {
+                $this->writeParagraphStyle();
+            }
+        }
     }
 
     /**
-     * Set page break before
+     * End w:p DOM element.
      *
-     * @param bool $value
+     * @return void
      */
-    public function setPageBreakBefore($value = true)
+    protected function endElementP()
     {
-        $this->pageBreakBefore = (bool)$value;
+        if (!$this->withoutP) {
+            $this->xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
+     * Write ending.
+     *
+     * @return void
+     */
+    protected function writeParagraphStyle()
+    {
+        $this->writeTextStyle('Paragraph');
+    }
+
+    /**
+     * Write ending.
+     *
+     * @return void
+     */
+    protected function writeFontStyle()
+    {
+        $this->writeTextStyle('Font');
+    }
+
+
+    /**
+     * Write text style.
+     *
+     * @param string $styleType Font|Paragraph
+     * @return void
+     */
+    private function writeTextStyle($styleType)
+    {
+        $method = "get{$styleType}Style";
+        $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\{$styleType}";
+        $styleObject = $this->element->$method();
+
+        $styleWriter = new $class($this->xmlWriter, $styleObject);
+        if (method_exists($styleWriter, 'setIsInline')) {
+            $styleWriter->setIsInline(true);
+        }
+
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter */
+        $styleWriter->write();
     }
 
     /**
@@ -123,6 +167,6 @@ abstract class AbstractElement
      */
     protected function getText($text)
     {
-        return String::controlCharacterPHP2OOXML(htmlspecialchars($text));
+        return String::controlCharacterPHP2OOXML($text);
     }
 }

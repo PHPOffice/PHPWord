@@ -17,8 +17,10 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Test helper class
@@ -35,15 +37,22 @@ class TestHelperDOCX
     /**
      * Get document content
      *
+     * @since 0.12.0 Throws CreateTemporaryFileException.
+     *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      * @return \PhpOffice\PhpWord\Tests\XmlDocument
+     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {
-        self::$file = tempnam(sys_get_temp_dir(), 'PhpWord');
-        if (!is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {
-            mkdir(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
+        self::$file = tempnam(Settings::getTempDir(), 'PhpWord');
+        if (false === self::$file) {
+            throw new CreateTemporaryFileException();
+        }
+
+        if (!is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
+            mkdir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
         }
 
         $xmlWriter = IOFactory::createWriter($phpWord, $writerName);
@@ -52,11 +61,11 @@ class TestHelperDOCX
         $zip = new \ZipArchive;
         $res = $zip->open(self::$file);
         if ($res === true) {
-            $zip->extractTo(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
+            $zip->extractTo(Settings::getTempDir() . '/PhpWord_Unit_Test/');
             $zip->close();
         }
 
-        return new XmlDocument(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
+        return new XmlDocument(Settings::getTempDir() . '/PhpWord_Unit_Test/');
     }
 
     /**
@@ -67,8 +76,8 @@ class TestHelperDOCX
         if (file_exists(self::$file)) {
             unlink(self::$file);
         }
-        if (is_dir(sys_get_temp_dir() . '/PhpWord_Unit_Test/')) {
-            self::deleteDir(sys_get_temp_dir() . '/PhpWord_Unit_Test/');
+        if (is_dir(Settings::getTempDir() . '/PhpWord_Unit_Test/')) {
+            self::deleteDir(Settings::getTempDir() . '/PhpWord_Unit_Test/');
         }
     }
 

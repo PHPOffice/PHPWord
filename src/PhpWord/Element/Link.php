@@ -27,11 +27,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Link extends AbstractElement
 {
     /**
-     * Link target
+     * Link source
      *
      * @var string
      */
-    private $target;
+    private $source;
 
     /**
      * Link text
@@ -54,33 +54,46 @@ class Link extends AbstractElement
      */
     private $paragraphStyle;
 
+    /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
+     * Has internal flag - anchor to internal bookmark
+     *
+     * @var bool
+     */
+    protected $internal = false;
 
     /**
      * Create a new Link Element
      *
-     * @param string $target
+     * @param string $source
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
      */
-    public function __construct($target, $text = null, $fontStyle = null, $paragraphStyle = null)
+    public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
-        $this->target = String::toUTF8($target);
-        $this->text = is_null($text) ? $this->target : String::toUTF8($text);
-        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
-
+        $this->source = String::toUTF8($source);
+        $this->text = is_null($text) ? $this->source : String::toUTF8($text);
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->internal = $internal;
         return $this;
     }
 
     /**
-     * Get link target
+     * Get link source
      *
      * @return string
      */
-    public function getTarget()
+    public function getSource()
     {
-        return $this->target;
+        return $this->source;
     }
 
     /**
@@ -114,6 +127,18 @@ class Link extends AbstractElement
     }
 
     /**
+     * Get link target
+     *
+     * @return string
+     * @deprecated 0.12.0
+     * @codeCoverageIgnore
+     */
+    public function getTarget()
+    {
+        return $this->source;
+    }
+
+    /**
      * Get Link source
      *
      * @return string
@@ -122,7 +147,7 @@ class Link extends AbstractElement
      */
     public function getLinkSrc()
     {
-        return $this->getTarget();
+        return $this->getSource();
     }
 
     /**
@@ -135,5 +160,15 @@ class Link extends AbstractElement
     public function getLinkName()
     {
         return $this->getText();
+    }
+
+    /**
+     * is internal
+     *
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->internal;
     }
 }

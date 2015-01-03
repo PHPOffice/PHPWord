@@ -35,13 +35,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $oSettings = new Section();
 
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(11906, $oSettings->getPageSizeW());
-        $this->assertEquals(16838, $oSettings->getPageSizeH());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
+        $this->assertEquals('A4', $oSettings->getPaperSize());
 
         $oSettings->setSettingValue('orientation', 'landscape');
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(16838, $oSettings->getPageSizeW());
-        $this->assertEquals(11906, $oSettings->getPageSizeH());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH());
 
         $iVal = rand(1, 1000);
         $oSettings->setSettingValue('borderSize', $iVal);
@@ -97,6 +98,34 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Set/get page width
+     */
+    public function testPageWidth()
+    {
+        // Section Settings
+        $oSettings = new Section();
+
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
+        $iVal = rand(1, 1000);
+        $oSettings->setSettingValue('pageSizeW', $iVal);
+        $this->assertEquals($iVal, $oSettings->getPageSizeW());
+    }
+
+    /**
+     * Set/get page height
+     */
+    public function testPageHeight()
+    {
+        // Section Settings
+        $oSettings = new Section();
+
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
+        $iVal = rand(1, 1000);
+        $oSettings->setSettingValue('pageSizeH', $iVal);
+        $this->assertEquals($iVal, $oSettings->getPageSizeH());
+    }
+
+    /**
      * Set/get landscape orientation
      */
     public function testOrientationLandscape()
@@ -106,8 +135,8 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $oSettings->setLandscape();
         $this->assertEquals('landscape', $oSettings->getOrientation());
-        $this->assertEquals(16838, $oSettings->getPageSizeW());
-        $this->assertEquals(11906, $oSettings->getPageSizeH());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeH());
     }
 
     /**
@@ -120,8 +149,8 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $oSettings->setPortrait();
         $this->assertEquals('portrait', $oSettings->getOrientation());
-        $this->assertEquals(11906, $oSettings->getPageSizeW());
-        $this->assertEquals(16838, $oSettings->getPageSizeH());
+        $this->assertEquals(Section::DEFAULT_WIDTH, $oSettings->getPageSizeW());
+        $this->assertEquals(Section::DEFAULT_HEIGHT, $oSettings->getPageSizeH());
     }
 
     /**

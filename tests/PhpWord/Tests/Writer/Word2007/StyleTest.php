@@ -31,7 +31,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
         $styles = array(
             'Alignment', 'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
             'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table',
-            'TextBox', 'Line'
+            'TextBox', 'Line', 'Shape', 'Frame', 'Outline', 'Fill', 'Shadow', 'Extrusion',
         );
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;
@@ -49,8 +49,9 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testMethodExceptions()
     {
         $styles = array(
-            'Image' => 'writeAlignment',
-            'Line'  => 'writeStroke',
+            'Frame'     => 'writeAlignment',
+            'Line'      => 'writeStroke',
+            'TextBox'   => 'writeBorder',
         );
         foreach ($styles as $style => $method) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $style;

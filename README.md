@@ -11,6 +11,16 @@ PHPWord is a library written in pure PHP that provides a set of classes to write
 
 PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
+Read more about PHPWord:
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Contributing](#contributing)
+- [Developers' Documentation](http://phpword.readthedocs.org/)
+- [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/)
+
 ## Features
 
 With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your PHP 5.3+ scripts. Below are some of the things that you can do with PHPWord library:
@@ -30,6 +40,9 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 - Insert list items as bulleted, numbered, or multilevel
 - Insert hyperlinks
 - Insert footnotes and endnotes
+- Insert drawing shapes (arc, curve, line, polyline, rect, oval)
+- Insert charts (pie, doughnut, bar, line, area, scatter, radar)
+- Insert form fields (textinput, checkbox, and dropdown)
 - Create document from templates
 - Use XSL 1.0 style sheets to transform main document part of OOXML template
 - ... and many more features on progress
@@ -67,55 +80,97 @@ require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 ```
 
-## Usages
+## Getting started
 
-The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
+The following is a basic usage example of the PHPWord library.
 
 ```php
+<?php
+require_once 'src/PhpWord/Autoloader.php';
+\PhpOffice\PhpWord\Autoloader::register();
+
+// Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-// Every element you want to append to the word document is placed in a section.
-// To create a basic section:
+/* Note: any element you append to a document must reside inside of a Section. */
+
+// Adding an empty Section to the document...
 $section = $phpWord->addSection();
+// Adding Text element to the Section having font styled by default...
+$section->addText(
+    htmlspecialchars(
+        '"Learn from yesterday, live for today, hope for tomorrow. '
+            . 'The important thing is not to stop questioning." '
+            . '(Albert Einstein)'
+    )
+);
 
-// After creating a section, you can append elements:
-$section->addText('Hello world!');
+/*
+ * Note: it's possible to customize font style of the Text element you add in three ways:
+ * - inline;
+ * - using named font style (new font style object will be implicitly created);
+ * - using explicitly created font style object.
+ */
 
-// You can directly style your text by giving the addText function an array:
-$section->addText('Hello world! I am formatted.',
-    array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+// Adding Text element with font customized inline...
+$section->addText(
+    htmlspecialchars(
+        '"Great achievement is usually born of great sacrifice, '
+            . 'and is never the result of selfishness." '
+            . '(Napoleon Hill)'
+    ),
+    array('name' => 'Tahoma', 'size' => 10)
+);
 
-// If you often need the same style again you can create a user defined style
-// to the word document and give the addText function the name of the style:
-$phpWord->addFontStyle('myOwnStyle',
-    array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-$section->addText('Hello world! I am formatted by a user defined style',
-    'myOwnStyle');
+// Adding Text element with font customized using named font style...
+$fontStyleName = 'oneUserDefinedStyle';
+$phpWord->addFontStyle(
+    $fontStyleName,
+    array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+);
+$section->addText(
+    htmlspecialchars(
+        '"The greatest accomplishment is not in never falling, '
+            . 'but in rising again after you fall." '
+            . '(Vince Lombardi)'
+    ),
+    $fontStyleName
+);
 
-// You can also put the appended element to local object like this:
+// Adding Text element with font customized using explicitly created font style object...
 $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
-$fontStyle->setName('Verdana');
-$fontStyle->setSize(22);
-$myTextElement = $section->addText('Hello World!');
+$fontStyle->setName('Tahoma');
+$fontStyle->setSize(13);
+$myTextElement = $section->addText(
+    htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)')
+);
 $myTextElement->setFontStyle($fontStyle);
 
-// Finally, write the document:
+// Saving the document as OOXML file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 
+// Saving the document as ODF file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
 $objWriter->save('helloWorld.odt');
 
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-$objWriter->save('helloWorld.rtf');
+// Saving the document as HTML file...
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+$objWriter->save('helloWorld.html');
+
+/* Note: we skip RTF, because it's not XML-based and requires a different example. */
+/* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
+:warning: Escape any string you pass to OOXML/ODF/HTML document, otherwise it may get broken.
+
+More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 
 ## Contributing
 
-We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute:
+We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute.
 
-- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md)
-- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch
-- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub
-- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter
+- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md).
+- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch.
+- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub.
+- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter.

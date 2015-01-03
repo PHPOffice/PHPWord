@@ -64,4 +64,12 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('\uc0{\u8364}', String::toUnicode('€'));
         $this->assertEquals('\uc0{\u233}', String::toUnicode('é'));
     }
+
+    /**
+     * Test remove underscore prefix
+     */
+    public function testRemoveUnderscorePrefix()
+    {
+        $this->assertEquals('item', String::removeUnderscorePrefix('_item'));
+    }
 }

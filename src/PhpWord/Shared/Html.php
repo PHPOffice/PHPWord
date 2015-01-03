@@ -27,13 +27,14 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 class Html
 {
     /**
-     * Add HTML parts
+     * Add HTML parts.
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
+     * @return void
      */
     public static function addHtml($element, $html, $fullHTML = false)
     {
@@ -42,9 +43,14 @@ class Html
          * which could be applied when such an element occurs in the parseNode function.
          */
 
-        // Preprocess: remove all line ends, decode HTML entity, and add body tag for HTML fragments
+        // Preprocess: remove all line ends, decode HTML entity,
+        // fix ampersand and angle brackets and add body tag for HTML fragments
         $html = str_replace(array("\n", "\r"), '', $html);
-        $html = html_entity_decode($html);
+        $html = str_replace(array('&lt;', '&gt;', '&amp;'), array('_lt_', '_gt_', '_amp_'), $html);
+        $html = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
+        $html = str_replace('&', '&amp;', $html);
+        $html = str_replace(array('_lt_', '_gt_', '_amp_'), array('&lt;', '&gt;', '&amp;'), $html);
+
         if ($fullHTML === false) {
             $html = '<body>' . $html . '</body>';
         }
@@ -83,12 +89,13 @@ class Html
     }
 
     /**
-     * Parse a node and add a corresponding element to the parent element
+     * Parse a node and add a corresponding element to the parent element.
      *
      * @param \DOMNode $node node to parse
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
+     * @return void
      */
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
@@ -126,8 +133,7 @@ class Html
         $newElement = null;
         $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
 
-        if (array_key_exists($node->nodeName, $nodes)) {
-
+        if (isset($nodes[$node->nodeName])) {
             // Execute method based on node mapping table and return $newElement or null
             // Arguments are passed by reference
             $arguments = array();
@@ -157,12 +163,13 @@ class Html
     }
 
     /**
-     * Parse child nodes
+     * Parse child nodes.
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
      * @param array $data
+     * @return void
      */
     private static function parseChildNodes($node, $element, $styles, $data)
     {
@@ -183,7 +190,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @return \PhpOffice\PhpWord\Element\TextRun
      */
     private static function parseParagraph($node, $element, &$styles)
@@ -198,7 +205,7 @@ class Html
      * Parse heading node
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Name of heading style
      * @return \PhpOffice\PhpWord\Element\TextRun
      *
@@ -218,7 +225,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @return null
      */
     private static function parseText($node, $element, &$styles)
@@ -237,7 +244,7 @@ class Html
     /**
      * Parse property node
      *
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Style name
      * @param string $argument2 Style value
      * @return null
@@ -254,7 +261,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param string $argument1 Method name
      * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
      *
@@ -284,8 +291,8 @@ class Html
     /**
      * Parse list node
      *
-     * @param array $styles
-     * @param array $data
+     * @param array &$styles
+     * @param array &$data
      * @param string $argument1 List type
      * @return null
      */
@@ -306,7 +313,7 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array $styles
+     * @param array &$styles
      * @param array $data
      * @return null
      *

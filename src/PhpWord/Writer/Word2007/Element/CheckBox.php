@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class CheckBox extends Text
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -35,7 +37,7 @@ class CheckBox extends Text
             return;
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
@@ -66,7 +68,7 @@ class CheckBox extends Text
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
-        $xmlWriter->writeAttribute('w:fldCharType', 'seperate');
+        $xmlWriter->writeAttribute('w:fldCharType', 'separate');
         $xmlWriter->endElement();// w:fldChar
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
@@ -85,6 +87,6 @@ class CheckBox extends Text
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

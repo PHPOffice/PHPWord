@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 class Object extends AbstractElement
 {
     /**
-     * Write object element
+     * Write object element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -41,6 +43,7 @@ class Object extends AbstractElement
         $rIdImage = $element->getImageRelationId() + ($element->isInSection() ? 6 : 0);
         $shapeId = md5($rIdObject . '_' . $rIdImage);
         $objectId = $element->getRelationId() + 1325353440;
+
         $style = $element->getStyle();
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
@@ -48,20 +51,27 @@ class Object extends AbstractElement
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:object');
         $xmlWriter->writeAttribute('w:dxaOrig', '249');
         $xmlWriter->writeAttribute('w:dyaOrig', '160');
+
+        // Icon
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('id', $shapeId);
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
         $xmlWriter->writeAttribute('style', 'width:104px;height:67px');
         $xmlWriter->writeAttribute('o:ole', '');
+
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rIdImage);
         $xmlWriter->writeAttribute('o:title', '');
         $xmlWriter->endElement(); // v:imagedata
+
         $xmlWriter->endElement(); // v:shape
+
+        // Object
         $xmlWriter->startElement('o:OLEObject');
         $xmlWriter->writeAttribute('Type', 'Embed');
         $xmlWriter->writeAttribute('ProgID', 'Package');
@@ -70,10 +80,10 @@ class Object extends AbstractElement
         $xmlWriter->writeAttribute('ObjectID', '_' . $objectId);
         $xmlWriter->writeAttribute('r:id', 'rId' . $rIdObject);
         $xmlWriter->endElement(); // o:OLEObject
+
         $xmlWriter->endElement(); // w:object
         $xmlWriter->endElement(); // w:r
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+
+        $this->endElementP(); // w:p
     }
 }

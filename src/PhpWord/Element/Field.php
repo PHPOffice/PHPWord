@@ -100,7 +100,7 @@ class Field extends AbstractElement
     public function setType($type = null)
     {
         if (isset($type)) {
-            if (array_key_exists($type, $this->fieldsArray)) {
+            if (isset($this->fieldsArray[$type])) {
                 $this->type = $type;
             } else {
                 throw new \InvalidArgumentException("Invalid type");
@@ -130,7 +130,7 @@ class Field extends AbstractElement
     {
         if (is_array($properties)) {
             foreach (array_keys($properties) as $propkey) {
-                if (!(array_key_exists($propkey, $this->fieldsArray[$this->type]['properties']))) {
+                if (!(isset($this->fieldsArray[$this->type]['properties'][$propkey]))) {
                     throw new \InvalidArgumentException("Invalid property");
                 }
             }
@@ -160,7 +160,7 @@ class Field extends AbstractElement
     {
         if (is_array($options)) {
             foreach (array_keys($options) as $optionkey) {
-                if (!(array_key_exists($optionkey, $this->fieldsArray[$this->type]['options']))) {
+                if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey]))) {
                     throw new \InvalidArgumentException("Invalid option");
                 }
             }

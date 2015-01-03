@@ -22,43 +22,63 @@ use PhpOffice\PhpWord\Style;
 /**
  * Test class for PhpOffice\PhpWord\Style
  *
+ * @coversDefaultClass \PhpOffice\PhpWord\Style
  * @runTestsInSeparateProcesses
  */
 class StyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Add and get paragraph, font, link, title, and table styles
+     *
+     * @covers ::addParagraphStyle
+     * @covers ::addFontStyle
+     * @covers ::addLinkStyle
+     * @covers ::addTitleStyle
+     * @covers ::addTableStyle
+     * @covers ::setDefaultParagraphStyle
+     * @covers ::countStyles
+     * @covers ::getStyle
+     * @covers ::resetStyles
+     * @covers ::getStyles
+     * @test
      */
     public function testStyles()
     {
         $paragraph = array('align' => 'center');
         $font = array('italic' => true, '_bold' => true);
         $table = array('bgColor' => 'CCCCCC');
-        $styles = array('Paragraph' => 'Paragraph', 'Font' => 'Font',
-            'Link' => 'Font', 'Table' => 'Table',
-            'Heading_1' => 'Font', 'Normal' => 'Paragraph');
-        $elementCount = 6;
+        $styles = array(
+            'Paragraph' => 'Paragraph',
+            'Font'      => 'Font',
+            'Link'      => 'Font',
+            'Table'     => 'Table',
+            'Heading_1' => 'Font',
+            'Normal'    => 'Paragraph',
+        );
 
         Style::addParagraphStyle('Paragraph', $paragraph);
         Style::addFontStyle('Font', $font);
         Style::addLinkStyle('Link', $font);
-        Style::addTableStyle('Table', $table);
+        // @todo Style::addNumberingStyle
         Style::addTitleStyle(1, $font);
+        Style::addTableStyle('Table', $table);
         Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertEquals($elementCount, count(Style::getStyles()));
+        $this->assertCount(count($styles), Style::getStyles());
         foreach ($styles as $name => $style) {
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$style}", Style::getStyle($name));
         }
         $this->assertNull(Style::getStyle('Unknown'));
 
         Style::resetStyles();
-        $this->assertEquals(0, count(Style::getStyles()));
-
+        $this->assertCount(0, Style::getStyles());
     }
 
     /**
-     * Set default paragraph style
+     * Test default paragraph style
+     *
+     * @covers ::setDefaultParagraphStyle
+     * @test
      */
     public function testDefaultParagraphStyle()
     {

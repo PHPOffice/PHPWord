@@ -35,9 +35,10 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'dompdf_config.inc.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
+     * @return void
      */
     public function save($filename = null)
     {

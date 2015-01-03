@@ -28,11 +28,12 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 class Content extends AbstractPart
 {
     /**
-     * Read content.xml
+     * Read content.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
@@ -57,7 +58,7 @@ class Content extends AbstractPart
                         $listItems = $xmlReader->getElements('text:list-item/text:p', $node);
                         foreach ($listItems as $listItem) {
                             // $listStyleName = $xmlReader->getAttribute('text:style-name', $listItem);
-                            $section->addListItem($listItem->nodeValue);
+                            $section->addListItem($listItem->nodeValue, 0);
                         }
                         break;
                 }

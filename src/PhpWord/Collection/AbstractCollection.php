@@ -57,10 +57,11 @@ abstract class AbstractCollection
     }
 
     /**
-     * Set item
+     * Set item.
      *
      * @param int $index
      * @param mixed $item
+     * @return void
      */
     public function setItem($index, $item)
     {

@@ -24,10 +24,12 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\TextBox as TextBoxStyleWriter;
  *
  * @since 0.11.0
  */
-class TextBox extends AbstractElement
+class TextBox extends Image
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -48,7 +50,10 @@ class TextBox extends AbstractElement
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t0202');
+
         $styleWriter->write();
+        $styleWriter->writeBorder();
+
         $xmlWriter->startElement('v:textbox');
         $styleWriter->writeInnerMargin();
 
@@ -59,13 +64,11 @@ class TextBox extends AbstractElement
         $xmlWriter->endElement(); // w:txbxContent
 
         $xmlWriter->endElement(); // v: textbox
-        $styleWriter->writeW10Wrap();
+
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+        $this->endElementP();
     }
 }

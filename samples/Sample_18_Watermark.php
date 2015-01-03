@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
@@ -10,7 +10,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $header = $section->addHeader();
 $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
-$section->addText('The header reference to the current section includes a watermark image.');
+$section->addText(htmlspecialchars('The header reference to the current section includes a watermark image.'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

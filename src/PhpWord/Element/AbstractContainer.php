@@ -17,28 +17,34 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Media;
-use PhpOffice\PhpWord\PhpWord;
-
 /**
  * Container abstract class
  *
- * @method Text addText($text, $fStyle = null, $pStyle = null)
- * @method TextRun addTextRun($pStyle = null)
- * @method Link addLink($target, $text = null, $fStyle = null, $pStyle = null)
- * @method PreserveText addPreserveText($text, $fStyle = null, $pStyle = null)
- * @method void addTextBreak($count = 1, $fStyle = null, $pStyle = null)
- * @method ListItem addListItem($text, $depth = 0, $fStyle = null, $listStyle = null, $pStyle = null)
- * @method ListItemRun addListItemRun($depth = 0, $listStyle = null, $pStyle = null)
- * @method Table addTable($style = null)
- * @method Image addImage($source, $style = null, $isWatermark = false)
- * @method Object addObject($source, $style = null)
- * @method Footnote addFootnote($pStyle = null)
- * @method Endnote addEndnote($pStyle = null)
- * @method CheckBox addCheckBox($name, $text, $fStyle = null, $pStyle = null)
- * @method TextBox addTextBox($style = null)
- * @method Field addField($type = null, $properties = array(), $options = array())
- * @method Line addLine($lineStyle = null)
+ * @method Text addText(string $text, mixed $fStyle = null, mixed $pStyle = null)
+ * @method TextRun addTextRun(mixed $pStyle = null)
+ * @method Bookmark addBookmark(string $name)
+ * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null)
+ * @method PreserveText addPreserveText(string $text, mixed $fStyle = null, mixed $pStyle = null)
+ * @method void addTextBreak(int $count = 1, mixed $fStyle = null, mixed $pStyle = null)
+ * @method ListItem addListItem(string $txt, int $depth = 0, mixed $font = null, mixed $list = null, mixed $para = null)
+ * @method ListItemRun addListItemRun(int $depth = 0, mixed $listStyle = null, mixed $pStyle = null)
+ * @method Footnote addFootnote(mixed $pStyle = null)
+ * @method Endnote addEndnote(mixed $pStyle = null)
+ * @method CheckBox addCheckBox(string $name, $text, mixed $fStyle = null, mixed $pStyle = null)
+ * @method Title addTitle(string $text, int $depth = 1)
+ * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
+ *
+ * @method PageBreak addPageBreak()
+ * @method Table addTable(mixed $style = null)
+ * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
+ * @method Object addObject(string $source, mixed $style = null)
+ * @method TextBox addTextBox(mixed $style = null)
+ * @method Field addField(string $type = null, array $properties = array(), array $options = array())
+ * @method Line addLine(mixed $lineStyle = null)
+ * @method Shape addShape(string $type, mixed $style = null)
+ * @method Chart addChart(string $type, array $categories, array $values, array $style = null)
+ * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
+ * @method SDT addSDT(string $type)
  *
  * @since 0.10.0
  */
@@ -72,17 +78,22 @@ abstract class AbstractContainer extends AbstractElement
      */
     public function __call($function, $args)
     {
-        $elements = array('Text', 'TextRun', 'Link', 'PreserveText', 'TextBreak',
-            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'Footnote',
-            'Endnote', 'CheckBox', 'TextBox', 'Field', 'Line');
+        $elements = array(
+            'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
+            'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
+            'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
+            'Chart', 'FormField', 'SDT'
+        );
         $functions = array();
-        for ($i = 0; $i < count($elements); $i++) {
-            $functions[$i] = 'add' . $elements[$i];
+        foreach ($elements as $element) {
+            $functions['add' . strtolower($element)] = $element;
         }
 
         // Run valid `add` command
-        if (in_array($function, $functions)) {
-            $element = str_replace('add', '', $function);
+        $function = strtolower($function);
+        if (isset($functions[$function])) {
+            $element = $functions[$function];
 
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
@@ -124,10 +135,6 @@ abstract class AbstractContainer extends AbstractElement
         if ($withoutP && ($elementName == 'Text' || $elementName == 'PreserveText')) {
             $args[3] = null; // Remove paragraph style for texts in textrun
         }
-        $source = '';
-        if (count($args) > 1) {
-            $source = $args[1];
-        }
 
         // Create element using reflection
         $reflection = new \ReflectionClass($elementClass);
@@ -137,15 +144,10 @@ abstract class AbstractContainer extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         $element = $reflection->newInstanceArgs($elementArgs);
 
-        // Set nested level and relation Id
-        $this->setElementNestedLevel($element);
-        $this->setElementRelationId($element, $elementName, $source);
-
-        // Set other properties and add element into collection
-        $element->setDocPart($this->getDocPart(), $this->getDocPartId());
+        // Set parent container
+        $element->setParentContainer($this);
         $element->setElementIndex($this->countElements() + 1);
         $element->setElementId();
-        $element->setPhpWord($this->phpWord);
 
         $this->elements[] = $element;
 
@@ -173,54 +175,6 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Set element nested level based on container; add one when it's inside a cell
-     */
-    private function setElementNestedLevel(AbstractElement $element)
-    {
-        if ($this->container == 'Cell') {
-            $element->setNestedLevel($this->getNestedLevel() + 1);
-        } else {
-            $element->setNestedLevel($this->getNestedLevel());
-        }
-    }
-
-    /**
-     * Set relation Id
-     *
-     * @param string $elementName
-     * @param string $source
-     */
-    private function setElementRelationId(AbstractElement $element, $elementName, $source)
-    {
-        $mediaContainer = $this->getMediaContainer();
-        $hasMediaRelation = in_array($elementName, array('Link', 'Image', 'Object'));
-        $hasOtherRelation = in_array($elementName, array('Footnote', 'Endnote', 'Title'));
-
-        // Set relation Id for media elements (link, image, object; legacy of OOXML)
-        // Only Image that needs to be passed to Media class
-        if ($hasMediaRelation) {
-            /** @var \PhpOffice\PhpWord\Element\Image $element Type hint */
-            $image = ($elementName == 'Image') ? $element : null;
-            $rId = Media::addElement($mediaContainer, strtolower($elementName), $source, $image);
-            $element->setRelationId($rId);
-        }
-
-        // Set relation Id for icon of object element
-        if ($elementName == 'Object') {
-            /** @var \PhpOffice\PhpWord\Element\Object $element Type hint */
-            $rIdIcon = Media::addElement($mediaContainer, 'image', $element->getIcon(), new Image($element->getIcon()));
-            $element->setImageRelationId($rIdIcon);
-        }
-
-        // Set relation Id for elements that will be registered in the Collection subnamespaces
-        if ($hasOtherRelation && $this->phpWord instanceof PhpWord) {
-            $addMethod = "add{$elementName}";
-            $rId = $this->phpWord->$addMethod($element);
-            $element->setRelationId($rId);
-        }
-    }
-
-    /**
      * Check if a method is allowed for the current container
      *
      * @param string $method
@@ -229,19 +183,22 @@ abstract class AbstractContainer extends AbstractElement
      */
     private function checkValidity($method)
     {
-        // Valid containers for each element
-        $allContainers = array(
-            'Section', 'Header', 'Footer', 'Footnote', 'Endnote',
-            'Cell', 'TextRun', 'TextBox', 'ListItemRun',
+        $generalContainers = array(
+            'Section', 'Header', 'Footer', 'Footnote', 'Endnote', 'Cell', 'TextRun', 'TextBox', 'ListItemRun',
         );
+
         $validContainers = array(
-            'Text'          => $allContainers,
-            'Link'          => $allContainers,
-            'TextBreak'     => $allContainers,
-            'Image'         => $allContainers,
-            'Object'        => $allContainers,
-            'Field'         => $allContainers,
-            'Line'          => $allContainers,
+            'Text'          => $generalContainers,
+            'Bookmark'      => $generalContainers,
+            'Link'          => $generalContainers,
+            'TextBreak'     => $generalContainers,
+            'Image'         => $generalContainers,
+            'Object'        => $generalContainers,
+            'Field'         => $generalContainers,
+            'Line'          => $generalContainers,
+            'Shape'         => $generalContainers,
+            'FormField'     => $generalContainers,
+            'SDT'           => $generalContainers,
             'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
@@ -251,7 +208,12 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote'      => array('Section', 'TextRun', 'Cell'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
             'PreserveText'  => array('Header', 'Footer', 'Cell'),
+            'Title'         => array('Section'),
+            'TOC'           => array('Section'),
+            'PageBreak'     => array('Section'),
+            'Chart'         => array('Section'),
         );
+
         // Special condition, e.g. preservetext can only exists in cell when
         // the cell is located in header or footer
         $validSubcontainers = array(
@@ -261,42 +223,25 @@ abstract class AbstractContainer extends AbstractElement
         );
 
         // Check if a method is valid for current container
-        if (array_key_exists($method, $validContainers)) {
+        if (isset($validContainers[$method])) {
             if (!in_array($this->container, $validContainers[$method])) {
-                throw new \BadMethodCallException("Cannot add $method in $this->container.");
+                throw new \BadMethodCallException("Cannot add {$method} in {$this->container}.");
             }
         }
+
         // Check if a method is valid for current container, located in other container
-        if (array_key_exists($method, $validSubcontainers)) {
+        if (isset($validSubcontainers[$method])) {
             $rules = $validSubcontainers[$method];
             $containers = $rules[0];
             $allowedDocParts = $rules[1];
             foreach ($containers as $container) {
                 if ($this->container == $container && !in_array($this->getDocPart(), $allowedDocParts)) {
-                    throw new \BadMethodCallException("Cannot add $method in $this->container.");
+                    throw new \BadMethodCallException("Cannot add {$method} in {$this->container}.");
                 }
             }
         }
 
         return true;
-    }
-
-    /**
-     * Return media element (image, object, link) container name
-     *
-     * @return string section|headerx|footerx|footnote|endnote
-     */
-    private function getMediaContainer()
-    {
-        $partName = $this->container;
-        if (in_array($partName, array('Cell', 'TextRun', 'TextBox', 'ListItemRun'))) {
-            $partName = $this->getDocPart();
-        }
-        if ($partName == 'Header' || $partName == 'Footer') {
-            $partName .= $this->getDocPartId();
-        }
-
-        return strtolower($partName);
     }
 
     /**

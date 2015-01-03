@@ -2,7 +2,7 @@
     "name": "phpoffice/phpword",
     "description": "PHPWord - A pure PHP library for reading and writing word processing documents (DOCX, ODT, RTF, HTML, PDF)",
     "keywords": [
-        "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
+        "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "template processor", "reader", "writer",
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
         "RTF", "Rich Text Format", "doc", "odt", "OpenDocument", "PDF", "HTML"
     ],
@@ -39,6 +39,9 @@
         "phpunit/phpunit": "3.7.*",
         "phpdocumentor/phpdocumentor":"2.*",
         "squizlabs/php_codesniffer": "1.*",
+        "phpmd/phpmd": "2.*",
+        "sebastian/phpcpd": "2.*",
+        "phploc/phploc": "2.*",
         "dompdf/dompdf":"0.6.*",
         "tecnick.com/tcpdf": "6.*",
         "mpdf/mpdf": "5.*"
@@ -47,7 +50,7 @@
         "ext-zip": "Used to write DOCX and ODT",
         "ext-gd2": "Used to add images",
         "ext-xmlwriter": "Used to write DOCX and ODT",
-        "ext-xsl": "Used to apply XSL style sheet to template part",
+        "ext-xsl": "Used to apply XSL style sheet to main document part of OOXML template",
         "dompdf/dompdf": "Used to write PDF"
     },
     "autoload": {

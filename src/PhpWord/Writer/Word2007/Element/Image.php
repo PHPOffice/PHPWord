@@ -29,7 +29,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 class Image extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -47,7 +49,9 @@ class Image extends AbstractElement
     }
 
     /**
-     * Write image element
+     * Write image element.
+     *
+     * @return void
      */
     private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
@@ -59,26 +63,30 @@ class Image extends AbstractElement
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
+
         $styleWriter->write();
+
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('o:title', '');
         $xmlWriter->endElement(); // v:imagedata
-        $styleWriter->writeW10Wrap();
+
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
 
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // w:p
-        }
+        $this->endElementP();
     }
+
     /**
-     * Write watermark element
+     * Write watermark element.
+     *
+     * @return void
      */
     private function writeWatermark(XMLWriter $xmlWriter, ImageElement $element)
     {
@@ -92,7 +100,9 @@ class Image extends AbstractElement
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
+
         $styleWriter->write();
+
         $xmlWriter->startElement('v:imagedata');
         $xmlWriter->writeAttribute('r:id', 'rId' . $rId);
         $xmlWriter->writeAttribute('o:title', '');

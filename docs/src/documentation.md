@@ -36,7 +36,15 @@ Don't forget to change `code::` directive to `code-block::` in the resulting rst
     - [Textboxes](#textboxes)
     - [Fields](#fields)
     - [Lines](#lines)
-- [Templates](#templates)
+    - [Shapes](#shapes)
+    - [Charts](#charts)
+    - [FormFields](#form-fields)
+- [Styles](#styles)
+    - [Section](#section)
+    - [Font](#font)
+    - [Paragraph](#paragraph)
+    - [Table](#table)
+- [Templates processing](#templates-processing)
 - [Writers & readers](#writers-readers)
     - [OOXML](#ooxml)
     - [OpenDocument](#opendocument)
@@ -70,6 +78,9 @@ PHPWord is an open source project licensed under the terms of [LGPL version 3](h
 - Insert list items as bulleted, numbered, or multilevel
 - Insert hyperlinks
 - Insert footnotes and endnotes
+- Insert drawing shapes (arc, curve, line, polyline, rect, oval)
+- Insert charts (pie, doughnut, bar, line, area, scatter, radar)
+- Insert form fields (textinput, checkbox, and dropdown)
 - Create document from templates
 - Use XSL 1.0 style sheets to transform main document part of OOXML template
 - ... and many more features on progress
@@ -101,9 +112,9 @@ Below are the supported features for each file formats.
 |                         | Footer             | ✓    |     |     |      |     |
 |                         | Footnote           | ✓    |     |     | ✓    |     |
 |                         | Endnote            | ✓    |     |     | ✓    |     |
-| **Graphs**              | 2D basic graphs    |      |     |     |      |     |
+| **Graphs**              | 2D basic graphs    | ✓    |     |     |      |     |
 |                         | 2D advanced graphs |      |     |     |      |     |
-|                         | 3D graphs          |      |     |     |      |     |
+|                         | 3D graphs          | ✓    |     |     |      |     |
 | **Math**                | OMML support       |      |     |     |      |     |
 |                         | MathML support     |      |     |     |      |     |
 | **Bonus**               | Encryption         |      |     |     |      |     |
@@ -201,46 +212,82 @@ After installation, you can browse and use the samples that we've provided, eith
 The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](https://github.com/PHPOffice/PHPWord/tree/master/samples/).
 
 ```php
+<?php
 require_once 'src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
+// Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-// Every element you want to append to the word document is placed in a section.
-// To create a basic section:
+/* Note: any element you append to a document must reside inside of a Section. */
+
+// Adding an empty Section to the document...
 $section = $phpWord->addSection();
+// Adding Text element to the Section having font styled by default...
+$section->addText(
+    htmlspecialchars(
+        '"Learn from yesterday, live for today, hope for tomorrow. '
+            . 'The important thing is not to stop questioning." '
+            . '(Albert Einstein)'
+    )
+);
 
-// After creating a section, you can append elements:
-$section->addText('Hello world!');
+/*
+ * Note: it's possible to customize font style of the Text element you add in three ways:
+ * - inline;
+ * - using named font style (new font style object will be implicitly created);
+ * - using explicitly created font style object.
+ */
 
-// You can directly style your text by giving the addText function an array:
-$section->addText('Hello world! I am formatted.',
-    array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+// Adding Text element with font customized inline...
+$section->addText(
+    htmlspecialchars(
+        '"Great achievement is usually born of great sacrifice, '
+            . 'and is never the result of selfishness." '
+            . '(Napoleon Hill)'
+    ),
+    array('name' => 'Tahoma', 'size' => 10)
+);
 
-// If you often need the same style again you can create a user defined style
-// to the word document and give the addText function the name of the style:
-$phpWord->addFontStyle('myOwnStyle',
-    array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-$section->addText('Hello world! I am formatted by a user defined style',
-    'myOwnStyle');
+// Adding Text element with font customized using named font style...
+$fontStyleName = 'oneUserDefinedStyle';
+$phpWord->addFontStyle(
+    $fontStyleName,
+    array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+);
+$section->addText(
+    htmlspecialchars(
+        '"The greatest accomplishment is not in never falling, '
+            . 'but in rising again after you fall." '
+            . '(Vince Lombardi)'
+    ),
+    $fontStyleName
+);
 
-// You can also put the appended element to local object like this:
+// Adding Text element with font customized using explicitly created font style object...
 $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
-$fontStyle->setName('Verdana');
-$fontStyle->setSize(22);
-$myTextElement = $section->addText('Hello World!');
+$fontStyle->setName('Tahoma');
+$fontStyle->setSize(13);
+$myTextElement = $section->addText(
+    htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)')
+);
 $myTextElement->setFontStyle($fontStyle);
 
-// Finally, write the document:
+// Saving the document as OOXML file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 
+// Saving the document as ODF file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
 $objWriter->save('helloWorld.odt');
 
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-$objWriter->save('helloWorld.rtf');
+// Saving the document as HTML file...
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+$objWriter->save('helloWorld.html');
+
+/* Note: we skip RTF, because it's not XML-based and requires a different example. */
+/* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
 
 ## Settings
@@ -272,12 +319,12 @@ $phpWord->setDefaultFontName('Times New Roman');
 $phpWord->setDefaultFontSize(12);
 ```
 
-## Document properties
+## Document information
 
-You can set the document properties such as title, creator, and company name. Use the following functions:
+You can set the document information such as title, creator, and company name. Use the following functions:
 
 ```php
-$properties = $phpWord->getDocumentProperties();
+$properties = $phpWord->getDocInfo();
 $properties->setCreator('My name');
 $properties->setCompany('My factory');
 $properties->setTitle('My title');
@@ -299,15 +346,15 @@ You can use PHPWord helper functions to convert inches, centimeters, or points t
 ```php
 // Paragraph with 6 points space after
 $phpWord->addParagraphStyle('My Style', array(
-    'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
+    'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(6))
 );
 
 $section = $phpWord->addSection();
-$sectionStyle = $section->getSettings();
+$sectionStyle = $section->getStyle();
 // half inch left margin
-$sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
+$sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Converter::inchToTwip(.5));
 // 2 cm right margin
-$sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
+$sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
 ```
 
 # Containers
@@ -319,51 +366,23 @@ Containers are objects where you can put elements (texts, lists, tables, etc). T
 Every visible element in word is placed inside of a section. To create a section, use the following code:
 
 ```php
-$section = $phpWord->addSection($sectionSettings);
+$section = $phpWord->addSection($sectionStyle);
 ```
 
-The `$sectionSettings` is an optional associative array that sets the section. Example:
+The `$sectionStyle` is an optional associative array that sets the section. Example:
 
 ```php
-$sectionSettings = array(
+$sectionStyle = array(
     'orientation' => 'landscape',
     'marginTop' => 600,
     'colsNum' => 2,
 );
 ```
 
-### Section settings
-
-Below are the available settings for section:
-
-- `orientation` Page orientation, i.e. 'portrait' (default) or 'landscape'
-- `marginTop` Page margin top in twips
-- `marginLeft` Page margin left in twips
-- `marginRight` Page margin right in twips
-- `marginBottom` Page margin bottom in twips
-- `borderTopSize` Border top size in twips
-- `borderTopColor` Border top color
-- `borderLeftSize` Border left size in twips
-- `borderLeftColor` Border left color
-- `borderRightSize` Border right size in twips
-- `borderRightColor` Border right color
-- `borderBottomSize` Border bottom size in twips
-- `borderBottomColor` Border bottom color
-- `headerHeight` Spacing to top of header
-- `footerHeight` Spacing to bottom of footer
-- `gutter` Page gutter spacing
-- `colsNum` Number of columns
-- `colsSpace` Spacing between columns
-- `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
-
-The following two settings are automatically set by the use of the `orientation` setting. You can alter them but that's not recommended.
-
-- `pageSizeW` Page width in twips
-- `pageSizeH` Page height in twips
 
 ### Page number
 
-You can change a section page number by using the `pageNumberingStart` property of the section.
+You can change a section page number by using the `pageNumberingStart` style of the section.
 
 ```php
 // Method 1
@@ -371,12 +390,12 @@ $section = $phpWord->addSection(array('pageNumberingStart' => 1));
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setPageNumberingStart(1);
+$section->getStyle()->setPageNumberingStart(1);
 ```
 
 ### Multicolumn
 
-You can change a section layout to multicolumn (like in a newspaper) by using the `breakType` and `colsNum` property of the section.
+You can change a section layout to multicolumn (like in a newspaper) by using the `breakType` and `colsNum` style of the section.
 
 ```php
 // Method 1
@@ -384,13 +403,13 @@ $section = $phpWord->addSection(array('breakType' => 'continuous', 'colsNum' => 
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setBreakType('continuous');
-$section->getSettings()->setColsNum(2);
+$section->getStyle()->setBreakType('continuous');
+$section->getStyle()->setColsNum(2);
 ```
 
 ### Line numbering
 
-You can apply line numbering to a section by using the `lineNumbering` property of the section.
+You can apply line numbering to a section by using the `lineNumbering` style of the section.
 
 ```php
 // Method 1
@@ -398,7 +417,7 @@ $section = $phpWord->addSection(array('lineNumbering' => array()));
 
 // Method 2
 $section = $phpWord->addSection();
-$section->getSettings()->setLineNumbering(array());
+$section->getStyle()->setLineNumbering(array());
 ```
 
 Below are the properties of the line numbering style.
@@ -465,6 +484,9 @@ Below are the matrix of element availability in each container. The column shows
 | 17  | TextBox       | v       | v      | v      | v    | -        | -        |
 | 18  | Field         | v       | v      | v      | v    | v        | v        |
 | 19  | Line          | v       | v      | v      | v    | v        | v        |
+| 20  | Shape         | v       | v      | v      | v    | v        | v        |
+| 21  | Chart         | v       | -      | -      | -    | -        | -        |
+| 22  | Form Fields   | v       | v      | v      | v    | v        | v        |
 
 Legend:
 
@@ -482,8 +504,6 @@ Text can be added by using `addText` and `addTextRun` method. `addText` is used 
 $section->addText($text, [$fontStyle], [$paragraphStyle]);
 $textrun = $section->addTextRun([$paragraphStyle]);
 ```
-
-### Text styles
 
 You can use the `$fontStyle` and `$paragraphStyle` variable to define text formatting. There are 2 options to style the inserted text elements, i.e. inline style by using array or defined style by adding style definition.
 
@@ -511,44 +531,6 @@ $paragraphStyle = array('align' => 'center');
 $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
 $text = $section->addText('Hello world!', 'pStyle');
 ```
-
-#### Font style
-
-Available font styles:
-
-- `name` Font name, e.g. *Arial*
-- `size` Font size, e.g. *20*, *22*,
-- `hint` Font content type, *default*, *eastAsia*, or *cs*
-- `bold` Bold, *true* or *false*
-- `italic` Italic, *true* or *false*
-- `superScript` Superscript, *true* or *false*
-- `subScript` Subscript, *true* or *false*
-- `underline` Underline, *dash*, *dotted*, etc.
-- `strikethrough` Strikethrough, *true* or *false*
-- `doubleStrikethrough` Double strikethrough, *true* or *false*
-- `color` Font color, e.g. *FF0000*
-- `fgColor` Font highlight color, e.g. *yellow*, *green*, *blue*
-- `bgColor` Font background color, e.g. *FF0000*
-- `smallCaps` Small caps, *true* or *false*
-- `allCaps` All caps, *true* or *false*
-
-#### Paragraph style
-
-Available paragraph styles:
-
-- `align` Paragraph alignment, *left*, *right* or *center*
-- `spaceBefore` Space before paragraph
-- `spaceAfter` Space after paragraph
-- `indent` Indent by how much
-- `hanging` Hanging by how much
-- `basedOn` Parent style
-- `next` Style for next paragraph
-- `widowControl` Allow first/last line to display on a separate page, *true* or *false*
-- `keepNext` Keep paragraph with next paragraph, *true* or *false*
-- `keepLines` Keep all lines on one page, *true* or *false*
-- `pageBreakBefore` Start paragraph on next page, *true* or *false*
-- `lineHeight` text line height, e.g. *1.0*, *1.5*, ect...
-- `tabs` Set of custom tab stops
 
 ### Titles
 
@@ -600,9 +582,9 @@ $section->addTextBreak([$breakCount], [$fontStyle], [$paragraphStyle]);
 
 There are two ways to insert a page breaks, using the `addPageBreak` method or using the `pageBreakBefore` style of paragraph.
 
-:: code-block:: php
-
-> \$section-\>addPageBreak();
+```php
+$section->addPageBreak();
+```
 
 ## Lists
 
@@ -641,20 +623,6 @@ $section->addListItem('List Item I.b', 1, null, 'multilevel');
 $section->addListItem('List Item II', 0, null, 'multilevel');
 ```
 
-Level styles:
-
-- `start` Starting value
-- `format` Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
-- `restart` Restart numbering level symbol
-- `suffix` Content between numbering symbol and paragraph text tab|space|nothing
-- `text` Numbering level text e.g. %1 for nonbullet or bullet character
-- `align` Numbering symbol align left|center|right|both
-- `left` See paragraph style
-- `hanging` See paragraph style
-- `tabPos` See paragraph style
-- `font` Font name
-- `hint` See font style
-
 ## Tables
 
 To add tables, rows, and cells, use the `addTable`, `addRow`, and `addCell` methods:
@@ -677,33 +645,6 @@ $firstRowStyle = array('bgColor' => '66BBFF');
 $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
 $table = $section->addTable('myTable');
 ```
-
-### Table, row, and cell styles
-
-Table styles:
-
-- `width` Table width in percent
-- `bgColor` Background color, e.g. '9966CC'
-- `border(Top|Right|Bottom|Left)Size` Border size in twips
-- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
-- `cellMargin(Top|Right|Bottom|Left)` Cell margin in twips
-
-Row styles:
-
-- `tblHeader` Repeat table row on every new page, *true* or *false*
-- `cantSplit` Table row cannot break across pages, *true* or *false*
-- `exactHeight` Row height is exact or at least
-
-Cell styles:
-
-- `width` Cell width in twips
-- `valign` Vertical alignment, *top*, *center*, *both*, *bottom*
-- `textDirection` Direction of text
-- `bgColor` Background color, e.g. '9966CC'
-- `border(Top|Right|Bottom|Left)Size` Border size in twips
-- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
-- `gridSpan` Number of columns spanned
-- `vMerge` *restart* or *continue*
 
 ### Cell span
 
@@ -746,17 +687,6 @@ $footer->addImage('http://example.com/image.php');
 $textrun = $section->addTextRun();
 $textrun->addImage('http://php.net/logo.jpg');
 ```
-
-### Image styles
-
-Available image styles:
-
-- `width` Width in pixels
-- `height` Height in pixels
-- `align` Image alignment, *left*, *right*, or *center*
-- `marginTop` Top margin in inches, can be negative
-- `marginLeft` Left margin in inches, can be negative
-- `wrappingStyle` Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*
 
 ### Watermarks
 
@@ -850,21 +780,158 @@ To be completed.
 
 To be completed.
 
-# Templates
+## Shapes
 
-You can create a docx template with included search-patterns that can be replaced by any value you wish. Only single-line values can be replaced. To load a template file, use the `loadTemplate` method. After loading the docx template, you can use the `setValue` method to change the value of a search pattern. The search-pattern model is: `${search-pattern}`. It is not possible to add new PHPWord elements to a loaded template file.
+To be completed.
+
+## Charts
+
+To be completed.
+
+## Form fields
+
+To be completed.
+
+# Styles
+
+## Section
+
+Below are the available styles for section:
+
+- `orientation` Page orientation, i.e. 'portrait' (default) or 'landscape'
+- `marginTop` Page margin top in twips
+- `marginLeft` Page margin left in twips
+- `marginRight` Page margin right in twips
+- `marginBottom` Page margin bottom in twips
+- `borderTopSize` Border top size in twips
+- `borderTopColor` Border top color
+- `borderLeftSize` Border left size in twips
+- `borderLeftColor` Border left color
+- `borderRightSize` Border right size in twips
+- `borderRightColor` Border right color
+- `borderBottomSize` Border bottom size in twips
+- `borderBottomColor` Border bottom color
+- `headerHeight` Spacing to top of header
+- `footerHeight` Spacing to bottom of footer
+- `gutter` Page gutter spacing
+- `colsNum` Number of columns
+- `colsSpace` Spacing between columns
+- `breakType` Section break type (nextPage, nextColumn, continuous, evenPage, oddPage)
+
+The following two styles are automatically set by the use of the `orientation` style. You can alter them but that's not recommended.
+
+- `pageSizeW` Page width in twips
+- `pageSizeH` Page height in twips
+
+## Font
+
+Available font styles:
+
+- `name` Font name, e.g. *Arial*
+- `size` Font size, e.g. *20*, *22*,
+- `hint` Font content type, *default*, *eastAsia*, or *cs*
+- `bold` Bold, *true* or *false*
+- `italic` Italic, *true* or *false*
+- `superScript` Superscript, *true* or *false*
+- `subScript` Subscript, *true* or *false*
+- `underline` Underline, *dash*, *dotted*, etc.
+- `strikethrough` Strikethrough, *true* or *false*
+- `doubleStrikethrough` Double strikethrough, *true* or *false*
+- `color` Font color, e.g. *FF0000*
+- `fgColor` Font highlight color, e.g. *yellow*, *green*, *blue*
+- `bgColor` Font background color, e.g. *FF0000*
+- `smallCaps` Small caps, *true* or *false*
+- `allCaps` All caps, *true* or *false*
+
+## Paragraph
+
+Available paragraph styles:
+
+- `align` Paragraph alignment, *left*, *right* or *center*
+- `spaceBefore` Space before paragraph
+- `spaceAfter` Space after paragraph
+- `indent` Indent by how much
+- `hanging` Hanging by how much
+- `basedOn` Parent style
+- `next` Style for next paragraph
+- `widowControl` Allow first/last line to display on a separate page, *true* or *false*
+- `keepNext` Keep paragraph with next paragraph, *true* or *false*
+- `keepLines` Keep all lines on one page, *true* or *false*
+- `pageBreakBefore` Start paragraph on next page, *true* or *false*
+- `lineHeight` text line height, e.g. *1.0*, *1.5*, ect...
+- `tabs` Set of custom tab stops
+
+## Table
+
+Table styles:
+
+- `width` Table width in percent
+- `bgColor` Background color, e.g. '9966CC'
+- `border(Top|Right|Bottom|Left)Size` Border size in twips
+- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
+- `cellMargin(Top|Right|Bottom|Left)` Cell margin in twips
+
+Row styles:
+
+- `tblHeader` Repeat table row on every new page, *true* or *false*
+- `cantSplit` Table row cannot break across pages, *true* or *false*
+- `exactHeight` Row height is exact or at least
+
+Cell styles:
+
+- `width` Cell width in twips
+- `valign` Vertical alignment, *top*, *center*, *both*, *bottom*
+- `textDirection` Direction of text
+- `bgColor` Background color, e.g. '9966CC'
+- `border(Top|Right|Bottom|Left)Size` Border size in twips
+- `border(Top|Right|Bottom|Left)Color` Border color, e.g. '9966CC'
+- `gridSpan` Number of columns spanned
+- `vMerge` *restart* or *continue*
+
+## Image
+
+Available image styles:
+
+- `width` Width in pixels
+- `height` Height in pixels
+- `align` Image alignment, *left*, *right*, or *center*
+- `marginTop` Top margin in inches, can be negative
+- `marginLeft` Left margin in inches, can be negative
+- `wrappingStyle` Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*
+
+## Numbering level
+
+- `start` Starting value
+- `format` Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
+- `restart` Restart numbering level symbol
+- `suffix` Content between numbering symbol and paragraph text tab|space|nothing
+- `text` Numbering level text e.g. %1 for nonbullet or bullet character
+- `align` Numbering symbol align left|center|right|both
+- `left` See paragraph style
+- `hanging` See paragraph style
+- `tabPos` See paragraph style
+- `font` Font name
+- `hint` See font style
+
+# Templates processing
+
+You can create a .docx document template with included search-patterns which can be replaced by any value you wish. Only single-line values can be replaced.
+
+To deal with a template file, use `new TemplateProcessor` statement. After TemplateProcessor instance creation the document template is copied into the temporary directory. Then you can use `TemplateProcessor::setValue` method to change the value of a search pattern. The search-pattern model is: `${search-pattern}`.
 
 Example:
 
 ```php
-$template = $phpWord->loadTemplate('Template.docx');
-$template->setValue('Name', 'Somebody someone');
-$template->setValue('Street', 'Coming-Undone-Street 32');
+$templateProcessor = new TemplateProcessor('Template.docx');
+$templateProcessor->setValue('Name', 'Somebody someone');
+$templateProcessor->setValue('Street', 'Coming-Undone-Street 32');
 ```
 
-See `Sample_07_TemplateCloneRow.php` for example on how to create multirow from a single row in a template by using `cloneRow`.
+It is not possible to directly add new OOXML elements to the template file being processed, but it is possible to transform main document part of the template using XSLT (see `TemplateProcessor::applyXslStyleSheet`).
 
-See `Sample_23_TemplateBlock.php` for example on how to clone a block of text using `cloneBlock` and delete a block of text using `deleteBlock`.
+See `Sample_07_TemplateCloneRow.php` for example on how to create multirow from a single row in a template by using `TemplateProcessor::cloneRow`.
+
+See `Sample_23_TemplateBlock.php` for example on how to clone a block of text using `TemplateProcessor::cloneBlock` and delete a block of text using `TemplateProcessor::deleteBlock`.
 
 # Writers & readers
 
@@ -1007,6 +1074,35 @@ $phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => 'hNum', 'num
 $section->addTitle('Heading 1', 1);
 $section->addTitle('Heading 2', 2);
 $section->addTitle('Heading 3', 3);
+```
+
+## Add a link within a title
+
+Apply 'HeadingN' paragraph style to TextRun or Link. Sample code:
+
+```php
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord->addTitleStyle(1, array('size' => 16, 'bold' => true));
+$phpWord->addTitleStyle(2, array('size' => 14, 'bold' => true));
+$phpWord->addFontStyle('Link', array('color' => '0000FF', 'underline' => 'single'));
+
+$section = $phpWord->addSection();
+
+// Textrun
+$textrun = $section->addTextRun('Heading1');
+$textrun->addText('The ');
+$textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord', 'Link');
+
+// Link
+$section->addLink('https://github.com/', 'GitHub', 'Link', 'Heading2');
+```
+
+## Remove [Compatibility Mode] text in the MS Word title bar
+
+Use the `Metadata\Compatibility\setOoxmlVersion(n)` method with `n` is the version of Office (14 = Office 2010, 15 = Office 2013).
+
+```php
+$phpWord->getCompatibility()->setOoxmlVersion(15);
 ```
 
 # Frequently asked questions

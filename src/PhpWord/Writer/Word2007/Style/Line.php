@@ -23,50 +23,13 @@ use PhpOffice\PhpWord\Style\Line as LineStyle;
  * Line style writer
  *
  */
-class Line extends Image
+class Line extends Frame
 {
     /**
-     * Write style
-     */
-    public function write()
-    {
-        $style = $this->getStyle();
-        if (!$style instanceof LineStyle) {
-            return;
-        }
-        $this->writeStyle($style);
-    }
-
-    /**
-     * Write style attribute
+     * Write Line stroke.
      *
-     * @param \PhpOffice\PhpWord\Style\Line $style
-     */
-    protected function writeStyle($style)
-    {
-        $xmlWriter = $this->getXmlWriter();
-
-        $styles = $this->getElementStyle($style);
-        if ($style->isFlip()) {
-            $styles['flip'] = 'y';
-        }
-        $imageStyle = $this->assembleStyle($styles);
-        $xmlWriter->writeAttribute('style', $imageStyle);
-
-        // Connector type
-        $xmlWriter->writeAttribute('o:connectortype', $style->getConnectorType());
-
-        // Weight
-        $weight = $style->getWeight();
-        $xmlWriter->writeAttributeIf($weight !== null, 'strokeweight', $weight . 'pt');
-
-        // Color
-        $color = $style->getColor();
-        $xmlWriter->writeAttributeIf($color !== null, 'strokecolor', $color);
-    }
-
-    /**
-     * Write Line stroke
+     * @return void
+     * @todo Merge with `Stroke` style
      */
     public function writeStroke()
     {
@@ -77,8 +40,6 @@ class Line extends Image
         }
 
         $dash = $style->getDash();
-        $beginArrow = $style->getBeginArrow();
-        $endArrow = $style->getEndArrow();
         $dashStyles = array(
             LineStyle::DASH_STYLE_DASH              => 'dash',
             LineStyle::DASH_STYLE_ROUND_DOT         => '1 1',
@@ -89,22 +50,22 @@ class Line extends Image
             LineStyle::DASH_STYLE_LONG_DASH_DOT_DOT => 'longDashDotDot',
         );
 
-        if (($dash !== null) || ($beginArrow !== null) || ($endArrow !== null)) {
-            $xmlWriter->startElement('v:stroke');
+        $xmlWriter->startElement('v:stroke');
 
-            $xmlWriter->writeAttributeIf($beginArrow !== null, 'startarrow', $beginArrow);
-            $xmlWriter->writeAttributeIf($endArrow !== null, 'endarrow', $endArrow);
+        $xmlWriter->writeAttributeIf($style->getWeight() !== null, 'weight', $style->getWeight() . 'pt');
+        $xmlWriter->writeAttributeIf($style->getColor() !== null, 'color', $style->getColor());
+        $xmlWriter->writeAttributeIf($style->getBeginArrow() !== null, 'startarrow', $style->getBeginArrow());
+        $xmlWriter->writeAttributeIf($style->getEndArrow() !== null, 'endarrow', $style->getEndArrow());
 
-            if ($dash !== null) {
-                if (array_key_exists($dash, $dashStyles)) {
-                    $xmlWriter->writeAttribute('dashstyle', $dashStyles[$dash]);
-                }
-                if ($dash == LineStyle::DASH_STYLE_ROUND_DOT) {
-                    $xmlWriter->writeAttribute('endcap', 'round');
-                }
+        if ($dash !== null) {
+            if (isset($dashStyles[$dash])) {
+                $xmlWriter->writeAttribute('dashstyle', $dashStyles[$dash]);
             }
-
-            $xmlWriter->endElement(); //v:stroke
+            if ($dash == LineStyle::DASH_STYLE_ROUND_DOT) {
+                $xmlWriter->writeAttribute('endcap', 'round');
+            }
         }
+
+        $xmlWriter->endElement(); //v:stroke
     }
 }

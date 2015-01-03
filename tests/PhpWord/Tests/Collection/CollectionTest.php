@@ -28,8 +28,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $object->addItem(new Footnote()); // addItem #1
 
         $this->assertEquals(2, $object->addItem(new Footnote())); // addItem #2. Should returns new item index
-        $this->assertEquals(2, $object->countItems()); // There are two items now
-        $this->assertEquals(2, count($object->getItems())); // getItems returns array
+        $this->assertCount(2, $object->getItems()); // getItems returns array
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $object->getItem(1)); // getItem returns object
         $this->assertNull($object->getItem(3)); // getItem returns null when invalid index is referenced
 

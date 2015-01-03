@@ -47,7 +47,7 @@ use PhpOffice\PhpWord\Shared\String;
  *
  * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_PPr.html
  */
-class Paragraph extends AbstractStyle
+class Paragraph extends Border
 {
     /**
      * @const int One line height equals 240 twip
@@ -153,6 +153,13 @@ class Paragraph extends AbstractStyle
     private $tabs = array();
 
     /**
+     * Shading
+     *
+     * @var \PhpOffice\PhpWord\Style\Shading
+     */
+    private $shading;
+
+    /**
      * Create new instance
      */
     public function __construct()
@@ -209,6 +216,7 @@ class Paragraph extends AbstractStyle
                 'level'         => $this->getNumLevel(),
             ),
             'tabs'              => $this->getTabs(),
+            'shading'           => $this->getShading(),
         );
 
         return $styles;
@@ -313,11 +321,7 @@ class Paragraph extends AbstractStyle
      */
     public function getIndent()
     {
-        if ($this->indentation !== null) {
-            return $this->indentation->getLeft();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->indentation, 'left');
     }
 
     /**
@@ -338,11 +342,7 @@ class Paragraph extends AbstractStyle
      */
     public function getHanging()
     {
-        if ($this->indentation !== null) {
-            return $this->indentation->getHanging();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->indentation, 'hanging');
     }
 
     /**
@@ -388,11 +388,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceBefore()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getBefore();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'before');
     }
 
     /**
@@ -413,11 +409,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpaceAfter()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getAfter();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'after');
     }
 
     /**
@@ -438,11 +430,7 @@ class Paragraph extends AbstractStyle
      */
     public function getSpacing()
     {
-        if ($this->spacing !== null) {
-            return $this->spacing->getLine();
-        } else {
-            return null;
-        }
+        return $this->getChildStyleValue($this->spacing, 'line');
     }
 
     /**
@@ -693,5 +681,28 @@ class Paragraph extends AbstractStyle
     public function getPageBreakBefore()
     {
         return $this->hasPageBreakBefore();
+    }
+
+    /**
+     * Get shading
+     *
+     * @return \PhpOffice\PhpWord\Style\Shading
+     */
+    public function getShading()
+    {
+        return $this->shading;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setShading($value = null)
+    {
+        $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
     }
 }

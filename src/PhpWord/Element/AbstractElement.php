@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
@@ -42,7 +43,7 @@ abstract class AbstractElement
     protected $sectionId;
 
     /**
-     * Document part type: section|header|footer
+     * Document part type: Section|Header|Footer|Footnote|Endnote
      *
      * Used by textrun and cell container to determine where the element is
      * located because it will affect the availability of other element,
@@ -94,6 +95,27 @@ abstract class AbstractElement
     private $nestedLevel = 0;
 
     /**
+     * Parent container type
+     *
+     * @var string
+     */
+    private $parentContainer;
+
+    /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = false;
+
+    /**
+     * Is part of collection; true for Title, Footnote, Endnote, and Chart
+     *
+     * @var bool
+     */
+    protected $collectionRelation = false;
+
+    /**
      * Get PhpWord
      *
      * @return \PhpOffice\PhpWord\PhpWord
@@ -104,13 +126,14 @@ abstract class AbstractElement
     }
 
     /**
-     * Set PhpWord as reference
+     * Set PhpWord as reference.
      *
-     * @param \PhpOffice\PhpWord\PhpWord
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function setPhpWord(PhpWord &$phpWord = null)
+    public function setPhpWord(PhpWord $phpWord = null)
     {
-        $this->phpWord = &$phpWord;
+        $this->phpWord = $phpWord;
     }
 
     /**
@@ -124,10 +147,11 @@ abstract class AbstractElement
     }
 
     /**
-     * Set doc part
+     * Set doc part.
      *
      * @param string $docPart
      * @param int $docPartId
+     * @return void
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -156,6 +180,21 @@ abstract class AbstractElement
     }
 
     /**
+     * Return media element (image, object, link) container name
+     *
+     * @return string section|headerx|footerx|footnote|endnote
+     */
+    private function getMediaPart()
+    {
+        $mediaPart = $this->docPart;
+        if ($mediaPart == 'Header' || $mediaPart == 'Footer') {
+            $mediaPart .= $this->docPartId;
+        }
+
+        return strtolower($mediaPart);
+    }
+
+    /**
      * Get element index
      *
      * @return int
@@ -166,9 +205,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set element index
+     * Set element index.
      *
      * @param int $value
+     * @return void
      */
     public function setElementIndex($value)
     {
@@ -186,7 +226,9 @@ abstract class AbstractElement
     }
 
     /**
-     * Set element unique ID from 6 first digit of md5
+     * Set element unique ID from 6 first digit of md5.
+     *
+     * @return void
      */
     public function setElementId()
     {
@@ -204,9 +246,10 @@ abstract class AbstractElement
     }
 
     /**
-     * Set relation Id
+     * Set relation Id.
      *
      * @param int $value
+     * @return void
      */
     public function setRelationId($value)
     {
@@ -224,13 +267,79 @@ abstract class AbstractElement
     }
 
     /**
-     * Set nested level
+     * Set parent container
      *
-     * @param int $value
+     * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $container
+     * @return void
      */
-    public function setNestedLevel($value)
+    public function setParentContainer(AbstractElement $container)
     {
-        $this->nestedLevel = $value;
+        $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
+
+        // Set nested level
+        $this->nestedLevel = $container->getNestedLevel();
+        if ($this->parentContainer == 'Cell') {
+            $this->nestedLevel++;
+        }
+
+        // Set phpword
+        $this->setPhpWord($container->getPhpWord());
+
+        // Set doc part
+        if (!$this instanceof Footnote) {
+            $this->setDocPart($container->getDocPart(), $container->getDocPartId());
+        }
+
+        $this->setMediaRelation();
+        $this->setCollectionRelation();
+    }
+
+    /**
+     * Set relation Id for media elements (link, image, object; legacy of OOXML)
+     *
+     * - Image element needs to be passed to Media object
+     * - Icon needs to be set for Object element
+     *
+     * @return void
+     */
+    private function setMediaRelation()
+    {
+        if (!$this instanceof Link && !$this instanceof Image && !$this instanceof Object) {
+            return;
+        }
+
+        $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+        $mediaPart = $this->getMediaPart();
+        $source = $this->getSource();
+        $image = null;
+        if ($this instanceof Image) {
+            $image = $this;
+        }
+        $rId = Media::addElement($mediaPart, strtolower($elementName), $source, $image);
+        $this->setRelationId($rId);
+
+        if ($this instanceof Object) {
+            $icon = $this->getIcon();
+            $rId = Media::addElement($mediaPart, 'image', $icon, new Image($icon));
+            $this->setImageRelationId($rId);
+        }
+    }
+
+    /**
+     * Set relation Id for elements that will be registered in the Collection subnamespaces.
+     *
+     * @return void
+     */
+    private function setCollectionRelation()
+    {
+        if ($this->collectionRelation === true && $this->phpWord instanceof PhpWord) {
+            $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
+            $addMethod = "add{$elementName}";
+            $rId = $this->phpWord->$addMethod($this);
+            $this->setRelationId($rId);
+        }
     }
 
     /**
@@ -244,14 +353,14 @@ abstract class AbstractElement
     }
 
     /**
-     * Set style value
+     * Set new style value
      *
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
      * @param bool $returnObject Always return object
      * @return mixed
      */
-    protected function setStyle($styleObject, $styleValue = null, $returnObject = false)
+    protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
         if (!is_null($styleValue) && is_array($styleValue)) {
             $styleObject->setStyleByArray($styleValue);
@@ -261,5 +370,26 @@ abstract class AbstractElement
         }
 
         return $style;
+    }
+
+    /**
+     * Set enum value
+     *
+     * @param mixed $value
+     * @param array $enum
+     * @param mixed $default
+     * @return mixed
+     * @throws \InvalidArgumentException
+     * @todo Merge with the same method in AbstractStyle
+     */
+    protected function setEnumVal($value = null, $enum = array(), $default = null)
+    {
+        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+            throw new \InvalidArgumentException("Invalid style value: {$value}");
+        } elseif ($value === null || trim($value) == '') {
+            $value = $default;
+        }
+
+        return $value;
     }
 }

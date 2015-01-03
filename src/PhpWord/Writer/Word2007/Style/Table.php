@@ -34,7 +34,9 @@ class Table extends AbstractStyle
     private $width;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -56,7 +58,11 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeStyle(XMLWriter $xmlWriter, TableStyle $style)
     {
@@ -83,11 +89,12 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write width
+     * Write width.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param int $width
      * @param string $unit
+     * @return void
      */
     private function writeWidth(XMLWriter $xmlWriter, $width, $unit)
     {
@@ -98,7 +105,11 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write margin
+     * Write margin.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeMargin(XMLWriter $xmlWriter, TableStyle $style)
     {
@@ -114,7 +125,11 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write border
+     * Write border.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeBorder(XMLWriter $xmlWriter, TableStyle $style)
     {
@@ -131,7 +146,11 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write row style
+     * Write row style.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeFirstRow(XMLWriter $xmlWriter, TableStyle $style)
     {
@@ -147,7 +166,11 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Write shading
+     * Write shading.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeShading(XMLWriter $xmlWriter, TableStyle $style)
     {
@@ -162,9 +185,10 @@ class Table extends AbstractStyle
     }
 
     /**
-     * Set width
+     * Set width.
      *
      * @param int $value
+     * @return void
      */
     public function setWidth($value = null)
     {

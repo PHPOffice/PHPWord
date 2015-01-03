@@ -16,57 +16,24 @@ section, use the following code:
 
 .. code-block:: php
 
-    $section = $phpWord->addSection($sectionSettings);
+    $section = $phpWord->addSection($sectionStyle);
 
-The ``$sectionSettings`` is an optional associative array that sets the
+The ``$sectionStyle`` is an optional associative array that sets the
 section. Example:
 
 .. code-block:: php
 
-    $sectionSettings = array(
+    $sectionStyle = array(
         'orientation' => 'landscape',
         'marginTop' => 600,
         'colsNum' => 2,
     );
 
-Section settings
-~~~~~~~~~~~~~~~~
-
-Below are the available settings for section:
-
--  ``orientation`` Page orientation, i.e. 'portrait' (default) or
-   'landscape'
--  ``marginTop`` Page margin top in twips
--  ``marginLeft`` Page margin left in twips
--  ``marginRight`` Page margin right in twips
--  ``marginBottom`` Page margin bottom in twips
--  ``borderTopSize`` Border top size in twips
--  ``borderTopColor`` Border top color
--  ``borderLeftSize`` Border left size in twips
--  ``borderLeftColor`` Border left color
--  ``borderRightSize`` Border right size in twips
--  ``borderRightColor`` Border right color
--  ``borderBottomSize`` Border bottom size in twips
--  ``borderBottomColor`` Border bottom color
--  ``headerHeight`` Spacing to top of header
--  ``footerHeight`` Spacing to bottom of footer
--  ``gutter`` Page gutter spacing
--  ``colsNum`` Number of columns
--  ``colsSpace`` Spacing between columns
--  ``breakType`` Section break type (nextPage, nextColumn, continuous,
-   evenPage, oddPage)
-
-The following two settings are automatically set by the use of the
-``orientation`` setting. You can alter them but that's not recommended.
-
--  ``pageSizeW`` Page width in twips
--  ``pageSizeH`` Page height in twips
-
 Page number
 ~~~~~~~~~~~
 
 You can change a section page number by using the ``pageNumberingStart``
-property of the section.
+style of the section.
 
 .. code-block:: php
 
@@ -75,13 +42,13 @@ property of the section.
 
     // Method 2
     $section = $phpWord->addSection();
-    $section->getSettings()->setPageNumberingStart(1);
+    $section->getStyle()->setPageNumberingStart(1);
 
 Multicolumn
 ~~~~~~~~~~~
 
 You can change a section layout to multicolumn (like in a newspaper) by
-using the ``breakType`` and ``colsNum`` property of the section.
+using the ``breakType`` and ``colsNum`` style of the section.
 
 .. code-block:: php
 
@@ -90,14 +57,14 @@ using the ``breakType`` and ``colsNum`` property of the section.
 
     // Method 2
     $section = $phpWord->addSection();
-    $section->getSettings()->setBreakType('continuous');
-    $section->getSettings()->setColsNum(2);
+    $section->getStyle()->setBreakType('continuous');
+    $section->getStyle()->setColsNum(2);
 
-
-### Line numbering
+Line numbering
+~~~~~~~~~~~~~~
 
 You can apply line numbering to a section by using the ``lineNumbering``
-property of the section.
+style of the section.
 
 .. code-block:: php
 
@@ -106,14 +73,15 @@ property of the section.
 
     // Method 2
     $section = $phpWord->addSection();
-    $section->getSettings()->setLineNumbering(array());
+    $section->getStyle()->setLineNumbering(array());
 
 Below are the properties of the line numbering style.
 
 -  ``start`` Line numbering starting value
 -  ``increment`` Line number increments
 -  ``distance`` Distance between text and line numbering in twip
--  ``restart`` Line numbering restart setting continuous|newPage|newSection
+-  ``restart`` Line numbering restart setting
+   continuous\|newPage\|newSection
 
 Headers
 -------

@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
-use PhpOffice\PhpWord\Element\Section;
 
 /**
  * Document reader
@@ -37,11 +37,12 @@ class Document extends AbstractPart
     private $phpWord;
 
     /**
-     * Read document.xml
+     * Read document.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
@@ -52,7 +53,7 @@ class Document extends AbstractPart
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
-                if (array_key_exists($node->nodeName, $readMethods)) {
+                if (isset($readMethods[$node->nodeName])) {
                     $readMethod = $readMethods[$node->nodeName];
                     $this->$readMethod($xmlReader, $node, $section);
                 }
@@ -61,18 +62,19 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read header footer
+     * Read header footer.
      *
      * @param array $settings
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
+     * @return void
      */
     private function readHeaderFooter($settings, Section &$section)
     {
         $readMethods = array('w:p' => 'readParagraph', 'w:tbl' => 'readTable');
 
-        if (is_array($settings) && array_key_exists('hf', $settings)) {
+        if (is_array($settings) && isset($settings['hf'])) {
             foreach ($settings['hf'] as $rId => $hfSetting) {
-                if (array_key_exists($rId, $this->rels['document'])) {
+                if (isset($this->rels['document'][$rId])) {
                     list($hfType, $xmlFile, $docPart) = array_values($this->rels['document'][$rId]);
                     $addMethod = "add{$hfType}";
                     $hfObject = $section->$addMethod($hfSetting['type']);
@@ -83,7 +85,7 @@ class Document extends AbstractPart
                     $nodes = $xmlReader->getElements('*');
                     if ($nodes->length > 0) {
                         foreach ($nodes as $node) {
-                            if (array_key_exists($node->nodeName, $readMethods)) {
+                            if (isset($readMethods[$node->nodeName])) {
                                 $readMethod = $readMethods[$node->nodeName];
                                 $this->$readMethod($xmlReader, $node, $hfObject, $docPart);
                             }
@@ -138,11 +140,12 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read w:p node
+     * Read w:p node.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
+     * @return void
      *
      * @todo <w:lastRenderedPageBreak>
      */
@@ -167,16 +170,17 @@ class Document extends AbstractPart
     }
 
     /**
-     * Read w:sectPr node
+     * Read w:sectPr node.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
      * @param \DOMElement $node
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
+     * @return void
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        $settings = $this->readSectionStyle($xmlReader, $node);
-        $section->setSettings($settings);
-        $this->readHeaderFooter($settings, $section);
+        $style = $this->readSectionStyle($xmlReader, $node);
+        $section->setStyle($style);
+        $this->readHeaderFooter($style, $section);
     }
 }

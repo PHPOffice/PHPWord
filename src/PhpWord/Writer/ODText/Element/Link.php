@@ -41,7 +41,7 @@ class Link extends AbstractElement
 
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
-        $xmlWriter->writeAttribute('xlink:href', $element->getTarget());
+        $xmlWriter->writeAttribute('xlink:href', $element->getSource());
         $xmlWriter->writeRaw($element->getText());
         $xmlWriter->endElement(); // text:a
 

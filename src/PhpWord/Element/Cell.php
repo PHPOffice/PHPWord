@@ -52,7 +52,7 @@ class Cell extends AbstractContainer
     public function __construct($width = null, $style = null)
     {
         $this->width = $width;
-        $this->style = $this->setStyle(new CellStyle(), $style, true);
+        $this->style = $this->setNewStyle(new CellStyle(), $style, true);
     }
 
     /**

@@ -127,6 +127,24 @@ abstract class AbstractStyle
     }
 
     /**
+     * Return style value of child style object, e.g. `left` from `Indentation` child style of `Paragraph`
+     *
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
+     * @param string $substyleProperty
+     * @return mixed
+     * @since 0.12.0
+     */
+    public function getChildStyleValue($substyleObject, $substyleProperty)
+    {
+        if ($substyleObject !== null) {
+            $method = "get{$substyleProperty}";
+            return $substyleObject->$method();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Set style value template method
      *
      * Some child classes have their own specific overrides.
@@ -226,8 +244,10 @@ abstract class AbstractStyle
         if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
             $value = intval($value);
         }
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             $value = $default;
+        } else {
+            $value = intval($value);
         }
 
         return $value;
@@ -264,7 +284,7 @@ abstract class AbstractStyle
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
         if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
-            throw new \InvalidArgumentException('Invalid style value.');
+            throw new \InvalidArgumentException("Invalid style value: {$value} Options:".join(',', $enum));
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
         }
@@ -277,7 +297,7 @@ abstract class AbstractStyle
      *
      * @param mixed $value
      * @param string $styleName
-     * @param mixed $style
+     * @param mixed &$style
      * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
@@ -294,6 +314,24 @@ abstract class AbstractStyle
         }
 
         return $style;
+    }
+
+    /**
+     * Set $property value and set $pairProperty = false when $value = true
+     *
+     * @param bool &$property
+     * @param bool &$pairProperty
+     * @param bool $value
+     * @return self
+     */
+    protected function setPairedVal(&$property, &$pairProperty, $value)
+    {
+        $property = $this->setBoolVal($value, $property);
+        if ($value == true) {
+            $pairProperty = false;
+        }
+
+        return $this;
     }
 
     /**

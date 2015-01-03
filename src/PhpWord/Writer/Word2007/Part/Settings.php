@@ -25,74 +25,20 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 class Settings extends AbstractPart
 {
     /**
+     * Settings value
+     *
+     * @var array
+     */
+    private $settings = array();
+
+    /**
      * Write part
      *
      * @return string
      */
     public function write()
     {
-        $settings = array(
-            'w:zoom' => array('@attributes' => array('w:percent' => '100')),
-            'w:embedSystemFonts' => '',
-            'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
-            'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
-            'w:doNotHyphenateCaps' => '',
-            'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
-            'w:doNotValidateAgainstSchema' => '',
-            'w:doNotDemarcateInvalidXml' => '',
-            'w:compat' => array(
-                'w:useNormalStyleForList' => '',
-                'w:doNotUseIndentAsNumberingTabStop' => '',
-                'w:useAltKinsokuLineBreakRules' => '',
-                'w:allowSpaceOfSameStyleInTable' => '',
-                'w:doNotSuppressIndentation' => '',
-                'w:doNotAutofitConstrainedTables' => '',
-                'w:autofitToFirstFixedWidthCell' => '',
-                'w:underlineTabInNumList' => '',
-                'w:displayHangulFixedWidth' => '',
-                'w:splitPgBreakAndParaMark' => '',
-                'w:doNotVertAlignCellWithSp' => '',
-                'w:doNotBreakConstrainedForcedTable' => '',
-                'w:doNotVertAlignInTxbx' => '',
-                'w:useAnsiKerningPairs' => '',
-                'w:cachedColBalance' => '',
-            ),
-            'm:mathPr' => array(
-                'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
-                'm:brkBin' => array('@attributes' => array('m:val' => 'before')),
-                'm:brkBinSub' => array('@attributes' => array('m:val' => '--')),
-                'm:smallFrac' => array('@attributes' => array('m:val' => 'off')),
-                'm:dispDef' => '',
-                'm:lMargin' => array('@attributes' => array('m:val' => '0')),
-                'm:rMargin' => array('@attributes' => array('m:val' => '0')),
-                'm:defJc' => array('@attributes' => array('m:val' => 'centerGroup')),
-                'm:wrapIndent' => array('@attributes' => array('m:val' => '1440')),
-                'm:intLim' => array('@attributes' => array('m:val' => 'subSup')),
-                'm:naryLim' => array('@attributes' => array('m:val' => 'undOvr')),
-            ),
-            'w:uiCompat97To2003' => '',
-            'w:themeFontLang' => array('@attributes' => array('w:val' => 'de-DE')),
-            'w:clrSchemeMapping' => array(
-                '@attributes' => array(
-                    'w:bg1' => 'light1',
-                    'w:t1' => 'dark1',
-                    'w:bg2' => 'light2',
-                    'w:t2' => 'dark2',
-                    'w:accent1' => 'accent1',
-                    'w:accent2' => 'accent2',
-                    'w:accent3' => 'accent3',
-                    'w:accent4' => 'accent4',
-                    'w:accent5' => 'accent5',
-                    'w:accent6' => 'accent6',
-                    'w:hyperlink' => 'hyperlink',
-                    'w:followedHyperlink' => 'followedHyperlink',
-                ),
-            ),
-            'w:doNotIncludeSubdocsInStats' => '',
-            'w:doNotAutoCompressPictures' => '',
-            'w:decimalSymbol' => array('@attributes' => array('w:val' => ',')),
-            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
-        );
+        $this->getSettings();
 
         $xmlWriter = $this->getXmlWriter();
 
@@ -106,7 +52,7 @@ class Settings extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $xmlWriter->writeAttribute('xmlns:w10', 'urn:schemas-microsoft-com:office:word');
 
-        foreach ($settings as $settingKey => $settingValue) {
+        foreach ($this->settings as $settingKey => $settingValue) {
             $this->writeSetting($xmlWriter, $settingKey, $settingValue);
         }
 
@@ -116,11 +62,12 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Write indivual setting, recursive to any child settings
+     * Write indivual setting, recursive to any child settings.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $settingKey
      * @param array|string $settingValue
+     * @return void
      */
     protected function writeSetting($xmlWriter, $settingKey, $settingValue)
     {
@@ -140,6 +87,94 @@ class Settings extends AbstractPart
                 }
             }
             $xmlWriter->endElement();
+        }
+    }
+
+    /**
+     * Get settings.
+     *
+     * @return void
+     */
+    private function getSettings()
+    {
+        // Default settings
+        $this->settings = array(
+            'w:zoom' => array('@attributes' => array('w:percent' => '100')),
+            'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
+            'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
+            'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
+            'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
+            'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
+            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
+            'w:compat' => '',
+            'm:mathPr' => array(
+                'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
+                'm:brkBin' => array('@attributes' => array('m:val' => 'before')),
+                'm:brkBinSub' => array('@attributes' => array('m:val' => '--')),
+                'm:smallFrac' => array('@attributes' => array('m:val' => 'off')),
+                'm:dispDef' => '',
+                'm:lMargin' => array('@attributes' => array('m:val' => '0')),
+                'm:rMargin' => array('@attributes' => array('m:val' => '0')),
+                'm:defJc' => array('@attributes' => array('m:val' => 'centerGroup')),
+                'm:wrapIndent' => array('@attributes' => array('m:val' => '1440')),
+                'm:intLim' => array('@attributes' => array('m:val' => 'subSup')),
+                'm:naryLim' => array('@attributes' => array('m:val' => 'undOvr')),
+            ),
+            'w:clrSchemeMapping' => array(
+                '@attributes' => array(
+                    'w:bg1' => 'light1',
+                    'w:t1' => 'dark1',
+                    'w:bg2' => 'light2',
+                    'w:t2' => 'dark2',
+                    'w:accent1' => 'accent1',
+                    'w:accent2' => 'accent2',
+                    'w:accent3' => 'accent3',
+                    'w:accent4' => 'accent4',
+                    'w:accent5' => 'accent5',
+                    'w:accent6' => 'accent6',
+                    'w:hyperlink' => 'hyperlink',
+                    'w:followedHyperlink' => 'followedHyperlink',
+                ),
+            ),
+        );
+
+        // Other settings
+        $this->getProtection();
+        $this->getCompatibility();
+    }
+
+    /**
+     * Get protection settings.
+     *
+     * @return void
+     */
+    private function getProtection()
+    {
+        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
+        if ($protection->getEditing() !== null) {
+            $this->settings['w:documentProtection'] = array(
+                '@attributes' => array(
+                    'w:enforcement' => 1,
+                    'w:edit' => $protection->getEditing(),
+                )
+            );
+        }
+    }
+
+    /**
+     * Get compatibility setting.
+     *
+     * @return void
+     */
+    private function getCompatibility()
+    {
+        $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
+        if ($compatibility->getOoxmlVersion() !== null) {
+            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
+                'w:name'    => 'compatibilityMode',
+                'w:uri'     => 'http://schemas.microsoft.com/office/word',
+                'w:val'     => $compatibility->getOoxmlVersion(),
+            ));
         }
     }
 }

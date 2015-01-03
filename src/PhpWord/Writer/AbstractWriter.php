@@ -17,8 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
@@ -213,18 +215,15 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $this->setTempDir(sys_get_temp_dir() . '/PHPWordWriter/');
+        $this->setTempDir(Settings::getTempDir() . '/PHPWordWriter/');
 
         // Temporary file
         $this->originalFilename = $filename;
         if (strtolower($filename) == 'php://output' || strtolower($filename) == 'php://stdout') {
-            $filename = @tempnam(sys_get_temp_dir(), 'phpword_');
-            // @codeCoverageIgnoreStart
-            // Can't find any test case. Uncomment when found.
-            if ($filename == '') {
+            $filename = tempnam(Settings::getTempDir(), 'PhpWord');
+            if (false === $filename) {
                 $filename = $this->originalFilename;
             }
-            // @codeCoverageIgnoreEnd
         }
         $this->tempFilename = $filename;
 
@@ -232,15 +231,18 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Cleanup temporary file
+     * Cleanup temporary file.
+     *
+     * @return void
+     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
     protected function cleanupTempFile()
     {
         if ($this->originalFilename != $this->tempFilename) {
             // @codeCoverageIgnoreStart
             // Can't find any test case. Uncomment when found.
-            if (copy($this->tempFilename, $this->originalFilename) === false) {
-                throw new Exception("Could not copy temporary zip file.");
+            if (false === copy($this->tempFilename, $this->originalFilename)) {
+                throw new CopyFileException($this->tempFilename, $this->originalFilename);
             }
             // @codeCoverageIgnoreEnd
             @unlink($this->tempFilename);
@@ -250,7 +252,9 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Clear temporary directory
+     * Clear temporary directory.
+     *
+     * @return void
      */
     protected function clearTempDir()
     {
@@ -311,13 +315,15 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Write content to file
+     * Write content to file.
+     *
+     * @since 0.11.0
      *
      * @param resource $fileHandle
      * @param string $content
-     * @since 0.11.0
+     * @return void
      */
-    protected function writeFile(&$fileHandle, $content)
+    protected function writeFile($fileHandle, $content)
     {
         fwrite($fileHandle, $content);
         fclose($fileHandle);
@@ -325,10 +331,11 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add files to package
+     * Add files to package.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param mixed $elements
+     * @return void
      */
     protected function addFilesToPackage(ZipArchive $zip, $elements)
     {
@@ -336,7 +343,7 @@ abstract class AbstractWriter implements WriterInterface
             $type = $element['type']; // image|object|link
 
             // Skip nonregistered types and set target
-            if (!array_key_exists($type, $this->mediaPaths)) {
+            if (!isset($this->mediaPaths[$type])) {
                 continue;
             }
             $target = $this->mediaPaths[$type] . $element['target'];
@@ -357,13 +364,14 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add file to package
+     * Add file to package.
      *
-     * Get the actual source from an archive image
+     * Get the actual source from an archive image.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zipPackage
      * @param string $source
      * @param string $target
+     * @return void
      */
     protected function addFileToPackage($zipPackage, $source, $target)
     {
@@ -391,9 +399,10 @@ abstract class AbstractWriter implements WriterInterface
     }
 
     /**
-     * Delete directory
+     * Delete directory.
      *
      * @param string $dir
+     * @return void
      */
     private function deleteDir($dir)
     {

@@ -35,8 +35,8 @@ class Section extends Border
      *
      * @const int|float
      */
-    const DEFAULT_WIDTH = 11906; // In twip
-    const DEFAULT_HEIGHT = 16838; // In twip
+    const DEFAULT_WIDTH = 11870; // In twip
+    const DEFAULT_HEIGHT = 16787; // In twip
     const DEFAULT_MARGIN = 1440; // In twip
     const DEFAULT_GUTTER = 0; // In twip
     const DEFAULT_HEADER_HEIGHT = 720; // In twip
@@ -51,6 +51,13 @@ class Section extends Border
      * @link http://www.schemacentral.com/sc/ooxml/a-w_orient-1.html
      */
     private $orientation = self::ORIENTATION_PORTRAIT;
+
+    /**
+     * Paper size
+     *
+     * @var \PhpOffice\PhpWord\Style\Paper
+     */
+    private $paper;
 
     /**
      * Page Size Width
@@ -160,6 +167,42 @@ class Section extends Border
     private $lineNumbering;
 
     /**
+     * Create new instance
+     */
+    public function __construct()
+    {
+        $this->setPaperSize();
+    }
+
+    /**
+     * Get paper size
+     *
+     * @return string
+     */
+    public function getPaperSize()
+    {
+        return $this->paper->getSize();
+    }
+
+    /**
+     * Set paper size
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setPaperSize($value = 'A4')
+    {
+        if ($this->paper === null) {
+            $this->paper = new Paper();
+        }
+        $this->paper->setSize($value);
+        $this->pageSizeW = $this->paper->getWidth();
+        $this->pageSizeH = $this->paper->getHeight();
+
+        return $this;
+    }
+
+    /**
      * Set Setting Value
      *
      * @param string $key
@@ -232,7 +275,9 @@ class Section extends Border
     /**
      * Get Page Size Width
      *
-     * @return int|float
+     * @return int|float|null
+     *
+     * @since 0.12.0
      */
     public function getPageSizeW()
     {
@@ -240,13 +285,43 @@ class Section extends Border
     }
 
     /**
+     * @param int|float|null $value
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     *
+     * @since 0.12.0
+     */
+    public function setPageSizeW($value = null)
+    {
+        $this->pageSizeW = $this->setNumericVal($value, self::DEFAULT_WIDTH);
+
+        return $this;
+    }
+
+    /**
      * Get Page Size Height
      *
-     * @return int|float
+     * @return int|float|null
+     *
+     * @since 0.12.0
      */
     public function getPageSizeH()
     {
         return $this->pageSizeH;
+    }
+
+    /**
+     * @param int|float|null $value
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     *
+     * @since 0.12.0
+     */
+    public function setPageSizeH($value = null)
+    {
+        $this->pageSizeH = $this->setNumericVal($value, self::DEFAULT_HEIGHT);
+
+        return $this;
     }
 
     /**

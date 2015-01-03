@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 class LineNumbering extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      *
      * The w:start seems to be zero based so we have to decrement by one
      */

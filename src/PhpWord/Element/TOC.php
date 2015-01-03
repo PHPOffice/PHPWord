@@ -129,9 +129,10 @@ class TOC extends AbstractElement
     }
 
     /**
-     * Set max depth
+     * Set max depth.
      *
      * @param int $value
+     * @return void
      */
     public function setMaxDepth($value)
     {
@@ -149,9 +150,10 @@ class TOC extends AbstractElement
     }
 
     /**
-     * Set min depth
+     * Set min depth.
      *
      * @param int $value
+     * @return void
      */
     public function setMinDepth($value)
     {

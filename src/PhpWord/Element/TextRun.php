@@ -43,7 +43,7 @@ class TextRun extends AbstractContainer
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
     }
 
     /**

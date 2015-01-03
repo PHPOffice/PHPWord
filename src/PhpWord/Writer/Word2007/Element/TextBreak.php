@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class TextBreak extends Text
 {
     /**
-     * Write text break element
+     * Write text break element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -37,13 +39,15 @@ class TextBreak extends Text
 
         if (!$this->withoutP) {
             $hasStyle = $element->hasStyle();
-            $this->writeOpeningWP();
+            $this->startElementP();
+
             if ($hasStyle) {
                 $xmlWriter->startElement('w:pPr');
                 $this->writeFontStyle();
                 $xmlWriter->endElement(); // w:pPr
             }
-            $this->writeClosingWP();
+
+            $this->endElementP(); // w:p
         } else {
             $xmlWriter->writeElement('w:br');
         }

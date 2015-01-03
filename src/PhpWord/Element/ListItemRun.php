@@ -59,13 +59,15 @@ class ListItemRun extends TextRun
         if (!is_null($listStyle) && is_string($listStyle)) {
             $this->style = new ListItemStyle($listStyle);
         } else {
-            $this->style = $this->setStyle(new ListItemStyle(), $listStyle, true);
+            $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
     }
 
     /**
-     * Get ListItem style
+     * Get ListItem style.
+     *
+     * @return \PhpOffice\PhpWord\Style\ListItem
      */
     public function getStyle()
     {
@@ -73,7 +75,9 @@ class ListItemRun extends TextRun
     }
 
      /**
-     * Get ListItem depth
+     * Get ListItem depth.
+      *
+      * @return int
      */
     public function getDepth()
     {

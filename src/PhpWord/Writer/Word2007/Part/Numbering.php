@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 use PhpOffice\PhpWord\Style\NumberingLevel;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Word2007 numbering part writer: word/numbering.xml
@@ -95,7 +95,11 @@ class Numbering extends AbstractPart
     }
 
     /**
-     * Write level
+     * Write level.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
+     * @return void
      */
     private function writeLevel(XMLWriter $xmlWriter, NumberingLevel $level)
     {
@@ -129,9 +133,13 @@ class Numbering extends AbstractPart
     }
 
     /**
-     * Write level paragraph
+     * Write level paragraph.
      *
      * @since 0.11.0
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
+     * @return void
      * @todo Use paragraph style writer
      */
     private function writeParagraph(XMLWriter $xmlWriter, NumberingLevel $level)
@@ -158,9 +166,13 @@ class Numbering extends AbstractPart
     }
 
     /**
-     * Write level font
+     * Write level font.
      *
      * @since 0.11.0
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\NumberingLevel $level
+     * @return void
      * @todo Use font style writer
      */
     private function writeFont(XMLWriter $xmlWriter, NumberingLevel $level)

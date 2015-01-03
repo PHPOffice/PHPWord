@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
-use PhpOffice\PhpWord\DocumentProperties;
+use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
@@ -35,22 +35,9 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $phpWord = new PhpWord();
-        $this->assertEquals(new DocumentProperties(), $phpWord->getDocumentProperties());
+        $this->assertEquals(new DocInfo(), $phpWord->getDocInfo());
         $this->assertEquals(Settings::DEFAULT_FONT_NAME, $phpWord->getDefaultFontName());
         $this->assertEquals(Settings::DEFAULT_FONT_SIZE, $phpWord->getDefaultFontSize());
-    }
-
-    /**
-     * Test set/get document properties
-     */
-    public function testSetGetDocumentProperties()
-    {
-        $phpWord = new PhpWord();
-        $creator = 'PhpWord';
-        $properties = $phpWord->getDocumentProperties();
-        $properties->setCreator($creator);
-        $phpWord->setDocumentProperties($properties);
-        $this->assertEquals($creator, $phpWord->getDocumentProperties()->getCreator());
     }
 
     /**
@@ -60,7 +47,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addSection();
-        $this->assertEquals(1, count($phpWord->getSections()));
+        $this->assertCount(1, $phpWord->getSections());
     }
 
     /**
@@ -132,6 +119,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test load template
+     *
+     * @deprecated 0.12.0
      */
     public function testLoadTemplate()
     {
@@ -139,13 +128,15 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $this->assertInstanceOf(
-            'PhpOffice\\PhpWord\\Template',
+            'PhpOffice\\PhpWord\\TemplateProcessor',
             $phpWord->loadTemplate($templateFqfn)
         );
     }
 
     /**
      * Test load template exception
+     *
+     * @deprecated 0.12.0
      *
      * @expectedException \PhpOffice\PhpWord\Exception\Exception
      */
@@ -157,5 +148,29 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
         );
         $phpWord = new PhpWord();
         $phpWord->loadTemplate($templateFqfn);
+    }
+
+    /**
+     * Test save
+     */
+    public function testSave()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('Hello world!');
+
+        $this->assertTrue($phpWord->save('test.docx', 'Word2007', true));
+    }
+
+    /**
+     * Test calling undefined method
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage is not defined
+     */
+    public function testCallUndefinedMethod()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->undefinedMethod();
     }
 }

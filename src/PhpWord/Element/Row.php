@@ -56,7 +56,7 @@ class Row extends AbstractElement
     public function __construct($height = null, $style = null)
     {
         $this->height = $height;
-        $this->style = $this->setStyle(new RowStyle(), $style, true);
+        $this->style = $this->setNewStyle(new RowStyle(), $style, true);
     }
 
     /**
@@ -69,9 +69,7 @@ class Row extends AbstractElement
     public function addCell($width = null, $style = null)
     {
         $cell = new Cell($width, $style);
-        $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $cell->setPhpWord($this->phpWord);
-        $cell->setNestedLevel($this->getNestedLevel());
+        $cell->setParentContainer($this);
         $this->cells[] = $cell;
 
         return $cell;

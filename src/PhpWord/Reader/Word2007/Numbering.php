@@ -28,11 +28,12 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 class Numbering extends AbstractPart
 {
     /**
-     * Read numbering.xml
+     * Read numbering.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $abstracts = array();
         $numberings = array();

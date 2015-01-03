@@ -75,10 +75,11 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write default font and other default styles
+     * Write default font and other default styles.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
+     * @return void
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
@@ -113,14 +114,14 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:name');
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
-        if (array_key_exists('Normal', $styles)) {
+        if (isset($styles['Normal'])) {
             $styleWriter = new ParagraphStyleWriter($xmlWriter, $styles['Normal']);
             $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style
 
         // FootnoteReference style
-        if (!array_key_exists('FootnoteReference', $styles)) {
+        if (!isset($styles['FootnoteReference'])) {
             $xmlWriter->startElement('w:style');
             $xmlWriter->writeAttribute('w:type', 'character');
             $xmlWriter->writeAttribute('w:styleId', 'FootnoteReference');
@@ -139,11 +140,12 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write font style
+     * Write font style.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Font $style
+     * @return void
      */
     private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style)
     {
@@ -192,11 +194,12 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write paragraph style
+     * Write paragraph style.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Paragraph $style
+     * @return void
      */
     private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style)
     {
@@ -224,11 +227,12 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write table style
+     * Write table style.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Table $style
+     * @return void
      */
     private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style)
     {

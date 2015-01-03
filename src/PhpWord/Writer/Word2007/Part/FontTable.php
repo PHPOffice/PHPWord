@@ -26,7 +26,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 class FontTable extends AbstractPart
 {
     /**
-     * Write fontTable.xml
+     * Write fontTable.xml.
+     *
+     * @return string
      */
     public function write()
     {

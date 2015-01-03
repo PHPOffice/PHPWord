@@ -35,9 +35,10 @@ class TCPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'tcpdf.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
+     * @return vois
      */
     public function save($filename = null)
     {
@@ -58,7 +59,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
 
         // Write document properties
         $phpWord = $this->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $pdf->setTitle($docProps->getTitle());
         $pdf->setAuthor($docProps->getCreator());
         $pdf->setSubject($docProps->getSubject());

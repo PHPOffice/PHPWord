@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Style\Section as SectionStyle;
 class Section extends AbstractStyle
 {
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {

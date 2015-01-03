@@ -34,7 +34,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         // Default
         $section = new Section(1);
-        $this->assertEquals(0, $section->countElements());
+        $this->assertCount(0, $section->getElements());
 
         // Heading
         $styles = array('strong', 'em', 'sup', 'sub');
@@ -52,7 +52,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         // Add HTML
         Html::addHtml($section, $content);
-        $this->assertEquals(7, $section->countElements());
+        $this->assertCount(7, $section->getElements());
 
         // Other parts
         $section = new Section(1);
@@ -60,6 +60,12 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $content .= '<table><tr><th>Header</th><td>Content</td></tr></table>';
         $content .= '<ul><li>Bullet</li><ul><li>Bullet</li></ul></ul>';
         $content .= '<ol><li>Bullet</li></ol>';
+        $content .= "'Single Quoted Text'";
+        $content .= '"Double Quoted Text"';
+        $content .= '& Ampersand';
+        $content .= '&lt;&gt;&ldquo;&lsquo;&rsquo;&laquo;&raquo;&lsaquo;&rsaquo;';
+        $content .= '&amp;&bull;&deg;&hellip;&trade;&copy;&reg;&mdash;';
+        $content .= '&ndash;&nbsp;&emsp;&ensp;&sup2;&sup3;&frac14;&frac12;&frac34;';
         Html::addHtml($section, $content);
     }
 }

@@ -39,7 +39,7 @@ class Link extends AbstractElement
 
         $content = '';
         $content .= $this->writeOpening();
-        $content .= '{\field {\*\fldinst {HYPERLINK "' . $this->element->getTarget() . '"}}{\\fldrslt {';
+        $content .= '{\field {\*\fldinst {HYPERLINK "' . $this->element->getSource() . '"}}{\\fldrslt {';
         $content .= $this->writeFontStyle();
         $content .= $this->writeText($this->element->getText());
         $content .= '}}}';

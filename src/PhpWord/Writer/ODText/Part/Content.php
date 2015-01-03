@@ -106,9 +106,12 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles other than fonts and paragraphs
+     * Write automatic styles other than fonts and paragraphs.
      *
      * @since 0.11.0
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
     {
@@ -129,7 +132,10 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles
+     * Write automatic styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
@@ -160,7 +166,10 @@ class Content extends AbstractPart
     }
 
     /**
-     * Get automatic styles
+     * Get automatic styles.
+     *
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
     private function getAutoStyles(PhpWord $phpWord)
     {
@@ -168,7 +177,7 @@ class Content extends AbstractPart
         $paragraphStyleCount = 0;
         $fontStyleCount = 0;
         foreach ($sections as $section) {
-            $style = $section->getSettings();
+            $style = $section->getStyle();
             $style->setStyleName("Section{$section->getSectionId()}");
             $this->autoStyles['Section'][] = $style;
             $this->getContainerStyle($section, $paragraphStyleCount, $fontStyleCount);
@@ -181,8 +190,9 @@ class Content extends AbstractPart
      * Table style can be null or string of the style name
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
+     * @return void
      * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
@@ -213,9 +223,10 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text $element
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param \PhpOffice\PhpWord\Element\Text &$element
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
+     * @return void
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
     {

@@ -27,6 +27,13 @@ use PhpOffice\PhpWord\Style\AbstractStyle as Style;
 abstract class AbstractStyle
 {
     /**
+     * Parent writer
+     *
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    private $parentWriter;
+
+    /**
      * Style
      *
      * @var array|\PhpOffice\PhpWord\Style\AbstractStyle
@@ -46,6 +53,27 @@ abstract class AbstractStyle
     public function __construct($style = null)
     {
         $this->style = $style;
+    }
+
+    /**
+     * Set parent writer.
+     *
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * @return void
+     */
+    public function setParentWriter($writer)
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * Get parent writer
+     *
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    public function getParentWriter()
+    {
+        return $this->parentWriter;
     }
 
     /**

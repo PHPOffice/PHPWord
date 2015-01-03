@@ -131,7 +131,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getTarget(), 'http://www.google.fr');
+        $this->assertEquals($element->getSource(), 'http://www.google.fr');
     }
 
     /**
@@ -144,7 +144,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getTarget(), 'http://www.google.fr');
+        $this->assertEquals($element->getSource(), 'http://www.google.fr');
         $this->assertEquals($element->getText(), 'ééé');
     }
 

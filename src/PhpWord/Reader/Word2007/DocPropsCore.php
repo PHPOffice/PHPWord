@@ -52,26 +52,27 @@ class DocPropsCore extends AbstractPart
     protected $callbacks = array('dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime');
 
     /**
-     * Read core/extended document properties
+     * Read core/extended document properties.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
 
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                if (!array_key_exists($node->nodeName, $this->mapping)) {
+                if (!isset($this->mapping[$node->nodeName])) {
                     continue;
                 }
                 $method = $this->mapping[$node->nodeName];
                 $value = $node->nodeValue == '' ? null : $node->nodeValue;
-                if (array_key_exists($node->nodeName, $this->callbacks)) {
+                if (isset($this->callbacks[$node->nodeName])) {
                     $value = $this->callbacks[$node->nodeName]($value);
                 }
                 if (method_exists($docProps, $method)) {

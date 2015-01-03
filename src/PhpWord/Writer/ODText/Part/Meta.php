@@ -34,7 +34,7 @@ class Meta extends AbstractPart
     public function write()
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8');
@@ -89,6 +89,7 @@ class Meta extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
+     * @return void
      *
      * @todo Handle other `$type`: double|date|dateTime|duration|boolean (4th arguments)
      */

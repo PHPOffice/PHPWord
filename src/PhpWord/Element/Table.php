@@ -52,7 +52,7 @@ class Table extends AbstractElement
      */
     public function __construct($style = null)
     {
-        $this->style = $this->setStyle(new TableStyle(), $style);
+        $this->style = $this->setNewStyle(new TableStyle(), $style);
     }
 
     /**
@@ -65,9 +65,7 @@ class Table extends AbstractElement
     public function addRow($height = null, $style = null)
     {
         $row = new Row($height, $style);
-        $row->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $row->setPhpWord($this->phpWord);
-        $row->setNestedLevel($this->getNestedLevel());
+        $row->setParentContainer($this);
         $this->rows[] = $row;
 
         return $row;
@@ -120,9 +118,10 @@ class Table extends AbstractElement
     }
 
     /**
-     * Set table width
+     * Set table width.
      *
      * @param int $width
+     * @return void
      */
     public function setWidth($width)
     {

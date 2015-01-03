@@ -47,7 +47,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $docProps->setCustomProperty('Company', 'PHPWord');
 
         $phpWord->setDefaultFontName('Verdana');

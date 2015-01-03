@@ -27,7 +27,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 class ListItem extends AbstractElement
 {
     /**
-     * Write list item element
+     * Write list item element.
+     *
+     * @return void
      */
     public function write()
     {

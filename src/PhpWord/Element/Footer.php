@@ -59,10 +59,12 @@ class Footer extends AbstractContainer
     }
 
     /**
-     * Set type
+     * Set type.
+     *
+     * @since 0.10.0
      *
      * @param string $value
-     * @since 0.10.0
+     * @return void
      */
     public function setType($value = self::AUTO)
     {

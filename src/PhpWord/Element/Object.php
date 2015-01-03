@@ -54,6 +54,13 @@ class Object extends AbstractElement
     private $imageRelationId;
 
     /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
      * Create a new Ole-Object Element
      *
      * @param string $source
@@ -72,7 +79,7 @@ class Object extends AbstractElement
             }
 
             $this->source = $source;
-            $this->style = $this->setStyle(new ImageStyle(), $style, true);
+            $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
             $this->icon = realpath(__DIR__ . "/../resources/{$ext}.png");
 
             return $this;
@@ -122,9 +129,10 @@ class Object extends AbstractElement
     }
 
     /**
-     * Set Image Relation ID
+     * Set Image Relation ID.
      *
      * @param int $rId
+     * @return void
      */
     public function setImageRelationId($rId)
     {

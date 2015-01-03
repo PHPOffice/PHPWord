@@ -35,7 +35,7 @@ class ListItem extends AbstractElement
             return '';
         }
 
-        $text = htmlspecialchars($this->element->getTextObject()->getText());
+        $text = $this->element->getTextObject()->getText();
         $content = '<p>' . $text . '</p>' . PHP_EOL;
 
         return $content;

@@ -42,11 +42,12 @@ class Footnotes extends AbstractPart
     protected $element = 'footnote';
 
     /**
-     * Read (footnotes|endnotes).xml
+     * Read (footnotes|endnotes).xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @return void
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $getMethod = "get{$this->collection}";
         $collection = $phpWord->$getMethod()->getItems();
@@ -61,7 +62,7 @@ class Footnotes extends AbstractPart
 
                 // Avoid w:type "separator" and "continuationSeparator"
                 // Only look for <footnote> or <endnote> without w:type attribute
-                if (is_null($type) && array_key_exists($id, $collection)) {
+                if (is_null($type) && isset($collection[$id])) {
                     $element = $collection[$id];
                     $pNodes = $xmlReader->getElements('w:p/*', $node);
                     foreach ($pNodes as $pNode) {

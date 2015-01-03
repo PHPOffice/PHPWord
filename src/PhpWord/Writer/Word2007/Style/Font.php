@@ -32,7 +32,9 @@ class Font extends AbstractStyle
     private $isInline = false;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -51,7 +53,9 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
+     *
+     * @return void
      */
     private function writeStyle()
     {
@@ -64,8 +68,10 @@ class Font extends AbstractStyle
         $xmlWriter->startElement('w:rPr');
 
         // Style name
-        $styleName = $style->getStyleName();
-        $xmlWriter->writeElementIf(!is_null($styleName), 'w:rStyle', 'w:val', $styleName);
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName !== null, 'w:rStyle', 'w:val', $styleName);
+        }
 
         // Font name/family
         $font = $style->getName();
@@ -103,16 +109,19 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps');
 
         // Underline
-        $underline = $style->getUnderline();
-        $xmlWriter->writeElementIf($underline != 'none', 'w:u', 'w:val', $underline);
+        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
 
         // Foreground-Color
-        $fgColor = $style->getFgColor();
-        $xmlWriter->writeElementIf(!is_null($fgColor), 'w:highlight', 'w:val', $fgColor);
+        $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
 
         // Superscript/subscript
         $xmlWriter->writeElementIf($style->isSuperScript(), 'w:vertAlign', 'w:val', 'superscript');
         $xmlWriter->writeElementIf($style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
+
+        // Spacing
+        $xmlWriter->writeElementIf($style->getScale() !== null, 'w:w', 'w:val', $style->getScale());
+        $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
+        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
         // Background-Color
         $shading = $style->getShading();
@@ -120,14 +129,21 @@ class Font extends AbstractStyle
             $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
+        
+        // RTL
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
+        }
 
         $xmlWriter->endElement();
     }
 
     /**
-     * Set is inline
+     * Set is inline.
      *
      * @param bool $value
+     * @return void
      */
     public function setIsInline($value)
     {

@@ -32,7 +32,9 @@ class Footnote extends Text
     protected $referenceType = 'footnoteReference';
 
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -42,7 +44,7 @@ class Footnote extends Text
             return;
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');
@@ -55,6 +57,6 @@ class Footnote extends Text
         $xmlWriter->endElement(); // w:$referenceType
         $xmlWriter->endElement(); // w:r
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

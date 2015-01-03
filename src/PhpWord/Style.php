@@ -123,8 +123,11 @@ class Style
     }
 
     /**
-     * Reset styles
+     * Reset styles.
+     *
      * @since 0.10.0
+     *
+     * @return void
      */
     public static function resetStyles()
     {
@@ -160,7 +163,7 @@ class Style
      */
     public static function getStyle($styleName)
     {
-        if (array_key_exists($styleName, self::$styles)) {
+        if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
         } else {
             return null;
@@ -179,7 +182,7 @@ class Style
      */
     private static function setStyleValues($name, $style, $value = null)
     {
-        if (!array_key_exists($name, self::$styles)) {
+        if (!isset(self::$styles[$name])) {
             if ($value !== null) {
                 if (is_array($value)) {
                     $style->setStyleByArray($value);

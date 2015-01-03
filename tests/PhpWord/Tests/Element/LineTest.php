@@ -37,17 +37,17 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Line', $oLine);
         $this->assertEquals($oLine->getStyle(), null);
     }
-    
+
     /**
      * Get style name
      */
     public function testStyleText()
     {
         $oLine = new Line('lineStyle');
-    
+
         $this->assertEquals($oLine->getStyle(), 'lineStyle');
     }
-    
+
     /**
      * Get style array
      */
@@ -55,14 +55,14 @@ class LineTest extends \PHPUnit_Framework_TestCase
     {
         $oLine = new Line(
             array(
-                'width' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(14),
-                'height' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(4),
+                'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(14),
+                'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
                 'positioning' => 'absolute',
                 'posHorizontalRel' => 'page',
                 'posVerticalRel' => 'page',
                 'flip' => true,
-                'marginLeft' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(5),
-                'marginTop' => \PhpOffice\PhpWord\Shared\Drawing::centimetersToPixels(3),
+                'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(5),
+                'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
                 'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE,
                 'beginArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
                 'endArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
@@ -70,7 +70,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
                 'weight' => 10
             )
         );
-    
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Line', $oLine->getStyle());
     }
 }

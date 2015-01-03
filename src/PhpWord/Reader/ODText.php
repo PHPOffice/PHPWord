@@ -51,15 +51,16 @@ class ODText extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * Read document part
+     * Read document part.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $relationships
      * @param string $partName
      * @param string $docFile
      * @param string $xmlFile
+     * @return void
      */
-    private function readPart(PhpWord &$phpWord, $relationships, $partName, $docFile, $xmlFile)
+    private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
         if (class_exists($partClass)) {
@@ -68,7 +69,6 @@ class ODText extends AbstractReader implements ReaderInterface
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**

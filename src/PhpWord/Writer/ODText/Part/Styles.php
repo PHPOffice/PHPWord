@@ -61,7 +61,10 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write default styles
+     * Write default styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeDefault(XMLWriter $xmlWriter)
     {
@@ -103,7 +106,10 @@ class Styles extends AbstractPart
     }
 
     /**
-     * Write named styles
+     * Write named styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeNamed(XMLWriter $xmlWriter)
     {
@@ -122,7 +128,10 @@ class Styles extends AbstractPart
         }
     }
     /**
-     * Write page layout styles
+     * Write page layout styles.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writePageLayout(XMLWriter $xmlWriter)
     {
@@ -170,8 +179,12 @@ class Styles extends AbstractPart
 
         $xmlWriter->endElement(); // style:page-layout
     }
+
     /**
-     * Write master style
+     * Write master style.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @return void
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {

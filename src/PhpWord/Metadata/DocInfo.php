@@ -15,12 +15,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord;
+namespace PhpOffice\PhpWord\Metadata;
 
 /**
- * Document properties
+ * Document information
  */
-class DocumentProperties
+class DocInfo
 {
     /** @const string Property type constants */
     const PROPERTY_TYPE_BOOLEAN = 'b';
@@ -115,7 +115,7 @@ class DocumentProperties
     private $customProperties = array();
 
     /**
-     * Create new DocumentProperties
+     * Create new instance
      */
     public function __construct()
     {

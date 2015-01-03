@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class Title extends AbstractElement
 {
     /**
-     * Write title element
+     * Write title element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -48,10 +50,11 @@ class Title extends AbstractElement
         }
 
         $rId = $element->getRelationId();
+        $bookmarkRId = $element->getPhpWord()->addBookmark();
 
         // Bookmark start for TOC
         $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:id', $rId);
+        $xmlWriter->writeAttribute('w:id', $bookmarkRId);
         $xmlWriter->writeAttribute('w:name', "_Toc{$rId}");
         $xmlWriter->endElement();
 
@@ -64,7 +67,7 @@ class Title extends AbstractElement
 
         // Bookmark end
         $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $rId);
+        $xmlWriter->writeAttribute('w:id', $bookmarkRId);
         $xmlWriter->endElement();
 
         $xmlWriter->endElement();

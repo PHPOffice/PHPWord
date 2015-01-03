@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Paragraph style writer
@@ -44,7 +44,9 @@ class Paragraph extends AbstractStyle
     private $isInline = false;
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {
@@ -67,7 +69,9 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
+     *
+     * @return void
      */
     private function writeStyle()
     {
@@ -83,7 +87,9 @@ class Paragraph extends AbstractStyle
         }
 
         // Style name
-        $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
+        if ($this->isInline === true) {
+            $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
+        }
 
         // Alignment
         $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $styles['alignment'])));
@@ -95,9 +101,10 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
 
-        // Indentation & spacing
+        // Child style: indentation, spacing, and shading
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
+        $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);
 
         // Tabs
         $this->writeTabs($xmlWriter, $styles['tabs']);
@@ -105,34 +112,29 @@ class Paragraph extends AbstractStyle
         // Numbering
         $this->writeNumbering($xmlWriter, $styles['numbering']);
 
+        // Border
+        if ($style->hasBorder()) {
+            $xmlWriter->startElement('w:pBdr');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->write();
+
+            $xmlWriter->endElement();
+        }
+
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
         }
     }
 
     /**
-     * Write child style
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $name
-     * @param mixed $value
-     */
-    private function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
-    {
-        if ($value !== null) {
-            $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\" . $name;
-
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
-            $writer = new $class($xmlWriter, $value);
-            $writer->write();
-        }
-    }
-
-    /**
-     * Write tabs
+     * Write tabs.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     * @return void
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs)
     {
@@ -147,10 +149,11 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write numbering
+     * Write numbering.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param array $numbering
+     * @return void
      */
     private function writeNumbering(XMLWriter $xmlWriter, $numbering)
     {
@@ -176,9 +179,10 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set without w:pPr
+     * Set without w:pPr.
      *
      * @param bool $value
+     * @return void
      */
     public function setWithoutPPR($value)
     {
@@ -186,9 +190,10 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set is inline
+     * Set is inline.
      *
      * @param bool $value
+     * @return void
      */
     public function setIsInline($value)
     {

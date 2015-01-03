@@ -39,7 +39,7 @@ class Head extends AbstractPart
      */
     public function write()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',
@@ -57,13 +57,13 @@ class Head extends AbstractPart
 
         $content .= '<head>' . PHP_EOL;
         $content .= '<meta charset="UTF-8" />' . PHP_EOL;
-        $content .= '<title>' . htmlspecialchars($title) . '</title>' . PHP_EOL;
+        $content .= '<title>' . $title . '</title>' . PHP_EOL;
         foreach ($propertiesMapping as $key => $value) {
             $value = ($value == '') ? $key : $value;
             $method = "get" . $key;
             if ($docProps->$method() != '') {
                 $content .= '<meta name="' . $value . '" content="' .
-                    htmlspecialchars($docProps->$method()) . '" />' . PHP_EOL;
+                    $docProps->$method() . '" />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();
@@ -71,6 +71,7 @@ class Head extends AbstractPart
 
         return $content;
     }
+
     /**
      * Get styles
      *
@@ -95,6 +96,14 @@ class Head extends AbstractPart
                 'margin' => '1em 0',
                 'border' => '0',
                 'border-top' => '1px solid #CCC',
+            ),
+            'table' => array(
+                'border' => '1px solid black',
+                'border-spacing' => '0px',
+                'width' => '100%',
+            ),
+            'td' => array(
+                'border' => '1px solid black',
             ),
         );
         foreach ($defaultStyles as $selector => $style) {

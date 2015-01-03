@@ -19,11 +19,13 @@ namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\RTF\Element\Container;
+use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
 
 /**
  * RTF document part writer
  *
  * @since 0.11.0
+ * @link http://www.biblioscape.com/rtf15_spec.htm#Heading24
  */
 class Document extends AbstractPart
 {
@@ -50,7 +52,7 @@ class Document extends AbstractPart
      */
     private function writeInfo()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $properties = array('title', 'subject', 'category', 'keywords', 'comment',
             'author', 'operator', 'creatim', 'revtim', 'company', 'manager');
         $mapping = array('comment' => 'description', 'author' => 'creator', 'operator' => 'lastModifiedBy',
@@ -62,7 +64,7 @@ class Document extends AbstractPart
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
-            $method = 'get' . (array_key_exists($property, $mapping) ? $mapping[$property] : $property);
+            $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
             $value = $docProps->$method();
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
             $content .= "{\\{$property} {$value}}";
@@ -103,12 +105,19 @@ class Document extends AbstractPart
      */
     private function writeSections()
     {
+
         $content = '';
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         foreach ($sections as $section) {
-            $writer = new Container($this->getParentWriter(), $section);
-            $content .= $writer->write();
+            $styleWriter = new SectionStyleWriter($section->getStyle());
+            $styleWriter->setParentWriter($this->getParentWriter());
+            $content .= $styleWriter->write();
+
+            $elementWriter = new Container($this->getParentWriter(), $section);
+            $content .= $elementWriter->write();
+
+            $content .= '\sect' . PHP_EOL;
         }
 
         return $content;

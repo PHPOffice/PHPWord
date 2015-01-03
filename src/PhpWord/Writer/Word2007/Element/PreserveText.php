@@ -25,7 +25,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 class PreserveText extends Text
 {
     /**
-     * Write preserve text element
+     * Write preserve text element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -40,7 +42,7 @@ class PreserveText extends Text
             $texts = array($texts);
         }
 
-        $this->writeOpeningWP();
+        $this->startElementP();
 
         foreach ($texts as $text) {
             if (substr($text, 0, 1) == '{') {
@@ -86,6 +88,6 @@ class PreserveText extends Text
             }
         }
 
-        $this->writeClosingWP();
+        $this->endElementP(); // w:p
     }
 }

@@ -32,7 +32,9 @@ use PhpOffice\PhpWord\Writer\Word2007\Style\Tab as TabStyleWriter;
 class TOC extends AbstractElement
 {
     /**
-     * Write element
+     * Write element.
+     *
+     * @return void
      */
     public function write()
     {
@@ -68,6 +70,7 @@ class TOC extends AbstractElement
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param \PhpOffice\PhpWord\Element\Title $title
      * @param bool $writeFieldMark
+     * @return void
      */
     private function writeTitle(XMLWriter $xmlWriter, TOCElement $element, $title, $writeFieldMark)
     {
@@ -135,6 +138,7 @@ class TOC extends AbstractElement
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param int $indent
+     * @return void
      */
     private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent)
     {
@@ -176,7 +180,11 @@ class TOC extends AbstractElement
     }
 
     /**
-     * Write TOC Field
+     * Write TOC Field.
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Element\TOC $element
+     * @return void
      */
     private function writeFieldMark(XMLWriter $xmlWriter, TOCElement $element)
     {

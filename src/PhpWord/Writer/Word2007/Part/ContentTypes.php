@@ -37,6 +37,7 @@ class ContentTypes extends AbstractPart
 
         $openXMLPrefix = 'application/vnd.openxmlformats-';
         $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
+        $drawingMLPrefix  = $openXMLPrefix . 'officedocument.drawingml.';
         $overrides = array(
             '/docProps/core.xml'     => $openXMLPrefix . 'package.core-properties+xml',
             '/docProps/app.xml'      => $openXMLPrefix . 'officedocument.extended-properties+xml',
@@ -53,7 +54,11 @@ class ContentTypes extends AbstractPart
         $defaults = $contentTypes['default'];
         if (!empty($contentTypes['override'])) {
             foreach ($contentTypes['override'] as $key => $val) {
-                $overrides[$key] = $wordMLPrefix . $val . '+xml';
+                if ($val == 'chart') {
+                    $overrides[$key] = $drawingMLPrefix . $val . '+xml';
+                } else {
+                    $overrides[$key] = $wordMLPrefix . $val . '+xml';
+                }
             }
         }
 
@@ -77,6 +82,7 @@ class ContentTypes extends AbstractPart
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
      * @param array $parts
      * @param boolean $isDefault
+     * @return void
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {

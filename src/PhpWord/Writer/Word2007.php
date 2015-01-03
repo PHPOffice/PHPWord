@@ -71,6 +71,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             'Footer'         => '',
             'Footnotes'      => '',
             'Endnotes'       => '',
+            'Chart'          => '',
         );
         foreach (array_keys($this->parts) as $partName) {
             $partClass = get_class($this) . '\\Part\\' . $partName;
@@ -87,9 +88,10 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Save document by name
+     * Save document by name.
      *
      * @param string $filename
+     * @return void
      */
     public function save($filename = null)
     {
@@ -127,6 +129,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
         $this->addNotes($zip, $rId, 'footnote');
         $this->addNotes($zip, $rId, 'endnote');
+        $this->addChart($zip, $rId);
 
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
@@ -161,10 +164,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add header/footer media files, e.g. footer1.xml.rels
+     * Add header/footer media files, e.g. footer1.xml.rels.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $docPart
+     * @return void
      */
     private function addHeaderFooterMedia(ZipArchive $zip, $docPart)
     {
@@ -186,12 +190,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Add header/footer content
+     * Add header/footer content.
      *
-     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param \PhpOffice\PhpWord\Element\Section &$section
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
-     * @param integer $rId
+     * @param integer &$rId
+     * @return void
      */
     private function addHeaderFooterContent(Section &$section, ZipArchive $zip, $elmType, &$rId)
     {
@@ -216,8 +221,9 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add footnotes/endnotes
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer $rId
+     * @param integer &$rId
      * @param string $noteType
+     * @return void
      */
     private function addNotes(ZipArchive $zip, &$rId, $noteType = 'footnote')
     {
@@ -250,9 +256,45 @@ class Word2007 extends AbstractWriter implements WriterInterface
     }
 
     /**
-     * Register content types for each media
+     * Add chart.
+     *
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
+     * @param integer &$rId
+     * @return void
+     */
+    private function addChart(ZipArchive $zip, &$rId)
+    {
+        $phpWord = $this->getPhpWord();
+
+        $collection = $phpWord->getCharts();
+        $index = 0;
+        if ($collection->countItems() > 0) {
+            foreach ($collection->getItems() as $chart) {
+                $index++;
+                $rId++;
+                $filename = "charts/chart{$index}.xml";
+
+                // ContentTypes.xml
+                $this->contentTypes['override']["/word/{$filename}"] = 'chart';
+
+                // word/_rels/document.xml.rel
+                $this->relationships[] = array('target' => $filename, 'type' => 'chart', 'rID' => $rId);
+
+                // word/charts/chartN.xml
+                /** @var \PhpOffice\PhpWord\Element\Chart $chart */
+                $chart->setRelationId($rId);
+                $writerPart = $this->getWriterPart('Chart');
+                $writerPart->setElement($chart);
+                $zip->addFromString("word/{$filename}", $writerPart->write());
+            }
+        }
+    }
+
+    /**
+     * Register content types for each media.
      *
      * @param array $media
+     * @return void
      */
     private function registerContentTypes($media)
     {
@@ -260,11 +302,11 @@ class Word2007 extends AbstractWriter implements WriterInterface
             $mediumType = $medium['type'];
             if ($mediumType == 'image') {
                 $extension = $medium['imageExtension'];
-                if (!array_key_exists($extension, $this->contentTypes['default'])) {
+                if (!isset($this->contentTypes['default'][$extension])) {
                     $this->contentTypes['default'][$extension] = $medium['imageType'];
                 }
             } elseif ($mediumType == 'object') {
-                if (!array_key_exists('bin', $this->contentTypes['default'])) {
+                if (!isset($this->contentTypes['default']['bin'])) {
                     $this->contentTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
                 }
             }

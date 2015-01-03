@@ -12,46 +12,82 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
 .. code-block:: php
 
+    <?php
     require_once 'src/PhpWord/Autoloader.php';
     \PhpOffice\PhpWord\Autoloader::register();
 
+    // Creating the new document...
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-    // Every element you want to append to the word document is placed in a section.
-    // To create a basic section:
+    /* Note: any element you append to a document must reside inside of a Section. */
+
+    // Adding an empty Section to the document...
     $section = $phpWord->addSection();
+    // Adding Text element to the Section having font styled by default...
+    $section->addText(
+        htmlspecialchars(
+            '"Learn from yesterday, live for today, hope for tomorrow. '
+                . 'The important thing is not to stop questioning." '
+                . '(Albert Einstein)'
+        )
+    );
 
-    // After creating a section, you can append elements:
-    $section->addText('Hello world!');
+    /*
+     * Note: it's possible to customize font style of the Text element you add in three ways:
+     * - inline;
+     * - using named font style (new font style object will be implicitly created);
+     * - using explicitly created font style object.
+     */
 
-    // You can directly style your text by giving the addText function an array:
-    $section->addText('Hello world! I am formatted.',
-        array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+    // Adding Text element with font customized inline...
+    $section->addText(
+        htmlspecialchars(
+            '"Great achievement is usually born of great sacrifice, '
+                . 'and is never the result of selfishness." '
+                . '(Napoleon Hill)'
+        ),
+        array('name' => 'Tahoma', 'size' => 10)
+    );
 
-    // If you often need the same style again you can create a user defined style
-    // to the word document and give the addText function the name of the style:
-    $phpWord->addFontStyle('myOwnStyle',
-        array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-    $section->addText('Hello world! I am formatted by a user defined style',
-        'myOwnStyle');
+    // Adding Text element with font customized using named font style...
+    $fontStyleName = 'oneUserDefinedStyle';
+    $phpWord->addFontStyle(
+        $fontStyleName,
+        array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+    );
+    $section->addText(
+        htmlspecialchars(
+            '"The greatest accomplishment is not in never falling, '
+                . 'but in rising again after you fall." '
+                . '(Vince Lombardi)'
+        ),
+        $fontStyleName
+    );
 
-    // You can also put the appended element to local object like this:
+    // Adding Text element with font customized using explicitly created font style object...
     $fontStyle = new \PhpOffice\PhpWord\Style\Font();
     $fontStyle->setBold(true);
-    $fontStyle->setName('Verdana');
-    $fontStyle->setSize(22);
-    $myTextElement = $section->addText('Hello World!');
+    $fontStyle->setName('Tahoma');
+    $fontStyle->setSize(13);
+    $myTextElement = $section->addText(
+        htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)')
+    );
     $myTextElement->setFontStyle($fontStyle);
 
-    // Finally, write the document:
+    // Saving the document as OOXML file...
     $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     $objWriter->save('helloWorld.docx');
 
+    // Saving the document as ODF file...
     $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
     $objWriter->save('helloWorld.odt');
 
-    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-    $objWriter->save('helloWorld.rtf');
+    // Saving the document as HTML file...
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+    $objWriter->save('helloWorld.html');
+
+    /* Note: we skip RTF, because it's not XML-based and requires a different example. */
+    /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 
 Settings
 --------
@@ -79,11 +115,10 @@ during development to make the resulting XML file easier to read.
 Zip class
 ~~~~~~~~~
 
-By default, PHPWord uses PHP
-`ZipArchive <http://php.net/manual/en/book.zip.php>`__ to read or write
-ZIP compressed archive and the files inside them. If you can't have
-ZipArchive installed on your server, you can use pure PHP library
-alternative, `PCLZip <http://www.phpconcept.net/pclzip/>`__, which
+By default, PHPWord uses `Zip extension <http://php.net/manual/en/book.zip.php>`__
+to deal with ZIP compressed archives and files inside them. If you can't have
+Zip extension installed on your server, you can use pure PHP library
+alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which
 included with PHPWord.
 
 .. code-block:: php
@@ -101,15 +136,15 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
-Document properties
--------------------
+Document information
+--------------------
 
-You can set the document properties such as title, creator, and company
+You can set the document information such as title, creator, and company
 name. Use the following functions:
 
 .. code-block:: php
 
-    $properties = $phpWord->getDocumentProperties();
+    $properties = $phpWord->getDocInfo();
     $properties->setCreator('My name');
     $properties->setCompany('My factory');
     $properties->setTitle('My title');
@@ -134,13 +169,13 @@ points to twips.
 
     // Paragraph with 6 points space after
     $phpWord->addParagraphStyle('My Style', array(
-        'spaceAfter' => \PhpOffice\PhpWord\Shared\Font::pointSizeToTwips(6))
+        'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(6))
     );
 
     $section = $phpWord->addSection();
-    $sectionStyle = $section->getSettings();
+    $sectionStyle = $section->getStyle();
     // half inch left margin
-    $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Font::inchSizeToTwips(.5));
+    $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Converter::inchToTwip(.5));
     // 2 cm right margin
-    $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Font::centimeterSizeToTwips(2));
+    $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
 

@@ -38,7 +38,7 @@ class Line extends AbstractElement
      */
     public function __construct($style = null)
     {
-        $this->style = $this->setStyle(new LineStyle(), $style);
+        $this->style = $this->setNewStyle(new LineStyle(), $style);
     }
 
     /**

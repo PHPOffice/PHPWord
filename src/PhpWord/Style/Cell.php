@@ -94,7 +94,9 @@ class Cell extends Border
     private $shading;
 
     /**
-     * Get vertical align
+     * Get vertical align.
+     *
+     * @return string
      */
     public function getVAlign()
     {
@@ -116,7 +118,9 @@ class Cell extends Border
     }
 
     /**
-     * Get text direction
+     * Get text direction.
+     *
+     * @return string
      */
     public function getTextDirection()
     {
@@ -163,7 +167,9 @@ class Cell extends Border
     }
 
     /**
-     * Get grid span (colspan)
+     * Get grid span (colspan).
+     *
+     * @return integer
      */
     public function getGridSpan()
     {
@@ -184,7 +190,9 @@ class Cell extends Border
     }
 
     /**
-     * Get vertical merge (rowspan)
+     * Get vertical merge (rowspan).
+     *
+     * @return string
      */
     public function getVMerge()
     {

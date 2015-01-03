@@ -45,11 +45,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addHeader();
         $section->addHeader('first');
-        $settings = $section->getSettings();
-        $settings->setLandscape();
-        $settings->setPageNumberingStart(2);
-        $settings->setBorderSize(240);
-        $settings->setBreakType('nextPage');
+        $style = $section->getStyle();
+        $style->setLandscape();
+        $style->setPageNumberingStart(2);
+        $style->setBorderSize(240);
+        $style->setBreakType('nextPage');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
@@ -114,15 +114,15 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('page', $element->getAttribute('w:type'));
 
         // Title
-        $element = $doc->getElement('/w:document/w:body/w:p[5]/w:pPr/w:pStyle');
+        $element = $doc->getElement('/w:document/w:body/w:p[6]/w:pPr/w:pStyle');
         $this->assertEquals('Heading1', $element->getAttribute('w:val'));
 
         // List item
-        $element = $doc->getElement('/w:document/w:body/w:p[6]/w:pPr/w:numPr/w:numId');
+        $element = $doc->getElement('/w:document/w:body/w:p[7]/w:pPr/w:numPr/w:numId');
         $this->assertEquals(3, $element->getAttribute('w:val'));
 
         // Object
-        $element = $doc->getElement('/w:document/w:body/w:p[11]/w:r/w:object/o:OLEObject');
+        $element = $doc->getElement('/w:document/w:body/w:p[12]/w:r/w:object/o:OLEObject');
         $this->assertEquals('Embed', $element->getAttribute('Type'));
     }
 
@@ -135,8 +135,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'tabs' => $tabs)); // Style #1
-        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true)); // Style #2
+        $phpWord->addParagraphStyle('pStyle', array(
+            'align' => 'center',
+            'tabs' => $tabs,
+            'shading' => array('fill' => 'FFFF99'),
+            'borderSize' => 4,
+        )); // Style #1
+        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true,
+            'scale' => 200, 'spacing' => 240, 'kerning' => 10)); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
         $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
         $fontStyle = new Font('text', array('align' => 'center'));

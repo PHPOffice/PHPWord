@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Settings;
 /**
  * Test class for PhpOffice\PhpWord\Settings
  *
+ * @coversDefaultClass \PhpOffice\PhpWord\Settings
  * @runTestsInSeparateProcesses
  */
 class SettingsTest extends \PHPUnit_Framework_TestCase
@@ -68,6 +69,31 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Settings::UNIT_TWIP, Settings::getMeasurementUnit());
         $this->assertTrue(Settings::setMeasurementUnit(Settings::UNIT_INCH));
         $this->assertFalse(Settings::setMeasurementUnit('foo'));
+    }
+
+    /**
+     * @covers ::getTempDir
+     * @test
+     */
+    public function testPhpTempDirIsUsedByDefault()
+    {
+        $this->assertEquals(sys_get_temp_dir(), Settings::getTempDir());
+    }
+
+
+    /**
+     * @covers ::setTempDir
+     * @covers ::getTempDir
+     * @depends testPhpTempDirIsUsedByDefault
+     * @test
+     */
+    public function testTempDirCanBeSet()
+    {
+        $userDefinedTempDir = 'C:\PhpWordTemp';
+        Settings::setTempDir($userDefinedTempDir);
+        $currentTempDir = Settings::getTempDir();
+        $this->assertEquals($userDefinedTempDir, $currentTempDir);
+        $this->assertNotEquals(sys_get_temp_dir(), $currentTempDir);
     }
 
     /**

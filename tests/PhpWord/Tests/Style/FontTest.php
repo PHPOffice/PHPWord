@@ -46,6 +46,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
+        $this->assertTrue(is_array($object->getStyleValues()));
     }
 
     /**
@@ -71,6 +72,9 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'allCaps' => false,
             'fgColor' => null,
             'bgColor' => null,
+            'scale' => null,
+            'spacing' => null,
+            'kerning' => null,
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -106,6 +110,9 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'fgColor' => Font::FGCOLOR_YELLOW,
             'bgColor' => 'FFFF00',
             'lineHeight' => 2,
+            'scale' => 150,
+            'spacing' => 240,
+            'kerning' => 10,
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
