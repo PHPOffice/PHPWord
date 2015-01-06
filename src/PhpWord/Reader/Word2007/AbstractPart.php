@@ -155,6 +155,14 @@ abstract class AbstractPart
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addTitle($textContent, $headingMatches[1]);
+        } elseif ($paragraphStyle['styleName'] == 'Title') {
+            // Title
+            $textContent = '';
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addTitle($textContent, 1);
         } else {
             // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
