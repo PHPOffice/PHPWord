@@ -65,6 +65,13 @@ class Image extends AbstractElement
     private $watermark;
 
     /**
+     * Name of image
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
      * Image type
      *
      * @var string
@@ -129,11 +136,12 @@ class Image extends AbstractElement
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
-    public function __construct($source, $style = null, $watermark = false)
+    public function __construct($source, $style = null, $watermark = false, $name = null)
     {
         $this->source = $source;
         $this->setIsWatermark($watermark);
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        $this->name = $name;
 
         $this->checkImage($source);
     }
@@ -166,6 +174,16 @@ class Image extends AbstractElement
     public function getSourceType()
     {
         return $this->sourceType;
+    }
+
+    /**
+     * Get image name
+     *
+     * @return null|string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
