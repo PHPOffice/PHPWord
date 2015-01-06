@@ -157,6 +157,7 @@ abstract class AbstractPart
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addTitle($textContent, $headingMatches[1]);
+
         // Title
         } elseif ($paragraphStyle['styleName'] == 'Title') {
             $textContent = '';
