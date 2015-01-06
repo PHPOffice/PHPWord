@@ -94,6 +94,9 @@ class XMLReader
         }
         if ($this->xpath === null) {
             $this->xpath = new \DOMXpath($this->dom);
+            // GT Mod - required for reading images
+            $this->xpath->registerNamespace('a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
+            $this->xpath->registerNamespace('pic', 'http://schemas.openxmlformats.org/drawingml/2006/picture');
         }
 
         if (is_null($contextNode)) {
