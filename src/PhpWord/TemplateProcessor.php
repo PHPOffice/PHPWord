@@ -161,6 +161,9 @@ class TemplateProcessor
         foreach ($this->temporaryDocumentFooters as $footerXML) {
             $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
         }
+        
+        // clean the variables name (may contain xml tags)
+        $variables = array_map(function($value) { return strip_tags($value); }, $variables);
 
         return array_unique($variables);
     }
