@@ -12,7 +12,7 @@ $phpWord->addTitleStyle(2, array('size' => 14, 'bold' => true), array('keepNext'
 
 // 2D charts
 $section = $phpWord->addSection();
-$section->addTitle(htmlspecialchars('2D charts'), 1);
+$section->addTitle(htmlspecialchars('2D charts', ENT_COMPAT, 'UTF-8'), 1);
 $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
 
 $chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar');
@@ -38,7 +38,7 @@ foreach ($chartTypes as $chartType) {
 
 // 3D charts
 $section = $phpWord->addSection(array('breakType' => 'continuous'));
-$section->addTitle(htmlspecialchars('3D charts'), 1);
+$section->addTitle(htmlspecialchars('3D charts', ENT_COMPAT, 'UTF-8'), 1);
 $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
 
 $chartTypes = array('pie', 'bar', 'column', 'line', 'area');

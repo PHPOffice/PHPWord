@@ -33,10 +33,10 @@ class LineNumberingTest extends \PHPUnit_Framework_TestCase
     {
         $object = new LineNumbering();
         $properties = array(
-            'start' => array(1, 2),
+            'start'     => array(1, 2),
             'increment' => array(1, 10),
-            'distance' => array(null, 10),
-            'restart' => array(null, 'continuous'),
+            'distance'  => array(null, 10),
+            'restart'   => array(null, 'continuous'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

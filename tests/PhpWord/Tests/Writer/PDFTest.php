@@ -33,7 +33,7 @@ class PDFTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . "/../_files/temp.pdf";
+        $file = __DIR__ . '/../_files/temp.pdf';
 
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');

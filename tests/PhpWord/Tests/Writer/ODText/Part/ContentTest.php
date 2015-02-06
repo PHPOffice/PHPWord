@@ -18,7 +18,6 @@ namespace PhpOffice\PhpWord\Tests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\ODText\Part\Content;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\Content
@@ -41,8 +40,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteContent()
     {
-        $imageSrc = __DIR__ . "/../../../_files/images/PhpWord.png";
-        $objectSrc = __DIR__ . "/../../../_files/documents/sheet.xls";
+        $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
+        $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
         $expected = 'Expected';
 
         $phpWord = new PhpWord();
@@ -56,41 +55,41 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
         $section = $phpWord->addSection(array('colsNum' => 2));
-        $section->addText($expected);
-        $section->addText('Test font style', 'Font');
-        $section->addText('Test paragraph style', null, 'Paragraph');
-        $section->addLink('http://test.com', 'Test link');
-        $section->addTitle('Test title', 1);
+        $section->addText(htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'));
+        $section->addText(htmlspecialchars('Test font style', ENT_COMPAT, 'UTF-8'), 'Font');
+        $section->addText(htmlspecialchars('Test paragraph style', ENT_COMPAT, 'UTF-8'), null, 'Paragraph');
+        $section->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
+        $section->addTitle(htmlspecialchars('Test title', ENT_COMPAT, 'UTF-8'), 1);
         $section->addTextBreak();
         $section->addPageBreak();
-        $section->addListItem('Test list item');
+        $section->addListItem(htmlspecialchars('Test list item', ENT_COMPAT, 'UTF-8'));
         $section->addImage($imageSrc, array('width' => 50));
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
-        $textrun->addText('Test text run');
+        $textrun->addText(htmlspecialchars('Test text run', ENT_COMPAT, 'UTF-8'));
 
         $table = $section->addTable(array('width' => 50));
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
-        $cell->addText('Test');
-        $cell->addLink('http://test.com', 'Test link');
+        $cell->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $cell->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
         $cell->addTextBreak();
-        $cell->addListItem('Test list item');
+        $cell->addListItem(htmlspecialchars('Test list item', ENT_COMPAT, 'UTF-8'));
         $cell->addImage($imageSrc);
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
-        $textrun->addText('Test text run');
+        $textrun->addText(htmlspecialchars('Test text run', ENT_COMPAT, 'UTF-8'));
 
         $footer = $section->addFooter();
-        $footer->addPreserveText('{PAGE}');
+        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'));
 
         $table = $section->addTable('tblStyle')->addRow()->addCell();
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
-        $element = "/office:document-content/office:body/office:text/text:section/text:p";
+        $element = '/office:document-content/office:body/office:text/text:section/text:p';
         $this->assertEquals($expected, $doc->getElement($element, 'content.xml')->nodeValue);
     }
 
@@ -104,7 +103,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
 
-        $element = "/office:document-content/office:automatic-styles/style:style";
+        $element = '/office:document-content/office:automatic-styles/style:style';
         $this->assertTrue($doc->elementExists($element, 'content.xml'));
     }
 }

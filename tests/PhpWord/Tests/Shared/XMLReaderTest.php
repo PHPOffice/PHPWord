@@ -35,7 +35,7 @@ class XMLReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDomFromZipException()
     {
-        $filename = __DIR__ . "/../_files/documents/foo.zip";
+        $filename = __DIR__ . '/../_files/documents/foo.zip';
         $object = new XMLReader();
         $object->getDomFromZip($filename, 'yadayadaya');
     }
@@ -45,7 +45,7 @@ class XMLReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDomFromZipReturnsFalse()
     {
-        $filename = __DIR__ . "/../_files/documents/reader.docx.zip";
+        $filename = __DIR__ . '/../_files/documents/reader.docx.zip';
         $object = new XMLReader();
         $this->assertFalse($object->getDomFromZip($filename, 'yadayadaya'));
     }
@@ -64,7 +64,7 @@ class XMLReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetElementReturnsNull()
     {
-        $filename = __DIR__ . "/../_files/documents/reader.docx.zip";
+        $filename = __DIR__ . '/../_files/documents/reader.docx.zip';
 
         $object = new XMLReader();
         $object->getDomFromZip($filename, '[Content_Types].xml');

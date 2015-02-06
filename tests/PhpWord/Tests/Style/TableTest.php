@@ -57,26 +57,26 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $object = new Table();
 
         $attributes = array(
-            'bgColor' => 'FF0000',
-            'borderTopSize' => 4,
-            'borderTopColor' => 'FF0000',
-            'borderLeftSize' => 4,
-            'borderLeftColor' => 'FF0000',
-            'borderRightSize' => 4,
-            'borderRightColor' => 'FF0000',
-            'borderBottomSize' => 4,
-            'borderBottomColor' => 'FF0000',
-            'borderInsideHSize' => 4,
+            'bgColor'            => 'FF0000',
+            'borderTopSize'      => 4,
+            'borderTopColor'     => 'FF0000',
+            'borderLeftSize'     => 4,
+            'borderLeftColor'    => 'FF0000',
+            'borderRightSize'    => 4,
+            'borderRightColor'   => 'FF0000',
+            'borderBottomSize'   => 4,
+            'borderBottomColor'  => 'FF0000',
+            'borderInsideHSize'  => 4,
             'borderInsideHColor' => 'FF0000',
-            'borderInsideVSize' => 4,
+            'borderInsideVSize'  => 4,
             'borderInsideVColor' => 'FF0000',
-            'cellMarginTop' => 240,
-            'cellMarginLeft' => 240,
-            'cellMarginRight' => 240,
-            'cellMarginBottom' => 240,
-            'align' => 'center',
-            'width' => 100,
-            'unit' => 'pct',
+            'cellMarginTop'      => 240,
+            'cellMarginLeft'     => 240,
+            'cellMarginRight'    => 240,
+            'cellMarginBottom'   => 240,
+            'align'              => 'center',
+            'width'              => 100,
+            'unit'               => 'pct',
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
@@ -162,14 +162,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $object->setStyleValue('cellMargin', 240);
         $object->setStyleValue('borderColor', '999999');
 
-        $this->assertEquals(
-            array(120, 120, 120, 120, 120, 120),
-            $object->getBorderSize()
-        );
-        $this->assertEquals(
-            array(240, 240, 240, 240),
-            $object->getCellMargin()
-        );
+        $this->assertEquals(array(120, 120, 120, 120, 120, 120), $object->getBorderSize());
+        $this->assertEquals(array(240, 240, 240, 240), $object->getCellMargin());
         $this->assertEquals(
             array('999999', '999999', '999999', '999999', '999999', '999999'),
             $object->getBorderColor()

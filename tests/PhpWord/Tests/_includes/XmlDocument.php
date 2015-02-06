@@ -90,7 +90,7 @@ class XmlDocument
      */
     public function getNodeList($path, $file = 'word/document.xml')
     {
-        if ($this->dom === null || $file !== $this->file) {
+        if (null === $this->dom || $file !== $this->file) {
             $this->getFileDom($file);
         }
 

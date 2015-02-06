@@ -32,7 +32,7 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testText()
     {
-        $oListItem = new ListItem('text');
+        $oListItem = new ListItem(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $oListItem->getTextObject());
     }
@@ -43,17 +43,14 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
     public function testStyle()
     {
         $oListItem = new ListItem(
-            'text',
+            htmlspecialchars('text', ENT_COMPAT, 'UTF-8'),
             1,
             null,
             array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItem->getStyle());
-        $this->assertEquals(
-            $oListItem->getStyle()->getListType(),
-            \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER
-        );
+        $this->assertEquals(\PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER, $oListItem->getStyle()->getListType());
     }
 
     /**
@@ -62,8 +59,8 @@ class ListItemTest extends \PHPUnit_Framework_TestCase
     public function testDepth()
     {
         $iVal = rand(1, 1000);
-        $oListItem = new ListItem('text', $iVal);
+        $oListItem = new ListItem(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $iVal);
 
-        $this->assertEquals($oListItem->getDepth(), $iVal);
+        $this->assertEquals($iVal, $oListItem->getDepth());
     }
 }

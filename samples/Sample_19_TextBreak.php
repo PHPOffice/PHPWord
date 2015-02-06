@@ -13,17 +13,17 @@ $phpWord->addParagraphStyle('paragraphStyle', array('spacing' => 480));
 $fontStyle = array('size' => 24);
 
 $section = $phpWord->addSection();
-$section->addText(htmlspecialchars('Text break with no style:'));
+$section->addText(htmlspecialchars('Text break with no style:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak();
-$section->addText(htmlspecialchars('Text break with defined font style:'));
+$section->addText(htmlspecialchars('Text break with defined font style:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(1, 'fontStyle');
-$section->addText(htmlspecialchars('Text break with defined paragraph style:'));
+$section->addText(htmlspecialchars('Text break with defined paragraph style:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(1, null, 'paragraphStyle');
-$section->addText(htmlspecialchars('Text break with inline font style:'));
+$section->addText(htmlspecialchars('Text break with inline font style:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(1, $fontStyle);
-$section->addText(htmlspecialchars('Text break with inline paragraph style:'));
+$section->addText(htmlspecialchars('Text break with inline paragraph style:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(1, null, $paragraphStyle);
-$section->addText(htmlspecialchars('Done.'));
+$section->addText(htmlspecialchars('Done.', ENT_COMPAT, 'UTF-8'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

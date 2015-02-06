@@ -53,29 +53,34 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $localImage = __DIR__ . "/../_files/images/PhpWord.png";
+        $localImage = __DIR__ . '/../_files/images/PhpWord.png';
         $archiveImage = 'zip://' . __DIR__ . '/../_files/documents/reader.docx#word/media/image1.jpeg';
         $gdImage = 'http://php.net/images/logos/php-med-trans-light.gif';
-        $objectSrc = __DIR__ . "/../_files/documents/sheet.xls";
-        $file = __DIR__ . "/../_files/temp.html";
+        $objectSrc = __DIR__ . '/../_files/documents/sheet.xls';
+        $file = __DIR__ . '/../_files/temp.html';
 
         $phpWord = new PhpWord();
 
         $docProps = $phpWord->getDocInfo();
-        $docProps->setTitle('HTML Test');
+        $docProps->setTitle(htmlspecialchars('HTML Test', ENT_COMPAT, 'UTF-8'));
 
         $phpWord->addTitleStyle(1, array('bold' => true));
-        $phpWord->addFontStyle('Font', array('name' => 'Verdana', 'size' => 11,
-            'color' => 'FF0000', 'fgColor' => 'FF0000'));
+        $phpWord->addFontStyle(
+            'Font',
+            array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000')
+        );
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center', 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
-        $section->addText('Test 1', 'Font', 'Paragraph');
+        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
-        $section->addText('Test 2', array('name' => 'Tahoma', 'bold' => true, 'italic' => true, 'subscript' => true));
-        $section->addLink('http://test.com');
-        $section->addTitle('Test', 1);
+        $section->addText(
+            htmlspecialchars('Test 2', ENT_COMPAT, 'UTF-8'),
+            array('name' => 'Tahoma', 'bold' => true, 'italic' => true, 'subscript' => true)
+        );
+        $section->addLink('https://github.com/PHPOffice/PHPWord');
+        $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
         $section->addPageBreak();
-        $section->addListItem('Test');
+        $section->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $section->addImage($localImage);
         $section->addImage($archiveImage);
         $section->addImage($gdImage);
@@ -86,24 +91,27 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
 
         $textrun = $section->addTextRun(array('align' => 'center'));
-        $textrun->addText('Test 3');
+        $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
         $textrun->addTextBreak();
 
         $textrun = $section->addTextRun('Paragraph');
-        $textrun->addLink('http://test.com');
+        $textrun->addLink('https://github.com/PHPOffice/PHPWord');
         $textrun->addImage($localImage);
-        $textrun->addFootnote()->addText('Footnote');
-        $textrun->addEndnote()->addText('Endnote');
+        $textrun->addFootnote()->addText(htmlspecialchars('Footnote', ENT_COMPAT, 'UTF-8'));
+        $textrun->addEndnote()->addText(htmlspecialchars('Endnote', ENT_COMPAT, 'UTF-8'));
 
         $section = $phpWord->addSection();
 
         $table = $section->addTable();
         $cell = $table->addRow()->addCell();
-        $cell->addText('Test 1', array('superscript' => true, 'underline' => 'dash', 'strikethrough' => true));
+        $cell->addText(
+            htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'),
+            array('superscript' => true, 'underline' => 'dash', 'strikethrough' => true)
+        );
         $cell->addTextRun();
-        $cell->addLink('http://test.com');
+        $cell->addLink('https://github.com/PHPOffice/PHPWord');
         $cell->addTextBreak();
-        $cell->addListItem('Test');
+        $cell->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $cell->addImage($localImage);
         $cell->addObject($objectSrc);
         $cell->addFootnote();

@@ -35,8 +35,8 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $object = new Row();
 
         $properties = array(
-            'tblHeader' => true,
-            'cantSplit' => false,
+            'tblHeader'   => true,
+            'cantSplit'   => false,
             'exactHeight' => true,
         );
         foreach ($properties as $key => $value) {
@@ -63,8 +63,8 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $object = new Row();
 
         $properties = array(
-            'tblHeader' => 'a',
-            'cantSplit' => 'b',
+            'tblHeader'   => 'a',
+            'cantSplit'   => 'b',
             'exactHeight' => 'c',
         );
         foreach ($properties as $key => $value) {

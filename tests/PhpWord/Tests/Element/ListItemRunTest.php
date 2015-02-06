@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\ListItemRun;
-use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\ListItemRun
@@ -36,7 +35,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
-        $this->assertEquals($oListItemRun->getParagraphStyle(), null);
+        $this->assertNull($oListItemRun->getParagraphStyle());
     }
 
     /**
@@ -48,7 +47,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
-        $this->assertEquals($oListItemRun->getParagraphStyle(), 'pStyle');
+        $this->assertEquals('pStyle', $oListItemRun->getParagraphStyle());
     }
 
     /**
@@ -82,8 +81,9 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
         $oListItemRun = new ListItemRun(1, array('listType' => \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\ListItem', $oListItemRun->getStyle());
-        $this->assertEquals($oListItemRun->getStyle()->getListType(), \PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER);
+        $this->assertEquals(\PhpOffice\PhpWord\Style\ListItem::TYPE_NUMBER, $oListItemRun->getStyle()->getListType());
     }
+
     /**
      * getDepth
      */
@@ -92,7 +92,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oListItemRun = new ListItemRun($iVal);
 
-        $this->assertEquals($oListItemRun->getDepth(), $iVal);
+        $this->assertEquals($iVal, $oListItemRun->getDepth());
     }
 
     /**
@@ -101,11 +101,11 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addText('text');
+        $element = $oListItemRun->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getText(), 'text');
+        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -114,11 +114,11 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addText(utf8_decode('ééé'));
+        $element = $oListItemRun->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -127,11 +127,11 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLink()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addLink('http://www.google.fr');
+        $element = $oListItemRun->addLink('https://github.com/PHPOffice/PHPWord');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getSource(), 'http://www.google.fr');
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
     }
 
     /**
@@ -140,12 +140,12 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLinkWithName()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addLink('http://www.google.fr', utf8_decode('ééé'));
+        $element = $oListItemRun->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals($element->getSource(), 'http://www.google.fr');
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
+        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -164,7 +164,7 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImage()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
 
         $oListItemRun = new ListItemRun();
         $element = $oListItemRun->addImage($src);

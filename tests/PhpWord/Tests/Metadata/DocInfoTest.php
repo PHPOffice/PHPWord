@@ -182,42 +182,22 @@ class DocInfoTest extends \PHPUnit_Framework_TestCase
         $oProperties->setCustomProperty('key3', 3);
         $oProperties->setCustomProperty('key4', 4.4);
         $oProperties->setCustomProperty('key5', 'value5');
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_STRING,
-            $oProperties->getCustomPropertyType('key1')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_BOOLEAN,
-            $oProperties->getCustomPropertyType('key2')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_INTEGER,
-            $oProperties->getCustomPropertyType('key3')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_FLOAT,
-            $oProperties->getCustomPropertyType('key4')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_STRING,
-            $oProperties->getCustomPropertyType('key5')
-        );
-        $this->assertEquals(null, $oProperties->getCustomPropertyType('key6'));
-        $this->assertEquals(null, $oProperties->getCustomPropertyValue('key1'));
-        $this->assertEquals(true, $oProperties->getCustomPropertyValue('key2'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key1'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, $oProperties->getCustomPropertyType('key2'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, $oProperties->getCustomPropertyType('key3'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, $oProperties->getCustomPropertyType('key4'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, $oProperties->getCustomPropertyType('key5'));
+        $this->assertNull($oProperties->getCustomPropertyType('key6'));
+        $this->assertNull($oProperties->getCustomPropertyValue('key1'));
+        $this->assertTrue($oProperties->getCustomPropertyValue('key2'));
         $this->assertEquals(3, $oProperties->getCustomPropertyValue('key3'));
         $this->assertEquals(4.4, $oProperties->getCustomPropertyValue('key4'));
         $this->assertEquals('value5', $oProperties->getCustomPropertyValue('key5'));
-        $this->assertEquals(null, $oProperties->getCustomPropertyValue('key6'));
-        $this->assertEquals(true, $oProperties->isCustomPropertySet('key5'));
+        $this->assertNull($oProperties->getCustomPropertyValue('key6'));
+        $this->assertTrue($oProperties->isCustomPropertySet('key5'));
+        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
         $this->assertEquals(false, $oProperties->isCustomPropertySet('key6'));
-        $this->assertEquals(array(
-            'key1',
-            'key2',
-            'key3',
-            'key4',
-            'key5'
-        ), $oProperties->getCustomProperties());
+        $this->assertEquals(array('key1', 'key2', 'key3', 'key4', 'key5'), $oProperties->getCustomProperties());
     }
 
     /**
@@ -226,49 +206,25 @@ class DocInfoTest extends \PHPUnit_Framework_TestCase
     public function testConvertProperty()
     {
         $this->assertEquals('', DocInfo::convertProperty('a', 'empty'));
-        $this->assertEquals(null, DocInfo::convertProperty('a', 'null'));
+        $this->assertNull(DocInfo::convertProperty('a', 'null'));
         $this->assertEquals(8, DocInfo::convertProperty('8', 'int'));
         $this->assertEquals(8, DocInfo::convertProperty('8.3', 'uint'));
         $this->assertEquals(8.3, DocInfo::convertProperty('8.3', 'decimal'));
         $this->assertEquals('8.3', DocInfo::convertProperty('8.3', 'lpstr'));
         $this->assertEquals(strtotime('10/11/2013'), DocInfo::convertProperty('10/11/2013', 'date'));
-        $this->assertEquals(true, DocInfo::convertProperty('true', 'bool'));
+        $this->assertTrue(DocInfo::convertProperty('true', 'bool'));
+        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
         $this->assertEquals(false, DocInfo::convertProperty('1', 'bool'));
         $this->assertEquals('1', DocInfo::convertProperty('1', 'array'));
         $this->assertEquals('1', DocInfo::convertProperty('1', ''));
 
-
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_INTEGER,
-            DocInfo::convertPropertyType('int')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_INTEGER,
-            DocInfo::convertPropertyType('uint')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_FLOAT,
-            DocInfo::convertPropertyType('decimal')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_STRING,
-            DocInfo::convertPropertyType('lpstr')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_DATE,
-            DocInfo::convertPropertyType('date')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_BOOLEAN,
-            DocInfo::convertPropertyType('bool')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_UNKNOWN,
-            DocInfo::convertPropertyType('array')
-        );
-        $this->assertEquals(
-            DocInfo::PROPERTY_TYPE_UNKNOWN,
-            DocInfo::convertPropertyType('')
-        );
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('int'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_INTEGER, DocInfo::convertPropertyType('uint'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_FLOAT, DocInfo::convertPropertyType('decimal'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_STRING, DocInfo::convertPropertyType('lpstr'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_DATE, DocInfo::convertPropertyType('date'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_BOOLEAN, DocInfo::convertPropertyType('bool'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType('array'));
+        $this->assertEquals(DocInfo::PROPERTY_TYPE_UNKNOWN, DocInfo::convertPropertyType(''));
     }
 }

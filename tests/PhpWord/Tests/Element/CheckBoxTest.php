@@ -35,7 +35,7 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
         $oCheckBox = new CheckBox();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $oCheckBox);
-        $this->assertEquals(null, $oCheckBox->getText());
+        $this->assertNull($oCheckBox->getText());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
@@ -45,10 +45,10 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckBox()
     {
-        $oCheckBox = new CheckBox('chkBox', 'CheckBox');
+        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'));
 
-        $this->assertEquals($oCheckBox->getName(), 'chkBox');
-        $this->assertEquals($oCheckBox->getText(), 'CheckBox');
+        $this->assertEquals(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), $oCheckBox->getName());
+        $this->assertEquals(htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), $oCheckBox->getText());
     }
 
     /**
@@ -56,8 +56,8 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testFont()
     {
-        $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle');
-        $this->assertEquals($oCheckBox->getFontStyle(), 'fontStyle');
+        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), 'fontStyle');
+        $this->assertEquals('fontStyle', $oCheckBox->getFontStyle());
 
         $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oCheckBox->getFontStyle());
@@ -69,8 +69,8 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
     public function testFontObject()
     {
         $font = new Font();
-        $oCheckBox = new CheckBox('chkBox', 'CheckBox', $font);
-        $this->assertEquals($oCheckBox->getFontStyle(), $font);
+        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), $font);
+        $this->assertEquals($font, $oCheckBox->getFontStyle());
     }
 
     /**
@@ -78,8 +78,8 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testParagraph()
     {
-        $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle', 'paragraphStyle');
-        $this->assertEquals($oCheckBox->getParagraphStyle(), 'paragraphStyle');
+        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
+        $this->assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
 
         $oCheckBox->setParagraphStyle(array('align' => 'center', 'spaceAfter' => 100));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());

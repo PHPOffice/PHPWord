@@ -32,7 +32,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSectionMediaElementsWithNull()
     {
-        $this->assertEquals(Media::getElements('section'), array());
+        $this->assertEquals(array(), Media::getElements('section'));
     }
 
     /**
@@ -48,8 +48,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSectionMediaElement()
     {
-        $local = __DIR__ . "/_files/images/mars.jpg";
-        $object = __DIR__ . "/_files/documents/sheet.xls";
+        $local = __DIR__ . '/_files/images/mars.jpg';
+        $object = __DIR__ . '/_files/documents/sheet.xls';
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
         Media::addElement('section', 'image', $local, new Image($local));
         Media::addElement('section', 'image', $local, new Image($local));
@@ -77,7 +77,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddHeaderMediaElement()
     {
-        $local = __DIR__ . "/_files/images/mars.jpg";
+        $local = __DIR__ . '/_files/images/mars.jpg';
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $local, new Image($local));
@@ -92,7 +92,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFooterMediaElement()
     {
-        $local = __DIR__ . "/_files/images/mars.jpg";
+        $local = __DIR__ . '/_files/images/mars.jpg';
         $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $local, new Image($local));
@@ -112,6 +112,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddElementImageException()
     {
-        Media::addElement('section', 'image', __DIR__ . "/_files/images/mars.jpg");
+        Media::addElement('section', 'image', __DIR__ . '/_files/images/mars.jpg');
     }
 }

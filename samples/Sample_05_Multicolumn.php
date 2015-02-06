@@ -11,7 +11,7 @@ $filler = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
 
 // Normal
 $section = $phpWord->addSection();
-$section->addText(htmlspecialchars("Normal paragraph. {$filler}"));
+$section->addText(htmlspecialchars("Normal paragraph. {$filler}", ENT_COMPAT, 'UTF-8'));
 
 // Two columns
 $section = $phpWord->addSection(
@@ -21,11 +21,11 @@ $section = $phpWord->addSection(
         'breakType' => 'continuous',
     )
 );
-$section->addText(htmlspecialchars("Two columns, one inch (1440 twips) spacing. {$filler}"));
+$section->addText(htmlspecialchars("Two columns, one inch (1440 twips) spacing. {$filler}", ENT_COMPAT, 'UTF-8'));
 
 // Normal
 $section = $phpWord->addSection(array('breakType' => 'continuous'));
-$section->addText(htmlspecialchars("Normal paragraph again. {$filler}"));
+$section->addText(htmlspecialchars("Normal paragraph again. {$filler}", ENT_COMPAT, 'UTF-8'));
 
 // Three columns
 $section = $phpWord->addSection(
@@ -35,11 +35,11 @@ $section = $phpWord->addSection(
         'breakType' => 'continuous',
     )
 );
-$section->addText(htmlspecialchars("Three columns, half inch (720 twips) spacing. {$filler}"));
+$section->addText(htmlspecialchars("Three columns, half inch (720 twips) spacing. {$filler}", ENT_COMPAT, 'UTF-8'));
 
 // Normal
 $section = $phpWord->addSection(array('breakType' => 'continuous'));
-$section->addText(htmlspecialchars('Normal paragraph again.'));
+$section->addText(htmlspecialchars('Normal paragraph again.', ENT_COMPAT, 'UTF-8'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

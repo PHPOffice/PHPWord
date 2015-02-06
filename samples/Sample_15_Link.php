@@ -10,8 +10,8 @@ $section = $phpWord->addSection();
 
 // Add hyperlink elements
 $section->addLink(
-    'http://www.google.com',
-    htmlspecialchars('Best search engine'),
+    'https://github.com/PHPOffice/PHPWord',
+    htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'),
     array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE)
 );
 $section->addTextBreak(2);

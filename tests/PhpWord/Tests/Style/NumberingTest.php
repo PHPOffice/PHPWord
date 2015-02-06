@@ -33,8 +33,8 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
     {
         $this->object = new Numbering();
         $this->properties = array(
-            'numId'  => array(null, 1),
-            'type'   => array(null, 'singleLevel'),
+            'numId' => array(null, 1),
+            'type'  => array(null, 'singleLevel'),
         );
         foreach ($this->properties as $property => $value) {
             list($default, $expected) = $value;

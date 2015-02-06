@@ -43,8 +43,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         }
 
         // Styles
-        $content .= '<p style="text-decoration: underline; text-decoration: line-through; ' .
-            'text-align: center; color: #999; background-color: #000;">';
+        $content .= '<p style="text-decoration: underline; text-decoration: line-through; '
+                  . 'text-align: center; color: #999; background-color: #000;">';
         foreach ($styles as $style) {
             $content .= "<{$style}>{$style}</{$style}>";
         }

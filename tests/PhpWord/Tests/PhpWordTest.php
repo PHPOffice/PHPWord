@@ -124,7 +124,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadTemplate()
     {
-        $templateFqfn = __DIR__ . "/_files/templates/blank.docx";
+        $templateFqfn = __DIR__ . '/_files/templates/blank.docx';
 
         $phpWord = new PhpWord();
         $this->assertInstanceOf(

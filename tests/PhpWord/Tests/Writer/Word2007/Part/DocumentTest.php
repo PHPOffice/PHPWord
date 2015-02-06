@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007\Part\Document;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
@@ -62,42 +61,62 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testElements()
     {
-        $objectSrc = __DIR__ . "/../../../_files/documents/sheet.xls";
+        $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold'=>true));
-        $phpWord->addTitleStyle(2, array('color'=>'666666'));
+        $phpWord->addTitleStyle(1, array('color' => '333333', 'bold' => true));
+        $phpWord->addTitleStyle(2, array('color' => '666666'));
         $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
-        $section->addText('After page break.');
-        $section->addTitle('Title 1', 1);
-        $section->addListItem('List Item 1', 0);
-        $section->addListItem('List Item 2', 0);
-        $section->addListItem('List Item 3', 0);
+        $section->addText(htmlspecialchars('After page break.', ENT_COMPAT, 'UTF-8'));
+        $section->addTitle(htmlspecialchars('Title 1', ENT_COMPAT, 'UTF-8'), 1);
+        $section->addListItem(htmlspecialchars('List Item 1', ENT_COMPAT, 'UTF-8'), 0);
+        $section->addListItem(htmlspecialchars('List Item 2', ENT_COMPAT, 'UTF-8'), 0);
+        $section->addListItem(htmlspecialchars('List Item 3', ENT_COMPAT, 'UTF-8'), 0);
 
         $section = $phpWord->addSection();
-        $section->addTitle('Title 2', 2);
+        $section->addTitle(htmlspecialchars('Title 2', ENT_COMPAT, 'UTF-8'), 2);
         $section->addObject($objectSrc);
         $section->addTextBox(array());
-        $section->addTextBox(array('wrappingStyle' => 'square', 'positioning' => 'relative',
-            'posHorizontalRel' => 'margin', 'posVerticalRel' => 'margin',
-            'innerMargin' => 10, 'borderSize' => 1, 'borderColor' => '#FF0'));
+        $section->addTextBox(
+            array(
+                'wrappingStyle'    => 'square',
+                'positioning'      => 'relative',
+                'posHorizontalRel' => 'margin',
+                'posVerticalRel'   => 'margin',
+                'innerMargin'      => 10,
+                'borderSize'       => 1,
+                'borderColor'      => '#FF0',
+            )
+        );
         $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'align' => 'center'));
-        $section->addListItemRun()->addText('List item run 1');
-        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'LunarCalendar'));
-        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'SakaEraCalendar'));
-        $section->addField('DATE', array('dateformat'=>'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat', 'LastUsedFormat'));
-        $section->addField('PAGE', array('format'=>'ArabicDash'));
+        $section->addListItemRun()->addText(htmlspecialchars('List item run 1', ENT_COMPAT, 'UTF-8'));
+        $section->addField(
+            'DATE',
+            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
+            array('PreserveFormat', 'LunarCalendar')
+        );
+        $section->addField(
+            'DATE',
+            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
+            array('PreserveFormat', 'SakaEraCalendar')
+        );
+        $section->addField(
+            'DATE',
+            array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
+            array('PreserveFormat', 'LastUsedFormat')
+        );
+        $section->addField('PAGE', array('format' => 'ArabicDash'));
         $section->addLine(
             array(
-                'width' => 10,
-                'height' => 10,
+                'width'       => 10,
+                'height'      => 10,
                 'positioning' => 'absolute',
-                'beginArrow' => 'block',
-                'endArrow' => 'open',
-                'dash' => 'rounddot',
-                'weight' => 10
+                'beginArrow'  => 'block',
+                'endArrow'    => 'open',
+                'dash'        => 'rounddot',
+                'weight'      => 10,
             )
         );
 
@@ -131,27 +150,39 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testElementStyles()
     {
-        $objectSrc = __DIR__ . "/../../../_files/documents/sheet.xls";
+        $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
         $tabs = array(new \PhpOffice\PhpWord\Style\Tab('right', 9090));
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('pStyle', array(
-            'align' => 'center',
-            'tabs' => $tabs,
-            'shading' => array('fill' => 'FFFF99'),
-            'borderSize' => 4,
-        )); // Style #1
-        $phpWord->addFontStyle('fStyle', array('size' => '20', 'bold' => true, 'allCaps' => true,
-            'scale' => 200, 'spacing' => 240, 'kerning' => 10)); // Style #2
+        $phpWord->addParagraphStyle(
+            'pStyle',
+            array(
+                'align'      => 'center',
+                'tabs'       => $tabs,
+                'shading'    => array('fill' => 'FFFF99'),
+                'borderSize' => 4,
+            )
+        ); // Style #1
+        $phpWord->addFontStyle(
+            'fStyle',
+            array(
+                'size'    => '20',
+                'bold'    => true,
+                'allCaps' => true,
+                'scale'   => 200,
+                'spacing' => 240,
+                'kerning' => 10,
+            )
+        ); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
         $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
         $fontStyle = new Font('text', array('align' => 'center'));
 
         $section = $phpWord->addSection();
-        $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #5
+        $section->addListItem(htmlspecialchars('List Item', ENT_COMPAT, 'UTF-8'), 0, null, null, 'pStyle'); // Style #5
         $section->addObject($objectSrc, array('align' => 'center'));
         $section->addTOC($fontStyle);
-        $section->addTitle('Title 1', 1);
+        $section->addTitle(htmlspecialchars('Title 1', ENT_COMPAT, 'UTF-8'), 1);
         $section->addTOC('fStyle');
         $table = $section->addTable('tStyle');
         $table->setWidth(100);
@@ -184,12 +215,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addFontStyle($rStyle, array('bold' => true));
         $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
         $section = $phpWord->addSection();
-        $section->addText('Test', $rStyle, $pStyle);
+        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $element = "/w:document/w:body/w:p/w:r/w:rPr/w:rStyle";
+        $element = '/w:document/w:body/w:p/w:r/w:rPr/w:rStyle';
         $this->assertEquals($rStyle, $doc->getElementAttribute($element, 'w:val'));
-        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
+        $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
         $this->assertEquals($pStyle, $doc->getElementAttribute($element, 'w:val'));
     }
 
@@ -200,21 +231,21 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $pStyle = 'pStyle';
         $aStyle = array('align' => 'justify', 'spaceBefore' => 120, 'spaceAfter' => 120);
-        $imageSrc = __DIR__ . "/../../../_files/images/earth.jpg";
+        $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle($pStyle, $aStyle);
-        $section = $phpWord->addSection('Test');
+        $section = $phpWord->addSection(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $textrun = $section->addTextRun($pStyle);
-        $textrun->addText('Test');
+        $textrun->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $textrun->addTextBreak();
         $textrun = $section->addTextRun($aStyle);
-        $textrun->addLink('http://test.com');
+        $textrun->addLink('https://github.com/PHPOffice/PHPWord');
         $textrun->addImage($imageSrc, array('align' => 'center'));
         $textrun->addFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $parent = "/w:document/w:body/w:p";
+        $parent = '/w:document/w:body/w:p';
         $this->assertTrue($doc->elementExists("{$parent}/w:pPr/w:pStyle[@w:val='{$pStyle}']"));
     }
 
@@ -230,15 +261,25 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $paragraphStyleArray = array('align' => 'center');
         $paragraphStyleName = 'Paragraph Style';
 
-        $expected = 'PhpWord';
-        $section->addLink('http://github.com/phpoffice/phpword', $expected);
-        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleArray, $paragraphStyleArray);
-        $section->addLink('http://github.com/phpoffice/phpword', 'Test', $fontStyleName, $paragraphStyleName);
+        $expected = 'PHPWord on GitHub';
+        $section->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'));
+        $section->addLink(
+            'https://github.com/PHPOffice/PHPWord',
+            htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'),
+            $fontStyleArray,
+            $paragraphStyleArray
+        );
+        $section->addLink(
+            'https://github.com/PHPOffice/PHPWord',
+            htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'),
+            $fontStyleName,
+            $paragraphStyleName
+        );
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
 
-        $this->assertEquals($expected, $element->nodeValue);
+        $this->assertEquals(htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'), $element->nodeValue);
     }
 
     /**
@@ -254,12 +295,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $paragraphStyleArray = array('align' => 'right');
         $paragraphStyleName = 'Paragraph';
 
-        $footer->addPreserveText('Page {PAGE}');
-        $footer->addPreserveText('{PAGE}', $fontStyleArray, $paragraphStyleArray);
-        $footer->addPreserveText('{PAGE}', $fontStyleName, $paragraphStyleName);
+        $footer->addPreserveText(htmlspecialchars('Page {PAGE}', ENT_COMPAT, 'UTF-8'));
+        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'), $fontStyleArray, $paragraphStyleArray);
+        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'), $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        $preserve = $doc->getElement("w:p/w:r[2]/w:instrText", 'word/footer1.xml');
+        $preserve = $doc->getElement('w:p/w:r[2]/w:instrText', 'word/footer1.xml');
 
         $this->assertEquals('PAGE', $preserve->nodeValue);
         $this->assertEquals('preserve', $preserve->getAttribute('xml:space'));
@@ -301,7 +342,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         foreach ($wraps as $wrap) {
             $styles['wrappingStyle'] = $wrap;
-            $section->addImage(__DIR__ . "/../../../_files/images/earth.jpg", $styles);
+            $section->addImage(__DIR__ . '/../../../_files/images/earth.jpg', $styles);
         }
 
         $archiveFile = realpath(__DIR__ . '/../../../_files/documents/reader.docx');
@@ -326,7 +367,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteWatermark()
     {
-        $imageSrc = __DIR__ . "/../../../_files/images/earth.jpg";
+        $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
@@ -334,8 +375,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $header->addWatermark($imageSrc);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $element = $doc->getElement("/w:document/w:body/w:sectPr/w:headerReference");
-        $this->assertStringStartsWith("rId", $element->getAttribute('r:id'));
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:headerReference');
+        $this->assertStringStartsWith('rId', $element->getAttribute('r:id'));
     }
 
     /**
@@ -345,10 +386,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
-        $phpWord->addSection()->addTitle('Test', 1);
+        $phpWord->addSection()->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $element = "/w:document/w:body/w:p/w:pPr/w:pStyle";
+        $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
         $this->assertEquals('Heading1', $doc->getElementAttribute($element, 'w:val'));
     }
 
@@ -364,11 +405,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // $phpWord->addFontStyle($rStyle, array('bold' => true));
         // $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
         $section = $phpWord->addSection();
-        $section->addCheckBox('Check1', 'Test', $rStyle, $pStyle);
+        $section->addCheckBox(htmlspecialchars('Check1', ENT_COMPAT, 'UTF-8'), htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
-        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
+        $this->assertEquals(htmlspecialchars('Check1', ENT_COMPAT, 'UTF-8'), $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
@@ -380,14 +421,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $attributes = array(
-            'align' => 'right',
-            'widowControl' => false,
-            'keepNext' => true,
-            'keepLines' => true,
+            'align'           => 'right',
+            'widowControl'    => false,
+            'keepNext'        => true,
+            'keepLines'       => true,
             'pageBreakBefore' => true,
         );
         foreach ($attributes as $attribute => $value) {
-            $section->addText('Test', null, array($attribute => $value));
+            $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), null, array($attribute => $value));
         }
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -397,7 +438,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             $attributeCount++;
             $nodeName = ($key == 'align') ? 'jc' : $key;
             $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
-            if ($key != 'align') {
+            if ('align' != $key) {
                 $value = $value ? 1 : 0;
             }
             $element = $doc->getElement($path);
@@ -425,7 +466,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $styles['smallCaps'] = true;
 
         $section = $phpWord->addSection();
-        $section->addText('Test', $styles);
+        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $styles);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:p/w:r/w:rPr';
@@ -449,50 +490,46 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $rHeight = 120;
         $cWidth = 120;
-        $imageSrc = __DIR__ . "/../../../_files/images/earth.jpg";
-        $objectSrc = __DIR__ . "/../../../_files/documents/sheet.xls";
+        $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
+        $objectSrc = __DIR__ . '/../../../_files/documents/sheet.xls';
 
-        $tStyles["width"] = 50;
-        $tStyles["cellMarginTop"] = 120;
-        $tStyles["cellMarginRight"] = 120;
-        $tStyles["cellMarginBottom"] = 120;
-        $tStyles["cellMarginLeft"] = 120;
-        $rStyles["tblHeader"] = true;
-        $rStyles["cantSplit"] = true;
-        $cStyles["valign"] = 'top';
-        $cStyles["textDirection"] = 'btLr';
-        $cStyles["bgColor"] = 'FF0000';
-        $cStyles["borderTopSize"] = 120;
-        $cStyles["borderBottomSize"] = 120;
-        $cStyles["borderLeftSize"] = 120;
-        $cStyles["borderRightSize"] = 120;
-        $cStyles["borderTopColor"] = 'FF0000';
-        $cStyles["borderBottomColor"] = 'FF0000';
-        $cStyles["borderLeftColor"] = 'FF0000';
-        $cStyles["borderRightColor"] = 'FF0000';
-        $cStyles["vMerge"] = 'restart';
+        $tStyles['width'] = 50;
+        $tStyles['cellMarginTop'] = 120;
+        $tStyles['cellMarginRight'] = 120;
+        $tStyles['cellMarginBottom'] = 120;
+        $tStyles['cellMarginLeft'] = 120;
+        $rStyles['tblHeader'] = true;
+        $rStyles['cantSplit'] = true;
+        $cStyles['valign'] = 'top';
+        $cStyles['textDirection'] = 'btLr';
+        $cStyles['bgColor'] = 'FF0000';
+        $cStyles['borderTopSize'] = 120;
+        $cStyles['borderBottomSize'] = 120;
+        $cStyles['borderLeftSize'] = 120;
+        $cStyles['borderRightSize'] = 120;
+        $cStyles['borderTopColor'] = 'FF0000';
+        $cStyles['borderBottomColor'] = 'FF0000';
+        $cStyles['borderLeftColor'] = 'FF0000';
+        $cStyles['borderRightColor'] = 'FF0000';
+        $cStyles['vMerge'] = 'restart';
 
         $section = $phpWord->addSection();
         $table = $section->addTable($tStyles);
         $table->setWidth = 100;
         $table->addRow($rHeight, $rStyles);
         $cell = $table->addCell($cWidth, $cStyles);
-        $cell->addText('Test');
+        $cell->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $cell->addTextBreak();
-        $cell->addLink('http://google.com');
-        $cell->addListItem('Test');
+        $cell->addLink('https://github.com/PHPOffice/PHPWord');
+        $cell->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $cell->addImage($imageSrc);
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
-        $textrun->addText('Test');
+        $textrun->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellMar';
-        // $this->assertEquals($tStyles['cellMarginTop'], $doc->getElementAttribute("{$parent}/w:top", 'w:w'));
-        // $this->assertEquals($tStyles['cellMarginRight'], $doc->getElementAttribute("{$parent}/w:right", 'w:w'));
-        // $this->assertEquals($tStyles['cellMarginBottom'], $doc->getElementAttribute("{$parent}/w:bottom", 'w:w'));
-        // $this->assertEquals($tStyles['cellMarginLeft'], $doc->getElementAttribute("{$parent}/w:right", 'w:w'));
 
         $parent = '/w:document/w:body/w:tbl/w:tr/w:trPr';
         $this->assertEquals($rHeight, $doc->getElementAttribute("{$parent}/w:trHeight", 'w:val'));

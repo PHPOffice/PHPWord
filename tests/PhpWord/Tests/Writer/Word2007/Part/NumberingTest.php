@@ -47,20 +47,20 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
         $phpWord->addNumberingStyle(
             'numStyle',
             array(
-                'type' => 'multilevel',
+                'type'   => 'multilevel',
                 'levels' => array(
                     array(
-                        'start' => 1,
-                        'format' => 'decimal',
+                        'start'   => 1,
+                        'format'  => 'decimal',
                         'restart' => 1,
-                        'suffix' => 'space',
-                        'text' => '%1.',
-                        'align' => 'left',
-                        'left' => 360,
+                        'suffix'  => 'space',
+                        'text'    => '%1.',
+                        'align'   => 'left',
+                        'left'    => 360,
                         'hanging' => 360,
-                        'tabPos' => 360,
-                        'font' => 'Arial',
-                        'hint' => 'default',
+                        'tabPos'  => 360,
+                        'font'    => 'Arial',
+                        'hint'    => 'default',
                     ),
                 )
             )

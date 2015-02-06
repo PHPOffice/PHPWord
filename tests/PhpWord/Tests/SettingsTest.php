@@ -122,8 +122,8 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testLoadConfig()
     {
         $expected = array(
-            'compatibility' => true,
-            'zipClass' => 'ZipArchive',
+            'compatibility'   => true,
+            'zipClass'        => 'ZipArchive',
             'pdfRendererName' => 'DomPDF',
             'pdfRendererPath' => '',
             'defaultFontName' => 'Arial',

@@ -34,7 +34,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $oCell = new Cell();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $oCell);
-        $this->assertEquals($oCell->getWidth(), null);
+        $this->assertNull($oCell->getWidth());
     }
 
     /**
@@ -45,7 +45,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $oCell = new Cell(null, array('valign' => 'center'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Cell', $oCell->getStyle());
-        $this->assertEquals($oCell->getWidth(), null);
+        $this->assertNull($oCell->getWidth());
     }
 
     /**
@@ -54,7 +54,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oCell = new Cell();
-        $element = $oCell->addText('text');
+        $element = $oCell->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -66,11 +66,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oCell = new Cell();
-        $element = $oCell->addText(utf8_decode('ééé'));
+        $element = $oCell->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -79,7 +79,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddLink()
     {
         $oCell = new Cell();
-        $element = $oCell->addLink(utf8_decode('ééé'), utf8_decode('ééé'));
+        $element = $oCell->addLink(utf8_decode('ééé'), utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
@@ -102,11 +102,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddListItem()
     {
         $oCell = new Cell();
-        $element = $oCell->addListItem('text');
+        $element = $oCell->addListItem(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItem', $element);
-        $this->assertEquals($element->getTextObject()->getText(), 'text');
+        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getTextObject()->getText());
     }
 
     /**
@@ -115,11 +115,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddListItemNotUTF8()
     {
         $oCell = new Cell();
-        $element = $oCell->addListItem(utf8_decode('ééé'));
+        $element = $oCell->addListItem(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItem', $element);
-        $this->assertEquals($element->getTextObject()->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getTextObject()->getText());
     }
 
     /**
@@ -127,7 +127,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageSection()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oCell = new Cell();
         $element = $oCell->addImage($src);
 
@@ -140,7 +140,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageHeader()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oCell = new Cell('header', 1);
         $element = $oCell->addImage($src);
 
@@ -153,7 +153,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImageFooter()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oCell = new Cell('footer', 1);
         $element = $oCell->addImage($src);
 
@@ -180,7 +180,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddObjectXLS()
     {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
+        $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oCell = new Cell();
         $element = $oCell->addObject($src);
 
@@ -195,7 +195,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddObjectException()
     {
-        $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
+        $src = __DIR__ . '/../_files/xsl/passthrough.xsl';
         $oCell = new Cell();
         $oCell->addObject($src);
     }
@@ -207,7 +207,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $oCell = new Cell();
         $oCell->setDocPart('Header', 1);
-        $element = $oCell->addPreserveText('text');
+        $element = $oCell->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -220,11 +220,11 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $oCell = new Cell();
         $oCell->setDocPart('Header', 1);
-        $element = $oCell->addPreserveText(utf8_decode('ééé'));
+        $element = $oCell->addPreserveText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals($element->getText(), array('ééé'));
+        $this->assertEquals(array(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), $element->getText());
     }
 
     /**
@@ -236,7 +236,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     {
         $oCell = new Cell();
         $oCell->setDocPart('Section', 1);
-        $oCell->addPreserveText('text');
+        $oCell->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
     }
 
     /**
@@ -257,7 +257,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
     public function testAddCheckBox()
     {
         $oCell = new Cell();
-        $element = $oCell->addCheckBox(utf8_decode('ééé'), utf8_decode('ééé'));
+        $element = $oCell->addCheckBox(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\CheckBox', $element);

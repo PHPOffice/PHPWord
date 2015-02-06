@@ -42,16 +42,16 @@ class FootnotesTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('align' => 'left'));
         $section = $phpWord->addSection();
-        $section->addText('Text');
+        $section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
         $footnote1 = $section->addFootnote('pStyle');
-        $footnote1->addText('Footnote');
+        $footnote1->addText(htmlspecialchars('Footnote', ENT_COMPAT, 'UTF-8'));
         $footnote1->addTextBreak();
-        $footnote1->addLink('http://google.com');
+        $footnote1->addLink('https://github.com/PHPOffice/PHPWord');
         $footnote2 = $section->addEndnote(array('align' => 'left'));
-        $footnote2->addText('Endnote');
+        $footnote2->addText(htmlspecialchars('Endnote', ENT_COMPAT, 'UTF-8'));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $this->assertTrue($doc->elementExists("/w:document/w:body/w:p/w:r/w:footnoteReference"));
-        $this->assertTrue($doc->elementExists("/w:document/w:body/w:p/w:r/w:endnoteReference"));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:endnoteReference'));
     }
 }

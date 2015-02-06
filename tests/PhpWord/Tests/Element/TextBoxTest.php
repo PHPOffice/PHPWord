@@ -35,7 +35,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
         $oTextBox = new TextBox();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextBox', $oTextBox);
-        $this->assertEquals($oTextBox->getStyle(), null);
+        $this->assertNull($oTextBox->getStyle());
     }
 
     /**
@@ -45,7 +45,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
     {
         $oTextBox = new TextBox('textBoxStyle');
 
-        $this->assertEquals($oTextBox->getStyle(), 'textBoxStyle');
+        $this->assertEquals('textBoxStyle', $oTextBox->getStyle());
     }
 
     /**
@@ -55,15 +55,15 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
     {
         $oTextBox = new TextBox(
             array(
-                'width' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4.5),
-                'height' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(17.5),
+                'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4.5),
+                'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(17.5),
                 'positioning' => 'absolute',
-                'marginLeft' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.4),
-                'marginTop' => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(9.9),
-                'stroke' => 0,
+                'marginLeft'  => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.4),
+                'marginTop'   => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(9.9),
+                'stroke'      => 0,
                 'innerMargin' => 0,
-                'borderSize' => 1,
-                'borderColor' => ''
+                'borderSize'  => 1,
+                'borderColor' => '',
             )
         );
 

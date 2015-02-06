@@ -34,9 +34,9 @@ class SpacingTest extends \PHPUnit_Framework_TestCase
         $object = new Spacing();
         $properties = array(
             'before' => array(null, 10),
-            'after' => array(null, 10),
-            'line' => array(null, 10),
-            'rule' => array('auto', 'exact'),
+            'after'  => array(null, 10),
+            'line'   => array(null, 10),
+            'rule'   => array('auto', 'exact'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

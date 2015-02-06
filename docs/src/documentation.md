@@ -228,7 +228,9 @@ $section->addText(
     htmlspecialchars(
         '"Learn from yesterday, live for today, hope for tomorrow. '
             . 'The important thing is not to stop questioning." '
-            . '(Albert Einstein)'
+            . '(Albert Einstein)',
+        ENT_COMPAT,
+        'UTF-8'
     )
 );
 
@@ -244,7 +246,9 @@ $section->addText(
     htmlspecialchars(
         '"Great achievement is usually born of great sacrifice, '
             . 'and is never the result of selfishness." '
-            . '(Napoleon Hill)'
+            . '(Napoleon Hill)',
+        ENT_COMPAT,
+        'UTF-8'
     ),
     array('name' => 'Tahoma', 'size' => 10)
 );
@@ -259,7 +263,9 @@ $section->addText(
     htmlspecialchars(
         '"The greatest accomplishment is not in never falling, '
             . 'but in rising again after you fall." '
-            . '(Vince Lombardi)'
+            . '(Vince Lombardi)',
+        ENT_COMPAT,
+        'UTF-8'
     ),
     $fontStyleName
 );
@@ -270,7 +276,7 @@ $fontStyle->setBold(true);
 $fontStyle->setName('Tahoma');
 $fontStyle->setSize(13);
 $myTextElement = $section->addText(
-    htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)')
+    htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)', ENT_COMPAT, 'UTF-8')
 );
 $myTextElement->setFontStyle($fontStyle);
 

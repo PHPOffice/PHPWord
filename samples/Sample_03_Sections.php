@@ -7,13 +7,15 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
 $section = $phpWord->addSection(array('borderColor' => '00FF00', 'borderSize' => 12));
-$section->addText(htmlspecialchars('I am placed on a default section.'));
+$section->addText(htmlspecialchars('I am placed on a default section.', ENT_COMPAT, 'UTF-8'));
 
 // New landscape section
 $section = $phpWord->addSection(array('orientation' => 'landscape'));
 $section->addText(
     htmlspecialchars(
-        'I am placed on a landscape section. Every page starting from this section will be landscape style.'
+        'I am placed on a landscape section. Every page starting from this section will be landscape style.',
+        ENT_COMPAT,
+        'UTF-8'
     )
 );
 $section->addPageBreak();
@@ -23,7 +25,7 @@ $section->addPageBreak();
 $section = $phpWord->addSection(
     array('paperSize' => 'Folio', 'marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
 );
-$section->addText(htmlspecialchars('This section uses other margins with folio papersize.'));
+$section->addText(htmlspecialchars('This section uses other margins with folio papersize.', ENT_COMPAT, 'UTF-8'));
 
 // New portrait section with Header & Footer
 $section = $phpWord->addSection(
@@ -36,9 +38,9 @@ $section = $phpWord->addSection(
         'footerHeight' => 50,
     )
 );
-$section->addText(htmlspecialchars('This section and we play with header/footer height.'));
-$section->addHeader()->addText(htmlspecialchars('Header'));
-$section->addFooter()->addText(htmlspecialchars('Footer'));
+$section->addText(htmlspecialchars('This section and we play with header/footer height.', ENT_COMPAT, 'UTF-8'));
+$section->addHeader()->addText(htmlspecialchars('Header', ENT_COMPAT, 'UTF-8'));
+$section->addFooter()->addText(htmlspecialchars('Footer', ENT_COMPAT, 'UTF-8'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

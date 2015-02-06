@@ -10,7 +10,7 @@ $phpWord->addTitleStyle(1, array('size' => 14, 'bold' => true));
 $section = $phpWord->addSection();
 
 // Arc
-$section->addTitle(htmlspecialchars('Arc'), 1);
+$section->addTitle(htmlspecialchars('Arc', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'arc',
     array(
@@ -21,7 +21,7 @@ $section->addShape(
 );
 
 // Curve
-$section->addTitle(htmlspecialchars('Curve'), 1);
+$section->addTitle(htmlspecialchars('Curve', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'curve',
     array(
@@ -38,7 +38,7 @@ $section->addShape(
 );
 
 // Line
-$section->addTitle(htmlspecialchars('Line'), 1);
+$section->addTitle(htmlspecialchars('Line', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'line',
     array(
@@ -54,7 +54,7 @@ $section->addShape(
 );
 
 // Polyline
-$section->addTitle(htmlspecialchars('Polyline'), 1);
+$section->addTitle(htmlspecialchars('Polyline', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'polyline',
     array(
@@ -64,7 +64,7 @@ $section->addShape(
 );
 
 // Rectangle
-$section->addTitle(htmlspecialchars('Rectangle'), 1);
+$section->addTitle(htmlspecialchars('Rectangle', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'rect',
     array(
@@ -77,7 +77,7 @@ $section->addShape(
 );
 
 // Oval
-$section->addTitle(htmlspecialchars('Oval'), 1);
+$section->addTitle(htmlspecialchars('Oval', ENT_COMPAT, 'UTF-8'), 1);
 $section->addShape(
     'oval',
     array(

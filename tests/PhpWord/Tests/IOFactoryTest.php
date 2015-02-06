@@ -74,7 +74,7 @@ class IOFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad()
     {
-        $file = __DIR__ . "/_files/templates/blank.docx";
+        $file = __DIR__ . '/_files/templates/blank.docx';
         $this->assertInstanceOf(
             'PhpOffice\\PhpWord\\PhpWord',
             IOFactory::load($file)

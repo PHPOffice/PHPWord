@@ -33,10 +33,10 @@ class IndentationTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Indentation();
         $properties = array(
-            'left' => array(0, 10),
-            'right' => array(0, 10),
+            'left'      => array(0, 10),
+            'right'     => array(0, 10),
             'firstLine' => array(null, 20),
-            'hanging' => array(null, 20),
+            'hanging'   => array(null, 20),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

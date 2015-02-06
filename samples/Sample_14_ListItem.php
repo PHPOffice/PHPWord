@@ -26,46 +26,46 @@ $predefinedMultilevel = array('listType' => \PhpOffice\PhpWord\Style\ListItem::T
 
 // Lists
 
-$section->addText(htmlspecialchars('Multilevel list.'));
-$section->addListItem(htmlspecialchars('List Item I'), 0, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item I.a'), 1, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item I.b'), 1, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item II'), 0, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item II.a'), 1, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item III'), 0, null, 'multilevel');
+$section->addText(htmlspecialchars('Multilevel list.', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item I', ENT_COMPAT, 'UTF-8'), 0, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item I.a', ENT_COMPAT, 'UTF-8'), 1, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item I.b', ENT_COMPAT, 'UTF-8'), 1, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item II', ENT_COMPAT, 'UTF-8'), 0, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item II.a', ENT_COMPAT, 'UTF-8'), 1, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item III', ENT_COMPAT, 'UTF-8'), 0, null, 'multilevel');
 $section->addTextBreak(2);
 
-$section->addText(htmlspecialchars('Basic simple bulleted list.'));
-$section->addListItem(htmlspecialchars('List Item 1'));
-$section->addListItem(htmlspecialchars('List Item 2'));
-$section->addListItem(htmlspecialchars('List Item 3'));
+$section->addText(htmlspecialchars('Basic simple bulleted list.', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item 1', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item 2', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item 3', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 
-$section->addText(htmlspecialchars('Continue from multilevel list above.'));
-$section->addListItem(htmlspecialchars('List Item IV'), 0, null, 'multilevel');
-$section->addListItem(htmlspecialchars('List Item IV.a'), 1, null, 'multilevel');
+$section->addText(htmlspecialchars('Continue from multilevel list above.', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item IV', ENT_COMPAT, 'UTF-8'), 0, null, 'multilevel');
+$section->addListItem(htmlspecialchars('List Item IV.a', ENT_COMPAT, 'UTF-8'), 1, null, 'multilevel');
 $section->addTextBreak(2);
 
-$section->addText(htmlspecialchars('Multilevel predefined list.'));
-$section->addListItem(htmlspecialchars('List Item 1'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 2'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 3'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 4'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 5'), 2, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 6'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
-$section->addListItem(htmlspecialchars('List Item 7'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addText(htmlspecialchars('Multilevel predefined list.', ENT_COMPAT, 'UTF-8'));
+$section->addListItem(htmlspecialchars('List Item 1', ENT_COMPAT, 'UTF-8'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 2', ENT_COMPAT, 'UTF-8'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 3', ENT_COMPAT, 'UTF-8'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 4', ENT_COMPAT, 'UTF-8'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 5', ENT_COMPAT, 'UTF-8'), 2, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 6', ENT_COMPAT, 'UTF-8'), 1, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
+$section->addListItem(htmlspecialchars('List Item 7', ENT_COMPAT, 'UTF-8'), 0, 'myOwnStyle', $predefinedMultilevel, 'P-Style');
 $section->addTextBreak(2);
 
-$section->addText(htmlspecialchars('List with inline formatting.'));
+$section->addText(htmlspecialchars('List with inline formatting.', ENT_COMPAT, 'UTF-8'));
 $listItemRun = $section->addListItemRun();
-$listItemRun->addText(htmlspecialchars('List item 1'));
-$listItemRun->addText(htmlspecialchars(' in bold'), array('bold' => true));
+$listItemRun->addText(htmlspecialchars('List item 1', ENT_COMPAT, 'UTF-8'));
+$listItemRun->addText(htmlspecialchars(' in bold', ENT_COMPAT, 'UTF-8'), array('bold' => true));
 $listItemRun = $section->addListItemRun();
-$listItemRun->addText(htmlspecialchars('List item 2'));
-$listItemRun->addText(htmlspecialchars(' in italic'), array('italic' => true));
+$listItemRun->addText(htmlspecialchars('List item 2', ENT_COMPAT, 'UTF-8'));
+$listItemRun->addText(htmlspecialchars(' in italic', ENT_COMPAT, 'UTF-8'), array('italic' => true));
 $listItemRun = $section->addListItemRun();
-$listItemRun->addText(htmlspecialchars('List item 3'));
-$listItemRun->addText(htmlspecialchars(' underlined'), array('underline' => 'dash'));
+$listItemRun->addText(htmlspecialchars('List item 3', ENT_COMPAT, 'UTF-8'));
+$listItemRun->addText(htmlspecialchars(' underlined', ENT_COMPAT, 'UTF-8'), array('underline' => 'dash'));
 $section->addTextBreak(2);
 
 // Numbered heading
@@ -84,9 +84,9 @@ $phpWord->addTitleStyle(1, array('size' => 16), array('numStyle' => 'headingNumb
 $phpWord->addTitleStyle(2, array('size' => 14), array('numStyle' => 'headingNumbering', 'numLevel' => 1));
 $phpWord->addTitleStyle(3, array('size' => 12), array('numStyle' => 'headingNumbering', 'numLevel' => 2));
 
-$section->addTitle(htmlspecialchars('Heading 1'), 1);
-$section->addTitle(htmlspecialchars('Heading 2'), 2);
-$section->addTitle(htmlspecialchars('Heading 3'), 3);
+$section->addTitle(htmlspecialchars('Heading 1', ENT_COMPAT, 'UTF-8'), 1);
+$section->addTitle(htmlspecialchars('Heading 2', ENT_COMPAT, 'UTF-8'), 2);
+$section->addTitle(htmlspecialchars('Heading 3', ENT_COMPAT, 'UTF-8'), 3);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

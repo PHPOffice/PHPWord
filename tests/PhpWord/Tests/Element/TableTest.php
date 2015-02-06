@@ -35,9 +35,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $oTable = new Table();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Table', $oTable);
-        $this->assertEquals($oTable->getStyle(), null);
-        $this->assertEquals($oTable->getWidth(), null);
-        $this->assertEquals($oTable->getRows(), array());
+        $this->assertNull($oTable->getStyle());
+        $this->assertNull($oTable->getWidth());
+        $this->assertEquals(array(), $oTable->getRows());
         $this->assertCount(0, $oTable->getRows());
     }
 
@@ -48,7 +48,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $oTable = new Table('tableStyle');
 
-        $this->assertEquals($oTable->getStyle(), 'tableStyle');
+        $this->assertEquals('tableStyle', $oTable->getStyle());
     }
 
     /**
@@ -56,11 +56,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleArray()
     {
-        $oTable = new Table(array(
-            'borderSize' => 6,
-            'borderColor' => '006699',
-            'cellMargin' => 80
-        ));
+        $oTable = new Table(array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $oTable->getStyle());
     }
@@ -71,9 +67,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testWidth()
     {
         $oTable = new Table();
-        $iVal   = rand(1, 1000);
+        $iVal = rand(1, 1000);
         $oTable->setWidth($iVal);
-        $this->assertEquals($oTable->getWidth(), $iVal);
+        $this->assertEquals($iVal, $oTable->getWidth());
     }
 
     /**
@@ -81,7 +77,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testRow()
     {
-        $oTable  = new Table();
+        $oTable = new Table();
         $element = $oTable->addRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Row', $element);
         $this->assertCount(1, $oTable->getRows());

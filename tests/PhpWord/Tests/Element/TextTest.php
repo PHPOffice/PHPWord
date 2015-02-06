@@ -35,7 +35,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $oText = new Text();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $oText);
-        $this->assertEquals(null, $oText->getText());
+        $this->assertNull($oText->getText());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oText->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
@@ -45,9 +45,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testText()
     {
-        $oText = new Text('text');
+        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
-        $this->assertEquals($oText->getText(), 'text');
+        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $oText->getText());
     }
 
     /**
@@ -55,8 +55,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testFont()
     {
-        $oText = new Text('text', 'fontStyle');
-        $this->assertEquals($oText->getFontStyle(), 'fontStyle');
+        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'fontStyle');
+        $this->assertEquals('fontStyle', $oText->getFontStyle());
 
         $oText->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oText->getFontStyle());
@@ -68,8 +68,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
     public function testFontObject()
     {
         $font = new Font();
-        $oText = new Text('text', $font);
-        $this->assertEquals($oText->getFontStyle(), $font);
+        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $font);
+        $this->assertEquals($font, $oText->getFontStyle());
     }
 
     /**
@@ -77,8 +77,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testParagraph()
     {
-        $oText = new Text('text', 'fontStyle', 'paragraphStyle');
-        $this->assertEquals($oText->getParagraphStyle(), 'paragraphStyle');
+        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
+        $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
 
         $oText->setParagraphStyle(array('align' => 'center', 'spaceAfter' => 100));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());

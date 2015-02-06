@@ -33,13 +33,13 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructDefault()
     {
-        $oLink = new Link('http://www.google.com');
+        $oLink = new Link('https://github.com/PHPOffice/PHPWord');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals($oLink->getSource(), 'http://www.google.com');
-        $this->assertEquals($oLink->getText(), $oLink->getSource());
-        $this->assertEquals($oLink->getFontStyle(), null);
-        $this->assertEquals($oLink->getParagraphStyle(), null);
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
+        $this->assertEquals($oLink->getSource(), $oLink->getText());
+        $this->assertNull($oLink->getFontStyle());
+        $this->assertNull($oLink->getParagraphStyle());
     }
 
     /**
@@ -48,15 +48,15 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithParamsArray()
     {
         $oLink = new Link(
-            'http://www.google.com',
-            'Search Engine',
+            'https://github.com/PHPOffice/PHPWord',
+            htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'),
             array('color' => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
             array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
-        $this->assertEquals($oLink->getSource(), 'http://www.google.com');
-        $this->assertEquals($oLink->getText(), 'Search Engine');
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
+        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $oLink->getText());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());
     }
@@ -66,10 +66,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithParamsString()
     {
-        $oLink = new Link('http://www.google.com', null, 'fontStyle', 'paragraphStyle');
+        $oLink = new Link('https://github.com/PHPOffice/PHPWord', null, 'fontStyle', 'paragraphStyle');
 
-        $this->assertEquals($oLink->getFontStyle(), 'fontStyle');
-        $this->assertEquals($oLink->getParagraphStyle(), 'paragraphStyle');
+        $this->assertEquals('fontStyle', $oLink->getFontStyle());
+        $this->assertEquals('paragraphStyle', $oLink->getParagraphStyle());
     }
 
     /**
@@ -77,10 +77,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      */
     public function testRelationId()
     {
-        $oLink = new Link('http://www.google.com');
+        $oLink = new Link('https://github.com/PHPOffice/PHPWord');
 
         $iVal = rand(1, 1000);
         $oLink->setRelationId($iVal);
-        $this->assertEquals($oLink->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oLink->getRelationId());
     }
 }

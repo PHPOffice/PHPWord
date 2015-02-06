@@ -34,9 +34,9 @@ class TOCTest extends \PHPUnit_Framework_TestCase
     public function testConstructWithStyleArray()
     {
         $expected = array(
-            'position'    => 9062,
-            'leader' => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
-            'indent'    => 200,
+            'position' => 9062,
+            'leader'   => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
+            'indent'   => 200,
         );
         $object = new TOC(array('size' => 11), array('position' => $expected['position']));
         $tocStyle = $object->getStyleTOC();
@@ -86,7 +86,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         foreach ($titles as $text => $depth) {
-            $phpWord->addTitle(new Title($text, $depth));
+            $phpWord->addTitle(new Title(htmlspecialchars($text, ENT_COMPAT, 'UTF-8'), $depth));
         }
         $toc = new TOC();
         $toc->setPhpWord($phpWord);

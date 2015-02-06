@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\Field;
-use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Field
@@ -45,7 +44,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $oField = new Field('DATE');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
-        $this->assertEquals($oField->getType(), 'DATE');
+        $this->assertEquals('DATE', $oField->getType());
     }
 
     /**
@@ -53,11 +52,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithTypeProperties()
     {
-        $oField = new Field('DATE', array('dateformat'=>'d-M-yyyy'));
+        $oField = new Field('DATE', array('dateformat' => 'd-M-yyyy'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
-        $this->assertEquals($oField->getType(), 'DATE');
-        $this->assertEquals($oField->getProperties(), array('dateformat'=>'d-M-yyyy'));
+        $this->assertEquals('DATE', $oField->getType());
+        $this->assertEquals(array('dateformat' => 'd-M-yyyy'), $oField->getProperties());
     }
 
     /**
@@ -65,12 +64,12 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithTypePropertiesOptions()
     {
-        $oField = new Field('DATE', array('dateformat'=>'d-M-yyyy'), array('SakaEraCalendar', 'PreserveFormat'));
+        $oField = new Field('DATE', array('dateformat' => 'd-M-yyyy'), array('SakaEraCalendar', 'PreserveFormat'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
-        $this->assertEquals($oField->getType(), 'DATE');
-        $this->assertEquals($oField->getProperties(), array('dateformat'=>'d-M-yyyy'));
-        $this->assertEquals($oField->getOptions(), array('SakaEraCalendar', 'PreserveFormat'));
+        $this->assertEquals('DATE', $oField->getType());
+        $this->assertEquals(array('dateformat' => 'd-M-yyyy'), $oField->getProperties());
+        $this->assertEquals(array('SakaEraCalendar', 'PreserveFormat'), $oField->getOptions());
     }
 
     /**

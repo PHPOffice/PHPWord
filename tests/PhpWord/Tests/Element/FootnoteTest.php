@@ -35,7 +35,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $oFootnote);
         $this->assertCount(0, $oFootnote->getElements());
-        $this->assertEquals($oFootnote->getParagraphStyle(), null);
+        $this->assertNull($oFootnote->getParagraphStyle());
     }
 
     /**
@@ -45,7 +45,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
     {
         $oFootnote = new Footnote('pStyle');
 
-        $this->assertEquals($oFootnote->getParagraphStyle(), 'pStyle');
+        $this->assertEquals('pStyle', $oFootnote->getParagraphStyle());
     }
 
     /**
@@ -67,7 +67,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oFootnote = new Footnote();
-        $element = $oFootnote->addText('text');
+        $element = $oFootnote->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oFootnote->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -90,7 +90,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
     public function testAddLink()
     {
         $oFootnote = new Footnote();
-        $element = $oFootnote->addLink('http://www.google.fr');
+        $element = $oFootnote->addLink('https://github.com/PHPOffice/PHPWord');
 
         $this->assertCount(1, $oFootnote->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
@@ -105,7 +105,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
 
         $iVal = rand(1, 1000);
         $oFootnote->setRelationId($iVal);
-        $this->assertEquals($oFootnote->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oFootnote->getRelationId());
     }
 
     /**

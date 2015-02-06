@@ -35,7 +35,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $oFooter = new Footer($iVal);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footer', $oFooter);
-        $this->assertEquals($oFooter->getSectionId(), $iVal);
+        $this->assertEquals($iVal, $oFooter->getSectionId());
     }
 
     /**
@@ -44,7 +44,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addText('text');
+        $element = $oFooter->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -56,11 +56,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addText(utf8_decode('ééé'));
+        $element = $oFooter->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -104,7 +104,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImage()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oFooter = new Footer(1);
         $element = $oFooter->addImage($src);
 
@@ -132,7 +132,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveText()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addPreserveText('text');
+        $element = $oFooter->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -144,11 +144,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveTextNotUTF8()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addPreserveText(utf8_decode('ééé'));
+        $element = $oFooter->addPreserveText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals($element->getText(), array('ééé'));
+        $this->assertEquals(array(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), $element->getText());
     }
 
     /**
@@ -171,7 +171,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oFooter->setRelationId($iVal);
 
-        $this->assertEquals($oFooter->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oFooter->getRelationId());
         $this->assertEquals(Footer::AUTO, $oFooter->getType());
     }
 }

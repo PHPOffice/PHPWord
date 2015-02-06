@@ -36,11 +36,11 @@ class LineTest extends \PHPUnit_Framework_TestCase
 
         $properties = array(
             'connectorType' => \PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT,
-            'beginArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
-            'endArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
-            'dash' => \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT,
-            'weight' => 10,
-            'color' => 'red'
+            'beginArrow'    => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
+            'endArrow'      => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
+            'dash'          => \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT,
+            'weight'        => 10,
+            'color'         => 'red',
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
@@ -59,11 +59,11 @@ class LineTest extends \PHPUnit_Framework_TestCase
 
         $properties = array(
             'connectorType' => \PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT,
-            'beginArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
-            'endArrow' => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
-            'dash' => \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT,
-            'weight' => 10,
-            'color' => 'red'
+            'beginArrow'    => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
+            'endArrow'      => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
+            'dash'          => \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT,
+            'weight'        => 10,
+            'color'         => 'red',
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
@@ -71,13 +71,13 @@ class LineTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $object->$get());
         }
     }
-    
+
     /**
      * Test set/get flip
      */
     public function testSetGetFlip()
     {
-        $expected=true;
+        $expected = true;
         $object = new Line();
         $object->setFlip($expected);
         $this->assertEquals($expected, $object->isFlip());
@@ -88,18 +88,18 @@ class LineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetConnectorType()
     {
-        $expected=\PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT;
+        $expected = \PhpOffice\PhpWord\Style\Line::CONNECTOR_TYPE_STRAIGHT;
         $object = new Line();
         $object->setConnectorType($expected);
         $this->assertEquals($expected, $object->getConnectorType());
     }
-    
+
     /**
      * Test set/get weight
      */
     public function testSetGetWeight()
     {
-        $expected=10;
+        $expected = 10;
         $object = new Line();
         $object->setWeight($expected);
         $this->assertEquals($expected, $object->getWeight());
@@ -110,7 +110,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetColor()
     {
-        $expected='red';
+        $expected = 'red';
         $object = new Line();
         $object->setColor($expected);
         $this->assertEquals($expected, $object->getColor());
@@ -121,7 +121,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetDash()
     {
-        $expected=\PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT;
+        $expected = \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT;
         $object = new Line();
         $object->setDash($expected);
         $this->assertEquals($expected, $object->getDash());
@@ -132,7 +132,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetBeginArrow()
     {
-        $expected=\PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK;
+        $expected = \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK;
         $object = new Line();
         $object->setBeginArrow($expected);
         $this->assertEquals($expected, $object->getBeginArrow());
@@ -143,7 +143,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetEndArrow()
     {
-        $expected=\PhpOffice\PhpWord\Style\Line::ARROW_STYLE_CLASSIC;
+        $expected = \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_CLASSIC;
         $object = new Line();
         $object->setEndArrow($expected);
         $this->assertEquals($expected, $object->getEndArrow());

@@ -32,13 +32,13 @@ class FooterTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteFooter()
     {
-        $imageSrc = __DIR__ . "/../../../_files/images/PhpWord.png";
+        $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
         $container = new \PhpOffice\PhpWord\Element\Footer(1);
-        $container->addText('');
-        $container->addPreserveText('');
+        $container->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addPreserveText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
         $container->addTextBreak();
         $container->addTextRun();
-        $container->addTable()->addRow()->addCell()->addText('');
+        $container->addTable()->addRow()->addCell()->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
         $container->addImage($imageSrc);
 
         $writer = new Word2007();

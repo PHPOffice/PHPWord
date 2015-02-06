@@ -67,10 +67,10 @@ class ZipArchiveTest extends \PHPUnit_Framework_TestCase
     public function testZipArchive($zipClass = 'ZipArchive')
     {
         // Preparation
-        $existingFile = __DIR__ . "/../_files/documents/sheet.xls";
-        $zipFile      = __DIR__ . "/../_files/documents/ziptest.zip";
-        $destination1 = __DIR__ . "/../_files/documents/extract1";
-        $destination2 = __DIR__ . "/../_files/documents/extract2";
+        $existingFile = __DIR__ . '/../_files/documents/sheet.xls';
+        $zipFile = __DIR__ . '/../_files/documents/ziptest.zip';
+        $destination1 = __DIR__ . '/../_files/documents/extract1';
+        $destination2 = __DIR__ . '/../_files/documents/extract2';
         @mkdir($destination1);
         @mkdir($destination2);
 
@@ -122,12 +122,12 @@ class ZipArchiveTest extends \PHPUnit_Framework_TestCase
     private function deleteDir($dir)
     {
         foreach (scandir($dir) as $file) {
-            if ($file === '.' || $file === '..') {
+            if ('.' === $file || '..' === $file) {
                 continue;
-            } elseif (is_file($dir . "/" . $file)) {
-                unlink($dir . "/" . $file);
-            } elseif (is_dir($dir . "/" . $file)) {
-                $this->deleteDir($dir . "/" . $file);
+            } elseif (is_file($dir . '/' . $file)) {
+                unlink($dir . '/' . $file);
+            } elseif (is_dir($dir . '/' . $file)) {
+                $this->deleteDir($dir . '/' . $file);
             }
         }
 

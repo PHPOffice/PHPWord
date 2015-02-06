@@ -31,14 +31,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $src = __DIR__ . "/../_files/images/firefox.png";
+        $src = __DIR__ . '/../_files/images/firefox.png';
         $oImage = new Image($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
-        $this->assertEquals($oImage->getSource(), $src);
-        $this->assertEquals($oImage->getMediaId(), md5($src));
-        $this->assertEquals($oImage->isWatermark(), false);
-        $this->assertEquals($oImage->getSourceType(), Image::SOURCE_LOCAL);
+        $this->assertEquals($src, $oImage->getSource());
+        $this->assertEquals(md5($src), $oImage->getMediaId());
+        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
+        $this->assertEquals(false, $oImage->isWatermark());
+        $this->assertEquals(Image::SOURCE_LOCAL, $oImage->getSourceType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
 
@@ -47,11 +48,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithStyle()
     {
-        $src = __DIR__ . "/../_files/images/firefox.png";
+        $src = __DIR__ . '/../_files/images/firefox.png';
         $oImage = new Image(
             $src,
-            array('width' => 210, 'height' => 210, 'align' => 'center',
-                'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND)
+            array(
+                'width'         => 210,
+                'height'        => 210,
+                'align'         => 'center',
+                'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND,
+            )
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
@@ -72,15 +77,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         foreach ($images as $imageData) {
             list($source, $type, $extension, $createFunction, $imageFunction) = $imageData;
-            $source = __DIR__ . "/../_files/images/" . $source;
+            $source = __DIR__ . "/../_files/images/{$source}";
             $image = new Image($source);
             $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
-            $this->assertEquals($image->getSource(), $source);
-            $this->assertEquals($image->getMediaId(), md5($source));
-            $this->assertEquals($image->getImageType(), $type);
-            $this->assertEquals($image->getImageExtension(), $extension);
-            $this->assertEquals($image->getImageCreateFunction(), $createFunction);
-            $this->assertEquals($image->getImageFunction(), $imageFunction);
+            $this->assertEquals($source, $image->getSource());
+            $this->assertEquals(md5($source), $image->getMediaId());
+            $this->assertEquals($type, $image->getImageType());
+            $this->assertEquals($extension, $image->getImageExtension());
+            $this->assertEquals($createFunction, $image->getImageCreateFunction());
+            $this->assertEquals($imageFunction, $image->getImageFunction());
             $this->assertFalse($image->isMemImage());
         }
     }
@@ -91,7 +96,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testStyle()
     {
         $oImage = new Image(
-            __DIR__ . "/../_files/images/earth.jpg",
+            __DIR__ . '/../_files/images/earth.jpg',
             array('height' => 210, 'align' => 'center')
         );
 
@@ -105,7 +110,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidImageLocal()
     {
-        new Image(__DIR__ . "/../_files/images/thisisnotarealimage");
+        new Image(__DIR__ . '/../_files/images/thisisnotarealimage');
     }
 
     /**
@@ -135,10 +140,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testRelationID()
     {
-        $oImage = new Image(__DIR__ . "/../_files/images/earth.jpg", array('width' => 100));
+        $oImage = new Image(__DIR__ . '/../_files/images/earth.jpg', array('width' => 100));
         $iVal = rand(1, 1000);
         $oImage->setRelationId($iVal);
-        $this->assertEquals($oImage->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oImage->getRelationId());
     }
 
     /**
@@ -146,7 +151,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testArchivedImage()
     {
-        $archiveFile = __DIR__ . "/../_files/documents/reader.docx";
+        $archiveFile = __DIR__ . '/../_files/documents/reader.docx';
         $imageFile = 'word/media/image1.jpeg';
         $image = new Image("zip://{$archiveFile}#{$imageFile}");
         $this->assertEquals('image/jpeg', $image->getImageType());

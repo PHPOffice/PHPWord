@@ -42,7 +42,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
-        $this->assertEquals(true, self::callProtectedMethod($stub, 'setBoolVal', array(true, false)));
+        $this->assertTrue(self::callProtectedMethod($stub, 'setBoolVal', array(true, false)));
         $this->assertEquals(12, self::callProtectedMethod($stub, 'setIntVal', array(12, 200)));
         $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array(871.1, 2.1)));
         $this->assertEquals(871.1, self::callProtectedMethod($stub, 'setFloatVal', array('871.1', 2.1)));
@@ -56,6 +56,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
+        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
         $this->assertEquals(false, self::callProtectedMethod($stub, 'setBoolVal', array('a', false)));
         $this->assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', array('foo', 200)));
         $this->assertEquals(2.1, self::callProtectedMethod($stub, 'setFloatVal', array('foo', 2.1)));

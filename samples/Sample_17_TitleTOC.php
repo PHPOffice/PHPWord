@@ -19,7 +19,7 @@ $phpWord->addTitleStyle(3, array('size' => 14, 'italic' => true));
 $phpWord->addTitleStyle(4, array('size' => 12));
 
 // Add text elements
-$section->addText(htmlspecialchars('Table of contents 1'));
+$section->addText(htmlspecialchars('Table of contents 1', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 
 // Add TOC #1
@@ -27,11 +27,11 @@ $toc = $section->addTOC($fontStyle);
 $section->addTextBreak(2);
 
 // Filler
-$section->addText(htmlspecialchars('Text between TOC'));
+$section->addText(htmlspecialchars('Text between TOC', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 
 // Add TOC #1
-$section->addText(htmlspecialchars('Table of contents 2'));
+$section->addText(htmlspecialchars('Table of contents 2', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 $toc2 = $section->addTOC($fontStyle2);
 $toc2->setMinDepth(2);
@@ -40,31 +40,31 @@ $toc2->setMaxDepth(3);
 
 // Add Titles
 $section->addPageBreak();
-$section->addTitle(htmlspecialchars('Foo & Bar'), 1);
-$section->addText(htmlspecialchars('Some text...'));
+$section->addTitle(htmlspecialchars('Foo & Bar', ENT_COMPAT, 'UTF-8'), 1);
+$section->addText(htmlspecialchars('Some text...', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 
-$section->addTitle(htmlspecialchars('I am a Subtitle of Title 1'), 2);
+$section->addTitle(htmlspecialchars('I am a Subtitle of Title 1', ENT_COMPAT, 'UTF-8'), 2);
 $section->addTextBreak(2);
-$section->addText(htmlspecialchars('Some more text...'));
+$section->addText(htmlspecialchars('Some more text...', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 
-$section->addTitle(htmlspecialchars('Another Title (Title 2)'), 1);
-$section->addText(htmlspecialchars('Some text...'));
+$section->addTitle(htmlspecialchars('Another Title (Title 2)', ENT_COMPAT, 'UTF-8'), 1);
+$section->addText(htmlspecialchars('Some text...', ENT_COMPAT, 'UTF-8'));
 $section->addPageBreak();
-$section->addTitle(htmlspecialchars('I am Title 3'), 1);
-$section->addText(htmlspecialchars('And more text...'));
+$section->addTitle(htmlspecialchars('I am Title 3', ENT_COMPAT, 'UTF-8'), 1);
+$section->addText(htmlspecialchars('And more text...', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
-$section->addTitle(htmlspecialchars('I am a Subtitle of Title 3'), 2);
-$section->addText(htmlspecialchars('Again and again, more text...'));
-$section->addTitle(htmlspecialchars('Subtitle 3.1.1'), 3);
-$section->addText(htmlspecialchars('Text'));
-$section->addTitle(htmlspecialchars('Subtitle 3.1.1.1'), 4);
-$section->addText(htmlspecialchars('Text'));
-$section->addTitle(htmlspecialchars('Subtitle 3.1.1.2'), 4);
-$section->addText(htmlspecialchars('Text'));
-$section->addTitle(htmlspecialchars('Subtitle 3.1.2'), 3);
-$section->addText(htmlspecialchars('Text'));
+$section->addTitle(htmlspecialchars('I am a Subtitle of Title 3', ENT_COMPAT, 'UTF-8'), 2);
+$section->addText(htmlspecialchars('Again and again, more text...', ENT_COMPAT, 'UTF-8'));
+$section->addTitle(htmlspecialchars('Subtitle 3.1.1', ENT_COMPAT, 'UTF-8'), 3);
+$section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
+$section->addTitle(htmlspecialchars('Subtitle 3.1.1.1', ENT_COMPAT, 'UTF-8'), 4);
+$section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
+$section->addTitle(htmlspecialchars('Subtitle 3.1.1.2', ENT_COMPAT, 'UTF-8'), 4);
+$section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
+$section->addTitle(htmlspecialchars('Subtitle 3.1.2', ENT_COMPAT, 'UTF-8'), 3);
+$section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
 
 echo date('H:i:s'), ' Note: Please refresh TOC manually.', EOL;
 

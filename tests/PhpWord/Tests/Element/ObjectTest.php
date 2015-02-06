@@ -32,12 +32,12 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithSupportedFiles()
     {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
+        $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new Object($src);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
-        $this->assertEquals($oObject->getSource(), $src);
+        $this->assertEquals($src, $oObject->getSource());
     }
 
     /**
@@ -47,7 +47,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithNotSupportedFiles()
     {
-        $src = __DIR__ . "/../_files/xsl/passthrough.xsl";
+        $src = __DIR__ . '/../_files/xsl/passthrough.xsl';
         $oObject = new Object($src);
         $oObject->getSource();
     }
@@ -57,12 +57,12 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithSupportedFilesAndStyle()
     {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
+        $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new Object($src, array('width' => '230px'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
-        $this->assertEquals($oObject->getSource(), $src);
+        $this->assertEquals($src, $oObject->getSource());
     }
 
     /**
@@ -70,12 +70,12 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testRelationId()
     {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
+        $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
         $oObject->setRelationId($iVal);
-        $this->assertEquals($oObject->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oObject->getRelationId());
     }
 
     /**
@@ -83,11 +83,11 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testImageRelationId()
     {
-        $src = __DIR__ . "/../_files/documents/sheet.xls";
+        $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new Object($src);
 
         $iVal = rand(1, 1000);
         $oObject->setImageRelationId($iVal);
-        $this->assertEquals($oObject->getImageRelationId(), $iVal);
+        $this->assertEquals($iVal, $oObject->getImageRelationId());
     }
 }

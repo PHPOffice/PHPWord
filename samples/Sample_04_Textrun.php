@@ -20,24 +20,24 @@ $section = $phpWord->addSection();
 // Add text run
 $textrun = $section->addTextRun('pStyle');
 
-$textrun->addText(htmlspecialchars('Each textrun can contain native text, link elements or an image.'));
-$textrun->addText(htmlspecialchars(' No break is placed after adding an element.'), 'BoldText');
-$textrun->addText(htmlspecialchars(' Both '));
-$textrun->addText(htmlspecialchars('superscript'), array('superScript' => true));
-$textrun->addText(htmlspecialchars(' and '));
-$textrun->addText(htmlspecialchars('subscript'), array('subScript' => true));
-$textrun->addText(htmlspecialchars(' are also available.'));
+$textrun->addText(htmlspecialchars('Each textrun can contain native text, link elements or an image.', ENT_COMPAT, 'UTF-8'));
+$textrun->addText(htmlspecialchars(' No break is placed after adding an element.', ENT_COMPAT, 'UTF-8'), 'BoldText');
+$textrun->addText(htmlspecialchars(' Both ', ENT_COMPAT, 'UTF-8'));
+$textrun->addText(htmlspecialchars('superscript', ENT_COMPAT, 'UTF-8'), array('superScript' => true));
+$textrun->addText(htmlspecialchars(' and ', ENT_COMPAT, 'UTF-8'));
+$textrun->addText(htmlspecialchars('subscript', ENT_COMPAT, 'UTF-8'), array('subScript' => true));
+$textrun->addText(htmlspecialchars(' are also available.', ENT_COMPAT, 'UTF-8'));
 $textrun->addText(
-    htmlspecialchars(' All elements are placed inside a paragraph with the optionally given p-Style.'),
+    htmlspecialchars(' All elements are placed inside a paragraph with the optionally given p-Style.', ENT_COMPAT, 'UTF-8'),
     'ColoredText'
 );
-$textrun->addText(htmlspecialchars(' Sample Link: '));
-$textrun->addLink('http://www.google.com', null, 'NLink');
-$textrun->addText(htmlspecialchars(' Sample Image: '));
+$textrun->addText(htmlspecialchars(' Sample Link: ', ENT_COMPAT, 'UTF-8'));
+$textrun->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), 'NLink');
+$textrun->addText(htmlspecialchars(' Sample Image: ', ENT_COMPAT, 'UTF-8'));
 $textrun->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
-$textrun->addText(htmlspecialchars(' Sample Object: '));
+$textrun->addText(htmlspecialchars(' Sample Object: ', ENT_COMPAT, 'UTF-8'));
 $textrun->addObject('resources/_sheet.xls');
-$textrun->addText(htmlspecialchars(' Here is some more text. '));
+$textrun->addText(htmlspecialchars(' Here is some more text. ', ENT_COMPAT, 'UTF-8'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

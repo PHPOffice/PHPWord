@@ -35,19 +35,19 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $object = new Cell();
 
         $attributes = array(
-            'valign' => Cell::VALIGN_TOP,
-            'textDirection' => Cell::TEXT_DIR_BTLR,
-            'bgColor' => 'FFFF00',
-            'borderTopSize' => 120,
-            'borderTopColor' => 'FFFF00',
-            'borderLeftSize' => 120,
-            'borderLeftColor' => 'FFFF00',
-            'borderRightSize' => 120,
-            'borderRightColor' => 'FFFF00',
-            'borderBottomSize' => 120,
+            'valign'            => Cell::VALIGN_TOP,
+            'textDirection'     => Cell::TEXT_DIR_BTLR,
+            'bgColor'           => 'FFFF00',
+            'borderTopSize'     => 120,
+            'borderTopColor'    => 'FFFF00',
+            'borderLeftSize'    => 120,
+            'borderLeftColor'   => 'FFFF00',
+            'borderRightSize'   => 120,
+            'borderRightColor'  => 'FFFF00',
+            'borderBottomSize'  => 120,
             'borderBottomColor' => 'FFFF00',
-            'gridSpan' => 2,
-            'vMerge' => Cell::VMERGE_RESTART,
+            'gridSpan'          => 2,
+            'vMerge'            => Cell::VMERGE_RESTART,
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";

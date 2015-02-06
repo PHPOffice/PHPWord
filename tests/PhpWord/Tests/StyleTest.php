@@ -86,6 +86,6 @@ class StyleTest extends \PHPUnit_Framework_TestCase
 
         Style::setDefaultParagraphStyle($paragraph);
 
-        $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\Paragraph", Style::getStyle('Normal'));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', Style::getStyle('Normal'));
     }
 }

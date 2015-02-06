@@ -65,28 +65,28 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $imageSrc = __DIR__ . "/../_files/images/PhpWord.png";
-        $objectSrc = __DIR__ . "/../_files/documents/sheet.xls";
-        $file = __DIR__ . "/../_files/temp.odt";
+        $imageSrc = __DIR__ . '/../_files/images/PhpWord.png';
+        $objectSrc = __DIR__ . '/../_files/documents/sheet.xls';
+        $file = __DIR__ . '/../_files/temp.odt';
 
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
         $section = $phpWord->addSection();
-        $section->addText('Test 1', 'Font');
+        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font');
         $section->addTextBreak();
-        $section->addText('Test 2', null, 'Paragraph');
-        $section->addLink('http://test.com');
-        $section->addTitle('Test', 1);
+        $section->addText(htmlspecialchars('Test 2', ENT_COMPAT, 'UTF-8'), null, 'Paragraph');
+        $section->addLink('https://github.com/PHPOffice/PHPWord');
+        $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
         $section->addPageBreak();
-        $section->addTable()->addRow()->addCell()->addText('Test');
-        $section->addListItem('Test');
+        $section->addTable()->addRow()->addCell()->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $section->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
-        $textrun->addText('Test 3');
+        $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
         $writer = new ODText($phpWord);
         $writer->save($file);
 
@@ -104,7 +104,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('Test');
+        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $writer = new ODText($phpWord);
         $writer->save('php://output');
     }
@@ -136,10 +136,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetUseDiskCachingException()
     {
-        $dir = join(
-            DIRECTORY_SEPARATOR,
-            array(PHPWORD_TESTS_BASE_DIR, 'foo')
-        );
+        $dir = join(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
 
         $object = new ODText();
         $object->setUseDiskCaching(true, $dir);

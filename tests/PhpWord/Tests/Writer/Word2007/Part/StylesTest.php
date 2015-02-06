@@ -18,7 +18,6 @@ namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007\Part\Styles;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles
@@ -48,13 +47,13 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
         $rStyle = array('size' => 20);
         $tStyle = array(
-            'bgColor' => 'FF0000',
+            'bgColor'    => 'FF0000',
             'cellMargin' => 120,
             'borderSize' => 120,
         );
         $firstRowStyle = array(
-            'bgColor' => '0000FF',
-            'borderSize' => 120,
+            'bgColor'     => '0000FF',
+            'borderSize'  => 120,
             'borderColor' => '00FF00',
         );
         $phpWord->setDefaultParagraphStyle($pStyle);

@@ -36,7 +36,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         $this->assertCount(0, $oTextRun->getElements());
-        $this->assertEquals($oTextRun->getParagraphStyle(), null);
+        $this->assertNull($oTextRun->getParagraphStyle());
     }
 
     /**
@@ -48,7 +48,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         $this->assertCount(0, $oTextRun->getElements());
-        $this->assertEquals($oTextRun->getParagraphStyle(), 'pStyle');
+        $this->assertEquals('pStyle', $oTextRun->getParagraphStyle());
     }
 
     /**
@@ -69,11 +69,11 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addText('text');
+        $element = $oTextRun->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getText(), 'text');
+        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -82,11 +82,11 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addText(utf8_decode('ééé'));
+        $element = $oTextRun->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -95,11 +95,11 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLink()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addLink('http://www.google.fr');
+        $element = $oTextRun->addLink('https://github.com/PHPOffice/PHPWord');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getSource(), 'http://www.google.fr');
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
     }
 
     /**
@@ -108,12 +108,12 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLinkWithName()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addLink('http://www.google.fr', utf8_decode('ééé'));
+        $element = $oTextRun->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals($element->getSource(), 'http://www.google.fr');
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
+        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -132,7 +132,7 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImage()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
 
         $oTextRun = new TextRun();
         $element = $oTextRun->addImage($src);

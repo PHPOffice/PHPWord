@@ -32,11 +32,11 @@ class MPDFTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $file = __DIR__ . "/../../_files/mpdf.pdf";
+        $file = __DIR__ . '/../../_files/mpdf.pdf';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('Test 1');
+        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'));
 
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');

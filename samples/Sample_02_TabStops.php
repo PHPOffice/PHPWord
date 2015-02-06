@@ -29,9 +29,9 @@ $phpWord->addParagraphStyle(
 $section = $phpWord->addSection();
 
 // Add listitem elements
-$section->addText(htmlspecialchars("Multiple Tabs:\tOne\tTwo\tThree"), null, 'multipleTab');
-$section->addText(htmlspecialchars("Left Aligned\tRight Aligned"), null, 'rightTab');
-$section->addText(htmlspecialchars("\tCenter Aligned"), null, 'centerTab');
+$section->addText(htmlspecialchars("Multiple Tabs:\tOne\tTwo\tThree", ENT_COMPAT, 'UTF-8'), null, 'multipleTab');
+$section->addText(htmlspecialchars("Left Aligned\tRight Aligned", ENT_COMPAT, 'UTF-8'), null, 'rightTab');
+$section->addText(htmlspecialchars("\tCenter Aligned", ENT_COMPAT, 'UTF-8'), null, 'centerTab');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

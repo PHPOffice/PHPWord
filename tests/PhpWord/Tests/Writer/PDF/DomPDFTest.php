@@ -33,11 +33,11 @@ class DomPDFTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         define('DOMPDF_ENABLE_AUTOLOAD', false);
-        $file = __DIR__ . "/../../_files/dompdf.pdf";
+        $file = __DIR__ . '/../../_files/dompdf.pdf';
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText('Test 1');
+        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'));
 
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/dompdf/dompdf');

@@ -36,7 +36,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetStyle()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getStyle(), 'style', new Section(0));
+        $this->assertAttributeEquals($oSection->getStyle(), 'style', $oSection);
     }
 
     /**
@@ -45,7 +45,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetElements()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getElements(), 'elements', new Section(0));
+        $this->assertAttributeEquals($oSection->getElements(), 'elements', $oSection);
     }
 
     /**
@@ -54,7 +54,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetFooters()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getFooters(), 'footers', new Section(0));
+        $this->assertAttributeEquals($oSection->getFooters(), 'footers', $oSection);
     }
 
     /**
@@ -63,7 +63,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     public function testGetHeaders()
     {
         $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getHeaders(), 'headers', new Section(0));
+        $this->assertAttributeEquals($oSection->getHeaders(), 'headers', $oSection);
     }
 
     /**
@@ -82,30 +82,42 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddElements()
     {
-        $objectSource = __DIR__ . "/../_files/documents/reader.docx";
-        $imageSource = __DIR__ . "/../_files/images/PhpWord.png";
+        $objectSource = __DIR__ . '/../_files/documents/reader.docx';
+        $imageSource = __DIR__ . '/../_files/images/PhpWord.png';
         // $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
-        $section->addText(utf8_decode('ä'));
-        $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
+        $section->addText(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
+        $section->addLink(utf8_decode('http://äää.com'), utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addTable();
-        $section->addListItem(utf8_decode('ä'));
+        $section->addListItem(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addTitle(utf8_decode('ä'), 1);
+        $section->addTitle(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')), 1);
         $section->addTextRun();
         $section->addFootnote();
-        $section->addCheckBox(utf8_decode('chkä'), utf8_decode('Contentä'));
+        $section->addCheckBox(utf8_decode(htmlspecialchars('chkä', ENT_COMPAT, 'UTF-8')), utf8_decode(htmlspecialchars('Contentä', ENT_COMPAT, 'UTF-8')));
         $section->addTOC();
 
         $elementCollection = $section->getElements();
-        $elementTypes = array('Text', 'Link', 'TextBreak', 'PageBreak',
-            'Table', 'ListItem', 'Object', 'Image',
-            'Title', 'TextRun', 'Footnote', 'CheckBox', 'TOC');
+        $elementTypes = array(
+            'Text',
+            'Link',
+            'TextBreak',
+            'PageBreak',
+            'Table',
+            'ListItem',
+            'Object',
+            'Image',
+            'Title',
+            'TextRun',
+            'Footnote',
+            'CheckBox',
+            'TOC',
+        );
         $elmCount = 0;
         foreach ($elementTypes as $elementType) {
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$elementType}", $elementCollection[$elmCount]);
@@ -120,7 +132,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddObjectException()
     {
-        $source = __DIR__ . "/_files/xsl/passthrough.xsl";
+        $source = __DIR__ . '/_files/xsl/passthrough.xsl';
         $section = new Section(0);
         $section->addObject($source);
     }
@@ -133,10 +145,10 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         Style::addTitleStyle(1, array('size' => 14));
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
-        $section->addTitle('Test', 1);
+        $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
         $elementCollection = $section->getElements();
 
-        $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\Title", $elementCollection[0]);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $elementCollection[0]);
     }
 
     /**

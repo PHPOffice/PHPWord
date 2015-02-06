@@ -45,16 +45,16 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-            'widowControl' => true,
-            'keepNext' => false,
-            'keepLines' => false,
+            'widowControl'    => true,
+            'keepNext'        => false,
+            'keepLines'       => false,
             'pageBreakBefore' => false,
         );
         foreach ($attributes as $key => $default) {
             $get = "get{$key}";
-            $object->setStyleValue("$key", null);
+            $object->setStyleValue($key, null);
             $this->assertEquals($default, $object->$get());
-            $object->setStyleValue("$key", '');
+            $object->setStyleValue($key, '');
             $this->assertEquals($default, $object->$get());
         }
     }
@@ -67,31 +67,31 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-            'align' => 'justify',
-            'spaceAfter' => 240,
-            'spaceBefore' => 240,
-            'indent' => 1,
-            'hanging' => 1,
-            'spacing' => 120,
-            'basedOn' => 'Normal',
-            'next' => 'Normal',
-            'numStyle' => 'numStyle',
-            'numLevel' => 1,
-            'widowControl' => false,
-            'keepNext' => true,
-            'keepLines' => true,
+            'align'           => 'justify',
+            'spaceAfter'      => 240,
+            'spaceBefore'     => 240,
+            'indent'          => 1,
+            'hanging'         => 1,
+            'spacing'         => 120,
+            'basedOn'         => 'Normal',
+            'next'            => 'Normal',
+            'numStyle'        => 'numStyle',
+            'numLevel'        => 1,
+            'widowControl'    => false,
+            'keepNext'        => true,
+            'keepLines'       => true,
             'pageBreakBefore' => true,
         );
         foreach ($attributes as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("$key", $value);
-            if ($key == 'align') {
-                if ($value == 'justify') {
+            if ('align' == $key) {
+                if ('justify' == $value) {
                     $value = 'both';
                 }
-            } elseif ($key == 'indent' || $key == 'hanging') {
+            } elseif ('indent' == $key || 'hanging' == $key) {
                 $value = $value * 720;
-            } elseif ($key == 'spacing') {
+            } elseif ('spacing' == $key) {
                 $value += 240;
             }
             $this->assertEquals($value, $object->$get());
@@ -131,9 +131,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
 
         // Test style array
-        $text = $section->addText('This is a test', array(), array(
-            'line-height' => 2.0
-        ));
+        $text = $section->addText(htmlspecialchars('This is a test', ENT_COMPAT, 'UTF-8'), array(), array('line-height' => 2.0));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');

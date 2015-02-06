@@ -7,7 +7,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
-$section->addText(htmlspecialchars('You can open this OLE object by double clicking on the icon:'));
+$section->addText(htmlspecialchars('You can open this OLE object by double clicking on the icon:', ENT_COMPAT, 'UTF-8'));
 $section->addTextBreak(2);
 $section->addObject('resources/_sheet.xls');
 

@@ -31,14 +31,14 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteHeader()
     {
-        $imageSrc = __DIR__ . "/../../../_files/images/PhpWord.png";
+        $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
 
         $container = new \PhpOffice\PhpWord\Element\Header(1);
-        $container->addText('Test');
-        $container->addPreserveText('');
+        $container->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $container->addPreserveText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
         $container->addTextBreak();
         $container->addTextRun();
-        $container->addTable()->addRow()->addCell()->addText('');
+        $container->addTable()->addRow()->addCell()->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
         $container->addImage($imageSrc);
         $container->addWatermark($imageSrc);
 

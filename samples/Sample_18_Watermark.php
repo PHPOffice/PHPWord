@@ -10,7 +10,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $header = $section->addHeader();
 $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
-$section->addText(htmlspecialchars('The header reference to the current section includes a watermark image.'));
+$section->addText(htmlspecialchars('The header reference to the current section includes a watermark image.', ENT_COMPAT, 'UTF-8'));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

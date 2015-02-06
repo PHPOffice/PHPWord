@@ -35,8 +35,8 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $oHeader = new Header($iVal);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Header', $oHeader);
-        $this->assertEquals($oHeader->getSectionId(), $iVal);
-        $this->assertEquals($oHeader->getType(), Header::AUTO);
+        $this->assertEquals($iVal, $oHeader->getSectionId());
+        $this->assertEquals(Header::AUTO, $oHeader->getType());
     }
 
     /**
@@ -45,11 +45,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addText('text');
+        $element = $oHeader->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals($element->getText(), 'text');
+        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -58,11 +58,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addText(utf8_decode('ééé'));
+        $element = $oHeader->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals($element->getText(), 'ééé');
+        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
     }
 
     /**
@@ -113,7 +113,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddImage()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oHeader = new Header(1);
         $element = $oHeader->addImage($src);
 
@@ -141,7 +141,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveText()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addPreserveText('text');
+        $element = $oHeader->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -153,11 +153,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveTextNotUTF8()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addPreserveText(utf8_decode('ééé'));
+        $element = $oHeader->addPreserveText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals($element->getText(), array('ééé'));
+        $this->assertEquals(array(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), $element->getText());
     }
 
     /**
@@ -165,7 +165,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWatermark()
     {
-        $src = __DIR__ . "/../_files/images/earth.jpg";
+        $src = __DIR__ . '/../_files/images/earth.jpg';
         $oHeader = new Header(1);
         $element = $oHeader->addWatermark($src);
 
@@ -192,7 +192,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         $iVal = rand(1, 1000);
         $oHeader->setRelationId($iVal);
-        $this->assertEquals($oHeader->getRelationId(), $iVal);
+        $this->assertEquals($iVal, $oHeader->getRelationId());
     }
 
     /**
@@ -204,7 +204,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $oHeader->firstPage();
         $oHeader->resetType();
 
-        $this->assertEquals($oHeader->getType(), Header::AUTO);
+        $this->assertEquals(Header::AUTO, $oHeader->getType());
     }
 
     /**
@@ -215,7 +215,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $oHeader = new Header(1);
         $oHeader->firstPage();
 
-        $this->assertEquals($oHeader->getType(), Header::FIRST);
+        $this->assertEquals(Header::FIRST, $oHeader->getType());
     }
 
     /**
@@ -226,7 +226,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $oHeader = new Header(1);
         $oHeader->evenPage();
 
-        $this->assertEquals($oHeader->getType(), Header::EVEN);
+        $this->assertEquals(Header::EVEN, $oHeader->getType());
     }
 
     /**
