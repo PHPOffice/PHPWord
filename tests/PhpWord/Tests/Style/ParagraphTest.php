@@ -67,7 +67,6 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-//            'align'           => 'justify',
             'spaceAfter'      => 240,
             'spaceBefore'     => 240,
             'indent'          => 1,
@@ -85,11 +84,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("$key", $value);
-            /*if ('align' == $key) {
-                if ('justify' == $value) {
-                    $value = 'both';
-                }
-            } else*/if ('indent' == $key || 'hanging' == $key) {
+            if ('indent' == $key || 'hanging' == $key) {
                 $value = $value * 720;
             } elseif ('spacing' == $key) {
                 $value += 240;
