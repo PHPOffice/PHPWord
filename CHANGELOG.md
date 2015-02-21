@@ -1,17 +1,21 @@
-# Changelog
+Changelog
+=========
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-## 0.13.0 - TBD
+0.13.0 - TBD
+------------
 
 Place announcement text here.
 
 ### Bugfixes
 
-- It was discovered that ``alignment`` option value doesn't affect paragraph alignment at all. This was fixed. Note: ``getAlign()`` and ``setAlign()`` methods of ``Paragraph`` style are renamed. - @RomanSyroeshko
+- Discovered that ``alignment`` option value doesn't affect paragraph alignment at all. This is fixed now. Note: ``getAlign()`` and ``setAlign()`` methods of ``Paragraph`` style are renamed. - @RomanSyroeshko
 
 
-## 0.12.0 - 3 January 2015
+
+0.12.0 - 3 January 2015
+-----------------------
 
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
 
@@ -73,14 +77,18 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Reverted #51. All text escaping must be performed out of the library - @RomanSyroeshko #51
 
 
-## 0.11.1 - 2 June 2014
+
+0.11.1 - 2 June 2014
+--------------------
 
 This is an immediate bugfix release for HTML reader.
 
 - HTML Reader: `<p>` and header tags puts no output - @canyildiz @ivanlanin #257
 
 
-## 0.11.0 - 1 June 2014
+
+0.11.0 - 1 June 2014
+--------------------
 
 This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemented. RTF and HTML reader were initiated.
 
@@ -147,14 +155,18 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - QA: Improve dan update requirement check in `samples` folder - @ivanlanin
 
 
-## 0.10.1 - 21 May 2014
+
+0.10.1 - 21 May 2014
+--------------------
 
 This is a bugfix release for `php-zip` requirement in Composer.
 
 - Change Composer requirements for php-zip from `require` to `suggest` - @bskrtich #246
 
 
-## 0.10.0 - 4 May 2014
+
+0.10.0 - 4 May 2014
+-------------------
 
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
 
@@ -241,14 +253,18 @@ This release marked heavy refactorings on internal code structure with the creat
 - Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
 
 
-## 0.9.1 - 27 Mar 2014
+
+0.9.1 - 27 Mar 2014
+-------------------
 
 This is a bugfix release for PSR-4 compatibility.
 
 - Fixed PSR-4 composer autoloader - @AntonTyutin
 
 
-## 0.9.0 - 26 Mar 2014
+
+0.9.0 - 26 Mar 2014
+-------------------
 
 This release marked the transformation to namespaces (PHP 5.3+).
 
@@ -272,14 +288,18 @@ This release marked the transformation to namespaces (PHP 5.3+).
 - Merge Section\MemoryImage into Section\Image. Section\Image is deprecated - @ivanlanin #160
 
 
-## 0.8.1 - 17 Mar 2014
+
+0.8.1 - 17 Mar 2014
+-------------------
 
 This is a bugfix release for image detection functionality.
 
 - Added fallback for computers that do not have exif_imagetype - @bskrtich, @gabrielbull
 
 
-## 0.8.0 - 15 Mar 2014
+
+0.8.0 - 15 Mar 2014
+-------------------
 
 This release merged a lot of improvements from the community. Unit tests introduced in this release and has reached 90% code coverage.
 
@@ -329,7 +349,9 @@ This release merged a lot of improvements from the community. Unit tests introdu
 - UnitTests - @Progi1984
 
 
-## 0.7.0 - 28 Jan 2014
+
+0.7.0 - 28 Jan 2014
+-------------------
 
 This is the first release after a long development hiatus in [CodePlex](https://phpword.codeplex.com/). This release initialized ODT and RTF Writer, along with some other new features for the existing Word2007 Writer, e.g. tab, multiple header, rowspan and colspan. [Composer](https://packagist.org/packages/phpoffice/phpword) and [Travis](https://travis-ci.org/PHPOffice/PHPWord) were added.
 
