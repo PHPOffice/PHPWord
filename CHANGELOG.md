@@ -10,6 +10,7 @@ Place announcement text here.
 
 - It was discovered that ``alignment`` option value doesn't affect paragraph alignment at all. This was fixed. Note: ``getAlign()`` and ``setAlign()`` methods of ``Paragraph`` style are renamed. - @RomanSyroeshko
 
+
 ## 0.12.0 - 3 January 2015
 
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
@@ -71,11 +72,13 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko #216
 - Reverted #51. All text escaping must be performed out of the library - @RomanSyroeshko #51
 
+
 ## 0.11.1 - 2 June 2014
 
 This is an immediate bugfix release for HTML reader.
 
 - HTML Reader: `<p>` and header tags puts no output - @canyildiz @ivanlanin #257
+
 
 ## 0.11.0 - 1 June 2014
 
@@ -149,6 +152,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 This is a bugfix release for `php-zip` requirement in Composer.
 
 - Change Composer requirements for php-zip from `require` to `suggest` - @bskrtich #246
+
 
 ## 0.10.0 - 4 May 2014
 
@@ -236,11 +240,13 @@ This release marked heavy refactorings on internal code structure with the creat
 - Refactor: Split `AbstractContainer` from `AbstractElement` - @ivanlanin
 - Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
 
+
 ## 0.9.1 - 27 Mar 2014
 
 This is a bugfix release for PSR-4 compatibility.
 
 - Fixed PSR-4 composer autoloader - @AntonTyutin
+
 
 ## 0.9.0 - 26 Mar 2014
 
@@ -265,11 +271,13 @@ This release marked the transformation to namespaces (PHP 5.3+).
 - Merge Style\TableFull into Style\Table. Style\TableFull is deprecated - @ivanlanin #160
 - Merge Section\MemoryImage into Section\Image. Section\Image is deprecated - @ivanlanin #160
 
+
 ## 0.8.1 - 17 Mar 2014
 
 This is a bugfix release for image detection functionality.
 
 - Added fallback for computers that do not have exif_imagetype - @bskrtich, @gabrielbull
+
 
 ## 0.8.0 - 15 Mar 2014
 
@@ -319,6 +327,7 @@ This release merged a lot of improvements from the community. Unit tests introdu
 ### Miscellaneous
 
 - UnitTests - @Progi1984
+
 
 ## 0.7.0 - 28 Jan 2014
 
