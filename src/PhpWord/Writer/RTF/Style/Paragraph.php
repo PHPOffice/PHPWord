@@ -26,7 +26,6 @@ use PhpOffice\PhpWord\Style\Alignment;
  */
 class Paragraph extends AbstractStyle
 {
-
     /**
      * Depth of table container nested level; Primarily used for RTF writer/reader
      *
@@ -55,7 +54,7 @@ class Paragraph extends AbstractStyle
             Alignment::ALIGN_BOTH => '\qj',
         );
 
-        $align = $style->getAlign();
+        $alignment = $style->getAlignment();
         $spaceAfter = $style->getSpaceAfter();
         $spaceBefore = $style->getSpaceBefore();
 
@@ -63,8 +62,8 @@ class Paragraph extends AbstractStyle
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
         }
-        if (isset($alignments[$align])) {
-            $content .= $alignments[$align];
+        if (!is_null($alignment) && isset($alignments[$alignment->getValue()])) {
+            $content .= $alignments[$alignment->getValue()];
         }
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);

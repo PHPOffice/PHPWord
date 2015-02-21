@@ -2,6 +2,14 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+## 0.13.0 - TBD
+
+Place announcement text here.
+
+### Bugfixes
+
+- It was discovered that ``alignment`` option value doesn't affect paragraph alignment at all. This was fixed. Note: ``getAlign()`` and ``setAlign()`` methods of ``Paragraph`` style are renamed. - @RomanSyroeshko
+
 ## 0.12.0 - 3 January 2015
 
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.

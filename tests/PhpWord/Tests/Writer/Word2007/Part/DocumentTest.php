@@ -421,7 +421,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $attributes = array(
-            'align'           => 'right',
+            'alignment'       => 'right',
             'widowControl'    => false,
             'keepNext'        => true,
             'keepLines'       => true,
@@ -436,9 +436,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $attributeCount = 0;
         foreach ($attributes as $key => $value) {
             $attributeCount++;
-            $nodeName = ($key == 'align') ? 'jc' : $key;
+            $nodeName = ($key == 'alignment') ? 'jc' : $key;
             $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
-            if ('align' != $key) {
+            if ('alignment' != $key) {
                 $value = $value ? 1 : 0;
             }
             $element = $doc->getElement($path);
