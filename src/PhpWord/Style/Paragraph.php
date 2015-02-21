@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Shared\String;
  *
  * OOXML:
  * - General: alignment, outline level
+ * - Alignment: left, right, center, both
  * - Indentation: left, right, firstline, hanging
  * - Spacing: before, after, line spacing
  * - Pagination: widow control, keep next, keep line, page break before
@@ -160,14 +161,6 @@ class Paragraph extends Border
     private $shading;
 
     /**
-     * Create new instance
-     */
-    public function __construct()
-    {
-        $this->alignment = new Alignment();
-    }
-
-    /**
      * Set Style value
      *
      * @param string $key
@@ -202,7 +195,7 @@ class Paragraph extends Border
             'name'              => $this->getStyleName(),
             'basedOn'           => $this->getBasedOn(),
             'next'              => $this->getNext(),
-            'alignment'         => $this->getAlign(),
+            'alignment'         => $this->getAlignment(),
             'indentation'       => $this->getIndentation(),
             'spacing'           => $this->getSpace(),
             'pagination'        => array(
@@ -225,11 +218,11 @@ class Paragraph extends Border
     /**
      * Get alignment
      *
-     * @return string
+     * @return \PhpOffice\PhpWord\Style\Alignment
      */
-    public function getAlign()
+    public function getAlignment()
     {
-        return $this->alignment->getValue();
+        return $this->alignment;
     }
 
     /**
@@ -238,9 +231,9 @@ class Paragraph extends Border
      * @param string $value
      * @return self
      */
-    public function setAlign($value = null)
+    public function setAlignment($value = null)
     {
-        $this->alignment->setValue($value);
+        $this->setObjectVal(array('value' => $value), 'Alignment', $this->alignment);
 
         return $this;
     }

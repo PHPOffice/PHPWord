@@ -38,8 +38,11 @@ class Paragraph extends AbstractStyle
         $css = array();
 
         // Alignment
-        $align = $style->getAlign();
-        $css['text-align'] = $this->getValueIf(!is_null($align), $align);
+        $alignment = $style->getAlignment();
+        if (!is_null($alignment)) {
+            $alignmentValue = $alignment->getValue();
+            $css['text-align'] = $this->getValueIf(!is_null($alignmentValue), $alignmentValue);
+        }
 
         // Spacing
         $spacing = $style->getSpace();

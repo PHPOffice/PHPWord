@@ -54,7 +54,7 @@ class Paragraph extends AbstractStyle
         } else {
             $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
             $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
-            $xmlWriter->writeAttribute('fo:text-align', $style->getAlign());
+            $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
         }
         $xmlWriter->endElement(); //style:paragraph-properties
 
