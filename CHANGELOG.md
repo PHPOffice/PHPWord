@@ -8,9 +8,9 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 
 Place announcement text here.
 
-### Bugfixes
+### Changes
 
-- Discovered that ``alignment`` option value doesn't affect paragraph alignment at all. This is fixed now. Note: ``getAlign()`` and ``setAlign()`` methods of ``Paragraph`` style are renamed. - @RomanSyroeshko
+- Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
 
 
 

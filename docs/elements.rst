@@ -84,7 +84,7 @@ Inline style examples:
 .. code-block:: php
 
     $fontStyle = array('name' => 'Times New Roman', 'size' => 9);
-    $paragraphStyle = array('align' => 'both');
+    $paragraphStyle = array('alignment' => 'both');
     $section->addText('I am simple paragraph', $fontStyle, $paragraphStyle);
 
     $textrun = $section->addTextRun();
@@ -100,7 +100,7 @@ Defined style examples:
     $phpWord->addFontStyle('fStyle', $fontStyle);
     $text = $section->addText('Hello world!', 'fStyle');
 
-    $paragraphStyle = array('align' => 'center');
+    $paragraphStyle = array('alignment' => 'center');
     $phpWord->addParagraphStyle('pStyle', $paragraphStyle);
     $text = $section->addText('Hello world!', 'pStyle');
 
@@ -130,7 +130,7 @@ Paragraph style
 
 Available paragraph styles:
 
--  ``align`` Paragraph alignment, *left*, *right* or *center*
+-  ``alignment`` Paragraph alignment, *left*, *right* or *center*
 -  ``spaceBefore`` Space before paragraph
 -  ``spaceAfter`` Space after paragraph
 -  ``indent`` Indent by how much
