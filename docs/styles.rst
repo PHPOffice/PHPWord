@@ -59,7 +59,7 @@ Paragraph
 
 Available paragraph styles:
 
--  ``align`` Paragraph alignment, *left*, *right* or *center*
+-  ``alignment`` Paragraph alignment, *left*, *right* or *center*
 -  ``spaceBefore`` Space before paragraph
 -  ``spaceAfter`` Space after paragraph
 -  ``indent`` Indent by how much
