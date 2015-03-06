@@ -23,3 +23,27 @@ multirow from a single row in a template by using ``TemplateProcessor::cloneRow`
 See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
 of text using ``TemplateProcessor::cloneBlock`` and delete a block of text using
 ``TemplateProcessor::deleteBlock``.
+
+
+
+Merge field processing
+======================
+
+NOTE: This method has been successfully tested on a limited number of Word template documents. However, due to the complex nature of the underlying XML format, it may not work in all circumstances.
+
+This method was designed to find and replace text using the standard Word "mail merge fields" in a document (including body, headers, and footers). When viewing a document in Word, these typically appear encapsulated as &laquo;FIELD_NAME&raquo;.
+
+Values for all merge fields within a document are passed as an array. The methods 'getMergeSuccess' and 'getMergeFailure' each return an array showing the status of the merge replacements throughout the document sections.
+
+Example:
+
+.. code-block:: php
+
+	$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('Template.docx');
+	$templateProcessor->setMergeData(array(
+		'FIELD_NAME'		=> 'My Name',
+		'OTHER_VALUE'		=> $value
+	));
+    $templateProcessor->doMerge();
+	print_r( $templateProcessor->getMergeSuccess() );
+	print_r( $templateProcessor->getMergeFailure() );
