@@ -44,6 +44,6 @@ Example:
 		'FIELD_NAME'		=> 'My Name',
 		'OTHER_VALUE'		=> $value
 	));
-    $templateProcessor->doMerge();
+	$templateProcessor->doMerge();
 	print_r( $templateProcessor->getMergeSuccess() );
 	print_r( $templateProcessor->getMergeFailure() );
