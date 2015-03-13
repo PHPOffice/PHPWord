@@ -128,6 +128,7 @@ class Html
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'img'       => array('Img',         $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -199,6 +200,28 @@ class Html
         $newElement = $element->addTextRun($styles['paragraph']);
 
         return $newElement;
+    }
+
+    /**
+     * Parse image node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return \PhpOffice\PhpWord\Element\Image
+     */
+    private static function parseImg($node, $element)
+    {
+        if (!is_null($node->attributes)) {
+            $nodeAttr = $node->attributes->getNamedItem('src');
+            if (!is_null($nodeAttr) && property_exists($nodeAttr, 'value')) {
+
+                $newElement = $element->addImage($nodeAttr->value);
+                return $newElement;
+            }
+        }
+
+
+        return null;
     }
 
     /**
