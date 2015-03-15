@@ -30,33 +30,33 @@ class TemplateProcessor
      *
      * @var mixed
      */
-    private $zipClass;
+    protected $zipClass;
 
     /**
      * @var string Temporary document filename (with path).
      */
-    private $temporaryDocumentFilename;
+    protected $temporaryDocumentFilename;
 
     /**
      * Content of main document part (in XML format) of the temporary document.
      *
      * @var string
      */
-    private $temporaryDocumentMainPart;
+    protected $temporaryDocumentMainPart;
 
     /**
      * Content of headers (in XML format) of the temporary document.
      *
      * @var string[]
      */
-    private $temporaryDocumentHeaders = array();
+    protected $temporaryDocumentHeaders = array();
 
     /**
      * Content of footers (in XML format) of the temporary document.
      *
      * @var string[]
      */
-    private $temporaryDocumentFooters = array();
+    protected $temporaryDocumentFooters = array();
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -389,7 +389,7 @@ class TemplateProcessor
      * @param integer $index
      * @return string
      */
-    private function getFooterName($index)
+    protected function getFooterName($index)
     {
         return sprintf('word/footer%d.xml', $index);
     }
@@ -400,7 +400,7 @@ class TemplateProcessor
      * @param integer $index
      * @return string
      */
-    private function getHeaderName($index)
+    protected function getHeaderName($index)
     {
         return sprintf('word/header%d.xml', $index);
     }
@@ -412,7 +412,7 @@ class TemplateProcessor
      * @return integer
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    private function findRowStart($offset)
+    protected function findRowStart($offset)
     {
         $rowStart = strrpos($this->temporaryDocumentMainPart, '<w:tr ', ((strlen($this->temporaryDocumentMainPart) - $offset) * -1));
 
@@ -432,7 +432,7 @@ class TemplateProcessor
      * @param integer $offset
      * @return integer
      */
-    private function findRowEnd($offset)
+    protected function findRowEnd($offset)
     {
         return strpos($this->temporaryDocumentMainPart, '</w:tr>', $offset) + 7;
     }
@@ -444,7 +444,7 @@ class TemplateProcessor
      * @param integer $endPosition
      * @return string
      */
-    private function getSlice($startPosition, $endPosition = 0)
+    protected function getSlice($startPosition, $endPosition = 0)
     {
         if (!$endPosition) {
             $endPosition = strlen($this->temporaryDocumentMainPart);
