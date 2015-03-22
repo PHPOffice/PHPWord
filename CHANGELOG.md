@@ -13,7 +13,7 @@ Place announcement text here.
 - Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
 
 ### Bugfixes
-- Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko, @SSchwaiger #495
+- Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
 
 0.12.0 (3 January 2015)
 -----------------------
