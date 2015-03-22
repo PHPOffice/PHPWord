@@ -26,7 +26,7 @@ $subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80
 
 // Add footer
 $footer = $section->addFooter();
-$footer->addPreserveText(htmlspecialchars('Page {PAGE} of {NUMPAGES}.', ENT_COMPAT, 'UTF-8'), array('align' => 'center'));
+$footer->addPreserveText(htmlspecialchars('Page {PAGE} of {NUMPAGES}.', ENT_COMPAT, 'UTF-8'), null, array('alignment' => 'center'));
 $footer->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
 
 // Write some text
