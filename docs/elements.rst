@@ -207,9 +207,9 @@ Page breaks
 There are two ways to insert a page breaks, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-:: code-block:: php
+.. code-block:: php
 
-    \\$section->addPageBreak();
+    $section->addPageBreak();
 
 Lists
 -----
