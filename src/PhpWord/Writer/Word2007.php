@@ -300,6 +300,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
     {
         foreach ($media as $medium) {
             $mediumType = $medium['type'];
+            $mediumExtension = pathinfo($medium['source'])['extension'];
             if ($mediumType == 'image') {
                 $extension = $medium['imageExtension'];
                 if (!isset($this->contentTypes['default'][$extension])) {
