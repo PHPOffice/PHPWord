@@ -69,7 +69,7 @@ class Object extends AbstractElement
      */
     public function __construct($source, $style = null)
     {
-        $supportedTypes = array('xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx');
+        $supportedTypes = array('xlsx', 'docx', 'pptx');
         $pathInfo = pathinfo($source);
 
         if (file_exists($source) && in_array($pathInfo['extension'], $supportedTypes)) {
