@@ -307,26 +307,25 @@ class Word2007 extends AbstractWriter implements WriterInterface
                     $this->contentTypes['default'][$extension] = $medium['imageType'];
                 }
             } elseif ($mediumType == 'object') {
-                switch($mediumExtension)
-            	{
-            	  case "docx":
-                    if (!isset($this->contentTypes['default']['docx'])) {
-                          $this->contentTypes['default']['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-                  	}
-                    	break;
+                switch ($mediumExtension) {
+                    case "docx":
+                        if (!isset($this->contentTypes['default']['docx'])) {
+                            $this->contentTypes['default']['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        }
+                        break;
                     
-                  case "pptx":
-                    if (!isset($this->contentTypes['default']['pptx'])) {
-                    	  $this->contentTypes['default']['pptx'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
-                    	}
-                    	break;
-                    	
-                  case "xlsx":
-                    if (!isset($this->contentTypes['default']['xlsx'])) {
-                    	  $this->contentTypes['default']['xlsx'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                    	}
-                    	break;
-            	}
+                    case "pptx":
+                        if (!isset($this->contentTypes['default']['pptx'])) {
+                            $this->contentTypes['default']['pptx'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                        }
+                        break;
+                    
+                    case "xlsx":
+                        if (!isset($this->contentTypes['default']['xlsx'])) {
+                            $this->contentTypes['default']['xlsx'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                        }
+                        break;
+                }
             }
         }
     }
