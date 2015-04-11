@@ -82,16 +82,20 @@ class TemplateProcessor
         $this->zipClass = new ZipArchive();
         $this->zipClass->open($this->temporaryDocumentFilename);
         $index = 1;
-        while ($this->zipClass->locateName($this->getHeaderName($index)) !== false) {
-            $this->temporaryDocumentHeaders[$index] = $this->zipClass->getFromName($this->getHeaderName($index));
+        while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
+            $this->temporaryDocumentHeaders[$index] = $this->fixBrokenMacros(
+                $this->zipClass->getFromName($this->getHeaderName($index))
+            );
             $index++;
         }
         $index = 1;
-        while ($this->zipClass->locateName($this->getFooterName($index)) !== false) {
-            $this->temporaryDocumentFooters[$index] = $this->zipClass->getFromName($this->getFooterName($index));
+        while (false !== $this->zipClass->locateName($this->getFooterName($index))) {
+            $this->temporaryDocumentFooters[$index] = $this->fixBrokenMacros(
+                $this->zipClass->getFromName($this->getFooterName($index))
+            );
             $index++;
         }
-        $this->temporaryDocumentMainPart = $this->zipClass->getFromName('word/document.xml');
+        $this->temporaryDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
     }
 
     /**
@@ -175,7 +179,7 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
+        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
             $search = '${' . $search . '}';
         }
 
@@ -339,6 +343,30 @@ class TemplateProcessor
     }
 
     /**
+     * Finds parts of broken macros and sticks them together.
+     * Macros, while being edited, could be implicitly broken by some of the word processors.
+     *
+     * @since 0.13.0
+     *
+     * @param string $documentPart The document part in XML representation.
+     *
+     * @return string
+     */
+    protected function fixBrokenMacros($documentPart) {
+        $fixedDocumentPart = $documentPart;
+
+        $pattern = '|\$\{([^\}]+)\}|U';
+        preg_match_all($pattern, $fixedDocumentPart, $matches);
+        foreach ($matches[0] as $value) {
+            $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
+            $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
+            $fixedDocumentPart = str_replace($value, $valueCleaned, $fixedDocumentPart);
+        }
+
+        return $fixedDocumentPart;
+    }
+
+    /**
      * Find and replace placeholders in the given XML section.
      *
      * @param string $documentPartXML
@@ -349,14 +377,6 @@ class TemplateProcessor
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        $pattern = '|\$\{([^\}]+)\}|U';
-        preg_match_all($pattern, $documentPartXML, $matches);
-        foreach ($matches[0] as $value) {
-            $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
-            $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
-            $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
-        }
-
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${' . $search . '}';
         }
