@@ -352,7 +352,8 @@ class TemplateProcessor
      *
      * @return string
      */
-    protected function fixBrokenMacros($documentPart) {
+    protected function fixBrokenMacros($documentPart)
+    {
         $fixedDocumentPart = $documentPart;
 
         $pattern = '|\$\{([^\}]+)\}|U';
