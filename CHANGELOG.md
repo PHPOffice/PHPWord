@@ -9,7 +9,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 Place announcement text here.
 
 ### Changes
-- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - RomanSyroeshko #498
+- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
 - Improved performance of ``TemplateProcessor::setValue()``. - @RomanSyroeshko #513
 - Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
 
@@ -22,7 +22,6 @@ Place announcement text here.
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
 
 ### Features
-
 - Element: Ability to add drawing shapes (arc, curve, line, polyline, rect, oval) using new `Shape` element - @ivanlanin #123
 - Font: New `scale`, `spacing`, and `kerning` property of font style - @ivanlanin
 - Paragraph:  Added shading to the paragraph style for full width shading - @lrobert #264
@@ -44,7 +43,6 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Report style options enumerated when style unknown - @h6w
 
 ### Bugfixes
-
 - Fix rare PclZip/realpath/PHP version problem - @andrew-kzoo #261
 - `addHTML` encoding and ampersand fixes for PHP 5.3 - @bskrtich #270
 - Page breaks on titles and tables - @ivanlanin #274
@@ -58,7 +56,6 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - `<th>` tag is closed with `</td>` tag: - @franzholz #438
 
 ### Deprecated
-
 - `Element\Link::getTarget()` replaced by `Element\Link::getSource()`
 - `Element\Section::getSettings()` and `Element\Section::setSettings()` replaced by `Element\Section::getStyle()` and `Element\Section::setStyle()`
 - `Shared\Drawing` and `Shared\Font` merged into `Shared\Converter`
@@ -67,7 +64,6 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - `PhpWord->loadTemplate($filename)`
 
 ### Miscellaneous
-
 - Docs: Add known issue on `README` about requirement for temporary folder to be writable and update `samples/index.php` for this requirement check - @ivanlanin #238
 - Docs: Correct elements.rst about Line - @chrissharkman #292
 - PclZip: Remove temporary file after used - @andrew-kzoo #265
@@ -95,7 +91,6 @@ This is an immediate bugfix release for HTML reader.
 This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemented. RTF and HTML reader were initiated.
 
 ### Features
-
 - Image: Ability to define relative and absolute positioning - @basjan #217
 - Footer: Conform footer with header by adding firstPage, evenPage and by inheritance - @basjan @ivanlanin #219
 - Element: New `TextBox` element - @basjan @ivanlanin #228, #229, #231
@@ -125,7 +120,6 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - RTF Writer: Basic table writing - @ivanlanin #245
 
 ### Bugfixes
-
 - Header: All images added to the second header were assigned to the first header - @basjan #222
 - Conversion: Fix conversion from cm to pixel, pixel to cm, and pixel to point - @basjan #233, #234
 - PageBreak: Page break adds new line in the beginning of the new page - @ivanlanin #150
@@ -133,7 +127,6 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - Title: Orphan `w:fldChar` caused OpenOffice to crash when opening DOCX - @ivanlanin #236
 
 ### Deprecated
-
 - Static classes `Footnotes`, `Endnotes`, and `TOC`
 - `Writer\Word2007\Part`: `Numbering::writeNumbering()`, `Settings::writeSettings()`, `WebSettings::writeWebSettings()`, `ContentTypes::writeContentTypes()`, `Styles::writeStyles()`, `Document::writeDocument()` all changed into `write()`
 - `Writer\Word2007\Part\DocProps`: Split into `Writer\Word2007\Part\DocPropsCore` and `Writer\Word2007\Part\DocPropsApp`
@@ -141,7 +134,6 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - `Writer\HTML::writeDocument`: Replaced by `Writer\HTML::getContent`
 
 ### Miscellaneous
-
 - License: Change the project license from LGPL 2.1 into LGPL 3.0 - #211
 - Word2007 Writer: New `Style\Image` class - @ivanlanin
 - Refactor: Replace static classes `Footnotes`, `Endnotes`, and `TOC` with `Collections` - @ivanlanin #206
@@ -173,7 +165,6 @@ This is a bugfix release for `php-zip` requirement in Composer.
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
 
 ### Features
-
 - Image: Get image dimensions without EXIF extension - @andrew-kzoo #184
 - Table: Add `tblGrid` element for Libre/Open Office table sizing - @gianis6 #183
 - Footnote: Ability to insert textbreak in footnote `$footnote->addTextBreak()` - @ivanlanin
@@ -213,12 +204,10 @@ This release marked heavy refactorings on internal code structure with the creat
 - Paragraph: Ability to define first line and right indentation - @ivanlanin
 
 ### Bugfixes
-
 - Footnote: Footnote content doesn't show footnote reference number - @ivanlanin #170
 - Documentation: Error in a function - @theBeerNut #195
 
 ### Deprecated
-
 - `createTextRun` replaced by `addTextRun`
 - `createFootnote` replaced by `addFootnote`
 - `createHeader` replaced by `addHeader`
@@ -234,7 +223,6 @@ This release marked heavy refactorings on internal code structure with the creat
 - `Style\Cell::getDefaultBorderColor`
 
 ### Miscellaneous
-
 - Documentation: Simplify page level docblock - @ivanlanin #179
 - Writer: Refactor writer classes and create a new `Write\AbstractWriter` abstract class - @ivanlanin #160
 - General: Refactor folders: `Element` and `Exception` - @ivanlanin #187
@@ -271,16 +259,13 @@ This is a bugfix release for PSR-4 compatibility.
 This release marked the transformation to namespaces (PHP 5.3+).
 
 ### Features
-
 - Image: Ability to use remote or GD images using `addImage()` on sections, headers, footer, cells, and textruns - @ivanlanin
 - Header: Ability to use remote or GD images using `addWatermark()` - @ivanlanin
 
 ### Bugfixes
-
 - Preserve text doesn't render correctly when the text is not the first word, e.g. 'Page {PAGE}' - @ivanlanin
 
 ### Miscellaneous
-
 - Move documentation to [Read The Docs](http://phpword.readthedocs.org/en/develop/) - @Progi1984 @ivanlanin #82
 - Reorganize and redesign samples folder - @ivanlanin #137
 - Use `PhpOffice\PhpWord` namespace for PSR compliance - @RomanSyroeshko @gabrielbull #159, #58
@@ -306,7 +291,6 @@ This is a bugfix release for image detection functionality.
 This release merged a lot of improvements from the community. Unit tests introduced in this release and has reached 90% code coverage.
 
 ### Features
-
 - Template: Permit to save a template generated as a file (PHPWord_Template::saveAs()) - @RomanSyroeshko #56, #57
 - Word2007: Support sections page numbering - @gabrielbull
 - Word2007: Added line height methods to mirror the line height settings in Word in the paragraph styling - @gabrielbull
@@ -338,7 +322,6 @@ This release merged a lot of improvements from the community. Unit tests introdu
 - TextBreak: Allow font and paragraph style for text break - @ivanlanin #18
 
 ### Bugfixes
-
 - Fixed bug with cell styling - @gabrielbull
 - Fixed bug list items inside of cells - @gabrielbull
 - Adding a value that contains "&" in a template breaks it - @SiebelsTim #51
@@ -347,7 +330,6 @@ This release merged a lot of improvements from the community. Unit tests introdu
 - Footnote: Corrupt DOCX reported by MS Word when sections > 1 and not every sections have footnote - @ivanlanin #125
 
 ### Miscellaneous
-
 - UnitTests - @Progi1984
 
 
@@ -358,7 +340,6 @@ This release merged a lot of improvements from the community. Unit tests introdu
 This is the first release after a long development hiatus in [CodePlex](https://phpword.codeplex.com/). This release initialized ODT and RTF Writer, along with some other new features for the existing Word2007 Writer, e.g. tab, multiple header, rowspan and colspan. [Composer](https://packagist.org/packages/phpoffice/phpword) and [Travis](https://travis-ci.org/PHPOffice/PHPWord) were added.
 
 ### Features
-
 - Implement RTF Writer - @Progi1984 #1
 - Implement ODT Writer - @Progi1984 #2
 - Word2007: Add rowspan and colspan to cells - @kaystrobach
@@ -368,13 +349,11 @@ This is the first release after a long development hiatus in [CodePlex](https://
 - Added support for image wrapping style - @gabrielbull
 
 ### Bugfixes
-
 - "Warning: Invalid error type specified in ...\PHPWord.php on line 226" is thrown when the specified template file is not found - @RomanSyroeshko #32
 - PHPWord_Shared_String.IsUTF8 returns FALSE for Cyrillic UTF-8 input - @RomanSyroeshko #34
 - Temporary files naming logic in PHPWord_Template can lead to a collision - @RomanSyroeshko #38
 
 ### Miscellaneous
-
 - Add superscript/subscript styling in Excel2007 Writer - @MarkBaker
 - add indentation support to paragraphs - @deds
 - Support for Composer - @Progi1984 #27
