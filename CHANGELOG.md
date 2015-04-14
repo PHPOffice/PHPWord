@@ -9,6 +9,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 Place announcement text here.
 
 ### Changes
+- Improved error message for the case when ``autoload.php`` is not found. - @RomanSyroeshko #371
 - Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - RomanSyroeshko #498
 - Improved performance of ``TemplateProcessor::setValue()``. - @RomanSyroeshko #513
 - Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
