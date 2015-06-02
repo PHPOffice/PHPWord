@@ -356,13 +356,13 @@ class TemplateProcessor
     {
         $fixedDocumentPart = $documentPart;
 
-        $pattern = '|\$\{([^\}]+)\}|U';
-        preg_match_all($pattern, $fixedDocumentPart, $matches);
-        foreach ($matches[0] as $value) {
-            $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
-            $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
-            $fixedDocumentPart = str_replace($value, $valueCleaned, $fixedDocumentPart);
-        }
+        $fixedDocumentPart = preg_replace_callback(
+            '|\$\{([^\}]+)\}|U',
+            function ($match) {
+                return strip_tags($match[0]);
+            },
+            $fixedDocumentPart
+        );
 
         return $fixedDocumentPart;
     }
