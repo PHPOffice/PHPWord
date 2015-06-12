@@ -352,11 +352,11 @@ class TemplateProcessor
     {
         $pattern = '|\$\{([^\}]+)\}|U';
         preg_match_all($pattern, $documentPartXML, $matches);
-        foreach ($matches[0] as $value) {
-            $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
-            $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
-            $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
-        }
+//        foreach ($matches[0] as $value) {
+//            $valueCleaned = preg_replace('/<[^>]+>/', '', $value);
+//            $valueCleaned = preg_replace('/<\/[^>]+>/', '', $valueCleaned);
+//            $documentPartXML = str_replace($value, $valueCleaned, $documentPartXML);
+//        }
 
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${' . $search . '}';
