@@ -17,8 +17,8 @@ env:
 
 before_install:
     ## Packages
-    - sudo apt-get -qq update > /dev/null
-    - sudo apt-get -qq install graphviz > /dev/null
+    - sudo apt-get update -qq
+    - sudo apt-get install -y graphviz
 
 before_script:
     ## Composer
