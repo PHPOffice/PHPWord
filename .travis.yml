@@ -15,10 +15,12 @@ env:
     global:
         - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
 
-before_script:
+before_install:
     ## Packages
     - sudo apt-get -qq update > /dev/null
     - sudo apt-get -qq install graphviz > /dev/null
+
+before_script:
     ## Composer
     - composer self-update
     - composer install --prefer-source
