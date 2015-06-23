@@ -21,7 +21,7 @@ before_script:
     - sudo apt-get -qq install graphviz > /dev/null
     ## Composer
     - composer self-update
-    - composer install --prefer-source --dev
+    - composer install --prefer-source
     ## PHPDocumentor
     - mkdir -p build/docs
     - mkdir -p build/coverage
