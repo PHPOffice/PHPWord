@@ -102,7 +102,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @param string $docFile
      * @return array
      */
-    private function readRelationships($docFile)
+    public function readRelationships($docFile)
     {
         $relationships = array();
 
