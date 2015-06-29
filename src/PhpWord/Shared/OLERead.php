@@ -55,7 +55,7 @@ class OLERead
     public $wrkData                         = null;
     public $wrkObjectPool                   = null;
     public $summaryInformation              = null;
-    public $docSummaryInfos                 = null;
+    public $documentSummaryInformation      = null;
 
 
     /**
@@ -281,7 +281,7 @@ class OLERead
 
             // Additional Document Summary information
             if ($name == chr(5) . 'DocumentSummaryInformation') {
-                $this->docSummaryInfos = count($this->props) - 1;
+                $this->documentSummaryInformation = count($this->props) - 1;
             }
 
             $offset += self::PROPERTY_STORAGE_BLOCK_SIZE;
