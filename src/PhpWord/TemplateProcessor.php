@@ -339,7 +339,13 @@ class TemplateProcessor
             unlink($fileName);
         }
 
-        rename($tempFileName, $fileName);
+        /*
+         * Note: we do not use ``rename`` funcion here, because it looses file ownership data on Windows, and the file may not open.
+         * 
+         * @see https://github.com/PHPOffice/PHPWord/issues/532
+         */
+        copy($tempFileName, $fileName);
+        unlink($tempFileName);
     }
 
     /**
