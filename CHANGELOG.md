@@ -3,7 +3,7 @@ CHANGELOG
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
-0.13.0 (TBD)
+0.13.0 (unreleased)
 ------------
 
 Place announcement text here.
@@ -15,6 +15,7 @@ Place announcement text here.
 - Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
 
 ### Bugfixes
+- Fixed issue with "Access denied" message while opening ``Sample_07_TemplateCloneRow.docx`` and ``Sample_23_TemplateBlock.docx`` result files on Windows platform. - @RomanSyroeshko @AshSat #532
 - Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
 
 0.12.0 (3 January 2015)
