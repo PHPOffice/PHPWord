@@ -23,7 +23,7 @@ before_install:
 before_script:
     ## Composer
     - composer self-update
-    - composer install --prefer-dist
+    - composer install --prefer-source
     ## PHPDocumentor
     - mkdir -p build/docs
     - mkdir -p build/coverage
