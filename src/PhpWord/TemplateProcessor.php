@@ -27,6 +27,12 @@ use PhpOffice\PhpWord\Reader\Word2007;
 class TemplateProcessor
 {
     /**
+     * EMU units per pixel
+     * @staticvar integer EMU_UNIT
+     */
+    const EMU_UNIT = 9525;
+
+    /**
      * ZipArchive object.
      *
      * @var mixed
@@ -65,6 +71,18 @@ class TemplateProcessor
      * @var string[]
      */
     private $imageData = array();
+
+    /**
+     * Image width in pixels * by EMU unit i.e. 100 * self::EMU_UNIT = 952500
+     * @var integer $imageWidth
+     */
+    private $imageWidth = 952500;
+
+    /**
+     * Image height in pixels * by EMU unit i.e. 100 * self::EMU_UNIT = 952500
+     * @var integer $imageHeight
+     */
+    private $imageHeight = 952500;
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -172,13 +190,14 @@ class TemplateProcessor
        // Add a new one
        $this->zipClass->addFile($imgSource, 'word/media/' . $img);
 
+       /** Create an id that the template has unlikely to have reached */
        $id = 1000;
        if (strpos($search, "#")) {
             $id = ($id + (int) substr($search, strpos($search, "#") + 1));
        }
 
        $this->imageData['rId'.$id] = ['type' => 'image', 'target' => 'word/media/'.$img, 'docPart' => 'media/'.$img];
-
+       $this->setImageSizes($imgSource);
        $this->setValue($search, $this->getImgTag($id, $img));
    }
 
@@ -455,6 +474,23 @@ class TemplateProcessor
         return $matches[1];
     }
 
+    /**
+     * Sets the image sizes required for word
+     * @param string $imageSource
+     */
+    protected function setImageSizes($imageSource)
+    {
+        $data              = getimagesize($imageSource);
+        $this->imageWidth  = ($data[0] * self::EMU_UNIT);
+        $this->imageHeight = ($data[1] * self::EMU_UNIT);
+    }
+
+    /**
+     * Forces in an image tag into word
+     * @param  integer $id
+     * @param  string $imgName
+     * @return string
+     */
     protected function getImgTag($id, $imgName)
     {
         return '<w:p w:rsidR="00CC1A5D" w:rsidRDefault="00CC1A5D" w:rsidP="003D6476">'.
@@ -466,9 +502,9 @@ class TemplateProcessor
                         '</w:rPr>'.
                         '<w:drawing>'.
                             '<wp:inline distT="0" distB="0" distL="0" distR="0">'.
-                                '<wp:extent cx="2857143" cy="1142857"/>'.
+                                '<wp:extent cx="'.$this->imageWidth.'" cy="'.$this->imageHeight.'"/>'.
                                 '<wp:effectExtent l="0" t="0" r="635" b="0"/>'.
-                                '<wp:docPr id="2" name="Picture 2"/>'.
+                                '<wp:docPr id="'.$id.'" name="'.$imgName.'"/>'.
                                 '<wp:cNvGraphicFramePr>'.
                                     '<a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>'.
                                 '</wp:cNvGraphicFramePr>'.
@@ -494,7 +530,7 @@ class TemplateProcessor
                                             '<pic:spPr>'.
                                                 '<a:xfrm>'.
                                                     '<a:off x="0" y="0"/>'.
-                                                    '<a:ext cx="2857143" cy="1142857"/>'.
+                                                    '<a:ext cx="'.$this->imageWidth.'" cy="'.$this->imageHeight.'"/>'.
                                                 '</a:xfrm>'.
                                                 '<a:prstGeom prst="rect">'.
                                                     '<a:avLst/>'.
