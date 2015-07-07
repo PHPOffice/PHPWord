@@ -146,17 +146,19 @@ class Text extends AbstractElement
     {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        $style = '';
-        if (!method_exists($element, 'getParagraphStyle')) {
-            return $style;
-        }
 
+        if (!method_exists($element, 'getParagraphStyle')) {
+            return '';
+        }
         $paragraphStyle = $element->getParagraphStyle();
+        $style = $paragraphStyle;
+
         $pStyleIsObject = ($paragraphStyle instanceof Paragraph);
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $style = $styleWriter->write();
         }
+
         if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $style = " {$attribute}=\"{$style}\"";
@@ -174,8 +176,8 @@ class Text extends AbstractElement
     {
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
-        $style = '';
         $fontStyle = $element->getFontStyle();
+        $style = $fontStyle;
         $fStyleIsObject = ($fontStyle instanceof Font);
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);
