@@ -47,6 +47,27 @@ class Chart extends AbstractStyle
     private $is3d = false;
 
     /**
+     * Show labels for axis
+     *
+     * @var bool
+     */
+    private $showAxisLabels = false;
+
+    /**
+     * Show Gridlines for Y-Axis
+     *
+     * @var bool
+     */
+    private $gridY = false;
+
+    /**
+     * Show Gridlines for X-Axis
+     *
+     * @var bool
+     */
+    private $gridX = false;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -121,6 +142,75 @@ class Chart extends AbstractStyle
     public function set3d($value = true)
     {
         $this->is3d = $this->setBoolVal($value, $this->is3d);
+
+        return $this;
+    }
+
+    /**
+     * Show labels for axis
+     *
+     * @return bool
+     */
+    public function showAxisLabels()
+    {
+        return $this->showAxisLabels;
+    }
+
+    /**
+     * Set show Gridlines for Y-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowAxisLabels($value = true)
+    {
+        $this->showAxisLabels = $this->setBoolVal($value, $this->showAxisLabels);
+
+        return $this;
+    }
+
+    /**
+     * Show Gridlines for Y-Axis
+     *
+     * @return bool
+     */
+    public function showGridY()
+    {
+        return $this->gridY;
+    }
+
+    /**
+     * Set show Gridlines for Y-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowGridY($value = true)
+    {
+        $this->gridY = $this->setBoolVal($value, $this->gridY);
+
+        return $this;
+    }
+
+    /**
+     * Show Gridlines for X-Axis
+     *
+     * @return bool
+     */
+    public function showGridX()
+    {
+        return $this->gridX;
+    }
+
+    /**
+     * Set show Gridlines for X-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowGridX($value = true)
+    {
+        $this->gridX = $this->setBoolVal($value, $this->gridX);
 
         return $this;
     }

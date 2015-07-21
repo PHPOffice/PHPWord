@@ -264,6 +264,7 @@ class Chart extends AbstractPart
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
+        $style = $this->element->getStyle();
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
@@ -273,7 +274,7 @@ class Chart extends AbstractPart
         $xmlWriter->startElement($axisType);
 
         $xmlWriter->writeElementBlock('c:axId', 'val', $axisId);
-        $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
+        $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);        
         $xmlWriter->writeElementBlock('c:crossAx', 'val', $axisCross);
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
@@ -281,10 +282,12 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'none');
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none'); // nextTo
+            if($style->showAxisLabels())
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo');
+            else $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
-        if (isset($this->options['radar'])) {
+        if (isset($this->options['radar']) || ($type == "cat" && $style->showGridX()) || ($type == "val" && $style->showGridY())) {
             $xmlWriter->writeElement('c:majorGridlines');
         }
 
