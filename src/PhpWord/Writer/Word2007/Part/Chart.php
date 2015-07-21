@@ -282,10 +282,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'none');
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            if($style->showAxisLabels()) {
+            if ($style->showAxisLabels()) {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo');
-            }
-            else {
+            } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
             }
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
