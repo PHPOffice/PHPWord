@@ -299,7 +299,7 @@ Table, row, and cell styles
 
 Table styles:
 
--  ``width`` Table width in percent
+-  ``width`` Table width in fiftieths (1/50) of a percent
 -  ``alignment`` Table alignment, *left*, *right*, *center*, *both*, *justify*
 -  ``bgColor`` Background color, e.g. '9966CC'
 -  ``border(Top|Right|Bottom|Left)Size`` Border size in twips
