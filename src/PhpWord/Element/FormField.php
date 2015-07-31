@@ -75,6 +75,8 @@ class FormField extends Text
     public function __construct($type, $fontStyle = null, $paragraphStyle = null)
     {
         $this->setType($type);
+        $paragraphStyle = $this->setParagraphStyle($paragraphStyle);
+        $this->setFontStyle($fontStyle, $paragraphStyle);
     }
 
     /**
