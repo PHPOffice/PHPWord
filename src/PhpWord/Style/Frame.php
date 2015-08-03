@@ -183,13 +183,34 @@ class Frame extends AbstractStyle
     }
 
     /**
-     * Get alignment
+     * Get alignment (For backwards compatiblity)
      *
      * @return string
      */
     public function getAlign()
     {
+        return $this->getAlignment();
+    }
+
+    /**
+     * Get alignment
+     *
+     * @return string
+     */
+    public function getAlignment()
+    {
         return $this->alignment->getValue();
+    }
+
+    /**
+     * Set alignment (For backwards compatiblity)
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setAlign($value = null)
+    {
+        return $this->setAlignment($value);
     }
 
     /**
@@ -198,7 +219,7 @@ class Frame extends AbstractStyle
      * @param string $value
      * @return self
      */
-    public function setAlign($value = null)
+    public function setAlignment($value = null)
     {
         $this->alignment->setValue($value);
 
