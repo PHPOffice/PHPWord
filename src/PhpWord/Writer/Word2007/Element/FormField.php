@@ -165,6 +165,9 @@ class FormField extends Text
         $xmlWriter->writeElementBlock('w:result', 'w:val', $value);
         $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
         foreach ($entries as $entry) {
+            if ($entry == null || $entry == '') {
+                $entry = str_repeat(' ', self::FILLER_LENGTH);
+            }
             $xmlWriter->writeElementBlock('w:listEntry', 'w:val', $entry);
         }
         $xmlWriter->endElement();
