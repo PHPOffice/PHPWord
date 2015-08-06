@@ -53,17 +53,17 @@ class Field extends AbstractElement
                     
                     /* Day-Month-Year formats */
                     'dddd d MMMM yyyy', 'd MMMM yyyy', 'd-MMM-yy', 'd MMM. yy', 
-                    'd-M-yy', 'd-M-yy H:mm', 'd-M-yy H:mm:ss', 'd-M-yy H:mm am/pm', 'd-M-yy H:mm:ss am/pm', 'd-M-yy HH:mm', 'd-M-yy HH:mm:ss', 
-                    'd/M/yy', 'd/M/yy H:mm', 'd/M/yy H:mm:ss', 'd/M/yy H:mm am/pm', 'd/M/yy H:mm:ss am/pm', 'd/M/yy HH:mm', 'd/M/yy HH:mm:ss',
-                    'd-M-yyyy', 'd-M-yyyy H:mm', 'd-M-yyyy H:mm:ss', 'd-M-yyyy H:mm am/pm', 'd-M-yyyy H:mm:ss am/pm', 'd-M-yyyy HH:mm', 'd-M-yyyy HH:mm:ss', 
-                    'd/M/yyyy', 'd/M/yyyy H:mm', 'd/M/yyyy H:mm:ss', 'd/M/yyyy H:mm am/pm', 'd/M/yyyy H:mm:ss am/pm', 'd/M/yyyy HH:mm', 'd/M/yyyy HH:mm:ss',
+                    'd-M-yy', 'd-M-yy h:mm', 'd-M-yy h:mm:ss', 'd-M-yy h:mm am/pm', 'd-M-yy h:mm:ss am/pm', 'd-M-yy HH:mm', 'd-M-yy HH:mm:ss', 
+                    'd/M/yy', 'd/M/yy h:mm', 'd/M/yy h:mm:ss', 'd/M/yy h:mm am/pm', 'd/M/yy h:mm:ss am/pm', 'd/M/yy HH:mm', 'd/M/yy HH:mm:ss',
+                    'd-M-yyyy', 'd-M-yyyy h:mm', 'd-M-yyyy h:mm:ss', 'd-M-yyyy h:mm am/pm', 'd-M-yyyy h:mm:ss am/pm', 'd-M-yyyy HH:mm', 'd-M-yyyy HH:mm:ss', 
+                    'd/M/yyyy', 'd/M/yyyy h:mm', 'd/M/yyyy h:mm:ss', 'd/M/yyyy h:mm am/pm', 'd/M/yyyy h:mm:ss am/pm', 'd/M/yyyy HH:mm', 'd/M/yyyy HH:mm:ss',
                     
                     /* Month-Day-Year formats */
                     'dddd, MMMM d yyyy', 'MMMM d yyyy', 'MMM-d-yy', 'MMM. d yy', 
-                    'M-d-yy', 'M-d-yy H:mm', 'M-d-yy H:mm:ss', 'M-d-yy H:mm am/pm', 'M-d-yy H:mm:ss am/pm', 'M-d-yy HH:mm', 'M-d-yy HH:mm:ss', 
-                    'M/d/yy', 'M/d/yy H:mm', 'M/d/yy H:mm:ss', 'M/d/yy H:mm am/pm', 'M/d/yy H:mm:ss am/pm', 'M/d/yy HH:mm', 'M/d/yy HH:mm:ss',
-                    'M-d-yyyy', 'M-d-yyyy H:mm', 'M-d-yyyy H:mm:ss', 'M-d-yyyy H:mm am/pm', 'M-d-yyyy H:mm:ss am/pm', 'M-d-yyyy HH:mm', 'M-d-yyyy HH:mm:ss', 
-                    'M/d/yyyy', 'M/d/yyyy H:mm', 'M/d/yyyy H:mm:ss', 'M/d/yyyy H:mm am/pm', 'M/d/yyyy H:mm:ss am/pm', 'M/d/yyyy HH:mm', 'M/d/yyyy HH:mm:ss')
+                    'M-d-yy', 'M-d-yy h:mm', 'M-d-yy h:mm:ss', 'M-d-yy h:mm am/pm', 'M-d-yy h:mm:ss am/pm', 'M-d-yy HH:mm', 'M-d-yy HH:mm:ss', 
+                    'M/d/yy', 'M/d/yy h:mm', 'M/d/yy h:mm:ss', 'M/d/yy h:mm am/pm', 'M/d/yy h:mm:ss am/pm', 'M/d/yy HH:mm', 'M/d/yy HH:mm:ss',
+                    'M-d-yyyy', 'M-d-yyyy h:mm', 'M-d-yyyy h:mm:ss', 'M-d-yyyy h:mm am/pm', 'M-d-yyyy h:mm:ss am/pm', 'M-d-yyyy HH:mm', 'M-d-yyyy HH:mm:ss', 
+                    'M/d/yyyy', 'M/d/yyyy h:mm', 'M/d/yyyy h:mm:ss', 'M/d/yyyy h:mm am/pm', 'M/d/yyyy h:mm:ss am/pm', 'M/d/yyyy HH:mm', 'M/d/yyyy HH:mm:ss')
             ),
             'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
         )
