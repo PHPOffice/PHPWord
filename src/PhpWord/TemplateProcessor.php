@@ -394,9 +394,11 @@ class TemplateProcessor
                  }
                  $xml->endElement();
             $xml->endDocument();
+			
+			$this->zipClass->addFromString('word/_rels/document.xml.rels', $xml->outputMemory(true));
         }
 
-        $this->zipClass->addFromString('word/_rels/document.xml.rels', $xml->outputMemory(true));
+        
 
         foreach ($this->temporaryDocumentFooters as $index => $headerXML) {
             $this->zipClass->addFromString($this->getFooterName($index), $this->temporaryDocumentFooters[$index]);
