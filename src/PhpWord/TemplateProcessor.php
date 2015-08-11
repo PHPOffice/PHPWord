@@ -22,9 +22,16 @@ use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use PhpOffice\PhpWord\Reader\Word2007;
 
 class TemplateProcessor
 {
+    /**
+     * EMU units per pixel
+     * @staticvar integer EMU_UNIT
+     */
+    const EMU_UNIT = 9525;
+
     /**
      * ZipArchive object.
      *
@@ -57,6 +64,25 @@ class TemplateProcessor
      * @var string[]
      */
     private $temporaryDocumentFooters = array();
+
+    /**
+     * Contents of the images added to the template
+     *
+     * @var string[]
+     */
+    private $imageData = array();
+
+    /**
+     * Image width in pixels * by EMU unit i.e. 100 * self::EMU_UNIT = 952500
+     * @var integer $imageWidth
+     */
+    private $imageWidth = 952500;
+
+    /**
+     * Image height in pixels * by EMU unit i.e. 100 * self::EMU_UNIT = 952500
+     * @var integer $imageHeight
+     */
+    private $imageHeight = 952500;
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -146,6 +172,36 @@ class TemplateProcessor
     }
 
     /**
+    * Set a new image
+    *
+    * @param string $search
+    * @param string $replace
+    */
+   public function setImageValue($search, $img, $imgSource)
+   {
+       // Sanity check
+       if (!file_exists($imgSource)) {
+           return;
+       }
+
+       // Delete current image
+       $this->zipClass->deleteName('word/media/' . $img);
+
+       // Add a new one
+       $this->zipClass->addFile($imgSource, 'word/media/' . $img);
+
+       /** Create an id that the template has unlikely to have reached */
+       $id = 1000;
+       if (strpos($search, "#")) {
+            $id = ($id + (int) substr($search, strpos($search, "#") + 1));
+       }
+
+       $this->imageData['rId'.$id] = ['type' => 'image', 'target' => 'word/media/'.$img, 'docPart' => 'media/'.$img];
+       $this->setImageSizes($imgSource);
+       $this->setValue($search, $this->getImgTag($id, $img));
+   }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]
@@ -175,6 +231,7 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
+
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${' . $search . '}';
         }
@@ -307,6 +364,42 @@ class TemplateProcessor
 
         $this->zipClass->addFromString('word/document.xml', $this->temporaryDocumentMainPart);
 
+        $word = new Word2007();
+        $read = $word->readRelationships($this->zipClass->filename);
+
+        if (count($this->imageData)) {
+            $read['document'] = array_merge($read['document'], $this->imageData);
+            $xml = new \XMLWriter();
+            $xml->openMemory();
+            $xml->setIndent(true);
+            $xml->startDocument('1.0', 'UTF-8');
+                 $xml->startElement('Relationships');
+                 $xml->startAttribute('xmlns');
+                    $xml->text('http://schemas.openxmlformats.org/package/2006/relationships');
+                 $xml->endAttribute();
+                 foreach ($read['document'] as $key => $data) {
+                      $xml->startElement('Relationship');
+                          $xml->startAttribute('Id');
+                              $xml->text($key);
+                          $xml->endAttribute();
+                          $xml->startAttribute('Type');
+                              $xml->text(
+                                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'.$data['type']
+                                );
+                          $xml->endAttribute();
+                          $xml->startAttribute('Target');
+                              $xml->text($data['type'] === 'image' ? $data['docPart'] : $data['docPart'].'.xml');
+                          $xml->endAttribute();
+                     $xml->endElement();
+                 }
+                 $xml->endElement();
+            $xml->endDocument();
+			
+			$this->zipClass->addFromString('word/_rels/document.xml.rels', $xml->outputMemory(true));
+        }
+
+        
+
         foreach ($this->temporaryDocumentFooters as $index => $headerXML) {
             $this->zipClass->addFromString($this->getFooterName($index), $this->temporaryDocumentFooters[$index]);
         }
@@ -381,6 +474,78 @@ class TemplateProcessor
         preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
 
         return $matches[1];
+    }
+
+    /**
+     * Sets the image sizes required for word
+     * @param string $imageSource
+     */
+    protected function setImageSizes($imageSource)
+    {
+        $data              = getimagesize($imageSource);
+        $this->imageWidth  = ($data[0] * self::EMU_UNIT);
+        $this->imageHeight = ($data[1] * self::EMU_UNIT);
+    }
+
+    /**
+     * Forces in an image tag into word
+     * @param  integer $id
+     * @param  string $imgName
+     * @return string
+     */
+    protected function getImgTag($id, $imgName)
+    {
+        return '<w:p w:rsidR="00CC1A5D" w:rsidRDefault="00CC1A5D" w:rsidP="003D6476">'.
+                    '<w:bookmarkStart w:id="0" w:name="_GoBack"/>'.
+                    '<w:r>'.
+                        '<w:rPr>'.
+                            '<w:noProof/>'.
+                            '<w:lang w:eastAsia="en-GB"/>'.
+                        '</w:rPr>'.
+                        '<w:drawing>'.
+                            '<wp:inline distT="0" distB="0" distL="0" distR="0">'.
+                                '<wp:extent cx="'.$this->imageWidth.'" cy="'.$this->imageHeight.'"/>'.
+                                '<wp:effectExtent l="0" t="0" r="635" b="0"/>'.
+                                '<wp:docPr id="'.$id.'" name="'.$imgName.'"/>'.
+                                '<wp:cNvGraphicFramePr>'.
+                                    '<a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>'.
+                                '</wp:cNvGraphicFramePr>'.
+                                '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'.
+                                    '<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'.
+                                        '<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">'.
+                                            '<pic:nvPicPr>'.
+                                                '<pic:cNvPr id="'.$id.'" name="'.$imgName.'"/>'.
+                                                '<pic:cNvPicPr/>'.
+                                            '</pic:nvPicPr>'.
+                                            '<pic:blipFill>'.
+                                                '<a:blip r:embed="rId'.$id.'">'.
+                                                    '<a:extLst>'.
+                                                        '<a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">'.
+                                                            '<a14:useLocalDpi xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main" val="0"/>'.
+                                                        '</a:ext>'.
+                                                    '</a:extLst>'.
+                                                '</a:blip>'.
+                                                '<a:stretch>'.
+                                                    '<a:fillRect/>'.
+                                                '</a:stretch>'.
+                                            '</pic:blipFill>'.
+                                            '<pic:spPr>'.
+                                                '<a:xfrm>'.
+                                                    '<a:off x="0" y="0"/>'.
+                                                    '<a:ext cx="'.$this->imageWidth.'" cy="'.$this->imageHeight.'"/>'.
+                                                '</a:xfrm>'.
+                                                '<a:prstGeom prst="rect">'.
+                                                    '<a:avLst/>'.
+                                                '</a:prstGeom>'.
+                                            '</pic:spPr>'.
+                                        '</pic:pic>'.
+                                    '</a:graphicData>'.
+                                '</a:graphic>'.
+                            '</wp:inline>'.
+                        '</w:drawing>'.
+                    '</w:r>'.
+                    '<w:bookmarkEnd w:id="0"/>'.
+                '</w:p>';
     }
 
     /**
