@@ -5,7 +5,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 0.12.1 (unreleased)
 ------------
 
-Maintenance release. Contains couple improvements of ``TemplateProcessor`` and several fixes.
+Maintenance release. Contains several improvements in ``TemplateProcessor`` and delivers some fixes.
 
 ### Changes
 - Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
