@@ -2,6 +2,19 @@
 
 This is the changelog between releases of PHPWord. Releases are listed in reverse chronological order with the latest version listed on top, while additions/changes in each release are listed in chronological order. Changes in each release are divided into three parts: added or change features, bugfixes, and miscellaneous improvements. Each line contains short information about the change made, the person who made it, and the related issue number(s) in GitHub.
 
+0.12.1 (unreleased)
+------------
+
+Maintenance release. Contains couple improvements of ``TemplateProcessor`` and several fixes.
+
+### Changes
+- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
+- Improved performance of ``TemplateProcessor::setValue()``. - @RomanSyroeshko @nicoSWD #513
+
+### Bugfixes
+- Fixed issue with "Access denied" message while opening ``Sample_07_TemplateCloneRow.docx`` and ``Sample_23_TemplateBlock.docx`` result files on Windows platform. - @RomanSyroeshko @AshSat #532
+- Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
+
 ## 0.12.0 - 3 January 2015
 
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
