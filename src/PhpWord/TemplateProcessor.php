@@ -91,7 +91,7 @@ class TemplateProcessor
             $this->temporaryDocumentFooters[$index] = $this->zipClass->getFromName($this->getFooterName($index));
             $index++;
         }
-        $this->tempDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
+        $this->temporaryDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
     }
 
     /**
