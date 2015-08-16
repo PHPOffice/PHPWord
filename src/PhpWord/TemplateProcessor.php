@@ -35,28 +35,28 @@ class TemplateProcessor
     /**
      * @var string Temporary document filename (with path).
      */
-    protected $temporaryDocumentFilename;
+    protected $tempDocumentFilename;
 
     /**
      * Content of main document part (in XML format) of the temporary document.
      *
      * @var string
      */
-    protected $temporaryDocumentMainPart;
+    protected $tempDocumentMainPart;
 
     /**
      * Content of headers (in XML format) of the temporary document.
      *
      * @var string[]
      */
-    protected $temporaryDocumentHeaders = array();
+    protected $tempDocumentHeaders = array();
 
     /**
      * Content of footers (in XML format) of the temporary document.
      *
      * @var string[]
      */
-    protected $temporaryDocumentFooters = array();
+    protected $tempDocumentFooters = array();
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -68,30 +68,34 @@ class TemplateProcessor
     public function __construct($documentTemplate)
     {
         // Temporary document filename initialization
-        $this->temporaryDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
-        if (false === $this->temporaryDocumentFilename) {
+        $this->tempDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
+        if (false === $this->tempDocumentFilename) {
             throw new CreateTemporaryFileException();
         }
 
         // Template file cloning
-        if (false === copy($documentTemplate, $this->temporaryDocumentFilename)) {
-            throw new CopyFileException($documentTemplate, $this->temporaryDocumentFilename);
+        if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
+            throw new CopyFileException($documentTemplate, $this->tempDocumentFilename);
         }
 
         // Temporary document content extraction
         $this->zipClass = new ZipArchive();
-        $this->zipClass->open($this->temporaryDocumentFilename);
+        $this->zipClass->open($this->tempDocumentFilename);
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
-            $this->temporaryDocumentHeaders[$index] = $this->zipClass->getFromName($this->getHeaderName($index));
+            $this->tempDocumentHeaders[$index] = $this->fixBrokenMacros(
+                $this->zipClass->getFromName($this->getHeaderName($index))
+            );
             $index++;
         }
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getFooterName($index))) {
-            $this->temporaryDocumentFooters[$index] = $this->zipClass->getFromName($this->getFooterName($index));
+            $this->tempDocumentFooters[$index] = $this->fixBrokenMacros(
+                $this->zipClass->getFromName($this->getFooterName($index))
+            );
             $index++;
         }
-        $this->temporaryDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
+        $this->tempDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName('word/document.xml'));
     }
 
     /**
@@ -114,7 +118,7 @@ class TemplateProcessor
         }
 
         $xmlDOMDocument = new \DOMDocument();
-        if (false === $xmlDOMDocument->loadXML($this->temporaryDocumentMainPart)) {
+        if (false === $xmlDOMDocument->loadXML($this->tempDocumentMainPart)) {
             throw new Exception('Could not load XML from the given template.');
         }
 
@@ -123,7 +127,7 @@ class TemplateProcessor
             throw new Exception('Could not transform the given XML document.');
         }
 
-        $this->temporaryDocumentMainPart = $xmlTransformed;
+        $this->tempDocumentMainPart = $xmlTransformed;
     }
 
     /**
@@ -134,14 +138,14 @@ class TemplateProcessor
      */
     public function setValue($search, $replace, $limit = -1)
     {
-        foreach ($this->temporaryDocumentHeaders as $index => $headerXML) {
-            $this->temporaryDocumentHeaders[$index] = $this->setValueForPart($this->temporaryDocumentHeaders[$index], $search, $replace, $limit);
+        foreach ($this->tempDocumentHeaders as $index => $headerXML) {
+            $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $search, $replace, $limit);
         }
 
-        $this->temporaryDocumentMainPart = $this->setValueForPart($this->temporaryDocumentMainPart, $search, $replace, $limit);
+        $this->tempDocumentMainPart = $this->setValueForPart($this->tempDocumentMainPart, $search, $replace, $limit);
 
-        foreach ($this->temporaryDocumentFooters as $index => $headerXML) {
-            $this->temporaryDocumentFooters[$index] = $this->setValueForPart($this->temporaryDocumentFooters[$index], $search, $replace, $limit);
+        foreach ($this->tempDocumentFooters as $index => $headerXML) {
+            $this->tempDocumentFooters[$index] = $this->setValueForPart($this->tempDocumentFooters[$index], $search, $replace, $limit);
         }
     }
 
@@ -152,13 +156,13 @@ class TemplateProcessor
      */
     public function getVariables()
     {
-        $variables = $this->getVariablesForPart($this->temporaryDocumentMainPart);
+        $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
 
-        foreach ($this->temporaryDocumentHeaders as $headerXML) {
+        foreach ($this->tempDocumentHeaders as $headerXML) {
             $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
         }
 
-        foreach ($this->temporaryDocumentFooters as $footerXML) {
+        foreach ($this->tempDocumentFooters as $footerXML) {
             $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
         }
 
@@ -179,7 +183,7 @@ class TemplateProcessor
             $search = '${' . $search . '}';
         }
 
-        $tagPos = strpos($this->temporaryDocumentMainPart, $search);
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
             throw new Exception("Can not clone row, template variable not found or variable contains markup.");
         }
@@ -219,7 +223,7 @@ class TemplateProcessor
         }
         $result .= $this->getSlice($rowEnd);
 
-        $this->temporaryDocumentMainPart = $result;
+        $this->tempDocumentMainPart = $result;
     }
 
     /**
@@ -235,7 +239,7 @@ class TemplateProcessor
         $xmlBlock = null;
         preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->temporaryDocumentMainPart,
+            $this->tempDocumentMainPart,
             $matches
         );
 
@@ -247,10 +251,10 @@ class TemplateProcessor
             }
 
             if ($replace) {
-                $this->temporaryDocumentMainPart = str_replace(
+                $this->tempDocumentMainPart = str_replace(
                     $matches[2] . $matches[3] . $matches[4],
                     implode('', $cloned),
-                    $this->temporaryDocumentMainPart
+                    $this->tempDocumentMainPart
                 );
             }
         }
@@ -269,15 +273,15 @@ class TemplateProcessor
     {
         preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->temporaryDocumentMainPart,
+            $this->tempDocumentMainPart,
             $matches
         );
 
         if (isset($matches[3])) {
-            $this->temporaryDocumentMainPart = str_replace(
+            $this->tempDocumentMainPart = str_replace(
                 $matches[2] . $matches[3] . $matches[4],
                 $replacement,
-                $this->temporaryDocumentMainPart
+                $this->tempDocumentMainPart
             );
         }
     }
@@ -301,14 +305,14 @@ class TemplateProcessor
      */
     public function save()
     {
-        foreach ($this->temporaryDocumentHeaders as $index => $headerXML) {
-            $this->zipClass->addFromString($this->getHeaderName($index), $this->temporaryDocumentHeaders[$index]);
+        foreach ($this->tempDocumentHeaders as $index => $headerXML) {
+            $this->zipClass->addFromString($this->getHeaderName($index), $this->tempDocumentHeaders[$index]);
         }
 
-        $this->zipClass->addFromString('word/document.xml', $this->temporaryDocumentMainPart);
+        $this->zipClass->addFromString('word/document.xml', $this->tempDocumentMainPart);
 
-        foreach ($this->temporaryDocumentFooters as $index => $headerXML) {
-            $this->zipClass->addFromString($this->getFooterName($index), $this->temporaryDocumentFooters[$index]);
+        foreach ($this->tempDocumentFooters as $index => $headerXML) {
+            $this->zipClass->addFromString($this->getFooterName($index), $this->tempDocumentFooters[$index]);
         }
 
         // Close zip file
@@ -316,7 +320,7 @@ class TemplateProcessor
             throw new Exception('Could not close zip file.');
         }
 
-        return $this->temporaryDocumentFilename;
+        return $this->tempDocumentFilename;
     }
 
     /**
