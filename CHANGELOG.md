@@ -6,7 +6,7 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 0.12.1 (unreleased)
 -------------------
 
-Maintenance release. Contains several improvements in ``TemplateProcessor`` and delivers some fixes.
+Maintenance release. This release is focused primarily on ``TemplateProcessor``.
 
 ### Changes
 - Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
@@ -14,7 +14,7 @@ Maintenance release. Contains several improvements in ``TemplateProcessor`` and 
 
 ### Bugfixes
 - Fixed issue with "Access denied" message while opening ``Sample_07_TemplateCloneRow.docx`` and ``Sample_23_TemplateBlock.docx`` result files on Windows platform. - @RomanSyroeshko @AshSat #532
-- Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
+- Fixed ``PreserveText`` element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
 
 
 
