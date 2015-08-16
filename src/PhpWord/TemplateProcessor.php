@@ -442,10 +442,10 @@ class TemplateProcessor
      */
     protected function findRowStart($offset)
     {
-        $rowStart = strrpos($this->temporaryDocumentMainPart, '<w:tr ', ((strlen($this->temporaryDocumentMainPart) - $offset) * -1));
+        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
 
         if (!$rowStart) {
-            $rowStart = strrpos($this->temporaryDocumentMainPart, '<w:tr>', ((strlen($this->temporaryDocumentMainPart) - $offset) * -1));
+            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
         }
         if (!$rowStart) {
             throw new Exception('Can not find the start position of the row to clone.');
@@ -462,7 +462,7 @@ class TemplateProcessor
      */
     protected function findRowEnd($offset)
     {
-        return strpos($this->temporaryDocumentMainPart, '</w:tr>', $offset) + 7;
+        return strpos($this->tempDocumentMainPart, '</w:tr>', $offset) + 7;
     }
 
     /**
@@ -475,9 +475,9 @@ class TemplateProcessor
     protected function getSlice($startPosition, $endPosition = 0)
     {
         if (!$endPosition) {
-            $endPosition = strlen($this->temporaryDocumentMainPart);
+            $endPosition = strlen($this->tempDocumentMainPart);
         }
 
-        return substr($this->temporaryDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+        return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
     }
 }
