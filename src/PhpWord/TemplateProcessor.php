@@ -335,7 +335,14 @@ class TemplateProcessor
             unlink($fileName);
         }
 
-        rename($tempFileName, $fileName);
+        /*
+         * Note: we do not use ``rename`` function here, because it looses file ownership data on Windows platform.
+         * As a result, user cannot open the file directly getting "Access denied" message.
+         *
+         * @see https://github.com/PHPOffice/PHPWord/issues/532
+         */
+        copy($tempFileName, $fileName);
+        unlink($tempFileName);
     }
 
     /**
