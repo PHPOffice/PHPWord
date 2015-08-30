@@ -9,14 +9,27 @@ This is the changelog between releases of PHPWord. Releases are listed in revers
 Place announcement text here.
 
 ### Changes
+- Introduced ``\PhpOffice\PhpWord\SimpleType\ST_JcTable`` simple type. - @RomanSyroeshko
+- Introduced ``\PhpOffice\PhpWord\SimpleType\ST_Jc`` simple type. - @RomanSyroeshko
 - Improved error message for the case when ``autoload.php`` is not found. - @RomanSyroeshko #371
-- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - RomanSyroeshko #498
+- Renamed ``align`` option of ``NumberingLevel``, ``Frame``, ``Table``, and ``Paragraph`` styles into ``alignment``. Accessor and mutator methods renamed too. - @RomanSyroeshko
+
+
+
+0.12.1 (30 August 2015)
+-------------------
+
+Maintenance release. This release is focused primarily on ``TemplateProcessor``.
+
+### Changes
+- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
 - Improved performance of ``TemplateProcessor::setValue()``. - @RomanSyroeshko @nicoSWD #513
-- Renamed ``align`` option of ``Paragraph`` style into ``alignment``. Note: accessor and mutator methods are renamed too. - @RomanSyroeshko
 
 ### Bugfixes
 - Fixed issue with "Access denied" message while opening ``Sample_07_TemplateCloneRow.docx`` and ``Sample_23_TemplateBlock.docx`` result files on Windows platform. - @RomanSyroeshko @AshSat #532
-- Fixed PreserveText element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
+- Fixed ``PreserveText`` element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
+
+
 
 0.12.0 (3 January 2015)
 -----------------------
