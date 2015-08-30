@@ -29,7 +29,7 @@ $subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80
 
 // Add footer
 $footer = $section->addFooter();
-$footer->addPreserveText(htmlspecialchars('Page {PAGE} of {NUMPAGES}.'), array('align' => 'center'));
+$footer->addPreserveText(htmlspecialchars('Page {PAGE} of {NUMPAGES}.'), null, array('align' => 'center'));
 $footer->addLink('http://google.com', htmlspecialchars('Direct Google'));
 
 // Write some text

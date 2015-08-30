@@ -51,14 +51,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateZip = new \ZipArchive();
         $templateZip->open($templateFqfn);
         $templateXml = $templateZip->getFromName('word/document.xml');
-        if ($templateZip->close() === false) {
+        if (false === $templateZip->close()) {
             throw new \Exception("Could not close zip file \"{$templateZip}\".");
         }
 
         $documentZip = new \ZipArchive();
         $documentZip->open($documentFqfn);
         $documentXml = $documentZip->getFromName('word/document.xml');
-        if ($documentZip->close() === false) {
+        if (false === $documentZip->close()) {
             throw new \Exception("Could not close zip file \"{$documentZip}\".");
         }
 
@@ -78,19 +78,19 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      */
     final public function testXslStyleSheetCanBeApplied($actualDocumentFqfn)
     {
-        $expectedDocumentFqfn = __DIR__ . "/_files/documents/without_table_macros.docx";
+        $expectedDocumentFqfn = __DIR__ . '/_files/documents/without_table_macros.docx';
 
         $actualDocumentZip = new \ZipArchive();
         $actualDocumentZip->open($actualDocumentFqfn);
         $actualDocumentXml = $actualDocumentZip->getFromName('word/document.xml');
-        if ($actualDocumentZip->close() === false) {
+        if (false === $actualDocumentZip->close()) {
             throw new \Exception("Could not close zip file \"{$actualDocumentFqfn}\".");
         }
 
         $expectedDocumentZip = new \ZipArchive();
         $expectedDocumentZip->open($expectedDocumentFqfn);
         $expectedDocumentXml = $expectedDocumentZip->getFromName('word/document.xml');
-        if ($expectedDocumentZip->close() === false) {
+        if (false === $expectedDocumentZip->close()) {
             throw new \Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
@@ -116,7 +116,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
          * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
          * This warning fails the test.
          */
-        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
+        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => htmlspecialchars('somevalue', ENT_COMPAT, 'UTF-8')));
     }
 
     /**
@@ -157,9 +157,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $docName = 'clone-test-result.docx';
-        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
+        $templateProcessor->setValue('tableHeader', utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
         $templateProcessor->cloneRow('userId', 1);
-        $templateProcessor->setValue('userId#1', 'Test');
+        $templateProcessor->setValue('userId#1', htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -171,7 +171,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::saveAs
      * @test
      */
-    public function testVariablesCanBeReplacedInHeaderAndFooter()
+    public function testMacrosCanBeReplacedInHeaderAndFooter()
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 
@@ -181,9 +181,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $docName = 'header-footer-test-result.docx';
-        $templateProcessor->setValue('headerValue', 'Header Value');
-        $templateProcessor->setValue('documentContent', 'Document text.');
-        $templateProcessor->setValue('footerValue', 'Footer Value');
+        $templateProcessor->setValue('headerValue', htmlspecialchars('Header Value', ENT_COMPAT, 'UTF-8'));
+        $templateProcessor->setValue('documentContent', htmlspecialchars('Document text.', ENT_COMPAT, 'UTF-8'));
+        $templateProcessor->setValue('footerValue', htmlspecialchars('Footer Value', ENT_COMPAT, 'UTF-8'));
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);

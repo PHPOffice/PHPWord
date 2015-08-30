@@ -57,8 +57,8 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
     {
         $oPreserveText = new PreserveText(
             'text',
-            array('align' => 'center'),
-            array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
+            array('size' => 16, 'color' => '1B2232'),
+            array('align' => 'center')
         );
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
         $this->assertInstanceOf(
