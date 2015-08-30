@@ -171,7 +171,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::saveAs
      * @test
      */
-    public function testVariablesCanBeReplacedInHeaderAndFooter()
+    public function testMacrosCanBeReplacedInHeaderAndFooter()
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 

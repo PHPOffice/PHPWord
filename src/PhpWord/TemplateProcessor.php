@@ -25,6 +25,8 @@ use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class TemplateProcessor
 {
+    const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
+
     /**
      * ZipArchive object.
      *
@@ -62,6 +64,7 @@ class TemplateProcessor
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
      * @param string $documentTemplate The fully qualified template filename.
+     *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
@@ -104,7 +107,9 @@ class TemplateProcessor
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
      * @param string $xslOptionsURI
+     *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function applyXslStyleSheet($xslDOMDocument, $xslOptions = array(), $xslOptionsURI = '')
@@ -131,21 +136,22 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $search
+     * @param mixed $macro
      * @param mixed $replace
      * @param integer $limit
+     *
      * @return void
      */
-    public function setValue($search, $replace, $limit = -1)
+    public function setValue($macro, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         foreach ($this->tempDocumentHeaders as $index => $headerXML) {
-            $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $search, $replace, $limit);
+            $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $macro, $replace, $limit);
         }
 
-        $this->tempDocumentMainPart = $this->setValueForPart($this->tempDocumentMainPart, $search, $replace, $limit);
+        $this->tempDocumentMainPart = $this->setValueForPart($this->tempDocumentMainPart, $macro, $replace, $limit);
 
         foreach ($this->tempDocumentFooters as $index => $headerXML) {
-            $this->tempDocumentFooters[$index] = $this->setValueForPart($this->tempDocumentFooters[$index], $search, $replace, $limit);
+            $this->tempDocumentFooters[$index] = $this->setValueForPart($this->tempDocumentFooters[$index], $macro, $replace, $limit);
         }
     }
 
@@ -174,7 +180,9 @@ class TemplateProcessor
      *
      * @param string $search
      * @param integer $numberOfClones
+     *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneRow($search, $numberOfClones)
@@ -232,6 +240,7 @@ class TemplateProcessor
      * @param string $blockname
      * @param integer $clones
      * @param boolean $replace
+     *
      * @return string|null
      */
     public function cloneBlock($blockname, $clones = 1, $replace = true)
@@ -267,6 +276,7 @@ class TemplateProcessor
      *
      * @param string $blockname
      * @param string $replacement
+     *
      * @return void
      */
     public function replaceBlock($blockname, $replacement)
@@ -290,6 +300,7 @@ class TemplateProcessor
      * Delete a block of text.
      *
      * @param string $blockname
+     *
      * @return void
      */
     public function deleteBlock($blockname)
@@ -301,6 +312,7 @@ class TemplateProcessor
      * Saves the result document.
      *
      * @return string
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save()
@@ -329,6 +341,7 @@ class TemplateProcessor
      * @since 0.8.0
      *
      * @param string $fileName
+     *
      * @return void
      */
     public function saveAs($fileName)
@@ -375,12 +388,13 @@ class TemplateProcessor
     }
 
     /**
-     * Find and replace placeholders in the given XML section.
+     * Find and replace macros in the given XML section.
      *
      * @param string $documentPartXML
      * @param string $search
      * @param string $replace
      * @param integer $limit
+     *
      * @return string
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
@@ -393,15 +407,21 @@ class TemplateProcessor
             $replace = utf8_encode($replace);
         }
 
-        $regExpDelim = '/';
-        $escapedSearch = preg_quote($search, $regExpDelim);
-        return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+        // Note: we can't use the same function for both cases here, because of performance considerations.
+        if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
+            return str_replace($search, $replace, $documentPartXML);
+        } else {
+            $regExpDelim = '/';
+            $escapedSearch = preg_quote($search, $regExpDelim);
+            return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+        }
     }
 
     /**
      * Find all variables in $documentPartXML.
      *
      * @param string $documentPartXML
+     *
      * @return string[]
      */
     protected function getVariablesForPart($documentPartXML)
@@ -415,6 +435,7 @@ class TemplateProcessor
      * Get the name of the footer file for $index.
      *
      * @param integer $index
+     *
      * @return string
      */
     protected function getFooterName($index)
@@ -426,6 +447,7 @@ class TemplateProcessor
      * Get the name of the header file for $index.
      *
      * @param integer $index
+     *
      * @return string
      */
     protected function getHeaderName($index)
@@ -437,7 +459,9 @@ class TemplateProcessor
      * Find the start position of the nearest table row before $offset.
      *
      * @param integer $offset
+     *
      * @return integer
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function findRowStart($offset)
@@ -458,6 +482,7 @@ class TemplateProcessor
      * Find the end position of the nearest table row after $offset.
      *
      * @param integer $offset
+     *
      * @return integer
      */
     protected function findRowEnd($offset)
@@ -470,6 +495,7 @@ class TemplateProcessor
      *
      * @param integer $startPosition
      * @param integer $endPosition
+     *
      * @return string
      */
     protected function getSlice($startPosition, $endPosition = 0)
