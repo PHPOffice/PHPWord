@@ -141,7 +141,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
         // Get Summary Information data
         $this->_SummaryInformation = $ole->getStream($ole->summaryInformation);
         // Get Document Summary Information data
-        $this->_DocumentSummaryInformation = $ole->getStream($ole->documentSummaryInformation);
+        $this->_DocumentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
     }
 
     private function getNumInLcb($lcb, $iSize)
