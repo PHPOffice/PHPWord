@@ -224,6 +224,16 @@ abstract class AbstractPart
                     $imageSource = "zip://{$this->docFile}#{$target}";
                     $parent->addImage($imageSource);
                 }
+                
+            // Other Images
+            } elseif ($xmlReader->elementExists('w:drawing', $domNode)) {
+                $name = $xmlReader->getAttribute('name', $domNode, 'w:drawing/wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr');
+                $embedId = $xmlReader->getAttribute('r:embed', $domNode, 'w:drawing/wp:inline/a:graphic/a:graphicData/pic:pic/pic:blipFill/a:blip');
+                $target = $this->getMediaTarget($docPart, $embedId);
+                if (!is_null($target)) {
+                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    $parent->addImage($imageSource, null, false, $name);
+                }                
 
             // Object
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
