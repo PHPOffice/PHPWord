@@ -379,7 +379,7 @@ Available image styles:
 -  ``marginTop`` Top margin in inches, can be negative
 -  ``marginLeft`` Left margin in inches, can be negative
 -  ``wrappingStyle`` Wrapping style, *inline*, *square*, *tight*,
-   *behind*, or *infront*
+   *behind*, *infront*, *through*, or *topAndBottom*
 
 Watermarks
 ~~~~~~~~~~

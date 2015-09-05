@@ -22,7 +22,7 @@ $section->addImage($source);
 
 //Wrapping style
 $text = str_repeat('Hello World! ', 15);
-$wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');
+$wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight', 'through', 'topAndBottom');
 foreach ($wrappingStyles as $wrappingStyle) {
     $section->addTextBreak(5);
     $section->addText(htmlspecialchars("Wrapping style {$wrappingStyle}", ENT_COMPAT, 'UTF-8'));
