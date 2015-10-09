@@ -73,6 +73,10 @@ class Table extends AbstractStyle
         $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
         $styleWriter->write();
 
+        // Position
+        $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
+        $styleWriter->write();
+
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
