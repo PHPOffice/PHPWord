@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
+
 /**
  * Numbering level definition
  *
