@@ -17,6 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 use PhpOffice\PhpWord\Writer\HTML;
 
 /**
@@ -69,7 +70,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
             'Font',
             array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => 'FF0000')
         );
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center', 'spaceAfter' => 20, 'spaceBefore' => 20));
+        $phpWord->addParagraphStyle('Paragraph', array('alignment' => ST_Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
@@ -90,7 +91,7 @@ class HTMLTest extends \PHPUnit_Framework_TestCase
 
         $section = $phpWord->addSection();
 
-        $textrun = $section->addTextRun(array('align' => 'center'));
+        $textrun = $section->addTextRun(array('alignment' => ST_Jc::CENTER));
         $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
         $textrun->addTextBreak();
 

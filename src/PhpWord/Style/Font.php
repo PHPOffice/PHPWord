@@ -787,6 +787,7 @@ class Font extends AbstractStyle
      * Get bold
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getBold()
@@ -798,6 +799,7 @@ class Font extends AbstractStyle
      * Get italic
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getItalic()
@@ -809,6 +811,7 @@ class Font extends AbstractStyle
      * Get superscript
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getSuperScript()
@@ -820,6 +823,7 @@ class Font extends AbstractStyle
      * Get subscript
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getSubScript()
@@ -831,6 +835,7 @@ class Font extends AbstractStyle
      * Get strikethrough
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getStrikethrough()
@@ -842,6 +847,7 @@ class Font extends AbstractStyle
      * Get paragraph style
      *
      * @deprecated 0.11.0
+     *
      * @codeCoverageIgnore
      */
     public function getParagraphStyle()

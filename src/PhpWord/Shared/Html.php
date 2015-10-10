@@ -51,7 +51,7 @@ class Html
         $html = str_replace('&', '&amp;', $html);
         $html = str_replace(array('_lt_', '_gt_', '_amp_'), array('&lt;', '&gt;', '&amp;'), $html);
 
-        if ($fullHTML === false) {
+        if (false === $fullHTML) {
             $html = '<body>' . $html . '</body>';
         }
 
@@ -73,7 +73,7 @@ class Html
      */
     protected static function parseInlineStyle($node, $styles = array())
     {
-        if ($node->nodeType == XML_ELEMENT_NODE) {
+        if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
 
             foreach ($attributes as $attribute) {
@@ -173,7 +173,7 @@ class Html
      */
     private static function parseChildNodes($node, $element, $styles, $data)
     {
-        if ($node->nodeName != 'li') {
+        if ('li' != $node->nodeName) {
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
@@ -361,7 +361,7 @@ class Html
                     }
                     break;
                 case 'text-align':
-                    $styles['align'] = $cValue;
+                    $styles['alignment'] = $cValue; // todo: any mapping?
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, "#");

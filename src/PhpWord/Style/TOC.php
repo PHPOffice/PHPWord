@@ -25,8 +25,9 @@ class TOC extends Tab
     /**
      * Tab leader types for backward compatibility
      *
-     * @const string
      * @deprecated 0.11.0
+     *
+     * @const string
      */
     const TABLEADER_DOT = self::TAB_LEADER_DOT;
     const TABLEADER_UNDERSCORE = self::TAB_LEADER_UNDERSCORE;

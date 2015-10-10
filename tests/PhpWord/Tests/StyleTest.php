@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests;
 
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -44,7 +45,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyles()
     {
-        $paragraph = array('align' => 'center');
+        $paragraph = array('alignment' => ST_Jc::CENTER);
         $font = array('italic' => true, '_bold' => true);
         $table = array('bgColor' => 'CCCCCC');
         $styles = array(
@@ -82,7 +83,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultParagraphStyle()
     {
-        $paragraph = array('align' => 'center');
+        $paragraph = array('alignment' => ST_Jc::CENTER);
 
         Style::setDefaultParagraphStyle($paragraph);
 

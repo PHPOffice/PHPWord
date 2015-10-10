@@ -62,6 +62,7 @@ class OLERead
      * Read the file
      *
      * @param $sFileName string Filename
+     *
      * @throws Exception
      */
     public function read($sFileName)

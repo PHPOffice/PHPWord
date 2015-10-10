@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
 
 /**
  * Paragraph style writer
@@ -96,8 +97,17 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
 
+        // Paragraph alignment
+        if ('' !== $styles['alignment']) {
+            $paragraphAlignment = new ParagraphAlignment($styles['alignment']);
+            $xmlWriter->startElement($paragraphAlignment->getName());
+            foreach ($paragraphAlignment->getAttributes() as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            $xmlWriter->endElement();
+        }
+
         // Child style: alignment, indentation, spacing, and shading
-        $this->writeChildStyle($xmlWriter, 'Alignment', $styles['alignment']);
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
         $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);

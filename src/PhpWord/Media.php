@@ -35,14 +35,17 @@ class Media
     /**
      * Add new media element
      *
+     * @since 0.10.0
+     * @since 0.9.2
+     *
      * @param string $container section|headerx|footerx|footnote|endnote
      * @param string $mediaType image|object|link
      * @param string $source
      * @param \PhpOffice\PhpWord\Element\Image $image
+     *
      * @return integer
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
-     * @since 0.9.2
-     * @since 0.10.0
      */
     public static function addElement($container, $mediaType, $source, Image $image = null)
     {
@@ -199,11 +202,14 @@ class Media
     /**
      * Add new Section Media Element
      *
+     * @deprecated 0.10.0
+     *
      * @param  string $src
      * @param  string $type
      * @param  \PhpOffice\PhpWord\Element\Image $image
+     *
      * @return integer
-     * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public static function addSectionMediaElement($src, $type, Image $image = null)
@@ -214,9 +220,12 @@ class Media
     /**
      * Add new Section Link Element
      *
-     * @param string $linkSrc
-     * @return integer
      * @deprecated 0.10.0
+     *
+     * @param string $linkSrc
+     *
+     * @return integer
+     *
      * @codeCoverageIgnore
      */
     public static function addSectionLinkElement($linkSrc)
@@ -227,9 +236,12 @@ class Media
     /**
      * Get Section Media Elements
      *
-     * @param string $key
-     * @return array
      * @deprecated 0.10.0
+     *
+     * @param string $key
+     *
+     * @return array
+     *
      * @codeCoverageIgnore
      */
     public static function getSectionMediaElements($key = null)
@@ -240,9 +252,12 @@ class Media
     /**
      * Get Section Media Elements Count
      *
-     * @param string $key
-     * @return integer
      * @deprecated 0.10.0
+     *
+     * @param string $key
+     *
+     * @return integer
+     *
      * @codeCoverageIgnore
      */
     public static function countSectionMediaElements($key = null)
@@ -253,11 +268,14 @@ class Media
     /**
      * Add new Header Media Element
      *
+     * @deprecated 0.10.0
+     *
      * @param  integer $headerCount
      * @param  string $src
      * @param  \PhpOffice\PhpWord\Element\Image $image
+     *
      * @return integer
-     * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public static function addHeaderMediaElement($headerCount, $src, Image $image = null)
@@ -268,9 +286,12 @@ class Media
     /**
      * Get Header Media Elements Count
      *
-     * @param string $key
-     * @return integer
      * @deprecated 0.10.0
+     *
+     * @param string $key
+     *
+     * @return integer
+     *
      * @codeCoverageIgnore
      */
     public static function countHeaderMediaElements($key)
@@ -281,8 +302,10 @@ class Media
     /**
      * Get Header Media Elements
      *
-     * @return array
      * @deprecated 0.10.0
+     *
+     * @return array
+     *
      * @codeCoverageIgnore
      */
     public static function getHeaderMediaElements()
@@ -293,11 +316,14 @@ class Media
     /**
      * Add new Footer Media Element
      *
+     * @deprecated 0.10.0
+     *
      * @param  integer $footerCount
      * @param  string $src
      * @param  \PhpOffice\PhpWord\Element\Image $image
+     *
      * @return integer
-     * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public static function addFooterMediaElement($footerCount, $src, Image $image = null)
@@ -308,9 +334,12 @@ class Media
     /**
      * Get Footer Media Elements Count
      *
-     * @param string $key
-     * @return integer
      * @deprecated 0.10.0
+     *
+     * @param string $key
+     *
+     * @return integer
+     *
      * @codeCoverageIgnore
      */
     public static function countFooterMediaElements($key)
@@ -321,8 +350,10 @@ class Media
     /**
      * Get Footer Media Elements
      *
-     * @return array
      * @deprecated 0.10.0
+     *
+     * @return array
+     *
      * @codeCoverageIgnore
      */
     public static function getFooterMediaElements()

@@ -77,6 +77,7 @@ abstract class AbstractRenderer extends HTML
      * Create new instance
      *
      * @param PhpWord $phpWord PhpWord object
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)
@@ -169,7 +170,9 @@ abstract class AbstractRenderer extends HTML
      * Save PhpWord to PDF file, pre-save
      *
      * @param string $filename Name of the file to save as
+     *
      * @return resource
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     protected function prepareForSave($filename = null)
@@ -190,7 +193,9 @@ abstract class AbstractRenderer extends HTML
      * Save PhpWord to PDF file, post-save
      *
      * @param resource $fileHandle
+     *
      * @return void
+     *
      * @throws Exception
      */
     protected function restoreStateAfterSave($fileHandle)

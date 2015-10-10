@@ -17,6 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 use PhpOffice\PhpWord\Writer\RTF;
 
 /**
@@ -62,7 +63,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
             'Font',
             array('name' => 'Verdana', 'size' => 11, 'color' => 'FF0000', 'fgColor' => '00FF00')
         );
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addParagraphStyle('Paragraph', array('alignment' => ST_Jc::CENTER));
         $section = $phpWord->addSection();
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();

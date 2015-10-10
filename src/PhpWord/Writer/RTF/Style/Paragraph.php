@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\Style\Alignment;
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 
 /**
  * RTF paragraph style writer
@@ -48,13 +48,12 @@ class Paragraph extends AbstractStyle
         }
 
         $alignments = array(
-            Alignment::ALIGN_LEFT => '\ql',
-            Alignment::ALIGN_RIGHT => '\qr',
-            Alignment::ALIGN_CENTER => '\qc',
-            Alignment::ALIGN_BOTH => '\qj',
+            ST_Jc::START  => '\ql',
+            ST_Jc::END    => '\qr',
+            ST_Jc::CENTER => '\qc',
+            ST_Jc::BOTH   => '\qj',
         );
 
-        $alignment = $style->getAlignment();
         $spaceAfter = $style->getSpaceAfter();
         $spaceBefore = $style->getSpaceBefore();
 
@@ -62,8 +61,8 @@ class Paragraph extends AbstractStyle
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
         }
-        if (!is_null($alignment) && isset($alignments[$alignment->getValue()])) {
-            $content .= $alignments[$alignment->getValue()];
+        if (isset($alignments[$style->getAlignment()])) {
+            $content .= $alignments[$style->getAlignment()];
         }
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);

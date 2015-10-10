@@ -15,39 +15,46 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Reader;
-
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Reader\RTF\Document;
+namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
- * RTF Reader class
- *
- * @since 0.11.0
+ * @since 0.13.0
  */
-class RTF extends AbstractReader implements ReaderInterface
+class TableAlignment
 {
+    private $name = 'w:jc';
+
+    private $attributes = array();
+
     /**
-     * Loads PhpWord from file
+     * @since 0.13.0
      *
-     * @param string $docFile
+     * @param string $value Any value provided by ST_JcTable simple type.
      *
-     * @throws \Exception
-     *
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @see \PhpOffice\PhpWord\SimpleType\JcTable For the allowed values of $value parameter.
      */
-    public function load($docFile)
+    final public function __construct($value)
     {
-        $phpWord = new PhpWord();
+        $this->attributes['w:val'] = $value;
+    }
 
-        if ($this->canRead($docFile)) {
-            $doc = new Document();
-            $doc->rtf = file_get_contents($docFile);
-            $doc->read($phpWord);
-        } else {
-            throw new \Exception("Cannot read {$docFile}.");
-        }
+    /**
+     * @since 0.13.0
+     *
+     * @return string
+     */
+    final public function getName()
+    {
+        return $this->name;
+    }
 
-        return $phpWord;
+    /**
+     * @since 0.13.0
+     *
+     * @return string[]
+     */
+    final public function getAttributes()
+    {
+        return $this->attributes;
     }
 }

@@ -407,6 +407,7 @@ class Settings
      * Return the compatibility option used by the XMLWriter
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public static function getCompatibility()

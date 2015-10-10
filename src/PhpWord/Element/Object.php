@@ -65,6 +65,7 @@ class Object extends AbstractElement
      *
      * @param string $source
      * @param mixed $style
+     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function __construct($source, $style = null)
@@ -142,8 +143,10 @@ class Object extends AbstractElement
     /**
      * Get Object ID
      *
-     * @return int
      * @deprecated 0.10.0
+     *
+     * @return int
+     *
      * @codeCoverageIgnore
      */
     public function getObjectId()
@@ -154,8 +157,10 @@ class Object extends AbstractElement
     /**
      * Set Object ID
      *
-     * @param int $objId
      * @deprecated 0.10.0
+     *
+     * @param int $objId
+     *
      * @codeCoverageIgnore
      */
     public function setObjectId($objId)

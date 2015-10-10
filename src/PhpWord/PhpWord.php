@@ -45,8 +45,9 @@ class PhpWord
     /**
      * Default font settings
      *
-     * @const string|int
      * @deprecated 0.11.0 Use Settings constants
+     *
+     * @const string|int
      */
     const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
     const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
@@ -100,11 +101,14 @@ class PhpWord
     /**
      * Dynamic function call to reduce static dependency
      *
+     * @since 0.12.0
+     *
      * @param mixed $function
      * @param mixed $args
-     * @throws \BadMethodCallException
+     *
      * @return mixed
-     * @since 0.12.0
+     *
+     * @throws \BadMethodCallException
      */
     public function __call($function, $args)
     {
@@ -267,8 +271,12 @@ class PhpWord
      * @deprecated 0.12.0 Use `new TemplateProcessor($documentTemplate)` instead.
      *
      * @param  string $filename Fully qualified filename.
+     *
      * @return TemplateProcessor
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @codeCoverageIgnore
      */
     public function loadTemplate($filename)
     {
@@ -319,9 +327,12 @@ class PhpWord
     /**
      * Create new section
      *
-     * @param array $settings
-     * @return \PhpOffice\PhpWord\Element\Section
      * @deprecated 0.10.0
+     *
+     * @param array $settings
+     *
+     * @return \PhpOffice\PhpWord\Element\Section
+     *
      * @codeCoverageIgnore
      */
     public function createSection($settings = null)
@@ -332,8 +343,10 @@ class PhpWord
     /**
      * Get document properties object
      *
-     * @return \PhpOffice\PhpWord\Metadata\DocInfo
      * @deprecated 0.12.0
+     *
+     * @return \PhpOffice\PhpWord\Metadata\DocInfo
+     *
      * @codeCoverageIgnore
      */
     public function getDocumentProperties()
@@ -344,9 +357,12 @@ class PhpWord
     /**
      * Set document properties object
      *
-     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
-     * @return self
      * @deprecated 0.12.0
+     *
+     * @param \PhpOffice\PhpWord\Metadata\DocInfo $documentProperties
+     *
+     * @return self
+     *
      * @codeCoverageIgnore
      */
     public function setDocumentProperties($documentProperties)

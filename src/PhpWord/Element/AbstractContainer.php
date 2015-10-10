@@ -178,7 +178,9 @@ abstract class AbstractContainer extends AbstractElement
      * Check if a method is allowed for the current container
      *
      * @param string $method
+     *
      * @return bool
+     *
      * @throws \BadMethodCallException
      */
     private function checkValidity($method)
@@ -247,10 +249,13 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Add memory image element
      *
+     * @deprecated 0.9.0
+     *
      * @param string $src
      * @param mixed $style
+     *
      * @return \PhpOffice\PhpWord\Element\Image
-     * @deprecated 0.9.0
+     *
      * @codeCoverageIgnore
      */
     public function addMemoryImage($src, $style = null)
@@ -261,9 +266,12 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Create textrun element
      *
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\TextRun
      * @deprecated 0.10.0
+     *
+     * @param mixed $paragraphStyle
+     *
+     * @return \PhpOffice\PhpWord\Element\TextRun
+     *
      * @codeCoverageIgnore
      */
     public function createTextRun($paragraphStyle = null)
@@ -274,9 +282,12 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Create footnote element
      *
-     * @param mixed $paragraphStyle
-     * @return \PhpOffice\PhpWord\Element\Footnote
      * @deprecated 0.10.0
+     *
+     * @param mixed $paragraphStyle
+     *
+     * @return \PhpOffice\PhpWord\Element\Footnote
+     *
      * @codeCoverageIgnore
      */
     public function createFootnote($paragraphStyle = null)

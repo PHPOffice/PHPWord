@@ -10,7 +10,7 @@ $section = $phpWord->addSection();
 // In section
 $textbox = $section->addTextBox(
     array(
-        'align'       => 'center',
+        'alignment'   => \PhpOffice\PhpWord\SimpleType\ST_Jc::CENTER,
         'width'       => 400,
         'height'      => 150,
         'borderSize'  => 1,

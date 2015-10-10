@@ -105,7 +105,7 @@ class Numbering extends AbstractPart
         $level['restart'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlRestart');
         $level['suffix'] = $xmlReader->getAttribute('w:val', $subnode, 'w:suff');
         $level['text'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlText');
-        $level['align'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlJc');
+        $level['alignment'] = $xmlReader->getAttribute('w:val', $subnode, 'w:lvlJc');
         $level['tab'] = $xmlReader->getAttribute('w:pos', $subnode, 'w:pPr/w:tabs/w:tab');
         $level['left'] = $xmlReader->getAttribute('w:left', $subnode, 'w:pPr/w:ind');
         $level['hanging'] = $xmlReader->getAttribute('w:hanging', $subnode, 'w:pPr/w:ind');

@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment;
 
 /**
  * Table style writer
@@ -50,7 +50,7 @@ class Table extends AbstractStyle
             $xmlWriter->startElement('w:tblStyle');
             $xmlWriter->writeAttribute('w:val', $style);
             $xmlWriter->endElement();
-            if ($this->width !== null) {
+            if (null !== $this->width) {
                 $this->writeWidth($xmlWriter, $this->width, 'pct');
             }
             $xmlWriter->endElement();
@@ -69,9 +69,15 @@ class Table extends AbstractStyle
         // w:tblPr
         $xmlWriter->startElement('w:tblPr');
 
-        // Alignment
-        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
-        $styleWriter->write();
+        // Table alignment
+        if ('' !== $style->getAlignment()) {
+            $tableAlignment = new TableAlignment($style->getAlignment());
+            $xmlWriter->startElement($tableAlignment->getName());
+            foreach ($tableAlignment->getAttributes() as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            $xmlWriter->endElement();
+        }
 
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
@@ -174,7 +180,7 @@ class Table extends AbstractStyle
      */
     private function writeShading(XMLWriter $xmlWriter, TableStyle $style)
     {
-        if ($style->getShading() !== null) {
+        if (null !== $style->getShading()) {
             $xmlWriter->startElement('w:tcPr');
 
             $styleWriter = new Shading($xmlWriter, $style->getShading());

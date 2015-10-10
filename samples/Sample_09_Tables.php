@@ -26,11 +26,11 @@ for ($r = 1; $r <= 8; $r++) {
 $section->addTextBreak(1);
 $section->addText(htmlspecialchars('Fancy table', ENT_COMPAT, 'UTF-8'), $header);
 
-$styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+$styleTable = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\ST_JcTable::CENTER);
 $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
 $styleCell = array('valign' => 'center');
 $styleCellBTLR = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
-$fontStyle = array('bold' => true, 'align' => 'center');
+$fontStyle = array('bold' => true);
 $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
 $table = $section->addTable('Fancy Table');
 $table->addRow(900);
@@ -58,7 +58,7 @@ $styleTable = array('borderSize' => 6, 'borderColor' => '999999');
 $cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center', 'bgColor' => 'FFFF00');
 $cellRowContinue = array('vMerge' => 'continue');
 $cellColSpan = array('gridSpan' => 2, 'valign' => 'center');
-$cellHCentered = array('align' => 'center');
+$cellHCentered = array('alignment' => \PhpOffice\PhpWord\SimpleType\ST_Jc::CENTER);
 $cellVCentered = array('valign' => 'center');
 
 $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
@@ -89,10 +89,10 @@ $table->addCell(null, $cellRowContinue);
 $section->addTextBreak(2);
 $section->addText(htmlspecialchars('Nested table in a centered and 50% width table.', ENT_COMPAT, 'UTF-8'), $header);
 
-$table = $section->addTable(array('width' => 50 * 50, 'unit' => 'pct', 'align' => 'center'));
+$table = $section->addTable(array('width' => 50 * 50, 'unit' => 'pct', 'alignment' => \PhpOffice\PhpWord\SimpleType\ST_JcTable::CENTER));
 $cell = $table->addRow()->addCell();
 $cell->addText(htmlspecialchars('This cell contains nested table.', ENT_COMPAT, 'UTF-8'));
-$innerCell = $cell->addTable(array('align' => 'center'))->addRow()->addCell();
+$innerCell = $cell->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\ST_JcTable::CENTER))->addRow()->addCell();
 $innerCell->addText(htmlspecialchars('Inside nested table', ENT_COMPAT, 'UTF-8'));
 
 // Save file

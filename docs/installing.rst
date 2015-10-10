@@ -8,17 +8,15 @@ Requirements
 
 Mandatory:
 
--  PHP 5.3+
--  PHP `Zip <http://php.net/manual/en/book.zip.php>`__ extension
--  PHP `XML
-   Parser <http://www.php.net/manual/en/xml.installation.php>`__
-   extension
+- PHP 5.3+
+- PHP `Zip <http://php.net/manual/en/book.zip.php>`__ extension
+- PHP `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
 
 Optional PHP extensions:
 
--  `GD <http://php.net/manual/en/book.image.php>`__
--  `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__
--  `XSL <http://php.net/manual/en/book.xsl.php>`__
+- `GD <http://php.net/manual/en/book.image.php>`__
+- `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__
+- `XSL <http://php.net/manual/en/book.xsl.php>`__
 
 Installation
 ------------
@@ -42,7 +40,7 @@ To install via Composer, add the following lines to your
     }
 
 If you are a developer or if you want to help us with testing then fetch the latest branch for developers.
-Notice: All contributions must be done against the developer branch.
+Notice: all contributions must be done against the developer branch.
 
 .. code-block:: json
 
@@ -56,8 +54,7 @@ Notice: All contributions must be done against the developer branch.
 Manual install
 ~~~~~~~~~~~~~~
 
-To install manually, you change to the webserver directory of your file system . 
-Then you have 2 possibilities.
+To install manually, you change to the web-server directory of your file system. Then you have 2 possibilities.
 
  1. `download PHPWord package from github <https://github.com/PHPOffice/PHPWord/archive/master.zip>`__.
    Extract the package and put the contents to your machine. 

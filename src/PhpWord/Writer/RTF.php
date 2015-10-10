@@ -58,7 +58,9 @@ class RTF extends AbstractWriter implements WriterInterface
      * Save content to file.
      *
      * @param string $filename
+     *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)

@@ -125,6 +125,7 @@ class Row extends AbstractStyle
      * Get tblHeader
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getTblHeader()
@@ -136,6 +137,7 @@ class Row extends AbstractStyle
      * Get cantSplit
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getCantSplit()
@@ -147,6 +149,7 @@ class Row extends AbstractStyle
      * Get exactHeight
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getExactHeight()

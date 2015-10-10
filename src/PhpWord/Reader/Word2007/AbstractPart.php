@@ -122,16 +122,16 @@ abstract class AbstractPart
                 $instrText = $xmlReader->getValue('w:instrText', $node);
                 if ($xmlReader->elementExists('w:fldChar', $node)) {
                     $fldCharType = $xmlReader->getAttribute('w:fldCharType', $node, 'w:fldChar');
-                    if ($fldCharType == 'begin') {
+                    if ('begin' == $fldCharType) {
                         $ignoreText = true;
-                    } elseif ($fldCharType == 'end') {
+                    } elseif ('end' == $fldCharType) {
                         $ignoreText = false;
                     }
                 }
                 if (!is_null($instrText)) {
                     $textContent .= '{' . $instrText . '}';
                 } else {
-                    if ($ignoreText === false) {
+                    if (false === $ignoreText) {
                         $textContent .= $xmlReader->getValue('w:t', $node);
                     }
                 }
@@ -163,7 +163,7 @@ abstract class AbstractPart
             $runCount = $xmlReader->countElements('w:r', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
             $runLinkCount = $runCount + $linkCount;
-            if ($runLinkCount == 0) {
+            if (0 == $runLinkCount) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
@@ -200,7 +200,7 @@ abstract class AbstractPart
         $fontStyle = $this->readFontStyle($xmlReader, $domNode);
 
         // Link
-        if ($domNode->nodeName == 'w:hyperlink') {
+        if ('w:hyperlink' == $domNode->nodeName) {
             $rId = $xmlReader->getAttribute('r:id', $domNode);
             $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
             $target = $this->getMediaTarget($docPart, $rId);
@@ -264,26 +264,26 @@ abstract class AbstractPart
         $table = $parent->addTable($tblStyle);
         $tblNodes = $xmlReader->getElements('*', $domNode);
         foreach ($tblNodes as $tblNode) {
-            if ($tblNode->nodeName == 'w:tblGrid') { // Column
+            if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
 
-            } elseif ($tblNode->nodeName == 'w:tr') { // Row
+            } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $rowHRule == 'exact' ? true : false;
                 $rowStyle = array(
-                    'tblHeader' => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
-                    'cantSplit' => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
+                    'tblHeader'   => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
+                    'cantSplit'   => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
                     'exactHeight' => $rowHRule,
                 );
 
                 $row = $table->addRow($rowHeight, $rowStyle);
                 $rowNodes = $xmlReader->getElements('*', $tblNode);
                 foreach ($rowNodes as $rowNode) {
-                    if ($rowNode->nodeName == 'w:trPr') { // Row style
+                    if ('w:trPr' == $rowNode->nodeName) { // Row style
                         // @todo Do something with row style
 
-                    } elseif ($rowNode->nodeName == 'w:tc') { // Cell
+                    } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
                         $cellStyleNode = $xmlReader->getElement('w:tcPr', $rowNode);
@@ -294,7 +294,7 @@ abstract class AbstractPart
                         $cell = $row->addCell($cellWidth, $cellStyle);
                         $cellNodes = $xmlReader->getElements('*', $rowNode);
                         foreach ($cellNodes as $cellNode) {
-                            if ($cellNode->nodeName == 'w:p') { // Paragraph
+                            if ('w:p' == $cellNode->nodeName) { // Paragraph
                                 $this->readParagraph($xmlReader, $cellNode, $cell, $docPart);
                             }
                         }
@@ -320,7 +320,7 @@ abstract class AbstractPart
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
             'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
-            'align'           => array(self::READ_VALUE, 'w:jc'),
+            'alignment'       => array(self::READ_VALUE, 'w:jc'),
             'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
             'next'            => array(self::READ_VALUE, 'w:next'),
             'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
@@ -349,7 +349,7 @@ abstract class AbstractPart
             return null;
         }
         // Hyperlink has an extra w:r child
-        if ($domNode->nodeName == 'w:hyperlink') {
+        if ('w:hyperlink' == $domNode->nodeName) {
             $domNode = $xmlReader->getElement('w:r', $domNode);
         }
         if (!$xmlReader->elementExists('w:rPr', $domNode)) {
@@ -399,7 +399,6 @@ abstract class AbstractPart
             } else {
                 $styleNode = $xmlReader->getElement('w:tblPr', $domNode);
                 $styleDefs = array();
-                // $styleDefs['styleName'] = array(self::READ_VALUE, 'w:tblStyle');
                 foreach ($margins as $side) {
                     $ucfSide = ucfirst($side);
                     $styleDefs["cellMargin$ucfSide"] = array(self::READ_VALUE, "w:tblCellMar/w:$side", 'w:w');
@@ -482,13 +481,13 @@ abstract class AbstractPart
     {
         $style = $attributeValue;
 
-        if ($method == self::READ_SIZE) {
+        if (self::READ_SIZE == $method) {
             $style = $attributeValue / 2;
-        } elseif ($method == self::READ_TRUE) {
+        } elseif (self::READ_TRUE == $method) {
             $style = true;
-        } elseif ($method == self::READ_FALSE) {
+        } elseif (self::READ_FALSE == $method) {
             $style = false;
-        } elseif ($method == self::READ_EQUAL) {
+        } elseif (self::READ_EQUAL == $method) {
             $style = $attributeValue == $expected;
         }
 

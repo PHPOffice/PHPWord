@@ -129,8 +129,10 @@ class Link extends AbstractElement
     /**
      * Get link target
      *
-     * @return string
      * @deprecated 0.12.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function getTarget()
@@ -141,8 +143,10 @@ class Link extends AbstractElement
     /**
      * Get Link source
      *
-     * @return string
      * @deprecated 0.10.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function getLinkSrc()
@@ -153,8 +157,10 @@ class Link extends AbstractElement
     /**
      * Get Link name
      *
-     * @return string
      * @deprecated 0.10.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function getLinkName()

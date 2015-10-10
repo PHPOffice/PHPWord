@@ -41,7 +41,9 @@ class TestHelperDOCX
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
+     *
      * @return \PhpOffice\PhpWord\Tests\XmlDocument
+     *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')

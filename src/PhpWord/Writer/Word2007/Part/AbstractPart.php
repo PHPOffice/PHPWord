@@ -60,6 +60,7 @@ abstract class AbstractPart
      * Get parent writer
      *
      * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getParentWriter()

@@ -153,11 +153,14 @@ class Section extends AbstractContainer
     /**
      * Add header/footer
      *
+     * @since 0.10.0
+     *
      * @param string $type
      * @param boolean $header
+     *
      * @return Header|Footer
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
-     * @since 0.10.0
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -183,8 +186,10 @@ class Section extends AbstractContainer
     /**
      * Set section style
      *
-     * @param array $settings
      * @deprecated 0.12.0
+     *
+     * @param array $settings
+     *
      * @codeCoverageIgnore
      */
     public function setSettings($settings = null)
@@ -195,8 +200,10 @@ class Section extends AbstractContainer
     /**
      * Get section style
      *
-     * @return \PhpOffice\PhpWord\Style\Section
      * @deprecated 0.12.0
+     *
+     * @return \PhpOffice\PhpWord\Style\Section
+     *
      * @codeCoverageIgnore
      */
     public function getSettings()
@@ -207,8 +214,10 @@ class Section extends AbstractContainer
     /**
      * Create header
      *
-     * @return Header
      * @deprecated 0.10.0
+     *
+     * @return Header
+     *
      * @codeCoverageIgnore
      */
     public function createHeader()
@@ -219,8 +228,10 @@ class Section extends AbstractContainer
     /**
      * Create footer
      *
-     * @return Footer
      * @deprecated 0.10.0
+     *
+     * @return Footer
+     *
      * @codeCoverageIgnore
      */
     public function createFooter()
@@ -231,8 +242,10 @@ class Section extends AbstractContainer
     /**
      * Get footer
      *
-     * @return Footer
      * @deprecated 0.10.0
+     *
+     * @return Footer
+     *
      * @codeCoverageIgnore
      */
     public function getFooter()

@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 use PhpOffice\PhpWord\Style\Image;
 
 /**
@@ -37,7 +38,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'width'         => 200,
             'height'        => 200,
-            'align'         => 'left',
+            'alignment'     => ST_Jc::START,
             'marginTop'     => 240,
             'marginLeft'    => 240,
             'wrappingStyle' => 'inline',
@@ -60,7 +61,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'width'            => 200,
             'height'           => 200,
-            'align'            => 'left',
+            'alignment'        => ST_Jc::START,
             'marginTop'        => 240,
             'marginLeft'       => 240,
             'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,

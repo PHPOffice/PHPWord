@@ -17,6 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\ST_Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -42,20 +43,12 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
 
-        $pStyle = array('align' => 'both');
+        $pStyle = array('alignment' => ST_Jc::BOTH);
         $pBase = array('basedOn' => 'Normal');
         $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
         $rStyle = array('size' => 20);
-        $tStyle = array(
-            'bgColor'    => 'FF0000',
-            'cellMargin' => 120,
-            'borderSize' => 120,
-        );
-        $firstRowStyle = array(
-            'bgColor'     => '0000FF',
-            'borderSize'  => 120,
-            'borderColor' => '00FF00',
-        );
+        $tStyle = array('bgColor' => 'FF0000', 'cellMargin' => 120, 'borderSize' => 120);
+        $firstRowStyle = array('bgColor' => '0000FF', 'borderSize' => 120, 'borderColor' => '00FF00');
         $phpWord->setDefaultParagraphStyle($pStyle);
         $phpWord->addParagraphStyle('Base Style', $pBase);
         $phpWord->addParagraphStyle('New Style', $pNew);

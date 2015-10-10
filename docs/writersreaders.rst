@@ -8,35 +8,35 @@ OOXML
 
 The package of OOXML document consists of the following files.
 
--  \_rels/
+- \_rels/
 
-   -  .rels
+   - .rels
 
--  docProps/
+- docProps/
 
-   -  app.xml
-   -  core.xml
-   -  custom.xml
+   - app.xml
+   - core.xml
+   - custom.xml
 
--  word/
+- word/
 
-   -  rels/
+   - rels/
 
-      -  document.rels.xml
+      - document.rels.xml
 
-   -  media/
-   -  theme/
+   - media/
+   - theme/
 
-      -  theme1.xml
+      - theme1.xml
 
-   -  document.xml
-   -  fontTable.xml
-   -  numbering.xml
-   -  settings.xml
-   -  styles.xml
-   -  webSettings.xml
+   - document.xml
+   - fontTable.xml
+   - numbering.xml
+   - settings.xml
+   - styles.xml
+   - webSettings.xml
 
--  [Content\_Types].xml
+- [Content\_Types].xml
 
 OpenDocument
 ------------
@@ -46,53 +46,53 @@ Package
 
 The package of OpenDocument document consists of the following files.
 
--  META-INF/
+- META-INF/
 
-   -  manifest.xml
+   - manifest.xml
 
--  Pictures/
--  content.xml
--  meta.xml
--  styles.xml
+- Pictures/
+- content.xml
+- meta.xml
+- styles.xml
 
 content.xml
 ~~~~~~~~~~~
 
 The structure of ``content.xml`` is described below.
 
--  office:document-content
+- office:document-content
 
-   -  office:font-facedecls
-   -  office:automatic-styles
-   -  office:body
+   - office:font-facedecls
+   - office:automatic-styles
+   - office:body
 
-      -  office:text
+      - office:text
 
-         -  draw:\*
-         -  office:forms
-         -  table:table
-         -  text:list
-         -  text:numbered-paragraph
-         -  text:p
-         -  text:table-of-contents
-         -  text:section
+         - draw:\*
+         - office:forms
+         - table:table
+         - text:list
+         - text:numbered-paragraph
+         - text:p
+         - text:table-of-contents
+         - text:section
 
-      -  office:chart
-      -  office:image
-      -  office:drawing
+      - office:chart
+      - office:image
+      - office:drawing
 
 styles.xml
 ~~~~~~~~~~
 
 The structure of ``styles.xml`` is described below.
 
--  office:document-styles
+- office:document-styles
 
-   -  office:styles
-   -  office:automatic-styles
-   -  office:master-styles
+   - office:styles
+   - office:automatic-styles
+   - office:master-styles
 
-      -  office:master-page
+      - office:master-page
 
 RTF
 ---

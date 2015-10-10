@@ -20,7 +20,9 @@ abstract class IOFactory
      *
      * @param PhpWord $phpWord
      * @param string $name
+     *
      * @return WriterInterface
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
@@ -38,7 +40,9 @@ abstract class IOFactory
      * Create new reader
      *
      * @param string $name
+     *
      * @return ReaderInterface
+     *
      * @throws Exception
      */
     public static function createReader($name = 'Word2007')
@@ -52,7 +56,9 @@ abstract class IOFactory
      * @param string $type
      * @param string $name
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     *
      * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private static function createObject($type, $name, $phpWord = null)

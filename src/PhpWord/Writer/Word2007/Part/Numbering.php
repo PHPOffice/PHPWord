@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Numbering as NumberingStyle;
 use PhpOffice\PhpWord\Style\NumberingLevel;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Word2007 numbering part writer: word/numbering.xml
@@ -108,13 +108,13 @@ class Numbering extends AbstractPart
 
         // Numbering level properties
         $properties = array(
-            'start'   => 'start',
-            'format'  => 'numFmt',
-            'restart' => 'lvlRestart',
-            'pStyle'  => 'pStyle',
-            'suffix'  => 'suff',
-            'text'    => 'lvlText',
-            'align'   => 'lvlJc'
+            'start'     => 'start',
+            'format'    => 'numFmt',
+            'restart'   => 'lvlRestart',
+            'pStyle'    => 'pStyle',
+            'suffix'    => 'suff',
+            'text'      => 'lvlText',
+            'alignment' => 'lvlJc'
         );
         foreach ($properties as $property => $nodeName) {
             $getMethod = "get{$property}";
