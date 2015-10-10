@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\SimpleType\ST_JcTable;
+use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
@@ -75,7 +75,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             'cellMarginLeft'     => 240,
             'cellMarginRight'    => 240,
             'cellMarginBottom'   => 240,
-            'alignment'          => ST_JcTable::CENTER,
+            'alignment'          => JcTable::CENTER,
             'width'              => 100,
             'unit'               => 'pct',
         );

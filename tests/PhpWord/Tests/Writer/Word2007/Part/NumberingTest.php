@@ -17,7 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -56,7 +56,7 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
                         'restart'   => 1,
                         'suffix'    => 'space',
                         'text'      => '%1.',
-                        'alignment' => ST_Jc::START,
+                        'alignment' => Jc::START,
                         'left'      => 360,
                         'hanging'   => 360,
                         'tabPos'    => 360,

@@ -17,7 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 use PhpOffice\PhpWord\Writer\Word2007;
 
@@ -78,7 +78,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $remoteImage = 'http://php.net//images/logos/php-med-trans-light.gif';
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
-        $phpWord->addParagraphStyle('Paragraph', array('alignment' => ST_Jc::CENTER));
+        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
         $section = $phpWord->addSection();
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();

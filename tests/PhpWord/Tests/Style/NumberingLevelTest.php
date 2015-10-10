@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\NumberingLevel;
 
 /**
@@ -42,7 +42,7 @@ class NumberingLevelTest extends \PHPUnit_Framework_TestCase
             'pStyle'    => 'pStyle',
             'suffix'    => 'space',
             'text'      => '%1.',
-            'alignment' => ST_Jc::START,
+            'alignment' => Jc::START,
             'left'      => 360,
             'hanging'   => 360,
             'tabPos'    => 360,

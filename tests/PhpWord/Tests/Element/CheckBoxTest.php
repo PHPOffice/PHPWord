@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\CheckBox;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 
 /**
@@ -82,7 +82,7 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
         $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
 
-        $oCheckBox->setParagraphStyle(array('alignment' => ST_Jc::CENTER, 'spaceAfter' => 100));
+        $oCheckBox->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oCheckBox->getParagraphStyle());
     }
 }

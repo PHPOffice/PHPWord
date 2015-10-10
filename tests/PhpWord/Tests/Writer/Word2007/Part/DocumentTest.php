@@ -17,7 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
@@ -91,7 +91,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
                 'borderColor'      => '#FF0',
             )
         );
-        $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => ST_Jc::CENTER));
+        $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => Jc::CENTER));
         $section->addListItemRun()->addText(htmlspecialchars('List item run 1', ENT_COMPAT, 'UTF-8'));
         $section->addField(
             'DATE',
@@ -158,7 +158,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addParagraphStyle(
             'pStyle',
             array(
-                'alignment'  => ST_Jc::CENTER,
+                'alignment'  => Jc::CENTER,
                 'tabs'       => $tabs,
                 'shading'    => array('fill' => 'FFFF99'),
                 'borderSize' => 4,
@@ -177,11 +177,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         ); // Style #2
         $phpWord->addTitleStyle(1, array('color' => '333333', 'doubleStrikethrough' => true)); // Style #3
         $phpWord->addTableStyle('tStyle', array('borderSize' => 1));
-        $fontStyle = new Font('text', array('alignment' => ST_Jc::CENTER));
+        $fontStyle = new Font('text', array('alignment' => Jc::CENTER));
 
         $section = $phpWord->addSection();
         $section->addListItem(htmlspecialchars('List Item', ENT_COMPAT, 'UTF-8'), 0, null, null, 'pStyle'); // Style #5
-        $section->addObject($objectSrc, array('alignment' => ST_Jc::CENTER));
+        $section->addObject($objectSrc, array('alignment' => Jc::CENTER));
         $section->addTOC($fontStyle);
         $section->addTitle(htmlspecialchars('Title 1', ENT_COMPAT, 'UTF-8'), 1);
         $section->addTOC('fStyle');
@@ -231,7 +231,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testWriteTextRun()
     {
         $pStyle = 'pStyle';
-        $aStyle = array('alignment' => ST_Jc::BOTH, 'spaceBefore' => 120, 'spaceAfter' => 120);
+        $aStyle = array('alignment' => Jc::BOTH, 'spaceBefore' => 120, 'spaceAfter' => 120);
         $imageSrc = __DIR__ . '/../../../_files/images/earth.jpg';
 
         $phpWord = new PhpWord();
@@ -242,7 +242,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $textrun->addTextBreak();
         $textrun = $section->addTextRun($aStyle);
         $textrun->addLink('https://github.com/PHPOffice/PHPWord');
-        $textrun->addImage($imageSrc, array('alignment' => ST_Jc::CENTER));
+        $textrun->addImage($imageSrc, array('alignment' => Jc::CENTER));
         $textrun->addFootnote();
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -259,7 +259,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $fontStyleArray = array('bold' => true);
         $fontStyleName = 'Font Style';
-        $paragraphStyleArray = array('alignment' => ST_Jc::CENTER);
+        $paragraphStyleArray = array('alignment' => Jc::CENTER);
         $paragraphStyleName = 'Paragraph Style';
 
         $expected = 'PHPWord on GitHub';
@@ -293,7 +293,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $footer = $section->addFooter();
         $fontStyleArray = array('bold' => true);
         $fontStyleName = 'Font';
-        $paragraphStyleArray = array('alignment' => ST_Jc::END);
+        $paragraphStyleArray = array('alignment' => Jc::END);
         $paragraphStyleName = 'Paragraph';
 
         $footer->addPreserveText(htmlspecialchars('Page {PAGE}', ENT_COMPAT, 'UTF-8'));
@@ -338,7 +338,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testWriteImage()
     {
         $phpWord = new PhpWord();
-        $styles = array('alignment' => ST_Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1);
+        $styles = array('alignment' => Jc::START, 'width' => 40, 'height' => 40, 'marginTop' => -1, 'marginLeft' => -1);
         $wraps = array('inline', 'behind', 'infront', 'square', 'tight');
         $section = $phpWord->addSection();
         foreach ($wraps as $wrap) {
@@ -422,7 +422,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $attributes = array(
-            'alignment'       => ST_Jc::END,
+            'alignment'       => Jc::END,
             'widowControl'    => false,
             'keepNext'        => true,
             'keepLines'       => true,

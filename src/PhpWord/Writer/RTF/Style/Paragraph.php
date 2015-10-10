@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * RTF paragraph style writer
@@ -48,10 +48,10 @@ class Paragraph extends AbstractStyle
         }
 
         $alignments = array(
-            ST_Jc::START  => '\ql',
-            ST_Jc::END    => '\qr',
-            ST_Jc::CENTER => '\qc',
-            ST_Jc::BOTH   => '\qj',
+            Jc::START  => '\ql',
+            Jc::END    => '\qr',
+            Jc::CENTER => '\qc',
+            Jc::BOTH   => '\qj',
         );
 
         $spaceAfter = $style->getSpaceAfter();

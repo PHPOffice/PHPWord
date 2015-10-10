@@ -29,7 +29,7 @@ class TableAlignment
     /**
      * @since 0.13.0
      *
-     * @param string $value Any value provided by ST_JcTable simple type.
+     * @param string $value Any value provided by JcTable simple type.
      *
      * @see \PhpOffice\PhpWord\SimpleType\JcTable For the allowed values of $value parameter.
      */

@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\PreserveText;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\PreserveText
@@ -59,7 +59,7 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
         $oPreserveText = new PreserveText(
             htmlspecialchars('text', ENT_COMPAT, 'UTF-8'),
             array('size' => 16, 'color' => '1B2232'),
-            array('alignment' => ST_Jc::CENTER)
+            array('alignment' => Jc::CENTER)
         );
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oPreserveText->getParagraphStyle());

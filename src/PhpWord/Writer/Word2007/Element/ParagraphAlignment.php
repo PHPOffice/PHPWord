@@ -29,7 +29,7 @@ class ParagraphAlignment
     /**
      * @since 0.13.0
      *
-     * @param string $value Any value provided by ST_Jc simple type.
+     * @param string $value Any value provided by Jc simple type.
      *
      * @see \PhpOffice\PhpWord\SimpleType\Jc For the allowed values of $value parameter.
      */

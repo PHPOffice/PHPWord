@@ -17,7 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -43,7 +43,7 @@ class StylesTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
 
-        $pStyle = array('alignment' => ST_Jc::BOTH);
+        $pStyle = array('alignment' => Jc::BOTH);
         $pBase = array('basedOn' => 'Normal');
         $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
         $rStyle = array('size' => 20);

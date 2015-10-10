@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * RTF document reader
@@ -337,7 +337,7 @@ class Document
             'u'         => array(self::STYL,    'font',         'underline',    true),
             'strike'    => array(self::STYL,    'font',         'strikethrough',true),
             'fs'        => array(self::STYL,    'font',         'size',         $parameter),
-            'qc'        => array(self::STYL,    'paragraph',    'alignment',    ST_Jc::CENTER),
+            'qc'        => array(self::STYL,    'paragraph',    'alignment',    Jc::CENTER),
             'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',   $parameter),
             'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
             'colortbl'  => array(self::SKIP,    'colortbl',     null),

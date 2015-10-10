@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Paragraph style
@@ -232,7 +232,7 @@ class Paragraph extends Border
      */
     public function setAlignment($value)
     {
-        if (in_array($value, ST_Jc::getAllowedValues(), true)) {
+        if (in_array($value, Jc::getAllowedValues(), true)) {
             $this->alignment = $value;
         }
 

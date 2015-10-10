@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Frame defines the size and position of an object
@@ -200,7 +200,7 @@ class Frame extends AbstractStyle
      */
     public function setAlignment($value)
     {
-        if (in_array($value, ST_Jc::getAllowedValues(), true)) {
+        if (in_array($value, Jc::getAllowedValues(), true)) {
             $this->alignment = $value;
         }
 

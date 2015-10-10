@@ -8,8 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Place announcement text here.
 
 ### Added
-- Introduced the ``\PhpOffice\PhpWord\SimpleType\ST_JcTable`` simple type. - @RomanSyroeshko
-- Introduced the ``\PhpOffice\PhpWord\SimpleType\ST_Jc`` simple type. - @RomanSyroeshko
+- Introduced the ``\PhpOffice\PhpWord\SimpleType\JcTable`` simple type. - @RomanSyroeshko
+- Introduced the ``\PhpOffice\PhpWord\SimpleType\Jc`` simple type. - @RomanSyroeshko
 
 ### Changed
 - Improved error message for the case when ``autoload.php`` is not found. - @RomanSyroeshko #371

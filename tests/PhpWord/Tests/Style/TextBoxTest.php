@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Tests\Style;
 
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\TextBox;
 
 /**
@@ -38,7 +38,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'width'             => 200,
             'height'            => 200,
-            'alignment'         => ST_Jc::START,
+            'alignment'         => Jc::START,
             'marginTop'         => 240,
             'marginLeft'        => 240,
             'wrappingStyle'     => 'inline',
@@ -72,7 +72,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
         $properties = array(
             'width'             => 200,
             'height'            => 200,
-            'alignment'         => ST_Jc::START,
+            'alignment'         => Jc::START,
             'marginTop'         => 240,
             'marginLeft'        => 240,
             'wrappingStyle'     => 'inline',
@@ -135,7 +135,7 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
     {
         $textBox = new TextBox();
 
-        $expectedAlignment = ST_Jc::START;
+        $expectedAlignment = Jc::START;
         $textBox->setAlignment($expectedAlignment);
         $this->assertEquals($expectedAlignment, $textBox->getAlignment());
     }

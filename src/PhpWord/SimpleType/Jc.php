@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\SimpleType;
  *
  * @since 0.13.0
  */
-final class ST_Jc
+final class Jc
 {
     const START = 'start';
     const CENTER = 'center';

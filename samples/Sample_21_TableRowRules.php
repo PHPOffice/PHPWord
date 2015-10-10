@@ -22,7 +22,7 @@ $section->addText(
 $table1 = $section->addTable(array('cellMargin' => 0, 'cellMarginRight' => 0, 'cellMarginBottom' => 0, 'cellMarginLeft' => 0));
 $table1->addRow(3750);
 $cell1 = $table1->addCell(null, array('valign' => 'top', 'borderSize' => 30, 'borderColor' => 'ff0000'));
-$cell1->addImage('./resources/_earth.jpg', array('width' => 250, 'height' => 250, 'alignment' => \PhpOffice\PhpWord\SimpleType\ST_Jc::CENTER));
+$cell1->addImage('./resources/_earth.jpg', array('width' => 250, 'height' => 250, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
 
 $section->addTextBreak();
 $section->addText(
@@ -43,7 +43,7 @@ $table2 = $section->addTable(
 );
 $table2->addRow(3750, array('exactHeight' => true));
 $cell2 = $table2->addCell(null, array('valign' => 'top', 'borderSize' => 30, 'borderColor' => '00ff00'));
-$cell2->addImage('./resources/_earth.jpg', array('width' => 250, 'height' => 250, 'alignment' => \PhpOffice\PhpWord\SimpleType\ST_Jc::CENTER));
+$cell2->addImage('./resources/_earth.jpg', array('width' => 250, 'height' => 250, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
 
 $section->addTextBreak();
 $section->addText(

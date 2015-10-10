@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\Image;
-use PhpOffice\PhpWord\SimpleType\ST_Jc;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Image
@@ -55,7 +55,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             array(
                 'width'         => 210,
                 'height'        => 210,
-                'alignment'     => ST_Jc::CENTER,
+                'alignment'     => Jc::CENTER,
                 'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND,
             )
         );
@@ -98,7 +98,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $oImage = new Image(
             __DIR__ . '/../_files/images/earth.jpg',
-            array('height' => 210, 'alignment' => ST_Jc::CENTER)
+            array('height' => 210, 'alignment' => Jc::CENTER)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
