@@ -70,11 +70,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * XSL stylesheet can be applied.
      *
-     * @param string $actualDocumentFqfn
-     * @throws \Exception
+     * @test
      * @covers ::applyXslStyleSheet
      * @depends testTemplateCanBeSavedInTemporaryLocation
-     * @test
+     *
+     * @param string $actualDocumentFqfn
+     *
+     * @throws \Exception
      */
     final public function testXslStyleSheetCanBeApplied($actualDocumentFqfn)
     {

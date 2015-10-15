@@ -126,6 +126,7 @@ class Image extends AbstractElement
      * @param string $source
      * @param mixed $style
      * @param boolean $watermark
+     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
@@ -365,7 +366,9 @@ class Image extends AbstractElement
      * Check memory image, supported type, image functions, and proportional width/height.
      *
      * @param string $source
+     *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
@@ -425,7 +428,9 @@ class Image extends AbstractElement
      * @since 0.12.0 Throws CreateTemporaryFileException.
      *
      * @param string $source
+     *
      * @return array|null
+     *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      */
     private function getArchiveImageSize($source)
@@ -517,6 +522,7 @@ class Image extends AbstractElement
      * Get is watermark
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getIsWatermark()
@@ -528,6 +534,7 @@ class Image extends AbstractElement
      * Get is memory image
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getIsMemImage()

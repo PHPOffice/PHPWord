@@ -45,7 +45,9 @@ class XMLReader
      *
      * @param string $zipFile
      * @param string $xmlFile
+     *
      * @return \DOMDocument|false
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getDomFromZip($zipFile, $xmlFile)

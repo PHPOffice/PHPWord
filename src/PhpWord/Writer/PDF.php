@@ -39,6 +39,7 @@ class PDF
      * Instantiate a new renderer of the configured type within this container class
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function __construct(PhpWord $phpWord)

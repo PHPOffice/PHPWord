@@ -378,8 +378,11 @@ abstract class AbstractElement
      * @param mixed $value
      * @param array $enum
      * @param mixed $default
+     *
      * @return mixed
+     *
      * @throws \InvalidArgumentException
+     *
      * @todo Merge with the same method in AbstractStyle
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)

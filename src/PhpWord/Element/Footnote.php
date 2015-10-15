@@ -67,8 +67,10 @@ class Footnote extends AbstractContainer
     /**
      * Get Footnote Reference ID
      *
-     * @return int
      * @deprecated 0.10.0
+     *
+     * @return int
+     *
      * @codeCoverageIgnore
      */
     public function getReferenceId()
@@ -79,8 +81,10 @@ class Footnote extends AbstractContainer
     /**
      * Set Footnote Reference ID
      *
-     * @param int $rId
      * @deprecated 0.10.0
+     *
+     * @param int $rId
+     *
      * @codeCoverageIgnore
      */
     public function setReferenceId($rId)

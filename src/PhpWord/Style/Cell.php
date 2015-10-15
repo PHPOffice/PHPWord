@@ -240,6 +240,7 @@ class Cell extends Border
      * Get default border color
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getDefaultBorderColor()

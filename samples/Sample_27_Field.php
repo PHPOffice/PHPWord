@@ -19,7 +19,7 @@ $section->addField('PAGE', array('format' => 'ArabicDash'));
 $section->addText(htmlspecialchars('Number of pages field:', ENT_COMPAT, 'UTF-8'));
 $section->addField('NUMPAGES', array('format' => 'Arabic', 'numformat' => '0,00'), array('PreserveFormat'));
 
-$textrun = $section->addTextRun(array('align' => 'center'));
+$textrun = $section->addTextRun(array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
 $textrun->addText(htmlspecialchars('This is the date of lunar calendar ', ENT_COMPAT, 'UTF-8'));
 $textrun->addField('DATE', array('dateformat' => 'd-M-yyyy H:mm:ss'), array('PreserveFormat', 'LunarCalendar'));
 $textrun->addText(htmlspecialchars(' written in a textrun.', ENT_COMPAT, 'UTF-8'));

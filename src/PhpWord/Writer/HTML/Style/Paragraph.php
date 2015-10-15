@@ -38,10 +38,8 @@ class Paragraph extends AbstractStyle
         $css = array();
 
         // Alignment
-        $alignment = $style->getAlignment();
-        if (!is_null($alignment)) {
-            $alignmentValue = $alignment->getValue();
-            $css['text-align'] = $this->getValueIf(!is_null($alignmentValue), $alignmentValue);
+        if ('' !== $style->getAlignment()) {
+            $css['text-align'] = $style->getAlignment(); // todo: convert OpenXml to Html values
         }
 
         // Spacing

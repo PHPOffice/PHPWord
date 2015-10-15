@@ -107,6 +107,7 @@ class XMLWriter
      *
      * @param mixed $function
      * @param mixed $args
+     *
      * @throws \BadMethodCallException
      */
     public function __call($function, $args)

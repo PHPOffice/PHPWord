@@ -17,6 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -50,17 +51,17 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
                 'type'   => 'multilevel',
                 'levels' => array(
                     array(
-                        'start'   => 1,
-                        'format'  => 'decimal',
-                        'restart' => 1,
-                        'suffix'  => 'space',
-                        'text'    => '%1.',
-                        'align'   => 'left',
-                        'left'    => 360,
-                        'hanging' => 360,
-                        'tabPos'  => 360,
-                        'font'    => 'Arial',
-                        'hint'    => 'default',
+                        'start'     => 1,
+                        'format'    => 'decimal',
+                        'restart'   => 1,
+                        'suffix'    => 'space',
+                        'text'      => '%1.',
+                        'alignment' => Jc::START,
+                        'left'      => 360,
+                        'hanging'   => 360,
+                        'tabPos'    => 360,
+                        'font'      => 'Arial',
+                        'hint'      => 'default',
                     ),
                 )
             )

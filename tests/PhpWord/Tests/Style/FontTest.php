@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
@@ -41,7 +42,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitiation()
     {
-        $object = new Font(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), array('align' => 'both'));
+        $object = new Font(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), array('alignment' => Jc::BOTH));
 
         $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
@@ -157,7 +158,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testLineHeightFloatval()
     {
-        $object = new Font(null, array('align' => 'center'));
+        $object = new Font(null, array('alignment' => Jc::CENTER));
         $object->setLineHeight('1.5pt');
         $this->assertEquals(1.5, $object->getLineHeight());
     }

@@ -12,7 +12,7 @@ $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);
 
 $section->addText(htmlspecialchars('Local image with styles:', ENT_COMPAT, 'UTF-8'));
-$section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'align' => 'center'));
+$section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
 $section->addTextBreak(2);
 
 // Remote image

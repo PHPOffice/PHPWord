@@ -64,7 +64,9 @@ class HTML extends AbstractWriter implements WriterInterface
      * Save PhpWord to file.
      *
      * @param string $filename
+     *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function save($filename = null)
@@ -127,8 +129,10 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Write document
      *
-     * @return string
      * @deprecated 0.11.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function writeDocument()

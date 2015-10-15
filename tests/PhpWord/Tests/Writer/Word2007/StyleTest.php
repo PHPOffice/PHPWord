@@ -29,7 +29,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testEmptyStyles()
     {
         $styles = array(
-            'Alignment', 'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
+            'Cell', 'Font', 'Image', 'Indentation', 'LineNumbering',
             'Paragraph', 'Row', 'Section', 'Shading', 'Spacing', 'Tab', 'Table',
             'TextBox', 'Line', 'Shape', 'Frame', 'Outline', 'Fill', 'Shadow', 'Extrusion',
         );

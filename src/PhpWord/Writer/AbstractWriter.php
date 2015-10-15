@@ -97,6 +97,7 @@ abstract class AbstractWriter implements WriterInterface
      * Get PhpWord object
      *
      * @return \PhpOffice\PhpWord\PhpWord
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function getPhpWord()
@@ -150,7 +151,9 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param bool $value
      * @param string $directory
+     *
      * @return self
+     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function setUseDiskCaching($value = false, $directory = null)
@@ -234,6 +237,7 @@ abstract class AbstractWriter implements WriterInterface
      * Cleanup temporary file.
      *
      * @return void
+     *
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
      */
     protected function cleanupTempFile()
@@ -267,7 +271,9 @@ abstract class AbstractWriter implements WriterInterface
      * Get ZipArchive object
      *
      * @param string $filename
+     *
      * @return \PhpOffice\PhpWord\Shared\ZipArchive
+     *
      * @throws \Exception
      */
     protected function getZipArchive($filename)
@@ -295,10 +301,13 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Open file for writing
      *
-     * @param string $filename
-     * @return resource
-     * @throws \Exception
      * @since 0.11.0
+     *
+     * @param string $filename
+     *
+     * @return resource
+     *
+     * @throws \Exception
      */
     protected function openFile($filename)
     {
@@ -423,6 +432,7 @@ abstract class AbstractWriter implements WriterInterface
      * Get use disk caching status
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getUseDiskCaching()

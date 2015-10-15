@@ -155,7 +155,7 @@ class ListItem extends AbstractStyle
         }
 
         // Property mapping for numbering level information
-        $properties = array('start', 'format', 'text', 'align', 'tabPos', 'left', 'hanging', 'font', 'hint');
+        $properties = array('start', 'format', 'text', 'alignment', 'tabPos', 'left', 'hanging', 'font', 'hint');
 
         // Legacy level information
         $listTypeStyles = array(

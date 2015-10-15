@@ -18,8 +18,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Shared\XMLWriter;
-use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Frame as FrameStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
 
 /**
  * Frame style writer
@@ -89,13 +89,21 @@ class Frame extends AbstractStyle
 
         $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('w:pPr');
-        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $style->getAlign())));
-        $styleWriter->write();
-        $xmlWriter->endElement(); // w:pPr
+
+        if ('' !== $style->getAlignment()) {
+            $paragraphAlignment = new ParagraphAlignment($style->getAlignment());
+            $xmlWriter->startElement($paragraphAlignment->getName());
+            foreach ($paragraphAlignment->getAttributes() as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            $xmlWriter->endElement();
+        }
+
+        $xmlWriter->endElement();
     }
 
     /**
-     * Write alignment.
+     * Write wrap.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Frame $style

@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
+
 /**
  * Numbering level definition
  *
@@ -81,12 +83,9 @@ class NumberingLevel extends AbstractStyle
     private $text;
 
     /**
-     * Align left|center|right|both
-     *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_lvlJc-1.html
      */
-    private $align;
+    private $alignment;
 
     /**
      * Left
@@ -281,26 +280,55 @@ class NumberingLevel extends AbstractStyle
     }
 
     /**
-     * Get align
+     * @since 0.13.0
      *
      * @return string
      */
-    public function getAlign()
+    public function getAlignment()
     {
-        return $this->align;
+        return $this->alignment;
     }
 
     /**
-     * Set align
+     * @since 0.13.0
      *
      * @param string $value
+     *
      * @return self
+     */
+    public function setAlignment($value)
+    {
+        if (in_array($value, Jc::getAllowedValues(), true)) {
+            $this->alignment = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @deprecated 0.13.0 Use the `getAlignment` method instead.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getAlign()
+    {
+        return $this->getAlignment();
+    }
+
+    /**
+     * @deprecated 0.13.0 Use the `setAlignment` method instead.
+     *
+     * @param string $value
+     *
+     * @return self
+     *
+     * @codeCoverageIgnore
      */
     public function setAlign($value)
     {
-        $enum = array('left', 'center', 'right', 'both');
-        $this->align = $this->setEnumVal($value, $enum, $this->align);
-        return $this;
+        return $this->setAlignment($value);
     }
 
     /**

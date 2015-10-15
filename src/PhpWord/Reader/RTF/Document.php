@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * RTF document reader
@@ -140,7 +141,7 @@ class Document
             125 => 'markClosing',   // }
             92  => 'markBackslash', // \
             10  => 'markNewline',   // LF
-            13  => 'markNewline'    // CR
+            13  => 'markNewline',   // CR
         );
 
         $this->phpWord = $phpWord;
@@ -159,7 +160,7 @@ class Document
                 $markerFunction = $markers[$ascii];
                 $this->$markerFunction();
             } else {
-                if ($this->isControl === false) { // Non control word: Push character
+                if (false === $this->isControl) { // Non control word: Push character
                     $this->pushText($char);
                 } else {
                     if (preg_match("/^[a-zA-Z0-9-]?$/", $char)) { // No delimiter: Buffer control
@@ -169,7 +170,7 @@ class Document
                         if ($this->isFirst) {
                             $this->isFirst = false;
                         } else {
-                            if ($char == ' ') { // Discard space as a control word delimiter
+                            if (' ' == $char) { // Discard space as a control word delimiter
                                 $this->flushControl(true);
                             }
                         }
@@ -255,12 +256,12 @@ class Document
      */
     private function flushControl($isControl = false)
     {
-        if (preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match) === 1) {
+        if (1 === preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match)) {
             list(, $control, $parameter) = $match;
             $this->parseControl($control, $parameter);
         }
 
-        if ($isControl === true) {
+        if (true === $isControl) {
             $this->setControl(false);
         }
     }
@@ -276,7 +277,7 @@ class Document
             if (isset($this->flags['property'])) { // Set property
                 $this->flags['value'] = $this->text;
             } else { // Set text
-                if ($this->flags['paragraph'] === true) {
+                if (true === $this->flags['paragraph']) {
                     $this->flags['paragraph'] = false;
                     $this->flags['text'] = $this->text;
                 }
@@ -311,9 +312,9 @@ class Document
      */
     private function pushText($char)
     {
-        if ($char == '<') {
+        if ('<' == $char) {
             $this->text .= "&lt;";
-        } elseif ($char == '>') {
+        } elseif ('>' == $char) {
             $this->text .= "&gt;";
         } else {
             $this->text .= $char;
@@ -336,7 +337,7 @@ class Document
             'u'         => array(self::STYL,    'font',         'underline',    true),
             'strike'    => array(self::STYL,    'font',         'strikethrough',true),
             'fs'        => array(self::STYL,    'font',         'size',         $parameter),
-            'qc'        => array(self::STYL,    'paragraph',    'align',        'center'),
+            'qc'        => array(self::STYL,    'paragraph',    'alignment',    Jc::CENTER),
             'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',   $parameter),
             'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
             'colortbl'  => array(self::SKIP,    'colortbl',     null),

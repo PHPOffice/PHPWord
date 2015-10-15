@@ -21,6 +21,7 @@ namespace PhpOffice\PhpWord\Shared;
  * DEPRECATED: Common font functions; Use 'Converter'
  *
  * @deprecated 0.12.0
+ *
  * @codeCoverageIgnore
  */
 class Font

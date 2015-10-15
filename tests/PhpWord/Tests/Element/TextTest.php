@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Tests\Element;
 
 use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 
 /**
@@ -80,7 +81,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
 
-        $oText->setParagraphStyle(array('align' => 'center', 'spaceAfter' => 100));
+        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 }

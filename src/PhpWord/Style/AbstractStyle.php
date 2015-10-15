@@ -278,7 +278,9 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param array $enum
      * @param mixed $default
+     *
      * @return mixed
+     *
      * @throws \InvalidArgumentException
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
@@ -337,9 +339,12 @@ abstract class AbstractStyle
     /**
      * Set style using associative array
      *
-     * @param array $style
-     * @return self
      * @deprecated 0.11.0
+     *
+     * @param array $style
+     *
+     * @return self
+     *
      * @codeCoverageIgnore
      */
     public function setArrayStyle(array $style = array())

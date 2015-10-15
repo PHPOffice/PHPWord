@@ -6,7 +6,7 @@ echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $phpWord->setDefaultParagraphStyle(
     array(
-        'alignment'  => 'both',
+        'alignment'  => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
         'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(12),
         'spacing'    => 120,
     )

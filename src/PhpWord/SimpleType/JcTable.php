@@ -15,32 +15,26 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Style;
+namespace PhpOffice\PhpWord\SimpleType;
 
 /**
- * Alignment style writer
+ * Table Alignment Type.
  *
- * @since 0.11.0
+ * @since 0.13.0
  */
-class Alignment extends AbstractStyle
+final class JcTable
 {
+    const START = 'start';
+    const CENTER = 'center';
+    const END = 'end';
+
     /**
-     * Write style.
+     * @since 0.13.0
      *
-     * @return void
+     * @return string[]
      */
-    public function write()
+    final public static function getAllowedValues()
     {
-        $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Alignment) {
-            return;
-        }
-        $value = $style->getValue();
-        if ($value !== null) {
-            $xmlWriter = $this->getXmlWriter();
-            $xmlWriter->startElement('w:jc');
-            $xmlWriter->writeAttribute('w:val', $value);
-            $xmlWriter->endElement(); // w:jc
-        }
+        return array(self::START, self::CENTER, self::END);
     }
 }

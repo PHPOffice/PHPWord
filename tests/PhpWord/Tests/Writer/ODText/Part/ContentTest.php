@@ -17,6 +17,7 @@
 namespace PhpOffice\PhpWord\Tests\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Tests\TestHelperDOCX;
 
 /**
@@ -51,7 +52,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord->setDefaultFontName('Verdana');
         $phpWord->addFontStyle('Font', array('size' => 11));
-        $phpWord->addParagraphStyle('Paragraph', array('align' => 'center'));
+        $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
         $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
         $section = $phpWord->addSection(array('colsNum' => 2));

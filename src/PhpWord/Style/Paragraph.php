@@ -19,13 +19,13 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Paragraph style
  *
  * OOXML:
  * - General: alignment, outline level
- * - Alignment: left, right, center, both
  * - Indentation: left, right, firstline, hanging
  * - Spacing: before, after, line spacing
  * - Pagination: widow control, keep next, keep line, page break before
@@ -77,11 +77,9 @@ class Paragraph extends Border
     private $next;
 
     /**
-     * Alignment
-     *
-     * @var \PhpOffice\PhpWord\Style\Alignment
+     * @var string
      */
-    private $alignment;
+    private $alignment = '';
 
     /**
      * Indentation
@@ -170,9 +168,9 @@ class Paragraph extends Border
     public function setStyleValue($key, $value)
     {
         $key = String::removeUnderscorePrefix($key);
-        if ($key == 'indent' || $key == 'hanging') {
+        if ('indent' == $key || 'hanging' == $key) {
             $value = $value * 720;
-        } elseif ($key == 'spacing') {
+        } elseif ('spacing' == $key) {
             $value += 240; // because line height of 1 matches 240 twips
         }
 
@@ -216,9 +214,9 @@ class Paragraph extends Border
     }
 
     /**
-     * Get alignment
+     * @since 0.13.0
      *
-     * @return \PhpOffice\PhpWord\Style\Alignment
+     * @return string
      */
     public function getAlignment()
     {
@@ -226,16 +224,45 @@ class Paragraph extends Border
     }
 
     /**
-     * Set alignment
+     * @since 0.13.0
      *
      * @param string $value
+     *
      * @return self
      */
-    public function setAlignment($value = null)
+    public function setAlignment($value)
     {
-        $this->setObjectVal(array('value' => $value), 'Alignment', $this->alignment);
+        if (in_array($value, Jc::getAllowedValues(), true)) {
+            $this->alignment = $value;
+        }
 
         return $this;
+    }
+
+    /**
+     * @deprecated 0.13.0 Use the `getAlignment` method instead.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getAlign()
+    {
+        return $this->getAlignment();
+    }
+
+    /**
+     * @deprecated 0.13.0 Use the `setAlignment` method instead.
+     *
+     * @param string $value
+     *
+     * @return self
+     *
+     * @codeCoverageIgnore
+     */
+    public function setAlign($value = null)
+    {
+        return $this->setAlignment($value);
     }
 
     /**
@@ -451,7 +478,9 @@ class Paragraph extends Border
      * Set the line height
      *
      * @param int|float|string $lineHeight
+     *
      * @return self
+     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
      */
     public function setLineHeight($lineHeight)
@@ -636,6 +665,7 @@ class Paragraph extends Border
      * Get allow first/last line to display on a separate page setting
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getWidowControl()
@@ -647,6 +677,7 @@ class Paragraph extends Border
      * Get keep paragraph with next paragraph setting
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getKeepNext()
@@ -658,6 +689,7 @@ class Paragraph extends Border
      * Get keep all lines on one page setting
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getKeepLines()
@@ -669,6 +701,7 @@ class Paragraph extends Border
      * Get start paragraph on next page setting
      *
      * @deprecated 0.10.0
+     *
      * @codeCoverageIgnore
      */
     public function getPageBreakBefore()
