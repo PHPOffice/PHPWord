@@ -20,6 +20,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Element\Image as ImageElement;
 use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
+use PhpOffice\PhpWord\Style\Frame as FrameStyle;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 
 /**
  * Image element writer
@@ -65,6 +68,16 @@ class Image extends AbstractElement
         }
 
         $xmlWriter->startElement('w:r');
+
+        // Write position
+        $position = $style->getPosition();
+        if ($position && $style->getWrap() == FrameStyle::WRAP_INLINE) {
+            $fontStyle = new FontStyle('text');
+            $fontStyle->setPosition($position);
+            $fontStyleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+            $fontStyleWriter->write();
+        }
+
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
