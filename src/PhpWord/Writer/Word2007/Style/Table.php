@@ -79,6 +79,10 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        // Position
+        $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
+        $styleWriter->write();
+
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
