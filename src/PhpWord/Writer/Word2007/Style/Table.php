@@ -80,6 +80,11 @@ class Table extends AbstractStyle
         $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
         $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeLayout($xmlWriter, $style->getLayout());
+
+        // Position
+        $styleWriter = new TablePosition($xmlWriter, $style->getPosition());
+        $styleWriter->write();
+
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
 
