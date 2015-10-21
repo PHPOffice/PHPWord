@@ -114,11 +114,12 @@ class Numbering extends AbstractPart
             'pStyle'    => 'pStyle',
             'suffix'    => 'suff',
             'text'      => 'lvlText',
-            'alignment' => 'lvlJc'
+            'alignment' => 'lvlJc',
         );
         foreach ($properties as $property => $nodeName) {
             $getMethod = "get{$property}";
-            if (!is_null($level->$getMethod())) {
+            if ('' !== $level->$getMethod()         // this condition is now supported by `alignment` only
+                && !is_null($level->$getMethod())) {
                 $xmlWriter->startElement("w:{$nodeName}");
                 $xmlWriter->writeAttribute('w:val', $level->$getMethod());
                 $xmlWriter->endElement(); // w:start

@@ -85,7 +85,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * @var string
      */
-    private $alignment;
+    private $alignment = '';
 
     /**
      * Left
