@@ -8,30 +8,35 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Place announcement text here.
 
 ### Added
-- Introduced the ``\PhpOffice\PhpWord\SimpleType\JcTable`` simple type. - @RomanSyroeshko
-- Introduced the ``\PhpOffice\PhpWord\SimpleType\Jc`` simple type. - @RomanSyroeshko
+- Introduced the `\PhpOffice\PhpWord\SimpleType\Jc` simple type. - @RomanSyroeshko
+- Introduced the `\PhpOffice\PhpWord\SimpleType\JcTable` simple type. - @RomanSyroeshko
+- Introduced writer for the "Paragraph Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment`). - @RomanSyroeshko
+- Introduced writer for the "Table Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment`). - @RomanSyroeshko
 
 ### Changed
-- Improved error message for the case when ``autoload.php`` is not found. - @RomanSyroeshko #371
-- Renamed the ``align`` option of ``NumberingLevel``, ``Frame``, ``Table``, and ``Paragraph`` styles into ``alignment``. - @RomanSyroeshko
+- Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
+- Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 
 ### Deprecated
-- ``getAlign`` and ``setAlign`` methods of ``NumberingLevel``, ``Frame``, ``Table``, and ``Paragraph`` styles.
-Use the correspondent ``getAlignment`` and ``setAlignment`` methods instead.
+- `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.
+Use the correspondent `getAlignment` and `setAlignment` methods instead.
 
+### Removed
+- `PhpOffice\PhpWord\Style\Alignment`. Style properties, which previously stored instances of this class, now deal with strings.
+In each case set of available string values is defined by the correspondent simple type.
 
 
 0.12.1 (30 August 2015)
 -----------------------
-Maintenance release. This release is focused primarily on ``TemplateProcessor``.
+Maintenance release. This release is focused primarily on `TemplateProcessor`.
 
 ### Changes
-- Changed visibility of all private properties and methods of ``TemplateProcessor`` to ``protected``. - @RomanSyroeshko #498
-- Improved performance of ``TemplateProcessor::setValue()``. - @RomanSyroeshko @nicoSWD #513
+- Changed visibility of all private properties and methods of `TemplateProcessor` to `protected`. - @RomanSyroeshko #498
+- Improved performance of `TemplateProcessor::setValue()`. - @RomanSyroeshko @nicoSWD #513
 
 ### Bugfixes
-- Fixed issue with "Access denied" message while opening ``Sample_07_TemplateCloneRow.docx`` and ``Sample_23_TemplateBlock.docx`` result files on Windows platform. - @RomanSyroeshko @AshSat #532
-- Fixed ``PreserveText`` element alignment in footer (see ``Sample_12_HeaderFooter.php``). - @RomanSyroeshko @SSchwaiger #495
+- Fixed issue with "Access denied" message while opening `Sample_07_TemplateCloneRow.docx` and `Sample_23_TemplateBlock.docx` result files on Windows platform. - @RomanSyroeshko @AshSat #532
+- Fixed `PreserveText` element alignment in footer (see `Sample_12_HeaderFooter.php`). - @RomanSyroeshko @SSchwaiger #495
 
 
 
