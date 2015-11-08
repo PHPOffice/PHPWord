@@ -12,6 +12,7 @@ Place announcement text here.
 - Introduced the `\PhpOffice\PhpWord\SimpleType\JcTable` simple type. - @RomanSyroeshko
 - Introduced writer for the "Paragraph Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment`). - @RomanSyroeshko
 - Introduced writer for the "Table Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment`). - @RomanSyroeshko
+- Added PhpOffice\Common as requirement - @Progi1984
 
 ### Changed
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371

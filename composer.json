@@ -33,7 +33,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "phpoffice/common": "0.2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
