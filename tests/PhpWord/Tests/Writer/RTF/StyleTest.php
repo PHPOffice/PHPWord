@@ -16,7 +16,7 @@
  */
 namespace PhpOffice\PhpWord\Tests\Writer\RTF;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace

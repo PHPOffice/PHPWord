@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Section;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
 
@@ -81,7 +81,7 @@ class Document extends AbstractPart
     /**
      * Write begin section.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
      * @return void
      */
@@ -97,7 +97,7 @@ class Document extends AbstractPart
     /**
      * Write end section.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
      * @return void
      */

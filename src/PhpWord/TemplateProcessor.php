@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class TemplateProcessor
@@ -403,7 +403,7 @@ class TemplateProcessor
             $search = '${' . $search . '}';
         }
 
-        if (!String::isUTF8($replace)) {
+        if (!Text::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
 

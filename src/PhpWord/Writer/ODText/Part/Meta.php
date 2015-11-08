@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * ODText meta part writer: meta.xml
@@ -86,7 +86,7 @@ class Meta extends AbstractPart
     /**
      * Write individual property
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
      * @return void
