@@ -128,6 +128,7 @@ class Html
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -373,5 +374,18 @@ class Html
         }
 
         return $styles;
+    }
+
+    /**
+     * Parse line break
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return null
+     */
+    private static function parseLineBreak($element)
+    {
+        $element->addTextBreak();
+
+        return null;
     }
 }
