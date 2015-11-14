@@ -18,7 +18,7 @@ Optional:
 - `GD <http://php.net/manual/en/book.image.php>`__ extension
 - `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__ extension
 - `XSL <http://php.net/manual/en/book.xsl.php>`__ extension
-- `dompdf <https://github.com/dompdf/dompdf>`__
+- `dompdf <https://github.com/dompdf/dompdf>`__ library
 
 Installation
 ------------

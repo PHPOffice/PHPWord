@@ -59,7 +59,7 @@ PHPWord requires the following:
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
 - [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write DOCX and ODT)
 - [XSL extension](http://php.net/manual/en/book.xsl.php) (optional, used to apply XSL style sheet to template )
-- [dompdf](https://github.com/dompdf/dompdf) (optional, used to write PDF)
+- [dompdf library](https://github.com/dompdf/dompdf) (optional, used to write PDF)
 
 ## Installation
 
