@@ -48,7 +48,8 @@ final class JcTable
      *
      * @return \Zend\Validator\InArray
      */
-    final public static function getValidator() {
+    final public static function getValidator()
+    {
         // todo: consider caching validator instances.
         return new InArray(
             array (
