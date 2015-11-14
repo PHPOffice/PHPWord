@@ -41,7 +41,6 @@
         "phpdocumentor/phpdocumentor":"2.*",
         "squizlabs/php_codesniffer": "1.*",
         "phpmd/phpmd": "2.*",
-        "sebastian/phpcpd": "2.*",
         "phploc/phploc": "2.*",
         "dompdf/dompdf":"0.6.*",
         "tecnick.com/tcpdf": "6.*",
