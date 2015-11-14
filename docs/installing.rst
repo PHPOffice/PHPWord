@@ -10,7 +10,7 @@ Mandatory:
 
 - PHP 5.3+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
-- `Zend\Validator <http://framework.zend.com/manual/current/en/modules/zend.validator.html>`__ component
+- `Zend\\Validator <http://framework.zend.com/manual/current/en/modules/zend.validator.html>`__ component
 
 Optional:
 
