@@ -9,14 +9,16 @@ Requirements
 Mandatory:
 
 - PHP 5.3+
-- PHP `Zip <http://php.net/manual/en/book.zip.php>`__ extension
-- PHP `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
+- `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
+- `Zend\Validator <http://framework.zend.com/manual/current/en/modules/zend.validator.html>`__ component
 
-Optional PHP extensions:
+Optional:
 
-- `GD <http://php.net/manual/en/book.image.php>`__
-- `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__
-- `XSL <http://php.net/manual/en/book.xsl.php>`__
+- `Zip <http://php.net/manual/en/book.zip.php>`__ extension
+- `GD <http://php.net/manual/en/book.image.php>`__ extension
+- `XMLWriter <http://php.net/manual/en/book.xmlwriter.php>`__ extension
+- `XSL <http://php.net/manual/en/book.xsl.php>`__ extension
+- `dompdf <https://github.com/dompdf/dompdf>`__
 
 Installation
 ------------
