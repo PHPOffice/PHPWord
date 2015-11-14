@@ -25,6 +25,7 @@ PHPWord is installed via `Composer <https://getcomposer.org/>`__.
 You just need to `add dependency <https://getcomposer.org/doc/04-schema.md#package-links>`__ on PHPWord into your package.
 
 Example:
+
 .. code-block:: json
 
     {
@@ -37,6 +38,7 @@ If you are a developer or if you want to help us with testing then fetch the lat
 Notice: all contributions must be done against the developer branch.
 
 Example:
+
 .. code-block:: json
 
     {
