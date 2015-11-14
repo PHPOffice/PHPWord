@@ -22,14 +22,12 @@ Installation
 ------------
 
 There are two ways to install PHPWord, i.e. via
-`Composer <http://getcomposer.org/>`__ or manually by downloading the
-library.
+`Composer <http://getcomposer.org/>`__ or manually by downloading the library.
 
 Using Composer
 ~~~~~~~~~~~~~~
 
-To install via Composer, add the following lines to your
-``composer.json``:
+To install via Composer, add the following lines to your ``composer.json``:
 
 .. code-block:: json
 
@@ -51,8 +49,8 @@ Notice: all contributions must be done against the developer branch.
     }
 
 
-Manual install
-~~~~~~~~~~~~~~
+Manual installation
+~~~~~~~~~~~~~~~~~~~
 
 To install manually, you change to the web-server directory of your file system. Then you have 2 possibilities.
 
@@ -63,12 +61,11 @@ To install manually, you change to the web-server directory of your file system.
 
     git clone https://github.com/PHPOffice/PHPWord.git  
 
-To use the library, include ``src/PhpWord/Autoloader.php`` in your PHP script and
-invoke ``Autoloader::register``.
+To use the library, include ``bootstrap.php`` in your PHP script and invoke ``Autoloader::register``.
 
 .. code-block:: php
 
-    require_once '/path/to/src/PhpWord/Autoloader.php';
+    require_once "${path_to_the_cloned_repo}/bootstrap.php";
     \PhpOffice\PhpWord\Autoloader::register();
 
 

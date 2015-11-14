@@ -17,9 +17,6 @@
 
 namespace PhpOffice\PhpWord;
 
-/**
- * Autoloader
- */
 class Autoloader
 {
     /** @const string */

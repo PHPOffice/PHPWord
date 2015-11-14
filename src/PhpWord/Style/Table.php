@@ -509,8 +509,25 @@ class Table extends Border
      */
     public function setAlignment($value)
     {
-        if (in_array($value, JcTable::getAllowedValues(), true)) {
-            $this->alignment = $value;
+        if (JcTable::getValidator()->isValid($value)) {
+            $alignment = '';
+
+            switch ($value) {
+                case JcTable::LEFT:
+                    $alignment = JcTable::START;
+                    break;
+                case JcTable::RIGHT:
+                    $alignment = JcTable::END;
+                    break;
+                case JcTable::JUSTIFY:
+                    $alignment = JcTable::CENTER;
+                    break;
+                default:
+                    $alignment = $value;
+                    break;
+            }
+
+            $this->alignment = $alignment;
         }
 
         return $this;

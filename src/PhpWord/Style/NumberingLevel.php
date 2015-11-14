@@ -298,8 +298,25 @@ class NumberingLevel extends AbstractStyle
      */
     public function setAlignment($value)
     {
-        if (in_array($value, Jc::getAllowedValues(), true)) {
-            $this->alignment = $value;
+        if (Jc::getValidator()->isValid($value)) {
+            $alignment = '';
+
+            switch ($value) {
+                case Jc::LEFT:
+                    $alignment = Jc::START;
+                    break;
+                case Jc::RIGHT:
+                    $alignment = Jc::END;
+                    break;
+                case Jc::JUSTIFY:
+                    $alignment = Jc::BOTH;
+                    break;
+                default:
+                    $alignment = $value;
+                    break;
+            }
+
+            $this->alignment = $alignment;
         }
 
         return $this;

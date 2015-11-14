@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
+use Zend\Validator\InArray;
+
 /**
  * Table Alignment Type.
  *
@@ -29,12 +31,30 @@ final class JcTable
     const END = 'end';
 
     /**
+     * @deprecated 0.13.0 Use `START` instead.
+     */
+    const LEFT = 'left';
+    /**
+     * @deprecated 0.13.0 Use `END` instead.
+     */
+    const RIGHT = 'right';
+    /**
+     * @deprecated 0.13.0 Use `CENTER` instead.
+     */
+    const JUSTIFY = 'justify';
+
+    /**
      * @since 0.13.0
      *
-     * @return string[]
+     * @return \Zend\Validator\InArray
      */
-    final public static function getAllowedValues()
-    {
-        return array(self::START, self::CENTER, self::END);
+    final public static function getValidator() {
+        // todo: consider caching validator instances.
+        return new InArray(
+            array (
+                'haystack' => array(self::START, self::CENTER, self::END, self::LEFT, self::RIGHT, self::JUSTIFY),
+                'strict'   => InArray::COMPARE_STRICT,
+            )
+        );
     }
 }

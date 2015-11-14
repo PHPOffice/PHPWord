@@ -1,7 +1,4 @@
 <?php
-/**
- * Footer file
- */
 if (CLI) {
     return;
 }

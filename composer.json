@@ -33,7 +33,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "zendframework/zend-validator": "2.5.*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
@@ -44,14 +45,15 @@
         "phploc/phploc": "2.*",
         "dompdf/dompdf":"0.6.*",
         "tecnick.com/tcpdf": "6.*",
-        "mpdf/mpdf": "5.*"
+        "mpdf/mpdf": "5.*",
+        "zendframework/zend-validator": "2.5.*"
     },
     "suggest": {
-        "ext-zip": "Used to write DOCX and ODT",
-        "ext-gd2": "Used to add images",
-        "ext-xmlwriter": "Used to write DOCX and ODT",
-        "ext-xsl": "Used to apply XSL style sheet to main document part of OOXML template",
-        "dompdf/dompdf": "Used to write PDF"
+        "ext-zip": "Allows writing DOCX and ODT",
+        "ext-gd2": "Allows adding images",
+        "ext-xmlwriter": "Allows writing DOCX and ODT",
+        "ext-xsl": "Allows applying XSL style sheet to main document part of OOXML template",
+        "dompdf/dompdf": "Allows writing PDF"
     },
     "autoload": {
         "psr-4": {
