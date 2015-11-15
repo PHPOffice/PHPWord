@@ -18,7 +18,6 @@ namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Writer\RTF;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF

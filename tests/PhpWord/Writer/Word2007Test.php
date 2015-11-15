@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Writer;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007

@@ -7,12 +7,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Element;
+namespace PhpOffice\PhpWord\Collection;
 
-use PhpOffice\PhpWord\Collection\Footnotes;
+use PhpOffice\PhpWord\Element\Footnote;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Collection subnamespace
+ * Test class for PhpOffice\PhpWord\Collection subnamespace
  *
  * Using concrete class Footnotes instead of AbstractCollection
  */

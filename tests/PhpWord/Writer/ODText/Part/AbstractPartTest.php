@@ -17,7 +17,6 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\Writer\ODText;
-use PhpWord\Tests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart

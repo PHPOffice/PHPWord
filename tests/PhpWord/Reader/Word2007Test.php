@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Reader\Word2007;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007

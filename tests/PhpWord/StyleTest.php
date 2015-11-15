@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\Style

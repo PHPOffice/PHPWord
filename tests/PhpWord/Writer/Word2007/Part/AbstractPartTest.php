@@ -17,8 +17,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Writer\Word2007;
-use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractWriterPart;
-use PhpWord\Tests\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\AbstractWriterPart
