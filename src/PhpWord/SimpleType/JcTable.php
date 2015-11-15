@@ -23,6 +23,8 @@ use Zend\Validator\InArray;
  * Table Alignment Type.
  *
  * @since 0.13.0
+ *
+ * @codeCoverageIgnore
  */
 final class JcTable
 {

@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  * Reader abstract class
  *
  * @since 0.8.0
+ *
  * @codeCoverageIgnore Abstract class
  */
 abstract class AbstractReader implements ReaderInterface
