@@ -26,10 +26,10 @@ if (!defined('PHPWORD_TESTS_BASE_DIR')) {
 
 spl_autoload_register(function ($class) {
     $class = ltrim($class, '\\');
-    $prefix = 'PhpOffice\\PhpWord\\Tests';
+    $prefix = 'PhpOffice\\PhpWord';
     if (strpos($class, $prefix) === 0) {
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
-        $class = join(DIRECTORY_SEPARATOR, array('PhpWord', 'Tests', '_includes')) .
+        $class = join(DIRECTORY_SEPARATOR, array('PhpWord', '_includes')) .
             substr($class, strlen($prefix));
         $file = __DIR__ . DIRECTORY_SEPARATOR . $class . '.php';
         if (file_exists($file)) {
@@ -38,5 +38,4 @@ spl_autoload_register(function ($class) {
     }
 });
 
-require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
