@@ -79,7 +79,7 @@ class Link extends AbstractElement
     public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
         $this->source = PHPWordString::toUTF8($source);
-        $this->text = is_null($text) ? $this->source : String::toUTF8($text);
+        $this->text = is_null($text) ? $this->source : PHPWordString::toUTF8($text);
         $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
         $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
         $this->internal = $internal;
