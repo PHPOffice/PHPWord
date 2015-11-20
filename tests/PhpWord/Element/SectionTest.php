@@ -167,11 +167,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Add footer has same first page
      */
-    public function testaddFooter(){
-       $object = new Section(1);
-       $footer = $object->addFooter();
-       $footer->addText('footer');
-       $this->assertFalse($object->hasDifferentFirstPage());
+    public function testaddFooter()
+    {
+        $object = new Section(1);
+        $footer = $object->addFooter();
+        $footer->addText('footer');
+        $this->assertFalse($object->hasDifferentFirstPage());
     }
 
     /**
