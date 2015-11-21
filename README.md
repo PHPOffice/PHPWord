@@ -83,7 +83,6 @@ The following is a basic usage example of the PHPWord library.
 ```php
 <?php
 require_once 'bootstrap.php';
-\PhpOffice\PhpWord\Autoloader::register();
 
 // Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();

@@ -26,7 +26,11 @@ Use the correspondent `getAlignment` and `setAlignment` methods instead. - @Roma
 ### Removed
 - `PhpOffice\PhpWord\Style\Alignment`. Style properties, which previously stored instances of this class, now deal with strings.
 In each case set of available string values is defined by the correspondent simple type. - @RomanSyroeshko
-- Manual installation option. To install PHPWord use Composer since now. - @RomanSyroeshko
+- Manual installation support. Since the release we have dependencies on third party libraries,
+so installation via ZIP-archive download is not an option anymore. To install PHPWord use [Composer](https://getcomposer.org/).
+ We also removed `PhpOffice\PhpWord\Autoloader`, because the latter change made it completely useless.
+ Autoloaders provided by Composer are in use now (see `bootstrap.php`). - @RomanSyroeshko
+
 
 
 0.12.1 (30 August 2015)

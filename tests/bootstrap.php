@@ -37,5 +37,3 @@ spl_autoload_register(function ($class) {
         }
     }
 });
-
-\PhpOffice\PhpWord\Autoloader::register();

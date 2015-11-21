@@ -14,7 +14,6 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
     <?php
     require_once 'bootstrap.php';
-    \PhpOffice\PhpWord\Autoloader::register();
 
     // Creating the new document...
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
