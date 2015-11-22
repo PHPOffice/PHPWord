@@ -18,7 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\CommonString;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
@@ -167,7 +167,7 @@ class Paragraph extends Border
      */
     public function setStyleValue($key, $value)
     {
-        $key = String::removeUnderscorePrefix($key);
+        $key = CommonString::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
             $value = $value * 720;
         } elseif ('spacing' == $key) {

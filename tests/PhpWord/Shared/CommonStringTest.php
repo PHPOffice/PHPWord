@@ -18,21 +18,21 @@
 namespace PhpOffice\PhpWord\Shared;
 
 /**
- * Test class for PhpOffice\PhpWord\Shared\String
+ * Test class for PhpOffice\PhpWord\Shared\CommonString
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Shared\String
+ * @coversDefaultClass \PhpOffice\PhpWord\Shared\CommonString
  * @runTestsInSeparateProcesses
  */
-class StringTest extends \PHPUnit_Framework_TestCase
+class CommonStringTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Is UTF8
      */
     public function testIsUTF8()
     {
-        $this->assertTrue(String::isUTF8(''));
-        $this->assertTrue(String::isUTF8('éééé'));
-        $this->assertFalse(String::isUTF8(utf8_decode('éééé')));
+        $this->assertTrue(CommonString::isUTF8(''));
+        $this->assertTrue(CommonString::isUTF8('éééé'));
+        $this->assertFalse(CommonString::isUTF8(utf8_decode('éééé')));
     }
 
     /**
@@ -40,8 +40,8 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testControlCharacterOOXML2PHP()
     {
-        $this->assertEquals('', String::controlCharacterOOXML2PHP(''));
-        $this->assertEquals(chr(0x08), String::controlCharacterOOXML2PHP('_x0008_'));
+        $this->assertEquals('', CommonString::controlCharacterOOXML2PHP(''));
+        $this->assertEquals(chr(0x08), CommonString::controlCharacterOOXML2PHP('_x0008_'));
     }
 
     /**
@@ -49,8 +49,8 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testControlCharacterPHP2OOXML()
     {
-        $this->assertEquals('', String::controlCharacterPHP2OOXML(''));
-        $this->assertEquals('_x0008_', String::controlCharacterPHP2OOXML(chr(0x08)));
+        $this->assertEquals('', CommonString::controlCharacterPHP2OOXML(''));
+        $this->assertEquals('_x0008_', CommonString::controlCharacterPHP2OOXML(chr(0x08)));
     }
 
     /**
@@ -58,9 +58,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testToUnicode()
     {
-        $this->assertEquals('a', String::toUnicode('a'));
-        $this->assertEquals('\uc0{\u8364}', String::toUnicode('€'));
-        $this->assertEquals('\uc0{\u233}', String::toUnicode('é'));
+        $this->assertEquals('a', CommonString::toUnicode('a'));
+        $this->assertEquals('\uc0{\u8364}', CommonString::toUnicode('€'));
+        $this->assertEquals('\uc0{\u233}', CommonString::toUnicode('é'));
     }
 
     /**
@@ -68,6 +68,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveUnderscorePrefix()
     {
-        $this->assertEquals('item', String::removeUnderscorePrefix('_item'));
+        $this->assertEquals('item', CommonString::removeUnderscorePrefix('_item'));
     }
 }
