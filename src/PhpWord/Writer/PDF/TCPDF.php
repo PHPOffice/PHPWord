@@ -32,7 +32,7 @@ class TCPDF extends AbstractRenderer implements WriterInterface
      *
      * @var string
      */
-    protected $includeFile = 'tcpdf.php';
+    protected $includeFile = 'tcpdf_include.php';
 
     /**
      * Save PhpWord to file.

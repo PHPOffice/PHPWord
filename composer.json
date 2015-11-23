@@ -43,7 +43,7 @@
         "phpmd/phpmd": "2.*",
         "phploc/phploc": "2.*",
         "dompdf/dompdf":"0.6.*",
-        "tecnick.com/tcpdf": "6.*",
+        "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.*",
         "zendframework/zend-validator": "2.5.*"
     },
