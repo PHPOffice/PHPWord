@@ -58,7 +58,7 @@ class Html
         // Load DOM
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
-        $dom->loadXML($html);
+        $dom->loadHTML($html);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
