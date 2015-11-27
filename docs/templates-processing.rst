@@ -15,10 +15,26 @@ Example:
     $templateProcessor->setValue('Name', 'Somebody someone');
     $templateProcessor->setValue('Street', 'Coming-Undone-Street 32');
 
+You can also use ``TemplateProcessor::setValuesFromArray`` method to perform replacements from an array of "variable => value"-pairs.
+
+Example:
+
+.. code-block:: php
+
+    $replacements = [
+        'Name' => 'Somebody someone',
+        'Street' => 'Coming-Undone-Street 32'
+    ];
+    $templateProcessor = new TemplateProcessor('Template.docx');
+    $templateProcessor->setValuesFromArray($replacements);
+
 It is not possible to directly add new OOXML elements to the template file being processed, but it is possible to transform main document part of the template using XSLT (see ``TemplateProcessor::applyXslStyleSheet``).
 
 See ``Sample_07_TemplateCloneRow.php`` for example on how to create
 multirow from a single row in a template by using ``TemplateProcessor::cloneRow``.
+
+See ``Sample_37_TemplateCloneRowFromArray.php`` for example on how to create
+multirow from a single row with a two-dimensional array as data-source in a template by using ``TemplateProcessor::cloneRowFromArray``.
 
 See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
 of text using ``TemplateProcessor::cloneBlock`` and delete a block of text using

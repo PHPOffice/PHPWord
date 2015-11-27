@@ -156,6 +156,20 @@ class TemplateProcessor
     }
 
     /**
+     * Set values from a one-dimensional array of "variable => value"-pairs.
+     *
+     * @param array $values
+     *
+     * @return void
+     */
+    public function setValuesFromArray($values)
+    {
+        foreach ($values as $macro => $replace) {
+            $this->setValue($macro, $replace);
+        }
+    }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]
@@ -232,6 +246,26 @@ class TemplateProcessor
         $result .= $this->getSlice($rowEnd);
 
         $this->tempDocumentMainPart = $result;
+    }
+
+    /**
+     * Clone a table row and populates it's values from a two-dimensional array in a template document.
+     *
+     * @param string $search
+     * @param array $rows
+     *
+     * @return void
+     */
+    public function cloneRowFromArray($search, $rows)
+    {
+        $this->cloneRow($search, count($rows));
+
+        foreach ($rows as $rowKey => $rowData) {
+            $rowNumber = $rowKey+1;
+            foreach ($rowData as  $macro => $replace) {
+                $this->setValue($macro.'#'.$rowNumber,$replace);
+            }
+        }
     }
 
     /**
