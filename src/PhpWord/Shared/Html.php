@@ -125,6 +125,7 @@ class Html
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
             'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
             'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
+            'th'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
@@ -175,7 +176,7 @@ class Html
     {
         if ('li' != $node->nodeName) {
             $cNodes = $node->childNodes;
-            if (count($cNodes) > 0) {
+            if ($cNodes->length > 0) {
                 foreach ($cNodes as $cNode) {
                     if ($element instanceof AbstractContainer) {
                         self::parseNode($cNode, $element, $styles, $data);
