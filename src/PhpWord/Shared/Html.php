@@ -26,6 +26,36 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
  */
 class Html
 {
+	/**
+	 * an array of arrays containing the loaded rules from the entire dom; 
+	 * expanded by ',' in the selector and by ';' in the body of selector
+	 * 
+	 *	array(
+	 *		...
+	 *		[xx] => Array
+	 *		(
+	 *		   [selector] => th > div
+	 *		   [style] => Array
+	 *			   (
+	 *				   [0] => margin:5pt
+	 *				   [1] => text-align: center
+	 *			   )
+	 *
+	 *		),
+	 *		...
+	 *	)
+	 *	 
+	 * @see \Xprt64\Css\Parser::loadRulesFromDom()
+	 * @var array
+	 */
+	protected	static $cssRules	=	array();
+	
+	/**
+	 *
+	 * @var \Xprt64\Css\Parser
+	 */
+	protected	static	$cssParser;
+	
    /**
      * Add HTML parts.
      *
@@ -59,7 +89,14 @@ class Html
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
         $dom->loadHTML($html);
-        $node = $dom->getElementsByTagName('body');
+		
+		self::$cssParser	=	new	\Xprt64\Css\Parser($dom);
+		
+		self::$cssParser->loadRulesFromDom();
+		
+		self::$cssRules	=	self::$cssParser->getRules();
+		
+		$node = $dom->getElementsByTagName('body');
 		
 		$body	=	$node->item(0);
 		
@@ -67,7 +104,8 @@ class Html
 			
 		self::parseNode($body, $element);
     }
-    /**
+	
+	/**
      * parse Inline style of a node
      *
      * @param \DOMNode $node Node to check on attributes and to compile a style array
@@ -552,6 +590,8 @@ class Html
      */
     private static function parseListItem($node, $element, $styles, $data, $argument1, $argument2, $parentNode)
     {
+		$styles = self::parseInlineStyle($node, $styles, $parentNode);
+		
         $cNodes = $node->childNodes;
         if ($cNodes->length > 0) {
             $text = '';
@@ -561,7 +601,7 @@ class Html
                 }
             }
 			
-            $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
+            $element->addListItem($text, $data['listdepth'], $styles, $styles, $styles);
         }
 
         return null;
@@ -592,7 +632,16 @@ class Html
 				}
 			}
 		}
-
+		
+		$css_file_rules	=	self::$cssParser->getStylesFromCssRules($node);
+		
+		if($css_file_rules)
+		{
+			foreach($css_file_rules as $k => $v)
+			{
+				$properties[$k]	=	$v;
+			}
+		}
 		$own	=	explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
 		
         foreach( $own as $property)
@@ -617,6 +666,11 @@ class Html
 			{
 				case 'background-color':
 					$styles["bgColor"]	=	self::cssColorToWordColor($v);
+					break;
+
+				case 'page-break-inside':
+				case 'break-inside':
+					$styles["cantSplit"]	=	(0 === stripos($v, 'avoid'));
 					break;
 
 				case 'border':
@@ -676,7 +730,11 @@ class Html
 				case 'height':
 					$styles["exactHeight"]	=	self::cssToTwips($v);
 					break;
-
+				
+				case 'list-style-type':
+					$styles["format"]	=	lcfirst(implode('', array_map('ucfirst', explode('-', $v)) ));
+					break;
+				
 				case 'line-height':
 					$styles["lineHeight"]	=	$v;//(float)$v * 100;
 					break;
@@ -695,7 +753,7 @@ class Html
 						$pos	=	ucfirst($pos);
 						$styles["cellMargin{$pos}"]		=	self::cssToTwips($v);
 					}
-					else//if('p' == $tagname || 'div' == $tagname)
+					else if('p' == $tagname || 'div' == $tagname)
 					{
 						if('margin-left'	==	$k)
 							$styles["indent"]			=	self::cssToTwips($v)/720;
@@ -703,6 +761,28 @@ class Html
 							$styles["spaceBefore"]		=	self::cssToTwips($v);
 						if('margin-bottom'	==	$k)
 							$styles["spaceAfter"]		=	self::cssToTwips($v);
+					}
+					else if('li' == $tagname)
+					{
+						if('margin-left'	==	$k)
+							$styles["marginLeft"]		=	self::cssToTwips($v);
+						if('margin-top'	==	$k)
+							$styles["spaceBefore"]		=	self::cssToTwips($v);
+						if('margin-bottom'	==	$k)
+							$styles["spaceAfter"]		=	self::cssToTwips($v);
+						if('margin-right'	==	$k)
+							$styles["marginRight"]		=	self::cssToTwips($v);
+					}
+					else
+					{
+						if('margin-left'	==	$k)
+							$styles["marginLeft"]		=	self::cssToTwips($v);
+						if('margin-top'	==	$k)
+							$styles["marginTop"]		=	self::cssToTwips($v);
+						if('margin-bottom'	==	$k)
+							$styles["marginBottom"]		=	self::cssToTwips($v);
+						if('margin-right'	==	$k)
+							$styles["marginRight"]		=	self::cssToTwips($v);
 					}
 					break;
 
@@ -740,6 +820,13 @@ class Html
 						$styles["spaceBefore"]		=	self::cssToTwips($top);
 						$styles["spaceAfter"]		=	self::cssToTwips($bottom);
 						$styles["indent"]			=	self::cssToTwips($left)/720;
+					}
+					elseif('li' == $tagname)
+					{
+						$styles["spaceBefore"]		=	self::cssToTwips($top);
+						$styles["spaceAfter"]		=	self::cssToTwips($bottom);
+						$styles["left"]		=	self::cssToTwips($left);
+						$styles["marginRight"]		=	self::cssToTwips($right);
 					}
 					else
 					{
@@ -784,7 +871,10 @@ class Html
 					break;
 
 				case 'text-indent':
-					$styles["indent"]		=	self::cssToTwips($v)/720;
+					if('li' == $tagname)
+						$styles["left"]		=	self::cssToTwips($v);
+					else
+						$styles["indent"]	=	self::cssToTwips($v)/720;
 					break;
 
 				case 'top':
@@ -824,6 +914,12 @@ class Html
 					break;
 			}
         }
+		
+		if($tagname == 'li')
+		{
+			pecho("stiluri pentru $tagname");
+			pecho($styles);
+		}
 
         return $styles;
     }
