@@ -469,17 +469,33 @@ class Html
 	 * @param \DOMNode $parentNode
      * @return null
      */
-    private static function parseImage($node, $element, $styles, $data, $argument1, $argument2, $parentNode)
+       private static function parseImage($node, $element, $styles, $data, $argument1, $argument2, $parentNode)
     {
 	    $styles = self::parseInlineStyle($node, $styles, $parentNode);
-   
-		if(!$styles['wrap'])
-			$styles['wrap']	=	'behind';
+ 		
+		$img_src	=	$node->getAttribute('src');
+		
+		if(!preg_match('#^https?://#ims', $img_src))
+		{
+			$base_nodes	=	$node->ownerDocument->getElementsByTagName('base');
+			$base_href	=	'';
+			if($base_nodes->length)
+			{
+				$base_node	=	$base_nodes->item($base_nodes->length - 1);
 
-		$element->addImage(\My_Url::abs($node->getAttribute('src')), $styles);
+				$base_href	=	$base_node->getAttribute('href');
+
+				if($base_href)
+					$img_src	=	$base_href . '/' . ltrim( $img_src, '/');
+
+			}
+		}
+		
+		$element->addImage($img_src, $styles);
 
 		return null;
     }
+
 
     /**
      * Parse property node
