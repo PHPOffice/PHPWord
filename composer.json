@@ -34,14 +34,14 @@
  	"repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/xprt64/php-css"
+            "url": "https://github.com/xprt64/php-css.git"
 	    }
      ],
    "require": {
         "php": ">=5.3.3",
         "ext-xml": "*",
         "zendframework/zend-validator": "2.5.*",
-		"xprt64/php-css": "dev-master"
+        "xprt64/php-css": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
