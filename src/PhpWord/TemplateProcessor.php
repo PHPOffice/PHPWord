@@ -144,6 +144,14 @@ class TemplateProcessor
      */
     public function setValue($macro, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
+        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
+            $macro = '${' . $macro . '}';
+        }
+
+        if (!String::isUTF8($replace)) {
+            $replace = utf8_encode($replace);
+        }
+
         foreach ($this->tempDocumentHeaders as $index => $headerXML) {
             $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $macro, $replace, $limit);
         }
@@ -399,14 +407,6 @@ class TemplateProcessor
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
-        }
-
-        if (!String::isUTF8($replace)) {
-            $replace = utf8_encode($replace);
-        }
-
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
