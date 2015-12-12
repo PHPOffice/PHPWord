@@ -16,6 +16,7 @@ Place announcement text here.
 ### Changed
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
+- Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.
