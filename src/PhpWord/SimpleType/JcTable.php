@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
-use Zend\Validator\InArray;
-
 /**
  * Table Alignment Type.
  *
@@ -48,16 +46,10 @@ final class JcTable
     /**
      * @since 0.13.0
      *
-     * @return \Zend\Validator\InArray
+     * @return bool
      */
-    final public static function getValidator()
+    final public static function isValid($value)
     {
-        // todo: consider caching validator instances.
-        return new InArray(
-            array (
-                'haystack' => array(self::START, self::CENTER, self::END, self::LEFT, self::RIGHT, self::JUSTIFY),
-                'strict'   => InArray::COMPARE_STRICT,
-            )
-        );
+        return \in_array($value, array(self::START, self::CENTER, self::END, self::LEFT, self::RIGHT, self::JUSTIFY), true);
     }
 }

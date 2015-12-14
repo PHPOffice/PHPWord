@@ -54,7 +54,6 @@ PHPWord requires the following:
 
 - PHP 5.3+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
-- [Zend\Validator component](http://framework.zend.com/manual/current/en/modules/zend.validator.html)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write DOCX and ODT)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
 - [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write DOCX and ODT)
