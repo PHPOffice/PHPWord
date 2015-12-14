@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
-use Zend\Validator\InArray;
-
 /**
  * Table Alignment Type.
  *
