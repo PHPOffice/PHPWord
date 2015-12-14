@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
-use Zend\Validator\InArray;
-
 /**
  * Horizontal Alignment Type.
  *
@@ -55,30 +53,24 @@ final class Jc
     /**
      * @since 0.13.0
      *
-     * @return \Zend\Validator\InArray
+     * @return bool
      */
-    final public static function getValidator()
+    final public static function isValid($value)
     {
-        // todo: consider caching validator instances.
-        return new InArray(
-            array (
-                'haystack' => array(
-                    self::START,
-                    self::CENTER,
-                    self::END,
-                    self::BOTH,
-                    self::MEDIUM_KASHIDA,
-                    self::DISTRIBUTE,
-                    self::NUM_TAB,
-                    self::HIGH_KASHIDA,
-                    self::LOW_KASHIDA,
-                    self::THAI_DISTRIBUTE,
-                    self::LEFT,
-                    self::RIGHT,
-                    self::JUSTIFY,
-                ),
-                'strict'   => InArray::COMPARE_STRICT,
-            )
-        );
+        return \in_array($value, array(
+            self::START,
+            self::CENTER,
+            self::END,
+            self::BOTH,
+            self::MEDIUM_KASHIDA,
+            self::DISTRIBUTE,
+            self::NUM_TAB,
+            self::HIGH_KASHIDA,
+            self::LOW_KASHIDA,
+            self::THAI_DISTRIBUTE,
+            self::LEFT,
+            self::RIGHT,
+            self::JUSTIFY,
+        ), true);
     }
 }
