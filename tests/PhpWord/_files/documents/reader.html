@@ -1,15 +1,80 @@
+<!DOCTYPE html>
+<!--
+@copyright Constantin GALBENU <xprt64@gmail.com>
+-->
 <html>
 <head>
-<meta charset="UTF-8" />
-<title>PHPWord</title>
+	<title>HTML test</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		body
+		{
+			width: 1000px;
+			font-size: 12px;
+		}
+		p
+		{
+			margin: 0;
+		}
+	</style>
 </head>
-<body>
-<h1>Adding element via HTML</h1>
-<p>Some well formed HTML snippet needs to be used</p>
-<p>With for example <strong>some<sup>1</sup> <em>inline</em> formatting</strong><sub>1</sub></p>
-<p>Unordered (bulleted) list:</p>
-<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</li></ul></ul>
-<p>Ordered (numbered) list:</p>
-<ol><li>Item 1</li><li>Item 2</li></ol>
+<body style="margin:40px; font-size:9pt;line-height: 1.2;"  data-word="footerHeight:200;">
+	<header><img style="float:right;" width="349" height="80" src="http://www.christophs-blog.de/wp-content/uploads/2013/02/phpword.png" /></header>
+
+	<p style="text-align: center;padding-bottom:5px; clear:both;"><b>Title</b></p>
+	<p style="text-align: center;padding-bottom:5px;"><b>with bold text</b></p>
+
+	<p><b>Some bold text</b></p>
+
+	<p style="line-height: 1.5;text-align: justify;"><b>Line height: 1.5</b>, and justified text</p>
+		<p style="line-height: 1.2; text-align: justify;"><b>Line height: 1.2</b>, and <i>italic text</i>.</p>
+
+	
+	<table style="width:100%;border: 1px solid #333333; margin-left:0px;" cellspacing="0" cellpadding="0" border="" align="center">
+		<tr>
+			<th width="7%" style="border: 1px solid #333333;vertical-align: middle;"><p style="text-align: center;"><b>Nr.</b></p></th>
+			<th width="23%" style="border: 1px solid #333333;vertical-align: middle;"><p style="text-align: center;"><b>aaaa</b></p></th>
+			<th width="33%" style="border: 1px solid #333333;vertical-align: middle;"><p style="text-align: center;"><b>bbbb</b></p></th>
+			<th width="20%" style="border: 1px solid #333333;vertical-align: middle;"><p style="text-align: center;"><b>cccc</b></p></th>
+			<th width="10%" style="border: 1px solid #333333;font-size:7pt;vertical-align: middle;"><p style="text-align: center;">dddd</p></th>
+			<th width="7%" style="border: 1px solid #333333;vertical-align: middle;"><p style="text-align: center;"><b>eeee</b></p></th>
+		</tr>
+		<tr>
+			<td width="7%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;">*</div></td>
+			<td width="23%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;">ffff</div></td>
+			<td width="70%" colspan="4" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"><i>col span 4</i></div></td>
+		</tr>
+		<tr>
+			<td width="7%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;">1</div></td>
+			<td width="23%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"></div></td>
+			<td width="33%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"></div></td>
+			<td width="20%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"></div></td>
+			<td width="10%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"></div></td>
+			<td width="7%" style="border: 1px solid #333333;vertical-align: middle;"><div style="text-align: center;"></div></td>
+		</tr>
+	</table>
+	<p></p>		
+	<p><b>bold</b> next, some indented text  </p>
+	<p style="text-indent: 20px;">- xxxx</p>
+	<p style="text-indent: 20px;">- yyyy &amp; zzzz .</p>
+	<p></p>
+
+	<table style="width: 100%;">
+		<tr>
+			<td width="50%"><p style="text-align: center;margin-bottom: 10px;"><b>absolute positioned image</b><img style="wrap:behind;position:absolute;top:-20;left:80;" src="http://www.christophs-blog.de/wp-content/uploads/2013/02/phpword.png" alt="" width="349" height="80" /></p></td>
+			<td width="50%"><p style="text-align: center;margin-bottom: 10px;"><b>bbbbb</b></p></td>
+		</tr>
+		<tr>
+			<td width="50%"><p style="text-align: center;line-height: 1.5;margin-bottom: 10px;">sssss</p></td>
+			<td width="50%"><p style="text-align: center;line-height: 1.5;margin-bottom: 10px;">_______________________________</p></td>
+		</tr>
+		<tr>
+			<td width="50%"><p style="text-align: center;line-height: 1.5;">fghdfghdfgh</p></td>
+			<td width="50%"><p style="text-align: center;line-height: 1.5;">dfghdfghdfgh</p></td>
+		</tr>
+	</table>
+	
+	<footer><pre style="text-align: right;">{PAGE} din {NUMPAGES}</pre></footer>
 </body>
 </html>
