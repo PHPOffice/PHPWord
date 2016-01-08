@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\SharedString;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class TemplateProcessor
@@ -148,7 +148,7 @@ class TemplateProcessor
             $macro = '${' . $macro . '}';
         }
 
-        if (!String::isUTF8($replace)) {
+        if (!SharedString::isUTF8($replace)) {
             $replace = utf8_encode($replace);
         }
 
