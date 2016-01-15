@@ -142,6 +142,30 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::fixBrokenVariablesForPart
+     * @test
+     */
+    public function testFixBrokenVariablesForPart()
+    {
+        // accessing protected method via closure binding
+        $template = new TemplateProcessor();
+        $closure = function ($arg) {
+            return $this->fixBrokenVariablesForPart($arg);
+        };
+        $method = $closure->bindTo($template, $template);
+
+        // example XML found in actual word document
+        $actualDirtyXml = ''
+        .'<w:szCs w:val="18"/>${</w:rPr>sps_telephone}<w:t>'
+        .'$</w:t></w:r><w:r w:rsidR="00 C3064E" w:rsidRPr="00C3064E"><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:noProof/><w:sz w:val="20"/><w:szCs w:val="18"/></w:rPr><w:t>'
+        .'{sps</w:t></w:r><w:r w:rsidR="00243 BDA"><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:noProof/><w:sz w:val="20"/><w:szCs w:val="18"/></w:rPr><w:t>'
+        .'_</w:t></w:r><w:r w:rsidR="00C3064E" w:rsidRPr="00C3064E"><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:noProof/><w:sz w:val="20"/><w:szCs w:val="18"/></w:rPr><w:t>nom}'.'${sps_mail}';
+
+        $expectedCleanXml = '<w:szCs w:val="18"/>${sps_telephone}<w:t>${sps_nom}${sps_mail}';
+        $this->assertEquals($method($actualDirtyXml), $expectedCleanXml);
+    }
+
+    /**
      * @civers ::setValue
      * @covers ::cloneRow
      * @covers ::saveAs
