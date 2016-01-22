@@ -134,6 +134,43 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $xmlTransformed;
     }
+    
+    /**
+     * Clean all template parts of hidden XML within variables/placeholders.
+     *
+     * @return void
+     */
+    public function fixBrokenVariables()
+    {
+        $this->tempDocumentMainPart = $this->fixBrokenVariablesForPart($this->tempDocumentMainPart);
+
+        foreach ($this->tempDocumentHeaders as &$headerXML) {
+            $headerXML = $this->fixBrokenVariablesForPart($headerXML);
+        }
+
+        foreach ($this->tempDocumentFooters as &$footerXML) {
+            $headerXML = $this->fixBrokenVariablesForPart($footerXML);
+        }
+    }
+
+    /**
+     * Fix dirty hidden XML within variables in document part.
+     *
+     * @param string $documentPartXML said document part
+     *
+     * @return string
+     */
+    protected function fixBrokenVariablesForPart(string $documentPartXML)
+    {
+        return
+            preg_replace_callback(
+                '|\$([^{]*)(\{.*})|U',
+                function ($match) {
+                    return '$'.strip_tags($match[2]);
+                },
+                $documentPartXML
+            );
+    }
 
     /**
      * @param mixed $macro
