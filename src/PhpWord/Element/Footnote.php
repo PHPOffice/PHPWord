@@ -58,6 +58,8 @@ class Footnote extends AbstractContainer
      * Get paragraph style
      *
      * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     *
+     * @codeCoverageIgnore
      */
     public function getParagraphStyle()
     {
