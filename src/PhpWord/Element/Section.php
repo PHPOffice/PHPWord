@@ -17,12 +17,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
-/**
- * Section
- */
 class Section extends AbstractContainer
 {
     /**
@@ -91,8 +87,12 @@ class Section extends AbstractContainer
     /**
      * Add header
      *
+     * @since 0.10.0
+     *
      * @param string $type
+     *
      * @return Header
+     *
      * @since 0.10.0
      */
     public function addHeader($type = Header::AUTO)
@@ -103,8 +103,12 @@ class Section extends AbstractContainer
     /**
      * Add footer
      *
+     * @since 0.10.0
+     *
      * @param string $type
+     *
      * @return Footer
+     *
      * @since 0.10.0
      */
     public function addFooter($type = Header::AUTO)
@@ -160,7 +164,7 @@ class Section extends AbstractContainer
      *
      * @return Header|Footer
      *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws \Exception
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -178,7 +182,7 @@ class Section extends AbstractContainer
             $collection[$index] = $container;
             return $container;
         } else {
-            throw new Exception('Invalid header/footer type.');
+            throw new \Exception('Invalid header/footer type.');
         }
 
     }

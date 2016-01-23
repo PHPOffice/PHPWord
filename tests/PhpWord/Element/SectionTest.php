@@ -150,15 +150,15 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create header footer
+     * Add header footer
      */
-    public function testCreateHeaderFooter()
+    public function testAddHeaderFooter()
     {
         $object = new Section(0);
         $elements = array('Header', 'Footer');
 
         foreach ($elements as $element) {
-            $method = "create{$element}";
+            $method = "add{$element}";
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$element}", $object->$method());
         }
         $this->assertFalse($object->hasDifferentFirstPage());
@@ -179,7 +179,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      * Add header exception
      *
      * @expectedException Exception
-     * @expectedExceptionMesssage Invalid header/footer type.
+     * @expectedExceptionMessage Invalid header/footer type.
      */
     public function testAddHeaderException()
     {
