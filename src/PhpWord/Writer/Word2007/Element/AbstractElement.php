@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\Common\Text as CommonText;
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
-use PhpOffice\PhpWord\Shared\String;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Abstract element writer
@@ -31,7 +31,7 @@ abstract class AbstractElement
     /**
      * XML writer
      *
-     * @var \PhpOffice\PhpWord\Shared\XMLWriter
+     * @var \PhpOffice\Common\XMLWriter
      */
     private $xmlWriter;
 
@@ -57,7 +57,7 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
@@ -71,7 +71,7 @@ abstract class AbstractElement
     /**
      * Get XML Writer
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return \PhpOffice\Common\XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -167,6 +167,6 @@ abstract class AbstractElement
      */
     protected function getText($text)
     {
-        return String::controlCharacterPHP2OOXML($text);
+        return CommonText::controlCharacterPHP2OOXML($text);
     }
 }

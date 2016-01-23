@@ -16,8 +16,8 @@
  */
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**

@@ -16,7 +16,7 @@
  */
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style subnamespace

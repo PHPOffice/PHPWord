@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment;
 
@@ -60,7 +60,7 @@ class Table extends AbstractStyle
     /**
      * Write full style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void
      */
@@ -97,7 +97,7 @@ class Table extends AbstractStyle
     /**
      * Write width.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param int $width
      * @param string $unit
      * @return void
@@ -113,7 +113,7 @@ class Table extends AbstractStyle
     /**
      * Write margin.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void
      */
@@ -133,7 +133,7 @@ class Table extends AbstractStyle
     /**
      * Write border.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void
      */
@@ -154,7 +154,7 @@ class Table extends AbstractStyle
     /**
      * Write row style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void
      */
@@ -174,7 +174,7 @@ class Table extends AbstractStyle
     /**
      * Write shading.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void
      */

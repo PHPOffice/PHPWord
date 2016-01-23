@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
@@ -36,7 +36,7 @@ abstract class AbstractPart extends Word2007AbstractPart
     /**
      * Write common root attributes.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @return void
      */
     protected function writeCommonRootAttributes(XMLWriter $xmlWriter)
@@ -73,7 +73,7 @@ abstract class AbstractPart extends Word2007AbstractPart
     /**
      * Write font faces declaration.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @return void
      */
     protected function writeFontFaces(XMLWriter $xmlWriter)
