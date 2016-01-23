@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
- * Footnote element
+ * @codeCoverageIgnore
  */
 class Footnote extends AbstractContainer
 {
@@ -58,8 +58,6 @@ class Footnote extends AbstractContainer
      * Get paragraph style
      *
      * @return string|\PhpOffice\PhpWord\Style\Paragraph
-     *
-     * @codeCoverageIgnore
      */
     public function getParagraphStyle()
     {
@@ -72,8 +70,6 @@ class Footnote extends AbstractContainer
      * @deprecated 0.10.0
      *
      * @return int
-     *
-     * @codeCoverageIgnore
      */
     public function getReferenceId()
     {
@@ -86,8 +82,6 @@ class Footnote extends AbstractContainer
      * @deprecated 0.10.0
      *
      * @param int $rId
-     *
-     * @codeCoverageIgnore
      */
     public function setReferenceId($rId)
     {

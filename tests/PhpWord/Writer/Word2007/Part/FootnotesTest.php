@@ -21,23 +21,16 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Notes
- *
+ * @coversNothing
  * @runTestsInSeparateProcesses
  */
 class FootnotesTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Executed before each method of the class
-     */
     public function tearDown()
     {
         TestHelperDOCX::clear();
     }
 
-    /**
-     * Write footnotes
-     */
     public function testWriteFootnotes()
     {
         $phpWord = new PhpWord();
