@@ -17,55 +17,18 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Section
- *
+ * @covers \PhpOffice\PhpWord\Element\Section
+ * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
  * @runTestsInSeparateProcesses
  */
 class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Get style
-     */
-    public function testGetStyle()
-    {
-        $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getStyle(), 'style', $oSection);
-    }
-
-    /**
-     * Get elements
-     */
-    public function testGetElements()
-    {
-        $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getElements(), 'elements', $oSection);
-    }
-
-    /**
-     * Get footer
-     */
-    public function testGetFooters()
-    {
-        $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getFooters(), 'footers', $oSection);
-    }
-
-    /**
-     * Get headers
-     */
-    public function testGetHeaders()
-    {
-        $oSection = new Section(0);
-        $this->assertAttributeEquals($oSection->getHeaders(), 'headers', $oSection);
-    }
-
-    /**
-     * Set settings
+     * @covers ::setStyle
      */
     public function testSetStyle()
     {
@@ -76,13 +39,12 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add elements
+     * @coversNothing
      */
     public function testAddElements()
     {
         $objectSource = __DIR__ . '/../_files/documents/reader.docx';
         $imageSource = __DIR__ . '/../_files/images/PhpWord.png';
-        // $imageUrl = 'http://php.net//images/logos/php-med-trans-light.gif';
 
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
@@ -124,8 +86,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test add object exception
-     *
+     * @coversNothing
      * @expectedException \PhpOffice\PhpWord\Exception\InvalidObjectException
      */
     public function testAddObjectException()
@@ -137,6 +98,8 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Add title with predefined style
+     *
+     * @coversNothing
      */
     public function testAddTitleWithStyle()
     {
@@ -150,7 +113,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add header footer
+     * @covers ::addHeader
+     * @covers ::addFooter
+     * @covers ::hasDifferentFirstPage
      */
     public function testAddHeaderFooter()
     {
@@ -165,7 +130,8 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add header has different first page
+     * @covers ::addHeader
+     * @covers ::hasDifferentFirstPage
      */
     public function testHasDifferentFirstPage()
     {
@@ -176,9 +142,8 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add header exception
-     *
-     * @expectedException Exception
+     * @covers ::addHeader
+     * @expectedException \Exception
      * @expectedExceptionMessage Invalid header/footer type.
      */
     public function testAddHeaderException()

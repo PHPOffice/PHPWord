@@ -158,6 +158,8 @@ abstract class AbstractContainer extends AbstractElement
      * Get all elements
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      */
     public function getElements()
     {

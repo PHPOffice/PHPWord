@@ -142,7 +142,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @civers ::setValue
+     * @covers ::setValue
      * @covers ::cloneRow
      * @covers ::saveAs
      * @test
