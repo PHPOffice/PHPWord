@@ -255,7 +255,7 @@ class TemplateProcessor
     {
         $xmlBlock = null;
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p( [^>]*)?>([\s]*<.*>)?\${' . $blockname . '}(<.*?>[\s]*)?<\/w:p>)(.*)(<w:p( [^>]*)?>([\s]*<.*>)?\${\/' . $blockname . '}(<.*?>[\s]*)?<\/w:p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
