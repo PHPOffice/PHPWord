@@ -260,8 +260,8 @@ class TemplateProcessor
             $matches
         );
 
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
+        if (isset($matches[6])) {
+            $xmlBlock = $matches[6];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
                 $cloned[] = $xmlBlock;
@@ -269,7 +269,7 @@ class TemplateProcessor
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
+                    $matches[2] . $matches[6] . $matches[7],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
                 );
