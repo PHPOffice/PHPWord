@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\XMLReader;
+use PhpOffice\PhpWord\Shared\String;
 
 /**
  * Abstract part reader
@@ -136,7 +137,7 @@ abstract class AbstractPart
                     }
                 }
             }
-            $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
+            $parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES | ENT_XML1), $fontStyle, $paragraphStyle);
 
         // List item
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
@@ -147,7 +148,7 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
+            $parent->addListItem(htmlspecialchars($textContent, ENT_QUOTES | ENT_XML1), $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
 
         // Heading
         } elseif (!empty($headingMatches)) {
@@ -156,7 +157,7 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
-            $parent->addTitle($textContent, $headingMatches[1]);
+            $parent->addTitle(htmlspecialchars($textContent, ENT_QUOTES | ENT_XML1), $headingMatches[1]);
 
         // Text and TextRun
         } else {
@@ -202,7 +203,7 @@ abstract class AbstractPart
         // Link
         if ($domNode->nodeName == 'w:hyperlink') {
             $rId = $xmlReader->getAttribute('r:id', $domNode);
-            $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
+            $textContent = htmlspecialchars($xmlReader->getValue('w:r/w:t', $domNode), ENT_QUOTES | ENT_XML1);
             $target = $this->getMediaTarget($docPart, $rId);
             if (!is_null($target)) {
                 $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
@@ -238,7 +239,7 @@ abstract class AbstractPart
             // TextRun
             } else {
                 $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                $parent->addText(htmlspecialchars($textContent, ENT_QUOTES | ENT_XML1), $fontStyle, $paragraphStyle);
             }
         }
     }
