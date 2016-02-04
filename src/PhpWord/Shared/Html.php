@@ -177,9 +177,7 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
-                        self::parseNode($cNode, $element, $styles, $data);
-                    }
+                    self::parseNode($cNode, $element, $styles, $data);
                 }
             }
         }
@@ -232,11 +230,9 @@ class Html
     {
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
-        // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
-        // @todo Find better error checking for this one
-        // if (method_exists($element, 'addText')) {
+        if( is_callable(array($element, 'addText')) ) {
             $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
-        // }
+        }
 
         return null;
     }
