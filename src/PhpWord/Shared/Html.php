@@ -230,7 +230,7 @@ class Html
     {
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
-        if( is_callable(array($element, 'addText')) ) {
+        if (is_callable(array($element, 'addText'))) {
             $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
         }
 
