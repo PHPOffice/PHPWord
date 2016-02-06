@@ -38,7 +38,7 @@ so installation via ZIP-archive download is not an option anymore. To install PH
 - `\PhpOffice\PhpWord\Shared\XMLWriter` replaced by `\PhpOffice\Common\XMLWriter`. - @Progi1984 @RomanSyroeshko #658
 
 ### Fixed
-- `Undefined property` error while reading MS-DOC documents. - @jaberu #503 #612
+- `Undefined property` error while reading MS-DOC documents. - @jaberu #610
 
 
 
