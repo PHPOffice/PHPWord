@@ -22,7 +22,12 @@ use Zend\Validator\InArray;
 /**
  * Horizontal Alignment Type.
  *
+ * Introduced in 1st Edition of ECMA-376. Initially it was intended to align paragraphs and tables.
+ * Since ISO/IEC-29500:2008 the type must not be used for table alignment.
+ *
  * @since 0.13.0
+ *
+ * @see \PhpOffice\PhpWord\SimpleType\JcTable For table alignment modes available since ISO/IEC-29500:2008.
  *
  * @codeCoverageIgnore
  */
@@ -40,15 +45,24 @@ final class Jc
     const THAI_DISTRIBUTE = 'thaiDistribute';
 
     /**
-     * @deprecated 0.13.0 Use `START` instead.
+     * Kept for compatibility with 1st edition of ECMA-376 standard.
+     * Microsoft Word 2007 and WPS Writer 2016 still rely on it.
+     *
+     * @deprecated 0.13.0 For documents based on ISO/IEC 29500:2008 and later use `START` instead.
      */
     const LEFT = 'left';
     /**
-     * @deprecated 0.13.0 Use `END` instead.
+     * Kept for compatibility with 1st edition of ECMA-376 standard.
+     * Microsoft Word 2007 and WPS Writer 2016 still rely on it.
+     *
+     * @deprecated 0.13.0 For documents based on ISO/IEC 29500:2008 and later use `END` instead.
      */
     const RIGHT = 'right';
     /**
-     * @deprecated 0.13.0 Use `BOTH` instead.
+     * Kept for compatibility with 1st edition of ECMA-376 standard.
+     * Microsoft Word 2007 and WPS Writer 2016 still rely on it.
+     *
+     * @deprecated 0.13.0 For documents based on ISO/IEC 29500:2008 and later use `BOTH` instead.
      */
     const JUSTIFY = 'justify';
 

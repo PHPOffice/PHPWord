@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 
 class Table extends Border
@@ -509,25 +510,8 @@ class Table extends Border
      */
     public function setAlignment($value)
     {
-        if (JcTable::getValidator()->isValid($value)) {
-            $alignment = '';
-
-            switch ($value) {
-                case JcTable::LEFT:
-                    $alignment = JcTable::START;
-                    break;
-                case JcTable::RIGHT:
-                    $alignment = JcTable::END;
-                    break;
-                case JcTable::JUSTIFY:
-                    $alignment = JcTable::CENTER;
-                    break;
-                default:
-                    $alignment = $value;
-                    break;
-            }
-
-            $this->alignment = $alignment;
+        if (JcTable::getValidator()->isValid($value) || Jc::getValidator()->isValid($value)) {
+            $this->alignment = $value;
         }
 
         return $this;
