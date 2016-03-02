@@ -914,12 +914,6 @@ class Html
 					break;
 			}
         }
-		
-		if($tagname == 'li')
-		{
-			pecho("stiluri pentru $tagname");
-			pecho($styles);
-		}
 
         return $styles;
     }
