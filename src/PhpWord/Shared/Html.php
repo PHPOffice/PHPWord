@@ -88,7 +88,9 @@ class Html
         // Load DOM
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = true;
+		libxml_use_internal_errors(true);
         $dom->loadHTML($html);
+		libxml_use_internal_errors(false);
 		
 		self::$cssParser	=	new	\Xprt64\Css\Parser($dom);
 		
