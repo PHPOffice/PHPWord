@@ -61,13 +61,14 @@ PHPWord requires the following:
 
 ## Installation
 
-It is recommended that you install the PHPWord library [through composer](http://getcomposer.org/). To do so, add
-the following lines to your ``composer.json``.
+It is recommended that you install the PHPWord library [through composer](http://getcomposer.org/). To do so, run
+the following command on your shell: `composer require phpoffice/phpword`. Alternatively take a look at the list
+of tags marking releases, pick the newest one (or one you like), and add the following lines to your ``composer.json``.
 
 ```json
 {
     "require": {
-       "phpoffice/phpword": "dev-master"
+       "phpoffice/phpword": "^0.12.1"
     }
 }
 ```
