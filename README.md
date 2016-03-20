@@ -65,6 +65,8 @@ PHPWord requires the following:
 
 PHPWord is installed via [Composer](https://getcomposer.org/).
 You just need to [add dependency](https://getcomposer.org/doc/04-schema.md#package-links>) on PHPWord into your package.
+Usually running `composer require phpoffice/phpword`  will install the latest suitable version for you. Alternatively, 
+via editing the `composer.json` file:
 
 Example:
 
