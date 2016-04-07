@@ -80,8 +80,7 @@ class Link extends AbstractElement
     {
         $this->source = String::toUTF8($source);
         $this->text = is_null($text) ? $this->source : String::toUTF8($text);
-        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->setFontStyle($fontStyle, $paragraphStyle);
         $this->internal = $internal;
         return $this;
     }
@@ -107,6 +106,21 @@ class Link extends AbstractElement
     }
 
     /**
+     * Set Text style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function setFontStyle($style = null, $paragraphStyle = null)
+    {
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $style);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+
+        return $this->fontStyle;
+    }
+
+    /**
      * Get Text style
      *
      * @return string|\PhpOffice\PhpWord\Style\Font
@@ -114,6 +128,19 @@ class Link extends AbstractElement
     public function getFontStyle()
     {
         return $this->fontStyle;
+    }
+
+    /**
+     * Set Paragraph style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setParagraphStyle($style = null)
+    {
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $style);
+
+        return $this->paragraphStyle;
     }
 
     /**
