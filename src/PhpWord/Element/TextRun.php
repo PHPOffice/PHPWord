@@ -43,7 +43,20 @@ class TextRun extends AbstractContainer
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->setParagraphStyle($paragraphStyle);
+    }
+
+    /**
+     * Set Paragraph style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setParagraphStyle($style = null)
+    {
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $style);
+
+        return $this->paragraphStyle;
     }
 
     /**
