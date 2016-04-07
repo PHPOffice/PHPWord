@@ -52,20 +52,32 @@ class ListItem extends AbstractElement
      * @param string $text
      * @param int $depth
      * @param mixed $fontStyle
-     * @param array|string|null $listStyle
+     * @param mixed $listStyle
      * @param mixed $paragraphStyle
      */
     public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {
+        $this->setStyle($listStyle);
         $this->textObject = new Text(String::toUTF8($text), $fontStyle, $paragraphStyle);
         $this->depth = $depth;
+    }
 
+    /**
+     * Set style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\ListItem $style
+     * @return string|\PhpOffice\PhpWord\Style\ListItem
+     */
+    public function setStyle($style)
+    {
         // Version >= 0.10.0 will pass numbering style name. Older version will use old method
-        if (!is_null($listStyle) && is_string($listStyle)) {
-            $this->style = new ListItemStyle($listStyle);
+        if (!is_null($style) && is_string($style)) {
+            $this->style = new ListItemStyle($style);
         } else {
-            $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
+            $this->style = $this->setNewStyle(new ListItemStyle(), $style, true);
         }
+
+        return $this->style;
     }
 
     /**
@@ -76,6 +88,49 @@ class ListItem extends AbstractElement
     public function getStyle()
     {
         return $this->style;
+    }
+
+    /**
+     * Set Text style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Font $style
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $paragraphStyle
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function setFontStyle($style = null, $paragraphStyle = null)
+    {
+        return $this->getTextObject()->setFontStyle($style, $paragraphStyle);
+    }
+
+    /**
+     * Get Text style
+     *
+     * @return string|\PhpOffice\PhpWord\Style\Font
+     */
+    public function getFontStyle()
+    {
+        return $this->getTextObject()->getFontStyle();
+    }
+
+    /**
+     * Set Paragraph style
+     *
+     * @param string|array|\PhpOffice\PhpWord\Style\Paragraph $style
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setParagraphStyle($style = null)
+    {
+        $this->getTextObject()->setParagraphStyle($style);
+    }
+
+    /**
+     * Get Paragraph style
+     *
+     * @return string|\PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function getParagraphStyle()
+    {
+        return $this->getParagraphStyle();
     }
 
     /**
