@@ -130,7 +130,7 @@ class ListItem extends AbstractElement
      */
     public function getParagraphStyle()
     {
-        return $this->getParagraphStyle();
+        return $this->getTextObject()->getParagraphStyle();
     }
 
     /**
