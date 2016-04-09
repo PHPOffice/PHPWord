@@ -39,6 +39,8 @@ so installation via ZIP-archive download is not an option anymore. To install PH
 
 ### Fixed
 - `Undefined property` error while reading MS-DOC documents. - @jaberu #610
+- Corrupted OOXML template issue in case when its macro is broken immediately after `$` sign.
+That case wasn't taken into account in implementation of `TemplateProcessor::fixBrokenMacros()`. - @RomanSyroeshko @d-damien #548
 
 
 
