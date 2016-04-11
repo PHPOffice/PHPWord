@@ -411,9 +411,13 @@ class TemplateProcessor
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
         } else {
-            $regExpDelim = '/';
-            $escapedSearch = preg_quote($search, $regExpDelim);
-            return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+            $searchOccurencePosition = strpos($documentPartXML, $search);
+            while ($limit > 0 && $searchOccurencePosition !== false) {
+                $documentPartXML = substr($documentPartXML, 0, $searchOccurencePosition).$replace.substr($documentPartXML, $searchOccurencePosition + strlen($search));
+                $searchOccurencePosition = strpos($documentPartXML, $search, $searchOccurencePosition);
+                $limit--;
+            }
+            return $documentPartXML;
         }
     }
 
