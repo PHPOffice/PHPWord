@@ -41,7 +41,7 @@ class Frame extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $zIndices = array(FrameStyle::WRAP_INFRONT => PHP_INT_MAX, FrameStyle::WRAP_BEHIND => -PHP_INT_MAX);
+        $zIndices = array(FrameStyle::WRAP_INFRONT => 99999, FrameStyle::WRAP_BEHIND => -99999);
 
         $properties = array(
             'width'     => 'width',

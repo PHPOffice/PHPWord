@@ -31,10 +31,19 @@
             "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
         }
     ],
-    "require": {
+	"minimum-stability": "dev",
+	"prefer-stable" : true,
+ 	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/xprt64/php-css.git"
+	    }
+     ],
+   "require": {
         "php": ">=5.3.3",
         "ext-xml": "*",
         "zendframework/zend-validator": "2.5.*",
+        "xprt64/php-css": "@dev",
         "zendframework/zend-stdlib": "~2.5",
         "phpoffice/common": "0.2.*"
     },
