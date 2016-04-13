@@ -11,18 +11,18 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -110,7 +110,7 @@ class Content extends AbstractPart
      *
      * @since 0.11.0
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @return void
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
@@ -134,7 +134,7 @@ class Content extends AbstractPart
     /**
      * Write automatic styles.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @return void
      */
     private function writeTextStyles(XMLWriter $xmlWriter)

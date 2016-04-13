@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Style writer
@@ -30,7 +30,7 @@ abstract class AbstractStyle
     /**
      * XML writer
      *
-     * @var \PhpOffice\PhpWord\Shared\XMLWriter
+     * @var \PhpOffice\Common\XMLWriter
      */
     private $xmlWriter;
 
@@ -49,7 +49,7 @@ abstract class AbstractStyle
     /**
      * Create new instance.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
      */
     public function __construct(XMLWriter $xmlWriter, $style = null)
@@ -61,7 +61,7 @@ abstract class AbstractStyle
     /**
      * Get XML Writer
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return \PhpOffice\Common\XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -106,7 +106,7 @@ abstract class AbstractStyle
     /**
      * Write child style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $name
      * @param mixed $value
      * @return void

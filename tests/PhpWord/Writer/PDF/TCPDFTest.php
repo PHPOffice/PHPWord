@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\PDF;
@@ -39,7 +39,7 @@ class TCPDFTest extends \PHPUnit_Framework_TestCase
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'));
 
         $rendererName = Settings::PDF_RENDERER_TCPDF;
-        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnick.com/tcpdf');
+        $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/tecnickcom/tcpdf');
         Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
         $writer = new PDF($phpWord);
         $writer->save($file);

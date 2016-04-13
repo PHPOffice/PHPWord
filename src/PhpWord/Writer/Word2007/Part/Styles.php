@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings as PhpWordSettings;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -77,7 +77,7 @@ class Styles extends AbstractPart
     /**
      * Write default font and other default styles.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
      * @return void
      */
@@ -142,7 +142,7 @@ class Styles extends AbstractPart
     /**
      * Write font style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Font $style
      * @return void
@@ -196,7 +196,7 @@ class Styles extends AbstractPart
     /**
      * Write paragraph style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Paragraph $style
      * @return void
@@ -229,7 +229,7 @@ class Styles extends AbstractPart
     /**
      * Write table style.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Table $style
      * @return void

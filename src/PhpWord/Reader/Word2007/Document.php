@@ -11,15 +11,15 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Document reader
@@ -99,7 +99,7 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @ignoreScrutinizerPatch
      * @return array
@@ -142,7 +142,7 @@ class Document extends AbstractPart
     /**
      * Read w:p node.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
@@ -172,7 +172,7 @@ class Document extends AbstractPart
     /**
      * Read w:sectPr node.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,8 +20,8 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
@@ -144,6 +144,14 @@ class TemplateProcessor
      */
     public function setValue($macro, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
+        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
+            $macro = '${' . $macro . '}';
+        }
+
+        if (!StringUtils::isValidUtf8($replace)) {
+            $replace = utf8_encode($replace);
+        }
+
         foreach ($this->tempDocumentHeaders as $index => $headerXML) {
             $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $macro, $replace, $limit);
         }
@@ -377,7 +385,7 @@ class TemplateProcessor
         $fixedDocumentPart = $documentPart;
 
         $fixedDocumentPart = preg_replace_callback(
-            '|\$\{([^\}]+)\}|U',
+            '|\$[^{]*\{[^}]*\}|U',
             function ($match) {
                 return strip_tags($match[0]);
             },
@@ -399,14 +407,6 @@ class TemplateProcessor
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
-        }
-
-        if (!String::isUTF8($replace)) {
-            $replace = utf8_encode($replace);
-        }
-
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);

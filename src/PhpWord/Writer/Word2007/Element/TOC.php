@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
@@ -66,7 +66,7 @@ class TOC extends AbstractElement
     /**
      * Write title
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param \PhpOffice\PhpWord\Element\Title $title
      * @param bool $writeFieldMark
@@ -135,7 +135,7 @@ class TOC extends AbstractElement
     /**
      * Write style
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param int $indent
      * @return void
@@ -182,7 +182,7 @@ class TOC extends AbstractElement
     /**
      * Write TOC Field.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @return void
      */

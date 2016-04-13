@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Word2007 main relationship writer: _rels/.rels
@@ -49,7 +49,7 @@ class Rels extends AbstractPart
     /**
      * Write relationships.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param array $xmlRels
      * @param array $mediaRels
      * @param int $relId
@@ -77,7 +77,7 @@ class Rels extends AbstractPart
     /**
      * Write media relationships.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param int $relId
      * @param array $mediaRel
      * @return void
@@ -103,7 +103,7 @@ class Rels extends AbstractPart
      * Format:
      * <Relationship Id="rId..." Type="http://..." Target="....xml" TargetMode="..." />
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param int $relId Relationship ID
      * @param string $type Relationship type
      * @param string $target Relationship target

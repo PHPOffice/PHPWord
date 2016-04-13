@@ -1,16 +1,24 @@
 <?php
 /**
- * PHPWord
+ * This file is part of PHPWord - A pure PHP library for reading and writing
+ * word processing documents.
+ *
+ * PHPWord is free software distributed under the terms of the GNU Lesser
+ * General Public License version 3 as published by the Free Software Foundation.
+ *
+ * For the full copyright and license information, please read the LICENSE
+ * file that was distributed with this source code. For the full list of
+ * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2014 PHPWord
- * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt LGPL
+ * @copyright   2010-2015 PHPWord contributors
+ * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\Common\Drawing;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\Drawing;
 use PhpOffice\PhpWord\Shared\OLERead;
 use PhpOffice\PhpWord\Style;
 
@@ -141,7 +149,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
         // Get Summary Information data
         $this->_SummaryInformation = $ole->getStream($ole->summaryInformation);
         // Get Document Summary Information data
-        $this->_DocumentSummaryInformation = $ole->getStream($ole->documentSummaryInformation);
+        $this->_DocumentSummaryInformation = $ole->getStream($ole->docSummaryInfos);
     }
 
     private function getNumInLcb($lcb, $iSize)

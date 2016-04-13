@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Footnote;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
 
@@ -135,7 +135,7 @@ class Footnotes extends AbstractPart
     /**
      * Write note item.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Footnote|\PhpOffice\PhpWord\Element\Endnote $element
      * @return void
      */

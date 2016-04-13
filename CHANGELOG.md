@@ -16,6 +16,7 @@ Place announcement text here.
 ### Changed
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
+- Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.
@@ -24,12 +25,22 @@ Use the correspondent `getAlignment` and `setAlignment` methods instead. - @Roma
 - `left`, `right`, and `justify` alignment options for tables (now are mapped to `Jc::START`, `Jc::END`, and `Jc::CENTER`). - @RomanSyroeshko
 
 ### Removed
-- `PhpOffice\PhpWord\Style\Alignment`. Style properties, which previously stored instances of this class, now deal with strings.
+- `\PhpOffice\PhpWord\Style\Alignment`. Style properties, which previously stored instances of this class, now deal with strings.
 In each case set of available string values is defined by the correspondent simple type. - @RomanSyroeshko
 - Manual installation support. Since the release we have dependencies on third party libraries,
 so installation via ZIP-archive download is not an option anymore. To install PHPWord use [Composer](https://getcomposer.org/).
- We also removed `PhpOffice\PhpWord\Autoloader`, because the latter change made it completely useless.
+ We also removed `\PhpOffice\PhpWord\Autoloader`, because the latter change made it completely useless.
  Autoloaders provided by Composer are in use now (see `bootstrap.php`). - @RomanSyroeshko
+- `\PhpOffice\PhpWord\Shared\Drawing` replaced by `\PhpOffice\Common\Drawing`. - @Progi1984 #658
+- `\PhpOffice\PhpWord\Shared\Font`. - @Progi1984 #658
+- `\PhpOffice\PhpWord\Shared\String` replaced by `\PhpOffice\Common\Text`. - @Progi1984 @RomanSyroeshko #658
+- `\PhpOffice\PhpWord\Shared\XMLReader` replaced by `\PhpOffice\Common\XMLReader`. - @Progi1984 #658
+- `\PhpOffice\PhpWord\Shared\XMLWriter` replaced by `\PhpOffice\Common\XMLWriter`. - @Progi1984 @RomanSyroeshko #658
+
+### Fixed
+- `Undefined property` error while reading MS-DOC documents. - @jaberu #610
+- Corrupted OOXML template issue in case when its macro is broken immediately after `$` sign.
+That case wasn't taken into account in implementation of `TemplateProcessor::fixBrokenMacros()`. - @RomanSyroeshko @d-damien #548
 
 
 

@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Numbering reader
@@ -90,7 +90,7 @@ class Numbering extends AbstractPart
     /**
      * Read numbering level definition from w:abstractNum and w:num
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $subnode
      * @param integer $levelId
      * @return array

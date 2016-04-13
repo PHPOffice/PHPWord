@@ -11,13 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * ODText meta part writer: meta.xml
@@ -86,7 +86,7 @@ class Meta extends AbstractPart
     /**
      * Write individual property
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
      * @return void

@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\FormField as FormFieldElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * FormField element writer
@@ -107,7 +107,7 @@ class FormField extends Text
      * Write textinput.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      * @return void
      */
@@ -124,7 +124,7 @@ class FormField extends Text
      * Write checkbox.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      * @return void
      */
@@ -148,7 +148,7 @@ class FormField extends Text
      * Write dropdown.
      *
      * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      * @return void
      */

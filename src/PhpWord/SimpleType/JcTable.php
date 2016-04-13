@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,6 +21,8 @@ use Zend\Validator\InArray;
 
 /**
  * Table Alignment Type.
+ *
+ * Introduced in ISO/IEC-29500:2008.
  *
  * @since 0.13.0
  *
@@ -33,19 +35,6 @@ final class JcTable
     const END = 'end';
 
     /**
-     * @deprecated 0.13.0 Use `START` instead.
-     */
-    const LEFT = 'left';
-    /**
-     * @deprecated 0.13.0 Use `END` instead.
-     */
-    const RIGHT = 'right';
-    /**
-     * @deprecated 0.13.0 Use `CENTER` instead.
-     */
-    const JUSTIFY = 'justify';
-
-    /**
      * @since 0.13.0
      *
      * @return \Zend\Validator\InArray
@@ -55,7 +44,7 @@ final class JcTable
         // todo: consider caching validator instances.
         return new InArray(
             array (
-                'haystack' => array(self::START, self::CENTER, self::END, self::LEFT, self::RIGHT, self::JUSTIFY),
+                'haystack' => array(self::START, self::CENTER, self::END),
                 'strict'   => InArray::COMPARE_STRICT,
             )
         );
