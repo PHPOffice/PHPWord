@@ -61,6 +61,27 @@ class TemplateProcessor
     protected $tempDocumentFooters = array();
 
     /**
+     * Search pattern prefix. Defaults to ${
+     *
+     * @var string
+     */
+    protected $searchPatternPrefix = '${';
+
+    /**
+     * Search pattern suffix. Defaults to }
+     *
+     * @var string
+     */
+    protected $searchPatternSuffix = '}';
+
+    /**
+     * Search pattern case sensitivity; Defaults to true
+     *
+     * @var bool
+     */
+    protected $searchPatternCaseSensitivity = true;
+
+    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
      * @param string $documentTemplate The fully qualified template filename.
@@ -176,6 +197,22 @@ class TemplateProcessor
     }
 
     /**
+     * Sets the search pattern prefix and suffix.
+     * Defaults to ${ and }
+     *
+     * @param string $prefix
+     * @param string $suffix
+     *
+     * @return void
+     */
+    public function setSearchPattern($prefix = '${', $suffix = '}', $caseSensitive = true)
+    {
+        $this->searchPatternPrefix = $prefix;
+        $this->searchPatternSuffix = $suffix;
+        $this->searchPatternCaseSensitivity = $caseSensitive;
+    }
+
+    /**
      * Clone a table row in a template document.
      *
      * @param string $search
@@ -187,8 +224,9 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
+        if ($this->searchPatternPrefix !== substr($search, 0, strlen($this->searchPatternPrefix)) &&
+            $this->searchPatternSuffix !== substr($search, -1 * strlen($this->searchPatternSuffix))) {
+            $search = $this->searchPatternPrefix . $search . $this->searchPatternSuffix;
         }
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
@@ -225,9 +263,12 @@ class TemplateProcessor
             $xmlRow = $this->getSlice($rowStart, $rowEnd);
         }
 
+        $quotedPrefix = preg_quote($this->searchPatternPrefix);
+        $quotedSuffix = preg_quote($this->searchPatternSuffix);
+
         $result = $this->getSlice(0, $rowStart);
         for ($i = 1; $i <= $numberOfClones; $i++) {
-            $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
+            $result .= preg_replace('/' . $quotedPrefix . '(.*?)' . $quotedSuffix . '/', $this->searchPatternPrefix . '\\1#' . $i . $this->searchPatternSuffix, $xmlRow);
         }
         $result .= $this->getSlice($rowEnd);
 
@@ -246,8 +287,11 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
+        $quotedPrefix = preg_quote($this->searchPatternPrefix);
+        $quotedSuffix = preg_quote($this->searchPatternSuffix);
+
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $quotedPrefix . $blockname . $quotedSuffix . '<\/w:.*?p>)(.*)(<w:p.*' . $quotedPrefix . '\/' . $blockname . $quotedSuffix . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -260,7 +304,8 @@ class TemplateProcessor
             }
 
             if ($replace) {
-                $this->tempDocumentMainPart = str_replace(
+                $this->tempDocumentMainPart = call_user_func(
+                    $this->searchPatternCaseSensitivity ? 'str_replace' : 'str_ireplace',
                     $matches[2] . $matches[3] . $matches[4],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
@@ -281,14 +326,18 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
+        $quotedPrefix = preg_quote($this->searchPatternPrefix);
+        $quotedSuffix = preg_quote($this->searchPatternSuffix);
+
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p.*>' . $quotedPrefix . $blockname . $quotedSuffix . '<\/w:.*?p>)(.*)(<w:p.*' . $quotedPrefix . '\/' . $blockname . $quotedSuffix . '<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
 
         if (isset($matches[3])) {
-            $this->tempDocumentMainPart = str_replace(
+            $this->tempDocumentMainPart = call_user_func(
+                $this->searchPatternCaseSensitivity ? 'str_replace' : 'str_ireplace',
                 $matches[2] . $matches[3] . $matches[4],
                 $replacement,
                 $this->tempDocumentMainPart
@@ -374,10 +423,12 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
+        $quotedPrefix = preg_quote($this->searchPatternPrefix);
+        $quotedSuffix = preg_quote($this->searchPatternSuffix);
         $fixedDocumentPart = $documentPart;
 
         $fixedDocumentPart = preg_replace_callback(
-            '|\$\{([^\}]+)\}|U',
+            '|' . $quotedPrefix . '([^' . $quotedSuffix . ']+)' . $quotedSuffix . '|U',
             function ($match) {
                 return strip_tags($match[0]);
             },
@@ -399,8 +450,9 @@ class TemplateProcessor
      */
     protected function setValueForPart($documentPartXML, $search, $replace, $limit)
     {
-        if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
-            $search = '${' . $search . '}';
+        if ($this->searchPatternPrefix !== substr($search, 0, strlen($this->searchPatternPrefix)) &&
+            $this->searchPatternSuffix !== substr($search, -1 * strlen($this->searchPatternSuffix))) {
+            $search = $this->searchPatternPrefix . $search . $this->searchPatternSuffix;
         }
 
         if (!String::isUTF8($replace)) {
@@ -409,11 +461,18 @@ class TemplateProcessor
 
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
-            return str_replace($search, $replace, $documentPartXML);
+            error_log($search . ' => ' . $replace);
+            return call_user_func(
+                $this->searchPatternCaseSensitivity ? 'str_replace' : 'str_ireplace',
+                $search,
+                $replace,
+                $documentPartXML
+            );
         } else {
             $regExpDelim = '/';
             $escapedSearch = preg_quote($search, $regExpDelim);
-            return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+            $regExpModifiers = $this->searchPatternCaseSensitivity ? 'u' : 'ui';
+            return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}{$regExpModifiers}", $replace, $documentPartXML, $limit);
         }
     }
 
@@ -426,7 +485,10 @@ class TemplateProcessor
      */
     protected function getVariablesForPart($documentPartXML)
     {
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        $quotedPrefix = preg_quote($this->searchPatternPrefix);
+        $quotedSuffix = preg_quote($this->searchPatternSuffix);
+
+        preg_match_all('/' . $quotedPrefix . '(.*?)' . $quotedSuffix . '/i', $documentPartXML, $matches);
 
         return $matches[1];
     }
