@@ -12,6 +12,7 @@ Place announcement text here.
 - Introduced the `\PhpOffice\PhpWord\SimpleType\JcTable` simple type. - @RomanSyroeshko
 - Introduced writer for the "Paragraph Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment`). - @RomanSyroeshko
 - Introduced writer for the "Table Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment`). - @RomanSyroeshko
+- Supported indexed arrays in arguments of `TemplateProcessor::setValue()`. - @RomanSyroeshko #618
 
 ### Changed
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
@@ -39,7 +40,7 @@ so installation via ZIP-archive download is not an option anymore. To install PH
 
 ### Fixed
 - `Undefined property` error while reading MS-DOC documents. - @jaberu #610
-- Corrupted OOXML template issue in case when its macro is broken immediately after `$` sign.
+- Corrupted OOXML template issue in case when its names is broken immediately after `$` sign.
 That case wasn't taken into account in implementation of `TemplateProcessor::fixBrokenMacros()`. - @RomanSyroeshko @d-damien #548
 
 

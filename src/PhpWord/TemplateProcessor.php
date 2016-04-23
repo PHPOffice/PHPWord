@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
@@ -136,31 +137,61 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $macro
-     * @param mixed $replace
-     * @param integer $limit
+     * @param string $macro
      *
-     * @return void
+     * @return string
      */
-    public function setValue($macro, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    protected static function ensureMacroCompleted($macro)
     {
         if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
             $macro = '${' . $macro . '}';
         }
 
-        if (!StringUtils::isValidUtf8($replace)) {
-            $replace = utf8_encode($replace);
+        return $macro;
+    }
+
+    /**
+     * @param string $subject
+     *
+     * @return string
+     */
+    protected static function ensureUtf8Encoded($subject)
+    {
+        if (!StringUtils::isValidUtf8($subject)) {
+            $subject = utf8_encode($subject);
         }
 
-        foreach ($this->tempDocumentHeaders as $index => $headerXML) {
-            $this->tempDocumentHeaders[$index] = $this->setValueForPart($this->tempDocumentHeaders[$index], $macro, $replace, $limit);
+        return $subject;
+    }
+
+    /**
+     * @param mixed $search
+     * @param mixed $replace
+     * @param integer $limit
+     *
+     * @return void
+     */
+    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    {
+        if (is_array($search)) {
+            foreach ($search as &$item) {
+                $item = self::ensureMacroCompleted($item);
+            }
+        } else {
+            $search = self::ensureMacroCompleted($search);
         }
 
-        $this->tempDocumentMainPart = $this->setValueForPart($this->tempDocumentMainPart, $macro, $replace, $limit);
-
-        foreach ($this->tempDocumentFooters as $index => $headerXML) {
-            $this->tempDocumentFooters[$index] = $this->setValueForPart($this->tempDocumentFooters[$index], $macro, $replace, $limit);
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = self::ensureUtf8Encoded($item);
+            }
+        } else {
+            $replace = self::ensureUtf8Encoded($replace);
         }
+
+        $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
+        $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
+        $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
     }
 
     /**
@@ -398,22 +429,20 @@ class TemplateProcessor
     /**
      * Find and replace macros in the given XML section.
      *
+     * @param mixed $search
+     * @param mixed $replace
      * @param string $documentPartXML
-     * @param string $search
-     * @param string $replace
      * @param integer $limit
      *
      * @return string
      */
-    protected function setValueForPart($documentPartXML, $search, $replace, $limit)
+    protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
         } else {
-            $regExpDelim = '/';
-            $escapedSearch = preg_quote($search, $regExpDelim);
-            return preg_replace("{$regExpDelim}{$escapedSearch}{$regExpDelim}u", $replace, $documentPartXML, $limit);
+            return preg_replace(RegExp::escape($search), $replace, $documentPartXML, $limit);
         }
     }
 

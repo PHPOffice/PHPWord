@@ -175,15 +175,17 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 
-        $this->assertEquals(
-            array('documentContent', 'headerValue', 'footerValue'),
-            $templateProcessor->getVariables()
+        $this->assertEquals(array('documentContent', 'headerValue', 'footerValue'), $templateProcessor->getVariables());
+
+        $macroNames = array('headerValue', 'documentContent', 'footerValue');
+        $macroValues = array(
+            htmlspecialchars('Header Value', ENT_COMPAT, 'UTF-8'),
+            htmlspecialchars('Document text.', ENT_COMPAT, 'UTF-8'),
+            htmlspecialchars('Footer Value', ENT_COMPAT, 'UTF-8')
         );
+        $templateProcessor->setValue($macroNames, $macroValues);
 
         $docName = 'header-footer-test-result.docx';
-        $templateProcessor->setValue('headerValue', htmlspecialchars('Header Value', ENT_COMPAT, 'UTF-8'));
-        $templateProcessor->setValue('documentContent', htmlspecialchars('Document text.', ENT_COMPAT, 'UTF-8'));
-        $templateProcessor->setValue('footerValue', htmlspecialchars('Footer Value', ENT_COMPAT, 'UTF-8'));
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
