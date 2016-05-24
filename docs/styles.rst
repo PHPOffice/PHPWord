@@ -105,7 +105,7 @@ Available Cell style options:
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
 - ``gridSpan``. Number of columns spanned.
-- ``textDirection``. Direction of text.
+- ``textDirection(btLr|tbRl)``. Direction of text. You can use constants ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR`` and ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_TBRL``
 - ``valign``. Vertical alignment, *top*, *center*, *both*, *bottom*.
 - ``vMerge``. *restart* or *continue*.
 - ``width``. Cell width in twips.
