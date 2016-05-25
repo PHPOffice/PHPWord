@@ -49,7 +49,14 @@ for ($i = 1; $i <= 8; $i++) {
     $table->addCell(500)->addText(htmlspecialchars($text, ENT_COMPAT, 'UTF-8'));
 }
 
-// 3. colspan (gridSpan) and rowspan (vMerge)
+/**
+ *  3. colspan (gridSpan) and rowspan (vMerge)
+ *  ---------------------
+ *  |     |   B    |    |
+ *  |  A  |--------|  E |
+ *  |     | C |  D |    |
+ *  ---------------------
+ */
 
 $section->addPageBreak();
 $section->addText(htmlspecialchars('Table with colspan and rowspan', ENT_COMPAT, 'UTF-8'), $header);
