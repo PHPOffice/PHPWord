@@ -91,7 +91,41 @@ $table->addCell(2000, $cellVCentered)->addText(htmlspecialchars('C', ENT_COMPAT,
 $table->addCell(2000, $cellVCentered)->addText(htmlspecialchars('D', ENT_COMPAT, 'UTF-8'), null, $cellHCentered);
 $table->addCell(null, $cellRowContinue);
 
-// 4. Nested table
+/**
+ *  4. colspan (gridSpan) and rowspan (vMerge)
+ *  ---------------------
+ *  |     |   B    |  1 |
+ *  |  A  |        |----|
+ *  |     |        |  2 |
+ *  |     |---|----|----|
+ *  |     | C |  D |  3 |
+ *  ---------------------
+ * @see https://github.com/PHPOffice/PHPWord/issues/806
+ */
+$section->addPageBreak();
+$section->addText(htmlspecialchars('Table with colspan and rowspan', ENT_COMPAT, 'UTF-8'), $header);
+
+$styleTable = ['borderSize' => 6, 'borderColor' => '999999'];
+$phpWord->addTableStyle('Colspan Rowspan', $styleTable);
+$table = $section->addTable('Colspan Rowspan');
+
+$row = $table->addRow();
+
+$row->addCell(null, ['vMerge' => 'restart'])->addText('A');
+$row->addCell(null, ['gridSpan' => 2, 'vMerge' => 'restart',])->addText('B');
+$row->addCell()->addText('1');
+
+$row = $table->addRow();
+$row->addCell(null, ['vMerge' => 'continue']);
+$row->addCell(null, ['vMerge' => 'continue','gridSpan' => 2,]);
+$row->addCell()->addText('2');
+$row = $table->addRow();
+$row->addCell(null, ['vMerge' => 'continue']);
+$row->addCell()->addText('C');
+$row->addCell()->addText('D');
+$row->addCell()->addText('3');
+
+// 5. Nested table
 
 $section->addTextBreak(2);
 $section->addText(htmlspecialchars('Nested table in a centered and 50% width table.', ENT_COMPAT, 'UTF-8'), $header);
