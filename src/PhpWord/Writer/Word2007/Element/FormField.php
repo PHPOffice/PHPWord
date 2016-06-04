@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\FormField as FormFieldElement;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * FormField element writer
@@ -78,7 +79,7 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw("{$instruction}");
+        $xmlWriter->text("{$instruction}");
         $xmlWriter->endElement();// w:instrText
         $xmlWriter->endElement(); // w:r
 
@@ -91,7 +92,11 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($value);
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($value);
+        } else {
+            $xmlWriter->writeRaw($value);
+        }
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

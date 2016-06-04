@@ -48,14 +48,14 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $oLink = new Link(
             'https://github.com/PHPOffice/PHPWord',
-            htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'),
+            'PHPWord on GitHub',
             array('color' => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
             array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $oLink);
         $this->assertEquals('https://github.com/PHPOffice/PHPWord', $oLink->getSource());
-        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $oLink->getText());
+        $this->assertEquals('PHPWord on GitHub', $oLink->getText());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oLink->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oLink->getParagraphStyle());
     }

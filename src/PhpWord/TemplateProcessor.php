@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Escaper\RegExp;
+use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
@@ -104,6 +105,9 @@ class TemplateProcessor
 
     /**
      * Applies XSL style sheet to template's parts.
+     * 
+     * Note: since the method doesn't make any guess on logic of the provided XSL style sheet,
+     * make sure that output is correctly escaped. Otherwise you may get broken document.
      *
      * @param \DOMDocument $xslDOMDocument
      * @param array $xslOptions
@@ -187,6 +191,11 @@ class TemplateProcessor
             }
         } else {
             $replace = self::ensureUtf8Encoded($replace);
+        }
+
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlEscaper = new Xml();
+            $replace = $xmlEscaper->escape($replace);
         }
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
@@ -442,7 +451,8 @@ class TemplateProcessor
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
         } else {
-            return preg_replace(RegExp::escape($search), $replace, $documentPartXML, $limit);
+            $regExpEscaper = new RegExp();
+            return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);
         }
     }
 

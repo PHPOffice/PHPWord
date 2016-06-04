@@ -65,7 +65,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oFootnote = new Footnote();
-        $element = $oFootnote->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oFootnote->addText('text');
 
         $this->assertCount(1, $oFootnote->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);

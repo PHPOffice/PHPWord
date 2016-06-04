@@ -164,7 +164,7 @@ class Footnotes extends AbstractPart
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw(' ');
+        $xmlWriter->text(' ');
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

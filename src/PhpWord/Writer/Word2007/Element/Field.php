@@ -79,9 +79,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:noProof
         $xmlWriter->endElement(); // w:rPr
 
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw('1');
-        $xmlWriter->endElement(); // w:t
+        $xmlWriter->writeElement('w:t', '1');
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:fldSimple
 

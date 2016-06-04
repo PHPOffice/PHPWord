@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * CheckBox element writer
@@ -63,7 +64,7 @@ class CheckBox extends Text
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw(' FORMCHECKBOX ');
+        $xmlWriter->text(' FORMCHECKBOX ');
         $xmlWriter->endElement();// w:instrText
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
@@ -83,7 +84,11 @@ class CheckBox extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($this->getText($element->getText()));
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($this->getText($element->getText()));
+        } else {
+            $xmlWriter->writeRaw($this->getText($element->getText()));
+        }
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

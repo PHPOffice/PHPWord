@@ -33,11 +33,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
 
         $container = new \PhpOffice\PhpWord\Element\Header(1);
-        $container->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
-        $container->addPreserveText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addText('Test');
+        $container->addPreserveText('');
         $container->addTextBreak();
         $container->addTextRun();
-        $container->addTable()->addRow()->addCell()->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
         $container->addWatermark($imageSrc);
 

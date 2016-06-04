@@ -24,13 +24,9 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
     $section = $phpWord->addSection();
     // Adding Text element to the Section having font styled by default...
     $section->addText(
-        htmlspecialchars(
-            '"Learn from yesterday, live for today, hope for tomorrow. '
-                . 'The important thing is not to stop questioning." '
-                . '(Albert Einstein)',
-            ENT_COMPAT,
-            'UTF-8'
-        )
+        '"Learn from yesterday, live for today, hope for tomorrow. '
+            . 'The important thing is not to stop questioning." '
+            . '(Albert Einstein)'
     );
 
     /*
@@ -42,13 +38,9 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
 
     // Adding Text element with font customized inline...
     $section->addText(
-        htmlspecialchars(
-            '"Great achievement is usually born of great sacrifice, '
-                . 'and is never the result of selfishness." '
-                . '(Napoleon Hill)',
-            ENT_COMPAT,
-            'UTF-8'
-        ),
+        '"Great achievement is usually born of great sacrifice, '
+            . 'and is never the result of selfishness." '
+            . '(Napoleon Hill)',
         array('name' => 'Tahoma', 'size' => 10)
     );
 
@@ -59,13 +51,9 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
         array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
     );
     $section->addText(
-        htmlspecialchars(
-            '"The greatest accomplishment is not in never falling, '
-                . 'but in rising again after you fall." '
-                . '(Vince Lombardi)',
-            ENT_COMPAT,
-            'UTF-8'
-        ),
+        '"The greatest accomplishment is not in never falling, '
+            . 'but in rising again after you fall." '
+            . '(Vince Lombardi)',
         $fontStyleName
     );
 
@@ -74,9 +62,7 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
     $fontStyle->setBold(true);
     $fontStyle->setName('Tahoma');
     $fontStyle->setSize(13);
-    $myTextElement = $section->addText(
-        htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)', ENT_COMPAT, 'UTF-8')
-    );
+    $myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
     $myTextElement->setFontStyle($fontStyle);
 
     // Saving the document as OOXML file...
@@ -130,8 +116,22 @@ included with PHPWord.
 
     \PhpOffice\PhpWord\Settings::setZipClass(\PhpOffice\PhpWord\Settings::PCLZIP);
 
+Output escaping
+~~~~~~~~~~~~~~~
+
+Writing documents of some formats, especially XML-based, requires correct output escaping.
+Without it your document may become broken when you put special characters like ampersand, quotes, and others in it.
+
+Escaping can be performed in two ways: outside of the library by a software developer and inside of the library by built-in mechanism.
+By default, the built-in mechanism is disabled for backward compatibility with versions prior to v0.13.0.
+To turn it on set ``outputEscapingEnabled`` option to ``true`` in your PHPWord configuration file or use the following instruction at runtime:
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+
 Default font
-------------
+~~~~~~~~~~~~
 
 By default, every text appears in Arial 10 point. You can alter the
 default font by using the following two functions:

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\TOC as TOCElement;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph as ParagraphStyleWriter;
@@ -99,9 +100,13 @@ class TOC extends AbstractElement
             $styleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
             $styleWriter->write();
         }
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw($title->getText());
-        $xmlWriter->endElement();
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->writeElement('w:t', $title->getText());
+        } else {
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->writeRaw($title->getText());
+            $xmlWriter->endElement();
+        }
         $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
@@ -117,7 +122,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw("PAGEREF _Toc{$rId} \h");
+        $xmlWriter->text("PAGEREF _Toc{$rId} \h");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
@@ -200,7 +205,7 @@ class TOC extends AbstractElement
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw("TOC \o {$minDepth}-{$maxDepth} \h \z \u");
+        $xmlWriter->text("TOC \o {$minDepth}-{$maxDepth} \h \z \u");
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 

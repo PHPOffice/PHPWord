@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Text element writer
@@ -45,7 +46,11 @@ class Text extends AbstractElement
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($this->getText($element->getText()));
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($this->getText($element->getText()));
+        } else {
+            $xmlWriter->writeRaw($this->getText($element->getText()));
+        }
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 

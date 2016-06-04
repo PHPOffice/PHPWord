@@ -120,12 +120,13 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testLoadConfig()
     {
         $expected = array(
-            'compatibility'   => true,
-            'zipClass'        => 'ZipArchive',
-            'pdfRendererName' => 'DomPDF',
-            'pdfRendererPath' => '',
-            'defaultFontName' => 'Arial',
-            'defaultFontSize' => 10,
+            'compatibility'         => true,
+            'zipClass'              => 'ZipArchive',
+            'pdfRendererName'       => 'DomPDF',
+            'pdfRendererPath'       => '',
+            'defaultFontName'       => 'Arial',
+            'defaultFontSize'       => 10,
+            'outputEscapingEnabled' => false,
         );
 
         // Test default value

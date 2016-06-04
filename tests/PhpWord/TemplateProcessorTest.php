@@ -116,7 +116,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
          * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
          * This warning fails the test.
          */
-        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => htmlspecialchars('somevalue', ENT_COMPAT, 'UTF-8')));
+        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
     }
 
     /**
@@ -157,9 +157,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $docName = 'clone-test-result.docx';
-        $templateProcessor->setValue('tableHeader', utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $templateProcessor->setValue('tableHeader', utf8_decode('ééé'));
         $templateProcessor->cloneRow('userId', 1);
-        $templateProcessor->setValue('userId#1', htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $templateProcessor->setValue('userId#1', 'Test');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
@@ -178,11 +178,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('documentContent', 'headerValue', 'footerValue'), $templateProcessor->getVariables());
 
         $macroNames = array('headerValue', 'documentContent', 'footerValue');
-        $macroValues = array(
-            htmlspecialchars('Header Value', ENT_COMPAT, 'UTF-8'),
-            htmlspecialchars('Document text.', ENT_COMPAT, 'UTF-8'),
-            htmlspecialchars('Footer Value', ENT_COMPAT, 'UTF-8')
-        );
+        $macroValues = array('Header Value', 'Document text.', 'Footer Value');
         $templateProcessor->setValue($macroNames, $macroValues);
 
         $docName = 'header-footer-test-result.docx';

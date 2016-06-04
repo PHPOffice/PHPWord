@@ -58,9 +58,7 @@ class SDT extends Text
         // Content
         $xmlWriter->startElement('w:sdtContent');
         $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw('Pick value');
-        $xmlWriter->endElement(); // w:t
+        $xmlWriter->writeElement('w:t', 'Pick value');
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:sdtContent
 

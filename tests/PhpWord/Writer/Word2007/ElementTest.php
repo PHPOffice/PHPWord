@@ -202,9 +202,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $section->addFormField('textinput')->setName('MyTextBox');
         $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
-        $section->addFormField('dropdown')->setEntries(
-            array(htmlspecialchars('Choice 1', ENT_COMPAT, 'UTF-8'), htmlspecialchars('Choice 2', ENT_COMPAT, 'UTF-8'), htmlspecialchars('Choice 3', ENT_COMPAT, 'UTF-8'))
-        );
+        $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 

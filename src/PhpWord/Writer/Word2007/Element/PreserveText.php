@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * PreserveText element writer
@@ -60,7 +61,11 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($text);
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($text);
+                } else {
+                    $xmlWriter->writeRaw($text);
+                }
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 
@@ -82,7 +87,11 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:t');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($this->getText($text));
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($this->getText($text));
+                } else {
+                    $xmlWriter->writeRaw($this->getText($text));
+                }
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             }

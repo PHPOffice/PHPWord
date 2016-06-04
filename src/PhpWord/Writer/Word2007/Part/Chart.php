@@ -241,11 +241,13 @@ class Chart extends AbstractPart
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
-
-            $xmlWriter->startElement('c:v');
-            $xmlWriter->writeRaw($value);
-            $xmlWriter->endElement(); // c:v
-
+            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                $xmlWriter->writeElement('c:v', $value);
+            } else {
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($value);
+                $xmlWriter->endElement();
+            }
             $xmlWriter->endElement(); // c:pt
             $index++;
         }

@@ -22,12 +22,11 @@ namespace PhpOffice\PhpWord\Escaper;
  * 
  * @codeCoverageIgnore
  */
-class RegExp extends AbstractEscaper
+class Xml extends AbstractEscaper
 {
-    const REG_EXP_DELIMITER = '/';
-
     protected function escapeSingleValue($subject)
     {
-        return self::REG_EXP_DELIMITER . preg_quote($subject, self::REG_EXP_DELIMITER) . self::REG_EXP_DELIMITER . 'u';
+        // todo: omit encoding parameter after migration onto PHP 5.4
+        return htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
     }
 }

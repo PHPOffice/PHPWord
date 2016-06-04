@@ -30,10 +30,10 @@ class TitleTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $oTitle = new Title(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $oTitle = new Title('text');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $oTitle);
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $oTitle->getText());
+        $this->assertEquals('text', $oTitle->getText());
     }
 
     /**
@@ -41,7 +41,7 @@ class TitleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleNull()
     {
-        $oTitle = new Title(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $oTitle = new Title('text');
 
         $this->assertNull($oTitle->getStyle());
     }

@@ -45,10 +45,10 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckBox()
     {
-        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'));
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox');
 
-        $this->assertEquals(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), $oCheckBox->getName());
-        $this->assertEquals(htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), $oCheckBox->getText());
+        $this->assertEquals('chkBox', $oCheckBox->getName());
+        $this->assertEquals('CheckBox', $oCheckBox->getText());
     }
 
     /**
@@ -56,7 +56,7 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testFont()
     {
-        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), 'fontStyle');
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle');
         $this->assertEquals('fontStyle', $oCheckBox->getFontStyle());
 
         $oCheckBox->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
@@ -69,7 +69,7 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
     public function testFontObject()
     {
         $font = new Font();
-        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), $font);
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox', $font);
         $this->assertEquals($font, $oCheckBox->getFontStyle());
     }
 
@@ -78,7 +78,7 @@ class CheckBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testParagraph()
     {
-        $oCheckBox = new CheckBox(htmlspecialchars('chkBox', ENT_COMPAT, 'UTF-8'), htmlspecialchars('CheckBox', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
+        $oCheckBox = new CheckBox('chkBox', 'CheckBox', 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oCheckBox->getParagraphStyle());
 
         $oCheckBox->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));

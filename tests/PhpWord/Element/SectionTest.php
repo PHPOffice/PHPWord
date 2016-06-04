@@ -48,18 +48,18 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
-        $section->addText(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
-        $section->addLink(utf8_decode('http://äää.com'), utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
+        $section->addText(utf8_decode('ä'));
+        $section->addLink(utf8_decode('http://äää.com'), utf8_decode('ä'));
         $section->addTextBreak();
         $section->addPageBreak();
         $section->addTable();
-        $section->addListItem(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')));
+        $section->addListItem(utf8_decode('ä'));
         $section->addObject($objectSource);
         $section->addImage($imageSource);
-        $section->addTitle(utf8_decode(htmlspecialchars('ä', ENT_COMPAT, 'UTF-8')), 1);
+        $section->addTitle(utf8_decode('ä'), 1);
         $section->addTextRun();
         $section->addFootnote();
-        $section->addCheckBox(utf8_decode(htmlspecialchars('chkä', ENT_COMPAT, 'UTF-8')), utf8_decode(htmlspecialchars('Contentä', ENT_COMPAT, 'UTF-8')));
+        $section->addCheckBox(utf8_decode('chkä'), utf8_decode('Contentä'));
         $section->addTOC();
 
         $elementCollection = $section->getElements();
@@ -106,7 +106,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         Style::addTitleStyle(1, array('size' => 14));
         $section = new Section(0);
         $section->setPhpWord(new PhpWord());
-        $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
+        $section->addTitle('Test', 1);
         $elementCollection = $section->getElements();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $elementCollection[0]);

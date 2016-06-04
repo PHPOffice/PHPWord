@@ -84,7 +84,7 @@ class TOCTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         foreach ($titles as $text => $depth) {
-            $phpWord->addTitle(new Title(htmlspecialchars($text, ENT_COMPAT, 'UTF-8'), $depth));
+            $phpWord->addTitle(new Title($text, $depth));
         }
         $toc = new TOC();
         $toc->setPhpWord($phpWord);

@@ -42,7 +42,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
-        $textrun->addText(htmlspecialchars('سلام این یک پاراگراف راست به چپ است', ENT_COMPAT, 'UTF-8'), array('rtl' => true));
+        $textrun->addText('سلام این یک پاراگراف راست به چپ است', array('rtl' => true));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $file = 'word/document.xml';

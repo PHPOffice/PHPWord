@@ -54,13 +54,13 @@ class DocPropsCore extends AbstractPart
         // dcterms:created
         $xmlWriter->startElement('dcterms:created');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocInfo()->getCreated()));
+        $xmlWriter->text(date($this->dateFormat, $phpWord->getDocInfo()->getCreated()));
         $xmlWriter->endElement();
 
         // dcterms:modified
         $xmlWriter->startElement('dcterms:modified');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocInfo()->getModified()));
+        $xmlWriter->text(date($this->dateFormat, $phpWord->getDocInfo()->getModified()));
         $xmlWriter->endElement();
 
         $xmlWriter->endElement(); // cp:coreProperties

@@ -99,11 +99,11 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oListItemRun->addText('text');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('text', $element->getText());
     }
 
     /**
@@ -112,11 +112,11 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oListItemRun->addText(utf8_decode('ééé'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oListItemRun->getElements());
-        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('ééé', $element->getText());
     }
 
     /**
@@ -138,12 +138,12 @@ class ListItemRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLinkWithName()
     {
         $oListItemRun = new ListItemRun();
-        $element = $oListItemRun->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
+        $element = $oListItemRun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oListItemRun->getElements());
         $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
-        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('PHPWord on GitHub', $element->getText());
     }
 
     /**

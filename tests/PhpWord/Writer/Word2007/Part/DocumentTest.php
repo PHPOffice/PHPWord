@@ -70,14 +70,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
         $section->addTOC();
         $section->addPageBreak();
-        $section->addText(htmlspecialchars('After page break.', ENT_COMPAT, 'UTF-8'));
-        $section->addTitle(htmlspecialchars('Title 1', ENT_COMPAT, 'UTF-8'), 1);
-        $section->addListItem(htmlspecialchars('List Item 1', ENT_COMPAT, 'UTF-8'), 0);
-        $section->addListItem(htmlspecialchars('List Item 2', ENT_COMPAT, 'UTF-8'), 0);
-        $section->addListItem(htmlspecialchars('List Item 3', ENT_COMPAT, 'UTF-8'), 0);
+        $section->addText('After page break.');
+        $section->addTitle('Title 1', 1);
+        $section->addListItem('List Item 1', 0);
+        $section->addListItem('List Item 2', 0);
+        $section->addListItem('List Item 3', 0);
 
         $section = $phpWord->addSection();
-        $section->addTitle(htmlspecialchars('Title 2', ENT_COMPAT, 'UTF-8'), 2);
+        $section->addTitle('Title 2', 2);
         $section->addObject($objectSrc);
         $section->addTextBox(array());
         $section->addTextBox(
@@ -92,7 +92,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             )
         );
         $section->addTextBox(array('wrappingStyle' => 'tight', 'positioning' => 'absolute', 'alignment' => Jc::CENTER));
-        $section->addListItemRun()->addText(htmlspecialchars('List item run 1', ENT_COMPAT, 'UTF-8'));
+        $section->addListItemRun()->addText('List item run 1');
         $section->addField(
             'DATE',
             array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'),
@@ -180,10 +180,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $fontStyle = new Font('text', array('alignment' => Jc::CENTER));
 
         $section = $phpWord->addSection();
-        $section->addListItem(htmlspecialchars('List Item', ENT_COMPAT, 'UTF-8'), 0, null, null, 'pStyle'); // Style #5
+        $section->addListItem('List Item', 0, null, null, 'pStyle'); // Style #5
         $section->addObject($objectSrc, array('alignment' => Jc::CENTER));
         $section->addTOC($fontStyle);
-        $section->addTitle(htmlspecialchars('Title 1', ENT_COMPAT, 'UTF-8'), 1);
+        $section->addTitle('Title 1', 1);
         $section->addTOC('fStyle');
         $table = $section->addTable('tStyle');
         $table->setWidth(100);
@@ -216,7 +216,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addFontStyle($rStyle, array('bold' => true));
         $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $rStyle, $pStyle);
+        $section->addText('Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:rPr/w:rStyle';
@@ -236,9 +236,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle($pStyle, $aStyle);
-        $section = $phpWord->addSection(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $section = $phpWord->addSection('Test');
         $textrun = $section->addTextRun($pStyle);
-        $textrun->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test');
         $textrun->addTextBreak();
         $textrun = $section->addTextRun($aStyle);
         $textrun->addLink('https://github.com/PHPOffice/PHPWord');
@@ -263,24 +263,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $paragraphStyleName = 'Paragraph Style';
 
         $expected = 'PHPWord on GitHub';
-        $section->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'));
-        $section->addLink(
-            'https://github.com/PHPOffice/PHPWord',
-            htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'),
-            $fontStyleArray,
-            $paragraphStyleArray
-        );
-        $section->addLink(
-            'https://github.com/PHPOffice/PHPWord',
-            htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'),
-            $fontStyleName,
-            $paragraphStyleName
-        );
+        $section->addLink('https://github.com/PHPOffice/PHPWord', $expected);
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'Test', $fontStyleArray, $paragraphStyleArray);
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'Test', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t');
 
-        $this->assertEquals(htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'), $element->nodeValue);
+        $this->assertEquals($expected, $element->nodeValue);
     }
 
     /**
@@ -296,9 +286,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $paragraphStyleArray = array('alignment' => Jc::END);
         $paragraphStyleName = 'Paragraph';
 
-        $footer->addPreserveText(htmlspecialchars('Page {PAGE}', ENT_COMPAT, 'UTF-8'));
-        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'), $fontStyleArray, $paragraphStyleArray);
-        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'), $fontStyleName, $paragraphStyleName);
+        $footer->addPreserveText('Page {PAGE}');
+        $footer->addPreserveText('{PAGE}', $fontStyleArray, $paragraphStyleArray);
+        $footer->addPreserveText('{PAGE}', $fontStyleName, $paragraphStyleName);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $preserve = $doc->getElement('w:p/w:r[2]/w:instrText', 'word/footer1.xml');
@@ -387,7 +377,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
-        $phpWord->addSection()->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
+        $phpWord->addSection()->addTitle('Test', 1);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:pPr/w:pStyle';
@@ -406,11 +396,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // $phpWord->addFontStyle($rStyle, array('bold' => true));
         // $phpWord->addParagraphStyle($pStyle, array('hanging' => 120, 'indent' => 120));
         $section = $phpWord->addSection();
-        $section->addCheckBox(htmlspecialchars('Check1', ENT_COMPAT, 'UTF-8'), htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $rStyle, $pStyle);
+        $section->addCheckBox('Check1', 'Test', $rStyle, $pStyle);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData/w:name';
-        $this->assertEquals(htmlspecialchars('Check1', ENT_COMPAT, 'UTF-8'), $doc->getElementAttribute($element, 'w:val'));
+        $this->assertEquals('Check1', $doc->getElementAttribute($element, 'w:val'));
     }
 
     /**
@@ -429,7 +419,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
             'pageBreakBefore' => true,
         );
         foreach ($attributes as $attribute => $value) {
-            $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), null, array($attribute => $value));
+            $section->addText('Test', null, array($attribute => $value));
         }
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -467,7 +457,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $styles['smallCaps'] = true;
 
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), $styles);
+        $section->addText('Test', $styles);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $parent = '/w:document/w:body/w:p/w:r/w:rPr';
@@ -519,14 +509,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $table->setWidth = 100;
         $table->addRow($rHeight, $rStyles);
         $cell = $table->addCell($cWidth, $cStyles);
-        $cell->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $cell->addText('Test');
         $cell->addTextBreak();
         $cell->addLink('https://github.com/PHPOffice/PHPWord');
-        $cell->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $cell->addListItem('Test');
         $cell->addImage($imageSrc);
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
-        $textrun->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 

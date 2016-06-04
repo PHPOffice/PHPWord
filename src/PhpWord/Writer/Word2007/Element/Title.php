@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * TextRun element writer
@@ -60,9 +61,13 @@ class Title extends AbstractElement
 
         // Actual text
         $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:t');
-        $xmlWriter->writeRaw($this->getText($element->getText()));
-        $xmlWriter->endElement();
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->writeElement('w:t', $this->getText($element->getText()));
+        } else {
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->writeRaw($this->getText($element->getText()));
+            $xmlWriter->endElement();
+        }
         $xmlWriter->endElement();
 
         // Bookmark end

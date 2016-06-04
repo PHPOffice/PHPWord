@@ -22,12 +22,25 @@ namespace PhpOffice\PhpWord\Escaper;
  * 
  * @codeCoverageIgnore
  */
-class RegExp extends AbstractEscaper
+abstract class AbstractEscaper implements EscaperInterface 
 {
-    const REG_EXP_DELIMITER = '/';
+    /**
+     * @param string $subject
+     *
+     * @return string
+     */
+    abstract protected function escapeSingleValue($subject);
 
-    protected function escapeSingleValue($subject)
+    public function escape($subject)
     {
-        return self::REG_EXP_DELIMITER . preg_quote($subject, self::REG_EXP_DELIMITER) . self::REG_EXP_DELIMITER . 'u';
+        if (is_array($subject)) {
+            foreach ($subject as &$item) {
+                $item = $this->escapeSingleValue($item);
+            }
+        } else {
+            $subject = $this->escapeSingleValue($subject);
+        }
+
+        return $subject;
     }
 }

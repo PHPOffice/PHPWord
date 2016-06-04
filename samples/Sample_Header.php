@@ -20,6 +20,9 @@ if (null === Settings::getPdfRendererPath()) {
     $writers['PDF'] = null;
 }
 
+// Turn output escaping on
+Settings::setOutputEscapingEnabled(true);
+
 // Return to the caller script when runs by CLI
 if (CLI) {
     return;

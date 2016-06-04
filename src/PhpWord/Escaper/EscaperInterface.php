@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Escaper;
 
 /**
  * @since 0.13.0
+ * 
+ * @codeCoverageIgnore
  */
 interface EscaperInterface
 {
@@ -27,5 +29,5 @@ interface EscaperInterface
      *
      * @return mixed
      */
-    public static function escape($subject);
+    public function escape($subject);
 }

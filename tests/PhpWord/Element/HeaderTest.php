@@ -43,11 +43,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oHeader->addText('text');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('text', $element->getText());
     }
 
     /**
@@ -56,11 +56,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oHeader->addText(utf8_decode('ééé'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oHeader->getElements());
-        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('ééé', $element->getText());
     }
 
     /**
@@ -125,9 +125,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddImageByUrl()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addImage(
-            'http://php.net/images/logos/php-med-trans-light.gif'
-        );
+        $element = $oHeader->addImage('http://php.net/images/logos/php-med-trans-light.gif');
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
@@ -139,7 +137,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveText()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oHeader->addPreserveText('text');
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -151,11 +149,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveTextNotUTF8()
     {
         $oHeader = new Header(1);
-        $element = $oHeader->addPreserveText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oHeader->addPreserveText(utf8_decode('ééé'));
 
         $this->assertCount(1, $oHeader->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals(array(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), $element->getText());
+        $this->assertEquals(array('ééé'), $element->getText());
     }
 
     /**

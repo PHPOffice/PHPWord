@@ -7,17 +7,17 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
 $section = $phpWord->addSection();
-$section->addText(htmlspecialchars('Local image without any styles:', ENT_COMPAT, 'UTF-8'));
+$section->addText('Local image without any styles:');
 $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);
 
-$section->addText(htmlspecialchars('Local image with styles:', ENT_COMPAT, 'UTF-8'));
+$section->addText('Local image with styles:');
 $section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
 $section->addTextBreak(2);
 
 // Remote image
 $source = 'http://php.net/images/logos/php-med-trans-light.gif';
-$section->addText(htmlspecialchars("Remote image from: {$source}", ENT_COMPAT, 'UTF-8'));
+$section->addText("Remote image from: {$source}");
 $section->addImage($source);
 
 //Wrapping style
@@ -25,7 +25,7 @@ $text = str_repeat('Hello World! ', 15);
 $wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');
 foreach ($wrappingStyles as $wrappingStyle) {
     $section->addTextBreak(5);
-    $section->addText(htmlspecialchars("Wrapping style {$wrappingStyle}", ENT_COMPAT, 'UTF-8'));
+    $section->addText("Wrapping style {$wrappingStyle}");
     $section->addImage(
         'resources/_earth.jpg',
         array(
@@ -37,12 +37,12 @@ foreach ($wrappingStyles as $wrappingStyle) {
             'wrappingStyle' => $wrappingStyle,
         )
     );
-    $section->addText(htmlspecialchars($text, ENT_COMPAT, 'UTF-8'));
+    $section->addText($text);
 }
 
 //Absolute positioning
 $section->addTextBreak(3);
-$section->addText(htmlspecialchars('Absolute positioning: see top right corner of page', ENT_COMPAT, 'UTF-8'));
+$section->addText('Absolute positioning: see top right corner of page');
 $section->addImage(
     'resources/_mars.jpg',
     array(
@@ -59,8 +59,8 @@ $section->addImage(
 
 //Relative positioning
 $section->addTextBreak(3);
-$section->addText(htmlspecialchars('Relative positioning: Horizontal position center relative to column,', ENT_COMPAT, 'UTF-8'));
-$section->addText(htmlspecialchars('Vertical position top relative to line', ENT_COMPAT, 'UTF-8'));
+$section->addText('Relative positioning: Horizontal position center relative to column,');
+$section->addText('Vertical position top relative to line');
 $section->addImage(
     'resources/_mars.jpg',
     array(
