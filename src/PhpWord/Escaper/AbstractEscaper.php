@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Escaper;
  * 
  * @codeCoverageIgnore
  */
-abstract class AbstractEscaper implements EscaperInterface 
+abstract class AbstractEscaper implements EscaperInterface
 {
     /**
      * @param string $subject
