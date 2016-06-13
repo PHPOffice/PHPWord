@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
+
 use PhpOffice\PhpWord\Settings;
 
 /**

@@ -102,7 +102,7 @@ class Meta extends AbstractPart
         //     $xmlWriter->writeAttribute('meta:value-type', $type);
         // }
         if (Settings::isOutputEscapingEnabled()) {
-            $xmlWriter->text($value);    
+            $xmlWriter->text($value);
         } else {
             $xmlWriter->writeRaw($value);
         }
