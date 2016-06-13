@@ -73,20 +73,20 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font');
+        $section->addText('Test 1', 'Font');
         $section->addTextBreak();
-        $section->addText(htmlspecialchars('Test 2', ENT_COMPAT, 'UTF-8'), null, 'Paragraph');
+        $section->addText('Test 2', null, 'Paragraph');
         $section->addLink('https://github.com/PHPOffice/PHPWord');
-        $section->addTitle(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'), 1);
+        $section->addTitle('Test', 1);
         $section->addPageBreak();
-        $section->addTable()->addRow()->addCell()->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
-        $section->addListItem(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $section->addTable()->addRow()->addCell()->addText('Test');
+        $section->addListItem('Test');
         $section->addImage($imageSrc);
         $section->addObject($objectSrc);
         $section->addTOC();
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
-        $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test 3');
         $writer = new ODText($phpWord);
         $writer->save($file);
 
@@ -104,7 +104,7 @@ class ODTextTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $section->addText('Test');
         $writer = new ODText($phpWord);
         $writer->save('php://output');
     }
