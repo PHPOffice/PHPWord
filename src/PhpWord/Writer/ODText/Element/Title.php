@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Settings;
+
 /**
  * Title element writer
  *
@@ -37,7 +39,11 @@ class Title extends AbstractElement
 
         $xmlWriter->startElement('text:h');
         $xmlWriter->writeAttribute('text:outline-level', $element->getDepth());
-        $xmlWriter->writeRaw($element->getText());
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($element->getText());
+        } else {
+            $xmlWriter->writeRaw($element->getText());
+        }
         $xmlWriter->endElement(); // text:h
     }
 }

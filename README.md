@@ -149,7 +149,7 @@ $objWriter->save('helloWorld.html');
 /* Note: we skip RTF, because it's not XML-based and requires a different example. */
 /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
-:warning: Escape any string you pass to ODF/HTML document, otherwise it may get broken.
+:warning: Escape any string you pass to HTML document, otherwise it may get broken.
 
 More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 
