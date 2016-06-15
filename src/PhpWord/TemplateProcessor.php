@@ -274,9 +274,7 @@ class TemplateProcessor
         }
 
         $result = $this->getSlice(0, $rowStart);
-        for ($i = 1; $i <= $numberOfClones; $i++) {
-            $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
-        }
+        $result .= implode($this->indexClonedVariables($numberOfClones, $xmlRow));
         $result .= $this->getSlice($rowEnd);
 
         $this->tempDocumentMainPart = $result;
@@ -302,10 +300,7 @@ class TemplateProcessor
 
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
-            $cloned = array();
-            for ($i = 1; $i <= $clones; $i++) {
-                $cloned[] = $xmlBlock;
-            }
+            $cloned = $this->indexClonedVariables($clones, $xmlBlock);
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
@@ -544,5 +539,23 @@ class TemplateProcessor
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Replaces variable names in cloned 
+     * rows/blocks with indexed names
+     *
+     * @param integer $count
+     * @param string $xmlBlock
+     *
+     * @return string
+     */
+    protected function indexClonedVariables($count, $xmlBlock)
+    {
+        $results = [];
+        for ($i = 1; $i <= $count; $i++) {
+            $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+        }
+        return $results;
     }
 }
