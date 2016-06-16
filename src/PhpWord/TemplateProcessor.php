@@ -552,7 +552,7 @@ class TemplateProcessor
      */
     protected function indexClonedVariables($count, $xmlBlock)
     {
-        $results = [];
+        $results = array();
         for ($i = 1; $i <= $count; $i++) {
             $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
         }
