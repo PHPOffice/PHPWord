@@ -98,10 +98,21 @@ abstract class AbstractContainer extends AbstractElement
             // Special case for TextBreak
             // @todo Remove the `$count` parameter in 1.0.0 to make this element similiar to other elements?
             if ($element == 'TextBreak') {
-                @list($count, $fontStyle, $paragraphStyle) = $args; // Suppress error
+                $count = $args[0];
                 if ($count === null) {
                     $count = 1;
                 }
+
+                $fontStyle = null;
+                if (isset($args[1])) {
+                    $fontStyle = $args[1];
+                }
+
+                $paragraphStyle = null;
+                if (isset($args[2])) {
+                    $paragraphStyle = $args[2];
+                }
+
                 for ($i = 1; $i <= $count; $i++) {
                     $this->addElement($element, $fontStyle, $paragraphStyle);
                 }
