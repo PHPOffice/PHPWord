@@ -53,32 +53,27 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 PHPWord requires the following:
 
 - PHP 5.3+
-- [Zip extension](http://php.net/manual/en/book.zip.php)
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
+- [Zend\Validator component](http://framework.zend.com/manual/current/en/modules/zend.validator.html)
+- [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write DOCX and ODT)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
 - [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write DOCX and ODT)
 - [XSL extension](http://php.net/manual/en/book.xsl.php) (optional, used to apply XSL style sheet to template )
-- [dompdf](https://github.com/dompdf/dompdf) (optional, used to write PDF)
+- [dompdf library](https://github.com/dompdf/dompdf) (optional, used to write PDF)
 
 ## Installation
 
-It is recommended that you install the PHPWord library [through composer](http://getcomposer.org/). To do so, add
-the following lines to your ``composer.json``.
+PHPWord is installed via [Composer](https://getcomposer.org/).
+You just need to [add dependency](https://getcomposer.org/doc/04-schema.md#package-links>) on PHPWord into your package.
+
+Example:
 
 ```json
 {
     "require": {
-       "phpoffice/phpword": "dev-master"
+       "phpoffice/phpword": "v0.13.*"
     }
 }
-```
-
-Alternatively, you can download the latest release from the [releases page](https://github.com/PHPOffice/PHPWord/releases).
-In this case, you will have to register the autoloader.
-
-```php
-require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
-\PhpOffice\PhpWord\Autoloader::register();
 ```
 
 ## Getting started
@@ -87,8 +82,7 @@ The following is a basic usage example of the PHPWord library.
 
 ```php
 <?php
-require_once 'src/PhpWord/Autoloader.php';
-\PhpOffice\PhpWord\Autoloader::register();
+require_once 'bootstrap.php';
 
 // Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -99,11 +93,9 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 // Adding Text element to the Section having font styled by default...
 $section->addText(
-    htmlspecialchars(
-        '"Learn from yesterday, live for today, hope for tomorrow. '
-            . 'The important thing is not to stop questioning." '
-            . '(Albert Einstein)'
-    )
+    '"Learn from yesterday, live for today, hope for tomorrow. '
+        . 'The important thing is not to stop questioning." '
+        . '(Albert Einstein)'
 );
 
 /*
@@ -115,11 +107,9 @@ $section->addText(
 
 // Adding Text element with font customized inline...
 $section->addText(
-    htmlspecialchars(
-        '"Great achievement is usually born of great sacrifice, '
-            . 'and is never the result of selfishness." '
-            . '(Napoleon Hill)'
-    ),
+    '"Great achievement is usually born of great sacrifice, '
+        . 'and is never the result of selfishness." '
+        . '(Napoleon Hill)',
     array('name' => 'Tahoma', 'size' => 10)
 );
 
@@ -130,11 +120,9 @@ $phpWord->addFontStyle(
     array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
 );
 $section->addText(
-    htmlspecialchars(
-        '"The greatest accomplishment is not in never falling, '
-            . 'but in rising again after you fall." '
-            . '(Vince Lombardi)'
-    ),
+    '"The greatest accomplishment is not in never falling, '
+        . 'but in rising again after you fall." '
+        . '(Vince Lombardi)',
     $fontStyleName
 );
 
@@ -143,9 +131,7 @@ $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
 $fontStyle->setName('Tahoma');
 $fontStyle->setSize(13);
-$myTextElement = $section->addText(
-    htmlspecialchars('"Believe you can and you\'re halfway there." (Theodor Roosevelt)')
-);
+$myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
 $myTextElement->setFontStyle($fontStyle);
 
 // Saving the document as OOXML file...
@@ -163,7 +149,7 @@ $objWriter->save('helloWorld.html');
 /* Note: we skip RTF, because it's not XML-based and requires a different example. */
 /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
-:warning: Escape any string you pass to OOXML/ODF/HTML document, otherwise it may get broken.
+:warning: Escape any string you pass to HTML document, otherwise it may get broken.
 
 More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 

@@ -63,7 +63,8 @@ Paragraph
 
 Available Paragraph style options:
 
-- ``alignment``. Supports all alignment modes provided by third edition of ISO/IEC 29500 standard. See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+- ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
+See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``basedOn``. Parent style.
 - ``hanging``. Hanging by how much.
 - ``indent``. Indent by how much.
@@ -84,7 +85,8 @@ Table
 
 Available Table style options:
 
-- ``alignment``. Supports all alignment modes provided by third edition of ISO/IEC 29500 standard. See ``\PhpOffice\PhpWord\SimpleType\JcTable`` class for the details.
+- ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
+See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` classes for the details.
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
@@ -103,7 +105,7 @@ Available Cell style options:
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
 - ``gridSpan``. Number of columns spanned.
-- ``textDirection``. Direction of text.
+- ``textDirection(btLr|tbRl)``. Direction of text. You can use constants ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR`` and ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_TBRL``
 - ``valign``. Vertical alignment, *top*, *center*, *both*, *bottom*.
 - ``vMerge``. *restart* or *continue*.
 - ``width``. Cell width in twips.
@@ -129,7 +131,8 @@ Numbering level
 
 Available NumberingLevel style options:
 
-- ``alignment``. Supports all alignment modes provided by third edition of ISO/IEC 29500 standard. See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+- ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
+See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``font``. Font name.
 - ``format``. Numbering format bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter.
 - ``hanging``. See paragraph style.

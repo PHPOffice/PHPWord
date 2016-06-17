@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Shape as ShapeElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style\Shape as ShapeStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Shape as ShapeStyleWriter;
 
@@ -78,7 +78,7 @@ class Shape extends AbstractElement
     /**
      * Write arc.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
      * @return void
      */
@@ -93,7 +93,7 @@ class Shape extends AbstractElement
     /**
      * Write curve.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
      * @return void
      */
@@ -109,7 +109,7 @@ class Shape extends AbstractElement
     /**
      * Write line.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
      * @return void
      */
@@ -124,7 +124,7 @@ class Shape extends AbstractElement
     /**
      * Write polyline.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
      * @return void
      */
@@ -136,7 +136,7 @@ class Shape extends AbstractElement
     /**
      * Write rectangle.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
      * @return void
      */

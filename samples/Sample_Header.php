@@ -1,21 +1,15 @@
 <?php
-require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
+require_once __DIR__ . '/../bootstrap.php';
 
-date_default_timezone_set('UTC');
-
-/**
- * Header file
- */
-use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
 
+date_default_timezone_set('UTC');
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
-Autoloader::register();
 Settings::loadConfig();
 
 // Set writers
@@ -25,6 +19,9 @@ $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML'
 if (null === Settings::getPdfRendererPath()) {
     $writers['PDF'] = null;
 }
+
+// Turn output escaping on
+Settings::setOutputEscapingEnabled(true);
 
 // Return to the caller script when runs by CLI
 if (CLI) {

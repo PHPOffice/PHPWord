@@ -5,12 +5,12 @@ include_once 'Sample_Header.php';
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-// Begin code
+// New section
 $section = $phpWord->addSection();
 
 // Add Line elements
 // See Element/Line.php for all options
-$section->addText(htmlspecialchars('Horizontal Line (Inline style):', ENT_COMPAT, 'UTF-8'));
+$section->addText('Horizontal Line (Inline style):');
 $section->addLine(
     array(
         'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
@@ -18,7 +18,7 @@ $section->addLine(
         'positioning' => 'absolute',
     )
 );
-$section->addText(htmlspecialchars('Vertical Line (Inline style):', ENT_COMPAT, 'UTF-8'));
+$section->addText('Vertical Line (Inline style):');
 $section->addLine(
     array(
         'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(0),
@@ -29,7 +29,7 @@ $section->addLine(
 // Two text break
 $section->addTextBreak(1);
 
-$section->addText(htmlspecialchars('Positioned Line (red):', ENT_COMPAT, 'UTF-8'));
+$section->addText('Positioned Line (red):');
 $section->addLine(
     array(
         'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
@@ -44,7 +44,7 @@ $section->addLine(
     )
 );
 
-$section->addText(htmlspecialchars('Horizontal Formatted Line', ENT_COMPAT, 'UTF-8'));
+$section->addText('Horizontal Formatted Line');
 $section->addLine(
     array(
         'width'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15),

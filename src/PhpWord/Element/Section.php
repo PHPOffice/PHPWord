@@ -11,18 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
-/**
- * Section
- */
 class Section extends AbstractContainer
 {
     /**
@@ -82,6 +78,8 @@ class Section extends AbstractContainer
      * Get section style
      *
      * @return \PhpOffice\PhpWord\Style\Section
+     *
+     * @codeCoverageIgnore
      */
     public function getStyle()
     {
@@ -91,9 +89,11 @@ class Section extends AbstractContainer
     /**
      * Add header
      *
-     * @param string $type
-     * @return Header
      * @since 0.10.0
+     *
+     * @param string $type
+     *
+     * @return Header
      */
     public function addHeader($type = Header::AUTO)
     {
@@ -103,9 +103,11 @@ class Section extends AbstractContainer
     /**
      * Add footer
      *
-     * @param string $type
-     * @return Footer
      * @since 0.10.0
+     *
+     * @param string $type
+     *
+     * @return Footer
      */
     public function addFooter($type = Header::AUTO)
     {
@@ -116,6 +118,8 @@ class Section extends AbstractContainer
      * Get header elements
      *
      * @return Header[]
+     *
+     * @codeCoverageIgnore
      */
     public function getHeaders()
     {
@@ -126,6 +130,8 @@ class Section extends AbstractContainer
      * Get footer elements
      *
      * @return Footer[]
+     *
+     * @codeCoverageIgnore
      */
     public function getFooters()
     {
@@ -160,7 +166,7 @@ class Section extends AbstractContainer
      *
      * @return Header|Footer
      *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws \Exception
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -178,7 +184,7 @@ class Section extends AbstractContainer
             $collection[$index] = $container;
             return $container;
         } else {
-            throw new Exception('Invalid header/footer type.');
+            throw new \Exception('Invalid header/footer type.');
         }
 
     }

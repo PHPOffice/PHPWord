@@ -11,16 +11,22 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\SimpleType;
 
+use Zend\Validator\InArray;
+
 /**
  * Table Alignment Type.
  *
+ * Introduced in ISO/IEC-29500:2008.
+ *
  * @since 0.13.0
+ *
+ * @codeCoverageIgnore
  */
 final class JcTable
 {
@@ -31,10 +37,16 @@ final class JcTable
     /**
      * @since 0.13.0
      *
-     * @return string[]
+     * @return \Zend\Validator\InArray
      */
-    final public static function getAllowedValues()
+    final public static function getValidator()
     {
-        return array(self::START, self::CENTER, self::END);
+        // todo: consider caching validator instances.
+        return new InArray(
+            array (
+                'haystack' => array(self::START, self::CENTER, self::END),
+                'strict'   => InArray::COMPARE_STRICT,
+            )
+        );
     }
 }

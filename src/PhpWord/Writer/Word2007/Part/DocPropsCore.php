@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -54,13 +54,13 @@ class DocPropsCore extends AbstractPart
         // dcterms:created
         $xmlWriter->startElement('dcterms:created');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocInfo()->getCreated()));
+        $xmlWriter->text(date($this->dateFormat, $phpWord->getDocInfo()->getCreated()));
         $xmlWriter->endElement();
 
         // dcterms:modified
         $xmlWriter->startElement('dcterms:modified');
         $xmlWriter->writeAttribute('xsi:type', 'dcterms:W3CDTF');
-        $xmlWriter->writeRaw(date($this->dateFormat, $phpWord->getDocInfo()->getModified()));
+        $xmlWriter->text(date($this->dateFormat, $phpWord->getDocInfo()->getModified()));
         $xmlWriter->endElement();
 
         $xmlWriter->endElement(); // cp:coreProperties

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -126,6 +126,14 @@ class Settings
      */
     private static $tempDir = '';
 
+    /**
+     * Enables built-in output escaping mechanism.
+     * Default value is `false` for backward compatibility with versions below 0.13.0.
+     *
+     * @var bool
+     */
+    private static $outputEscapingEnabled = false;
+    
     /**
      * Return the compatibility option used by the XMLWriter
      *
@@ -282,6 +290,7 @@ class Settings
      * @since 0.12.0
      *
      * @param string $tempDir The user defined path to temporary directory.
+     *
      * @return void
      */
     public static function setTempDir($tempDir)
@@ -305,6 +314,30 @@ class Settings
         }
 
         return $tempDir;
+    }
+
+    /**
+     * @since 0.13.0
+     * 
+     * @return boolean
+     *
+     * @codeCoverageIgnore
+     */
+    public static function isOutputEscapingEnabled()
+    {
+        return self::$outputEscapingEnabled;
+    }
+
+    /**
+     * @since 0.13.0
+     * 
+     * @param boolean $outputEscapingEnabled
+     *
+     * @codeCoverageIgnore
+     */
+    public static function setOutputEscapingEnabled($outputEscapingEnabled)
+    {
+        self::$outputEscapingEnabled = $outputEscapingEnabled;
     }
 
     /**

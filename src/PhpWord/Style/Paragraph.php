@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
-use PhpOffice\PhpWord\Shared\String;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
@@ -167,7 +167,7 @@ class Paragraph extends Border
      */
     public function setStyleValue($key, $value)
     {
-        $key = String::removeUnderscorePrefix($key);
+        $key = Text::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
             $value = $value * 720;
         } elseif ('spacing' == $key) {
@@ -232,7 +232,7 @@ class Paragraph extends Border
      */
     public function setAlignment($value)
     {
-        if (in_array($value, Jc::getAllowedValues(), true)) {
+        if (Jc::getValidator()->isValid($value)) {
             $this->alignment = $value;
         }
 

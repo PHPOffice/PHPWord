@@ -11,16 +11,16 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractContainer as ContainerElement;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 
 /**
  * Container element writer (section, textrun, header, footnote, cell, etc.)
@@ -73,7 +73,7 @@ class Container extends AbstractElement
     /**
      * Write individual element
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      * @return string

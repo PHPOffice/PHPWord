@@ -11,14 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @copyright   2010-2015 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Abstract part reader
@@ -92,7 +92,7 @@ abstract class AbstractPart
     /**
      * Read w:p.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
@@ -183,7 +183,7 @@ abstract class AbstractPart
     /**
      * Read w:r.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
@@ -246,7 +246,7 @@ abstract class AbstractPart
     /**
      * Read w:tbl.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
@@ -307,7 +307,7 @@ abstract class AbstractPart
     /**
      * Read w:pPr.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array|null
      */
@@ -339,7 +339,7 @@ abstract class AbstractPart
     /**
      * Read w:rPr
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array|null
      */
@@ -382,7 +382,7 @@ abstract class AbstractPart
     /**
      * Read w:tblPr
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return string|array|null
      * @todo Capture w:tblStylePr w:type="firstRow"
@@ -418,7 +418,7 @@ abstract class AbstractPart
     /**
      * Read w:tcPr
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
      * @return array
      */
@@ -438,7 +438,7 @@ abstract class AbstractPart
     /**
      * Read style definition
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
+     * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $parentNode
      * @param array $styleDefs
      * @ignoreScrutinizerPatch
