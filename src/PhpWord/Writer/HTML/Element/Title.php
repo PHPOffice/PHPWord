@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+
 use PhpOffice\PhpWord\Settings;
 
 /**
