@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * ListItem element HTML writer
@@ -35,8 +36,11 @@ class ListItem extends AbstractElement
             return '';
         }
 
-        $text = $this->element->getTextObject()->getText();
-        $content = '<p>' . $text . '</p>' . PHP_EOL;
+        if (Settings::isOutputEscapingEnabled()) {
+            $content = '<p>' . $this->escaper->escapeHtml($this->element->getTextObject()->getText()) . '</p>' . PHP_EOL;
+        } else {
+            $content = '<p>' . $this->element->getTextObject()->getText() . '</p>' . PHP_EOL;
+        }
 
         return $content;
     }

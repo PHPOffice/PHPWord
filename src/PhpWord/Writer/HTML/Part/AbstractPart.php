@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
+use Zend\Escaper\Escaper;
 
 /**
  * Abstract HTML part writer
@@ -34,6 +35,16 @@ abstract class AbstractPart
      */
     private $parentWriter;
 
+    /**
+     * @var \Zend\Escaper\Escaper
+     */
+    protected $escaper;
+    
+    public function __construct()
+    {
+        $this->escaper = new Escaper();
+    }
+    
     /**
      * Write part
      *

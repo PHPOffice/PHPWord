@@ -16,6 +16,7 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * TextRun element HTML writer
@@ -36,7 +37,11 @@ class Title extends AbstractElement
         }
 
         $tag = 'h' . $this->element->getDepth();
-        $text = $this->element->getText();
+        if (Settings::isOutputEscapingEnabled()) {
+            $text = $this->escaper->escapeHtml($this->element->getText());
+        } else {
+            $text = $this->element->getText();
+        }
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;

@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Style;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
+
 /**
  * Paragraph style HTML writer
  *
@@ -39,7 +41,40 @@ class Paragraph extends AbstractStyle
 
         // Alignment
         if ('' !== $style->getAlignment()) {
-            $css['text-align'] = $style->getAlignment(); // todo: convert OpenXml to Html values
+            $textAlign = '';
+
+            switch ($style->getAlignment()) {
+                case Jc::START:
+                case Jc::NUM_TAB:
+                case Jc::LEFT:
+                    $textAlign = 'left';
+                    break;
+
+                case Jc::CENTER:
+                    $textAlign = 'center';
+                    break;
+
+                case Jc::END:
+                case Jc::MEDIUM_KASHIDA:
+                case Jc::HIGH_KASHIDA:
+                case Jc::LOW_KASHIDA:
+                case Jc::RIGHT:
+                    $textAlign = 'right';
+                    break;
+
+                case Jc::BOTH:
+                case Jc::DISTRIBUTE:
+                case Jc::THAI_DISTRIBUTE:
+                case Jc::JUSTIFY:
+                    $textAlign = 'justify';
+                    break;
+
+                default:
+                    $textAlign = 'left';
+                    break;
+            }
+
+            $css['text-align'] = $textAlign;
         }
 
         // Spacing

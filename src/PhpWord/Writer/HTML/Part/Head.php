@@ -41,14 +41,14 @@ class Head extends AbstractPart
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
-            'creator' => 'author',
-            'title' => '',
+            'creator'     => 'author',
+            'title'       => '',
             'description' => '',
-            'subject' => '',
-            'keywords' => '',
-            'category' => '',
-            'company' => '',
-            'manager' => ''
+            'subject'     => '',
+            'keywords'    => '',
+            'category'    => '',
+            'company'     => '',
+            'manager'     => ''
         );
         $title = $docProps->getTitle();
         $title = ($title != '') ? $title : 'PHPWord';
@@ -62,8 +62,9 @@ class Head extends AbstractPart
             $value = ($value == '') ? $key : $value;
             $method = "get" . $key;
             if ($docProps->$method() != '') {
-                $content .= '<meta name="' . $value . '" content="' .
-                    $docProps->$method() . '" />' . PHP_EOL;
+                $content .= '<meta name="' . $value . '"'
+                          . ' content="' . (Settings::isOutputEscapingEnabled() ? $this->escaper->escapeHtmlAttr($docProps->$method()) : $docProps->$method()) . '"'
+                          .' />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();

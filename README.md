@@ -24,7 +24,7 @@ Read more about PHPWord:
 
 ## Features
 
-With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your PHP 5.3+ scripts. Below are some of the things that you can do with PHPWord library:
+With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your PHP 5.3.3+ scripts. Below are some of the things that you can do with PHPWord library:
 
 - Set document properties, e.g. title, subject, and creator.
 - Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering
@@ -52,12 +52,14 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 
 PHPWord requires the following:
 
-- PHP 5.3+
+- PHP 5.3.3+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
+- [Zend\Escaper component](http://framework.zend.com/manual/current/en/modules/zend.escaper.introduction.html)
+- Zend\Stdlib component
 - [Zend\Validator component](http://framework.zend.com/manual/current/en/modules/zend.validator.html)
-- [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write DOCX and ODT)
+- [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
-- [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write DOCX and ODT)
+- [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write OOXML and ODF)
 - [XSL extension](http://php.net/manual/en/book.xsl.php) (optional, used to apply XSL style sheet to template )
 - [dompdf library](https://github.com/dompdf/dompdf) (optional, used to write PDF)
 
@@ -149,7 +151,6 @@ $objWriter->save('helloWorld.html');
 /* Note: we skip RTF, because it's not XML-based and requires a different example. */
 /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
-:warning: Escape any string you pass to HTML document, otherwise it may get broken.
 
 More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 

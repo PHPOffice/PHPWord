@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
+use Zend\Escaper\Escaper;
 
 /**
  * Abstract HTML element writer
@@ -49,6 +50,11 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
+     * @var \Zend\Escaper\Escaper
+     */
+    protected $escaper;
+
+    /**
      * Write element
      */
     abstract public function write();
@@ -65,6 +71,7 @@ abstract class AbstractElement
         $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
+        $this->escaper = new Escaper();
     }
 
     /**

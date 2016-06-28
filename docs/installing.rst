@@ -8,8 +8,10 @@ Requirements
 
 Mandatory:
 
-- PHP 5.3+
+- PHP 5.3.3+
 - `XML Parser <http://www.php.net/manual/en/xml.installation.php>`__ extension
+- `Zend\\Escaper <http://framework.zend.com/manual/current/en/modules/zend.escaper.introduction.html>`__ component
+- Zend\\Stdlib component
 - `Zend\\Validator <http://framework.zend.com/manual/current/en/modules/zend.validator.html>`__ component
 
 Optional:

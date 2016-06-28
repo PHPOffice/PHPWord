@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
@@ -72,7 +73,11 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        $content .= $element->getText();
+        if (Settings::isOutputEscapingEnabled()) {
+            $content .= $this->escaper->escapeHtml($element->getText());
+        } else {
+            $content .= $element->getText();
+        }
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -130,7 +135,12 @@ class Text extends AbstractElement
     {
         $content = '';
         if (!$this->withoutP) {
-            $content .= $this->closingText;
+            if (Settings::isOutputEscapingEnabled()) {
+                $content .= $this->escaper->escapeHtml($this->closingText);
+            } else {
+                $content .= $this->closingText;
+            }
+
             $content .= "</p>" . PHP_EOL;
         }
 
