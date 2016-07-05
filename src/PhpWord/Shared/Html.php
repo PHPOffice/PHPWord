@@ -75,7 +75,6 @@ class Html
     {
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
-
             foreach ($attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'style':
@@ -118,6 +117,7 @@ class Html
             'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
+            'span'      => array('Span',        $node,  null,       $styles,    null,    null,          null), //to catch inline span style changes
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
@@ -132,7 +132,6 @@ class Html
 
         $newElement = null;
         $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
-
         if (isset($nodes[$node->nodeName])) {
             // Execute method based on node mapping table and return $newElement or null
             // Arguments are passed by reference
@@ -337,6 +336,22 @@ class Html
     }
 
     /**
+     * Parse span
+     *
+     * Changes the inline style when a Span element is found.
+     *
+     * @param type $node
+     * @param type $element
+     * @param array $styles
+     * @return type
+     */
+    private static function parseSpan($node, &$styles)
+    {
+        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+        return null;
+    }
+
+    /**
      * Parse style
      *
      * @param \DOMAttr $attribute
@@ -362,6 +377,13 @@ class Html
                     break;
                 case 'text-align':
                     $styles['alignment'] = $cValue; // todo: any mapping?
+                    break;
+                case 'font-size':
+                    $styles['size'] = substr( $cValue, 0, -2); // substr used to remove the px from the html string size string
+                    break;
+                case 'font-family':
+                    $cValue = array_map('trim', explode(',', $cValue));
+                    $styles['name'] = ucwords($cValue[0]);
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, "#");
