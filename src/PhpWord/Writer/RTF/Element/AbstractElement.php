@@ -50,7 +50,7 @@ abstract class AbstractElement extends HTMLAbstractElement
      */
     private $paragraphStyle;
 
-    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP)
+    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
     {
         parent::__construct($parentWriter, $element, $withoutP);
 
@@ -126,7 +126,7 @@ abstract class AbstractElement extends HTMLAbstractElement
         if (Settings::isOutputEscapingEnabled()) {
             return $this->escaper->escape($text);
         } else {
-            return CommonText::toUnicode($text);
+            return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
         }
     }
 
