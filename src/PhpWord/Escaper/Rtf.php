@@ -24,7 +24,8 @@ namespace PhpOffice\PhpWord\Escaper;
  */
 class Rtf extends AbstractEscaper
 {
-    protected function escapeAsciiCharacter($code) {
+    protected function escapeAsciiCharacter($code)
+    {
         if (20 > $code || $code >= 80) {
             return '{\u' . $code . '}';
         } else {
@@ -32,7 +33,8 @@ class Rtf extends AbstractEscaper
         }
     }
 
-    protected function escapeMultibyteCharacter($code) {
+    protected function escapeMultibyteCharacter($code)
+    {
         return '\uc0{\u' . $code . '}';
     }
 
