@@ -173,7 +173,7 @@ class Header extends AbstractPart
     {
         $content = '';
 
-        $content .= '{\*\generator PhpWord;}'; // Set the generator
+        $content .= '{\*\generator PHPWord;}'; // Set the generator
         $content .= PHP_EOL;
 
         return $content;

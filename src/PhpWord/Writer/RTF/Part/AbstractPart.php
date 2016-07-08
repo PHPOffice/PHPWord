@@ -17,13 +17,56 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
-use PhpOffice\PhpWord\Writer\HTML\Part\AbstractPart as HTMLAbstractPart;
+use PhpOffice\PhpWord\Escaper\Rtf;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Abstract RTF part writer
- *
  * @since 0.11.0
  */
-abstract class AbstractPart extends HTMLAbstractPart
+abstract class AbstractPart
 {
+    /**
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    private $parentWriter;
+
+    /**
+     * @var \PhpOffice\PhpWord\Escaper\EscaperInterface
+     */
+    protected $escaper;
+
+    public function __construct()
+    {
+        $this->escaper = new Rtf();
+    }
+
+    /**
+     * @return string
+     */
+    abstract public function write();
+
+    /**
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     * 
+     * @return void
+     */
+    public function setParentWriter(AbstractWriter $writer = null)
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    public function getParentWriter()
+    {
+        if ($this->parentWriter !== null) {
+            return $this->parentWriter;
+        } else {
+            throw new Exception('No parent WriterInterface assigned.');
+        }
+    }
 }

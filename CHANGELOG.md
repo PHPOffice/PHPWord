@@ -13,6 +13,7 @@ Place announcement text here.
 - Introduced writer for the "Paragraph Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment`). - @RomanSyroeshko
 - Introduced writer for the "Table Alignment" element (see `\PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment`). - @RomanSyroeshko
 - Supported indexed arrays in arguments of `TemplateProcessor::setValue()`. - @RomanSyroeshko #618
+- Introduced automatic output escaping for OOXML, ODF, HTML, and RTF. To turn the feature on use `phpword.ini` or `\PhpOffice\PhpWord\Settings`. - @RomanSyroeshko #483
 
 ### Changed
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371

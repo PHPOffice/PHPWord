@@ -25,22 +25,22 @@ namespace PhpOffice\PhpWord\Escaper;
 abstract class AbstractEscaper implements EscaperInterface
 {
     /**
-     * @param string $subject
+     * @param string $input
      *
      * @return string
      */
-    abstract protected function escapeSingleValue($subject);
+    abstract protected function escapeSingleValue($input);
 
-    public function escape($subject)
+    public function escape($input)
     {
-        if (is_array($subject)) {
-            foreach ($subject as &$item) {
+        if (is_array($input)) {
+            foreach ($input as &$item) {
                 $item = $this->escapeSingleValue($item);
             }
         } else {
-            $subject = $this->escapeSingleValue($subject);
+            $input = $this->escapeSingleValue($input);
         }
 
-        return $subject;
+        return $input;
     }
 }

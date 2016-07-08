@@ -65,7 +65,11 @@ class Document extends AbstractPart
         $content .= '\info';
         foreach ($properties as $property) {
             $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
-            $value = $docProps->$method();
+            if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
+                $value = $this->escaper->escape($docProps->$method());
+            } else {
+                $value = $docProps->$method();
+            }
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
             $content .= "{\\{$property} {$value}}";
         }
@@ -105,7 +109,6 @@ class Document extends AbstractPart
      */
     private function writeSections()
     {
-
         $content = '';
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
