@@ -376,6 +376,8 @@ class Html
                     }
                     break;
                 case 'text-align':
+					//ckeditor insert justify instead of both
+					if(strtolower($cValue) === 'justify') $cValue = 'both'
                     $styles['alignment'] = $cValue; // todo: any mapping?
                     break;
                 case 'font-size':
