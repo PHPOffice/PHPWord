@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\StringComponent;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -136,7 +136,7 @@ class Text extends AbstractElement
      */
     public function setText($text)
     {
-        $this->text = String::toUTF8($text);
+        $this->text = StringComponent::toUTF8($text);
 
         return $this;
     }
