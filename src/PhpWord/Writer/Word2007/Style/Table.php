@@ -77,6 +77,7 @@ class Table extends AbstractStyle
         }
 
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
+        $this->writeLayout($xmlWriter, $style->getStretch());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
 
@@ -104,6 +105,20 @@ class Table extends AbstractStyle
         $xmlWriter->writeAttribute('w:w', $width);
         $xmlWriter->writeAttribute('w:type', $unit);
         $xmlWriter->endElement(); // w:tblW
+    }
+
+    /**
+     * Enable/Disable automatic resizing of the table
+     *
+     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param string $layout autofit / fixed
+     * @return void
+     */
+    private function writeLayout(XMLWriter $xmlWriter, $stretch)
+    {
+        $xmlWriter->startElement('w:tblLayout');
+        $xmlWriter->writeAttribute('w:type', $stretch);
+        $xmlWriter->endElement(); // w:tblLayout
     }
 
     /**
