@@ -249,23 +249,6 @@ abstract class AbstractContainer extends AbstractElement
     }
 
     /**
-     * Add memory image element
-     *
-     * @deprecated 0.9.0
-     *
-     * @param string $src
-     * @param mixed $style
-     *
-     * @return \PhpOffice\PhpWord\Element\Image
-     *
-     * @codeCoverageIgnore
-     */
-    public function addMemoryImage($src, $style = null)
-    {
-        return $this->addImage($src, $style);
-    }
-
-    /**
      * Create textrun element
      *
      * @deprecated 0.10.0
