@@ -26,7 +26,7 @@ Place announcement text here.
 Use the correspondent `getAlignment` and `setAlignment` methods instead. - @RomanSyroeshko
 - `left`, `right`, and `justify` alignment options for paragraphs (now are mapped to `Jc::START`, `Jc::END`, and `Jc::BOTH`). - @RomanSyroeshko
 - `left`, `right`, and `justify` alignment options for tables (now are mapped to `Jc::START`, `Jc::END`, and `Jc::CENTER`). - @RomanSyroeshko
-- `TCPDF` due to its limited HTML support. Use `DomPDF` or `MPDF` renderer instead. - @RomanSyroeshko #399
+- `TCPDF` due to its limited HTML support. Use `DomPDF` or `MPDF` writer instead. - @RomanSyroeshko #399
 
 ### Removed
 - `\PhpOffice\PhpWord\Style\Alignment`. Style properties, which previously stored instances of this class, now deal with strings.
