@@ -22,6 +22,8 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
 /**
  * TCPDF writer
  *
+ * @deprecated 0.13.0 Use `DomPDF` or `MPDF` instead.
+ *
  * @link http://www.tcpdf.org/
  * @since 0.11.0
  */
