@@ -66,7 +66,7 @@ Maintenance release. This release is focused primarily on `TemplateProcessor`.
 
 
 
-0.12.0 (3 January 2015)
+v0.12.0 (3 January 2015)
 -----------------------
 This release added form fields (textinput, checkbox, and dropdown), drawing shapes (arc, curve, line, polyline, rect, oval), and basic 2D chart (pie, doughnut, bar, line, area, scatter, radar) elements along with some new styles. Basic MsDoc reader is introduced.
 
@@ -125,7 +125,7 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 
 
 
-0.11.1 (2 June 2014)
+v0.11.1 (2 June 2014)
 --------------------
 This is an immediate bugfix release for HTML reader.
 
@@ -133,7 +133,7 @@ This is an immediate bugfix release for HTML reader.
 
 
 
-0.11.0 (1 June 2014)
+v0.11.0 (1 June 2014)
 --------------------
 This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four new elements were added: TextBox, ListItemRun, Field, and Line. Relative and absolute positioning for images and textboxes were added. Writer classes were refactored into parts, elements, and styles. ODT and RTF features were enhanced. Ability to add elements to PHPWord object via HTML were implemented. RTF and HTML reader were initiated.
 
@@ -197,7 +197,7 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 
 
 
-0.10.1 (21 May 2014)
+v0.10.1 (21 May 2014)
 --------------------
 This is a bugfix release for `php-zip` requirement in Composer.
 
@@ -205,7 +205,7 @@ This is a bugfix release for `php-zip` requirement in Composer.
 
 
 
-0.10.0 (4 May 2014)
+v0.10.0 (4 May 2014)
 -------------------
 This release marked heavy refactorings on internal code structure with the creation of some abstract classes to reduce code duplication. `Element` subnamespace is introduced in this release to replace `Section`. Word2007 reader capability is greatly enhanced. Endnote is introduced. List numbering is now customizable. Basic HTML and PDF writing support is enabled. Basic ODText reader is introduced.
 
@@ -289,7 +289,7 @@ This release marked heavy refactorings on internal code structure with the creat
 
 
 
-0.9.1 (27 Mar 2014)
+v0.9.1 (27 Mar 2014)
 -------------------
 This is a bugfix release for PSR-4 compatibility.
 
@@ -297,7 +297,7 @@ This is a bugfix release for PSR-4 compatibility.
 
 
 
-0.9.0 (26 Mar 2014)
+v0.9.0 (26 Mar 2014)
 -------------------
 This release marked the transformation to namespaces (PHP 5.3+).
 
@@ -319,7 +319,7 @@ This release marked the transformation to namespaces (PHP 5.3+).
 
 
 
-0.8.1 (17 Mar 2014)
+v0.8.1 (17 Mar 2014)
 -------------------
 This is a bugfix release for image detection functionality.
 
@@ -327,7 +327,7 @@ This is a bugfix release for image detection functionality.
 
 
 
-0.8.0 (15 Mar 2014)
+v0.8.0 (15 Mar 2014)
 -------------------
 This release merged a lot of improvements from the community. Unit tests introduced in this release and has reached 90% code coverage.
 
@@ -375,7 +375,7 @@ This release merged a lot of improvements from the community. Unit tests introdu
 
 
 
-0.7.0 (28 Jan 2014)
+v0.7.0 (28 Jan 2014)
 -------------------
 This is the first release after a long development hiatus in [CodePlex](https://phpword.codeplex.com/). This release initialized ODT and RTF Writer, along with some other new features for the existing Word2007 Writer, e.g. tab, multiple header, rowspan and colspan. [Composer](https://packagist.org/packages/phpoffice/phpword) and [Travis](https://travis-ci.org/PHPOffice/PHPWord) were added.
 
