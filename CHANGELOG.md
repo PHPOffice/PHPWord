@@ -5,9 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 v0.13.0 (31 July 2016)
 -------------------
-This release brings several improvements in `TemplateProcessor`,
-automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default). It also
-introduces constants for horizontal alignment options, and resolves some issues with PHP 7.
+This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
+It also introduces constants for horizontal alignment options, and resolves some issues with PHP 7.
 Manual installation feature has been dropped since the release. Please, use [Composer](https://getcomposer.org/) to install PHPWord.
 
 ### Added
