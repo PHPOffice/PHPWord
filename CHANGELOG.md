@@ -3,9 +3,12 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-0.13.0 (unreleased)
+v0.13.0 (31 July 2016)
 -------------------
-Place announcement text here.
+This release brings several improvements in `TemplateProcessor`,
+automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default). It also
+introduces constants for horizontal alignment options, and resolves some issues with PHP 7.
+Manual installation feature has been dropped since the release. Please, use [Composer](https://getcomposer.org/) to install PHPWord.
 
 ### Added
 - Introduced the `\PhpOffice\PhpWord\SimpleType\Jc` simple type. - @RomanSyroeshko
@@ -49,7 +52,7 @@ That case wasn't taken into account in implementation of `TemplateProcessor::fix
 
 
 
-0.12.1 (30 August 2015)
+v0.12.1 (30 August 2015)
 -----------------------
 Maintenance release. This release is focused primarily on `TemplateProcessor`.
 
