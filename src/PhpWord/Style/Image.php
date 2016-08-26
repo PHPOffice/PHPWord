@@ -60,9 +60,9 @@ class Image extends Frame
     public function __construct()
     {
         parent::__construct();
-        $this->setUnit('px');
+        $this->setUnit(self::UNIT_PT);
 
-        // Backward compatilibity setting
+        // Backward compatibility setting
         // @todo Remove on 1.0.0
         $this->setWrap(self::WRAPPING_STYLE_INLINE);
         $this->setHPos(self::POSITION_HORIZONTAL_LEFT);
