@@ -153,6 +153,11 @@ class Section extends AbstractContainer
                 return true;
             }
         }
+        foreach ($this->footers as $footer) {
+            if ($footer->getType() == Footer::FIRST) {
+                return true;
+            }
+        }
         return false;
     }
 
