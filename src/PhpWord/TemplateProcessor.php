@@ -147,7 +147,7 @@ class TemplateProcessor
 
     /**
      * Applies XSL style sheet to template's parts.
-     * 
+     *
      * Note: since the method doesn't make any guess on logic of the provided XSL style sheet,
      * make sure that output is correctly escaped. Otherwise you may get broken document.
      *
@@ -257,6 +257,38 @@ class TemplateProcessor
     }
 
     /**
+     * Delete a table row in a template document.
+     *
+     * @param string $search
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    public function deleteRow($search)
+    {
+        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
+            $search = '${' . $search . '}';
+        }
+
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if (!$tagPos) {
+            return false;
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->findXmlRowSlice($rowStart, $rowEnd);
+
+        $this->tempDocumentMainPart = str_replace(
+            $xmlRow,
+            '',
+            $this->tempDocumentMainPart
+        );
+        return true;
+    }
+
+    /**
      * Clone a table row in a template document.
      *
      * @param string $search
@@ -279,32 +311,7 @@ class TemplateProcessor
 
         $rowStart = $this->findRowStart($tagPos);
         $rowEnd = $this->findRowEnd($tagPos);
-        $xmlRow = $this->getSlice($rowStart, $rowEnd);
-
-        // Check if there's a cell spanning multiple rows.
-        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
-            // $extraRowStart = $rowEnd;
-            $extraRowEnd = $rowEnd;
-            while (true) {
-                $extraRowStart = $this->findRowStart($extraRowEnd + 1);
-                $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
-
-                // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7) {
-                    break;
-                }
-
-                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
-                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
-                    break;
-                }
-                // This row was a spanned row, update $rowEnd and search for the next row.
-                $rowEnd = $extraRowEnd;
-            }
-            $xmlRow = $this->getSlice($rowStart, $rowEnd);
-        }
+        $xmlRow = $this->findXmlRowSlice($rowStart, $rowEnd);
 
         $result = $this->getSlice(0, $rowStart);
         for ($i = 1; $i <= $numberOfClones; $i++) {
@@ -363,7 +370,7 @@ class TemplateProcessor
     public function replaceBlock($blockname, $replacement)
     {
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:[p|t].*>\${' . $blockname . '}<\/w:.*?[p|t]>)(.*)(<w:[p|t].*\${\/' . $blockname . '}<\/w:.*?[p|t]>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -583,5 +590,46 @@ class TemplateProcessor
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Find full XML of the row by position
+     *
+     * @param        $rowStart
+     * @param        $rowEnd
+     *
+     * @return string
+     */
+    private function findXmlRowSlice($rowStart, $rowEnd)
+    {
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            // $extraRowStart = $rowEnd;
+            $extraRowEnd = $rowEnd;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowEnd + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+                // This row was a spanned row, update $rowEnd and search for the next row.
+                $rowEnd = $extraRowEnd;
+            }
+            $xmlRow = $this->getSlice($rowStart, $rowEnd);
+        }
+
+        return $xmlRow;
     }
 }

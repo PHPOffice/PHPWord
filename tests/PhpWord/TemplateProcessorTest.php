@@ -180,6 +180,29 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::setValue
+     * @covers ::deleteRow
+     * @covers ::saveAs
+     * @test
+     */
+    public function testDeleteRow()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        $this->assertEquals(
+            array('tableHeader', 'userId', 'userName', 'userLocation'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'delete-test-result.docx';
+        $templateProcessor->deleteRow('userId');
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::setValue
      * @covers ::saveAs
      * @test
      */
