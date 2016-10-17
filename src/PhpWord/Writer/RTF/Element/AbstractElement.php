@@ -11,16 +11,20 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\Common\Text as CommonText;
+use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Escaper\Rtf;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 use PhpOffice\PhpWord\Writer\HTML\Element\AbstractElement as HTMLAbstractElement;
 use PhpOffice\PhpWord\Writer\RTF\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\RTF\Style\Paragraph as ParagraphStyleWriter;
@@ -45,6 +49,13 @@ abstract class AbstractElement extends HTMLAbstractElement
      * @var \PhpOffice\PhpWord\Style\Paragraph
      */
     private $paragraphStyle;
+
+    public function __construct(AbstractWriter $parentWriter, Element $element, $withoutP = false)
+    {
+        parent::__construct($parentWriter, $element, $withoutP);
+
+        $this->escaper = new Rtf();
+    }
 
     /**
      * Get font and paragraph styles.
@@ -112,7 +123,11 @@ abstract class AbstractElement extends HTMLAbstractElement
      */
     protected function writeText($text)
     {
-        return CommonText::toUnicode($text);
+        if (Settings::isOutputEscapingEnabled()) {
+            return $this->escaper->escape($text);
+        } else {
+            return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
+        }
     }
 
     /**

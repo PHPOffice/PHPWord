@@ -50,8 +50,7 @@ Features
 - Insert charts (pie, doughnut, bar, line, area, scatter, radar)
 - Insert form fields (textinput, checkbox, and dropdown)
 - Create document from templates
-- Use XSL 1.0 style sheets to transform main document part of OOXML
-  template
+- Use XSL 1.0 style sheets to transform headers, main document part, and footers of an OOXML template
 - ... and many more features on progress
 
 File formats

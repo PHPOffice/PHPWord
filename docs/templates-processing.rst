@@ -15,7 +15,7 @@ Example:
     $templateProcessor->setValue('Name', 'John Doe');
     $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
 
-It is not possible to directly add new OOXML elements to the template file being processed, but it is possible to transform main document part of the template using XSLT (see ``TemplateProcessor::applyXslStyleSheet``).
+It is not possible to directly add new OOXML elements to the template file being processed, but it is possible to transform headers, main document part, and footers of the template using XSLT (see ``TemplateProcessor::applyXslStyleSheet``).
 
 See ``Sample_07_TemplateCloneRow.php`` for example on how to create
 multirow from a single row in a template by using ``TemplateProcessor::cloneRow``.

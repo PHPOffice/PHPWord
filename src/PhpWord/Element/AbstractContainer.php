@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -246,23 +246,6 @@ abstract class AbstractContainer extends AbstractElement
         }
 
         return true;
-    }
-
-    /**
-     * Add memory image element
-     *
-     * @deprecated 0.9.0
-     *
-     * @param string $src
-     * @param mixed $style
-     *
-     * @return \PhpOffice\PhpWord\Element\Image
-     *
-     * @codeCoverageIgnore
-     */
-    public function addMemoryImage($src, $style = null)
-    {
-        return $this->addImage($src, $style);
     }
 
     /**

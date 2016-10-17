@@ -24,9 +24,9 @@ namespace PhpOffice\PhpWord\Escaper;
  */
 class Xml extends AbstractEscaper
 {
-    protected function escapeSingleValue($subject)
+    protected function escapeSingleValue($input)
     {
         // todo: omit encoding parameter after migration onto PHP 5.4
-        return htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
     }
 }

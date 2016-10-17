@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -65,7 +65,11 @@ class Document extends AbstractPart
         $content .= '\info';
         foreach ($properties as $property) {
             $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
-            $value = $docProps->$method();
+            if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
+                $value = $this->escaper->escape($docProps->$method());
+            } else {
+                $value = $docProps->$method();
+            }
             $value = in_array($property, $dateFields) ? $this->getDateValue($value) : $value;
             $content .= "{\\{$property} {$value}}";
         }
@@ -105,7 +109,6 @@ class Document extends AbstractPart
      */
     private function writeSections()
     {
-
         $content = '';
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();

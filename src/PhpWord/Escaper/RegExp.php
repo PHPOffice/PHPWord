@@ -26,8 +26,8 @@ class RegExp extends AbstractEscaper
 {
     const REG_EXP_DELIMITER = '/';
 
-    protected function escapeSingleValue($subject)
+    protected function escapeSingleValue($input)
     {
-        return self::REG_EXP_DELIMITER . preg_quote($subject, self::REG_EXP_DELIMITER) . self::REG_EXP_DELIMITER . 'u';
+        return self::REG_EXP_DELIMITER . preg_quote($input, self::REG_EXP_DELIMITER) . self::REG_EXP_DELIMITER . 'u';
     }
 }

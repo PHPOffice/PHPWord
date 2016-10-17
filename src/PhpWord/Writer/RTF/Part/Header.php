@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -173,7 +173,7 @@ class Header extends AbstractPart
     {
         $content = '';
 
-        $content .= '{\*\generator PhpWord;}'; // Set the generator
+        $content .= '{\*\generator PHPWord;}'; // Set the generator
         $content .= PHP_EOL;
 
         return $content;

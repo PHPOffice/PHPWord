@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -383,7 +383,7 @@ class Image extends AbstractElement
             $imageData = @getimagesize($source);
         }
         if (!is_array($imageData)) {
-            throw new InvalidImageException();
+            throw new InvalidImageException(sprintf('Invalid image: %s', $source));
         }
         list($actualWidth, $actualHeight, $imageType) = $imageData;
 

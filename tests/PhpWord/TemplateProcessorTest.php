@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -35,10 +35,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateFqfn = __DIR__ . '/_files/templates/with_table_macros.docx';
 
         $templateProcessor = new TemplateProcessor($templateFqfn);
-        $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
-        foreach (array('${employee.', '${scoreboard.') as $needle) {
-            $templateProcessor->applyXslStyleSheet($xslDOMDocument, array('needle' => $needle));
+        $xslDomDocument = new \DOMDocument();
+        $xslDomDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
+        foreach (array('${employee.', '${scoreboard.', '${reference.') as $needle) {
+            $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }
 
         $documentFqfn = $templateProcessor->save();
@@ -48,19 +48,25 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $templateZip = new \ZipArchive();
         $templateZip->open($templateFqfn);
-        $templateXml = $templateZip->getFromName('word/document.xml');
+        $templateHeaderXml = $templateZip->getFromName('word/header1.xml');
+        $templateMainPartXml = $templateZip->getFromName('word/document.xml');
+        $templateFooterXml = $templateZip->getFromName('word/footer1.xml');
         if (false === $templateZip->close()) {
             throw new \Exception("Could not close zip file \"{$templateZip}\".");
         }
 
         $documentZip = new \ZipArchive();
         $documentZip->open($documentFqfn);
-        $documentXml = $documentZip->getFromName('word/document.xml');
+        $documentHeaderXml = $documentZip->getFromName('word/header1.xml');
+        $documentMainPartXml = $documentZip->getFromName('word/document.xml');
+        $documentFooterXml = $documentZip->getFromName('word/footer1.xml');
         if (false === $documentZip->close()) {
             throw new \Exception("Could not close zip file \"{$documentZip}\".");
         }
 
-        $this->assertNotEquals($documentXml, $templateXml);
+        $this->assertNotEquals($templateHeaderXml, $documentHeaderXml);
+        $this->assertNotEquals($templateMainPartXml, $documentMainPartXml);
+        $this->assertNotEquals($templateFooterXml, $documentFooterXml);
 
         return $documentFqfn;
     }
@@ -82,19 +88,25 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $actualDocumentZip = new \ZipArchive();
         $actualDocumentZip->open($actualDocumentFqfn);
-        $actualDocumentXml = $actualDocumentZip->getFromName('word/document.xml');
+        $actualHeaderXml = $actualDocumentZip->getFromName('word/header1.xml');
+        $actualMainPartXml = $actualDocumentZip->getFromName('word/document.xml');
+        $actualFooterXml = $actualDocumentZip->getFromName('word/footer1.xml');
         if (false === $actualDocumentZip->close()) {
             throw new \Exception("Could not close zip file \"{$actualDocumentFqfn}\".");
         }
 
         $expectedDocumentZip = new \ZipArchive();
         $expectedDocumentZip->open($expectedDocumentFqfn);
-        $expectedDocumentXml = $expectedDocumentZip->getFromName('word/document.xml');
+        $expectedHeaderXml = $expectedDocumentZip->getFromName('word/header1.xml');
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        $expectedFooterXml = $expectedDocumentZip->getFromName('word/footer1.xml');
         if (false === $expectedDocumentZip->close()) {
             throw new \Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
-        $this->assertXmlStringEqualsXmlString($expectedDocumentXml, $actualDocumentXml);
+        $this->assertXmlStringEqualsXmlString($expectedHeaderXml, $actualHeaderXml);
+        $this->assertXmlStringEqualsXmlString($expectedMainPartXml, $actualMainPartXml);
+        $this->assertXmlStringEqualsXmlString($expectedFooterXml, $actualFooterXml);
     }
 
     /**
@@ -109,14 +121,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
-        $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
+        $xslDomDocument = new \DOMDocument();
+        $xslDomDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
 
         /*
          * We have to use error control below, because \XSLTProcessor::setParameter omits warning on failure.
          * This warning fails the test.
          */
-        @$templateProcessor->applyXslStyleSheet($xslDOMDocument, array(1 => 'somevalue'));
+        @$templateProcessor->applyXslStyleSheet($xslDomDocument, array(1 => 'somevalue'));
     }
 
     /**
@@ -124,21 +136,21 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      *
      * @covers                   ::applyXslStyleSheet
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Could not load XML from the given template.
+     * @expectedExceptionMessage Could not load the given XML document.
      * @test
      */
     final public function testXslStyleSheetCanNotBeAppliedOnFailureOfLoadingXmlFromTemplate()
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/corrupted_main_document_part.docx');
 
-        $xslDOMDocument = new \DOMDocument();
-        $xslDOMDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
+        $xslDomDocument = new \DOMDocument();
+        $xslDomDocument->load(__DIR__ . '/_files/xsl/passthrough.xsl');
 
         /*
          * We have to use error control below, because \DOMDocument::loadXML omits warning on failure.
          * This warning fails the test.
          */
-        @$templateProcessor->applyXslStyleSheet($xslDOMDocument);
+        @$templateProcessor->applyXslStyleSheet($xslDomDocument);
     }
 
     /**
