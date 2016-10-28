@@ -119,4 +119,16 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $object = new Field('PAGE');
         $object->setOptions(array('foo' => 'bar'));
     }
+
+    /**
+     * Test setText exception
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid text
+     */
+    public function testSetTextException()
+    {
+        $object = new Field('XE');
+        $object->setText(array());
+    }
 }
