@@ -115,6 +115,12 @@ class Table extends Border
      * @var int|float Width value
      */
     private $width = 0;
+    
+    /**
+     * @var int|float indendation value
+     */
+    
+    private $indent = 0;
 
     /**
      * @var string Width unit
@@ -574,6 +580,29 @@ class Table extends Border
     public function getUnit()
     {
         return $this->unit;
+    }
+    
+    /**
+     * Get indent
+     *
+     * @return int|float
+     */
+    public function getIndent()
+    {
+        return $this->indent;
+    }
+
+    /**
+     * Set indent
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function setIndent($value = null)
+    {
+        $this->indent = $this->setNumericVal($value, $this->indent);
+
+        return $this;
     }
 
     /**
