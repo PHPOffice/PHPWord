@@ -16,6 +16,9 @@ $table->addRow();
 $cell = $table->addCell();
 $cell->addCheckBox('chkBox2', 'Checkbox 2');
 
+$section->addTextBreak();
+$section->addCheckBox('chkBox3', 'Checked checkbox')->setChecked();
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
