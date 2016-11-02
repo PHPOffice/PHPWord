@@ -118,6 +118,7 @@ class Html
             'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
+            'span'      => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
@@ -230,6 +231,10 @@ class Html
      */
     private static function parseText($node, $element, &$styles)
     {
+        if ($node->nodeName == '#text' && $node->textContent == $node->parentNode->textContent) {
+            return null;
+        }
+
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
         // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
