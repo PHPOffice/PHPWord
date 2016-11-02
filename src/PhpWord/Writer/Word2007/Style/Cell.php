@@ -73,6 +73,45 @@ class Cell extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        // Margins
+        if ($style->hasMargin()) {
+            $xmlWriter->startElement('w:tcMar');
+
+            $margin = $style->getMarginTopSize();
+            if ($margin !== null) {
+                $xmlWriter->startElement('w:top');
+                $xmlWriter->writeAttribute('w:w', $margin);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->endElement();
+            }
+
+            $margin = $style->getMarginLeftSize();
+            if ($margin !== null) {
+                $xmlWriter->startElement('w:start');
+                $xmlWriter->writeAttribute('w:w', $margin);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->endElement();
+            }
+
+            $margin = $style->getMarginRightSize();
+            if ($margin !== null) {
+                $xmlWriter->startElement('w:end');
+                $xmlWriter->writeAttribute('w:w', $margin);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->endElement();
+            }
+
+            $margin = $style->getMarginBottomSize();
+            if ($margin !== null) {
+                $xmlWriter->startElement('w:bottom');
+                $xmlWriter->writeAttribute('w:w', $margin);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->endElement();
+            }
+
+            $xmlWriter->endElement(); // w:tcMar
+        }
+
         // Shading
         $shading = $style->getShading();
         if (!is_null($shading)) {
