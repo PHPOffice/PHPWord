@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TextRun
@@ -151,5 +152,17 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $element);
         $this->assertCount(1, $oTextRun->getElements());
+    }
+    
+    /**
+     * Get paragraph style
+     */
+    public function testParagraph()
+    {
+        $oText = new TextRun('paragraphStyle');
+        $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
+        
+        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 }
