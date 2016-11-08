@@ -156,4 +156,57 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image = new Image("zip://{$archiveFile}#{$imageFile}");
         $this->assertEquals('image/jpeg', $image->getImageType());
     }
+
+    /**
+     * Test getting image as string
+     */
+    public function testImageAsStringFromFile()
+    {
+        $image = new Image(__DIR__ . '/../_files/images/earth.jpg');
+
+        $this->assertNotNull($image->getImageStringData());
+        $this->assertNotNull($image->getImageStringData(true));
+    }
+
+    /**
+     * Test getting image from zip as string
+     */
+    public function testImageAsStringFromZip()
+    {
+        $archiveFile = __DIR__ . '/../_files/documents/reader.docx';
+        $imageFile = 'word/media/image1.jpeg';
+        $image = new Image("zip://{$archiveFile}#{$imageFile}");
+
+        $this->assertNotNull($image->getImageStringData());
+        $this->assertNotNull($image->getImageStringData(true));
+    }
+
+    /**
+     * Test construct from string
+     */
+    public function testConstructFromString()
+    {
+        $source = file_get_contents(__DIR__ . '/../_files/images/earth.jpg');
+
+        $image = new Image($source);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        $this->assertEquals($source, $image->getSource());
+        $this->assertEquals(md5($source), $image->getMediaId());
+        $this->assertEquals('image/jpeg', $image->getImageType());
+        $this->assertEquals('jpg', $image->getImageExtension());
+        $this->assertEquals('imagecreatefromjpeg', $image->getImageCreateFunction());
+        $this->assertEquals('imagejpeg', $image->getImageFunction());
+        $this->assertTrue($image->isMemImage());
+    }
+
+    /**
+     * Test invalid string image
+     *
+     * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
+     */
+    public function testInvalidImageString()
+    {
+        $object = new Image('this_is-a_non_valid_image');
+        $object->getSource();
+    }
 }
