@@ -79,6 +79,29 @@ class Table extends AbstractElement
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
+        $cellWidths = $this->getCellWidths($element);
+        $xmlWriter->startElement('w:tblGrid');
+        foreach ($cellWidths as $width) {
+            $xmlWriter->startElement('w:gridCol');
+            if ($width !== null) {
+                $xmlWriter->writeAttribute('w:w', $width);
+                $xmlWriter->writeAttribute('w:type', 'dxa');
+            }
+            $xmlWriter->endElement();
+        }
+        $xmlWriter->endElement(); // w:tblGrid
+    }
+
+    /**
+     * @param TableElement $element
+     * @return array
+     */
+    private function getCellWidths(TableElement $element)
+    {
+        if ($element->hasDifferentCellWidths()) {
+            return $this->getDifferentCellWidths($element);
+        }
+
         $rows = $element->getRows();
         $rowCount = count($rows);
 
@@ -95,16 +118,73 @@ class Table extends AbstractElement
             }
         }
 
-        $xmlWriter->startElement('w:tblGrid');
-        foreach ($cellWidths as $width) {
-            $xmlWriter->startElement('w:gridCol');
-            if ($width !== null) {
-                $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
+        return $cellWidths;
+    }
+
+    /**
+     * @param TableElement $element
+     * @return array
+     */
+    private function getDifferentCellWidths(TableElement $element)
+    {
+        $cellWidths = array();
+        $rowCellWidths = array();
+
+        $rows = $element->getRows();
+        foreach ($rows as $row) {
+            $rowWidth = 0;
+            $cells = $row->getCells();
+            foreach ($cells as $cell) {
+                $cellWidth = $cell->getWidth();
+                $rowWidth += $cellWidth;
+
+                $key = (int)$rowWidth;
+                if (!isset($rowCellWidths[$key])) {
+                    $rowCellWidths[$key] = $rowWidth;
+                }
             }
-            $xmlWriter->endElement();
         }
-        $xmlWriter->endElement(); // w:tblGrid
+        ksort($rowCellWidths);
+
+        $prevCellWidth = 0;
+        foreach ($rowCellWidths as $rowCellWidth) {
+            if (abs($rowCellWidth - $prevCellWidth) > 0.1) {
+                $cellWidths[] = round($rowCellWidth - $prevCellWidth, 2);
+                $prevCellWidth = $rowCellWidth;
+            }
+        }
+
+        $countCellWidths = count($cellWidths);
+        // set grid spans
+        foreach ($rows as $row) {
+            $index = 0;
+            $cells = $row->getCells();
+            foreach ($cells as $cell) {
+                $cellWidth = $cell->getWidth();
+                $gridSpan = 0;
+                $totalColumnWidth = 0;
+
+                for ($i = $index; $i < $countCellWidths; $i++) {
+                    $totalColumnWidth += $cellWidths[$i];
+
+                    if (round($totalColumnWidth, 2) <= round($cellWidth, 2)
+                        || (abs($totalColumnWidth - $cellWidth) < 0.1)
+                    ) {
+                        $gridSpan++;
+                    }
+                    else {
+                        $index = $i++;
+                        break;
+                    }
+                }
+
+                if ($gridSpan > 1) {
+                    $cell->getStyle()->setGridSpan($gridSpan);
+                }
+            }
+        }
+
+        return $cellWidths;
     }
 
     /**
