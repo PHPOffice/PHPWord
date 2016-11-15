@@ -326,7 +326,7 @@ class Html
         if (count($cNodes) > 0) {
             $text = '';
             foreach ($cNodes as $cNode) {
-                if ($cNode->nodeName == '#text') {
+                if ($cNode->nodeName == '#text'  || $node->textContent == $cNode->textContent) {
                     $text = $cNode->nodeValue;
                 }
             }
