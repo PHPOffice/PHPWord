@@ -87,7 +87,8 @@ class Cell extends AbstractStyle
 
             $margin = $style->getMarginLeftSize();
             if ($margin !== null) {
-                $xmlWriter->startElement('w:start');
+                // Note: In the previous version of the standard, this element was "left".
+                $xmlWriter->startElement('w:left'); // start
                 $xmlWriter->writeAttribute('w:w', $margin);
                 $xmlWriter->writeAttribute('w:type', 'dxa');
                 $xmlWriter->endElement();
@@ -95,7 +96,8 @@ class Cell extends AbstractStyle
 
             $margin = $style->getMarginRightSize();
             if ($margin !== null) {
-                $xmlWriter->startElement('w:end');
+                // Note: In the previous version of the standard, this element was "right".
+                $xmlWriter->startElement('w:right'); // end
                 $xmlWriter->writeAttribute('w:w', $margin);
                 $xmlWriter->writeAttribute('w:type', 'dxa');
                 $xmlWriter->endElement();
