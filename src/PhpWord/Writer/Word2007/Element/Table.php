@@ -20,12 +20,16 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
 use PhpOffice\PhpWord\Element\Row as RowElement;
+use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Element\Table as TableElement;
+use PhpOffice\PhpWord\Element\TextBreak as TextBreakElement;
+use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
 use PhpOffice\PhpWord\Style\Row as RowStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Cell as CellStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Row as RowStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Table as TableStyleWriter;
+use PhpOffice\PhpWord\Writer\Word2007\Element\TextBreak as TextBreakWriter;
 
 /**
  * Table element writer
@@ -51,6 +55,9 @@ class Table extends AbstractElement
         $rowCount = count($rows);
 
         if ($rowCount > 0) {
+            // table margin top
+            $this->writeMarginTop($xmlWriter, $element);
+
             $xmlWriter->startElement('w:tbl');
 
             // Write columns
@@ -67,6 +74,9 @@ class Table extends AbstractElement
             }
 
             $xmlWriter->endElement(); // w:tbl
+
+            // table margin bottom
+            $this->writeMarginBottom($xmlWriter, $element);
         }
     }
 
@@ -98,6 +108,8 @@ class Table extends AbstractElement
      */
     private function getCellWidths(TableElement $element)
     {
+        $this->updateCellWidths($element);
+
         if ($element->hasDifferentCellWidths()) {
             return $this->getDifferentCellWidths($element);
         }
@@ -138,38 +150,35 @@ class Table extends AbstractElement
                 $cellWidth = $cell->getWidth();
                 $rowWidth += $cellWidth;
 
-                $key = (int)$rowWidth;
-                if (!isset($rowCellWidths[$key])) {
-                    $rowCellWidths[$key] = $rowWidth;
-                }
+                $rowCellWidths[] = ceil($rowWidth);
             }
         }
-        ksort($rowCellWidths);
+        $rowCellWidths = array_unique($rowCellWidths);
+        sort($rowCellWidths);
 
         $prevCellWidth = 0;
         foreach ($rowCellWidths as $rowCellWidth) {
-            if (abs($rowCellWidth - $prevCellWidth) > 0.1) {
-                $cellWidths[] = round($rowCellWidth - $prevCellWidth, 2);
+            if ($rowCellWidth > $prevCellWidth) {
+                $cellWidths[] = abs($rowCellWidth - $prevCellWidth);
                 $prevCellWidth = $rowCellWidth;
             }
         }
 
         $countCellWidths = count($cellWidths);
+
         // set grid spans
         foreach ($rows as $row) {
             $index = 0;
             $cells = $row->getCells();
             foreach ($cells as $cell) {
-                $cellWidth = $cell->getWidth();
+                $cellWidth = ceil($cell->getWidth());
                 $gridSpan = 0;
                 $totalColumnWidth = 0;
 
                 for ($i = $index; $i < $countCellWidths; $i++) {
                     $totalColumnWidth += $cellWidths[$i];
 
-                    if (round($totalColumnWidth, 2) <= round($cellWidth, 2)
-                        || (abs($totalColumnWidth - $cellWidth) < 0.1)
-                    ) {
+                    if ($totalColumnWidth <= $cellWidth) {
                         $gridSpan++;
                     }
                     else {
@@ -185,6 +194,97 @@ class Table extends AbstractElement
         }
 
         return $cellWidths;
+    }
+
+    /**
+     * @param TableElement $element
+     * @return bool
+     */
+    private function updateCellWidths(TableElement $element)
+    {
+        $tableMarginRight = null;
+        $tableStyle = $element->getStyle();
+        if ($tableStyle instanceof TableStyle) {
+            $tableMarginRight = $tableStyle->getMarginRight();
+        }
+
+        if ($tableMarginRight === null) {
+            return false;
+        }
+
+        $tableMarginRight = $this->calcMarginRight($element, $tableStyle);
+        if ($tableMarginRight === 0) {
+            return false;
+        }
+
+        $rows = $element->getRows();
+        foreach ($rows as $row) {
+            $cells = $row->getCells();
+            $countCells = count($cells);
+            $tableWidthPart = $tableMarginRight / $countCells;
+            foreach ($cells as $cell) {
+                $cell->setWidth($cell->getWidth() - $tableWidthPart);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param TableElement $element
+     * @return int|null
+     */
+    private function getWidthByCells(TableElement $element)
+    {
+        $tableWidth = null;
+
+        $rows = $element->getRows();
+        foreach ($rows as $row) {
+            $width = 0;
+            $cells = $row->getCells();
+            foreach ($cells as $cell) {
+                $width += $cell->getWidth();
+            }
+            if ($width > $tableWidth) {
+                $tableWidth = $width;
+            }
+        }
+
+        return $tableWidth;
+    }
+
+    /**
+     * @param TableElement $element
+     * @param TableStyle $tableStyle
+     * @return float|int
+     */
+    private function calcMarginRight(TableElement $element, TableStyle $tableStyle)
+    {
+        $pageInnerWidth = 0;
+        $parentElement = $element->getParentContainerElement();
+        if ($parentElement instanceof Section) {
+            $sectionStyle = $parentElement->getStyle();
+            if ($sectionStyle) {
+                $pageSizeW = $sectionStyle->getPageSizeW();
+                $pageInnerWidth = $pageSizeW - $sectionStyle->getMarginLeft() - $sectionStyle->getMarginRight();
+            }
+        }
+
+        $tableWidth = $element->getWidth();
+        if ($tableWidth === null) {
+            $tableWidth = $this->getWidthByCells($element);
+        }
+
+        $tableMarginLeft = $tableStyle->getMarginLeft();
+        $tableMarginRight = $tableStyle->getMarginRight();
+        $pageMarginRight = abs($pageInnerWidth - ($tableMarginLeft + $tableWidth));
+        if ($pageMarginRight >= $tableMarginRight) {
+            return 0;
+        }
+
+        $tableMarginRight -= $pageMarginRight;
+
+        return $tableMarginRight;
     }
 
     /**
@@ -239,5 +339,58 @@ class Table extends AbstractElement
         $containerWriter->write();
 
         $xmlWriter->endElement(); // w:tc
+    }
+
+    /**
+     * @param XMLWriter $xmlWriter
+     * @param TableElement $element
+     */
+    private function writeMarginTop(XMLWriter $xmlWriter, TableElement $element)
+    {
+        $style = $element->getStyle();
+        if ($style instanceof TableStyle) {
+            $marginTop = $style->getMarginTop();
+            if ($marginTop !== null) {
+                $paragraphStyle = [
+                    'lineHeight' => $marginTop, // twips
+                    'spaceBefore' => 0,
+                    'spaceAfter' => $marginTop, // twips
+                    'spacing' => 0
+                ];
+                $this->writeTextBreak($xmlWriter, $paragraphStyle);
+            }
+        }
+    }
+
+    /**
+     * @param XMLWriter $xmlWriter
+     * @param TableElement $element
+     */
+    private function writeMarginBottom(XMLWriter $xmlWriter, TableElement $element)
+    {
+        $style = $element->getStyle();
+        if ($style instanceof TableStyle) {
+            $marginBottom = $style->getMarginBottom();
+            if ($marginBottom !== null) {
+                $paragraphStyle = [
+                    'lineHeight' => $marginBottom, // twips
+                    'spaceBefore' => $marginBottom, // twips
+                    'spaceAfter' => 0,
+                    'spacing' => 0
+                ];
+                $this->writeTextBreak($xmlWriter, $paragraphStyle);
+            }
+        }
+    }
+
+    /**
+     * @param $xmlWriter
+     * @param $paragraphStyle
+     */
+    private function writeTextBreak($xmlWriter, $paragraphStyle)
+    {
+        $textBreak = new TextBreakElement(null, $paragraphStyle);
+        $textBreakWriter = new TextBreakWriter($xmlWriter, $textBreak);
+        $textBreakWriter->write();
     }
 }
