@@ -52,6 +52,12 @@ class Image extends Text
                 $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
                 $content .= $this->writeClosing();
             }
+        } else {
+            $styleWriter = new ImageStyleWriter($this->element->getStyle());
+            $style = $styleWriter->write();
+            $content .= $this->writeOpening();
+            $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$this->element->getSource()}\"/>";
+            $content .= $this->writeClosing();
         }
 
         return $content;
