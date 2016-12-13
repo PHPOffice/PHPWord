@@ -64,5 +64,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $path = '/w:settings/w:compat/w:compatSetting';
         $this->assertTrue($doc->elementExists($path, $file));
+        $this->assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
     }
 }
