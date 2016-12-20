@@ -141,6 +141,7 @@ class Settings extends AbstractPart
         // Other settings
         $this->getProtection();
         $this->getCompatibility();
+        $this->getRevisions();
     }
 
     /**
@@ -158,6 +159,19 @@ class Settings extends AbstractPart
                     'w:edit' => $protection->getEditing(),
                 )
             );
+        }
+    }
+
+    /**
+     * Get track revisions settings
+     *
+     * @return void
+     */
+    private function getRevisions()
+    {
+        $revisions = $this->getParentWriter()->getPhpWord()->getRevisions();
+        if ($revisions->isEnabled()) {
+            $this->settings['w:trackRevisions'] = array();
         }
     }
 

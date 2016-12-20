@@ -66,4 +66,20 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc->elementExists($path, $file));
         $this->assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
     }
+
+    /**
+     * Test revisions
+     */
+    public function testRevisions()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getRevisions()->setEnabled(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:trackRevisions';
+        $this->assertTrue($doc->elementExists($path, $file));
+    }
 }

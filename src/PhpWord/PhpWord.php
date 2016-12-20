@@ -91,7 +91,7 @@ class PhpWord
         }
 
         // Metadata
-        $metadata = array('DocInfo', 'Protection', 'Compatibility');
+        $metadata = array('DocInfo', 'Protection', 'Compatibility', 'Revisions');
         foreach ($metadata as $meta) {
             $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
             $this->metadata[$meta] = new $class();
@@ -174,6 +174,16 @@ class PhpWord
     public function getProtection()
     {
         return $this->metadata['Protection'];
+    }
+
+    /**
+     * Get revisions
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Revisions
+     */
+    public function getRevisions()
+    {
+        return $this->metadata['Revisions'];
     }
 
     /**
