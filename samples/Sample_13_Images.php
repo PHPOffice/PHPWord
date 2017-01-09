@@ -11,8 +11,9 @@ $section->addText('Local image without any styles:');
 $section->addImage('resources/_mars.jpg');
 $section->addTextBreak(2);
 
-$section->addText('Local image with styles:');
-$section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
+// Local WMF image
+$section->addText('Local WMF image:');
+$section->addImage('resources/phpword.wmf', array('width' => 372, 'height' => 80));
 $section->addTextBreak(2);
 
 // Remote image

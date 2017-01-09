@@ -37,6 +37,11 @@ class Image extends AbstractElement
     const SOURCE_ARCHIVE = 'archive'; // Image in archives zip://$archive#$image
 
     /**
+     * Image type WMF
+     */
+    const IMAGETYPE_WMF = 'WMF';
+
+    /**
      * Image source
      *
      * @var string
@@ -377,9 +382,14 @@ class Image extends AbstractElement
         $this->setSourceType($source);
 
         // Check image data
-        if ($this->sourceType == self::SOURCE_ARCHIVE) {
+        if ($this->sourceType === self::SOURCE_ARCHIVE) {
             $imageData = $this->getArchiveImageSize($source);
-        } else {
+        }
+        else if (strtolower(pathinfo($source, PATHINFO_EXTENSION)) === 'wmf') {
+            // WMF image is dimensionless
+            $imageData = array(null, null, self::IMAGETYPE_WMF);
+        }
+        else {
             $imageData = @getimagesize($source);
         }
         if (!is_array($imageData)) {
@@ -388,8 +398,8 @@ class Image extends AbstractElement
         list($actualWidth, $actualHeight, $imageType) = $imageData;
 
         // Check image type support
-        $supportedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG);
-        if ($this->sourceType != self::SOURCE_GD) {
+        $supportedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG, self::IMAGETYPE_WMF);
+        if ($this->sourceType !== self::SOURCE_GD) {
             $supportedTypes = array_merge($supportedTypes, array(IMAGETYPE_BMP, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM));
         }
         if (!in_array($imageType, $supportedTypes)) {
@@ -397,7 +407,7 @@ class Image extends AbstractElement
         }
 
         // Define image functions
-        $this->imageType = image_type_to_mime_type($imageType);
+        $this->imageType = $imageType === self::IMAGETYPE_WMF ? 'image/x-wmf' : image_type_to_mime_type($imageType);
         $this->setFunctions();
         $this->setProportionalSize($actualWidth, $actualHeight);
     }
@@ -491,6 +501,9 @@ class Image extends AbstractElement
                 break;
             case 'image/tiff':
                 $this->imageExtension = 'tif';
+                break;
+            case 'image/x-wmf':
+                $this->imageExtension = 'wmf';
                 break;
         }
     }
