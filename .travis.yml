@@ -27,7 +27,7 @@ before_script:
     ## Composer
     - composer self-update
     - if [ -z "$PREFER_LOWEST" ]; then composer install --prefer-source; fi
-    - if [ "$PREFER_LOWEST" == 'true' ]; then composer install --prefer-source --prefer-lowest; fi
+    - if [ "$PREFER_LOWEST" == 'true' ]; then composer update --prefer-source --prefer-lowest; fi
     ## PHPDocumentor
     - mkdir -p build/docs
     - mkdir -p build/coverage
