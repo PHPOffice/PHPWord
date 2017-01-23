@@ -41,6 +41,8 @@ class SDT extends Text
         }
         $type = $element->getType();
         $writeFormField = "write{$type}";
+        $alias = $element->getAlias();
+        $tag = $element->getTag();
 
         $this->startElementP();
 
@@ -48,6 +50,8 @@ class SDT extends Text
 
         // Properties
         $xmlWriter->startElement('w:sdtPr');
+        $xmlWriter->writeElementBlock('w:alias', 'w:val', $alias);
+        $xmlWriter->writeElementBlock('w:tag', 'w:val', $tag);
         $xmlWriter->writeElementBlock('w:id', 'w:val', rand(100000000, 999999999));
         $xmlWriter->writeElementBlock('w:lock', 'w:val', 'sdtLocked');
         $this->$writeFormField($xmlWriter, $element);
