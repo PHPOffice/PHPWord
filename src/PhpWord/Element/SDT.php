@@ -143,6 +143,8 @@ class SDT extends Text
     }
 
     /**
+     * Get tag
+     * 
      * @return string
      */
     public function getTag()
@@ -151,15 +153,22 @@ class SDT extends Text
     }
 
     /**
+     * Set tag
+     *
      * @param string $tag
+     * @return self
      */
     public function setTag($tag)
     {
         $this->tag = $tag;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get alias
+     *
+     * @return string
      */
     public function getAlias()
     {
@@ -167,10 +176,15 @@ class SDT extends Text
     }
 
     /**
-     * @param mixed $alias
+     * Set alias
+     *
+     * @param string $alias
+     * @return self
      */
     public function setAlias($alias)
     {
         $this->alias = $alias;
+
+        return $this;
     }
 }
