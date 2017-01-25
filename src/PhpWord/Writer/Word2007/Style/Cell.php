@@ -47,10 +47,12 @@ class Cell extends AbstractStyle
         $xmlWriter->startElement('w:tcPr');
 
         // Width
-        $xmlWriter->startElement('w:tcW');
-        $xmlWriter->writeAttribute('w:w', $this->width);
-        $xmlWriter->writeAttribute('w:type', 'dxa');
-        $xmlWriter->endElement(); // w:tcW
+        if (!is_null($this->width)) {
+            $xmlWriter->startElement('w:tcW');
+            $xmlWriter->writeAttribute('w:w', $this->width);
+            $xmlWriter->writeAttribute('w:type', $style->getUnit());
+            $xmlWriter->endElement(); // w:tcW
+        }
 
         // Text direction
         $textDir = $style->getTextDirection();
