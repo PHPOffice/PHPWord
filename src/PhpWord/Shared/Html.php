@@ -119,7 +119,9 @@ class Html
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
@@ -128,6 +130,7 @@ class Html
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'span'      => array('Text',        $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -197,6 +200,10 @@ class Html
     {
         $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
         $newElement = $element->addTextRun($styles['paragraph']);
+
+        if ($node->firstChild->nodeName === 'ul') {
+            return null;
+        }
 
         return $newElement;
     }
@@ -326,7 +333,7 @@ class Html
         if (count($cNodes) > 0) {
             $text = '';
             foreach ($cNodes as $cNode) {
-                if ($cNode->nodeName == '#text') {
+                if ($cNode->nodeName == '#text' || $cNode->nodeName == 'span') {
                     $text = $cNode->nodeValue;
                 }
             }
