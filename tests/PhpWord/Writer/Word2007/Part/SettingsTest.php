@@ -18,6 +18,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -65,5 +66,42 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $path = '/w:settings/w:compat/w:compatSetting';
         $this->assertTrue($doc->elementExists($path, $file));
         $this->assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
+    }
+
+    /**
+     * Test language
+     */
+    public function testLanguage()
+    {
+        $phpWord = new PhpWord();
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:themeFontLang';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        
+        $this->assertEquals('en-US', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test spelling
+     */
+    public function testSpelling()
+    {
+        $phpWord = new PhpWord();
+        Settings::setSpellingErrorsHidden(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:hideSpellingErrors';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        
+        $this->assertEquals('true', $element->getAttribute('w:val'));
     }
 }
