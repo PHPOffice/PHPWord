@@ -131,7 +131,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsupportedImage()
     {
-        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        //disable ssl verification, never do this in real application, you should pass the certiciate instead!!!
+        $arrContextOptions = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+        stream_context_set_default($arrContextOptions);
+        $object = new Image('https://samples.libav.org/image-samples/RACECAR.BMP');
         $object->getSource();
     }
 
@@ -194,7 +202,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(md5($source), $image->getMediaId());
         $this->assertEquals('image/jpeg', $image->getImageType());
         $this->assertEquals('jpg', $image->getImageExtension());
-        $this->assertEquals('imagecreatefromjpeg', $image->getImageCreateFunction());
+        $this->assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
         $this->assertEquals('imagejpeg', $image->getImageFunction());
         $this->assertTrue($image->isMemImage());
     }
