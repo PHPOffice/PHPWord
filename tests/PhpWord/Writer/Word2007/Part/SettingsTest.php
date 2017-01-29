@@ -104,4 +104,23 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals('true', $element->getAttribute('w:val'));
     }
+
+    /**
+     * Test even and odd headers
+     */
+    public function testEvenAndOddHeaders()
+    {
+        $phpWord = new PhpWord();
+        Settings::setEvenAndOddHeaders(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:evenAndOddHeaders';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('true', $element->getAttribute('w:val'));
+    }
 }
