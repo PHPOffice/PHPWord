@@ -32,7 +32,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": "^7.0",
         "ext-xml": "*",
         "zendframework/zend-escaper": "2.4.*",
         "zendframework/zend-stdlib": "2.4.*",
