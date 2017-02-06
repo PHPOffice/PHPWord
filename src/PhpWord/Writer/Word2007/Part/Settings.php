@@ -106,7 +106,7 @@ class Settings extends AbstractPart
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
             'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
-            'w:compat' => '',
+            'w:compat' => array(),
             'm:mathPr' => array(
                 'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
                 'm:brkBin' => array('@attributes' => array('m:val' => 'before')),

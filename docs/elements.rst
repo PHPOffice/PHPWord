@@ -232,7 +232,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image or URL of a remote image.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
@@ -254,6 +254,8 @@ Examples:
     $footer->addImage('http://example.com/image.php');
     $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
+    $source = file_get_contents('/path/to/my/images/earth.jpg');
+    $textrun->addImage($source);
 
 Watermarks
 ~~~~~~~~~~
