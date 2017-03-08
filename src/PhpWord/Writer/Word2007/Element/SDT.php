@@ -43,6 +43,10 @@ class SDT extends Text
         }
         $type = $element->getType();
         $writeFormField = "write{$type}";
+        $value = $element->getValue();
+        if ($value === null) {
+            $value = 'Pick value';
+        }
 
         $this->startElementP();
 
@@ -58,7 +62,7 @@ class SDT extends Text
         // Content
         $xmlWriter->startElement('w:sdtContent');
         $xmlWriter->startElement('w:r');
-        $xmlWriter->writeElement('w:t', 'Pick value');
+        $xmlWriter->writeElement('w:t', $value);
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:sdtContent
 
