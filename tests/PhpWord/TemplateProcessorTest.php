@@ -178,6 +178,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($docFound);
     }
 	
+	/**
+	 * @covers ::getVariables
+	 * @covers ::deleteRow
+	 * @covers ::saveAs
+	 * @test
+	 */
 	public function testDeleteRow()
 	{
 		$templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
