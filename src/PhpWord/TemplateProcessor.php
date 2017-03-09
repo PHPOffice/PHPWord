@@ -376,6 +376,68 @@ class TemplateProcessor
             );
         }
     }
+	
+	/**
+	 * Delete a table row in a template document.
+	 *
+	 * @param string $search
+	 *
+	 * @return void
+	 *
+	 * @throws \PhpOffice\PhpWord\Exception\Exception
+	 */
+	public function deleteRow($search)
+	{
+		if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
+			$search = '${' . $search . '}';
+		}
+		
+		$tagPos = strpos($this->tempDocumentMainPart, $search);
+		if (!$tagPos)
+		{
+			throw new Exception("Can not delete row, template variable not found or variable contains markup.");
+		}
+		
+		$rowStart = $this->findRowStart($tagPos);
+		$rowEnd = $this->findRowEnd($tagPos);
+		$xmlRow = $this->getSlice($rowStart, $rowEnd);
+		
+		$tagPos = strpos($xmlRow, '<w:vMerge');
+		$cellStart = $this->findCellStart($rowStart + $tagPos);
+		$cellEnd = $this->findCellEnd($rowEnd + $tagPos);
+		$this->tempDocumentMainPart = $this->getSlice(0, $cellStart) . $this->getSlice($cellEnd);
+		
+		// Check if there's a cell spanning multiple rows.
+		if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+			// $extraRowStart = $rowEnd;
+			$extraRowEnd = $rowEnd;
+			while (true) {
+				$extraRowStart = $this->findRowStart($extraRowEnd + 1);
+				$extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
+				
+				// If extraRowEnd is lower then 7, there was no next row found.
+				if ($extraRowEnd < 7)
+				{
+					break;
+				}
+				
+				// If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+				$tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+				if (!preg_match( '#<w:vMerge/>#', $tmpXmlRow) &&
+					!preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+				) {
+					break;
+				} else
+				{
+					$tagPos = strpos($tmpXmlRow, '<w:vMerge');
+					$cellStart = $this->findCellStart($extraRowStart + $tagPos);
+					$cellEnd = $this->findCellEnd($extraRowStart + $tagPos);
+					
+					$this->tempDocumentMainPart = $this->getSlice(0, $cellStart) . $this->getSlice($cellEnd);
+				}
+			}
+		}
+	}
 
     /**
      * Delete a block of text.
@@ -555,6 +617,29 @@ class TemplateProcessor
 
         return $rowStart;
     }
+	
+	/**
+	 * Find the start position of the nearest table column before $offset.
+	 *
+	 * @param integer $offset
+	 *
+	 * @return integer
+	 *
+	 * @throws \PhpOffice\PhpWord\Exception\Exception
+	 */
+	protected function findCellStart($offset)
+	{
+		$rowStart = strrpos($this->tempDocumentMainPart, '<w:tc ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+		
+		if (!$rowStart) {
+			$rowStart = strrpos($this->tempDocumentMainPart, '<w:tc>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+		}
+		if (!$rowStart) {
+			throw new Exception('Can not find the start position of the cell.');
+		}
+		
+		return $rowStart;
+	}
 
     /**
      * Find the end position of the nearest table row after $offset.
@@ -567,6 +652,18 @@ class TemplateProcessor
     {
         return strpos($this->tempDocumentMainPart, '</w:tr>', $offset) + 7;
     }
+	
+	/**
+	 * Find the end position of the nearest table column after $offset.
+	 *
+	 * @param integer $offset
+	 *
+	 * @return integer
+	 */
+	protected function findCellEnd($offset)
+	{
+		return strpos($this->tempDocumentMainPart, '</w:tc>', $offset) + 7;
+	}
 
     /**
      * Get a slice of a string.
