@@ -398,6 +398,15 @@ class TemplateProcessor
 			throw new Exception("Can not delete row, template variable not found or variable contains markup.");
 		}
 		
+		$tableStart = $this->findTableStart($tagPos);
+		$tableEnd = $this->findTableEnd($tagPos);
+		$xmlTable = $this->getSlice($tableStart, $tableEnd);
+		if(substr_count($xmlTable, '<w:tr') === 1) {
+			$this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+			
+			return;
+		}
+		
 		$rowStart = $this->findRowStart($tagPos);
 		$rowEnd = $this->findRowEnd($tagPos);
 		$xmlRow = $this->getSlice($rowStart, $rowEnd);
@@ -427,8 +436,7 @@ class TemplateProcessor
 					!preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
 				) {
 					break;
-				} else
-				{
+				} else {
 					$tagPos = strpos($tmpXmlRow, '<w:vMerge');
 					$cellStart = $this->findCellStart($extraRowStart + $tagPos);
 					$cellEnd = $this->findCellEnd($extraRowStart + $tagPos);
@@ -594,6 +602,29 @@ class TemplateProcessor
     {
         return sprintf('word/footer%d.xml', $index);
     }
+	
+	/**
+	 * Find the start position of the nearest table before $offset.
+	 *
+	 * @param integer $offset
+	 *
+	 * @return integer
+	 *
+	 * @throws \PhpOffice\PhpWord\Exception\Exception
+	 */
+	protected function findTableStart($offset)
+	{
+		$rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+		
+		if (!$rowStart) {
+			$rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+		}
+		if (!$rowStart) {
+			throw new Exception('Can not find the start position of the row to clone.');
+		}
+		
+		return $rowStart;
+	}
 
     /**
      * Find the start position of the nearest table row before $offset.
@@ -640,7 +671,19 @@ class TemplateProcessor
 		
 		return $rowStart;
 	}
-
+	
+	/**
+	 * Find the end position of the nearest table row after $offset.
+	 *
+	 * @param integer $offset
+	 *
+	 * @return integer
+	 */
+	protected function findTableEnd($offset)
+	{
+		return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
+	}
+	
     /**
      * Find the end position of the nearest table row after $offset.
      *
