@@ -177,32 +177,32 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         unlink($docName);
         $this->assertTrue($docFound);
     }
-	
-	/**
-	 * @covers ::getVariables
-	 * @covers ::deleteRow
-	 * @covers ::saveAs
-	 * @test
-	 */
-	public function testDeleteRow()
-	{
-		$templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
-		
-		$this->assertEquals(
-			array('deleteMe', 'deleteMeToo'),
-			$templateProcessor->getVariables()
-		);
-		
-		$docName = 'delete-row-test-result.docx';
-		$templateProcessor->deleteRow('deleteMe');
-		$this->assertEquals(
-			array(),
-			$templateProcessor->getVariables()
-		);
-		$templateProcessor->saveAs($docName);
-		$docFound = file_exists($docName);
-		unlink($docName);
-		$this->assertTrue($docFound);
+    
+    /**
+     * @covers ::getVariables
+     * @covers ::deleteRow
+     * @covers ::saveAs
+     * @test
+     */
+    public function testDeleteRow()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/delete-row.docx');
+        
+        $this->assertEquals(
+            array('deleteMe', 'deleteMeToo'),
+            $templateProcessor->getVariables()
+        );
+        
+        $docName = 'delete-row-test-result.docx';
+        $templateProcessor->deleteRow('deleteMe');
+        $this->assertEquals(
+            array(),
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        unlink($docName);
+        $this->assertTrue($docFound);
     }
 
     /**
