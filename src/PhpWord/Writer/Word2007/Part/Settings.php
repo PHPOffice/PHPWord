@@ -152,12 +152,28 @@ class Settings extends AbstractPart
     {
         $protection = $this->getParentWriter()->getPhpWord()->getProtection();
         if ($protection->getEditing() !== null) {
-            $this->settings['w:documentProtection'] = array(
-                '@attributes' => array(
-                    'w:enforcement' => 1,
-                    'w:edit' => $protection->getEditing(),
-                )
-            );
+            if (empty($protection->getPassword())) {
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement' => 1,
+                        'w:edit' => $protection->getEditing(),
+                    )
+                );
+            } else {
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement' => 1,
+                        'w:edit' => $protection->getEditing(),
+                        'w:cryptProviderType' => 'rsaFull',
+                        'w:cryptAlgorithmClass' => 'hash',
+                        'w:cryptAlgorithmType' => 'typeAny',
+                        'w:cryptAlgorithmSid' => $protection->getAlgorithmSid(),
+                        'w:cryptSpinCount' => $protection->getSpinCount(),
+                        'w:hash' => $protection->getPassword(),
+                        'w:salt' => $protection->getSalt(),
+                    )
+                );
+            }
         }
     }
 
