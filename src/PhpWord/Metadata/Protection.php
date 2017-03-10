@@ -76,6 +76,7 @@ class Protection
             [0x3331, 0x6662, 0xCCC4, 0x89A9, 0x0373, 0x06E6, 0x0DCC],
             [0x1021, 0x2042, 0x4084, 0x8108, 0x1231, 0x2462, 0x48C4]
         ];
+    static $passwordMaxLength = 15;
 
     /**
      * Editing restriction none|readOnly|comments|trackedChanges|forms
@@ -85,12 +86,32 @@ class Protection
      */
     private $editing;
 
+    /**
+     * Hashed password
+     *
+     * @var string
+     */
     private $password;
 
+    /**
+     * Number of hashing iterations
+     *
+     * @var int
+     */
     private $spinCount = 100000;
 
+    /**
+     * Algorithm-SID according to self::$algorithmMapping
+     *
+     * @var int
+     */
     private $algorithmSid = 4;
 
+    /**
+     * Hashed salt
+     *
+     * @var string
+     */
     private $salt;
 
     /**
@@ -126,11 +147,22 @@ class Protection
         return $this;
     }
 
+    /**
+     * Get password hash
+     *
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * Set password
+     *
+     * @param $password
+     * @return self
+     */
     public function setPassword($password)
     {
         $this->password = $this->getPasswordHash($password);
@@ -138,11 +170,22 @@ class Protection
         return $this;
     }
 
+    /**
+     * Get count for hash iterations
+     *
+     * @return int
+     */
     public function getSpinCount()
     {
         return $this->spinCount;
     }
 
+    /**
+     * Set count for hash iterations
+     *
+     * @param $spinCount
+     * @return self
+     */
     public function setSpinCount($spinCount)
     {
         $this->spinCount = $spinCount;
@@ -150,11 +193,22 @@ class Protection
         return $this;
     }
 
+    /**
+     * Get algorithm-sid
+     *
+     * @return int
+     */
     public function getAlgorithmSid()
     {
         return $this->algorithmSid;
     }
 
+    /**
+     * Set algorithm-sid (see self::$algorithmMapping)
+     *
+     * @param $algorithmSid
+     * @return self
+     */
     public function setAlgorithmSid($algorithmSid)
     {
         $this->algorithmSid = $algorithmSid;
@@ -162,16 +216,34 @@ class Protection
         return $this;
     }
 
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-    }
-
+    /**
+     * Get salt hash
+     *
+     * @return string
+     */
     public function getSalt()
     {
         return $this->salt;
     }
 
+    /**
+     * Set salt hash
+     *
+     * @param $salt
+     * @return self
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get algorithm from self::$algorithmMapping
+     *
+     * @return string
+     */
     private function getAlgorithm()
     {
         $algorithm = self::$algorithmMapping[$this->algorithmSid];
@@ -182,35 +254,76 @@ class Protection
         return $algorithm;
     }
 
+    /**
+     * Create a hashed password that MS Word will be able to work with
+     *
+     * @param string $password
+     * @return string
+     */
     private function getPasswordHash($password)
     {
+        $orig_encoding = mb_internal_encoding();
+        mb_internal_encoding("UTF-8");
+
         if (empty($password)) {
             return '';
         }
-        $passwordMaxLength = 15;
 
-        // Truncate the password to $passwordMaxLength characters
-        $password  = mb_substr($password, 0, min($passwordMaxLength, mb_strlen($password)));
+        $password = mb_substr($password, 0, min(self::$passwordMaxLength, mb_strlen($password)));
 
+        // Construct a new NULL-terminated string consisting of single-byte characters:
+        //   Get the single-byte values by iterating through the Unicode characters of the truncated password.
+        //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
+        $pass_utf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
         $byteChars = [];
-
-        echo "password: '{$password}'(".mb_strlen($password).")";
-
-        $pass_utf8  = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
         for ($i = 0; $i < mb_strlen($password); $i++) {
-            $byteChars[$i] = ord(substr($pass_utf8, $i*2, 1));
+            $byteChars[$i] = ord(substr($pass_utf8, $i * 2, 1));
             if ($byteChars[$i] == 0) {
-                echo "hi!$i";
-                $byteChars[$i] = ord(substr($pass_utf8, $i*2+1, 1));
+                $byteChars[$i] = ord(substr($pass_utf8, $i * 2 + 1, 1));
             }
         }
 
-        // Compute the high-order word
-        $highOrderWord = self::$initialCodeArray[sizeof($byteChars) - 1];
-        for ($i = 0; $i < sizeof($byteChars); $i++) {
-            $tmp       = $passwordMaxLength - sizeof($byteChars) + $i;
-            $matrixRow = self::$encryptionMatrix[$tmp];
+        // build low-order word and hig-order word and combine them
+        $combinedKey = $this->buildCombinedKey($byteChars);
+        // build reversed hexadecimal string
+        $hex = strtoupper(dechex($combinedKey & 0xFFFFFFFF));
+        $reversedHex = $hex[6].$hex[7].$hex[4].$hex[5].$hex[2].$hex[3].$hex[0].$hex[1];
 
+        $generatedKey = mb_convert_encoding($reversedHex, 'UCS-2LE', 'UTF-8');
+
+        // Implementation Notes List:
+        //   Word requires that the initial hash of the password with the salt not be considered in the count.
+        //   The initial hash of salt + key is not included in the iteration count.
+        $generatedKey = hash($this->getAlgorithm(), base64_decode($this->getSalt()) . $generatedKey, true);
+        for ($i = 0; $i < $this->getSpinCount(); $i++) {
+            $generatedKey = hash($this->getAlgorithm(), $generatedKey . pack("CCCC", $i, $i>>8, $i>>16, $i>>24), true);
+        }
+        $generatedKey = base64_encode($generatedKey);
+
+        mb_internal_encoding($orig_encoding);
+
+        return $generatedKey;
+    }
+
+    /**
+     * Build combined key from low-order word and high-order word
+     *
+     * @param array $byteChars -> byte array representation of password
+     * @return int
+     */
+    private function buildCombinedKey($byteChars)
+    {
+        // Compute the high-order word
+        // Initialize from the initial code array (see above), depending on the passwords length.
+        $highOrderWord = self::$initialCodeArray[sizeof($byteChars) - 1];
+
+        // For each character in the password:
+        //   For every bit in the character, starting with the least significant and progressing to (but excluding)
+        //   the most significant, if the bit is set, XOR the key’s high-order word with the corresponding word from
+        //   the Encryption Matrix
+        for ($i = 0; $i < sizeof($byteChars); $i++) {
+            $tmp       = self::$passwordMaxLength - sizeof($byteChars) + $i;
+            $matrixRow = self::$encryptionMatrix[$tmp];
             for ($intBit = 0; $intBit < 7; $intBit++) {
                 if (($byteChars[$i] & (0x0001 << $intBit)) != 0) {
                     $highOrderWord = ($highOrderWord ^ $matrixRow[$intBit]);
@@ -219,55 +332,26 @@ class Protection
         }
 
         // Compute low-order word
+        // Initialize with 0
         $lowOrderWord = 0;
+        // For each character in the password, going backwards
         for ($i = sizeof($byteChars) - 1; $i >= 0; $i--) {
+            // low-order word = (((low-order word SHR 14) AND 0x0001) OR (low-order word SHL 1) AND 0x7FFF)) XOR character
             $lowOrderWord = (((($lowOrderWord >> 14) & 0x0001) | (($lowOrderWord << 1) & 0x7FFF)) ^ $byteChars[$i]);
         }
+        // Lastly, low-order word = (((low-order word SHR 14) AND 0x0001) OR (low-order word SHL 1) AND 0x7FFF)) XOR strPassword length XOR 0xCE4B.
         $lowOrderWord = (((($lowOrderWord >> 14) & 0x0001) | (($lowOrderWord << 1) & 0x7FFF)) ^ sizeof($byteChars) ^ 0xCE4B);
 
-        $combinedKey = $this->int32(($highOrderWord << 16) + $lowOrderWord);
-        $generatedKey = [
-            0 => (($combinedKey & 0x000000FF) >> 0),
-            1 => (($combinedKey & 0x0000FF00) >> 8),
-            2 => (($combinedKey & 0x00FF0000) >> 16),
-            3 => (($combinedKey & 0xFF000000) >> 24),
-        ];
-
-        $tmpStr = '';
-        for ($i = 0; $i < 4; $i++) {
-            $tmpStr .= strtoupper(dechex($generatedKey[$i]));
-        }
-        $generatedKey = [];
-        $tmpStr = mb_convert_encoding($tmpStr, 'UCS-2LE', 'UTF-8');
-        for ($i = 0; $i < strlen($tmpStr); $i++) {
-            $generatedKey[] = ord(substr($tmpStr, $i, 1));
-        }
-
-        $salt      = unpack('C*', base64_decode($this->getSalt()));
-        $algorithm = $this->getAlgorithm();
-
-        $tmpArray1    = $generatedKey;
-        $tmpArray2    = $salt;
-        $generatedKey = array_merge($tmpArray2, $tmpArray1);
-
-        $generatedKey = $this->hashByteArray($algorithm, $generatedKey);
-
-        for ($i = 0; $i < $this->getSpinCount(); $i++) {
-            $iterator = [
-                0 => (($i & 0x000000FF) >> 0),
-                1 => (($i & 0x0000FF00) >> 8),
-                2 => (($i & 0x00FF0000) >> 16),
-                3 => (($i & 0xFF000000) >> 24),
-            ];
-            $generatedKey = array_merge($generatedKey, $iterator);
-            $generatedKey = $this->hashByteArray($algorithm, $generatedKey);
-        }
-
-        $hash = implode(array_map("chr", $generatedKey));
-
-        return base64_encode($hash);
+        // Combine the Low and High Order Word
+        return $this->int32(($highOrderWord << 16) + $lowOrderWord);
     }
 
+    /**
+     * simulate behaviour of int32
+     *
+     * @param int $value
+     * @return int
+     */
     private function int32($value)
     {
         $value = ($value & 0xFFFFFFFF);
@@ -277,13 +361,5 @@ class Protection
         }
 
         return $value;
-    }
-
-    private function hashByteArray($algorithm, $array)
-    {
-        $string = implode(array_map("chr", $array));
-        $string = hash($algorithm, $string, true);
-
-        return unpack('C*', $string);
     }
 }
