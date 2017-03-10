@@ -400,7 +400,7 @@ class TemplateProcessor
         $tableStart = $this->findTableStart($tagPos);
         $tableEnd = $this->findTableEnd($tagPos);
         $xmlTable = $this->getSlice($tableStart, $tableEnd);
-        if(substr_count($xmlTable, '<w:tr') === 1) {
+        if (substr_count($xmlTable, '<w:tr') === 1) {
             $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
             
             return;
@@ -424,14 +424,13 @@ class TemplateProcessor
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
                 
                 // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7)
-                {
+                if ($extraRowEnd < 7) {
                     break;
                 }
                 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
-                if (!preg_match( '#<w:vMerge/>#', $tmpXmlRow) &&
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
                     !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
                 ) {
                     break;
