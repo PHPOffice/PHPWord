@@ -45,14 +45,14 @@ class Protection
      *
      * @var int
      */
-    private $spinCount = 0;
+    private $spinCount = 100000;
 
     /**
      * Algorithm-SID (see to \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
      *
      * @var int
      */
-    private $algorithmSid = 0;
+    private $mswordAlgorithmSid = 4;
 
     /**
      * Hashed salt
@@ -145,20 +145,20 @@ class Protection
      *
      * @return int
      */
-    public function getAlgorithmSid()
+    public function getMswordAlgorithmSid()
     {
-        return $this->algorithmSid;
+        return $this->mswordAlgorithmSid;
     }
 
     /**
      * Set algorithm-sid (see \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
      *
-     * @param $algorithmSid
+     * @param $mswordAlgorithmSid
      * @return self
      */
-    public function setAlgorithmSid($algorithmSid)
+    public function setMswordAlgorithmSid($mswordAlgorithmSid)
     {
-        $this->algorithmSid = $algorithmSid;
+        $this->mswordAlgorithmSid = $mswordAlgorithmSid;
 
         return $this;
     }

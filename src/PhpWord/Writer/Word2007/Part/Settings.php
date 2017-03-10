@@ -213,6 +213,9 @@ class Settings extends AbstractPart
                     )
                 );
             } else {
+                if ($protection->getSalt() == null) {
+                    $protection->setSalt(openssl_random_pseudo_bytes(16));
+                }
                 $this->settings['w:documentProtection'] = array(
                     '@attributes' => array(
                         'w:enforcement' => 1,
@@ -220,7 +223,7 @@ class Settings extends AbstractPart
                         'w:cryptProviderType' => 'rsaFull',
                         'w:cryptAlgorithmClass' => 'hash',
                         'w:cryptAlgorithmType' => 'typeAny',
-                        'w:cryptAlgorithmSid' => $protection->getAlgorithmSid(),
+                        'w:cryptAlgorithmSid' => $protection->getMswordAlgorithmSid(),
                         'w:cryptSpinCount' => $protection->getSpinCount(),
                         'w:hash' => $this->getPasswordHash($protection),
                         'w:salt' => $this->getSaltHash($protection->getSalt()),
@@ -239,11 +242,13 @@ class Settings extends AbstractPart
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
-            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
-                'w:name'    => 'compatibilityMode',
-                'w:uri'     => 'http://schemas.microsoft.com/office/word',
-                'w:val'     => $compatibility->getOoxmlVersion(),
-            ));
+            $this->settings['w:compat']['w:compatSetting'] = array(
+                '@attributes' => array(
+                    'w:name' => 'compatibilityMode',
+                    'w:uri' => 'http://schemas.microsoft.com/office/word',
+                    'w:val' => $compatibility->getOoxmlVersion(),
+                )
+            );
         }
     }
 
@@ -277,21 +282,19 @@ class Settings extends AbstractPart
         // build low-order word and hig-order word and combine them
         $combinedKey = $this->buildCombinedKey($byteChars);
         // build reversed hexadecimal string
-        $hex = strtoupper(dechex($combinedKey & 0xFFFFFFFF));
-        $reversedHex = $hex[6].$hex[7].$hex[4].$hex[5].$hex[2].$hex[3].$hex[0].$hex[1];
+        $hex         = strtoupper(dechex($combinedKey & 0xFFFFFFFF));
+        $reversedHex = $hex[6] . $hex[7] . $hex[4] . $hex[5] . $hex[2] . $hex[3] . $hex[0] . $hex[1];
 
         $generatedKey = mb_convert_encoding($reversedHex, 'UCS-2LE', 'UTF-8');
 
         // Implementation Notes List:
         //   Word requires that the initial hash of the password with the salt not be considered in the count.
         //   The initial hash of salt + key is not included in the iteration count.
-        $algorithm = $this->getAlgorithm($protection->getAlgorithmSid());
+        $algorithm    = $this->getAlgorithm($protection->getMswordAlgorithmSid());
         $generatedKey = hash($algorithm, base64_decode($this->getSaltHash($protection->getSalt())) . $generatedKey, true);
 
-        $spinCount = (!empty($protection->getSpinCount())) ? $protection->getSpinCount() : 100000;
-
-        for ($i = 0; $i < $spinCount; $i++) {
-            $generatedKey = hash($algorithm, $generatedKey . pack("CCCC", $i, $i>>8, $i>>16, $i>>24), true);
+        for ($i = 0; $i < $protection->getSpinCount(); $i++) {
+            $generatedKey = hash($algorithm, $generatedKey . pack("CCCC", $i, $i >> 8, $i >> 16, $i >> 24), true);
         }
         $generatedKey = base64_encode($generatedKey);
 
@@ -308,10 +311,6 @@ class Settings extends AbstractPart
      */
     private function getAlgorithm($sid)
     {
-        if (empty($sid)) {
-            $sid = 4;
-        }
-
         $algorithm = self::$algorithmMapping[$sid];
         if ($algorithm == '') {
             $algorithm = 'sha1';
@@ -328,7 +327,7 @@ class Settings extends AbstractPart
      */
     private function getSaltHash($salt)
     {
-        return $salt;
+        return base64_encode(str_pad(substr($salt, 0, 16), 16, '1'));
     }
 
     /**
