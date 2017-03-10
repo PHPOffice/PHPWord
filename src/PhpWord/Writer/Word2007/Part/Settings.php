@@ -282,7 +282,7 @@ class Settings extends AbstractPart
         // build low-order word and hig-order word and combine them
         $combinedKey = $this->buildCombinedKey($byteChars);
         // build reversed hexadecimal string
-        $hex         = strtoupper(dechex($combinedKey & 0xFFFFFFFF));
+        $hex         = str_pad(strtoupper(dechex($combinedKey & 0xFFFFFFFF)), 8, '0', \STR_PAD_LEFT);
         $reversedHex = $hex[6] . $hex[7] . $hex[4] . $hex[5] . $hex[2] . $hex[3] . $hex[0] . $hex[1];
 
         $generatedKey = mb_convert_encoding($reversedHex, 'UCS-2LE', 'UTF-8');

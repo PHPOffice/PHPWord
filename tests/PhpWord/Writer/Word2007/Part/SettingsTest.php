@@ -51,6 +51,27 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test document protection with password
+     *
+     * Note: to get comparison values, a docx was generated in Word2010 and the values taken from the settings.xml
+     */
+    public function testDocumentProtectionWithPassword()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getProtection()->setEditing('readOnly');
+        $phpWord->getProtection()->setPassword('testÄö@€!$&');
+        $phpWord->getProtection()->setSalt(base64_decode("uq81pJRRGFIY5U+E9gt8tA=="));
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:documentProtection';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $this->assertEquals($doc->getElement($path, $file)->getAttribute('w:hash'), "RA9jfY/u3DX114PMcl+uSekxsYk=");
+    }
+
+    /**
      * Test compatibility
      */
     public function testCompatibility()
