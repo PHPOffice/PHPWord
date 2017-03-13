@@ -34,7 +34,7 @@ class Protection
     private $editing;
 
     /**
-     * Hashed password
+     * password
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class Protection
     private $mswordAlgorithmSid = 4;
 
     /**
-     * Hashed salt
+     * salt
      *
      * @var string
      */
@@ -95,7 +95,7 @@ class Protection
     }
 
     /**
-     * Get password hash
+     * Get password
      *
      * @return string
      */
@@ -164,7 +164,7 @@ class Protection
     }
 
     /**
-     * Get salt hash
+     * Get salt
      *
      * @return string
      */
@@ -174,13 +174,18 @@ class Protection
     }
 
     /**
-     * Set salt hash
+     * Set salt. Salt HAS to be 16 characters, or an exception will be thrown.
      *
      * @param $salt
      * @return self
+     * @throws \InvalidArgumentException
      */
     public function setSalt($salt)
     {
+        if ($salt !== null && strlen($salt) !== 16){
+            throw new \InvalidArgumentException('salt has to be of exactly 16 bytes length');
+        }
+
         $this->salt = $salt;
 
         return $this;

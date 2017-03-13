@@ -225,8 +225,8 @@ class Settings extends AbstractPart
                         'w:cryptAlgorithmType' => 'typeAny',
                         'w:cryptAlgorithmSid' => $protection->getMswordAlgorithmSid(),
                         'w:cryptSpinCount' => $protection->getSpinCount(),
-                        'w:hash' => $this->getPasswordHash($protection),
-                        'w:salt' => $this->getSaltHash($protection->getSalt()),
+                        'w:hash' => $this->getEncodedPasswordHash($protection),
+                        'w:salt' => base64_encode($protection->getSalt()),
                     )
                 );
             }
@@ -255,11 +255,12 @@ class Settings extends AbstractPart
 
     /**
      * Create a hashed password that MS Word will be able to work with
+     * @link https://blogs.msdn.microsoft.com/vsod/2010/04/05/how-to-set-the-editing-restrictions-in-word-using-open-xml-sdk-2-0/
      *
      * @param \PhpOffice\PhpWord\Metadata\Protection $protection
      * @return string
      */
-    private function getPasswordHash($protection)
+    private function getEncodedPasswordHash($protection)
     {
         $orig_encoding = mb_internal_encoding();
         mb_internal_encoding("UTF-8");
@@ -267,7 +268,6 @@ class Settings extends AbstractPart
         $password = $protection->getPassword();
         $password = mb_substr($password, 0, min(self::$passwordMaxLength, mb_strlen($password)));
 
-        // Construct a new NULL-terminated string consisting of single-byte characters:
         //   Get the single-byte values by iterating through the Unicode characters of the truncated password.
         //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
         $pass_utf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
@@ -291,7 +291,7 @@ class Settings extends AbstractPart
         //   Word requires that the initial hash of the password with the salt not be considered in the count.
         //   The initial hash of salt + key is not included in the iteration count.
         $algorithm    = $this->getAlgorithm($protection->getMswordAlgorithmSid());
-        $generatedKey = hash($algorithm, base64_decode($this->getSaltHash($protection->getSalt())) . $generatedKey, true);
+        $generatedKey = hash($algorithm, $protection->getSalt() . $generatedKey, true);
 
         for ($i = 0; $i < $protection->getSpinCount(); $i++) {
             $generatedKey = hash($algorithm, $generatedKey . pack("CCCC", $i, $i >> 8, $i >> 16, $i >> 24), true);
@@ -317,17 +317,6 @@ class Settings extends AbstractPart
         }
 
         return $algorithm;
-    }
-
-    /**
-     * Get salt hash
-     *
-     * @param string $salt
-     * @return string
-     */
-    private function getSaltHash($salt)
-    {
-        return base64_encode(str_pad(substr($salt, 0, 16), 16, '1'));
     }
 
     /**
@@ -372,7 +361,7 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Simulate behaviour of int32
+     * Simulate behaviour of (signed) int32
      *
      * @param int $value
      * @return int
