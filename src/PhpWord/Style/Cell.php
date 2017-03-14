@@ -56,6 +56,13 @@ class Cell extends Border
     const DEFAULT_BORDER_COLOR = '000000';
 
     /**
+     * @const string Cell width units http://officeopenxml.com/WPtableCellProperties-Width.php
+     */
+    const WIDTH_AUTO = 'auto'; // Automatically determined width
+    const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
+    const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
+
+    /**
      * Vertical align (top, center, both, bottom)
      *
      * @var string
@@ -92,6 +99,11 @@ class Cell extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+
+    /**
+     * @var string Width unit
+     */
+    private $unit = self::WIDTH_TWIP;
 
     /**
      * Get vertical align.
@@ -232,6 +244,30 @@ class Cell extends Border
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get width unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * Set width unit
+     *
+     * @param string $value
+     * @return Cell
+     */
+    public function setUnit($value)
+    {
+        $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
+        $this->unit = $this->setEnumVal($value, $enum, $this->unit);
 
         return $this;
     }
