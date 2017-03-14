@@ -229,6 +229,14 @@ class Font extends AbstractStyle
     private $rtl = false;
 
     /**
+     * noProof (disables AutoCorrect)
+     *
+     * @var bool
+     * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
+     */
+    private $noProof = false;
+
+    /**
      * Create new font style
      *
      * @param string $type Type of font
@@ -687,6 +695,29 @@ class Font extends AbstractStyle
     public function setKerning($value = null)
     {
         $this->kerning = $this->setNumericVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get noProof (disables autocorrect)
+     *
+     * @return bool
+     */
+    public function getNoProof()
+    {
+        return $this->noProof;
+    }
+
+    /**
+     * Set noProof (disables autocorrect)
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setNoProof($value = false)
+    {
+        $this->noProof = $value;
 
         return $this;
     }

@@ -24,6 +24,14 @@ $textrun->addText('This is the date of lunar calendar ');
 $textrun->addField('DATE', array('dateformat' => 'd-M-yyyy H:mm:ss'), array('PreserveFormat', 'LunarCalendar'));
 $textrun->addText(' written in a textrun.');
 
+$section->addText('Simple text Macrobutton');
+$section->addField('MACROBUTTON', array('MacroName'=>'DoFieldClick', 'DisplayText'=>'Enter Value here'), array());
+
+$section->addText('Styled text Macrobutton');
+$font = new \PhpOffice\PhpWord\Style\Font();
+$font->setColor('FF0000');
+$section->addField('MACROBUTTON', array('MacroName' => 'DoFieldClick', 'DisplayText' => 'Enter Value here'), array())->setFontStyle($font);
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {

@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\Settings;
+
 /**
  * Field element writer
  *
@@ -24,6 +26,8 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
  */
 class Field extends Text
 {
+    protected static $simpleFields = array('PAGE', 'NUMPAGES', 'DATE');
+
     /**
      * Write field element.
      *
@@ -31,11 +35,73 @@ class Field extends Text
      */
     public function write()
     {
-        $xmlWriter = $this->getXmlWriter();
         $element   = $this->getElement();
         if (!$element instanceof \PhpOffice\PhpWord\Element\Field) {
             return;
         }
+
+        if (in_array($element->getType(), self::$simpleFields)){
+            $writeField = "writeSimpleField";
+        } else {
+            $type       = ucfirst(strtolower($element->getType()));
+            $writeField = "write{$type}";
+        }
+        $this->$writeField();
+    }
+
+    /**
+     * write MACROBUTTON
+     */
+    private function writeMacrobutton(){
+        $xmlWriter = $this->getXmlWriter();
+        $element   = $this->getElement();
+        $properties  = $element->getProperties();
+
+        $macroName = $properties['MacroName'];
+        $displayText = $properties['DisplayText'];
+
+        $this->startElementP();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->text("MACROBUTTON {$macroName} ");
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+
+        $xmlWriter->startElement('w:r');
+        $this->writeFontStyle();
+        $xmlWriter->startElement('w:instrText');
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($this->getText($displayText));
+        } else {
+            $xmlWriter->writeRaw($this->getText($displayText));
+        }
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement();
+        $xmlWriter->endElement();
+
+        $this->endElementP(); // w:p
+    }
+
+    /**
+     * write one of 'PAGE', 'NUMPAGES' or 'DATE'
+     */
+    private function writeSimpleField()
+    {
+        $xmlWriter = $this->getXmlWriter();
+        $element   = $this->getElement();
 
         $instruction = ' ' . $element->getType() . ' ';
         $properties  = $element->getProperties();
@@ -74,11 +140,7 @@ class Field extends Text
         $xmlWriter->startElement('w:fldSimple');
         $xmlWriter->writeAttribute('w:instr', $instruction);
         $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:rPr');
-        $xmlWriter->startElement('w:noProof');
-        $xmlWriter->endElement(); // w:noProof
-        $xmlWriter->endElement(); // w:rPr
-
+        $this->writeFontStyle();
         $xmlWriter->writeElement('w:t', '1');
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:fldSimple
