@@ -40,7 +40,8 @@ class Field extends AbstractElement
         ),
         'NUMPAGES'=>array(
            'properties'=>array(
-               'format' => array('Arabic', 'ArabicDash', 'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN'),
+               'format' => array('Arabic', 'ArabicDash', 'CardText', 'DollarText', 'Ordinal', 'OrdText',
+                   'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN', 'Caps', 'FirstCap', 'Lower', 'Upper'),
                'numformat' => array('0', '0,00', '#.##0', '#.##0,00', '€ #.##0,00(€ #.##0,00)', '0%', '0,00%')
            ),
            'options'=>array('PreserveFormat')
@@ -52,6 +53,14 @@ class Field extends AbstractElement
                     'h:mm am/pm', 'h:mm:ss am/pm', 'HH:mm', 'HH:mm:ss')
             ),
             'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
+        ),
+        'XE'=>array(
+            'properties' => array(),
+            'options' => array('Bold', 'Italic')
+        ),
+        'INDEX'=>array(
+            'properties' => array(),
+            'options'=>array('PreserveFormat')
         )
     );
 
@@ -61,6 +70,13 @@ class Field extends AbstractElement
      * @var string
      */
     protected $type;
+
+    /**
+     * Field text
+     *
+     * @var string
+     */
+    protected $text;
 
     /**
      * Field properties
@@ -83,11 +99,12 @@ class Field extends AbstractElement
      * @param array $properties
      * @param array $options
      */
-    public function __construct($type = null, $properties = array(), $options = array())
+    public function __construct($type = null, $properties = array(), $options = array(), $text = null)
     {
         $this->setType($type);
         $this->setProperties($properties);
         $this->setOptions($options);
+        $this->setText($text);
     }
 
     /**
@@ -183,5 +200,36 @@ class Field extends AbstractElement
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * Set Field text
+     *
+     * @param string $text
+     *
+     * @return string
+     * 
+     * @throws \InvalidArgumentException
+     */
+    public function setText($text)
+    {
+        if (isset($text)) {
+            if (is_string($text)) {
+                $this->text = $text;
+            } else {
+                throw new \InvalidArgumentException("Invalid text");
+            }
+        }
+        return $this->text;
+    }
+
+    /**
+     * Get Field text
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 }
