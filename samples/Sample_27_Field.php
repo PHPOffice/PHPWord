@@ -25,12 +25,12 @@ $textrun->addField('DATE', array('dateformat' => 'd-M-yyyy H:mm:ss'), array('Pre
 $textrun->addText(' written in a textrun.');
 
 $section->addText('Simple text Macrobutton');
-$section->addField('MACROBUTTON', array('MacroName'=>'DoFieldClick', 'DisplayText'=>'Enter Value here'), array());
+$section->addField('MACROBUTTON', array('macroname'=>'DoFieldClick', 'displaytext'=>'Enter Value here'), array());
 
 $section->addText('Styled text Macrobutton');
 $font = new \PhpOffice\PhpWord\Style\Font();
 $font->setColor('FF0000');
-$section->addField('MACROBUTTON', array('MacroName' => 'DoFieldClick', 'DisplayText' => 'Enter Value here'), array())->setFontStyle($font);
+$section->addField('MACROBUTTON', array('macroname' => 'DoFieldClick', 'displaytext' => 'Enter Value here'), array())->setFontStyle($font);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

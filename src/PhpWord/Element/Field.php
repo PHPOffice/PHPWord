@@ -56,7 +56,7 @@ class Field extends AbstractElement
             'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
         ),
         'MACROBUTTON' => array(
-            'properties'=> array( 'MacroName'=>'', 'DisplayText'=>'' )
+            'properties' => array('macroname' => '', 'displaytext' => '')
         )
     );
 
@@ -209,8 +209,7 @@ class Field extends AbstractElement
             throw new \InvalidArgumentException('font style must be of type Font');
         }
 
-        if ($style->getNoProof())
-        {
+        if ($style->getNoProof()) {
             $this->fontStyle = $style;
         } else {
             // make a copy of the font so the original is not altered
@@ -228,7 +227,7 @@ class Field extends AbstractElement
      */
     public function getFontStyle()
     {
-        if ($this->fontStyle == null){
+        if ($this->fontStyle == null) {
             $font = new Font();
             $font->setNoProof(true);
             return $font;

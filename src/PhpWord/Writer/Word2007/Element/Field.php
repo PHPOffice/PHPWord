@@ -50,30 +50,31 @@ class Field extends Text
     }
 
     /**
-     * write MACROBUTTON
+     * write 'MACROBUTTON'
      */
-    private function writeMacrobutton(){
-        $xmlWriter = $this->getXmlWriter();
-        $element   = $this->getElement();
-        $properties  = $element->getProperties();
+    private function writeMacrobutton()
+    {
+        $xmlWriter  = $this->getXmlWriter();
+        $element    = $this->getElement();
+        $properties = $element->getProperties();
 
-        $macroName = $properties['MacroName'];
-        $displayText = $properties['DisplayText'];
+        $macroName   = $properties['macroname'];
+        $displayText = $properties['displaytext'];
 
         $this->startElementP();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'begin');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->text("MACROBUTTON {$macroName} ");
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:instrText
+        $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
         $this->writeFontStyle();
@@ -83,14 +84,14 @@ class Field extends Text
         } else {
             $xmlWriter->writeRaw($this->getText($displayText));
         }
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:instrText
+        $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();
-        $xmlWriter->endElement();
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
 
         $this->endElementP(); // w:p
     }
