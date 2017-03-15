@@ -55,7 +55,7 @@ class CheckBox extends Text
         $xmlWriter->startElement('w:checkBox');
         $xmlWriter->writeAttribute('w:sizeAuto', '');
         $xmlWriter->startElement('w:default');
-        $xmlWriter->writeAttribute('w:val', 0);
+        $xmlWriter->writeAttribute('w:val', $element->isChecked() ? 1 : 0);
         $xmlWriter->endElement(); //w:default
         $xmlWriter->endElement(); //w:checkBox
         $xmlWriter->endElement(); // w:ffData
