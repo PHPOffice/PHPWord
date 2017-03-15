@@ -21,6 +21,7 @@ use PhpOffice\Common\Drawing;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Shared\OLERead;
+use PhpOffice\PhpWord\Style\Font;
 
 /**
  * Reader for Word97
@@ -1673,61 +1674,61 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         case 0x3E:
                             switch(dechex($operand)) {
                                 case 0x00:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_NONE;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_NONE;
                                     break;
                                 case 0x01:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_SINGLE;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_SINGLE;
                                     break;
                                 case 0x02:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_WORDS;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_WORDS;
                                     break;
                                 case 0x03:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOUBLE;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOUBLE;
                                     break;
                                 case 0x04:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTTED;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTTED;
                                     break;
                                 case 0x06:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_HEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_HEAVY;
                                     break;
                                 case 0x07:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASH;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DASH;
                                     break;
                                 case 0x09:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTHASH;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTHASH;
                                     break;
                                 case 0x0A:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDOTDASH;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTDOTDASH;
                                     break;
                                 case 0x0B:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_WAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_WAVY;
                                     break;
                                 case 0x14:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTTEDHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTTEDHEAVY;
                                     break;
                                 case 0x17:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASHHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DASHHEAVY;
                                     break;
                                 case 0x19:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTHASHHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTHASHHEAVY;
                                     break;
                                 case 0x1A:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDOTDASHHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DOTDOTDASHHEAVY;
                                     break;
                                 case 0x1B:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_WAVYHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_WAVYHEAVY;
                                     break;
                                 case 0x27:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASHLONG;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DASHLONG;
                                     break;
                                 case 0x2B:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_WAVYDOUBLE;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_WAVYDOUBLE;
                                     break;
                                 case 0x37:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASHLONGHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_DASHLONGHEAVY;
                                     break;
                                 default:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_NONE;
+                                    $oStylePrl->styleFont['underline'] = Font::UNDERLINE_NONE;
                                     break;
                             }
                             break;
