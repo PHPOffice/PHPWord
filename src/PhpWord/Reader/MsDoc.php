@@ -21,6 +21,7 @@ use PhpOffice\Common\Drawing;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Shared\OLERead;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Reader for Word97
