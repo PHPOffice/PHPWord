@@ -71,6 +71,20 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * New instance with type and properties and options and text
+     */
+    public function testConstructWithTypePropertiesOptionsText()
+    {
+        $oField = new Field('XE', array(), array('Bold'), 'FieldValue');
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
+        $this->assertEquals('XE', $oField->getType());
+        $this->assertEquals(array(), $oField->getProperties());
+        $this->assertEquals(array('Bold'), $oField->getOptions());
+        $this->assertEquals('FieldValue', $oField->getText());
+    }
+
+    /**
      * Test setType exception
      *
      * @expectedException \InvalidArgumentException
@@ -104,5 +118,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Field('PAGE');
         $object->setOptions(array('foo' => 'bar'));
+    }
+
+    /**
+     * Test setText exception
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid text
+     */
+    public function testSetTextException()
+    {
+        $object = new Field('XE');
+        $object->setText(array());
     }
 }
