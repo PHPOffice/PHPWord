@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Common Html functions
@@ -71,14 +72,14 @@ class Html
      * @param array $styles is supplied, the inline style attributes are added to the already existing style
      * @return array
      */
-    protected static function parseInlineStyle($node, $styles = array())
+    protected static function parseInlineStyle($node, $styles = array(), $key = false)
     {
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
             foreach ($attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'style':
-                        $styles = self::parseStyle($attribute, $styles);
+                        $styles = self::parseStyle($attribute, $styles, $key);
                         break;
                 }
             }
@@ -117,7 +118,7 @@ class Html
             'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
-            'span'      => array('Span',        $node,  null,       $styles,    null,    null,          null), //to catch inline span style changes
+            'span'      => array('Span',        $node,  $element,   $styles,    null,    null,          null), //to catch inline span style changes
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
@@ -371,10 +372,19 @@ class Html
      * @param array $styles
      * @return type
      */
-    private static function parseSpan($node, &$styles)
+    private static function parseSpan($node, $element, &$styles)
     {
-        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
-        return null;
+        $styles['font'] = self::parseInlineStyle($node, $styles['font'], 'font');
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['font'], 'paragraph');
+
+        $newElement = $element;
+        if($element instanceof TextRun) {
+            $newElement = $element
+                ->getParagraphStyle()
+                ->setStyleByArray($styles['paragraph'])
+            ;
+        }
+        return $element;
     }
 
     /**
@@ -384,7 +394,7 @@ class Html
      * @param array $styles
      * @return array
      */
-    private static function parseStyle($attribute, $styles)
+    private static function parseStyle($attribute, $styles, $key = false)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
         foreach ($properties as $property) {
@@ -421,6 +431,14 @@ class Html
                     break;
                 case 'width':
                     $styles['width'] = substr( $cValue, 0, -2);;
+                    break;
+                case 'line-height':
+                    if($key === 'paragraph') {
+                        if (is_string($cValue)) {
+                            $cValue = floatval(preg_replace('/[^0-9.,]/', '', $cValue));
+                        }
+                        $styles['line-height'] = $cValue;
+                    }
                     break;
             }
         }
