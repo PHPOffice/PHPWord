@@ -27,6 +27,7 @@ use PhpOffice\PhpWord\Element\TextRun;
  */
 class Html
 {
+	const TAB_TO_TWIPS = 708
     /**
      * Add HTML parts.
      *
@@ -439,6 +440,12 @@ class Html
                         }
                         $styles['line-height'] = $cValue;
                     }
+                    break;
+				case 'text-indent':
+                    $val = (int)substr( $cValue, 0, -2);
+                    $styles['indentation'] = array(
+						'firstLine' => $val * self::TAB_TO_TWIPS
+					);
                     break;
             }
         }
