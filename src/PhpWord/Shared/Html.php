@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Common Html functions
@@ -413,8 +414,8 @@ class Html
                     }
                     break;
                 case 'text-align':
-					//ckeditor insert justify instead of both
-					if(strtolower($cValue) === 'justify') $cValue = 'both';
+                    //ckeditor insert justify instead of both
+                    if(strtolower($cValue) === 'justify') $cValue = 'both';
                     $styles['alignment'] = $cValue; // todo: any mapping?
                     break;
                 case 'font-size':
@@ -438,10 +439,13 @@ class Html
                         if (is_string($cValue)) {
                             $cValue = floatval(preg_replace('/[^0-9.,]/', '', $cValue));
                         }
+                        $spaces = $cValue * Paragraph::LINE_HEIGHT/2;
                         $styles['line-height'] = $cValue;
+                        $styles['spaceAfter'] = $spaces;
+                        $styles['spaceBefore'] = $spaces;
                     }
                     break;
-		case 'text-indent':
+                case 'text-indent':
                     $val = (int)substr( $cValue, 0, -2);
                     $styles['indentation'] = array(
                         'firstLine' => $val * self::TAB_TO_TWIPS
