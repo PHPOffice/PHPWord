@@ -171,7 +171,7 @@ class Table extends Border
     {
         return $this->cellSpacing;
     }
-    
+
     /**
      * Set first row
      *
