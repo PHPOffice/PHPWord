@@ -122,6 +122,11 @@ class Table extends Border
     private $unit = self::WIDTH_AUTO;
 
     /**
+     * @var int cell spacing value
+     */
+    protected $cellSpacing = 0;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -142,6 +147,7 @@ class Table extends Border
             unset($this->firstRowStyle->cellMarginLeft);
             unset($this->firstRowStyle->cellMarginRight);
             unset($this->firstRowStyle->cellMarginBottom);
+            unset($this->firstRowStyle->cellSpacing);
             $this->firstRowStyle->setStyleByArray($firstRowStyle);
         }
 
@@ -150,6 +156,22 @@ class Table extends Border
         }
     }
 
+    /**
+     * @param float|int $cellSpacing
+     */
+    public function setCellSpacing($cellSpacing)
+    {
+        $this->cellSpacing = $cellSpacing;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getCellSpacing()
+    {
+        return $this->cellSpacing;
+    }
+    
     /**
      * Set first row
      *
