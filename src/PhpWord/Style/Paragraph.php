@@ -157,6 +157,13 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+    
+    /**
+     * Do not add an interval between paragraphs of the same style
+     *
+     * @var bool
+     */
+    private $contextualSpacing = true;
 
     /**
      * Set Style value
@@ -208,6 +215,7 @@ class Paragraph extends Border
             ),
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
+            'contextualSpacing' => $this->getContextualSpacing(),
         );
 
         return $styles;
@@ -729,6 +737,24 @@ class Paragraph extends Border
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
 
+        return $this;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function getContextualSpacing()
+    {
+        return $this->contextualSpacing;
+    }
+
+    /**
+     * @param bool $contextualSpacing
+     */
+    public function setContextualSpacing($contextualSpacing)
+    {
+        $this->contextualSpacing = $contextualSpacing;
+        
         return $this;
     }
 }
