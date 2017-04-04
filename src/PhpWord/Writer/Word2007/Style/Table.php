@@ -79,7 +79,11 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        $this->writeTblCellSpacing($xmlWriter, $style->getCellSpacing(), 'dxa');
+        if(null != $style->getCellSpacing())
+        {
+            $this->writeTblCellSpacing($xmlWriter, $style->getCellSpacing(), 'dxa');
+        }
+
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
