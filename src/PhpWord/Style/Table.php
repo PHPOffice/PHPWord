@@ -124,7 +124,7 @@ class Table extends Border
     /**
      * @var int cell spacing value
      */
-    protected $cellSpacing = 0;
+    protected $cellSpacing = null;
 
     /**
      * Create new table style
@@ -159,7 +159,7 @@ class Table extends Border
     /**
      * @param float|int $cellSpacing
      */
-    public function setCellSpacing($cellSpacing)
+    public function setCellSpacing($cellSpacing = null)
     {
         $this->cellSpacing = $cellSpacing;
     }
