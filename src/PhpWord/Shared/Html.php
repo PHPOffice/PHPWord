@@ -18,8 +18,10 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style\Table;
 
 /**
  * Common Html functions
@@ -283,7 +285,7 @@ class Html
         switch ($argument1) {
             case 'addTable':
                 $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
-                $newElement = $element->addTable('table', array('width' => 90));
+                $newElement = $element->addTable($styles['paragraph']);
                 break;
             case 'skipTbody':
                 $newElement = $element;
@@ -292,12 +294,11 @@ class Html
                 $newElement = $element->addRow();
                 break;
             case 'addCell':
-                $width = null;
-                if (array_key_exists('width', $styles['paragraph'])) {
-                    $width = (int)$styles['paragraph']['width'] * 15; //in twip
-                    unset($styles['paragraph']['width']);
-                }
-                $newElement = $element->addCell($width);
+                $width = isset($styles['paragraph']['width']) ? $styles['paragraph']['width'] : 100;
+                $type  = isset($styles['paragraph']['type'])  ? $styles['paragraph']['type']  : Cell::WIDTH_TYPE_PCT;
+
+                /** @var Cell $newElement */
+                $newElement = $element->addCell($width, null, $type);
                 break;
         }
 
@@ -432,7 +433,29 @@ class Html
                     $styles['bgColor'] = trim($cValue, "#");
                     break;
                 case 'width':
-                    $styles['width'] = substr( $cValue, 0, -2);;
+                    $styles['width'] = substr( $cValue, 0, -2);
+                    if(strstr($cValue, '%') !== false)
+                    {
+                        $perc = (int)substr( $cValue, 0, -1);
+                        if($perc === 100)
+                        {
+                            $styles['unit'] =  Table::WIDTH_AUTO;
+                            $styles['type'] =  Cell::WIDTH_TYPE_AUTO;
+                            $styles['width'] = 0;
+                        }
+                        else
+                        {
+                            $styles['unit'] =  Table::WIDTH_PERCENT;
+                            $styles['type'] =  Cell::WIDTH_TYPE_PCT;
+                            $styles['width'] = $perc;
+                        }
+                    }
+                    elseif(strstr($cValue, 'px') !== false)
+                    {
+                        $styles['unit'] =  Table::WIDTH_TWIP;
+                        $styles['type'] =  Cell::WIDTH_TYPE_DXA;
+                        $styles['width'] = substr( $cValue, 0, -2) * 15; //1px = 15twips
+                    }
                     break;
                 case 'line-height':
                     if($key === 'paragraph') {
