@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Cell as CellElement;
+use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Element\Row as RowElement;
 use PhpOffice\PhpWord\Element\Table as TableElement;
 use PhpOffice\PhpWord\Style\Cell as CellStyle;
@@ -91,7 +92,10 @@ class Table extends AbstractElement
             }
             $cellWidths = array();
             foreach ($cells as $cell) {
-                $cellWidths[] = $cell->getWidth();
+                $cellWidths[] = array(
+                    'width' => $cell->getWidth(),
+                    'type' => $cell->getType(),
+                );
             }
         }
 
@@ -99,8 +103,8 @@ class Table extends AbstractElement
         foreach ($cellWidths as $width) {
             $xmlWriter->startElement('w:gridCol');
             if ($width !== null) {
-                $xmlWriter->writeAttribute('w:w', $width);
-                $xmlWriter->writeAttribute('w:type', 'dxa');
+                $xmlWriter->writeAttribute('w:w', $width['width']);
+                $xmlWriter->writeAttribute('w:type', $width['type']);
             }
             $xmlWriter->endElement();
         }
@@ -151,6 +155,7 @@ class Table extends AbstractElement
         if ($cellStyle instanceof CellStyle) {
             $styleWriter = new CellStyleWriter($xmlWriter, $cellStyle);
             $styleWriter->setWidth($cell->getWidth());
+            $styleWriter->setType($cell->getType());
             $styleWriter->write();
         }
 

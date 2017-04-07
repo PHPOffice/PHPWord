@@ -24,6 +24,11 @@ use PhpOffice\PhpWord\Style\Cell as CellStyle;
  */
 class Cell extends AbstractContainer
 {
+    const WIDTH_TYPE_AUTO = 'auto';
+    const WIDTH_TYPE_DXA = 'dxa';
+    const WIDTH_TYPE_PCT = 'pct';
+    const WIDTH_TYPE_NIL = 'nil';
+
     /**
      * @var string Container type
      */
@@ -35,6 +40,11 @@ class Cell extends AbstractContainer
      * @var int
      */
     private $width = null;
+
+    /**
+     * @var string
+     */
+    private $type = null;
 
     /**
      * Cell style
@@ -49,9 +59,10 @@ class Cell extends AbstractContainer
      * @param int $width
      * @param array|\PhpOffice\PhpWord\Style\Cell $style
      */
-    public function __construct($width = null, $style = null)
+    public function __construct($width = null, $style = null, $type = self::WIDTH_TYPE_DXA)
     {
         $this->width = $width;
+        $this->type = $type;
         $this->style = $this->setNewStyle(new CellStyle(), $style, true);
     }
 
@@ -73,5 +84,25 @@ class Cell extends AbstractContainer
     public function getWidth()
     {
         return $this->width;
+    }
+
+    /**
+     * Get cell width type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return Cell
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
+        return $this;
     }
 }
