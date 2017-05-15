@@ -108,11 +108,25 @@ abstract class AbstractElement
     protected $mediaRelation = false;
 
     /**
-     * Is part of collection; true for Title, Footnote, Endnote, and Chart
+     * Is part of collection; true for Title, Footnote, Endnote, Chart, and Comment
      *
      * @var bool
      */
     protected $collectionRelation = false;
+
+    /**
+     * The start position for the linked comment
+     * 
+     * @var Comment
+     */
+    protected $commentStart;
+
+    /**
+     * The end position for the linked comment
+     * 
+     * @var Comment
+     */
+    protected $commentEnd;
 
     /**
      * Get PhpWord
@@ -263,6 +277,55 @@ abstract class AbstractElement
     public function getNestedLevel()
     {
         return $this->nestedLevel;
+    }
+
+    /**
+     * Get comment start
+     *
+     * @return Comment
+     */
+    public function getCommentStart()
+    {
+        return $this->commentStart;
+    }
+
+    /**
+     * Set comment start
+     * 
+     * @param Comment $value
+     */
+    public function setCommentStart(Comment $value)
+    {
+        if ($this instanceof Comment) {
+            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+        }
+        $this->commentStart = $value;
+        $this->commentStart->setStartElement($this);
+    }
+
+    /**
+     * Get comment end
+     *
+     * @return Comment
+     */
+    public function getCommentEnd()
+    {
+        return $this->commentEnd;
+    }
+
+    /**
+     * Set comment end
+     *
+     * @param Comment $value
+     * @return void
+     */
+    public function setCommentEnd(Comment $value)
+    {
+        if ($this instanceof Comment) {
+            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+        }
+        $this->commentEnd = $value;
+        $this->commentEnd->setEndElement($this);
     }
 
     /**
