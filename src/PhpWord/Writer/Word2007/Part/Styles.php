@@ -182,7 +182,11 @@ class Styles extends AbstractPart
 
         // Parent style
         if (!is_null($paragraphStyle)) {
-             $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getStyleName());
+            if ($paragraphStyle->getStyleName() != null) {
+                $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getStyleName());
+            } elseif ($paragraphStyle->getBasedOn() != null) {
+                $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getBasedOn());
+            }
         }
 
         // w:pPr
