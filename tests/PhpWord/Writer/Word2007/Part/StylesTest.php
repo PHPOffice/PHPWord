@@ -114,4 +114,32 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement($path, $file);
         $this->assertNull($element);
     }
+
+    function testFontStyleBasedOnOtherFontStyle() {
+        $phpWord = new PhpWord();
+
+        $styleGenerationP = new Paragraph();
+        $styleGenerationP->setAlignment(Jc::BOTH);
+
+        $styleGeneration = new Font();
+        $styleGeneration->setParagraph($styleGenerationP);
+        $styleGeneration->setSize(9.5);
+        $phpWord->addFontStyle('Generation', $styleGeneration);
+
+        $styleGenerationEteinteP = new Paragraph();
+        $styleGenerationEteinteP->setBasedOn('Generation');
+
+        $styleGenerationEteinte = new Font();
+        $styleGenerationEteinte->setParagraph($styleGenerationEteinteP);
+        $styleGenerationEteinte->setSize(8.5);
+        $phpWord->addFontStyle('GeneratEteinte', $styleGenerationEteinte);
+        
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="GeneratEteinte"]/w:basedOn';
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('Generation', $element->getAttribute('w:val'));
+    }
 }
