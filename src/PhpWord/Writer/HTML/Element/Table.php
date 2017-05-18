@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Writer\HTML\Style\Table as TableStyleWriter;
+use PhpOffice\PhpWord\Writer\HTML\Style\Cell as CellStyleWriter;
+
 /**
  * Table element HTML writer
  *
@@ -37,9 +40,10 @@ class Table extends AbstractElement
 
         $content = '';
         $rows = $this->element->getRows();
+        $style = $this->getStyle(TableStyleWriter::class, $this->element);
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table>' . PHP_EOL;
+            $content .= '<table '.$style.'>' . PHP_EOL;
             foreach ($rows as $row) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $row->getStyle();
@@ -47,9 +51,10 @@ class Table extends AbstractElement
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 foreach ($row->getCells() as $cell) {
+                    $style = $this->getStyle(CellStyleWriter::class, $cell);
                     $writer = new Container($this->parentWriter, $cell);
                     $cellTag = $tblHeader ? 'th' : 'td';
-                    $content .= "<{$cellTag}>" . PHP_EOL;
+                    $content .= "<{$cellTag}{$style}>" . PHP_EOL;
                     $content .= $writer->write();
                     $content .= "</{$cellTag}>" . PHP_EOL;
                 }
@@ -59,5 +64,18 @@ class Table extends AbstractElement
         }
 
         return $content;
+    }
+
+    private function getStyle($classname, $element)
+    {
+        /** @var \PhpOffice\PhpWord\Element\Cell $element Type hint */
+        /** @var \PhpOffice\PhpWord\Writer\HTML\Style\Table $styleWriter Type hint */
+        $styleWriter = new $classname($element->getStyle());
+        $style = $styleWriter->write();
+        if ($style) {
+            $style = " style=\"{$style}\"";
+        }
+
+        return $style;
     }
 }
