@@ -61,10 +61,10 @@ class TemplateProcessor
     /**
      * Merge field replacement reporting information
      */
-	private $temporarySectionName;
-	private $mergeData = array();
-	private $mergeSuccess = array();
-	private $mergeFailure = array();
+    private $temporarySectionName;
+    private $mergeData = array();
+    private $mergeSuccess = array();
+    private $mergeFailure = array();
 
 
     /**
@@ -157,17 +157,17 @@ class TemplateProcessor
 
      /**
      * @return void
-     	--> searches for office-defined merge fields, using $mergeData
+         --> searches for office-defined merge fields, using $mergeData
      */
     public function setMergeData($data) {
-    	$this->mergeData = $data;
+        $this->mergeData = $data;
     }
     
     public function getMergeSuccess() {
-    	return $this->mergeSuccess;
+        return $this->mergeSuccess;
     }
     public function getMergeFailure() {
-    	return $this->mergeFailure;
+        return $this->mergeFailure;
     }
     
     public function doMerge()
@@ -175,16 +175,16 @@ class TemplateProcessor
         $this->mergeData = array_change_key_case($this->mergeData, CASE_UPPER);
         
         foreach ($this->temporaryDocumentHeaders as $index => $headerXML) {
-        	$this->temporarySectionName = 'header'.$index;
-    		$this->temporaryDocumentHeaders[$index] = $this->doMergeForPart($this->temporaryDocumentHeaders[$index]);
+            $this->temporarySectionName = 'header'.$index;
+            $this->temporaryDocumentHeaders[$index] = $this->doMergeForPart($this->temporaryDocumentHeaders[$index]);
         }
         
-		$this->temporarySectionName = 'document';
+        $this->temporarySectionName = 'document';
         $this->temporaryDocumentMainPart = $this->doMergeForPart($this->temporaryDocumentMainPart);
 
         foreach ($this->temporaryDocumentFooters as $index => $headerXML) {
-        	$this->temporarySectionName = 'footer'.$index;
-        	$this->temporaryDocumentFooters[$index] = $this->doMergeForPart($this->temporaryDocumentFooters[$index]);
+            $this->temporarySectionName = 'footer'.$index;
+            $this->temporaryDocumentFooters[$index] = $this->doMergeForPart($this->temporaryDocumentFooters[$index]);
         }
     }
     
@@ -194,42 +194,42 @@ class TemplateProcessor
      */
     protected function doMergeForPart($documentPartXML)
     {
-    	// break down major sections <w:p>
-    	return preg_replace_callback("/<w:p[\s>].+?<\/w:p>/si", array($this, 'parseMergeSection'), $documentPartXML);
+        // break down major sections <w:p>
+        return preg_replace_callback("/<w:p[\s>].+?<\/w:p>/si", array($this, 'parseMergeSection'), $documentPartXML);
     }
     
     protected function parseMergeSection($replace)
     {
-    	$section = $replace[0];
-    	$section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/si', '', $section);
-    	return preg_replace_callback("/(<w:r[\s>]((?!<\/w:r>).)*?<w:fldChar\s+w:fldCharType=\"begin\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?\s+MERGEFIELD\s+\"*\w+\"*\s+.+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"separate\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"end\"\/>.*?<\/w:r>)/si", array($this, 'parseMergeReplace'), $section);
+        $section = $replace[0];
+        $section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/si', '', $section);
+        return preg_replace_callback("/(<w:r[\s>]((?!<\/w:r>).)*?<w:fldChar\s+w:fldCharType=\"begin\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?\s+MERGEFIELD\s+\"*\w+\"*\s+.+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"separate\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"end\"\/>.*?<\/w:r>)/si", array($this, 'parseMergeReplace'), $section);
     }
     
     protected function parseMergeReplace($replace)
     {
-    	/* $replace: array 1..x corresponds to () matches in preg_replace */
-    	$field = $replace[3];
-    	$final = $replace[5];
-    	
-    	if (preg_match('/(<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(\"*\s+<\/w:instrText>)/si', $field, $match)) {
-    		$key = strtoupper($match[2]);
-    	} else {
-    		return $replace[0];
-    	}
-    	
-		$sec = $this->temporarySectionName.'/'.$key;
-		if (isset($this->mergeData[$key])) {
-			/* success */
-			$newval = $this->mergeData[$key];
-			$this->mergeSuccess[$sec] = (isset($this->mergeSuccess[$sec])?$this->mergeSuccess[$sec]:0) + 1;
-		} else {
-			/* failure */
-			$newval = $key;
-			$this->mergeFailure[$sec] = (isset($this->mergeFailure[$sec])?$this->mergeFailure[$sec]:0) + 1;
-		}
-		
-		$final = preg_replace('/(<w:t.*?>)(.+?)(<\/w:t>)/si', '${1}'.$newval.'${3}', $final);
-		return $final;
+        /* $replace: array 1..x corresponds to () matches in preg_replace */
+        $field = $replace[3];
+        $final = $replace[5];
+        
+        if (preg_match('/(<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(\"*\s+<\/w:instrText>)/si', $field, $match)) {
+            $key = strtoupper($match[2]);
+        } else {
+            return $replace[0];
+        }
+        
+        $sec = $this->temporarySectionName.'/'.$key;
+        if (isset($this->mergeData[$key])) {
+            /* success */
+            $newval = $this->mergeData[$key];
+            $this->mergeSuccess[$sec] = (isset($this->mergeSuccess[$sec])?$this->mergeSuccess[$sec]:0) + 1;
+        } else {
+            /* failure */
+            $newval = $key;
+            $this->mergeFailure[$sec] = (isset($this->mergeFailure[$sec])?$this->mergeFailure[$sec]:0) + 1;
+        }
+        
+        $final = preg_replace('/(<w:t.*?>)(.+?)(<\/w:t>)/si', '${1}'.$newval.'${3}', $final);
+        return $final;
     }
 
 
