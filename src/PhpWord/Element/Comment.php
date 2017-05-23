@@ -82,8 +82,8 @@ class Comment extends TrackChange
     public function setStartElement(AbstractElement $value)
     {
         $this->startElement = $value;
-        if ($value->getCommentStart() == null) {
-            $value->setCommentStart($this);
+        if ($value->getCommentRangeStart() == null) {
+            $value->setCommentRangeStart($this);
         }
     }
 
@@ -105,8 +105,8 @@ class Comment extends TrackChange
     public function setEndElement(AbstractElement $value)
     {
         $this->endElement = $value;
-        if ($value->getCommentEnd() == null) {
-            $value->setCommentEnd($this);
+        if ($value->getCommentRangeEnd() == null) {
+            $value->setCommentRangeEnd($this);
         }
     }
 

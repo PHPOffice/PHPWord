@@ -119,14 +119,14 @@ abstract class AbstractElement
      * 
      * @var Comment
      */
-    protected $commentStart;
+    protected $commentRangeStart;
 
     /**
      * The end position for the linked comment
      * 
      * @var Comment
      */
-    protected $commentEnd;
+    protected $commentRangeEnd;
 
     /**
      * Get PhpWord
@@ -284,9 +284,9 @@ abstract class AbstractElement
      *
      * @return Comment
      */
-    public function getCommentStart()
+    public function getCommentRangeStart()
     {
-        return $this->commentStart;
+        return $this->commentRangeStart;
     }
 
     /**
@@ -294,13 +294,13 @@ abstract class AbstractElement
      * 
      * @param Comment $value
      */
-    public function setCommentStart(Comment $value)
+    public function setCommentRangeStart(Comment $value)
     {
         if ($this instanceof Comment) {
             throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
         }
-        $this->commentStart = $value;
-        $this->commentStart->setStartElement($this);
+        $this->commentRangeStart= $value;
+        $this->commentRangeStart->setStartElement($this);
     }
 
     /**
@@ -308,9 +308,9 @@ abstract class AbstractElement
      *
      * @return Comment
      */
-    public function getCommentEnd()
+    public function getCommentRangeEnd()
     {
-        return $this->commentEnd;
+        return $this->commentRangeEnd;
     }
 
     /**
@@ -319,13 +319,13 @@ abstract class AbstractElement
      * @param Comment $value
      * @return void
      */
-    public function setCommentEnd(Comment $value)
+    public function setCommentRangeEnd(Comment $value)
     {
         if ($this instanceof Comment) {
             throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
         }
-        $this->commentEnd = $value;
-        $this->commentEnd->setEndElement($this);
+        $this->commentRangeEnd= $value;
+        $this->commentRangeEnd->setEndElement($this);
     }
 
     /**
