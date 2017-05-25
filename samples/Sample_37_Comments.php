@@ -15,7 +15,7 @@ $section = $phpWord->addSection();
 $textrun = $section->addTextRun();
 $textrun->addText('This ');
 $text = $textrun->addText('is');
-$text->setCommentStart($comment);
+$text->setCommentRangeStart($comment);
 $textrun->addText(' a test');
 
 $section->addTextBreak(2);
@@ -28,10 +28,10 @@ $phpWord->addComment($commentWithStartAndEnd);
 $textrunWithEnd = $section->addTextRun();
 $textrunWithEnd->addText('This ');
 $textToStartOn = $textrunWithEnd->addText('is', array('bold' => true));
-$textToStartOn->setCommentStart($commentWithStartAndEnd);
+$textToStartOn->setCommentRangeStart($commentWithStartAndEnd);
 $textrunWithEnd->addText(' another', array('italic' => true));
 $textToEndOn = $textrunWithEnd->addText(' test');
-$textToEndOn->setCommentEnd($commentWithStartAndEnd);
+$textToEndOn->setCommentRangeEnd($commentWithStartAndEnd);
 
 $section->addTextBreak(2);
 
@@ -42,7 +42,7 @@ $imageComment->addText('Hey, Mars does look ');
 $imageComment->addText('red', array('color' => 'FF0000'));
 $phpWord->addComment($commentOnImage);
 $image = $section->addImage('resources/_mars.jpg');
-$image->setCommentStart($commentOnImage);
+$image->setCommentRangeStart($commentOnImage);
 
 $section->addTextBreak(2);
 
