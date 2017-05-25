@@ -147,7 +147,7 @@ class TemplateProcessor
 
     /**
      * Applies XSL style sheet to template's parts.
-     * 
+     *
      * Note: since the method doesn't make any guess on logic of the provided XSL style sheet,
      * make sure that output is correctly escaped. Otherwise you may get broken document.
      *
@@ -324,33 +324,46 @@ class TemplateProcessor
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true)
-    {
-        $xmlBlock = null;
-        preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
-        );
+     public function cloneBlock($blockname, $clones = 1, $replace = true)
+     {
+         $xmlBlock = null;
+         preg_match(
+             '/(<\?xml.*)(<w:[pt].*>\${' . $blockname . '}<\/w:.*?[pt]>)(.*)(<w:[pt].*\${\/' . $blockname . '}<\/w:.*?[pt]>)/is',
+             $this->tempDocumentMainPart,
+             $matches
+         );
 
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
-            $cloned = array();
-            for ($i = 1; $i <= $clones; $i++) {
-                $cloned[] = $xmlBlock;
-            }
+         if (isset($matches[3])) {
+             $xmlBlock = $matches[3];
+             // Find if there are subblocks in the cloned block to index them
+             preg_match(
+                 '/(<\?xml.*)(<w:[pt].*>\$(.*) }<\/w:.*?[pt]>)(.*)(<w:[pt].*\${\/\3}<\/w:.*?[pt]>)/is',
+                 $xmlBlock,
+                 $matchesBlock
+             );
+             if (isset($matchesBlock[3])) {
+                 $clonedBlock = array();
+                 for ($i = 1; $i <= $clones; $i++) {
+                     $clonedBlock[] = preg_replace('(\$\{\/(.*?)\})', '\${\/\\1#' . $i . '}',preg_replace('/(\$\{(.*?)\})/', '\${\\1#' . $i . '}', $xmlBlock));
+                 }
+             }
+             $cloned = array();
+             for ($i = 1; $i <= $clones; $i++) {
+                 // Indexing of the variables within the block
+                 $cloned[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+             }
 
-            if ($replace) {
-                $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
-                    implode('', $cloned),
-                    $this->tempDocumentMainPart
-                );
-            }
-        }
+             if ($replace) {
+                 $this->tempDocumentMainPart = str_replace(
+                     $matches[2] . $matches[3] . $matches[4],
+                     implode('', $cloned),
+                     $this->tempDocumentMainPart
+                 );
+             }
+         }
 
-        return $xmlBlock;
-    }
+         return $xmlBlock;
+     }
 
     /**
      * Replace a block.
