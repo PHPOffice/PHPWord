@@ -120,6 +120,18 @@ class Settings
     private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
     /**
+     * Hide spelling errors
+     * @var boolean
+     */
+    private static $spellingErrorsHidden = false;
+
+    /**
+     * Hide grammatical errors
+     * @var boolean
+     */
+    private static $grammaticalErrorsHidden = false;
+
+    /**
      * The user defined temporary directory.
      *
      * @var string
@@ -133,7 +145,14 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
-    
+
+    /**
+     * Enables different header for odd and even pages.
+     *
+     * @var bool
+     */
+    private static $evenAndOddHeaders = false;
+
     /**
      * Return the compatibility option used by the XMLWriter
      *
@@ -341,6 +360,22 @@ class Settings
     }
 
     /**
+     * @return boolean
+     */
+    public static function isEvenAndOddHeaders()
+    {
+        return self::$evenAndOddHeaders;
+    }
+
+    /**
+     * @param boolean $evenAndOddHeaders
+     */
+    public static function setEvenAndOddHeaders($evenAndOddHeaders)
+    {
+        self::$evenAndOddHeaders = $evenAndOddHeaders;
+    }
+
+    /**
      * Get default font name
      *
      * @return string
@@ -391,6 +426,46 @@ class Settings
         }
 
         return false;
+    }
+
+    /**
+     * Are spelling errors hidden
+     *
+     * @return boolean
+     */
+    public static function isSpellingErrorsHidden()
+    {
+        return self::$spellingErrorsHidden;
+    }
+    
+    /**
+     * Hide spelling errors
+     *
+     * @param boolean $spellingErrorsHidden
+     */
+    public static function setSpellingErrorsHidden($spellingErrorsHidden)
+    {
+        self::$spellingErrorsHidden = $spellingErrorsHidden;
+    }
+
+    /**
+     * Are grammatical errors hidden
+     *
+     * @return boolean
+     */
+    public static function isGrammaticalErrorsHidden()
+    {
+        return self::$grammaticalErrorsHidden;
+    }
+
+    /**
+     * Hide grammatical errors
+     *
+     * @param boolean $grammaticalErrorsHidden
+     */
+    public static function setGrammaticalErrorsHidden($grammaticalErrorsHidden)
+    {
+        self::$grammaticalErrorsHidden = $grammaticalErrorsHidden;
     }
 
     /**

@@ -725,7 +725,7 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Set shading
+     * Set Paragraph
      *
      * @param mixed $value
      * @return self

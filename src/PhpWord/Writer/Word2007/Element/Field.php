@@ -38,12 +38,17 @@ class Field extends Text
         }
 
         $instruction = ' ' . $element->getType() . ' ';
+        if ($element->getText() != null) {
+            $instruction .= '"' . $element->getText() . '" ';
+        }
         $properties  = $element->getProperties();
         foreach ($properties as $propkey => $propval) {
             switch ($propkey) {
                 case 'format':
-                case 'numformat':
                     $instruction .= '\* ' . $propval . ' ';
+                    break;
+                case 'numformat':
+                    $instruction .= '\# ' . $propval . ' ';
                     break;
                 case 'dateformat':
                     $instruction .= '\@ "' . $propval . '" ';
@@ -66,22 +71,49 @@ class Field extends Text
                 case 'LastUsedFormat':
                     $instruction .= '\l ';
                     break;
+                case 'Bold':
+                    $instruction .= '\b ';
+                    break;
+                case 'Italic':
+                    $instruction .= '\i ';
+                    break;
             }
         }
 
         $this->startElementP();
 
-        $xmlWriter->startElement('w:fldSimple');
-        $xmlWriter->writeAttribute('w:instr', $instruction);
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'begin');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:instrText');
+        $xmlWriter->writeAttribute('xml:space', 'preserve');
+        $xmlWriter->text($instruction);
+        $xmlWriter->endElement(); // w:instrText
+        $xmlWriter->endElement(); // w:r
+
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:rPr');
         $xmlWriter->startElement('w:noProof');
         $xmlWriter->endElement(); // w:noProof
         $xmlWriter->endElement(); // w:rPr
-
         $xmlWriter->writeElement('w:t', '1');
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:fldSimple
+        
+        $xmlWriter->startElement('w:r');
+        $xmlWriter->startElement('w:fldChar');
+        $xmlWriter->writeAttribute('w:fldCharType', 'end');
+        $xmlWriter->endElement(); // w:fldChar
+        $xmlWriter->endElement(); // w:r
 
         $this->endElementP(); // w:p
     }
