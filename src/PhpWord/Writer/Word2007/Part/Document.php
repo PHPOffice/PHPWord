@@ -21,6 +21,7 @@ use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
+use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
 
 /**
  * Word2007 document part writer: word/document.xml
@@ -126,6 +127,32 @@ class Document extends AbstractPart
         // Different first page
         if ($section->hasDifferentFirstPage()) {
             $xmlWriter->startElement('w:titlePg');
+            $xmlWriter->endElement();
+        }
+
+        //footnote properties
+        if ($section->getFootnotePropoperties() !== null) {
+            $xmlWriter->startElement('w:footnotePr');
+            if ($section->getFootnotePropoperties()->getPos() != null) {
+                $xmlWriter->startElement('w:pos');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getPos());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumFmt() != null) {
+                $xmlWriter->startElement('w:numFmt');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumFmt());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumStart() != null) {
+                $xmlWriter->startElement('w:numStart');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumStart());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumRestart() != null) {
+                $xmlWriter->startElement('w:numRestart');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumRestart());
+                $xmlWriter->endElement();
+            }
             $xmlWriter->endElement();
         }
 
