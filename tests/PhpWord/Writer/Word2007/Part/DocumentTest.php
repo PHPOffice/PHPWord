@@ -20,6 +20,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
@@ -55,6 +56,36 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
 
         $this->assertEquals(2, $element->getAttribute('w:start'));
+    }
+
+    /**
+     * Write section footnote properties
+     */
+    public function testSectionFootnoteProperties()
+    {
+        $properties = new FootnoteProperties();
+        $properties->setPos(FootnoteProperties::POSITION_DOC_END);
+        $properties->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+        $properties->setNumStart(1);
+        $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->setFootnoteProperties($properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:pos');
+        $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numFmt');
+        $this->assertEquals(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numStart');
+        $this->assertEquals(1, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numRestart');
+        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
     }
 
     /**
