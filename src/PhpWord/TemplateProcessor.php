@@ -168,11 +168,16 @@ class TemplateProcessor
      * @param mixed $search
      * @param mixed $replace
      * @param integer $limit
+     * @param boolean $useCDATA 
      *
      * @return void
      */
-    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT, $useCDATA = true)
     {
+        if ($useCDATA) {
+            $replace = '<![CDATA[' . $replace . ']]>';
+        }
+        
         if (is_array($search)) {
             foreach ($search as &$item) {
                 $item = self::ensureMacroCompleted($item);
