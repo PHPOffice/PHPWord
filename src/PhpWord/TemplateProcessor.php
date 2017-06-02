@@ -174,10 +174,6 @@ class TemplateProcessor
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT, $useCDATA = true)
     {
-        if ($useCDATA) {
-            $replace = '<![CDATA[' . $replace . ']]>';
-        }
-        
         if (is_array($search)) {
             foreach ($search as &$item) {
                 $item = self::ensureMacroCompleted($item);
@@ -188,9 +184,15 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
+                if ($useCDATA) {
+                    $item = '<![CDATA[' . $item . ']]>';
+                }
                 $item = self::ensureUtf8Encoded($item);
             }
         } else {
+            if ($useCDATA) {
+                $replace = '<![CDATA[' . $replace . ']]>';
+            }
             $replace = self::ensureUtf8Encoded($replace);
         }
 
