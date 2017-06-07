@@ -77,6 +77,8 @@ class Field extends Text
                 case 'Italic':
                     $instruction .= '\i ';
                     break;
+                default:
+                    $instruction .= $option .' ';
             }
         }
 
@@ -106,7 +108,7 @@ class Field extends Text
         $xmlWriter->startElement('w:noProof');
         $xmlWriter->endElement(); // w:noProof
         $xmlWriter->endElement(); // w:rPr
-        $xmlWriter->writeElement('w:t', '1');
+        $xmlWriter->writeElement('w:t', $element->getText() == null ? '1' : $element->getText());
         $xmlWriter->endElement(); // w:r
         
         $xmlWriter->startElement('w:r');

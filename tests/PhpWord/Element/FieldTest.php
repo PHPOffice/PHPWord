@@ -75,13 +75,23 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithTypePropertiesOptionsText()
     {
-        $oField = new Field('XE', array(), array('Bold'), 'FieldValue');
+        $oField = new Field('XE', array(), array('Bold', 'Italic'), 'FieldValue');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
         $this->assertEquals('XE', $oField->getType());
         $this->assertEquals(array(), $oField->getProperties());
-        $this->assertEquals(array('Bold'), $oField->getOptions());
+        $this->assertEquals(array('Bold', 'Italic'), $oField->getOptions());
         $this->assertEquals('FieldValue', $oField->getText());
+    }
+
+    public function testConstructWithOptionValue()
+    {
+        $oField = new Field('INDEX', array(), array('\\c "3" \\h "A"'));
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Field', $oField);
+        $this->assertEquals('INDEX', $oField->getType());
+        $this->assertEquals(array(), $oField->getProperties());
+        $this->assertEquals(array('\\c "3" \\h "A"'), $oField->getOptions());
     }
 
     /**
