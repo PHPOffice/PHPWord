@@ -192,6 +192,24 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addField('INDEX', [], ['\\c "3"']);
+        $section->addField('XE', [], ['Bold', 'Italic'], 'Index Entry');
+        $section->addField('DATE', ['dateformat' => 'd-M-yyyy'], ['PreserveFormat', 'LastUsedFormat']);
+        $section->addField('DATE', [], ['LunarCalendar']);
+        $section->addField('DATE', [], ['SakaEraCalendar']);
+        $section->addField('NUMPAGES', ['format' => 'roman', 'numformat' => '0,00'], ['SakaEraCalendar']);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+    }
+
     /**
      * Test form fields
      */

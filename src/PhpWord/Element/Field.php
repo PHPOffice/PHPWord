@@ -60,7 +60,7 @@ class Field extends AbstractElement
         ),
         'INDEX'=>array(
             'properties' => array(),
-            'options'=>array('PreserveFormat')
+            'options' => array('PreserveFormat')
         )
     );
 
@@ -122,7 +122,7 @@ class Field extends AbstractElement
             if (isset($this->fieldsArray[$type])) {
                 $this->type = $type;
             } else {
-                throw new \InvalidArgumentException("Invalid type");
+                throw new \InvalidArgumentException("Invalid type '$type'");
             }
         }
         return $this->type;
@@ -152,7 +152,7 @@ class Field extends AbstractElement
         if (is_array($properties)) {
             foreach (array_keys($properties) as $propkey) {
                 if (!(isset($this->fieldsArray[$this->type]['properties'][$propkey]))) {
-                    throw new \InvalidArgumentException("Invalid property");
+                    throw new \InvalidArgumentException("Invalid property '$propkey'");
                 }
             }
             $this->properties = array_merge($this->properties, $properties);
@@ -183,8 +183,8 @@ class Field extends AbstractElement
     {
         if (is_array($options)) {
             foreach (array_keys($options) as $optionkey) {
-                if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey]))) {
-                    throw new \InvalidArgumentException("Invalid option");
+                if (!(isset($this->fieldsArray[$this->type]['options'][$optionkey])) && substr($optionkey, 0, 1) !== '\\') {
+                    throw new \InvalidArgumentException("Invalid option '$optionkey', possible values are " . implode(', ', $this->fieldsArray[$this->type]['options']));
                 }
             }
             $this->options = array_merge($this->options, $options);
