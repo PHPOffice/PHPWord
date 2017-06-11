@@ -74,7 +74,7 @@ class Field extends AbstractElement
     /**
      * Field text
      *
-     * @var string
+     * @var TextRun | string
      */
     protected $text;
 
@@ -98,6 +98,7 @@ class Field extends AbstractElement
      * @param string $type
      * @param array $properties
      * @param array $options
+     * @param TextRun | string $text
      */
     public function __construct($type = null, $properties = array(), $options = array(), $text = null)
     {
@@ -205,16 +206,16 @@ class Field extends AbstractElement
     /**
      * Set Field text
      *
-     * @param string $text
+     * @param string | TextRun $text
      *
-     * @return string
+     * @return string | TextRun
      * 
      * @throws \InvalidArgumentException
      */
     public function setText($text)
     {
         if (isset($text)) {
-            if (is_string($text)) {
+            if (is_string($text) || $text instanceof TextRun) {
                 $this->text = $text;
             } else {
                 throw new \InvalidArgumentException("Invalid text");
@@ -226,7 +227,7 @@ class Field extends AbstractElement
     /**
      * Get Field text
      *
-     * @return string
+     * @return string | TextRun
      */
     public function getText()
     {

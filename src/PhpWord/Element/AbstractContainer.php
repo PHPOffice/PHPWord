@@ -39,7 +39,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
  * @method Object addObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
- * @method Field addField(string $type = null, array $properties = array(), array $options = array())
+ * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addShape(string $type, mixed $style = null)
  * @method Chart addChart(string $type, array $categories, array $values, array $style = null)
