@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
@@ -208,6 +209,33 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $element = '/w:document/w:body/w:p/w:r/w:instrText';
         $this->assertTrue($doc->elementExists($element));
         $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+    }
+
+    public function testFieldElementWithComplexText()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $text = new TextRun();
+        $text->addText('test string', array('bold' => true));
+
+        $section->addField('XE', [], ['Bold', 'Italic'], $text);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' XE "', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:rPr/w:b';
+        $this->assertTrue($doc->elementExists($element));
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:t';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('test string', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[4]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('"\\b \\i ', $doc->getElement($element)->textContent);
     }
 
     /**
