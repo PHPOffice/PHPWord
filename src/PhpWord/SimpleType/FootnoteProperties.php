@@ -28,12 +28,6 @@ final class FootnoteProperties
     const RESTART_NUMBER_EACH_SECTION = 'eachSect';
     const RESTART_NUMBER_EACH_PAGE = 'eachPage';
 
-    const RESTART_NUMBER = array(
-        self::RESTART_NUMBER_CONTINUOUS,
-        self::RESTART_NUMBER_EACH_SECTION,
-        self::RESTART_NUMBER_EACH_PAGE
-    );
-
     const NUMBER_FORMAT_DECIMAL = 'decimal';
     const NUMBER_FORMAT_UPPER_ROMAN = 'upperRoman';
     const NUMBER_FORMAT_LOWER_ROMAN = 'lowerRoman';
@@ -45,30 +39,10 @@ final class FootnoteProperties
     const NUMBER_FORMAT_NONE = 'none';
     const NUMBER_FORMAT_BULLET = 'bullet';
 
-    const NUMBER_FORMAT = array(
-        self::NUMBER_FORMAT_DECIMAL,
-        self::NUMBER_FORMAT_UPPER_ROMAN,
-        self::NUMBER_FORMAT_LOWER_ROMAN,
-        self::NUMBER_FORMAT_UPPER_LETTER,
-        self::NUMBER_FORMAT_LOWER_LETTER,
-        self::NUMBER_FORMAT_ORDINAL,
-        self::NUMBER_FORMAT_CARDINAL_TEXT,
-        self::NUMBER_FORMAT_ORDINAL_TEXT,
-        self::NUMBER_FORMAT_NONE,
-        self::NUMBER_FORMAT_BULLET
-    );
-
     const POSITION_PAGE_BOTTOM = 'pageBottom';
     const POSITION_BENEATH_TEXT = 'beneathText';
     const POSITION_SECTION_END = 'sectEnd';
     const POSITION_DOC_END = 'docEnd';
-
-    const POSITION = array(
-        self::POSITION_PAGE_BOTTOM,
-        self::POSITION_BENEATH_TEXT,
-        self::POSITION_SECTION_END,
-        self::POSITION_DOC_END
-    );
 
     /**
      * Footnote Positioning Location
@@ -105,10 +79,17 @@ final class FootnoteProperties
 
     public function setPos($pos)
     {
-        if (in_array($pos, self::POSITION)) {
+        $position = array(
+            self::POSITION_PAGE_BOTTOM,
+            self::POSITION_BENEATH_TEXT,
+            self::POSITION_SECTION_END,
+            self::POSITION_DOC_END
+        );
+
+        if (in_array($pos, $position)) {
             $this->pos = $pos;
         } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', self::POSITION) . " possible");
+            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $position) . " possible");
         }
     }
 
@@ -119,10 +100,23 @@ final class FootnoteProperties
 
     public function setNumFmt($numFmt)
     {
-        if (in_array($numFmt, self::NUMBER_FORMAT)) {
+        $numberFormat = array(
+            self::NUMBER_FORMAT_DECIMAL,
+            self::NUMBER_FORMAT_UPPER_ROMAN,
+            self::NUMBER_FORMAT_LOWER_ROMAN,
+            self::NUMBER_FORMAT_UPPER_LETTER,
+            self::NUMBER_FORMAT_LOWER_LETTER,
+            self::NUMBER_FORMAT_ORDINAL,
+            self::NUMBER_FORMAT_CARDINAL_TEXT,
+            self::NUMBER_FORMAT_ORDINAL_TEXT,
+            self::NUMBER_FORMAT_NONE,
+            self::NUMBER_FORMAT_BULLET
+        );
+
+        if (in_array($numFmt, $numberFormat)) {
             $this->numFmt = $numFmt;
         } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', self::NUMBER_FORMAT) . " possible");
+            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $numberFormat) . " possible");
         }
     }
 
@@ -143,10 +137,16 @@ final class FootnoteProperties
 
     public function setNumRestart($numRestart)
     {
-        if (in_array($numRestart, self::RESTART_NUMBER)) {
+        $restartNumbers = array(
+            self::RESTART_NUMBER_CONTINUOUS,
+            self::RESTART_NUMBER_EACH_SECTION,
+            self::RESTART_NUMBER_EACH_PAGE
+        );
+
+        if (in_array($numRestart, $restartNumbers)) {
             $this->numRestart= $numRestart;
         } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', self::RESTART_NUMBER) . " possible");
+            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $restartNumbers) . " possible");
         }
     }
 }
