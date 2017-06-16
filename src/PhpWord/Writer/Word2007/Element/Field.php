@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Element\TextRun;
-
 /**
  * Field element writer
  *
@@ -66,7 +64,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
 
         if ($element->getText() != null) {
-            if ($element->getText() instanceof TextRun) {
+            if ($element->getText() instanceof PhpOffice\PhpWord\Element\TextRun) {
 
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
                 $containerWriter->write();
