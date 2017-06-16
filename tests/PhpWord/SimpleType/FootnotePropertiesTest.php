@@ -15,7 +15,7 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Style;
+namespace PhpOffice\PhpWord\SimpleType;
 
 use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
 
