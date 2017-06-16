@@ -198,12 +198,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addField('INDEX', [], ['\\c "3"']);
-        $section->addField('XE', [], ['Bold', 'Italic'], 'Index Entry');
-        $section->addField('DATE', ['dateformat' => 'd-M-yyyy'], ['PreserveFormat', 'LastUsedFormat']);
-        $section->addField('DATE', [], ['LunarCalendar']);
-        $section->addField('DATE', [], ['SakaEraCalendar']);
-        $section->addField('NUMPAGES', ['format' => 'roman', 'numformat' => '0,00'], ['SakaEraCalendar']);
+        $section->addField('INDEX', array(), array('\\c "3"'));
+        $section->addField('XE', array(), array('Bold', 'Italic'), 'Index Entry');
+        $section->addField('DATE', array('dateformat' => 'd-M-yyyy'), array('PreserveFormat', 'LastUsedFormat'));
+        $section->addField('DATE', array(), array('LunarCalendar'));
+        $section->addField('DATE', array(), array('SakaEraCalendar'));
+        $section->addField('NUMPAGES', array('format' => 'roman', 'numformat' => '0,00'), array('SakaEraCalendar'));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:instrText';
@@ -219,7 +219,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $text = new TextRun();
         $text->addText('test string', array('bold' => true));
 
-        $section->addField('XE', [], ['Bold', 'Italic'], $text);
+        $section->addField('XE', array(), array('Bold', 'Italic'), $text);
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';

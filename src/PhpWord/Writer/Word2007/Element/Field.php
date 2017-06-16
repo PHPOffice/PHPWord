@@ -64,7 +64,7 @@ class Field extends Text
         $xmlWriter->endElement(); // w:r
 
         if ($element->getText() != null) {
-            if ($element->getText() instanceof PhpOffice\PhpWord\Element\TextRun) {
+            if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
 
                 $containerWriter = new Container($xmlWriter, $element->getText(), true);
                 $containerWriter->write();
