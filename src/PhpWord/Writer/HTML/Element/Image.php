@@ -41,17 +41,15 @@ class Image extends Text
         $parentWriter = $this->parentWriter;
 
         $content = '';
-        if (!$parentWriter->isPdf()) {
-            $imageData = $this->element->getImageStringData(true);
-            if ($imageData !== null) {
-                $styleWriter = new ImageStyleWriter($this->element->getStyle());
-                $style = $styleWriter->write();
-                $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
+        $imageData = $this->element->getImageStringData(true);
+        if ($imageData !== null) {
+            $styleWriter = new ImageStyleWriter($this->element->getStyle());
+            $style = $styleWriter->write();
+            $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
 
-                $content .= $this->writeOpening();
-                $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
-                $content .= $this->writeClosing();
-            }
+            $content .= $this->writeOpening();
+            $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
+            $content .= $this->writeClosing();
         }
 
         return $content;
