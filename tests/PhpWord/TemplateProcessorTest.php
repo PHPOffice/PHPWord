@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Shared\ZipArchive;
+
 /**
  * @covers \PhpOffice\PhpWord\TemplateProcessor
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
@@ -222,5 +224,38 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::insertImage
+     * @covers ::saveAs
+     * @test
+     */
+    public function testInsertImage()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/insert-image.docx');
+
+        $this->assertEquals(
+            array('img:earth', 'img:mars:10cm:5cm'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'insert-image.docx';
+        $templateProcessor->insertImage('earth', __DIR__ . '/_files/images/earth.jpg', '310pt', '720pt', null, 'my-earth.jpg');
+        $templateProcessor->insertImage('mars', __DIR__ . '/_files/images/mars.jpg');
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $zip = new ZipArchive();
+        $zip->open($docName);
+        $imgIdx1 = $zip->locateName('word/media/image1.jpg');
+        $imageIdx2 = $zip->locateName('word/media/image2.jpg');
+        $mainDoc = $zip->getFromName('word/document.xml');
+        $zip->close();
+        unlink($docName);
+        $this->assertTrue($docFound);
+        $this->assertTrue($imgIdx1 !== false);
+        $this->assertTrue($imageIdx2 !== false);
+        $this->assertTrue(strpos($mainDoc, 'mars.jpg') !== false);
+        $this->assertTrue(strpos($mainDoc, 'my-earth.jpg') !== false);
     }
 }
