@@ -159,11 +159,11 @@ class Paragraph extends Border
     private $shading;
     
     /**
-     * Do not add an interval between paragraphs of the same style
+     * Ignore Spacing Above and Below When Using Identical Styles
      *
      * @var bool
      */
-    private $contextualSpacing = true;
+    private $contextualSpacing = false;
 
     /**
      * Set Style value
@@ -215,7 +215,7 @@ class Paragraph extends Border
             ),
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
-            'contextualSpacing' => $this->getContextualSpacing(),
+            'contextualSpacing' => $this->hasContextualSpacing(),
         );
 
         return $styles;
@@ -741,15 +741,20 @@ class Paragraph extends Border
     }
     
     /**
+     * Get contextualSpacing
+     * 
      * @return bool
      */
-    public function getContextualSpacing()
+    public function hasContextualSpacing()
     {
         return $this->contextualSpacing;
     }
 
     /**
+     * Set contextualSpacing
+     * 
      * @param bool $contextualSpacing
+     * @return self
      */
     public function setContextualSpacing($contextualSpacing)
     {
