@@ -105,6 +105,7 @@ class Settings extends AbstractPart
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
+            'w:evenAndOddHeaders' => array('@attributes' => array('w:val' => DocumentSettings::isEvenAndOddHeaders() ? 'true': 'false')),
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
             'w:hideSpellingErrors' => array('@attributes' => array('w:val' => DocumentSettings::isSpellingErrorsHidden() ? 'true' : 'false')),
             'w:hideGrammaticalErrors' => array('@attributes' => array('w:val' => DocumentSettings::isGrammaticalErrorsHidden() ? 'true' : 'false')),

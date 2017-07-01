@@ -1,4 +1,6 @@
 <?php
+use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -42,10 +44,14 @@ $footnote->addText('But you can only put footnote in section, not in header or f
 
 $section->addText(
     'You can also create the footnote directly from the section making it wrap in a paragraph '
-        . 'like the footnote below this paragraph. But is is best used from within a textrun.'
+        . 'like the footnote below this paragraph. But is best used from within a textrun.'
 );
 $footnote = $section->addFootnote();
 $footnote->addText('The reference for this is wrapped in its own line');
+
+$footnoteProperties = new FootnoteProperties();
+$footnoteProperties->setNumFmt(FootnoteProperties::NUMBER_FORMAT_UPPER_ROMAN);
+$section->setFootnoteProperties($footnoteProperties);
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

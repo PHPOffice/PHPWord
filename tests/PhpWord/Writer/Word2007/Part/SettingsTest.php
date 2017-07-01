@@ -101,7 +101,19 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $path = '/w:settings/w:hideSpellingErrors';
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
-        
+    }
+
+    /**
+     * Test even and odd headers
+     */
+    public function testEvenAndOddHeaders()
+    {
+        $phpWord = new PhpWord();
+        Settings::setEvenAndOddHeaders(true);
+        $path = '/w:settings/w:evenAndOddHeaders';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
         $this->assertEquals('true', $element->getAttribute('w:val'));
     }
 }
