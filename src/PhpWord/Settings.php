@@ -120,6 +120,18 @@ class Settings
     private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
     /**
+     * Hide spelling errors
+     * @var boolean
+     */
+    private static $spellingErrorsHidden = false;
+
+    /**
+     * Hide grammatical errors
+     * @var boolean
+     */
+    private static $grammaticalErrorsHidden = false;
+
+    /**
      * The user defined temporary directory.
      *
      * @var string
@@ -414,6 +426,46 @@ class Settings
         }
 
         return false;
+    }
+
+    /**
+     * Are spelling errors hidden
+     *
+     * @return boolean
+     */
+    public static function isSpellingErrorsHidden()
+    {
+        return self::$spellingErrorsHidden;
+    }
+    
+    /**
+     * Hide spelling errors
+     *
+     * @param boolean $spellingErrorsHidden
+     */
+    public static function setSpellingErrorsHidden($spellingErrorsHidden)
+    {
+        self::$spellingErrorsHidden = $spellingErrorsHidden;
+    }
+
+    /**
+     * Are grammatical errors hidden
+     *
+     * @return boolean
+     */
+    public static function isGrammaticalErrorsHidden()
+    {
+        return self::$grammaticalErrorsHidden;
+    }
+
+    /**
+     * Hide grammatical errors
+     *
+     * @param boolean $grammaticalErrorsHidden
+     */
+    public static function setGrammaticalErrorsHidden($grammaticalErrorsHidden)
+    {
+        self::$grammaticalErrorsHidden = $grammaticalErrorsHidden;
     }
 
     /**

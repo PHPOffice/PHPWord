@@ -69,20 +69,57 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test language
+     */
+    public function testLanguage()
+    {
+        $phpWord = new PhpWord();
+        
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        
+        $file = 'word/settings.xml';
+        
+        $path = '/w:settings/w:themeFontLang';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        
+        $this->assertEquals('en-US', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test spelling
+     */
+    public function testSpelling()
+    {
+        $phpWord = new PhpWord();
+        Settings::setSpellingErrorsHidden(true);
+        
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        
+        $file = 'word/settings.xml';
+        
+        $path = '/w:settings/w:hideSpellingErrors';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        
+        $this->assertEquals('true', $element->getAttribute('w:val'));
+    }
+
+    /**
      * Test even and odd headers
      */
     public function testEvenAndOddHeaders()
     {
         $phpWord = new PhpWord();
         Settings::setEvenAndOddHeaders(true);
-
+        
         $doc = TestHelperDOCX::getDocument($phpWord);
-
+        
         $file = 'word/settings.xml';
-
+        
         $path = '/w:settings/w:evenAndOddHeaders';
         $this->assertTrue($doc->elementExists($path, $file));
-
+        
         $element = $doc->getElement($path, $file);
         $this->assertEquals('true', $element->getAttribute('w:val'));
     }

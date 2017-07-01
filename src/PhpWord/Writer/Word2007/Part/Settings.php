@@ -107,6 +107,8 @@ class Settings extends AbstractPart
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
             'w:evenAndOddHeaders' => array('@attributes' => array('w:val' => DocumentSettings::isEvenAndOddHeaders() ? 'true': 'false')),
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
+            'w:hideSpellingErrors' => array('@attributes' => array('w:val' => DocumentSettings::isSpellingErrorsHidden() ? 'true' : 'false')),
+            'w:hideGrammaticalErrors' => array('@attributes' => array('w:val' => DocumentSettings::isGrammaticalErrorsHidden() ? 'true' : 'false')),
             'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
             'w:compat' => array(),
