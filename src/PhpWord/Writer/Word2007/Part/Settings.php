@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\Settings as DocumentSettings;
+
 /**
  * Word2007 settings part writer: word/settings.xml
  *
@@ -103,10 +105,11 @@ class Settings extends AbstractPart
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
+            'w:evenAndOddHeaders' => array('@attributes' => array('w:val' => DocumentSettings::isEvenAndOddHeaders() ? 'true': 'false')),
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
             'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
-            'w:compat' => '',
+            'w:compat' => array(),
             'm:mathPr' => array(
                 'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
                 'm:brkBin' => array('@attributes' => array('m:val' => 'before')),

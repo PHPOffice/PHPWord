@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
+
 /**
  * Paper size from ISO/IEC 29500-1:2012 pg. 1656-1657
  *
@@ -100,6 +102,7 @@ class Paper extends AbstractStyle
         'A3'        => array(297, 420, 'mm'),
         'A4'        => array(210, 297, 'mm'),
         'A5'        => array(148, 210, 'mm'),
+        'B5'        => array(176, 250, 'mm'),
         'Folio'     => array(8.5, 13, 'in'),
         'Legal'     => array(8.5, 14, 'in'),
         'Letter'    => array(8.5, 11, 'in'),
@@ -157,11 +160,14 @@ class Paper extends AbstractStyle
         $this->size = $this->setEnumVal($size, array_keys($this->sizes), $this->size);
 
         list($width, $height, $unit) = $this->sizes[$this->size];
-        $multipliers = array('mm' => 56.5217, 'in' => 1440);
-        $multiplier = $multipliers[$unit];
 
-        $this->width = (int)round($width * $multiplier);
-        $this->height = (int)round($height * $multiplier);
+        if ($unit == 'mm') {
+            $this->width = Converter::cmToTwip($width / 10);
+            $this->height = Converter::cmToTwip($height / 10);
+        } else {
+            $this->width = Converter::inchToTwip($width);
+            $this->height = Converter::inchToTwip($height);
+        }
 
         return $this;
     }

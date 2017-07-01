@@ -18,6 +18,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -64,5 +65,25 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $path = '/w:settings/w:compat/w:compatSetting';
         $this->assertTrue($doc->elementExists($path, $file));
+        $this->assertEquals($phpWord->getCompatibility()->getOoxmlVersion(), 15);
+    }
+
+    /**
+     * Test even and odd headers
+     */
+    public function testEvenAndOddHeaders()
+    {
+        $phpWord = new PhpWord();
+        Settings::setEvenAndOddHeaders(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:evenAndOddHeaders';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('true', $element->getAttribute('w:val'));
     }
 }
