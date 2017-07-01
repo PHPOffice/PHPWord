@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Common Html functions
@@ -26,6 +28,7 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
  */
 class Html
 {
+    const TAB_TO_TWIPS = 708;
     /**
      * Add HTML parts.
      *
@@ -71,15 +74,14 @@ class Html
      * @param array $styles is supplied, the inline style attributes are added to the already existing style
      * @return array
      */
-    protected static function parseInlineStyle($node, $styles = array())
+    protected static function parseInlineStyle($node, $styles = array(), $key = false)
     {
         if (XML_ELEMENT_NODE == $node->nodeType) {
             $attributes = $node->attributes; // get all the attributes(eg: id, class)
-
             foreach ($attributes as $attribute) {
                 switch ($attribute->name) {
                     case 'style':
-                        $styles = self::parseStyle($attribute, $styles);
+                        $styles = self::parseStyle($attribute, $styles, $key);
                         break;
                 }
             }
@@ -118,11 +120,13 @@ class Html
             'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     null),
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
+            'span'      => array('Span',        $node,  $element,   $styles,    null,    null,          null), //to catch inline span style changes
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
+            'tbody'     => array('Table',       $node,  $element,   $styles,    null,   'skipTbody',    true), //added to catch tbody in html.
             'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
             'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
@@ -132,7 +136,6 @@ class Html
 
         $newElement = null;
         $keys = array('node', 'element', 'styles', 'data', 'argument1', 'argument2');
-
         if (isset($nodes[$node->nodeName])) {
             // Execute method based on node mapping table and return $newElement or null
             // Arguments are passed by reference
@@ -177,7 +180,14 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
+                    // Added to get tables to work
+                    $htmlContainers = array(
+                        'tbody',
+                        'tr',
+                        'td',
+                    );
+                    if (in_array( $cNode->nodeName, $htmlContainers )
+                        || $element instanceof AbstractContainer ) {
                         self::parseNode($cNode, $element, $styles, $data);
                     }
                 }
@@ -270,19 +280,37 @@ class Html
     private static function parseTable($node, $element, &$styles, $argument1)
     {
         $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
-
-        $newElement = $element->$argument1();
+        switch ($argument1) {
+            case 'addTable':
+                $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+                $newElement = $element->addTable('table', array('width' => 90));
+                break;
+            case 'skipTbody':
+                $newElement = $element;
+                break;
+            case 'addRow':
+                $newElement = $element->addRow();
+                break;
+            case 'addCell':
+                $width = null;
+                if (array_key_exists('width', $styles['paragraph'])) {
+                    $width = (int)$styles['paragraph']['width'] * 15; //in twip
+                    unset($styles['paragraph']['width']);
+                }
+                $newElement = $element->addCell($width);
+                break;
+        }
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
-            // $newElement->setWidth($attributes->getNamedItem('width')->value);
+        // $newElement->setWidth($attributes->getNamedItem('width')->value);
         // }
 
         // if ($attributes->getNamedItem('height') !== null) {
-            // $newElement->setHeight($attributes->getNamedItem('height')->value);
+        // $newElement->setHeight($attributes->getNamedItem('height')->value);
         // }
         // if ($attributes->getNamedItem('width') !== null) {
-            // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
+        // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
         // }
 
         return $newElement;
@@ -337,13 +365,38 @@ class Html
     }
 
     /**
+     * Parse span
+     *
+     * Changes the inline style when a Span element is found.
+     *
+     * @param type $node
+     * @param type $element
+     * @param array $styles
+     * @return type
+     */
+    private static function parseSpan($node, $element, &$styles)
+    {
+        $styles['font'] = self::parseInlineStyle($node, $styles['font'], 'font');
+        $styles['paragraph'] = self::parseInlineStyle($node, $styles['font'], 'paragraph');
+
+        $newElement = $element;
+        if($element instanceof TextRun) {
+            $newElement = $element
+                ->getParagraphStyle()
+                ->setStyleByArray($styles['paragraph'])
+            ;
+        }
+        return $element;
+    }
+
+    /**
      * Parse style
      *
      * @param \DOMAttr $attribute
      * @param array $styles
      * @return array
      */
-    private static function parseStyle($attribute, $styles)
+    private static function parseStyle($attribute, $styles, $key = false)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
         foreach ($properties as $property) {
@@ -361,13 +414,42 @@ class Html
                     }
                     break;
                 case 'text-align':
+                    //ckeditor insert justify instead of both
+                    if(strtolower($cValue) === 'justify') $cValue = 'both';
                     $styles['alignment'] = $cValue; // todo: any mapping?
+                    break;
+                case 'font-size':
+                    $styles['size'] = substr( $cValue, 0, -2); // substr used to remove the px from the html string size string
+                    break;
+                case 'font-family':
+                    $cValue = array_map('trim', explode(',', $cValue));
+                    $styles['name'] = ucwords($cValue[0]);
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, "#");
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, "#");
+                    break;
+                case 'width':
+                    $styles['width'] = substr( $cValue, 0, -2);;
+                    break;
+                case 'line-height':
+                    if($key === 'paragraph') {
+                        if (is_string($cValue)) {
+                            $cValue = floatval(preg_replace('/[^0-9.,]/', '', $cValue));
+                        }
+                        $spaces = $cValue * Paragraph::LINE_HEIGHT/2;
+                        $styles['line-height'] = $cValue;
+                        $styles['spaceAfter'] = $spaces;
+                        $styles['spaceBefore'] = $spaces;
+                    }
+                    break;
+                case 'text-indent':
+                    $val = (int)substr( $cValue, 0, -2);
+                    $styles['indentation'] = array(
+                        'firstLine' => $val * self::TAB_TO_TWIPS
+                    );
                     break;
             }
         }
