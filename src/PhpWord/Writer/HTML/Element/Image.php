@@ -37,9 +37,6 @@ class Image extends Text
         if (!$this->element instanceof ImageElement) {
             return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
-        $parentWriter = $this->parentWriter;
-
         $content = '';
         $imageData = $this->element->getImageStringData(true);
         if ($imageData !== null) {
