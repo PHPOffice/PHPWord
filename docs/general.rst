@@ -109,8 +109,8 @@ Zip class
 By default, PHPWord uses `Zip extension <http://php.net/manual/en/book.zip.php>`__
 to deal with ZIP compressed archives and files inside them. If you can't have
 Zip extension installed on your server, you can use pure PHP library
-alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which
-included with PHPWord.
+alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which is
+included in PHPWord.
 
 .. code-block:: php
 
@@ -129,6 +129,17 @@ To turn it on set ``outputEscapingEnabled`` option to ``true`` in your PHPWord c
 .. code-block:: php
 
     \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+
+Spelling and grammatical checks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default spelling and grammatical errors are shown as soon as you open a word document.
+For big documents this can slow down the opening of the document. You can hide the spelling and/or grammatical errors with:
+
+.. code-block:: php
+
+    \PhpOffice\PhpWord\Settings::setSpellingErrorsHidden(true);
+    \PhpOffice\PhpWord\Settings::setGrammaticalErrorsHidden(true);
 
 Default font
 ~~~~~~~~~~~~
