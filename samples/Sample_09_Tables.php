@@ -107,22 +107,22 @@ $table->addCell(null, $cellRowContinue);
 $section->addPageBreak();
 $section->addText('Table with colspan and rowspan', $header);
 
-$styleTable = ['borderSize' => 6, 'borderColor' => '999999'];
+$styleTable = array('borderSize' => 6, 'borderColor' => '999999');
 $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
 
 $row = $table->addRow();
 
-$row->addCell(null, ['vMerge' => 'restart'])->addText('A');
-$row->addCell(null, ['gridSpan' => 2, 'vMerge' => 'restart',])->addText('B');
+$row->addCell(null, array('vMerge' => 'restart'))->addText('A');
+$row->addCell(null, array('gridSpan' => 2, 'vMerge' => 'restart',))->addText('B');
 $row->addCell()->addText('1');
 
 $row = $table->addRow();
-$row->addCell(null, ['vMerge' => 'continue']);
-$row->addCell(null, ['vMerge' => 'continue','gridSpan' => 2,]);
+$row->addCell(null, array('vMerge' => 'continue'));
+$row->addCell(null, array('vMerge' => 'continue','gridSpan' => 2,));
 $row->addCell()->addText('2');
 $row = $table->addRow();
-$row->addCell(null, ['vMerge' => 'continue']);
+$row->addCell(null, array('vMerge' => 'continue'));
 $row->addCell()->addText('C');
 $row->addCell()->addText('D');
 $row->addCell()->addText('3');
