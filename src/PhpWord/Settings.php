@@ -145,7 +145,14 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
-    
+
+    /**
+     * Enables different header for odd and even pages.
+     *
+     * @var bool
+     */
+    private static $evenAndOddHeaders = false;
+
     /**
      * Return the compatibility option used by the XMLWriter
      *
@@ -350,6 +357,22 @@ class Settings
     public static function setOutputEscapingEnabled($outputEscapingEnabled)
     {
         self::$outputEscapingEnabled = $outputEscapingEnabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isEvenAndOddHeaders()
+    {
+        return self::$evenAndOddHeaders;
+    }
+
+    /**
+     * @param boolean $evenAndOddHeaders
+     */
+    public static function setEvenAndOddHeaders($evenAndOddHeaders)
+    {
+        self::$evenAndOddHeaders = $evenAndOddHeaders;
     }
 
     /**

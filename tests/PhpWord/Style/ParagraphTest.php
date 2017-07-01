@@ -43,13 +43,14 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-            'widowControl'    => true,
-            'keepNext'        => false,
-            'keepLines'       => false,
-            'pageBreakBefore' => false,
+            'widowControl'      => true,
+            'keepNext'          => false,
+            'keepLines'         => false,
+            'pageBreakBefore'   => false,
+            'contextualSpacing' => false,
         );
         foreach ($attributes as $key => $default) {
-            $get = "get{$key}";
+            $get = $this->findGetter($key, $default, $object);
             $object->setStyleValue($key, null);
             $this->assertEquals($default, $object->$get());
             $object->setStyleValue($key, '');
@@ -65,22 +66,23 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
         $object = new Paragraph();
 
         $attributes = array(
-            'spaceAfter'      => 240,
-            'spaceBefore'     => 240,
-            'indent'          => 1,
-            'hanging'         => 1,
-            'spacing'         => 120,
-            'basedOn'         => 'Normal',
-            'next'            => 'Normal',
-            'numStyle'        => 'numStyle',
-            'numLevel'        => 1,
-            'widowControl'    => false,
-            'keepNext'        => true,
-            'keepLines'       => true,
-            'pageBreakBefore' => true,
+            'spaceAfter'        => 240,
+            'spaceBefore'       => 240,
+            'indent'            => 1,
+            'hanging'           => 1,
+            'spacing'           => 120,
+            'basedOn'           => 'Normal',
+            'next'              => 'Normal',
+            'numStyle'          => 'numStyle',
+            'numLevel'          => 1,
+            'widowControl'      => false,
+            'keepNext'          => true,
+            'keepLines'         => true,
+            'pageBreakBefore'   => true,
+            'contextualSpacing' => true,
         );
         foreach ($attributes as $key => $value) {
-            $get = "get{$key}";
+            $get = $this->findGetter($key, $value, $object);
             $object->setStyleValue("$key", $value);
             if ('indent' == $key || 'hanging' == $key) {
                 $value = $value * 720;
@@ -89,6 +91,18 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
             }
             $this->assertEquals($value, $object->$get());
         }
+    }
+
+    private function findGetter($key, $value, $object)
+    {
+        if (is_bool($value)) {
+            if (method_exists($object, "is{$key}")) {
+                return "is{$key}";
+            } else if (method_exists($object, "has{$key}")) {
+                return "has{$key}";
+            }
+        }
+        return "get{$key}";
     }
 
     /**
@@ -100,7 +114,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
 
         $attributes = array('spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter');
         foreach ($attributes as $key) {
-            $get = "get{$key}";
+            $get = $this->findGetter($key, null, $object);
             $this->assertNull($object->$get());
         }
     }
