@@ -74,11 +74,11 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testLanguage()
     {
         $phpWord = new PhpWord();
-
+        
         $doc = TestHelperDOCX::getDocument($phpWord);
-
+        
         $file = 'word/settings.xml';
-
+        
         $path = '/w:settings/w:themeFontLang';
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
@@ -93,11 +93,11 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         Settings::setSpellingErrorsHidden(true);
-
+        
         $doc = TestHelperDOCX::getDocument($phpWord);
-
+        
         $file = 'word/settings.xml';
-
+        
         $path = '/w:settings/w:hideSpellingErrors';
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
@@ -112,14 +112,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         Settings::setEvenAndOddHeaders(true);
-
+        
         $doc = TestHelperDOCX::getDocument($phpWord);
-
+        
         $file = 'word/settings.xml';
-
+        
         $path = '/w:settings/w:evenAndOddHeaders';
         $this->assertTrue($doc->elementExists($path, $file));
-
+        
         $element = $doc->getElement($path, $file);
         $this->assertEquals('true', $element->getAttribute('w:val'));
     }

@@ -14,7 +14,9 @@
  * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-namespace PhpOffice\PhpWord\SimpleType;
+namespace PhpOffice\PhpWord\ComplexType;
+
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Footnote properties
@@ -27,17 +29,6 @@ final class FootnoteProperties
     const RESTART_NUMBER_CONTINUOUS = 'continuous';
     const RESTART_NUMBER_EACH_SECTION = 'eachSect';
     const RESTART_NUMBER_EACH_PAGE = 'eachPage';
-
-    const NUMBER_FORMAT_DECIMAL = 'decimal';
-    const NUMBER_FORMAT_UPPER_ROMAN = 'upperRoman';
-    const NUMBER_FORMAT_LOWER_ROMAN = 'lowerRoman';
-    const NUMBER_FORMAT_UPPER_LETTER = 'upperLetter';
-    const NUMBER_FORMAT_LOWER_LETTER = 'lowerLetter';
-    const NUMBER_FORMAT_ORDINAL = 'ordinal';
-    const NUMBER_FORMAT_CARDINAL_TEXT = 'cardinalText';
-    const NUMBER_FORMAT_ORDINAL_TEXT = 'ordinalText';
-    const NUMBER_FORMAT_NONE = 'none';
-    const NUMBER_FORMAT_BULLET = 'bullet';
 
     const POSITION_PAGE_BOTTOM = 'pageBottom';
     const POSITION_BENEATH_TEXT = 'beneathText';
@@ -52,7 +43,7 @@ final class FootnoteProperties
     private $pos;
 
     /**
-     * Footnote Numbering Format
+     * Footnote Numbering Format w:numFmt, one of PhpOffice\PhpWord\SimpleType\NumberFormat
      *
      * @var string
      */
@@ -61,7 +52,7 @@ final class FootnoteProperties
     /**
      * Footnote and Endnote Numbering Starting Value
      *
-     * @var decimal
+     * @var double
      */
     private $numStart;
 
@@ -72,11 +63,23 @@ final class FootnoteProperties
      */
     private $numRestart;
 
+    /**
+     * Get the Footnote Positioning Location
+     * 
+     * @return string
+     */
     public function getPos()
     {
         return $this->pos;
     }
 
+    /**
+     * Set the Footnote Positioning Location (pageBottom, beneathText, sectEnd, docEnd)
+     * 
+     * @param string $pos
+     * @throws \InvalidArgumentException
+     * @return self
+     */
     public function setPos($pos)
     {
         $position = array(
@@ -91,50 +94,71 @@ final class FootnoteProperties
         } else {
             throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $position) . " possible");
         }
+        return $this;
     }
 
+    /**
+     * Get the Footnote Numbering Format
+     * 
+     * @return string
+     */
     public function getNumFmt()
     {
         return $this->numFmt;
     }
 
+    /**
+     * Set the Footnote Numbering Format
+     * 
+     * @param string $numFmt One of NumberFormat
+     * @return self
+     */
     public function setNumFmt($numFmt)
     {
-        $numberFormat = array(
-            self::NUMBER_FORMAT_DECIMAL,
-            self::NUMBER_FORMAT_UPPER_ROMAN,
-            self::NUMBER_FORMAT_LOWER_ROMAN,
-            self::NUMBER_FORMAT_UPPER_LETTER,
-            self::NUMBER_FORMAT_LOWER_LETTER,
-            self::NUMBER_FORMAT_ORDINAL,
-            self::NUMBER_FORMAT_CARDINAL_TEXT,
-            self::NUMBER_FORMAT_ORDINAL_TEXT,
-            self::NUMBER_FORMAT_NONE,
-            self::NUMBER_FORMAT_BULLET
-        );
-
-        if (in_array($numFmt, $numberFormat)) {
-            $this->numFmt = $numFmt;
-        } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $numberFormat) . " possible");
-        }
+        NumberFormat::validate($numFmt);
+        $this->numFmt = $numFmt;
+        return $this;
     }
 
+    /**
+     * Get the Footnote Numbering Format
+     * 
+     * @return double
+     */
     public function getNumStart()
     {
         return $this->numStart;
     }
 
+    /**
+     * Set the Footnote Numbering Format
+     * 
+     * @param double $numStart
+     * @return self
+     */
     public function setNumStart($numStart)
     {
         $this->numStart = $numStart;
+        return $this;
     }
 
+    /**
+     * Get the Footnote and Endnote Numbering Starting Value
+     * 
+     * @return string
+     */
     public function getNumRestart()
     {
         return $this->numRestart;
     }
 
+    /**
+     * Set the Footnote and Endnote Numbering Starting Value (continuous, eachSect, eachPage)
+     * 
+     * @param  string $numRestart
+     * @throws \InvalidArgumentException
+     * @return self
+     */
     public function setNumRestart($numRestart)
     {
         $restartNumbers = array(
@@ -148,5 +172,6 @@ final class FootnoteProperties
         } else {
             throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $restartNumbers) . " possible");
         }
+        return $this;
     }
 }

@@ -15,9 +15,10 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\SimpleType;
+namespace PhpOffice\PhpWord\ComplexType;
 
-use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Test class for PhpOffice\PhpWord\SimpleType\FootnoteProperties
@@ -34,12 +35,12 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
     {
         $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(FootnoteProperties::POSITION_DOC_END);
-        $footnoteProp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+        $footnoteProp->setNumFmt(NumberFormat::LOWER_ROMAN);
         $footnoteProp->setNumStart(2);
         $footnoteProp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
 
         $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $footnoteProp->getPos());
-        $this->assertEquals(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN, $footnoteProp->getNumFmt());
+        $this->assertEquals(NumberFormat::LOWER_ROMAN, $footnoteProp->getNumFmt());
         $this->assertEquals(2, $footnoteProp->getNumStart());
         $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $footnoteProp->getNumRestart());
     }
@@ -52,7 +53,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
     public function testWrongPos()
     {
         $footnoteProp= new FootnoteProperties();
-        $footnoteProp->setPos(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+        $footnoteProp->setPos(NumberFormat::LOWER_ROMAN);
     }
 
     /**
@@ -74,6 +75,6 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
     public function testWrongNumRestart()
     {
         $footnoteProp= new FootnoteProperties();
-        $footnoteProp->setNumRestart(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+        $footnoteProp->setNumRestart(NumberFormat::LOWER_ROMAN);
     }
 }
