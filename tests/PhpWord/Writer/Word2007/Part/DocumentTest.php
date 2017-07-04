@@ -16,11 +16,12 @@
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
@@ -65,7 +66,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $properties = new FootnoteProperties();
         $properties->setPos(FootnoteProperties::POSITION_DOC_END);
-        $properties->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+        $properties->setNumFmt(NumberFormat::LOWER_ROMAN);
         $properties->setNumStart(1);
         $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
 
@@ -79,7 +80,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numFmt');
-        $this->assertEquals(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN, $element->getAttribute('w:val'));
+        $this->assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
 
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numStart');
         $this->assertEquals(1, $element->getAttribute('w:val'));

@@ -1,5 +1,6 @@
 <?php
-use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 include_once 'Sample_Header.php';
 
@@ -50,7 +51,7 @@ $footnote = $section->addFootnote();
 $footnote->addText('The reference for this is wrapped in its own line');
 
 $footnoteProperties = new FootnoteProperties();
-$footnoteProperties->setNumFmt(FootnoteProperties::NUMBER_FORMAT_UPPER_ROMAN);
+$footnoteProperties->setNumFmt(NumberFormat::DECIMAL_ENCLOSED_CIRCLE);
 $section->setFootnoteProperties($footnoteProperties);
 
 // Save file
