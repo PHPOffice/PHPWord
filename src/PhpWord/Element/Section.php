@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
-use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
 
 class Section extends AbstractContainer
 {

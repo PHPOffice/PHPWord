@@ -21,7 +21,6 @@ use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Writer\Word2007\Element\Container;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Section as SectionStyleWriter;
-use PhpOffice\PhpWord\SimpleType\FootnoteProperties;
 
 /**
  * Word2007 document part writer: word/document.xml
