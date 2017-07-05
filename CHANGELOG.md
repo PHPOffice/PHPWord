@@ -3,6 +3,28 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+v0.14.0 (?? ???? 2017)
+----------------------
+This release fixes several bugs and adds some new features
+
+### Added
+- Possibility to control the footnote numbering - @troosan #1068
+- Image creation from string - @troosan #937
+- Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
+- Support for ContextualSpacing - @postHawk #1088
+- Possiblity to hide spelling and/or grammatical errors - @troosan #542
+
+### Fixed
+- Images are not being printed when generating PDF - @hubertinio #1074 #431
+- Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
+- Fixed image loading over https - @troosan #988
+- Impossibility to set different even and odd page headers - @troosan #981
+- Fixed Word2007 reader where unnecessary paragraphs were being created - @donghaobo #1043 #620
+- Fixed Word2007 reader where margins were not being read correctly - @slowprog #885 #1008
+- Impossible to add element PreserveText in Section - @rvanlaak #452
+- Missing options for numbering format - @troosan #1041
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
