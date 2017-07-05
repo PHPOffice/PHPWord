@@ -115,30 +115,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test set/get spelling and grammar
-     */
-    public function testSetGetSpellingGrammar()
-    {
-        $this->assertFalse(Settings::isSpellingErrorsHidden());
-        Settings::setSpellingErrorsHidden(true);
-        $this->assertTrue(Settings::isSpellingErrorsHidden());
-
-        $this->assertFalse(Settings::isGrammaticalErrorsHidden());
-        Settings::setGrammaticalErrorsHidden(true);
-        $this->assertTrue(Settings::isGrammaticalErrorsHidden());
-    }
-
-    /**
-     * Test set/get even and odd headers
-     */
-    public function testSetGetEvenAndOddHeaders()
-    {
-        $this->assertFalse(Settings::isEvenAndOddHeaders());
-        Settings::setEvenAndOddHeaders(true);
-        $this->assertTrue(Settings::isEvenAndOddHeaders());
-    }
-
-    /**
      * Test load config
      */
     public function testLoadConfig()

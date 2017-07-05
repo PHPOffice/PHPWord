@@ -138,8 +138,8 @@ For big documents this can slow down the opening of the document. You can hide t
 
 .. code-block:: php
 
-    \PhpOffice\PhpWord\Settings::setSpellingErrorsHidden(true);
-    \PhpOffice\PhpWord\Settings::setGrammaticalErrorsHidden(true);
+    $phpWord->getSettings()->setHideGrammaticalErrors(true);
+    $phpWord->getSettings()->setHideSpellingErrors(true);
 
 Default font
 ~~~~~~~~~~~~

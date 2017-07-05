@@ -41,7 +41,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testDocumentProtection()
     {
         $phpWord = new PhpWord();
-        $phpWord->getProtection()->setEditing('forms');
+        $phpWord->getSettings()->getDocumentProtection()->setEditing('forms');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -92,7 +92,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testSpelling()
     {
         $phpWord = new PhpWord();
-        Settings::setSpellingErrorsHidden(true);
+        $phpWord->getSettings()->setHideSpellingErrors(true);
         
         $doc = TestHelperDOCX::getDocument($phpWord);
         
@@ -111,7 +111,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testEvenAndOddHeaders()
     {
         $phpWord = new PhpWord();
-        Settings::setEvenAndOddHeaders(true);
+        $phpWord->getSettings()->setEvenAndOddHeaders(true);
         
         $doc = TestHelperDOCX::getDocument($phpWord);
         

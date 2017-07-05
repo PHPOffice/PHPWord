@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * @since 0.14.0
  *
  * @see http://www.datypic.com/sc/ooxml/t-w_ST_NumberFormat.html.
- *
- * @codeCoverageIgnore
  */
 final class NumberFormat extends AbstractEnum
 {

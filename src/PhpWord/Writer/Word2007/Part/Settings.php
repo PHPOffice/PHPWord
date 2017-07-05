@@ -105,10 +105,7 @@ class Settings extends AbstractPart
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
-            'w:evenAndOddHeaders' => array('@attributes' => array('w:val' => DocumentSettings::isEvenAndOddHeaders() ? 'true': 'false')),
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
-            'w:hideSpellingErrors' => array('@attributes' => array('w:val' => DocumentSettings::isSpellingErrorsHidden() ? 'true' : 'false')),
-            'w:hideGrammaticalErrors' => array('@attributes' => array('w:val' => DocumentSettings::isGrammaticalErrorsHidden() ? 'true' : 'false')),
             'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
             'w:compat' => array(),
@@ -143,24 +140,44 @@ class Settings extends AbstractPart
             ),
         );
 
+        /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
+        $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
+
+        $this->setOnOffValue('w:hideSpellingErrors', $documentSettings->hasHideSpellingErrors());
+        $this->setOnOffValue('w:hideGrammaticalErrors', $documentSettings->hasHideGrammaticalErrors());
+        $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
+
         // Other settings
-        $this->getProtection();
+        $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->getCompatibility();
+    }
+
+    /**
+     * Adds a boolean attribute to the settings array
+     * 
+     * @param string $settingName
+     * @param boolean $booleanValue
+     */
+    private function setOnOffValue($settingName, $booleanValue)
+    {
+        if ($booleanValue !== null && is_bool($booleanValue)) {
+            $this->settings[$settingName] = array('@attributes' => array('w:val' => $booleanValue ? 'true': 'false'));
+        }
     }
 
     /**
      * Get protection settings.
      *
+     * @param \PhpOffice\PhpWord\Metadata\Settings $documentProtection
      * @return void
      */
-    private function getProtection()
+    private function setDocumentProtection($documentProtection)
     {
-        $protection = $this->getParentWriter()->getPhpWord()->getProtection();
-        if ($protection->getEditing() !== null) {
+        if ($documentProtection != null && $documentProtection->getEditing() !== null) {
             $this->settings['w:documentProtection'] = array(
                 '@attributes' => array(
                     'w:enforcement' => 1,
-                    'w:edit' => $protection->getEditing(),
+                    'w:edit' => $documentProtection->getEditing(),
                 )
             );
         }
