@@ -90,7 +90,7 @@ class Settings
      */
     public function setHideSpellingErrors($hideSpellingErrors)
     {
-        $this->hideSpellingErrors = $hideSpellingErrors;
+        $this->hideSpellingErrors = $hideSpellingErrors === null ? true : $hideSpellingErrors;
     }
 
     /**
@@ -110,7 +110,7 @@ class Settings
      */
     public function setHideGrammaticalErrors($hideGrammaticalErrors)
     {
-        $this->hideGrammaticalErrors = $hideGrammaticalErrors;
+        $this->hideGrammaticalErrors = $hideGrammaticalErrors === null ? true : $hideGrammaticalErrors;
     }
 
     /**
@@ -126,6 +126,6 @@ class Settings
      */
     public function setEvenAndOddHeaders($evenAndOddHeaders)
     {
-        $this->evenAndOddHeaders = $evenAndOddHeaders;
+        $this->evenAndOddHeaders = $evenAndOddHeaders === null ? true : $evenAndOddHeaders;
     }
 }
