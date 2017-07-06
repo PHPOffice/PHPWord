@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Metadata\Protection;
 
 /**
  * Settings reader
@@ -30,7 +29,6 @@ class Settings extends AbstractPart
 {
 
     private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'evenAndOddHeaders');
-    private static $decimalProperties = array('zoom');
 
     /**
      * Read settings.xml.
@@ -67,7 +65,14 @@ class Settings extends AbstractPart
         }
     }
 
-    private function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node) {
+    /**
+     * Sets the document protection
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node) {
         $documentProtection = $phpWord->getSettings()->getDocumentProtection();
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
