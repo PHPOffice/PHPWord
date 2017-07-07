@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Settings as DocumentSettings;
+use PhpOffice\PhpWord\ComplexType\ProofState;
 
 /**
  * Word2007 settings part writer: word/settings.xml
@@ -101,7 +102,6 @@ class Settings extends AbstractPart
     {
         // Default settings
         $this->settings = array(
-            'w:zoom' => array('@attributes' => array('w:percent' => '100')),
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
@@ -145,10 +145,14 @@ class Settings extends AbstractPart
 
         $this->setOnOffValue('w:hideSpellingErrors', $documentSettings->hasHideSpellingErrors());
         $this->setOnOffValue('w:hideGrammaticalErrors', $documentSettings->hasHideGrammaticalErrors());
+        $this->setOnOffValue('w:trackRevisions', $documentSettings->hasTrackRevisions());
+        $this->setOnOffValue('w:doNotTrackMoves', $documentSettings->hasDoNotTrackMoves());
+        $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
 
-        // Other settings
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
+        $this->setProofState($documentSettings->getProofState());
+        $this->setZoom($documentSettings->getZoom());
         $this->getCompatibility();
     }
 
@@ -161,7 +165,11 @@ class Settings extends AbstractPart
     private function setOnOffValue($settingName, $booleanValue)
     {
         if ($booleanValue !== null && is_bool($booleanValue)) {
-            $this->settings[$settingName] = array('@attributes' => array('w:val' => $booleanValue ? 'true': 'false'));
+            if ($booleanValue) {
+                $this->settings[$settingName] = array('@attributes' => array());
+            } else {
+                $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
+            }
         }
     }
 
@@ -180,6 +188,36 @@ class Settings extends AbstractPart
                     'w:edit' => $documentProtection->getEditing(),
                 )
             );
+        }
+    }
+
+    /**
+     * Set the Proof state
+     *
+     * @param ProofState $proofState
+     */
+    private function setProofState(ProofState $proofState = null)
+    {
+        if ($proofState != null && $proofState->getGrammar() !== null && $proofState->getSpelling() !== null) {
+            $this->settings['w:proofState'] = array(
+                '@attributes' => array(
+                    'w:spelling' => $proofState->getSpelling(),
+                    'w:grammar' => $proofState->getGrammar()
+                )
+            );
+        }
+    }
+
+    /**
+     * Set the magnification
+     * 
+     * @param mixed $zoom
+     */
+    private function setZoom($zoom = null)
+    {
+        if ($zoom !== null) {
+            $attr = is_int($zoom) ? 'w:percent' : 'w:val';
+            $this->settings['w:zoom'] = array('@attributes' => array($attr => $zoom));
         }
     }
 

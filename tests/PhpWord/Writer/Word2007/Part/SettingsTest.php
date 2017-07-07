@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\Zoom;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -102,7 +103,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
         
-        $this->assertEquals('true', $element->getAttribute('w:val'));
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
 
     /**
@@ -121,6 +122,101 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc->elementExists($path, $file));
         
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('true', $element->getAttribute('w:val'));
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test zoom percentage
+     */
+    public function testZoomPercentage()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setZoom(75);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:zoom';
+        $this->assertTrue($doc->elementExists($path, $file));
+        
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('75', $element->getAttribute('w:percent'));
+    }
+
+    /**
+     * Test zoom value
+     */
+    public function testZoomValue()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setZoom(Zoom::FULL_PAGE);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:zoom';
+        $this->assertTrue($doc->elementExists($path, $file));
+        
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('fullPage', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test track Revisions
+     */
+    public function testTrackRevisions()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setTrackRevisions(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:trackRevisions';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test doNotTrackMoves
+     */
+    public function testDoNotTrackMoves()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setDoNotTrackMoves(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:doNotTrackMoves';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test DoNotTrackFormatting
+     */
+    public function testDoNotTrackFormatting()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setDoNotTrackFormatting(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:doNotTrackFormatting';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
 }

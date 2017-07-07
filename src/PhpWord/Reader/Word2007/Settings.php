@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\PhpWord;
 class Settings extends AbstractPart
 {
 
-    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'evenAndOddHeaders');
+    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'w:trackRevisions', 'w:doNotTrackMoves', 'w:doNotTrackFormatting', 'evenAndOddHeaders');
 
     /**
      * Read settings.xml.
@@ -78,5 +78,44 @@ class Settings extends AbstractPart
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
         $documentProtection->setEditing($edit);
+    }
+
+    /**
+     * Sets the proof state
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+        $proofState = $phpWord->getSettings()->getProofState();
+
+        $spelling = $xmlReader->getAttribute('w:spelling', $node);
+        $grammar = $xmlReader->getAttribute('w:grammar', $node);
+
+        if ($spelling != null) {
+            $proofState->setSpelling($spelling);
+        }
+        if ($grammar != null) {
+            $proofState->setGrammar($grammar);
+        }
+    }
+
+    /**
+     * Sets the proof state
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+        $percent = $xmlReader->getAttribute('w:percent', $node);
+        $val = $xmlReader->getAttribute('w:val', $node);
+
+        if ($percent != null || $val != null) {
+            $phpWord->getSettings()->setZoom($percent == null ? $val : $percent);
+        }
     }
 }
