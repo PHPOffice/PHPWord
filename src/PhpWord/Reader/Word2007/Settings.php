@@ -72,7 +72,8 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node) {
+    protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
         $documentProtection = $phpWord->getSettings()->getDocumentProtection();
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
