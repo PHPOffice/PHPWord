@@ -18,6 +18,7 @@ namespace PhpOffice\PhpWord\Metadata;
 
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\SimpleType\Zoom;
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
 /**
  * Setting class
@@ -49,6 +50,13 @@ class Settings
      * @var boolean
      */
     private $hideGrammaticalErrors = false;
+
+    /**
+     * Visibility of Annotation Types
+     *
+     * @var TrackChangesView
+     */
+    private $revisionView;
 
     /**
      * Track Revisions to Document
@@ -91,6 +99,13 @@ class Settings
      * @var bool
      */
     private $evenAndOddHeaders = false;
+
+    /**
+     * Radix Point for Field Code Evaluation
+     *
+     * @var string
+     */
+    private $decimalSymbol= '.';
 
     /**
      * @return Protection
@@ -187,6 +202,26 @@ class Settings
     }
 
     /**
+     * Get the Visibility of Annotation Types
+     * 
+     * @return \PhpOffice\PhpWord\ComplexType\TrackChangesView
+     */
+    public function getRevisionView()
+    {
+        return $this->revisionView;
+    }
+
+    /**
+     * Set the Visibility of Annotation Types
+     * 
+     * @param TrackChangesView $trackChangesView
+     */
+    public function setRevisionView(TrackChangesView $trackChangesView = null)
+    {
+        $this->revisionView = $trackChangesView;
+    }
+
+    /**
      * @return boolean
      */
     public function hasTrackRevisions()
@@ -254,5 +289,25 @@ class Settings
             Zoom::validate($zoom);
             $this->zoom = $zoom;
         }
+    }
+
+    /**
+     * Returns the Radix Point for Field Code Evaluation
+     * 
+     * @return string
+     */
+    public function getDecimalSymbol()
+    {
+        return $this->decimalSymbol;
+    }
+
+    /**
+     * sets the Radix Point for Field Code Evaluation
+     * 
+     * @param string $decimalSymbol
+     */
+    public function setDecimalSymbol($decimalSymbol)
+    {
+        $this->decimalSymbol = $decimalSymbol;
     }
 }

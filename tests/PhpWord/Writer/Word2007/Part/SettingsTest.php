@@ -20,6 +20,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -161,6 +162,37 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         
         $element = $doc->getElement($path, $file);
         $this->assertEquals('fullPage', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test Revision View
+     */
+    public function testRevisionView()
+    {
+        $trackChangesView = new TrackChangesView();
+        $trackChangesView->setFormatting(false);
+        $trackChangesView->setComments(true);
+
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setRevisionView($trackChangesView);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $this->assertTrue($doc->elementExists('/w:settings/w:revisionView', $file));
+
+        $this->assertFalse($doc->elementExists('/w:settings/w:revisionView/w:insDel', $file));
+
+        $path = '/w:settings/w:revisionView/w:comments';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+
+        $path = '/w:settings/w:revisionView/w:formatting';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('false', $element->getAttribute('w:val'));
     }
 
     /**

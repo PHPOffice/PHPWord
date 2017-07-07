@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Settings as DocumentSettings;
 use PhpOffice\PhpWord\ComplexType\ProofState;
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
 /**
  * Word2007 settings part writer: word/settings.xml
@@ -100,13 +101,17 @@ class Settings extends AbstractPart
      */
     private function getSettings()
     {
+
+        /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
+        $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
+
         // Default settings
         $this->settings = array(
             'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
             'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
             'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
-            'w:decimalSymbol' => array('@attributes' => array('w:val' => '.')),
+            'w:decimalSymbol' => array('@attributes' => array('w:val' => $documentSettings->getDecimalSymbol())),
             'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
             'w:compat' => array(),
             'm:mathPr' => array(
@@ -140,9 +145,6 @@ class Settings extends AbstractPart
             ),
         );
 
-        /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
-        $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
-
         $this->setOnOffValue('w:hideSpellingErrors', $documentSettings->hasHideSpellingErrors());
         $this->setOnOffValue('w:hideGrammaticalErrors', $documentSettings->hasHideGrammaticalErrors());
         $this->setOnOffValue('w:trackRevisions', $documentSettings->hasTrackRevisions());
@@ -150,6 +152,7 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
 
+        $this->setRevisionView($documentSettings->getRevisionView());
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
@@ -205,6 +208,25 @@ class Settings extends AbstractPart
                     'w:grammar' => $proofState->getGrammar()
                 )
             );
+        }
+    }
+
+    /**
+     * Set the Proof state
+     *
+     * @param ProofState $proofState
+     */
+    private function setRevisionView(TrackChangesView $trackChangesView = null)
+    {
+        if ($trackChangesView != null) {
+
+            $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true': 'false';
+            $revisionView['w:comments'] = $trackChangesView->hasMarkup() ? 'true': 'false';
+            $revisionView['w:insDel'] = $trackChangesView->hasMarkup() ? 'true': 'false';
+            $revisionView['w:formatting'] = $trackChangesView->hasMarkup() ? 'true': 'false';
+            $revisionView['w:inkAnnotations'] = $trackChangesView->hasInkAnnotations() ? 'true': 'false';
+
+            $this->settings['w:revisionView'] = array('@attributes' => $revisionView);
         }
     }
 
