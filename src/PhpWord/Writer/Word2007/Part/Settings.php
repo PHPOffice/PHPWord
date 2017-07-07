@@ -221,9 +221,9 @@ class Settings extends AbstractPart
         if ($trackChangesView != null) {
 
             $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true': 'false';
-            $revisionView['w:comments'] = $trackChangesView->hasMarkup() ? 'true': 'false';
-            $revisionView['w:insDel'] = $trackChangesView->hasMarkup() ? 'true': 'false';
-            $revisionView['w:formatting'] = $trackChangesView->hasMarkup() ? 'true': 'false';
+            $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true': 'false';
+            $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true': 'false';
+            $revisionView['w:formatting'] = $trackChangesView->hasFormatting() ? 'true': 'false';
             $revisionView['w:inkAnnotations'] = $trackChangesView->hasInkAnnotations() ? 'true': 'false';
 
             $this->settings['w:revisionView'] = array('@attributes' => $revisionView);

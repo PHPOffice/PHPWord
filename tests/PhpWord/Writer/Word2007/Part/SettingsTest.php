@@ -180,19 +180,12 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $file = 'word/settings.xml';
 
-        $this->assertTrue($doc->elementExists('/w:settings/w:revisionView', $file));
-
-        $this->assertFalse($doc->elementExists('/w:settings/w:revisionView/w:insDel', $file));
-
-        $path = '/w:settings/w:revisionView/w:comments';
+        $path = '/w:settings/w:revisionView';
         $this->assertTrue($doc->elementExists($path, $file));
-        $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
 
-        $path = '/w:settings/w:revisionView/w:formatting';
-        $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
-        $this->assertEquals('false', $element->getAttribute('w:val'));
+        $this->assertEquals('false', $element->getAttribute('w:formatting'));
+        $this->assertEquals('true', $element->getAttribute('w:comments'));
     }
 
     /**
