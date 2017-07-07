@@ -105,7 +105,7 @@ class Settings
      *
      * @var string
      */
-    private $decimalSymbol= '.';
+    private $decimalSymbol = '.';
 
     /**
      * @return Protection
