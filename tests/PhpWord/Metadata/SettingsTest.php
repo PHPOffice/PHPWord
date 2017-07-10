@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord\Metadata;
 
+use PhpOffice\PhpWord\ComplexType\ProofState;
+use PhpOffice\PhpWord\SimpleType\Zoom;
+
 /**
  * Test class for PhpOffice\PhpWord\Metadata\Settings
  *
@@ -65,5 +68,71 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $oSettings->getDocumentProtection()->setEditing('trackedChanges');
         $this->assertEquals('trackedChanges', $oSettings->getDocumentProtection()->getEditing());
+    }
+
+    /**
+     * TrackRevistions
+     */
+    public function testTrackRevisions()
+    {
+        $oSettings = new Settings();
+        $oSettings->setTrackRevisions(true);
+        $this->assertEquals(true, $oSettings->hasTrackRevisions());
+    }
+
+    /**
+     * DoNotTrackFormatting
+     */
+    public function testDoNotTrackFormatting()
+    {
+        $oSettings = new Settings();
+        $oSettings->setDoNotTrackFormatting(true);
+        $this->assertEquals(true, $oSettings->hasDoNotTrackFormatting());
+    }
+
+    /**
+     * DoNotTrackMoves
+     */
+    public function testDoNotTrackMoves()
+    {
+        $oSettings = new Settings();
+        $oSettings->setDoNotTrackMoves(true);
+        $this->assertEquals(true, $oSettings->hasDoNotTrackMoves());
+    }
+
+    /**
+     * ProofState
+     */
+    public function testProofState()
+    {
+        $proofState = new ProofState();
+        $proofState->setGrammar(ProofState::CLEAN);
+        $proofState->setSpelling(ProofState::DIRTY);
+
+        $oSettings = new Settings();
+        $oSettings->setProofState($proofState);
+        $this->assertNotNull($oSettings->getProofState());
+        $this->assertEquals(ProofState::CLEAN, $oSettings->getProofState()->getGrammar());
+        $this->assertEquals(ProofState::DIRTY, $oSettings->getProofState()->getSpelling());
+    }
+
+    /**
+     * Zoom as percentage
+     */
+    public function testZoomPercentage()
+    {
+        $oSettings = new Settings();
+        $oSettings->setZoom(75);
+        $this->assertEquals(75, $oSettings->getZoom());
+    }
+
+    /**
+     * Zoom as string
+     */
+    public function testZoomEnum()
+    {
+        $oSettings = new Settings();
+        $oSettings->setZoom(Zoom::FULL_PAGE);
+        $this->assertEquals('fullPage', $oSettings->getZoom());
     }
 }

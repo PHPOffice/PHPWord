@@ -14,8 +14,11 @@
  * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Metadata;
+
+use PhpOffice\PhpWord\ComplexType\ProofState;
+use PhpOffice\PhpWord\SimpleType\Zoom;
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
 /**
  * Setting class
@@ -27,23 +30,66 @@ class Settings
 {
 
     /**
+     * Magnification Setting
+     *
+     * @link http://www.datypic.com/sc/ooxml/e-w_zoom-1.html
+     * @var mixed either integer, in which case it treated as a percent, or one of PhpOffice\PhpWord\SimpleType\Zoom
+     */
+    private $zoom = 100;
+
+    /**
      * Hide spelling errors
-     * 
+     *
      * @var boolean
      */
     private $hideSpellingErrors = false;
 
     /**
      * Hide grammatical errors
-     * 
+     *
      * @var boolean
      */
     private $hideGrammaticalErrors = false;
 
     /**
+     * Visibility of Annotation Types
+     *
+     * @var TrackChangesView
+     */
+    private $revisionView;
+
+    /**
+     * Track Revisions to Document
+     *
+     * @var boolean
+     */
+    private $trackRevisions = false;
+
+    /**
+     * Do Not Use Move Syntax When Tracking Revisions
+     *
+     * @var boolean
+     */
+    private $doNotTrackMoves = false;
+
+    /**
+     * Do Not Track Formatting Revisions When Tracking Revisions
+     *
+     * @var boolean
+     */
+    private $doNotTrackFormatting = false;
+
+    /**
+     * Spelling and Grammatical Checking State
+     *
+     * @var \PhpOffice\PhpWord\Metadata\ProofState
+     */
+    private $proofState;
+
+    /**
      * Document Editing Restrictions
-     * 
-     * @var PhpOffice\PhpWord\Metadata\Protection
+     *
+     * @var \PhpOffice\PhpWord\Metadata\Protection
      */
     private $documentProtection;
 
@@ -53,6 +99,13 @@ class Settings
      * @var bool
      */
     private $evenAndOddHeaders = false;
+
+    /**
+     * Radix Point for Field Code Evaluation
+     *
+     * @var string
+     */
+    private $decimalSymbol = '.';
 
     /**
      * @return Protection
@@ -71,6 +124,25 @@ class Settings
     public function setDocumentProtection($documentProtection)
     {
         $this->documentProtection = $documentProtection;
+    }
+
+    /**
+     * @return ProofState
+     */
+    public function getProofState()
+    {
+        if ($this->proofState == null) {
+            $this->proofState = new ProofState();
+        }
+        return $this->proofState;
+    }
+
+    /**
+     * @param ProofState $proofState
+     */
+    public function setProofState($proofState)
+    {
+        $this->proofState = $proofState;
     }
 
     /**
@@ -127,5 +199,115 @@ class Settings
     public function setEvenAndOddHeaders($evenAndOddHeaders)
     {
         $this->evenAndOddHeaders = $evenAndOddHeaders === null ? true : $evenAndOddHeaders;
+    }
+
+    /**
+     * Get the Visibility of Annotation Types
+     * 
+     * @return \PhpOffice\PhpWord\ComplexType\TrackChangesView
+     */
+    public function getRevisionView()
+    {
+        return $this->revisionView;
+    }
+
+    /**
+     * Set the Visibility of Annotation Types
+     * 
+     * @param TrackChangesView $trackChangesView
+     */
+    public function setRevisionView(TrackChangesView $trackChangesView = null)
+    {
+        $this->revisionView = $trackChangesView;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasTrackRevisions()
+    {
+        return $this->trackRevisions;
+    }
+
+    /**
+     * @param boolean $trackRevisions
+     */
+    public function setTrackRevisions($trackRevisions)
+    {
+        $this->trackRevisions = $trackRevisions === null ? true : $trackRevisions;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasDoNotTrackMoves()
+    {
+        return $this->doNotTrackMoves;
+    }
+
+    /**
+     * @param boolean $doNotTrackMoves
+     */
+    public function setDoNotTrackMoves($doNotTrackMoves)
+    {
+        $this->doNotTrackMoves = $doNotTrackMoves === null ? true : $doNotTrackMoves;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasDoNotTrackFormatting()
+    {
+        return $this->doNotTrackFormatting;
+    }
+
+    /**
+     * @param boolean $doNotTrackFormatting
+     */
+    public function setDoNotTrackFormatting($doNotTrackFormatting)
+    {
+        $this->doNotTrackFormatting = $doNotTrackFormatting === null ? true : $doNotTrackFormatting;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getZoom()
+    {
+        return $this->zoom;
+    }
+
+    /**
+     * @param mixed $zoom
+     */
+    public function setZoom($zoom)
+    {
+        if (is_numeric($zoom)) {
+            // zoom is a percentage
+            $this->zoom = $zoom;
+        } else {
+            Zoom::validate($zoom);
+            $this->zoom = $zoom;
+        }
+    }
+
+    /**
+     * Returns the Radix Point for Field Code Evaluation
+     * 
+     * @return string
+     */
+    public function getDecimalSymbol()
+    {
+        return $this->decimalSymbol;
+    }
+
+    /**
+     * sets the Radix Point for Field Code Evaluation
+     * 
+     * @param string $decimalSymbol
+     */
+    public function setDecimalSymbol($decimalSymbol)
+    {
+        $this->decimalSymbol = $decimalSymbol;
     }
 }
