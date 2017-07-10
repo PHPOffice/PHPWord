@@ -103,6 +103,7 @@ abstract class AbstractElement
                 $this->writeParagraphStyle();
             }
         }
+        $this->writeCommentRangeStart();
     }
 
     /**
@@ -112,8 +113,60 @@ abstract class AbstractElement
      */
     protected function endElementP()
     {
+        $this->writeCommentRangeEnd();
         if (!$this->withoutP) {
             $this->xmlWriter->endElement(); // w:p
+        }
+    }
+
+    /**
+     * Writes the w:commentRangeStart DOM element
+     *
+     * @return void
+     */
+    protected function writeCommentRangeStart()
+    {
+        if ($this->element->getCommentRangeStart() != null) {
+            $comment = $this->element->getCommentRangeStart();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
+
+        }
+    }
+
+    /**
+     * Writes the w:commentRangeEnd DOM element
+     *
+     * @return void
+     */
+    protected function writeCommentRangeEnd()
+    {
+        if ($this->element->getCommentRangeEnd() != null) {
+            $comment = $this->element->getCommentRangeEnd();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->startElement('w:r');
+            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->endElement();
+        } elseif ($this->element->getCommentRangeStart() != null && $this->element->getCommentRangeStart()->getEndElement() == null) {
+            $comment = $this->element->getCommentRangeStart();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->startElement('w:r');
+            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->endElement();
         }
     }
 
