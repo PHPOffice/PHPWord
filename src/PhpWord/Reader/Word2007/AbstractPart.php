@@ -158,6 +158,14 @@ abstract class AbstractPart
             }
             $parent->addTitle($textContent, $headingMatches[1]);
 
+        // Title
+        } elseif ($paragraphStyle['styleName'] == 'Title') {
+            $textContent = '';
+            $nodes = $xmlReader->getElements('w:r', $domNode);
+            foreach ($nodes as $node) {
+                $textContent .= $xmlReader->getValue('w:t', $node);
+            }
+            $parent->addTitle($textContent, 1);
         // Text and TextRun
         } else {
             $runCount = $xmlReader->countElements('w:r', $domNode);
