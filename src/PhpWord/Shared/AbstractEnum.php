@@ -19,16 +19,39 @@ abstract class AbstractEnum
         return self::$constCacheArray[$calledClass];
     }
 
+    /**
+     * Returns all values for this enum
+     * 
+     * @return array
+     */
     public static function values()
     {
         return array_values(self::getConstants());
     }
 
-    public static function validate($value)
+    /**
+     * Returns true the value is valid for this enum
+     * 
+     * @param strign $value
+     * @return boolean true if value is valid
+     */
+    public static function isValid($value)
     {
         $values = array_values(self::getConstants());
-        if (!in_array($value, $values, true)) {
+        return in_array($value, $values, true);
+    }
+
+    /**
+     * Validates that the value passed is a valid value
+     * 
+     * @param string $value
+     * @throws \InvalidArgumentException if the value passed is not valid for this enum
+     */
+    public static function validate($value)
+    {
+        if (!self::isValid($value)) {
             $calledClass = get_called_class();
+            $values = array_values(self::getConstants());
             throw new \InvalidArgumentException("$value is not a valid value for $calledClass, possible values are " . implode(', ', $values));
         }
     }

@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
-use Zend\Validator\InArray;
+use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
  * Table Alignment Type.
@@ -28,25 +28,9 @@ use Zend\Validator\InArray;
  *
  * @codeCoverageIgnore
  */
-final class JcTable
+final class JcTable extends AbstractEnum
 {
     const START = 'start';
     const CENTER = 'center';
     const END = 'end';
-
-    /**
-     * @since 0.13.0
-     *
-     * @return \Zend\Validator\InArray
-     */
-    final public static function getValidator()
-    {
-        // todo: consider caching validator instances.
-        return new InArray(
-            array (
-                'haystack' => array(self::START, self::CENTER, self::END),
-                'strict'   => InArray::COMPARE_STRICT,
-            )
-        );
-    }
 }
