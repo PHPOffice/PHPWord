@@ -203,9 +203,9 @@ final class Language
      * @param string $locale
      * @return boolean
      */
-    private function validateLocale($locale)
+    private function validateLocale($locale = null)
     {
-        if (strstr($locale, '-') === false) {
+        if ($locale != null && strstr($locale, '-') === false) {
             throw new \InvalidArgumentException($locale . ' is not a valid language code');
         }
     }

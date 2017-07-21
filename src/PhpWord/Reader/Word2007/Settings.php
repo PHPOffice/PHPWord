@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\ComplexType\Language;
 
 /**
  * Settings reader
@@ -64,6 +65,28 @@ class Settings extends AbstractPart
                 }
             }
         }
+    }
+
+    /**
+     * Sets the document Language
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+
+        $val = $xmlReader->getAttribute('w:val', $node);
+        $eastAsia = $xmlReader->getAttribute('w:eastAsia', $node);
+        $bidi = $xmlReader->getAttribute('w:bidi', $node);
+
+        $themeFontLang = new Language();
+        $themeFontLang->setLatin($val);
+        $themeFontLang->setLatin($eastAsia);
+        $themeFontLang->setLatin($bidi);
+
+        $phpWord->getSettings()->setThemeFontLang($themeFontLang);
     }
 
     /**
