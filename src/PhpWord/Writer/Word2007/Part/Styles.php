@@ -85,6 +85,7 @@ class Styles extends AbstractPart
     {
         $fontName = PhpWordSettings::getDefaultFontName();
         $fontSize = PhpWordSettings::getDefaultFontSize();
+        $language = $this->getParentWriter()->getPhpWord()->getSettings()->getThemeFontLang();
 
         // Default font
         $xmlWriter->startElement('w:docDefaults');
@@ -102,6 +103,13 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('w:szCs');
         $xmlWriter->writeAttribute('w:val', $fontSize * 2);
         $xmlWriter->endElement(); // w:szCs
+        if ($language != null) {
+            $xmlWriter->startElement('w:lang');
+            $xmlWriter->writeAttributeIf($language->getLatin() != null, 'w:val', $language->getLatin());
+            $xmlWriter->writeAttributeIf($language->getEastAsia() != null, 'w:eastAsia', $language->getEastAsia());
+            $xmlWriter->writeAttributeIf($language->getBidirectional() != null, 'w:bidi', $language->getBidirectional());
+            $xmlWriter->endElement(); // w:lang
+        }
         $xmlWriter->endElement(); // w:rPr
         $xmlWriter->endElement(); // w:rPrDefault
         $xmlWriter->endElement(); // w:docDefaults

@@ -21,9 +21,9 @@ use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
- * Test class for PhpOffice\PhpWord\SimpleType\FootnoteProperties
+ * Test class for PhpOffice\PhpWord\ComplexType\FootnoteProperties
  *
- * @coversDefaultClass \PhpOffice\PhpWord\SimpleType\FootnoteProperties
+ * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\FootnoteProperties
  * @runTestsInSeparateProcesses
  */
 class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase

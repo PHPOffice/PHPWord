@@ -1,9 +1,12 @@
 <?php
+use PhpOffice\PhpWord\ComplexType\Language;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord->getSettings()->setThemeFontLang(new Language(Language::EN_GB));
 
 $fontStyleName = 'rStyle';
 $phpWord->addFontStyle($fontStyleName, array('bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true));
