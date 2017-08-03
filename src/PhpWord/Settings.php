@@ -133,7 +133,7 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
-    
+
     /**
      * Return the compatibility option used by the XMLWriter
      *

@@ -12,6 +12,8 @@ PHPWord is a library written in pure PHP that provides a set of classes to write
 
 PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
+If you have any questions, please ask on [StackOverFlow](https://stackoverflow.com/questions/tagged/phpword)
+
 Read more about PHPWord:
 
 - [Features](#features)

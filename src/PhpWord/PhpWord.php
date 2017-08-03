@@ -27,11 +27,13 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method Collection\Footnotes getFootnotes()
  * @method Collection\Endnotes getEndnotes()
  * @method Collection\Charts getCharts()
+ * @method Collection\Comments getComments()
  * @method int addBookmark(Element\Bookmark $bookmark)
  * @method int addTitle(Element\Title $title)
  * @method int addFootnote(Element\Footnote $footnote)
  * @method int addEndnote(Element\Endnote $endnote)
  * @method int addChart(Element\Chart $chart)
+ * @method int addComment(Element\Comment $comment)
  *
  * @method Style\Paragraph addParagraphStyle(string $styleName, array $styles)
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
@@ -84,14 +86,14 @@ class PhpWord
     public function __construct()
     {
         // Collection
-        $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts');
+        $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
         }
 
         // Metadata
-        $metadata = array('DocInfo', 'Protection', 'Compatibility');
+        $metadata = array('DocInfo', 'Settings', 'Compatibility');
         foreach ($metadata as $meta) {
             $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
             $this->metadata[$meta] = new $class();
@@ -118,7 +120,7 @@ class PhpWord
         $addCollection = array();
         $addStyle = array();
 
-        $collections = array('Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart');
+        $collections = array('Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart', 'Comment');
         foreach ($collections as $collection) {
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
@@ -170,10 +172,12 @@ class PhpWord
      *
      * @return \PhpOffice\PhpWord\Metadata\Protection
      * @since 0.12.0
+     * @deprecated Get the Document protection from PhpWord->getSettings()->getDocumentProtection();
+     * @codeCoverageIgnore
      */
     public function getProtection()
     {
-        return $this->metadata['Protection'];
+        return $this->getSettings()->getDocumentProtection();
     }
 
     /**
@@ -185,6 +189,17 @@ class PhpWord
     public function getCompatibility()
     {
         return $this->metadata['Compatibility'];
+    }
+
+    /**
+     * Get compatibility
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Settings
+     * @since 0.14.0
+     */
+    public function getSettings()
+    {
+        return $this->metadata['Settings'];
     }
 
     /**

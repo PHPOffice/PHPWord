@@ -77,6 +77,7 @@ See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``spaceAfter``. Space after paragraph.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
+- ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
 
 .. _table-style:
 

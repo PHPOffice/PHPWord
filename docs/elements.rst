@@ -232,7 +232,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image or URL of a remote image.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
@@ -254,6 +254,8 @@ Examples:
     $footer->addImage('http://example.com/image.php');
     $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
+    $source = file_get_contents('/path/to/my/images/earth.jpg');
+    $textrun->addImage($source);
 
 Watermarks
 ~~~~~~~~~~
@@ -331,10 +333,27 @@ On text:
     $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
 
-The footnote reference number will be displayed with decimal number
-starting from 1. This number use ``FooterReference`` style which you can
-redefine by ``addFontStyle`` method. Default value for this style is
+By default the footnote reference number will be displayed with decimal number
+starting from 1. This number uses the ``FooterReference`` style which you can
+redefine with the ``addFontStyle`` method. Default value for this style is
 ``array('superScript' => true)``;
+
+The footnote numbering can be controlled by setting the FootnoteProperties on the Section.
+
+.. code-block:: php
+
+    $fp = new PhpWord\SimpleType\FootnoteProperties();
+    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd) 
+    $fp->setPos(FootnoteProperties::POSITION_DOC_END);
+    //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
+    $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+    //force starting at other than 1
+    $fp->setNumStart(2);
+    //when to restart counting (continuous (default), eachSect, eachPage)
+    $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+    
+    //And finaly, set it on the Section
+    $section->setFootnoteProperties($properties);
 
 Checkboxes
 ----------
@@ -380,3 +399,26 @@ Available line style attributes:
 - ``width``. Line-object width in pt.
 - ``height``. Line-object height in pt.
 - ``flip``. Flip the line element: true, false.
+
+Comments
+---------
+
+Comments can be added to a document by using ``addComment``.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any to any element.
+
+.. code-block:: php
+
+    // first create a comment
+    $comment= new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
+    $comment->addText('Test', array('bold' => true));
+
+    // add it to the document
+    $phpWord->addComment($comment);
+
+    $textrun = $section->addTextRun();
+    $textrun->addText('This ');
+    $text = $textrun->addText('is');
+    // link the comment to the text you just created
+    $text->setCommentStart($comment);
+
+If no end is set for a comment using the ``setCommentEnd``, the comment will be ended automatically at the end of the element it is started on.

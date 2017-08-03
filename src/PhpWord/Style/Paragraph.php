@@ -157,6 +157,13 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+    
+    /**
+     * Ignore Spacing Above and Below When Using Identical Styles
+     *
+     * @var bool
+     */
+    private $contextualSpacing = false;
 
     /**
      * Set Style value
@@ -208,6 +215,7 @@ class Paragraph extends Border
             ),
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
+            'contextualSpacing' => $this->hasContextualSpacing(),
         );
 
         return $styles;
@@ -232,7 +240,7 @@ class Paragraph extends Border
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
+        if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
 
@@ -729,6 +737,29 @@ class Paragraph extends Border
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
 
+        return $this;
+    }
+    
+    /**
+     * Get contextualSpacing
+     * 
+     * @return bool
+     */
+    public function hasContextualSpacing()
+    {
+        return $this->contextualSpacing;
+    }
+
+    /**
+     * Set contextualSpacing
+     * 
+     * @param bool $contextualSpacing
+     * @return self
+     */
+    public function setContextualSpacing($contextualSpacing)
+    {
+        $this->contextualSpacing = $contextualSpacing;
+        
         return $this;
     }
 }

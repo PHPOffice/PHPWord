@@ -49,6 +49,7 @@ class ContentTypes extends AbstractPart
             '/word/theme/theme1.xml' => $openXMLPrefix . 'officedocument.theme+xml',
             '/word/webSettings.xml'  => $wordMLPrefix  . 'webSettings+xml',
             '/word/fontTable.xml'    => $wordMLPrefix  . 'fontTable+xml',
+            '/word/comments.xml'     => $wordMLPrefix  . 'comments+xml',
         );
 
         $defaults = $contentTypes['default'];
