@@ -88,6 +88,12 @@ final class Language extends AbstractStyle
      */
     private $bidirectional;
 
+    /**
+     * 
+     * @param string|null $latin
+     * @param string|null $eastAsia
+     * @param string|null $bidirectional
+     */
     public function __construct($latin = null, $eastAsia = null, $bidirectional = null)
     {
         if ($latin != null) {
@@ -104,7 +110,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Latin Language
      *
-     * @param string $latin
+     * @param string|null $latin
      *            The value for the latin language
      * @return self
      */
@@ -118,7 +124,7 @@ final class Language extends AbstractStyle
     /**
      * Get the Latin Language
      *
-     * @return string
+     * @return string|null
      */
     public function getLatin()
     {
@@ -152,7 +158,7 @@ final class Language extends AbstractStyle
     /**
      * Set the East Asian Language
      *
-     * @param string $eastAsia
+     * @param string|null $eastAsia
      *            The value for the east asian language
      * @return self
      */
@@ -166,7 +172,7 @@ final class Language extends AbstractStyle
     /**
      * Get the East Asian Language
      *
-     * @return string
+     * @return string|null
      */
     public function getEastAsia()
     {
@@ -176,7 +182,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Complex Script Language
      *
-     * @param string $bidirectional
+     * @param string|null $bidirectional
      *            The value for the complex script language
      * @return self
      */
@@ -190,7 +196,7 @@ final class Language extends AbstractStyle
     /**
      * Get the Complex Script Language
      *
-     * @return string
+     * @return string|null
      */
     public function getBidirectional()
     {
@@ -200,7 +206,7 @@ final class Language extends AbstractStyle
     /**
      * Validates that the language passed is in the format xx-xx
      * 
-     * @param string $locale
+     * @param string|null $locale
      * @return boolean
      */
     private function validateLocale($locale = null)
