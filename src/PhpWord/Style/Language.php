@@ -14,7 +14,7 @@
  * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-namespace PhpOffice\PhpWord\ComplexType;
+namespace PhpOffice\PhpWord\Style;
 
 /**
  * Language
@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\ComplexType;
  * @see http://www.datypic.com/sc/ooxml/t-w_CT_Language.html
  * @see https://technet.microsoft.com/en-us/library/cc287874(v=office.12).aspx
  */
-final class Language
+final class Language extends AbstractStyle
 {
 
     const EN_US = 'en-US';

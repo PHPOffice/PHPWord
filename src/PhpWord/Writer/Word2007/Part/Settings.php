@@ -17,10 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Settings as DocumentSettings;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
-use PhpOffice\PhpWord\ComplexType\Language;
+use PhpOffice\PhpWord\Settings as DocumentSettings;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * Word2007 settings part writer: word/settings.xml

@@ -229,6 +229,12 @@ class Font extends AbstractStyle
     private $rtl = false;
 
     /**
+     * Languages 
+     * @var \PhpOffice\PhpWord\Style\Language
+     */
+    private $lang;
+
+    /**
      * Create new font style
      *
      * @param string $type Type of font
@@ -276,6 +282,7 @@ class Font extends AbstractStyle
             'paragraph'     => $this->getParagraph(),
             'rtl'           => $this->isRTL(),
             'shading'       => $this->getShading(),
+            'lang'          => $this->getLang(),
         );
 
         return $styles;
@@ -780,6 +787,32 @@ class Font extends AbstractStyle
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
 
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \PhpOffice\PhpWord\Style\Language
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * Set language
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setLang($value = null)
+    {
+        if (is_string($value)) {
+            $value = new Language($value);
+        }
+        $this->setObjectVal($value, 'Language', $this->lang);
+        
         return $this;
     }
 

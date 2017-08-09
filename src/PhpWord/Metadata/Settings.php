@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Metadata;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
-use PhpOffice\PhpWord\ComplexType\Language;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * Setting class
