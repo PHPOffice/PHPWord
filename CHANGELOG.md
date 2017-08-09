@@ -13,6 +13,7 @@ This release fixes several bugs and adds some new features
 - Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
 - Support for ContextualSpacing - @postHawk #1088
 - Possiblity to hide spelling and/or grammatical errors - @troosan #542
+- Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
 
 ### Fixed
 - Images are not being printed when generating PDF - @hubertinio #1074 #431

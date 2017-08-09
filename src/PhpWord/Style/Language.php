@@ -90,13 +90,13 @@ final class Language extends AbstractStyle
 
     public function __construct($latin = null, $eastAsia = null, $bidirectional = null)
     {
-        if ($latin!= null) {
+        if ($latin != null) {
             $this->setLatin($latin);
         }
         if ($eastAsia != null) {
             $this->setEastAsia($eastAsia);
         }
-        if ($bidirectional!= null) {
+        if ($bidirectional != null) {
             $this->setBidirectional($bidirectional);
         }
     }
@@ -108,7 +108,7 @@ final class Language extends AbstractStyle
      *            The value for the latin language
      * @return self
      */
-    public function setLatin($latin)
+    public function setLatin($latin = null)
     {
         $this->validateLocale($latin);
         $this->latin = $latin;
@@ -156,7 +156,7 @@ final class Language extends AbstractStyle
      *            The value for the east asian language
      * @return self
      */
-    public function setEastAsia($eastAsia)
+    public function setEastAsia($eastAsia = null)
     {
         $this->validateLocale($eastAsia);
         $this->eastAsia = $eastAsia;
@@ -180,7 +180,7 @@ final class Language extends AbstractStyle
      *            The value for the complex script language
      * @return self
      */
-    public function setBidirectional($bidirectional)
+    public function setBidirectional($bidirectional = null)
     {
         $this->validateLocale($bidirectional);
         $this->bidirectional = $bidirectional;
