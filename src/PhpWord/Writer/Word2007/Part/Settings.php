@@ -220,7 +220,6 @@ class Settings extends AbstractPart
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
         if ($trackChangesView != null) {
-
             $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true': 'false';
             $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true': 'false';
             $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true': 'false';
@@ -238,8 +237,8 @@ class Settings extends AbstractPart
      */
     private function setThemeFontLang(Language $language = null)
     {
-        if ($language != null && ($language->getLatin() != null || $language->getEastAsia() != null || $language->getBidirectional() != null)) {
-
+        $lang = array();
+        if ($language != null) {
             if ($language->getLatin() != null) {
                 $lang['w:val'] = $language->getLatin();
             }
@@ -249,11 +248,11 @@ class Settings extends AbstractPart
             if ($language->getBidirectional() != null) {
                 $lang['w:bidi'] = $language->getBidirectional();
             }
-
-            $this->settings['w:themeFontLang'] = array('@attributes' => $lang);
-        } else {
-            $this->settings['w:themeFontLang'] = array('@attributes' => array('w:val' => 'en-US'));
         }
+        if (count($lang) == 0) {
+            $lang['w:val'] = 'en-US';
+        }
+        $this->settings['w:themeFontLang'] = array('@attributes' => $lang);
     }
 
     /**

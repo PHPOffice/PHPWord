@@ -35,7 +35,7 @@ class FormField extends Text
     /**
      * Form field name
      *
-     * @var string
+     * @var string|bool|int
      */
     private $name;
 

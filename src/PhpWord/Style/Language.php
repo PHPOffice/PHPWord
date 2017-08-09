@@ -176,7 +176,7 @@ final class Language extends AbstractStyle
     /**
      * Set the Complex Script Language
      *
-     * @param string $bidi
+     * @param string $bidirectional
      *            The value for the complex script language
      * @return self
      */
@@ -205,7 +205,7 @@ final class Language extends AbstractStyle
      */
     private function validateLocale($locale = null)
     {
-        if ($locale != null && strstr($locale, '-') === false) {
+        if ($locale !== null && strstr($locale, '-') === false) {
             throw new \InvalidArgumentException($locale . ' is not a valid language code');
         }
     }
