@@ -236,20 +236,12 @@ class Settings extends AbstractPart
      */
     private function setThemeFontLang(Language $language = null)
     {
+        $latinLanguage = ($language == null || $language->getLatin() == null) ? 'en-US' : $language->getLatin();
         $lang = array();
+        $lang['w:val'] = $latinLanguage;
         if ($language != null) {
-            if ($language->getLatin() != null) {
-                $lang['w:val'] = $language->getLatin();
-            }
-            if ($language->getEastAsia() != null) {
-                $lang['w:eastAsia'] = $language->getEastAsia();
-            }
-            if ($language->getBidirectional() != null) {
-                $lang['w:bidi'] = $language->getBidirectional();
-            }
-        }
-        if (count($lang) == 0) {
-            $lang['w:val'] = 'en-US';
+            $lang['w:eastAsia'] = $language->getEastAsia() === null ? 'x-none' : $language->getEastAsia();
+            $lang['w:bidi'] = $language->getBidirectional() === null ? 'x-none' : $language->getBidirectional();
         }
         $this->settings['w:themeFontLang'] = array('@attributes' => $lang);
     }

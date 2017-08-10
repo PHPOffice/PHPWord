@@ -96,13 +96,13 @@ final class Language extends AbstractStyle
      */
     public function __construct($latin = null, $eastAsia = null, $bidirectional = null)
     {
-        if ($latin != null) {
+        if (!empty($latin)) {
             $this->setLatin($latin);
         }
-        if ($eastAsia != null) {
+        if (!empty($eastAsia)) {
             $this->setEastAsia($eastAsia);
         }
-        if ($bidirectional != null) {
+        if (!empty($bidirectional)) {
             $this->setBidirectional($bidirectional);
         }
     }
@@ -110,11 +110,11 @@ final class Language extends AbstractStyle
     /**
      * Set the Latin Language
      *
-     * @param string|null $latin
+     * @param string $latin
      *            The value for the latin language
      * @return self
      */
-    public function setLatin($latin = null)
+    public function setLatin($latin)
     {
         $this->validateLocale($latin);
         $this->latin = $latin;
@@ -158,11 +158,11 @@ final class Language extends AbstractStyle
     /**
      * Set the East Asian Language
      *
-     * @param string|null $eastAsia
+     * @param string $eastAsia
      *            The value for the east asian language
      * @return self
      */
-    public function setEastAsia($eastAsia = null)
+    public function setEastAsia($eastAsia)
     {
         $this->validateLocale($eastAsia);
         $this->eastAsia = $eastAsia;
@@ -182,11 +182,11 @@ final class Language extends AbstractStyle
     /**
      * Set the Complex Script Language
      *
-     * @param string|null $bidirectional
+     * @param string $bidirectional
      *            The value for the complex script language
      * @return self
      */
-    public function setBidirectional($bidirectional = null)
+    public function setBidirectional($bidirectional)
     {
         $this->validateLocale($bidirectional);
         $this->bidirectional = $bidirectional;
@@ -206,10 +206,10 @@ final class Language extends AbstractStyle
     /**
      * Validates that the language passed is in the format xx-xx
      * 
-     * @param string|null $locale
+     * @param string $locale
      * @return boolean
      */
-    private function validateLocale($locale = null)
+    private function validateLocale($locale)
     {
         if ($locale !== null && strstr($locale, '-') === false) {
             throw new \InvalidArgumentException($locale . ' is not a valid language code');

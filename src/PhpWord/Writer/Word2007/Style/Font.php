@@ -88,11 +88,11 @@ class Font extends AbstractStyle
 
         //Language
         $language = $style->getLang();
-        if ($language != null && ($language->getLatin() != null || $language->getEastAsia() != null || $language->getBidirectional() != null)) {
+        if ($language != null && ($language->getLatin() !== null || $language->getEastAsia() !== null || $language->getBidirectional() !== null)) {
             $xmlWriter->startElement('w:lang');
-            $xmlWriter->writeAttributeIf($language->getLatin() != null, 'w:val', $language->getLatin());
-            $xmlWriter->writeAttributeIf($language->getEastAsia() != null, 'w:eastAsia', $language->getEastAsia());
-            $xmlWriter->writeAttributeIf($language->getBidirectional() != null, 'w:bidi', $language->getBidirectional());
+            $xmlWriter->writeAttributeIf($language->getLatin() !== null, 'w:val', $language->getLatin());
+            $xmlWriter->writeAttributeIf($language->getEastAsia() !== null, 'w:eastAsia', $language->getEastAsia());
+            $xmlWriter->writeAttributeIf($language->getBidirectional() !== null, 'w:bidi', $language->getBidirectional());
             $xmlWriter->endElement();
         }
 

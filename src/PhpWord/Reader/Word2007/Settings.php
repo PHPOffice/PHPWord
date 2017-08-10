@@ -74,7 +74,7 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
 
         $val = $xmlReader->getAttribute('w:val', $node);
@@ -96,7 +96,7 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
         $documentProtection = $phpWord->getSettings()->getDocumentProtection();
 
@@ -111,7 +111,7 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
         $proofState = $phpWord->getSettings()->getProofState();
 
@@ -133,7 +133,7 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
         $percent = $xmlReader->getAttribute('w:percent', $node);
         $val = $xmlReader->getAttribute('w:val', $node);
@@ -150,7 +150,7 @@ class Settings extends AbstractPart
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
-    protected function setRevisionView(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    protected function setRevisionView(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
         $revisionView = new TrackChangesView();
         $revisionView->setMarkup($xmlReader->getAttribute('w:markup', $node));
