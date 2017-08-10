@@ -54,7 +54,6 @@ class PreserveText extends AbstractElement
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return self
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {

@@ -7,7 +7,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $header = array('size' => 16, 'bold' => true);
 //1.Use EastAisa FontStyle
-$section->addText('中文楷体样式测试', array('name' => '楷体', 'size' => 16, 'color' => '1B2232'));
+$section->addText('中文楷体样式测试', array('name' => '楷体', 'size' => 16, 'color' => '1B2232', 'lang' => array('latin' => 'en-US', 'eastAsia' => 'zh-CN')));
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
