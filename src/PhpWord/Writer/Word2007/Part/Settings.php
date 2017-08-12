@@ -236,7 +236,7 @@ class Settings extends AbstractPart
      */
     private function setThemeFontLang(Language $language = null)
     {
-        $latinLanguage = ($language == null || $language->getLatin() == null) ? 'en-US' : $language->getLatin();
+        $latinLanguage = ($language == null || empty($language->getLatin())) ? 'en-US' : $language->getLatin();
         $lang = array();
         $lang['w:val'] = $latinLanguage;
         if ($language != null) {

@@ -135,7 +135,7 @@ final class TrackChangesView
     /**
      * Set Display Formatting Revisions
      *
-     * @param boolean $insDel
+     * @param boolean $formatting
      *            Set to true to show formatting revisions
      */
     public function setFormatting($formatting)

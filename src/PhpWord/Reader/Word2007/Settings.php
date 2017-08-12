@@ -118,10 +118,10 @@ class Settings extends AbstractPart
         $spelling = $xmlReader->getAttribute('w:spelling', $node);
         $grammar = $xmlReader->getAttribute('w:grammar', $node);
 
-        if ($spelling != null) {
+        if ($spelling !== null) {
             $proofState->setSpelling($spelling);
         }
-        if ($grammar != null) {
+        if ($grammar !== null) {
             $proofState->setGrammar($grammar);
         }
     }
@@ -138,8 +138,8 @@ class Settings extends AbstractPart
         $percent = $xmlReader->getAttribute('w:percent', $node);
         $val = $xmlReader->getAttribute('w:val', $node);
 
-        if ($percent != null || $val != null) {
-            $phpWord->getSettings()->setZoom($percent == null ? $val : $percent);
+        if ($percent !== null || $val !== null) {
+            $phpWord->getSettings()->setZoom($percent === null ? $val : $percent);
         }
     }
 

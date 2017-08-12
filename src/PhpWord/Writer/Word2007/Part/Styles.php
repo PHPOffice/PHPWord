@@ -86,7 +86,7 @@ class Styles extends AbstractPart
         $fontName = PhpWordSettings::getDefaultFontName();
         $fontSize = PhpWordSettings::getDefaultFontSize();
         $language = $this->getParentWriter()->getPhpWord()->getSettings()->getThemeFontLang();
-        $latinLanguage = ($language == null || $language->getLatin() == null) ? 'en-US' : $language->getLatin();
+        $latinLanguage = ($language == null || empty($language->getLatin())) ? 'en-US' : $language->getLatin();
 
         // Default font
         $xmlWriter->startElement('w:docDefaults');
