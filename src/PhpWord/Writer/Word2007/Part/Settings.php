@@ -179,7 +179,7 @@ class Settings extends AbstractPart
     /**
      * Get protection settings.
      *
-     * @param \PhpOffice\PhpWord\Metadata\Settings $documentProtection
+     * @param \PhpOffice\PhpWord\Metadata\Protection $documentProtection
      * @return void
      */
     private function setDocumentProtection($documentProtection)
@@ -212,9 +212,9 @@ class Settings extends AbstractPart
     }
 
     /**
-     * Set the Proof state
+     * Set the Revision View
      *
-     * @param ProofState $proofState
+     * @param TrackChangesView $trackChangesView
      */
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
@@ -236,7 +236,7 @@ class Settings extends AbstractPart
      */
     private function setThemeFontLang(Language $language = null)
     {
-        $latinLanguage = ($language == null || empty($language->getLatin())) ? 'en-US' : $language->getLatin();
+        $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
         $lang = array();
         $lang['w:val'] = $latinLanguage;
         if ($language != null) {
