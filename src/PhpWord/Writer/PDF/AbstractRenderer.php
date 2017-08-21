@@ -83,7 +83,7 @@ abstract class AbstractRenderer extends HTML
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
-        $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
+        $includeFile = Settings::getPdfRendererPath();
         if (file_exists($includeFile)) {
             /** @noinspection PhpIncludeInspection Dynamic includes */
             require_once $includeFile;
