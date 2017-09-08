@@ -159,8 +159,10 @@ Parameters:
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
 - ``$listStyle``. List style of the current element TYPE\_NUMBER,
-   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\_Style\_ListItem.
+   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\_Style\_ListItem_.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
+
+.. _PHPWord\_Style\_ListItem: https://github.com/PHPOffice/PHPWord/blob/develop/src/PhpWord/Style/ListItem.php#L31
 
 Advanced usage:
 
