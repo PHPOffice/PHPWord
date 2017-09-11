@@ -128,6 +128,14 @@ class Table extends AbstractStyle
 
             $xmlWriter->endElement(); // w:tblCellMar
         }
+
+        $marginLeft = $style->getMarginLeft();
+        if ($marginLeft !== null) {
+            $xmlWriter->startElement('w:tblInd');
+            $xmlWriter->writeAttribute('w:w', $marginLeft);
+            $xmlWriter->writeAttribute('w:type', 'dxa');
+            $xmlWriter->endElement();
+        }
     }
 
     /**

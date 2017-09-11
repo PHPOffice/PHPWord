@@ -46,6 +46,12 @@ class Table extends AbstractElement
     private $width = null;
 
     /**
+     * @var bool
+     */
+    private $hasDifferentCellWidths = false;
+
+
+    /**
      * Create a new table
      *
      * @param mixed $style
@@ -149,5 +155,21 @@ class Table extends AbstractElement
         }
 
         return $columnCount;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setDifferentCellWidths($value = true)
+    {
+        $this->hasDifferentCellWidths = $value;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDifferentCellWidths()
+    {
+        return $this->hasDifferentCellWidths === true;
     }
 }

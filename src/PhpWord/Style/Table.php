@@ -44,6 +44,34 @@ class Table extends Border
     private $firstRowStyle;
 
     /**
+     * Table margin top
+     *
+     * @var int
+     */
+    private $marginTop;
+
+    /**
+     * Table margin bottom
+     *
+     * @var int
+     */
+    private $marginBottom;
+
+    /**
+     * Table margin left
+     *
+     * @var int
+     */
+    private $marginLeft;
+
+    /**
+     * Table margin right
+     *
+     * @var int
+     */
+    private $marginRight;
+
+    /**
      * Cell margin top
      *
      * @var int
@@ -339,6 +367,82 @@ class Table extends Border
     public function setBorderInsideVColor($value = null)
     {
         return $this->setTableOnlyProperty('borderInsideVColor', $value, false);
+    }
+
+    /**
+     * @param int $value
+     * @return Table
+     */
+    public function setMarginTop($value = null)
+    {
+        return $this->setTableOnlyProperty('marginTop', $value);
+    }
+
+    /**
+     * Get table margin top.
+     *
+     * @return int|null|string
+     */
+    public function getMarginTop()
+    {
+        return $this->getTableOnlyProperty('marginTop');
+    }
+
+    /**
+     * @param int $value
+     * @return Table
+     */
+    public function setMarginBottom($value = null)
+    {
+        return $this->setTableOnlyProperty('marginBottom', $value);
+    }
+
+    /**
+     * Get table margin bottom.
+     *
+     * @return int|null|string
+     */
+    public function getMarginBottom()
+    {
+        return $this->getTableOnlyProperty('marginBottom');
+    }
+
+    /**
+     * @param int $value
+     * @return Table
+     */
+    public function setMarginLeft($value = null)
+    {
+        return $this->setTableOnlyProperty('marginLeft', $value);
+    }
+
+    /**
+     * Get table margin left.
+     *
+     * @return int|null|string
+     */
+    public function getMarginLeft()
+    {
+        return $this->getTableOnlyProperty('marginLeft');
+    }
+
+    /**
+     * @param int $value
+     * @return Table
+     */
+    public function setMarginRight($value = null)
+    {
+        return $this->setTableOnlyProperty('marginRight', $value);
+    }
+
+    /**
+     * Get table margin right.
+     *
+     * @return int|null|string
+     */
+    public function getMarginRight()
+    {
+        return $this->getTableOnlyProperty('marginRight');
     }
 
     /**
