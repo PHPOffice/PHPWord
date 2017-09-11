@@ -5,7 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 v0.14.0 (?? ???? 2017)
 ----------------------
-This release fixes several bugs and adds some new features
+This release fixes several bugs and adds some new features.
+This is the last version to support PHP 5.3
 
 ### Added
 - Possibility to control the footnote numbering - @troosan #1068
@@ -13,8 +14,11 @@ This release fixes several bugs and adds some new features
 - Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
 - Support for ContextualSpacing - @postHawk #1088
 - Possiblity to hide spelling and/or grammatical errors - @troosan #542
+- Support for Comments - @troosan #1067
+- Add support for changing the document language - @troosan #1108
 
 ### Fixed
+- Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
 - Fixed some PHP 7 warnings - @	likeuntomurphy #927
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
@@ -23,7 +27,8 @@ This release fixes several bugs and adds some new features
 - Fixed Word2007 reader where unnecessary paragraphs were being created - @donghaobo #1043 #620
 - Fixed Word2007 reader where margins were not being read correctly - @slowprog #885 #1008
 - Impossible to add element PreserveText in Section - @rvanlaak #452
-- Missing options for numbering format - @troosan #1041
+- Added missing options for numbering format - @troosan #1041
+- Fixed impossibility to set a different footer for first page - @ctrlaltca #1116
 
 v0.13.0 (31 July 2016)
 -------------------
