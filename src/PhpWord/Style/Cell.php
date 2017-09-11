@@ -94,6 +94,26 @@ class Cell extends Border
     private $shading;
 
     /**
+     * @var int|float
+     */
+    private $marginTopSize;
+
+    /**
+     * @var int|float
+     */
+    private $marginBottomSize;
+
+    /**
+     * @var int|float
+     */
+    private $marginLeftSize;
+
+    /**
+     * @var int|float
+     */
+    private $marginRightSize;
+
+    /**
      * Get vertical align.
      *
      * @return string
@@ -247,4 +267,99 @@ class Cell extends Border
     {
         return self::DEFAULT_BORDER_COLOR;
     }
+
+    /**
+     * @return float|int
+     */
+    public function getMarginTopSize()
+    {
+        return $this->marginTopSize;
+    }
+
+    /**
+     * @param int|float $value
+     * @return $this
+     */
+    public function setMarginTopSize($value = null)
+    {
+        $this->marginTopSize = $this->setNumericVal($value, $this->marginTopSize);
+        return $this;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMarginBottomSize()
+    {
+        return $this->marginBottomSize;
+    }
+
+    /**
+     * @param int|float $value
+     * @return $this
+     */
+    public function setMarginBottomSize($value = null)
+    {
+        $this->marginBottomSize = $this->setNumericVal($value, $this->marginBottomSize);
+        return $this;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMarginLeftSize()
+    {
+        return $this->marginLeftSize;
+    }
+
+    /**
+     * @param int|float $value
+     * @return $this
+     */
+    public function setMarginLeftSize($value = null)
+    {
+        $this->marginLeftSize = $this->setNumericVal($value, $this->marginLeftSize);
+        return $this;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMarginRightSize()
+    {
+        return $this->marginRightSize;
+    }
+
+    /**
+     * @param int|float $value
+     * @return $this
+     */
+    public function setMarginRightSize($value = null)
+    {
+        $this->marginRightSize = $this->setNumericVal($value, $this->marginRightSize);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMarginSize()
+    {
+        return array(
+            $this->getMarginTopSize(),
+            $this->getMarginLeftSize(),
+            $this->getMarginRightSize(),
+            $this->getMarginBottomSize()
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMargin()
+    {
+        $margins = $this->getMarginSize();
+        return $margins !== array_filter($margins, 'is_null');
+    }
+
 }
