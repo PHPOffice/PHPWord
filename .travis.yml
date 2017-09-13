@@ -20,6 +20,9 @@ matrix:
 env:
     global:
         - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
+    include:
+        - php: 5.6
+            env: COVERAGE=1
 
 before_install:
     ## Packages
@@ -27,6 +30,8 @@ before_install:
     - sudo apt-get install -y graphviz
 
 before_script:
+    ## Deactivate xdebug if we don't do code coverage
+    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
     ## Composer
     - composer self-update
     - composer install --prefer-source
@@ -36,15 +41,15 @@ before_script:
 
 script:
     ## PHP_CodeSniffer
-    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip ; fi
     ## PHP Mess Detector
-    - ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php ; fi
     ## PHPUnit
-    - ./vendor/bin/phpunit -c ./ --coverage-text --coverage-html ./build/coverage
+    - ./vendor/bin/phpunit -c ./ $(if [ -n "$COVERAGE" ]; then echo --coverage-text; else echo --no-coverage; fi)
     ## PHPLOC
-    - ./vendor/bin/phploc src/
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
-    - ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig"
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
 after_script:
     ## PHPDocumentor
