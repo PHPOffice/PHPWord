@@ -12,6 +12,9 @@ php:
 ##    - hhvm
 
 matrix:
+    include:
+        - php: 5.6
+          env: COVERAGE=1
     allow_failures:
         - php: 7.0
         - php: 7.1
@@ -20,9 +23,6 @@ matrix:
 env:
     global:
         - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
-    include:
-        - php: 5.6
-            env: COVERAGE=1
 
 before_install:
     ## Packages
