@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Writer\WriterInterface;
+use Dompdf\Dompdf as DompdfLib;
 
 /**
  * DomPDF writer
@@ -32,7 +33,7 @@ class DomPDF extends AbstractRenderer implements WriterInterface
      *
      * @var string
      */
-    protected $includeFile = 'dompdf_config.inc.php';
+    protected $includeFile = null;
 
     /**
      * Save PhpWord to file.
@@ -49,9 +50,9 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         $orientation = 'portrait';
 
         //  Create PDF
-        $pdf = new \DOMPDF();
-        $pdf->set_paper(strtolower($paperSize), $orientation);
-        $pdf->load_html($this->getContent());
+        $pdf = new DompdfLib();
+        $pdf->setPaper(strtolower($paperSize), $orientation);
+        $pdf->loadHtml(str_replace(PHP_EOL, '', $this->getContent()));
         $pdf->render();
 
         //  Write to file

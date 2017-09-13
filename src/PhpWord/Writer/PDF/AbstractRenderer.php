@@ -83,15 +83,17 @@ abstract class AbstractRenderer extends HTML
     public function __construct(PhpWord $phpWord)
     {
         parent::__construct($phpWord);
-        $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
-        if (file_exists($includeFile)) {
-            /** @noinspection PhpIncludeInspection Dynamic includes */
-            require_once $includeFile;
-        } else {
-            // @codeCoverageIgnoreStart
-            // Can't find any test case. Uncomment when found.
-            throw new Exception('Unable to load PDF Rendering library');
-            // @codeCoverageIgnoreEnd
+        if ($this->includeFile != null) {
+            $includeFile = Settings::getPdfRendererPath() . '/' . $this->includeFile;
+            if (file_exists($includeFile)) {
+                /** @noinspection PhpIncludeInspection Dynamic includes */
+                require_once $includeFile;
+            } else {
+                // @codeCoverageIgnoreStart
+                // Can't find any test case. Uncomment when found.
+                throw new Exception('Unable to load PDF Rendering library');
+                // @codeCoverageIgnoreEnd
+            }
         }
     }
 
