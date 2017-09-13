@@ -20,17 +20,23 @@ namespace PhpOffice\PhpWord\SimpleType;
 use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * Table Alignment Type.
+ * Magnification Preset Values
  *
- * Introduced in ISO/IEC-29500:2008.
+ * @since 0.14.0
  *
- * @since 0.13.0
- *
- * @codeCoverageIgnore
+ * @see http://www.datypic.com/sc/ooxml/t-w_ST_Zoom.html
  */
-final class JcTable extends AbstractEnum
+final class Zoom extends AbstractEnum
 {
-    const START = 'start';
-    const CENTER = 'center';
-    const END = 'end';
+    //No Preset Magnification
+    const NONE = 'none';
+
+    //Display One Full Page
+    const FULL_PAGE = 'fullPage';
+
+    //Display Page Width
+    const BEST_FIT = 'bestFit';
+
+    //Display Text Width
+    const TEXT_FIT = 'textFit';
 }

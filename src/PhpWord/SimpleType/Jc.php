@@ -17,7 +17,7 @@
 
 namespace PhpOffice\PhpWord\SimpleType;
 
-use Zend\Validator\InArray;
+use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
  * Horizontal Alignment Type.
@@ -28,10 +28,11 @@ use Zend\Validator\InArray;
  * @since 0.13.0
  *
  * @see \PhpOffice\PhpWord\SimpleType\JcTable For table alignment modes available since ISO/IEC-29500:2008.
+ * @link http://www.datypic.com/sc/ooxml/t-w_ST_Jc.html
  *
  * @codeCoverageIgnore
  */
-final class Jc
+final class Jc extends AbstractEnum
 {
     const START = 'start';
     const CENTER = 'center';
@@ -65,34 +66,4 @@ final class Jc
      * @deprecated 0.13.0 For documents based on ISO/IEC 29500:2008 and later use `BOTH` instead.
      */
     const JUSTIFY = 'justify';
-
-    /**
-     * @since 0.13.0
-     *
-     * @return \Zend\Validator\InArray
-     */
-    final public static function getValidator()
-    {
-        // todo: consider caching validator instances.
-        return new InArray(
-            array (
-                'haystack' => array(
-                    self::START,
-                    self::CENTER,
-                    self::END,
-                    self::BOTH,
-                    self::MEDIUM_KASHIDA,
-                    self::DISTRIBUTE,
-                    self::NUM_TAB,
-                    self::HIGH_KASHIDA,
-                    self::LOW_KASHIDA,
-                    self::THAI_DISTRIBUTE,
-                    self::LEFT,
-                    self::RIGHT,
-                    self::JUSTIFY,
-                ),
-                'strict'   => InArray::COMPARE_STRICT,
-            )
-        );
-    }
 }

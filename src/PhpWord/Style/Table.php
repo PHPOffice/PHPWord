@@ -510,7 +510,7 @@ class Table extends Border
      */
     public function setAlignment($value)
     {
-        if (JcTable::getValidator()->isValid($value) || Jc::getValidator()->isValid($value)) {
+        if (JcTable::isValid($value) || Jc::isValid($value)) {
             $this->alignment = $value;
         }
 

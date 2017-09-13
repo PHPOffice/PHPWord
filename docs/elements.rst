@@ -158,8 +158,8 @@ Parameters:
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
-- ``$listStyle``. List style of the current element TYPE\_NUMBER,
-   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\_Style\_ListItem.
+- ``$listStyle``. List style of the current element TYPE\_NUMBER, 
+  TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
 Advanced usage:
@@ -297,7 +297,7 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\_Style\_TOC.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\\Style\\TOC.
 - ``tabPos``. The position of the tab where the page number appears in twips.
 - ``indent``. The indent factor of the titles in twips.
 

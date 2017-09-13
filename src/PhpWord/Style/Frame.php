@@ -200,7 +200,7 @@ class Frame extends AbstractStyle
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
+        if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
 

@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
 /**
  * Settings reader
@@ -28,7 +29,7 @@ use PhpOffice\PhpWord\PhpWord;
 class Settings extends AbstractPart
 {
 
-    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'evenAndOddHeaders');
+    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'trackRevisions', 'doNotTrackMoves', 'doNotTrackFormatting', 'evenAndOddHeaders');
 
     /**
      * Read settings.xml.
@@ -58,7 +59,7 @@ class Settings extends AbstractPart
                     }
                 } else if (method_exists($this, $method)) {
                     $this->$method($xmlReader, $phpWord, $node);
-                } else if (method_exists($this, $method)) {
+                } else if (method_exists($docSettings, $method)) {
                     $docSettings->$method($value);
                 }
             }
@@ -78,5 +79,62 @@ class Settings extends AbstractPart
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
         $documentProtection->setEditing($edit);
+    }
+
+    /**
+     * Sets the proof state
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+        $proofState = $phpWord->getSettings()->getProofState();
+
+        $spelling = $xmlReader->getAttribute('w:spelling', $node);
+        $grammar = $xmlReader->getAttribute('w:grammar', $node);
+
+        if ($spelling != null) {
+            $proofState->setSpelling($spelling);
+        }
+        if ($grammar != null) {
+            $proofState->setGrammar($grammar);
+        }
+    }
+
+    /**
+     * Sets the proof state
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+        $percent = $xmlReader->getAttribute('w:percent', $node);
+        $val = $xmlReader->getAttribute('w:val', $node);
+
+        if ($percent != null || $val != null) {
+            $phpWord->getSettings()->setZoom($percent == null ? $val : $percent);
+        }
+    }
+
+    /**
+     * Set the Revision view
+     * 
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMNode $node
+     */
+    protected function setRevisionView(XMLReader $xmlReader, PhpWord $phpWord, \DOMNode $node)
+    {
+        $revisionView = new TrackChangesView();
+        $revisionView->setMarkup($xmlReader->getAttribute('w:markup', $node));
+        $revisionView->setComments($xmlReader->getAttribute('w:comments', $node));
+        $revisionView->setInsDel($xmlReader->getAttribute('w:insDel', $node));
+        $revisionView->setFormatting($xmlReader->getAttribute('w:formatting', $node));
+        $revisionView->setInkAnnotations($xmlReader->getAttribute('w:inkAnnotations', $node));
+        $phpWord->getSettings()->setRevisionView($revisionView);
     }
 }
