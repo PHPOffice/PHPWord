@@ -152,6 +152,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
+        $this->setOutputCallback(function() {});
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Hello world!');
