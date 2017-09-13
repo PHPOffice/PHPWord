@@ -377,7 +377,35 @@ To be completed
 Fields
 ------
 
-To be completed
+Currently the following fields are supported: 
+
+- PAGE
+- NUMPAGES
+- DATE
+- XE
+- INDEX
+
+.. code-block:: php
+
+    $section->addField($fieldType, [$properties], [$options], [$fieldText])
+
+See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
+Options which are not specifically defined can be added. Those must start with a ``\``.
+
+For instance for the INDEX field, you can do the following (See `Index Field for list of available options <https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&rs=en-US&ad=US>`_ ):
+
+.. code-block:: php
+
+    //the $fieldText can be either a simple string
+    $fieldText = 'The index value';
+
+    //or a 'TextRun', to be able to format the text you want in the index
+    $fieldText = new TextRun();
+    $fieldText->addText('My ');
+    $fieldText->addText('bold index', ['bold' => true]);
+    $fieldText->addText(' entry');
+
+    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
 
 Line
 ------
@@ -399,3 +427,26 @@ Available line style attributes:
 - ``width``. Line-object width in pt.
 - ``height``. Line-object height in pt.
 - ``flip``. Flip the line element: true, false.
+
+Comments
+---------
+
+Comments can be added to a document by using ``addComment``.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any to any element.
+
+.. code-block:: php
+
+    // first create a comment
+    $comment= new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
+    $comment->addText('Test', array('bold' => true));
+
+    // add it to the document
+    $phpWord->addComment($comment);
+
+    $textrun = $section->addTextRun();
+    $textrun->addText('This ');
+    $text = $textrun->addText('is');
+    // link the comment to the text you just created
+    $text->setCommentStart($comment);
+
+If no end is set for a comment using the ``setCommentEnd``, the comment will be ended automatically at the end of the element it is started on.
