@@ -9,7 +9,6 @@ php:
     - 5.6
     - 7.0
     - 7.1
-##    - hhvm
 
 matrix:
     include:
@@ -18,7 +17,11 @@ matrix:
     allow_failures:
         - php: 7.0
         - php: 7.1
-##        - php: hhvm
+
+cache:
+    directories:
+        - vendor
+        - $HOME/.composer/cache
 
 env:
     global:
@@ -42,6 +45,8 @@ before_script:
 script:
     ## PHP_CodeSniffer
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip ; fi
+    ## PHP-CS-Fixer
+    #- if [ -z "$COVERAGE" ]; then ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run ; fi
     ## PHP Mess Detector
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php ; fi
     ## PHPUnit
