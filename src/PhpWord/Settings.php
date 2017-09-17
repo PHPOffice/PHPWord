@@ -318,7 +318,7 @@ class Settings
 
     /**
      * @since 0.13.0
-     * 
+     *
      * @return boolean
      *
      * @codeCoverageIgnore
@@ -330,7 +330,7 @@ class Settings
 
     /**
      * @since 0.13.0
-     * 
+     *
      * @param boolean $outputEscapingEnabled
      *
      * @codeCoverageIgnore

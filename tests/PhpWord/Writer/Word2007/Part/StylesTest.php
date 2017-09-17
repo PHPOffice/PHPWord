@@ -18,7 +18,10 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles
@@ -73,5 +76,71 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $path = '/w:styles/w:style[@w:styleId="New Style"]/w:next';
         $element = $doc->getElement($path, $file);
         $this->assertEquals('Normal', $element->getAttribute('w:val'));
+    }
+
+    public function testFontStyleBasedOn()
+    {
+        $phpWord = new PhpWord();
+
+        $baseParagraphStyle = new Paragraph();
+        $baseParagraphStyle->setAlignment(Jc::CENTER);
+        $baseParagraphStyle = $phpWord->addParagraphStyle('BaseStyle', $baseParagraphStyle);
+         
+        $childFont = new Font();
+        $childFont->setParagraph($baseParagraphStyle);
+        $childFont->setSize(16);
+        $childFont = $phpWord->addFontStyle('ChildFontStyle', $childFont);
+         
+        $otherFont = new Font();
+        $otherFont->setSize(20);
+        $otherFont = $phpWord->addFontStyle('OtherFontStyle', $otherFont);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        // Normal style generated?
+        $path = '/w:styles/w:style[@w:styleId="BaseStyle"]/w:name';
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('BaseStyle', $element->getAttribute('w:val'));
+
+        // Font style with paragraph should have it's base style set to that paragraphs style name
+        $path = '/w:styles/w:style[w:name/@w:val="ChildFontStyle"]/w:basedOn';
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('BaseStyle', $element->getAttribute('w:val'));
+
+        // Font style without paragraph should not have a base style set
+        $path = '/w:styles/w:style[w:name/@w:val="OtherFontStyle"]/w:basedOn';
+        $element = $doc->getElement($path, $file);
+        $this->assertNull($element);
+    }
+
+    public function testFontStyleBasedOnOtherFontStyle()
+    {
+        $phpWord = new PhpWord();
+
+        $styleGenerationP = new Paragraph();
+        $styleGenerationP->setAlignment(Jc::BOTH);
+
+        $styleGeneration = new Font();
+        $styleGeneration->setParagraph($styleGenerationP);
+        $styleGeneration->setSize(9.5);
+        $phpWord->addFontStyle('Generation', $styleGeneration);
+
+        $styleGenerationEteinteP = new Paragraph();
+        $styleGenerationEteinteP->setBasedOn('Generation');
+
+        $styleGenerationEteinte = new Font();
+        $styleGenerationEteinte->setParagraph($styleGenerationEteinteP);
+        $styleGenerationEteinte->setSize(8.5);
+        $phpWord->addFontStyle('GeneratEteinte', $styleGenerationEteinte);
+        
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/styles.xml';
+
+        $path = '/w:styles/w:style[@w:styleId="GeneratEteinte"]/w:basedOn';
+        $element = $doc->getElement($path, $file);
+        $this->assertEquals('Generation', $element->getAttribute('w:val'));
     }
 }

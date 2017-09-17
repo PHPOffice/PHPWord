@@ -203,7 +203,7 @@ class Settings
 
     /**
      * Get the Visibility of Annotation Types
-     * 
+     *
      * @return \PhpOffice\PhpWord\ComplexType\TrackChangesView
      */
     public function getRevisionView()
@@ -213,7 +213,7 @@ class Settings
 
     /**
      * Set the Visibility of Annotation Types
-     * 
+     *
      * @param TrackChangesView $trackChangesView
      */
     public function setRevisionView(TrackChangesView $trackChangesView = null)
@@ -293,7 +293,7 @@ class Settings
 
     /**
      * Returns the Radix Point for Field Code Evaluation
-     * 
+     *
      * @return string
      */
     public function getDecimalSymbol()
@@ -303,7 +303,7 @@ class Settings
 
     /**
      * sets the Radix Point for Field Code Evaluation
-     * 
+     *
      * @param string $decimalSymbol
      */
     public function setDecimalSymbol($decimalSymbol)

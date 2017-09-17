@@ -21,7 +21,7 @@ abstract class AbstractEnum
 
     /**
      * Returns all values for this enum
-     * 
+     *
      * @return array
      */
     public static function values()
@@ -31,7 +31,7 @@ abstract class AbstractEnum
 
     /**
      * Returns true the value is valid for this enum
-     * 
+     *
      * @param strign $value
      * @return boolean true if value is valid
      */
@@ -43,7 +43,7 @@ abstract class AbstractEnum
 
     /**
      * Validates that the value passed is a valid value
-     * 
+     *
      * @param string $value
      * @throws \InvalidArgumentException if the value passed is not valid for this enum
      */

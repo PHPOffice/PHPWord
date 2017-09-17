@@ -170,6 +170,9 @@ class Styles extends AbstractPart
             $xmlWriter->startElement('w:link');
             $xmlWriter->writeAttribute('w:val', $styleLink);
             $xmlWriter->endElement();
+        } else if (!is_null($paragraphStyle)) {
+            // if type is 'paragraph' it should have a styleId
+            $xmlWriter->writeAttribute('w:styleId', $styleName);
         }
 
         // Style name
@@ -178,7 +181,13 @@ class Styles extends AbstractPart
         $xmlWriter->endElement();
 
         // Parent style
-        $xmlWriter->writeElementIf(!is_null($paragraphStyle), 'w:basedOn', 'w:val', 'Normal');
+        if (!is_null($paragraphStyle)) {
+            if ($paragraphStyle->getStyleName() != null) {
+                $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getStyleName());
+            } elseif ($paragraphStyle->getBasedOn() != null) {
+                $xmlWriter->writeElementBlock('w:basedOn', 'w:val', $paragraphStyle->getBasedOn());
+            }
+        }
 
         // w:pPr
         if (!is_null($paragraphStyle)) {

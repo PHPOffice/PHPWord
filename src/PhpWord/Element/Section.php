@@ -50,7 +50,7 @@ class Section extends AbstractContainer
 
     /**
      * The properties for the footnote of this section
-     * 
+     *
      * @var FootnoteProperties
      */
     private $footnoteProperties;
@@ -148,7 +148,7 @@ class Section extends AbstractContainer
 
     /**
      * Get the footnote properties
-     * 
+     *
      * @return \PhpOffice\PhpWord\Element\FooterProperties
      */
     public function getFootnotePropoperties()
@@ -158,7 +158,7 @@ class Section extends AbstractContainer
 
     /**
      * Set the footnote properties
-     * 
+     *
      * @param FootnoteProperties $footnoteProperties
      */
     public function setFootnoteProperties(FootnoteProperties $footnoteProperties = null)
@@ -219,7 +219,6 @@ class Section extends AbstractContainer
         } else {
             throw new \Exception('Invalid header/footer type.');
         }
-
     }
 
     /**

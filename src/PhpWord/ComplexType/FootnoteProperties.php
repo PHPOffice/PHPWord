@@ -65,7 +65,7 @@ final class FootnoteProperties
 
     /**
      * Get the Footnote Positioning Location
-     * 
+     *
      * @return string
      */
     public function getPos()
@@ -75,7 +75,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Positioning Location (pageBottom, beneathText, sectEnd, docEnd)
-     * 
+     *
      * @param string $pos
      * @throws \InvalidArgumentException
      * @return self
@@ -99,7 +99,7 @@ final class FootnoteProperties
 
     /**
      * Get the Footnote Numbering Format
-     * 
+     *
      * @return string
      */
     public function getNumFmt()
@@ -109,7 +109,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Numbering Format
-     * 
+     *
      * @param string $numFmt One of NumberFormat
      * @return self
      */
@@ -122,7 +122,7 @@ final class FootnoteProperties
 
     /**
      * Get the Footnote Numbering Format
-     * 
+     *
      * @return double
      */
     public function getNumStart()
@@ -132,7 +132,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Numbering Format
-     * 
+     *
      * @param double $numStart
      * @return self
      */
@@ -144,7 +144,7 @@ final class FootnoteProperties
 
     /**
      * Get the Footnote and Endnote Numbering Starting Value
-     * 
+     *
      * @return string
      */
     public function getNumRestart()
@@ -154,7 +154,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote and Endnote Numbering Starting Value (continuous, eachSect, eachPage)
-     * 
+     *
      * @param  string $numRestart
      * @throws \InvalidArgumentException
      * @return self

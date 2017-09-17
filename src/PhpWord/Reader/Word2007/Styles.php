@@ -49,7 +49,6 @@ class Styles extends AbstractPart
                 preg_match('/Heading(\d)/', $name, $headingMatches);
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
-
                     case 'paragraph':
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);

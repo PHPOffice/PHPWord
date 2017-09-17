@@ -161,7 +161,7 @@ class Settings extends AbstractPart
 
     /**
      * Adds a boolean attribute to the settings array
-     * 
+     *
      * @param string $settingName
      * @param boolean $booleanValue
      */
@@ -219,7 +219,6 @@ class Settings extends AbstractPart
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
         if ($trackChangesView != null) {
-
             $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true': 'false';
             $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true': 'false';
             $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true': 'false';
@@ -232,7 +231,7 @@ class Settings extends AbstractPart
 
     /**
      * Set the magnification
-     * 
+     *
      * @param mixed $zoom
      */
     private function setZoom($zoom = null)
