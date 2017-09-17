@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Escaper;
 
 /**
  * @since 0.13.0
- * 
+ *
  * @codeCoverageIgnore
  */
 abstract class AbstractEscaper implements EscaperInterface

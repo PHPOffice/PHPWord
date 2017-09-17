@@ -68,7 +68,7 @@ class Settings extends AbstractPart
 
     /**
      * Sets the document protection
-     * 
+     *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
      * @param \DOMNode $node
@@ -83,7 +83,7 @@ class Settings extends AbstractPart
 
     /**
      * Sets the proof state
-     * 
+     *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
      * @param \DOMNode $node
@@ -105,7 +105,7 @@ class Settings extends AbstractPart
 
     /**
      * Sets the proof state
-     * 
+     *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
      * @param \DOMNode $node
@@ -122,7 +122,7 @@ class Settings extends AbstractPart
 
     /**
      * Set the Revision view
-     * 
+     *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
      * @param \DOMNode $node

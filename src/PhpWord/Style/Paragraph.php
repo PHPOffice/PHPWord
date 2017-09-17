@@ -742,7 +742,7 @@ class Paragraph extends Border
     
     /**
      * Get contextualSpacing
-     * 
+     *
      * @return bool
      */
     public function hasContextualSpacing()
@@ -752,7 +752,7 @@ class Paragraph extends Border
 
     /**
      * Set contextualSpacing
-     * 
+     *
      * @param bool $contextualSpacing
      * @return self
      */

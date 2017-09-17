@@ -51,7 +51,7 @@ final class ProofState
     /**
      * Set the Spell Checking State (dirty or clean)
      *
-     * @param string $spelling            
+     * @param string $spelling
      * @throws \InvalidArgumentException
      * @return self
      */
@@ -78,7 +78,7 @@ final class ProofState
     /**
      * Set the Grammatical Checking State (dirty or clean)
      *
-     * @param string $grammar            
+     * @param string $grammar
      * @throws \InvalidArgumentException
      * @return self
      */

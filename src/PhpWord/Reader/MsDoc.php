@@ -1303,7 +1303,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         print_r('$sprm.ispmd : 0x'.dechex($sprm_IsPmd).PHP_EOL);
                         print_r('$sprm.f : 0x'.dechex($sprm_F).PHP_EOL);
                         print_r('$sprm.sgc : 0x'.dechex($sprm_Sgc));
-                        switch(dechex($sprm_Sgc)) {
+                        switch (dechex($sprm_Sgc)) {
                             case 0x01:
                                 print_r(' (Paragraph property)');
                                 break;
@@ -1322,12 +1322,12 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         }
                         print_r(PHP_EOL);
                         print_r('$sprm.spra : 0x'.dechex($sprm_Spra).PHP_EOL);
-                        switch(dechex($sprm_Spra)) {
+                        switch (dechex($sprm_Spra)) {
                             case 0x0:
                                 $operand = self::getInt1d($this->dataWorkDocument, $offset);
                                 $offset += 1;
                                 $cb -= 1;
-                                switch(dechex($operand)) {
+                                switch (dechex($operand)) {
                                     case 0x00:
                                         $operand = 'OFF';
                                         break;
@@ -1376,9 +1376,9 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         }
 
                         //
-                        switch(dechex($sprm_Sgc)) {
+                        switch (dechex($sprm_Sgc)) {
                             case 0x01: // Sprm is modifying a paragraph property.
-                                switch($sprm_IsPmd) {
+                                switch ($sprm_IsPmd) {
                                     case 0x0A: // sprmPIlvl
                                         print_r('sprmPIlvl : '.$operand.PHP_EOL.PHP_EOL);
                                         break;
@@ -1391,28 +1391,28 @@ class MsDoc extends AbstractReader implements ReaderInterface
                                 }
                                 break;
                             case 0x02: // Sprm is modifying a character property.
-                                switch($sprm_IsPmd) {
+                                switch ($sprm_IsPmd) {
                                     default:
                                         print_r('$sprm_IsPmd(2) : '.$sprm_IsPmd.PHP_EOL.PHP_EOL);
                                         break;
                                 }
                                 break;
                             case 0x03: // Sprm is modifying a picture property.
-                                switch($sprm_IsPmd) {
+                                switch ($sprm_IsPmd) {
                                     default:
                                         print_r('$sprm_IsPmd(3) : '.$sprm_IsPmd.PHP_EOL.PHP_EOL);
                                         break;
                                 }
                                 break;
                             case 0x04: // Sprm is modifying a section property.
-                                switch($sprm_IsPmd) {
+                                switch ($sprm_IsPmd) {
                                     default:
                                         print_r('$sprm_IsPmd(4) : '.$sprm_IsPmd.PHP_EOL.PHP_EOL);
                                         break;
                                 }
                                 break;
                             case 0x05: // Sprm is modifying a table property.
-                                switch($sprm_IsPmd) {
+                                switch ($sprm_IsPmd) {
                                     default:
                                         print_r('$sprm_IsPmd(4) : '.$sprm_IsPmd.PHP_EOL.PHP_EOL);
                                         break;
@@ -1514,11 +1514,11 @@ class MsDoc extends AbstractReader implements ReaderInterface
         $length = 0;
         $operand = null;
 
-        switch(dechex($oSprm->spra)) {
+        switch (dechex($oSprm->spra)) {
             case 0x0:
                 $operand = self::getInt1d($data, $pos);
                 $length = 1;
-                switch(dechex($operand)) {
+                switch (dechex($operand)) {
                     case 0x00:
                         $operand = false;
                         break;
@@ -1593,7 +1593,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
             $cbNum -= $arrayReturn['length'];
             $operand = $arrayReturn['operand'];
 
-            switch(dechex($oSprm->sgc)) {
+            switch (dechex($oSprm->sgc)) {
                 // Paragraph property
                 case 0x01:
                     break;
@@ -1602,7 +1602,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                     if (!isset($oStylePrl->styleFont)) {
                         $oStylePrl->styleFont = array();
                     }
-                    switch($oSprm->isPmd) {
+                    switch ($oSprm->isPmd) {
                         // sprmCFRMarkIns
                         case 0x01:
                             break;
@@ -1620,7 +1620,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         // sprmCFItalic
                         case 0x36:
                             // By default, text is not italicized.
-                            switch($operand) {
+                            switch ($operand) {
                                 case false:
                                 case true:
                                     $oStylePrl->styleFont['italic'] = $operand;
@@ -1640,7 +1640,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         // sprmCFBold
                         case 0x35:
                             // By default, text is not bold.
-                            switch($operand) {
+                            switch ($operand) {
                                 case false:
                                 case true:
                                     $oStylePrl->styleFont['bold'] = $operand;
@@ -1656,7 +1656,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         // sprmCFStrike
                         case 0x37:
                             // By default, text is not struck through.
-                            switch($operand) {
+                            switch ($operand) {
                                 case false:
                                 case true:
                                     $oStylePrl->styleFont['strikethrough'] = $operand;
@@ -1671,7 +1671,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             break;
                         // sprmCKul
                         case 0x3E:
-                            switch(dechex($operand)) {
+                            switch (dechex($operand)) {
                                 case 0x00:
                                     $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_NONE;
                                     break;
@@ -1734,7 +1734,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         // sprmCIco
                         //@link http://msdn.microsoft.com/en-us/library/dd773060%28v=office.12%29.aspx
                         case 0x42:
-                            switch(dechex($operand)) {
+                            switch (dechex($operand)) {
                                 case 0x00:
                                 case 0x01:
                                     $oStylePrl->styleFont['color'] = '000000';
@@ -1873,7 +1873,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                     if (!isset($oStylePrl->styleSection)) {
                         $oStylePrl->styleSection = array();
                     }
-                    switch($oSprm->isPmd) {
+                    switch ($oSprm->isPmd) {
                         // sprmSNfcPgn
                         case 0x0E:
                             // numbering format used for page numbers
@@ -1925,7 +1925,6 @@ class MsDoc extends AbstractReader implements ReaderInterface
                         default:
                             // print_r('@todo Section : 0x'.dechex($oSprm->isPmd));
                             // print_r(PHP_EOL);
-
                     }
                     break;
                 // Table property
@@ -2285,7 +2284,6 @@ class MsDoc extends AbstractReader implements ReaderInterface
                     }
                 }
             }
-
         }
     }
 

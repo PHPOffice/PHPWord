@@ -44,7 +44,6 @@ class Content extends AbstractPart
             foreach ($nodes as $node) {
                 // $styleName = $xmlReader->getAttribute('text:style-name', $node);
                 switch ($node->nodeName) {
-
                     case 'text:h': // Heading
                         $depth = $xmlReader->getAttribute('text:outline-level', $node);
                         $section->addTitle($node->nodeValue, $depth);
