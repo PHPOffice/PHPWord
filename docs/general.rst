@@ -80,8 +80,8 @@ folder <https://github.com/PHPOffice/PHPWord/tree/master/samples/>`__.
     /* Note: we skip RTF, because it's not XML-based and requires a different example. */
     /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 
-Settings
---------
+PHPWord Settings
+----------------
 
 The ``PhpOffice\PhpWord\Settings`` class provides some options that will
 affect the behavior of PHPWord. Below are the options.
@@ -109,8 +109,8 @@ Zip class
 By default, PHPWord uses `Zip extension <http://php.net/manual/en/book.zip.php>`__
 to deal with ZIP compressed archives and files inside them. If you can't have
 Zip extension installed on your server, you can use pure PHP library
-alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which
-included with PHPWord.
+alternative, `PclZip <http://www.phpconcept.net/pclzip/>`__, which is
+included in PHPWord.
 
 .. code-block:: php
 
@@ -140,6 +140,66 @@ default font by using the following two functions:
 
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
+
+Document settings
+-----------------
+Settings for the generated document can be set using ``$phpWord->getSettings()``
+
+Magnification Setting
+~~~~~~~~~~~~~~~~~~~~~
+The default zoom value is 100 percent. This can be changed either to another percentage
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setZoom(75);
+
+Or to predefined values ``fullPage``, ``bestFit``, ``textFit``
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setZoom(Zoom::BEST_FIT);
+
+Spelling and grammatical checks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default spelling and grammatical errors are shown as soon as you open a word document.
+For big documents this can slow down the opening of the document. You can hide the spelling and/or grammatical errors with:
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setHideGrammaticalErrors(true);
+    $phpWord->getSettings()->setHideSpellingErrors(true);
+
+You can also specify the status of the spell and grammar checks, marking spelling or grammar as dirty will force a re-check when opening the document.
+
+.. code-block:: php
+
+    $proofState = new ProofState();
+    $proofState->setGrammar(ProofState::CLEAN);
+    $proofState->setSpelling(ProofState::DIRTY);
+
+    $phpWord->getSettings()->setProofState(proofState);
+
+Track Revisions
+~~~~~~~~~~~~~~~
+Track changes can be activated using ``setTrackRevisions``, you can furture specify 
+
+-  Not to use move syntax, instead moved items will be seen as deleted in one place and added in another
+-  Not track formatting revisions
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setTrackRevisions(true);
+    $phpWord->getSettings()->setDoNotTrackMoves(true);
+    $phpWord->getSettings()->setDoNotTrackFormatting(true);
+
+Decimal Symbol
+~~~~~~~~~~~~~~
+The default symbol to represent a decimal figure is the ``.`` in english. In french you might want to change it to ``,`` for instance.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setDecimalSymbol(',');
 
 Document information
 --------------------

@@ -26,7 +26,7 @@ class Footer extends AbstractContainer
      * Header/footer types constants
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/a-wtype-4.html Header or Footer Type
+     * @link http://www.datypic.com/sc/ooxml/t-w_ST_HdrFtr.html Header or Footer Type
      */
     const AUTO  = 'default';  // default and odd pages
     const FIRST = 'first';

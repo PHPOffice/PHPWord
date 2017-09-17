@@ -167,14 +167,11 @@ abstract class AbstractPart
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
+                if ($runLinkCount > 1) {
+                    $parent = $parent->addTextRun($paragraphStyle);
+                }
                 foreach ($nodes as $node) {
-                    $this->readRun(
-                        $xmlReader,
-                        $node,
-                        ($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent,
-                        $docPart,
-                        $paragraphStyle
-                    );
+                    $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
                 }
             }
         }

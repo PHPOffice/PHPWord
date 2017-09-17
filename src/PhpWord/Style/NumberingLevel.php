@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Numbering level definition
@@ -43,7 +44,7 @@ class NumberingLevel extends AbstractStyle
     private $start = 1;
 
     /**
-     * Numbering format bullet|decimal|upperRoman|lowerRoman|upperLetter|lowerLetter
+     * Numbering format w:numFmt, one of PhpOffice\PhpWord\SimpleType\NumberFormat
      *
      * @var string
      * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_NumberFormat.html
@@ -67,7 +68,7 @@ class NumberingLevel extends AbstractStyle
     private $pStyle;
 
     /**
-     * Content between numbering symbol and paragraph text
+     * Content between numbering symbol and paragraph text w:suff
      *
      * @var string tab|space|nothing
      * @link http://www.schemacentral.com/sc/ooxml/e-w_suff-1.html
@@ -83,7 +84,9 @@ class NumberingLevel extends AbstractStyle
     private $text;
 
     /**
-     * @var string
+     * Justification, w:lvlJc
+     * 
+     * @var string, one of PhpOffice\PhpWord\SimpleType\Jc
      */
     private $alignment = '';
 
@@ -185,13 +188,12 @@ class NumberingLevel extends AbstractStyle
      */
     public function setFormat($value)
     {
-        $enum = array('bullet', 'decimal', 'upperRoman', 'lowerRoman', 'upperLetter', 'lowerLetter');
-        $this->format = $this->setEnumVal($value, $enum, $this->format);
+        $this->format = $this->setEnumVal($value, NumberFormat::values(), $this->format);
         return $this;
     }
 
     /**
-     * Get start
+     * Get restart
      *
      * @return integer
      */
@@ -201,7 +203,7 @@ class NumberingLevel extends AbstractStyle
     }
 
     /**
-     * Set start
+     * Set restart
      *
      * @param integer $value
      * @return self
@@ -298,7 +300,7 @@ class NumberingLevel extends AbstractStyle
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
+        if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
 
