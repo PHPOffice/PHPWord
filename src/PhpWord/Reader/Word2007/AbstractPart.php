@@ -263,7 +263,6 @@ abstract class AbstractPart
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
-
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
@@ -279,7 +278,6 @@ abstract class AbstractPart
                 foreach ($rowNodes as $rowNode) {
                     if ('w:trPr' == $rowNode->nodeName) { // Row style
                         // @todo Do something with row style
-
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;

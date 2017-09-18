@@ -94,7 +94,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**

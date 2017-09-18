@@ -99,7 +99,6 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
             $phpWord->$method($styleId, array());
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
-
     }
 
     /**

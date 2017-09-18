@@ -223,7 +223,7 @@ class Font extends AbstractStyle
     private $shading;
 
     /**
-     * Right to left languages 
+     * Right to left languages
      * @var boolean
      */
     private $rtl = false;
@@ -732,7 +732,7 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Set shading
+     * Set Paragraph
      *
      * @param mixed $value
      * @return self

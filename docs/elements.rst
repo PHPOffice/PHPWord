@@ -158,8 +158,8 @@ Parameters:
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
-- ``$listStyle``. List style of the current element TYPE\_NUMBER,
-   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\_Style\_ListItem.
+- ``$listStyle``. List style of the current element TYPE\_NUMBER, 
+  TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
 Advanced usage:
@@ -297,7 +297,7 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\_Style\_TOC.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\\Style\\TOC.
 - ``tabPos``. The position of the tab where the page number appears in twips.
 - ``indent``. The indent factor of the titles in twips.
 
@@ -377,7 +377,35 @@ To be completed
 Fields
 ------
 
-To be completed
+Currently the following fields are supported: 
+
+- PAGE
+- NUMPAGES
+- DATE
+- XE
+- INDEX
+
+.. code-block:: php
+
+    $section->addField($fieldType, [$properties], [$options], [$fieldText])
+
+See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
+Options which are not specifically defined can be added. Those must start with a ``\``.
+
+For instance for the INDEX field, you can do the following (See `Index Field for list of available options <https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&rs=en-US&ad=US>`_ ):
+
+.. code-block:: php
+
+    //the $fieldText can be either a simple string
+    $fieldText = 'The index value';
+
+    //or a 'TextRun', to be able to format the text you want in the index
+    $fieldText = new TextRun();
+    $fieldText->addText('My ');
+    $fieldText->addText('bold index', ['bold' => true]);
+    $fieldText->addText(' entry');
+
+    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
 
 Line
 ------

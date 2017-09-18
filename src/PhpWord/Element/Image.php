@@ -476,9 +476,9 @@ class Image extends AbstractElement
 
     /**
      * get image size from string
-     * 
+     *
      * @param string $source
-     * 
+     *
      * @codeCoverageIgnore this method is just a replacement for getimagesizefromstring which exists only as of PHP 5.4
      */
     private function getStringImageSize($source)

@@ -134,7 +134,6 @@ abstract class AbstractElement
             }
 
             $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
-
         }
     }
 

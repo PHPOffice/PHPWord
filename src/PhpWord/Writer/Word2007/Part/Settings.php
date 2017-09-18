@@ -161,7 +161,7 @@ class Settings extends AbstractPart
 
     /**
      * Adds a boolean attribute to the settings array
-     * 
+     *
      * @param string $settingName
      * @param boolean $booleanValue
      */
@@ -248,7 +248,7 @@ class Settings extends AbstractPart
 
     /**
      * Set the magnification
-     * 
+     *
      * @param mixed $zoom
      */
     private function setZoom($zoom = null)

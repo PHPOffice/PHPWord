@@ -96,7 +96,6 @@ class XmlDocument
 
         if (null === $this->xpath) {
             $this->xpath = new \DOMXpath($this->dom);
-
         }
 
         return $this->xpath->query($path);

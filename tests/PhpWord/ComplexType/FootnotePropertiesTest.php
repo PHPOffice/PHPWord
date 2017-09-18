@@ -47,7 +47,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test throws exception if wrong position given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongPos()
@@ -58,7 +58,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test throws exception if wrong number format given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongNumFmt()
@@ -69,7 +69,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test throws exception if wrong number restart given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongNumRestart()
