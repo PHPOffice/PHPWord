@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
@@ -190,6 +191,51 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
             $this->assertTrue($doc->elementExists($path, $file));
         }
+    }
+
+    public function testFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addField('INDEX', array(), array('\\c "3"'));
+        $section->addField('XE', array(), array('Bold', 'Italic'), 'Index Entry');
+        $section->addField('DATE', array('dateformat' => 'd-M-yyyy'), array('PreserveFormat', 'LastUsedFormat'));
+        $section->addField('DATE', array(), array('LunarCalendar'));
+        $section->addField('DATE', array(), array('SakaEraCalendar'));
+        $section->addField('NUMPAGES', array('format' => 'roman', 'numformat' => '0,00'), array('SakaEraCalendar'));
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+    }
+
+    public function testFieldElementWithComplexText()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $text = new TextRun();
+        $text->addText('test string', array('bold' => true));
+
+        $section->addField('XE', array(), array('Bold', 'Italic'), $text);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' XE "', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:rPr/w:b';
+        $this->assertTrue($doc->elementExists($element));
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:t';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('test string', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[4]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('"\\b \\i ', $doc->getElement($element)->textContent);
     }
 
     /**
