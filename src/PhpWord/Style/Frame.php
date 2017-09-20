@@ -172,6 +172,13 @@ class Frame extends AbstractStyle
     private $wrap;
 
     /**
+     * Vertically raised or lowered text
+     * @var int
+     * @link http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -535,6 +542,29 @@ class Frame extends AbstractStyle
             self::WRAP_INFRONT,
         );
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setNumericVal($value, null);
 
         return $this;
     }

@@ -229,6 +229,13 @@ class Font extends AbstractStyle
     private $rtl = false;
 
     /**
+     * Vertically raised or lowered text
+     * @var int
+     * @link http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
+
+    /**
      * Create new font style
      *
      * @param string $type Type of font
@@ -272,6 +279,7 @@ class Font extends AbstractStyle
                 'scale'     => $this->getScale(),
                 'spacing'   => $this->getSpacing(),
                 'kerning'   => $this->getKerning(),
+                'position'  => $this->getPosition(),
             ),
             'paragraph'     => $this->getParagraph(),
             'rtl'           => $this->isRTL(),
@@ -853,5 +861,28 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setNumericVal($value, null);
+
+        return $this;
     }
 }
