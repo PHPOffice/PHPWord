@@ -54,7 +54,7 @@ Available Font style options:
 - ``strikethrough``. Strikethrough, *true* or *false*.
 - ``subScript``. Subscript, *true* or *false*.
 - ``superScript``. Superscript, *true* or *false*.
-- ``underline``. Underline, *dash*, *dotted*, etc.
+- ``underline``. Underline, *single*, *dash*, *dotted*, etc.
 
 .. _paragraph-style:
 
