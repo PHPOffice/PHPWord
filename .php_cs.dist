@@ -1,8 +1,8 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('vendor')
-    ->notPath('src/PhpWord/Shared/PCLZip/pclzip.lib.php')
+    ->notName('pclzip.lib.php')
+    ->notName('OLERead.php')
     ->in('samples')
     ->in('src')
     ->in('tests');
@@ -10,18 +10,18 @@ $finder = PhpCsFixer\Finder::create()
 return PhpCsFixer\Config::create()
         ->setRiskyAllowed(true)
         ->setFinder($finder)
-        ->setRules([
-            'array_syntax' => ['syntax' => 'long'],
-            'binary_operator_spaces' => ['align_double_arrow' => true],
+        ->setRules(array(
+            'array_syntax' => array('syntax' => 'long'),
+            'binary_operator_spaces' => array('align_double_arrow' => true),
             'blank_line_after_namespace' => true,
-            'blank_line_after_opening_tag' => true,
+            'blank_line_after_opening_tag' => false,
             'blank_line_before_return' => true,
             'braces' => true,
             'cast_spaces' => true,
             'class_definition' => true,
             'class_keyword_remove' => false, // ::class keyword gives us beter support in IDE
             'combine_consecutive_unsets' => true,
-            'concat_space' => ['spacing' => 'one'],
+            'concat_space' => array('spacing' => 'one'),
             'declare_equal_normalize' => true,
             'declare_strict_types' => false, // Too early to adopt strict types
             'dir_constant' => true,
@@ -58,7 +58,7 @@ return PhpCsFixer\Config::create()
             'no_empty_comment' => true,
             'no_empty_phpdoc' => true,
             'no_empty_statement' => true,
-            'no_extra_consecutive_blank_lines' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'useTrait', 'curly_brace_block', 'parenthesis_brace_block', 'square_brace_block'],
+            'no_extra_consecutive_blank_lines' => array('break', 'continue', 'extra', 'return', 'throw', 'use', 'useTrait', 'curly_brace_block', 'parenthesis_brace_block', 'square_brace_block'),
             'no_leading_import_slash' => true,
             'no_leading_namespace_whitespace' => true,
             'no_mixed_echo_print' => true,
@@ -99,7 +99,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_inline_tag' => true,
             'phpdoc_no_access' => true,
             'phpdoc_no_alias_tag' => false, //@see instead of @link
-            'phpdoc_no_empty_return' => true,
+            'phpdoc_no_empty_return' => false, //TODO: reactivate
             'phpdoc_no_package' => true,
             'phpdoc_no_useless_inheritdoc' => true,
             'phpdoc_order' => true,
@@ -113,7 +113,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_types' => true,
             'phpdoc_var_without_name' => true,
             'pow_to_exponentiation' => false,
-            'pre_increment' => true,
+            'pre_increment' => false,
             'protected_to_private' => true,
             'psr0' => true,
             'psr4' => true,
@@ -143,4 +143,4 @@ return PhpCsFixer\Config::create()
             'unary_operator_spaces' => true,
             'visibility_required' => true,
             'whitespace_after_comma_in_array' => true,
-    ]);
+    ));

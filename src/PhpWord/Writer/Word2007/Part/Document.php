@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -55,7 +54,6 @@ class Document extends AbstractPart
         $xmlWriter->writeAttribute('xmlns:wne', 'http://schemas.microsoft.com/office/word/2006/wordml');
 
         $xmlWriter->startElement('w:body');
-
 
         if ($sectionCount > 0) {
             foreach ($sections as $section) {

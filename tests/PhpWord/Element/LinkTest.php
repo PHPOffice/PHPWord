@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Font;
@@ -49,7 +48,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $oLink = new Link(
             'https://github.com/PHPOffice/PHPWord',
             'PHPWord on GitHub',
-            array('color' => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
+            array('color'      => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
             array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
         );
 

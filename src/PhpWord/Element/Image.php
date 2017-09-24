@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
@@ -61,7 +60,7 @@ class Image extends AbstractElement
     /**
      * Is watermark
      *
-     * @var boolean
+     * @var bool
      */
     private $watermark;
 
@@ -96,7 +95,7 @@ class Image extends AbstractElement
     /**
      * Is memory image
      *
-     * @var boolean
+     * @var bool
      */
     private $memoryImage;
 
@@ -110,7 +109,7 @@ class Image extends AbstractElement
     /**
      * Image media index
      *
-     * @var integer
+     * @var int
      */
     private $mediaIndex;
 
@@ -126,7 +125,7 @@ class Image extends AbstractElement
      *
      * @param string $source
      * @param mixed $style
-     * @param boolean $watermark
+     * @param bool $watermark
      *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
@@ -183,7 +182,7 @@ class Image extends AbstractElement
     /**
      * Get is watermark
      *
-     * @return boolean
+     * @return bool
      */
     public function isWatermark()
     {
@@ -193,7 +192,7 @@ class Image extends AbstractElement
     /**
      * Set is watermark
      *
-     * @param boolean $value
+     * @param bool $value
      */
     public function setIsWatermark($value)
     {
@@ -243,7 +242,7 @@ class Image extends AbstractElement
     /**
      * Get is memory image
      *
-     * @return boolean
+     * @return bool
      */
     public function isMemImage()
     {
@@ -264,7 +263,6 @@ class Image extends AbstractElement
      * Set target file name.
      *
      * @param string $value
-     * @return void
      */
     public function setTarget($value)
     {
@@ -274,7 +272,7 @@ class Image extends AbstractElement
     /**
      * Get media index
      *
-     * @return integer
+     * @return int
      */
     public function getMediaIndex()
     {
@@ -284,8 +282,7 @@ class Image extends AbstractElement
     /**
      * Set media index.
      *
-     * @param integer $value
-     * @return void
+     * @param int $value
      */
     public function setMediaIndex($value)
     {
@@ -368,8 +365,6 @@ class Image extends AbstractElement
     /**
      * Check memory image, supported type, image functions, and proportional width/height.
      *
-     * @return void
-     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
@@ -380,7 +375,7 @@ class Image extends AbstractElement
         // Check image data
         if ($this->sourceType == self::SOURCE_ARCHIVE) {
             $imageData = $this->getArchiveImageSize($this->source);
-        } else if ($this->sourceType == self::SOURCE_STRING) {
+        } elseif ($this->sourceType == self::SOURCE_STRING) {
             $imageData = $this->getStringImageSize($this->source);
         } else {
             $imageData = @getimagesize($this->source);
@@ -407,8 +402,6 @@ class Image extends AbstractElement
 
     /**
      * Set source type.
-     *
-     * @return void
      */
     private function setSourceType()
     {
@@ -443,9 +436,9 @@ class Image extends AbstractElement
      *
      * @param string $source
      *
-     * @return array|null
-     *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     *
+     * @return array|null
      */
     private function getArchiveImageSize($source)
     {
@@ -476,26 +469,26 @@ class Image extends AbstractElement
 
     /**
      * get image size from string
-     * 
+     *
      * @param string $source
-     * 
+     *
      * @codeCoverageIgnore this method is just a replacement for getimagesizefromstring which exists only as of PHP 5.4
      */
     private function getStringImageSize($source)
     {
+        $result = false;
         if (!function_exists('getimagesizefromstring')) {
-            $uri = 'data://application/octet-stream;base64,'  . base64_encode($source);
-            return @getimagesize($uri);
+            $uri = 'data://application/octet-stream;base64,' . base64_encode($source);
+            $result = @getimagesize($uri);
         } else {
-            return @getimagesizefromstring($source);
+            $result = @getimagesizefromstring($source);
         }
-        return false;
+
+        return $result;
     }
 
     /**
      * Set image functions and extensions.
-     *
-     * @return void
      */
     private function setFunctions()
     {
@@ -530,9 +523,8 @@ class Image extends AbstractElement
     /**
      * Set proportional width/height if one dimension not available.
      *
-     * @param integer $actualWidth
-     * @param integer $actualHeight
-     * @return void
+     * @param int $actualWidth
+     * @param int $actualHeight
      */
     private function setProportionalSize($actualWidth, $actualHeight)
     {

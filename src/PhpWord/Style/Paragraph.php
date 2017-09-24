@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\Common\Text;
@@ -157,7 +156,7 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
-    
+
     /**
      * Ignore Spacing Above and Below When Using Identical Styles
      *
@@ -412,7 +411,7 @@ class Paragraph extends Border
     /**
      * Get space before paragraph
      *
-     * @return integer
+     * @return int
      */
     public function getSpaceBefore()
     {
@@ -433,7 +432,7 @@ class Paragraph extends Border
     /**
      * Get space after paragraph
      *
-     * @return integer
+     * @return int
      */
     public function getSpaceAfter()
     {
@@ -487,22 +486,22 @@ class Paragraph extends Border
      *
      * @param int|float|string $lineHeight
      *
-     * @return self
-     *
      * @throws \PhpOffice\PhpWord\Exception\InvalidStyleException
+     * @return self
      */
     public function setLineHeight($lineHeight)
     {
         if (is_string($lineHeight)) {
-            $lineHeight = floatval(preg_replace('/[^0-9\.\,]/', '', $lineHeight));
+            $lineHeight = (float) (preg_replace('/[^0-9\.\,]/', '', $lineHeight));
         }
 
-        if ((!is_integer($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
+        if ((!is_int($lineHeight) && !is_float($lineHeight)) || !$lineHeight) {
             throw new InvalidStyleException('Line height must be a valid number');
         }
 
         $this->lineHeight = $lineHeight;
         $this->setSpacing($lineHeight * self::LINE_HEIGHT);
+
         return $this;
     }
 
@@ -739,10 +738,10 @@ class Paragraph extends Border
 
         return $this;
     }
-    
+
     /**
      * Get contextualSpacing
-     * 
+     *
      * @return bool
      */
     public function hasContextualSpacing()
@@ -752,14 +751,14 @@ class Paragraph extends Border
 
     /**
      * Set contextualSpacing
-     * 
+     *
      * @param bool $contextualSpacing
      * @return self
      */
     public function setContextualSpacing($contextualSpacing)
     {
         $this->contextualSpacing = $contextualSpacing;
-        
+
         return $this;
     }
 }

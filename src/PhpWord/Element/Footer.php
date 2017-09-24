@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -28,9 +27,9 @@ class Footer extends AbstractContainer
      * @var string
      * @link http://www.datypic.com/sc/ooxml/t-w_ST_HdrFtr.html Header or Footer Type
      */
-    const AUTO  = 'default';  // default and odd pages
+    const AUTO = 'default';  // default and odd pages
     const FIRST = 'first';
-    const EVEN  = 'even';
+    const EVEN = 'even';
 
     /**
      * @var string Container type

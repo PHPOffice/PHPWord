@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -49,9 +48,9 @@ class TrackChange extends AbstractContainer
      */
     public function __construct($author, \DateTime $date)
     {
-
         $this->author = $author;
         $this->date = $date;
+
         return $this;
     }
 

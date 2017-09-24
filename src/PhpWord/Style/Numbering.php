@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -53,7 +52,7 @@ class Numbering extends AbstractStyle
     /**
      * Get Id
      *
-     * @return integer
+     * @return int
      */
     public function getNumId()
     {
@@ -63,7 +62,7 @@ class Numbering extends AbstractStyle
     /**
      * Set Id
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setNumId($value)

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\ComplexType;
@@ -25,7 +25,6 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
  */
 final class FootnoteProperties
 {
-
     const RESTART_NUMBER_CONTINUOUS = 'continuous';
     const RESTART_NUMBER_EACH_SECTION = 'eachSect';
     const RESTART_NUMBER_EACH_PAGE = 'eachPage';
@@ -52,7 +51,7 @@ final class FootnoteProperties
     /**
      * Footnote and Endnote Numbering Starting Value
      *
-     * @var double
+     * @var float
      */
     private $numStart;
 
@@ -65,7 +64,7 @@ final class FootnoteProperties
 
     /**
      * Get the Footnote Positioning Location
-     * 
+     *
      * @return string
      */
     public function getPos()
@@ -75,7 +74,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Positioning Location (pageBottom, beneathText, sectEnd, docEnd)
-     * 
+     *
      * @param string $pos
      * @throws \InvalidArgumentException
      * @return self
@@ -86,20 +85,21 @@ final class FootnoteProperties
             self::POSITION_PAGE_BOTTOM,
             self::POSITION_BENEATH_TEXT,
             self::POSITION_SECTION_END,
-            self::POSITION_DOC_END
+            self::POSITION_DOC_END,
         );
 
         if (in_array($pos, $position)) {
             $this->pos = $pos;
         } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $position) . " possible");
+            throw new \InvalidArgumentException('Invalid value, on of ' . implode(', ', $position) . ' possible');
         }
+
         return $this;
     }
 
     /**
      * Get the Footnote Numbering Format
-     * 
+     *
      * @return string
      */
     public function getNumFmt()
@@ -109,7 +109,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Numbering Format
-     * 
+     *
      * @param string $numFmt One of NumberFormat
      * @return self
      */
@@ -117,13 +117,14 @@ final class FootnoteProperties
     {
         NumberFormat::validate($numFmt);
         $this->numFmt = $numFmt;
+
         return $this;
     }
 
     /**
      * Get the Footnote Numbering Format
-     * 
-     * @return double
+     *
+     * @return float
      */
     public function getNumStart()
     {
@@ -132,19 +133,20 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote Numbering Format
-     * 
-     * @param double $numStart
+     *
+     * @param float $numStart
      * @return self
      */
     public function setNumStart($numStart)
     {
         $this->numStart = $numStart;
+
         return $this;
     }
 
     /**
      * Get the Footnote and Endnote Numbering Starting Value
-     * 
+     *
      * @return string
      */
     public function getNumRestart()
@@ -154,7 +156,7 @@ final class FootnoteProperties
 
     /**
      * Set the Footnote and Endnote Numbering Starting Value (continuous, eachSect, eachPage)
-     * 
+     *
      * @param  string $numRestart
      * @throws \InvalidArgumentException
      * @return self
@@ -164,14 +166,15 @@ final class FootnoteProperties
         $restartNumbers = array(
             self::RESTART_NUMBER_CONTINUOUS,
             self::RESTART_NUMBER_EACH_SECTION,
-            self::RESTART_NUMBER_EACH_PAGE
+            self::RESTART_NUMBER_EACH_PAGE,
         );
 
         if (in_array($numRestart, $restartNumbers)) {
-            $this->numRestart= $numRestart;
+            $this->numRestart = $numRestart;
         } else {
-            throw new \InvalidArgumentException("Invalid value, on of " . implode(', ', $restartNumbers) . " possible");
+            throw new \InvalidArgumentException('Invalid value, on of ' . implode(', ', $restartNumbers) . ' possible');
         }
+
         return $this;
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
@@ -21,7 +21,6 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Styles
@@ -85,12 +84,12 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $baseParagraphStyle = new Paragraph();
         $baseParagraphStyle->setAlignment(Jc::CENTER);
         $baseParagraphStyle = $phpWord->addParagraphStyle('BaseStyle', $baseParagraphStyle);
-         
+
         $childFont = new Font();
         $childFont->setParagraph($baseParagraphStyle);
         $childFont->setSize(16);
         $childFont = $phpWord->addFontStyle('ChildFontStyle', $childFont);
-         
+
         $otherFont = new Font();
         $otherFont->setSize(20);
         $otherFont = $phpWord->addFontStyle('OtherFontStyle', $otherFont);
@@ -134,7 +133,7 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $styleGenerationEteinte->setParagraph($styleGenerationEteinteP);
         $styleGenerationEteinte->setSize(8.5);
         $phpWord->addFontStyle('GeneratEteinte', $styleGenerationEteinte);
-        
+
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $file = 'word/styles.xml';

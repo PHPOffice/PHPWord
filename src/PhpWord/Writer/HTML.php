@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -30,7 +29,7 @@ class HTML extends AbstractWriter implements WriterInterface
     /**
      * Is the current writer creating PDF?
      *
-     * @var boolean
+     * @var bool
      */
     protected $isPdf = false;
 
@@ -64,8 +63,6 @@ class HTML extends AbstractWriter implements WriterInterface
      * Save PhpWord to file.
      *
      * @param string $filename
-     *
-     * @return void
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -119,7 +116,6 @@ class HTML extends AbstractWriter implements WriterInterface
      *
      * @param int $noteId
      * @param string $noteMark
-     * @return void
      */
     public function addNote($noteId, $noteMark)
     {

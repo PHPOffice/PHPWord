@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\Common\Text;
@@ -138,10 +137,11 @@ abstract class AbstractStyle
     {
         if ($substyleObject !== null) {
             $method = "get{$substyleProperty}";
+
             return $substyleObject->$method();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -242,12 +242,12 @@ abstract class AbstractStyle
     protected function setIntVal($value, $default = null)
     {
         if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
-            $value = intval($value);
+            $value = (int) $value;
         }
         if (!is_numeric($value)) {
             $value = $default;
         } else {
-            $value = intval($value);
+            $value = (int) $value;
         }
 
         return $value;
@@ -263,7 +263,7 @@ abstract class AbstractStyle
     protected function setFloatVal($value, $default = null)
     {
         if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
-            $value = floatval($value);
+            $value = (float) $value;
         }
         if (!is_numeric($value)) {
             $value = $default;
@@ -279,14 +279,13 @@ abstract class AbstractStyle
      * @param array $enum
      * @param mixed $default
      *
-     * @return mixed
-     *
      * @throws \InvalidArgumentException
+     * @return mixed
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
         if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
-            throw new \InvalidArgumentException("Invalid style value: {$value} Options:".join(',', $enum));
+            throw new \InvalidArgumentException("Invalid style value: {$value} Options:" . implode(',', $enum));
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
         }

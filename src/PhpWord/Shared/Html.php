@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
@@ -235,7 +234,7 @@ class Html
         // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
         // @todo Find better error checking for this one
         // if (method_exists($element, 'addText')) {
-            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+        $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
         // }
 
         return null;
@@ -275,14 +274,14 @@ class Html
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
-            // $newElement->setWidth($attributes->getNamedItem('width')->value);
+        // $newElement->setWidth($attributes->getNamedItem('width')->value);
         // }
 
         // if ($attributes->getNamedItem('height') !== null) {
-            // $newElement->setHeight($attributes->getNamedItem('height')->value);
+        // $newElement->setHeight($attributes->getNamedItem('height')->value);
         // }
         // if ($attributes->getNamedItem('width') !== null) {
-            // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
+        // $newElement=$element->addCell($width=$attributes->getNamedItem('width')->value);
         // }
 
         return $newElement;
@@ -364,10 +363,10 @@ class Html
                     $styles['alignment'] = $cValue; // todo: any mapping?
                     break;
                 case 'color':
-                    $styles['color'] = trim($cValue, "#");
+                    $styles['color'] = trim($cValue, '#');
                     break;
                 case 'background-color':
-                    $styles['bgColor'] = trim($cValue, "#");
+                    $styles['bgColor'] = trim($cValue, '#');
                     break;
             }
         }

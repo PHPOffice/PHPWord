@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -226,7 +225,7 @@ class Outline extends AbstractStyle
     public function setLine($value = null)
     {
         $enum = array(self::LINE_SINGLE, self::LINE_THIN_THIN, self::LINE_THIN_THICK,
-            self::LINE_THICK_THIN, self::LINE_THICK_BETWEEN_THIN);
+            self::LINE_THICK_THIN, self::LINE_THICK_BETWEEN_THIN, );
         $this->line = $this->setEnumVal($value, $enum, null);
 
         return $this;
@@ -275,7 +274,7 @@ class Outline extends AbstractStyle
     public function setStartArrow($value = null)
     {
         $enum = array(self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
-            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN);
+            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, );
         $this->startArrow = $this->setEnumVal($value, $enum, null);
 
         return $this;
@@ -300,7 +299,7 @@ class Outline extends AbstractStyle
     public function setEndArrow($value = null)
     {
         $enum = array(self::ARROW_NONE, self::ARROW_BLOCK, self::ARROW_CLASSIC,
-            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN);
+            self::ARROW_OVAL, self::ARROW_DIAMOND, self::ARROW_OPEN, );
         $this->endArrow = $this->setEnumVal($value, $enum, null);
 
         return $this;

@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -54,14 +53,13 @@ class TOC extends AbstractElement
      */
     private $maxDepth = 9;
 
-
     /**
      * Create a new Table-of-Contents Element
      *
      * @param mixed $fontStyle
      * @param array $tocStyle
-     * @param integer $minDepth
-     * @param integer $maxDepth
+     * @param int $minDepth
+     * @param int $maxDepth
      */
     public function __construct($fontStyle = null, $tocStyle = null, $minDepth = 1, $maxDepth = 9)
     {

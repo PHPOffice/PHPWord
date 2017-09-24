@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
@@ -31,7 +30,6 @@ class Numbering extends AbstractPart
      * Read numbering.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {
@@ -92,7 +90,7 @@ class Numbering extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $subnode
-     * @param integer $levelId
+     * @param int $levelId
      * @return array
      */
     private function readLevel(XMLReader $xmlReader, \DOMElement $subnode, $levelId)

@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -79,7 +78,6 @@ class Styles extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\AbstractStyle[] $styles
-     * @return void
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
@@ -145,7 +143,6 @@ class Styles extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Font $style
-     * @return void
      */
     private function writeFontStyle(XMLWriter $xmlWriter, $styleName, FontStyle $style)
     {
@@ -170,7 +167,7 @@ class Styles extends AbstractPart
             $xmlWriter->startElement('w:link');
             $xmlWriter->writeAttribute('w:val', $styleLink);
             $xmlWriter->endElement();
-        } else if (!is_null($paragraphStyle)) {
+        } elseif (!is_null($paragraphStyle)) {
             // if type is 'paragraph' it should have a styleId
             $xmlWriter->writeAttribute('w:styleId', $styleName);
         }
@@ -208,7 +205,6 @@ class Styles extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Paragraph $style
-     * @return void
      */
     private function writeParagraphStyle(XMLWriter $xmlWriter, $styleName, ParagraphStyle $style)
     {
@@ -241,7 +237,6 @@ class Styles extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $styleName
      * @param \PhpOffice\PhpWord\Style\Table $style
-     * @return void
      */
     private function writeTableStyle(XMLWriter $xmlWriter, $styleName, TableStyle $style)
     {

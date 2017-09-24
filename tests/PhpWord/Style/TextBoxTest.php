@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -237,7 +236,6 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
         $object->setPosVerticalRel($expected);
         $this->assertEquals($expected, $object->getPosVerticalRel());
     }
-
 
     /**
      * Test set/get innerMarginRight

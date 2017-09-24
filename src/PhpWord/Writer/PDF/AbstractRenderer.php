@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -143,6 +142,7 @@ abstract class AbstractRenderer extends HTML
     public function setPaperSize($value = 9)
     {
         $this->paperSize = $value;
+
         return $this;
     }
 
@@ -165,6 +165,7 @@ abstract class AbstractRenderer extends HTML
     public function setOrientation($value = 'default')
     {
         $this->orientation = $value;
+
         return $this;
     }
 
@@ -173,9 +174,8 @@ abstract class AbstractRenderer extends HTML
      *
      * @param string $filename Name of the file to save as
      *
-     * @return resource
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @return resource
      */
     protected function prepareForSave($filename = null)
     {
@@ -195,8 +195,6 @@ abstract class AbstractRenderer extends HTML
      * Save PhpWord to PDF file, post-save
      *
      * @param resource $fileHandle
-     *
-     * @return void
      *
      * @throws Exception
      */

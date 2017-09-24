@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -45,7 +44,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
-        $this->assertTrue(is_array($object->getStyleValues()));
+        $this->assertInternalType('array', $object->getStyleValues());
     }
 
     /**

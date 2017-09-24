@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -26,8 +25,6 @@ class Outline extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -37,7 +34,7 @@ class Outline extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $xmlWriter->startElement("v:stroke");
+        $xmlWriter->startElement('v:stroke');
         $xmlWriter->writeAttribute('on', 't');
         $xmlWriter->writeAttributeIf($style->getColor() !== null, 'color', $style->getColor());
         $xmlWriter->writeAttributeIf($style->getWeight() !== null, 'weight', $style->getWeight() . $style->getUnit());

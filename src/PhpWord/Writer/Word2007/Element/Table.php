@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
@@ -36,8 +35,6 @@ class Table extends AbstractElement
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -75,7 +72,6 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Table $element
-     * @return void
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
@@ -112,7 +108,6 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Row $row
-     * @return void
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
@@ -139,11 +134,9 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Cell $cell
-     * @return void
      */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
-
         $xmlWriter->startElement('w:tc');
 
         // Write style

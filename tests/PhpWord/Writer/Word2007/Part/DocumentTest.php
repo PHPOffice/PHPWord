@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
@@ -458,7 +458,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // Test the attributes
         $attributeCount = 0;
         foreach ($attributes as $key => $value) {
-            $attributeCount++;
+            ++$attributeCount;
             $nodeName = ($key == 'alignment') ? 'jc' : $key;
             $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
             if ('alignment' != $key) {

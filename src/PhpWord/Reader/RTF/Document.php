@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\RTF;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -153,7 +152,7 @@ class Document
 
         // Walk each characters
         while ($this->offset < $this->length) {
-            $char  = $this->rtf[$this->offset];
+            $char = $this->rtf[$this->offset];
             $ascii = ord($char);
 
             if (isset($markers[$ascii])) { // Marker found: {, }, \, LF, or CR
@@ -163,7 +162,7 @@ class Document
                 if (false === $this->isControl) { // Non control word: Push character
                     $this->pushText($char);
                 } else {
-                    if (preg_match("/^[a-zA-Z0-9-]?$/", $char)) { // No delimiter: Buffer control
+                    if (preg_match('/^[a-zA-Z0-9-]?$/', $char)) { // No delimiter: Buffer control
                         $this->control .= $char;
                         $this->isFirst = false;
                     } else { // Delimiter found: Parse buffered control
@@ -256,7 +255,7 @@ class Document
      */
     private function flushControl($isControl = false)
     {
-        if (1 === preg_match("/^([A-Za-z]+)(-?[0-9]*) ?$/", $this->control, $match)) {
+        if (1 === preg_match('/^([A-Za-z]+)(-?[0-9]*) ?$/', $this->control, $match)) {
             list(, $control, $parameter) = $match;
             $this->parseControl($control, $parameter);
         }
@@ -313,9 +312,9 @@ class Document
     private function pushText($char)
     {
         if ('<' == $char) {
-            $this->text .= "&lt;";
+            $this->text .= '&lt;';
         } elseif ('>' == $char) {
-            $this->text .= "&gt;";
+            $this->text .= '&gt;';
         } else {
             $this->text .= $char;
         }
@@ -332,13 +331,13 @@ class Document
     {
         $controls = array(
             'par'       => array(self::PARA,    'paragraph',    true),
-            'b'         => array(self::STYL,    'font',         'bold',         true),
-            'i'         => array(self::STYL,    'font',         'italic',       true),
-            'u'         => array(self::STYL,    'font',         'underline',    true),
-            'strike'    => array(self::STYL,    'font',         'strikethrough',true),
-            'fs'        => array(self::STYL,    'font',         'size',         $parameter),
-            'qc'        => array(self::STYL,    'paragraph',    'alignment',    Jc::CENTER),
-            'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',   $parameter),
+            'b'         => array(self::STYL,    'font',         'bold',          true),
+            'i'         => array(self::STYL,    'font',         'italic',        true),
+            'u'         => array(self::STYL,    'font',         'underline',     true),
+            'strike'    => array(self::STYL,    'font',         'strikethrough', true),
+            'fs'        => array(self::STYL,    'font',         'size',          $parameter),
+            'qc'        => array(self::STYL,    'paragraph',    'alignment',     Jc::CENTER),
+            'sa'        => array(self::STYL,    'paragraph',    'spaceAfter',    $parameter),
             'fonttbl'   => array(self::SKIP,    'fonttbl',      null),
             'colortbl'  => array(self::SKIP,    'colortbl',     null),
             'info'      => array(self::SKIP,    'info',         null),

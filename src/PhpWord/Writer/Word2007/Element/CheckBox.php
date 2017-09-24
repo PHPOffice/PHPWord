@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\PhpWord\Settings;
@@ -28,8 +27,6 @@ class CheckBox extends Text
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -66,17 +63,17 @@ class CheckBox extends Text
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $xmlWriter->text(' FORMCHECKBOX ');
-        $xmlWriter->endElement();// w:instrText
+        $xmlWriter->endElement(); // w:instrText
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'separate');
-        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:fldChar
         $xmlWriter->endElement(); // w:r
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'end');
-        $xmlWriter->endElement();// w:fldChar
+        $xmlWriter->endElement(); // w:fldChar
         $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');

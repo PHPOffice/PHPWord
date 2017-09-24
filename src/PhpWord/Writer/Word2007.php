@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Element\Section;
@@ -92,7 +91,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Save document by name.
      *
      * @param string $filename
-     * @return void
      */
     public function save($filename = null)
     {
@@ -170,7 +168,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $docPart
-     * @return void
      */
     private function addHeaderFooterMedia(ZipArchive $zip, $docPart)
     {
@@ -197,16 +194,15 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * @param \PhpOffice\PhpWord\Element\Section &$section
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
-     * @param integer &$rId
-     * @return void
+     * @param int &$rId
      */
     private function addHeaderFooterContent(Section &$section, ZipArchive $zip, $elmType, &$rId)
     {
         $getFunction = $elmType == 'header' ? 'getHeaders' : 'getFooters';
         $elmCount = ($section->getSectionId() - 1) * 3;
         $elements = $section->$getFunction();
+        /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
         foreach ($elements as &$element) {
-            /** @var \PhpOffice\PhpWord\Element\AbstractElement $element Type hint */
             $elmCount++;
             $element->setRelationId(++$rId);
             $elmFile = "{$elmType}{$elmCount}.xml"; // e.g. footer1.xml
@@ -223,9 +219,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add footnotes/endnotes
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer &$rId
+     * @param int &$rId
      * @param string $noteType
-     * @return void
      */
     private function addNotes(ZipArchive $zip, &$rId, $noteType = 'footnote')
     {
@@ -261,14 +256,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add comments
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer &$rId
-     * @return void
+     * @param int &$rId
      */
     private function addComments(ZipArchive $zip, &$rId)
     {
         $phpWord = $this->getPhpWord();
         $collection = $phpWord->getComments();
-        $partName = "comments";
+        $partName = 'comments';
 
         // Add comment relations and contents
         /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
@@ -285,8 +279,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add chart.
      *
      * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
-     * @param integer &$rId
-     * @return void
+     * @param int &$rId
      */
     private function addChart(ZipArchive $zip, &$rId)
     {
@@ -295,6 +288,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $collection = $phpWord->getCharts();
         $index = 0;
         if ($collection->countItems() > 0) {
+            /** @var \PhpOffice\PhpWord\Element\Chart $chart */
             foreach ($collection->getItems() as $chart) {
                 $index++;
                 $rId++;
@@ -307,7 +301,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
                 $this->relationships[] = array('target' => $filename, 'type' => 'chart', 'rID' => $rId);
 
                 // word/charts/chartN.xml
-                /** @var \PhpOffice\PhpWord\Element\Chart $chart */
                 $chart->setRelationId($rId);
                 $writerPart = $this->getWriterPart('Chart');
                 $writerPart->setElement($chart);
@@ -320,7 +313,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Register content types for each media.
      *
      * @param array $media
-     * @return void
      */
     private function registerContentTypes($media)
     {

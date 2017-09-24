@@ -11,16 +11,16 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
-use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -76,15 +76,15 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testLanguage()
     {
         $phpWord = new PhpWord();
-        
+
         $doc = TestHelperDOCX::getDocument($phpWord);
-        
+
         $file = 'word/settings.xml';
-        
+
         $path = '/w:settings/w:themeFontLang';
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
-        
+
         $this->assertEquals('en-US', $element->getAttribute('w:val'));
     }
 
@@ -95,15 +95,15 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setHideSpellingErrors(true);
-        
+
         $doc = TestHelperDOCX::getDocument($phpWord);
-        
+
         $file = 'word/settings.xml';
-        
+
         $path = '/w:settings/w:hideSpellingErrors';
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
-        
+
         $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
 
@@ -114,14 +114,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setEvenAndOddHeaders(true);
-        
+
         $doc = TestHelperDOCX::getDocument($phpWord);
-        
+
         $file = 'word/settings.xml';
-        
+
         $path = '/w:settings/w:evenAndOddHeaders';
         $this->assertTrue($doc->elementExists($path, $file));
-        
+
         $element = $doc->getElement($path, $file);
         $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
@@ -140,7 +140,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $path = '/w:settings/w:zoom';
         $this->assertTrue($doc->elementExists($path, $file));
-        
+
         $element = $doc->getElement($path, $file);
         $this->assertEquals('75', $element->getAttribute('w:percent'));
     }
@@ -159,7 +159,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $path = '/w:settings/w:zoom';
         $this->assertTrue($doc->elementExists($path, $file));
-        
+
         $element = $doc->getElement($path, $file);
         $this->assertEquals('fullPage', $element->getAttribute('w:val'));
     }

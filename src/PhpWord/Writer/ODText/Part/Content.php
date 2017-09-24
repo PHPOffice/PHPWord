@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -121,7 +120,6 @@ class Content extends AbstractPart
         foreach ($this->autoStyles as $element => $styles) {
             $writerClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $element;
             foreach ($styles as $style) {
-
                 /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
                 $styleWriter = new $writerClass($xmlWriter, $style);
                 $styleWriter->write();
@@ -234,15 +232,14 @@ class Content extends AbstractPart
         $paragraphStyle = $element->getParagraphStyle();
         $phpWord = $this->getParentWriter()->getPhpWord();
 
-        // Font
         if ($fontStyle instanceof Font) {
+            // Font
             $fontStyleCount++;
             $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle);
             $style->setAuto();
             $element->setFontStyle("T{$fontStyleCount}");
-
-        // Paragraph
         } elseif ($paragraphStyle instanceof Paragraph) {
+            // Paragraph
             $paragraphStyleCount++;
             $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
             $style->setAuto();

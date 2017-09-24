@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 /**
@@ -33,8 +32,6 @@ class Font extends AbstractStyle
 
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -54,8 +51,6 @@ class Font extends AbstractStyle
 
     /**
      * Write full style.
-     *
-     * @return void
      */
     private function writeStyle()
     {
@@ -129,7 +124,7 @@ class Font extends AbstractStyle
             $styleWriter = new Shading($xmlWriter, $shading);
             $styleWriter->write();
         }
-        
+
         // RTL
         if ($this->isInline === true) {
             $styleName = $style->getStyleName();
@@ -143,7 +138,6 @@ class Font extends AbstractStyle
      * Set is inline.
      *
      * @param bool $value
-     * @return void
      */
     public function setIsInline($value)
     {

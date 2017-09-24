@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -37,7 +36,7 @@ use PhpOffice\PhpWord\Settings;
 class ZipArchive
 {
     /** @const int Flags for open method */
-    const CREATE    = 1; // Emulate \ZipArchive::CREATE
+    const CREATE = 1; // Emulate \ZipArchive::CREATE
     const OVERWRITE = 8; // Emulate \ZipArchive::OVERWRITE
 
     /**
@@ -150,9 +149,9 @@ class ZipArchive
     /**
      * Close the active archive
      *
-     * @return bool
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return bool
      *
      * @codeCoverageIgnore Can't find any test case. Uncomment when found.
      */
@@ -183,9 +182,9 @@ class ZipArchive
 
         if (!$this->usePclzip) {
             return $this->zip->extractTo($destination, $entries);
-        } else {
-            return $this->pclzipExtractTo($destination, $entries);
         }
+
+        return $this->pclzipExtractTo($destination, $entries);
     }
 
     /**
@@ -301,6 +300,7 @@ class ZipArchive
         // Extract all files
         if (is_null($entries)) {
             $result = $zip->extract(PCLZIP_OPT_PATH, $destination);
+
             return ($result > 0) ? true : false;
         }
 
@@ -360,9 +360,9 @@ class ZipArchive
         $list = $zip->listContent();
         if (isset($list[$index])) {
             return $list[$index]['filename'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
@@ -31,7 +30,6 @@ class Styles extends AbstractPart
      * Read styles.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {
@@ -49,7 +47,6 @@ class Styles extends AbstractPart
                 preg_match('/Heading(\d)/', $name, $headingMatches);
                 // $default = ($xmlReader->getAttribute('w:default', $node) == 1);
                 switch ($type) {
-
                     case 'paragraph':
                         $paragraphStyle = $this->readParagraphStyle($xmlReader, $node);
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
@@ -65,14 +62,12 @@ class Styles extends AbstractPart
                             }
                         }
                         break;
-
                     case 'character':
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fontStyle)) {
                             $phpWord->addFontStyle($name, $fontStyle);
                         }
                         break;
-
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {

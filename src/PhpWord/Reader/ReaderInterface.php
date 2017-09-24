@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader;
 
 /**
@@ -28,7 +27,7 @@ interface ReaderInterface
      * Can the current ReaderInterface read the file?
      *
      * @param  string $filename
-     * @return boolean
+     * @return bool
      */
     public function canRead($filename);
 

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer;
@@ -96,7 +96,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $file = __DIR__ . '/../_files/temp.docx';
         $writer->save($file);
 
-        $this->assertTrue(file_exists($file));
+        $this->assertFileExists($file);
 
         unlink($file);
     }
@@ -117,7 +117,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $file = __DIR__ . '/../_files/temp.docx';
         $writer->save($file);
 
-        $this->assertTrue(file_exists($file));
+        $this->assertFileExists($file);
 
         unlink($file);
     }
@@ -185,7 +185,7 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
      */
     public function testSetUseDiskCachingException()
     {
-        $dir = join(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
+        $dir = implode(DIRECTORY_SEPARATOR, array(PHPWORD_TESTS_BASE_DIR, 'foo'));
 
         $object = new Word2007();
         $object->setUseDiskCaching(true, $dir);

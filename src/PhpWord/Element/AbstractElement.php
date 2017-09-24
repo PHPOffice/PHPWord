@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Media;
@@ -116,14 +115,14 @@ abstract class AbstractElement
 
     /**
      * The start position for the linked comment
-     * 
+     *
      * @var Comment
      */
     protected $commentRangeStart;
 
     /**
      * The end position for the linked comment
-     * 
+     *
      * @var Comment
      */
     protected $commentRangeEnd;
@@ -142,7 +141,6 @@ abstract class AbstractElement
      * Set PhpWord as reference.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function setPhpWord(PhpWord $phpWord = null)
     {
@@ -164,7 +162,6 @@ abstract class AbstractElement
      *
      * @param string $docPart
      * @param int $docPartId
-     * @return void
      */
     public function setDocPart($docPart, $docPartId = 1)
     {
@@ -221,7 +218,6 @@ abstract class AbstractElement
      * Set element index.
      *
      * @param int $value
-     * @return void
      */
     public function setElementIndex($value)
     {
@@ -240,8 +236,6 @@ abstract class AbstractElement
 
     /**
      * Set element unique ID from 6 first digit of md5.
-     *
-     * @return void
      */
     public function setElementId()
     {
@@ -262,7 +256,6 @@ abstract class AbstractElement
      * Set relation Id.
      *
      * @param int $value
-     * @return void
      */
     public function setRelationId($value)
     {
@@ -291,15 +284,15 @@ abstract class AbstractElement
 
     /**
      * Set comment start
-     * 
+     *
      * @param Comment $value
      */
     public function setCommentRangeStart(Comment $value)
     {
         if ($this instanceof Comment) {
-            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+            throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
         }
-        $this->commentRangeStart= $value;
+        $this->commentRangeStart = $value;
         $this->commentRangeStart->setStartElement($this);
     }
 
@@ -317,14 +310,13 @@ abstract class AbstractElement
      * Set comment end
      *
      * @param Comment $value
-     * @return void
      */
     public function setCommentRangeEnd(Comment $value)
     {
         if ($this instanceof Comment) {
-            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+            throw new \InvalidArgumentException('Cannot set a Comment on a Comment');
         }
-        $this->commentRangeEnd= $value;
+        $this->commentRangeEnd = $value;
         $this->commentRangeEnd->setEndElement($this);
     }
 
@@ -334,7 +326,6 @@ abstract class AbstractElement
      * Passed parameter should be a container, except for Table (contain Row) and Row (contain Cell)
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $container
-     * @return void
      */
     public function setParentContainer(AbstractElement $container)
     {
@@ -363,8 +354,6 @@ abstract class AbstractElement
      *
      * - Image element needs to be passed to Media object
      * - Icon needs to be set for Object element
-     *
-     * @return void
      */
     private function setMediaRelation()
     {
@@ -391,8 +380,6 @@ abstract class AbstractElement
 
     /**
      * Set relation Id for elements that will be registered in the Collection subnamespaces.
-     *
-     * @return void
      */
     private function setCollectionRelation()
     {
@@ -411,7 +398,7 @@ abstract class AbstractElement
      */
     public function isInSection()
     {
-        return ($this->docPart == 'Section');
+        return $this->docPart == 'Section';
     }
 
     /**
@@ -441,9 +428,8 @@ abstract class AbstractElement
      * @param array $enum
      * @param mixed $default
      *
-     * @return mixed
-     *
      * @throws \InvalidArgumentException
+     * @return mixed
      *
      * @todo Merge with the same method in AbstractStyle
      */

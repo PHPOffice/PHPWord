@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -48,7 +47,7 @@ class Head extends AbstractPart
             'keywords'    => '',
             'category'    => '',
             'company'     => '',
-            'manager'     => ''
+            'manager'     => '',
         );
         $title = $docProps->getTitle();
         $title = ($title != '') ? $title : 'PHPWord';
@@ -60,11 +59,11 @@ class Head extends AbstractPart
         $content .= '<title>' . $title . '</title>' . PHP_EOL;
         foreach ($propertiesMapping as $key => $value) {
             $value = ($value == '') ? $key : $value;
-            $method = "get" . $key;
+            $method = 'get' . $key;
             if ($docProps->$method() != '') {
                 $content .= '<meta name="' . $value . '"'
                           . ' content="' . (Settings::isOutputEscapingEnabled() ? $this->escaper->escapeHtmlAttr($docProps->$method()) : $docProps->$method()) . '"'
-                          .' />' . PHP_EOL;
+                          . ' />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();
@@ -86,22 +85,22 @@ class Head extends AbstractPart
         $defaultStyles = array(
             '*' => array(
                 'font-family' => Settings::getDefaultFontName(),
-                'font-size' => Settings::getDefaultFontSize() . 'pt',
+                'font-size'   => Settings::getDefaultFontSize() . 'pt',
             ),
             'a.NoteRef' => array(
                 'text-decoration' => 'none',
             ),
             'hr' => array(
-                'height' => '1px',
-                'padding' => '0',
-                'margin' => '1em 0',
-                'border' => '0',
+                'height'     => '1px',
+                'padding'    => '0',
+                'margin'     => '1em 0',
+                'border'     => '0',
                 'border-top' => '1px solid #CCC',
             ),
             'table' => array(
-                'border' => '1px solid black',
+                'border'         => '1px solid black',
                 'border-spacing' => '0px',
-                'width' => '100%',
+                'width '         => '100%',
             ),
             'td' => array(
                 'border' => '1px solid black',
@@ -123,11 +122,11 @@ class Head extends AbstractPart
                     } else {
                         $name = '.' . $name;
                     }
-                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 } elseif ($style instanceof Paragraph) {
                     $styleWriter = new ParagraphStyleWriter($style);
                     $name = '.' . $name;
-                    $css .= "{$name} {" . $styleWriter->write() . '}'  . PHP_EOL;
+                    $css .= "{$name} {" . $styleWriter->write() . '}' . PHP_EOL;
                 }
             }
         }

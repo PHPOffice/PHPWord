@@ -11,24 +11,20 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Style\Line as LineStyle;
 
 /**
  * Line style writer
- *
  */
 class Line extends Frame
 {
     /**
      * Write Line stroke.
-     *
-     * @return void
      * @todo Merge with `Stroke` style
      */
     public function writeStroke()

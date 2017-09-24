@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractWriterPart
  * @runTestsInSeparateProcesses
  */
-class AbstractWriterPartTest extends \PHPUnit_Framework_TestCase
+class AbstractPartTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * covers   ::setParentWriter
@@ -40,7 +40,7 @@ class AbstractWriterPartTest extends \PHPUnit_Framework_TestCase
     /**
      * covers   ::getParentWriter
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage No parent WriterInterface assigned.
      */
     public function testSetGetParentWriterNull()

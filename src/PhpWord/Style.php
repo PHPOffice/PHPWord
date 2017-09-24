@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Style\AbstractStyle;
@@ -126,8 +125,6 @@ class Style
      * Reset styles.
      *
      * @since 0.10.0
-     *
-     * @return void
      */
     public static function resetStyles()
     {
@@ -165,9 +162,9 @@ class Style
     {
         if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -31,14 +30,14 @@ class NumberingLevel extends AbstractStyle
     /**
      * Level number, 0 to 8 (total 9 levels)
      *
-     * @var integer
+     * @var int
      */
     private $level = 0;
 
     /**
      * Starting value w:start
      *
-     * @var integer
+     * @var int
      * @link http://www.schemacentral.com/sc/ooxml/e-w_start-1.html
      */
     private $start = 1;
@@ -54,7 +53,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Restart numbering level symbol w:lvlRestart
      *
-     * @var integer
+     * @var int
      * @link http://www.schemacentral.com/sc/ooxml/e-w_lvlRestart-1.html
      */
     private $restart;
@@ -85,7 +84,7 @@ class NumberingLevel extends AbstractStyle
 
     /**
      * Justification, w:lvlJc
-     * 
+     *
      * @var string, one of PhpOffice\PhpWord\SimpleType\Jc
      */
     private $alignment = '';
@@ -93,21 +92,21 @@ class NumberingLevel extends AbstractStyle
     /**
      * Left
      *
-     * @var integer
+     * @var int
      */
     private $left;
 
     /**
      * Hanging
      *
-     * @var integer
+     * @var int
      */
     private $hanging;
 
     /**
      * Tab position
      *
-     * @var integer
+     * @var int
      */
     private $tabPos;
 
@@ -129,7 +128,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Get level
      *
-     * @return integer
+     * @return int
      */
     public function getLevel()
     {
@@ -139,19 +138,20 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set level
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setLevel($value)
     {
         $this->level = $this->setIntVal($value, $this->level);
+
         return $this;
     }
 
     /**
      * Get start
      *
-     * @return integer
+     * @return int
      */
     public function getStart()
     {
@@ -161,12 +161,13 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set start
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setStart($value)
     {
         $this->start = $this->setIntVal($value, $this->start);
+
         return $this;
     }
 
@@ -189,13 +190,14 @@ class NumberingLevel extends AbstractStyle
     public function setFormat($value)
     {
         $this->format = $this->setEnumVal($value, NumberFormat::values(), $this->format);
+
         return $this;
     }
 
     /**
      * Get restart
      *
-     * @return integer
+     * @return int
      */
     public function getRestart()
     {
@@ -205,12 +207,13 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set restart
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setRestart($value)
     {
         $this->restart = $this->setIntVal($value, $this->restart);
+
         return $this;
     }
 
@@ -233,6 +236,7 @@ class NumberingLevel extends AbstractStyle
     public function setPStyle($value)
     {
         $this->pStyle = $value;
+
         return $this;
     }
 
@@ -256,6 +260,7 @@ class NumberingLevel extends AbstractStyle
     {
         $enum = array('tab', 'space', 'nothing');
         $this->suffix = $this->setEnumVal($value, $enum, $this->suffix);
+
         return $this;
     }
 
@@ -278,6 +283,7 @@ class NumberingLevel extends AbstractStyle
     public function setText($value)
     {
         $this->text = $value;
+
         return $this;
     }
 
@@ -336,7 +342,7 @@ class NumberingLevel extends AbstractStyle
     /**
      * Get left
      *
-     * @return integer
+     * @return int
      */
     public function getLeft()
     {
@@ -346,19 +352,20 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set left
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setLeft($value)
     {
         $this->left = $this->setIntVal($value, $this->left);
+
         return $this;
     }
 
     /**
      * Get hanging
      *
-     * @return integer
+     * @return int
      */
     public function getHanging()
     {
@@ -368,19 +375,20 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set hanging
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setHanging($value)
     {
         $this->hanging = $this->setIntVal($value, $this->hanging);
+
         return $this;
     }
 
     /**
      * Get tab
      *
-     * @return integer
+     * @return int
      */
     public function getTabPos()
     {
@@ -390,12 +398,13 @@ class NumberingLevel extends AbstractStyle
     /**
      * Set tab
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setTabPos($value)
     {
         $this->tabPos = $this->setIntVal($value, $this->tabPos);
+
         return $this;
     }
 
@@ -418,6 +427,7 @@ class NumberingLevel extends AbstractStyle
     public function setFont($value)
     {
         $this->font = $value;
+
         return $this;
     }
 

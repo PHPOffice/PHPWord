@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 /**
@@ -32,36 +31,36 @@ class Field extends AbstractElement
      * @var array
      */
     protected $fieldsArray = array(
-        'PAGE'=>array(
-           'properties'=>array(
+        'PAGE' => array(
+           'properties' => array(
                'format' => array('Arabic', 'ArabicDash', 'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN'),
            ),
-           'options'=>array('PreserveFormat')
+           'options' => array('PreserveFormat'),
         ),
-        'NUMPAGES'=>array(
-           'properties'=>array(
+        'NUMPAGES' => array(
+           'properties' => array(
                'format' => array('Arabic', 'ArabicDash', 'CardText', 'DollarText', 'Ordinal', 'OrdText',
-                   'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN', 'Caps', 'FirstCap', 'Lower', 'Upper'),
-               'numformat' => array('0', '0,00', '#.##0', '#.##0,00', '€ #.##0,00(€ #.##0,00)', '0%', '0,00%')
+                   'alphabetic', 'ALPHABETIC', 'roman', 'ROMAN', 'Caps', 'FirstCap', 'Lower', 'Upper', ),
+               'numformat' => array('0', '0,00', '#.##0', '#.##0,00', '€ #.##0,00(€ #.##0,00)', '0%', '0,00%'),
            ),
-           'options'=>array('PreserveFormat')
+           'options' => array('PreserveFormat'),
         ),
-        'DATE'=>array(
-            'properties'=> array(
-               'dateformat' =>array('d-M-yyyy', 'dddd d MMMM yyyy', 'd MMMM yyyy', 'd-M-yy', 'yyyy-MM-dd',
+        'DATE' => array(
+            'properties' => array(
+               'dateformat' => array('d-M-yyyy', 'dddd d MMMM yyyy', 'd MMMM yyyy', 'd-M-yy', 'yyyy-MM-dd',
                     'd-MMM-yy', 'd/M/yyyy', 'd MMM. yy', 'd/M/yy', 'MMM-yy', 'd-M-yyy H:mm', 'd-M-yyyy H:mm:ss',
-                    'h:mm am/pm', 'h:mm:ss am/pm', 'HH:mm', 'HH:mm:ss')
+                    'h:mm am/pm', 'h:mm:ss am/pm', 'HH:mm', 'HH:mm:ss', ),
             ),
-            'options'=>array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat')
+            'options' => array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat'),
         ),
-        'XE'=>array(
+        'XE' => array(
             'properties' => array(),
-            'options' => array('Bold', 'Italic')
+            'options'    => array('Bold', 'Italic'),
         ),
-        'INDEX'=>array(
+        'INDEX' => array(
             'properties' => array(),
-            'options' => array('PreserveFormat')
-        )
+            'options'    => array('PreserveFormat'),
+        ),
     );
 
     /**
@@ -113,9 +112,8 @@ class Field extends AbstractElement
      *
      * @param string $type
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException
+     * @return string
      */
     public function setType($type = null)
     {
@@ -126,6 +124,7 @@ class Field extends AbstractElement
                 throw new \InvalidArgumentException("Invalid type '$type'");
             }
         }
+
         return $this->type;
     }
 
@@ -144,9 +143,8 @@ class Field extends AbstractElement
      *
      * @param array $properties
      *
-     * @return self
-     *
      * @throws \InvalidArgumentException
+     * @return self
      */
     public function setProperties($properties = array())
     {
@@ -158,6 +156,7 @@ class Field extends AbstractElement
             }
             $this->properties = array_merge($this->properties, $properties);
         }
+
         return $this->properties;
     }
 
@@ -176,9 +175,8 @@ class Field extends AbstractElement
      *
      * @param array $options
      *
-     * @return self
-     *
      * @throws \InvalidArgumentException
+     * @return self
      */
     public function setOptions($options = array())
     {
@@ -190,6 +188,7 @@ class Field extends AbstractElement
             }
             $this->options = array_merge($this->options, $options);
         }
+
         return $this->options;
     }
 
@@ -208,9 +207,8 @@ class Field extends AbstractElement
      *
      * @param string | TextRun $text
      *
-     * @return string | TextRun
-     * 
      * @throws \InvalidArgumentException
+     * @return string | TextRun
      */
     public function setText($text)
     {
@@ -218,9 +216,10 @@ class Field extends AbstractElement
             if (is_string($text) || $text instanceof TextRun) {
                 $this->text = $text;
             } else {
-                throw new \InvalidArgumentException("Invalid text");
+                throw new \InvalidArgumentException('Invalid text');
             }
         }
+
         return $this->text;
     }
 

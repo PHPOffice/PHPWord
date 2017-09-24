@@ -11,13 +11,11 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Settings as DocumentSettings;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 
@@ -71,7 +69,6 @@ class Settings extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $settingKey
      * @param array|string $settingValue
-     * @return void
      */
     protected function writeSetting($xmlWriter, $settingKey, $settingValue)
     {
@@ -96,50 +93,47 @@ class Settings extends AbstractPart
 
     /**
      * Get settings.
-     *
-     * @return void
      */
     private function getSettings()
     {
-
         /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
         $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
 
         // Default settings
         $this->settings = array(
-            'w:defaultTabStop' => array('@attributes' => array('w:val' => '708')),
-            'w:hyphenationZone' => array('@attributes' => array('w:val' => '425')),
+            'w:defaultTabStop'          => array('@attributes' => array('w:val' => '708')),
+            'w:hyphenationZone'         => array('@attributes' => array('w:val' => '425')),
             'w:characterSpacingControl' => array('@attributes' => array('w:val' => 'doNotCompress')),
-            'w:themeFontLang' => array('@attributes' => array('w:val' => 'en-US')),
-            'w:decimalSymbol' => array('@attributes' => array('w:val' => $documentSettings->getDecimalSymbol())),
-            'w:listSeparator' => array('@attributes' => array('w:val' => ';')),
-            'w:compat' => array(),
-            'm:mathPr' => array(
-                'm:mathFont' => array('@attributes' => array('m:val' => 'Cambria Math')),
-                'm:brkBin' => array('@attributes' => array('m:val' => 'before')),
-                'm:brkBinSub' => array('@attributes' => array('m:val' => '--')),
-                'm:smallFrac' => array('@attributes' => array('m:val' => 'off')),
-                'm:dispDef' => '',
-                'm:lMargin' => array('@attributes' => array('m:val' => '0')),
-                'm:rMargin' => array('@attributes' => array('m:val' => '0')),
-                'm:defJc' => array('@attributes' => array('m:val' => 'centerGroup')),
+            'w:themeFontLang'           => array('@attributes' => array('w:val' => 'en-US')),
+            'w:decimalSymbol'           => array('@attributes' => array('w:val' => $documentSettings->getDecimalSymbol())),
+            'w:listSeparator'           => array('@attributes' => array('w:val' => ';')),
+            'w:compat'                  => array(),
+            'm:mathPr'                  => array(
+                'm:mathFont'   => array('@attributes' => array('m:val' => 'Cambria Math')),
+                'm:brkBin'     => array('@attributes' => array('m:val' => 'before')),
+                'm:brkBinSub'  => array('@attributes' => array('m:val' => '--')),
+                'm:smallFrac'  => array('@attributes' => array('m:val' => 'off')),
+                'm:dispDef'    => '',
+                'm:lMargin'    => array('@attributes' => array('m:val' => '0')),
+                'm:rMargin'    => array('@attributes' => array('m:val' => '0')),
+                'm:defJc'      => array('@attributes' => array('m:val' => 'centerGroup')),
                 'm:wrapIndent' => array('@attributes' => array('m:val' => '1440')),
-                'm:intLim' => array('@attributes' => array('m:val' => 'subSup')),
-                'm:naryLim' => array('@attributes' => array('m:val' => 'undOvr')),
+                'm:intLim'     => array('@attributes' => array('m:val' => 'subSup')),
+                'm:naryLim'    => array('@attributes' => array('m:val' => 'undOvr')),
             ),
             'w:clrSchemeMapping' => array(
                 '@attributes' => array(
-                    'w:bg1' => 'light1',
-                    'w:t1' => 'dark1',
-                    'w:bg2' => 'light2',
-                    'w:t2' => 'dark2',
-                    'w:accent1' => 'accent1',
-                    'w:accent2' => 'accent2',
-                    'w:accent3' => 'accent3',
-                    'w:accent4' => 'accent4',
-                    'w:accent5' => 'accent5',
-                    'w:accent6' => 'accent6',
-                    'w:hyperlink' => 'hyperlink',
+                    'w:bg1'               => 'light1',
+                    'w:t1'                => 'dark1',
+                    'w:bg2'               => 'light2',
+                    'w:t2'                => 'dark2',
+                    'w:accent1'           => 'accent1',
+                    'w:accent2'           => 'accent2',
+                    'w:accent3'           => 'accent3',
+                    'w:accent4'           => 'accent4',
+                    'w:accent5'           => 'accent5',
+                    'w:accent6'           => 'accent6',
+                    'w:hyperlink'         => 'hyperlink',
                     'w:followedHyperlink' => 'followedHyperlink',
                 ),
             ),
@@ -161,9 +155,9 @@ class Settings extends AbstractPart
 
     /**
      * Adds a boolean attribute to the settings array
-     * 
+     *
      * @param string $settingName
-     * @param boolean $booleanValue
+     * @param bool $booleanValue
      */
     private function setOnOffValue($settingName, $booleanValue)
     {
@@ -180,7 +174,6 @@ class Settings extends AbstractPart
      * Get protection settings.
      *
      * @param \PhpOffice\PhpWord\Metadata\Settings $documentProtection
-     * @return void
      */
     private function setDocumentProtection($documentProtection)
     {
@@ -188,8 +181,8 @@ class Settings extends AbstractPart
             $this->settings['w:documentProtection'] = array(
                 '@attributes' => array(
                     'w:enforcement' => 1,
-                    'w:edit' => $documentProtection->getEditing(),
-                )
+                    'w:edit'        => $documentProtection->getEditing(),
+                ),
             );
         }
     }
@@ -205,8 +198,8 @@ class Settings extends AbstractPart
             $this->settings['w:proofState'] = array(
                 '@attributes' => array(
                     'w:spelling' => $proofState->getSpelling(),
-                    'w:grammar' => $proofState->getGrammar()
-                )
+                    'w:grammar'  => $proofState->getGrammar(),
+                ),
             );
         }
     }
@@ -219,12 +212,11 @@ class Settings extends AbstractPart
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
         if ($trackChangesView != null) {
-
-            $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true': 'false';
-            $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true': 'false';
-            $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true': 'false';
-            $revisionView['w:formatting'] = $trackChangesView->hasFormatting() ? 'true': 'false';
-            $revisionView['w:inkAnnotations'] = $trackChangesView->hasInkAnnotations() ? 'true': 'false';
+            $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true' : 'false';
+            $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true' : 'false';
+            $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true' : 'false';
+            $revisionView['w:formatting'] = $trackChangesView->hasFormatting() ? 'true' : 'false';
+            $revisionView['w:inkAnnotations'] = $trackChangesView->hasInkAnnotations() ? 'true' : 'false';
 
             $this->settings['w:revisionView'] = array('@attributes' => $revisionView);
         }
@@ -232,7 +224,7 @@ class Settings extends AbstractPart
 
     /**
      * Set the magnification
-     * 
+     *
      * @param mixed $zoom
      */
     private function setZoom($zoom = null)
@@ -245,8 +237,6 @@ class Settings extends AbstractPart
 
     /**
      * Get compatibility setting.
-     *
-     * @return void
      */
     private function getCompatibility()
     {

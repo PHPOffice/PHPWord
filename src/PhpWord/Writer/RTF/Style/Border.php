@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
@@ -103,8 +102,7 @@ class Border extends AbstractStyle
     /**
      * Set sizes.
      *
-     * @param integer[] $value
-     * @return void
+     * @param int[] $value
      */
     public function setSizes($value)
     {
@@ -115,7 +113,6 @@ class Border extends AbstractStyle
      * Set colors.
      *
      * @param string[] $value
-     * @return void
      */
     public function setColors($value)
     {

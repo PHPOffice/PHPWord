@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -133,9 +132,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         //disable ssl verification, never do this in real application, you should pass the certiciate instead!!!
         $arrContextOptions = array(
-            "ssl" => array(
-                "verify_peer" => false,
-                "verify_peer_name" => false,
+            'ssl' => array(
+                'verify_peer'      => false,
+                'verify_peer_name' => false,
             ),
         );
         stream_context_set_default($arrContextOptions);

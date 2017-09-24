@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -87,6 +86,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
         $method->setAccessible(true);
+
         return $method->invokeArgs($object, $args);
     }
 }

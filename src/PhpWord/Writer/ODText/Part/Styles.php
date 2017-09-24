@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -64,7 +63,6 @@ class Styles extends AbstractPart
      * Write default styles.
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writeDefault(XMLWriter $xmlWriter)
     {
@@ -109,7 +107,6 @@ class Styles extends AbstractPart
      * Write named styles.
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writeNamed(XMLWriter $xmlWriter)
     {
@@ -127,11 +124,11 @@ class Styles extends AbstractPart
             }
         }
     }
+
     /**
      * Write page layout styles.
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writePageLayout(XMLWriter $xmlWriter)
     {
@@ -139,7 +136,7 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('style:name', 'Mpm1');
 
         $xmlWriter->startElement('style:page-layout-properties');
-        $xmlWriter->writeAttribute('fo:page-width', "21.001cm");
+        $xmlWriter->writeAttribute('fo:page-width', '21.001cm');
         $xmlWriter->writeAttribute('fo:page-height', '29.7cm');
         $xmlWriter->writeAttribute('style:num-format', '1');
         $xmlWriter->writeAttribute('style:print-orientation', 'portrait');
@@ -170,7 +167,6 @@ class Styles extends AbstractPart
 
         $xmlWriter->endElement(); // style:page-layout-properties
 
-
         $xmlWriter->startElement('style:header-style');
         $xmlWriter->endElement(); // style:header-style
 
@@ -184,7 +180,6 @@ class Styles extends AbstractPart
      * Write master style.
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {

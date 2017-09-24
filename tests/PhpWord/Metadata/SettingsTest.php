@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Metadata;
 
 use PhpOffice\PhpWord\ComplexType\ProofState;
@@ -34,7 +33,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setEvenAndOddHeaders(true);
-        $this->assertEquals(true, $oSettings->hasEvenAndOddHeaders());
+        $this->assertTrue($oSettings->hasEvenAndOddHeaders());
     }
 
     /**
@@ -44,7 +43,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setHideGrammaticalErrors(true);
-        $this->assertEquals(true, $oSettings->hasHideGrammaticalErrors());
+        $this->assertTrue($oSettings->hasHideGrammaticalErrors());
     }
 
     /**
@@ -54,7 +53,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setHideSpellingErrors(true);
-        $this->assertEquals(true, $oSettings->hasHideSpellingErrors());
+        $this->assertTrue($oSettings->hasHideSpellingErrors());
     }
 
     /**
@@ -77,7 +76,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setTrackRevisions(true);
-        $this->assertEquals(true, $oSettings->hasTrackRevisions());
+        $this->assertTrue($oSettings->hasTrackRevisions());
     }
 
     /**
@@ -87,7 +86,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setDoNotTrackFormatting(true);
-        $this->assertEquals(true, $oSettings->hasDoNotTrackFormatting());
+        $this->assertTrue($oSettings->hasDoNotTrackFormatting());
     }
 
     /**
@@ -97,7 +96,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     {
         $oSettings = new Settings();
         $oSettings->setDoNotTrackMoves(true);
-        $this->assertEquals(true, $oSettings->hasDoNotTrackMoves());
+        $this->assertTrue($oSettings->hasDoNotTrackMoves());
     }
 
     /**

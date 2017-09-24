@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -31,7 +30,7 @@ class Chart extends AbstractPart
     /**
      * Chart element
      *
-     * @var \PhpOffice\PhpWord\Element\Chart $element
+     * @var \PhpOffice\PhpWord\Element\Chart
      */
     private $element;
 
@@ -62,7 +61,6 @@ class Chart extends AbstractPart
      * Set chart element.
      *
      * @param \PhpOffice\PhpWord\Element\Chart $element
-     * @return void
      */
     public function setElement(ChartElement $element)
     {
@@ -97,7 +95,6 @@ class Chart extends AbstractPart
      *
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writeChart(XMLWriter $xmlWriter)
     {
@@ -122,7 +119,6 @@ class Chart extends AbstractPart
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @return void
      */
     private function writePlotArea(XMLWriter $xmlWriter)
     {
@@ -135,7 +131,7 @@ class Chart extends AbstractPart
 
         // Chart
         $chartType = $this->options['type'];
-        $chartType .= $style->is3d() && !isset($this->options['no3d'])? '3D' : '';
+        $chartType .= $style->is3d() && !isset($this->options['no3d']) ? '3D' : '';
         $chartType .= 'Chart';
         $xmlWriter->startElement("c:{$chartType}");
 
@@ -182,7 +178,6 @@ class Chart extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $scatter
-     * @return void
      */
     private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
     {
@@ -213,7 +208,6 @@ class Chart extends AbstractPart
             $xmlWriter->endElement(); // c:ser
             $index++;
         }
-
     }
 
     /**
@@ -222,13 +216,12 @@ class Chart extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $type
      * @param array $values
-     * @return void
      */
     private function writeSeriesItem(XMLWriter $xmlWriter, $type, $values)
     {
         $types = array(
-            'cat' => array('c:cat', 'c:strLit'),
-            'val' => array('c:val', 'c:numLit'),
+            'cat'  => array('c:cat', 'c:strLit'),
+            'val'  => array('c:val', 'c:numLit'),
             'xVal' => array('c:xVal', 'c:strLit'),
             'yVal' => array('c:yVal', 'c:numLit'),
         );
@@ -262,7 +255,6 @@ class Chart extends AbstractPart
      * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $type
-     * @return void
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
@@ -305,7 +297,6 @@ class Chart extends AbstractPart
      * @link http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $line
-     * @return void
      */
     private function writeShape(XMLWriter $xmlWriter, $line = false)
     {

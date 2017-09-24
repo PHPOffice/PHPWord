@@ -11,10 +11,9 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
 use PhpOffice\PhpWord\Settings;
@@ -54,9 +53,13 @@ class Document extends AbstractPart
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $properties = array('title', 'subject', 'category', 'keywords', 'comment',
-            'author', 'operator', 'creatim', 'revtim', 'company', 'manager');
-        $mapping = array('comment' => 'description', 'author' => 'creator', 'operator' => 'lastModifiedBy',
-            'creatim' => 'created', 'revtim' => 'modified');
+            'author', 'operator', 'creatim', 'revtim', 'company', 'manager', );
+        $mapping = array(
+            'comment'  => 'description',
+            'author'   => 'creator',
+            'operator' => 'lastModifiedBy',
+            'creatim'  => 'created',
+            'revtim'   => 'modified', );
         $dateFields = array('creatim', 'revtim');
 
         $content = '';

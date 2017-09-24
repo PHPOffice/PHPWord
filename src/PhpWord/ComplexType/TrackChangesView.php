@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\ComplexType;
@@ -23,46 +23,45 @@ namespace PhpOffice\PhpWord\ComplexType;
  */
 final class TrackChangesView
 {
-
     /**
      * Display Visual Indicator Of Markup Area
      *
-     * @var boolean
+     * @var bool
      */
     private $markup;
 
     /**
      * Display Comments
      *
-     * @var boolean
+     * @var bool
      */
     private $comments;
 
     /**
      * Display Content Revisions
      *
-     * @var boolean
+     * @var bool
      */
     private $insDel;
 
     /**
      * Display Formatting Revisions
      *
-     * @var boolean
+     * @var bool
      */
     private $formatting;
 
     /**
      * Display Ink Annotations
      *
-     * @var boolean
+     * @var bool
      */
     private $inkAnnotations;
 
     /**
      * Get Display Visual Indicator Of Markup Area
      *
-     * @return boolean True if markup is shown
+     * @return bool True if markup is shown
      */
     public function hasMarkup()
     {
@@ -72,7 +71,7 @@ final class TrackChangesView
     /**
      * Set Display Visual Indicator Of Markup Area
      *
-     * @param boolean $markup
+     * @param bool $markup
      *            Set to true to show markup
      */
     public function setMarkup($markup)
@@ -83,7 +82,7 @@ final class TrackChangesView
     /**
      * Get Display Comments
      *
-     * @return boolean True if comments are shown
+     * @return bool True if comments are shown
      */
     public function hasComments()
     {
@@ -93,7 +92,7 @@ final class TrackChangesView
     /**
      * Set Display Comments
      *
-     * @param boolean $comments
+     * @param bool $comments
      *            Set to true to show comments
      */
     public function setComments($comments)
@@ -104,7 +103,7 @@ final class TrackChangesView
     /**
      * Get Display Content Revisions
      *
-     * @return boolean True if content revisions are shown
+     * @return bool True if content revisions are shown
      */
     public function hasInsDel()
     {
@@ -114,7 +113,7 @@ final class TrackChangesView
     /**
      * Set Display Content Revisions
      *
-     * @param boolean $insDel
+     * @param bool $insDel
      *            Set to true to show content revisions
      */
     public function setInsDel($insDel)
@@ -125,7 +124,7 @@ final class TrackChangesView
     /**
      * Get Display Formatting Revisions
      *
-     * @return boolean True if formatting revisions are shown
+     * @return bool True if formatting revisions are shown
      */
     public function hasFormatting()
     {
@@ -135,7 +134,7 @@ final class TrackChangesView
     /**
      * Set Display Formatting Revisions
      *
-     * @param boolean $insDel
+     * @param bool $formatting
      *            Set to true to show formatting revisions
      */
     public function setFormatting($formatting)
@@ -146,7 +145,7 @@ final class TrackChangesView
     /**
      * Get Display Ink Annotations
      *
-     * @return boolean True if ink annotations are shown
+     * @return bool True if ink annotations are shown
      */
     public function hasInkAnnotations()
     {
@@ -156,7 +155,7 @@ final class TrackChangesView
     /**
      * Set Display Ink Annotations
      *
-     * @param boolean $inkAnnotations
+     * @param bool $inkAnnotations
      *            Set to true to show ink annotations
      */
     public function setInkAnnotations($inkAnnotations)
