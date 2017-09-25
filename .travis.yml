@@ -22,7 +22,7 @@ cache:
     directories:
         - vendor
         - $HOME/.composer/cache
-        - $HOME/.php-cs-fixer
+        - .php-cs.cache
 
 env:
     global:
@@ -47,7 +47,7 @@ script:
     ## PHP_CodeSniffer
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip ; fi
     ## PHP-CS-Fixer
-    - if [ -z "$COVERAGE" ]; then ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run --cache-file=$HOME/.php-cs-fixer ; fi
+    - if [ -n "$COVERAGE" ]; then ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run --cache-file=.php-cs.cache ; fi
     ## PHP Mess Detector
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php ; fi
     ## PHPUnit
