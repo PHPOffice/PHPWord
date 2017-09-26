@@ -157,6 +157,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::setValue
      * @covers ::cloneRow
      * @covers ::saveAs
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
      * @test
      */
     public function testCloneRow()
@@ -176,6 +180,53 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::getRow
+     * @covers ::saveAs
+     * @covers ::findRowStart
+     * @covers ::findRowEnd
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @test
+     */
+    public function testGetRow()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $initialArray = array('tableHeader', 'userId', 'userName', 'userLocation');
+        $finalArray = array(
+            'tableHeader',
+            'userId#1', 'userName#1', 'userLocation#1',
+            'userId#2', 'userName#2', 'userLocation#2'
+        );
+        $row = $templateProcessor->getRow('userId');
+        $this->assertNotEmpty($row);
+        $this->assertEquals(
+            $initialArray,
+            $templateProcessor->getVariables()
+        );
+        $row = $templateProcessor->cloneRow('userId', 2);
+        $this->assertStringStartsWith('<w:tr', $row);
+        $this->assertStringEndsWith('</w:tr>', $row);
+        $this->assertNotEmpty($row);
+        $this->assertEquals(
+            $finalArray,
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'test-getRow-result.docx';
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $this->assertTrue($docFound);
+        if ($docFound) {
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
+            $this->assertEquals(
+                $finalArray,
+                $templateProcessorNEWFILE->getVariables()
+            );
+            unlink($docName);
+        }
     }
 
     /**
@@ -225,6 +276,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::deleteBlock
      * @covers ::getBlock
      * @covers ::saveAs
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
      * @test
      */
     public function testCloneDeleteBlock()
