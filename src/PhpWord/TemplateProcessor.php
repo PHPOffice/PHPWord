@@ -300,8 +300,7 @@ class TemplateProcessor
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1, $throwexception);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
 
-                // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7) {
+                if (!$extraRowEnd) {
                     break;
                 }
 
@@ -714,7 +713,12 @@ class TemplateProcessor
      */
     protected function findTagRight($tag, $offset = 0)
     {
-        return strpos($this->tempDocumentMainPart, $tag, $offset) + strlen($tag);
+        $pos = strpos($this->tempDocumentMainPart, $tag, $offset);
+        if ($pos) {
+            return $pos + strlen($tag);
+        } else {
+            return 0;
+        }
     }
 
     /**
