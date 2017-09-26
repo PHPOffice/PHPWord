@@ -73,7 +73,7 @@ abstract class AbstractElement
     /**
      * Unique Id for element
      *
-     * @var int
+     * @var string
      */
     protected $elementId;
 
