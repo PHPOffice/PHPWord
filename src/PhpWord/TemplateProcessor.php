@@ -665,7 +665,7 @@ class TemplateProcessor
         }
         if (!$tagStart) {
             if ($throwexception) {
-                throw new Exception('Can not find the start position of the row to clone.');
+                throw new Exception('Can not find the start position of the item to clone.');
             } else {
                 return 0;
             }
