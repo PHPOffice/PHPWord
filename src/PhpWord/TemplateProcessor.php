@@ -326,18 +326,26 @@ class TemplateProcessor
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true, $incrementVariables = true, $throwexception = false)
-    {
+    public function cloneBlock(
+        $blockname,
+        $clones = 1,
+        $replace = true,
+        $incrementVariables = true,
+        $throwexception = false
+    ) {
         $S_search = '${'  . $blockname . '}';
         $E_search = '${/' . $blockname . '}';
 
         $S_tagPos = strpos($this->tempDocumentMainPart, $S_search);
         $E_tagPos = strpos($this->tempDocumentMainPart, $E_search, $S_tagPos);
         if (!$S_tagPos || !$E_tagPos) {
-            if($throwexception)
-                throw new Exception("Can not find block '$blockname', template variable not found or variable contains markup.");
-            else
+            if ($throwexception) {
+                throw new Exception(
+                    "Can not find block '$blockname', template variable not found or variable contains markup."
+                );
+            } else {
                 return null; # Block not found, return null
+            }
         }
 
         $S_blockStart = $this->findBlockStart($S_tagPos);
@@ -350,13 +358,14 @@ class TemplateProcessor
         
         $xmlBlock = $this->getSlice($S_blockEnd, $E_blockStart);
 
-        if($replace){
+        if ($replace) {
             $result = $this->getSlice(0, $S_blockStart);
             for ($i = 1; $i <= $clones; $i++) {
-                if($incrementVariables)
+                if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
-                else
+                } else {
                     $result .= $xmlBlock;
+                }
             }
             $result .= $this->getSlice($E_blockEnd);
 
@@ -374,7 +383,8 @@ class TemplateProcessor
      *
      * @return string|null
      */
-    public function getBlock($blockname, $throwexception = false){
+    public function getBlock($blockname, $throwexception = false)
+    {
         return $this->cloneBlock($blockname, 1, false, $throwexception);
     }
     /**
@@ -394,9 +404,13 @@ class TemplateProcessor
         $S_tagPos = strpos($this->tempDocumentMainPart, $S_search);
         $E_tagPos = strpos($this->tempDocumentMainPart, $E_search, $S_tagPos);
         if (!$S_tagPos || !$E_tagPos) {
-            if($throwexception)
-                throw new Exception("Can not find block '$blockname', template variable not found or variable contains markup.");
-            else return false;
+            if ($throwexception) {
+                throw new Exception(
+                    "Can not find block '$blockname', template variable not found or variable contains markup."
+                );
+            } else {
+                return false;
+            }
         }
 
         $S_blockStart = $this->findBlockStart($S_tagPos);
@@ -585,10 +599,18 @@ class TemplateProcessor
      */
     protected function findRowStart($offset)
     {
-        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        $rowStart = strrpos(
+            $this->tempDocumentMainPart,
+            '<w:tr ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+        );
 
         if (!$rowStart) {
-            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+            $rowStart = strrpos(
+                $this->tempDocumentMainPart,
+                '<w:tr>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            );
         }
         if (!$rowStart) {
             throw new Exception('Can not find the start position of the row to clone.');
@@ -605,13 +627,21 @@ class TemplateProcessor
      * @return integer
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
-     */ 
+     */
     protected function findBlockStart($offset)
     {
-        $blockStart = strrpos($this->tempDocumentMainPart, '<w:p ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        $blockStart = strrpos(
+            $this->tempDocumentMainPart,
+            '<w:p ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+        );
 
         if (!$blockStart) {
-            $blockStart = strrpos($this->tempDocumentMainPart, '<w:p>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+            $blockStart = strrpos(
+                $this->tempDocumentMainPart,
+                '<w:p>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            );
         }
         if (!$blockStart) {
             throw new Exception('Can not find the start position of the row to clone.');
