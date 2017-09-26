@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader\ODText;
 
 use PhpOffice\Common\XMLReader;
@@ -30,7 +31,6 @@ class Content extends AbstractPart
      * Read content.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {

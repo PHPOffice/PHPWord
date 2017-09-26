@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
@@ -29,8 +30,6 @@ class Image extends AbstractElement
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -49,8 +48,6 @@ class Image extends AbstractElement
 
     /**
      * Write image element.
-     *
-     * @return void
      */
     private function writeImage(XMLWriter $xmlWriter, ImageElement $element)
     {
@@ -85,8 +82,6 @@ class Image extends AbstractElement
 
     /**
      * Write watermark element.
-     *
-     * @return void
      */
     private function writeWatermark(XMLWriter $xmlWriter, ImageElement $element)
     {

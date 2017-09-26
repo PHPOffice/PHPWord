@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
@@ -81,7 +82,6 @@ abstract class AbstractPart
      * Set relationships.
      *
      * @param array $value
-     * @return void
      */
     public function setRels($value)
     {
@@ -95,7 +95,6 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @return void
      *
      * @todo Get font style for preserve text
      */
@@ -181,7 +180,6 @@ abstract class AbstractPart
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
-     * @return void
      *
      * @todo Footnote paragraph style
      */
@@ -239,7 +237,6 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @return void
      */
     protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {

@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Collection;
 
 /**
@@ -60,7 +61,6 @@ abstract class AbstractCollection
      *
      * @param int $index
      * @param mixed $item
-     * @return void
      */
     public function setItem($index, $item)
     {

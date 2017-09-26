@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
@@ -77,7 +78,6 @@ abstract class AbstractElement
      * Set without paragraph.
      *
      * @param bool $value
-     * @return void
      */
     public function setWithoutP($value)
     {

@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Exception\InvalidObjectException;
@@ -132,7 +133,6 @@ class Object extends AbstractElement
      * Set Image Relation ID.
      *
      * @param int $rId
-     * @return void
      */
     public function setImageRelationId($rId)
     {

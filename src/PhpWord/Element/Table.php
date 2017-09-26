@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Table as TableStyle;
@@ -120,7 +121,6 @@ class Table extends AbstractElement
      * Set table width.
      *
      * @param int $width
-     * @return void
      */
     public function setWidth($width)
     {

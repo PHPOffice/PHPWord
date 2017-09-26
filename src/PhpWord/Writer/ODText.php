@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\Media;
@@ -62,7 +63,6 @@ class ODText extends AbstractWriter implements WriterInterface
      * Save PhpWord to file.
      *
      * @param string $filename
-     * @return void
      */
     public function save($filename = null)
     {

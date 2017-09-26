@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\Common\XMLReader;
@@ -82,7 +83,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @param string $partName
      * @param string $docFile
      * @param string $xmlFile
-     * @return void
      */
     private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
     {

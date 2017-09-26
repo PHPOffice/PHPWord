@@ -99,7 +99,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_inline_tag' => true,
             'phpdoc_no_access' => true,
             'phpdoc_no_alias_tag' => false, //@see instead of @link
-            'phpdoc_no_empty_return' => false, //TODO: reactivate
+            'phpdoc_no_empty_return' => true,
             'phpdoc_no_package' => true,
             'phpdoc_no_useless_inheritdoc' => true,
             'phpdoc_order' => true,
@@ -125,7 +125,7 @@ return PhpCsFixer\Config::create()
             'silenced_deprecation_error' => true,
             'simplified_null_return' => false, // While technically correct we prefer to be explicit when returning null
             'single_blank_line_at_eof' => true,
-            'single_blank_line_before_namespace' => false,//a lot of occurences TODO
+            'single_blank_line_before_namespace' => true,
             'single_class_element_per_statement' => true,
             'single_import_per_statement' => true,
             'single_line_after_imports' => true,

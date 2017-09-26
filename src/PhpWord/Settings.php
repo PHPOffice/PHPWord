@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord;
 
 /**
@@ -289,8 +290,6 @@ class Settings
      * @since 0.12.0
      *
      * @param string $tempDir The user defined path to temporary directory
-     *
-     * @return void
      */
     public static function setTempDir($tempDir)
     {

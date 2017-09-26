@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 /**
@@ -25,8 +26,6 @@ class TextRun extends Text
 {
     /**
      * Write textrun element.
-     *
-     * @return void
      */
     public function write()
     {

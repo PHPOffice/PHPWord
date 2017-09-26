@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
@@ -33,7 +34,6 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
-     * @return void
      */
     public static function addHtml($element, $html, $fullHTML = false)
     {
@@ -94,7 +94,6 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element object to add an element corresponding with the node
      * @param array $styles Array with all styles
      * @param array $data Array to transport data to a next level in the DOM tree, for example level of listitems
-     * @return void
      */
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
@@ -168,7 +167,6 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
      * @param array $data
-     * @return void
      */
     private static function parseChildNodes($node, $element, $styles, $data)
     {
@@ -225,7 +223,6 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
-     * @return null
      */
     private static function parseText($node, $element, &$styles)
     {
@@ -246,7 +243,6 @@ class Html
      * @param array &$styles
      * @param string $argument1 Style name
      * @param string $argument2 Style value
-     * @return null
      */
     private static function parseProperty(&$styles, $argument1, $argument2)
     {
@@ -293,7 +289,6 @@ class Html
      * @param array &$styles
      * @param array &$data
      * @param string $argument1 List type
-     * @return null
      */
     private static function parseList(&$styles, &$data, $argument1)
     {
@@ -314,7 +309,6 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param array $data
-     * @return null
      *
      * @todo This function is almost the same like `parseChildNodes`. Merged?
      * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete parsing part of childNodes

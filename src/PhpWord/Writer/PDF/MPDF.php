@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\Writer\WriterInterface;
@@ -37,7 +38,6 @@ class MPDF extends AbstractRenderer implements WriterInterface
      * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
-     * @return void
      */
     public function save($filename = null)
     {

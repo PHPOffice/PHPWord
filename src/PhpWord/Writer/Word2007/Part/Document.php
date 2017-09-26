@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
@@ -81,7 +82,6 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
-     * @return void
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -97,7 +97,6 @@ class Document extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Section $section
-     * @return void
      */
     private function writeSectionSettings(XMLWriter $xmlWriter, Section $section)
     {

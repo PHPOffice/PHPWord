@@ -14,6 +14,7 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
+
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Element\Section;
@@ -240,7 +241,6 @@ class PhpWord
      * Set default font name.
      *
      * @param string $fontName
-     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -261,7 +261,6 @@ class PhpWord
      * Set default font size.
      *
      * @param int $fontSize
-     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {
