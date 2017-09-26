@@ -27,6 +27,7 @@ use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
+
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
 
     /**
@@ -274,7 +275,7 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
+            throw new Exception(sprintf("Can not clone row %s, template variable not found or variable contains markup.", $search));
         }
 
         $rowStart = $this->findRowStart($tagPos);
@@ -297,7 +298,8 @@ class TemplateProcessor
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
                 $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
                 if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
-                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+                ) {
                     break;
                 }
                 // This row was a spanned row, update $rowEnd and search for the next row.
@@ -374,6 +376,77 @@ class TemplateProcessor
                 $replacement,
                 $this->tempDocumentMainPart
             );
+        }
+    }
+
+    /**
+     * Delete a table row in a template document.
+     *
+     * @param string $search
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    public function deleteRow($search)
+    {
+        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
+            $search = '${' . $search . '}';
+        }
+
+        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        if (!$tagPos) {
+            throw new Exception(sprintf("Can not delete row %s, template variable not found or variable contains markup.", $search));
+        }
+
+        $tableStart = $this->findTableStart($tagPos);
+        $tableEnd = $this->findTableEnd($tagPos);
+        $xmlTable = $this->getSlice($tableStart, $tableEnd);
+
+        if (substr_count($xmlTable, '<w:tr') === 1) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+            return;
+        }
+
+        $rowStart = $this->findRowStart($tagPos);
+        $rowEnd = $this->findRowEnd($tagPos);
+        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+
+        $this->tempDocumentMainPart = $this->getSlice(0, $rowStart) . $this->getSlice($rowEnd);
+
+        // Check if there's a cell spanning multiple rows.
+        if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
+            // $extraRowStart = $rowEnd;
+            $extraRowStart = $rowStart;
+            while (true) {
+                $extraRowStart = $this->findRowStart($extraRowStart + 1);
+                $extraRowEnd = $this->findRowEnd($extraRowStart + 1);
+
+                // If extraRowEnd is lower then 7, there was no next row found.
+                if ($extraRowEnd < 7) {
+                    break;
+                }
+
+                // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
+                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                if (!preg_match('#<w:vMerge/>#', $tmpXmlRow) &&
+                    !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
+                ) {
+                    break;
+                }
+
+                $tableStart = $this->findTableStart($extraRowEnd + 1);
+                $tableEnd = $this->findTableEnd($extraRowEnd + 1);
+                $xmlTable = $this->getSlice($tableStart, $tableEnd);
+                if (substr_count($xmlTable, '<w:tr') === 1) {
+                    $this->tempDocumentMainPart = $this->getSlice(0, $tableStart) . $this->getSlice($tableEnd);
+
+                    return;
+                } else {
+                    $this->tempDocumentMainPart = $this->getSlice(0, $extraRowStart) . $this->getSlice($extraRowEnd);
+                }
+            }
         }
     }
 
@@ -483,6 +556,7 @@ class TemplateProcessor
             return str_replace($search, $replace, $documentPartXML);
         } else {
             $regExpEscaper = new RegExp();
+
             return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);
         }
     }
@@ -534,6 +608,31 @@ class TemplateProcessor
     }
 
     /**
+     * Find the start position of the nearest table before $offset.
+     *
+     * @param integer $offset
+     *
+     * @return integer
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+    protected function findTableStart($offset)
+    {
+        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+
+        if (!$rowStart) {
+            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tbl>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        }
+        if (!$rowStart) {
+            throw new Exception('Can not find the start position of the table.');
+        }
+
+        return $rowStart;
+    }
+
+    /**
      * Find the start position of the nearest table row before $offset.
      *
      * @param integer $offset
@@ -544,16 +643,30 @@ class TemplateProcessor
      */
     protected function findRowStart($offset)
     {
-        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr ',
+            ((strlen($this->tempDocumentMainPart) - $offset) * -1));
 
         if (!$rowStart) {
-            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+            $rowStart = strrpos($this->tempDocumentMainPart, '<w:tr>',
+                ((strlen($this->tempDocumentMainPart) - $offset) * -1));
         }
         if (!$rowStart) {
             throw new Exception('Can not find the start position of the row to clone.');
         }
 
         return $rowStart;
+    }
+
+    /**
+     * Find the end position of the nearest table row after $offset.
+     *
+     * @param integer $offset
+     *
+     * @return integer
+     */
+    protected function findTableEnd($offset)
+    {
+        return strpos($this->tempDocumentMainPart, '</w:tbl>', $offset) + 7;
     }
 
     /**
