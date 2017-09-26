@@ -247,6 +247,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($docFound);
     }
 
+    /**
+     * @covers ::cloneBlock
+     * @covers ::getVariables
+     * @covers ::getBlock
+     * @covers ::setValue
+     * @test
+     */
     public function testCloneIndexedBlock()
     {
         $templateProcessor = new OpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
