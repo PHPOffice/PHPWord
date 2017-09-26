@@ -201,8 +201,29 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Convoluted way to get a helper class, without using include_once (not allowed by phpcs)
+     * or inline (not allowed by phpcs) or touching the autoload.php (and make it accessible to users)
+     * this helper class returns a TemplateProcessor that allows access to private variables
+     * like tempDocumentMainPart, see the functions that use it for usage.
+     * eval is evil, but phpcs and phpunit made me do it!
+     */
+    private function getOpenTemplateProcessor($name)
+    {
+        if (!file_exists($name) || !is_readable($name)) {
+            return null;
+        }
+        $ESTR =
+            'class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor {'
+            . 'public function __construct($instance){return parent::__construct($instance);}'
+            . 'public function __get($key){return $this->$key;}'
+            . 'public function __set($key, $val){return $this->$key = $val;} };'
+            . 'return new OpenTemplateProcessor("'.$name.'");';
+        return eval($ESTR);
+    }
+    /**
      * @covers ::cloneBlock
      * @covers ::deleteBlock
+     * @covers ::getBlock
      * @covers ::saveAs
      * @test
      */
@@ -214,13 +235,119 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME'),
             $templateProcessor->getVariables()
         );
-
+        $clone_times = 3;
         $docName = 'clone-delete-block-result.docx';
-        $templateProcessor->cloneBlock('CLONEME', 3);
+        $xmlblock = $templateProcessor->getBlock('CLONEME');
+        $this->assertNotEmpty($xmlblock);
+        $templateProcessor->cloneBlock('CLONEME', $clone_times);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
-        unlink($docName);
+        if ($docFound) {
+            # Great, so we saved the replaced document, so we open that new document
+            # note that we need to access private variables, so we use a sub-class
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
+            # We test that all Block variables have been replaced (thus, getVariables() is empty)
+            $this->assertEquals(
+                [],
+                $templateProcessorNEWFILE->getVariables(),
+                "All block variables should have been replaced"
+            );
+            # we cloned block CLONEME $clone_times times, so let's count to $clone_times
+            $this->assertEquals(
+                $clone_times,
+                substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
+                "Block should be present $clone_times in the document"
+            );
+            unlink($docName); # delete generated file
+        }
+
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @covers ::getVariables
+     * @covers ::getBlock
+     * @covers ::setValue
+     * @test
+     */
+    public function testCloneIndexedBlock()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        # we will fake a block with a variable inside it, as there is no template document yet.
+        $XMLTXT = '<w:p>This ${repeats} a few times</w:p>';
+        $XMLSTR = '<?xml><w:p>${MYBLOCK}</w:p>' . $XMLTXT . '<w:p>${/MYBLOCK}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+
+        $this->assertEquals(
+            $XMLTXT,
+            $templateProcessor->getBlock('MYBLOCK'),
+            "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
+        );
+
+        # detects variables
+        $this->assertEquals(
+            array('MYBLOCK', 'repeats', '/MYBLOCK'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right initial variables, in the right order"
+        );
+        
+        $templateProcessor->cloneBlock('MYBLOCK', 4);
+        # detects new variables
+        $this->assertEquals(
+            array('repeats#1', 'repeats#2', 'repeats#3', 'repeats#4'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right cloned variables, in the right order"
+        );
+
+        $ARR = [
+            'repeats#1' => 'ONE',
+            'repeats#2' => 'TWO',
+            'repeats#3' => 'THREE',
+            'repeats#4' => 'FOUR'
+        ];
+        $templateProcessor->setValue(array_keys($ARR), array_values($ARR));
+        $this->assertEquals(
+            [],
+            $templateProcessor->getVariables(),
+            "Variables have been replaced and should not be present anymore"
+        );
+
+        # now we test the order of replacement: ONE,TWO,THREE then FOUR
+        $STR = "";
+        foreach ($ARR as $k => $v) {
+            $STR .= str_replace('${repeats}', $v, $XMLTXT);
+        }
+        $this->assertEquals(
+            1,
+            substr_count($templateProcessor->tempDocumentMainPart, $STR),
+            "order of replacement should be: ONE,TWO,THREE then FOUR"
+        );
+        
+        # Now we try again, but without variable incrementals (old behavior)
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
+
+        # detects new variable
+        $this->assertEquals(
+            array('repeats'),
+            $templateProcessor->getVariables(),
+            'new variable $repeats should be present'
+        );
+
+        # we cloned block CLONEME 4 times, so let's count
+        $this->assertEquals(
+            4,
+            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT),
+            'detects new variable $repeats to be present 4 times'
+        );
+
+        # we cloned block CLONEME 4 times, so let's see that there is no space between these blocks
+        $this->assertEquals(
+            1,
+            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
+            "The four times cloned block should be the same as four times the block"
+        );
     }
 }
