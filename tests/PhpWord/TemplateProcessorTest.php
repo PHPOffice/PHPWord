@@ -201,6 +201,26 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Convoluted way to get a helper class, without using include_once (not allowed by phpcs)
+     * or inline (not allowed by phpcs) or touching the autoload.php (and make it accessible to users)
+     * this helper class returns a TemplateProcessor that allows access to private variables
+     * like tempDocumentMainPart, see the functions that use it for usage.
+     * eval is evil, but phpcs and phpunit made me do it!
+     */
+    private function getOpenTemplateProcessor($name)
+    {
+        if (!file_exists($name) || !is_readable($name)) {
+            return null;
+        }
+        $ESTR =
+            'class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor {'
+            . 'public function __construct($instance){return parent::__construct($instance);}'
+            . 'public function __get($key){return $this->$key;}'
+            . 'public function __set($key, $val){return $this->$key = $val;} };'
+            . 'return new OpenTemplateProcessor("'.$name.'");';
+        return eval($ESTR);
+    }
+    /**
      * @covers ::cloneBlock
      * @covers ::deleteBlock
      * @covers ::getBlock
@@ -223,10 +243,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
-        if($docFound){
+        if ($docFound) {
             # Great, so we saved the replaced document, so we open that new document
             # note that we need to access private variables, so we use a sub-class
-            $templateProcessorNEWFILE = new OpenTemplateProcessor($docName);
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
             # We test that all Block variables have been replaced (thus, getVariables() is empty)
             $this->assertEquals(
                 [],
@@ -234,7 +254,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
                 "All block variables should have been replaced"
             );
             # we cloned block CLONEME $clone_times times, so let's count to $clone_times
-            $this->assertEquals($clone_times,
+            $this->assertEquals(
+                $clone_times,
                 substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
                 "Block should be present $clone_times in the document"
             );
@@ -244,9 +265,16 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($docFound);
     }
 
+    /**
+     * @covers ::cloneBlock
+     * @covers ::getVariables
+     * @covers ::getBlock
+     * @covers ::setValue
+     * @test
+     */
     public function testCloneIndexedBlock()
     {
-        $templateProcessor = new OpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         # we will fake a block with a variable inside it, as there is no template document yet.
         $XMLTXT = '<w:p>This ${repeats} a few times</w:p>';
         $XMLSTR = '<?xml><w:p>${MYBLOCK}</w:p>' . $XMLTXT . '<w:p>${/MYBLOCK}</w:p>';
@@ -274,9 +302,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $ARR = [
-            'repeats#1' => 'ONE', 
-            'repeats#2' => 'TWO', 
-            'repeats#3' => 'THREE', 
+            'repeats#1' => 'ONE',
+            'repeats#2' => 'TWO',
+            'repeats#3' => 'THREE',
             'repeats#4' => 'FOUR'
         ];
         $templateProcessor->setValue(array_keys($ARR), array_values($ARR));
@@ -288,10 +316,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         # now we test the order of replacement: ONE,TWO,THREE then FOUR
         $STR = "";
-        foreach($ARR as $k => $v){
-            $STR .= str_replace('${repeats}',$v, $XMLTXT);
+        foreach ($ARR as $k => $v) {
+            $STR .= str_replace('${repeats}', $v, $XMLTXT);
         }
-        $this->assertEquals(1,
+        $this->assertEquals(
+            1,
             substr_count($templateProcessor->tempDocumentMainPart, $STR),
             "order of replacement should be: ONE,TWO,THREE then FOUR"
         );
@@ -308,35 +337,17 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         # we cloned block CLONEME 4 times, so let's count
-        $this->assertEquals(4,
+        $this->assertEquals(
+            4,
             substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT),
             'detects new variable $repeats to be present 4 times'
         );
 
         # we cloned block CLONEME 4 times, so let's see that there is no space between these blocks
-        $this->assertEquals(1,
+        $this->assertEquals(
+            1,
             substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
             "The four times cloned block should be the same as four times the block"
         );
-    }
-
-}
-
-/**
- * used by testCloneDeleteBlock and testCloneIndexedBlock to access private variables in a TemplateProcessor
- * @test
- */
-class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor
-{
-    public function __construct($instance) {
-        return parent::__construct($instance);
-    }
-
-    public function __get($key) {
-        return $this->$key;
-    }
-
-    public function __set($key, $val) {
-        return $this->$key = $val;
     }
 }
