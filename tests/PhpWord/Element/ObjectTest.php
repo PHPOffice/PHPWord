@@ -26,9 +26,22 @@ namespace PhpOffice\PhpWord\Element;
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Create new instance with supported files
+     * Create new instance with supported files, 4 character extention
      */
     public function testConstructWithSupportedFiles()
+    {
+        $src = __DIR__ . '/../_files/documents/reader.docx';
+        $oObject = new Object($src);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
+        $this->assertEquals($src, $oObject->getSource());
+    }
+
+    /**
+     * Create new instance with supported files
+     */
+    public function testConstructWithSupportedFilesLong()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
         $oObject = new Object($src);

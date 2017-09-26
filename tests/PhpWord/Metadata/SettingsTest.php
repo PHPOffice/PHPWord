@@ -117,6 +117,24 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testWrongProofStateGrammar()
+    {
+        $proofState = new ProofState();
+        $proofState->setGrammar('wrong');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testWrongProofStateSpelling()
+    {
+        $proofState = new ProofState();
+        $proofState->setSpelling('wrong');
+    }
+
+    /**
      * Zoom as percentage
      */
     public function testZoomPercentage()

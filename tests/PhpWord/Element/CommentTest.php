@@ -80,4 +80,24 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         $oComment->setRelationId($iVal);
         $this->assertEquals($iVal, $oComment->getRelationId());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionOnCommentStartOnComment()
+    {
+        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment->setCommentRangeStart($dummyComment);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionOnCommentEndOnComment()
+    {
+        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment->setCommentRangeEnd($dummyComment);
+    }
 }

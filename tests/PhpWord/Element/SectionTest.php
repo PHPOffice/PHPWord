@@ -133,6 +133,17 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      * @covers ::addHeader
      * @covers ::hasDifferentFirstPage
      */
+    public function testHasDifferentFirstPageFooter()
+    {
+        $object = new Section(1);
+        $object->addFooter(Header::FIRST);
+        $this->assertTrue($object->hasDifferentFirstPage());
+    }
+
+    /**
+     * @covers ::addHeader
+     * @covers ::hasDifferentFirstPage
+     */
     public function testHasDifferentFirstPage()
     {
         $object = new Section(1);
