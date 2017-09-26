@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Element;
  * Field element
  *
  * @since 0.11.0
- * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_SimpleField.html
+ * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_SimpleField.html
  */
 class Field extends AbstractElement
 {

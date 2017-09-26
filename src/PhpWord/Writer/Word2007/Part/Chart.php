@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Element\Chart as ChartElement;
  * Word2007 chart part writer: word/charts/chartx.xml
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/e-draw-chart_chartSpace.html
+ * @see  http://www.datypic.com/sc/ooxml/e-draw-chart_chartSpace.html
  */
 class Chart extends AbstractPart
 {
@@ -94,7 +94,7 @@ class Chart extends AbstractPart
     /**
      * Write chart
      *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_Chart.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeChart(XMLWriter $xmlWriter)
@@ -111,14 +111,14 @@ class Chart extends AbstractPart
     /**
      * Write plot area.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PlotArea.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PieChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_DoughnutChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_BarChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_LineChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PlotArea.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_PieChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_DoughnutChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_BarChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_LineChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_AreaChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_RadarChart.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_ScatterChart.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writePlotArea(XMLWriter $xmlWriter)
@@ -253,7 +253,7 @@ class Chart extends AbstractPart
     /**
      * Write axis
      *
-     * @link http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
+     * @see  http://www.datypic.com/sc/ooxml/t-draw-chart_CT_CatAx.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $type
      */
@@ -295,7 +295,7 @@ class Chart extends AbstractPart
     /**
      * Write shape
      *
-     * @link http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
+     * @see  http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $line
      */

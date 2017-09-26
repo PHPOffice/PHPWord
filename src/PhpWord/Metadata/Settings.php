@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -25,14 +25,14 @@ use PhpOffice\PhpWord\SimpleType\Zoom;
  * Setting class
  *
  * @since 0.14.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_Settings.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_Settings.html
  */
 class Settings
 {
     /**
      * Magnification Setting
      *
-     * @link http://www.datypic.com/sc/ooxml/e-w_zoom-1.html
+     * @see  http://www.datypic.com/sc/ooxml/e-w_zoom-1.html
      * @var mixed either integer, in which case it treated as a percent, or one of PhpOffice\PhpWord\SimpleType\Zoom
      */
     private $zoom = 100;

@@ -98,14 +98,14 @@ return PhpCsFixer\Config::create()
             'phpdoc_indent' => true,
             'phpdoc_inline_tag' => true,
             'phpdoc_no_access' => true,
-            'phpdoc_no_alias_tag' => false, //@see instead of @link
+            'phpdoc_no_alias_tag' => true,
             'phpdoc_no_empty_return' => true,
             'phpdoc_no_package' => true,
             'phpdoc_no_useless_inheritdoc' => true,
             'phpdoc_order' => true,
             'phpdoc_return_self_reference' => true,
             'phpdoc_scalar' => true,
-            'phpdoc_separation' => false, //TODO
+            'phpdoc_separation' => false,
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_summary' => false,
             'phpdoc_to_comment' => true,

@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Settings;
  * Note: DropDown is active when document protection is set to `forms`
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class FormField extends Text
@@ -109,7 +109,7 @@ class FormField extends Text
     /**
      * Write textinput.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      */
@@ -125,7 +125,7 @@ class FormField extends Text
     /**
      * Write checkbox.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      */
@@ -148,7 +148,7 @@ class FormField extends Text
     /**
      * Write dropdown.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
      */

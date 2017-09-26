@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -23,7 +23,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
 /**
  * Numbering level definition
  *
- * @link http://www.schemacentral.com/sc/ooxml/e-w_lvl-1.html
+ * @see  http://www.schemacentral.com/sc/ooxml/e-w_lvl-1.html
  * @since 0.10.0
  */
 class NumberingLevel extends AbstractStyle
@@ -39,7 +39,7 @@ class NumberingLevel extends AbstractStyle
      * Starting value w:start
      *
      * @var int
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_start-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_start-1.html
      */
     private $start = 1;
 
@@ -47,7 +47,7 @@ class NumberingLevel extends AbstractStyle
      * Numbering format w:numFmt, one of PhpOffice\PhpWord\SimpleType\NumberFormat
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_NumberFormat.html
+     * @see  http://www.schemacentral.com/sc/ooxml/t-w_ST_NumberFormat.html
      */
     private $format;
 
@@ -55,7 +55,7 @@ class NumberingLevel extends AbstractStyle
      * Restart numbering level symbol w:lvlRestart
      *
      * @var int
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_lvlRestart-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_lvlRestart-1.html
      */
     private $restart;
 
@@ -63,7 +63,7 @@ class NumberingLevel extends AbstractStyle
      * Related paragraph style
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_pStyle-2.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_pStyle-2.html
      */
     private $pStyle;
 
@@ -71,7 +71,7 @@ class NumberingLevel extends AbstractStyle
      * Content between numbering symbol and paragraph text w:suff
      *
      * @var string tab|space|nothing
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_suff-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_suff-1.html
      */
     private $suffix = 'tab';
 
@@ -79,7 +79,7 @@ class NumberingLevel extends AbstractStyle
      * Numbering level text e.g. %1 for nonbullet or bullet character
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_lvlText-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_lvlText-1.html
      */
     private $text;
 
@@ -122,7 +122,7 @@ class NumberingLevel extends AbstractStyle
      * Hint default|eastAsia|cs
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/a-w_hint-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/a-w_hint-1.html
      */
     private $hint;
 

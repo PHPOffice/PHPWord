@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Line numbering style
  *
- * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_LineNumber.html
+ * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_LineNumber.html
  * @since 0.10.0
  */
 class LineNumbering extends AbstractStyle
@@ -55,7 +55,7 @@ class LineNumbering extends AbstractStyle
      * Line numbering restart setting continuous|newPage|newSection
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/a-w_restart-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/a-w_restart-1.html
      */
     private $restart;
 

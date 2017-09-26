@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Writer\RTF\Style\Section as SectionStyleWriter;
  * RTF document part writer
  *
  * @since 0.11.0
- * @link http://www.biblioscape.com/rtf15_spec.htm#Heading24
+ * @see  http://www.biblioscape.com/rtf15_spec.htm#Heading24
  */
 class Document extends AbstractPart
 {
