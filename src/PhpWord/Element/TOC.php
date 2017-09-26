@@ -36,7 +36,7 @@ class TOC extends AbstractElement
     /**
      * Font style
      *
-     * @var \PhpOffice\PhpWord\Style\Font|array|string
+     * @var \PhpOffice\PhpWord\Style\Font|string
      */
     private $fontStyle;
 
@@ -121,7 +121,7 @@ class TOC extends AbstractElement
     /**
      * Get Font Style
      *
-     * @return \PhpOffice\PhpWord\Style\Font
+     * @return \PhpOffice\PhpWord\Style\Font|string
      */
     public function getStyleFont()
     {

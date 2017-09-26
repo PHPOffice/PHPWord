@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Metadata;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * Setting class
@@ -99,6 +100,13 @@ class Settings
      * @var bool
      */
     private $evenAndOddHeaders = false;
+
+    /**
+     * Theme Font Languages
+     * 
+     * @var Language
+     */
+    private $themeFontLang;
 
     /**
      * Radix Point for Field Code Evaluation
@@ -289,6 +297,26 @@ class Settings
             Zoom::validate($zoom);
             $this->zoom = $zoom;
         }
+    }
+
+    /**
+     * Returns the Language
+     * 
+     * @return Language
+     */
+    public function getThemeFontLang()
+    {
+        return $this->themeFontLang;
+    }
+
+    /**
+     * sets the Language for this document
+     * 
+     * @param Language $themeFontLang
+     */
+    public function setThemeFontLang($themeFontLang)
+    {
+        $this->themeFontLang = $themeFontLang;
     }
 
     /**

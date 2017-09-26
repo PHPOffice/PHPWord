@@ -14,8 +14,8 @@ This is the last version to support PHP 5.3
 - Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
 - Support for ContextualSpacing - @postHawk #1088
 - Possiblity to hide spelling and/or grammatical errors - @troosan #542
+- Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
 - Support for Comments - @troosan #1067
-- Add support for changing the document language - @troosan #1108
 
 ### Fixed
 - Loosen dependency to Zend

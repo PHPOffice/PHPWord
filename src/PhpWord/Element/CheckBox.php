@@ -40,7 +40,6 @@ class CheckBox extends Text
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return self
      */
     public function __construct($name = null, $text = null, $fontStyle = null, $paragraphStyle = null)
     {

@@ -35,7 +35,7 @@ class FormField extends Text
     /**
      * Form field name
      *
-     * @var string
+     * @var string|bool|int
      */
     private $name;
 
@@ -70,7 +70,6 @@ class FormField extends Text
      * @param string $type
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return self
      */
     public function __construct($type, $fontStyle = null, $paragraphStyle = null)
     {
