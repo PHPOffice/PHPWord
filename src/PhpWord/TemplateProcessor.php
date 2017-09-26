@@ -333,33 +333,33 @@ class TemplateProcessor
         $incrementVariables = true,
         $throwexception = false
     ) {
-        $S_search = '${'  . $blockname . '}';
-        $E_search = '${/' . $blockname . '}';
+        $startSearch = '${'  . $blockname . '}';
+        $endSearch = '${/' . $blockname . '}';
 
-        $S_tagPos = strpos($this->tempDocumentMainPart, $S_search);
-        $E_tagPos = strpos($this->tempDocumentMainPart, $E_search, $S_tagPos);
-        if (!$S_tagPos || !$E_tagPos) {
+        $startTagPos = strpos($this->tempDocumentMainPart, $startSearch);
+        $EndTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
+        if (!$startTagPos || !$EndTagPos) {
             if ($throwexception) {
                 throw new Exception(
                     "Can not find block '$blockname', template variable not found or variable contains markup."
                 );
             } else {
-                return null; # Block not found, return null
+                return null; // Block not found, return null
             }
         }
 
-        $S_blockStart = $this->findBlockStart($S_tagPos);
-        $S_blockEnd = $this->findBlockEnd($S_tagPos);
-        #$xmlStart = $this->getSlice($S_blockStart, $S_blockEnd);
+        $startBlockStart = $this->findBlockStart($startTagPos);
+        $startBlockEnd = $this->findBlockEnd($startTagPos);
+        // $xmlStart = $this->getSlice($startBlockStart, $startBlockEnd);
 
-        $E_blockStart = $this->findBlockStart($E_tagPos);
-        $E_blockEnd = $this->findBlockEnd($E_tagPos);
-        #$xmlEnd = $this->getSlice($E_blockStart, $E_blockEnd);
+        $endBlockStart = $this->findBlockStart($EndTagPos);
+        $endBlockEnd = $this->findBlockEnd($EndTagPos);
+        // $xmlEnd = $this->getSlice($endBlockStart, $E_blockEnd);
         
-        $xmlBlock = $this->getSlice($S_blockEnd, $E_blockStart);
+        $xmlBlock = $this->getSlice($startBlockEnd, $endBlockStart);
 
         if ($replace) {
-            $result = $this->getSlice(0, $S_blockStart);
+            $result = $this->getSlice(0, $startBlockStart);
             for ($i = 1; $i <= $clones; $i++) {
                 if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
@@ -398,12 +398,12 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement, $throwexception = false)
     {
-        $S_search = '${'  . $blockname . '}';
-        $E_search = '${/' . $blockname . '}';
+        $startSearch = '${'  . $blockname . '}';
+        $endSearch = '${/' . $blockname . '}';
 
-        $S_tagPos = strpos($this->tempDocumentMainPart, $S_search);
-        $E_tagPos = strpos($this->tempDocumentMainPart, $E_search, $S_tagPos);
-        if (!$S_tagPos || !$E_tagPos) {
+        $startTagPos = strpos($this->tempDocumentMainPart, $startSearch);
+        $EndTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
+        if (!$startTagPos || !$EndTagPos) {
             if ($throwexception) {
                 throw new Exception(
                     "Can not find block '$blockname', template variable not found or variable contains markup."
@@ -413,17 +413,13 @@ class TemplateProcessor
             }
         }
 
-        $S_blockStart = $this->findBlockStart($S_tagPos);
-        $S_blockEnd = $this->findBlockEnd($S_tagPos);
-        #$xmlStart = $this->getSlice($S_blockStart, $S_blockEnd);
+        $startBlockStart = $this->findBlockStart($startTagPos);
+        $startBlockEnd = $this->findBlockEnd($startTagPos);
 
-        $E_blockStart = $this->findBlockStart($E_tagPos);
-        $E_blockEnd = $this->findBlockEnd($E_tagPos);
-        #$xmlEnd = $this->getSlice($E_blockStart, $E_blockEnd);
+        $endBlockStart = $this->findBlockStart($EndTagPos);
+        $E_blockEnd = $this->findBlockEnd($EndTagPos);
         
-        $xmlBlock = $this->getSlice($S_blockEnd, $E_blockStart);
-        
-        $result  = $this->getSlice(0, $S_blockStart);
+        $result  = $this->getSlice(0, $startBlockStart);
         $result .= $replacement;
         $result .= $this->getSlice($E_blockEnd);
 
