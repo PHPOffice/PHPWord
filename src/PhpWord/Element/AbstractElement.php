@@ -228,7 +228,7 @@ abstract class AbstractElement
     /**
      * Get element unique ID
      *
-     * @return string
+     * @return int
      */
     public function getElementId()
     {

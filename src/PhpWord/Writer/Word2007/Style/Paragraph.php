@@ -103,6 +103,9 @@ class Paragraph extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        //Right to left
+        $xmlWriter->writeElementIf($styles['bidi'] === true, 'w:bidi');
+
         //Paragraph contextualSpacing
         $xmlWriter->writeElementIf($styles['contextualSpacing'] === true, 'w:contextualSpacing');
 

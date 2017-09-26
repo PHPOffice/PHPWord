@@ -46,8 +46,6 @@ class Bookmark extends AbstractElement
     public function __construct($name)
     {
         $this->name = CommonText::toUTF8($name);
-
-        return $this;
     }
 
     /**

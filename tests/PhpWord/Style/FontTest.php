@@ -74,6 +74,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'scale'               => null,
             'spacing'             => null,
             'kerning'             => null,
+            'lang'                => null,
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";

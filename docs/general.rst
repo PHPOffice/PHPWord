@@ -201,6 +201,25 @@ The default symbol to represent a decimal figure is the ``.`` in english. In fre
 
     $phpWord->getSettings()->setDecimalSymbol(',');
 
+Document Language
+~~~~~~~~~~~~~~~~~
+The default language of the document can be change with the following.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_BE));
+
+``Languge`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
+A couple of language codes are provided in the ``PhpOffice\PhpWord\ComplexType\Language`` class but any valid code/ID can be used.
+
+In case you are generating an RTF document the Language need to be set differently.
+
+.. code-block:: php
+
+    $lang = new Language();
+    $lang->setLangId(Language::EN_GB_ID);
+    $phpWord->getSettings()->setThemeFontLang($lang);
+
 Document information
 --------------------
 
