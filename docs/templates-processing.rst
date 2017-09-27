@@ -20,6 +20,9 @@ It is not possible to directly add new OOXML elements to the template file being
 See ``Sample_07_TemplateCloneRow.php`` for example on how to create
 multirow from a single row in a template by using ``TemplateProcessor::cloneRow``.
 
+See ``Sample_37_TemplateDeleteRow.php`` for example on how to delete
+a single row in a template by using ``TemplateProcessor::deleteRow``.
+
 See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
 of text using ``TemplateProcessor::cloneBlock`` and delete a block of text using
 ``TemplateProcessor::deleteBlock``.
