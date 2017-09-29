@@ -405,4 +405,51 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "The four times cloned block should be the same as four times the block"
         );
     }
+
+    /**
+     * @covers ::setValue
+     * @covers ::cloneRow
+     * @covers ::saveAs
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
+     * @test
+     */
+    public function testSetValueMultiline()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        $this->assertEquals(
+            array('tableHeader', 'userId', 'userName', 'userLocation'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'multiline-test-result.docx';
+        $helloworld = "hello\nworld";
+        $templateProcessor->setValue('userName', $helloworld);
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $this->assertTrue($docFound);
+        if ($docFound) {
+            # Great, so we saved the replaced document, so we open that new document
+            # note that we need to access private variables, so we use a sub-class
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
+            echo $templateProcessorNEWFILE->tempDocumentMainPart;
+            # We test that all Block variables have been replaced (thus, getVariables() is empty)
+            $this->assertEquals(
+                0,
+                substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $helloworld),
+                "there should be a multiline"
+            );
+            # we cloned block CLONEME $clone_times times, so let's count to $clone_times
+            $xmlblock = '<w:t>hello</w:t><w:br/><w:t>world</w:t>';
+            $this->assertEquals(
+                1,
+                substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
+                "multiline should be present 1 in the document"
+            );
+            unlink($docName); # delete generated file
+        }
+    }
 }
