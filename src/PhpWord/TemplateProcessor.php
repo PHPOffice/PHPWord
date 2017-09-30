@@ -398,11 +398,8 @@ class TemplateProcessor
             }
         }
 
-        $endBlockStart = 0;
-        $endBlockEnd = 0;
-        $xmlBlock = null;
-        if (substr($blockname, -1) == '/') {
-            $endBlockStart = $startBlockStart;
+        if ($singleton) {
+            // $endBlockStart = $startBlockStart;
             $endBlockEnd = $startBlockEnd;
             $xmlBlock = $this->getSlice($startBlockStart, $endBlockEnd);
         } else {
@@ -497,8 +494,7 @@ class TemplateProcessor
         $startBlockStart = $this->findBlockStart($startTagPos, $throwexception);
         $startBlockEnd = $this->findBlockEnd($startTagPos);
 
-        $endBlockEnd = 0;
-        if (substr($blockname, -1) == '/') {
+        if ($singleton) {
             $endBlockEnd = $startBlockEnd;
         } else {
             $endBlockEnd = $this->findBlockEnd($endTagPos);
