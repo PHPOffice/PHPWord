@@ -347,7 +347,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessor->getVariables(),
             "Injected document should contain the right initial variables, in the right order"
         );
-        
+
         $templateProcessor->cloneBlock('MYBLOCK', 4);
         # detects new variables
         $this->assertEquals(
@@ -379,7 +379,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             substr_count($templateProcessor->tempDocumentMainPart, $STR),
             "order of replacement should be: ONE,TWO,THREE then FOUR"
         );
-        
+
         # Now we try again, but without variable incrementals (old behavior)
         $templateProcessor->tempDocumentMainPart = $XMLSTR;
         $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
@@ -403,6 +403,60 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             1,
             substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
             "The four times cloned block should be the same as four times the block"
+        );
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @covers ::getVariables
+     * @covers ::getBlock
+     * @covers ::setValue
+     * @test
+     */
+    public function testClosedBlock()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $XMLTXT = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
+        $XMLSTR = '<?xml><w:p>${BEFORE}</w:p>' . $XMLTXT . '<w:p>${AFTER}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+
+        $this->assertEquals(
+            $XMLTXT,
+            $templateProcessor->getBlock('BLOCKCLOSE/'),
+            "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
+        );
+
+        # detects variables
+        $this->assertEquals(
+            array('BEFORE', 'BLOCKCLOSE/', 'AFTER'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right initial variables, in the right order"
+        );
+
+        # inserting itself should result in no change
+        $oldvalue = $templateProcessor->tempDocumentMainPart;
+        $block = $templateProcessor->getBlock('BLOCKCLOSE/');
+        $templateProcessor->replaceBlock('BLOCKCLOSE/', $block);
+        $this->assertEquals(
+            $oldvalue,
+            $templateProcessor->tempDocumentMainPart,
+            "ReplaceBlock should replace at the right position"
+        );
+
+        $templateProcessor->cloneBlock('BLOCKCLOSE/', 4);
+        # detects new variables
+        $this->assertEquals(
+            array('BEFORE', 'BLOCKCLOSE/#1', 'BLOCKCLOSE/#2', 'BLOCKCLOSE/#3', 'BLOCKCLOSE/#4', 'AFTER'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right cloned variables, in the right order"
+        );
+
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->deleteBlock('BLOCKCLOSE/');
+        $this->assertEquals(
+            '<?xml><w:p>${BEFORE}</w:p><w:p>${AFTER}</w:p>',
+            $templateProcessor->tempDocumentMainPart,
+            'closedblock should delete properly'
         );
     }
 
@@ -432,17 +486,15 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $docFound = file_exists($docName);
         $this->assertTrue($docFound);
         if ($docFound) {
-            # Great, so we saved the replaced document, so we open that new document
-            # note that we need to access private variables, so we use a sub-class
+            # We open that new document (and use the OpenTemplateProcessor to access private variables)
             $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
-            echo $templateProcessorNEWFILE->tempDocumentMainPart;
             # We test that all Block variables have been replaced (thus, getVariables() is empty)
             $this->assertEquals(
                 0,
                 substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $helloworld),
                 "there should be a multiline"
             );
-            # we cloned block CLONEME $clone_times times, so let's count to $clone_times
+            # The block it should be turned into:
             $xmlblock = '<w:t>hello</w:t><w:br/><w:t>world</w:t>';
             $this->assertEquals(
                 1,

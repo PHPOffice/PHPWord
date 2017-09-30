@@ -237,6 +237,19 @@ class TemplateProcessor
     }
 
     /**
+     * Updates a file inside the document, from a string (with binary data)
+     *
+     * @param string $localname
+     * @param string $contents
+     *
+     * @return bool
+     */
+    public function zipAddFromString($localname, $contents)
+    {
+        return $this->zipClass->AddFromString($localname, $contents);
+    }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]
@@ -261,6 +274,9 @@ class TemplateProcessor
      *
      * @param string $search
      * @param integer $numberOfClones
+     * @param bool $replace
+     * @param bool $incrementVariables
+     * @param bool $throwexception
      *
      * @return string|null
      *
@@ -351,11 +367,13 @@ class TemplateProcessor
         $incrementVariables = true,
         $throwexception = false
     ) {
+        $singleton = substr($blockname, -1) == '/';
         $startSearch = '${'  . $blockname . '}';
-        $endSearch = '${/' . $blockname . '}';
+        $endSearch =   '${/' . $blockname . '}';
 
         $startTagPos = strpos($this->tempDocumentMainPart, $startSearch);
-        $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
+        $endTagPos = $singleton? $startTagPos : strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
+
         if (!$startTagPos || !$endTagPos) {
             if ($throwexception) {
                 throw new Exception(
@@ -370,21 +388,40 @@ class TemplateProcessor
         $startBlockEnd = $this->findBlockEnd($startTagPos);
         // $xmlStart = $this->getSlice($startBlockStart, $startBlockEnd);
 
-        $endBlockStart = $this->findBlockStart($endTagPos, $throwexception);
-        $endBlockEnd = $this->findBlockEnd($endTagPos);
-        // $xmlEnd = $this->getSlice($endBlockStart, $endBlockEnd);
-
-        if (!$startBlockStart || !$startBlockEnd || !$endBlockStart || !$endBlockEnd) {
+        if (!$startBlockStart || !$startBlockEnd) {
             if ($throwexception) {
                 throw new Exception(
-                    "Can not find paragraph around block '$blockname'"
+                    "Can not find start paragraph around block '$blockname'"
                 );
             } else {
                 return false;
             }
         }
 
-        $xmlBlock = $this->getSlice($startBlockEnd, $endBlockStart);
+        $endBlockStart = 0;
+        $endBlockEnd = 0;
+        $xmlBlock = null;
+        if (substr($blockname, -1) == '/') {
+            $endBlockStart = $startBlockStart;
+            $endBlockEnd = $startBlockEnd;
+            $xmlBlock = $this->getSlice($startBlockStart, $endBlockEnd);
+        } else {
+            $endBlockStart = $this->findBlockStart($endTagPos, $throwexception);
+            $endBlockEnd = $this->findBlockEnd($endTagPos);
+            // $xmlEnd = $this->getSlice($endBlockStart, $endBlockEnd);
+
+            if (!$endBlockStart || !$endBlockEnd) {
+                if ($throwexception) {
+                    throw new Exception(
+                        "Can not find end paragraph around block '$blockname'"
+                    );
+                } else {
+                    return false;
+                }
+            }
+
+            $xmlBlock = $this->getSlice($startBlockEnd, $endBlockStart);
+        }
 
         if ($replace) {
             $result = $this->getSlice(0, $startBlockStart);
@@ -440,11 +477,12 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement, $throwexception = false)
     {
+        $singleton = substr($blockname, -1) == '/';
         $startSearch = '${'  . $blockname . '}';
-        $endSearch = '${/' . $blockname . '}';
+        $endSearch   = '${/' . $blockname . '}';
 
         $startTagPos = strpos($this->tempDocumentMainPart, $startSearch);
-        $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
+        $endTagPos = $singleton? $startTagPos : strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
 
         if (!$startTagPos || !$endTagPos) {
             if ($throwexception) {
@@ -459,16 +497,20 @@ class TemplateProcessor
         $startBlockStart = $this->findBlockStart($startTagPos, $throwexception);
         $startBlockEnd = $this->findBlockEnd($startTagPos);
 
-        $endBlockStart = $this->findBlockStart($endTagPos, $throwexception);
-        $endBlockEnd = $this->findBlockEnd($endTagPos);
+        $endBlockEnd = 0;
+        if (substr($blockname, -1) == '/') {
+            $endBlockEnd = $startBlockEnd;
+        } else {
+            $endBlockEnd = $this->findBlockEnd($endTagPos);
 
-        if (!$startBlockStart || !$startBlockEnd || !$endBlockStart || !$endBlockEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find paragraph around block '$blockname'"
-                );
-            } else {
-                return false;
+            if (!$endBlockEnd) {
+                if ($throwexception) {
+                    throw new Exception(
+                        "Can not find end paragraph around block '$blockname'"
+                    );
+                } else {
+                    return false;
+                }
             }
         }
 
@@ -651,7 +693,7 @@ class TemplateProcessor
      *
      * @param string $tag
      * @param integer $offset
-     * @@param boolean $throwexception
+     * @param boolean $throwexception
      *
      * @return integer
      *
