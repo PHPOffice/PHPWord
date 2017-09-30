@@ -304,7 +304,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
             # We test that all Block variables have been replaced (thus, getVariables() is empty)
             $this->assertEquals(
-                [],
+                array(),
                 $templateProcessorNEWFILE->getVariables(),
                 "All block variables should have been replaced"
             );
@@ -371,8 +371,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         # now we test the order of replacement: ONE,TWO,THREE then FOUR
         $replaceString = "";
-        foreach ($replaceArray as $replaceKey) {
-            $replaceValue = $replaceArray[$replaceKey];
+        foreach ($replaceArray as $replaceValue) {
             $replaceString .= str_replace('${repeats}', $replaceValue, $xmlTxt);
         }
         $this->assertEquals(
