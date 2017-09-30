@@ -157,6 +157,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::setValue
      * @covers ::cloneRow
      * @covers ::saveAs
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
      * @test
      */
     public function testCloneRow()
@@ -176,6 +180,53 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::getRow
+     * @covers ::saveAs
+     * @covers ::findRowStart
+     * @covers ::findRowEnd
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @test
+     */
+    public function testGetRow()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $initialArray = array('tableHeader', 'userId', 'userName', 'userLocation');
+        $finalArray = array(
+            'tableHeader',
+            'userId#1', 'userName#1', 'userLocation#1',
+            'userId#2', 'userName#2', 'userLocation#2'
+        );
+        $row = $templateProcessor->getRow('userId');
+        $this->assertNotEmpty($row);
+        $this->assertEquals(
+            $initialArray,
+            $templateProcessor->getVariables()
+        );
+        $row = $templateProcessor->cloneRow('userId', 2);
+        $this->assertStringStartsWith('<w:tr', $row);
+        $this->assertStringEndsWith('</w:tr>', $row);
+        $this->assertNotEmpty($row);
+        $this->assertEquals(
+            $finalArray,
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'test-getRow-result.docx';
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $this->assertTrue($docFound);
+        if ($docFound) {
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
+            $this->assertEquals(
+                $finalArray,
+                $templateProcessorNEWFILE->getVariables()
+            );
+            unlink($docName);
+        }
     }
 
     /**
@@ -225,6 +276,10 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::deleteBlock
      * @covers ::getBlock
      * @covers ::saveAs
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
      * @test
      */
     public function testCloneDeleteBlock()
@@ -292,7 +347,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessor->getVariables(),
             "Injected document should contain the right initial variables, in the right order"
         );
-        
+
         $templateProcessor->cloneBlock('MYBLOCK', 4);
         # detects new variables
         $this->assertEquals(
@@ -324,7 +379,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             substr_count($templateProcessor->tempDocumentMainPart, $STR),
             "order of replacement should be: ONE,TWO,THREE then FOUR"
         );
-        
+
         # Now we try again, but without variable incrementals (old behavior)
         $templateProcessor->tempDocumentMainPart = $XMLSTR;
         $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
@@ -349,5 +404,104 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
             "The four times cloned block should be the same as four times the block"
         );
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @covers ::getVariables
+     * @covers ::getBlock
+     * @covers ::setValue
+     * @test
+     */
+    public function testClosedBlock()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $XMLTXT = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
+        $XMLSTR = '<?xml><w:p>${BEFORE}</w:p>' . $XMLTXT . '<w:p>${AFTER}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+
+        $this->assertEquals(
+            $XMLTXT,
+            $templateProcessor->getBlock('BLOCKCLOSE/'),
+            "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
+        );
+
+        # detects variables
+        $this->assertEquals(
+            array('BEFORE', 'BLOCKCLOSE/', 'AFTER'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right initial variables, in the right order"
+        );
+
+        # inserting itself should result in no change
+        $oldvalue = $templateProcessor->tempDocumentMainPart;
+        $block = $templateProcessor->getBlock('BLOCKCLOSE/');
+        $templateProcessor->replaceBlock('BLOCKCLOSE/', $block);
+        $this->assertEquals(
+            $oldvalue,
+            $templateProcessor->tempDocumentMainPart,
+            "ReplaceBlock should replace at the right position"
+        );
+
+        $templateProcessor->cloneBlock('BLOCKCLOSE/', 4);
+        # detects new variables
+        $this->assertEquals(
+            array('BEFORE', 'BLOCKCLOSE/#1', 'BLOCKCLOSE/#2', 'BLOCKCLOSE/#3', 'BLOCKCLOSE/#4', 'AFTER'),
+            $templateProcessor->getVariables(),
+            "Injected document should contain the right cloned variables, in the right order"
+        );
+
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->deleteBlock('BLOCKCLOSE/');
+        $this->assertEquals(
+            '<?xml><w:p>${BEFORE}</w:p><w:p>${AFTER}</w:p>',
+            $templateProcessor->tempDocumentMainPart,
+            'closedblock should delete properly'
+        );
+    }
+
+    /**
+     * @covers ::setValue
+     * @covers ::cloneRow
+     * @covers ::saveAs
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @covers ::findBlockEnd
+     * @covers ::findBlockStart
+     * @test
+     */
+    public function testSetValueMultiline()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        $this->assertEquals(
+            array('tableHeader', 'userId', 'userName', 'userLocation'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'multiline-test-result.docx';
+        $helloworld = "hello\nworld";
+        $templateProcessor->setValue('userName', $helloworld);
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $this->assertTrue($docFound);
+        if ($docFound) {
+            # We open that new document (and use the OpenTemplateProcessor to access private variables)
+            $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
+            # We test that all Block variables have been replaced (thus, getVariables() is empty)
+            $this->assertEquals(
+                0,
+                substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $helloworld),
+                "there should be a multiline"
+            );
+            # The block it should be turned into:
+            $xmlblock = '<w:t>hello</w:t><w:br/><w:t>world</w:t>';
+            $this->assertEquals(
+                1,
+                substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
+                "multiline should be present 1 in the document"
+            );
+            unlink($docName); # delete generated file
+        }
     }
 }
