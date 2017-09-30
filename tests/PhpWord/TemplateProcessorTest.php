@@ -263,13 +263,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         if (!file_exists($name) || !is_readable($name)) {
             return null;
         }
-        $ESTR =
+        $evaluatedString =
             'class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor {'
             . 'public function __construct($instance){return parent::__construct($instance);}'
             . 'public function __get($key){return $this->$key;}'
             . 'public function __set($key, $val){return $this->$key = $val;} };'
             . 'return new OpenTemplateProcessor("'.$name.'");';
-        return eval($ESTR);
+        return eval($evaluatedString);
     }
     /**
      * @covers ::cloneBlock
@@ -290,11 +290,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME'),
             $templateProcessor->getVariables()
         );
-        $clone_times = 3;
+        $cloneTimes = 3;
         $docName = 'clone-delete-block-result.docx';
         $xmlblock = $templateProcessor->getBlock('CLONEME');
         $this->assertNotEmpty($xmlblock);
-        $templateProcessor->cloneBlock('CLONEME', $clone_times);
+        $templateProcessor->cloneBlock('CLONEME', $cloneTimes);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
@@ -308,11 +308,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
                 $templateProcessorNEWFILE->getVariables(),
                 "All block variables should have been replaced"
             );
-            # we cloned block CLONEME $clone_times times, so let's count to $clone_times
+            # we cloned block CLONEME $cloneTimes times, so let's count to $cloneTimes
             $this->assertEquals(
-                $clone_times,
+                $cloneTimes,
                 substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
-                "Block should be present $clone_times in the document"
+                "Block should be present $cloneTimes in the document"
             );
             unlink($docName); # delete generated file
         }
@@ -331,12 +331,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         # we will fake a block with a variable inside it, as there is no template document yet.
-        $XMLTXT = '<w:p>This ${repeats} a few times</w:p>';
-        $XMLSTR = '<?xml><w:p>${MYBLOCK}</w:p>' . $XMLTXT . '<w:p>${/MYBLOCK}</w:p>';
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $xmlTxt = '<w:p>This ${repeats} a few times</w:p>';
+        $xmlStr = '<?xml><w:p>${MYBLOCK}</w:p>' . $xmlTxt . '<w:p>${/MYBLOCK}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
 
         $this->assertEquals(
-            $XMLTXT,
+            $xmlTxt,
             $templateProcessor->getBlock('MYBLOCK'),
             "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
         );
@@ -356,13 +356,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "Injected document should contain the right cloned variables, in the right order"
         );
 
-        $ARR = [
+        $replaceArray = [
             'repeats#1' => 'ONE',
             'repeats#2' => 'TWO',
             'repeats#3' => 'THREE',
             'repeats#4' => 'FOUR'
         ];
-        $templateProcessor->setValue(array_keys($ARR), array_values($ARR));
+        $templateProcessor->setValue(array_keys($replaceArray), array_values($replaceArray));
         $this->assertEquals(
             [],
             $templateProcessor->getVariables(),
@@ -370,18 +370,19 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         # now we test the order of replacement: ONE,TWO,THREE then FOUR
-        $STR = "";
-        foreach ($ARR as $k => $v) {
-            $STR .= str_replace('${repeats}', $v, $XMLTXT);
+        $replaceString = "";
+        foreach ($replaceArray as $replaceKey) {
+            $replaceValue = $replaceArray[$replaceKey];
+            $replaceString .= str_replace('${repeats}', $replaceValue, $xmlTxt);
         }
         $this->assertEquals(
             1,
-            substr_count($templateProcessor->tempDocumentMainPart, $STR),
+            substr_count($templateProcessor->tempDocumentMainPart, $replaceString),
             "order of replacement should be: ONE,TWO,THREE then FOUR"
         );
 
         # Now we try again, but without variable incrementals (old behavior)
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
         $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
 
         # detects new variable
@@ -394,14 +395,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         # we cloned block CLONEME 4 times, so let's count
         $this->assertEquals(
             4,
-            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT),
+            substr_count($templateProcessor->tempDocumentMainPart, $xmlTxt),
             'detects new variable $repeats to be present 4 times'
         );
 
         # we cloned block CLONEME 4 times, so let's see that there is no space between these blocks
         $this->assertEquals(
             1,
-            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
+            substr_count($templateProcessor->tempDocumentMainPart, $xmlTxt.$xmlTxt.$xmlTxt.$xmlTxt),
             "The four times cloned block should be the same as four times the block"
         );
     }
@@ -416,12 +417,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     public function testClosedBlock()
     {
         $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        $XMLTXT = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
-        $XMLSTR = '<?xml><w:p>${BEFORE}</w:p>' . $XMLTXT . '<w:p>${AFTER}</w:p>';
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $xmlTxt = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
+        $xmlStr = '<?xml><w:p>${BEFORE}</w:p>' . $xmlTxt . '<w:p>${AFTER}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
 
         $this->assertEquals(
-            $XMLTXT,
+            $xmlTxt,
             $templateProcessor->getBlock('BLOCKCLOSE/'),
             "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
         );
@@ -451,7 +452,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "Injected document should contain the right cloned variables, in the right order"
         );
 
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
         $templateProcessor->deleteBlock('BLOCKCLOSE/');
         $this->assertEquals(
             '<?xml><w:p>${BEFORE}</w:p><w:p>${AFTER}</w:p>',
