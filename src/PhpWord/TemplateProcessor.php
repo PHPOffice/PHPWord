@@ -235,7 +235,20 @@ class TemplateProcessor
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
     }
-    
+
+    /**
+     * Updates a file inside the document, from a string (with binary data)
+     *
+     * @param string $localname
+     * @param string $contents
+     *
+     * @return bool
+     */
+    public function zipAddFromString($localname, $contents)
+    {
+        return $this->zipClass->AddFromString($localname, $contents);
+    }
+
     /**
      * Returns array of all variables in template.
      *
