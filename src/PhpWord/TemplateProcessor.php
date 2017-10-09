@@ -641,9 +641,9 @@ class TemplateProcessor
      */
     public function replaceSegment($needle, $xmltag, $replacement = '', $docpart = 'MainPart', $throwexception = false)
     {
-        $TagPos = strpos($this->{"tempDocument$docpart"}, $needle);
+        $tagPos = strpos($this->{"tempDocument$docpart"}, $needle);
 
-        if ($TagPos === false) {
+        if ($tagPos === false) {
             if ($throwexception) {
                 throw new Exception(
                     "Can not find segment '$needle', text not found or text contains markup."
@@ -653,13 +653,23 @@ class TemplateProcessor
             }
         }
 
-        $SegmentStart = $this->findTagLeft("<$xmltag>", $TagPos, $throwexception);
-        $SegmentEnd = $this->findTagRight("</$xmltag>", $TagPos);
+        $segmentStart = $this->findTagLeft("<$xmltag>", $tagPos, $throwexception);
+        $segmentEnd = $this->findTagRight("</$xmltag>", $tagPos);
+
+        if (!$segmentStart || !$segmentEnd) {
+            if ($throwexception) {
+                throw new Exception(
+                    "Can not find tag $xmltag around segment '$needle'."
+                );
+            } else {
+                return false;
+            }
+        }
 
         $this->{"tempDocument$docpart"} =
-            $this->getSlice(0, $SegmentStart)
+            $this->getSlice(0, $segmentStart)
             . $replacement
-            . $this->getSlice($SegmentEnd);
+            . $this->getSlice($segmentEnd);
 
         return true;
     }
