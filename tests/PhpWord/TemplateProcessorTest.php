@@ -159,8 +159,6 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::saveAs
      * @covers ::findTagLeft
      * @covers ::findTagRight
-     * @covers ::findBlockEnd
-     * @covers ::findBlockStart
      * @test
      */
     public function testCloneRow()
@@ -185,8 +183,6 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::getRow
      * @covers ::saveAs
-     * @covers ::findRowStart
-     * @covers ::findRowEnd
      * @covers ::findTagLeft
      * @covers ::findTagRight
      * @test
@@ -276,8 +272,6 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::deleteBlock
      * @covers ::getBlock
      * @covers ::saveAs
-     * @covers ::findBlockEnd
-     * @covers ::findBlockStart
      * @covers ::findTagLeft
      * @covers ::findTagRight
      * @test
@@ -324,6 +318,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::cloneBlock
      * @covers ::getVariables
      * @covers ::getBlock
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
      * @covers ::setValue
      * @test
      */
@@ -338,7 +334,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $XMLTXT,
             $templateProcessor->getBlock('MYBLOCK'),
-            "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
+            "Block should be cut at the right place (using findTagLeft/findTagRight)"
         );
 
         # detects variables
@@ -411,6 +407,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::getVariables
      * @covers ::getBlock
      * @covers ::setValue
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
      * @test
      */
     public function testClosedBlock()
@@ -423,7 +421,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $XMLTXT,
             $templateProcessor->getBlock('BLOCKCLOSE/'),
-            "Block should be cut at the right place (using findBlockStart/findBlockEnd)"
+            "Block should be cut at the right place (using findTagLeft/findTagRight)"
         );
 
         # detects variables
@@ -462,12 +460,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::setValue
-     * @covers ::cloneRow
      * @covers ::saveAs
      * @covers ::findTagLeft
      * @covers ::findTagRight
-     * @covers ::findBlockEnd
-     * @covers ::findBlockStart
      * @test
      */
     public function testSetValueMultiline()
@@ -503,5 +498,44 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             );
             unlink($docName); # delete generated file
         }
+    }
+
+    /**
+     * @covers ::replaceBlock
+     * @covers ::getBlock
+     * @covers ::findTagLeft
+     * @covers ::findTagRight
+     * @test
+     */
+    public function testInlineBlock()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $XMLSTR = '<?xml><w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="160" w:before="0"/>'.
+            '<w:rPr/></w:pPr><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr><w:t>This</w:t></w:r>'.
+            '<w:r><w:rPr><w:lang w:val="en-US"/></w:rPr><w:t>${inline}</w:t></w:r><w:r><w:rPr><w:b/>'.
+            '<w:bCs/><w:lang w:val="en-US"/></w:rPr><w:t xml:space="preserve"> has been'.
+            '${/inline}</w:t></w:r><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr>'.
+            '<w:t xml:space="preserve"> block</w:t></w:r></w:p>';
+
+        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+
+        $this->assertEquals(
+            $templateProcessor->getBlock('inline'),
+            '</w:t></w:r><w:r><w:rPr><w:b/>'.
+            '<w:bCs/><w:lang w:val="en-US"/></w:rPr><w:t xml:space="preserve"> has been',
+            "When inside the same <w:p>, cut inside the paragraph"
+        );
+
+        $templateProcessor->replaceBlock('inline', 'shows');
+
+        $this->assertEquals(
+            $templateProcessor->tempDocumentMainPart,
+            '<?xml><w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="160" w:before="0"/>'.
+            '<w:rPr/></w:pPr><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr>'.
+            '<w:t>This</w:t></w:r><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr><w:t>'.
+            'shows</w:t></w:r><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr>'.
+            '<w:t xml:space="preserve"> block</w:t></w:r></w:p>',
+            "InlineBlock replace is malformed"
+        );
     }
 }
