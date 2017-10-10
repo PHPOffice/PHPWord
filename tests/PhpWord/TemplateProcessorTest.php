@@ -28,6 +28,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * Template can be saved in temporary location.
      *
      * @covers ::save
+     * @covers ::zipAddFromString
      * @test
      */
     final public function testTemplateCanBeSavedInTemporaryLocation()
@@ -41,6 +42,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }
 
+        $embeddingText = "The quick Brown Fox jumped over the lazy unitTester";
+        $templateProcessor->zipAddFromString('word/embeddings/fox.bin', $embeddingText);
         $documentFqfn = $templateProcessor->save();
 
         $this->assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
@@ -51,6 +54,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateHeaderXml = $templateZip->getFromName('word/header1.xml');
         $templateMainPartXml = $templateZip->getFromName('word/document.xml');
         $templateFooterXml = $templateZip->getFromName('word/footer1.xml');
+        $templateFooterXml = $templateZip->getFromName('word/footer1.xml');
         if (false === $templateZip->close()) {
             throw new \Exception("Could not close zip file \"{$templateZip}\".");
         }
@@ -60,6 +64,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $documentHeaderXml = $documentZip->getFromName('word/header1.xml');
         $documentMainPartXml = $documentZip->getFromName('word/document.xml');
         $documentFooterXml = $documentZip->getFromName('word/footer1.xml');
+        $documentEmbedding = $documentZip->getFromName('word/embeddings/fox.bin');
         if (false === $documentZip->close()) {
             throw new \Exception("Could not close zip file \"{$documentZip}\".");
         }
@@ -67,6 +72,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($templateHeaderXml, $documentHeaderXml);
         $this->assertNotEquals($templateMainPartXml, $documentMainPartXml);
         $this->assertNotEquals($templateFooterXml, $documentFooterXml);
+
+        $this->assertEquals($embeddingText, $documentEmbedding);
 
         return $documentFqfn;
     }
