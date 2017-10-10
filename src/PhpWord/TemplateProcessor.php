@@ -250,15 +250,7 @@ class TemplateProcessor
         if (is_array($blockname)) {
             $hash = array_combine($blockname, $replace);
             foreach ($hash as $block => $value) {
-                if (preg_match('~\R~u', $value)) {
-                    $values = preg_split('~\R~u', $value);
-                    $this->cloneBlock($block, count($values), true, false);
-                    foreach ($values as $oneVal) {
-                        $this->setValue($block, $oneVal, 1);
-                    }
-                } else {
-                    $this->setValue($block, $value, $limit);
-                }
+                $this->setBlock($block, $value, $limit);
             }
         } else {
             if (preg_match('~\R~u', $replace)) {
