@@ -991,10 +991,10 @@ class TemplateProcessor
             throw new Exception("toXML(): First parameter is not an object");
         }
         if (!$tag) {
-            $tagList = array('Table' => 'w:tbl', 'Cell' => 'w:p'); // needs more entries
-            $class = preg_replace('/^(?:.*\/)?/', '', get_class($obj));
-            if (!in_array($class, $tagList)) {
-                throw new Exception("toXML: tag parameter required");
+            $tagList = array('Table' => 'w:tbl', 'Cell' => 'w:tc'); // needs more entries
+            $class = preg_replace('/^(.*\\\)/', '', get_class($obj));
+            if (!array_key_exists($class, $tagList)) {
+                throw new Exception("toXML(): tag parameter required for " . get_class($obj));
             }
             $tag = $tagList[$class];
         }
