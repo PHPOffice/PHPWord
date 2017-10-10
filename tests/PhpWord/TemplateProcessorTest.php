@@ -593,4 +593,38 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessor->tempDocumentMainPart
         );
     }
+
+    /**
+     * @covers ::makeTable
+     * @covers ::toXML
+     * @test
+     */
+    public function testMakeTable()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        $table = $templateProcessor->makeTable();
+        $cell = $table->addRow()->addCell();
+        $cell->addText("CELL-A1");
+
+        $this->assertEquals(
+            '<w:tbl><w:tblGrid><w:gridCol/></w:tblGrid><w:tr><w:trPr/>'.
+            '<w:tc><w:tcPr><w:tcW w:w="" w:type="dxa"/></w:tcPr>'.
+            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>'.
+            '</w:tc></w:tr></w:tbl>',
+            $templateProcessor->toXML($table)
+        );
+
+        $this->assertEquals(
+            '<w:tc><w:tcPr><w:tcW w:w="" w:type="dxa"/></w:tcPr>'.
+            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>'.
+            '</w:tc>',
+            $templateProcessor->toXML($cell)
+        );
+
+        $this->assertEquals(
+            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>',
+            $templateProcessor->toXML($cell, 'w:p')
+        );
+    }
 }
