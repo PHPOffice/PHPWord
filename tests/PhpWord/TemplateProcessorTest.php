@@ -104,9 +104,9 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             throw new \Exception("Could not close zip file \"{$expectedDocumentFqfn}\".");
         }
 
-        $this->assertXmlStringEqualsXmlString($expectedHeaderXml, $actualHeaderXml);
-        $this->assertXmlStringEqualsXmlString($expectedMainPartXml, $actualMainPartXml);
-        $this->assertXmlStringEqualsXmlString($expectedFooterXml, $actualFooterXml);
+        $this->assertxmlStringEqualsxmlString($expectedHeaderXml, $actualHeaderXml);
+        $this->assertxmlStringEqualsxmlString($expectedMainPartXml, $actualMainPartXml);
+        $this->assertxmlStringEqualsxmlString($expectedFooterXml, $actualFooterXml);
     }
 
     /**
@@ -327,12 +327,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
         # we will fake a block with a variable inside it, as there is no template document yet.
-        $XMLTXT = '<w:p>This ${repeats} a few times</w:p>';
-        $XMLSTR = '<?xml><w:p>${MYBLOCK}</w:p>' . $XMLTXT . '<w:p>${/MYBLOCK}</w:p>';
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $xmlTxt = '<w:p>This ${repeats} a few times</w:p>';
+        $xmlStr = '<?xml><w:p>${MYBLOCK}</w:p>' . $xmlTxt . '<w:p>${/MYBLOCK}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
 
         $this->assertEquals(
-            $XMLTXT,
+            $xmlTxt,
             $templateProcessor->getBlock('MYBLOCK'),
             "Block should be cut at the right place (using findTagLeft/findTagRight)"
         );
@@ -352,13 +352,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "Injected document should contain the right cloned variables, in the right order"
         );
 
-        $ARR = [
+        $variablesArray = [
             'repeats#1' => 'ONE',
             'repeats#2' => 'TWO',
             'repeats#3' => 'THREE',
             'repeats#4' => 'FOUR'
         ];
-        $templateProcessor->setValue(array_keys($ARR), array_values($ARR));
+        $templateProcessor->setValue(array_keys($variablesArray), array_values($variablesArray));
         $this->assertEquals(
             [],
             $templateProcessor->getVariables(),
@@ -366,18 +366,18 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         # now we test the order of replacement: ONE,TWO,THREE then FOUR
-        $STR = "";
-        foreach ($ARR as $k => $v) {
-            $STR .= str_replace('${repeats}', $v, $XMLTXT);
+        $tmpStr = "";
+        foreach ($variablesArray as $variable) {
+            $tmpStr .= str_replace('${repeats}', $variable, $xmlTxt);
         }
         $this->assertEquals(
             1,
-            substr_count($templateProcessor->tempDocumentMainPart, $STR),
+            substr_count($templateProcessor->tempDocumentMainPart, $tmpStr),
             "order of replacement should be: ONE,TWO,THREE then FOUR"
         );
 
         # Now we try again, but without variable incrementals (old behavior)
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
         $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
 
         # detects new variable
@@ -390,14 +390,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         # we cloned block CLONEME 4 times, so let's count
         $this->assertEquals(
             4,
-            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT),
+            substr_count($templateProcessor->tempDocumentMainPart, $xmlTxt),
             'detects new variable $repeats to be present 4 times'
         );
 
         # we cloned block CLONEME 4 times, so let's see that there is no space between these blocks
         $this->assertEquals(
             1,
-            substr_count($templateProcessor->tempDocumentMainPart, $XMLTXT.$XMLTXT.$XMLTXT.$XMLTXT),
+            substr_count($templateProcessor->tempDocumentMainPart, $xmlTxt.$xmlTxt.$xmlTxt.$xmlTxt),
             "The four times cloned block should be the same as four times the block"
         );
     }
@@ -414,12 +414,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     public function testClosedBlock()
     {
         $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        $XMLTXT = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
-        $XMLSTR = '<?xml><w:p>${BEFORE}</w:p>' . $XMLTXT . '<w:p>${AFTER}</w:p>';
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $xmlTxt = '<w:p>This ${BLOCKCLOSE/} is here.</w:p>';
+        $xmlStr = '<?xml><w:p>${BEFORE}</w:p>' . $xmlTxt . '<w:p>${AFTER}</w:p>';
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
 
         $this->assertEquals(
-            $XMLTXT,
+            $xmlTxt,
             $templateProcessor->getBlock('BLOCKCLOSE/'),
             "Block should be cut at the right place (using findTagLeft/findTagRight)"
         );
@@ -449,7 +449,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "Injected document should contain the right cloned variables, in the right order"
         );
 
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
         $templateProcessor->deleteBlock('BLOCKCLOSE/');
         $this->assertEquals(
             '<?xml><w:p>${BEFORE}</w:p><w:p>${AFTER}</w:p>',
@@ -510,14 +510,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     public function testInlineBlock()
     {
         $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
-        $XMLSTR = '<?xml><w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="160" w:before="0"/>'.
+        $xmlStr = '<?xml><w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="160" w:before="0"/>'.
             '<w:rPr/></w:pPr><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr><w:t>This</w:t></w:r>'.
             '<w:r><w:rPr><w:lang w:val="en-US"/></w:rPr><w:t>${inline}</w:t></w:r><w:r><w:rPr><w:b/>'.
             '<w:bCs/><w:lang w:val="en-US"/></w:rPr><w:t xml:space="preserve"> has been'.
             '${/inline}</w:t></w:r><w:r><w:rPr><w:lang w:val="en-US"/></w:rPr>'.
             '<w:t xml:space="preserve"> block</w:t></w:r></w:p>';
 
-        $templateProcessor->tempDocumentMainPart = $XMLSTR;
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
 
         $this->assertEquals(
             $templateProcessor->getBlock('inline'),
