@@ -237,6 +237,43 @@ class TemplateProcessor
     }
 
     /**
+     * Replaces a closed block with text. The text can be multiline.
+     *
+     * @param mixed $blockname
+     * @param mixed $replace
+     * @param integer $limit
+     *
+     * @return void
+     */
+    public function setBlock($blockname, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    {
+        if (is_array($blockname)) {
+            $hash = array_combine($blockname, $replace);
+            foreach ($hash as $block => $value) {
+                if (preg_match('~\R~u', $value)) {
+                    $values = preg_split('~\R~u', $value);
+                    $this->cloneBlock($block, count($values), true, false);
+                    foreach ($values as $oneVal) {
+                        $this->setValue($block, $oneVal, 1);
+                    }
+                } else {
+                    $this->setValue($block, $value, $limit);
+                }
+            }
+        } else {
+            if (preg_match('~\R~u', $replace)) {
+                $replaces = preg_split('~\R~u', $replace);
+                $this->cloneBlock($blockname, count($replaces), true, false);
+                foreach ($replaces as $oneVal) {
+                    $this->setValue($blockname, $oneVal, 1);
+                }
+            } else {
+                $this->setValue($blockname, $replace, $limit);
+            }
+        }
+    }
+
+    /**
      * Updates a file inside the document, from a string (with binary data)
      *
      * @param string $localname
@@ -923,5 +960,50 @@ class TemplateProcessor
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Return a table.
+     *
+     * @param obj an object
+     * @param string tag
+     * @param bool withTags
+     *
+     * @return string|false
+     */
+    public function makeTable()
+    {
+        return (new \PhpOffice\PhpWord\PhpWord())->addSection()->addTable();
+    }
+
+    /**
+     * Convert a Word2007 object to xml.
+     *
+     * @param obj an object
+     * @param string tag
+     * @param bool withTags
+     *
+     * @return string|false
+     */
+    public function toXML($obj, $tag = '', $withTags = true)
+    {
+        if (!is_Object($obj)) {
+            throw new Exception("toXML(): First parameter is not an object");
+        }
+        if (!$tag) {
+            $tagList = array('Table' => 'w:tbl', 'Cell' => 'w:p'); // needs more entries
+            $class = preg_replace('/^(?:.*\/)?/', '', get_class($obj));
+            if (!in_array($class, $tagList)) {
+                throw new Exception("toXML: tag parameter required");
+            }
+            $tag = $tagList[$class];
+        }
+        $phpWord = $obj->getPhpWord();
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $fullXml = $objWriter->getWriterPart('Document')->write();
+        $regExp = $withTags ?
+            "/^[\s\S]*(<$tag\b.*<\/$tag>).*/" :
+            "/^[\s\S]*<$tag\b[^>]*>(.*)<\/$tag>.*/" ;
+        return preg_replace($regExp, '$1', $fullXml);
     }
 }

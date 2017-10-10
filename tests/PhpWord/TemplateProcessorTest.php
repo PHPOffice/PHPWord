@@ -538,4 +538,59 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "InlineBlock replace is malformed"
         );
     }
+
+    /**
+     * @covers ::replaceBlock
+     * @covers ::cloneBlock
+     * @covers ::setValue
+     * @test
+     */
+    public function testSetBlock()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'.
+        '<w:document><w:body><w:p></w:p>'.
+        '<w:p><w:pPr/><w:r><w:rPr/>'.
+        '<w:t xml:space="preserve">BEFORE</w:t>'.
+        '<w:t xml:space="preserve">${inline/}</w:t>'.
+        '<w:t xml:space="preserve">AFTER</w:t>'.
+        '</w:r></w:p>'.
+        '<w:p></w:p></w:body></w:document>';
+
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
+        $templateProcessor->setBlock('inline/', "one\ntwo");
+
+        // XMLReader::xml($templateProcessor->tempDocumentMainPart)->isValid()
+
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'.
+            '<w:document><w:body><w:p></w:p>'.
+            '<w:p><w:pPr/><w:r><w:rPr/>'.
+            '<w:t xml:space="preserve">BEFORE</w:t>'.
+            '<w:t xml:space="preserve">one</w:t>'.
+            '<w:t xml:space="preserve">AFTER</w:t>'.
+            '</w:r></w:p>'.
+            '<w:p><w:pPr/><w:r><w:rPr/>'.
+            '<w:t xml:space="preserve">BEFORE</w:t>'.
+            '<w:t xml:space="preserve">two</w:t>'.
+            '<w:t xml:space="preserve">AFTER</w:t>'.
+            '</w:r></w:p>'.
+            '<w:p></w:p></w:body></w:document>',
+            $templateProcessor->tempDocumentMainPart
+        );
+
+        $templateProcessor->tempDocumentMainPart = $xmlStr;
+        $templateProcessor->setBlock('inline/', "simplé`");
+        $this->assertEquals(
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'.
+            '<w:document><w:body><w:p></w:p>'.
+            '<w:p><w:pPr/><w:r><w:rPr/>'.
+            '<w:t xml:space="preserve">BEFORE</w:t>'.
+            '<w:t xml:space="preserve">simplé`</w:t>'.
+            '<w:t xml:space="preserve">AFTER</w:t>'.
+            '</w:r></w:p>'.
+            '<w:p></w:p></w:body></w:document>',
+            $templateProcessor->tempDocumentMainPart
+        );
+    }
 }
