@@ -169,9 +169,9 @@ class TemplateProcessor
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
 
-        $this->tempDocumentHeaders = $this->transformXml($this->tempDocumentHeaders, $xsltProcessor);
-        $this->tempDocumentMainPart = $this->transformXml($this->tempDocumentMainPart, $xsltProcessor);
-        $this->tempDocumentFooters = $this->transformXml($this->tempDocumentFooters, $xsltProcessor);
+        $this->tempDocumentHeaders = $this->transformXml((array)$this->tempDocumentHeaders, $xsltProcessor);
+        $this->tempDocumentMainPart = $this->transformXml((string)$this->tempDocumentMainPart, $xsltProcessor);
+        $this->tempDocumentFooters = $this->transformXml((array)$this->tempDocumentFooters, $xsltProcessor);
     }
 
     /**
