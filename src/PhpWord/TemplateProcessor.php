@@ -245,7 +245,7 @@ class TemplateProcessor
             $search = self::ensureMacroCompleted($search);
         }
 
-		$this->replaceSubstring($search, $replace, $limit);
+        $this->replaceSubstring($search, $replace, $limit);
     }
 
     /**
