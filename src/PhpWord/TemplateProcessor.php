@@ -147,7 +147,7 @@ class TemplateProcessor
 
     /**
      * Applies XSL style sheet to template's parts.
-     * 
+     *
      * Note: since the method doesn't make any guess on logic of the provided XSL style sheet,
      * make sure that output is correctly escaped. Otherwise you may get broken document.
      *
@@ -208,16 +208,8 @@ class TemplateProcessor
      *
      * @return void
      */
-    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    public function replaceSubstring($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
-        if (is_array($search)) {
-            foreach ($search as &$item) {
-                $item = self::ensureMacroCompleted($item);
-            }
-        } else {
-            $search = self::ensureMacroCompleted($search);
-        }
-
         if (is_array($replace)) {
             foreach ($replace as &$item) {
                 $item = self::ensureUtf8Encoded($item);
@@ -234,6 +226,26 @@ class TemplateProcessor
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
+    }
+
+    /**
+     * @param mixed $search
+     * @param mixed $replace
+     * @param integer $limit
+     *
+     * @return void
+     */
+    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    {
+        if (is_array($search)) {
+            foreach ($search as &$item) {
+                $item = self::ensureMacroCompleted($item);
+            }
+        } else {
+            $search = self::ensureMacroCompleted($search);
+        }
+
+		$this->replaceSubstring($search, $replace, $limit);
     }
 
     /**
