@@ -269,6 +269,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $ESTR =
             'class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor {'
             . 'public function __construct($instance){return parent::__construct($instance);}'
+            . 'public function __call($method, $args) {return call_user_func_array(array($this, $method), $args);}'
             . 'public function __get($key){return $this->$key;}'
             . 'public function __set($key, $val){return $this->$key = $val;} };'
             . 'return new OpenTemplateProcessor("'.$name.'");';
@@ -632,6 +633,75 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>',
             $templateProcessor->toXML($cell, 'w:p')
+        );
+    }
+
+    /**
+     * @covers ::fixBrokenMacros
+     * @covers ::ensureMacroCompleted
+     * @test
+     */
+    public function testFixBrokenMacros()
+    {
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $xmlStr = '<w:r><w:t>${</w:t></w:r><w:proofErr w:type="spellStart"/><w:r><w:t>aaaaa</w:t></w:r>'.
+            '<w:proofErr w:type="spellEnd"/><w:r><w:t>}</w:t></w:r>';
+        $macro = $templateProcessor->ensureMacroCompleted('aaaaa');
+        $this->assertEquals(
+            $macro,
+            '${aaaaa}'
+        );
+
+        TemplateProcessor::$ensureMacroCompletion = false;
+        $this->assertEquals(
+            $templateProcessor->ensureMacroCompleted('aaaaa'),
+            'aaaaa'
+        );
+        TemplateProcessor::$ensureMacroCompletion = true;
+
+        $xmlFixed = $templateProcessor->fixBrokenMacros($xmlStr);
+        $this->assertEquals(
+            1,
+            substr_count($xmlFixed, $macro),
+            "could not find '$macro' in: $xmlFixed"
+        );
+    }
+
+    /**
+     * @covers ::failGraciously
+     * @covers ::cloneSegment
+     * @test
+     */
+    public function testFailGraciously()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+
+        $this->assertEquals(
+            null,
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', 1, true, true, false)
+        );
+
+        $this->assertEquals(
+            false,
+            $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 'MainPart', 1, true, true, false)
+        );
+    }
+
+    /**
+     * XSL stylesheet can be applied on failure of loading XML from template.
+     *
+     * @covers                   ::failGraciously
+     * @covers                   ::cloneSegment
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Can not find segment 'I-DO-NOT-EXIST', text not found or text contains markup
+     * @test
+     */
+    final public function testThrowFailGraciously()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $this->assertEquals(
+            null,
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', 1, true, true, true)
         );
     }
 }

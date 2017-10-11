@@ -29,6 +29,7 @@ class TemplateProcessor
 {
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
 
+    public static $ensureMacroCompletion = true;
     /**
      * ZipArchive object.
      *
@@ -180,7 +181,7 @@ class TemplateProcessor
      */
     protected static function ensureMacroCompleted($macro)
     {
-        if (substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
+        if (TemplateProcessor::$ensureMacroCompletion && substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
             $macro = '${' . $macro . '}';
         }
 
@@ -336,11 +337,7 @@ class TemplateProcessor
         $incrementVariables = true,
         $throwException = false
     ) {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
-        }
-
-        $tagPos = strpos($this->tempDocumentMainPart, $search);
+        $tagPos = strpos($this->tempDocumentMainPart, $this->ensureMacroCompleted($search));
         if (!$tagPos) {
             return $this->failGraciously(
                 "Can not clone row, template variable not found or variable contains markup.",
