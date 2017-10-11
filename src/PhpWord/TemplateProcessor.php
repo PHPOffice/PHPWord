@@ -61,7 +61,7 @@ class TemplateProcessor
      *
      * @var string[]
      */
-    public $tempDocumentFooters = array();
+    protected $tempDocumentFooters = array();
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
