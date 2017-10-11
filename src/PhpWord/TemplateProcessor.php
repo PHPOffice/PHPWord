@@ -232,9 +232,14 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
-        $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
-        $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
+
+        $documentParts = ['tempDocumentHeaders', 'tempDocumentFooters'];
+        foreach ($documentParts as $tempDocumentParts) {
+            foreach ($this->{$tempDocumentParts} as &$tempDocumentPart) {
+                $tempDocumentPart = $this->setValueForPart($search, $replace, $tempDocumentPart, $limit);
+            }
+        }
     }
 
     /**
