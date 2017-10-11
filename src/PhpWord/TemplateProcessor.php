@@ -279,6 +279,24 @@ class TemplateProcessor
     }
 
     /**
+     * If $throwException is true, it throws an exception, else it returns $elseReturn
+     *
+     * @param string $exceptionText
+     * @param bool   $throwException
+     * @param mixed $elseReturn
+     *
+     * @return mixed
+     */
+    private function failGraciously($exceptionText, $throwException, $elseReturn)
+    {
+        if ($throwException) {
+            throw new Exception($exceptionText);
+        } else {
+            return $elseReturn;
+        }
+    }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]
@@ -305,7 +323,7 @@ class TemplateProcessor
      * @param integer $numberOfClones
      * @param bool    $replace
      * @param bool    $incrementVariables
-     * @param bool    $throwexception
+     * @param bool    $throwException
      *
      * @return string|null
      *
@@ -316,7 +334,7 @@ class TemplateProcessor
         $numberOfClones = 1,
         $replace = true,
         $incrementVariables = true,
-        $throwexception = false
+        $throwException = false
     ) {
         if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
             $search = '${' . $search . '}';
@@ -324,16 +342,14 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not clone row, template variable not found or variable contains markup."
-                );
-            } else {
-                return null;
-            }
+            failGraciously(
+                "Can not clone row, template variable not found or variable contains markup.",
+                $throwException,
+                null
+            );
         }
 
-        $rowStart = $this->findTagLeft('<w:tr>', $tagPos, $throwexception); // findRowStart
+        $rowStart = $this->findTagLeft('<w:tr>', $tagPos, $throwException); // findRowStart
         $rowEnd = $this->findTagRight('</w:tr>', $tagPos); // findRowEnd
         $xmlRow = $this->getSlice($rowStart, $rowEnd);
 
@@ -342,7 +358,7 @@ class TemplateProcessor
             // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
-                $extraRowStart = $this->findTagLeft('<w:tr>', $extraRowEnd + 1, $throwexception); // findRowStart
+                $extraRowStart = $this->findTagLeft('<w:tr>', $extraRowEnd + 1, $throwException); // findRowStart
                 $extraRowEnd = $this->findTagRight('</w:tr>', $extraRowEnd + 1); // findRowEnd
 
                 if (!$extraRowEnd) {
@@ -398,7 +414,7 @@ class TemplateProcessor
      * @param integer $clones
      * @param boolean $replace
      * @param boolean $incrementVariables
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return string|null
      */
@@ -407,7 +423,7 @@ class TemplateProcessor
         $clones = 1,
         $replace = true,
         $incrementVariables = true,
-        $throwexception = false
+        $throwException = false
     ) {
         $startSearch = '${'  . $blockname . '}';
         $endSearch =   '${/' . $blockname . '}';
@@ -420,7 +436,7 @@ class TemplateProcessor
                 $clones,
                 $replace,
                 $incrementVariables,
-                $throwexception
+                $throwException
             );
         }
 
@@ -428,41 +444,35 @@ class TemplateProcessor
         $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
 
         if (!$startTagPos || !$endTagPos) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find block '$blockname', template variable not found or variable contains markup."
-                );
-            } else {
-                return null; // Block not found, return null
-            }
+            failGraciously(
+                "Can not find block '$blockname', template variable not found or variable contains markup.",
+                $throwException,
+                null
+            );
         }
 
-        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwexception); // findBlockStart()
+        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwException); // findBlockStart()
         $startBlockEnd = $this->findTagRight('</w:p>', $startTagPos); // findBlockEnd()
         // $xmlStart = $this->getSlice($startBlockStart, $startBlockEnd);
 
         if (!$startBlockStart || !$startBlockEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find start paragraph around block '$blockname'"
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find start paragraph around block '$blockname'",
+                $throwException,
+                false
+            );
         }
 
-        $endBlockStart = $this->findTagLeft('<w:p>', $endTagPos, $throwexception); // findBlockStart()
+        $endBlockStart = $this->findTagLeft('<w:p>', $endTagPos, $throwException); // findBlockStart()
         $endBlockEnd = $this->findTagRight('</w:p>', $endTagPos); // findBlockEnd()
         // $xmlEnd = $this->getSlice($endBlockStart, $endBlockEnd);
 
         if (!$endBlockStart || !$endBlockEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find end paragraph around block '$blockname'"
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find end paragraph around block '$blockname'",
+                $throwException,
+                false
+            );
         }
 
         if ($startBlockEnd == $endBlockEnd) { // inline block
@@ -500,7 +510,7 @@ class TemplateProcessor
      * @param integer $clones
      * @param boolean $replace
      * @param boolean $incrementVariables
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return string|null
      */
@@ -511,31 +521,27 @@ class TemplateProcessor
         $clones = 1,
         $replace = true,
         $incrementVariables = true,
-        $throwexception = false
+        $throwException = false
     ) {
         $needlePos = strpos($this->{"tempDocument$docpart"}, $needle);
 
         if (!$needlePos) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find segment '$needle', text not found or text contains markup."
-                );
-            } else {
-                return null; // Segment not found, return null
-            }
+            failGraciously(
+                "Can not find segment '$needle', text not found or text contains markup.",
+                $throwException,
+                null
+            );
         }
 
-        $startSegmentStart = $this->findTagLeft("<$xmltag>", $needlePos, $throwexception);
+        $startSegmentStart = $this->findTagLeft("<$xmltag>", $needlePos, $throwException);
         $endSegmentEnd = $this->findTagRight("</$xmltag>", $needlePos);
 
         if (!$startSegmentStart || !$endSegmentEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find <$xmltag> around segment '$needle'"
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find <$xmltag> around segment '$needle'",
+                $throwException,
+                false
+            );
         }
 
         $xmlSegment = $this->getSlice($startSegmentStart, $endSegmentEnd);
@@ -561,13 +567,13 @@ class TemplateProcessor
      * Get a block. (first block found)
      *
      * @param string  $blockname
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return string|null
      */
-    public function getBlock($blockname, $throwexception = false)
+    public function getBlock($blockname, $throwException = false)
     {
-        return $this->cloneBlock($blockname, 1, false, false, $throwexception);
+        return $this->cloneBlock($blockname, 1, false, false, $throwException);
     }
 
     /**
@@ -576,26 +582,26 @@ class TemplateProcessor
      * @param string  $needle
      * @param string  $xmltag
      * @param string  $docpart
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return string|null
      */
-    public function getSegment($needle, $xmltag, $docpart = 'MainPart', $throwexception = false)
+    public function getSegment($needle, $xmltag, $docpart = 'MainPart', $throwException = false)
     {
-        return $this->cloneSegment($needle, $xmltag, $docpart, 1, false, false, $throwexception);
+        return $this->cloneSegment($needle, $xmltag, $docpart, 1, false, false, $throwException);
     }
 
     /**
      * Get a row. (first block found)
      *
      * @param string  $rowname
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return string|null
      */
-    public function getRow($rowname, $throwexception = false)
+    public function getRow($rowname, $throwException = false)
     {
-        return $this->cloneRow($rowname, 1, false, false, $throwexception);
+        return $this->cloneRow($rowname, 1, false, false, $throwException);
     }
 
     /**
@@ -603,43 +609,39 @@ class TemplateProcessor
      *
      * @param string  $blockname
      * @param string  $replacement
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return false on no replacement, true on replacement
      */
-    public function replaceBlock($blockname, $replacement = '', $throwexception = false)
+    public function replaceBlock($blockname, $replacement = '', $throwException = false)
     {
         $startSearch = '${'  . $blockname . '}';
         $endSearch   = '${/' . $blockname . '}';
 
         if (substr($blockname, -1) == '/') { // singleton/closed block
-            return $this->replaceSegment($startSearch, 'w:p', $replacement, 'MainPart', $throwexception);
+            return $this->replaceSegment($startSearch, 'w:p', $replacement, 'MainPart', $throwException);
         }
 
         $startTagPos = strpos($this->tempDocumentMainPart, $startSearch);
         $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
 
         if (!$startTagPos || !$endTagPos) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find block '$blockname', template variable not found or variable contains markup."
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find block '$blockname', template variable not found or variable contains markup.",
+                $throwException,
+                false
+            );
         }
 
-        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwexception); // findBlockStart()
+        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwException); // findBlockStart()
         $endBlockEnd = $this->findTagRight('</w:p>', $endTagPos); // findBlockEnd()
 
         if (!$startBlockStart || !$endBlockEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find end paragraph around block '$blockname'"
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find end paragraph around block '$blockname'",
+                $throwException,
+                false
+            );
         }
 
         $startBlockEnd = $this->findTagRight('</w:p>', $startTagPos); // findBlockEnd()
@@ -664,35 +666,31 @@ class TemplateProcessor
      * @param string  $xmltag
      * @param string  $replacement
      * @param string  $docpart
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return false on no replacement, true on replacement
      */
-    public function replaceSegment($needle, $xmltag, $replacement = '', $docpart = 'MainPart', $throwexception = false)
+    public function replaceSegment($needle, $xmltag, $replacement = '', $docpart = 'MainPart', $throwException = false)
     {
         $tagPos = strpos($this->{"tempDocument$docpart"}, $needle);
 
         if ($tagPos === false) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find segment '$needle', text not found or text contains markup."
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find segment '$needle', text not found or text contains markup.",
+                $throwException,
+                false
+            );
         }
 
-        $segmentStart = $this->findTagLeft("<$xmltag>", $tagPos, $throwexception);
+        $segmentStart = $this->findTagLeft("<$xmltag>", $tagPos, $throwException);
         $segmentEnd = $this->findTagRight("</$xmltag>", $tagPos);
 
         if (!$segmentStart || !$segmentEnd) {
-            if ($throwexception) {
-                throw new Exception(
-                    "Can not find tag $xmltag around segment '$needle'."
-                );
-            } else {
-                return false;
-            }
+            failGraciously(
+                "Can not find tag $xmltag around segment '$needle'.",
+                $throwException,
+                false
+            );
         }
 
         $this->{"tempDocument$docpart"} =
@@ -887,13 +885,13 @@ class TemplateProcessor
      *
      * @param string $tag
      * @param integer $offset
-     * @param boolean $throwexception
+     * @param boolean $throwException
      *
      * @return integer
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function findTagLeft($tag, $offset = 0, $throwexception = false)
+    protected function findTagLeft($tag, $offset = 0, $throwException = false)
     {
         $tagStart = strrpos(
             $this->tempDocumentMainPart,
@@ -909,11 +907,11 @@ class TemplateProcessor
             );
         }
         if (!$tagStart) {
-            if ($throwexception) {
-                throw new Exception('Can not find the start position of the item to clone.');
-            } else {
-                return 0;
-            }
+            failGraciously(
+                "Can not find the start position of the item to clone.",
+                $throwException,
+                0
+            );
         }
 
         return $tagStart;
