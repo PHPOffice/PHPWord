@@ -42,7 +42,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }
 
-        $embeddingText = "The quick Brown Fox jumped over the lazy unitTester";
+        $embeddingText = "The quick Brown Fox jumped over the lazy^H^H^H^Htired unitTester";
         $templateProcessor->zipAddFromString('word/embeddings/fox.bin', $embeddingText);
         $documentFqfn = $templateProcessor->save();
 
@@ -685,6 +685,63 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             false,
             $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 'MainPart', 1, true, true, false)
         );
+    }
+
+    /**
+     * @covers ::cloneSegment
+     * @covers ::getVariables
+     * @covers ::setBlock
+     * @covers ::saveAs
+     * @test
+     */
+    public function testCloneSegment()
+    {
+        $testDocument = __DIR__ . '/_files/templates/header-footer.docx';
+        $templateProcessor = new TemplateProcessor($testDocument);
+
+        $this->assertEquals(
+            ['documentContent', 'headerValue', 'footerValue'],
+            $templateProcessor->getVariables()
+        );
+
+        $zipFile = new \ZipArchive();
+        $zipFile->open($testDocument);
+        $originalFooterXml = $zipFile->getFromName('word/footer1.xml');
+        if (false === $zipFile->close()) {
+            throw new \Exception("Could not close zip file");
+        }
+
+        $segment = $templateProcessor->cloneSegment('${footerValue}', 'w:p', 'Footers:1', 2);
+        $this->assertNotNull($segment);
+        $segment = $templateProcessor->cloneSegment('${headerValue}', 'w:p', 'Headers:1', 2);
+        $this->assertNotNull($segment);
+        $segment = $templateProcessor->cloneSegment('${documentContent}', 'w:p', 'MainPart', 1);
+        $this->assertNotNull($segment);
+        $templateProcessor->setBlock('headerValue#1', "In the end, it doesn't even matter.");
+
+        $docName = 'header-footer-test-result.docx';
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        if ($docFound) {
+            $zipFile->open($docName);
+            $updatedFooterXml = $zipFile->getFromName('word/footer1.xml');
+            if (false === $zipFile->close()) {
+                throw new \Exception("Could not close zip file");
+            }
+
+            $this->assertNotEquals(
+                $originalFooterXml,
+                $updatedFooterXml
+            );
+
+            $templateProcessor2 = new TemplateProcessor($docName);
+            $this->assertEquals(
+                ['documentContent#1', 'headerValue#2', 'footerValue#1', 'footerValue#2'],
+                $templateProcessor2->getVariables()
+            );
+            unlink($docName);
+        }
+        $this->assertTrue($docFound);
     }
 
     /**

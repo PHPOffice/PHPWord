@@ -61,7 +61,7 @@ class TemplateProcessor
      *
      * @var string[]
      */
-    protected $tempDocumentFooters = array();
+    public $tempDocumentFooters = array();
 
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
@@ -346,24 +346,29 @@ class TemplateProcessor
             );
         }
 
-        $rowStart = $this->findTagLeft('<w:tr>', $tagPos, $throwException); // findRowStart
-        $rowEnd = $this->findTagRight('</w:tr>', $tagPos); // findRowEnd
-        $xmlRow = $this->getSlice($rowStart, $rowEnd);
+        $rowStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:tr>', $tagPos, $throwException);
+        $rowEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:tr>', $tagPos);
+        $xmlRow = $this->getSlice($this->tempDocumentMainPart, $rowStart, $rowEnd);
 
         // Check if there's a cell spanning multiple rows.
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
             // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
             while (true) {
-                $extraRowStart = $this->findTagLeft('<w:tr>', $extraRowEnd + 1, $throwException); // findRowStart
-                $extraRowEnd = $this->findTagRight('</w:tr>', $extraRowEnd + 1); // findRowEnd
+                $extraRowStart = $this->findTagLeft(
+                    $this->tempDocumentMainPart,
+                    '<w:tr>',
+                    $extraRowEnd + 1,
+                    $throwException
+                );
+                $extraRowEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:tr>', $extraRowEnd + 1);
 
                 if (!$extraRowEnd) {
                     break;
                 }
 
                 // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
-                $tmpXmlRow = $this->getSlice($extraRowStart, $extraRowEnd);
+                $tmpXmlRow = $this->getSlice($this->tempDocumentMainPart, $extraRowStart, $extraRowEnd);
                 if (!preg_match('#<w:vMerge/>#', $tmpXmlRow)
                     && !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)
                 ) {
@@ -372,11 +377,11 @@ class TemplateProcessor
                 // This row was a spanned row, update $rowEnd and search for the next row.
                 $rowEnd = $extraRowEnd;
             }
-            $xmlRow = $this->getSlice($rowStart, $rowEnd);
+            $xmlRow = $this->getSlice($this->tempDocumentMainPart, $rowStart, $rowEnd);
         }
 
         if ($replace) {
-            $result = $this->getSlice(0, $rowStart);
+            $result = $this->getSlice($this->tempDocumentMainPart, 0, $rowStart);
             for ($i = 1; $i <= $numberOfClones; $i++) {
                 if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlRow);
@@ -384,7 +389,7 @@ class TemplateProcessor
                     $result .= $xmlRow;
                 }
             }
-            $result .= $this->getSlice($rowEnd);
+            $result .= $this->getSlice($this->tempDocumentMainPart, $rowEnd);
 
             $this->tempDocumentMainPart = $result;
         }
@@ -448,9 +453,8 @@ class TemplateProcessor
             );
         }
 
-        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwException); // findBlockStart()
-        $startBlockEnd = $this->findTagRight('</w:p>', $startTagPos); // findBlockEnd()
-        // $xmlStart = $this->getSlice($startBlockStart, $startBlockEnd);
+        $startBlockStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:p>', $startTagPos, $throwException);
+        $startBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $startTagPos);
 
         if (!$startBlockStart || !$startBlockEnd) {
             return $this->failGraciously(
@@ -460,9 +464,8 @@ class TemplateProcessor
             );
         }
 
-        $endBlockStart = $this->findTagLeft('<w:p>', $endTagPos, $throwException); // findBlockStart()
-        $endBlockEnd = $this->findTagRight('</w:p>', $endTagPos); // findBlockEnd()
-        // $xmlEnd = $this->getSlice($endBlockStart, $endBlockEnd);
+        $endBlockStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:p>', $endTagPos, $throwException);
+        $endBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $endTagPos);
 
         if (!$endBlockStart || !$endBlockEnd) {
             return $this->failGraciously(
@@ -479,10 +482,10 @@ class TemplateProcessor
             $endBlockEnd = $endTagPos + strlen($endSearch);
         }
 
-        $xmlBlock = $this->getSlice($startBlockEnd, $endBlockStart);
+        $xmlBlock = $this->getSlice($this->tempDocumentMainPart, $startBlockEnd, $endBlockStart);
 
         if ($replace) {
-            $result = $this->getSlice(0, $startBlockStart);
+            $result = $this->getSlice($this->tempDocumentMainPart, 0, $startBlockStart);
             for ($i = 1; $i <= $clones; $i++) {
                 if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
@@ -490,7 +493,7 @@ class TemplateProcessor
                     $result .= $xmlBlock;
                 }
             }
-            $result .= $this->getSlice($endBlockEnd);
+            $result .= $this->getSlice($this->tempDocumentMainPart, $endBlockEnd);
 
             $this->tempDocumentMainPart = $result;
         }
@@ -503,7 +506,7 @@ class TemplateProcessor
      *
      * @param string  $needle
      * @param string  $xmltag
-     * @param string  $docpart
+     * @param string  $docPart
      * @param integer $clones
      * @param boolean $replace
      * @param boolean $incrementVariables
@@ -514,13 +517,19 @@ class TemplateProcessor
     public function cloneSegment(
         $needle,
         $xmltag,
-        $docpart = 'MainPart',
+        $docPart = 'MainPart',
         $clones = 1,
         $replace = true,
         $incrementVariables = true,
         $throwException = false
     ) {
-        $needlePos = strpos($this->{"tempDocument$docpart"}, $needle);
+        $docPart = preg_split('/:/', $docPart);
+        if (count($docPart)>1) {
+            $part = &$this->{"tempDocument".$docPart[0]}[$docPart[1]];
+        } else {
+            $part = &$this->{"tempDocument".$docPart[0]};
+        }
+        $needlePos = strpos($part, $needle);
 
         if (!$needlePos) {
             return $this->failGraciously(
@@ -530,8 +539,8 @@ class TemplateProcessor
             );
         }
 
-        $startSegmentStart = $this->findTagLeft("<$xmltag>", $needlePos, $throwException);
-        $endSegmentEnd = $this->findTagRight("</$xmltag>", $needlePos);
+        $startSegmentStart = $this->findTagLeft($part, "<$xmltag>", $needlePos, $throwException);
+        $endSegmentEnd = $this->findTagRight($part, "</$xmltag>", $needlePos);
 
         if (!$startSegmentStart || !$endSegmentEnd) {
             return $this->failGraciously(
@@ -541,10 +550,10 @@ class TemplateProcessor
             );
         }
 
-        $xmlSegment = $this->getSlice($startSegmentStart, $endSegmentEnd);
+        $xmlSegment = $this->getSlice($part, $startSegmentStart, $endSegmentEnd);
 
         if ($replace) {
-            $result = $this->getSlice(0, $startSegmentStart);
+            $result = $this->getSlice($part, 0, $startSegmentStart);
             for ($i = 1; $i <= $clones; $i++) {
                 if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlSegment);
@@ -552,9 +561,9 @@ class TemplateProcessor
                     $result .= $xmlSegment;
                 }
             }
-            $result .= $this->getSlice($endSegmentEnd);
+            $result .= $this->getSlice($part, $endSegmentEnd);
 
-            $this->{"tempDocument$docpart"} = $result;
+            $part = $result;
         }
 
         return $xmlSegment;
@@ -578,14 +587,14 @@ class TemplateProcessor
      *
      * @param string  $needle If this is a macro, you need to add the ${} yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
-     * @param string  $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
+     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
      * @param boolean $throwException
      *
      * @return string|null
      */
-    public function getSegment($needle, $xmltag, $docpart = 'MainPart', $throwException = false)
+    public function getSegment($needle, $xmltag, $docPart = 'MainPart', $throwException = false)
     {
-        return $this->cloneSegment($needle, $xmltag, $docpart, 1, false, false, $throwException);
+        return $this->cloneSegment($needle, $xmltag, $docPart, 1, false, false, $throwException);
     }
 
     /**
@@ -630,8 +639,8 @@ class TemplateProcessor
             );
         }
 
-        $startBlockStart = $this->findTagLeft('<w:p>', $startTagPos, $throwException); // findBlockStart()
-        $endBlockEnd = $this->findTagRight('</w:p>', $endTagPos); // findBlockEnd()
+        $startBlockStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:p>', $startTagPos, $throwException);
+        $endBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $endTagPos);
 
         if (!$startBlockStart || !$endBlockEnd) {
             return $this->failGraciously(
@@ -641,16 +650,16 @@ class TemplateProcessor
             );
         }
 
-        $startBlockEnd = $this->findTagRight('</w:p>', $startTagPos); // findBlockEnd()
+        $startBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $startTagPos);
         if ($startBlockEnd == $endBlockEnd) { // inline block
             $startBlockStart = $startTagPos;
             $endBlockEnd = $endTagPos + strlen($endSearch);
         }
 
         $this->tempDocumentMainPart =
-            $this->getSlice(0, $startBlockStart)
+            $this->getSlice($this->tempDocumentMainPart, 0, $startBlockStart)
             . $replacement
-            . $this->getSlice($endBlockEnd);
+            . $this->getSlice($this->tempDocumentMainPart, $endBlockEnd);
 
         return true;
     }
@@ -662,22 +671,22 @@ class TemplateProcessor
      * @param string  $needle If this is a macro, you need to add the ${} yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
      * @param string  $replacement
-     * @param string  $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
+     * @param string  $docPart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
      * @param boolean $throwException
      *
      * @return false on no replacement, true on replacement
      */
-    public function replaceSegment($needle, $xmltag, $replacement = '', $docpart = 'MainPart', $throwException = false)
+    public function replaceSegment($needle, $xmltag, $replacement = '', $docPart = 'MainPart', $throwException = false)
     {
-        $docpart = preg_split('/:/', $docpart);
-        if (count($docpart)>1) {
-            $part = &$this->{"tempDocument$docpart[0]"}[$docpart[1]];
+        $docPart = preg_split('/:/', $docPart);
+        if (count($docPart)>1) {
+            $part = &$this->{"tempDocument$docPart[0]"}[$docPart[1]];
         } else {
-            $part = &$this->{"tempDocument$docpart[0]"};
+            $part = &$this->{"tempDocument$docPart[0]"};
         }
-        $tagPos = strpos($part, $needle);
+        $needlePos = strpos($part, $needle);
 
-        if ($tagPos === false) {
+        if ($needlePos === false) {
             return $this->failGraciously(
                 "Can not find segment '$needle', text not found or text contains markup.",
                 $throwException,
@@ -685,8 +694,8 @@ class TemplateProcessor
             );
         }
 
-        $segmentStart = $this->findTagLeft("<$xmltag>", $tagPos, $throwException);
-        $segmentEnd = $this->findTagRight("</$xmltag>", $tagPos);
+        $segmentStart = $this->findTagLeft($part, "<$xmltag>", $needlePos, $throwException);
+        $segmentEnd = $this->findTagRight($part, "</$xmltag>", $needlePos);
 
         if (!$segmentStart || !$segmentEnd) {
             return $this->failGraciously(
@@ -697,9 +706,9 @@ class TemplateProcessor
         }
 
         $part =
-            $this->getSlice(0, $segmentStart)
+            $this->getSlice($part, 0, $segmentStart)
             . $replacement
-            . $this->getSlice($segmentEnd);
+            . $this->getSlice($part, $segmentEnd);
 
         return true;
     }
@@ -721,13 +730,13 @@ class TemplateProcessor
      *
      * @param string $needle If this is a macro, you need to add the ${} yourself.
      * @param string $xmltag an xml tag without brackets, for example:  w:p
-     * @param string $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
+     * @param string $docPart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
      *
      * @return true on segment found and deleted, false on segment not found.
      */
-    public function deleteSegment($needle, $xmltag, $docpart = 'MainPart')
+    public function deleteSegment($needle, $xmltag, $docPart = 'MainPart')
     {
-        return $this->replaceSegment($needle, $xmltag, '', $docpart, false);
+        return $this->replaceSegment($needle, $xmltag, '', $docPart, false);
     }
 
     /**
@@ -886,27 +895,28 @@ class TemplateProcessor
     /**
      * Find the start position of the nearest tag before $offset.
      *
-     * @param string $tag
-     * @param integer $offset
+     * @param string  $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
+     * @param string  $tag  Fully qualified tag, for example: '<w:p>'
+     * @param integer $offset Do not look from the beginning, but starting at $offset
      * @param boolean $throwException
      *
      * @return integer
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    protected function findTagLeft($tag, $offset = 0, $throwException = false)
+    protected function findTagLeft(&$searchString, $tag, $offset = 0, $throwException = false)
     {
         $tagStart = strrpos(
-            $this->tempDocumentMainPart,
+            $searchString,
             substr($tag, 0, -1) . ' ',
-            ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+            ((strlen($searchString) - $offset) * -1)
         );
 
         if (!$tagStart) {
             $tagStart = strrpos(
-                $this->tempDocumentMainPart,
+                $searchString,
                 $tag,
-                ((strlen($this->tempDocumentMainPart) - $offset) * -1)
+                ((strlen($searchString) - $offset) * -1)
             );
         }
         if (!$tagStart) {
@@ -923,14 +933,15 @@ class TemplateProcessor
     /**
      * Find the end position of the nearest $tag after $offset.
      *
-     * @param string $tag
-     * @param integer $offset
+     * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
+     * @param string  $tag  Fully qualified tag, for example: '<w:p>'
+     * @param integer $offset Do not look from the beginning, but starting at $offset
      *
      * @return integer
      */
-    protected function findTagRight($tag, $offset = 0)
+    protected function findTagRight(&$searchString, $tag, $offset = 0, $docPart = 'MainPart')
     {
-        $pos = strpos($this->tempDocumentMainPart, $tag, $offset);
+        $pos = strpos($searchString, $tag, $offset);
         if ($pos !== false) {
             return $pos + strlen($tag);
         } else {
@@ -941,18 +952,19 @@ class TemplateProcessor
     /**
      * Get a slice of a string.
      *
+     * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
      * @param integer $startPosition
      * @param integer $endPosition
      *
      * @return string
      */
-    protected function getSlice($startPosition, $endPosition = 0)
+    protected function getSlice(&$searchString, $startPosition, $endPosition = 0)
     {
         if (!$endPosition) {
-            $endPosition = strlen($this->tempDocumentMainPart);
+            $endPosition = strlen($searchString);
         }
 
-        return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+        return substr($searchString, $startPosition, ($endPosition - $startPosition));
     }
 
     /**
