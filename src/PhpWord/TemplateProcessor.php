@@ -342,7 +342,7 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not clone row, template variable not found or variable contains markup.",
                 $throwException,
                 null
@@ -444,7 +444,7 @@ class TemplateProcessor
         $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
 
         if (!$startTagPos || !$endTagPos) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find block '$blockname', template variable not found or variable contains markup.",
                 $throwException,
                 null
@@ -456,7 +456,7 @@ class TemplateProcessor
         // $xmlStart = $this->getSlice($startBlockStart, $startBlockEnd);
 
         if (!$startBlockStart || !$startBlockEnd) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find start paragraph around block '$blockname'",
                 $throwException,
                 false
@@ -468,7 +468,7 @@ class TemplateProcessor
         // $xmlEnd = $this->getSlice($endBlockStart, $endBlockEnd);
 
         if (!$endBlockStart || !$endBlockEnd) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find end paragraph around block '$blockname'",
                 $throwException,
                 false
@@ -526,7 +526,7 @@ class TemplateProcessor
         $needlePos = strpos($this->{"tempDocument$docpart"}, $needle);
 
         if (!$needlePos) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find segment '$needle', text not found or text contains markup.",
                 $throwException,
                 null
@@ -537,7 +537,7 @@ class TemplateProcessor
         $endSegmentEnd = $this->findTagRight("</$xmltag>", $needlePos);
 
         if (!$startSegmentStart || !$endSegmentEnd) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find <$xmltag> around segment '$needle'",
                 $throwException,
                 false
@@ -626,7 +626,7 @@ class TemplateProcessor
         $endTagPos = strpos($this->tempDocumentMainPart, $endSearch, $startTagPos);
 
         if (!$startTagPos || !$endTagPos) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find block '$blockname', template variable not found or variable contains markup.",
                 $throwException,
                 false
@@ -637,7 +637,7 @@ class TemplateProcessor
         $endBlockEnd = $this->findTagRight('</w:p>', $endTagPos); // findBlockEnd()
 
         if (!$startBlockStart || !$endBlockEnd) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find end paragraph around block '$blockname'",
                 $throwException,
                 false
@@ -675,7 +675,7 @@ class TemplateProcessor
         $tagPos = strpos($this->{"tempDocument$docpart"}, $needle);
 
         if ($tagPos === false) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find segment '$needle', text not found or text contains markup.",
                 $throwException,
                 false
@@ -686,7 +686,7 @@ class TemplateProcessor
         $segmentEnd = $this->findTagRight("</$xmltag>", $tagPos);
 
         if (!$segmentStart || !$segmentEnd) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find tag $xmltag around segment '$needle'.",
                 $throwException,
                 false
@@ -907,7 +907,7 @@ class TemplateProcessor
             );
         }
         if (!$tagStart) {
-            failGraciously(
+            return $this->failGraciously(
                 "Can not find the start position of the item to clone.",
                 $throwException,
                 0
