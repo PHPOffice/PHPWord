@@ -664,7 +664,6 @@ class TemplateProcessor
         return true;
     }
 
-
     /**
      * Replace a segment.
      *
@@ -968,13 +967,9 @@ class TemplateProcessor
     }
 
     /**
-     * Return a table.
+     * Returns a table object from the Word2007 / PhpWord().
      *
-     * @param obj an object
-     * @param string tag
-     * @param bool withTags
-     *
-     * @return string|false
+     * @return object of type PhpOffice\PhpWord\Element\Table
      */
     public function makeTable()
     {
@@ -984,11 +979,11 @@ class TemplateProcessor
     /**
      * Convert a Word2007 object to xml.
      *
-     * @param obj an object
-     * @param string tag
-     * @param bool withTags
+     * @param object $obj an object
+     * @param string $tag   a tag like 'w:p' or 'w:tbl' if the tag is not found, return the whole xml as string.
+     * @param bool   $withTags include <w:p>...</w:p> xml tags in the result
      *
-     * @return string|false
+     * @return string|Exception
      */
     public function toXML($obj, $tag = '', $withTags = true)
     {

@@ -670,6 +670,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::failGraciously
      * @covers ::cloneSegment
+     * @covers ::replaceSegment
+     * @covers ::deleteSegment
      * @test
      */
     public function testFailGraciously()
@@ -684,6 +686,21 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             false,
             $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 'MainPart', 1, true, true, false)
+        );
+
+        $this->assertEquals(
+            null,
+            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 'IOU', 'MainPart', false)
+        );
+
+        $this->assertEquals(
+            false,
+            $templateProcessor->replaceSegment('tableHeader', 'we:be', 'BodyMoving', 'MainPart', false)
+        );
+
+        $this->assertEquals(
+            false,
+            $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', 1, true, true, false)
         );
     }
 
@@ -745,8 +762,6 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * XSL stylesheet can be applied on failure of loading XML from template.
-     *
      * @covers                   ::failGraciously
      * @covers                   ::cloneSegment
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
@@ -759,6 +774,75 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             null,
             $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', 1, true, true, true)
+        );
+    }
+
+    /**
+     * @covers                   ::failGraciously
+     * @covers                   ::replaceSegment
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Can not find segment 'I-DO-NOT-EXIST', text not found or text contains markup
+     * @test
+     */
+    final public function testAnotherThrowFailGraciously()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $this->assertEquals(
+            null,
+            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 'IOU', 'MainPart', true)
+        );
+    }
+
+    /**
+     * @covers ::cloneSegment
+     * @covers ::getVariables
+     * @covers ::setBlock
+     * @covers ::saveAs
+     * @test
+     */
+    public function testToXML()
+    {
+        $testDocument = __DIR__ . '/_files/templates/header-footer.docx';
+        $templateProcessor = new TemplateProcessor($testDocument);
+        $myTable = $templateProcessor->makeTable();
+        $randomText = "I was going to go to school, but then I got testcased.";
+        $resultXml = '<w:t xml:space="preserve">' . $randomText . '</w:t>';
+        $myTable->addRow()->addCell()->addText($randomText);
+        $this->assertEquals(
+            $resultXml,
+            $templateProcessor->toXML($myTable, 'w:t')
+        );
+    }
+
+    /**
+     * @covers                   ::toXML
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage toXML(): First parameter is not an object
+     * @test
+     */
+    final public function testToXMLException()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $this->assertEquals(
+            null,
+            $templateProcessor->toXML(null, 'w:t')
+        );
+    }
+
+    /**
+     * @covers                   ::toXML
+     * @covers                   ::makeTable
+     * @expectedException        Error
+     * @expectedExceptionMessage Call to undefined method PhpOffice\PhpWord\Element\Table::createRow()
+     * @test
+     */
+    final public function testToXMLException2()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        $myRow = $templateProcessor->makeTable()->createRow();
+        $this->assertEquals(
+            null,
+            $templateProcessor->toXML($myRow)
         );
     }
 }
