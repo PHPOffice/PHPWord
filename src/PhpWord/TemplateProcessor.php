@@ -139,11 +139,11 @@ class TemplateProcessor
             foreach ($xml as &$item) {
                 $item = $this->transformSingleXml($item, $xsltProcessor);
             }
+            return (array)$xml;
         } else {
             $xml = $this->transformSingleXml($xml, $xsltProcessor);
+            return (string)$xml;
         }
-
-        return $xml;
     }
 
     /**
@@ -169,9 +169,9 @@ class TemplateProcessor
             throw new Exception('Could not set values for the given XSL style sheet parameters.');
         }
 
-        $this->tempDocumentHeaders = $this->transformXml((array)$this->tempDocumentHeaders, $xsltProcessor);
-        $this->tempDocumentMainPart = $this->transformXml((string)$this->tempDocumentMainPart, $xsltProcessor);
-        $this->tempDocumentFooters = $this->transformXml((array)$this->tempDocumentFooters, $xsltProcessor);
+        $this->tempDocumentHeaders = (array)$this->transformXml($this->tempDocumentHeaders, $xsltProcessor);
+        $this->tempDocumentMainPart = (string)$this->transformXml($this->tempDocumentMainPart, $xsltProcessor);
+        $this->tempDocumentFooters = (array)$this->transformXml($this->tempDocumentFooters, $xsltProcessor);
     }
 
     /**
@@ -939,7 +939,7 @@ class TemplateProcessor
      *
      * @return integer
      */
-    protected function findTagRight(&$searchString, $tag, $offset = 0, $docPart = 'MainPart')
+    protected function findTagRight(&$searchString, $tag, $offset = 0)
     {
         $pos = strpos($searchString, $tag, $offset);
         if ($pos !== false) {
