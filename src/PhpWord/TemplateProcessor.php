@@ -243,31 +243,26 @@ class TemplateProcessor
     }
 
     /**
-     * Replaces a closed block with text. The text can be multiline.
+     * Replaces a closed block with text
      *
-     * @param mixed $blockname
-     * @param mixed $replace
+     * @param string  $blockname Your macro must end with slash, i.e.: ${value/}
+     * @param mixed   $replace Array or the text can be multiline (contain \n). It will cloneBlock().
      * @param integer $limit
      *
      * @return void
      */
     public function setBlock($blockname, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
-        if (is_array($blockname)) {
-            $hash = array_combine($blockname, $replace);
-            foreach ($hash as $block => $value) {
-                $this->setBlock($block, $value, $limit);
+        if (preg_match('~\R~u', $replace)) {
+            $replace = preg_split('~\R~u', $replace);
+        }
+        if (is_array($replace)) {
+            $this->cloneBlock($blockname, count($replace), true, false);
+            foreach ($replace as $oneVal) {
+                $this->setValue($blockname, $oneVal, 1);
             }
         } else {
-            if (preg_match('~\R~u', $replace)) {
-                $replaces = preg_split('~\R~u', $replace);
-                $this->cloneBlock($blockname, count($replaces), true, false);
-                foreach ($replaces as $oneVal) {
-                    $this->setValue($blockname, $oneVal, 1);
-                }
-            } else {
-                $this->setValue($blockname, $replace, $limit);
-            }
+            $this->setValue($blockname, $replace, $limit);
         }
     }
 
@@ -581,9 +576,9 @@ class TemplateProcessor
     /**
      * Get a segment. (first segment found)
      *
-     * @param string  $needle
-     * @param string  $xmltag
-     * @param string  $docpart
+     * @param string  $needle If this is a macro, you need to add the ${} yourself.
+     * @param string  $xmltag an xml tag without brackets, for example:  w:p
+     * @param string  $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
      * @param boolean $throwException
      *
      * @return string|null
@@ -664,17 +659,23 @@ class TemplateProcessor
     /**
      * Replace a segment.
      *
-     * @param string  $needle
-     * @param string  $xmltag
+     * @param string  $needle If this is a macro, you need to add the ${} yourself.
+     * @param string  $xmltag an xml tag without brackets, for example:  w:p
      * @param string  $replacement
-     * @param string  $docpart
+     * @param string  $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
      * @param boolean $throwException
      *
      * @return false on no replacement, true on replacement
      */
     public function replaceSegment($needle, $xmltag, $replacement = '', $docpart = 'MainPart', $throwException = false)
     {
-        $tagPos = strpos($this->{"tempDocument$docpart"}, $needle);
+        $docpart = preg_split('/:/', $docpart);
+        if (count($docpart)>1) {
+            $part = &$this->{"tempDocument$docpart[0]"}[$docpart[1]];
+        } else {
+            $part = &$this->{"tempDocument$docpart[0]"};
+        }
+        $tagPos = strpos($part, $needle);
 
         if ($tagPos === false) {
             return $this->failGraciously(
@@ -695,7 +696,7 @@ class TemplateProcessor
             );
         }
 
-        $this->{"tempDocument$docpart"} =
+        $part =
             $this->getSlice(0, $segmentStart)
             . $replacement
             . $this->getSlice($segmentEnd);
@@ -718,9 +719,9 @@ class TemplateProcessor
     /**
      * Delete a segment of text.
      *
-     * @param string $needle
-     * @param string $xmltag
-     * @param string $docpart
+     * @param string $needle If this is a macro, you need to add the ${} yourself.
+     * @param string $xmltag an xml tag without brackets, for example:  w:p
+     * @param string $docpart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
      *
      * @return true on segment found and deleted, false on segment not found.
      */
@@ -732,7 +733,7 @@ class TemplateProcessor
     /**
      * Saves the result document.
      *
-     * @return string
+     * @return string The filename of the document
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
