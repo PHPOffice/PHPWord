@@ -180,6 +180,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::setValue
+     * @covers ::replaceSubstring
      * @covers ::saveAs
      * @test
      */
@@ -193,11 +194,30 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $macroValues = array('Header Value', 'Document text.', 'Footer Value');
         $templateProcessor->setValue($macroNames, $macroValues);
 
+        $substringSource = array(' Value', 'document');
+        $substringFixed = array(' Title', 'book');
+        $templateProcessor->replaceSubstring($substringSource, $substringFixed);
+
         $docName = 'header-footer-test-result.docx';
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
-        unlink($docName);
-        $this->assertTrue($docFound);
+
+        $resultIsFine = false;
+        if ($docFound) {
+            $expectedDocumentZip = new \ZipArchive();
+            $expectedDocumentZip->open($docName);
+            $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+            if (false === $expectedDocumentZip->close()) {
+                throw new \Exception("Could not close zip file \"{$docName}\".");
+            }
+            unlink($docName);
+
+            if ((substr($expectedMainPartXml, -5, 4) != "book") && (strpos($expectedMainPartXml, "Document text.") > 0)) {
+                $resultIsFine = true;
+            }
+        }
+
+        $this->assertTrue($docFound && $resultIsFine);
     }
 
     /**

@@ -490,12 +490,25 @@ class TemplateProcessor
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
-        // Note: we can't use the same function for both cases here, because of performance considerations.
-        if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
-            return str_replace($search, $replace, $documentPartXML);
-        } else {
+        $use_regexp = (self::MAXIMUM_REPLACEMENTS_DEFAULT !== $limit);
+        if (!is_array($search)) {
+            $search = array($search);
+        }
+        if (substr($search[0], 0, 2) != "${") {		// replceSubstring()
+            $use_regexp = true;
+        }
+        if ($use_regexp) {
             $regExpEscaper = new RegExp();
-            return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);
+            foreach ($search as &$search_string) {
+                $search_string = '(?!<<*)'. $regExpEscaper->escape($search_string). '(?!>*>)';
+            }
+        }
+
+        // Note: we can't use the same function for both cases here, because of performance considerations.
+        if ($use_regexp) {
+            return preg_replace($search, $replace, $documentPartXML, $limit);
+        } else {
+            return str_replace($search, $replace, $documentPartXML);
         }
     }
 
