@@ -500,7 +500,7 @@ class TemplateProcessor
         if ($use_regexp) {
             $regExpEscaper = new RegExp();
             foreach ($search as &$search_string) {
-                $search_string = '(?!<<*)'. $regExpEscaper->escape($search_string). '(?!>*>)';
+                $search_string = '/(?!<<*)'. $regExpEscaper->escape($search_string). '(?!>*>)/';
             }
         }
 
