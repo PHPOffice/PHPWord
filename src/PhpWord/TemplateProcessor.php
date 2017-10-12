@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
@@ -490,21 +489,21 @@ class TemplateProcessor
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
-        $use_regexp = (self::MAXIMUM_REPLACEMENTS_DEFAULT !== $limit);
+        $useRegexp = (self::MAXIMUM_REPLACEMENTS_DEFAULT !== $limit);
         if (!is_array($search)) {
             $search = array($search);
         }
         if (substr($search[0], 0, 2) != '${') {		// replceSubstring()
-            $use_regexp = true;
+            $useRegexp = true;
         }
-        if ($use_regexp) {
-            foreach ($search as &$search_string) {
-                $search_string = '/(?!<<*)'. preg_quote($search_string, '/'). '(?!>*>)/u';
+        if ($useRegexp) {
+            foreach ($search as &$searchString) {
+                $searchString = '/(?!<<*)'. preg_quote($searchString, '/'). '(?!>*>)/u';
             }
         }
 
         // Note: we can't use the same function for both cases here, because of performance considerations.
-        if ($use_regexp) {
+        if ($useRegexp) {
             return preg_replace($search, $replace, $documentPartXML, $limit);
         } else {
             return str_replace($search, $replace, $documentPartXML);
