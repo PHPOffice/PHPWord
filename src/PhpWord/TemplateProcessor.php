@@ -494,13 +494,12 @@ class TemplateProcessor
         if (!is_array($search)) {
             $search = array($search);
         }
-        if (substr($search[0], 0, 2) != "${") {		// replceSubstring()
+        if (substr($search[0], 0, 2) != '${') {		// replceSubstring()
             $use_regexp = true;
         }
         if ($use_regexp) {
-            $regExpEscaper = new RegExp();
             foreach ($search as &$search_string) {
-                $search_string = '/(?!<<*)'. $regExpEscaper->escape($search_string). '(?!>*>)/';
+                $search_string = '/(?!<<*)'. preg_quote($search_string, '/'). '(?!>*>)/u';
             }
         }
 
