@@ -266,14 +266,14 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         if (!file_exists($name) || !is_readable($name)) {
             return null;
         }
-        $ESTR =
+        $evalString =
             'class OpenTemplateProcessor extends \PhpOffice\PhpWord\TemplateProcessor {'
             . 'public function __construct($instance){return parent::__construct($instance);}'
             . 'public function __call($method, $args) {return call_user_func_array(array($this, $method), $args);}'
             . 'public function __get($key){return $this->$key;}'
             . 'public function __set($key, $val){return $this->$key = $val;} };'
             . 'return new OpenTemplateProcessor("'.$name.'");';
-        return eval($ESTR);
+        return eval($evalString);
     }
     /**
      * @covers ::cloneBlock
@@ -292,11 +292,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME'),
             $templateProcessor->getVariables()
         );
-        $clone_times = 3;
+        $cloneTimes = 3;
         $docName = 'clone-delete-block-result.docx';
         $xmlblock = $templateProcessor->getBlock('CLONEME');
         $this->assertNotEmpty($xmlblock);
-        $templateProcessor->cloneBlock('CLONEME', $clone_times);
+        $templateProcessor->cloneBlock('CLONEME', $cloneTimes);
         $templateProcessor->deleteBlock('DELETEME');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
@@ -306,15 +306,15 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessorNEWFILE = $this->getOpenTemplateProcessor($docName);
             # We test that all Block variables have been replaced (thus, getVariables() is empty)
             $this->assertEquals(
-                [],
+                array(),
                 $templateProcessorNEWFILE->getVariables(),
                 "All block variables should have been replaced"
             );
-            # we cloned block CLONEME $clone_times times, so let's count to $clone_times
+            # we cloned block CLONEME $cloneTimes times, so let's count to $cloneTimes
             $this->assertEquals(
-                $clone_times,
+                $cloneTimes,
                 substr_count($templateProcessorNEWFILE->tempDocumentMainPart, $xmlblock),
-                "Block should be present $clone_times in the document"
+                "Block should be present $cloneTimes in the document"
             );
             unlink($docName); # delete generated file
         }
@@ -368,7 +368,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         ];
         $templateProcessor->setValue(array_keys($variablesArray), array_values($variablesArray));
         $this->assertEquals(
-            [],
+            array(),
             $templateProcessor->getVariables(),
             "Variables have been replaced and should not be present anymore"
         );
@@ -603,47 +603,21 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::makeTable
-     * @covers ::toXML
-     * @test
-     */
-    public function testMakeTable()
-    {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
-
-        $table = $templateProcessor->makeTable();
-        $cell = $table->addRow()->addCell();
-        $cell->addText("CELL-A1");
-
-        $this->assertEquals(
-            '<w:tbl><w:tblGrid><w:gridCol/></w:tblGrid><w:tr><w:trPr/>'.
-            '<w:tc><w:tcPr><w:tcW w:w="" w:type="dxa"/></w:tcPr>'.
-            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>'.
-            '</w:tc></w:tr></w:tbl>',
-            $templateProcessor->toXML($table)
-        );
-
-        $this->assertEquals(
-            '<w:tc><w:tcPr><w:tcW w:w="" w:type="dxa"/></w:tcPr>'.
-            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>'.
-            '</w:tc>',
-            $templateProcessor->toXML($cell)
-        );
-
-        $this->assertEquals(
-            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">CELL-A1</w:t></w:r></w:p>',
-            $templateProcessor->toXML($cell, 'w:p')
-        );
-    }
-
-    /**
      * @covers ::fixBrokenMacros
      * @covers ::ensureMacroCompleted
+     * @covers ::getVariables
      * @test
      */
     public function testFixBrokenMacros()
     {
-        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $templateProcessor = $this->getOpenTemplateProcessor(__DIR__ . '/_files/templates/bad-tags.docx');
+
+        // the only tag that is a real tag
+        $this->assertEquals(
+            ['tag'],
+            $templateProcessor->getVariables()
+        );
+
         $xmlStr = '<w:r><w:t>${</w:t></w:r><w:proofErr w:type="spellStart"/><w:r><w:t>aaaaa</w:t></w:r>'.
             '<w:proofErr w:type="spellEnd"/><w:r><w:t>}</w:t></w:r>';
         $macro = $templateProcessor->ensureMacroCompleted('aaaaa');
@@ -790,59 +764,6 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             null,
             $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 'IOU', 'MainPart', true)
-        );
-    }
-
-    /**
-     * @covers ::cloneSegment
-     * @covers ::getVariables
-     * @covers ::setBlock
-     * @covers ::saveAs
-     * @test
-     */
-    public function testToXML()
-    {
-        $testDocument = __DIR__ . '/_files/templates/header-footer.docx';
-        $templateProcessor = new TemplateProcessor($testDocument);
-        $myTable = $templateProcessor->makeTable();
-        $randomText = "I was going to go to school, but then I got testcased.";
-        $resultXml = '<w:t xml:space="preserve">' . $randomText . '</w:t>';
-        $myTable->addRow()->addCell()->addText($randomText);
-        $this->assertEquals(
-            $resultXml,
-            $templateProcessor->toXML($myTable, 'w:t')
-        );
-    }
-
-    /**
-     * @covers                   ::toXML
-     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage toXML(): First parameter is not an object
-     * @test
-     */
-    final public function testToXMLException()
-    {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
-        $this->assertEquals(
-            null,
-            $templateProcessor->toXML(null, 'w:t')
-        );
-    }
-
-    /**
-     * @covers                   ::toXML
-     * @covers                   ::makeTable
-     * @expectedException        Error
-     * @expectedExceptionMessage Call to undefined method PhpOffice\PhpWord\Element\Table::createRow()
-     * @test
-     */
-    final public function testToXMLException2()
-    {
-        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
-        $myRow = $templateProcessor->makeTable()->createRow();
-        $this->assertEquals(
-            null,
-            $templateProcessor->toXML($myRow)
         );
     }
 }

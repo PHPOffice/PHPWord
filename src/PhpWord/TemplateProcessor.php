@@ -30,6 +30,7 @@ class TemplateProcessor
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
 
     public static $ensureMacroCompletion = true;
+
     /**
      * ZipArchive object.
      *
@@ -795,6 +796,7 @@ class TemplateProcessor
     /**
      * Finds parts of broken macros and sticks them together.
      * Macros, while being edited, could be implicitly broken by some of the word processors.
+     * In order to limit side-effects, we limit matches to only inside (inner) paragraphs
      *
      * @param string $documentPart The document part in XML representation.
      *
@@ -802,17 +804,17 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $fixedDocumentPart = $documentPart;
-
-        $fixedDocumentPart = preg_replace_callback(
-            '|\$(?:<[^{]*)?\{[^}]*\}|U',
-            function ($match) {
-                return strip_tags($match[0]);
-            },
-            $fixedDocumentPart
-        );
-
-        return $fixedDocumentPart;
+        $paragraphs = preg_split('@(</?w:p\b[^>]*>)@', $documentPart, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        foreach($paragraphs as &$paragraph){
+            $paragraph = preg_replace_callback(
+                '|\$(?:<[^{}]*)?\{[^{}]*\}|U',
+                function ($match) {
+                    return strip_tags($match[0]);
+                },
+                $paragraph
+            );
+        }
+        return implode('', $paragraphs);
     }
 
     /**
@@ -854,7 +856,7 @@ class TemplateProcessor
      */
     protected function getVariablesForPart($documentPartXML)
     {
-        preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
+        preg_match_all('/\$\{([^<>{}]*?)}/i', $documentPartXML, $matches);
 
         return $matches[1];
     }
@@ -964,46 +966,5 @@ class TemplateProcessor
         }
 
         return substr($searchString, $startPosition, ($endPosition - $startPosition));
-    }
-
-    /**
-     * Returns a table object from the Word2007 / PhpWord().
-     *
-     * @return object of type PhpOffice\PhpWord\Element\Table
-     */
-    public function makeTable()
-    {
-        return (new \PhpOffice\PhpWord\PhpWord())->addSection()->addTable();
-    }
-
-    /**
-     * Convert a Word2007 object to xml.
-     *
-     * @param object $obj an object
-     * @param string $tag   a tag like 'w:p' or 'w:tbl' if the tag is not found, return the whole xml as string.
-     * @param bool   $withTags include <w:p>...</w:p> xml tags in the result
-     *
-     * @return string|Exception
-     */
-    public function toXML($obj, $tag = '', $withTags = true)
-    {
-        if (!is_Object($obj)) {
-            throw new Exception("toXML(): First parameter is not an object");
-        }
-        if (!$tag) {
-            $tagList = array('Table' => 'w:tbl', 'Cell' => 'w:tc'); // needs more entries
-            $class = preg_replace('/^(.*\\\)/', '', get_class($obj));
-            if (!array_key_exists($class, $tagList)) {
-                throw new Exception("toXML(): tag parameter required for " . get_class($obj));
-            }
-            $tag = $tagList[$class];
-        }
-        $phpWord = $obj->getPhpWord();
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $fullXml = $objWriter->getWriterPart('Document')->write();
-        $regExp = $withTags ?
-            "/^[\s\S]*(<$tag\b.*<\/$tag>).*/" :
-            "/^[\s\S]*<$tag\b[^>]*>(.*)<\/$tag>.*/" ;
-        return preg_replace($regExp, '$1', $fullXml);
     }
 }
