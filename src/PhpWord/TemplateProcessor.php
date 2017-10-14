@@ -725,7 +725,7 @@ class TemplateProcessor
      *
      * @param string $blockname
      *
-     * @return true on block found and deleted, false on block not found.
+     * @return string|true|false|null true-ish on block found and deleted, falseish on block not found.
      */
     public function deleteBlock($blockname)
     {
@@ -739,7 +739,7 @@ class TemplateProcessor
      * @param string $xmltag an xml tag without brackets, for example:  w:p
      * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (second header)
      *
-     * @return true on segment found and deleted, false on segment not found.
+     * @return true|false|null true (segment deleted), false ($needle not found) or null (no tags found around $needle)
      */
     public function deleteSegment($needle, $xmltag, $docPart = 'MainPart')
     {
