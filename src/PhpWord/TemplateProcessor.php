@@ -295,6 +295,8 @@ class TemplateProcessor
      * @param mixed $elseReturn
      *
      * @return mixed
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     private function failGraciously($exceptionText, $throwException, $elseReturn)
     {
@@ -426,7 +428,9 @@ class TemplateProcessor
      * @param boolean $incrementVariables
      * @param boolean $throwException
      *
-     * @return string|false|null
+     * @return mixed The cloned string if successful, false ($blockname not found) or Null (no paragraph found)
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function cloneBlock(
         $blockname,
@@ -625,7 +629,7 @@ class TemplateProcessor
      * @param string  $replacement The replacement xml
      * @param boolean $throwException false by default.
      *
-     * @return string|true|false|null false-ish on no replacement, true-ish on replacement
+     * @return string|boolean|null false-ish on no replacement, true-ish on replacement
      */
     public function replaceBlock($blockname, $replacement = '', $throwException = false)
     {
@@ -681,7 +685,7 @@ class TemplateProcessor
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
-     * @return true|false|null true (replaced), false ($needle not found) or null (no tags found around $needle)
+     * @return boolean|null true (replaced), false ($needle not found) or null (no tags found around $needle)
      */
     public function replaceSegment($needle, $xmltag, $replacement = '', $docPart = 'MainPart', $throwException = false)
     {
