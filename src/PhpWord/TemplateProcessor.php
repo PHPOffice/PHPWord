@@ -235,7 +235,7 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
 
-        $documentParts = ['tempDocumentHeaders', 'tempDocumentFooters'];
+        $documentParts = array('tempDocumentHeaders', 'tempDocumentFooters');
         foreach ($documentParts as $tempDocumentParts) {
             foreach ($this->{$tempDocumentParts} as &$tempDocumentPart) {
                 $tempDocumentPart = $this->setValueForPart($search, $replace, $tempDocumentPart, $limit);
@@ -505,15 +505,15 @@ class TemplateProcessor
     /**
      * Clone a segment.
      *
-     * @param string  $needle
-     * @param string  $xmltag
-     * @param string  $docPart
-     * @param integer $clones
-     * @param boolean $replace
-     * @param boolean $incrementVariables
-     * @param boolean $throwException
+     * @param string  $needle  If this is a macro, you need to add the ${} around it yourself.
+     * @param string  $xmltag  an xml tag without brackets, for example:  w:p
+     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
+     * @param integer $clones  How many times the segment needs to be cloned
+     * @param boolean $replace true by default (if you use false, cloneSegment behaves like getSegment())
+     * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
+     * @param boolean $throwException false by default (it then returns false or null on errors).
      *
-     * @return string|null
+     * @return string|false|null Returns the cloned segment, or false if $needle can not be found or null for no tags
      */
     public function cloneSegment(
         $needle,
@@ -532,29 +532,29 @@ class TemplateProcessor
         }
         $needlePos = strpos($part, $needle);
 
-        if (!$needlePos) {
+        if ($needlePos === false) {
             return $this->failGraciously(
                 "Can not find segment '$needle', text not found or text contains markup.",
-                $throwException,
-                null
-            );
-        }
-
-        $startSegmentStart = $this->findTagLeft($part, "<$xmltag>", $needlePos, $throwException);
-        $endSegmentEnd = $this->findTagRight($part, "</$xmltag>", $needlePos);
-
-        if (!$startSegmentStart || !$endSegmentEnd) {
-            return $this->failGraciously(
-                "Can not find <$xmltag> around segment '$needle'",
                 $throwException,
                 false
             );
         }
 
-        $xmlSegment = $this->getSlice($part, $startSegmentStart, $endSegmentEnd);
+        $segmentStart = $this->findTagLeft($part, "<$xmltag>", $needlePos, $throwException);
+        $segmentEnd = $this->findTagRight($part, "</$xmltag>", $needlePos);
+
+        if (!$segmentStart || !$segmentEnd) {
+            return $this->failGraciously(
+                "Can not find <$xmltag> around segment '$needle'",
+                $throwException,
+                null
+            );
+        }
+
+        $xmlSegment = $this->getSlice($part, $segmentStart, $segmentEnd);
 
         if ($replace) {
-            $result = $this->getSlice($part, 0, $startSegmentStart);
+            $result = $this->getSlice($part, 0, $segmentStart);
             for ($i = 1; $i <= $clones; $i++) {
                 if ($incrementVariables) {
                     $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlSegment);
@@ -562,7 +562,7 @@ class TemplateProcessor
                     $result .= $xmlSegment;
                 }
             }
-            $result .= $this->getSlice($part, $endSegmentEnd);
+            $result .= $this->getSlice($part, $segmentEnd);
 
             $part = $result;
         }
@@ -586,10 +586,10 @@ class TemplateProcessor
     /**
      * Get a segment. (first segment found)
      *
-     * @param string  $needle If this is a macro, you need to add the ${} yourself.
+     * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
-     * @param boolean $throwException
+     * @param boolean $throwException false by default (it then returns false or null on errors).
      *
      * @return string|null
      */
@@ -668,21 +668,21 @@ class TemplateProcessor
     /**
      * Replace a segment.
      *
-     * @param string  $needle If this is a macro, you need to add the ${} yourself.
+     * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
-     * @param string  $replacement
-     * @param string  $docPart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
-     * @param boolean $throwException
+     * @param string  $replacement The replacement xml string. Be careful and keep the xml uncorrupted.
+     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
+     * @param boolean $throwException false by default (it then returns false or null on errors).
      *
-     * @return false on no replacement, true on replacement
+     * @return true on replacement, false if $needle can not be found or null if no tags can be found around $needle
      */
     public function replaceSegment($needle, $xmltag, $replacement = '', $docPart = 'MainPart', $throwException = false)
     {
         $docPart = preg_split('/:/', $docPart);
         if (count($docPart)>1) {
-            $part = &$this->{"tempDocument$docPart[0]"}[$docPart[1]];
+            $part = &$this->{"tempDocument".$docPart[0]}[$docPart[1]];
         } else {
-            $part = &$this->{"tempDocument$docPart[0]"};
+            $part = &$this->{"tempDocument".$docPart[0]};
         }
         $needlePos = strpos($part, $needle);
 
@@ -701,7 +701,7 @@ class TemplateProcessor
             return $this->failGraciously(
                 "Can not find tag $xmltag around segment '$needle'.",
                 $throwException,
-                false
+                null
             );
         }
 
@@ -730,7 +730,7 @@ class TemplateProcessor
      *
      * @param string $needle If this is a macro, you need to add the ${} yourself.
      * @param string $xmltag an xml tag without brackets, for example:  w:p
-     * @param string $docPart 'MainPart' (default) 'Footers:0' (first footer) or 'Headers:1' (second header)
+     * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (second header)
      *
      * @return true on segment found and deleted, false on segment not found.
      */
@@ -804,8 +804,13 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $paragraphs = preg_split('@(</?w:p\b[^>]*>)@', $documentPart, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-        foreach($paragraphs as &$paragraph){
+        $paragraphs = preg_split(
+            '@(</?w:p\b[^>]*>)@',
+            $documentPart,
+            -1,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+        );
+        foreach ($paragraphs as &$paragraph) {
             $paragraph = preg_replace_callback(
                 '|\$(?:<[^{}]*)?\{[^{}]*\}|U',
                 function ($match) {
