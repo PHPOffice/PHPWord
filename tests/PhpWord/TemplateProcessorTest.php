@@ -360,12 +360,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             "Injected document should contain the right cloned variables, in the right order"
         );
 
-        $variablesArray = [
+        $variablesArray = array(
             'repeats#1' => 'ONE',
             'repeats#2' => 'TWO',
             'repeats#3' => 'THREE',
             'repeats#4' => 'FOUR'
-        ];
+        );
         $templateProcessor->setValue(array_keys($variablesArray), array_values($variablesArray));
         $this->assertEquals(
             array(),
@@ -614,7 +614,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         // the only tag that is a real tag
         $this->assertEquals(
-            ['tag'],
+            array('tag'),
             $templateProcessor->getVariables()
         );
 
@@ -691,7 +691,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor = new TemplateProcessor($testDocument);
 
         $this->assertEquals(
-            ['documentContent', 'headerValue', 'footerValue'],
+            array('documentContent', 'headerValue', 'footerValue'),
             $templateProcessor->getVariables()
         );
 
@@ -727,7 +727,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
             $templateProcessor2 = new TemplateProcessor($docName);
             $this->assertEquals(
-                ['documentContent#1', 'headerValue#2', 'footerValue#1', 'footerValue#2'],
+                array('documentContent#1', 'headerValue#2', 'footerValue#1', 'footerValue#2'),
                 $templateProcessor2->getVariables()
             );
             unlink($docName);
