@@ -571,7 +571,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $templateProcessor->getBlock('inline'),
             '</w:t></w:r><w:r><w:rPr><w:b/>'.
-                '<w:bCs/><w:lang w:val="en-US"/></w:rPr><w:t xml:space="preserve"> has been',
+            '<w:bCs/><w:lang w:val="en-US"/></w:rPr><w:t xml:space="preserve"> has been',
             "When inside the same <w:p>, cut inside the paragraph"
         );
 
