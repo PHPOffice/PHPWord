@@ -334,7 +334,7 @@ class TemplateProcessor
      * @param bool    $incrementVariables
      * @param bool    $throwException
      *
-     * @return string|null
+     * @return string|false Returns the row cloned or false if the $search macro is not found
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
@@ -346,11 +346,11 @@ class TemplateProcessor
         $throwException = false
     ) {
         $tagPos = strpos($this->tempDocumentMainPart, $this->ensureMacroCompleted($search));
-        if (!$tagPos) {
+        if ($tagPos === false) {
             return $this->failGraciously(
                 "Can not clone row, template variable not found or variable contains markup.",
                 $throwException,
-                null
+                false
             );
         }
 
@@ -909,14 +909,15 @@ class TemplateProcessor
      * Find the start position of the nearest tag before $offset.
      *
      * @param string  $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
-     * @param string  $tag  Fully qualified tag, for example: '<w:p>'
+     * @param string  $tag  Fully qualified tag, for example: '<w:p>' (with brackets!)
      * @param integer $offset Do not look from the beginning, but starting at $offset
      * @param boolean $throwException
      *
-     * @return integer
+     * @return integer Zero if not found (due to the nature of xml, your document never starts at 0)
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
+
     protected function findTagLeft(&$searchString, $tag, $offset = 0, $throwException = false)
     {
         $tagStart = strrpos(
@@ -932,6 +933,7 @@ class TemplateProcessor
                 ((strlen($searchString) - $offset) * -1)
             );
         }
+
         if (!$tagStart) {
             return $this->failGraciously(
                 "Can not find the start position of the item to clone.",
@@ -950,7 +952,7 @@ class TemplateProcessor
      * @param string  $tag  Fully qualified tag, for example: '<w:p>'
      * @param integer $offset Do not look from the beginning, but starting at $offset
      *
-     * @return integer
+     * @return integer Zero if not found
      */
     protected function findTagRight(&$searchString, $tag, $offset = 0)
     {
