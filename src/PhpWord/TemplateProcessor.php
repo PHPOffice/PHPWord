@@ -29,6 +29,12 @@ class TemplateProcessor
 {
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
 
+    /**
+     * Enable/disable setValue('key') becoming setValue('${key}') automatically.
+     * Call it like: TemplateProcessor::$ensureMacroCompletion = false;
+     *
+     * @var boolean
+     */
     public static $ensureMacroCompletion = true;
 
     /**
@@ -204,9 +210,9 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $search
-     * @param mixed $replace
-     * @param integer $limit
+     * @param mixed $search macro name you want to replace (or an array of these)
+     * @param mixed $replace replace string (or an array of these)
+     * @param integer $limit How many times it will have to replace the same variable all over the document.
      *
      * @return void
      */
@@ -269,9 +275,10 @@ class TemplateProcessor
 
     /**
      * Updates a file inside the document, from a string (with binary data)
+     * To replace an image: $templateProcessor->zipAddFromString("word/media/image1.jpg", file_get_contents($file));
      *
-     * @param string $localname
-     * @param string $contents
+     * @param string $localname The path and name inside the docx/zip file
+     * @param mixed $contents Text or Binary data
      *
      * @return bool
      */
@@ -419,7 +426,7 @@ class TemplateProcessor
      * @param boolean $incrementVariables
      * @param boolean $throwException
      *
-     * @return string|null
+     * @return string|false|null
      */
     public function cloneBlock(
         $blockname,
@@ -450,7 +457,7 @@ class TemplateProcessor
             return $this->failGraciously(
                 "Can not find block '$blockname', template variable not found or variable contains markup.",
                 $throwException,
-                null
+                false
             );
         }
 
@@ -461,7 +468,7 @@ class TemplateProcessor
             return $this->failGraciously(
                 "Can not find start paragraph around block '$blockname'",
                 $throwException,
-                false
+                null
             );
         }
 
@@ -472,7 +479,7 @@ class TemplateProcessor
             return $this->failGraciously(
                 "Can not find end paragraph around block '$blockname'",
                 $throwException,
-                false
+                null
             );
         }
 
@@ -591,7 +598,7 @@ class TemplateProcessor
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
-     * @return string|null
+     * @return string|false|null true (replaced), false ($needle not found) or null (no tags found around $needle)
      */
     public function getSegment($needle, $xmltag, $docPart = 'MainPart', $throwException = false)
     {
@@ -614,11 +621,11 @@ class TemplateProcessor
     /**
      * Replace a block.
      *
-     * @param string  $blockname
-     * @param string  $replacement
-     * @param boolean $throwException
+     * @param string  $blockname The name of the macro start and end (without the macro marker ${})
+     * @param string  $replacement The replacement xml
+     * @param boolean $throwException false by default.
      *
-     * @return false on no replacement, true on replacement
+     * @return string|true|false|null false-ish on no replacement, true-ish on replacement
      */
     public function replaceBlock($blockname, $replacement = '', $throwException = false)
     {
@@ -645,9 +652,9 @@ class TemplateProcessor
 
         if (!$startBlockStart || !$endBlockEnd) {
             return $this->failGraciously(
-                "Can not find end paragraph around block '$blockname'",
+                "Can not find paragraph around block '$blockname'",
                 $throwException,
-                false
+                null
             );
         }
 
@@ -674,7 +681,7 @@ class TemplateProcessor
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
-     * @return true on replacement, false if $needle can not be found or null if no tags can be found around $needle
+     * @return true|false|null true (replaced), false ($needle not found) or null (no tags found around $needle)
      */
     public function replaceSegment($needle, $xmltag, $replacement = '', $docPart = 'MainPart', $throwException = false)
     {
