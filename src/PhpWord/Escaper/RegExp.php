@@ -19,7 +19,7 @@ namespace PhpOffice\PhpWord\Escaper;
 
 /**
  * @since 0.13.0
- * 
+ *
  * @codeCoverageIgnore
  */
 class RegExp extends AbstractEscaper

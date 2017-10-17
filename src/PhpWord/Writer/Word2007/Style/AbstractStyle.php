@@ -71,7 +71,7 @@ abstract class AbstractStyle
     /**
      * Get Style
      *
-     * @return \PhpOffice\PhpWord\Style\AbstractStyle
+     * @return string|\PhpOffice\PhpWord\Style\AbstractStyle
      */
     protected function getStyle()
     {

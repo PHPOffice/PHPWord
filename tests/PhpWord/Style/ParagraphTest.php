@@ -80,6 +80,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
             'keepLines'         => true,
             'pageBreakBefore'   => true,
             'contextualSpacing' => true,
+            'bidi'              => true,
         );
         foreach ($attributes as $key => $value) {
             $get = $this->findGetter($key, $value, $object);

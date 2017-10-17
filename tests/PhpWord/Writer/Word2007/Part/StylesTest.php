@@ -115,7 +115,8 @@ class StylesTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($element);
     }
 
-    function testFontStyleBasedOnOtherFontStyle() {
+    public function testFontStyleBasedOnOtherFontStyle()
+    {
         $phpWord = new PhpWord();
 
         $styleGenerationP = new Paragraph();

@@ -329,7 +329,7 @@ abstract class AbstractStyle
     protected function setPairedVal(&$property, &$pairProperty, $value)
     {
         $property = $this->setBoolVal($value, $property);
-        if ($value == true) {
+        if ($value === true) {
             $pairProperty = false;
         }
 

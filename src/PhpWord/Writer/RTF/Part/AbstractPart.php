@@ -48,7 +48,7 @@ abstract class AbstractPart
 
     /**
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
-     * 
+     *
      * @return void
      */
     public function setParentWriter(AbstractWriter $writer = null)

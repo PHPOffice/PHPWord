@@ -166,6 +166,13 @@ class Paragraph extends Border
     private $contextualSpacing = false;
 
     /**
+     * Right to Left Paragraph Layout
+     *
+     * @var bool
+     */
+    private $bidi = false;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -216,6 +223,7 @@ class Paragraph extends Border
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
             'contextualSpacing' => $this->hasContextualSpacing(),
+            'bidi'              => $this->isBidi(),
         );
 
         return $styles;
@@ -240,7 +248,7 @@ class Paragraph extends Border
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
+        if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
 
@@ -739,10 +747,10 @@ class Paragraph extends Border
 
         return $this;
     }
-    
+
     /**
      * Get contextualSpacing
-     * 
+     *
      * @return bool
      */
     public function hasContextualSpacing()
@@ -752,7 +760,7 @@ class Paragraph extends Border
 
     /**
      * Set contextualSpacing
-     * 
+     *
      * @param bool $contextualSpacing
      * @return self
      */
@@ -760,6 +768,30 @@ class Paragraph extends Border
     {
         $this->contextualSpacing = $contextualSpacing;
         
+        return $this;
+    }
+
+    /**
+     * Get bidirectional
+     *
+     * @return bool
+     */
+    public function isBidi()
+    {
+        return $this->bidi;
+    }
+
+    /**
+     * Set bidi
+     *
+     * @param bool $bidi
+     *            Set to true to write from right to left
+     * @return self
+     */
+    public function setBidi($bidi)
+    {
+        $this->bidi = $bidi;
+
         return $this;
     }
 }

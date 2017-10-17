@@ -263,7 +263,6 @@ abstract class AbstractPart
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
-
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
@@ -279,7 +278,6 @@ abstract class AbstractPart
                 foreach ($rowNodes as $rowNode) {
                     if ('w:trPr' == $rowNode->nodeName) { // Row style
                         // @todo Do something with row style
-
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
@@ -316,18 +314,20 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
-            'alignment'       => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
-            'next'            => array(self::READ_VALUE, 'w:next'),
-            'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'         => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'      => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'     => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'    => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'        => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'       => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore' => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'styleName'         => array(self::READ_VALUE, 'w:pStyle'),
+            'alignment'         => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
+            'next'              => array(self::READ_VALUE, 'w:next'),
+            'indent'            => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'           => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'        => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'       => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'      => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'          => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'         => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore'   => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'contextualSpacing' => array(self::READ_TRUE,  'w:contextualSpacing'),
+            'bidi'              => array(self::READ_TRUE,  'w:bidi'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -371,6 +371,9 @@ abstract class AbstractPart
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
+            'font-latin'          => array(self::READ_VALUE,  'w:font', 'w:val'),
+            'font-eastAsia'       => array(self::READ_VALUE,  'w:font', 'w:eastAsia'),
+            'font-bidi'           => array(self::READ_VALUE,  'w:font', 'w:bidi'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

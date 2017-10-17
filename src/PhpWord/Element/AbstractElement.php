@@ -116,14 +116,14 @@ abstract class AbstractElement
 
     /**
      * The start position for the linked comment
-     * 
+     *
      * @var Comment
      */
     protected $commentRangeStart;
 
     /**
      * The end position for the linked comment
-     * 
+     *
      * @var Comment
      */
     protected $commentRangeEnd;
@@ -231,7 +231,7 @@ abstract class AbstractElement
     /**
      * Get element unique ID
      *
-     * @return string
+     * @return integer
      */
     public function getElementId()
     {
@@ -291,7 +291,7 @@ abstract class AbstractElement
 
     /**
      * Set comment start
-     * 
+     *
      * @param Comment $value
      */
     public function setCommentRangeStart(Comment $value)

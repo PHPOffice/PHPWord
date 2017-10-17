@@ -213,7 +213,6 @@ class Chart extends AbstractPart
             $xmlWriter->endElement(); // c:ser
             $index++;
         }
-
     }
 
     /**

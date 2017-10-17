@@ -28,7 +28,7 @@ $textrun->addText('here:');
 
 $indexEntryText = new TextRun();
 $indexEntryText->addText('My ');
-$indexEntryText->addText('bold index', ['bold' => true]);
+$indexEntryText->addText('bold index', array('bold' => true));
 $indexEntryText->addText(' entry');
 
 $textrun = $section->addTextRun();

@@ -294,7 +294,6 @@ class OLERead
 
             $offset += self::PROPERTY_STORAGE_BLOCK_SIZE;
         }
-
     }
 
     /**

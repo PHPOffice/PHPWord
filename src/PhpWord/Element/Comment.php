@@ -31,14 +31,14 @@ class Comment extends TrackChange
 
     /**
      * The Element where this comment starts
-     * 
+     *
      * @var AbstractElement
      */
     private $startElement;
 
     /**
      * The Element where this comment ends
-     * 
+     *
      * @var AbstractElement
      */
     private $endElement;
@@ -61,7 +61,6 @@ class Comment extends TrackChange
     {
         parent::__construct($author, $date);
         $this->initials = $initials;
-        return $this;
     }
 
     /**
@@ -76,7 +75,7 @@ class Comment extends TrackChange
 
     /**
      * Sets the element where this comment starts
-     * 
+     *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $value
      */
     public function setStartElement(AbstractElement $value)
@@ -89,7 +88,7 @@ class Comment extends TrackChange
 
     /**
      * Get the element where this comment starts
-     * 
+     *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
      */
     public function getStartElement()
@@ -99,7 +98,7 @@ class Comment extends TrackChange
 
     /**
      * Sets the element where this comment ends
-     * 
+     *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $value
      */
     public function setEndElement(AbstractElement $value)
@@ -112,7 +111,7 @@ class Comment extends TrackChange
 
     /**
      * Get the element where this comment ends
-     * 
+     *
      * @return \PhpOffice\PhpWord\Element\AbstractElement
      */
     public function getEndElement()

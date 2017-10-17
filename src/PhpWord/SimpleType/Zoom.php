@@ -15,18 +15,28 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Escaper;
+namespace PhpOffice\PhpWord\SimpleType;
+
+use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * @since 0.13.0
+ * Magnification Preset Values
  *
- * @codeCoverageIgnore
+ * @since 0.14.0
+ *
+ * @see http://www.datypic.com/sc/ooxml/t-w_ST_Zoom.html
  */
-class Xml extends AbstractEscaper
+final class Zoom extends AbstractEnum
 {
-    protected function escapeSingleValue($input)
-    {
-        // todo: omit encoding parameter after migration onto PHP 5.4
-        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
-    }
+    //No Preset Magnification
+    const NONE = 'none';
+
+    //Display One Full Page
+    const FULL_PAGE = 'fullPage';
+
+    //Display Page Width
+    const BEST_FIT = 'bestFit';
+
+    //Display Text Width
+    const TEXT_FIT = 'textFit';
 }

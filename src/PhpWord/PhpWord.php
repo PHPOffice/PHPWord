@@ -93,7 +93,7 @@ class PhpWord
         }
 
         // Metadata
-        $metadata = array('DocInfo', 'Protection', 'Compatibility');
+        $metadata = array('DocInfo', 'Settings', 'Compatibility');
         foreach ($metadata as $meta) {
             $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
             $this->metadata[$meta] = new $class();
@@ -172,10 +172,12 @@ class PhpWord
      *
      * @return \PhpOffice\PhpWord\Metadata\Protection
      * @since 0.12.0
+     * @deprecated Get the Document protection from PhpWord->getSettings()->getDocumentProtection();
+     * @codeCoverageIgnore
      */
     public function getProtection()
     {
-        return $this->metadata['Protection'];
+        return $this->getSettings()->getDocumentProtection();
     }
 
     /**
@@ -187,6 +189,17 @@ class PhpWord
     public function getCompatibility()
     {
         return $this->metadata['Compatibility'];
+    }
+
+    /**
+     * Get compatibility
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Settings
+     * @since 0.14.0
+     */
+    public function getSettings()
+    {
+        return $this->metadata['Settings'];
     }
 
     /**
