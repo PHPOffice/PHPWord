@@ -19,3 +19,4 @@ vendor
 phpword.ini
 /.buildpath
 /.project
+/nbproject
