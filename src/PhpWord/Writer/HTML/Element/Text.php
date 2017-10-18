@@ -122,6 +122,10 @@ class Text extends AbstractElement
             }
             $content .= "<p{$style}>";
         }
+        
+        if (method_exists($this->element, 'getFontStyle')) {
+            $this->getFontStyle();
+        }
 
         return $content;
     }
@@ -166,7 +170,10 @@ class Text extends AbstractElement
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($paragraphStyle)) {
+            $style = $paragraphStyle;
         }
+
         if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
             $style = " {$attribute}=\"{$style}\"";
@@ -190,7 +197,10 @@ class Text extends AbstractElement
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($fontStyle)) {
+            $style = $fontStyle;
         }
+
         if ($style) {
             $attribute = $fStyleIsObject ? 'style' : 'class';
             $this->openingTags = "<span {$attribute}=\"{$style}\">";

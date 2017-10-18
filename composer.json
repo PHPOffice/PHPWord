@@ -44,7 +44,7 @@
         "squizlabs/php_codesniffer": "1.*",
         "phpmd/phpmd": "2.*",
         "phploc/phploc": "2.*",
-        "dompdf/dompdf":"0.6.*",
+        "dompdf/dompdf":"^0.8.1",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.*"
     },

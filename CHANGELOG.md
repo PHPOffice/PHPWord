@@ -29,6 +29,7 @@ This is the last version to support PHP 5.3
 - Impossible to add element PreserveText in Section - @rvanlaak #452
 - Added missing options for numbering format - @troosan #1041
 - Fixed impossibility to set a different footer for first page - @ctrlaltca #1116
+- Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
 
 v0.13.0 (31 July 2016)
 -------------------
