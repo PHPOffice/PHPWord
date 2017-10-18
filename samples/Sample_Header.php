@@ -14,8 +14,7 @@ Settings::loadConfig();
 
 $dompdfPath = $vendorDirPath . '/dompdf/dompdf';
 if (file_exists($dompdfPath)) {
-    define('DOMPDF_ENABLE_AUTOLOAD', false);
-    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
+    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $dompdfPath);
 }
 
 // Set writers

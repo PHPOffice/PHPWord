@@ -30,9 +30,9 @@ class DomPDF extends AbstractRenderer implements WriterInterface
     /**
      * Name of renderer include file
      *
-     * @var string
+     * @var string|false
      */
-    protected $includeFile = 'dompdf_config.inc.php';
+    protected $includeFile = false;
 
     /**
      * Save PhpWord to file.
@@ -49,9 +49,9 @@ class DomPDF extends AbstractRenderer implements WriterInterface
         $orientation = 'portrait';
 
         //  Create PDF
-        $pdf = new \DOMPDF();
-        $pdf->set_paper(strtolower($paperSize), $orientation);
-        $pdf->load_html($this->getContent());
+        $pdf = new \Dompdf\Dompdf();
+        $pdf->setPaper($paperSize, $orientation);
+        $pdf->loadHtml($this->getContent());
         $pdf->render();
 
         //  Write to file
