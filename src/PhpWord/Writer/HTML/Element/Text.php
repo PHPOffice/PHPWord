@@ -124,7 +124,7 @@ class Text extends AbstractElement
         }
         
         if (method_exists($this->element, 'getFontStyle')) {
-            $style = $this->getFontStyle();
+            $this->getFontStyle();
         }
 
         return $content;
