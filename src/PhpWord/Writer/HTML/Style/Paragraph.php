@@ -84,8 +84,7 @@ class Paragraph extends AbstractStyle
             $after = $spacing->getAfter();
             $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
             $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
-        }
-        else {
+        } else {
             // default paragragh margin to match document. Browsers default to 1em
             $css['margin-top'] = '0';
             $css['margin-bottom'] = '0';
