@@ -379,14 +379,14 @@ class TemplateProcessor
                     $extraRowEnd = $segmentEnd;
                     while (true) {
                         $extraRowStart = $extraRowEnd + 1;
-                        $extraRowEnd = $this->findTagRight($part, '</w:tr>', $extraRowStart);
+                        $extraRowEnd = strpos($part, '</w:tr>', $extraRowStart);
 
                         if (!$extraRowEnd) {
                             break;
                         }
-
+                        $extraRowEnd += strlen('</w:tr>');
                         // If tmpXmlRow doesn't contain continue, this row is no longer part of the spanned row.
-                        $tmpXmlRow = $this->getSlice($part, $extraRowStart, $extraRowEnd);
+                        $tmpXmlRow = substr($part, $extraRowStart, ($extraRowEnd - $extraRowStart));
                         if (!preg_match('#<w:vMerge ?/>#', $tmpXmlRow)
                             && !preg_match('#<w:vMerge w:val="continue" ?/>#', $tmpXmlRow)
                         ) {
@@ -395,7 +395,7 @@ class TemplateProcessor
                         // This row was a spanned row, update $segmentEnd and search for the next row.
                         $segmentEnd = $extraRowEnd;
                     }
-                    $xmlSegment = $this->getSlice($part, $segmentStart, $segmentEnd);
+                    $xmlSegment = substr($part, $segmentStart, ($segmentEnd - $segmentStart));
                 }
                 return $replace;
             },
