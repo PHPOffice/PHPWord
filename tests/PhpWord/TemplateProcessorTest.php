@@ -45,6 +45,21 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Construct test
+     *
+     * @covers ::__construct
+
+     * @test
+     */
+    public function testConstruct()
+    {
+        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
+        $this->assertEquals(array(), $object->getVariables());
+    }
+
+    /**
      * Template can be saved in temporary location.
      *
      * @covers ::save
@@ -188,7 +203,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::findTagLeft
      * @covers ::findTagRight
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Can not clone row, template variable not found or variable contains markup.
+     * @expectedExceptionMessage Can not find macro
      * @test
      */
     public function testCloneRow()
@@ -216,12 +231,13 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($docFound);
         $this->assertEquals(
             null,
-            $templateProcessor->cloneRow('userId', 2, false, false, true)
+            $templateProcessor->cloneRow('userId', 2, false, true)
         );
     }
 
     /**
      * @covers ::getRow
+     * @covers ::replaceRow
      * @covers ::saveAs
      * @covers ::findTagLeft
      * @covers ::findTagRight
@@ -247,17 +263,18 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $initialArray,
             $templateProcessor->getVariables()
         );
-        $row = $templateProcessor->cloneRow('userId', 2, true, false, false);
         $this->assertStringStartsWith('<w:tr', $row);
         $this->assertStringEndsWith('</w:tr>', $row);
-        $this->assertNotEmpty($row);
+
+        $result = $templateProcessor->cloneRow('userId', 2, false, false);
+        $this->assertTrue($result);
         $templateProcessor->setValue('userLocation', '${foo}', 1);
         $this->assertEquals(
             $midArray,
             array_values($templateProcessor->getVariables()),
             implode("|", $templateProcessor->getVariables())
         );
-        $row = $templateProcessor->cloneRow('userId', 2, true, true, false);
+        $row = $templateProcessor->cloneRow('userId', 2, true, false);
         $this->assertEquals(
             $finalArray,
             $templateProcessor->getVariables()
@@ -271,6 +288,19 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             $templateProcessorNewFile = new TemplateProcessor($docName);
             $this->assertEquals(
                 $finalArray,
+                $templateProcessorNewFile->getVariables()
+            );
+            $row = $templateProcessorNewFile->getRow('userId');
+            $this->assertTrue(strlen($row)>10);
+            $this->assertTrue(
+                $templateProcessorNewFile->replaceRow('userId#1', $row)
+            );
+            $this->assertTrue(
+                $templateProcessorNewFile->replaceRow('userId#2', $row)
+            );
+            // now we have less macro variables (although multiple of them)
+            $this->assertEquals(
+                $initialArray,
                 $templateProcessorNewFile->getVariables()
             );
             unlink($docName);
@@ -410,7 +440,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         # Now we try again, but without variable incrementals (old behavior)
         $this->poke($templateProcessor, 'tempDocumentMainPart', $xmlStr);
-        $templateProcessor->cloneBlock('MYBLOCK', 4, true, false);
+        $templateProcessor->cloneBlock('MYBLOCK', 4, false);
 
         # detects new variable
         $this->assertEquals(
@@ -648,7 +678,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::replaceBlock
      * @covers ::cloneBlock
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Can not find paragraph around block
+     * @expectedExceptionMessage Can not find end paragraph around block
      * @test
      */
     public function testReplaceBlock()
@@ -701,12 +731,12 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', 1, true, true, false)
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 1, 'MainPart', true, false)
         );
 
         $this->assertEquals(
             false,
-            $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 'MainPart', 1, true, true, false)
+            $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 1, 'MainPart', true, false)
         );
 
         $this->assertEquals(
@@ -749,11 +779,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             throw new \Exception("Could not close zip file");
         }
 
-        $segment = $templateProcessor->cloneSegment('${footerValue}', 'w:p', 'Footers:1', 2);
+        $segment = $templateProcessor->cloneSegment('${footerValue}', 'w:p', 2, 'Footers:1');
         $this->assertNotNull($segment);
-        $segment = $templateProcessor->cloneSegment('${headerValue}', 'w:p', 'Headers:1', 2);
+        $segment = $templateProcessor->cloneSegment('${headerValue}', 'w:p', 2, 'Headers:1');
         $this->assertNotNull($segment);
-        $segment = $templateProcessor->cloneSegment('${documentContent}', 'w:p', 'MainPart', 1);
+        $segment = $templateProcessor->cloneSegment('${documentContent}', 'w:p', 1, 'MainPart');
         $this->assertNotNull($segment);
         $templateProcessor->setBlock('headerValue#1', "In the end, it doesn't even matter.");
 
@@ -786,7 +816,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers                   ::failGraciously
      * @covers                   ::cloneSegment
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Can not find segment 'I-DO-NOT-EXIST', text not found or text contains markup
+     * @expectedExceptionMessage Can not find macro 'I-DO-NOT-EXIST', text not found or text contains markup
      * @test
      */
     final public function testThrowFailGraciously()
@@ -794,7 +824,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
         $this->assertEquals(
             null,
-            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', 1, true, true, true)
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 1, 'MainPart', true, true)
         );
     }
 
@@ -802,7 +832,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers                   ::failGraciously
      * @covers                   ::replaceSegment
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Can not find segment 'I-DO-NOT-EXIST', text not found or text contains markup
+     * @expectedExceptionMessage Can not find macro 'I-DO-NOT-EXIST', text not found or text contains markup
      * @test
      */
     final public function testAnotherThrowFailGraciously()
@@ -882,7 +912,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers                   ::getSegment
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Can not find segment 'I-DO-NOT-EXIST', text not found or text contains markup.
+     * @expectedExceptionMessage Can not find macro 'I-DO-NOT-EXIST', text not found or text contains markup.
      * @test
      */
     final public function testgetSegmentThrow()
