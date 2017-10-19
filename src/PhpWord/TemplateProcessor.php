@@ -182,14 +182,15 @@ class TemplateProcessor
     }
 
     /**
-     * @param string $macro
+     * @param string  $macro If written as VALUE it will return ${VALUE} if TemplateProcessor::$ensureMacroCompletion
+     * @param boolean $closing False by default, if set to true, will add  ${/  }  around the macro
      *
      * @return string
      */
-    protected static function ensureMacroCompleted(&$macro)
+    protected static function ensureMacroCompleted($macro, $closing = false)
     {
         if (TemplateProcessor::$ensureMacroCompletion && substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
-            $macro = '${' . $macro . '}';
+            $macro = '${' . ($closing ? '/' : '') . $macro . '}';
         }
 
         return $macro;
@@ -220,18 +221,20 @@ class TemplateProcessor
     {
         if (is_array($search)) {
             foreach ($search as &$item) {
-                self::ensureMacroCompleted($item);
+                $item = static::ensureMacroCompleted($item);
             }
+            unset($item);
         } else {
-            self::ensureMacroCompleted($search);
+            $search = static::ensureMacroCompleted($search);
         }
 
         if (is_array($replace)) {
-            foreach ($replace as &$item) {
-                $item = self::ensureUtf8Encoded($item);
+            foreach ((array)$replace as &$item) {
+                $item = static::ensureUtf8Encoded($item);
             }
+            unset($item);
         } else {
-            $replace = self::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -239,20 +242,30 @@ class TemplateProcessor
             $replace = $xmlEscaper->escape($replace);
         }
 
-        $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
-
-        $documentParts = array('tempDocumentHeaders', 'tempDocumentFooters');
-        foreach ($documentParts as $tempDocumentParts) {
-            foreach ($this->{$tempDocumentParts} as &$tempDocumentPart) {
-                $tempDocumentPart = $this->setValueForPart($search, $replace, $tempDocumentPart, $limit);
-            }
-        }
+        $this->tempDocumentHeaders = (array)$this->setValueForPart(
+            $search,
+            $replace,
+            (array)$this->tempDocumentHeaders,
+            $limit
+        );
+        $this->tempDocumentMainPart = (string)$this->setValueForPart(
+            $search,
+            $replace,
+            (string)$this->tempDocumentMainPart,
+            $limit
+        );
+        $this->tempDocumentFooters = (array)$this->setValueForPart(
+            $search,
+            $replace,
+            (array)$this->tempDocumentFooters,
+            $limit
+        );
     }
 
     /**
      * Replaces a closed block with text
      *
-     * @param string  $blockname Your macro must end with slash, i.e.: ${value/}
+     * @param string  $blockname The blockname without '${}'. Your macro must end with slash, i.e.: ${value/}
      * @param mixed   $replace Array or the text can be multiline (contain \n). It will cloneBlock().
      * @param integer $limit
      *
@@ -370,7 +383,7 @@ class TemplateProcessor
         $throwException = false
     ) {
         return $this->processSegment(
-            $this->ensureMacroCompleted($search),
+            static::ensureMacroCompleted($search),
             'w:tr',
             $numberOfClones,
             'MainPart',
@@ -467,7 +480,7 @@ class TemplateProcessor
     /**
      * process a block.
      *
-     * @param string  $blockname
+     * @param string  $blockname The blockname without '${}'
      * @param integer $clones
      * @param mixed $replace
      * @param boolean $incrementVariables
@@ -484,8 +497,8 @@ class TemplateProcessor
         $incrementVariables = true,
         $throwException = false
     ) {
-        $startSearch = '${'  . $blockname . '}';
-        $endSearch =   '${/' . $blockname . '}';
+        $startSearch = static::ensureMacroCompleted($blockname);
+        $endSearch = static::ensureMacroCompleted($blockname, true);
 
         if (substr($blockname, -1) == '/') { // singleton/closed block
             return $this->processSegment(
@@ -579,7 +592,7 @@ class TemplateProcessor
     /**
      * Get a block. (first block found)
      *
-     * @param string  $blockname
+     * @param string  $blockname The blockname without '${}'
      * @param boolean $throwException false by default
      *
      * @return mixed a string when $blockname is found, false ($blockname not found) or null (no paragraph found)
@@ -840,10 +853,10 @@ class TemplateProcessor
      *
      * @param mixed   $search
      * @param mixed   $replace
-     * @param string  $documentPartXML
+     * @param mixed  $documentPartXML Array or string (Header/Footer)
      * @param integer $limit
      *
-     * @return string
+     * @return mixed
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
@@ -852,6 +865,7 @@ class TemplateProcessor
             foreach ($replace as &$item) {
                 $item = preg_replace('~\R~u', '</w:t><w:br/><w:t>', $item);
             }
+            unset($item);
         } else {
             $replace = preg_replace('~\R~u', '</w:t><w:br/><w:t>', $replace);
         }
