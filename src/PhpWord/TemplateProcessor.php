@@ -268,9 +268,7 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
-        }
+        $search = static::ensureMacroCompleted($search);
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
