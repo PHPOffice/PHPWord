@@ -138,6 +138,7 @@ class TemplateProcessor
             foreach ($xml as &$item) {
                 $item = $this->transformSingleXml($item, $xsltProcessor);
             }
+            unset($item);
         } else {
             $xml = $this->transformSingleXml($xml, $xsltProcessor);
         }
@@ -214,6 +215,7 @@ class TemplateProcessor
             foreach ($search as &$item) {
                 $item = self::ensureMacroCompleted($item);
             }
+            unset($item);
         } else {
             $search = self::ensureMacroCompleted($search);
         }
@@ -222,6 +224,7 @@ class TemplateProcessor
             foreach ($replace as &$item) {
                 $item = self::ensureUtf8Encoded($item);
             }
+            unset($item);
         } else {
             $replace = self::ensureUtf8Encoded($replace);
         }
