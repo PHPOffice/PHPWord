@@ -86,6 +86,16 @@ class Font extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        //Language
+        $language = $style->getLang();
+        if ($language != null && ($language->getLatin() !== null || $language->getEastAsia() !== null || $language->getBidirectional() !== null)) {
+            $xmlWriter->startElement('w:lang');
+            $xmlWriter->writeAttributeIf($language->getLatin() !== null, 'w:val', $language->getLatin());
+            $xmlWriter->writeAttributeIf($language->getEastAsia() !== null, 'w:eastAsia', $language->getEastAsia());
+            $xmlWriter->writeAttributeIf($language->getBidirectional() !== null, 'w:bidi', $language->getBidirectional());
+            $xmlWriter->endElement();
+        }
+
         // Color
         $color = $style->getColor();
         $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);

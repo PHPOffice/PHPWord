@@ -16,11 +16,12 @@
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
-use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\Style\Language;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -73,7 +74,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     /**
      * Test language
      */
-    public function testLanguage()
+    public function testDefaultLanguage()
     {
         $phpWord = new PhpWord();
         
@@ -86,6 +87,26 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement($path, $file);
         
         $this->assertEquals('en-US', $element->getAttribute('w:val'));
+    }
+
+    /**
+     * Test language
+     */
+    public function testLanguage()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setThemeFontLang(new Language(Language::DE_DE, Language::KO_KR, Language::HE_IL));
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        
+        $file = 'word/settings.xml';
+        
+        $path = '/w:settings/w:themeFontLang';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+        
+        $this->assertEquals(Language::DE_DE, $element->getAttribute('w:val'));
+        $this->assertEquals(Language::KO_KR, $element->getAttribute('w:eastAsia'));
+        $this->assertEquals(Language::HE_IL, $element->getAttribute('w:bidi'));
     }
 
     /**

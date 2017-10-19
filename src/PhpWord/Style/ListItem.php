@@ -247,11 +247,12 @@ class ListItem extends AbstractStyle
 
         // Populate style and register to global Style register
         $style = $listTypeStyles[$this->listType];
+        $numProperties = count($properties);
         foreach ($style['levels'] as $key => $value) {
             $level = array();
             $levelProperties = explode(', ', $value);
             $level['level'] = $key;
-            for ($i = 0; $i < count($properties); $i++) {
+            for ($i = 0; $i < $numProperties; $i++) {
                 $property = $properties[$i];
                 $level[$property] = $levelProperties[$i];
             }

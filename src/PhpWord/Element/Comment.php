@@ -61,7 +61,6 @@ class Comment extends TrackChange
     {
         parent::__construct($author, $date);
         $this->initials = $initials;
-        return $this;
     }
 
     /**
