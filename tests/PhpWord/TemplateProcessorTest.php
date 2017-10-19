@@ -45,6 +45,21 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Helper function to call protected method
+     *
+     * @param mixed $object
+     * @param string $method
+     * @param array $args
+     */
+    public static function callProtectedMethod($object, $method, array $args = array())
+    {
+        $class = new \ReflectionClass(get_class($object));
+        $method = $class->getMethod($method);
+        $method->setAccessible(true);
+        return $method->invokeArgs($object, $args);
+    }
+
+    /**
      * Construct test
      *
      * @covers ::__construct
@@ -937,5 +952,23 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             null,
             $templateProcessor->cloneBlock('I-DO-NOT-EXIST', '<w:p>replace</w:p>', 1, true, true)
         );
+    }
+
+    /**
+     * Example of testing protected functions
+     *
+     * @covers ::findTagRight
+     * @covers ::findTagLeft
+     * @test
+     */
+    public function testFindTagRightAndLeft()
+    {
+        $testDocument = __DIR__ . '/_files/templates/header-footer.docx';
+        $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\TemplateProcessor', array($testDocument));
+
+        $str = '...abcd<w:p>${dream}</w:p>efg...';
+        $this->assertEquals(true, self::callProtectedMethod($stub, 'findTagRight', array(&$str, '</w:p>', 0)));
+        $this->assertEquals(26, self::callProtectedMethod($stub, 'findTagRight', array(&$str, '</w:p>', 0)));
+        $this->assertEquals(07, self::callProtectedMethod($stub, 'findTagLeft', array(&$str, '<w:p>', 20)));
     }
 }
