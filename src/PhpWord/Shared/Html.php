@@ -119,9 +119,12 @@ class Html
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
+            'span'      => array('Property',    null,   null,       $styles,    null,   'span',        $node),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
             'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
             'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
@@ -251,7 +254,16 @@ class Html
      */
     private static function parseProperty(&$styles, $argument1, $argument2)
     {
-        $styles['font'][$argument1] = $argument2;
+        if ($argument1 !== 'span') {
+            $styles['font'][$argument1] = $argument2;
+        } else {
+            if (!is_null($argument2->attributes)) {
+                $nodeAttr = $argument2->attributes->getNamedItem('style');
+                if (!is_null($nodeAttr) && property_exists($nodeAttr, 'value')) {
+                    $styles['font'] = self::parseStyle($nodeAttr, $styles['font']);
+                }
+            }
+        }
 
         return null;
     }
@@ -368,6 +380,20 @@ class Html
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, "#");
+                    break;
+                case 'font-weight':
+                    $tValue = false;
+                    if (preg_match('#bold#', $cValue)) {
+                        $tValue = true; // also match bolder
+                    }
+                    $styles['bold'] = $tValue;
+                    break;
+                case 'font-style':
+                    $tValue = false;
+                    if (preg_match('#(?:italic|oblique)#', $cValue)) {
+                        $tValue = true;
+                    }
+                    $styles['italic'] = $tValue;
                     break;
             }
         }
