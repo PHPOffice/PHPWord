@@ -349,7 +349,7 @@ class TemplateProcessor
      *
      * @return string
      */
-    private static function cloneSlice(&$text, $numberOfClones = 1, $incrementVariables = true)
+    protected static function cloneSlice(&$text, $numberOfClones = 1, $incrementVariables = true)
     {
         $result = '';
         for ($i = 1; $i <= $numberOfClones; $i++) {
