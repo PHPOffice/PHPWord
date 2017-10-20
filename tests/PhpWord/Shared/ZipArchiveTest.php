@@ -108,7 +108,7 @@ class ZipArchiveTest extends \PHPUnit_Framework_TestCase
      *
      * @covers ::<public>
      */
-    public function testPCLZipArchiveInstance()
+    public function testPCLZipArchive()
     {
         $this->testZipArchive('PhpOffice\PhpWord\Shared\ZipArchive');
     }

@@ -30,7 +30,7 @@ class MPDFTest extends \PHPUnit_Framework_TestCase
     /**
      * Test construct
      */
-    public function testConstructMPDF()
+    public function testConstruct()
     {
         $file = __DIR__ . '/../../_files/mpdf.pdf';
 
