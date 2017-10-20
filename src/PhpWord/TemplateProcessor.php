@@ -273,7 +273,7 @@ class TemplateProcessor
      */
     public function setBlock($blockname, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
-        if (preg_match('~\R~u', $replace)) {
+        if (is_string($replace) && preg_match('~\R~u', $replace)) {
             $replace = preg_split('~\R~u', $replace);
         }
         if (is_array($replace)) {
