@@ -182,14 +182,14 @@ class TemplateProcessor
     }
 
     /**
-     * @param string  $macro If written as VALUE it will return ${VALUE} if TemplateProcessor::$ensureMacroCompletion
+     * @param string  $macro If written as VALUE it will return ${VALUE} if static::$ensureMacroCompletion
      * @param boolean $closing False by default, if set to true, will add  ${/  }  around the macro
      *
      * @return string
      */
     protected static function ensureMacroCompleted($macro, $closing = false)
     {
-        if (TemplateProcessor::$ensureMacroCompletion && substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
+        if (static::$ensureMacroCompletion && substr($macro, 0, 2) !== '${' && substr($macro, -1) !== '}') {
             $macro = '${' . ($closing ? '/' : '') . $macro . '}';
         }
 
@@ -229,7 +229,7 @@ class TemplateProcessor
         }
 
         if (is_array($replace)) {
-            foreach ((array)$replace as &$item) {
+            foreach ($replace as &$item) {
                 $item = static::ensureUtf8Encoded($item);
             }
             unset($item);
@@ -349,12 +349,12 @@ class TemplateProcessor
      *
      * @return string
      */
-    private function cloneString(&$text, $numberOfClones = 1, $incrementVariables = true)
+    private static function cloneSlice(&$text, $numberOfClones = 1, $incrementVariables = true)
     {
         $result = '';
         for ($i = 1; $i <= $numberOfClones; $i++) {
             if ($incrementVariables) {
-                $result .= preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $text);
+                $result .= preg_replace('/\$\{(.*?)(\/?)\}/', '\${\\1#' . $i . '\\2}', $text);
             } else {
                 $result .= $text;
             }
@@ -367,7 +367,7 @@ class TemplateProcessor
      *
      * @param string  $search
      * @param integer $numberOfClones
-     * @param mixed    $replace (true to clone, or a string to replace)
+     * @param mixed   $replace (true to clone, or a string to replace)
      * @param bool    $incrementVariables
      * @param bool    $throwException
      *
@@ -556,7 +556,7 @@ class TemplateProcessor
 
         if ($replace !== false) {
             if ($replace === true) {
-                $replace = $this->cloneString($xmlBlock, $clones, $incrementVariables);
+                $replace = static::cloneSlice($xmlBlock, $clones, $incrementVariables);
             }
             $this->tempDocumentMainPart =
                 $this->getSlice($this->tempDocumentMainPart, 0, $startBlockStart)
@@ -684,7 +684,7 @@ class TemplateProcessor
         }
         if ($replace !== false) {
             if ($replace === true) {
-                $replace = $this->cloneString($xmlSegment, $clones, $incrementVariables);
+                $replace = static::cloneSlice($xmlSegment, $clones, $incrementVariables);
             }
             $part =
                 $this->getSlice($part, 0, $segmentStart)
@@ -886,7 +886,7 @@ class TemplateProcessor
      *
      * @return string[]
      */
-    protected function getVariablesForPart($documentPartXML)
+    protected static function getVariablesForPart($documentPartXML)
     {
         preg_match_all('/\$\{([^<>{}]*?)}/i', $documentPartXML, $matches);
 

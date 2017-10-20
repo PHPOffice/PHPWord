@@ -66,7 +66,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
      * @test
      */
-    public function testConstruct()
+    public function testTheConstruct()
     {
         $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
 
@@ -521,7 +521,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor->cloneBlock('BLOCKCLOSE/', 4);
         # detects new variables
         $this->assertEquals(
-            array('BEFORE', 'BLOCKCLOSE/#1', 'BLOCKCLOSE/#2', 'BLOCKCLOSE/#3', 'BLOCKCLOSE/#4', 'AFTER'),
+            array('BEFORE', 'BLOCKCLOSE#1/', 'BLOCKCLOSE#2/', 'BLOCKCLOSE#3/', 'BLOCKCLOSE#4/', 'AFTER'),
             $templateProcessor->getVariables(),
             "Injected document should contain the right cloned variables, in the right order"
         );
