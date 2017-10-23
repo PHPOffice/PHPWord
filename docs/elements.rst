@@ -432,7 +432,7 @@ Comments
 ---------
 
 Comments can be added to a document by using ``addComment``.
-The comment can contain formatted text. Once the comment has been added, it can be linked to any to any element.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
 
 .. code-block:: php
 
