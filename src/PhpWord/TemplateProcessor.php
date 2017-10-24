@@ -220,6 +220,7 @@ class TemplateProcessor
         if (Settings::isOutputEscapingEnabled()) {
             $xmlEscaper = new Xml();
             $replace = $xmlEscaper->escape($replace);
+            $replace = str_replace("\n", "\n<w:br/>", $replace);
         }
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
@@ -498,7 +499,17 @@ class TemplateProcessor
         }
         if ($useRegexp) {
             foreach ($search as &$searchString) {
-                $searchString = '/(?!<<*)'. preg_quote($searchString, '/'). '(?!>*>)/u';
+                $searchString = '/(?<=>)([^<]*)'. preg_quote($searchString, '/'). '(?=[^>]*<)/u';		// search only inside tags: > sub string <
+            }
+
+            // reinsert captured prefix
+            if (is_array($replace)) {
+                foreach ($replace as &$replaceString) {
+                    $replaceString = '$1' . str_replace('$', '\\$', $replaceString);
+                }
+            }
+            else {
+                $replace = '$1' . str_replace('$', '\\$', $replace);
             }
         }
 
