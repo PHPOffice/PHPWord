@@ -507,8 +507,7 @@ class TemplateProcessor
                 foreach ($replace as &$replaceString) {
                     $replaceString = '$1' . str_replace('$', '\\$', $replaceString);
                 }
-            }
-            else {
+            } else {
                 $replace = '$1' . str_replace('$', '\\$', $replace);
             }
         }
