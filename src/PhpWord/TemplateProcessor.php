@@ -342,9 +342,9 @@ class TemplateProcessor
                     if (isset($replace["height"])) {
                         $height = $replace["height"];
                     }
-                }
-                else
+                } else {
                     $imgPath = $replace;
+                }
 
                 // get image index
                 $imgIndex = $this->getNextRelationsIndex($partFileName);
@@ -356,8 +356,9 @@ class TemplateProcessor
                 } else {
                     // transform extension
                     $imgExt = pathinfo($imgPath, PATHINFO_EXTENSION);
-                    if (isset($extTransform))
+                    if (isset($extTransform)) {
                         $imgExt = $extTransform[$imgExt];
+                    }
 
                     // add image to document
                     $imgName = 'image' . $imgIndex . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
