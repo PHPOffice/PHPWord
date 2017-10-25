@@ -284,16 +284,16 @@ class TemplateProcessor
             $search = array($search);
         }
 
-        $replaces_list = array();
+        $replacesList = array();
         if (!is_array($replace) || isset($replace["path"])) {
-            $replaces_list[] = $replace;
+            $replacesList[] = $replace;
         } else {
-            $replaces_list = array_values($replace);
+            $replacesList = array_values($replace);
         }
 
-        $search_replace = array();
+        $searchReplace = array();
         foreach ($search as $searchIdx => $searchString) {
-            $search_replace[$searchString] = isset($replaces_list[$searchIdx]) ? $replaces_list[$searchIdx] : $replaces_list[0];
+            $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
         }
         //
 
@@ -326,7 +326,7 @@ class TemplateProcessor
             $partVariables = $this->getVariablesForPart($partContent);
 
             $partSearchReplaces = array();
-            foreach ($search_replace as $search => $replace) {
+            foreach ($searchReplace as $search => $replace) {
                 if (!in_array($search, $partVariables)) {
                     continue;
                 }
