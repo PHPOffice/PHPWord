@@ -129,7 +129,7 @@ class ZipArchive
     {
         $result = true;
         $this->filename = $filename;
-		$this->tempDir = Settings::getTempDir();
+        $this->tempDir = Settings::getTempDir();
 
         if (!$this->usePclzip) {
             $zip = new \ZipArchive();

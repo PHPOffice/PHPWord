@@ -82,7 +82,7 @@ class TemplateProcessor
      * @var string[]
      */
     protected $tempDocumentNewImages = array();
-    
+
     /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
      *
@@ -109,16 +109,16 @@ class TemplateProcessor
         $this->zipClass->open($this->tempDocumentFilename);
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
-			$this->tempDocumentHeaders[$index] = $this->readPartWithRels( $this->getHeaderName($index) );
+            $this->tempDocumentHeaders[$index] = $this->readPartWithRels( $this->getHeaderName($index) );
             $index++;
         }
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getFooterName($index))) {
-			$this->tempDocumentFooters[$index] = $this->readPartWithRels( $this->getFooterName($index) );
+            $this->tempDocumentFooters[$index] = $this->readPartWithRels( $this->getFooterName($index) );
             $index++;
-		}
-		
-		$this->tempDocumentMainPart = $this->readPartWithRels( $this->getMainPartName() );
+        }
+
+        $this->tempDocumentMainPart = $this->readPartWithRels( $this->getMainPartName() );
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
@@ -127,15 +127,15 @@ class TemplateProcessor
      *
      * @return string
      */
-	protected function readPartWithRels($fileName)
-	{
+    protected function readPartWithRels($fileName)
+    {
         $relsFileName = $this->getRelationsName($fileName);
         $partRelations = $this->zipClass->getFromName($relsFileName);
         if ($partRelations !== false) {
             $this->tempDocumentRelations[$fileName] = $partRelations;
         }
-		return $this->fixBrokenMacros( $this->zipClass->getFromName($fileName) );
-	}
+        return $this->fixBrokenMacros( $this->zipClass->getFromName($fileName) );
+    }
 
     /**
      * @param string $xml
@@ -181,7 +181,7 @@ class TemplateProcessor
 
     /**
      * Applies XSL style sheet to template's parts.
-     * 
+     *
      * Note: since the method doesn't make any guess on logic of the provided XSL style sheet,
      * make sure that output is correctly escaped. Otherwise you may get broken document.
      *
@@ -317,7 +317,7 @@ class TemplateProcessor
             $searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
         foreach (array_keys($this->tempDocumentFooters) as $headerIndex)
             $searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
-        
+
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
 
@@ -343,7 +343,7 @@ class TemplateProcessor
                 // get image index
                 $imgIndex = $this->getNextRelationsIndex($partFileName);
                 $rid = 'rId' . $imgIndex;
-                
+
                 // get image embed name
                 if (isset($this->tempDocumentNewImages[$imgPath])) {
                     $imgName = $this->tempDocumentNewImages[$imgPath];
@@ -352,15 +352,15 @@ class TemplateProcessor
                     $imgExt = pathinfo($imgPath, PATHINFO_EXTENSION);
                     if (isset($extTransform))
                         $imgExt = $extTransform[$imgExt];
-    
+
                     // add image to document
                     $imgName = 'image' . $imgIndex . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
                     $this->zipClass->pclzipAddFile($imgPath, 'word/media/' . $imgName);
                     $this->tempDocumentNewImages[$imgPath] = $imgName;
-                    
+
                     // setup type for image
                     $xmlImageType = str_replace(['{IMG}', '{EXT}'], [$imgName, $imgExt], $typeTpl) ;
-                    $this->tempDocumentContentTypes	= str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
+                    $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
                 }
 
                 $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $width, $height], $imgTpl) ;
@@ -372,12 +372,12 @@ class TemplateProcessor
                     $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
                     // and add it to content types
                     $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), $newRelationsTypeTpl);
-                    $this->tempDocumentContentTypes	= str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+                    $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
                 }
 
                 // add image to relations
-                $this->tempDocumentRelations[$partFileName]	= str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
-                
+                $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
+
                 // collect prepared replaces
                 $partSearchReplaces["<w:t>".self::ensureMacroCompleted($search)."</w:t>"] = $xmlImage;
             }
@@ -550,13 +550,13 @@ class TemplateProcessor
     public function save()
     {
         foreach ($this->tempDocumentHeaders as $index => $xml) {
-			$this->savePartWithRels( $this->getHeaderName($index), $xml );
+            $this->savePartWithRels( $this->getHeaderName($index), $xml );
         }
 
-		$this->savePartWithRels( $this->getMainPartName(), $this->tempDocumentMainPart );
+        $this->savePartWithRels( $this->getMainPartName(), $this->tempDocumentMainPart );
 
         foreach ($this->tempDocumentFooters as $index => $xml) {
-			$this->savePartWithRels( $this->getFooterName($index), $xml );
+            $this->savePartWithRels( $this->getFooterName($index), $xml );
         }
 
         $this->zipClass->addFromString($this->getDocumentContentTypesName(), $this->tempDocumentContentTypes);
@@ -567,22 +567,22 @@ class TemplateProcessor
         }
 
         return $this->tempDocumentFilename;
-	}
-	
+    }
+
     /**
      * @param string $fileName
      * @param string $xml
      *
      * @return void
      */
-	protected function savePartWithRels($fileName, $xml)
-	{
-		$this->zipClass->addFromString($fileName, $xml);
-		if (isset($this->tempDocumentRelations[$fileName])) {
-			$relsFileName = $this->getRelationsName($fileName);
-			$this->zipClass->addFromString($relsFileName, $this->tempDocumentRelations[$fileName]);
-		}
-	}
+    protected function savePartWithRels($fileName, $xml)
+    {
+        $this->zipClass->addFromString($fileName, $xml);
+        if (isset($this->tempDocumentRelations[$fileName])) {
+            $relsFileName = $this->getRelationsName($fileName);
+            $this->zipClass->addFromString($relsFileName, $this->tempDocumentRelations[$fileName]);
+        }
+    }
 
     /**
      * Saves the result document to the user defined file.
@@ -710,16 +710,16 @@ class TemplateProcessor
      */
     protected function getRelationsName($documentPartName)
     {
-		return 'word/_rels/'.pathinfo($documentPartName, PATHINFO_BASENAME).'.rels';
-	}
-	
-	protected function getNextRelationsIndex($documentPartName)
-	{
-		if (isset($this->tempDocumentRelations[$documentPartName])) {
-			return substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
-		}
-		return 1;
-	}
+        return 'word/_rels/'.pathinfo($documentPartName, PATHINFO_BASENAME).'.rels';
+    }
+
+    protected function getNextRelationsIndex($documentPartName)
+    {
+        if (isset($this->tempDocumentRelations[$documentPartName])) {
+            return substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
+        }
+        return 1;
+    }
 
     /**
      * @return string
