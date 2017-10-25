@@ -366,12 +366,12 @@ class TemplateProcessor
                     $this->tempDocumentNewImages[$imgPath] = $imgName;
 
                     // setup type for image
-                    $xmlImageType = str_replace(['{IMG}', '{EXT}'], [$imgName, $imgExt], $typeTpl) ;
+                    $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl) ;
                     $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
                 }
 
-                $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $width, $height], $imgTpl) ;
-                $xmlImageRelation = str_replace(['{RID}', '{IMG}'], [$rid, $imgName], $relationTpl);
+                $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl) ;
+                $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
 
                 if (!isset($this->tempDocumentRelations[$partFileName])) {
                     // create new relations file
