@@ -109,16 +109,16 @@ class TemplateProcessor
         $this->zipClass->open($this->tempDocumentFilename);
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getHeaderName($index))) {
-            $this->tempDocumentHeaders[$index] = $this->readPartWithRels( $this->getHeaderName($index) );
+            $this->tempDocumentHeaders[$index] = $this->readPartWithRels($this->getHeaderName($index));
             $index++;
         }
         $index = 1;
         while (false !== $this->zipClass->locateName($this->getFooterName($index))) {
-            $this->tempDocumentFooters[$index] = $this->readPartWithRels( $this->getFooterName($index) );
+            $this->tempDocumentFooters[$index] = $this->readPartWithRels($this->getFooterName($index));
             $index++;
         }
 
-        $this->tempDocumentMainPart = $this->readPartWithRels( $this->getMainPartName() );
+        $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
@@ -134,7 +134,7 @@ class TemplateProcessor
         if ($partRelations !== false) {
             $this->tempDocumentRelations[$fileName] = $partRelations;
         }
-        return $this->fixBrokenMacros( $this->zipClass->getFromName($fileName) );
+        return $this->fixBrokenMacros($this->zipClass->getFromName($fileName));
     }
 
     /**
@@ -280,8 +280,9 @@ class TemplateProcessor
     public function setImageValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         // prepare $search_replace
-        if (!is_array($search))
-            $search = array($search);
+        if (!is_array($search)) {
+			$search = array($search);
+		}
 
         $replaces_list = array();
         if (!is_array($replace) || isset($replace["path"])) {
@@ -291,8 +292,9 @@ class TemplateProcessor
         }
 
         $search_replace = array();
-        foreach ($search as $searchIdx => $searchString)
-            $search_replace[$searchString] = isset($replaces_list[$searchIdx]) ? $replaces_list[$searchIdx] : $replaces_list[0];
+        foreach ($search as $searchIdx => $searchString) {
+			$search_replace[$searchString] = isset($replaces_list[$searchIdx]) ? $replaces_list[$searchIdx] : $replaces_list[0];
+		}
         //
 
         // define templates
@@ -313,10 +315,12 @@ class TemplateProcessor
         $searchParts = array(
                             $this->getMainPartName() => &$this->tempDocumentMainPart,
                             );
-        foreach (array_keys($this->tempDocumentHeaders) as $headerIndex)
-            $searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
-        foreach (array_keys($this->tempDocumentFooters) as $headerIndex)
-            $searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
+        foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
+			$searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
+		}
+        foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
+			$searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
+		}
 
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
@@ -366,8 +370,7 @@ class TemplateProcessor
                 $xmlImage = str_replace(['{RID}', '{WIDTH}', '{HEIGHT}'], [$rid, $width, $height], $imgTpl) ;
                 $xmlImageRelation = str_replace(['{RID}', '{IMG}'], [$rid, $imgName], $relationTpl);
 
-                if (!isset($this->tempDocumentRelations[$partFileName]))
-                {
+                if (!isset($this->tempDocumentRelations[$partFileName])) {
                     // create new relations file
                     $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
                     // and add it to content types
@@ -382,8 +385,9 @@ class TemplateProcessor
                 $partSearchReplaces["<w:t>".self::ensureMacroCompleted($search)."</w:t>"] = $xmlImage;
             }
 
-            if ($partSearchReplaces)
-                $partContent = $this->setValueForPart(array_keys($partSearchReplaces), $partSearchReplaces, $partContent, $limit);
+            if ($partSearchReplaces) {
+				$partContent = $this->setValueForPart(array_keys($partSearchReplaces), $partSearchReplaces, $partContent, $limit);
+			}
         }
     }
 
@@ -550,13 +554,13 @@ class TemplateProcessor
     public function save()
     {
         foreach ($this->tempDocumentHeaders as $index => $xml) {
-            $this->savePartWithRels( $this->getHeaderName($index), $xml );
+            $this->savePartWithRels($this->getHeaderName($index), $xml);
         }
 
-        $this->savePartWithRels( $this->getMainPartName(), $this->tempDocumentMainPart );
+        $this->savePartWithRels($this->getMainPartName(), $this->tempDocumentMainPart);
 
         foreach ($this->tempDocumentFooters as $index => $xml) {
-            $this->savePartWithRels( $this->getFooterName($index), $xml );
+            $this->savePartWithRels($this->getFooterName($index), $xml);
         }
 
         $this->zipClass->addFromString($this->getDocumentContentTypesName(), $this->tempDocumentContentTypes);
