@@ -494,12 +494,12 @@ class TemplateProcessor
         if (!is_array($search)) {
             $search = array($search);
         }
-        if (substr($search[0], 0, 2) != '${') {		// replceSubstring()
+        if (substr($search[0], 0, 2) != '${') {     // replceSubstring()
             $useRegexp = true;
         }
         if ($useRegexp) {
             foreach ($search as &$searchString) {
-                $searchString = '/(?<=>)([^<]*)'. preg_quote($searchString, '/'). '(?=[^>]*<)/u';		// search only inside tags: > sub string <
+                $searchString = '/(?<=>)([^<]*)'. preg_quote($searchString, '/'). '(?=[^>]*<)/u';       // search only inside tags: > sub string <
             }
 
             // reinsert captured prefix
