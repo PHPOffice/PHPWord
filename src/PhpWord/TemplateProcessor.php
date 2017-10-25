@@ -281,8 +281,8 @@ class TemplateProcessor
     {
         // prepare $search_replace
         if (!is_array($search)) {
-			$search = array($search);
-		}
+            $search = array($search);
+        }
 
         $replaces_list = array();
         if (!is_array($replace) || isset($replace["path"])) {
@@ -293,8 +293,8 @@ class TemplateProcessor
 
         $search_replace = array();
         foreach ($search as $searchIdx => $searchString) {
-			$search_replace[$searchString] = isset($replaces_list[$searchIdx]) ? $replaces_list[$searchIdx] : $replaces_list[0];
-		}
+            $search_replace[$searchString] = isset($replaces_list[$searchIdx]) ? $replaces_list[$searchIdx] : $replaces_list[0];
+        }
         //
 
         // define templates
@@ -316,11 +316,11 @@ class TemplateProcessor
                             $this->getMainPartName() => &$this->tempDocumentMainPart,
                             );
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
-			$searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
-		}
+            $searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
+        }
         foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-			$searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
-		}
+            $searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
+        }
 
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
@@ -336,10 +336,12 @@ class TemplateProcessor
                 $height = 70;
                 if (is_array($replace) && isset($replace["path"])) {
                     $imgPath = $replace["path"];
-                    if (isset($replace["width"]))
-                        $width = $replace["width"];
-                    if (isset($replace["height"]))
-                        $height = $replace["height"];
+                    if (isset($replace["width"])) {
+						$width = $replace["width"];
+					}
+                    if (isset($replace["height"])) {
+						$height = $replace["height"];
+					}
                 }
                 else
                     $imgPath = $replace;
@@ -386,8 +388,8 @@ class TemplateProcessor
             }
 
             if ($partSearchReplaces) {
-				$partContent = $this->setValueForPart(array_keys($partSearchReplaces), $partSearchReplaces, $partContent, $limit);
-			}
+                $partContent = $this->setValueForPart(array_keys($partSearchReplaces), $partSearchReplaces, $partContent, $limit);
+            }
         }
     }
 
