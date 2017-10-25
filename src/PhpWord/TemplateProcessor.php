@@ -337,11 +337,11 @@ class TemplateProcessor
                 if (is_array($replace) && isset($replace["path"])) {
                     $imgPath = $replace["path"];
                     if (isset($replace["width"])) {
-						$width = $replace["width"];
-					}
+                        $width = $replace["width"];
+                    }
                     if (isset($replace["height"])) {
-						$height = $replace["height"];
-					}
+                        $height = $replace["height"];
+                    }
                 }
                 else
                     $imgPath = $replace;
