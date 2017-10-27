@@ -148,6 +148,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $rId = $xmlReader->getAttribute('Id', $node);
             $type = $xmlReader->getAttribute('Type', $node);
             $target = $xmlReader->getAttribute('Target', $node);
+            $mode = $xmlReader->getAttribute('TargetMode', $node);
 
             // Remove URL prefixes from $type to make it easier to read
             $type = str_replace($metaPrefix, '', $type);
@@ -155,12 +156,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $docPart = str_replace('.xml', '', $target);
 
             // Do not add prefix to link source
-            if (!in_array($type, array('hyperlink'))) {
+            if ($type != 'hyperlink' && $mode != 'External') {
                 $target = $targetPrefix . $target;
             }
 
             // Push to return array
-            $rels[$rId] = array('type' => $type, 'target' => $target, 'docPart' => $docPart);
+            $rels[$rId] = array('type' => $type, 'target' => $target, 'docPart' => $docPart, 'targetMode' => $mode);
         }
         ksort($rels);
 
