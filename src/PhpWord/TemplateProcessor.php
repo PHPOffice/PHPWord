@@ -679,7 +679,7 @@ class TemplateProcessor
 
         $xmlSegment = $this->getSlice($part, $segmentStart, $segmentEnd);
 
-        if (is_callable($replace)) {
+        while (is_callable($replace)) {
             $replace = $replace($xmlSegment, $segmentStart, $segmentEnd, $part);
         }
         if ($replace !== false) {
