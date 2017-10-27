@@ -200,7 +200,7 @@ abstract class AbstractPart
         if ('w:hyperlink' == $domNode->nodeName) {
             $rId = $xmlReader->getAttribute('r:id', $domNode);
             $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
-            $target = $this->getMediaTarget($docPart, $rId);
+            $target = $this->getMediaTarget($docPart, $rId)[0];
             if (!is_null($target)) {
                 $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
             }
@@ -216,9 +216,13 @@ abstract class AbstractPart
             // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
-                $target = $this->getMediaTarget($docPart, $rId);
+                list($target, $mode) = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    if ($mode == 'External') {
+                        $imageSource = $target;
+                    } else {
+                        $imageSource = "zip://{$this->docFile}#{$target}";
+                    }
                     $parent->addImage($imageSource);
                 }
 
@@ -226,7 +230,7 @@ abstract class AbstractPart
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
-                $target = $this->getMediaTarget($docPart, $rId);
+                $target = $this->getMediaTarget($docPart, $rId)[0];
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
@@ -499,16 +503,18 @@ abstract class AbstractPart
      *
      * @param string $docPart
      * @param string $rId
-     * @return string|null
+     * @return array
      */
     private function getMediaTarget($docPart, $rId)
     {
         $target = null;
+        $targetMode = null;
 
         if (isset($this->rels[$docPart]) && isset($this->rels[$docPart][$rId])) {
             $target = $this->rels[$docPart][$rId]['target'];
+            $targetMode = $this->rels[$docPart][$rId]['targetMode'];
         }
 
-        return $target;
+        return array($target, $targetMode);
     }
 }
