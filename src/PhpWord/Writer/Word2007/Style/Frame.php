@@ -28,6 +28,8 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
  */
 class Frame extends AbstractStyle
 {
+    const PHP_32BIT_INT_MAX = 2147483647;
+
     /**
      * Write style.
      *
@@ -41,7 +43,8 @@ class Frame extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $zIndices = array(FrameStyle::WRAP_INFRONT => PHP_INT_MAX, FrameStyle::WRAP_BEHIND => -PHP_INT_MAX);
+        $maxZIndex = min(PHP_INT_MAX, self::PHP_32BIT_INT_MAX);
+        $zIndices = array(FrameStyle::WRAP_INFRONT => $maxZIndex, FrameStyle::WRAP_BEHIND => -$maxZIndex);
 
         $properties = array(
             'width'     => 'width',
