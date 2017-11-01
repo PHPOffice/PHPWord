@@ -131,7 +131,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsupportedImage()
     {
-        //disable ssl verification, never do this in real application, you should pass the certiciate instead!!!
+        //disable ssl verification, never do this in real application, you should pass the certificate instead!!!
         $arrContextOptions = array(
             "ssl" => array(
                 "verify_peer" => false,
