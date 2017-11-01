@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -157,6 +157,20 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+    
+    /**
+     * Ignore Spacing Above and Below When Using Identical Styles
+     *
+     * @var bool
+     */
+    private $contextualSpacing = false;
+
+    /**
+     * Right to Left Paragraph Layout
+     *
+     * @var bool
+     */
+    private $bidi = false;
 
     /**
      * Set Style value
@@ -208,6 +222,8 @@ class Paragraph extends Border
             ),
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
+            'contextualSpacing' => $this->hasContextualSpacing(),
+            'bidi'              => $this->isBidi(),
         );
 
         return $styles;
@@ -232,7 +248,7 @@ class Paragraph extends Border
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
+        if (Jc::isValid($value)) {
             $this->alignment = $value;
         }
 
@@ -728,6 +744,53 @@ class Paragraph extends Border
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get contextualSpacing
+     *
+     * @return bool
+     */
+    public function hasContextualSpacing()
+    {
+        return $this->contextualSpacing;
+    }
+
+    /**
+     * Set contextualSpacing
+     *
+     * @param bool $contextualSpacing
+     * @return self
+     */
+    public function setContextualSpacing($contextualSpacing)
+    {
+        $this->contextualSpacing = $contextualSpacing;
+        
+        return $this;
+    }
+
+    /**
+     * Get bidirectional
+     *
+     * @return bool
+     */
+    public function isBidi()
+    {
+        return $this->bidi;
+    }
+
+    /**
+     * Set bidi
+     *
+     * @param bool $bidi
+     *            Set to true to write from right to left
+     * @return self
+     */
+    public function setBidi($bidi)
+    {
+        $this->bidi = $bidi;
 
         return $this;
     }

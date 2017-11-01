@@ -11,14 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Metadata\DocInfo;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\PhpWord
@@ -100,7 +99,6 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
             $phpWord->$method($styleId, array());
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
-
     }
 
     /**

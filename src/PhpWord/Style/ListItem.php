@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -247,11 +247,12 @@ class ListItem extends AbstractStyle
 
         // Populate style and register to global Style register
         $style = $listTypeStyles[$this->listType];
+        $numProperties = count($properties);
         foreach ($style['levels'] as $key => $value) {
             $level = array();
             $levelProperties = explode(', ', $value);
             $level['level'] = $key;
-            for ($i = 0; $i < count($properties); $i++) {
+            for ($i = 0; $i < $numProperties; $i++) {
                 $property = $properties[$i];
                 $level[$property] = $levelProperties[$i];
             }

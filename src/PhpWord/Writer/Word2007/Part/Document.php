@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -126,6 +126,32 @@ class Document extends AbstractPart
         // Different first page
         if ($section->hasDifferentFirstPage()) {
             $xmlWriter->startElement('w:titlePg');
+            $xmlWriter->endElement();
+        }
+
+        //footnote properties
+        if ($section->getFootnotePropoperties() !== null) {
+            $xmlWriter->startElement('w:footnotePr');
+            if ($section->getFootnotePropoperties()->getPos() != null) {
+                $xmlWriter->startElement('w:pos');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getPos());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumFmt() != null) {
+                $xmlWriter->startElement('w:numFmt');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumFmt());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumStart() != null) {
+                $xmlWriter->startElement('w:numStart');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumStart());
+                $xmlWriter->endElement();
+            }
+            if ($section->getFootnotePropoperties()->getNumRestart() != null) {
+                $xmlWriter->startElement('w:numRestart');
+                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumRestart());
+                $xmlWriter->endElement();
+            }
             $xmlWriter->endElement();
         }
 

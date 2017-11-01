@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -41,14 +41,14 @@ class Head extends AbstractPart
     {
         $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
-            'creator' => 'author',
-            'title' => '',
+            'creator'     => 'author',
+            'title'       => '',
             'description' => '',
-            'subject' => '',
-            'keywords' => '',
-            'category' => '',
-            'company' => '',
-            'manager' => ''
+            'subject'     => '',
+            'keywords'    => '',
+            'category'    => '',
+            'company'     => '',
+            'manager'     => ''
         );
         $title = $docProps->getTitle();
         $title = ($title != '') ? $title : 'PHPWord';
@@ -62,8 +62,9 @@ class Head extends AbstractPart
             $value = ($value == '') ? $key : $value;
             $method = "get" . $key;
             if ($docProps->$method() != '') {
-                $content .= '<meta name="' . $value . '" content="' .
-                    $docProps->$method() . '" />' . PHP_EOL;
+                $content .= '<meta name="' . $value . '"'
+                          . ' content="' . (Settings::isOutputEscapingEnabled() ? $this->escaper->escapeHtmlAttr($docProps->$method()) : $docProps->$method()) . '"'
+                          .' />' . PHP_EOL;
             }
         }
         $content .= $this->writeStyles();

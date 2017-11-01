@@ -11,13 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * ODText meta part writer: meta.xml
@@ -100,7 +101,11 @@ class Meta extends AbstractPart
         // if ($type !== null) {
         //     $xmlWriter->writeAttribute('meta:value-type', $type);
         // }
-        $xmlWriter->writeRaw($value);
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($value);
+        } else {
+            $xmlWriter->writeRaw($value);
+        }
         $xmlWriter->endElement(); // meta:user-defined
     }
 }

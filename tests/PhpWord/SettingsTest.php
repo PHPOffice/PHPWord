@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -120,12 +120,13 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     public function testLoadConfig()
     {
         $expected = array(
-            'compatibility'   => true,
-            'zipClass'        => 'ZipArchive',
-            'pdfRendererName' => 'DomPDF',
-            'pdfRendererPath' => '',
-            'defaultFontName' => 'Arial',
-            'defaultFontSize' => 10,
+            'compatibility'         => true,
+            'zipClass'              => 'ZipArchive',
+            'pdfRendererName'       => 'DomPDF',
+            'pdfRendererPath'       => '',
+            'defaultFontName'       => 'Arial',
+            'defaultFontSize'       => 10,
+            'outputEscapingEnabled' => false,
         );
 
         // Test default value

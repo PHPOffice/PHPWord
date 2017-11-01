@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
@@ -56,35 +56,35 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $phpWord->addTableStyle('tblStyle', array('width' => 100));
 
         $section = $phpWord->addSection(array('colsNum' => 2));
-        $section->addText(htmlspecialchars($expected, ENT_COMPAT, 'UTF-8'));
-        $section->addText(htmlspecialchars('Test font style', ENT_COMPAT, 'UTF-8'), 'Font');
-        $section->addText(htmlspecialchars('Test paragraph style', ENT_COMPAT, 'UTF-8'), null, 'Paragraph');
-        $section->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
-        $section->addTitle(htmlspecialchars('Test title', ENT_COMPAT, 'UTF-8'), 1);
+        $section->addText($expected);
+        $section->addText('Test font style', 'Font');
+        $section->addText('Test paragraph style', null, 'Paragraph');
+        $section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
+        $section->addTitle('Test title', 1);
         $section->addTextBreak();
         $section->addPageBreak();
-        $section->addListItem(htmlspecialchars('Test list item', ENT_COMPAT, 'UTF-8'));
+        $section->addListItem('Test list item');
         $section->addImage($imageSrc, array('width' => 50));
         $section->addObject($objectSrc);
         $section->addTOC();
 
         $textrun = $section->addTextRun();
-        $textrun->addText(htmlspecialchars('Test text run', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test text run');
 
         $table = $section->addTable(array('width' => 50));
         $cell = $table->addRow()->addCell();
         $cell = $table->addRow()->addCell();
-        $cell->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
-        $cell->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
+        $cell->addText('Test');
+        $cell->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
         $cell->addTextBreak();
-        $cell->addListItem(htmlspecialchars('Test list item', ENT_COMPAT, 'UTF-8'));
+        $cell->addListItem('Test list item');
         $cell->addImage($imageSrc);
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
-        $textrun->addText(htmlspecialchars('Test text run', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test text run');
 
         $footer = $section->addFooter();
-        $footer->addPreserveText(htmlspecialchars('{PAGE}', ENT_COMPAT, 'UTF-8'));
+        $footer->addPreserveText('{PAGE}');
 
         $table = $section->addTable('tblStyle')->addRow()->addCell();
 

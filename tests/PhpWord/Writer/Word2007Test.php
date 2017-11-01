@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer;
@@ -79,12 +79,12 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
+        $section->addText('Test 1', 'Font', 'Paragraph');
         $section->addTextBreak();
-        $section->addText(htmlspecialchars('Test 2', ENT_COMPAT, 'UTF-8'));
+        $section->addText('Test 2');
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
-        $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
+        $textrun->addText('Test 3');
         $footnote = $textrun->addFootnote();
         $footnote->addLink('https://github.com/PHPOffice/PHPWord');
         $header = $section->addHeader();
@@ -108,9 +108,9 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $section->addText('Test');
         $footnote = $section->addFootnote();
-        $footnote->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
+        $footnote->addText('Test');
 
         $writer = new Word2007($phpWord);
         $writer->setUseDiskCaching(true);

@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
+
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Text element writer
@@ -42,7 +44,11 @@ class Link extends AbstractElement
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
         $xmlWriter->writeAttribute('xlink:href', $element->getSource());
-        $xmlWriter->writeRaw($element->getText());
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($element->getText());
+        } else {
+            $xmlWriter->writeRaw($element->getText());
+        }
         $xmlWriter->endElement(); // text:a
 
         if (!$this->withoutP) {

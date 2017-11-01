@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Numbering
@@ -52,7 +53,7 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
                 'levels' => array(
                     array(
                         'start'     => 1,
-                        'format'    => 'decimal',
+                        'format'    => NumberFormat::DECIMAL,
                         'restart'   => 1,
                         'suffix'    => 'space',
                         'text'      => '%1.',

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
@@ -33,11 +33,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
         $container = new \PhpOffice\PhpWord\Element\Footer(1);
-        $container->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
-        $container->addPreserveText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addText('');
+        $container->addPreserveText('');
         $container->addTextBreak();
         $container->addTextRun();
-        $container->addTable()->addRow()->addCell()->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
 
         $writer = new Word2007();

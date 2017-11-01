@@ -6,11 +6,13 @@ Thumbs.db
 Desktop.ini
 .idea
 _build
+/build
 phpunit.xml
 composer.lock
 composer.phar
 vendor
 /report
+/build
 /samples/resources
 /samples/results
 /.settings

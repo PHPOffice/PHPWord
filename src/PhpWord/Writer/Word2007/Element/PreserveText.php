@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
+
+use PhpOffice\PhpWord\Settings;
 
 /**
  * PreserveText element writer
@@ -60,7 +62,11 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($text);
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($text);
+                } else {
+                    $xmlWriter->writeRaw($text);
+                }
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 
@@ -82,7 +88,11 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:t');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeRaw($this->getText($text));
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($this->getText($text));
+                } else {
+                    $xmlWriter->writeRaw($this->getText($text));
+                }
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             }

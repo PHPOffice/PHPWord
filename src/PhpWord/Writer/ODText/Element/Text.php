@@ -11,13 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Text element writer
@@ -56,7 +57,11 @@ class Text extends AbstractElement
                 } elseif (is_string($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
                 }
-                $xmlWriter->writeRaw($element->getText());
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($element->getText());
+                } else {
+                    $xmlWriter->writeRaw($element->getText());
+                }
             } else {
                 if (empty($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', 'Standard');
@@ -68,7 +73,11 @@ class Text extends AbstractElement
                 if (is_string($fontStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
-                $xmlWriter->writeRaw($element->getText());
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlWriter->text($element->getText());
+                } else {
+                    $xmlWriter->writeRaw($element->getText());
+                }
                 $xmlWriter->endElement();
             }
             if (!$this->withoutP) {

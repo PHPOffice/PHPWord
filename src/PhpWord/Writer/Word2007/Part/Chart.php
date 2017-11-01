@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -213,7 +213,6 @@ class Chart extends AbstractPart
             $xmlWriter->endElement(); // c:ser
             $index++;
         }
-
     }
 
     /**
@@ -241,11 +240,13 @@ class Chart extends AbstractPart
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
-
-            $xmlWriter->startElement('c:v');
-            $xmlWriter->writeRaw($value);
-            $xmlWriter->endElement(); // c:v
-
+            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                $xmlWriter->writeElement('c:v', $value);
+            } else {
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($value);
+                $xmlWriter->endElement();
+            }
             $xmlWriter->endElement(); // c:pt
             $index++;
         }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -510,7 +510,7 @@ class Table extends Border
      */
     public function setAlignment($value)
     {
-        if (JcTable::getValidator()->isValid($value) || Jc::getValidator()->isValid($value)) {
+        if (JcTable::isValid($value) || Jc::isValid($value)) {
             $this->alignment = $value;
         }
 

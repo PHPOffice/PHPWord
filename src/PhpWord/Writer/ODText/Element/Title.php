@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
+
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Title element writer
@@ -37,7 +39,11 @@ class Title extends AbstractElement
 
         $xmlWriter->startElement('text:h');
         $xmlWriter->writeAttribute('text:outline-level', $element->getDepth());
-        $xmlWriter->writeRaw($element->getText());
+        if (Settings::isOutputEscapingEnabled()) {
+            $xmlWriter->text($element->getText());
+        } else {
+            $xmlWriter->writeRaw($element->getText());
+        }
         $xmlWriter->endElement(); // text:h
     }
 }

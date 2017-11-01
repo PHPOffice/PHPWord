@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -55,6 +55,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             array('stepPart' => 'document', 'stepItems' => array(
                 'endnotes'  => 'Endnotes',
                 'footnotes' => 'Footnotes',
+                'settings' => 'Settings',
             )),
         );
 
@@ -93,7 +94,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**

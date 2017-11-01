@@ -11,12 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 class Section extends AbstractContainer
@@ -46,6 +47,13 @@ class Section extends AbstractContainer
      * @var Footer[]
      */
     private $footers = array();
+
+    /**
+     * The properties for the footnote of this section
+     *
+     * @var FootnoteProperties
+     */
+    private $footnoteProperties;
 
     /**
      * Create new instance
@@ -139,6 +147,26 @@ class Section extends AbstractContainer
     }
 
     /**
+     * Get the footnote properties
+     *
+     * @return \PhpOffice\PhpWord\Element\FooterProperties
+     */
+    public function getFootnotePropoperties()
+    {
+        return $this->footnoteProperties;
+    }
+
+    /**
+     * Set the footnote properties
+     *
+     * @param FootnoteProperties $footnoteProperties
+     */
+    public function setFootnoteProperties(FootnoteProperties $footnoteProperties = null)
+    {
+        $this->footnoteProperties = $footnoteProperties;
+    }
+
+    /**
      * Is there a header for this section that is for the first page only?
      *
      * If any of the Header instances have a type of Header::FIRST then this method returns true.
@@ -150,6 +178,11 @@ class Section extends AbstractContainer
     {
         foreach ($this->headers as $header) {
             if ($header->getType() == Header::FIRST) {
+                return true;
+            }
+        }
+        foreach ($this->footers as $footer) {
+            if ($footer->getType() == Header::FIRST) {
                 return true;
             }
         }
@@ -186,7 +219,6 @@ class Section extends AbstractContainer
         } else {
             throw new \Exception('Invalid header/footer type.');
         }
-
     }
 
     /**

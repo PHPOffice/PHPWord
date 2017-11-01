@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
+use Zend\Escaper\Escaper;
 
 /**
  * Abstract HTML element writer
@@ -49,6 +50,11 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
+     * @var \Zend\Escaper\Escaper
+     */
+    protected $escaper;
+
+    /**
      * Write element
      */
     abstract public function write();
@@ -65,6 +71,7 @@ abstract class AbstractElement
         $this->parentWriter = $parentWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
+        $this->escaper = new Escaper();
     }
 
     /**

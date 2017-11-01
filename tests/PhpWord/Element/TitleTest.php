@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -30,10 +30,10 @@ class TitleTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $oTitle = new Title(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $oTitle = new Title('text');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Title', $oTitle);
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $oTitle->getText());
+        $this->assertEquals('text', $oTitle->getText());
     }
 
     /**
@@ -41,7 +41,7 @@ class TitleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStyleNull()
     {
-        $oTitle = new Title(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $oTitle = new Title('text');
 
         $this->assertNull($oTitle->getStyle());
     }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Media;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Element abstract class
@@ -109,11 +108,25 @@ abstract class AbstractElement
     protected $mediaRelation = false;
 
     /**
-     * Is part of collection; true for Title, Footnote, Endnote, and Chart
+     * Is part of collection; true for Title, Footnote, Endnote, Chart, and Comment
      *
      * @var bool
      */
     protected $collectionRelation = false;
+
+    /**
+     * The start position for the linked comment
+     *
+     * @var Comment
+     */
+    protected $commentRangeStart;
+
+    /**
+     * The end position for the linked comment
+     *
+     * @var Comment
+     */
+    protected $commentRangeEnd;
 
     /**
      * Get PhpWord
@@ -218,7 +231,7 @@ abstract class AbstractElement
     /**
      * Get element unique ID
      *
-     * @return string
+     * @return integer
      */
     public function getElementId()
     {
@@ -264,6 +277,55 @@ abstract class AbstractElement
     public function getNestedLevel()
     {
         return $this->nestedLevel;
+    }
+
+    /**
+     * Get comment start
+     *
+     * @return Comment
+     */
+    public function getCommentRangeStart()
+    {
+        return $this->commentRangeStart;
+    }
+
+    /**
+     * Set comment start
+     *
+     * @param Comment $value
+     */
+    public function setCommentRangeStart(Comment $value)
+    {
+        if ($this instanceof Comment) {
+            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+        }
+        $this->commentRangeStart= $value;
+        $this->commentRangeStart->setStartElement($this);
+    }
+
+    /**
+     * Get comment end
+     *
+     * @return Comment
+     */
+    public function getCommentRangeEnd()
+    {
+        return $this->commentRangeEnd;
+    }
+
+    /**
+     * Set comment end
+     *
+     * @param Comment $value
+     * @return void
+     */
+    public function setCommentRangeEnd(Comment $value)
+    {
+        if ($this instanceof Comment) {
+            throw new \InvalidArgumentException("Cannot set a Comment on a Comment");
+        }
+        $this->commentRangeEnd= $value;
+        $this->commentRangeEnd->setEndElement($this);
     }
 
     /**

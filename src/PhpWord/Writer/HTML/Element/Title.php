@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+
+use PhpOffice\PhpWord\Settings;
 
 /**
  * TextRun element HTML writer
@@ -36,7 +38,11 @@ class Title extends AbstractElement
         }
 
         $tag = 'h' . $this->element->getDepth();
-        $text = $this->element->getText();
+        if (Settings::isOutputEscapingEnabled()) {
+            $text = $this->escaper->escapeHtml($this->element->getText());
+        } else {
+            $text = $this->element->getText();
+        }
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;

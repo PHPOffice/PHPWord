@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -39,7 +39,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
  * @method Object addObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
- * @method Field addField(string $type = null, array $properties = array(), array $options = array())
+ * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addShape(string $type, mixed $style = null)
  * @method Chart addChart(string $type, array $categories, array $values, array $style = null)
@@ -58,7 +58,7 @@ abstract class AbstractContainer extends AbstractElement
     protected $elements = array();
 
     /**
-     * Container type Section|Header|Footer|Footnote|Endnote|Cell|TextRun|TextBox|ListItemRun
+     * Container type Section|Header|Footer|Footnote|Endnote|Cell|TextRun|TextBox|ListItemRun|TrackChange
      *
      * @var string
      */
@@ -83,7 +83,7 @@ abstract class AbstractContainer extends AbstractElement
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
-            'Chart', 'FormField', 'SDT'
+            'Chart', 'FormField', 'SDT', 'Comment'
         );
         $functions = array();
         foreach ($elements as $element) {
@@ -188,7 +188,7 @@ abstract class AbstractContainer extends AbstractElement
     private function checkValidity($method)
     {
         $generalContainers = array(
-            'Section', 'Header', 'Footer', 'Footnote', 'Endnote', 'Cell', 'TextRun', 'TextBox', 'ListItemRun',
+            'Section', 'Header', 'Footer', 'Footnote', 'Endnote', 'Cell', 'TextRun', 'TextBox', 'ListItemRun', 'TrackChange',
         );
 
         $validContainers = array(
@@ -203,7 +203,8 @@ abstract class AbstractContainer extends AbstractElement
             'Shape'         => $generalContainers,
             'FormField'     => $generalContainers,
             'SDT'           => $generalContainers,
-            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
+            'TrackChange'   => $generalContainers,
+            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox', 'TrackChange'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
@@ -211,7 +212,7 @@ abstract class AbstractContainer extends AbstractElement
             'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
             'Footnote'      => array('Section', 'TextRun', 'Cell'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
-            'PreserveText'  => array('Header', 'Footer', 'Cell'),
+            'PreserveText'  => array('Section', 'Header', 'Footer', 'Cell'),
             'Title'         => array('Section'),
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
@@ -246,23 +247,6 @@ abstract class AbstractContainer extends AbstractElement
         }
 
         return true;
-    }
-
-    /**
-     * Add memory image element
-     *
-     * @deprecated 0.9.0
-     *
-     * @param string $src
-     * @param mixed $style
-     *
-     * @return \PhpOffice\PhpWord\Element\Image
-     *
-     * @codeCoverageIgnore
-     */
-    public function addMemoryImage($src, $style = null)
-    {
-        return $this->addImage($src, $style);
     }
 
     /**

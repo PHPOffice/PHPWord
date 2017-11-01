@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -60,6 +60,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             'DocPropsCustom' => 'docProps/custom.xml',
             'RelsDocument'   => 'word/_rels/document.xml.rels',
             'Document'       => 'word/document.xml',
+            'Comments'       => 'word/comments.xml',
             'Styles'         => 'word/styles.xml',
             'Numbering'      => 'word/numbering.xml',
             'Settings'       => 'word/settings.xml',
@@ -129,6 +130,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
         $this->addNotes($zip, $rId, 'footnote');
         $this->addNotes($zip, $rId, 'endnote');
+        $this->addComments($zip, $rId);
         $this->addChart($zip, $rId);
 
         // Write parts
@@ -250,6 +252,30 @@ class Word2007 extends AbstractWriter implements WriterInterface
             }
 
             // Write content file, e.g. word/footnotes.xml
+            $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
+            $zip->addFromString("word/{$partName}.xml", $writerPart->write());
+        }
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
+     * @param integer &$rId
+     * @return void
+     */
+    private function addComments(ZipArchive $zip, &$rId)
+    {
+        $phpWord = $this->getPhpWord();
+        $collection = $phpWord->getComments();
+        $partName = "comments";
+
+        // Add comment relations and contents
+        /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collection Type hint */
+        if ($collection->countItems() > 0) {
+            $this->relationships[] = array('target' => "{$partName}.xml", 'type' => $partName, 'rID' => ++$rId);
+
+            // Write content file, e.g. word/comments.xml
             $writerPart = $this->getWriterPart($partName)->setElements($collection->getItems());
             $zip->addFromString("word/{$partName}.xml", $writerPart->write());
         }

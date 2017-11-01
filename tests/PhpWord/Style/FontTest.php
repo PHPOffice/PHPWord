@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -41,9 +41,9 @@ class FontTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitiation()
     {
-        $object = new Font(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), array('alignment' => Jc::BOTH));
+        $object = new Font('text', array('alignment' => Jc::BOTH));
 
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $object->getStyleType());
+        $this->assertEquals('text', $object->getStyleType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());
         $this->assertTrue(is_array($object->getStyleValues()));
     }
@@ -74,6 +74,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'scale'               => null,
             'spacing'             => null,
             'kerning'             => null,
+            'lang'                => null,
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -129,7 +130,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
         $section = $phpWord->addSection();
 
         // Test style array
-        $text = $section->addText(htmlspecialchars('This is a test', ENT_COMPAT, 'UTF-8'), array('line-height' => 2.0));
+        $text = $section->addText('This is a test', array('line-height' => 2.0));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $element = $doc->getElement('/w:document/w:body/w:p/w:pPr/w:spacing');

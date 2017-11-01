@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @copyright   2010-2016 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -44,8 +44,8 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithString()
     {
-        $oPreserveText = new PreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'styleFont', 'styleParagraph');
-        $this->assertEquals(array(htmlspecialchars('text', ENT_COMPAT, 'UTF-8')), $oPreserveText->getText());
+        $oPreserveText = new PreserveText('text', 'styleFont', 'styleParagraph');
+        $this->assertEquals(array('text'), $oPreserveText->getText());
         $this->assertEquals('styleFont', $oPreserveText->getFontStyle());
         $this->assertEquals('styleParagraph', $oPreserveText->getParagraphStyle());
     }
@@ -55,11 +55,7 @@ class PreserveTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithArray()
     {
-        $oPreserveText = new PreserveText(
-            htmlspecialchars('text', ENT_COMPAT, 'UTF-8'),
-            array('size' => 16, 'color' => '1B2232'),
-            array('alignment' => Jc::CENTER)
-        );
+        $oPreserveText = new PreserveText('text', array('size' => 16, 'color' => '1B2232'), array('alignment' => Jc::CENTER));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $oPreserveText->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oPreserveText->getParagraphStyle());
     }
