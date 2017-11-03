@@ -233,7 +233,7 @@ class TemplateProcessor
             $replace = self::ensureUtf8Encoded($replace);
         }
 
-        if (Settings::isOutputEscapingEnabled()) {
+        if (!$useCDATA && Settings::isOutputEscapingEnabled()) {
             $xmlEscaper = new Xml();
             $replace = $xmlEscaper->escape($replace);
         }
