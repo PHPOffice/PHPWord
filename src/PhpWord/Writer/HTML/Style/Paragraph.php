@@ -80,6 +80,9 @@ class Paragraph extends AbstractStyle
             $after = $spacing->getAfter();
             $css['margin-top'] = $this->getValueIf(!is_null($before), ($before / 20) . 'pt');
             $css['margin-bottom'] = $this->getValueIf(!is_null($after), ($after / 20) . 'pt');
+        } else {
+            $css['margin-top'] = '0';
+            $css['margin-bottom'] = '0';
         }
 
         return $this->assembleCss($css);
