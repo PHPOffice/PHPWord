@@ -19,4 +19,5 @@ vendor
 phpword.ini
 /.buildpath
 /.project
+/nbproject
 /.php_cs.cache
