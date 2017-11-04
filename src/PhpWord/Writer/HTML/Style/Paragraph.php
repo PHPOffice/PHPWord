@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -49,11 +49,9 @@ class Paragraph extends AbstractStyle
                 case Jc::LEFT:
                     $textAlign = 'left';
                     break;
-
                 case Jc::CENTER:
                     $textAlign = 'center';
                     break;
-
                 case Jc::END:
                 case Jc::MEDIUM_KASHIDA:
                 case Jc::HIGH_KASHIDA:
@@ -61,14 +59,12 @@ class Paragraph extends AbstractStyle
                 case Jc::RIGHT:
                     $textAlign = 'right';
                     break;
-
                 case Jc::BOTH:
                 case Jc::DISTRIBUTE:
                 case Jc::THAI_DISTRIBUTE:
                 case Jc::JUSTIFY:
                     $textAlign = 'justify';
                     break;
-
                 default:
                     $textAlign = 'left';
                     break;

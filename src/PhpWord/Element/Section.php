@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -73,7 +73,6 @@ class Section extends AbstractContainer
      * Set section style.
      *
      * @param array $style
-     * @return void
      */
     public function setStyle($style = null)
     {
@@ -172,7 +171,7 @@ class Section extends AbstractContainer
      * If any of the Header instances have a type of Header::FIRST then this method returns true.
      * False otherwise.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasDifferentFirstPage()
     {
@@ -186,6 +185,7 @@ class Section extends AbstractContainer
                 return true;
             }
         }
+
         return false;
     }
 
@@ -195,11 +195,11 @@ class Section extends AbstractContainer
      * @since 0.10.0
      *
      * @param string $type
-     * @param boolean $header
-     *
-     * @return Header|Footer
+     * @param bool $header
      *
      * @throws \Exception
+     *
+     * @return Header|Footer
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -215,10 +215,10 @@ class Section extends AbstractContainer
             $container->setPhpWord($this->phpWord);
 
             $collection[$index] = $container;
+
             return $container;
-        } else {
-            throw new \Exception('Invalid header/footer type.');
         }
+        throw new \Exception('Invalid header/footer type.');
     }
 
     /**
@@ -290,8 +290,8 @@ class Section extends AbstractContainer
     {
         if (empty($this->footers)) {
             return null;
-        } else {
-            return $this->footers[1];
         }
+
+        return $this->footers[1];
     }
 }

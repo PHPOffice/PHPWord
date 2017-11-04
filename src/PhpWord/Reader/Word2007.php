@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -55,7 +55,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             array('stepPart' => 'document', 'stepItems' => array(
                 'endnotes'  => 'Endnotes',
                 'footnotes' => 'Footnotes',
-                'settings' => 'Settings',
+                'settings'  => 'Settings',
             )),
         );
 
@@ -83,7 +83,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @param string $partName
      * @param string $docFile
      * @param string $xmlFile
-     * @return void
      */
     private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
     {

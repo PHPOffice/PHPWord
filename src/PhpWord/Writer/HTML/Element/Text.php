@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -89,7 +89,6 @@ class Text extends AbstractElement
      * Set opening text.
      *
      * @param string $value
-     * @return void
      */
     public function setOpeningText($value)
     {
@@ -100,7 +99,6 @@ class Text extends AbstractElement
      * Set closing text.
      *
      * @param string $value
-     * @return void
      */
     public function setClosingText($value)
     {
@@ -141,7 +139,7 @@ class Text extends AbstractElement
                 $content .= $this->closingText;
             }
 
-            $content .= "</p>" . PHP_EOL;
+            $content .= '</p>' . PHP_EOL;
         }
 
         return $content;
@@ -177,8 +175,6 @@ class Text extends AbstractElement
 
     /**
      * Get font style.
-     *
-     * @return void
      */
     private function getFontStyle()
     {
@@ -194,7 +190,7 @@ class Text extends AbstractElement
         if ($style) {
             $attribute = $fStyleIsObject ? 'style' : 'class';
             $this->openingTags = "<span {$attribute}=\"{$style}\">";
-            $this->closingTags = "</span>";
+            $this->closingTags = '</span>';
         }
     }
 }

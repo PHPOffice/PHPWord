@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -162,7 +162,7 @@ class Font extends AbstractStyle
      * Small caps
      *
      * @var bool
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
      */
     private $smallCaps = false;
 
@@ -170,7 +170,7 @@ class Font extends AbstractStyle
      * All caps
      *
      * @var bool
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
     private $allCaps = false;
 
@@ -186,7 +186,7 @@ class Font extends AbstractStyle
      *
      * @var int
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
      */
     private $scale;
 
@@ -195,7 +195,7 @@ class Font extends AbstractStyle
      *
      * @var int|float
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
      */
     private $spacing;
 
@@ -204,7 +204,7 @@ class Font extends AbstractStyle
      *
      * @var int|float
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
      */
     private $kerning;
 
@@ -224,12 +224,12 @@ class Font extends AbstractStyle
 
     /**
      * Right to left languages
-     * @var boolean
+     * @var bool
      */
     private $rtl = false;
 
     /**
-     * Languages 
+     * Languages
      * @var \PhpOffice\PhpWord\Style\Language
      */
     private $lang;
@@ -812,7 +812,7 @@ class Font extends AbstractStyle
             $value = new Language($value);
         }
         $this->setObjectVal($value, 'Language', $this->lang);
-        
+
         return $this;
     }
 

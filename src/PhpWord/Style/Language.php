@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -25,7 +26,6 @@ namespace PhpOffice\PhpWord\Style;
  */
 final class Language extends AbstractStyle
 {
-
     const EN_US = 'en-US';
     const EN_US_ID = 1033;
 
@@ -89,7 +89,8 @@ final class Language extends AbstractStyle
     private $bidirectional;
 
     /**
-     * 
+     * Constructor
+     *
      * @param string|null $latin
      * @param string|null $eastAsia
      * @param string|null $bidirectional
@@ -118,6 +119,7 @@ final class Language extends AbstractStyle
     {
         $this->validateLocale($latin);
         $this->latin = $latin;
+
         return $this;
     }
 
@@ -142,6 +144,7 @@ final class Language extends AbstractStyle
     public function setLangId($langId)
     {
         $this->langId = $langId;
+
         return $this;
     }
 
@@ -166,6 +169,7 @@ final class Language extends AbstractStyle
     {
         $this->validateLocale($eastAsia);
         $this->eastAsia = $eastAsia;
+
         return $this;
     }
 
@@ -190,6 +194,7 @@ final class Language extends AbstractStyle
     {
         $this->validateLocale($bidirectional);
         $this->bidirectional = $bidirectional;
+
         return $this;
     }
 
@@ -205,9 +210,9 @@ final class Language extends AbstractStyle
 
     /**
      * Validates that the language passed is in the format xx-xx
-     * 
+     *
      * @param string $locale
-     * @return boolean
+     * @return bool
      */
     private function validateLocale($locale)
     {

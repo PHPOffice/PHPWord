@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -92,7 +92,6 @@ abstract class AbstractElement
      * Start w:p DOM element.
      *
      * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
-     * @return void
      */
     protected function startElementP()
     {
@@ -108,8 +107,6 @@ abstract class AbstractElement
 
     /**
      * End w:p DOM element.
-     *
-     * @return void
      */
     protected function endElementP()
     {
@@ -121,8 +118,6 @@ abstract class AbstractElement
 
     /**
      * Writes the w:commentRangeStart DOM element
-     *
-     * @return void
      */
     protected function writeCommentRangeStart()
     {
@@ -139,8 +134,6 @@ abstract class AbstractElement
 
     /**
      * Writes the w:commentRangeEnd DOM element
-     *
-     * @return void
      */
     protected function writeCommentRangeEnd()
     {
@@ -171,8 +164,6 @@ abstract class AbstractElement
 
     /**
      * Write ending.
-     *
-     * @return void
      */
     protected function writeParagraphStyle()
     {
@@ -181,20 +172,16 @@ abstract class AbstractElement
 
     /**
      * Write ending.
-     *
-     * @return void
      */
     protected function writeFontStyle()
     {
         $this->writeTextStyle('Font');
     }
 
-
     /**
      * Write text style.
      *
      * @param string $styleType Font|Paragraph
-     * @return void
      */
     private function writeTextStyle($styleType)
     {
@@ -202,12 +189,12 @@ abstract class AbstractElement
         $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\{$styleType}";
         $styleObject = $this->element->$method();
 
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter Type Hint */
         $styleWriter = new $class($this->xmlWriter, $styleObject);
         if (method_exists($styleWriter, 'setIsInline')) {
             $styleWriter->setIsInline(true);
         }
 
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter */
         $styleWriter->write();
     }
 

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -28,9 +28,9 @@ class Rtf extends AbstractEscaper
     {
         if (20 > $code || $code >= 80) {
             return '{\u' . $code . '}';
-        } else {
-            return chr($code);
         }
+
+        return chr($code);
     }
 
     protected function escapeMultibyteCharacter($code)
@@ -40,6 +40,7 @@ class Rtf extends AbstractEscaper
 
     /**
      * @see http://www.randomchaos.com/documents/?source=php_and_unicode
+     * @param string $input
      */
     protected function escapeSingleValue($input)
     {
@@ -57,9 +58,9 @@ class Rtf extends AbstractEscaper
                 if (0 == count($bytes)) {
                     if ($asciiCode < 224) {
                         $numberOfBytes = 2;
-                    } else if ($asciiCode < 240) {
+                    } elseif ($asciiCode < 240) {
                         $numberOfBytes = 3;
-                    } else if ($asciiCode < 248) {
+                    } elseif ($asciiCode < 248) {
                         $numberOfBytes = 4;
                     }
                 }

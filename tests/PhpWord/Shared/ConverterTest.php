@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -89,7 +89,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(round($value / 9525), $result);
 
             $result = Converter::degreeToAngle($value);
-            $this->assertEquals((int)round($value * 60000), $result);
+            $this->assertEquals((int) round($value * 60000), $result);
 
             $result = Converter::angleToDegree($value);
             $this->assertEquals(round($value / 60000), $result);

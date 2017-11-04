@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -37,7 +37,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
- * @method Object addObject(string $source, mixed $style = null)
+ * @method \PhpOffice\PhpWord\Element\Object addObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
@@ -83,7 +83,7 @@ abstract class AbstractContainer extends AbstractElement
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
-            'Chart', 'FormField', 'SDT', 'Comment'
+            'Chart', 'FormField', 'SDT', 'Comment',
         );
         $functions = array();
         foreach ($elements as $element) {
@@ -105,9 +105,8 @@ abstract class AbstractContainer extends AbstractElement
                 for ($i = 1; $i <= $count; $i++) {
                     $this->addElement($element, $fontStyle, $paragraphStyle);
                 }
-
-            // All other elements
             } else {
+                // All other elements
                 array_unshift($args, $element); // Prepend element name to the beginning of args array
                 return call_user_func_array(array($this, 'addElement'), $args);
             }
@@ -181,9 +180,8 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @param string $method
      *
-     * @return bool
-     *
      * @throws \BadMethodCallException
+     * @return bool
      */
     private function checkValidity($method)
     {

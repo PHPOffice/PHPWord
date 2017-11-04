@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,14 +29,12 @@ use PhpOffice\PhpWord\Style\Language;
  */
 class Settings extends AbstractPart
 {
-
     private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'trackRevisions', 'doNotTrackMoves', 'doNotTrackFormatting', 'evenAndOddHeaders');
 
     /**
      * Read settings.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {
@@ -58,9 +56,9 @@ class Settings extends AbstractPart
                     } else {
                         $docSettings->$method(true);
                     }
-                } else if (method_exists($this, $method)) {
+                } elseif (method_exists($this, $method)) {
                     $this->$method($xmlReader, $phpWord, $node);
-                } else if (method_exists($docSettings, $method)) {
+                } elseif (method_exists($docSettings, $method)) {
                     $docSettings->$method($value);
                 }
             }
@@ -69,14 +67,13 @@ class Settings extends AbstractPart
 
     /**
      * Sets the document Language
-     * 
+     *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
      * @param \DOMNode $node
      */
     protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
-
         $val = $xmlReader->getAttribute('w:val', $node);
         $eastAsia = $xmlReader->getAttribute('w:eastAsia', $node);
         $bidi = $xmlReader->getAttribute('w:bidi', $node);

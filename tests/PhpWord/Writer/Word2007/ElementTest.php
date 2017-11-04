@@ -10,16 +10,17 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Element\TextRun;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
@@ -186,7 +187,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $index = 0;
         foreach ($chartTypes as $chartType) {
-            $index++;
+            ++$index;
             $file = "word/charts/chart{$index}.xml";
             $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
             $this->assertTrue($doc->elementExists($path, $file));

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ class XmlDocument
     /**
      * Path
      *
-     * @var string $path
+     * @var string
      */
     private $path;
 
@@ -78,6 +78,7 @@ class XmlDocument
         $file = $this->path . '/' . $file;
         $this->dom = new \DOMDocument();
         $this->dom->load($file);
+
         return $this->dom;
     }
 
@@ -158,6 +159,7 @@ class XmlDocument
     public function elementExists($path, $file = 'word/document.xml')
     {
         $nodeList = $this->getNodeList($path, $file);
+
         return !($nodeList->length == 0);
     }
 }
