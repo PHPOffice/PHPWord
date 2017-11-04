@@ -4,7 +4,7 @@ References
 ==========
 
 ISO/IEC 29500, Third edition, 2012-09-01
----------------------
+----------------------------------------
 
 - `Part 1: Fundamentals and Markup Language Reference
   <http://standards.iso.org/ittf/PubliclyAvailableStandards/c061750_ISO_IEC_29500-1_2012.zip>`__

@@ -47,7 +47,7 @@ class TrackChange extends AbstractContainer
      * @param string $author
      * @param \DateTime $date
      */
-    public function __construct($author, \DateTime $date)
+    public function __construct($author, \DateTime $date = null)
     {
         $this->author = $author;
         $this->date = $date;
