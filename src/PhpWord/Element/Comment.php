@@ -57,7 +57,7 @@ class Comment extends TrackChange
      * @param \DateTime $date
      * @param string $initials
      */
-    public function __construct($author, $date, $initials)
+    public function __construct($author, $date = null, $initials = null)
     {
         parent::__construct($author, $date);
         $this->initials = $initials;
