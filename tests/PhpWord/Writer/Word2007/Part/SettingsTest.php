@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\ComplexType\ProofState;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -111,6 +112,29 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test proofState
+     */
+    public function testProofState()
+    {
+        $proofState = new ProofState();
+        $proofState->setSpelling(ProofState::DIRTY);
+        $proofState->setGrammar(ProofState::DIRTY);
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setProofState($proofState);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:proofState';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $element = $doc->getElement($path, $file);
+
+        $this->assertEquals('dirty', $element->getAttribute('w:spelling'));
+        $this->assertEquals('dirty', $element->getAttribute('w:grammar'));
+    }
+
+    /**
      * Test spelling
      */
     public function testSpelling()
@@ -184,6 +208,22 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
 
         $element = $doc->getElement($path, $file);
         $this->assertEquals('fullPage', $element->getAttribute('w:val'));
+    }
+
+    public function testMirrorMargins()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setMirrorMargins(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:mirrorMargins';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
 
     /**

@@ -39,6 +39,14 @@ class Settings
     private $zoom = 100;
 
     /**
+     * Mirror Page Margins
+     * 
+     * @see http://www.datypic.com/sc/ooxml/e-w_mirrorMargins-1.html
+     * @var bool
+     */
+    private $mirrorMargins;
+
+    /**
      * Hide spelling errors
      *
      * @var bool
@@ -299,6 +307,22 @@ class Settings
             Zoom::validate($zoom);
             $this->zoom = $zoom;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMirrorMargins()
+    {
+        return $this->mirrorMargins;
+    }
+
+    /**
+     * @param bool $mirrorMargins
+     */
+    public function setMirrorMargins($mirrorMargins)
+    {
+        $this->mirrorMargins = $mirrorMargins;
     }
 
     /**

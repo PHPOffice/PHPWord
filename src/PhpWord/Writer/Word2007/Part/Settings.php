@@ -140,6 +140,7 @@ class Settings extends AbstractPart
             ),
         );
 
+        $this->setOnOffValue('w:mirrorMargins', $documentSettings->hasMirrorMargins());
         $this->setOnOffValue('w:hideSpellingErrors', $documentSettings->hasHideSpellingErrors());
         $this->setOnOffValue('w:hideGrammaticalErrors', $documentSettings->hasHideGrammaticalErrors());
         $this->setOnOffValue('w:trackRevisions', $documentSettings->hasTrackRevisions());
