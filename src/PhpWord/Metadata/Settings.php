@@ -40,7 +40,7 @@ class Settings
 
     /**
      * Mirror Page Margins
-     * 
+     *
      * @see http://www.datypic.com/sc/ooxml/e-w_mirrorMargins-1.html
      * @var bool
      */
