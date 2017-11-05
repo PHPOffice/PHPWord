@@ -17,13 +17,13 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\ComplexType\ProofState;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings

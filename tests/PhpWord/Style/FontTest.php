@@ -69,6 +69,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'doubleStrikethrough' => false,
             'smallCaps'           => false,
             'allCaps'             => false,
+            'rtl'                 => false,
             'fgColor'             => null,
             'bgColor'             => null,
             'scale'               => null,
@@ -113,6 +114,8 @@ class FontTest extends \PHPUnit_Framework_TestCase
             'scale'               => 150,
             'spacing'             => 240,
             'kerning'             => 10,
+            'rtl'                 => true,
+            'lang'                => new Language(Language::EN_US),
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
@@ -172,5 +175,16 @@ class FontTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Font();
         $object->setLineHeight('a');
+    }
+
+    /**
+     * Test setting the language as a string
+     */
+    public function testSetLangAsString()
+    {
+        $object = new Font();
+        $object->setLang(Language::FR_BE);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Language', $object->getLang());
+        $this->assertEquals(Language::FR_BE, $object->getLang()->getLatin());
     }
 }

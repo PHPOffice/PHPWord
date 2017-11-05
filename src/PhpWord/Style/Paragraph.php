@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
  * Paragraph style
@@ -173,6 +174,13 @@ class Paragraph extends Border
     private $bidi = false;
 
     /**
+     * Vertical Character Alignment on Line
+     *
+     * @var string
+     */
+    private $textAlignment;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -224,6 +232,7 @@ class Paragraph extends Border
             'shading'           => $this->getShading(),
             'contextualSpacing' => $this->hasContextualSpacing(),
             'bidi'              => $this->isBidi(),
+            'textAlignment'     => $this->getTextAlignment(),
         );
 
         return $styles;
@@ -791,6 +800,30 @@ class Paragraph extends Border
     public function setBidi($bidi)
     {
         $this->bidi = $bidi;
+
+        return $this;
+    }
+
+    /**
+     * Get textAlignment
+     *
+     * @return string
+     */
+    public function getTextAlignment()
+    {
+        return $this->textAlignment;
+    }
+
+    /**
+     * Set textAlignment
+     *
+     * @param string $textAlignment
+     * @return self
+     */
+    public function setTextAlignment($textAlignment)
+    {
+        TextAlignment::validate($textAlignment);
+        $this->textAlignment = $textAlignment;
 
         return $this;
     }

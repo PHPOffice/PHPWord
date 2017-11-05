@@ -80,6 +80,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
             'keepLines'         => true,
             'pageBreakBefore'   => true,
             'contextualSpacing' => true,
+            'textAlignment'     => 'auto',
             'bidi'              => true,
         );
         foreach ($attributes as $key => $value) {
@@ -114,7 +115,7 @@ class ParagraphTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Paragraph();
 
-        $attributes = array('spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter');
+        $attributes = array('spacing', 'indent', 'hanging', 'spaceBefore', 'spaceAfter', 'textAlignment');
         foreach ($attributes as $key) {
             $get = $this->findGetter($key, null, $object);
             $this->assertNull($object->$get());

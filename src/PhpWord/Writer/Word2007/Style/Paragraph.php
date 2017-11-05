@@ -109,6 +109,9 @@ class Paragraph extends AbstractStyle
         //Paragraph contextualSpacing
         $xmlWriter->writeElementIf($styles['contextualSpacing'] === true, 'w:contextualSpacing');
 
+        //Paragraph contextualSpacing
+        $xmlWriter->writeElementIf($styles['textAlignment'] !== null, 'w:textAlignment', 'w:val', $styles['textAlignment']);
+
         // Child style: alignment, indentation, spacing, and shading
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
