@@ -210,7 +210,11 @@ abstract class AbstractPart
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    if ('External' == $this->getTargetMode($docPart, $rId)) {
+                        $imageSource = $target;
+                    } else {
+                        $imageSource = "zip://{$this->docFile}#{$target}";
+                    }
                     $parent->addImage($imageSource);
                 }
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
@@ -499,5 +503,23 @@ abstract class AbstractPart
         }
 
         return $target;
+    }
+
+    /**
+     * Returns the target mode
+     *
+     * @param string $docPart
+     * @param string $rId
+     * @return string|null
+     */
+    private function getTargetMode($docPart, $rId)
+    {
+        $mode = null;
+
+        if (isset($this->rels[$docPart]) && isset($this->rels[$docPart][$rId])) {
+            $mode = $this->rels[$docPart][$rId]['targetMode'];
+        }
+
+        return $mode;
     }
 }

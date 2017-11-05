@@ -80,6 +80,10 @@ Available Paragraph style options:
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
+- ``bidi``. Right to Left Paragraph Layout, *true* or *false*.
+- ``shading``. Paragraph Shading.
+- ``textAlignment``. Vertical Character Alignment on Line.
+   See ``\PhpOffice\PhpWord\SimpleType\TextAlignment`` class for possible values.
 
 .. _table-style:
 

@@ -16,6 +16,7 @@ This is the last version to support PHP 5.3
 - Possiblity to hide spelling and/or grammatical errors - @troosan #542
 - Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
 - Support for Comments - @troosan #1067
+- Support for paragraph textAlignment - @troosan #1165
 
 ### Fixed
 - Loosen dependency to Zend
@@ -30,6 +31,7 @@ This is the last version to support PHP 5.3
 - Added missing options for numbering format - @troosan #1041
 - Fixed impossibility to set a different footer for first page - @ctrlaltca #1116
 - Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
+- Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
 
 v0.13.0 (31 July 2016)
 -------------------
