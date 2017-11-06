@@ -46,6 +46,20 @@ class SDT extends Text
     private $listItems = array();
 
     /**
+     * Alias
+     *
+     * @var string
+     */
+    private $alias;
+
+    /**
+     * Tag
+     *
+     * @var string
+     */
+    private $tag;
+
+    /**
      * Create new instance
      *
      * @param string $type
@@ -123,6 +137,52 @@ class SDT extends Text
     public function setListItems($value)
     {
         $this->listItems = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Set tag
+     *
+     * @param string $tag
+     * @return self
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * Set alias
+     *
+     * @param string $alias
+     * @return self
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
 
         return $this;
     }

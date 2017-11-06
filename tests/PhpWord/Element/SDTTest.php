@@ -32,14 +32,20 @@ class SDTTest extends \PHPUnit_Framework_TestCase
         $types = array('comboBox', 'dropDownList', 'date');
         $type = $types[rand(0, 2)];
         $value = rand(0, 100);
+        $alias = 'alias';
+        $tag = 'my_tag';
         $object = new SDT($type);
         $object->setValue($value);
         $object->setListItems($types);
+        $object->setAlias($alias);
+        $object->setTag($tag);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
         $this->assertEquals($type, $object->getType());
         $this->assertEquals($types, $object->getListItems());
         $this->assertEquals($value, $object->getValue());
+        $this->assertEquals($alias, $object->getAlias());
+        $this->assertEquals($tag, $object->getTag());
     }
 
     /**
