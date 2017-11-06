@@ -143,7 +143,7 @@ class SDT extends Text
 
     /**
      * Get tag
-     * 
+     *
      * @return string
      */
     public function getTag()

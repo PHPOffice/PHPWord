@@ -162,4 +162,22 @@ class XmlDocument
 
         return !($nodeList->length == 0);
     }
+
+    /**
+     * Returns the xml, or part of it as a formatted string
+     *
+     * @param string $path
+     * @param string $file
+     * @return string
+     */
+    public function printXml($path = '/w:document', $file = 'word/document.xml')
+    {
+        $newdoc = new \DOMDocument();
+        $newdoc->formatOutput = true;
+        $newdoc->preserveWhiteSpace = false;
+        $node = $newdoc->importNode($this->getElement($path, $file), true);
+        $newdoc->appendChild($node);
+
+        return $newdoc->saveXML($node);
+    }
 }

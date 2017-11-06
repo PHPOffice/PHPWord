@@ -269,13 +269,17 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $section->addSDT('comboBox');
         $section->addSDT('dropDownList');
-        $section->addSDT('date');
+        $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $path = '/w:document/w:body/w:p/w:sdt/w:sdtPr';
-        $this->assertTrue($doc->elementExists($path . '/w:comboBox'));
-        $this->assertTrue($doc->elementExists($path . '/w:dropDownList'));
-        $this->assertTrue($doc->elementExists($path . '/w:date'));
+        $path = '/w:document/w:body/w:p';
+
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox'));
+        $this->assertTrue($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:dropDownList'));
+        $this->assertFalse($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:alias'));
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
     }
 }
