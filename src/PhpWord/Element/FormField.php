@@ -73,6 +73,7 @@ class FormField extends Text
      */
     public function __construct($type, $fontStyle = null, $paragraphStyle = null)
     {
+        parent::__construct(null, $fontStyle, $paragraphStyle);
         $this->setType($type);
     }
 
