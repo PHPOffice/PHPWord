@@ -267,7 +267,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addSDT('comboBox');
+        $section->addSDT('comboBox')->setListItems(array('1' => 'Choice 1', '2' => 'Choice 2'))->setValue('select value');
         $section->addSDT('dropDownList');
         $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
 
@@ -275,9 +275,16 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $path = '/w:document/w:body/w:p';
 
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtContent/w:r/w:t'));
+        $this->assertEquals('select value', $doc->getElement($path . '[1]/w:sdt/w:sdtContent/w:r/w:t')->nodeValue);
         $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox'));
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem'));
+        $this->assertEquals('1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:value'));
+        $this->assertEquals('Choice 1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:displayText'));
+
         $this->assertTrue($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:dropDownList'));
         $this->assertFalse($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:alias'));
+
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
