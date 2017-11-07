@@ -20,6 +20,12 @@ $source = 'http://php.net/images/logos/php-med-trans-light.gif';
 $section->addText("Remote image from: {$source}");
 $section->addImage($source);
 
+// Image from string
+$source = 'resources/_mars.jpg';
+$fileContent = file_get_contents($source);
+$section->addText('Image from string');
+$section->addImage($fileContent);
+
 //Wrapping style
 $text = str_repeat('Hello World! ', 15);
 $wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');

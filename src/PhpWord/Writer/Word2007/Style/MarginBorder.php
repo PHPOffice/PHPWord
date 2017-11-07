@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,7 +29,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Sizes
      *
-     * @var integer[]
+     * @var int[]
      */
     private $sizes = array();
 
@@ -49,8 +49,6 @@ class MarginBorder extends AbstractStyle
 
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -76,7 +74,6 @@ class MarginBorder extends AbstractStyle
      * @param string $side
      * @param int $width
      * @param string $color
-     * @return void
      */
     private function writeSide(XMLWriter $xmlWriter, $side, $width, $color = null)
     {
@@ -105,8 +102,7 @@ class MarginBorder extends AbstractStyle
     /**
      * Set sizes.
      *
-     * @param integer[] $value
-     * @return void
+     * @param int[] $value
      */
     public function setSizes($value)
     {
@@ -117,7 +113,6 @@ class MarginBorder extends AbstractStyle
      * Set colors.
      *
      * @param string[] $value
-     * @return void
      */
     public function setColors($value)
     {
@@ -128,7 +123,6 @@ class MarginBorder extends AbstractStyle
      * Set attributes.
      *
      * @param array $value
-     * @return void
      */
     public function setAttributes($value)
     {

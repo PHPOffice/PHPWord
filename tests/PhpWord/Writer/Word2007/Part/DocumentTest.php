@@ -10,14 +10,17 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
@@ -55,6 +58,36 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $element = $doc->getElement('/w:document/w:body/w:sectPr/w:pgNumType');
 
         $this->assertEquals(2, $element->getAttribute('w:start'));
+    }
+
+    /**
+     * Write section footnote properties
+     */
+    public function testSectionFootnoteProperties()
+    {
+        $properties = new FootnoteProperties();
+        $properties->setPos(FootnoteProperties::POSITION_DOC_END);
+        $properties->setNumFmt(NumberFormat::LOWER_ROMAN);
+        $properties->setNumStart(1);
+        $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->setFootnoteProperties($properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:pos');
+        $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numFmt');
+        $this->assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numStart');
+        $this->assertEquals(1, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:footnotePr/w:numRestart');
+        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
     }
 
     /**
@@ -426,7 +459,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // Test the attributes
         $attributeCount = 0;
         foreach ($attributes as $key => $value) {
-            $attributeCount++;
+            ++$attributeCount;
             $nodeName = ($key == 'alignment') ? 'jc' : $key;
             $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
             if ('alignment' != $key) {

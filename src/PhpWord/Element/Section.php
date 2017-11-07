@@ -10,13 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 class Section extends AbstractContainer
@@ -48,6 +49,13 @@ class Section extends AbstractContainer
     private $footers = array();
 
     /**
+     * The properties for the footnote of this section
+     *
+     * @var FootnoteProperties
+     */
+    private $footnoteProperties;
+
+    /**
      * Create new instance
      *
      * @param int $sectionCount
@@ -65,7 +73,6 @@ class Section extends AbstractContainer
      * Set section style.
      *
      * @param array $style
-     * @return void
      */
     public function setStyle($style = null)
     {
@@ -139,12 +146,32 @@ class Section extends AbstractContainer
     }
 
     /**
+     * Get the footnote properties
+     *
+     * @return \PhpOffice\PhpWord\Element\FooterProperties
+     */
+    public function getFootnotePropoperties()
+    {
+        return $this->footnoteProperties;
+    }
+
+    /**
+     * Set the footnote properties
+     *
+     * @param FootnoteProperties $footnoteProperties
+     */
+    public function setFootnoteProperties(FootnoteProperties $footnoteProperties = null)
+    {
+        $this->footnoteProperties = $footnoteProperties;
+    }
+
+    /**
      * Is there a header for this section that is for the first page only?
      *
      * If any of the Header instances have a type of Header::FIRST then this method returns true.
      * False otherwise.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasDifferentFirstPage()
     {
@@ -153,6 +180,12 @@ class Section extends AbstractContainer
                 return true;
             }
         }
+        foreach ($this->footers as $footer) {
+            if ($footer->getType() == Header::FIRST) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -162,11 +195,11 @@ class Section extends AbstractContainer
      * @since 0.10.0
      *
      * @param string $type
-     * @param boolean $header
-     *
-     * @return Header|Footer
+     * @param bool $header
      *
      * @throws \Exception
+     *
+     * @return Header|Footer
      */
     private function addHeaderFooter($type = Header::AUTO, $header = true)
     {
@@ -182,11 +215,10 @@ class Section extends AbstractContainer
             $container->setPhpWord($this->phpWord);
 
             $collection[$index] = $container;
-            return $container;
-        } else {
-            throw new \Exception('Invalid header/footer type.');
-        }
 
+            return $container;
+        }
+        throw new \Exception('Invalid header/footer type.');
     }
 
     /**
@@ -258,8 +290,8 @@ class Section extends AbstractContainer
     {
         if (empty($this->footers)) {
             return null;
-        } else {
-            return $this->footers[1];
         }
+
+        return $this->footers[1];
     }
 }

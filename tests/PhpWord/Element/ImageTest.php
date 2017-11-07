@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -87,6 +87,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($createFunction, $image->getImageCreateFunction());
             $this->assertEquals($imageFunction, $image->getImageFunction());
             $this->assertFalse($image->isMemImage());
+            $this->assertNotNull($image->getImageStringData());
         }
     }
 
@@ -131,7 +132,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsupportedImage()
     {
-        $object = new Image('http://samples.libav.org/image-samples/RACECAR.BMP');
+        //disable ssl verification, never do this in real application, you should pass the certiciate instead!!!
+        $arrContextOptions = array(
+            'ssl' => array(
+                'verify_peer'      => false,
+                'verify_peer_name' => false,
+            ),
+        );
+        stream_context_set_default($arrContextOptions);
+        $object = new Image('https://samples.libav.org/image-samples/RACECAR.BMP');
         $object->getSource();
     }
 
@@ -194,7 +203,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(md5($source), $image->getMediaId());
         $this->assertEquals('image/jpeg', $image->getImageType());
         $this->assertEquals('jpg', $image->getImageExtension());
-        $this->assertEquals('imagecreatefromjpeg', $image->getImageCreateFunction());
+        $this->assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
         $this->assertEquals('imagejpeg', $image->getImageFunction());
         $this->assertTrue($image->isMemImage());
     }

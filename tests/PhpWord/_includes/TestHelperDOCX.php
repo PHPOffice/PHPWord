@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,7 +29,7 @@ class TestHelperDOCX
      *
      * @var string
      */
-    static protected $file;
+    protected static $file;
 
     /**
      * Get document content
@@ -39,9 +39,8 @@ class TestHelperDOCX
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param string $writerName
      *
-     * @return \PhpOffice\PhpWord\XmlDocument
-     *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @return \PhpOffice\PhpWord\XmlDocument
      */
     public static function getDocument(PhpWord $phpWord, $writerName = 'Word2007')
     {
@@ -57,7 +56,7 @@ class TestHelperDOCX
         $xmlWriter = IOFactory::createWriter($phpWord, $writerName);
         $xmlWriter->save(self::$file);
 
-        $zip = new \ZipArchive;
+        $zip = new \ZipArchive();
         $res = $zip->open(self::$file);
         if (true === $res) {
             $zip->extractTo(Settings::getTempDir() . '/PhpWord_Unit_Test/');

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -52,12 +52,17 @@ class Font extends AbstractStyle
         $css['background'] = $this->getValueIf($fgColor != '', $fgColor);
         $css['font-weight'] = $this->getValueIf($style->isBold(), 'bold');
         $css['font-style'] = $this->getValueIf($style->isItalic(), 'italic');
-        $css['vertical-align'] = $this->getValueIf($style->isSuperScript(), 'italic');
-        $css['vertical-align'] = $this->getValueIf($style->isSuperScript(), 'super');
-        $css['vertical-align'] = $this->getValueIf($style->isSubScript(), 'sub');
+        $css['vertical-align'] = '';
+        $css['vertical-align'] .= $this->getValueIf($style->isSuperScript(), 'super');
+        $css['vertical-align'] .= $this->getValueIf($style->isSubScript(), 'sub');
         $css['text-decoration'] = '';
         $css['text-decoration'] .= $this->getValueIf($underline, 'underline ');
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
+        $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
+        $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
+
+        $spacing = $style->getSpacing();
+        $css['letter-spacing'] = $this->getValueIf(!is_null($spacing), ($spacing / 20) . 'pt');
 
         return $this->assembleCss($css);
     }

@@ -98,6 +98,12 @@ that are available for the footer. See "Footer" section for detail.
 Additionally, only inside of the header reference you can add watermarks
 or background pictures. See "Watermarks" section.
 
+You can pass an optional parameter to specify where the header/footer should be applied, it can be
+
+-  ``Footer::AUTO`` default, all pages except if overridden by first or even
+-  ``Footer::FIRST`` each first page of the section
+-  ``Footer::EVEN`` each even page of the section. Will only be applied if the evenAndOddHeaders is set to true in phpWord->settings
+
 Footers
 -------
 

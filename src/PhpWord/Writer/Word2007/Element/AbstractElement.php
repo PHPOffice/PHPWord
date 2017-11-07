@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -92,7 +92,6 @@ abstract class AbstractElement
      * Start w:p DOM element.
      *
      * @uses \PhpOffice\PhpWord\Writer\Word2007\Element\PageBreak::write()
-     * @return void
      */
     protected function startElementP()
     {
@@ -103,24 +102,68 @@ abstract class AbstractElement
                 $this->writeParagraphStyle();
             }
         }
+        $this->writeCommentRangeStart();
     }
 
     /**
      * End w:p DOM element.
-     *
-     * @return void
      */
     protected function endElementP()
     {
+        $this->writeCommentRangeEnd();
         if (!$this->withoutP) {
             $this->xmlWriter->endElement(); // w:p
         }
     }
 
     /**
+     * Writes the w:commentRangeStart DOM element
+     */
+    protected function writeCommentRangeStart()
+    {
+        if ($this->element->getCommentRangeStart() != null) {
+            $comment = $this->element->getCommentRangeStart();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeStart', array('w:id' => $comment->getElementId()));
+        }
+    }
+
+    /**
+     * Writes the w:commentRangeEnd DOM element
+     */
+    protected function writeCommentRangeEnd()
+    {
+        if ($this->element->getCommentRangeEnd() != null) {
+            $comment = $this->element->getCommentRangeEnd();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->startElement('w:r');
+            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->endElement();
+        } elseif ($this->element->getCommentRangeStart() != null && $this->element->getCommentRangeStart()->getEndElement() == null) {
+            $comment = $this->element->getCommentRangeStart();
+            //only set the ID if it is not yet set, otherwise it will overwrite it
+            if ($comment->getElementId() == null) {
+                $comment->setElementId();
+            }
+
+            $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->startElement('w:r');
+            $this->xmlWriter->writeElementBlock('w:commentReference', array('w:id' => $comment->getElementId()));
+            $this->xmlWriter->endElement();
+        }
+    }
+
+    /**
      * Write ending.
-     *
-     * @return void
      */
     protected function writeParagraphStyle()
     {
@@ -129,20 +172,16 @@ abstract class AbstractElement
 
     /**
      * Write ending.
-     *
-     * @return void
      */
     protected function writeFontStyle()
     {
         $this->writeTextStyle('Font');
     }
 
-
     /**
      * Write text style.
      *
      * @param string $styleType Font|Paragraph
-     * @return void
      */
     private function writeTextStyle($styleType)
     {
@@ -150,12 +189,12 @@ abstract class AbstractElement
         $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\{$styleType}";
         $styleObject = $this->element->$method();
 
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter Type Hint */
         $styleWriter = new $class($this->xmlWriter, $styleObject);
         if (method_exists($styleWriter, 'setIsInline')) {
             $styleWriter->setIsInline(true);
         }
 
-        /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $styleWriter */
         $styleWriter->write();
     }
 

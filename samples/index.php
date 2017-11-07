@@ -13,7 +13,7 @@ $requirements = array(
     'xsl'   => array('PHP extension XSL (optional)', extension_loaded('xsl')),
 );
 if (!CLI) {
-?>
+    ?>
 <div class="jumbotron">
 <p>Welcome to PHPWord, a library written in pure PHP that provides a set of classes to write to and read from different document file formats, i.e. Office Open XML (.docx), Open Document Format (.odt), and Rich Text Format (.rtf).</p>
 <p>&nbsp;</p>
@@ -25,14 +25,14 @@ if (!CLI) {
 <?php
 }
 if (!CLI) {
-    echo "<h3>Requirement check:</h3>";
-    echo "<ul>";
+    echo '<h3>Requirement check:</h3>';
+    echo '<ul>';
     foreach ($requirements as $key => $value) {
         list($label, $result) = $value;
         $status = $result ? 'passed' : 'failed';
         echo "<li>{$label} ... <span class='{$status}'>{$status}</span></li>";
     }
-    echo "</ul>";
+    echo '</ul>';
     include_once 'Sample_Footer.php';
 } else {
     echo 'Requirement check:' . PHP_EOL;
