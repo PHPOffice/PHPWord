@@ -29,9 +29,10 @@ This is the last version to support PHP 5.3
 - Fixed Word2007 reader where margins were not being read correctly - @slowprog #885 #1008
 - Impossible to add element PreserveText in Section - @rvanlaak #452
 - Added missing options for numbering format - @troosan #1041
-- Fixed impossibility to set a different footer for first page - @ctrlaltca #1116
+- Fixed impossibility to set a different footer for first page - @ctrlaltca #1116, @aoloe #875
 - Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
 - Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
+- Padded the $args array to remove error - @kaigoh #1150, @reformed #870
 
 v0.13.0 (31 July 2016)
 -------------------
