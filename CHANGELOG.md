@@ -33,7 +33,7 @@ This is the last version to support PHP 5.3
 - Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
 - Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
 - Padded the $args array to remove error - @kaigoh #1150, @reformed #870
-
+- Fix incorrect image size between windows and mac - @bskrtich #874
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
