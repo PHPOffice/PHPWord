@@ -81,7 +81,16 @@ Example:
 
 ## Getting started
 
-The following is a basic usage example of the PHPWord library.
+The following is a basic usage example of the PHPWord library. If you're using [Composer](https://getcomposer.org/) then replace 
+
+```php
+require_once 'bootstrap.php';
+```
+
+with
+```php
+require_once 'vendor/autoload.php';
+```
 
 ```php
 <?php
