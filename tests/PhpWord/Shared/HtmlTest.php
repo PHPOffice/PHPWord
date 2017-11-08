@@ -18,9 +18,12 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Shared\Html
+ * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
 class HtmlTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +46,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         // Styles
         $content .= '<p style="text-decoration: underline; text-decoration: line-through; '
-                  . 'text-align: center; color: #999; background-color: #000;">';
+                  . 'text-align: center; color: #999; background-color: #000; font-weight: bold; font-style: italic;">';
         foreach ($styles as $style) {
             $content .= "<{$style}>{$style}</{$style}>";
         }
@@ -66,5 +69,110 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $content .= '&amp;&bull;&deg;&hellip;&trade;&copy;&reg;&mdash;';
         $content .= '&ndash;&nbsp;&emsp;&ensp;&sup2;&sup3;&frac14;&frac12;&frac34;';
         Html::addHtml($section, $content);
+    }
+
+    /**
+     * Test that html already in body element can be read
+     * @ignore
+     */
+    public function testParseFullHtml()
+    {
+        $section = new Section(1);
+        Html::addHtml($section, '<body><p>test paragraph1</p><p>test paragraph2</p></body>', true);
+
+        $this->assertCount(2, $section->getElements());
+    }
+
+    /**
+     * Test underline
+     */
+    public function testParseUnderline()
+    {
+        $html = '<u>test</u>';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
+        $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
+     * Test text-decoration style
+     */
+    public function testParseTextDecoration()
+    {
+        $html = '<span style="text-decoration: underline;">test</span>';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
+        $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
+     * Test text-align style
+     */
+    public function testParseTextAlign()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="text-align: left;">test</p>');
+        Html::addHtml($section, '<p style="text-align: right;">test</p>');
+        Html::addHtml($section, '<p style="text-align: center;">test</p>');
+        Html::addHtml($section, '<p style="text-align: justify;">test</p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:jc'));
+        $this->assertEquals('start', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals('end', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals('both', $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:jc', 'w:val'));
+    }
+
+    /**
+     * Test parsing paragraph and span styles
+     */
+    public function testParseParagraphAndSpanStyle()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="text-align: center;"><span style="text-decoration: underline;">test</span></p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:jc'));
+        $this->assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
+     * Test parsing table
+     */
+    public function testParseTable()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '
+            <table style="width: 50%; border: 6px #0000FF solid;">
+                <thead>
+                    <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
+                        <th>a</th>
+                        <th>b</th>
+                        <th>c</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td colspan="2">2</td></tr>
+                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                </tbody>
+            </table>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+//         echo $doc->printXml();
+//         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
     }
 }

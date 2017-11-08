@@ -56,4 +56,24 @@ class MsDocTest extends \PHPUnit_Framework_TestCase
         $phpWord = IOFactory::load($filename, 'MsDoc');
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
     }
+
+    /**
+     * Test exception on not existing file
+     * @expectedException \Exception
+     */
+    public function testFailIfFileNotReadable()
+    {
+        $filename = __DIR__ . '/../_files/documents/not_existing_reader.doc';
+        IOFactory::load($filename, 'MsDoc');
+    }
+
+    /**
+     * Test exception on non OLE document
+     * @expectedException \Exception
+     */
+    public function testFailIfFileNotOle()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader.odt';
+        IOFactory::load($filename, 'MsDoc');
+    }
 }

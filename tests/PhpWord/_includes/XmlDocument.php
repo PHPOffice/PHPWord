@@ -170,12 +170,20 @@ class XmlDocument
      * @param string $file
      * @return string
      */
-    public function printXml($path = '/w:document', $file = 'word/document.xml')
+    public function printXml($path = '/', $file = 'word/document.xml')
     {
+        $element = $this->getElement($path, $file);
+        if ($element instanceof \DOMDocument) {
+            $element->formatOutput = true;
+            $element->preserveWhiteSpace = false;
+
+            return $element->saveXML();
+        }
+
         $newdoc = new \DOMDocument();
         $newdoc->formatOutput = true;
         $newdoc->preserveWhiteSpace = false;
-        $node = $newdoc->importNode($this->getElement($path, $file), true);
+        $node = $newdoc->importNode($element, true);
         $newdoc->appendChild($node);
 
         return $newdoc->saveXML($node);
