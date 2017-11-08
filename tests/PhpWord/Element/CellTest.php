@@ -181,7 +181,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $element = $oCell->addObject($src);
 
         $this->assertCount(1, $oCell->getElements());
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $element);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ObjectElement', $element);
     }
 
     /**
