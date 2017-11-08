@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
  * Common Html functions
@@ -120,9 +121,10 @@ class Html
             'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),
+            'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'span'      => array('Property',    null,   null,       $styles,    null,   'span',        $node),
+            'span'      => array('Property',    null,   null,       $styles,    null,   'span',         $node),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
             'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
             'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
@@ -236,8 +238,6 @@ class Html
         // if (method_exists($element, 'addText')) {
         $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
         // }
-
-        return null;
     }
 
     /**
@@ -259,8 +259,6 @@ class Html
                 }
             }
         }
-
-        return null;
     }
 
     /**
@@ -310,8 +308,6 @@ class Html
             $data['listdepth'] = 0;
         }
         $styles['list']['listType'] = $argument1;
-
-        return null;
     }
 
     /**
@@ -337,8 +333,6 @@ class Html
             }
             $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
         }
-
-        return null;
     }
 
     /**
@@ -366,27 +360,26 @@ class Html
                     }
                     break;
                 case 'text-align':
-                    $styles['alignment'] = $cValue; // todo: any mapping?
+                    switch ($cValue) {
+                        case 'left':
+                            $styles['alignment'] = Jc::START;
+                            break;
+                        case 'right':
+                            $styles['alignment'] = Jc::END;
+                            break;
+                        case 'center':
+                            $styles['alignment'] = Jc::CENTER;
+                            break;
+                        case 'justify':
+                            $styles['alignment'] = Jc::BOTH;
+                            break;
+                    }
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, '#');
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
-                    break;
-                case 'font-weight':
-                    $tValue = false;
-                    if (preg_match('#bold#', $cValue)) {
-                        $tValue = true; // also match bolder
-                    }
-                    $styles['bold'] = $tValue;
-                    break;
-                case 'font-style':
-                    $tValue = false;
-                    if (preg_match('#(?:italic|oblique)#', $cValue)) {
-                        $tValue = true;
-                    }
-                    $styles['italic'] = $tValue;
                     break;
             }
         }
