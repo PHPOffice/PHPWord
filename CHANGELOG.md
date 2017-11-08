@@ -22,6 +22,7 @@ This is the last version to support PHP 5.3
 - Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
 - Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed PHP 7.2 compatibility (renamed `Object` class names to `ObjectElement`) - @SailorMax #1185
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
 - Fixed image loading over https - @troosan #988
 - Impossibility to set different even and odd page headers - @troosan #981
