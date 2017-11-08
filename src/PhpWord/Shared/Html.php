@@ -388,6 +388,20 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'font-weight':
+                    $tValue = false;
+                    if (preg_match('#bold#', $cValue)) {
+                        $tValue = true; // also match bolder
+                    }
+                    $styles['bold'] = $tValue;
+                    break;
+                case 'font-style':
+                    $tValue = false;
+                    if (preg_match('#(?:italic|oblique)#', $cValue)) {
+                        $tValue = true;
+                    }
+                    $styles['italic'] = $tValue;
+                    break;
             }
         }
 
