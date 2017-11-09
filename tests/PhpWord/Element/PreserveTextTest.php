@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class PreserveTextTest extends \PHPUnit_Framework_TestCase
+class PreserveTextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance

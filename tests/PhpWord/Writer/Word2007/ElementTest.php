@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
  */
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

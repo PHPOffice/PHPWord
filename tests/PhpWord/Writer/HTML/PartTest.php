@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Writer\HTML\Part\Body;
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML\Part subnamespace
  */
-class PartTest extends \PHPUnit_Framework_TestCase
+class PartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get parent writer exception

@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class Word2007Test extends \PHPUnit_Framework_TestCase
+class Word2007Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tear down after each test

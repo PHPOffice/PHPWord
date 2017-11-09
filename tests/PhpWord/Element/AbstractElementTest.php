@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * Test class for PhpOffice\PhpWord\Element\AbstractElement
  */
-class AbstractElementTest extends \PHPUnit_Framework_TestCase
+class AbstractElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test set/get element index

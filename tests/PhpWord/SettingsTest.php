@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord;
  * @coversDefaultClass \PhpOffice\PhpWord\Settings
  * @runTestsInSeparateProcesses
  */
-class SettingsTest extends \PHPUnit_Framework_TestCase
+class SettingsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test set/get compatibity option

@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\AbstractWriterPart
  * @runTestsInSeparateProcesses
  */
-class AbstractPartTest extends \PHPUnit_Framework_TestCase
+class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * covers   ::setParentWriter

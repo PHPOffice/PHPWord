@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\ComplexType;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\ProofState
  */
-class ProofStateTest extends \PHPUnit_Framework_TestCase
+class ProofStateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests the getters and setters

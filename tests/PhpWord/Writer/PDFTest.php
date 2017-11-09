@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Settings;
  *
  * @runTestsInSeparateProcesses
  */
-class PDFTest extends \PHPUnit_Framework_TestCase
+class PDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test normal construct

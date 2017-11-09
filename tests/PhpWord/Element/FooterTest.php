@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @runTestsInSeparateProcesses
  */
-class FooterTest extends \PHPUnit_Framework_TestCase
+class FooterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance

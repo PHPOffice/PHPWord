@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
  *
  * @runTestsInSeparateProcesses
  */
-class HeaderTest extends \PHPUnit_Framework_TestCase
+class HeaderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Write header

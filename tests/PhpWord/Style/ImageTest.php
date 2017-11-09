@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
  * @runTestsInSeparateProcesses
  */
-class ImageTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value

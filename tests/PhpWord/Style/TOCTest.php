@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\TOC
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class TOCTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
  * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\FootnoteProperties
  * @runTestsInSeparateProcesses
  */
-class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
+class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value

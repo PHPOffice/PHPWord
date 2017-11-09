@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Title
  * @runTestsInSeparateProcesses
  */
-class TitleTest extends \PHPUnit_Framework_TestCase
+class TitleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance

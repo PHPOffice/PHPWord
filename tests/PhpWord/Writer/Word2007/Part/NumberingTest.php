@@ -29,7 +29,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @runTestsInSeparateProcesses
  * @since 0.10.0
  */
-class NumberingTest extends \PHPUnit_Framework_TestCase
+class NumberingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

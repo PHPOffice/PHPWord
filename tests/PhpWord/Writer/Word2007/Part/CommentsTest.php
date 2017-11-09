@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class CommentsTest extends \PHPUnit_Framework_TestCase
+class CommentsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

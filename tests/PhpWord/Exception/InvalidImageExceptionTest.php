@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\InvalidImageException
  * @runTestsInSeparateProcesses
  */
-class InvalidImageExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidImageExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Throw new exception

@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Spacing
  */
-class SpacingTest extends \PHPUnit_Framework_TestCase
+class SpacingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

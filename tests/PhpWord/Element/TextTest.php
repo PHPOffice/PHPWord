@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Style\Font;
  *
  * @runTestsInSeparateProcesses
  */
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance

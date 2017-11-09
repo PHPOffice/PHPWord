@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Writer\ODText;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\AbstractPart
  * @runTestsInSeparateProcesses
  */
-class AbstractPartTest extends \PHPUnit_Framework_TestCase
+class AbstractPartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * covers   ::setParentWriter

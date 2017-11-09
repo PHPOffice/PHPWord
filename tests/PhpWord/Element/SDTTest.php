@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\SDT
  */
-class SDTTest extends \PHPUnit_Framework_TestCase
+class SDTTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance

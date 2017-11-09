@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\IOFactory;
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\HTML
  * @runTestsInSeparateProcesses
  */
-class HTMLTest extends \PHPUnit_Framework_TestCase
+class HTMLTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test load

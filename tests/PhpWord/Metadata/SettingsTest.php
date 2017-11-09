@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Zoom;
  *
  * @runTestsInSeparateProcesses
  */
-class SettingsTest extends \PHPUnit_Framework_TestCase
+class SettingsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * EvenAndOddHeaders

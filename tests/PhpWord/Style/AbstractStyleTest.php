@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @runTestsInSeparateProcesses
  */
-class AbstractStyleTest extends \PHPUnit_Framework_TestCase
+class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test set style by array

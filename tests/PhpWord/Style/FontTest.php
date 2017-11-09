@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class FontTest extends \PHPUnit_Framework_TestCase
+class FontTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tear down after each test

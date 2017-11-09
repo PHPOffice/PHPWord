@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class HTMLTest extends \PHPUnit_Framework_TestCase
+class HTMLTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct

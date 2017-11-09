@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Row
  * @runTestsInSeparateProcesses
  */
-class RowTest extends \PHPUnit_Framework_TestCase
+class RowTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance
