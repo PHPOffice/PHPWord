@@ -173,6 +173,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 //         echo $doc->printXml();
-//         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p'));
+//         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:tbl/w:tr/w:tc'));
     }
 }
