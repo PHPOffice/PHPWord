@@ -72,6 +72,68 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test bookmark element
+     */
+    public function testBookmark()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        
+        $section->addBookmark('test_bookmark');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('test_bookmark', $doc->getElementAttribute($element, 'w:name'));
+
+        $element = '/w:document/w:body/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($element));
+    }
+
+    /**
+     * Test link element
+     */
+    public function testLinkElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addLink('https://github.com/PHPOffice/PHPWord');
+        $section->addLink('internal_link', null, null, null, true);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p[1]/w:hyperlink/w:r/w:t';
+        $this->assertTrue($doc->elementExists($element));
+
+        $element = '/w:document/w:body/w:p[2]/w:hyperlink/w:r/w:t';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('internal_link', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:anchor'));
+    }
+
+    /**
+     * Basic test for table element
+     */
+    public function testTableElements()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER));
+        $table->addRow(900);
+        $table->addCell(2000)->addText('Row 1');
+        $table->addCell(2000)->addText('Row 2');
+        $table->addCell(2000)->addText('Row 3');
+        $table->addCell(2000)->addText('Row 4');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $tableRootElement = '/w:document/w:body/w:tbl';
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblGrid/w:gridCol'));
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:jc'));
+        $this->assertEquals('center', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:jc', 'w:val'));
+    }
+
+    /**
      * Test shape elements
      */
     public function testShapeElements()
