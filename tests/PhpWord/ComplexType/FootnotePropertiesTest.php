@@ -10,23 +10,22 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\ComplexType;
 
-use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
- * Test class for PhpOffice\PhpWord\SimpleType\FootnoteProperties
+ * Test class for PhpOffice\PhpWord\ComplexType\FootnoteProperties
  *
- * @coversDefaultClass \PhpOffice\PhpWord\SimpleType\FootnoteProperties
+ * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\FootnoteProperties
  * @runTestsInSeparateProcesses
  */
-class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
+class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value
@@ -47,34 +46,34 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test throws exception if wrong position given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongPos()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(NumberFormat::LOWER_ROMAN);
     }
 
     /**
      * Test throws exception if wrong number format given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongNumFmt()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumFmt(FootnoteProperties::POSITION_DOC_END);
     }
 
     /**
      * Test throws exception if wrong number restart given
-     * 
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testWrongNumRestart()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumRestart(NumberFormat::LOWER_ROMAN);
     }
 }

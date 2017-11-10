@@ -5,7 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 v0.14.0 (?? ???? 2017)
 ----------------------
-This release fixes several bugs and adds some new features
+This release fixes several bugs and adds some new features.
+This is the last version to support PHP 5.3
 
 ### Added
 - Possibility to control the footnote numbering - @troosan #1068
@@ -13,8 +14,12 @@ This release fixes several bugs and adds some new features
 - Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
 - Support for ContextualSpacing - @postHawk #1088
 - Possiblity to hide spelling and/or grammatical errors - @troosan #542
+- Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
+- Support for Comments - @troosan #1067
+- Support for paragraph textAlignment - @troosan #1165
 
 ### Fixed
+- Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
 - Fixed some PHP 7 warnings - @	likeuntomurphy #927
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
@@ -23,8 +28,12 @@ This release fixes several bugs and adds some new features
 - Fixed Word2007 reader where unnecessary paragraphs were being created - @donghaobo #1043 #620
 - Fixed Word2007 reader where margins were not being read correctly - @slowprog #885 #1008
 - Impossible to add element PreserveText in Section - @rvanlaak #452
-- Missing options for numbering format - @troosan #1041
-
+- Added missing options for numbering format - @troosan #1041
+- Fixed impossibility to set a different footer for first page - @ctrlaltca #1116, @aoloe #875
+- Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
+- Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
+- Padded the $args array to remove error - @kaigoh #1150, @reformed #870
+- Fix incorrect image size between windows and mac - @bskrtich #874
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
@@ -44,6 +53,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis 
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.

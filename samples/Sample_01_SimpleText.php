@@ -1,9 +1,16 @@
 <?php
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+
+$languageEnGb = new \PhpOffice\PhpWord\Style\Language(\PhpOffice\PhpWord\Style\Language::EN_GB);
+
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord->getSettings()->setThemeFontLang($languageEnGb);
 
 $fontStyleName = 'rStyle';
 $phpWord->addFontStyle($fontStyleName, array('bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true));
@@ -19,6 +26,10 @@ $section = $phpWord->addSection();
 // Simple text
 $section->addTitle('Welcome to PhpWord', 1);
 $section->addText('Hello World!');
+
+// $pStyle = new Font();
+// $pStyle->setLang()
+$section->addText('Ce texte-ci est en français.', array('lang' => \PhpOffice\PhpWord\Style\Language::FR_BE));
 
 // Two text break
 $section->addTextBreak(2);

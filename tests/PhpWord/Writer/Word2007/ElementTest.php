@@ -10,20 +10,22 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
  */
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -185,11 +187,56 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 
         $index = 0;
         foreach ($chartTypes as $chartType) {
-            $index++;
+            ++$index;
             $file = "word/charts/chart{$index}.xml";
             $path = "/c:chartSpace/c:chart/c:plotArea/c:{$chartType}Chart";
             $this->assertTrue($doc->elementExists($path, $file));
         }
+    }
+
+    public function testFieldElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addField('INDEX', array(), array('\\c "3"'));
+        $section->addField('XE', array(), array('Bold', 'Italic'), 'Index Entry');
+        $section->addField('DATE', array('dateformat' => 'd-M-yyyy'), array('PreserveFormat', 'LastUsedFormat'));
+        $section->addField('DATE', array(), array('LunarCalendar'));
+        $section->addField('DATE', array(), array('SakaEraCalendar'));
+        $section->addField('NUMPAGES', array('format' => 'roman', 'numformat' => '0,00'), array('SakaEraCalendar'));
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' INDEX \\c "3" ', $doc->getElement($element)->textContent);
+    }
+
+    public function testFieldElementWithComplexText()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $text = new TextRun();
+        $text->addText('test string', array('bold' => true));
+
+        $section->addField('XE', array(), array('Bold', 'Italic'), $text);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' XE "', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:rPr/w:b';
+        $this->assertTrue($doc->elementExists($element));
+
+        $element = '/w:document/w:body/w:p/w:r[3]/w:t';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('test string', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p/w:r[4]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('"\\b \\i ', $doc->getElement($element)->textContent);
     }
 
     /**
@@ -220,15 +267,26 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addSDT('comboBox');
+        $section->addSDT('comboBox')->setListItems(array('1' => 'Choice 1', '2' => 'Choice 2'))->setValue('select value');
         $section->addSDT('dropDownList');
-        $section->addSDT('date');
+        $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $path = '/w:document/w:body/w:p/w:sdt/w:sdtPr';
-        $this->assertTrue($doc->elementExists($path . '/w:comboBox'));
-        $this->assertTrue($doc->elementExists($path . '/w:dropDownList'));
-        $this->assertTrue($doc->elementExists($path . '/w:date'));
+        $path = '/w:document/w:body/w:p';
+
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtContent/w:r/w:t'));
+        $this->assertEquals('select value', $doc->getElement($path . '[1]/w:sdt/w:sdtContent/w:r/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox'));
+        $this->assertTrue($doc->elementExists($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem'));
+        $this->assertEquals('1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:value'));
+        $this->assertEquals('Choice 1', $doc->getElementAttribute($path . '[1]/w:sdt/w:sdtPr/w:comboBox/w:listItem[1]', 'w:displayText'));
+
+        $this->assertTrue($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:dropDownList'));
+        $this->assertFalse($doc->elementExists($path . '[2]/w:sdt/w:sdtPr/w:alias'));
+
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
+        $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
     }
 }

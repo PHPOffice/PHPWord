@@ -10,44 +10,53 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Metadata;
 
 use PhpOffice\PhpWord\ComplexType\ProofState;
-use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\SimpleType\Zoom;
+use PhpOffice\PhpWord\Style\Language;
 
 /**
  * Setting class
  *
  * @since 0.14.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_Settings.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_Settings.html
  */
 class Settings
 {
-
     /**
      * Magnification Setting
      *
-     * @link http://www.datypic.com/sc/ooxml/e-w_zoom-1.html
+     * @see  http://www.datypic.com/sc/ooxml/e-w_zoom-1.html
      * @var mixed either integer, in which case it treated as a percent, or one of PhpOffice\PhpWord\SimpleType\Zoom
      */
     private $zoom = 100;
 
     /**
+     * Mirror Page Margins
+     *
+     * @see http://www.datypic.com/sc/ooxml/e-w_mirrorMargins-1.html
+     * @var bool
+     */
+    private $mirrorMargins;
+
+    /**
      * Hide spelling errors
      *
-     * @var boolean
+     * @var bool
      */
     private $hideSpellingErrors = false;
 
     /**
      * Hide grammatical errors
      *
-     * @var boolean
+     * @var bool
      */
     private $hideGrammaticalErrors = false;
 
@@ -61,21 +70,21 @@ class Settings
     /**
      * Track Revisions to Document
      *
-     * @var boolean
+     * @var bool
      */
     private $trackRevisions = false;
 
     /**
      * Do Not Use Move Syntax When Tracking Revisions
      *
-     * @var boolean
+     * @var bool
      */
     private $doNotTrackMoves = false;
 
     /**
      * Do Not Track Formatting Revisions When Tracking Revisions
      *
-     * @var boolean
+     * @var bool
      */
     private $doNotTrackFormatting = false;
 
@@ -101,6 +110,13 @@ class Settings
     private $evenAndOddHeaders = false;
 
     /**
+     * Theme Font Languages
+     *
+     * @var Language
+     */
+    private $themeFontLang;
+
+    /**
      * Radix Point for Field Code Evaluation
      *
      * @var string
@@ -115,6 +131,7 @@ class Settings
         if ($this->documentProtection == null) {
             $this->documentProtection = new Protection();
         }
+
         return $this->documentProtection;
     }
 
@@ -134,6 +151,7 @@ class Settings
         if ($this->proofState == null) {
             $this->proofState = new ProofState();
         }
+
         return $this->proofState;
     }
 
@@ -148,7 +166,7 @@ class Settings
     /**
      * Are spelling errors hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function hasHideSpellingErrors()
     {
@@ -158,7 +176,7 @@ class Settings
     /**
      * Hide spelling errors
      *
-     * @param boolean $hideSpellingErrors
+     * @param bool $hideSpellingErrors
      */
     public function setHideSpellingErrors($hideSpellingErrors)
     {
@@ -168,7 +186,7 @@ class Settings
     /**
      * Are grammatical errors hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function hasHideGrammaticalErrors()
     {
@@ -178,7 +196,7 @@ class Settings
     /**
      * Hide grammatical errors
      *
-     * @param boolean $hideGrammaticalErrors
+     * @param bool $hideGrammaticalErrors
      */
     public function setHideGrammaticalErrors($hideGrammaticalErrors)
     {
@@ -186,7 +204,7 @@ class Settings
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasEvenAndOddHeaders()
     {
@@ -194,7 +212,7 @@ class Settings
     }
 
     /**
-     * @param boolean $evenAndOddHeaders
+     * @param bool $evenAndOddHeaders
      */
     public function setEvenAndOddHeaders($evenAndOddHeaders)
     {
@@ -203,7 +221,7 @@ class Settings
 
     /**
      * Get the Visibility of Annotation Types
-     * 
+     *
      * @return \PhpOffice\PhpWord\ComplexType\TrackChangesView
      */
     public function getRevisionView()
@@ -213,7 +231,7 @@ class Settings
 
     /**
      * Set the Visibility of Annotation Types
-     * 
+     *
      * @param TrackChangesView $trackChangesView
      */
     public function setRevisionView(TrackChangesView $trackChangesView = null)
@@ -222,7 +240,7 @@ class Settings
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasTrackRevisions()
     {
@@ -230,7 +248,7 @@ class Settings
     }
 
     /**
-     * @param boolean $trackRevisions
+     * @param bool $trackRevisions
      */
     public function setTrackRevisions($trackRevisions)
     {
@@ -238,7 +256,7 @@ class Settings
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasDoNotTrackMoves()
     {
@@ -246,7 +264,7 @@ class Settings
     }
 
     /**
-     * @param boolean $doNotTrackMoves
+     * @param bool $doNotTrackMoves
      */
     public function setDoNotTrackMoves($doNotTrackMoves)
     {
@@ -254,7 +272,7 @@ class Settings
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasDoNotTrackFormatting()
     {
@@ -262,7 +280,7 @@ class Settings
     }
 
     /**
-     * @param boolean $doNotTrackFormatting
+     * @param bool $doNotTrackFormatting
      */
     public function setDoNotTrackFormatting($doNotTrackFormatting)
     {
@@ -292,8 +310,44 @@ class Settings
     }
 
     /**
+     * @return bool
+     */
+    public function hasMirrorMargins()
+    {
+        return $this->mirrorMargins;
+    }
+
+    /**
+     * @param bool $mirrorMargins
+     */
+    public function setMirrorMargins($mirrorMargins)
+    {
+        $this->mirrorMargins = $mirrorMargins;
+    }
+
+    /**
+     * Returns the Language
+     *
+     * @return Language
+     */
+    public function getThemeFontLang()
+    {
+        return $this->themeFontLang;
+    }
+
+    /**
+     * sets the Language for this document
+     *
+     * @param Language $themeFontLang
+     */
+    public function setThemeFontLang($themeFontLang)
+    {
+        $this->themeFontLang = $themeFontLang;
+    }
+
+    /**
      * Returns the Radix Point for Field Code Evaluation
-     * 
+     *
      * @return string
      */
     public function getDecimalSymbol()
@@ -303,7 +357,7 @@ class Settings
 
     /**
      * sets the Radix Point for Field Code Evaluation
-     * 
+     *
      * @param string $decimalSymbol
      */
     public function setDecimalSymbol($decimalSymbol)

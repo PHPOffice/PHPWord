@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,12 +22,12 @@ namespace PhpOffice\PhpWord\Shared;
  */
 class Converter
 {
-    const INCH_TO_CM        = 2.54;
-    const INCH_TO_TWIP      = 1440;
-    const INCH_TO_PIXEL     = 96;
-    const INCH_TO_POINT     = 72;
-    const PIXEL_TO_EMU      = 9525;
-    const DEGREE_TO_ANGLE   = 60000;
+    const INCH_TO_CM = 2.54;
+    const INCH_TO_TWIP = 1440;
+    const INCH_TO_PIXEL = 96;
+    const INCH_TO_POINT = 72;
+    const PIXEL_TO_EMU = 9525;
+    const DEGREE_TO_ANGLE = 60000;
 
     /**
      * Convert centimeter to twip
@@ -235,7 +235,7 @@ class Converter
      */
     public static function degreeToAngle($degree = 1)
     {
-        return (int)round($degree * self::DEGREE_TO_ANGLE);
+        return (int) round($degree * self::DEGREE_TO_ANGLE);
     }
 
     /**

@@ -10,22 +10,22 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Comment
  *
  * @runTestsInSeparateProcesses
  */
-class CommentsTest extends \PHPUnit_Framework_TestCase
+class CommentsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -40,7 +40,6 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteComments()
     {
-
         $comment = new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
         $comment->addText('Test');
 
@@ -55,7 +54,7 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
 
         $element = $doc->getElement($path, $file);
         $this->assertNotNull($element->getAttribute('w:id'));
-        $this->assertEquals("Authors name", $element->getAttribute('w:author'));
-        $this->assertEquals("my_initials", $element->getAttribute('w:initials'));
+        $this->assertEquals('Authors name', $element->getAttribute('w:author'));
+        $this->assertEquals('my_initials', $element->getAttribute('w:initials'));
     }
 }
