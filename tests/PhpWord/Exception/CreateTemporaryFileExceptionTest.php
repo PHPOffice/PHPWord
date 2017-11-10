@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @covers \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
  */
-class CreateTemporaryFileExceptionTest extends \PHPUnit_Framework_TestCase
+class CreateTemporaryFileExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * CreateTemporaryFileException can be thrown.

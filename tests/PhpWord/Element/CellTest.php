@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @runTestsInSeparateProcesses
  */
-class CellTest extends \PHPUnit_Framework_TestCase
+class CellTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance

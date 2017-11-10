@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\IOFactory;
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\ODText
  * @runTestsInSeparateProcesses
  */
-class ODTextTest extends \PHPUnit_Framework_TestCase
+class ODTextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Load

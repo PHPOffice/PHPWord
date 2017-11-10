@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class NumberingLevelTest extends \PHPUnit_Framework_TestCase
+class NumberingLevelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value

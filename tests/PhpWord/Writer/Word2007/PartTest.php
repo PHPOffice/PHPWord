@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Writer\Word2007\Part\RelsPart;
  *
  * Covers miscellaneous tests
  */
-class PartTest extends \PHPUnit_Framework_TestCase
+class PartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test exception when no type or target assigned to a relation

@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Footer
  * @runTestsInSeparateProcesses
  */
-class FooterTest extends \PHPUnit_Framework_TestCase
+class FooterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Write footer

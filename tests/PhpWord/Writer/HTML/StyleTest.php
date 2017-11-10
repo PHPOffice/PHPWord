@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\HTML;
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML\Style subnamespace
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test empty styles

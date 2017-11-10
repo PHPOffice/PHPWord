@@ -42,7 +42,7 @@
         "phpoffice/common": "^0.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.8.*",
+        "phpunit/phpunit": "^4.8.36",
         "phpdocumentor/phpdocumentor":"2.*",
         "twig/twig":"1.27",
         "squizlabs/php_codesniffer": "^2.7",

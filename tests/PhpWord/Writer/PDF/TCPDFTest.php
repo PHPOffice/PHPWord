@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Writer\PDF;
  *
  * @runTestsInSeparateProcesses
  */
-class TCPDFTest extends \PHPUnit_Framework_TestCase
+class TCPDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test construct

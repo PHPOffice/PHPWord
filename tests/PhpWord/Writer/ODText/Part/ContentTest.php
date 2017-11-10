@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
  * @runTestsInSeparateProcesses
  */
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

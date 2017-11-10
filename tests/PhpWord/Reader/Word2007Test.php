@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\IOFactory;
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\Word2007
  * @runTestsInSeparateProcesses
  */
-class Word2007Test extends \PHPUnit_Framework_TestCase
+class Word2007Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test canRead() method

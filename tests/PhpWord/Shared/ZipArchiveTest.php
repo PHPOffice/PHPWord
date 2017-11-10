@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Settings;
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\ZipArchive
  * @runTestsInSeparateProcesses
  */
-class ZipArchiveTest extends \PHPUnit_Framework_TestCase
+class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test close method exception: Working in local, not working in Travis

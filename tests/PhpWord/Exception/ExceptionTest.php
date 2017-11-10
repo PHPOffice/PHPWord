@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\Exception
  * @runTestsInSeparateProcesses
  */
-class ExceptionTest extends \PHPUnit_Framework_TestCase
+class ExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Throw new exception

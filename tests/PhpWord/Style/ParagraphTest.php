@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class ParagraphTest extends \PHPUnit_Framework_TestCase
+class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tear down after each test

@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Tab
  */
-class TabTest extends \PHPUnit_Framework_TestCase
+class TabTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

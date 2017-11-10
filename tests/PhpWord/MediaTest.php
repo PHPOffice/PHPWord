@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Element\Image;
  *
  * @runTestsInSeparateProcesses
  */
-class MediaTest extends \PHPUnit_Framework_TestCase
+class MediaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Get section media elements

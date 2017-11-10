@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Writer\PDF;
  *
  * @runTestsInSeparateProcesses
  */
-class DomPDFTest extends \PHPUnit_Framework_TestCase
+class DomPDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test construct

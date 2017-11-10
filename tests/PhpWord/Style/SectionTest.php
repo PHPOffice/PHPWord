@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
  * @runTestsInSeparateProcesses
  */
-class SectionTest extends \PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

@@ -22,7 +22,7 @@ use PhpOffice\Common\XMLWriter;
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Element subnamespace
  */
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test unmatched elements

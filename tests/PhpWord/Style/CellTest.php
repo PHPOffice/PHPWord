@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Cell
  * @runTestsInSeparateProcesses
  */
-class CellTest extends \PHPUnit_Framework_TestCase
+class CellTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value

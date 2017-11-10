@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Numbering
  */
-class NumberingTest extends \PHPUnit_Framework_TestCase
+class NumberingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

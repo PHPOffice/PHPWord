@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Style\Font;
  *
  * @runTestsInSeparateProcesses
  */
-class CheckBoxTest extends \PHPUnit_Framework_TestCase
+class CheckBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct

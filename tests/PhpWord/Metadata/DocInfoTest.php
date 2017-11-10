@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Metadata;
  *
  * @runTestsInSeparateProcesses
  */
-class DocInfoTest extends \PHPUnit_Framework_TestCase
+class DocInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Creator

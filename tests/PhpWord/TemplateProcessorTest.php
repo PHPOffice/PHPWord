@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord;
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
  * @runTestsInSeparateProcesses
  */
-final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
+final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Template can be saved in temporary location.

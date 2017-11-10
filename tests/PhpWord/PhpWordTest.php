@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Metadata\DocInfo;
  *
  * @runTestsInSeparateProcesses
  */
-class PhpWordTest extends \PHPUnit_Framework_TestCase
+class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test object creation

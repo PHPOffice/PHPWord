@@ -30,7 +30,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Settings
  */
-class SettingsTest extends \PHPUnit_Framework_TestCase
+class SettingsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

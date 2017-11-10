@@ -29,7 +29,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Styles
  * @runTestsInSeparateProcesses
  */
-class StylesTest extends \PHPUnit_Framework_TestCase
+class StylesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

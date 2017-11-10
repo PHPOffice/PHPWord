@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Element\Section;
 /**
  * Test class for PhpOffice\PhpWord\Shared\Html
  */
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test unit conversion functions with various numbers

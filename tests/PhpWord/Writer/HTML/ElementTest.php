@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Writer\HTML\Element\Text;
 /**
  * Test class for PhpOffice\PhpWord\Writer\HTML\Element subnamespace
  */
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test unmatched elements

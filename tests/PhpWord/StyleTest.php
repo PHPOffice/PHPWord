@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  * @coversDefaultClass \PhpOffice\PhpWord\Style
  * @runTestsInSeparateProcesses
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Add and get paragraph, font, link, title, and table styles

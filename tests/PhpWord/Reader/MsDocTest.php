@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\IOFactory;
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\MsDoc
  * @runTestsInSeparateProcesses
  */
-class MsDocTest extends \PHPUnit_Framework_TestCase
+class MsDocTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test canRead() method
