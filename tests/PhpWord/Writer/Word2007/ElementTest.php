@@ -78,7 +78,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        
+
         $section->addBookmark('test_bookmark');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
