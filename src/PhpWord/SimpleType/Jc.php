@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * @since 0.13.0
  *
  * @see \PhpOffice\PhpWord\SimpleType\JcTable For table alignment modes available since ISO/IEC-29500:2008.
- * @link http://www.datypic.com/sc/ooxml/t-w_ST_Jc.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_ST_Jc.html
  *
  * @codeCoverageIgnore
  */

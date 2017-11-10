@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -24,14 +25,14 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class RTFTest extends \PHPUnit_Framework_TestCase
+class RTFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct
      */
     public function testConstruct()
     {
-        $object = new RTF(new PhpWord);
+        $object = new RTF(new PhpWord());
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $object->getPhpWord());
     }
@@ -91,7 +92,7 @@ class RTFTest extends \PHPUnit_Framework_TestCase
         $writer = new RTF($phpWord);
         $writer->save($file);
 
-        $this->assertTrue(file_exists($file));
+        $this->assertFileExists($file);
 
         @unlink($file);
     }
@@ -103,6 +104,8 @@ class RTFTest extends \PHPUnit_Framework_TestCase
      */
     public function testSavePhpOutput()
     {
+        $this->setOutputCallback(function () {
+        });
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));

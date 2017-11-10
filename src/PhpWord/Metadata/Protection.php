@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Metadata;
  * Document protection class
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_DocProtect.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_DocProtect.html
  * @todo Password!
  */
 class Protection
@@ -30,7 +30,7 @@ class Protection
      * Editing restriction readOnly|comments|trackedChanges|forms
      *
      * @var string
-     * @link http://www.datypic.com/sc/ooxml/a-w_edit-1.html
+     * @see  http://www.datypic.com/sc/ooxml/a-w_edit-1.html
      */
     private $editing;
 

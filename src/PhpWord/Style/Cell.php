@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -72,7 +72,7 @@ class Cell extends Border
     /**
      * colspan
      *
-     * @var integer
+     * @var int
      */
     private $gridSpan;
 
@@ -150,9 +150,9 @@ class Cell extends Border
     {
         if ($this->shading !== null) {
             return $this->shading->getFill();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -169,7 +169,7 @@ class Cell extends Border
     /**
      * Get grid span (colspan).
      *
-     * @return integer
+     * @return int
      */
     public function getGridSpan()
     {

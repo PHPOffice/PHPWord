@@ -29,22 +29,27 @@
         {
             "name": "Roman Syroeshko",
             "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+        },
+        {
+            "name": "Antoine de Troostembergh"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "ext-xml": "*",
-        "zendframework/zend-escaper": "2.4.*",
-        "zendframework/zend-stdlib": "2.4.*",
-        "phpoffice/common": "0.2.*"
+        "zendframework/zend-escaper": "^2.2",
+        "zendframework/zend-stdlib": "^2.2",
+        "phpoffice/common": "^0.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "^4.8.36",
         "phpdocumentor/phpdocumentor":"2.*",
-        "squizlabs/php_codesniffer": "1.*",
+        "twig/twig":"1.27",
+        "squizlabs/php_codesniffer": "^2.7",
+        "friendsofphp/php-cs-fixer": "^2.0",
         "phpmd/phpmd": "2.*",
         "phploc/phploc": "2.*",
-        "dompdf/dompdf":"0.6.*",
+        "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.*"
     },

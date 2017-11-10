@@ -41,14 +41,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PHPWord'
-copyright = u'2014-2015, PHPWord Contributors'
+copyright = u'2014-2017, PHPWord Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '0.13.0'
+version = '0.14.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -120,7 +120,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
