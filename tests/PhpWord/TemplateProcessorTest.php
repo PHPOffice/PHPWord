@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Shared\ZipArchive;
+
 /**
  * @covers \PhpOffice\PhpWord\TemplateProcessor
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
@@ -222,5 +224,107 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::insertTable
+     * @covers ::saveAs
+     * @test
+     */
+    public function testInsertTable()
+    {
+        $docName = 'table-insert.docx';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/' . $docName);
+
+        $this->assertEquals(
+            array('myTable', 'otherContent'),
+            $templateProcessor->getVariables()
+        );
+
+        $templateProcessor->insertTable('myTable', array('myCol1#' => 6000, 'myCol2#' => '1in', 'myCol3#' => '72pt'));
+        $this->assertEquals(
+            array('myCol1#', 'myCol2#', 'myCol3#', 'otherContent'),
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $zip = new ZipArchive();
+        $zip->open($docName);
+        $mainDoc = $zip->getFromName('word/document.xml');
+        $zip->close();
+        unlink($docName);
+        $this->assertTrue($docFound);
+        $this->assertTrue(false !== strpos($mainDoc, '<w:gridCol w:w="6000"/><w:gridCol w:w="1440"/><w:gridCol w:w="1440"/>'));
+        $this->assertTrue(false !== strpos($mainDoc, '<w:tc><w:tcPr><w:tcW w:w="6000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${myCol1#}</w:t></w:r></w:p></w:tc>'));
+        $this->assertTrue(false !== strpos($mainDoc, '<w:tc><w:tcPr><w:tcW w:w="1440" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${myCol2#}</w:t></w:r></w:p></w:tc>'));
+        $this->assertTrue(false !== strpos($mainDoc, '<w:tc><w:tcPr><w:tcW w:w="1440" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${myCol3#}</w:t></w:r></w:p></w:tc>'));
+    }
+
+    /**
+     * @covers ::deleteTable
+     * @covers ::saveAs
+     * @test
+     */
+    public function testDeleteTable()
+    {
+        $docName = 'table-delete.docx';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/' . $docName);
+
+        $this->assertEquals(
+            array('KEEP_THIS_TABLE', 'DELETE_THIS_TABLE'),
+            $templateProcessor->getVariables()
+        );
+
+        $templateProcessor->deleteTable('DELETE_THIS_TABLE');
+        $this->assertEquals(
+            array('KEEP_THIS_TABLE'),
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $zip = new ZipArchive();
+        $zip->open($docName);
+        $mainDoc = $zip->getFromName('word/document.xml');
+        $zip->close();
+        unlink($docName);
+        $this->assertTrue($docFound);
+        // preg_match_all requires >= 3 parameters in PHP5.3
+        $dummy = null;
+        $numMatches = preg_match_all('/<w:tbl>/u', $mainDoc, $dummy);
+        $this->assertTrue($numMatches === 1);
+    }
+
+    /**
+     * @covers ::deleteRow
+     * @covers ::saveAs
+     * @test
+     */
+    public function testDeleteRow()
+    {
+        $docName = 'table-delete-row.docx';
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/' . $docName);
+
+        $this->assertEquals(
+            array('KEEP_THE_HEADER', 'DELETE_THIS_ROW', 'RETAIN_THIS_ROW'),
+            $templateProcessor->getVariables()
+        );
+
+        $templateProcessor->deleteRow('DELETE_THIS_ROW');
+        $this->assertEquals(
+            array('KEEP_THE_HEADER', 'RETAIN_THIS_ROW'),
+            $templateProcessor->getVariables()
+        );
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $zip = new ZipArchive();
+        $zip->open($docName);
+        $mainDoc = $zip->getFromName('word/document.xml');
+        $zip->close();
+        unlink($docName);
+        $this->assertTrue($docFound);
+        // preg_match_all requires >= 3 parameters in PHP5.3
+        $dummy = null;
+        $numMatches = preg_match_all('/<w:tr /u', $mainDoc, $dummy);
+        $this->assertTrue($numMatches === 2);
     }
 }

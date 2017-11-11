@@ -22,12 +22,39 @@ use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
+
+    /**
+     * sprintf Template for a table
+     *
+     * sprintf arguments:
+     * 1: s, gridCol definition elements
+     * 2: s, table cell elements
+     */
+    const TABLE_TEMPLATE = '<w:tbl><w:tblPr><w:tblStyle w:val="Tabellenraster"/><w:tblW w:w="0" w:type="auto"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>%s</w:tblGrid><w:tr>%s</w:tr></w:tbl>';
+
+    /**
+     * sprintf Template for a gridCol element in a table definition
+     *
+     * sprintf arguments:
+     * 1: d, width of the column in Twips
+     */
+    const TABLEGRIDCOL_TEMPLATE = '<w:gridCol w:w="%d"/>';
+
+    /**
+     * sprintf Template for a table cell element in a table definition
+     *
+     * sprintf arguments:
+     * 1: d, width of the cell in Twips
+     * 2: s, cell text content
+     */
+    const TABLECELL_TEMPLATE = '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>%s</w:t></w:r></w:p></w:tc>';
 
     /**
      * ZipArchive object.
@@ -253,6 +280,44 @@ class TemplateProcessor
     }
 
     /**
+     * Insert a table at the place marked by the block template
+     * @param string $name Name of block template
+     * @param array $columns Array keyed on column (template) name, containing
+     *                       column width in CSS units (string) or twips (integer)
+     *
+     * @return \PhpOffice\PhpWord\TemplateProcessor
+     */
+    public function insertTable($name, array $columns)
+    {
+        $gridCols = '';
+        $cells = '';
+
+        foreach ($columns as $variable => $width) {
+            $twipWidth = is_string($width) ? Converter::cssToTwip($width) : $width;
+            $gridCols .= sprintf(static::TABLEGRIDCOL_TEMPLATE, $twipWidth);
+            $cells .= sprintf(static::TABLECELL_TEMPLATE, $twipWidth, static::ensureMacroCompleted($variable));
+        }
+
+        return $this->replaceXmlBlock($name, sprintf(static::TABLE_TEMPLATE, $gridCols, $cells));
+    }
+
+    /**
+     * Delete a table containing the given variable
+     *
+     * @param string $search
+     *
+     * @return \PhpOffice\PhpWord\TemplateProcessor
+     */
+    public function deleteTable($search)
+    {
+        $block = $this->findContainingXmlBlockForMacro($search, 'w:tbl');
+
+        $this->tempDocumentMainPart = $this->getSlice(0, $block['start']) . $this->getSlice($block['end']);
+
+        return $this;
+    }
+
+    /**
      * Clone a table row in a template document.
      *
      * @param string $search
@@ -307,6 +372,22 @@ class TemplateProcessor
         $result .= $this->getSlice($rowEnd);
 
         $this->tempDocumentMainPart = $result;
+    }
+
+    /**
+     * Delete a row containing the given variable
+     *
+     * @param string $search
+     *
+     * @return \PhpOffice\PhpWord\Template
+     */
+    public function deleteRow($search)
+    {
+        $block = $this->findContainingXmlBlockForMacro($search, 'w:tr');
+
+        $this->tempDocumentMainPart= $this->getSlice(0, $block['start']) . $this->getSlice($block['end']);
+
+        return $this;
     }
 
     /**
@@ -571,5 +652,139 @@ class TemplateProcessor
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Replace an XML block surrounding a macro with a new block
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     */
+    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    {
+        $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
+        if (false !== $where) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $where['start']) . $block . $this->getSlice($where['end']);
+        }
+        return $this;
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return boolean|integer[] FALSE if not found, otherwise array with start and end
+     */
+    protected function findContainingXmlBlockForMacro($macro, $blockType = 'w:p')
+    {
+        $macroPos = $this->findMacro($macro);
+        if (false === $macroPos) {
+            return false;
+        }
+
+        $start = $this->findXmlBlockStart($macroPos, $blockType);
+        if (0 > $start) {
+            return false;
+        }
+
+        $end = $this->findXmlBlockEnd($macroPos, $blockType);
+        if (0 > $end) {
+            return false;
+        }
+
+        return array('start' => $start, 'end' => $end);
+    }
+
+    /**
+     * Find start and end of XML block containing the given block macro
+     * e.g. <w:p>...${macro}...${/macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return boolean|integer[] FALSE if not found, otherwise array with start and end
+     */
+    protected function findContainingXmlBlockForBlockMacro($macro, $blockType = 'w:p')
+    {
+        $macroStartPos = $this->findMacro($macro);
+        if (0 > $macroStartPos) {
+            return false;
+        }
+
+        $macroEndPos = $this->findMacro('/' . $macro, $macroStartPos);
+        if (0 > $macroEndPos) {
+            return false;
+        }
+
+        $start = $this->findXmlBlockStart($macroStartPos, $blockType);
+        if (0 > $start) {
+            return false;
+        }
+
+        $end = $this->findXmlBlockEnd($macroEndPos, $blockType);
+        if (0 > $end) {
+            return false;
+        }
+
+        return array('start' => $start, 'end' => $end);
+    }
+
+    /**
+     * Find the position of (the start of) a macro
+     *
+     * Returns -1 if not found, otherwise position of opening $
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $search Macro name
+     * @param string $offset Offset from which to start searching
+     * @return integer -1 if macro not found
+     */
+    protected function findMacro($search, $offset = 0)
+    {
+        $search = static::ensureMacroCompleted($search);
+
+        $pos = strpos($this->tempDocumentMainPart, $search, $offset);
+
+        return ($pos === false) ? -1 : $pos;
+    }
+
+    /**
+     * Find the start position of the nearest XML block start before $offset
+     *
+     * @param integer $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return integer -1 if block start not found
+     */
+    protected function findXmlBlockStart($offset, $blockType)
+    {
+        // first try XML tag with attributes
+        $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . ' ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        if (false === $blockStart) {
+            // also try XML tag without attributes
+            $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . '>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        }
+        return ($blockStart === false) ? -1 : $blockStart;
+    }
+
+    /**
+     * Find the nearest block end position after $offset
+     *
+     * @param integer $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return integer -1 if block end not found
+     */
+    protected function findXmlBlockEnd($offset, $blockType)
+    {
+        $blockEndStart = strpos($this->tempDocumentMainPart, '</' . $blockType . '>', $offset);
+        // return position of end of tag if found, otherwise -1
+        return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
     }
 }

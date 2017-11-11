@@ -112,4 +112,84 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals($value[1], $result);
         }
     }
+
+    /**
+     * @covers ::cssToPixel
+     * @test
+     */
+    public function testCssToPixel()
+    {
+        // Prepare test values [ original, expected ]
+        $values[] = array('1pt', (1 / 72) * 96);
+        $values[] = array('10.5pc', (10.5 / (72 * 12)) * 96);
+        $values[] = array('4cm', (4 / 2.54) * 96);
+        $values[] = array('1', (1 / 2.54) * 96);
+        $values[] = array('2mm', (0.2 / 2.54) * 96);
+        $values[] = array('.1', (0.1 / 2.54) * 96);
+        $values[] = array('2in', 2 * 96);
+        foreach ($values as $value) {
+            $result = Converter::cssToPixel($value[0]);
+            $this->assertEquals($value[1], $result);
+        }
+    }
+
+    /**
+     * @covers ::cssToEmu
+     * @test
+     */
+    public function testCssToEmu()
+    {
+        // Prepare test values [ original, expected ]
+        $values[] = array('1pt', (1 / 72) * 96 * 9525);
+        $values[] = array('10.5pc', (10.5 / (72 * 12)) * 96 * 9525);
+        $values[] = array('4cm', (4 / 2.54) * 96 * 9525);
+        $values[] = array('1', (1 / 2.54) * 96 * 9525);
+        $values[] = array('2mm', (0.2 / 2.54) * 96 * 9525);
+        $values[] = array('.1', (0.1 / 2.54) * 96 * 9525);
+        $values[] = array('2in', 2 * 96 * 9525);
+        foreach ($values as $value) {
+            $result = Converter::cssToEmu($value[0]);
+            $this->assertEquals($value[1], $result);
+        }
+    }
+
+    /**
+     * @covers ::cssToCm
+     * @test
+     */
+    public function testCssToCm()
+    {
+        // Prepare test values [ original, expected ]
+        $values[] = array('1pt', (1 / 72) * 2.54);
+        $values[] = array('10.5pc', (10.5 / (72 * 12)) * 2.54);
+        $values[] = array('4cm', 4);
+        $values[] = array('1', 1);
+        $values[] = array('2mm', 2 / 10);
+        $values[] = array('.1', 1 / 10);
+        $values[] = array('2in', 2 * 2.54);
+        foreach ($values as $value) {
+            $result = Converter::cssToCm($value[0]);
+            $this->assertEquals($value[1], $result);
+        }
+    }
+
+    /**
+     * @covers ::cssToTwip
+     * @test
+     */
+    public function testCssToTwip()
+    {
+        // Prepare test values [ original, expected ]
+        $values[] = array('1pt', (1 / 72) * 1440);
+        $values[] = array('10.5pc', (10.5 / (72 * 12)) * 1440);
+        $values[] = array('4cm', (4 / 2.54) * 1440);
+        $values[] = array('1', (1 / 2.54) * 1440);
+        $values[] = array('2mm', (0.2 / 2.54) * 1440);
+        $values[] = array('.1', (0.1 / 2.54) * 1440);
+        $values[] = array('2in', 2 * 1440);
+        foreach ($values as $value) {
+            $result = Converter::cssToTwip($value[0]);
+            $this->assertEquals($value[1], $result);
+        }
+    }
 }
