@@ -741,32 +741,32 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             null,
-            $templateProcessor->getSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', false)
+            $templateProcessor->getSegment('I-DO-NOT-EXIST', 'w:p', 0, 'MainPart', false)
         );
 
         $this->assertEquals(
             null,
-            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 1, 'MainPart', true, false)
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 0, 1, 'MainPart', true, false)
         );
 
         $this->assertEquals(
             false,
-            $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 1, 'MainPart', true, false)
+            $templateProcessor->cloneSegment('tableHeader', 'DESPACITO', 0, 1, 'MainPart', true, false)
         );
 
         $this->assertEquals(
             null,
-            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 'IOU', 'Footer:1', false)
+            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 0, 'IOU', 'Footer:1', false)
         );
 
         $this->assertEquals(
             false,
-            $templateProcessor->replaceSegment('tableHeader', 'we:be', 'BodyMoving', 'MainPart', false)
+            $templateProcessor->replaceSegment('tableHeader', 'we:be', 0, 'BodyMoving', 'MainPart', false)
         );
 
         $this->assertEquals(
             false,
-            $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', 1, true, true, false)
+            $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', 0, 1, true, true, false)
         );
     }
 
@@ -794,11 +794,11 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
             throw new \Exception("Could not close zip file");
         }
 
-        $segment = $templateProcessor->cloneSegment('${footerValue}', 'w:p', 2, 'Footers:1');
+        $segment = $templateProcessor->cloneSegment('${footerValue}', 'w:p', 0, 2, 'Footers:1');
         $this->assertNotNull($segment);
-        $segment = $templateProcessor->cloneSegment('${headerValue}', 'w:p', 2, 'Headers:1');
+        $segment = $templateProcessor->cloneSegment('${headerValue}', 'w:p', 0, 2, 'Headers:1');
         $this->assertNotNull($segment);
-        $segment = $templateProcessor->cloneSegment('${documentContent}', 'w:p', 1, 'MainPart');
+        $segment = $templateProcessor->cloneSegment('${documentContent}', 'w:p', 0, 1, 'MainPart');
         $this->assertNotNull($segment);
         $templateProcessor->setBlock('headerValue#1', "In the end, it doesn't even matter.");
 
@@ -839,7 +839,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
         $this->assertEquals(
             null,
-            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 1, 'MainPart', true, true)
+            $templateProcessor->cloneSegment('I-DO-NOT-EXIST', 'w:p', 0, 1, 'MainPart', true, true)
         );
     }
 
@@ -855,7 +855,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
         $this->assertEquals(
             null,
-            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 'IOU', 'MainPart', true)
+            $templateProcessor->replaceSegment('I-DO-NOT-EXIST', 'w:p', 0, 'IOU', 'MainPart', true)
         );
     }
 
@@ -935,7 +935,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
         $this->assertEquals(
             null,
-            $templateProcessor->getSegment('I-DO-NOT-EXIST', 'w:p', 'MainPart', true)
+            $templateProcessor->getSegment('I-DO-NOT-EXIST', 'w:p', 0, 'MainPart', true)
         );
     }
 

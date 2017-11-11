@@ -385,6 +385,7 @@ class TemplateProcessor
         return $this->processSegment(
             static::ensureMacroCompleted($search),
             'w:tr',
+            0,
             $numberOfClones,
             'MainPart',
             function (&$xmlSegment, &$segmentStart, &$segmentEnd, &$part) use (&$replace) {
@@ -504,6 +505,7 @@ class TemplateProcessor
             return $this->processSegment(
                 $startSearch,
                 'w:p',
+                0,
                 $clones,
                 'MainPart',
                 $replace,
@@ -633,6 +635,7 @@ class TemplateProcessor
      *
      * @param string  $needle  If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag  an xml tag without brackets, for example:  w:p
+     * @param integer $direction  in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param integer $clones  How many times the segment needs to be cloned
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
      * @param mixed $replace true (default/cloneSegment) false(getSegment) string(replaceSegment) function(callback)
@@ -644,6 +647,7 @@ class TemplateProcessor
     public function processSegment(
         $needle,
         $xmltag,
+        $direction = 0,
         $clones = 1,
         $docPart = 'MainPart',
         $replace = true,
@@ -666,8 +670,10 @@ class TemplateProcessor
             );
         }
 
-        $segmentStart = $this->findTagLeft($part, "<$xmltag>", $needlePos, $throwException);
-        $segmentEnd = $this->findTagRight($part, "</$xmltag>", $needlePos);
+        $directionStart = $direction == 1 ? 'findTagRight' : 'findTagLeft';
+        $directionEnd = $direction == -1 ? 'findTagLeft' : 'findTagRight';
+        $segmentStart = $this->{$directionStart}($part, "<$xmltag>", $needlePos, $throwException);
+        $segmentEnd = $this->{$directionEnd}($part, "</$xmltag>", $needlePos);
 
         if (!$segmentStart || !$segmentEnd) {
             return $this->failGraciously(
@@ -701,6 +707,7 @@ class TemplateProcessor
      *
      * @param string  $needle  If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag  an xml tag without brackets, for example:  w:p
+     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param integer $clones  How many times the segment needs to be cloned
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
      * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
@@ -711,12 +718,22 @@ class TemplateProcessor
     public function cloneSegment(
         $needle,
         $xmltag,
+        $direction = 0,
         $clones = 1,
         $docPart = 'MainPart',
         $incrementVariables = true,
         $throwException = false
     ) {
-        return $this->processSegment($needle, $xmltag, $clones, $docPart, true, $incrementVariables, $throwException);
+        return $this->processSegment(
+            $needle,
+            $xmltag,
+            $direction,
+            $clones,
+            $docPart,
+            true,
+            $incrementVariables,
+            $throwException
+        );
     }
 
     /**
@@ -724,14 +741,15 @@ class TemplateProcessor
      *
      * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
+     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed Segment String, false ($needle not found) or null (no tags found around $needle)
      */
-    public function getSegment($needle, $xmltag, $docPart = 'MainPart', $throwException = false)
+    public function getSegment($needle, $xmltag, $direction = 0, $docPart = 'MainPart', $throwException = false)
     {
-        return $this->processSegment($needle, $xmltag, 0, $docPart, false, false, $throwException);
+        return $this->processSegment($needle, $xmltag, $direction, 0, $docPart, false, false, $throwException);
     }
 
     /**
@@ -739,15 +757,31 @@ class TemplateProcessor
      *
      * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag an xml tag without brackets, for example:  w:p
+     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param string  $replacement The replacement xml string. Be careful and keep the xml uncorrupted.
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed true (replaced), false ($needle not found) or null (no tags found around $needle)
      */
-    public function replaceSegment($needle, $xmltag, $replacement = '', $docPart = 'MainPart', $throwException = false)
-    {
-        return $this->processSegment($needle, $xmltag, 0, $docPart, (string)$replacement, false, $throwException);
+    public function replaceSegment(
+        $needle,
+        $xmltag,
+        $direction = 0,
+        $replacement = '',
+        $docPart = 'MainPart',
+        $throwException = false
+    ) {
+        return $this->processSegment(
+            $needle,
+            $xmltag,
+            $direction,
+            0,
+            $docPart,
+            (string)$replacement,
+            false,
+            $throwException
+        );
     }
 
     /**
