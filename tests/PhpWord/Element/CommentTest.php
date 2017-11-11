@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @runTestsInSeparateProcesses
  */
-class CommentTest extends \PHPUnit_Framework_TestCase
+class CommentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance
@@ -79,5 +79,25 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         $iVal = rand(1, 1000);
         $oComment->setRelationId($iVal);
         $this->assertEquals($iVal, $oComment->getRelationId());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionOnCommentStartOnComment()
+    {
+        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment->setCommentRangeStart($dummyComment);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionOnCommentEndOnComment()
+    {
+        $dummyComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment = new Comment('Test User', new \DateTime(), 'my_initials');
+        $oComment->setCommentRangeEnd($dummyComment);
     }
 }

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
 
@@ -108,9 +108,9 @@ class PhpWord
      * @param mixed $function
      * @param mixed $args
      *
-     * @return mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return mixed
      */
     public function __call($function, $args)
     {
@@ -241,7 +241,6 @@ class PhpWord
      * Set default font name.
      *
      * @param string $fontName
-     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -251,7 +250,7 @@ class PhpWord
     /**
      * Get default font size
      *
-     * @return integer
+     * @return int
      */
     public function getDefaultFontSize()
     {
@@ -262,7 +261,6 @@ class PhpWord
      * Set default font size.
      *
      * @param int $fontSize
-     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {
@@ -285,11 +283,11 @@ class PhpWord
      *
      * @deprecated 0.12.0 Use `new TemplateProcessor($documentTemplate)` instead.
      *
-     * @param  string $filename Fully qualified filename.
-     *
-     * @return TemplateProcessor
+     * @param  string $filename Fully qualified filename
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return TemplateProcessor
      *
      * @codeCoverageIgnore
      */
@@ -297,9 +295,8 @@ class PhpWord
     {
         if (file_exists($filename)) {
             return new TemplateProcessor($filename);
-        } else {
-            throw new Exception("Template file {$filename} not found.");
         }
+        throw new Exception("Template file {$filename} not found.");
     }
 
     /**
@@ -325,7 +322,7 @@ class PhpWord
         $writer = IOFactory::createWriter($this, $format);
 
         if ($download === true) {
-            header("Content-Description: File Transfer");
+            header('Content-Description: File Transfer');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Content-Type: ' . $mime[$format]);
             header('Content-Transfer-Encoding: binary');

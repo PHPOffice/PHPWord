@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -34,8 +34,6 @@ class TOC extends AbstractElement
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -71,7 +69,6 @@ class TOC extends AbstractElement
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param \PhpOffice\PhpWord\Element\Title $title
      * @param bool $writeFieldMark
-     * @return void
      */
     private function writeTitle(XMLWriter $xmlWriter, TOCElement $element, $title, $writeFieldMark)
     {
@@ -143,7 +140,6 @@ class TOC extends AbstractElement
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
      * @param int $indent
-     * @return void
      */
     private function writeStyle(XMLWriter $xmlWriter, TOCElement $element, $indent)
     {
@@ -189,7 +185,6 @@ class TOC extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\TOC $element
-     * @return void
      */
     private function writeFieldMark(XMLWriter $xmlWriter, TOCElement $element)
     {

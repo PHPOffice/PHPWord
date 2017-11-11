@@ -19,7 +19,7 @@ $section->addText(
     'Below are the samples on how to control your paragraph '
         . 'pagination. See "Line and Page Break" tab on paragraph properties '
         . 'window to see the attribute set by these controls.',
-    array('bold' => true),
+    array('bold'  => true),
     array('space' => array('before' => 360, 'after' => 480))
 );
 
