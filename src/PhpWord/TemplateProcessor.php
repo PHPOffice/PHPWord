@@ -134,6 +134,7 @@ class TemplateProcessor
         if ($partRelations !== false) {
             $this->tempDocumentRelations[$fileName] = $partRelations;
         }
+
         return $this->fixBrokenMacros($this->zipClass->getFromName($fileName));
     }
 
@@ -693,11 +694,11 @@ class TemplateProcessor
     /**
      * Get the name of the relations file for document part.
      *
-     * @param string $docuemntPartName
+     * @param string $documentPartName
      *
      * @return string
      */
-    protected function getRelationsName(string $documentPartName)
+    protected function getRelationsName($documentPartName)
     {
         return 'word/_rels/' . pathinfo($documentPartName, PATHINFO_BASENAME) . '.rels';
     }
