@@ -211,8 +211,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $variablesReplace = array(
                                 'headerValue'       => $imagePath,
-                                'documentContent'   => array("path" => $imagePath, "width" => 500, "height" => 500),
-                                'footerValue'       => array("path" => $imagePath, "width" => 50, "height" => 50),
+                                'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
+                                'footerValue'       => array('path' => $imagePath, 'width' => 50, 'height' => 50),
         );
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 

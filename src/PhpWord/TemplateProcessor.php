@@ -74,7 +74,7 @@ class TemplateProcessor
      *
      * @var string
      */
-    protected $tempDocumentContentTypes = "";
+    protected $tempDocumentContentTypes = '';
 
     /**
      * new inserted images list
@@ -273,9 +273,7 @@ class TemplateProcessor
     /**
      * @param mixed $search
      * @param mixed $replace Path to image, or array("path" => xx, "width" => yy, "height" => zz)
-     * @param integer $limit
-     *
-     * @return void
+     * @param int $limit
      */
     public function setImageValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
@@ -285,7 +283,7 @@ class TemplateProcessor
         }
 
         $replacesList = array();
-        if (!is_array($replace) || isset($replace["path"])) {
+        if (!is_array($replace) || isset($replace['path'])) {
             $replacesList[] = $replace;
         } else {
             $replacesList = array_values($replace);
@@ -295,31 +293,29 @@ class TemplateProcessor
         foreach ($search as $searchIdx => $searchString) {
             $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
         }
-        //
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
         $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH}px;height:{HEIGHT}px"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
         $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
         $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
-        $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'."\n".'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
+        $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
         $extTransform = array(
-                            "jpg" => "jpeg",
-                            "JPG" => "jpeg",
-                            "png" => "png",
-                            "PNG" => "png",
+                            'jpg' => 'jpeg',
+                            'JPG' => 'jpeg',
+                            'png' => 'png',
+                            'PNG' => 'png',
                             );
-        //
 
         $searchParts = array(
                             $this->getMainPartName() => &$this->tempDocumentMainPart,
                             );
         foreach (array_keys($this->tempDocumentHeaders) as $headerIndex) {
-            $searchParts[ $this->getHeaderName($headerIndex) ] = &$this->tempDocumentHeaders[$headerIndex];
+            $searchParts[$this->getHeaderName($headerIndex)] = &$this->tempDocumentHeaders[$headerIndex];
         }
         foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
-            $searchParts[ $this->getFooterName($headerIndex) ] = &$this->tempDocumentFooters[$headerIndex];
+            $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
         }
 
         foreach ($searchParts as $partFileName => &$partContent) {
@@ -334,13 +330,13 @@ class TemplateProcessor
                 // get image path and size
                 $width = 115;
                 $height = 70;
-                if (is_array($replace) && isset($replace["path"])) {
-                    $imgPath = $replace["path"];
-                    if (isset($replace["width"])) {
-                        $width = $replace["width"];
+                if (is_array($replace) && isset($replace['path'])) {
+                    $imgPath = $replace['path'];
+                    if (isset($replace['width'])) {
+                        $width = $replace['width'];
                     }
-                    if (isset($replace["height"])) {
-                        $height = $replace["height"];
+                    if (isset($replace['height'])) {
+                        $height = $replace['height'];
                     }
                 } else {
                     $imgPath = $replace;
@@ -366,11 +362,11 @@ class TemplateProcessor
                     $this->tempDocumentNewImages[$imgPath] = $imgName;
 
                     // setup type for image
-                    $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl) ;
+                    $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl);
                     $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
                 }
 
-                $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl) ;
+                $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl);
                 $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
 
                 if (!isset($this->tempDocumentRelations[$partFileName])) {
@@ -385,7 +381,7 @@ class TemplateProcessor
                 $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
                 // collect prepared replaces
-                $partSearchReplaces["<w:t>".self::ensureMacroCompleted($search)."</w:t>"] = $xmlImage;
+                $partSearchReplaces['<w:t>' . self::ensureMacroCompleted($search) . '</w:t>'] = $xmlImage;
             }
 
             if ($partSearchReplaces) {
@@ -579,8 +575,6 @@ class TemplateProcessor
     /**
      * @param string $fileName
      * @param string $xml
-     *
-     * @return void
      */
     protected function savePartWithRels($fileName, $xml)
     {
@@ -715,9 +709,9 @@ class TemplateProcessor
      *
      * @return string
      */
-    protected function getRelationsName($documentPartName)
+    protected function getRelationsName(string $documentPartName)
     {
-        return 'word/_rels/'.pathinfo($documentPartName, PATHINFO_BASENAME).'.rels';
+        return 'word/_rels/' . pathinfo($documentPartName, PATHINFO_BASENAME) . '.rels';
     }
 
     protected function getNextRelationsIndex($documentPartName)
@@ -725,6 +719,7 @@ class TemplateProcessor
         if (isset($this->tempDocumentRelations[$documentPartName])) {
             return substr_count($this->tempDocumentRelations[$documentPartName], '<Relationship');
         }
+
         return 1;
     }
 
