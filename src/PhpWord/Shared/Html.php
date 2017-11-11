@@ -233,11 +233,9 @@ class Html
     {
         $styles['font'] = self::parseInlineStyle($node, $styles['font']);
 
-        // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
-        // @todo Find better error checking for this one
-        // if (method_exists($element, 'addText')) {
-        $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
-        // }
+        if (is_callable(array($element, 'addText'))) {
+            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+        }
     }
 
     /**
@@ -374,6 +372,13 @@ class Html
                             $styles['alignment'] = Jc::BOTH;
                             break;
                     }
+                    break;
+                case 'font-size':
+                    $styles['size'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'font-family':
+                    $cValue = array_map('trim', explode(',', $cValue));
+                    $styles['name'] = ucwords($cValue[0]);
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, '#');

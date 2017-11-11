@@ -127,10 +127,42 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:jc'));
-        $this->assertEquals('start', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
-        $this->assertEquals('end', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:jc', 'w:val'));
-        $this->assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:jc', 'w:val'));
-        $this->assertEquals('both', $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals(Jc::START, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals(Jc::END, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals(Jc::CENTER, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals(Jc::BOTH, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:jc', 'w:val'));
+    }
+
+    /**
+     * Test font-size style
+     */
+    public function testParseFontSize()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span style="font-size: 10pt;">test</span>');
+        Html::addHtml($section, '<span style="font-size: 10px;">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:sz'));
+        $this->assertEquals('20', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:r/w:rPr/w:sz', 'w:val'));
+        $this->assertEquals('15', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:sz', 'w:val'));
+    }
+
+    /**
+     * Test font-family style
+     */
+    public function testParseFontFamily()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span style="font-family: Arial">test</span>');
+        Html::addHtml($section, '<span style="font-family: Times New Roman;">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:rFonts'));
+        $this->assertEquals('Arial', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:r/w:rPr/w:rFonts', 'w:ascii'));
+        $this->assertEquals('Times New Roman', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:r/w:rPr/w:rFonts', 'w:ascii'));
     }
 
     /**
@@ -144,7 +176,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:jc'));
-        $this->assertEquals('center', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
+        $this->assertEquals(Jc::CENTER, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:r/w:rPr/w:u', 'w:val'));
     }
 

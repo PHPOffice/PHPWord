@@ -59,6 +59,7 @@ class Font extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
             return;
         }
+
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:rPr');

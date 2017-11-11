@@ -78,8 +78,10 @@ class Comments extends AbstractPart
         $xmlWriter->startElement('w:comment');
         $xmlWriter->writeAttribute('w:id', $comment->getElementId());
         $xmlWriter->writeAttribute('w:author', $comment->getAuthor());
-        $xmlWriter->writeAttribute('w:date', $comment->getDate()->format($this->dateFormat));
-        $xmlWriter->writeAttribute('w:initials', $comment->getInitials());
+        if ($comment->getDate() != null) {
+            $xmlWriter->writeAttribute('w:date', $comment->getDate()->format($this->dateFormat));
+        }
+        $xmlWriter->writeAttributeIf($comment->getInitials() != null, 'w:initials', $comment->getInitials());
 
         $containerWriter = new Container($xmlWriter, $comment);
         $containerWriter->write();

@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\Comment;
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -350,5 +352,46 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
+    }
+
+    /**
+     * Test Comment element
+     */
+    public function testCommentWithoutEndElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $comment = new Comment('tester');
+        $phpWord->addComment($comment);
+
+        $element = $section->addText('this is a test');
+        $element->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
+    }
+
+    /**
+     * Test Comment element
+     */
+    public function testCommentWithEndElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $comment = new Comment('tester');
+        $phpWord->addComment($comment);
+
+        $element = $section->addText('this is a test');
+        $element->setCommentRangeStart($comment);
+        $element->setCommentRangeEnd($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
     }
 }

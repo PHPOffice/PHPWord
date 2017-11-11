@@ -139,10 +139,10 @@ abstract class AbstractElement
     {
         if ($this->element->getCommentRangeEnd() != null) {
             $comment = $this->element->getCommentRangeEnd();
-            //only set the ID if it is not yet set, otherwise it will overwrite it
+            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
             if ($comment->getElementId() == null) {
-                $comment->setElementId();
-            }
+                $comment->setElementId(); // @codeCoverageIgnore
+            } // @codeCoverageIgnore
 
             $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
             $this->xmlWriter->startElement('w:r');
@@ -150,10 +150,10 @@ abstract class AbstractElement
             $this->xmlWriter->endElement();
         } elseif ($this->element->getCommentRangeStart() != null && $this->element->getCommentRangeStart()->getEndElement() == null) {
             $comment = $this->element->getCommentRangeStart();
-            //only set the ID if it is not yet set, otherwise it will overwrite it
+            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
             if ($comment->getElementId() == null) {
-                $comment->setElementId();
-            }
+                $comment->setElementId(); // @codeCoverageIgnore
+            } // @codeCoverageIgnore
 
             $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
             $this->xmlWriter->startElement('w:r');

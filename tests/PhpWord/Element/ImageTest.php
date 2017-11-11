@@ -206,6 +206,9 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
         $this->assertEquals('imagejpeg', $image->getImageFunction());
         $this->assertTrue($image->isMemImage());
+
+        $this->assertNotNull($image->getImageStringData());
+        $this->assertNotNull($image->getImageStringData(true));
     }
 
     /**
