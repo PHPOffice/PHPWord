@@ -227,9 +227,7 @@ class TemplateProcessor
     /**
      * @param mixed $search
      * @param mixed $replace
-     * @param integer $limit
-     *
-     * @return void
+     * @param int $limit
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
@@ -487,7 +485,7 @@ class TemplateProcessor
         }
         if ($useRegexp) {
             foreach ($search as &$searchString) {
-                $searchString = '/(?<=>)([^<]*)'. preg_quote($searchString, '/'). '(?=[^>]*<)/u';       // search only inside tags: > sub string <
+                $searchString = '/(?<=>)([^<]*)' . preg_quote($searchString, '/') . '(?=[^>]*<)/u';       // search only inside tags: > sub string <
             }
 
             // reinsert captured prefix
@@ -503,9 +501,9 @@ class TemplateProcessor
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if ($useRegexp) {
             return preg_replace($search, $replace, $documentPartXML, $limit);
-        } else {
-            return str_replace($search, $replace, $documentPartXML);
         }
+
+        return str_replace($search, $replace, $documentPartXML);
         $regExpEscaper = new RegExp();
 
         return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);

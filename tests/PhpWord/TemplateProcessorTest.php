@@ -212,7 +212,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             }
             unlink($docName);
 
-            if ((substr($expectedMainPartXml, -5, 4) != "book") && (strpos($expectedMainPartXml, "Document text.") > 0)) {
+            if ((substr($expectedMainPartXml, -5, 4) != 'book') && (strpos($expectedMainPartXml, 'Document text.') > 0)) {
                 $resultIsFine = true;
             }
         }
