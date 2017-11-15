@@ -10,7 +10,7 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
+ * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
@@ -28,6 +28,10 @@ use Zend\Stdlib\StringUtils;
 class TemplateProcessor
 {
     const MAXIMUM_REPLACEMENTS_DEFAULT = -1;
+
+    const SEARCH_LEFT = -1;
+    const SEARCH_RIGHT = 1;
+    const SEARCH_AROUND = 0;
 
     /**
      * Enable/disable setValue('key') becoming setValue('${key}') automatically.
@@ -647,7 +651,7 @@ class TemplateProcessor
     public function processSegment(
         $needle,
         $xmltag,
-        $direction = 0,
+        $direction = self::SEARCH_AROUND,
         $clones = 1,
         $docPart = 'MainPart',
         $replace = true,
@@ -670,8 +674,8 @@ class TemplateProcessor
             );
         }
 
-        $directionStart = $direction == 1 ? 'findTagRight' : 'findTagLeft';
-        $directionEnd = $direction == -1 ? 'findTagLeft' : 'findTagRight';
+        $directionStart = $direction == self::SEARCH_RIGHT ? 'findTagRight' : 'findTagLeft';
+        $directionEnd = $direction == self::SEARCH_LEFT ? 'findTagLeft' : 'findTagRight';
         $segmentStart = $this->{$directionStart}($part, "<$xmltag>", $needlePos, $throwException);
         $segmentEnd = $this->{$directionEnd}($part, "</$xmltag>", $needlePos);
 
@@ -718,7 +722,7 @@ class TemplateProcessor
     public function cloneSegment(
         $needle,
         $xmltag,
-        $direction = 0,
+        $direction = self::SEARCH_AROUND,
         $clones = 1,
         $docPart = 'MainPart',
         $incrementVariables = true,
@@ -767,7 +771,7 @@ class TemplateProcessor
     public function replaceSegment(
         $needle,
         $xmltag,
-        $direction = 0,
+        $direction = self::SEARCH_AROUND,
         $replacement = '',
         $docPart = 'MainPart',
         $throwException = false
@@ -801,9 +805,9 @@ class TemplateProcessor
      /**
      * Saves the result document.
      *
-     * @return string The filename of the document
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return string The filename of the document
      */
     public function save()
     {
