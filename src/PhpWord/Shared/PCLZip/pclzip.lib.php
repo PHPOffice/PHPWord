@@ -202,7 +202,7 @@
     // ----- Current status of the magic_quotes_runtime
     // This value store the php configuration for magic_quotes
     // The class can then disable the magic_quotes and reset it after
-    var $magic_quotes_status;
+    public $magic_quotes_status;
 
   // --------------------------------------------------------------------------------
   // Function : PclZip()
@@ -212,7 +212,7 @@
   //   Note that no real action is taken, if the archive does not exist it is not
   //   created. Use create() for that.
   // --------------------------------------------------------------------------------
-  function __construct($p_zipname)
+  public function __construct($p_zipname)
   {
 
     // ----- Tests the zlib
