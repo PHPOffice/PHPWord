@@ -187,25 +187,23 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '
-            <table style="width: 50%; border: 6px #0000FF solid;">
+        $html = '<table style="width: 50%; border: 6px #0000FF solid;">
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
-                        <th>a</th>
-                        <th>b</th>
-                        <th>c</th>
+                        <th>header a</th>
+                        <th>header b</th>
+                        <th style="border-color: #00FF00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td colspan="2">2</td></tr>
+                    <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
                     <tr><td>4</td><td>5</td><td>6</td></tr>
                 </tbody>
             </table>';
         Html::addHtml($section, $html);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-//         echo $doc->printXml();
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p'));
-//         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:tbl/w:tr/w:tc'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
     }
 }

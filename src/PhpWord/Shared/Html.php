@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Row;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
@@ -99,7 +101,7 @@ class Html
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
         // Populate styles array
-        $styleTypes = array('font', 'paragraph', 'list');
+        $styleTypes = array('font', 'paragraph', 'list', 'table', 'row', 'cell');
         foreach ($styleTypes as $styleType) {
             if (!isset($styles[$styleType])) {
                 $styles[$styleType] = array();
@@ -124,10 +126,11 @@ class Html
             'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'span'      => array('Property',    null,   null,       $styles,    null,   'span',         $node),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
-            'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
-            'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
+            'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
+            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
+            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
@@ -179,7 +182,7 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
+                    if ($element instanceof AbstractContainer || $element instanceof Table || $element instanceof Row) {
                         self::parseNode($cNode, $element, $styles, $data);
                     }
                 }
@@ -197,7 +200,7 @@ class Html
      */
     private static function parseParagraph($node, $element, &$styles)
     {
-        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
         $newElement = $element->addTextRun($styles['paragraph']);
 
         return $newElement;
@@ -231,7 +234,12 @@ class Html
      */
     private static function parseText($node, $element, &$styles)
     {
-        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+        $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
+
+        //alignment applies on paragraph, not on font. Let's copy it there
+        if (isset($styles['font']['alignment'])) {
+            $styles['paragraph']['alignment'] = $styles['font']['alignment'];
+        }
 
         if (is_callable(array($element, 'addText'))) {
             $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
@@ -247,16 +255,18 @@ class Html
      */
     private static function parseProperty(&$styles, $argument1, $argument2)
     {
-        if ($argument1 !== 'span') {
-            $styles['font'][$argument1] = $argument2;
-        } else {
-            if (!is_null($argument2->attributes)) {
-                $nodeAttr = $argument2->attributes->getNamedItem('style');
-                if (!is_null($nodeAttr) && property_exists($nodeAttr, 'value')) {
-                    $styles['font'] = self::parseStyle($nodeAttr, $styles['font']);
-                }
-            }
-        }
+        $styles['font'][$argument1] = $argument2;
+    }
+
+    /**
+     * Parse span node
+     *
+     * @param \DOMNode $node
+     * @param array &$styles
+     */
+    private static function parseSpan($node, &$styles)
+    {
+        self::parseInlineStyle($node, $styles['font']);
     }
 
     /**
@@ -270,11 +280,11 @@ class Html
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles, $argument1)
+    private static function parseTable($node, $element, &$styles)
     {
-        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $elementStyles = self::parseInlineStyle($node, $styles['table']);
 
-        $newElement = $element->$argument1();
+        $newElement = $element->addTable($elementStyles);
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
@@ -289,6 +299,62 @@ class Html
         // }
 
         return $newElement;
+    }
+
+    /**
+     * Parse a table row
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array &$styles
+     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
+    private static function parseRow($node, $element, &$styles)
+    {
+        $rowStyles = self::parseInlineStyle($node, $styles['row']);
+        if ($node->parentNode->nodeName == 'thead') {
+            $rowStyles['tblHeader'] = true;
+        }
+
+        return $element->addRow(null, $rowStyles);
+    }
+
+    /**
+     * Parse table cell
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array &$styles
+     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
+    private static function parseCell($node, $element, &$styles)
+    {
+        $cellStyles = self::recursiveParseStylesInHierarchy($node, $styles['cell']);
+
+        $colspan = $node->getAttribute('colspan');
+        if (!empty($colspan)) {
+            $cellStyles['gridSpan'] = $colspan - 0;
+        }
+
+        return $element->addCell(null, $cellStyles);
+    }
+
+    /**
+     * Recursively parses styles on parent nodes
+     * TODO if too slow, add caching of parent nodes, !! everything is static here so watch out for concurrency !!
+     *
+     * @param \DOMNode $node
+     * @param array &$styles
+     */
+    private static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
+    {
+        $parentStyle = self::parseInlineStyle($node, array());
+        $style = array_merge($parentStyle, $style);
+        if ($node->parentNode != null && XML_ELEMENT_NODE == $node->parentNode->nodeType) {
+            $style = self::recursiveParseStylesInHierarchy($node->parentNode, $style);
+        }
+
+        return $style;
     }
 
     /**
@@ -400,9 +466,59 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'border-color':
+                    $styles['color'] = trim($cValue, '#');
+                    break;
+                case 'border-width':
+                    $styles['borderSize'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'border-style':
+                    $styles['borderStyle'] = self::mapBorderStyle($cValue);
+                    break;
+                case 'width':
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $styles['width'] = Converter::cssToTwip($matches[1]);
+                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_TWIP;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $styles['width'] = $matches[1] * 50;
+                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT;
+                    } elseif (preg_match('/([0-9]+)/', $cValue, $matches)) {
+                        $styles['width'] = $matches[1];
+                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_AUTO;
+                    }
+                    break;
+                case 'border':
+                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+)\s+([a-z]+)/', $cValue, $matches)) {
+                        $styles['borderSize'] = Converter::cssToPoint($matches[1]);
+                        $styles['borderColor'] = trim($matches[2], '#');
+                        $styles['borderStyle'] = self::mapBorderStyle($matches[3]);
+                    }
+                    break;
             }
         }
 
         return $styles;
+    }
+
+    /**
+     * Transforms a CSS border style into a word border style
+     *
+     * @param string $cssBorderStyle
+     * @return null|string
+     */
+    private static function mapBorderStyle($cssBorderStyle)
+    {
+        if ($cssBorderStyle == null) {
+            return null;
+        }
+        switch ($cssBorderStyle) {
+            case 'none':
+            case 'dashed':
+            case 'dotted':
+            case 'double':
+                return $cssBorderStyle;
+            case 'solid':
+                return 'single';
+        }
     }
 }

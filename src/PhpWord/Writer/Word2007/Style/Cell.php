@@ -65,6 +65,7 @@ class Cell extends AbstractStyle
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setStyles($style->getBorderStyle());
             $styleWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
             $styleWriter->write();
 

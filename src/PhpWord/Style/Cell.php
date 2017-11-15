@@ -32,13 +32,31 @@ class Cell extends Border
     const VALIGN_BOTTOM = 'bottom';
     const VALIGN_BOTH = 'both';
 
+    //Text direction constants
     /**
-     * Text direction constants
-     *
-     * @const string
+     * Left to Right, Top to Bottom
+     */
+    const TEXT_DIR_LRTB = 'lrTb';
+    /**
+     * Top to Bottom, Right to Left
+     */
+    const TEXT_DIR_TBRL = 'tbRl';
+    /**
+     * Bottom to Top, Left to Right
      */
     const TEXT_DIR_BTLR = 'btLr';
-    const TEXT_DIR_TBRL = 'tbRl';
+    /**
+     * Left to Right, Top to Bottom Rotated
+     */
+    const TEXT_DIR_LRTBV = 'lrTbV';
+    /**
+     * Top to Bottom, Right to Left Rotated
+     */
+    const TEXT_DIR_TBRLV = 'tbRlV';
+    /**
+     * Top to Bottom, Left to Right Rotated
+     */
+    const TEXT_DIR_TBLRV = 'tbLrV';
 
     /**
      * Vertical merge (rowspan) constants
@@ -92,6 +110,20 @@ class Cell extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+
+    /**
+     * Width
+     *
+     * @var int
+     */
+    private $width;
+
+    /**
+     * Width type
+     *
+     * @var string
+     */
+    private $widthType = Table::WIDTH_TWIP;
 
     /**
      * Get vertical align.
@@ -232,6 +264,51 @@ class Cell extends Border
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get cell width
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set cell width
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setWidth($value)
+    {
+        $this->setIntVal($value);
+
+        return $this;
+    }
+
+    /**
+     * Get width type
+     *
+     * @return string
+     */
+    public function getWidthType()
+    {
+        return $this->widthType;
+    }
+
+    /**
+     * Set width type
+     *
+     * @param string $value
+     */
+    public function setWidthType($value)
+    {
+        $this->widthType = $this->setEnumVal($value, array(Table::WIDTH_AUTO, Table::WIDTH_PERCENT, Table::WIDTH_TWIP), Table::WIDTH_TWIP);
 
         return $this;
     }
