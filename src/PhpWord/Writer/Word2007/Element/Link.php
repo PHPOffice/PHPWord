@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
  * Link element writer
  *
@@ -54,11 +52,7 @@ class Link extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        if (Settings::isOutputEscapingEnabled()) {
-            $xmlWriter->text($element->getText());
-        } else {
-            $xmlWriter->writeRaw($element->getText());
-        }
+        $xmlWriter->writeText($element->getText());
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:hyperlink

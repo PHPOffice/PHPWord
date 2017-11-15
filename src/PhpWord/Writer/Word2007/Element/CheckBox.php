@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
  * CheckBox element writer
  *
@@ -83,11 +81,7 @@ class CheckBox extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        if (Settings::isOutputEscapingEnabled()) {
-            $xmlWriter->text($this->getText($element->getText()));
-        } else {
-            $xmlWriter->writeRaw($this->getText($element->getText()));
-        }
+        $xmlWriter->writeText($this->getText($element->getText()));
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

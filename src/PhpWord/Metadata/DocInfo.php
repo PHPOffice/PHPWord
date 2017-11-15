@@ -467,6 +467,8 @@ class DocInfo
                 $propertyType = self::PROPERTY_TYPE_INTEGER;
             } elseif (is_bool($propertyValue)) {
                 $propertyType = self::PROPERTY_TYPE_BOOLEAN;
+            } elseif ($propertyValue instanceof \DateTime) {
+                $propertyType = self::PROPERTY_TYPE_DATE;
             } else {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             }

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
@@ -37,6 +38,31 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     public function tearDown()
     {
         TestHelperDOCX::clear();
+    }
+
+    /**
+     * Write custom properties
+     */
+    public function testWriteCustomProps()
+    {
+        $phpWord = new PhpWord();
+        $docInfo = $phpWord->getDocInfo();
+
+        $docInfo->setCustomProperty('key1', null);
+        $docInfo->setCustomProperty('key2', true);
+        $docInfo->setCustomProperty('key3', 3);
+        $docInfo->setCustomProperty('key4', 4.4);
+        $docInfo->setCustomProperty('key5', 'value5');
+        $docInfo->setCustomProperty('key6', new \DateTime());
+        $docInfo->setCustomProperty('key7', time(), DocInfo::PROPERTY_TYPE_DATE);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
     }
 
     /**

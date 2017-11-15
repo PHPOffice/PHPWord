@@ -313,14 +313,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $section->addFormField('textinput')->setName('MyTextBox');
         $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
+        $section->addFormField('checkbox')->setDefault(true);
         $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $path = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists($path . '/w:textInput'));
-        $this->assertTrue($doc->elementExists($path . '/w:checkBox'));
-        $this->assertTrue($doc->elementExists($path . '/w:ddList'));
+        $path = '/w:document/w:body/w:p[%d]/w:r/w:fldChar/w:ffData';
+        $this->assertTrue($doc->elementExists(sprintf($path, 1) . '/w:textInput'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 2) . '/w:checkBox'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 3) . '/w:checkBox'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 4) . '/w:ddList'));
     }
 
     /**
