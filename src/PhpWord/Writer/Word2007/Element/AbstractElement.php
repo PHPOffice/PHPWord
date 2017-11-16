@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\Common\Text as CommonText;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Abstract element writer
@@ -207,5 +208,20 @@ abstract class AbstractElement
     protected function getText($text)
     {
         return CommonText::controlCharacterPHP2OOXML($text);
+    }
+
+    /**
+     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled()
+     *
+     * @param string $content The text string to write
+     * @return bool Returns true on success or false on failure
+     */
+    protected function writeText($content)
+    {
+        if (Settings::isOutputEscapingEnabled()) {
+            return $this->getXmlWriter()->text($content);
+        }
+
+        return $this->getXmlWriter()->writeRaw($content);
     }
 }

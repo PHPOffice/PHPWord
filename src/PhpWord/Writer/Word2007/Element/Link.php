@@ -52,7 +52,7 @@ class Link extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeText($element->getText());
+        $this->writeText($element->getText());
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:hyperlink

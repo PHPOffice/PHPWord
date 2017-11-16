@@ -81,7 +81,7 @@ class CheckBox extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeText($this->getText($element->getText()));
+        $this->writeText($this->getText($element->getText()));
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

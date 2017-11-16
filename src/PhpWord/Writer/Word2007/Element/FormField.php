@@ -89,7 +89,7 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeText($value);
+        $this->writeText($value);
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

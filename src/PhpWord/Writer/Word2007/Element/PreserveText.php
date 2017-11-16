@@ -58,7 +58,7 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:instrText');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeText($text);
+                $this->writeText($text);
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
 
@@ -80,7 +80,7 @@ class PreserveText extends Text
 
                 $xmlWriter->startElement('w:t');
                 $xmlWriter->writeAttribute('xml:space', 'preserve');
-                $xmlWriter->writeText($this->getText($text));
+                $this->writeText($this->getText($text));
                 $xmlWriter->endElement();
                 $xmlWriter->endElement();
             }

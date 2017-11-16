@@ -59,7 +59,7 @@ class Title extends AbstractElement
         // Actual text
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:t');
-        $xmlWriter->writeText($this->getText($element->getText()));
+        $this->writeText($this->getText($element->getText()));
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 

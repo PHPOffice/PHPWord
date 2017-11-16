@@ -17,6 +17,7 @@ This is the last version to support PHP 5.3
 - Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
 - Support for Comments - @troosan #1067
 - Support for paragraph textAlignment - @troosan #1165
+- Add support for HTML underline tag <u> in addHtml - @zNightFalLz #1186
 
 ### Fixed
 - Loosen dependency to Zend
@@ -34,6 +35,8 @@ This is the last version to support PHP 5.3
 - Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
 - Padded the $args array to remove error - @kaigoh #1150, @reformed #870
 - Fix incorrect image size between windows and mac - @bskrtich #874
+- Fix adding HTML table to document - @mogilvie @arivanbastos #324
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
