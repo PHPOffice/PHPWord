@@ -529,8 +529,8 @@ class TemplateProcessor
             );
         }
 
-        $startBlockStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:p>', $startTagPos, $throwException);
-        $startBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $startTagPos);
+        $startBlockStart = $this->findOpenTagLeft($this->tempDocumentMainPart, '<w:p>', $startTagPos, $throwException);
+        $startBlockEnd = $this->findCloseTagRight($this->tempDocumentMainPart, '</w:p>', $startTagPos);
 
         if (!$startBlockStart || !$startBlockEnd) {
             return $this->failGraciously(
@@ -540,8 +540,8 @@ class TemplateProcessor
             );
         }
 
-        $endBlockStart = $this->findTagLeft($this->tempDocumentMainPart, '<w:p>', $endTagPos, $throwException);
-        $endBlockEnd = $this->findTagRight($this->tempDocumentMainPart, '</w:p>', $endTagPos);
+        $endBlockStart = $this->findOpenTagLeft($this->tempDocumentMainPart, '<w:p>', $endTagPos, $throwException);
+        $endBlockEnd = $this->findCloseTagRight($this->tempDocumentMainPart, '</w:p>', $endTagPos);
 
         if (!$endBlockStart || !$endBlockEnd) {
             return $this->failGraciously(
@@ -642,7 +642,7 @@ class TemplateProcessor
      * @param integer $direction  in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param integer $clones  How many times the segment needs to be cloned
      * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
-     * @param mixed $replace true (default/cloneSegment) false(getSegment) string(replaceSegment) function(callback)
+     * @param mixed   $replace true (default/cloneSegment) false(getSegment) string(replaceSegment) function(callback)
      * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
      * @param boolean $throwException false by default (it then returns false or null on errors).
      *
@@ -674,10 +674,18 @@ class TemplateProcessor
             );
         }
 
-        $directionStart = $direction == self::SEARCH_RIGHT ? 'findTagRight' : 'findTagLeft';
-        $directionEnd = $direction == self::SEARCH_LEFT ? 'findTagLeft' : 'findTagRight';
+        $directionStart = $direction == self::SEARCH_RIGHT ? 'findOpenTagRight' : 'findOpenTagLeft';
+        $directionEnd = $direction == self::SEARCH_LEFT ? 'findCloseTagLeft' : 'findCloseTagRight';
         $segmentStart = $this->{$directionStart}($part, "<$xmltag>", $needlePos, $throwException);
-        $segmentEnd = $this->{$directionEnd}($part, "</$xmltag>", $needlePos);
+        $segmentEnd = $this->{$directionEnd}($part, "</$xmltag>", $needlePos, $throwException);
+
+        if ($segmentStart >= $segmentEnd && $segmentEnd) {
+            if ($direction == self::SEARCH_RIGHT) {
+                $segmentEnd = $this->findCloseTagRight($part, "</$xmltag>", $segmentStart);
+            } else {
+                $segmentStart = $this->findOpenTagLeft($part, "<$xmltag>", $segmentEnd - 1, $throwException);
+            }
+        }
 
         if (!$segmentStart || !$segmentEnd) {
             return $this->failGraciously(
@@ -793,13 +801,14 @@ class TemplateProcessor
      *
      * @param string $needle If this is a macro, you need to add the ${} yourself.
      * @param string $xmltag an xml tag without brackets, for example:  w:p
+     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
      * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (second header)
      *
      * @return mixed true (segment deleted), false ($needle not found) or null (no tags found around $needle)
      */
-    public function deleteSegment($needle, $xmltag, $docPart = 'MainPart')
+    public function deleteSegment($needle, $xmltag, $direction = self::SEARCH_AROUND, $docPart = 'MainPart')
     {
-        return $this->replaceSegment($needle, $xmltag, '', $docPart, false);
+        return $this->replaceSegment($needle, $xmltag, $direction, '', $docPart, false);
     }
 
      /**
@@ -976,7 +985,7 @@ class TemplateProcessor
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
 
-    protected function findTagLeft(&$searchString, $tag, $offset = 0, $throwException = false)
+    protected function findOpenTagLeft(&$searchString, $tag, $offset = 0, $throwException = false)
     {
         $tagStart = strrpos(
             $searchString,
@@ -984,20 +993,60 @@ class TemplateProcessor
             ((strlen($searchString) - $offset) * -1)
         );
 
-        if (!$tagStart) {
+        if ($tagStart === false) {
             $tagStart = strrpos(
                 $searchString,
                 $tag,
                 ((strlen($searchString) - $offset) * -1)
             );
+
+            if ($tagStart === false) {
+                return $this->failGraciously(
+                    "Can not find the start position of the item to clone.",
+                    $throwException,
+                    0
+                );
+            }
         }
 
-        if (!$tagStart) {
-            return $this->failGraciously(
-                "Can not find the start position of the item to clone.",
-                $throwException,
-                0
+        return $tagStart;
+    }
+
+    /**
+     * Find the start position of the nearest tag before $offset.
+     *
+     * @param string  $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
+     * @param string  $tag  Fully qualified tag, for example: '<w:p>' (with brackets!)
+     * @param integer $offset Do not look from the beginning, but starting at $offset
+     * @param boolean $throwException
+     *
+     * @return integer Zero if not found (due to the nature of xml, your document never starts at 0)
+     *
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     */
+
+    protected function findOpenTagRight(&$searchString, $tag, $offset = 0, $throwException = false)
+    {
+        $tagStart = strpos(
+            $searchString,
+            substr($tag, 0, -1) . ' ',
+            $offset
+        );
+
+        if ($tagStart === false) {
+            $tagStart = strrpos(
+                $searchString,
+                $tag,
+                $offset
             );
+
+            if ($tagStart === false) {
+                return $this->failGraciously(
+                    "Can not find the start position of the item to clone.",
+                    $throwException,
+                    0
+                );
+            }
         }
 
         return $tagStart;
@@ -1007,14 +1056,36 @@ class TemplateProcessor
      * Find the end position of the nearest $tag after $offset.
      *
      * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
-     * @param string  $tag  Fully qualified tag, for example: '<w:p>'
+     * @param string  $tag  Fully qualified tag, for example: '</w:p>'
      * @param integer $offset Do not look from the beginning, but starting at $offset
      *
      * @return integer Zero if not found
      */
-    protected function findTagRight(&$searchString, $tag, $offset = 0)
+    protected function findCloseTagLeft(&$searchString, $tag, $offset = 0)
+    {
+        $pos = strrpos($searchString, $tag, ((strlen($searchString) - $offset) * -1));
+
+        if ($pos !== false) {
+            return $pos + strlen($tag);
+        } else {
+            return 0;
+        }
+    }
+
+
+    /**
+     * Find the end position of the nearest $tag after $offset.
+     *
+     * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
+     * @param string  $tag  Fully qualified tag, for example: '</w:p>'
+     * @param integer $offset Do not look from the beginning, but starting at $offset
+     *
+     * @return integer Zero if not found
+     */
+    protected function findCloseTagRight(&$searchString, $tag, $offset = 0)
     {
         $pos = strpos($searchString, $tag, $offset);
+
         if ($pos !== false) {
             return $pos + strlen($tag);
         } else {

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -215,8 +215,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::cloneRow
      * @covers ::deleteRow
      * @covers ::saveAs
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @expectedException        \PhpOffice\PhpWord\Exception\Exception
      * @expectedExceptionMessage Can not find macro
      * @test
@@ -254,8 +254,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::getRow
      * @covers ::replaceRow
      * @covers ::saveAs
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @test
      */
     public function testGetRow()
@@ -349,8 +349,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::deleteBlock
      * @covers ::getBlock
      * @covers ::saveAs
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @test
      */
     public function testCloneDeleteBlock()
@@ -395,8 +395,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::cloneBlock
      * @covers ::getVariables
      * @covers ::getBlock
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @covers ::setValue
      * @test
      */
@@ -411,7 +411,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $xmlTxt,
             $templateProcessor->getBlock('MYBLOCK'),
-            "Block should be cut at the right place (using findTagLeft/findTagRight)"
+            "Block should be cut at the right place (using findOpenTagLeft/findCloseTagRight)"
         );
 
         # detects variables
@@ -484,8 +484,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
      * @covers ::getVariables
      * @covers ::getBlock
      * @covers ::setValue
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @test
      */
     public function testClosedBlock()
@@ -498,7 +498,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $xmlTxt,
             $templateProcessor->getBlock('BLOCKCLOSE/'),
-            "Block should be cut at the right place (using findTagLeft/findTagRight)"
+            "Block should be cut at the right place (using findOpenTagLeft/findCloseTagRight)"
         );
 
         # detects variables
@@ -555,8 +555,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::setValue
      * @covers ::saveAs
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @test
      */
     public function testSetValueMultiline()
@@ -597,8 +597,8 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::replaceBlock
      * @covers ::getBlock
-     * @covers ::findTagLeft
-     * @covers ::findTagRight
+     * @covers ::findOpenTagLeft
+     * @covers ::findCloseTagRight
      * @test
      */
     public function testInlineBlock()
@@ -768,6 +768,18 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             false,
             $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', $around, 1, true, true, false)
+        );
+        $left = TemplateProcessor::SEARCH_LEFT;
+        $right = TemplateProcessor::SEARCH_RIGHT;
+
+        $this->assertEquals(
+            false,
+            $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', $right, 1, true, true, false)
+        );
+
+        $this->assertEquals(
+            false,
+            $templateProcessor->deleteSegment('tableHeader', '>sabotage<', 'MainPart', $left, 1, true, true, false)
         );
     }
 
@@ -968,18 +980,85 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * Example of testing protected functions
      *
-     * @covers ::findTagRight
-     * @covers ::findTagLeft
+     * @covers ::findCloseTagRight
+     * @covers ::findOpenTagLeft
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Can not find the start position
      * @test
      */
-    public function testFindTagRightAndLeft()
+    public function testfindTagRightAndLeft()
     {
         $testDocument = __DIR__ . '/_files/templates/header-footer.docx';
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\TemplateProcessor', array($testDocument));
 
         $str = '...abcd<w:p>${dream}</w:p>efg...';
-        $this->assertEquals(true, self::callProtectedMethod($stub, 'findTagRight', array(&$str, '</w:p>', 0)));
-        $this->assertEquals(26, self::callProtectedMethod($stub, 'findTagRight', array(&$str, '</w:p>', 0)));
-        $this->assertEquals(07, self::callProtectedMethod($stub, 'findTagLeft', array(&$str, '<w:p>', 20)));
+        $this->assertEquals(true, self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '</w:p>', 0)));
+        $this->assertEquals(26, self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '</w:p>', 0)));
+        $this->assertEquals(7, self::callProtectedMethod($stub, 'findOpenTagRight', array(&$str, '<w:p>', 0)));
+        $this->assertEquals(07, self::callProtectedMethod($stub, 'findOpenTagLeft', array(&$str, '<w:p>', 20)));
+
+        $str = '...<w:p data="hi">before</w:p>...abcd<w:p>${dream}</w:p>efg...<w:p data="hi">after</w:p>...';
+        $this->assertEquals(0, self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '<w:p>', 44)));
+        $this->assertEquals(56, self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '</w:p>', 44)));
+        $this->assertEquals(88, self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '</w:p>', 56)));
+        $this->assertEquals(3, self::callProtectedMethod($stub, 'findOpenTagLeft', array(&$str, '<w:p>', 44)));
+        $this->assertEquals(30, self::callProtectedMethod($stub, 'findCloseTagLeft', array(&$str, '</w:p>', 44)));
+        $this->assertEquals(0, self::callProtectedMethod($stub, 'findCloseTagLeft', array(&$str, '</w:p>', 20)));
+
+        $snipEnd = self::callProtectedMethod($stub, 'findCloseTagLeft', array(&$str, '</w:p>', 44));
+        $snipStart = self::callProtectedMethod($stub, 'findOpenTagLeft', array(&$str, '<w:p>', $snipEnd));
+        $this->assertEquals(
+            '<w:p data="hi">before</w:p>',
+            self::callProtectedMethod($stub, 'getSlice', array(&$str, $snipStart, $snipEnd))
+        );
+
+        $want = '<w:p data="hi">after</w:p>';
+        $snipStart = self::callProtectedMethod($stub, 'findOpenTagRight', array(&$str, '<w:p>', 44));
+        $snipEnd = self::callProtectedMethod($stub, 'findCloseTagRight', array(&$str, '</w:p>', $snipStart));
+        $this->assertEquals(
+            $want,
+            self::callProtectedMethod($stub, 'getSlice', array(&$str, $snipStart, $snipEnd))
+        );
+
+
+        // now throw an exception
+        $snipStart = self::callProtectedMethod($stub, 'findOpenTagRight', array(&$str, '<w:p>', $snipStart+1, true));
+    }
+    /**
+     * testing grabbing segments left and right
+     *
+     * @covers ::getSegment
+     * @expectedException        \PhpOffice\PhpWord\Exception\Exception
+     * @expectedExceptionMessage Can not find the start position
+     * @test
+     */
+    public function testGetSegment()
+    {
+        $template = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8" standalone="${nostart}"?>'.
+        '<w:document><w:body><w:p>before</w:p>'.
+        '<w:p><w:pPr/><w:r><w:rPr/>'.
+        '<w:t xml:space="preserve">${middle}</w:t>'.
+        '</w:r></w:p>'.
+        '<w:p data="hi">after</w:p></w:body></w:document>';
+
+        $this->poke($template, 'tempDocumentMainPart', $xmlStr);
+
+        $this->assertEquals(
+            '<w:p data="hi">after</w:p>',
+            $template->getSegment('${middle}', 'w:p', 1)
+        );
+
+        $this->assertEquals(
+            '<w:p><w:pPr/><w:r><w:rPr/><w:t xml:space="preserve">${middle}</w:t></w:r></w:p>',
+            $template->getSegment('${middle}', 'w:p', 0)
+        );
+
+        $this->assertEquals(
+            '<w:p>before</w:p>',
+            $template->getSegment('${middle}', 'w:p', -1)
+        );
+
+        $template->getSegment('after', 'w:p', 1, 'MainPart', true);
     }
 }
