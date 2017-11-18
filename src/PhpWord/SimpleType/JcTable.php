@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * Introduced in ISO/IEC-29500:2008.
  *
  * @since 0.13.0
- *
- * @codeCoverageIgnore
  */
 final class JcTable extends AbstractEnum
 {

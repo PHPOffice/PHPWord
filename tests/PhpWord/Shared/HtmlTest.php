@@ -190,8 +190,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $html = '<table style="width: 50%; border: 6px #0000FF solid;">
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
-                        <th>header a</th>
-                        <th>header b</th>
+                        <th style="width: 50pt">header a</th>
+                        <th style="width: 50">header b</th>
                         <th style="border-color: #00FF00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
@@ -205,5 +205,33 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
+    }
+
+    /**
+     * Tests parsing of ul/li
+     */
+    public function testParseList()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ul>
+                <li>
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item1</span>
+                    </span>
+                </li>
+                <li>
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item2</span>
+                    </span>
+                </li>
+            </ul>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('list item1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
     }
 }

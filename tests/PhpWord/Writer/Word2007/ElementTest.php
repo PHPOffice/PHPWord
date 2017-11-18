@@ -136,6 +136,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that the style name gets added
+     */
+    public function testTableWithStyleName()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable('my_predefined_style');
+        $table->setWidth(75);
+        $table->addRow(900);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $tableRootElement = '/w:document/w:body/w:tbl';
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:tblStyle'));
+        $this->assertEquals('my_predefined_style', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:tblStyle', 'w:val'));
+    }
+
+    /**
      * Test shape elements
      */
     public function testShapeElements()

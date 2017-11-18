@@ -415,7 +415,7 @@ Line elements can be added to sections by using ``addLine``.
 .. code-block:: php
 
     $lineStyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
-    $section->addLine($lineStyle)
+    $section->addLine($lineStyle);
 
 Available line style attributes:
 

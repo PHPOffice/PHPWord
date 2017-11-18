@@ -37,8 +37,9 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
+     * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
      */
-    public static function addHtml($element, $html, $fullHTML = false)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -59,7 +60,7 @@ class Html
 
         // Load DOM
         $dom = new \DOMDocument();
-        $dom->preserveWhiteSpace = true;
+        $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
         $node = $dom->getElementsByTagName('body');
 
@@ -395,6 +396,10 @@ class Html
                     $text = $cNode->nodeValue;
                 }
             }
+            //ideally we should be parsing child nodes for any style, for now just take the text
+            if ('' == trim($text) && '' != trim($node->textContent)) {
+                $text = trim($node->textContent);
+            }
             $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
         }
     }
@@ -508,16 +513,13 @@ class Html
      */
     private static function mapBorderStyle($cssBorderStyle)
     {
-        if ($cssBorderStyle == null) {
-            return null;
-        }
         switch ($cssBorderStyle) {
             case 'none':
             case 'dashed':
             case 'dotted':
             case 'double':
                 return $cssBorderStyle;
-            case 'solid':
+            default:
                 return 'single';
         }
     }

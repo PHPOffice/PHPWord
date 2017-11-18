@@ -318,8 +318,6 @@ class Settings
      * @since 0.13.0
      *
      * @return bool
-     *
-     * @codeCoverageIgnore
      */
     public static function isOutputEscapingEnabled()
     {
@@ -330,8 +328,6 @@ class Settings
      * @since 0.13.0
      *
      * @param bool $outputEscapingEnabled
-     *
-     * @codeCoverageIgnore
      */
     public static function setOutputEscapingEnabled($outputEscapingEnabled)
     {

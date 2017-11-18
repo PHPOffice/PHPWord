@@ -19,9 +19,6 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Paragraph;
 
-/**
- * @codeCoverageIgnore
- */
 class Footnote extends AbstractContainer
 {
     /**
@@ -68,6 +65,7 @@ class Footnote extends AbstractContainer
      * Get Footnote Reference ID
      *
      * @deprecated 0.10.0
+     * @codeCoverageIgnore
      *
      * @return int
      */
@@ -80,6 +78,7 @@ class Footnote extends AbstractContainer
      * Set Footnote Reference ID
      *
      * @deprecated 0.10.0
+     * @codeCoverageIgnore
      *
      * @param int $rId
      */

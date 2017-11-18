@@ -122,6 +122,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
     public function testCssSizeParser()
     {
         $this->assertEquals(null, Converter::cssToPoint('10em'));
+        $this->assertEquals(0, Converter::cssToPoint('0'));
         $this->assertEquals(10, Converter::cssToPoint('10pt'));
         $this->assertEquals(7.5, Converter::cssToPoint('10px'));
         $this->assertEquals(720, Converter::cssToPoint('10in'));

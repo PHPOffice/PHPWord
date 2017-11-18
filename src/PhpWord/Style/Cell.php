@@ -119,11 +119,11 @@ class Cell extends Border
     private $width;
 
     /**
-     * Width type
+     * Width unit
      *
      * @var string
      */
-    private $widthType = Table::WIDTH_TWIP;
+    private $unit = Table::WIDTH_TWIP;
 
     /**
      * Get vertical align.
@@ -292,23 +292,23 @@ class Cell extends Border
     }
 
     /**
-     * Get width type
+     * Get width unit
      *
      * @return string
      */
-    public function getWidthType()
+    public function getUnit()
     {
-        return $this->widthType;
+        return $this->unit;
     }
 
     /**
-     * Set width type
+     * Set width unit
      *
      * @param string $value
      */
-    public function setWidthType($value)
+    public function setUnit($value)
     {
-        $this->widthType = $this->setEnumVal($value, array(Table::WIDTH_AUTO, Table::WIDTH_PERCENT, Table::WIDTH_TWIP), Table::WIDTH_TWIP);
+        $this->unit = $this->setEnumVal($value, array(Table::WIDTH_AUTO, Table::WIDTH_PERCENT, Table::WIDTH_TWIP), Table::WIDTH_TWIP);
 
         return $this;
     }
