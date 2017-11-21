@@ -50,7 +50,7 @@ abstract class AbstractElement
     protected $withoutP = false;
 
     /**
-     * @var \Zend\Escaper\Escaper
+     * @var \Zend\Escaper\Escaper|\PhpOffice\PhpWord\Escaper\AbstractEscaper
      */
     protected $escaper;
 

@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Element\Cell;
 
 /**
  * Common Html functions
@@ -276,8 +277,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
-     * @param string $argument1 Method name
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return Table $element
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
@@ -308,7 +308,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return Row $element
      */
     private static function parseRow($node, $element, &$styles)
     {
@@ -326,7 +326,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return Cell $element
      */
     private static function parseCell($node, $element, &$styles)
     {

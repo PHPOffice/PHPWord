@@ -18,6 +18,8 @@ This is the last version to support PHP 5.3
 - Support for Comments - @troosan #1067
 - Support for paragraph textAlignment - @troosan #1165
 - Add support for HTML underline tag <u> in addHtml - @zNightFalLz #1186
+- Allow to change cell width unit - guillaume-ro-fr #986
+- Allow to change the line height rule @troosan
 
 ### Fixed
 - Loosen dependency to Zend

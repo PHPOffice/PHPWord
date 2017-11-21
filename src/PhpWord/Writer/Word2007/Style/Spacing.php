@@ -46,7 +46,7 @@ class Spacing extends AbstractStyle
         $line = $style->getLine();
         $xmlWriter->writeAttributeIf(!is_null($line), 'w:line', $line);
 
-        $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getRule());
+        $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getLineRule());
 
         $xmlWriter->endElement();
     }

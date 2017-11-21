@@ -79,6 +79,8 @@ Available Paragraph style options:
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
 - ``spaceBefore``. Space before paragraph.
 - ``spaceAfter``. Space after paragraph.
+- ``spacing``. Space between lines.
+- ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
