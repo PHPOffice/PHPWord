@@ -305,12 +305,11 @@ class Settings
      */
     public static function getTempDir()
     {
-        $tempDir = sys_get_temp_dir();
-
         if (!empty(self::$tempDir)) {
             $tempDir = self::$tempDir;
+        } else {
+            $tempDir = sys_get_temp_dir();
         }
-
         return $tempDir;
     }
 
