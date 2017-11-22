@@ -310,6 +310,7 @@ class Settings
         } else {
             $tempDir = sys_get_temp_dir();
         }
+
         return $tempDir;
     }
 
