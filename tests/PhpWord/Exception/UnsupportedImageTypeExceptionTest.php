@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\UnsupportedImageTypeExceptionTest
  * @runTestsInSeparateProcesses
  */
-class UnsupportedImageTypeExceptionTest extends \PHPUnit_Framework_TestCase
+class UnsupportedImageTypeExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Throw new exception

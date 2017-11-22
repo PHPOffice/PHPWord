@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
  * @runTestsInSeparateProcesses
  */
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -83,6 +83,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
         $textrun->addText('Test text run');
+        $section->addPageBreak();
 
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}');

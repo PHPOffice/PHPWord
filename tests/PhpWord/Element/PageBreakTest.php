@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\PageBreak
  * @runTestsInSeparateProcesses
  */
-class PageBreakTest extends \PHPUnit_Framework_TestCase
+class PageBreakTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class

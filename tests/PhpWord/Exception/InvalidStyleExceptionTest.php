@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\InvalidStyleException
  * @runTestsInSeparateProcesses
  */
-class InvalidStyleExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidStyleExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Throw new exception

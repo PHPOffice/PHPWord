@@ -60,7 +60,11 @@ class DocPropsCustom extends AbstractPart
                     $xmlWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
                     break;
                 case 'd':
-                    $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                    if ($propertyValue instanceof \DateTime) {
+                        $xmlWriter->writeElement('vt:filetime', $propertyValue->format($this->dateFormat));
+                    } else {
+                        $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                    }
                     break;
                 default:
                     $xmlWriter->writeElement('vt:lpwstr', $propertyValue);

@@ -15,28 +15,31 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007;
+namespace PhpOffice\PhpWord\SimpleType;
 
-use PhpOffice\PhpWord\Writer\Word2007\Part\RelsPart;
+use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Part subnamespace
+ * Line Spacing Rule
  *
- * Covers miscellaneous tests
+ * @since 0.14.0
+ *
+ * @see http://www.datypic.com/sc/ooxml/t-w_ST_LineSpacingRule.html
  */
-class PartTest extends \PHPUnit\Framework\TestCase
+final class LineSpacingRule extends AbstractEnum
 {
     /**
-     * Test exception when no type or target assigned to a relation
-     *
-     * @covers \PhpOffice\PhpWord\Writer\Word2007\Part\Rels::writeRel
-     * @expectedException \PhpOffice\PhpWord\Exception\Exception
-     * @expectedExceptionMessage Invalid parameters passed.
+     * Automatically Determined Line Height
      */
-    public function testRelsWriteRelException()
-    {
-        $object = new RelsPart();
-        $object->setMedia(array(array('type' => '', 'target' => '')));
-        $object->write();
-    }
+    const AUTO = 'auto';
+
+    /**
+     * Exact Line Height
+     */
+    const EXACT = 'exact';
+
+    /**
+     * Minimum Line Height
+     */
+    const AT_LEAST = 'atLeast';
 }

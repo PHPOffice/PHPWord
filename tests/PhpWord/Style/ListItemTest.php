@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\ListItem
  * @runTestsInSeparateProcesses
  */
-class ListItemTest extends \PHPUnit_Framework_TestCase
+class ListItemTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test construct

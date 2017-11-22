@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @runTestsInSeparateProcesses
  */
-class FootnoteTest extends \PHPUnit_Framework_TestCase
+class FootnoteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance without parameter

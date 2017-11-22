@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord;
  *
  * @runTestsInSeparateProcesses
  */
-class IOFactoryTest extends \PHPUnit_Framework_TestCase
+class IOFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create existing writer

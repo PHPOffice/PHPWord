@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
@@ -487,6 +488,27 @@ class Paragraph extends Border
     public function setSpacing($value = null)
     {
         return $this->setSpace(array('line' => $value));
+    }
+
+    /**
+     * Get spacing line rule
+     *
+     * @return string
+     */
+    public function getSpacingLineRule()
+    {
+        return $this->getChildStyleValue($this->spacing, 'lineRule');
+    }
+
+    /**
+     * Set the spacing line rule
+     *
+     * @param string $value Possible values are defined in LineSpacingRule
+     * @return \PhpOffice\PhpWord\Style\Paragraph
+     */
+    public function setSpacingLineRule($value)
+    {
+        return $this->setSpace(array('lineRule' => $value));
     }
 
     /**

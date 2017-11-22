@@ -17,10 +17,12 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+
 /**
  * Spacing between lines and above/below paragraph style
  *
- * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_Spacing.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_Spacing.html
  * @since 0.10.0
  */
 class Spacing extends AbstractStyle
@@ -51,7 +53,7 @@ class Spacing extends AbstractStyle
      *
      * @var string
      */
-    private $rule = 'auto';
+    private $lineRule = LineSpacingRule::AUTO;
 
     /**
      * Create a new instance
@@ -137,9 +139,9 @@ class Spacing extends AbstractStyle
      *
      * @return string
      */
-    public function getRule()
+    public function getLineRule()
     {
-        return $this->rule;
+        return $this->lineRule;
     }
 
     /**
@@ -148,9 +150,37 @@ class Spacing extends AbstractStyle
      * @param string $value
      * @return self
      */
+    public function setLineRule($value = null)
+    {
+        LineSpacingRule::validate($value);
+        $this->lineRule = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get line rule
+     *
+     * @return string
+     * @deprecated Use getLineRule() instead
+     * @codeCoverageIgnore
+     */
+    public function getRule()
+    {
+        return $this->lineRule;
+    }
+
+    /**
+     * Set line rule
+     *
+     * @param string $value
+     * @return self
+     * @deprecated Use setLineRule() instead
+     * @codeCoverageIgnore
+     */
     public function setRule($value = null)
     {
-        $this->rule = $value;
+        $this->lineRule = $value;
 
         return $this;
     }

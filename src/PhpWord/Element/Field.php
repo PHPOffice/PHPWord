@@ -206,10 +206,10 @@ class Field extends AbstractElement
     /**
      * Set Field text
      *
-     * @param string | TextRun $text
+     * @param string|TextRun $text
      *
      * @throws \InvalidArgumentException
-     * @return string | TextRun
+     * @return string|TextRun
      */
     public function setText($text)
     {
@@ -227,7 +227,7 @@ class Field extends AbstractElement
     /**
      * Get Field text
      *
-     * @return string | TextRun
+     * @return string|TextRun
      */
     public function getText()
     {

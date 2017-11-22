@@ -91,7 +91,7 @@ class Settings
     /**
      * Spelling and Grammatical Checking State
      *
-     * @var \PhpOffice\PhpWord\Metadata\ProofState
+     * @var \PhpOffice\PhpWord\ComplexType\ProofState
      */
     private $proofState;
 

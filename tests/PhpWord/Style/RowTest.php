@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Row
  * @runTestsInSeparateProcesses
  */
-class RowTest extends \PHPUnit_Framework_TestCase
+class RowTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test properties with boolean value

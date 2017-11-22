@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Table
  * @runTestsInSeparateProcesses
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance

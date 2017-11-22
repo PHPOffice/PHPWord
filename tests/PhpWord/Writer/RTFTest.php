@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class RTFTest extends \PHPUnit_Framework_TestCase
+class RTFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct

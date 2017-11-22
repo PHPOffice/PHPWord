@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Text addText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method TextRun addTextRun(mixed $pStyle = null)
  * @method Bookmark addBookmark(string $name)
- * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null)
+ * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null, boolean $internal = false)
  * @method PreserveText addPreserveText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method void addTextBreak(int $count = 1, mixed $fStyle = null, mixed $pStyle = null)
  * @method ListItem addListItem(string $txt, int $depth = 0, mixed $font = null, mixed $list = null, mixed $para = null)
@@ -157,8 +157,6 @@ abstract class AbstractContainer extends AbstractElement
      * Get all elements
      *
      * @return array
-     *
-     * @codeCoverageIgnore
      */
     public function getElements()
     {

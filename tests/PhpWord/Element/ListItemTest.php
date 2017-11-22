@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\ListItem
  * @runTestsInSeparateProcesses
  */
-class ListItemTest extends \PHPUnit_Framework_TestCase
+class ListItemTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Get text object

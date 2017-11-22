@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Indentation
  */
-class IndentationTest extends \PHPUnit_Framework_TestCase
+class IndentationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

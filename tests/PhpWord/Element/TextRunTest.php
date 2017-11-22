@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\PhpWord;
  *
  * @runTestsInSeparateProcesses
  */
-class TextRunTest extends \PHPUnit_Framework_TestCase
+class TextRunTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance

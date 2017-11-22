@@ -36,9 +36,9 @@ class Shading extends AbstractStyle
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:shd');
-        $xmlWriter->writeAttribute('w:val', $style->getPattern());
-        $xmlWriter->writeAttribute('w:color', $style->getColor());
-        $xmlWriter->writeAttribute('w:fill', $style->getFill());
+        $xmlWriter->writeAttributeIf(!is_null($style->getPattern()), 'w:val', $style->getPattern());
+        $xmlWriter->writeAttributeIf(!is_null($style->getColor()), 'w:color', $style->getColor());
+        $xmlWriter->writeAttributeIf(!is_null($style->getFill()), 'w:fill', $style->getFill());
         $xmlWriter->endElement();
     }
 }

@@ -1698,7 +1698,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                                     $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASH;
                                     break;
                                 case 0x09:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTHASH;
+                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDASH;
                                     break;
                                 case 0x0A:
                                     $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDOTDASH;
@@ -1713,7 +1713,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                                     $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DASHHEAVY;
                                     break;
                                 case 0x19:
-                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTHASHHEAVY;
+                                    $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDASHHEAVY;
                                     break;
                                 case 0x1A:
                                     $oStylePrl->styleFont['underline'] = Style\Font::UNDERLINE_DOTDOTDASHHEAVY;

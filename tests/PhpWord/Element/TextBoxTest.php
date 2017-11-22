@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBox
  * @runTestsInSeparateProcesses
  */
-class TextBoxTest extends \PHPUnit_Framework_TestCase
+class TextBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance

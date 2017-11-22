@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Element\Footnote;
  *
  * Using concrete class Footnotes instead of AbstractCollection
  */
-class CollectionTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test collection

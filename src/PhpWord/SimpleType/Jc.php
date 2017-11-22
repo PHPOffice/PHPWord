@@ -29,8 +29,6 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  *
  * @see \PhpOffice\PhpWord\SimpleType\JcTable For table alignment modes available since ISO/IEC-29500:2008.
  * @see  http://www.datypic.com/sc/ooxml/t-w_ST_Jc.html
- *
- * @codeCoverageIgnore
  */
 final class Jc extends AbstractEnum
 {

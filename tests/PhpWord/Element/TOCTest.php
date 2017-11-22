@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\PhpWord;
  *
  * @runTestsInSeparateProcesses
  */
-class TOCTest extends \PHPUnit_Framework_TestCase
+class TOCTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct with font and TOC style in array format

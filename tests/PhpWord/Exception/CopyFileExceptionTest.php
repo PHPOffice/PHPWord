@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @covers \PhpOffice\PhpWord\Exception\CopyFileException
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\CopyFileException
  */
-class CopyFileExceptionTest extends \PHPUnit_Framework_TestCase
+class CopyFileExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * CopyFileException can be thrown.

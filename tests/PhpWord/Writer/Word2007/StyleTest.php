@@ -22,7 +22,7 @@ use PhpOffice\Common\XMLWriter;
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Style subnamespace
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test empty styles

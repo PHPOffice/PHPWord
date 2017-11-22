@@ -45,6 +45,7 @@ Available Font style options:
 - ``color``. Font color, e.g. *FF0000*.
 - ``doubleStrikethrough``. Double strikethrough, *true* or *false*.
 - ``fgColor``. Font highlight color, e.g. *yellow*, *green*, *blue*.
+   See ``\PhpOffice\PhpWord\Style\Font::FGCOLOR_...`` constants for more values
 - ``hint``. Font content type, *default*, *eastAsia*, or *cs*.
 - ``italic``. Italic, *true* or *false*.
 - ``name``. Font name, e.g. *Arial*.
@@ -54,7 +55,8 @@ Available Font style options:
 - ``strikethrough``. Strikethrough, *true* or *false*.
 - ``subScript``. Subscript, *true* or *false*.
 - ``superScript``. Superscript, *true* or *false*.
-- ``underline``. Underline, *dash*, *dotted*, etc.
+- ``underline``. Underline, *single*, *dash*, *dotted*, etc.
+   See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
 
@@ -77,6 +79,8 @@ Available Paragraph style options:
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
 - ``spaceBefore``. Space before paragraph.
 - ``spaceAfter``. Space after paragraph.
+- ``spacing``. Space between lines.
+- ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.

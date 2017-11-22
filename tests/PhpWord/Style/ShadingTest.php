@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Shading
  */
-class ShadingTest extends \PHPUnit_Framework_TestCase
+class ShadingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set

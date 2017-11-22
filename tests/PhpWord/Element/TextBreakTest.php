@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\TextBreak
  * @runTestsInSeparateProcesses
  */
-class TextBreakTest extends \PHPUnit_Framework_TestCase
+class TextBreakTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Construct with empty value

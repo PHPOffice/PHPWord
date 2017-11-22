@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Writer\RTF;
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test empty styles
