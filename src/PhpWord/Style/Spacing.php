@@ -143,7 +143,7 @@ class Spacing extends AbstractStyle
     {
         return $this->lineRule;
     }
-    
+
     /**
      * Set line rule
      *

@@ -22,7 +22,9 @@ use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -533,6 +535,25 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that if no color is set on a cell a border gets writen with the default color
+     */
+    public function testWriteDefaultColor()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $cStyles['borderTopSize'] = 120;
+
+        $table = $section->addTable();
+        $table->addRow();
+        $cell = $table->addCell(null, $cStyles);
+        $cell->addText('Test');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+    }
+
+    /**
      * covers ::_writeTableStyle
      */
     public function testWriteTableStyle()
@@ -565,7 +586,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $section = $phpWord->addSection();
         $table = $section->addTable($tStyles);
-        $table->setWidth = 100;
+        $table->setWidth(100);
         $table->addRow($rHeight, $rStyles);
         $cell = $table->addCell($cWidth, $cStyles);
         $cell->addText('Test');

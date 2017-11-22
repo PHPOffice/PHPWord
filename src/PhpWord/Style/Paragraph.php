@@ -20,8 +20,8 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
  * Paragraph style
