@@ -37,8 +37,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $oImage);
         $this->assertEquals($src, $oImage->getSource());
         $this->assertEquals(md5($src), $oImage->getMediaId());
-        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
-        $this->assertEquals(false, $oImage->isWatermark());
+        $this->assertFalse($oImage->isWatermark());
         $this->assertEquals(Image::SOURCE_LOCAL, $oImage->getSourceType());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
     }
