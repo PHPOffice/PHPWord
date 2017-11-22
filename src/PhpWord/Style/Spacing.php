@@ -167,7 +167,7 @@ class Spacing extends AbstractStyle
      */
     public function getRule()
     {
-        return $this->rule;
+        return $this->lineRule;
     }
 
     /**
@@ -180,7 +180,7 @@ class Spacing extends AbstractStyle
      */
     public function setRule($value = null)
     {
-        $this->rule = value;
+        $this->lineRule = $value;
 
         return $this;
     }
