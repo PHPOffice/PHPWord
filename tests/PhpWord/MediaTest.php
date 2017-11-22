@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Element\Image;
  *
  * @runTestsInSeparateProcesses
  */
-class MediaTest extends \PHPUnit_Framework_TestCase
+class MediaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Get section media elements
@@ -106,7 +106,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     /**
      * Add image element exception
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage Image object not assigned.
      */
     public function testAddElementImageException()

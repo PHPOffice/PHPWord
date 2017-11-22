@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -46,15 +46,29 @@ class SDT extends Text
     private $listItems = array();
 
     /**
+     * Alias
+     *
+     * @var string
+     */
+    private $alias;
+
+    /**
+     * Tag
+     *
+     * @var string
+     */
+    private $tag;
+
+    /**
      * Create new instance
      *
      * @param string $type
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return self
      */
     public function __construct($type, $fontStyle = null, $paragraphStyle = null)
     {
+        parent::__construct(null, $fontStyle, $paragraphStyle);
         $this->setType($type);
     }
 
@@ -124,6 +138,52 @@ class SDT extends Text
     public function setListItems($value)
     {
         $this->listItems = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Set tag
+     *
+     * @param string $tag
+     * @return self
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * Set alias
+     *
+     * @param string $alias
+     * @return self
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
 
         return $this;
     }

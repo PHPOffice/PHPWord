@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord;
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
  * @runTestsInSeparateProcesses
  */
-final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
+final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Template can be saved in temporary location.
@@ -36,7 +36,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $templateProcessor = new TemplateProcessor($templateFqfn);
         $xslDomDocument = new \DOMDocument();
-        $xslDomDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
+        $xslDomDocument->load(__DIR__ . '/_files/xsl/remove_tables_by_needle.xsl');
         foreach (array('${employee.', '${scoreboard.', '${reference.') as $needle) {
             $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -133,15 +133,7 @@ class Table extends Border
         if ($firstRowStyle !== null && is_array($firstRowStyle)) {
             $this->firstRowStyle = clone $this;
             $this->firstRowStyle->isFirstRow = true;
-            unset($this->firstRowStyle->firstRowStyle);
-            unset($this->firstRowStyle->borderInsideHSize);
-            unset($this->firstRowStyle->borderInsideHColor);
-            unset($this->firstRowStyle->borderInsideVSize);
-            unset($this->firstRowStyle->borderInsideVColor);
-            unset($this->firstRowStyle->cellMarginTop);
-            unset($this->firstRowStyle->cellMarginLeft);
-            unset($this->firstRowStyle->cellMarginRight);
-            unset($this->firstRowStyle->cellMarginBottom);
+            unset($this->firstRowStyle->firstRowStyle, $this->firstRowStyle->borderInsideHSize, $this->firstRowStyle->borderInsideHColor, $this->firstRowStyle->borderInsideVSize, $this->firstRowStyle->borderInsideVColor, $this->firstRowStyle->cellMarginTop, $this->firstRowStyle->cellMarginLeft, $this->firstRowStyle->cellMarginRight, $this->firstRowStyle->cellMarginBottom);
             $this->firstRowStyle->setStyleByArray($firstRowStyle);
         }
 
@@ -190,7 +182,7 @@ class Table extends Border
     /**
      * Get TLRBHV Border Size
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getBorderSize()
     {
@@ -428,7 +420,7 @@ class Table extends Border
     /**
      * Get cell margin
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getCellMargin()
     {
@@ -436,7 +428,7 @@ class Table extends Border
             $this->cellMarginTop,
             $this->cellMarginLeft,
             $this->cellMarginRight,
-            $this->cellMarginBottom
+            $this->cellMarginBottom,
         );
     }
 
@@ -510,7 +502,7 @@ class Table extends Border
      */
     public function setAlignment($value)
     {
-        if (JcTable::getValidator()->isValid($value) || Jc::getValidator()->isValid($value)) {
+        if (JcTable::isValid($value) || Jc::isValid($value)) {
             $this->alignment = $value;
         }
 

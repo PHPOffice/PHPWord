@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -36,9 +36,9 @@ abstract class AbstractPart
      */
     const READ_VALUE = 'attributeValue';            // Read attribute value
     const READ_EQUAL = 'attributeEquals';           // Read `true` when attribute value equals specified value
-    const READ_TRUE  = 'attributeTrue';             // Read `true` when element exists
+    const READ_TRUE = 'attributeTrue';              // Read `true` when element exists
     const READ_FALSE = 'attributeFalse';            // Read `false` when element exists
-    const READ_SIZE  = 'attributeMultiplyByTwo';    // Read special attribute value for Font::$size
+    const READ_SIZE = 'attributeMultiplyByTwo';     // Read special attribute value for Font::$size
 
     /**
      * Document file
@@ -82,7 +82,6 @@ abstract class AbstractPart
      * Set relationships.
      *
      * @param array $value
-     * @return void
      */
     public function setRels($value)
     {
@@ -96,7 +95,6 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @return void
      *
      * @todo Get font style for preserve text
      */
@@ -137,9 +135,8 @@ abstract class AbstractPart
                 }
             }
             $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
-
-        // List item
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
+            // List item
             $textContent = '';
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
             $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
@@ -148,18 +145,16 @@ abstract class AbstractPart
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
-
-        // Heading
         } elseif (!empty($headingMatches)) {
+            // Heading
             $textContent = '';
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addTitle($textContent, $headingMatches[1]);
-
-        // Text and TextRun
         } else {
+            // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
             $runLinkCount = $runCount + $linkCount;
@@ -167,14 +162,11 @@ abstract class AbstractPart
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
+                if ($runLinkCount > 1) {
+                    $parent = $parent->addTextRun($paragraphStyle);
+                }
                 foreach ($nodes as $node) {
-                    $this->readRun(
-                        $xmlReader,
-                        $node,
-                        ($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent,
-                        $docPart,
-                        $paragraphStyle
-                    );
+                    $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
                 }
             }
         }
@@ -188,7 +180,6 @@ abstract class AbstractPart
      * @param mixed $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
-     * @return void
      *
      * @todo Footnote paragraph style
      */
@@ -208,25 +199,26 @@ abstract class AbstractPart
                 $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
             }
         } else {
-            // Footnote
             if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
+                // Footnote
                 $parent->addFootnote();
-
-            // Endnote
             } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
+                // Endnote
                 $parent->addEndnote();
-
-            // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
+                // Image
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    if ('External' == $this->getTargetMode($docPart, $rId)) {
+                        $imageSource = $target;
+                    } else {
+                        $imageSource = "zip://{$this->docFile}#{$target}";
+                    }
                     $parent->addImage($imageSource);
                 }
-
-            // Object
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
+                // Object
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
@@ -234,9 +226,8 @@ abstract class AbstractPart
                     $textContent = "<Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
-
-            // TextRun
             } else {
+                // TextRun
                 $textContent = $xmlReader->getValue('w:t', $domNode);
                 $parent->addText($textContent, $fontStyle, $paragraphStyle);
             }
@@ -250,7 +241,6 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @return void
      */
     protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {
@@ -266,7 +256,6 @@ abstract class AbstractPart
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
-
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
@@ -282,7 +271,6 @@ abstract class AbstractPart
                 foreach ($rowNodes as $rowNode) {
                     if ('w:trPr' == $rowNode->nodeName) { // Row style
                         // @todo Do something with row style
-
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
@@ -319,18 +307,20 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
-            'alignment'       => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
-            'next'            => array(self::READ_VALUE, 'w:next'),
-            'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'         => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'      => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'     => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'    => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'        => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'       => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore' => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'styleName'         => array(self::READ_VALUE, 'w:pStyle'),
+            'alignment'         => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
+            'next'              => array(self::READ_VALUE, 'w:next'),
+            'indent'            => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'           => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'        => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'       => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'      => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'          => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'         => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore'   => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'contextualSpacing' => array(self::READ_TRUE,  'w:contextualSpacing'),
+            'bidi'              => array(self::READ_TRUE,  'w:bidi'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -374,6 +364,9 @@ abstract class AbstractPart
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
+            'font-latin'          => array(self::READ_VALUE,  'w:font', 'w:val'),
+            'font-eastAsia'       => array(self::READ_VALUE,  'w:font', 'w:eastAsia'),
+            'font-bidi'           => array(self::READ_VALUE,  'w:font', 'w:bidi'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -510,5 +503,23 @@ abstract class AbstractPart
         }
 
         return $target;
+    }
+
+    /**
+     * Returns the target mode
+     *
+     * @param string $docPart
+     * @param string $rId
+     * @return string|null
+     */
+    private function getTargetMode($docPart, $rId)
+    {
+        $mode = null;
+
+        if (isset($this->rels[$docPart]) && isset($this->rels[$docPart][$rId])) {
+            $mode = $this->rels[$docPart][$rId]['targetMode'];
+        }
+
+        return $mode;
     }
 }
