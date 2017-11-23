@@ -63,11 +63,20 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     public function testDocumentProtection()
     {
         $oSettings = new Settings();
-        $oSettings->setDocumentProtection(new Protection());
+        $oSettings->setDocumentProtection(new Protection('trackedChanges'));
         $this->assertNotNull($oSettings->getDocumentProtection());
 
-        $oSettings->getDocumentProtection()->setEditing('trackedChanges');
         $this->assertEquals('trackedChanges', $oSettings->getDocumentProtection()->getEditing());
+    }
+
+    /**
+     * Test setting an invalid salt
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidSalt()
+    {
+        $p = new Protection();
+        $p->setSalt('123');
     }
 
     /**

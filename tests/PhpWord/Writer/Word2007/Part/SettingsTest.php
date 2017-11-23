@@ -58,15 +58,15 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test document protection with password
-     *
-     * Note: to get comparison values, a docx was generated in Word2010 and the values taken from the settings.xml
      */
     public function testDocumentProtectionWithPassword()
     {
         $phpWord = new PhpWord();
-        $phpWord->getProtection()->setEditing('readOnly');
-        $phpWord->getProtection()->setPassword('testÄö@€!$&');
-        $phpWord->getProtection()->setSalt(base64_decode("uq81pJRRGFIY5U+E9gt8tA=="));
+        $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
+        $phpWord->getSettings()->getDocumentProtection()->setPassword('testÄö@€!$&');
+        $phpWord->getSettings()->getDocumentProtection()->setSalt(base64_decode('uq81pJRRGFIY5U+E9gt8tA=='));
+        $phpWord->getSettings()->getDocumentProtection()->setMswordAlgorithmSid(1);
+        $phpWord->getSettings()->getDocumentProtection()->setSpinCount(10);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -74,7 +74,28 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
 
         $path = '/w:settings/w:documentProtection';
         $this->assertTrue($doc->elementExists($path, $file));
-        $this->assertEquals($doc->getElement($path, $file)->getAttribute('w:hash'), "RA9jfY/u3DX114PMcl+uSekxsYk=");
+        $this->assertEquals('rUuJbk6LuN2/qFyp7IUPQA==', $doc->getElement($path, $file)->getAttribute('w:hash'));
+        $this->assertEquals('1', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
+        $this->assertEquals('10', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
+    }
+
+    /**
+     * Test document protection with password only
+     */
+    public function testDocumentProtectionWithPasswordOnly()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
+        $phpWord->getSettings()->getDocumentProtection()->setPassword('testÄö@€!$&');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:documentProtection';
+        $this->assertTrue($doc->elementExists($path, $file));
+        $this->assertEquals('4', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
+        $this->assertEquals('100000', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
     }
 
     /**

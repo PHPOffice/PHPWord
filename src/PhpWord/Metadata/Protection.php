@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Metadata;
 
+use PhpOffice\PhpWord\SimpleType\DocProtect;
+
 /**
  * Document protection class
  *
@@ -38,28 +40,28 @@ class Protection
      *
      * @var string
      */
-    private $password = '';
+    private $password;
 
     /**
-     * Number of hashing iterations
+     * Iterations to Run Hashing Algorithm
      *
      * @var int
      */
     private $spinCount = 100000;
 
     /**
-     * Algorithm-SID (see to \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
+     * Cryptographic Hashing Algorithm (see to \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
      *
      * @var int
      */
     private $mswordAlgorithmSid = 4;
 
     /**
-     * salt
+     * Salt for Password Verifier
      *
      * @var string
      */
-    private $salt = '';
+    private $salt;
 
     /**
      * Create a new instance
@@ -68,7 +70,9 @@ class Protection
      */
     public function __construct($editing = null)
     {
-        $this->setEditing($editing);
+        if ($editing != null) {
+            $this->setEditing($editing);
+        }
     }
 
     /**
@@ -84,11 +88,12 @@ class Protection
     /**
      * Set editing protection
      *
-     * @param string $editing
+     * @param string $editing Any value of \PhpOffice\PhpWord\SimpleType\DocProtect
      * @return self
      */
     public function setEditing($editing = null)
     {
+        DocProtect::validate($editing);
         $this->editing = $editing;
 
         return $this;
@@ -177,12 +182,12 @@ class Protection
      * Set salt. Salt HAS to be 16 characters, or an exception will be thrown.
      *
      * @param $salt
-     * @return self
      * @throws \InvalidArgumentException
+     * @return self
      */
     public function setSalt($salt)
     {
-        if ($salt !== null && strlen($salt) !== 16){
+        if ($salt !== null && strlen($salt) !== 16) {
             throw new \InvalidArgumentException('salt has to be of exactly 16 bytes length');
         }
 
