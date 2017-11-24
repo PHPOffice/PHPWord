@@ -75,8 +75,8 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidSalt()
     {
-        $p = new Protection();
-        $p->setSalt('123');
+        $protection = new Protection();
+        $protection->setSalt('123');
     }
 
     /**

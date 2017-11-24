@@ -98,8 +98,10 @@ class PasswordEncoder
         //   For each character, if the low byte is not equal to 0, take it. Otherwise, take the high byte.
         $passUtf8 = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
         $byteChars = array();
+
         for ($i = 0; $i < mb_strlen($password); $i++) {
             $byteChars[$i] = ord(substr($passUtf8, $i * 2, 1));
+
             if ($byteChars[$i] == 0) {
                 $byteChars[$i] = ord(substr($passUtf8, $i * 2 + 1, 1));
             }
@@ -189,6 +191,7 @@ class PasswordEncoder
     /**
      * Simulate behaviour of (signed) int32
      *
+     * @codeCoverageIgnore
      * @param int $value
      * @return int
      */

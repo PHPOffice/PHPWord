@@ -80,25 +80,6 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test document protection with password only
-     */
-    public function testDocumentProtectionWithPasswordOnly()
-    {
-        $phpWord = new PhpWord();
-        $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
-        $phpWord->getSettings()->getDocumentProtection()->setPassword('testÄö@€!$&');
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        $file = 'word/settings.xml';
-
-        $path = '/w:settings/w:documentProtection';
-        $this->assertTrue($doc->elementExists($path, $file));
-        $this->assertEquals('4', $doc->getElement($path, $file)->getAttribute('w:cryptAlgorithmSid'));
-        $this->assertEquals('100000', $doc->getElement($path, $file)->getAttribute('w:cryptSpinCount'));
-    }
-
-    /**
      * Test compatibility
      */
     public function testCompatibility()
