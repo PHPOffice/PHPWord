@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Exception;
  * @coversDefaultClass \PhpOffice\PhpWord\Exception\Exception
  * @runTestsInSeparateProcesses
  */
-class ExceptionTest extends \PHPUnit_Framework_TestCase
+class ExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Throw new exception
@@ -33,6 +33,6 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowException()
     {
-        throw new Exception;
+        throw new Exception();
     }
 }

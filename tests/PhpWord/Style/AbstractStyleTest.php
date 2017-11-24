@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @runTestsInSeparateProcesses
  */
-class AbstractStyleTest extends \PHPUnit_Framework_TestCase
+class AbstractStyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test set style by array
@@ -56,8 +56,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
     {
         $stub = $this->getMockForAbstractClass('\PhpOffice\PhpWord\Style\AbstractStyle');
 
-        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
-        $this->assertEquals(false, self::callProtectedMethod($stub, 'setBoolVal', array('a', false)));
+        $this->assertNotTrue(self::callProtectedMethod($stub, 'setBoolVal', array('a', false)));
         $this->assertEquals(200, self::callProtectedMethod($stub, 'setIntVal', array('foo', 200)));
         $this->assertEquals(2.1, self::callProtectedMethod($stub, 'setFloatVal', array('foo', 2.1)));
         $this->assertEquals('b', self::callProtectedMethod($stub, 'setEnumVal', array(null, array('a', 'b'), 'b')));
@@ -87,6 +86,7 @@ class AbstractStyleTest extends \PHPUnit_Framework_TestCase
         $class = new \ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
         $method->setAccessible(true);
+
         return $method->invokeArgs($object, $args);
     }
 }

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -28,10 +28,10 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
  */
 class Frame extends AbstractStyle
 {
+    const PHP_32BIT_INT_MAX = 2147483647;
+
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -41,9 +41,8 @@ class Frame extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $maxIndex = PHP_INT_MAX > 251659264 ? 251659264 : PHP_INT_MAX;
-
-        $zIndices = array(FrameStyle::WRAP_INFRONT => $maxIndex, FrameStyle::WRAP_BEHIND => -$maxIndex);
+        $maxZIndex = min(PHP_INT_MAX, self::PHP_32BIT_INT_MAX);
+        $zIndices = array(FrameStyle::WRAP_INFRONT => $maxZIndex, FrameStyle::WRAP_BEHIND => -$maxZIndex);
 
         $properties = array(
             'width'     => 'width',
@@ -64,7 +63,7 @@ class Frame extends AbstractStyle
 
         $styles = array_merge($sizeStyles, $posStyles);
 
-       // zIndex for infront & behind wrap
+        // zIndex for infront & behind wrap
         $wrap = $style->getWrap();
         if ($wrap !== null && isset($zIndices[$wrap])) {
             $styles['z-index'] = $zIndices[$wrap];
@@ -79,8 +78,6 @@ class Frame extends AbstractStyle
 
     /**
      * Write alignment.
-     *
-     * @return void
      */
     public function writeAlignment()
     {
@@ -110,7 +107,6 @@ class Frame extends AbstractStyle
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Frame $style
      * @param string $wrap
-     * @return void
      */
     private function writeWrap(XMLWriter $xmlWriter, FrameStyle $style, $wrap)
     {
@@ -131,8 +127,8 @@ class Frame extends AbstractStyle
             $vPos = $style->getVPosRelTo();
 
             if ($pos == FrameStyle::POS_ABSOLUTE) {
-                $xmlWriter->writeAttribute('anchorx', "page");
-                $xmlWriter->writeAttribute('anchory', "page");
+                $xmlWriter->writeAttribute('anchorx', 'page');
+                $xmlWriter->writeAttribute('anchory', 'page');
             } elseif ($pos == FrameStyle::POS_RELATIVE) {
                 if (isset($relativePositions[$hPos])) {
                     $xmlWriter->writeAttribute('anchorx', $relativePositions[$hPos]);

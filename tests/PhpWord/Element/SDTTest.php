@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Element\SDT
  */
-class SDTTest extends \PHPUnit_Framework_TestCase
+class SDTTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance
@@ -32,14 +32,20 @@ class SDTTest extends \PHPUnit_Framework_TestCase
         $types = array('comboBox', 'dropDownList', 'date');
         $type = $types[rand(0, 2)];
         $value = rand(0, 100);
+        $alias = 'alias';
+        $tag = 'my_tag';
         $object = new SDT($type);
         $object->setValue($value);
         $object->setListItems($types);
+        $object->setAlias($alias);
+        $object->setTag($tag);
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\SDT', $object);
         $this->assertEquals($type, $object->getType());
         $this->assertEquals($types, $object->getListItems());
         $this->assertEquals($value, $object->getValue());
+        $this->assertEquals($alias, $object->getAlias());
+        $this->assertEquals($tag, $object->getTag());
     }
 
     /**
