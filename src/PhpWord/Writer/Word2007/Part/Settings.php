@@ -147,6 +147,7 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackMoves', $documentSettings->hasDoNotTrackMoves());
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
+        $this->setOnOffValue('w:updateFields', $documentSettings->hasUpdateFields());
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());

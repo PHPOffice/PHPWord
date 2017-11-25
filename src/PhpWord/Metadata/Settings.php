@@ -117,6 +117,13 @@ class Settings
     private $themeFontLang;
 
     /**
+     * Automatically Recalculate Fields on Open
+     *
+     * @var bool
+     */
+    private $updateFields = false;
+
+    /**
      * Radix Point for Field Code Evaluation
      *
      * @var string
@@ -343,6 +350,22 @@ class Settings
     public function setThemeFontLang($themeFontLang)
     {
         $this->themeFontLang = $themeFontLang;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUpdateFields()
+    {
+        return $this->updateFields;
+    }
+
+    /**
+     * @param bool $updateFields
+     */
+    public function setUpdateFields($updateFields)
+    {
+        $this->updateFields = $updateFields === null ? false : $updateFields;
     }
 
     /**
