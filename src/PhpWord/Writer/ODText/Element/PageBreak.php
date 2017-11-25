@@ -18,11 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * Text element writer
- *
- * @since 0.10.0
+ * PageBreak element writer
  */
-class Link extends AbstractElement
+class PageBreak extends AbstractElement
 {
     /**
      * Write element
@@ -30,23 +28,9 @@ class Link extends AbstractElement
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
-        $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Link) {
-            return;
-        }
 
-        if (!$this->withoutP) {
-            $xmlWriter->startElement('text:p'); // text:p
-        }
-
-        $xmlWriter->startElement('text:a');
-        $xmlWriter->writeAttribute('xlink:type', 'simple');
-        $xmlWriter->writeAttribute('xlink:href', $element->getSource());
-        $this->writeText($element->getText());
-        $xmlWriter->endElement(); // text:a
-
-        if (!$this->withoutP) {
-            $xmlWriter->endElement(); // text:p
-        }
+        $xmlWriter->startElement('text:p');
+        $xmlWriter->writeAttribute('text:style-name', 'P1');
+        $xmlWriter->endElement();
     }
 }

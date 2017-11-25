@@ -3,7 +3,7 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.14.0 (?? ???? 2017)
+v0.14.0 (?? Dec 2017)
 ----------------------
 This release fixes several bugs and adds some new features.
 This is the last version to support PHP 5.3
@@ -20,6 +20,7 @@ This is the last version to support PHP 5.3
 - Add support for HTML underline tag <u> in addHtml - @zNightFalLz #1186
 - Allow to change cell width unit - @guillaume-ro-fr #986
 - Allow to change the line height rule @troosan
+- Implement PageBreak for odt writer @cookiekiller #863 #824
 - Allow to force an update of all fields on opening a document - @troosan #951
 
 ### Fixed
