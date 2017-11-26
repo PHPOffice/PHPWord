@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 
 /**
  * Text element writer

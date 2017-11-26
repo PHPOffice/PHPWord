@@ -351,7 +351,7 @@ class ZipArchive
      * Returns the name of an entry using its index (emulate \ZipArchive)
      *
      * @param int $index
-     * @return string
+     * @return string|bool
      * @since 0.10.0
      */
     public function pclzipGetNameIndex($index)
