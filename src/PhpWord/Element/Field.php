@@ -98,7 +98,7 @@ class Field extends AbstractElement
      * @param string $type
      * @param array $properties
      * @param array $options
-     * @param TextRun|string $text
+     * @param TextRun|string|null $text
      */
     public function __construct($type = null, $properties = array(), $options = array(), $text = null)
     {
@@ -209,7 +209,7 @@ class Field extends AbstractElement
      * @param string|TextRun $text
      *
      * @throws \InvalidArgumentException
-     * @return string|TextRun
+     * @return null|string|TextRun
      */
     public function setText($text)
     {
