@@ -63,8 +63,7 @@ Paragraph
 
 Available Paragraph style options:
 
-- ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+- ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012. See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``basedOn``. Parent style.
 - ``hanging``. Hanging by how much.
 - ``indent``. Indent by how much.
