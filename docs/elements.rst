@@ -135,12 +135,12 @@ Text breaks are empty new lines. To add text breaks, use the following syntax. A
 Page breaks
 ~~~~~~~~~~~
 
-There are two ways to insert a page breaks, using the ``addPageBreak``
+There are two ways to insert a page break, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-:: code-block:: php
+.. code-block:: php
 
-    \\$section->addPageBreak();
+    $section->addPageBreak();
 
 Lists
 -----
@@ -297,7 +297,7 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\\Style\\TOC.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
 - ``tabPos``. The position of the tab where the page number appears in twips.
 - ``indent``. The indent factor of the titles in twips.
 
@@ -414,8 +414,8 @@ Line elements can be added to sections by using ``addLine``.
 
 .. code-block:: php
 
-    $linestyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
-    $section->addLine($lineStyle)
+    $lineStyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
+    $section->addLine($lineStyle);
 
 Available line style attributes:
 
@@ -432,7 +432,7 @@ Comments
 ---------
 
 Comments can be added to a document by using ``addComment``.
-The comment can contain formatted text. Once the comment has been added, it can be linked to any to any element.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
 
 .. code-block:: php
 

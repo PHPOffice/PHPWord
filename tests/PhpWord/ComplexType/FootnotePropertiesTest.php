@@ -10,14 +10,13 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\ComplexType;
 
-use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
@@ -26,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
  * @coversDefaultClass \PhpOffice\PhpWord\ComplexType\FootnoteProperties
  * @runTestsInSeparateProcesses
  */
-class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
+class FootnotePropertiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value
@@ -52,7 +51,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongPos()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setPos(NumberFormat::LOWER_ROMAN);
     }
 
@@ -63,7 +62,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongNumFmt()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumFmt(FootnoteProperties::POSITION_DOC_END);
     }
 
@@ -74,7 +73,7 @@ class FootnotePropertiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongNumRestart()
     {
-        $footnoteProp= new FootnoteProperties();
+        $footnoteProp = new FootnoteProperties();
         $footnoteProp->setNumRestart(NumberFormat::LOWER_ROMAN);
     }
 }

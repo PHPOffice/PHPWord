@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -31,7 +31,6 @@ class Styles extends AbstractPart
      * Read styles.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {
@@ -64,14 +63,12 @@ class Styles extends AbstractPart
                             }
                         }
                         break;
-
                     case 'character':
                         $fontStyle = $this->readFontStyle($xmlReader, $node);
                         if (!empty($fontStyle)) {
                             $phpWord->addFontStyle($name, $fontStyle);
                         }
                         break;
-
                     case 'table':
                         $tStyle = $this->readTableStyle($xmlReader, $node);
                         if (!empty($tStyle)) {

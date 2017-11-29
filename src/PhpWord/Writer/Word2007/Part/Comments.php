@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -72,15 +72,16 @@ class Comments extends AbstractPart
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Comment $comment
-     * @return void
      */
     protected function writeComment(XMLWriter $xmlWriter, Comment $comment)
     {
         $xmlWriter->startElement('w:comment');
         $xmlWriter->writeAttribute('w:id', $comment->getElementId());
         $xmlWriter->writeAttribute('w:author', $comment->getAuthor());
-        $xmlWriter->writeAttribute('w:date', $comment->getDate()->format($this->dateFormat));
-        $xmlWriter->writeAttribute('w:initials', $comment->getInitials());
+        if ($comment->getDate() != null) {
+            $xmlWriter->writeAttribute('w:date', $comment->getDate()->format($this->dateFormat));
+        }
+        $xmlWriter->writeAttributeIf($comment->getInitials() != null, 'w:initials', $comment->getInitials());
 
         $containerWriter = new Container($xmlWriter, $comment);
         $containerWriter->write();

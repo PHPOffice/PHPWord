@@ -159,6 +159,15 @@ Or to predefined values ``fullPage``, ``bestFit``, ``textFit``
 
     $phpWord->getSettings()->setZoom(Zoom::BEST_FIT);
 
+Mirroring the Page Margins
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use mirror margins to set up facing pages for double-sided documents, such as books or magazines.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setMirrorMargins(true);
+
+
 Spelling and grammatical checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -262,3 +271,12 @@ points to twips.
     $sectionStyle->setMarginLeft(\PhpOffice\PhpWord\Shared\Converter::inchToTwip(.5));
     // 2 cm right margin
     $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
+
+Automatically Recalculate Fields on Open
+----------------------------------------
+
+To force an update of the fields present in the document, set updateFields to true
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setUpdateFields(true);

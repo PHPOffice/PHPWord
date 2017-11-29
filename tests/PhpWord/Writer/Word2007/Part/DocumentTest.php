@@ -10,25 +10,29 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+use PhpOffice\PhpWord\Metadata\DocInfo;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Cell;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Document
  *
  * @runTestsInSeparateProcesses
  */
-class DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -36,6 +40,31 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         TestHelperDOCX::clear();
+    }
+
+    /**
+     * Write custom properties
+     */
+    public function testWriteCustomProps()
+    {
+        $phpWord = new PhpWord();
+        $docInfo = $phpWord->getDocInfo();
+
+        $docInfo->setCustomProperty('key1', null);
+        $docInfo->setCustomProperty('key2', true);
+        $docInfo->setCustomProperty('key3', 3);
+        $docInfo->setCustomProperty('key4', 4.4);
+        $docInfo->setCustomProperty('key5', 'value5');
+        $docInfo->setCustomProperty('key6', new \DateTime());
+        $docInfo->setCustomProperty('key7', time(), DocInfo::PROPERTY_TYPE_DATE);
+
+        TestHelperDOCX::getDocument($phpWord);
+
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key3"]/vt:i4'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key4"]/vt:r8'));
+//         $this->assertTrue($doc->elementExists('/Properties/property[name="key5"]/vt:lpwstr'));
     }
 
     /**
@@ -458,7 +487,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         // Test the attributes
         $attributeCount = 0;
         foreach ($attributes as $key => $value) {
-            $attributeCount++;
+            ++$attributeCount;
             $nodeName = ($key == 'alignment') ? 'jc' : $key;
             $path = "/w:document/w:body/w:p[{$attributeCount}]/w:pPr/w:{$nodeName}";
             if ('alignment' != $key) {
@@ -506,6 +535,25 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that if no color is set on a cell a border gets writen with the default color
+     */
+    public function testWriteDefaultColor()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $cStyles['borderTopSize'] = 120;
+
+        $table = $section->addTable();
+        $table->addRow();
+        $cell = $table->addCell(null, $cStyles);
+        $cell->addText('Test');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertEquals(Cell::DEFAULT_BORDER_COLOR, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr/w:tc/w:tcPr/w:tcBorders/w:top', 'w:color'));
+    }
+
+    /**
      * covers ::_writeTableStyle
      */
     public function testWriteTableStyle()
@@ -538,7 +586,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
         $section = $phpWord->addSection();
         $table = $section->addTable($tStyles);
-        $table->setWidth = 100;
+        $table->setWidth(100);
         $table->addRow($rHeight, $rStyles);
         $cell = $table->addCell($cWidth, $cStyles);
         $cell->addText('Test');

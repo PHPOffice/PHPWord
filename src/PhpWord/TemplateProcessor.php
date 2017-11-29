@@ -37,7 +37,7 @@ class TemplateProcessor
      * Enable/disable setValue('key') becoming setValue('${key}') automatically.
      * Call it like: TemplateProcessor::$ensureMacroCompletion = false;
      *
-     * @var boolean
+     * @var bool
      */
     public static $ensureMacroCompletion = true;
 
@@ -49,35 +49,35 @@ class TemplateProcessor
     protected $zipClass;
 
     /**
-     * @var string Temporary document filename (with path).
+     * @var string Temporary document filename (with path)
      */
     protected $tempDocumentFilename;
 
     /**
-     * Content of main document part (in XML format) of the temporary document.
+     * Content of main document part (in XML format) of the temporary document
      *
      * @var string
      */
     protected $tempDocumentMainPart;
 
     /**
-     * Content of headers (in XML format) of the temporary document.
+     * Content of headers (in XML format) of the temporary document
      *
      * @var string[]
      */
     protected $tempDocumentHeaders = array();
 
     /**
-     * Content of footers (in XML format) of the temporary document.
+     * Content of footers (in XML format) of the temporary document
      *
      * @var string[]
      */
     protected $tempDocumentFooters = array();
 
     /**
-     * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception.
+     * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
-     * @param string $documentTemplate The fully qualified template filename.
+     * @param string $documentTemplate The fully qualified template filename
      *
      * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
      * @throws \PhpOffice\PhpWord\Exception\CopyFileException
@@ -119,9 +119,9 @@ class TemplateProcessor
      * @param string $xml
      * @param \XSLTProcessor $xsltProcessor
      *
-     * @return string
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return string
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
@@ -167,8 +167,6 @@ class TemplateProcessor
      * @param array $xslOptions
      * @param string $xslOptionsUri
      *
-     * @return void
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
     public function applyXslStyleSheet($xslDomDocument, $xslOptions = array(), $xslOptionsUri = '')
@@ -186,8 +184,8 @@ class TemplateProcessor
     }
 
     /**
-     * @param string  $macro If written as VALUE it will return ${VALUE} if static::$ensureMacroCompletion
-     * @param boolean $closing False by default, if set to true, will add  ${/  }  around the macro
+     * @param string $macro If written as VALUE it will return ${VALUE} if static::$ensureMacroCompletion
+     * @param bool $closing False by default, if set to true, will add  ${/  }  around the macro
      *
      * @return string
      */
@@ -217,9 +215,7 @@ class TemplateProcessor
     /**
      * @param mixed $search macro name you want to replace (or an array of these)
      * @param mixed $replace replace string (or an array of these)
-     * @param integer $limit How many times it will have to replace the same variable all over the document.
-     *
-     * @return void
+     * @param int $limit How many times it will have to replace the same variable all over the document.
      */
     public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
@@ -269,9 +265,9 @@ class TemplateProcessor
     /**
      * Replaces a closed block with text
      *
-     * @param string  $blockname The blockname without '${}'. Your macro must end with slash, i.e.: ${value/}
-     * @param mixed   $replace Array or the text can be multiline (contain \n). It will cloneBlock().
-     * @param integer $limit
+     * @param string $blockname The blockname without '${}'. Your macro must end with slash, i.e.: ${value/}
+     * @param mixed $replace Array or the text can be multiline (contain \n). It will cloneBlock().
+     * @param int $limit
      *
      * @return void
      */
@@ -308,7 +304,7 @@ class TemplateProcessor
      * If $throwException is true, it throws an exception, else it returns $elseReturn
      *
      * @param string $exceptionText
-     * @param bool   $throwException
+     * @param bool $throwException
      * @param mixed $elseReturn
      *
      * @return mixed
@@ -347,9 +343,9 @@ class TemplateProcessor
     /**
      * Clone a string and enumerate ( i.e. ${macro#1} )
      *
-     * @param string  $text Must be a variable as we use references for speed
-     * @param integer $numberOfClones How many times $text needs to be duplicated
-     * @param bool    $incrementVariables If true, the macro's inside the string get numerated
+     * @param string $text Must be a variable as we use references for speed
+     * @param int $numberOfClones How many times $text needs to be duplicated
+     * @param bool $incrementVariables If true, the macro's inside the string get numerated
      *
      * @return string
      */
@@ -369,11 +365,11 @@ class TemplateProcessor
     /**
      * Process a table row in a template document.
      *
-     * @param string  $search
-     * @param integer $numberOfClones
-     * @param mixed   $replace (true to clone, or a string to replace)
-     * @param bool    $incrementVariables
-     * @param bool    $throwException
+     * @param string $search
+     * @param int $numberOfClones
+     * @param mixed $replace (true to clone, or a string to replace)
+     * @param bool $incrementVariables
+     * @param bool $throwException
      *
      * @return string|false Returns the row cloned or false if the $search macro is not found
      *
@@ -425,10 +421,10 @@ class TemplateProcessor
     /**
      * Clone a table row in a template document.
      *
-     * @param string  $search
-     * @param integer $numberOfClones
-     * @param bool    $incrementVariables
-     * @param bool    $throwException
+     * @param string $search
+     * @param int $numberOfClones
+     * @param bool $incrementVariables
+     * @param bool $throwException
      *
      * @return mixed Returns true if row cloned succesfully or or false if the $search macro is not found
      *
@@ -446,8 +442,8 @@ class TemplateProcessor
     /**
      * Get a row. (first block found)
      *
-     * @param string  $search
-     * @param boolean $throwException
+     * @param string $search
+     * @param bool $throwException
      *
      * @return string|null
      */
@@ -461,7 +457,7 @@ class TemplateProcessor
      *
      * @param string  $search a macro name in a table row
      * @param string  $replacement The replacement <w:tr> xml string. Be careful and keep the xml uncorrupted.
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed true (replaced), false ($search not found) or null (no tags found around $search)
      */
@@ -486,10 +482,10 @@ class TemplateProcessor
      * process a block.
      *
      * @param string  $blockname The blockname without '${}'
-     * @param integer $clones
+     * @param int $clones
      * @param mixed $replace
-     * @param boolean $incrementVariables
-     * @param boolean $throwException
+     * @param bool $incrementVariables
+     * @param bool $throwException
      *
      * @return mixed The cloned string if successful, false ($blockname not found) or Null (no paragraph found)
      *
@@ -578,9 +574,9 @@ class TemplateProcessor
      * Clone a block.
      *
      * @param string  $blockname The blockname without '${}', it will search for '${BLOCKNAME}' and '${/BLOCKNAME}
-     * @param integer $clones How many times the block needs to be cloned
-     * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param int $clones How many times the block needs to be cloned
+     * @param bool $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed True if successful, false ($blockname not found) or null (no paragraph found)
      *
@@ -598,8 +594,8 @@ class TemplateProcessor
     /**
      * Get a block. (first block found)
      *
-     * @param string  $blockname The blockname without '${}'
-     * @param boolean $throwException false by default
+     * @param string $blockname The blockname without '${}'
+     * @param bool $throwException false by default
      *
      * @return mixed a string when $blockname is found, false ($blockname not found) or null (no paragraph found)
      */
@@ -611,9 +607,9 @@ class TemplateProcessor
     /**
      * Replace a block.
      *
-     * @param string  $blockname The name of the macro start and end (without the macro marker ${})
-     * @param string  $replacement The replacement xml
-     * @param boolean $throwException false by default.
+     * @param string $blockname The name of the macro start and end (without the macro marker ${})
+     * @param string $replacement The replacement xml
+     * @param bool $throwException false by default.
      *
      * @return mixed false-ish on no replacement, true-ish on replacement
      */
@@ -637,14 +633,14 @@ class TemplateProcessor
     /**
      * process a segment.
      *
-     * @param string  $needle  If this is a macro, you need to add the ${} around it yourself.
-     * @param string  $xmltag  an xml tag without brackets, for example:  w:p
-     * @param integer $direction  in which direction should be searched. -1 left, 1 right. Default 0: around
-     * @param integer $clones  How many times the segment needs to be cloned
-     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
-     * @param mixed   $replace true (default/cloneSegment) false(getSegment) string(replaceSegment) function(callback)
-     * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param string $needle  If this is a macro, you need to add the ${} around it yourself.
+     * @param string $xmltag  an xml tag without brackets, for example:  w:p
+     * @param int $direction  in which direction should be searched. -1 left, 1 right. Default 0: around
+     * @param int $clones  How many times the segment needs to be cloned
+     * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
+     * @param mixed $replace true (default/cloneSegment) false(getSegment) string(replaceSegment) function(callback)
+     * @param bool $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed The segment(getSegment), false (no $needle), null (no tags), true (clone/replace)
      */
@@ -719,11 +715,11 @@ class TemplateProcessor
      *
      * @param string  $needle  If this is a macro, you need to add the ${} around it yourself.
      * @param string  $xmltag  an xml tag without brackets, for example:  w:p
-     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
-     * @param integer $clones  How many times the segment needs to be cloned
-     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
-     * @param boolean $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param int $direction in which direction should be searched. -1 left, 1 right. Default 0: around
+     * @param int $clones  How many times the segment needs to be cloned
+     * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
+     * @param bool $incrementVariables true by default (variables get appended #1, #2 inside the cloned blocks)
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed Returns true when succesfully cloned, false (no $needle found), null (no tags found)
      */
@@ -751,11 +747,11 @@ class TemplateProcessor
     /**
      * Get a segment. (first segment found)
      *
-     * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
-     * @param string  $xmltag an xml tag without brackets, for example:  w:p
-     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
-     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param string $needle If this is a macro, you need to add the ${} around it yourself.
+     * @param string $xmltag an xml tag without brackets, for example:  w:p
+     * @param int $direction in which direction should be searched. -1 left, 1 right. Default 0: around
+     * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:1' (first header)
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed Segment String, false ($needle not found) or null (no tags found around $needle)
      */
@@ -767,12 +763,12 @@ class TemplateProcessor
     /**
      * Replace a segment.
      *
-     * @param string  $needle If this is a macro, you need to add the ${} around it yourself.
-     * @param string  $xmltag an xml tag without brackets, for example:  w:p
-     * @param integer $direction in which direction should be searched. -1 left, 1 right. Default 0: around
-     * @param string  $replacement The replacement xml string. Be careful and keep the xml uncorrupted.
-     * @param string  $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
-     * @param boolean $throwException false by default (it then returns false or null on errors).
+     * @param string $needle If this is a macro, you need to add the ${} around it yourself.
+     * @param string $xmltag an xml tag without brackets, for example:  w:p
+     * @param int $direction in which direction should be searched. -1 left, 1 right. Default 0: around
+     * @param string $replacement The replacement xml string. Be careful and keep the xml uncorrupted.
+     * @param string $docPart 'MainPart' (default) 'Footers:1' (first footer) or 'Headers:2' (second header)
+     * @param bool $throwException false by default (it then returns false or null on errors).
      *
      * @return mixed true (replaced), false ($needle not found) or null (no tags found around $needle)
      */
@@ -845,8 +841,6 @@ class TemplateProcessor
      * @since 0.8.0
      *
      * @param string $fileName
-     *
-     * @return void
      */
     public function saveAs($fileName)
     {
@@ -871,7 +865,7 @@ class TemplateProcessor
      * Macros, while being edited, could be implicitly broken by some of the word processors.
      * In order to limit side-effects, we limit matches to only inside (inner) paragraphs
      *
-     * @param string $documentPart The document part in XML representation.
+     * @param string $documentPart The document part in XML representation
      *
      * @return string
      */
@@ -898,10 +892,10 @@ class TemplateProcessor
     /**
      * Find and replace macros in the given XML section.
      *
-     * @param mixed   $search
-     * @param mixed   $replace
-     * @param mixed  $documentPartXML Array or string (Header/Footer)
-     * @param integer $limit
+     * @param mixed $search
+     * @param mixed $replace
+     * @param mixed $documentPartXML Array or string (Header/Footer)
+     * @param int $limit
      *
      * @return mixed
      */
@@ -920,10 +914,10 @@ class TemplateProcessor
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
-        } else {
-            $regExpEscaper = new RegExp();
-            return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);
         }
+        $regExpEscaper = new RegExp();
+
+        return preg_replace($regExpEscaper->escape($search), $replace, $documentPartXML, $limit);
     }
 
     /**
@@ -943,7 +937,7 @@ class TemplateProcessor
     /**
      * Get the name of the header file for $index.
      *
-     * @param integer $index
+     * @param int $index
      *
      * @return string
      */
@@ -963,7 +957,7 @@ class TemplateProcessor
     /**
      * Get the name of the footer file for $index.
      *
-     * @param integer $index
+     * @param int $index
      *
      * @return string
      */
@@ -975,16 +969,15 @@ class TemplateProcessor
     /**
      * Find the start position of the nearest tag before $offset.
      *
-     * @param string  $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
-     * @param string  $tag  Fully qualified tag, for example: '<w:p>' (with brackets!)
-     * @param integer $offset Do not look from the beginning, but starting at $offset
-     * @param boolean $throwException
+     * @param string $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
+     * @param string $tag  Fully qualified tag, for example: '<w:p>' (with brackets!)
+     * @param int $offset Do not look from the beginning, but starting at $offset
+     * @param bool $throwException
      *
-     * @return integer Zero if not found (due to the nature of xml, your document never starts at 0)
+     * @return int Zero if not found (due to the nature of xml, your document never starts at 0)
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-
     protected function findOpenTagLeft(&$searchString, $tag, $offset = 0, $throwException = false)
     {
         $tagStart = strrpos(
@@ -1055,11 +1048,11 @@ class TemplateProcessor
     /**
      * Find the end position of the nearest $tag after $offset.
      *
-     * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
-     * @param string  $tag  Fully qualified tag, for example: '</w:p>'
-     * @param integer $offset Do not look from the beginning, but starting at $offset
+     * @param string $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
+     * @param string $tag  Fully qualified tag, for example: '</w:p>'
+     * @param int $offset Do not look from the beginning, but starting at $offset
      *
-     * @return integer Zero if not found
+     * @return int Zero if not found
      */
     protected function findCloseTagLeft(&$searchString, $tag, $offset = 0)
     {
@@ -1096,9 +1089,9 @@ class TemplateProcessor
     /**
      * Get a slice of a string.
      *
-     * @param string  $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
-     * @param integer $startPosition
-     * @param integer $endPosition
+     * @param string $searchString The string we are searching in (the MainPart or an array element of Footers/Headers)
+     * @param int $startPosition
+     * @param int $endPosition
      *
      * @return string
      */

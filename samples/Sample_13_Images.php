@@ -23,7 +23,7 @@ $section->addImage($source);
 // Image from string
 $source = 'resources/_mars.jpg';
 $fileContent = file_get_contents($source);
-$section->addText("Image from string");
+$section->addText('Image from string');
 $section->addImage($fileContent);
 
 //Wrapping style

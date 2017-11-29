@@ -10,16 +10,17 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\TestHelperDOCX;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Numbering
@@ -28,7 +29,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
  * @runTestsInSeparateProcesses
  * @since 0.10.0
  */
-class NumberingTest extends \PHPUnit_Framework_TestCase
+class NumberingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -64,7 +65,7 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
                         'font'      => 'Arial',
                         'hint'      => 'default',
                     ),
-                )
+                ),
             )
         );
 

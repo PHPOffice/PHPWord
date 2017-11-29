@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -119,17 +119,17 @@ class DocInfo
      */
     public function __construct()
     {
-        $this->creator        = '';
+        $this->creator = '';
         $this->lastModifiedBy = $this->creator;
-        $this->created        = time();
-        $this->modified       = time();
-        $this->title          = '';
-        $this->subject        = '';
-        $this->description    = '';
-        $this->keywords       = '';
-        $this->category       = '';
-        $this->company        = '';
-        $this->manager        = '';
+        $this->created = time();
+        $this->modified = time();
+        $this->title = '';
+        $this->subject = '';
+        $this->description = '';
+        $this->keywords = '';
+        $this->category = '';
+        $this->company = '';
+        $this->manager = '';
     }
 
     /**
@@ -399,7 +399,7 @@ class DocInfo
      * Check if a Custom Property is defined
      *
      * @param string $propertyName
-     * @return boolean
+     * @return bool
      */
     public function isCustomPropertySet($propertyName)
     {
@@ -410,15 +410,15 @@ class DocInfo
      * Get a Custom Property Value
      *
      * @param string $propertyName
-     * @return string
+     * @return mixed
      */
     public function getCustomPropertyValue($propertyName)
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['value'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -431,9 +431,9 @@ class DocInfo
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['type'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -456,7 +456,7 @@ class DocInfo
             self::PROPERTY_TYPE_FLOAT,
             self::PROPERTY_TYPE_STRING,
             self::PROPERTY_TYPE_DATE,
-            self::PROPERTY_TYPE_BOOLEAN
+            self::PROPERTY_TYPE_BOOLEAN,
         );
         if (($propertyType === null) || (!in_array($propertyType, $propertyTypes))) {
             if ($propertyValue === null) {
@@ -467,6 +467,8 @@ class DocInfo
                 $propertyType = self::PROPERTY_TYPE_INTEGER;
             } elseif (is_bool($propertyValue)) {
                 $propertyType = self::PROPERTY_TYPE_BOOLEAN;
+            } elseif ($propertyValue instanceof \DateTime) {
+                $propertyType = self::PROPERTY_TYPE_DATE;
             } else {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             }
@@ -474,8 +476,9 @@ class DocInfo
 
         $this->customProperties[$propertyName] = array(
             'value' => $propertyValue,
-            'type' => $propertyType
+            'type'  => $propertyType,
         );
+
         return $this;
     }
 

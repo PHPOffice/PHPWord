@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Element;
  * Form field element
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
  */
 class FormField extends Text
 {
@@ -73,6 +73,7 @@ class FormField extends Text
      */
     public function __construct($type, $fontStyle = null, $paragraphStyle = null)
     {
+        parent::__construct(null, $fontStyle, $paragraphStyle);
         $this->setType($type);
     }
 

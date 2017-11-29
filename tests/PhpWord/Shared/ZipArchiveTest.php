@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,9 +25,8 @@ use PhpOffice\PhpWord\Settings;
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\ZipArchive
  * @runTestsInSeparateProcesses
  */
-class ZipArchiveTest extends \PHPUnit_Framework_TestCase
+class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * Test close method exception: Working in local, not working in Travis
      *

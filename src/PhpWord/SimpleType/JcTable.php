@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,8 +25,6 @@ use PhpOffice\PhpWord\Shared\AbstractEnum;
  * Introduced in ISO/IEC-29500:2008.
  *
  * @since 0.13.0
- *
- * @codeCoverageIgnore
  */
 final class JcTable extends AbstractEnum
 {
