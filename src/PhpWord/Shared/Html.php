@@ -182,7 +182,7 @@ class Html
     {
         if ('li' != $node->nodeName) {
             $cNodes = $node->childNodes;
-            if (count($cNodes) > 0) {
+            if (!empty($cNodes)) {
                 foreach ($cNodes as $cNode) {
                     if ($element instanceof AbstractContainer || $element instanceof Table || $element instanceof Row) {
                         self::parseNode($cNode, $element, $styles, $data);
@@ -389,7 +389,7 @@ class Html
     private static function parseListItem($node, $element, &$styles, $data)
     {
         $cNodes = $node->childNodes;
-        if (count($cNodes) > 0) {
+        if (!empty($cNodes)) {
             $text = '';
             foreach ($cNodes as $cNode) {
                 if ($cNode->nodeName == '#text') {

@@ -48,7 +48,7 @@ class Border extends AbstractStyle
         $content = '';
 
         $sides = array('top', 'left', 'right', 'bottom');
-        $sizeCount = count($this->sizes) - 1;
+        $sizeCount = count($this->sizes);
 
         // Page border measure
         // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off

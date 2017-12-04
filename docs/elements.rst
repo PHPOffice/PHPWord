@@ -297,7 +297,7 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\\Style\\TOC.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
 - ``tabPos``. The position of the tab where the page number appears in twips.
 - ``indent``. The indent factor of the titles in twips.
 

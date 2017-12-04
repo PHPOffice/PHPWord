@@ -410,7 +410,7 @@ class DocInfo
      * Get a Custom Property Value
      *
      * @param string $propertyName
-     * @return string
+     * @return mixed
      */
     public function getCustomPropertyValue($propertyName)
     {

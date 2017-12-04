@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Style\Paragraph;
-
 /**
  * Endnote element
  *
@@ -38,6 +36,6 @@ class Endnote extends Footnote
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        parent::__construct($paragraphStyle);
     }
 }

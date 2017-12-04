@@ -137,7 +137,7 @@ class Image extends AbstractElement
         $this->setIsWatermark($watermark);
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
 
-        $this->checkImage($source);
+        $this->checkImage();
     }
 
     /**
