@@ -9,6 +9,7 @@ php:
     - 5.6
     - 7.0
     - 7.1
+    - 7.2
 
 matrix:
     include:
@@ -17,6 +18,7 @@ matrix:
     allow_failures:
         - php: 7.0
         - php: 7.1
+        - php: 7.2
 
 cache:
     directories:
