@@ -77,7 +77,7 @@ class Settings extends AbstractPart
     {
         if ($settingValue == '') {
             $xmlWriter->writeElement($settingKey);
-        } else {
+        } elseif (is_array($settingValue) && !empty($settingValue)) {
             $xmlWriter->startElement($settingKey);
 
             /** @var array $settingValue Type hint */
@@ -148,13 +148,14 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackMoves', $documentSettings->hasDoNotTrackMoves());
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
+        $this->setOnOffValue('w:updateFields', $documentSettings->hasUpdateFields());
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
-        $this->getCompatibility();
+        $this->setCompatibility();
     }
 
     /**
@@ -236,6 +237,7 @@ class Settings extends AbstractPart
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
         if ($trackChangesView != null) {
+            $revisionView = array();
             $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true' : 'false';
             $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true' : 'false';
             $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true' : 'false';
@@ -279,7 +281,7 @@ class Settings extends AbstractPart
     /**
      * Get compatibility setting.
      */
-    private function getCompatibility()
+    private function setCompatibility()
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {

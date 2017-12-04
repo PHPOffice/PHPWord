@@ -282,3 +282,12 @@ The document (or parts of it) can be password protected.
     $documentProtection = $phpWord->getSettings()->getDocumentProtection();
     $documentProtection->setEditing(DocProtect::READ_ONLY);
     $documentProtection->setPassword('myPassword');
+
+Automatically Recalculate Fields on Open
+----------------------------------------
+
+To force an update of the fields present in the document, set updateFields to true
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setUpdateFields(true);

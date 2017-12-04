@@ -73,7 +73,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pixelToPoint($value);
             $this->assertEquals($value / 96 * 72, $result);
 
-            $result = Converter::pixelToEMU($value);
+            $result = Converter::pixelToEmu($value);
             $this->assertEquals(round($value * 9525), $result);
 
             $result = Converter::pointToTwip($value);
@@ -82,7 +82,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pointToPixel($value);
             $this->assertEquals($value / 72 * 96, $result);
 
-            $result = Converter::pointToEMU($value);
+            $result = Converter::pointToEmu($value);
             $this->assertEquals(round($value / 72 * 96 * 9525), $result);
 
             $result = Converter::emuToPixel($value);
@@ -111,7 +111,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $values[] = array('0F9D', false); // 4 characters
         // Conduct test
         foreach ($values as $value) {
-            $result = Converter::htmlToRGB($value[0]);
+            $result = Converter::htmlToRgb($value[0]);
             $this->assertEquals($value[1], $result);
         }
     }

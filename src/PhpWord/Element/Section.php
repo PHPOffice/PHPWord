@@ -142,7 +142,7 @@ class Section extends AbstractContainer
     /**
      * Get the footnote properties
      *
-     * @return \PhpOffice\PhpWord\Element\FooterProperties
+     * @return FootnoteProperties
      */
     public function getFootnotePropoperties()
     {

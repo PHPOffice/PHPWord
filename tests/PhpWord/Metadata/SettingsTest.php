@@ -162,4 +162,14 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings->setZoom(Zoom::FULL_PAGE);
         $this->assertEquals('fullPage', $oSettings->getZoom());
     }
+
+    /**
+     * Test Update Fields on update
+     */
+    public function testUpdateFields()
+    {
+        $oSettings = new Settings();
+        $oSettings->setUpdateFields(true);
+        $this->assertTrue($oSettings->hasUpdateFields());
+    }
 }
