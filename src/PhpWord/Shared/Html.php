@@ -395,6 +395,9 @@ class Html
                 if ($cNode->nodeName == '#text') {
                     $text = $cNode->nodeValue;
                 }
+                else {
+                    $text = $cNode->textContent;
+                }
             }
             //ideally we should be parsing child nodes for any style, for now just take the text
             if ('' == trim($text) && '' != trim($node->textContent)) {
