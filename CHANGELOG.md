@@ -26,7 +26,7 @@ This is the last version to support PHP 5.3
 ### Fixed
 - Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
-- Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed some PHP 7 warnings - @likeuntomurphy #927
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
 - Fixed image loading over https - @troosan #988
 - Impossibility to set different even and odd page headers - @troosan #981
@@ -40,6 +40,9 @@ This is the last version to support PHP 5.3
 - Padded the $args array to remove error - @kaigoh #1150, @reformed #870
 - Fix incorrect image size between windows and mac - @bskrtich #874
 - Fix adding HTML table to document - @mogilvie @arivanbastos #324
+
+###Deprecated
+- PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
 
 v0.13.0 (31 July 2016)
 -------------------

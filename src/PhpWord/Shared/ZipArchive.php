@@ -140,7 +140,8 @@ class ZipArchive
         } else {
             $zip = new \PclZip($this->filename);
             $this->tempDir = Settings::getTempDir();
-            $this->numFiles = count($zip->listContent());
+            $zipContent = $zip->listContent();
+            $this->numFiles = is_array($zipContent) ? count($zipContent) : 0;
         }
         $this->zip = $zip;
 
