@@ -527,9 +527,9 @@ class Html
 
     /**
      * Parse line break
-    *
-    * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-    */
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
     private static function parseLineBreak($element)
     {
         $element->addTextBreak();
