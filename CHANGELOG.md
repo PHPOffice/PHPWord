@@ -22,6 +22,7 @@ This is the last version to support PHP 5.3
 - Allow to change the line height rule @troosan
 - Implement PageBreak for odt writer @cookiekiller #863 #824
 - Allow to force an update of all fields on opening a document - @troosan #951
+- Allow adding a CheckBox in a TextRun - @irond #727
 
 ### Fixed
 - Loosen dependency to Zend
@@ -41,7 +42,7 @@ This is the last version to support PHP 5.3
 - Fix incorrect image size between windows and mac - @bskrtich #874
 - Fix adding HTML table to document - @mogilvie @arivanbastos #324
 
-###Deprecated
+### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
 
 v0.13.0 (31 July 2016)

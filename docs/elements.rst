@@ -39,13 +39,15 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 16    | CheckBox        | v         | v        | v        | v       | -          | -          |
+| 16    | CheckBox        | v         | v        | v        | v       | v          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 17    | TextBox         | v         | v        | v        | v       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 18    | Field           | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 19    | Line            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 20    | Chart           | v         |          |          | v       |            |            |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
@@ -408,7 +410,7 @@ For instance for the INDEX field, you can do the following (See `Index Field for
     $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
 
 Line
-------
+----
 
 Line elements can be added to sections by using ``addLine``.
 
@@ -428,8 +430,21 @@ Available line style attributes:
 - ``height``. Line-object height in pt.
 - ``flip``. Flip the line element: true, false.
 
+Chart
+-----
+
+Charts can be added using
+
+.. code-block:: php
+
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series = array(1, 3, 2, 5, 4);
+    $chart = $section->addChart('line', $categories, $series);
+
+check out the Sample_32_Chart.php for more options and styling.
+
 Comments
----------
+--------
 
 Comments can be added to a document by using ``addComment``.
 The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
