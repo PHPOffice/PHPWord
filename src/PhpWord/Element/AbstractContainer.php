@@ -212,7 +212,7 @@ abstract class AbstractContainer extends AbstractElement
             'Title'         => array('Section'),
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
-            'Chart'         => array('Section'),
+            'Chart'         => array('Section', 'Cell'),
         );
 
         // Special condition, e.g. preservetext can only exists in cell when
