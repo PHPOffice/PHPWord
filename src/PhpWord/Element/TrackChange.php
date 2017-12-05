@@ -37,7 +37,7 @@ class TrackChange extends AbstractContainer
     /**
      * Date
      *
-     * @var DateTime
+     * @var \DateTime
      */
     private $date;
 

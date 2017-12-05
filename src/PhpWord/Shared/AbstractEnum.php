@@ -48,7 +48,7 @@ abstract class AbstractEnum
     /**
      * Returns true the value is valid for this enum
      *
-     * @param strign $value
+     * @param string $value
      * @return bool true if value is valid
      */
     public static function isValid($value)
