@@ -2224,7 +2224,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     {
         foreach ($this->arraySections as $itmSection) {
             $oSection = $this->phpWord->addSection();
-            $oSection->setSettings($itmSection->styleSection);
+            $oSection->setStyle($itmSection->styleSection);
 
             $sHYPERLINK = '';
             foreach ($this->arrayParagraphs as $itmParagraph) {
