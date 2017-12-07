@@ -91,7 +91,7 @@ class Settings
     /**
      * Spelling and Grammatical Checking State
      *
-     * @var \PhpOffice\PhpWord\Metadata\ProofState
+     * @var \PhpOffice\PhpWord\ComplexType\ProofState
      */
     private $proofState;
 
@@ -115,6 +115,13 @@ class Settings
      * @var Language
      */
     private $themeFontLang;
+
+    /**
+     * Automatically Recalculate Fields on Open
+     *
+     * @var bool
+     */
+    private $updateFields = false;
 
     /**
      * Radix Point for Field Code Evaluation
@@ -343,6 +350,22 @@ class Settings
     public function setThemeFontLang($themeFontLang)
     {
         $this->themeFontLang = $themeFontLang;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUpdateFields()
+    {
+        return $this->updateFields;
+    }
+
+    /**
+     * @param bool $updateFields
+     */
+    public function setUpdateFields($updateFields)
+    {
+        $this->updateFields = $updateFields === null ? false : $updateFields;
     }
 
     /**

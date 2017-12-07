@@ -20,12 +20,12 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
- * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Font
+ * Test class for PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Font
+ * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Style\Paragraph
  * @runTestsInSeparateProcesses
  */
-class FontTest extends \PHPUnit\Framework\TestCase
+class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -38,31 +38,15 @@ class FontTest extends \PHPUnit\Framework\TestCase
     /**
      * Test write styles
      */
-    public function testFontRTL()
+    public function testParagraphNumbering()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addParagraphStyle('testStyle', array('indent' => '10'));
         $section = $phpWord->addSection();
-        $textrun = $section->addTextRun();
-        $textrun->addText('سلام این یک پاراگراف راست به چپ است', array('rtl' => true));
+        $section->addText('test', null, array('numStyle' => 'testStyle', 'numLevel' => '1'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
-        $file = 'word/document.xml';
-        $path = '/w:document/w:body/w:p/w:r/w:rPr/w:rtl';
-        $this->assertTrue($doc->elementExists($path, $file));
-    }
-
-    /**
-     * Test writing font with language
-     */
-    public function testFontWithLang()
-    {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $section->addText('Ce texte-ci est en français.', array('lang' => \PhpOffice\PhpWord\Style\Language::FR_BE));
-        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-
-        $file = 'word/document.xml';
-        $path = '/w:document/w:body/w:p/w:r/w:rPr/w:lang';
-        $this->assertTrue($doc->elementExists($path, $file));
+        $path = '/w:document/w:body/w:p/w:pPr/w:numPr/w:ilvl';
+        $this->assertTrue($doc->elementExists($path));
     }
 }

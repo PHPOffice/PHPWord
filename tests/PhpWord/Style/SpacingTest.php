@@ -31,10 +31,10 @@ class SpacingTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Spacing();
         $properties = array(
-            'before' => array(null, 10),
-            'after'  => array(null, 10),
-            'line'   => array(null, 10),
-            'rule'   => array('auto', 'exact'),
+            'before'   => array(null, 10),
+            'after'    => array(null, 10),
+            'line'     => array(null, 10),
+            'lineRule' => array('auto', 'exact'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

@@ -15,30 +15,22 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\Word2007\Style;
+namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 /**
- * Shading style writer
- *
- * @since 0.10.0
+ * PageBreak element writer
  */
-class Shading extends AbstractStyle
+class PageBreak extends AbstractElement
 {
     /**
-     * Write style.
+     * Write element
      */
     public function write()
     {
-        $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Shading) {
-            return;
-        }
         $xmlWriter = $this->getXmlWriter();
 
-        $xmlWriter->startElement('w:shd');
-        $xmlWriter->writeAttributeIf(!is_null($style->getPattern()), 'w:val', $style->getPattern());
-        $xmlWriter->writeAttributeIf(!is_null($style->getColor()), 'w:color', $style->getColor());
-        $xmlWriter->writeAttributeIf(!is_null($style->getFill()), 'w:fill', $style->getFill());
+        $xmlWriter->startElement('text:p');
+        $xmlWriter->writeAttribute('text:style-name', 'P1');
         $xmlWriter->endElement();
     }
 }

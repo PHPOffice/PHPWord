@@ -3,7 +3,7 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.14.0 (?? ???? 2017)
+v0.14.0 (?? Dec 2017)
 ----------------------
 This release fixes several bugs and adds some new features.
 This is the last version to support PHP 5.3
@@ -17,11 +17,18 @@ This is the last version to support PHP 5.3
 - Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
 - Support for Comments - @troosan #1067
 - Support for paragraph textAlignment - @troosan #1165
+- Add support for HTML underline tag <u> in addHtml - @zNightFalLz #1186
+- Add support for HTML <br> in addHtml - @anrikun @troosan #659
+- Allow to change cell width unit - guillaume-ro-fr #986
+- Allow to change the line height rule @troosan
+- Implement PageBreak for odt writer @cookiekiller #863 #824
+- Allow to force an update of all fields on opening a document - @troosan #951
+- Allow adding a CheckBox in a TextRun - @irond #727
 
 ### Fixed
 - Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
-- Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed some PHP 7 warnings - @likeuntomurphy #927
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
 - Fixed image loading over https - @troosan #988
 - Impossibility to set different even and odd page headers - @troosan #981
@@ -34,6 +41,11 @@ This is the last version to support PHP 5.3
 - Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
 - Padded the $args array to remove error - @kaigoh #1150, @reformed #870
 - Fix incorrect image size between windows and mac - @bskrtich #874
+- Fix adding HTML table to document - @mogilvie @arivanbastos #324
+
+### Deprecated
+- PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).

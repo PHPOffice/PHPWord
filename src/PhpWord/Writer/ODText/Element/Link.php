@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
  * Text element writer
  *
@@ -44,11 +42,7 @@ class Link extends AbstractElement
         $xmlWriter->startElement('text:a');
         $xmlWriter->writeAttribute('xlink:type', 'simple');
         $xmlWriter->writeAttribute('xlink:href', $element->getSource());
-        if (Settings::isOutputEscapingEnabled()) {
-            $xmlWriter->text($element->getText());
-        } else {
-            $xmlWriter->writeRaw($element->getText());
-        }
+        $this->writeText($element->getText());
         $xmlWriter->endElement(); // text:a
 
         if (!$this->withoutP) {

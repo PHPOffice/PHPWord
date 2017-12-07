@@ -20,15 +20,26 @@ namespace PhpOffice\PhpWord\SimpleType;
 use PhpOffice\PhpWord\Shared\AbstractEnum;
 
 /**
- * Table Alignment Type.
+ * Line Spacing Rule
  *
- * Introduced in ISO/IEC-29500:2008.
+ * @since 0.14.0
  *
- * @since 0.13.0
+ * @see http://www.datypic.com/sc/ooxml/t-w_ST_LineSpacingRule.html
  */
-final class JcTable extends AbstractEnum
+final class LineSpacingRule extends AbstractEnum
 {
-    const START = 'start';
-    const CENTER = 'center';
-    const END = 'end';
+    /**
+     * Automatically Determined Line Height
+     */
+    const AUTO = 'auto';
+
+    /**
+     * Exact Line Height
+     */
+    const EXACT = 'exact';
+
+    /**
+     * Minimum Line Height
+     */
+    const AT_LEAST = 'atLeast';
 }

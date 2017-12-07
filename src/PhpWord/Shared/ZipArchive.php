@@ -140,7 +140,8 @@ class ZipArchive
             $this->numFiles = $zip->numFiles;
         } else {
             $zip = new \PclZip($this->filename);
-            $this->numFiles = count($zip->listContent());
+            $zipContent = $zip->listContent();
+            $this->numFiles = is_array($zipContent) ? count($zipContent) : 0;
         }
         $this->zip = $zip;
 
@@ -357,7 +358,7 @@ class ZipArchive
      * Returns the name of an entry using its index (emulate \ZipArchive)
      *
      * @param int $index
-     * @return string
+     * @return string|bool
      * @since 0.10.0
      */
     public function pclzipGetNameIndex($index)

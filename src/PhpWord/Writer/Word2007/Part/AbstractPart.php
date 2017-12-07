@@ -89,4 +89,19 @@ abstract class AbstractPart
 
         return new XMLWriter(XMLWriter::STORAGE_MEMORY, './', Settings::hasCompatibility());
     }
+
+    /**
+     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled()
+     *
+     * @param string $content The text string to write
+     * @return bool Returns true on success or false on failure
+     */
+    protected function writeText($content)
+    {
+        if (Settings::isOutputEscapingEnabled()) {
+            return $this->getXmlWriter()->text($content);
+        }
+
+        return $this->getXmlWriter()->writeRaw($content);
+    }
 }

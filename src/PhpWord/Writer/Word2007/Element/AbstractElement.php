@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\Common\Text as CommonText;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Abstract element writer
@@ -139,10 +140,10 @@ abstract class AbstractElement
     {
         if ($this->element->getCommentRangeEnd() != null) {
             $comment = $this->element->getCommentRangeEnd();
-            //only set the ID if it is not yet set, otherwise it will overwrite it
+            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
             if ($comment->getElementId() == null) {
-                $comment->setElementId();
-            }
+                $comment->setElementId(); // @codeCoverageIgnore
+            } // @codeCoverageIgnore
 
             $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
             $this->xmlWriter->startElement('w:r');
@@ -150,10 +151,10 @@ abstract class AbstractElement
             $this->xmlWriter->endElement();
         } elseif ($this->element->getCommentRangeStart() != null && $this->element->getCommentRangeStart()->getEndElement() == null) {
             $comment = $this->element->getCommentRangeStart();
-            //only set the ID if it is not yet set, otherwise it will overwrite it
+            //only set the ID if it is not yet set, otherwise it will overwrite it, this should normally not happen
             if ($comment->getElementId() == null) {
-                $comment->setElementId();
-            }
+                $comment->setElementId(); // @codeCoverageIgnore
+            } // @codeCoverageIgnore
 
             $this->xmlWriter->writeElementBlock('w:commentRangeEnd', array('w:id' => $comment->getElementId()));
             $this->xmlWriter->startElement('w:r');
@@ -207,5 +208,20 @@ abstract class AbstractElement
     protected function getText($text)
     {
         return CommonText::controlCharacterPHP2OOXML($text);
+    }
+
+    /**
+     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled()
+     *
+     * @param string $content The text string to write
+     * @return bool Returns true on success or false on failure
+     */
+    protected function writeText($content)
+    {
+        if (Settings::isOutputEscapingEnabled()) {
+            return $this->getXmlWriter()->text($content);
+        }
+
+        return $this->getXmlWriter()->writeRaw($content);
     }
 }

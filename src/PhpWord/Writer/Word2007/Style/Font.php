@@ -59,6 +59,7 @@ class Font extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
             return;
         }
+
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:rPr');
@@ -103,6 +104,7 @@ class Font extends AbstractStyle
 
         // Bold, italic
         $xmlWriter->writeElementIf($style->isBold(), 'w:b');
+        $xmlWriter->writeElementIf($style->isBold(), 'w:bCs');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:i');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:iCs');
 

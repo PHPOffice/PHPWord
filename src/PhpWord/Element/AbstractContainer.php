@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Text addText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method TextRun addTextRun(mixed $pStyle = null)
  * @method Bookmark addBookmark(string $name)
- * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null)
+ * @method Link addLink(string $target, string $text = null, mixed $fStyle = null, mixed $pStyle = null, boolean $internal = false)
  * @method PreserveText addPreserveText(string $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method void addTextBreak(int $count = 1, mixed $fStyle = null, mixed $pStyle = null)
  * @method ListItem addListItem(string $txt, int $depth = 0, mixed $font = null, mixed $list = null, mixed $para = null)
@@ -157,8 +157,6 @@ abstract class AbstractContainer extends AbstractElement
      * Get all elements
      *
      * @return array
-     *
-     * @codeCoverageIgnore
      */
     public function getElements()
     {
@@ -206,7 +204,7 @@ abstract class AbstractContainer extends AbstractElement
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
-            'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell'),
+            'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell', 'TextRun'),
             'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
             'Footnote'      => array('Section', 'TextRun', 'Cell'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
@@ -214,7 +212,7 @@ abstract class AbstractContainer extends AbstractElement
             'Title'         => array('Section'),
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
-            'Chart'         => array('Section'),
+            'Chart'         => array('Section', 'Cell'),
         );
 
         // Special condition, e.g. preservetext can only exists in cell when

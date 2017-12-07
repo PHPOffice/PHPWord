@@ -38,6 +38,7 @@ class MPDFTest extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Test 1');
+        $section->addPageBreak();
 
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -71,6 +72,7 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
             'indent'            => 1,
             'hanging'           => 1,
             'spacing'           => 120,
+            'spacingLineRule'   => LineSpacingRule::AT_LEAST,
             'basedOn'           => 'Normal',
             'next'              => 'Normal',
             'numStyle'          => 'numStyle',

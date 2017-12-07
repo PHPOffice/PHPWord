@@ -83,6 +83,7 @@ class ContentTest extends \PHPUnit\Framework\TestCase
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
         $textrun->addText('Test text run');
+        $section->addPageBreak();
 
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}');

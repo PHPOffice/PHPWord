@@ -26,6 +26,7 @@ class Converter
     const INCH_TO_TWIP = 1440;
     const INCH_TO_PIXEL = 96;
     const INCH_TO_POINT = 72;
+    const INCH_TO_PICA = 6;
     const PIXEL_TO_EMU = 9525;
     const DEGREE_TO_ANGLE = 60000;
 
@@ -228,6 +229,17 @@ class Converter
     }
 
     /**
+     * Convert pica to point
+     *
+     * @param int $pica
+     * @return float
+     */
+    public static function picaToPoint($pica = 1)
+    {
+        return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+    }
+
+    /**
      * Convert degree to angle
      *
      * @param int $degree
@@ -274,5 +286,50 @@ class Converter
         $blue = hexdec($blue);
 
         return array($red, $green, $blue);
+    }
+
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to points
+     *
+     * @param string $value
+     * @return float
+     */
+    public static function cssToPoint($value)
+    {
+        if ($value == '0') {
+            return 0;
+        }
+        if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
+            $size = $matches[1];
+            $unit = $matches[2];
+
+            switch ($unit) {
+                case 'pt':
+                    return $size;
+                case 'px':
+                    return self::pixelToPoint($size);
+                case 'cm':
+                    return self::cmToPoint($size);
+                case 'mm':
+                    return self::cmToPoint($size / 10);
+                case 'in':
+                    return self::inchToPoint($size);
+                case 'pc':
+                    return self::picaToPoint($size);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to twips
+     *
+     * @param string $value
+     * @return float
+     */
+    public static function cssToTwip($value)
+    {
+        return self::pointToTwip(self::cssToPoint($value));
     }
 }

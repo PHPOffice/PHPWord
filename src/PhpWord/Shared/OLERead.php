@@ -110,15 +110,18 @@ class OLERead
 
         $bbdBlocks = $this->numBigBlockDepotBlocks;
 
+        // @codeCoverageIgnoreStart
         if ($this->numExtensionBlocks != 0) {
             $bbdBlocks = (self::BIG_BLOCK_SIZE - self::BIG_BLOCK_DEPOT_BLOCKS_POS)/4;
         }
-
+        // @codeCoverageIgnoreEnd
+        
         for ($i = 0; $i < $bbdBlocks; ++$i) {
             $bigBlockDepotBlocks[$i] = self::getInt4d($this->data, $pos);
             $pos += 4;
         }
 
+        // @codeCoverageIgnoreStart
         for ($j = 0; $j < $this->numExtensionBlocks; ++$j) {
             $pos = ($this->extensionBlock + 1) * self::BIG_BLOCK_SIZE;
             $blocksToRead = min($this->numBigBlockDepotBlocks - $bbdBlocks, self::BIG_BLOCK_SIZE / 4 - 1);
@@ -133,6 +136,7 @@ class OLERead
                 $this->extensionBlock = self::getInt4d($this->data, $pos);
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $pos = 0;
         $this->bigBlockChain = '';
@@ -196,7 +200,7 @@ class OLERead
             }
 
             if ($numBlocks == 0) {
-                return '';
+                return '';// @codeCoverageIgnore
             }
 
             $block = $this->props[$stream]['startBlock'];

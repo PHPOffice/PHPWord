@@ -85,8 +85,6 @@ class Section extends AbstractContainer
      * Get section style
      *
      * @return \PhpOffice\PhpWord\Style\Section
-     *
-     * @codeCoverageIgnore
      */
     public function getStyle()
     {
@@ -125,8 +123,6 @@ class Section extends AbstractContainer
      * Get header elements
      *
      * @return Header[]
-     *
-     * @codeCoverageIgnore
      */
     public function getHeaders()
     {
@@ -137,8 +133,6 @@ class Section extends AbstractContainer
      * Get footer elements
      *
      * @return Footer[]
-     *
-     * @codeCoverageIgnore
      */
     public function getFooters()
     {
@@ -148,7 +142,7 @@ class Section extends AbstractContainer
     /**
      * Get the footnote properties
      *
-     * @return \PhpOffice\PhpWord\Element\FooterProperties
+     * @return FootnoteProperties
      */
     public function getFootnotePropoperties()
     {

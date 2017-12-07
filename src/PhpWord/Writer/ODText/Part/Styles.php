@@ -52,8 +52,10 @@ class Styles extends AbstractPart
         // Automatic styles
         $xmlWriter->startElement('office:automatic-styles');
         $this->writePageLayout($xmlWriter);
+        $xmlWriter->endElement(); // office:automatic-styles
+
+        // Master style
         $this->writeMaster($xmlWriter);
-        $xmlWriter->endElement();
 
         $xmlWriter->endElement(); // office:document-styles
 

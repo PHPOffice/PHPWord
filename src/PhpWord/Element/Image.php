@@ -137,7 +137,7 @@ class Image extends AbstractElement
         $this->setIsWatermark($watermark);
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
 
-        $this->checkImage($source);
+        $this->checkImage();
     }
 
     /**
@@ -449,7 +449,7 @@ class Image extends AbstractElement
 
         $tempFilename = tempnam(Settings::getTempDir(), 'PHPWordImage');
         if (false === $tempFilename) {
-            throw new CreateTemporaryFileException();
+            throw new CreateTemporaryFileException(); // @codeCoverageIgnore
         }
 
         $zip = new ZipArchive();

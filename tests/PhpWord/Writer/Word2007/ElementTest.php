@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\Comment;
+use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -43,7 +45,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $elements = array(
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
             'Object', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
-            'Field', 'Line', 'Shape', 'Chart', 'FormField', 'SDT',
+            'Field', 'Line', 'Shape', 'Chart', 'FormField', 'SDT', 'Bookmark',
         );
         foreach ($elements as $element) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $element;
@@ -69,6 +71,87 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $element = '/w:document/w:body/w:p/w:r/w:pict/v:shapetype';
         $this->assertTrue($doc->elementExists($element));
+    }
+
+    /**
+     * Test bookmark element
+     */
+    public function testBookmark()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addBookmark('test_bookmark');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:bookmarkStart';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('test_bookmark', $doc->getElementAttribute($element, 'w:name'));
+
+        $element = '/w:document/w:body/w:bookmarkEnd';
+        $this->assertTrue($doc->elementExists($element));
+    }
+
+    /**
+     * Test link element
+     */
+    public function testLinkElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $section->addLink('https://github.com/PHPOffice/PHPWord');
+        $section->addLink('internal_link', null, null, null, true);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p[1]/w:hyperlink/w:r/w:t';
+        $this->assertTrue($doc->elementExists($element));
+
+        $element = '/w:document/w:body/w:p[2]/w:hyperlink/w:r/w:t';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals('internal_link', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:hyperlink', 'w:anchor'));
+    }
+
+    /**
+     * Basic test for table element
+     */
+    public function testTableElements()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER));
+        $table->addRow(900);
+        $table->addCell(2000)->addText('Row 1');
+        $table->addCell(2000)->addText('Row 2');
+        $table->addCell(2000)->addText('Row 3');
+        $table->addCell(2000)->addText('Row 4');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $tableRootElement = '/w:document/w:body/w:tbl';
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblGrid/w:gridCol'));
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:jc'));
+        $this->assertEquals('center', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:jc', 'w:val'));
+    }
+
+    /**
+     * Tests that the style name gets added
+     */
+    public function testTableWithStyleName()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $table = $section->addTable('my_predefined_style');
+        $table->setWidth(75);
+        $table->addRow(900);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $tableRootElement = '/w:document/w:body/w:tbl';
+        $this->assertTrue($doc->elementExists($tableRootElement . '/w:tblPr/w:tblStyle'));
+        $this->assertEquals('my_predefined_style', $doc->getElementAttribute($tableRootElement . '/w:tblPr/w:tblStyle', 'w:val'));
     }
 
     /**
@@ -249,14 +332,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $section->addFormField('textinput')->setName('MyTextBox');
         $section->addFormField('checkbox')->setDefault(true)->setValue('Your name');
+        $section->addFormField('checkbox')->setDefault(true);
         $section->addFormField('dropdown')->setEntries(array('Choice 1', 'Choice 2', 'Choice 3'));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
-        $path = '/w:document/w:body/w:p/w:r/w:fldChar/w:ffData';
-        $this->assertTrue($doc->elementExists($path . '/w:textInput'));
-        $this->assertTrue($doc->elementExists($path . '/w:checkBox'));
-        $this->assertTrue($doc->elementExists($path . '/w:ddList'));
+        $path = '/w:document/w:body/w:p[%d]/w:r/w:fldChar/w:ffData';
+        $this->assertTrue($doc->elementExists(sprintf($path, 1) . '/w:textInput'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 2) . '/w:checkBox'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 3) . '/w:checkBox'));
+        $this->assertTrue($doc->elementExists(sprintf($path, 4) . '/w:ddList'));
     }
 
     /**
@@ -288,5 +373,46 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
+    }
+
+    /**
+     * Test Comment element
+     */
+    public function testCommentWithoutEndElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $comment = new Comment('tester');
+        $phpWord->addComment($comment);
+
+        $element = $section->addText('this is a test');
+        $element->setCommentRangeStart($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
+    }
+
+    /**
+     * Test Comment element
+     */
+    public function testCommentWithEndElement()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $comment = new Comment('tester');
+        $phpWord->addComment($comment);
+
+        $element = $section->addText('this is a test');
+        $element->setCommentRangeStart($comment);
+        $element->setCommentRangeEnd($comment);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
     }
 }
