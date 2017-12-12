@@ -150,9 +150,11 @@ class TemplateProcessor
             foreach ($xml as &$item) {
                 $item = $this->transformSingleXml($item, $xsltProcessor);
             }
+
             return (array) $xml;
         }
         $xml = $this->transformSingleXml($xml, $xsltProcessor);
+
         return (string) $xml;
     }
 
@@ -311,6 +313,7 @@ class TemplateProcessor
         if ($throwException) {
             throw new Exception($exceptionText);
         }
+
         return $elseReturn;
     }
 
@@ -353,6 +356,7 @@ class TemplateProcessor
                 $result .= $text;
             }
         }
+
         return $result;
     }
 
@@ -404,6 +408,7 @@ class TemplateProcessor
                     }
                     $xmlSegment = substr($part, $segmentStart, ($segmentEnd - $segmentStart));
                 }
+
                 return $replace;
             },
             $incrementVariables,
@@ -555,6 +560,7 @@ class TemplateProcessor
                 $this->getSlice($this->tempDocumentMainPart, 0, $startBlockStart)
                 . $replace
                 . $this->getSlice($this->tempDocumentMainPart, $endBlockEnd);
+
             return true;
         }
 
@@ -645,7 +651,7 @@ class TemplateProcessor
         $throwException = false
     ) {
         $docPart = preg_split('/:/', $docPart);
-        if (count($docPart)>1) {
+        if (count($docPart) > 1) {
             $part = &$this->{'tempDocument' . $docPart[0]}[$docPart[1]];
         } else {
             $part = &$this->{'tempDocument' . $docPart[0]};
@@ -694,6 +700,7 @@ class TemplateProcessor
                 $this->getSlice($part, 0, $segmentStart)
                 . $replace
                 . $this->getSlice($part, $segmentEnd);
+
             return true;
         }
 
@@ -1000,7 +1007,7 @@ class TemplateProcessor
      * @param string  $searchString The string we are searching in (the mainbody or an array element of Footers/Headers)
      * @param string  $tag  Fully qualified tag, for example: '<w:p>' (with brackets!)
      * @param int $offset Do not look from the beginning, but starting at $offset
-     * @param boolean $throwException
+     * @param bool $throwException
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      * @return int Zero if not found (due to the nature of xml, your document never starts at 0)
@@ -1049,6 +1056,7 @@ class TemplateProcessor
         if ($pos !== false) {
             return $pos + strlen($tag);
         }
+
         return 0;
     }
 
@@ -1068,6 +1076,7 @@ class TemplateProcessor
         if ($pos !== false) {
             return $pos + strlen($tag);
         }
+
         return 0;
     }
 

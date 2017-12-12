@@ -34,6 +34,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         if ($newValue !== null) {
             $refProperty->setValue($object, $newValue);
         }
+
         return $refProperty;
     }
 
@@ -58,6 +59,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $class = new \ReflectionClass(get_class($object));
         $method = $class->getMethod($method);
         $method->setAccessible(true);
+
         return $method->invokeArgs($object, $args);
     }
 
@@ -377,13 +379,13 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(
                 array(),
                 $templateProcessorNewFile->getVariables(),
-                "All block variables should have been replaced"
+                'All block variables should have been replaced'
             );
             // we cloned block CLONEME $cloneTimes times, so let's count to $cloneTimes
             $this->assertEquals(
                 $cloneTimes,
                 substr_count($this->peek($templateProcessorNewFile, 'tempDocumentMainPart'), $xmlblock),
-                "Block should be present $cloneTimes in the document"
+                'Block should be present $cloneTimes in the document'
             );
             unlink($docName); // delete generated file
         }
@@ -422,7 +424,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $templateProcessor->cloneBlock('MYBLOCK', 4);
-        # detects new variables
+        // detects new variables
         $this->assertEquals(
             array('repeats#1', 'repeats#2', 'repeats#3', 'repeats#4'),
             $templateProcessor->getVariables(),
@@ -443,7 +445,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         // now we test the order of replacement: ONE,TWO,THREE then FOUR
-        $tmpStr = "";
+        $tmpStr = '';
         foreach ($variablesArray as $variable) {
             $tmpStr .= str_replace('${repeats}', $variable, $xmlTxt);
         }
@@ -478,7 +480,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
                 $this->peek($templateProcessor, 'tempDocumentMainPart'),
                 $xmlTxt . $xmlTxt . $xmlTxt . $xmlTxt
             ),
-            "The four times cloned block should be the same as four times the block"
+            'The four times cloned block should be the same as four times the block'
         );
     }
 
