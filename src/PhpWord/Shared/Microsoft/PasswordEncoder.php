@@ -32,7 +32,7 @@ class PasswordEncoder
     const ALGORITHM_RIPEMD = 'RIPEMD';
     const ALGORITHM_RIPEMD_160 = 'RIPEMD-160';
     const ALGORITHM_MAC = 'MAC';
-    const ALGORITHM_HMAC= 'HMAC';
+    const ALGORITHM_HMAC = 'HMAC';
 
     /**
      * Mapping between algorithm name and algorithm ID
@@ -41,17 +41,17 @@ class PasswordEncoder
      * @see https://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing.writeprotection.cryptographicalgorithmsid(v=office.14).aspx
      */
     private static $algorithmMapping = array(
-        self::ALGORITHM_MD2 => array(1, 'md2'),
-        self::ALGORITHM_MD4 => array(2, 'md4'),
-        self::ALGORITHM_MD5 => array(3, 'md5'),
-        self::ALGORITHM_SHA_1 => array(4, 'sha1'),
-        self::ALGORITHM_MAC => array(5, ''), // 'mac' -> not possible with hash()
-        self::ALGORITHM_RIPEMD => array(6, 'ripemd'),
+        self::ALGORITHM_MD2        => array(1, 'md2'),
+        self::ALGORITHM_MD4        => array(2, 'md4'),
+        self::ALGORITHM_MD5        => array(3, 'md5'),
+        self::ALGORITHM_SHA_1      => array(4, 'sha1'),
+        self::ALGORITHM_MAC        => array(5, ''), // 'mac' -> not possible with hash()
+        self::ALGORITHM_RIPEMD     => array(6, 'ripemd'),
         self::ALGORITHM_RIPEMD_160 => array(7, 'ripemd160'),
-        self::ALGORITHM_HMAC => array(9, ''), //'hmac' -> not possible with hash()
-        self::ALGORITHM_SHA_256 => array(12, 'sha256'),
-        self::ALGORITHM_SHA_384 => array(13, 'sha384'),
-        self::ALGORITHM_SHA_512 => array(14, 'sha512'),
+        self::ALGORITHM_HMAC       => array(9, ''), //'hmac' -> not possible with hash()
+        self::ALGORITHM_SHA_256    => array(12, 'sha256'),
+        self::ALGORITHM_SHA_384    => array(13, 'sha384'),
+        self::ALGORITHM_SHA_512    => array(14, 'sha512'),
     );
 
     private static $initialCodeArray = array(
@@ -99,10 +99,10 @@ class PasswordEncoder
      * @param string $password
      * @param string $algorithmName
      * @param string $salt
-     * @param integer $spinCount
+     * @param int $spinCount
      * @return string
      */
-    public static function hashPassword($password, $algorithmName = PasswordEncoder::ALGORITHM_SHA_1, $salt = null, $spinCount = 10000)
+    public static function hashPassword($password, $algorithmName = self::ALGORITHM_SHA_1, $salt = null, $spinCount = 10000)
     {
         $origEncoding = mb_internal_encoding();
         mb_internal_encoding('UTF-8');
