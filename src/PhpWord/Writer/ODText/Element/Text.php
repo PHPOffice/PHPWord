@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Settings;
 
 /**
  * Text element writer
@@ -58,11 +57,7 @@ class Text extends AbstractElement
             } elseif (is_string($paragraphStyle)) {
                 $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
             }
-            if (Settings::isOutputEscapingEnabled()) {
-                $xmlWriter->text($element->getText());
-            } else {
-                $xmlWriter->writeRaw($element->getText());
-            }
+            $this->writeText($element->getText());
         } else {
             if (empty($paragraphStyle)) {
                 $xmlWriter->writeAttribute('text:style-name', 'Standard');
@@ -74,11 +69,7 @@ class Text extends AbstractElement
             if (is_string($fontStyle)) {
                 $xmlWriter->writeAttribute('text:style-name', $fontStyle);
             }
-            if (Settings::isOutputEscapingEnabled()) {
-                $xmlWriter->text($element->getText());
-            } else {
-                $xmlWriter->writeRaw($element->getText());
-            }
+            $this->writeText($element->getText());
             $xmlWriter->endElement();
         }
         if (!$this->withoutP) {

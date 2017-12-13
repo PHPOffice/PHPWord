@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * List item element
@@ -61,7 +60,7 @@ class ListItemRun extends TextRun
         } else {
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        parent::__construct($paragraphStyle);
     }
 
     /**

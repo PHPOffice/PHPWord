@@ -99,6 +99,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 'FF0000';
         $object->setBorderColor($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Color";
             $values[] = $value;
@@ -121,6 +122,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 4;
         $object->setBorderSize($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Size";
             $values[] = $value;
@@ -143,6 +145,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 240;
         $object->setCellMargin($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getCellMargin{$part}";
             $values[] = $value;
