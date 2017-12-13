@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007
@@ -54,6 +55,13 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     {
         $filename = __DIR__ . '/../_files/documents/reader.docx';
         $phpWord = IOFactory::load($filename);
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        $this->assertTrue($phpWord->getSettings()->hasDoNotTrackMoves());
+        $this->assertFalse($phpWord->getSettings()->hasDoNotTrackFormatting());
+        $this->assertEquals(100, $phpWord->getSettings()->getZoom());
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b'));
     }
 }

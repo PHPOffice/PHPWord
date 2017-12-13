@@ -223,7 +223,7 @@ abstract class AbstractPart
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $textContent = "<Object: {$target}>";
+                    $textContent = "&lt;Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
             } else {
@@ -477,14 +477,26 @@ abstract class AbstractPart
         if (self::READ_SIZE == $method) {
             $style = $attributeValue / 2;
         } elseif (self::READ_TRUE == $method) {
-            $style = true;
+            $style = $this->isOn($attributeValue);
         } elseif (self::READ_FALSE == $method) {
-            $style = false;
+            $style = !$this->isOn($attributeValue);
         } elseif (self::READ_EQUAL == $method) {
             $style = $attributeValue == $expected;
         }
 
         return $style;
+    }
+
+    /**
+     * Parses the value of the on/off value, null is considered true as it means the w:val attribute was not present
+     *
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_OnOff.html
+     * @param string $value
+     * @return bool
+     */
+    private function isOn($value = null)
+    {
+        return $value == null || $value == '1' || $value == 'true' || $value == 'on';
     }
 
     /**
