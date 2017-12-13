@@ -51,7 +51,7 @@ class PasswordEncoderTest extends \PHPUnit\Framework\TestCase
         $salt = base64_decode('uq81pJRRGFIY5U+E9gt8tA==');
 
         //when
-        $hashPassword = PasswordEncoder::hashPassword($password, 4, $salt);
+        $hashPassword = PasswordEncoder::hashPassword($password, PasswordEncoder::ALGORITHM_SHA_1, $salt);
 
         //then
         TestCase::assertEquals('QiDOcpia1YzSVJPiKPwWebl9p/0=', $hashPassword);
@@ -67,7 +67,7 @@ class PasswordEncoderTest extends \PHPUnit\Framework\TestCase
         $salt = base64_decode('uq81pJRRGFIY5U+E9gt8tA==');
 
         //when
-        $hashPassword = PasswordEncoder::hashPassword($password, 5, $salt);
+        $hashPassword = PasswordEncoder::hashPassword($password, PasswordEncoder::ALGORITHM_MAC, $salt);
 
         //then
         TestCase::assertEquals('QiDOcpia1YzSVJPiKPwWebl9p/0=', $hashPassword);
@@ -83,7 +83,7 @@ class PasswordEncoderTest extends \PHPUnit\Framework\TestCase
         $salt = base64_decode('uq81pJRRGFIY5U+E9gt8tA==');
 
         //when
-        $hashPassword = PasswordEncoder::hashPassword($password, 5, $salt, 1);
+        $hashPassword = PasswordEncoder::hashPassword($password, PasswordEncoder::ALGORITHM_MAC, $salt, 1);
 
         //then
         TestCase::assertEquals('rDV9sgdDsztoCQlvRCb1lF2wxNg=', $hashPassword);

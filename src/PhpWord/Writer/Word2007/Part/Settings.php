@@ -193,7 +193,7 @@ class Settings extends AbstractPart
                 if ($documentProtection->getSalt() == null) {
                     $documentProtection->setSalt(openssl_random_pseudo_bytes(16));
                 }
-                $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getMswordAlgorithmSid(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
+                $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getAlgorithm(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
                 $this->settings['w:documentProtection'] = array(
                     '@attributes' => array(
                         'w:enforcement'         => 1,

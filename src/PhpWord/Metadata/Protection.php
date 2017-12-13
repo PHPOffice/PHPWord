@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Metadata;
 
 use PhpOffice\PhpWord\SimpleType\DocProtect;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 
 /**
  * Document protection class
@@ -50,11 +51,11 @@ class Protection
     private $spinCount = 100000;
 
     /**
-     * Cryptographic Hashing Algorithm (see to \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
+     * Cryptographic Hashing Algorithm (see constants defined in \PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder)
      *
-     * @var int
+     * @var string
      */
-    private $mswordAlgorithmSid = 4;
+    private $algorithm = PasswordEncoder::ALGORITHM_SHA_1;
 
     /**
      * Salt for Password Verifier
@@ -146,24 +147,24 @@ class Protection
     }
 
     /**
-     * Get algorithm-sid
+     * Get algorithm
      *
-     * @return int
+     * @return string
      */
-    public function getMswordAlgorithmSid()
+    public function getAlgorithm()
     {
-        return $this->mswordAlgorithmSid;
+        return $this->algorithm;
     }
 
     /**
-     * Set algorithm-sid (see \PhpOffice\PhpWord\Writer\Word2007\Part\Settings::$algorithmMapping)
+     * Set algorithm
      *
-     * @param $mswordAlgorithmSid
+     * @param $algorithm
      * @return self
      */
-    public function setMswordAlgorithmSid($mswordAlgorithmSid)
+    public function setMswordAlgorithmSid($algorithm)
     {
-        $this->mswordAlgorithmSid = $mswordAlgorithmSid;
+        $this->algorithm = $algorithm;
 
         return $this;
     }

@@ -22,21 +22,36 @@ namespace PhpOffice\PhpWord\Shared\Microsoft;
  */
 class PasswordEncoder
 {
+    const ALGORITHM_MD2 = 'MD2';
+    const ALGORITHM_MD4 = 'MD4';
+    const ALGORITHM_MD5 = 'MD5';
+    const ALGORITHM_SHA_1 = 'SHA-1';
+    const ALGORITHM_SHA_256 = 'SHA-256';
+    const ALGORITHM_SHA_384 = 'SHA-384';
+    const ALGORITHM_SHA_512 = 'SHA-512';
+    const ALGORITHM_RIPEMD = 'RIPEMD';
+    const ALGORITHM_RIPEMD_160 = 'RIPEMD-160';
+    const ALGORITHM_MAC = 'MAC';
+    const ALGORITHM_HMAC= 'HMAC';
+
+    /**
+     * Mapping between algorithm name and algorithm ID
+     *
+     * @var array
+     * @see https://msdn.microsoft.com/en-us/library/documentformat.openxml.wordprocessing.writeprotection.cryptographicalgorithmsid(v=office.14).aspx
+     */
     private static $algorithmMapping = array(
-        1  => 'md2',
-        2  => 'md4',
-        3  => 'md5',
-        4  => 'sha1',
-        5  => '', // 'mac' -> not possible with hash()
-        6  => 'ripemd',
-        7  => 'ripemd160',
-        8  => '',
-        9  => '', //'hmac' -> not possible with hash()
-        10 => '',
-        11 => '',
-        12 => 'sha256',
-        13 => 'sha384',
-        14 => 'sha512',
+        self::ALGORITHM_MD2 => array(1, 'md2'),
+        self::ALGORITHM_MD4 => array(2, 'md4'),
+        self::ALGORITHM_MD5 => array(3, 'md5'),
+        self::ALGORITHM_SHA_1 => array(4, 'sha1'),
+        self::ALGORITHM_MAC => array(5, ''), // 'mac' -> not possible with hash()
+        self::ALGORITHM_RIPEMD => array(6, 'ripemd'),
+        self::ALGORITHM_RIPEMD_160 => array(7, 'ripemd160'),
+        self::ALGORITHM_HMAC => array(9, ''), //'hmac' -> not possible with hash()
+        self::ALGORITHM_SHA_256 => array(12, 'sha256'),
+        self::ALGORITHM_SHA_384 => array(13, 'sha384'),
+        self::ALGORITHM_SHA_512 => array(14, 'sha512'),
     );
 
     private static $initialCodeArray = array(
@@ -82,12 +97,12 @@ class PasswordEncoder
      * @see https://blogs.msdn.microsoft.com/vsod/2010/04/05/how-to-set-the-editing-restrictions-in-word-using-open-xml-sdk-2-0/
      *
      * @param string $password
-     * @param number $algorithmSid
+     * @param string $algorithmName
      * @param string $salt
-     * @param number $spinCount
+     * @param integer $spinCount
      * @return string
      */
-    public static function hashPassword($password, $algorithmSid = 4, $salt = null, $spinCount = 10000)
+    public static function hashPassword($password, $algorithmName = PasswordEncoder::ALGORITHM_SHA_1, $salt = null, $spinCount = 10000)
     {
         $origEncoding = mb_internal_encoding();
         mb_internal_encoding('UTF-8');
@@ -118,7 +133,7 @@ class PasswordEncoder
         // Implementation Notes List:
         //   Word requires that the initial hash of the password with the salt not be considered in the count.
         //   The initial hash of salt + key is not included in the iteration count.
-        $algorithm = self::getAlgorithm($algorithmSid);
+        $algorithm = self::getAlgorithm($algorithmName);
         $generatedKey = hash($algorithm, $salt . $generatedKey, true);
 
         for ($i = 0; $i < $spinCount; $i++) {
@@ -134,12 +149,12 @@ class PasswordEncoder
     /**
      * Get algorithm from self::$algorithmMapping
      *
-     * @param int $sid
+     * @param string $algorithmName
      * @return string
      */
-    private static function getAlgorithm($sid)
+    private static function getAlgorithm($algorithmName)
     {
-        $algorithm = self::$algorithmMapping[$sid];
+        $algorithm = self::$algorithmMapping[$algorithmName][1];
         if ($algorithm == '') {
             $algorithm = 'sha1';
         }
@@ -155,16 +170,17 @@ class PasswordEncoder
      */
     private static function buildCombinedKey($byteChars)
     {
+        $byteCharsLength = count($byteChars);
         // Compute the high-order word
         // Initialize from the initial code array (see above), depending on the passwords length.
-        $highOrderWord = self::$initialCodeArray[count($byteChars) - 1];
+        $highOrderWord = self::$initialCodeArray[$byteCharsLength - 1];
 
         // For each character in the password:
         //   For every bit in the character, starting with the least significant and progressing to (but excluding)
         //   the most significant, if the bit is set, XOR the key’s high-order word with the corresponding word from
         //   the Encryption Matrix
-        for ($i = 0; $i < count($byteChars); $i++) {
-            $tmp = self::$passwordMaxLength - count($byteChars) + $i;
+        for ($i = 0; $i < $byteCharsLength; $i++) {
+            $tmp = self::$passwordMaxLength - $byteCharsLength + $i;
             $matrixRow = self::$encryptionMatrix[$tmp];
             for ($intBit = 0; $intBit < 7; $intBit++) {
                 if (($byteChars[$i] & (0x0001 << $intBit)) != 0) {
@@ -177,12 +193,12 @@ class PasswordEncoder
         // Initialize with 0
         $lowOrderWord = 0;
         // For each character in the password, going backwards
-        for ($i = count($byteChars) - 1; $i >= 0; $i--) {
+        for ($i = $byteCharsLength - 1; $i >= 0; $i--) {
             // low-order word = (((low-order word SHR 14) AND 0x0001) OR (low-order word SHL 1) AND 0x7FFF)) XOR character
             $lowOrderWord = (((($lowOrderWord >> 14) & 0x0001) | (($lowOrderWord << 1) & 0x7FFF)) ^ $byteChars[$i]);
         }
         // Lastly, low-order word = (((low-order word SHR 14) AND 0x0001) OR (low-order word SHL 1) AND 0x7FFF)) XOR strPassword length XOR 0xCE4B.
-        $lowOrderWord = (((($lowOrderWord >> 14) & 0x0001) | (($lowOrderWord << 1) & 0x7FFF)) ^ count($byteChars) ^ 0xCE4B);
+        $lowOrderWord = (((($lowOrderWord >> 14) & 0x0001) | (($lowOrderWord << 1) & 0x7FFF)) ^ $byteCharsLength ^ 0xCE4B);
 
         // Combine the Low and High Order Word
         return self::int32(($highOrderWord << 16) + $lowOrderWord);
