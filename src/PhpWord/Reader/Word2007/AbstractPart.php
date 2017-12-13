@@ -384,7 +384,7 @@ abstract class AbstractPart
     {
         $style = null;
         $margins = array('top', 'left', 'bottom', 'right');
-        $borders = $margins + array('insideH', 'insideV');
+        $borders = array_merge($margins, array('insideH', 'insideV'));
 
         if ($xmlReader->elementExists('w:tblPr', $domNode)) {
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
@@ -422,7 +422,7 @@ abstract class AbstractPart
             'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
             'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
             'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
-            'bgColor'       => array(self::READ_VALUE, 'w:shd/w:fill'),
+            'bgColor'       => array(self::READ_VALUE, 'w:shd', 'w:fill'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
