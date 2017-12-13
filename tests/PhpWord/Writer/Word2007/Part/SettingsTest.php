@@ -24,6 +24,7 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Part\Settings
@@ -65,7 +66,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $phpWord->getSettings()->getDocumentProtection()->setEditing('readOnly');
         $phpWord->getSettings()->getDocumentProtection()->setPassword('testÄö@€!$&');
         $phpWord->getSettings()->getDocumentProtection()->setSalt(base64_decode('uq81pJRRGFIY5U+E9gt8tA=='));
-        $phpWord->getSettings()->getDocumentProtection()->setMswordAlgorithmSid(1);
+        $phpWord->getSettings()->getDocumentProtection()->setAlgorithm(PasswordEncoder::ALGORITHM_MD2);
         $phpWord->getSettings()->getDocumentProtection()->setSpinCount(10);
 
         $doc = TestHelperDOCX::getDocument($phpWord);

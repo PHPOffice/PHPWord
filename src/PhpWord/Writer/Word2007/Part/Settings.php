@@ -183,7 +183,7 @@ class Settings extends AbstractPart
     private function setDocumentProtection($documentProtection)
     {
         if ($documentProtection->getEditing() !== null) {
-            if (empty($documentProtection->getPassword())) {
+            if ($documentProtection->getPassword() == null) {
                 $this->settings['w:documentProtection'] = array(
                     '@attributes' => array(
                         'w:enforcement' => 1,
@@ -202,7 +202,7 @@ class Settings extends AbstractPart
                         'w:cryptProviderType'   => 'rsaFull',
                         'w:cryptAlgorithmClass' => 'hash',
                         'w:cryptAlgorithmType'  => 'typeAny',
-                        'w:cryptAlgorithmSid'   => $documentProtection->getMswordAlgorithmSid(),
+                        'w:cryptAlgorithmSid'   => PasswordEncoder::getAlgorithmId($documentProtection->getAlgorithm()),
                         'w:cryptSpinCount'      => $documentProtection->getSpinCount(),
                         'w:hash'                => $passwordHash,
                         'w:salt'                => base64_encode($documentProtection->getSalt()),

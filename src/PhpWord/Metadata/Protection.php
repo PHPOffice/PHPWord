@@ -162,7 +162,7 @@ class Protection
      * @param $algorithm
      * @return self
      */
-    public function setMswordAlgorithmSid($algorithm)
+    public function setAlgorithm($algorithm)
     {
         $this->algorithm = $algorithm;
 

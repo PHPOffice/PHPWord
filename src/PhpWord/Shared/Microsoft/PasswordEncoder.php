@@ -163,6 +163,17 @@ class PasswordEncoder
     }
 
     /**
+     * Returns the algorithm ID
+     *
+     * @param sting $algorithmName
+     * @return int
+     */
+    public static function getAlgorithmId($algorithmName)
+    {
+        return self::$algorithmMapping[$algorithmName][0];
+    }
+
+    /**
      * Build combined key from low-order word and high-order word
      *
      * @param array $byteChars byte array representation of password
