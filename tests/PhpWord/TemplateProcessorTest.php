@@ -540,7 +540,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-
     /**
      * @covers ::setValue
      * @test
@@ -692,7 +691,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->peek($templateProcessor, 'tempDocumentMainPart')
         );
     }
-
 
     /**
      * @covers ::replaceBlock
@@ -1001,10 +999,10 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             self::callProtectedMethod($stub, 'getSlice', array(&$str, $snipStart, $snipEnd))
         );
 
-
         // now throw an exception
         $snipStart = self::callProtectedMethod($stub, 'findOpenTagRight', array(&$str, '<w:p>', $snipStart + 1, true));
     }
+
     /**
      * testing grabbing segments left and right
      *

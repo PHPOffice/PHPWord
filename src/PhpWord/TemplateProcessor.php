@@ -831,7 +831,6 @@ class TemplateProcessor
         return $this->tempDocumentFilename;
     }
 
-
     /**
      * Saves the result document to the user defined file.
      *
@@ -883,6 +882,7 @@ class TemplateProcessor
                 $paragraph
             );
         }
+
         return implode('', $paragraphs);
     }
 
@@ -1012,7 +1012,6 @@ class TemplateProcessor
      * @throws \PhpOffice\PhpWord\Exception\Exception
      * @return int Zero if not found (due to the nature of xml, your document never starts at 0)
      */
-
     protected function findOpenTagRight(&$searchString, $tag, $offset = 0, $throwException = false)
     {
         $tagStart = strpos(
