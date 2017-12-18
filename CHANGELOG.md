@@ -42,6 +42,7 @@ This is the last version to support PHP 5.3
 - Padded the $args array to remove error - @kaigoh #1150, @reformed #870
 - Fix incorrect image size between windows and mac - @bskrtich #874
 - Fix adding HTML table to document - @mogilvie @arivanbastos #324
+- Fix parsing on/off values (w:val="true|false|1|0|on|off") - @troosan #1221 #1219
 
 ### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();

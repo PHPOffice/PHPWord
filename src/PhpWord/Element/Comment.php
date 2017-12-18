@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Element;
 
 /**
  * Comment element
+ * @see http://datypic.com/sc/ooxml/t-w_CT_Comment.html
  */
 class Comment extends TrackChange
 {

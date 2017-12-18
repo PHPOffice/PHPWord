@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Element;
 
 /**
  * TrackChange element
+ * @see http://datypic.com/sc/ooxml/t-w_CT_TrackChange.html
  */
 class TrackChange extends AbstractContainer
 {
