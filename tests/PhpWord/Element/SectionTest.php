@@ -70,7 +70,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
             'PageBreak',
             'Table',
             'ListItem',
-            'ObjectElement',
+            'OLEObject',
             'Image',
             'Title',
             'TextRun',

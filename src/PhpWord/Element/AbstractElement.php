@@ -358,12 +358,12 @@ abstract class AbstractElement
      */
     private function setMediaRelation()
     {
-        if (!$this instanceof Link && !$this instanceof Image && !$this instanceof ObjectElement) {
+        if (!$this instanceof Link && !$this instanceof Image && !$this instanceof OLEObject) {
             return;
         }
 
         $elementName = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
-        if ($elementName == 'ObjectElement') {
+        if ($elementName == 'OLEObject') {
             $elementName = 'Object';
         }
         $mediaPart = $this->getMediaPart();
@@ -375,7 +375,7 @@ abstract class AbstractElement
         $rId = Media::addElement($mediaPart, strtolower($elementName), $source, $image);
         $this->setRelationId($rId);
 
-        if ($this instanceof ObjectElement) {
+        if ($this instanceof OLEObject) {
             $icon = $this->getIcon();
             $rId = Media::addElement($mediaPart, 'image', $icon, new Image($icon));
             $this->setImageRelationId($rId);

@@ -20,11 +20,11 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 
 /**
- * ObjectElement element writer
+ * OLEObject element writer
  *
  * @since 0.10.0
  */
-class ObjectElement extends AbstractElement
+class OLEObject extends AbstractElement
 {
     /**
      * Write object element.
@@ -33,7 +33,7 @@ class ObjectElement extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\ObjectElement) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\OLEObject) {
             return;
         }
 

@@ -37,7 +37,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
  * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
- * @method \PhpOffice\PhpWord\Element\ObjectElement addObject(string $source, mixed $style = null)
+ * @method \PhpOffice\PhpWord\Element\OLEObject addObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
@@ -87,7 +87,7 @@ abstract class AbstractContainer extends AbstractElement
         );
         $functions = array();
         foreach ($elements as $element) {
-            $functions['add' . strtolower($element)] = $element == 'Object' ? 'ObjectElement' : $element;
+            $functions['add' . strtolower($element)] = $element == 'Object' ? 'OLEObject' : $element;
         }
 
         // Run valid `add` command
@@ -193,7 +193,7 @@ abstract class AbstractContainer extends AbstractElement
             'Link'          => $generalContainers,
             'TextBreak'     => $generalContainers,
             'Image'         => $generalContainers,
-            'ObjectElement' => $generalContainers,
+            'OLEObject'     => $generalContainers,
             'Field'         => $generalContainers,
             'Line'          => $generalContainers,
             'Shape'         => $generalContainers,
