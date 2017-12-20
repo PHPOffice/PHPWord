@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,8 +26,6 @@ class Link extends Text
 {
     /**
      * Write link element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -54,7 +52,7 @@ class Link extends Text
 
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($element->getText());
+        $this->writeText($element->getText());
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:hyperlink

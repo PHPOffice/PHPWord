@@ -39,13 +39,15 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 16    | CheckBox        | v         | v        | v        | v       | -          | -          |
+| 16    | CheckBox        | v         | v        | v        | v       | v          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 17    | TextBox         | v         | v        | v        | v       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 18    | Field           | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 19    | Line            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 20    | Chart           | v         |          |          | v       |            |            |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
@@ -135,12 +137,12 @@ Text breaks are empty new lines. To add text breaks, use the following syntax. A
 Page breaks
 ~~~~~~~~~~~
 
-There are two ways to insert a page breaks, using the ``addPageBreak``
+There are two ways to insert a page break, using the ``addPageBreak``
 method or using the ``pageBreakBefore`` style of paragraph.
 
-:: code-block:: php
+.. code-block:: php
 
-    \\$section->addPageBreak();
+    $section->addPageBreak();
 
 Lists
 -----
@@ -158,8 +160,8 @@ Parameters:
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
-- ``$listStyle``. List style of the current element TYPE\_NUMBER,
-   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\_Style\_ListItem.
+- ``$listStyle``. List style of the current element TYPE\_NUMBER, 
+  TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
 Advanced usage:
@@ -232,7 +234,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image or URL of a remote image.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
@@ -254,6 +256,8 @@ Examples:
     $footer->addImage('http://example.com/image.php');
     $textrun = $section->addTextRun();
     $textrun->addImage('http://php.net/logo.jpg');
+    $source = file_get_contents('/path/to/my/images/earth.jpg');
+    $textrun->addImage($source);
 
 Watermarks
 ~~~~~~~~~~
@@ -295,7 +299,7 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\_Style\_TOC.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
 - ``tabPos``. The position of the tab where the page number appears in twips.
 - ``indent``. The indent factor of the titles in twips.
 
@@ -331,10 +335,27 @@ On text:
     $footnote = $section->addFootnote();
     $footnote->addText('Footnote text.');
 
-The footnote reference number will be displayed with decimal number
-starting from 1. This number use ``FooterReference`` style which you can
-redefine by ``addFontStyle`` method. Default value for this style is
+By default the footnote reference number will be displayed with decimal number
+starting from 1. This number uses the ``FooterReference`` style which you can
+redefine with the ``addFontStyle`` method. Default value for this style is
 ``array('superScript' => true)``;
+
+The footnote numbering can be controlled by setting the FootnoteProperties on the Section.
+
+.. code-block:: php
+
+    $fp = new PhpWord\SimpleType\FootnoteProperties();
+    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd) 
+    $fp->setPos(FootnoteProperties::POSITION_DOC_END);
+    //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
+    $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+    //force starting at other than 1
+    $fp->setNumStart(2);
+    //when to restart counting (continuous (default), eachSect, eachPage)
+    $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+    
+    //And finaly, set it on the Section
+    $section->setFootnoteProperties($properties);
 
 Checkboxes
 ----------
@@ -358,17 +379,45 @@ To be completed
 Fields
 ------
 
-To be completed
+Currently the following fields are supported: 
+
+- PAGE
+- NUMPAGES
+- DATE
+- XE
+- INDEX
+
+.. code-block:: php
+
+    $section->addField($fieldType, [$properties], [$options], [$fieldText])
+
+See ``\PhpOffice\PhpWord\Element\Field`` for list of properties and options available for each field type.
+Options which are not specifically defined can be added. Those must start with a ``\``.
+
+For instance for the INDEX field, you can do the following (See `Index Field for list of available options <https://support.office.com/en-us/article/Field-codes-Index-field-adafcf4a-cb30-43f6-85c7-743da1635d9e?ui=en-US&rs=en-US&ad=US>`_ ):
+
+.. code-block:: php
+
+    //the $fieldText can be either a simple string
+    $fieldText = 'The index value';
+
+    //or a 'TextRun', to be able to format the text you want in the index
+    $fieldText = new TextRun();
+    $fieldText->addText('My ');
+    $fieldText->addText('bold index', ['bold' => true]);
+    $fieldText->addText(' entry');
+
+    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
 
 Line
-------
+----
 
 Line elements can be added to sections by using ``addLine``.
 
 .. code-block:: php
 
-    $linestyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
-    $section->addLine($lineStyle)
+    $lineStyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
+    $section->addLine($lineStyle);
 
 Available line style attributes:
 
@@ -380,3 +429,39 @@ Available line style attributes:
 - ``width``. Line-object width in pt.
 - ``height``. Line-object height in pt.
 - ``flip``. Flip the line element: true, false.
+
+Chart
+-----
+
+Charts can be added using
+
+.. code-block:: php
+
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series = array(1, 3, 2, 5, 4);
+    $chart = $section->addChart('line', $categories, $series);
+
+check out the Sample_32_Chart.php for more options and styling.
+
+Comments
+--------
+
+Comments can be added to a document by using ``addComment``.
+The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
+
+.. code-block:: php
+
+    // first create a comment
+    $comment= new \PhpOffice\PhpWord\Element\Comment('Authors name', new \DateTime(), 'my_initials');
+    $comment->addText('Test', array('bold' => true));
+
+    // add it to the document
+    $phpWord->addComment($comment);
+
+    $textrun = $section->addTextRun();
+    $textrun->addText('This ');
+    $text = $textrun->addText('is');
+    // link the comment to the text you just created
+    $text->setCommentStart($comment);
+
+If no end is set for a comment using the ``setCommentEnd``, the comment will be ended automatically at the end of the element it is started on.

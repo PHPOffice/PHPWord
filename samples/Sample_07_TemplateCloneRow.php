@@ -6,52 +6,52 @@ echo date('H:i:s'), ' Creating new TemplateProcessor instance...', EOL;
 $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('resources/Sample_07_TemplateCloneRow.docx');
 
 // Variables on different parts of document
-$templateProcessor->setValue('weekday', htmlspecialchars(date('l'), ENT_COMPAT, 'UTF-8')); // On section/content
-$templateProcessor->setValue('time', htmlspecialchars(date('H:i'), ENT_COMPAT, 'UTF-8')); // On footer
-$templateProcessor->setValue('serverName', htmlspecialchars(realpath(__DIR__), ENT_COMPAT, 'UTF-8')); // On header
+$templateProcessor->setValue('weekday', date('l'));            // On section/content
+$templateProcessor->setValue('time', date('H:i'));             // On footer
+$templateProcessor->setValue('serverName', realpath(__DIR__)); // On header
 
 // Simple table
 $templateProcessor->cloneRow('rowValue', 10);
 
-$templateProcessor->setValue('rowValue#1', htmlspecialchars('Sun', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#2', htmlspecialchars('Mercury', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#3', htmlspecialchars('Venus', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#4', htmlspecialchars('Earth', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#5', htmlspecialchars('Mars', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#6', htmlspecialchars('Jupiter', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#7', htmlspecialchars('Saturn', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#8', htmlspecialchars('Uranus', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#9', htmlspecialchars('Neptun', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowValue#10', htmlspecialchars('Pluto', ENT_COMPAT, 'UTF-8'));
+$templateProcessor->setValue('rowValue#1', 'Sun');
+$templateProcessor->setValue('rowValue#2', 'Mercury');
+$templateProcessor->setValue('rowValue#3', 'Venus');
+$templateProcessor->setValue('rowValue#4', 'Earth');
+$templateProcessor->setValue('rowValue#5', 'Mars');
+$templateProcessor->setValue('rowValue#6', 'Jupiter');
+$templateProcessor->setValue('rowValue#7', 'Saturn');
+$templateProcessor->setValue('rowValue#8', 'Uranus');
+$templateProcessor->setValue('rowValue#9', 'Neptun');
+$templateProcessor->setValue('rowValue#10', 'Pluto');
 
-$templateProcessor->setValue('rowNumber#1', htmlspecialchars('1', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#2', htmlspecialchars('2', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#3', htmlspecialchars('3', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#4', htmlspecialchars('4', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#5', htmlspecialchars('5', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#6', htmlspecialchars('6', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#7', htmlspecialchars('7', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#8', htmlspecialchars('8', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#9', htmlspecialchars('9', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('rowNumber#10', htmlspecialchars('10', ENT_COMPAT, 'UTF-8'));
+$templateProcessor->setValue('rowNumber#1', '1');
+$templateProcessor->setValue('rowNumber#2', '2');
+$templateProcessor->setValue('rowNumber#3', '3');
+$templateProcessor->setValue('rowNumber#4', '4');
+$templateProcessor->setValue('rowNumber#5', '5');
+$templateProcessor->setValue('rowNumber#6', '6');
+$templateProcessor->setValue('rowNumber#7', '7');
+$templateProcessor->setValue('rowNumber#8', '8');
+$templateProcessor->setValue('rowNumber#9', '9');
+$templateProcessor->setValue('rowNumber#10', '10');
 
 // Table with a spanned cell
 $templateProcessor->cloneRow('userId', 3);
 
-$templateProcessor->setValue('userId#1', htmlspecialchars('1', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userFirstName#1', htmlspecialchars('James', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userName#1', htmlspecialchars('Taylor', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userPhone#1', htmlspecialchars('+1 428 889 773', ENT_COMPAT, 'UTF-8'));
+$templateProcessor->setValue('userId#1', '1');
+$templateProcessor->setValue('userFirstName#1', 'James');
+$templateProcessor->setValue('userName#1', 'Taylor');
+$templateProcessor->setValue('userPhone#1', '+1 428 889 773');
 
-$templateProcessor->setValue('userId#2', htmlspecialchars('2', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userFirstName#2', htmlspecialchars('Robert', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userName#2', htmlspecialchars('Bell', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userPhone#2', htmlspecialchars('+1 428 889 774', ENT_COMPAT, 'UTF-8'));
+$templateProcessor->setValue('userId#2', '2');
+$templateProcessor->setValue('userFirstName#2', 'Robert');
+$templateProcessor->setValue('userName#2', 'Bell');
+$templateProcessor->setValue('userPhone#2', '+1 428 889 774');
 
-$templateProcessor->setValue('userId#3', htmlspecialchars('3', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userFirstName#3', htmlspecialchars('Michael', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userName#3', htmlspecialchars('Ray', ENT_COMPAT, 'UTF-8'));
-$templateProcessor->setValue('userPhone#3', htmlspecialchars('+1 428 889 775', ENT_COMPAT, 'UTF-8'));
+$templateProcessor->setValue('userId#3', '3');
+$templateProcessor->setValue('userFirstName#3', 'Michael');
+$templateProcessor->setValue('userName#3', 'Ray');
+$templateProcessor->setValue('userPhone#3', '+1 428 889 775');
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_07_TemplateCloneRow.docx');

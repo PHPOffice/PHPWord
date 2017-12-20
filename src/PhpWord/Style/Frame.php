@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -200,25 +200,8 @@ class Frame extends AbstractStyle
      */
     public function setAlignment($value)
     {
-        if (Jc::getValidator()->isValid($value)) {
-            $alignment = '';
-
-            switch ($value) {
-                case Jc::LEFT:
-                    $alignment = Jc::START;
-                    break;
-                case Jc::RIGHT:
-                    $alignment = Jc::END;
-                    break;
-                case Jc::JUSTIFY:
-                    $alignment = Jc::BOTH;
-                    break;
-                default:
-                    $alignment = $value;
-                    break;
-            }
-
-            $this->alignment = $alignment;
+        if (Jc::isValid($value)) {
+            $this->alignment = $value;
         }
 
         return $this;

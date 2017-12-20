@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Element;
  *
  * @runTestsInSeparateProcesses
  */
-class FootnoteTest extends \PHPUnit_Framework_TestCase
+class FootnoteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance without parameter
@@ -65,7 +65,7 @@ class FootnoteTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oFootnote = new Footnote();
-        $element = $oFootnote->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oFootnote->addText('text');
 
         $this->assertCount(1, $oFootnote->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);

@@ -10,20 +10,59 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
-use PhpOffice\PhpWord\Writer\HTML\Part\AbstractPart as HTMLAbstractPart;
+use PhpOffice\PhpWord\Escaper\Rtf;
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
- * Abstract RTF part writer
- *
  * @since 0.11.0
  */
-abstract class AbstractPart extends HTMLAbstractPart
+abstract class AbstractPart
 {
+    /**
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    private $parentWriter;
+
+    /**
+     * @var \PhpOffice\PhpWord\Escaper\EscaperInterface
+     */
+    protected $escaper;
+
+    public function __construct()
+    {
+        $this->escaper = new Rtf();
+    }
+
+    /**
+     * @return string
+     */
+    abstract public function write();
+
+    /**
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     */
+    public function setParentWriter(AbstractWriter $writer = null)
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    public function getParentWriter()
+    {
+        if ($this->parentWriter !== null) {
+            return $this->parentWriter;
+        }
+        throw new Exception('No parent WriterInterface assigned.');
+    }
 }

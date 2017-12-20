@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Style\Font;
  *
  * @runTestsInSeparateProcesses
  */
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance
@@ -45,9 +45,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testText()
     {
-        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $oText = new Text('text');
 
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $oText->getText());
+        $this->assertEquals('text', $oText->getText());
     }
 
     /**
@@ -55,7 +55,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testFont()
     {
-        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'fontStyle');
+        $oText = new Text('text', 'fontStyle');
         $this->assertEquals('fontStyle', $oText->getFontStyle());
 
         $oText->setFontStyle(array('bold' => true, 'italic' => true, 'size' => 16));
@@ -68,7 +68,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     public function testFontObject()
     {
         $font = new Font();
-        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $font);
+        $oText = new Text('text', $font);
         $this->assertEquals($font, $oText->getFontStyle());
     }
 
@@ -77,7 +77,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testParagraph()
     {
-        $oText = new Text(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), 'fontStyle', 'paragraphStyle');
+        $oText = new Text('text', 'fontStyle', 'paragraphStyle');
         $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
 
         $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));

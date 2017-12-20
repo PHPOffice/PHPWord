@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\Writer\Word2007;
@@ -24,7 +25,7 @@ use PhpOffice\PhpWord\Writer\Word2007;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\Word2007\Part\Footer
  * @runTestsInSeparateProcesses
  */
-class FooterTest extends \PHPUnit_Framework_TestCase
+class FooterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Write footer
@@ -33,11 +34,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     {
         $imageSrc = __DIR__ . '/../../../_files/images/PhpWord.png';
         $container = new \PhpOffice\PhpWord\Element\Footer(1);
-        $container->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
-        $container->addPreserveText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addText('');
+        $container->addPreserveText('');
         $container->addTextBreak();
         $container->addTextRun();
-        $container->addTable()->addRow()->addCell()->addText(htmlspecialchars('', ENT_COMPAT, 'UTF-8'));
+        $container->addTable()->addRow()->addCell()->addText('');
         $container->addImage($imageSrc);
 
         $writer = new Word2007();

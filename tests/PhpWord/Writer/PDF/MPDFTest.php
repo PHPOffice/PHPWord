@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\PDF;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -25,7 +26,7 @@ use PhpOffice\PhpWord\Writer\PDF;
  *
  * @runTestsInSeparateProcesses
  */
-class MPDFTest extends \PHPUnit_Framework_TestCase
+class MPDFTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test construct
@@ -36,7 +37,8 @@ class MPDFTest extends \PHPUnit_Framework_TestCase
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'));
+        $section->addText('Test 1');
+        $section->addPageBreak();
 
         $rendererName = Settings::PDF_RENDERER_MPDF;
         $rendererLibraryPath = realpath(PHPWORD_TESTS_BASE_DIR . '/../vendor/mpdf/mpdf');
@@ -44,7 +46,7 @@ class MPDFTest extends \PHPUnit_Framework_TestCase
         $writer = new PDF($phpWord);
         $writer->save($file);
 
-        $this->assertTrue(file_exists($file));
+        $this->assertFileExists($file);
 
         unlink($file);
     }

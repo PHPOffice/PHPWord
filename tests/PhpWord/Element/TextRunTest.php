@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  *
  * @runTestsInSeparateProcesses
  */
-class TextRunTest extends \PHPUnit_Framework_TestCase
+class TextRunTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * New instance
@@ -69,11 +69,11 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oTextRun->addText('text');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('text', $element->getText());
     }
 
     /**
@@ -82,11 +82,11 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oTextRun->addText(utf8_decode('ééé'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
         $this->assertCount(1, $oTextRun->getElements());
-        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('ééé', $element->getText());
     }
 
     /**
@@ -108,12 +108,12 @@ class TextRunTest extends \PHPUnit_Framework_TestCase
     public function testAddLinkWithName()
     {
         $oTextRun = new TextRun();
-        $element = $oTextRun->addLink('https://github.com/PHPOffice/PHPWord', htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'));
+        $element = $oTextRun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Link', $element);
         $this->assertCount(1, $oTextRun->getElements());
         $this->assertEquals('https://github.com/PHPOffice/PHPWord', $element->getSource());
-        $this->assertEquals(htmlspecialchars('PHPWord on GitHub', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('PHPWord on GitHub', $element->getText());
     }
 
     /**

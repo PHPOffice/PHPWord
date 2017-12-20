@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -24,7 +25,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @coversNothing
  * @runTestsInSeparateProcesses
  */
-class FootnotesTest extends \PHPUnit_Framework_TestCase
+class FootnotesTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown()
     {
@@ -36,13 +37,13 @@ class FootnotesTest extends \PHPUnit_Framework_TestCase
         $phpWord = new PhpWord();
         $phpWord->addParagraphStyle('pStyle', array('alignment' => Jc::START));
         $section = $phpWord->addSection();
-        $section->addText(htmlspecialchars('Text', ENT_COMPAT, 'UTF-8'));
+        $section->addText('Text');
         $footnote1 = $section->addFootnote('pStyle');
-        $footnote1->addText(htmlspecialchars('Footnote', ENT_COMPAT, 'UTF-8'));
+        $footnote1->addText('Footnote');
         $footnote1->addTextBreak();
         $footnote1->addLink('https://github.com/PHPOffice/PHPWord');
         $footnote2 = $section->addEndnote(array('alignment' => Jc::START));
-        $footnote2->addText(htmlspecialchars('Endnote', ENT_COMPAT, 'UTF-8'));
+        $footnote2->addText('Endnote');
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:footnoteReference'));

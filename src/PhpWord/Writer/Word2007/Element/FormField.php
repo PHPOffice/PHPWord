@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\Element\FormField as FormFieldElement;
  * Note: DropDown is active when document protection is set to `forms`
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFData.html
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class FormField extends Text
@@ -36,8 +36,6 @@ class FormField extends Text
 
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -78,8 +76,8 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:instrText');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw("{$instruction}");
-        $xmlWriter->endElement();// w:instrText
+        $xmlWriter->text("{$instruction}");
+        $xmlWriter->endElement(); // w:instrText
         $xmlWriter->endElement(); // w:r
 
         $xmlWriter->startElement('w:r');
@@ -91,7 +89,7 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        $xmlWriter->writeRaw($value);
+        $this->writeText($value);
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
@@ -106,10 +104,9 @@ class FormField extends Text
     /**
      * Write textinput.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
-     * @return void
      */
     private function writeTextInput(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -123,10 +120,9 @@ class FormField extends Text
     /**
      * Write checkbox.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
-     * @return void
      */
     private function writeCheckBox(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -147,10 +143,9 @@ class FormField extends Text
     /**
      * Write dropdown.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\FormField $element
-     * @return void
      */
     private function writeDropDown(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -165,6 +160,9 @@ class FormField extends Text
         $xmlWriter->writeElementBlock('w:result', 'w:val', $value);
         $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
         foreach ($entries as $entry) {
+            if ($entry == null || $entry == '') {
+                $entry = str_repeat(' ', self::FILLER_LENGTH);
+            }
             $xmlWriter->writeElementBlock('w:listEntry', 'w:val', $entry);
         }
         $xmlWriter->endElement();
