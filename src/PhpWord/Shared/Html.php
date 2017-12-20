@@ -136,7 +136,7 @@ class Html
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
             'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
-            'img'       => array('Image',       $node,  $element,   $styles,    $data,  null,           null),
+            'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
             'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
         );
 
@@ -512,12 +512,10 @@ class Html
      *
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
-     * @param array &$styles
-     * @param array $data
      *
      * @return \PhpOffice\PhpWord\Element\Image
      **/
-    private static function parseImage($node, $element, &$styles, $data)
+    private static function parseImage($node, $element)
     {
         $style = array();
         foreach ($node->attributes as $attribute) {

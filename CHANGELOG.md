@@ -24,6 +24,8 @@ This is the last version to support PHP 5.3
 - Implement PageBreak for odt writer @cookiekiller #863 #824
 - Allow to force an update of all fields on opening a document - @troosan #951
 - Allow adding a CheckBox in a TextRun - @irond #727
+- Add support for HTML img tag - @srggroup #934
+- Add support for password protection for docx - @mariahaubner #1019
 
 ### Fixed
 - Loosen dependency to Zend
@@ -43,6 +45,7 @@ This is the last version to support PHP 5.3
 - Fix incorrect image size between windows and mac - @bskrtich #874
 - Fix adding HTML table to document - @mogilvie @arivanbastos #324
 - Fix parsing on/off values (w:val="true|false|1|0|on|off") - @troosan #1221 #1219
+- Fix error on Empty Dropdown Entry - @ComputerTinker #592
 
 ### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();

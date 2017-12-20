@@ -43,7 +43,7 @@ class TextRun extends AbstractContainer
      */
     public function __construct($paragraphStyle = null)
     {
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->paragraphStyle = $this->setParagraphStyle($paragraphStyle);
     }
 
     /**
@@ -55,7 +55,7 @@ class TextRun extends AbstractContainer
     {
         return $this->paragraphStyle;
     }
-    
+
     /**
      * Set Paragraph style
      *
@@ -65,12 +65,12 @@ class TextRun extends AbstractContainer
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle = new Paragraph();
             $this->paragraphStyle->setStyleByArray($style);
         } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } elseif (null === $style) {
-            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle = new Paragraph();
         } else {
             $this->paragraphStyle = $style;
         }
