@@ -252,4 +252,23 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('This is some text', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
         $this->assertEquals('with a linebreak.', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
     }
+
+    public function testParseImage()
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        $this->assertStringMatchesFormat('%Swidth:150pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:200pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+    }
 }

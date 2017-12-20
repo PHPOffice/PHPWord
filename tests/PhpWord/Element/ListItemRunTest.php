@@ -27,13 +27,13 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     /**
      * New instance
      */
-    public function testConstructNull()
+    public function testConstruct()
     {
         $oListItemRun = new ListItemRun();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
-        $this->assertNull($oListItemRun->getParagraphStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oListItemRun->getParagraphStyle());
     }
 
     /**

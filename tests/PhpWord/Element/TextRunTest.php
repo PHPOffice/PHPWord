@@ -18,6 +18,8 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TextRun
@@ -29,13 +31,13 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
     /**
      * New instance
      */
-    public function testConstructNull()
+    public function testConstruct()
     {
         $oTextRun = new TextRun();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         $this->assertCount(0, $oTextRun->getElements());
-        $this->assertNull($oTextRun->getParagraphStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
     }
 
     /**
@@ -60,6 +62,21 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         $this->assertCount(0, $oTextRun->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
+    }
+
+    /**
+     * New instance with object
+     */
+    public function testConstructObject()
+    {
+        $oParagraphStyle = new Paragraph();
+        $oParagraphStyle->setAlignment(Jc::BOTH);
+        $oTextRun = new TextRun($oParagraphStyle);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
+        $this->assertCount(0, $oTextRun->getElements());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oTextRun->getParagraphStyle());
+        $this->assertEquals(Jc::BOTH, $oTextRun->getParagraphStyle()->getAlignment());
     }
 
     /**
@@ -151,5 +168,17 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Footnote', $element);
         $this->assertCount(1, $oTextRun->getElements());
+    }
+
+    /**
+     * Get paragraph style
+     */
+    public function testParagraph()
+    {
+        $oText = new TextRun('paragraphStyle');
+        $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
+
+        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 }
