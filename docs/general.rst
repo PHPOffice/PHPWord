@@ -272,6 +272,17 @@ points to twips.
     // 2 cm right margin
     $sectionStyle->setMarginRight(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(2));
 
+Document protection
+-------------------
+
+The document (or parts of it) can be password protected.
+
+.. code-block:: php
+
+    $documentProtection = $phpWord->getSettings()->getDocumentProtection();
+    $documentProtection->setEditing(DocProtect::READ_ONLY);
+    $documentProtection->setPassword('myPassword');
+
 Automatically Recalculate Fields on Open
 ----------------------------------------
 

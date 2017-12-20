@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -181,13 +182,33 @@ class Settings extends AbstractPart
      */
     private function setDocumentProtection($documentProtection)
     {
-        if ($documentProtection != null && $documentProtection->getEditing() !== null) {
-            $this->settings['w:documentProtection'] = array(
-                '@attributes' => array(
-                    'w:enforcement' => 1,
-                    'w:edit'        => $documentProtection->getEditing(),
-                ),
-            );
+        if ($documentProtection->getEditing() !== null) {
+            if ($documentProtection->getPassword() == null) {
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement' => 1,
+                        'w:edit'        => $documentProtection->getEditing(),
+                    ),
+                );
+            } else {
+                if ($documentProtection->getSalt() == null) {
+                    $documentProtection->setSalt(openssl_random_pseudo_bytes(16));
+                }
+                $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getAlgorithm(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement'         => 1,
+                        'w:edit'                => $documentProtection->getEditing(),
+                        'w:cryptProviderType'   => 'rsaFull',
+                        'w:cryptAlgorithmClass' => 'hash',
+                        'w:cryptAlgorithmType'  => 'typeAny',
+                        'w:cryptAlgorithmSid'   => PasswordEncoder::getAlgorithmId($documentProtection->getAlgorithm()),
+                        'w:cryptSpinCount'      => $documentProtection->getSpinCount(),
+                        'w:hash'                => $passwordHash,
+                        'w:salt'                => base64_encode($documentProtection->getSalt()),
+                    ),
+                );
+            }
         }
     }
 
@@ -264,11 +285,13 @@ class Settings extends AbstractPart
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
-            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
-                'w:name'    => 'compatibilityMode',
-                'w:uri'     => 'http://schemas.microsoft.com/office/word',
-                'w:val'     => $compatibility->getOoxmlVersion(),
-            ));
+            $this->settings['w:compat']['w:compatSetting'] = array(
+                '@attributes' => array(
+                    'w:name' => 'compatibilityMode',
+                    'w:uri'  => 'http://schemas.microsoft.com/office/word',
+                    'w:val'  => $compatibility->getOoxmlVersion(),
+                ),
+            );
         }
     }
 }
