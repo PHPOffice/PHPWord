@@ -1,60 +1,64 @@
 language: php
 
+dist: precise
+
 php:
-    - 5.3.3
     - 5.3
     - 5.4
     - 5.5
     - 5.6
-    - hhvm
+    - 7.0
+    - 7.1
 
 matrix:
+    include:
+        - php: 5.6
+          env: COVERAGE=1
     allow_failures:
-        - php: hhvm
+        - php: 7.0
+        - php: 7.1
+
+cache:
+    directories:
+        - vendor
+        - $HOME/.composer/cache
+        - .php-cs.cache
 
 env:
     global:
         - secure: "Sq+6bVtnPsu0mWX8DWQ+9bGAjxMcGorksUiHc4YIXEJsuDfVmVlH8tTD547IeCjDAx9MxXerZ2Z4HSjxTB70VEnJPvZMHI/EZn4Ny31YLHEthdZbV5Gd1h0TGp8VOzPKGShvGrtGBX6MvMfgpK4zuieVWbSfdKeecm8ZNLMpUd4="
 
-before_script:
+before_install:
     ## Packages
-    - sudo apt-get -qq update > /dev/null
-    - sudo apt-get -qq install graphviz > /dev/null
+    - sudo apt-get update -qq
+    - sudo apt-get install -y graphviz
+
+before_script:
+    ## Deactivate xdebug if we don't do code coverage
+    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
     ## Composer
     - composer self-update
-    - composer install --prefer-source --dev
-    ## PHP Copy/Paste Detector
-    - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
-    ## PHP Mess Detector
-    - pear config-set preferred_state beta
-    - printf "\n" | pecl install imagick
-    - pear channel-discover pear.phpmd.org
-    - pear channel-discover pear.pdepend.org
-    - pear install --alldeps phpmd/PHP_PMD
-    - phpenv rehash
-    ## PHPLOC
-    #- curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+    - composer install --prefer-source
     ## PHPDocumentor
     - mkdir -p build/docs
     - mkdir -p build/coverage
 
 script:
     ## PHP_CodeSniffer
-    - ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip
-    ## PHP Copy/Paste Detector
-    - php phpcpd.phar src/ tests/ --verbose
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpcs src/ tests/ --standard=PSR2 -n --ignore=src/PhpWord/Shared/PCLZip ; fi
+    ## PHP-CS-Fixer
+    - if [ -n "$COVERAGE" ]; then ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run ; fi
     ## PHP Mess Detector
-    - phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php
-    ## PHPLOC
-    #- php phploc.phar src/
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php ; fi
     ## PHPUnit
-    - phpunit -c ./ --coverage-text --coverage-html ./build/coverage
+    - ./vendor/bin/phpunit -c ./ $(if [ -n "$COVERAGE" ]; then echo --coverage-text; else echo --no-coverage; fi)
+    ## PHPLOC
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
-    - vendor/bin/phpdoc.php -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig"
+    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
 after_script:
     ## PHPDocumentor
     - bash .travis_shell_after_success.sh
     ## Scrutinizer
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+    - if [ -n "$COVERAGE" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml ; fi

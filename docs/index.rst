@@ -18,11 +18,12 @@ Format (RTF).
    :maxdepth: 2
 
    intro
-   setup
+   installing
    general
    containers
    elements
-   templates
+   styles
+   templates-processing
    writersreaders
    recipes
    faq

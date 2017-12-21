@@ -2,17 +2,16 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord->getSettings()->setUpdateFields(true);
 
-// Begin code
+// New section
 $section = $phpWord->addSection();
 
-// Define the TOC font style
-$fontStyle = array('spaceAfter' => 60, 'size' => 12);
-$fontStyle2 = array('size' => 10);
-
-// Add title styles
+// Define styles
+$fontStyle12 = array('spaceAfter' => 60, 'size' => 12);
+$fontStyle10 = array('size' => 10);
 $phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
 $phpWord->addTitleStyle(2, array('size' => 16, 'color' => '666666'));
 $phpWord->addTitleStyle(3, array('size' => 14, 'italic' => true));
@@ -23,7 +22,7 @@ $section->addText('Table of contents 1');
 $section->addTextBreak(2);
 
 // Add TOC #1
-$toc = $section->addTOC($fontStyle);
+$toc = $section->addTOC($fontStyle12);
 $section->addTextBreak(2);
 
 // Filler
@@ -33,14 +32,13 @@ $section->addTextBreak(2);
 // Add TOC #1
 $section->addText('Table of contents 2');
 $section->addTextBreak(2);
-$toc2 = $section->addTOC($fontStyle2);
+$toc2 = $section->addTOC($fontStyle10);
 $toc2->setMinDepth(2);
 $toc2->setMaxDepth(3);
 
-
 // Add Titles
 $section->addPageBreak();
-$section->addTitle('I am Title 1', 1);
+$section->addTitle('Foo n Bar', 1);
 $section->addText('Some text...');
 $section->addTextBreak(2);
 
@@ -66,7 +64,7 @@ $section->addText('Text');
 $section->addTitle('Subtitle 3.1.2', 3);
 $section->addText('Text');
 
-echo date('H:i:s'), " Note: Please refresh TOC manually.", EOL;
+echo date('H:i:s'), ' Note: Please refresh TOC manually.', EOL;
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

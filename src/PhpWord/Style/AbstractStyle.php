@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\Common\Text;
 
 /**
  * Abstract style class
@@ -127,6 +127,25 @@ abstract class AbstractStyle
     }
 
     /**
+     * Return style value of child style object, e.g. `left` from `Indentation` child style of `Paragraph`
+     *
+     * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
+     * @param string $substyleProperty
+     * @return mixed
+     * @since 0.12.0
+     */
+    public function getChildStyleValue($substyleObject, $substyleProperty)
+    {
+        if ($substyleObject !== null) {
+            $method = "get{$substyleProperty}";
+
+            return $substyleObject->$method();
+        }
+
+        return null;
+    }
+
+    /**
      * Set style value template method
      *
      * Some child classes have their own specific overrides.
@@ -143,7 +162,7 @@ abstract class AbstractStyle
         if (isset($this->aliases[$key])) {
             $key = $this->aliases[$key];
         }
-        $method = 'set' . String::removeUnderscorePrefix($key);
+        $method = 'set' . Text::removeUnderscorePrefix($key);
         if (method_exists($this, $method)) {
             $this->$method($value);
         }
@@ -224,10 +243,12 @@ abstract class AbstractStyle
     protected function setIntVal($value, $default = null)
     {
         if (is_string($value) && (preg_match('/[^\d]/', $value) == 0)) {
-            $value = intval($value);
+            $value = (int) $value;
         }
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             $value = $default;
+        } else {
+            $value = (int) $value;
         }
 
         return $value;
@@ -243,7 +264,7 @@ abstract class AbstractStyle
     protected function setFloatVal($value, $default = null)
     {
         if (is_string($value) && (preg_match('/[^\d\.\,]/', $value) == 0)) {
-            $value = floatval($value);
+            $value = (float) $value;
         }
         if (!is_numeric($value)) {
             $value = $default;
@@ -258,13 +279,14 @@ abstract class AbstractStyle
      * @param mixed $value
      * @param array $enum
      * @param mixed $default
-     * @return mixed
+     *
      * @throws \InvalidArgumentException
+     * @return mixed
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
         if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
-            throw new \InvalidArgumentException('Invalid style value.');
+            throw new \InvalidArgumentException("Invalid style value: {$value} Options:" . implode(',', $enum));
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
         }
@@ -277,7 +299,7 @@ abstract class AbstractStyle
      *
      * @param mixed $value
      * @param string $styleName
-     * @param mixed $style
+     * @param mixed &$style
      * @return mixed
      */
     protected function setObjectVal($value, $styleName, &$style)
@@ -297,11 +319,32 @@ abstract class AbstractStyle
     }
 
     /**
+     * Set $property value and set $pairProperty = false when $value = true
+     *
+     * @param bool &$property
+     * @param bool &$pairProperty
+     * @param bool $value
+     * @return self
+     */
+    protected function setPairedVal(&$property, &$pairProperty, $value)
+    {
+        $property = $this->setBoolVal($value, $property);
+        if ($value === true) {
+            $pairProperty = false;
+        }
+
+        return $this;
+    }
+
+    /**
      * Set style using associative array
      *
-     * @param array $style
-     * @return self
      * @deprecated 0.11.0
+     *
+     * @param array $style
+     *
+     * @return self
+     *
      * @codeCoverageIgnore
      */
     public function setArrayStyle(array $style = array())

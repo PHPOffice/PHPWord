@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Reader for ODText
@@ -40,7 +40,7 @@ class ODText extends AbstractReader implements ReaderInterface
 
         $readerParts = array(
             'content.xml' => 'Content',
-            'meta.xml' => 'Meta',
+            'meta.xml'    => 'Meta',
         );
 
         foreach ($readerParts as $xmlFile => $partName) {
@@ -51,7 +51,7 @@ class ODText extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * Read document part
+     * Read document part.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $relationships
@@ -59,7 +59,7 @@ class ODText extends AbstractReader implements ReaderInterface
      * @param string $docFile
      * @param string $xmlFile
      */
-    private function readPart(PhpWord &$phpWord, $relationships, $partName, $docFile, $xmlFile)
+    private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
         if (class_exists($partClass)) {
@@ -68,7 +68,6 @@ class ODText extends AbstractReader implements ReaderInterface
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**

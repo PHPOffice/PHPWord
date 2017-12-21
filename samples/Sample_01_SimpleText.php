@@ -1,11 +1,23 @@
 <?php
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Paragraph;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
-echo date('H:i:s') , " Create new PhpWord object" , EOL;
+echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+
+$languageEnGb = new \PhpOffice\PhpWord\Style\Language(\PhpOffice\PhpWord\Style\Language::EN_GB);
+
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$phpWord->addFontStyle('rStyle', array('bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true));
-$phpWord->addParagraphStyle('pStyle', array('align' => 'center', 'spaceAfter' => 100));
+$phpWord->getSettings()->setThemeFontLang($languageEnGb);
+
+$fontStyleName = 'rStyle';
+$phpWord->addFontStyle($fontStyleName, array('bold' => true, 'italic' => true, 'size' => 16, 'allCaps' => true, 'doubleStrikethrough' => true));
+
+$paragraphStyleName = 'pStyle';
+$phpWord->addParagraphStyle($paragraphStyleName, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+
 $phpWord->addTitleStyle(1, array('bold' => true), array('spaceAfter' => 240));
 
 // New portrait section
@@ -15,33 +27,58 @@ $section = $phpWord->addSection();
 $section->addTitle('Welcome to PhpWord', 1);
 $section->addText('Hello World!');
 
+// $pStyle = new Font();
+// $pStyle->setLang()
+$section->addText('Ce texte-ci est en français.', array('lang' => \PhpOffice\PhpWord\Style\Language::FR_BE));
+
 // Two text break
 $section->addTextBreak(2);
 
-// Defined style
-$section->addText('I am styled by a font style definition.', 'rStyle');
-$section->addText('I am styled by a paragraph style definition.', null, 'pStyle');
-$section->addText('I am styled by both font and paragraph style.', 'rStyle', 'pStyle');
+// Define styles
+$section->addText('I am styled by a font style definition.', $fontStyleName);
+$section->addText('I am styled by a paragraph style definition.', null, $paragraphStyleName);
+$section->addText('I am styled by both font and paragraph style.', $fontStyleName, $paragraphStyleName);
 
-$section->addPageBreak();
+$section->addTextBreak();
 
 // Inline font style
 $fontStyle['name'] = 'Times New Roman';
 $fontStyle['size'] = 20;
-$fontStyle['bold'] = true;
-$fontStyle['italic'] = true;
-$fontStyle['underline'] = 'dash';
-$fontStyle['strikethrough'] = true;
-$fontStyle['superScript'] = true;
-$fontStyle['color'] = 'FF0000';
-$fontStyle['fgColor'] = 'yellow';
-$fontStyle['smallCaps'] = true;
-$section->addText('I am inline styled.', $fontStyle);
 
-$section->addTextBreak();
+$textrun = $section->addTextRun();
+$textrun->addText('I am inline styled ', $fontStyle);
+$textrun->addText('with ');
+$textrun->addText('color', array('color' => '996699'));
+$textrun->addText(', ');
+$textrun->addText('bold', array('bold' => true));
+$textrun->addText(', ');
+$textrun->addText('italic', array('italic' => true));
+$textrun->addText(', ');
+$textrun->addText('underline', array('underline' => 'dash'));
+$textrun->addText(', ');
+$textrun->addText('strikethrough', array('strikethrough' => true));
+$textrun->addText(', ');
+$textrun->addText('doubleStrikethrough', array('doubleStrikethrough' => true));
+$textrun->addText(', ');
+$textrun->addText('superScript', array('superScript' => true));
+$textrun->addText(', ');
+$textrun->addText('subScript', array('subScript' => true));
+$textrun->addText(', ');
+$textrun->addText('smallCaps', array('smallCaps' => true));
+$textrun->addText(', ');
+$textrun->addText('allCaps', array('allCaps' => true));
+$textrun->addText(', ');
+$textrun->addText('fgColor', array('fgColor' => 'yellow'));
+$textrun->addText(', ');
+$textrun->addText('scale', array('scale' => 200));
+$textrun->addText(', ');
+$textrun->addText('spacing', array('spacing' => 120));
+$textrun->addText(', ');
+$textrun->addText('kerning', array('kerning' => 10));
+$textrun->addText('. ');
 
 // Link
-$section->addLink('http://www.google.com', 'Google');
+$section->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 $section->addTextBreak();
 
 // Image

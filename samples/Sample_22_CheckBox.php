@@ -2,10 +2,12 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
+// New section
 $section = $phpWord->addSection();
+
 $section->addText('Check box in section');
 $section->addCheckBox('chkBox1', 'Checkbox 1');
 $section->addText('Check box in table cell');

@@ -2,11 +2,10 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s'), " Create new PhpWord object", EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // Begin code
-
 $section = $phpWord->addSection();
 $header = $section->addHeader();
 $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));

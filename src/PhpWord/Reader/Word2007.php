@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
@@ -55,6 +55,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             array('stepPart' => 'document', 'stepItems' => array(
                 'endnotes'  => 'Endnotes',
                 'footnotes' => 'Footnotes',
+                'settings'  => 'Settings',
             )),
         );
 
@@ -63,7 +64,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $stepItems = $step['stepItems'];
             foreach ($relationships[$stepPart] as $relItem) {
                 $relType = $relItem['type'];
-                if (array_key_exists($relType, $stepItems)) {
+                if (isset($stepItems[$relType])) {
                     $partName = $stepItems[$relType];
                     $xmlFile = $relItem['target'];
                     $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
@@ -75,7 +76,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
     }
 
     /**
-     * Read document part
+     * Read document part.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @param array $relationships
@@ -83,7 +84,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
      * @param string $docFile
      * @param string $xmlFile
      */
-    private function readPart(PhpWord &$phpWord, $relationships, $partName, $docFile, $xmlFile)
+    private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\Word2007\\{$partName}";
         if (class_exists($partClass)) {
@@ -92,7 +93,6 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $part->setRels($relationships);
             $part->read($phpWord);
         }
-
     }
 
     /**
@@ -147,6 +147,7 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $rId = $xmlReader->getAttribute('Id', $node);
             $type = $xmlReader->getAttribute('Type', $node);
             $target = $xmlReader->getAttribute('Target', $node);
+            $mode = $xmlReader->getAttribute('TargetMode', $node);
 
             // Remove URL prefixes from $type to make it easier to read
             $type = str_replace($metaPrefix, '', $type);
@@ -154,12 +155,12 @@ class Word2007 extends AbstractReader implements ReaderInterface
             $docPart = str_replace('.xml', '', $target);
 
             // Do not add prefix to link source
-            if (!in_array($type, array('hyperlink'))) {
+            if ($type != 'hyperlink' && $mode != 'External') {
                 $target = $targetPrefix . $target;
             }
 
             // Push to return array
-            $rels[$rId] = array('type' => $type, 'target' => $target, 'docPart' => $docPart);
+            $rels[$rId] = array('type' => $type, 'target' => $target, 'docPart' => $docPart, 'targetMode' => $mode);
         }
         ksort($rels);
 

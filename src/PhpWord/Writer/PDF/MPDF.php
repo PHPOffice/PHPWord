@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PhpWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
 /**
  * MPDF writer
  *
- * @link http://www.mpdf1.com/
+ * @see  http://www.mpdf1.com/
  * @since 0.11.0
  */
 class MPDF extends AbstractRenderer implements WriterInterface
@@ -35,7 +35,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
     protected $includeFile = 'mpdf.php';
 
     /**
-     * Save PhpWord to file
+     * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
      */
@@ -54,7 +54,7 @@ class MPDF extends AbstractRenderer implements WriterInterface
 
         // Write document properties
         $phpWord = $this->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $pdf->setTitle($docProps->getTitle());
         $pdf->setAuthor($docProps->getCreator());
         $pdf->setSubject($docProps->getSubject());

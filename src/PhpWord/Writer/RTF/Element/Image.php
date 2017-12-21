@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\RTF\Element;
 
 use PhpOffice\PhpWord\Element\Image as ImageElement;
-use PhpOffice\PhpWord\Shared\Font;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Image element RTF writer
@@ -45,8 +45,8 @@ class Image extends AbstractElement
         $content .= $this->writeOpening();
         $content .= '{\*\shppict {\pict';
         $content .= '\pngblip\picscalex100\picscaley100';
-        $content .= '\picwgoal' . round(Font::pixelSizeToTwips($style->getWidth()));
-        $content .= '\pichgoal' . round(Font::pixelSizeToTwips($style->getHeight()));
+        $content .= '\picwgoal' . round(Converter::pixelToTwip($style->getWidth()));
+        $content .= '\pichgoal' . round(Converter::pixelToTwip($style->getHeight()));
         $content .= PHP_EOL;
         $content .= $this->element->getImageStringData();
         $content .= '}}';

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -39,7 +39,7 @@ class DocPropsCustom extends AbstractPart
         $xmlWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties');
         $xmlWriter->writeAttribute('xmlns:vt', 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes');
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $properties = $docProps->getCustomProperties();
         foreach ($properties as $key => $property) {
             $propertyValue = $docProps->getCustomPropertyValue($property);
@@ -60,9 +60,11 @@ class DocPropsCustom extends AbstractPart
                     $xmlWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
                     break;
                 case 'd':
-                    $xmlWriter->startElement('vt:filetime');
-                    $xmlWriter->writeRaw(date($this->dateFormat, $propertyValue));
-                    $xmlWriter->endElement();
+                    if ($propertyValue instanceof \DateTime) {
+                        $xmlWriter->writeElement('vt:filetime', $propertyValue->format($this->dateFormat));
+                    } else {
+                        $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                    }
                     break;
                 default:
                     $xmlWriter->writeElement('vt:lpwstr', $propertyValue);

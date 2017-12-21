@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -56,7 +56,7 @@ class Row extends AbstractElement
     public function __construct($height = null, $style = null)
     {
         $this->height = $height;
-        $this->style = $this->setStyle(new RowStyle(), $style, true);
+        $this->style = $this->setNewStyle(new RowStyle(), $style, true);
     }
 
     /**
@@ -69,9 +69,7 @@ class Row extends AbstractElement
     public function addCell($width = null, $style = null)
     {
         $cell = new Cell($width, $style);
-        $cell->setDocPart($this->getDocPart(), $this->getDocPartId());
-        $cell->setPhpWord($this->phpWord);
-        $cell->setNestedLevel($this->getNestedLevel());
+        $cell->setParentContainer($this);
         $this->cells[] = $cell;
 
         return $cell;

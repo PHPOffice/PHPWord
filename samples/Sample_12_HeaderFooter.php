@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word document
-echo date('H:i:s') , " Create new PhpWord object" , EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
@@ -16,21 +16,18 @@ $table->addRow();
 $cell = $table->addCell(4500);
 $textrun = $cell->addTextRun();
 $textrun->addText('This is the header with ');
-$textrun->addLink('http://google.com', 'link to Google');
-$table->addCell(4500)->addImage(
-    'resources/PhpWord.png',
-    array('width' => 80, 'height' => 80, 'align' => 'right')
-);
+$textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
+$table->addCell(4500)->addImage('resources/PhpWord.png', array('width' => 80, 'height' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
 
 // Add header for all other pages
 $subsequent = $section->addHeader();
-$subsequent->addText("Subsequent pages in Section 1 will Have this!");
+$subsequent->addText('Subsequent pages in Section 1 will Have this!');
 $subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80));
 
 // Add footer
 $footer = $section->addFooter();
-$footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', array('align' => 'center'));
-$footer->addLink('http://google.com', 'Direct Google');
+$footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', null, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
+$footer->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 
 // Write some text
 $section->addTextBreak();
@@ -54,7 +51,7 @@ $section->addText('Some text...');
 $section2 = $phpWord->addSection();
 
 $sec2Header = $section2->addHeader();
-$sec2Header->addText("All pages in Section 2 will Have this!");
+$sec2Header->addText('All pages in Section 2 will Have this!');
 
 // Write some text
 $section2->addTextBreak();

@@ -2,7 +2,7 @@
 include_once 'Sample_Header.php';
 
 // New Word Document
-echo date('H:i:s') , ' Create new PhpWord object' , EOL;
+echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
@@ -16,11 +16,22 @@ $section->addPageBreak();
 $section->addPageBreak();
 
 // New portrait section
-$section = $phpWord->addSection(array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600));
-$section->addText('This section uses other margins.');
+$section = $phpWord->addSection(
+    array('paperSize' => 'Folio', 'marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
+);
+$section->addText('This section uses other margins with folio papersize.');
 
 // New portrait section with Header & Footer
-$section = $phpWord->addSection(array('marginLeft' => 200, 'marginRight' => 200, 'marginTop' => 200, 'marginBottom' => 200, 'headerHeight' => 50, 'footerHeight' => 50,));
+$section = $phpWord->addSection(
+    array(
+        'marginLeft'   => 200,
+        'marginRight'  => 200,
+        'marginTop'    => 200,
+        'marginBottom' => 200,
+        'headerHeight' => 50,
+        'footerHeight' => 50,
+    )
+);
 $section->addText('This section and we play with header/footer height.');
 $section->addHeader()->addText('Header');
 $section->addFooter()->addText('Footer');

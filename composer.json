@@ -1,10 +1,10 @@
 {
     "name": "phpoffice/phpword",
-    "description": "PHPWord - A pure PHP library for reading and writing word processing documents (DOCX, ODT, RTF, HTML, PDF)",
+    "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
     "keywords": [
-        "PHP", "PhpOffice", "office", "PhpWord", "word", "template", "reader", "writer",
+        "PHP", "PHPOffice", "office", "PHPWord", "word", "template", "template processor", "reader", "writer",
         "docx", "OOXML", "OpenXML", "Office Open XML", "ISO IEC 29500", "WordprocessingML",
-        "RTF", "Rich Text Format", "doc", "odt", "OpenDocument", "PDF", "HTML"
+        "RTF", "Rich Text Format", "doc", "odt", "ODF", "OpenDocument", "PDF", "HTML"
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
@@ -20,7 +20,7 @@
         },
         {
             "name": "Franck Lefevre",
-            "homepage": "http://blog.rootslabs.net"
+            "homepage": "https://rootslabs.net/blog/"
         },
         {
             "name": "Ivan Lanin",
@@ -29,26 +29,47 @@
         {
             "name": "Roman Syroeshko",
             "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+        },
+        {
+            "name": "Antoine de Troostembergh"
         }
     ],
+    "scripts": {
+        "check": [
+            "./vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
+            "./vendor/bin/phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+            "./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
+            "./vendor/bin/phpunit --color=always"
+        ],
+        "fix": [
+            "./vendor/bin/php-cs-fixer fix --ansi"
+        ]
+    },
     "require": {
         "php": ">=5.3.3",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "zendframework/zend-escaper": "^2.2",
+        "zendframework/zend-stdlib": "^2.2 || ^3.0",
+        "phpoffice/common": "^0.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "^4.8.36",
         "phpdocumentor/phpdocumentor":"2.*",
-        "squizlabs/php_codesniffer": "1.*",
-        "dompdf/dompdf":"0.6.*",
-        "tecnick.com/tcpdf": "6.*",
+        "twig/twig":"1.27",
+        "squizlabs/php_codesniffer": "^2.7",
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpmd/phpmd": "2.*",
+        "phploc/phploc": "2.*",
+        "dompdf/dompdf":"0.8.*",
+        "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.*"
     },
     "suggest": {
-        "ext-zip": "Used to write DOCX and ODT",
-        "ext-gd2": "Used to add images",
-        "ext-xmlwriter": "Used to write DOCX and ODT",
-        "ext-xsl": "Used to apply XSL style sheet to template part",
-        "dompdf/dompdf": "Used to write PDF"
+        "ext-zip": "Allows writing OOXML and ODF",
+        "ext-gd2": "Allows adding images",
+        "ext-xmlwriter": "Allows writing OOXML and ODF",
+        "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
+        "dompdf/dompdf": "Allows writing PDF"
     },
     "autoload": {
         "psr-4": {

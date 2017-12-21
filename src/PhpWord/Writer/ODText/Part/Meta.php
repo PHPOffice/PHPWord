@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * ODText meta part writer: meta.xml
@@ -34,7 +34,7 @@ class Meta extends AbstractPart
     public function write()
     {
         $phpWord = $this->getParentWriter()->getPhpWord();
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8');
@@ -86,7 +86,7 @@ class Meta extends AbstractPart
     /**
      * Write individual property
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $property
      * @param string $value
      *
@@ -99,7 +99,7 @@ class Meta extends AbstractPart
         // if ($type !== null) {
         //     $xmlWriter->writeAttribute('meta:value-type', $type);
         // }
-        $xmlWriter->writeRaw($value);
+        $this->writeText($value);
         $xmlWriter->endElement(); // meta:user-defined
     }
 }

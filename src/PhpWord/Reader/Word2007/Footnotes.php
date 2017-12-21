@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Footnotes reader
@@ -42,11 +42,11 @@ class Footnotes extends AbstractPart
     protected $element = 'footnote';
 
     /**
-     * Read (footnotes|endnotes).xml
+     * Read (footnotes|endnotes).xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $getMethod = "get{$this->collection}";
         $collection = $phpWord->$getMethod()->getItems();
@@ -61,7 +61,7 @@ class Footnotes extends AbstractPart
 
                 // Avoid w:type "separator" and "continuationSeparator"
                 // Only look for <footnote> or <endnote> without w:type attribute
-                if (is_null($type) && array_key_exists($id, $collection)) {
+                if (is_null($type) && isset($collection[$id])) {
                     $element = $collection[$id];
                     $pNodes = $xmlReader->getElements('w:p/*', $node);
                     foreach ($pNodes as $pNode) {

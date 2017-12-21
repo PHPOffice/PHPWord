@@ -10,12 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Link element HTML writer
@@ -37,7 +39,11 @@ class Link extends Text
 
         $content = '';
         $content .= $this->writeOpening();
-        $content .= "<a href=\"{$this->element->getTarget()}\">{$this->element->getText()}</a>";
+        if (Settings::isOutputEscapingEnabled()) {
+            $content .= "<a href=\"{$this->escaper->escapeHtmlAttr($this->element->getSource())}\">{$this->escaper->escapeHtml($this->element->getText())}</a>";
+        } else {
+            $content .= "<a href=\"{$this->element->getSource()}\">{$this->element->getText()}</a>";
+        }
         $content .= $this->writeClosing();
 
         return $content;

@@ -1,28 +1,33 @@
 <?php
-/**
- * Header file
- */
-use PhpOffice\PhpWord\Autoloader;
-use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory;
+require_once __DIR__ . '/../bootstrap.php';
 
+use PhpOffice\PhpWord\Settings;
+
+date_default_timezone_set('UTC');
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
 define('EOL', CLI ? PHP_EOL : '<br />');
 define('SCRIPT_FILENAME', basename($_SERVER['SCRIPT_FILENAME'], '.php'));
 define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
-require_once __DIR__ . '/../src/PhpWord/Autoloader.php';
-Autoloader::register();
 Settings::loadConfig();
+
+$dompdfPath = $vendorDirPath . '/dompdf/dompdf';
+if (file_exists($dompdfPath)) {
+    define('DOMPDF_ENABLE_AUTOLOAD', false);
+    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
+}
 
 // Set writers
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
 // Set PDF renderer
-if (Settings::getPdfRendererPath() === null) {
+if (null === Settings::getPdfRendererPath()) {
     $writers['PDF'] = null;
 }
+
+// Turn output escaping on
+Settings::setOutputEscapingEnabled(true);
 
 // Return to the caller script when runs by CLI
 if (CLI) {
@@ -53,18 +58,19 @@ if ($handle = opendir('.')) {
  * @param \PhpOffice\PhpWord\PhpWord $phpWord
  * @param string $filename
  * @param array $writers
+ *
+ * @return string
  */
 function write($phpWord, $filename, $writers)
 {
     $result = '';
 
     // Write documents
-    foreach ($writers as $writer => $extension) {
-        $result .= date('H:i:s') . " Write to {$writer} format";
-        if (!is_null($extension)) {
-            $xmlWriter = IOFactory::createWriter($phpWord, $writer);
-            $xmlWriter->save(__DIR__ . "/{$filename}.{$extension}");
-            rename(__DIR__ . "/{$filename}.{$extension}", __DIR__ . "/results/{$filename}.{$extension}");
+    foreach ($writers as $format => $extension) {
+        $result .= date('H:i:s') . " Write to {$format} format";
+        if (null !== $extension) {
+            $targetFile = __DIR__ . "/results/{$filename}.{$extension}";
+            $phpWord->save($targetFile, $format);
         } else {
             $result .= ' ... NOT DONE!';
         }
@@ -80,6 +86,8 @@ function write($phpWord, $filename, $writers)
  * Get ending notes
  *
  * @param array $writers
+ *
+ * @return string
  */
 function getEndingNotes($writers)
 {
@@ -87,8 +95,8 @@ function getEndingNotes($writers)
 
     // Do not show execution time for index
     if (!IS_INDEX) {
-        $result .= date('H:i:s') . " Done writing file(s)" . EOL;
-        $result .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB" . EOL;
+        $result .= date('H:i:s') . ' Done writing file(s)' . EOL;
+        $result .= date('H:i:s') . ' Peak memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MB' . EOL;
     }
 
     // Return
@@ -144,7 +152,7 @@ function getEndingNotes($writers)
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/PHPOffice/PHPWord"><i class="fa fa-github fa-lg" title="GitHub"></i>&nbsp;</a></li>
-                <li><a href="http://phpword.readthedocs.org/en/develop/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
+                <li><a href="http://phpword.readthedocs.org/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
                 <li><a href="http://twitter.com/PHPWord"><i class="fa fa-twitter fa-lg" title="Twitter"></i>&nbsp;</a></li>
             </ul>
         </div>

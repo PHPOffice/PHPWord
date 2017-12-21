@@ -10,17 +10,19 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\Common\Text as CommonText;
 
 /**
  * Check box element
+ *
+ * @since 0.10.0
  */
 class CheckBox extends Text
 {
@@ -38,7 +40,6 @@ class CheckBox extends Text
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
-     * @return self
      */
     public function __construct($name = null, $text = null, $fontStyle = null, $paragraphStyle = null)
     {
@@ -54,7 +55,7 @@ class CheckBox extends Text
      */
     public function setName($name)
     {
-        $this->name = String::toUTF8($name);
+        $this->name = CommonText::toUTF8($name);
 
         return $this;
     }

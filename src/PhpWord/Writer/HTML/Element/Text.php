@@ -10,13 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
@@ -72,7 +73,11 @@ class Text extends AbstractElement
         $content .= $this->writeOpening();
         $content .= $this->openingText;
         $content .= $this->openingTags;
-        $content .= htmlspecialchars($element->getText());
+        if (Settings::isOutputEscapingEnabled()) {
+            $content .= $this->escaper->escapeHtml($element->getText());
+        } else {
+            $content .= $element->getText();
+        }
         $content .= $this->closingTags;
         $content .= $this->closingText;
         $content .= $this->writeClosing();
@@ -81,7 +86,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Set opening text
+     * Set opening text.
      *
      * @param string $value
      */
@@ -91,7 +96,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Set closing text
+     * Set closing text.
      *
      * @param string $value
      */
@@ -161,8 +166,13 @@ class Text extends AbstractElement
         }
         
         if (!$this->withoutP) {
-            $content .= $this->closingText;
-            $content .= "</p>" . PHP_EOL;
+            if (Settings::isOutputEscapingEnabled()) {
+                $content .= $this->escaper->escapeHtml($this->closingText);
+            } else {
+                $content .= $this->closingText;
+            }
+
+            $content .= '</p>' . PHP_EOL;
         }
 
         return $content;
@@ -187,6 +197,8 @@ class Text extends AbstractElement
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($paragraphStyle)) {
+            $style = $paragraphStyle;
         }
         if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
@@ -197,7 +209,7 @@ class Text extends AbstractElement
     }
 
     /**
-     * Get font style
+     * Get font style.
      */
     private function getFontStyle()
     {
@@ -209,11 +221,13 @@ class Text extends AbstractElement
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($fontStyle)) {
+            $style = $fontStyle;
         }
         if ($style) {
             $attribute = $fStyleIsObject ? 'style' : 'class';
             $this->openingTags = "<span {$attribute}=\"{$style}\">";
-            $this->closingTags = "</span>";
+            $this->closingTags = '</span>';
         }
     }
 }

@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * ChangedElement class
  */
-class ChangedElement
+class ChangedElement extends TrackChange
 {
     /**
       * change type TYPE_INSERTED|TYPE_DELETED
@@ -28,20 +28,6 @@ class ChangedElement
       * @var int
       */
     private $changeType;
-
-    /**
-      * author name of change
-      *
-      * @var string
-      */
-    private $author;
-
-    /**
-      * date of change
-      *
-      * @var timestamp UTC
-      */
-    private $date;
 
     const TYPE_INSERTED = 1;
     const TYPE_DELETED  = 2;
@@ -68,25 +54,5 @@ class ChangedElement
     public function getChangeType()
     {
         return $this->changeType;
-    }
-
-    /**
-       * Get author name of change
-       *
-       * @return string
-       */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-       * Get date of change
-       *
-       * @return timestamp
-       */
-    public function getDate()
-    {
-        return $this->date;
     }
 }

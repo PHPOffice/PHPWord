@@ -10,19 +10,19 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLWriter;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -106,9 +106,11 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles other than fonts and paragraphs
+     * Write automatic styles other than fonts and paragraphs.
      *
      * @since 0.11.0
+     *
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeAutoStyles(XMLWriter $xmlWriter)
     {
@@ -118,7 +120,6 @@ class Content extends AbstractPart
         foreach ($this->autoStyles as $element => $styles) {
             $writerClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $element;
             foreach ($styles as $style) {
-
                 /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
                 $styleWriter = new $writerClass($xmlWriter, $style);
                 $styleWriter->write();
@@ -129,7 +130,9 @@ class Content extends AbstractPart
     }
 
     /**
-     * Write automatic styles
+     * Write automatic styles.
+     *
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
@@ -160,7 +163,9 @@ class Content extends AbstractPart
     }
 
     /**
-     * Get automatic styles
+     * Get automatic styles.
+     *
+     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
     private function getAutoStyles(PhpWord $phpWord)
     {
@@ -168,7 +173,7 @@ class Content extends AbstractPart
         $paragraphStyleCount = 0;
         $fontStyleCount = 0;
         foreach ($sections as $section) {
-            $style = $section->getSettings();
+            $style = $section->getStyle();
             $style->setStyleName("Section{$section->getSectionId()}");
             $this->autoStyles['Section'][] = $style;
             $this->getContainerStyle($section, $paragraphStyleCount, $fontStyleCount);
@@ -181,8 +186,8 @@ class Content extends AbstractPart
      * Table style can be null or string of the style name
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
      * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
@@ -213,9 +218,9 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text $element
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
+     * @param \PhpOffice\PhpWord\Element\Text &$element
+     * @param int &$paragraphStyleCount
+     * @param int &$fontStyleCount
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
     {
@@ -223,15 +228,14 @@ class Content extends AbstractPart
         $paragraphStyle = $element->getParagraphStyle();
         $phpWord = $this->getParentWriter()->getPhpWord();
 
-        // Font
         if ($fontStyle instanceof Font) {
+            // Font
             $fontStyleCount++;
             $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle);
             $style->setAuto();
             $element->setFontStyle("T{$fontStyleCount}");
-
-        // Paragraph
         } elseif ($paragraphStyle instanceof Paragraph) {
+            // Paragraph
             $paragraphStyleCount++;
             $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
             $style->setAuto();

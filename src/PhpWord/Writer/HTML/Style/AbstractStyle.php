@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,6 +26,13 @@ use PhpOffice\PhpWord\Style\AbstractStyle as Style;
  */
 abstract class AbstractStyle
 {
+    /**
+     * Parent writer
+     *
+     * @var \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    private $parentWriter;
+
     /**
      * Style
      *
@@ -46,6 +53,26 @@ abstract class AbstractStyle
     public function __construct($style = null)
     {
         $this->style = $style;
+    }
+
+    /**
+     * Set parent writer.
+     *
+     * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
+     */
+    public function setParentWriter($writer)
+    {
+        $this->parentWriter = $writer;
+    }
+
+    /**
+     * Get parent writer
+     *
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
+     */
+    public function getParentWriter()
+    {
+        return $this->parentWriter;
     }
 
     /**

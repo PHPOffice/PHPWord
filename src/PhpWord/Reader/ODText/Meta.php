@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\ODText;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Meta reader
@@ -28,16 +28,16 @@ use PhpOffice\PhpWord\Shared\XMLReader;
 class Meta extends AbstractPart
 {
     /**
-     * Read meta.xml
+     * Read meta.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @todo Process property type
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
 
         $metaNode = $xmlReader->getElement('office:meta');
 
@@ -69,9 +69,8 @@ class Meta extends AbstractPart
             if (in_array($property, array('Category', 'Company', 'Manager'))) {
                 $method = "set{$property}";
                 $docProps->$method($propertyNode->nodeValue);
-
-            // Set other custom properties
             } else {
+                // Set other custom properties
                 $docProps->setCustomProperty($property, $propertyNode->nodeValue);
             }
         }

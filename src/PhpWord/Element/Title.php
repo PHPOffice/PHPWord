@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\Common\Text as CommonText;
 use PhpOffice\PhpWord\Style;
 
 /**
@@ -47,6 +47,13 @@ class Title extends AbstractElement
     private $style;
 
     /**
+     * Is part of collection
+     *
+     * @var bool
+     */
+    protected $collectionRelation = true;
+
+    /**
      * Create a new Title Element
      *
      * @param string $text
@@ -54,11 +61,10 @@ class Title extends AbstractElement
      */
     public function __construct($text, $depth = 1)
     {
-
-        $this->text = String::toUTF8($text);
+        $this->text = CommonText::toUTF8($text);
         $this->depth = $depth;
-        if (array_key_exists('Heading_' . $this->depth, Style::getStyles())) {
-            $this->style = 'Heading' . $this->depth;
+        if (array_key_exists("Heading_{$this->depth}", Style::getStyles())) {
+            $this->style = "Heading{$this->depth}";
         }
 
         return $this;
@@ -77,7 +83,7 @@ class Title extends AbstractElement
     /**
      * Get depth
      *
-     * @return integer
+     * @return int
      */
     public function getDepth()
     {

@@ -10,15 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
+use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\XMLReader;
 
 /**
  * Core properties reader
@@ -33,15 +33,15 @@ class DocPropsCore extends AbstractPart
      * @var array
      */
     protected $mapping = array(
-        'dc:creator' => 'setCreator',
-        'dc:title' => 'setTitle',
-        'dc:description' => 'setDescription',
-        'dc:subject' => 'setSubject',
-        'cp:keywords' => 'setKeywords',
-        'cp:category' => 'setCategory',
+        'dc:creator'        => 'setCreator',
+        'dc:title'          => 'setTitle',
+        'dc:description'    => 'setDescription',
+        'dc:subject'        => 'setSubject',
+        'cp:keywords'       => 'setKeywords',
+        'cp:category'       => 'setCategory',
         'cp:lastModifiedBy' => 'setLastModifiedBy',
-        'dcterms:created' => 'setCreated',
-        'dcterms:modified' => 'setModified',
+        'dcterms:created'   => 'setCreated',
+        'dcterms:modified'  => 'setModified',
     );
 
     /**
@@ -52,26 +52,26 @@ class DocPropsCore extends AbstractPart
     protected $callbacks = array('dcterms:created' => 'strtotime', 'dcterms:modified' => 'strtotime');
 
     /**
-     * Read core/extended document properties
+     * Read core/extended document properties.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public function read(PhpWord &$phpWord)
+    public function read(PhpWord $phpWord)
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
 
-        $docProps = $phpWord->getDocumentProperties();
+        $docProps = $phpWord->getDocInfo();
 
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
-                if (!array_key_exists($node->nodeName, $this->mapping)) {
+                if (!isset($this->mapping[$node->nodeName])) {
                     continue;
                 }
                 $method = $this->mapping[$node->nodeName];
                 $value = $node->nodeValue == '' ? null : $node->nodeValue;
-                if (array_key_exists($node->nodeName, $this->callbacks)) {
+                if (isset($this->callbacks[$node->nodeName])) {
                     $value = $this->callbacks[$node->nodeName]($value);
                 }
                 if (method_exists($docProps, $method)) {

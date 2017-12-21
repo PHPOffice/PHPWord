@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 
 /**
  * Word2007 contenttypes part writer: [Content_Types].xml
@@ -36,24 +36,30 @@ class ContentTypes extends AbstractPart
         $contentTypes = $parentWriter->getContentTypes();
 
         $openXMLPrefix = 'application/vnd.openxmlformats-';
-        $wordMLPrefix  = $openXMLPrefix . 'officedocument.wordprocessingml.';
+        $wordMLPrefix = $openXMLPrefix . 'officedocument.wordprocessingml.';
+        $drawingMLPrefix = $openXMLPrefix . 'officedocument.drawingml.';
         $overrides = array(
             '/docProps/core.xml'     => $openXMLPrefix . 'package.core-properties+xml',
             '/docProps/app.xml'      => $openXMLPrefix . 'officedocument.extended-properties+xml',
             '/docProps/custom.xml'   => $openXMLPrefix . 'officedocument.custom-properties+xml',
-            '/word/document.xml'     => $wordMLPrefix  . 'document.main+xml',
-            '/word/styles.xml'       => $wordMLPrefix  . 'styles+xml',
-            '/word/numbering.xml'    => $wordMLPrefix  . 'numbering+xml',
-            '/word/settings.xml'     => $wordMLPrefix  . 'settings+xml',
+            '/word/document.xml'     => $wordMLPrefix . 'document.main+xml',
+            '/word/styles.xml'       => $wordMLPrefix . 'styles+xml',
+            '/word/numbering.xml'    => $wordMLPrefix . 'numbering+xml',
+            '/word/settings.xml'     => $wordMLPrefix . 'settings+xml',
             '/word/theme/theme1.xml' => $openXMLPrefix . 'officedocument.theme+xml',
-            '/word/webSettings.xml'  => $wordMLPrefix  . 'webSettings+xml',
-            '/word/fontTable.xml'    => $wordMLPrefix  . 'fontTable+xml',
+            '/word/webSettings.xml'  => $wordMLPrefix . 'webSettings+xml',
+            '/word/fontTable.xml'    => $wordMLPrefix . 'fontTable+xml',
+            '/word/comments.xml'     => $wordMLPrefix . 'comments+xml',
         );
 
         $defaults = $contentTypes['default'];
         if (!empty($contentTypes['override'])) {
             foreach ($contentTypes['override'] as $key => $val) {
-                $overrides[$key] = $wordMLPrefix . $val . '+xml';
+                if ($val == 'chart') {
+                    $overrides[$key] = $drawingMLPrefix . $val . '+xml';
+                } else {
+                    $overrides[$key] = $wordMLPrefix . $val . '+xml';
+                }
             }
         }
 
@@ -74,9 +80,9 @@ class ContentTypes extends AbstractPart
     /**
      * Write content types element
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter XML Writer
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter XML Writer
      * @param array $parts
-     * @param boolean $isDefault
+     * @param bool $isDefault
      */
     private function writeContentType(XMLWriter $xmlWriter, $parts, $isDefault)
     {

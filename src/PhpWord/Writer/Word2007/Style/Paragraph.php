@@ -10,17 +10,17 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Style;
-use PhpOffice\PhpWord\Style\Alignment as AlignmentStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
 
 /**
  * Paragraph style writer
@@ -44,7 +44,7 @@ class Paragraph extends AbstractStyle
     private $isInline = false;
 
     /**
-     * Write style
+     * Write style.
      */
     public function write()
     {
@@ -67,7 +67,7 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
      */
     private function writeStyle()
     {
@@ -83,11 +83,9 @@ class Paragraph extends AbstractStyle
         }
 
         // Style name
-        $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
-
-        // Alignment
-        $styleWriter = new Alignment($xmlWriter, new AlignmentStyle(array('value' => $styles['alignment'])));
-        $styleWriter->write();
+        if ($this->isInline === true) {
+            $xmlWriter->writeElementIf($styles['name'] !== null, 'w:pStyle', 'w:val', $styles['name']);
+        }
 
         // Pagination
         $xmlWriter->writeElementIf($styles['pagination']['widowControl'] === false, 'w:widowControl', 'w:val', '0');
@@ -95,9 +93,29 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeElementIf($styles['pagination']['keepLines'] === true, 'w:keepLines', 'w:val', '1');
         $xmlWriter->writeElementIf($styles['pagination']['pageBreak'] === true, 'w:pageBreakBefore', 'w:val', '1');
 
-        // Indentation & spacing
+        // Paragraph alignment
+        if ('' !== $styles['alignment']) {
+            $paragraphAlignment = new ParagraphAlignment($styles['alignment']);
+            $xmlWriter->startElement($paragraphAlignment->getName());
+            foreach ($paragraphAlignment->getAttributes() as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            $xmlWriter->endElement();
+        }
+
+        //Right to left
+        $xmlWriter->writeElementIf($styles['bidi'] === true, 'w:bidi');
+
+        //Paragraph contextualSpacing
+        $xmlWriter->writeElementIf($styles['contextualSpacing'] === true, 'w:contextualSpacing');
+
+        //Paragraph contextualSpacing
+        $xmlWriter->writeElementIf($styles['textAlignment'] !== null, 'w:textAlignment', 'w:val', $styles['textAlignment']);
+
+        // Child style: alignment, indentation, spacing, and shading
         $this->writeChildStyle($xmlWriter, 'Indentation', $styles['indentation']);
         $this->writeChildStyle($xmlWriter, 'Spacing', $styles['spacing']);
+        $this->writeChildStyle($xmlWriter, 'Shading', $styles['shading']);
 
         // Tabs
         $this->writeTabs($xmlWriter, $styles['tabs']);
@@ -105,39 +123,33 @@ class Paragraph extends AbstractStyle
         // Numbering
         $this->writeNumbering($xmlWriter, $styles['numbering']);
 
+        // Border
+        if ($style->hasBorder()) {
+            $xmlWriter->startElement('w:pBdr');
+
+            $styleWriter = new MarginBorder($xmlWriter);
+            $styleWriter->setSizes($style->getBorderSize());
+            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->write();
+
+            $xmlWriter->endElement();
+        }
+
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
         }
     }
 
     /**
-     * Write child style
+     * Write tabs.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
-     * @param string $name
-     * @param mixed $value
-     */
-    private function writeChildStyle(XMLWriter $xmlWriter, $name, $value)
-    {
-        if ($value !== null) {
-            $class = "PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\" . $name;
-
-            /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
-            $writer = new $class($xmlWriter, $value);
-            $writer->write();
-        }
-    }
-
-    /**
-     * Write tabs
-     *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs)
     {
         if (!empty($tabs)) {
-            $xmlWriter->startElement("w:tabs");
+            $xmlWriter->startElement('w:tabs');
             foreach ($tabs as $tab) {
                 $styleWriter = new Tab($xmlWriter, $tab);
                 $styleWriter->write();
@@ -147,9 +159,9 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Write numbering
+     * Write numbering.
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param array $numbering
      */
     private function writeNumbering(XMLWriter $xmlWriter, $numbering)
@@ -176,7 +188,7 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set without w:pPr
+     * Set without w:pPr.
      *
      * @param bool $value
      */
@@ -186,7 +198,7 @@ class Paragraph extends AbstractStyle
     }
 
     /**
-     * Set is inline
+     * Set is inline.
      *
      * @param bool $value
      */

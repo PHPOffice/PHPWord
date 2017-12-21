@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\Common\Text as CommonText;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -105,12 +105,12 @@ class Text extends AbstractElement
     public function setParagraphStyle($style = null)
     {
         if (is_array($style)) {
-            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle = new Paragraph();
             $this->paragraphStyle->setStyleByArray($style);
         } elseif ($style instanceof Paragraph) {
             $this->paragraphStyle = $style;
         } elseif (null === $style) {
-            $this->paragraphStyle = new Paragraph;
+            $this->paragraphStyle = new Paragraph();
         } else {
             $this->paragraphStyle = $style;
         }
@@ -136,7 +136,7 @@ class Text extends AbstractElement
      */
     public function setText($text)
     {
-        $this->text = String::toUTF8($text);
+        $this->text = CommonText::toUTF8($text);
 
         return $this;
     }

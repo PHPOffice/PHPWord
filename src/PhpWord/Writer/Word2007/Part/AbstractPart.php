@@ -10,15 +10,16 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\XMLWriter;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
 
 /**
@@ -46,7 +47,7 @@ abstract class AbstractPart
     abstract public function write();
 
     /**
-     * Set parent writer
+     * Set parent writer.
      *
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
      */
@@ -58,22 +59,21 @@ abstract class AbstractPart
     /**
      * Get parent writer
      *
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     public function getParentWriter()
     {
         if (!is_null($this->parentWriter)) {
             return $this->parentWriter;
-        } else {
-            throw new Exception('No parent WriterInterface assigned.');
         }
+        throw new Exception('No parent WriterInterface assigned.');
     }
 
     /**
      * Get XML Writer
      *
-     * @return \PhpOffice\PhpWord\Shared\XMLWriter
+     * @return \PhpOffice\Common\XMLWriter
      */
     protected function getXmlWriter()
     {
@@ -84,9 +84,24 @@ abstract class AbstractPart
             }
         }
         if ($useDiskCaching) {
-            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory());
-        } else {
-            return new XMLWriter(XMLWriter::STORAGE_MEMORY);
+            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory(), Settings::hasCompatibility());
         }
+
+        return new XMLWriter(XMLWriter::STORAGE_MEMORY, './', Settings::hasCompatibility());
+    }
+
+    /**
+     * Write an XML text, this will call text() or writeRaw() depending on the value of Settings::isOutputEscapingEnabled()
+     *
+     * @param string $content The text string to write
+     * @return bool Returns true on success or false on failure
+     */
+    protected function writeText($content)
+    {
+        if (Settings::isOutputEscapingEnabled()) {
+            return $this->getXmlWriter()->text($content);
+        }
+
+        return $this->getXmlWriter()->writeRaw($content);
     }
 }

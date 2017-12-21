@@ -6,14 +6,27 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/coverage.png?s=742a98745725c562955440edc8d2c39d7ff5ae25)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
 [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword)
 [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
+[![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF), HTML, and PDF.
 
 PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
 
+If you have any questions, please ask on [StackOverFlow](https://stackoverflow.com/questions/tagged/phpword)
+
+Read more about PHPWord:
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Contributing](#contributing)
+- [Developers' Documentation](http://phpword.readthedocs.org/)
+- [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/)
+
 ## Features
 
-With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your PHP 5.3+ scripts. Below are some of the things that you can do with PHPWord library:
+With PHPWord, you can create OOXML, ODF, or RTF documents dynamically using your PHP 5.3.3+ scripts. Below are some of the things that you can do with PHPWord library:
 
 - Set document properties, e.g. title, subject, and creator.
 - Create document sections with different settings, e.g. portrait/landscape, page size, and page numbering
@@ -30,92 +43,131 @@ With PHPWord, you can create DOCX, ODT, or RTF documents dynamically using your 
 - Insert list items as bulleted, numbered, or multilevel
 - Insert hyperlinks
 - Insert footnotes and endnotes
+- Insert drawing shapes (arc, curve, line, polyline, rect, oval)
+- Insert charts (pie, doughnut, bar, line, area, scatter, radar)
+- Insert form fields (textinput, checkbox, and dropdown)
 - Create document from templates
-- Use XSL 1.0 style sheets to transform main document part of OOXML template
+- Use XSL 1.0 style sheets to transform headers, main document part, and footers of an OOXML template
 - ... and many more features on progress
 
 ## Requirements
 
 PHPWord requires the following:
 
-- PHP 5.3+
-- [Zip extension](http://php.net/manual/en/book.zip.php)
+- PHP 5.3.3+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
+- [Zend\Escaper component](http://framework.zend.com/manual/current/en/modules/zend.escaper.introduction.html)
+- [Zend\Stdlib component](http://framework.zend.com/manual/current/en/modules/zend.stdlib.hydrator.html)
+- [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
-- [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write DOCX and ODT)
+- [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write OOXML and ODF)
 - [XSL extension](http://php.net/manual/en/book.xsl.php) (optional, used to apply XSL style sheet to template )
-- [dompdf](https://github.com/dompdf/dompdf) (optional, used to write PDF)
+- [dompdf library](https://github.com/dompdf/dompdf) (optional, used to write PDF)
 
 ## Installation
 
-It is recommended that you install the PHPWord library [through composer](http://getcomposer.org/). To do so, add
-the following lines to your ``composer.json``.
+PHPWord is installed via [Composer](https://getcomposer.org/).
+To [add a dependency](https://getcomposer.org/doc/04-schema.md#package-links>) to PHPWord in your project, either
 
+Run the following to use the latest stable version
+```sh
+    composer require phpoffice/phpword
+```
+or if you want the latest master version
+```sh
+    composer require phpoffice/phpword:dev-master
+```
+
+You can of course also manually edit your composer.json file
 ```json
 {
     "require": {
-       "phpoffice/phpword": "dev-master"
+       "phpoffice/phpword": "v0.13.*"
     }
 }
 ```
 
-Alternatively, you can download the latest release from the [releases page](https://github.com/PHPOffice/PHPWord/releases).
-In this case, you will have to register the autoloader.
+## Getting started
+
+The following is a basic usage example of the PHPWord library.
 
 ```php
-require_once 'path/to/PhpWord/src/PhpWord/Autoloader.php';
-\PhpOffice\PhpWord\Autoloader::register();
-```
+<?php
+require_once 'bootstrap.php';
 
-## Usages
-
-The following is a basic example of the PHPWord library. More examples are provided in the [samples folder](samples/).
-
-```php
+// Creating the new document...
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-// Every element you want to append to the word document is placed in a section.
-// To create a basic section:
+/* Note: any element you append to a document must reside inside of a Section. */
+
+// Adding an empty Section to the document...
 $section = $phpWord->addSection();
+// Adding Text element to the Section having font styled by default...
+$section->addText(
+    '"Learn from yesterday, live for today, hope for tomorrow. '
+        . 'The important thing is not to stop questioning." '
+        . '(Albert Einstein)'
+);
 
-// After creating a section, you can append elements:
-$section->addText('Hello world!');
+/*
+ * Note: it's possible to customize font style of the Text element you add in three ways:
+ * - inline;
+ * - using named font style (new font style object will be implicitly created);
+ * - using explicitly created font style object.
+ */
 
-// You can directly style your text by giving the addText function an array:
-$section->addText('Hello world! I am formatted.',
-    array('name'=>'Tahoma', 'size'=>16, 'bold'=>true));
+// Adding Text element with font customized inline...
+$section->addText(
+    '"Great achievement is usually born of great sacrifice, '
+        . 'and is never the result of selfishness." '
+        . '(Napoleon Hill)',
+    array('name' => 'Tahoma', 'size' => 10)
+);
 
-// If you often need the same style again you can create a user defined style
-// to the word document and give the addText function the name of the style:
-$phpWord->addFontStyle('myOwnStyle',
-    array('name'=>'Verdana', 'size'=>14, 'color'=>'1B2232'));
-$section->addText('Hello world! I am formatted by a user defined style',
-    'myOwnStyle');
+// Adding Text element with font customized using named font style...
+$fontStyleName = 'oneUserDefinedStyle';
+$phpWord->addFontStyle(
+    $fontStyleName,
+    array('name' => 'Tahoma', 'size' => 10, 'color' => '1B2232', 'bold' => true)
+);
+$section->addText(
+    '"The greatest accomplishment is not in never falling, '
+        . 'but in rising again after you fall." '
+        . '(Vince Lombardi)',
+    $fontStyleName
+);
 
-// You can also put the appended element to local object like this:
+// Adding Text element with font customized using explicitly created font style object...
 $fontStyle = new \PhpOffice\PhpWord\Style\Font();
 $fontStyle->setBold(true);
-$fontStyle->setName('Verdana');
-$fontStyle->setSize(22);
-$myTextElement = $section->addText('Hello World!');
+$fontStyle->setName('Tahoma');
+$fontStyle->setSize(13);
+$myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
 $myTextElement->setFontStyle($fontStyle);
 
-// Finally, write the document:
+// Saving the document as OOXML file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 $objWriter->save('helloWorld.docx');
 
+// Saving the document as ODF file...
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
 $objWriter->save('helloWorld.odt');
 
-$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-$objWriter->save('helloWorld.rtf');
+// Saving the document as HTML file...
+$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+$objWriter->save('helloWorld.html');
+
+/* Note: we skip RTF, because it's not XML-based and requires a different example. */
+/* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
+
+More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 
 ## Contributing
 
-We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute:
+We welcome everyone to contribute to PHPWord. Below are some of the things that you can do to contribute.
 
-- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md)
-- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch
-- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub
-- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter
+- Read [our contributing guide](https://github.com/PHPOffice/PHPWord/blob/master/CONTRIBUTING.md).
+- [Fork us](https://github.com/PHPOffice/PHPWord/fork) and [request a pull](https://github.com/PHPOffice/PHPWord/pulls) to the [develop](https://github.com/PHPOffice/PHPWord/tree/develop) branch.
+- Submit [bug reports or feature requests](https://github.com/PHPOffice/PHPWord/issues) to GitHub.
+- Follow [@PHPWord](https://twitter.com/PHPWord) and [@PHPOffice](https://twitter.com/PHPOffice) on Twitter.

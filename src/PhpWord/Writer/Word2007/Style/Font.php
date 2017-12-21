@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -32,7 +32,7 @@ class Font extends AbstractStyle
     private $isInline = false;
 
     /**
-     * Write style
+     * Write style.
      */
     public function write()
     {
@@ -51,7 +51,7 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Write full style
+     * Write full style.
      */
     private function writeStyle()
     {
@@ -59,13 +59,16 @@ class Font extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Font) {
             return;
         }
+
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:rPr');
 
         // Style name
-        $styleName = $style->getStyleName();
-        $xmlWriter->writeElementIf(!is_null($styleName), 'w:rStyle', 'w:val', $styleName);
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName !== null, 'w:rStyle', 'w:val', $styleName);
+        }
 
         // Font name/family
         $font = $style->getName();
@@ -80,6 +83,16 @@ class Font extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        //Language
+        $language = $style->getLang();
+        if ($language != null && ($language->getLatin() !== null || $language->getEastAsia() !== null || $language->getBidirectional() !== null)) {
+            $xmlWriter->startElement('w:lang');
+            $xmlWriter->writeAttributeIf($language->getLatin() !== null, 'w:val', $language->getLatin());
+            $xmlWriter->writeAttributeIf($language->getEastAsia() !== null, 'w:eastAsia', $language->getEastAsia());
+            $xmlWriter->writeAttributeIf($language->getBidirectional() !== null, 'w:bidi', $language->getBidirectional());
+            $xmlWriter->endElement();
+        }
+
         // Color
         $color = $style->getColor();
         $xmlWriter->writeElementIf($color !== null, 'w:color', 'w:val', $color);
@@ -91,6 +104,7 @@ class Font extends AbstractStyle
 
         // Bold, italic
         $xmlWriter->writeElementIf($style->isBold(), 'w:b');
+        $xmlWriter->writeElementIf($style->isBold(), 'w:bCs');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:i');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:iCs');
 
@@ -103,16 +117,19 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps');
 
         // Underline
-        $underline = $style->getUnderline();
-        $xmlWriter->writeElementIf($underline != 'none', 'w:u', 'w:val', $underline);
+        $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
 
         // Foreground-Color
-        $fgColor = $style->getFgColor();
-        $xmlWriter->writeElementIf(!is_null($fgColor), 'w:highlight', 'w:val', $fgColor);
+        $xmlWriter->writeElementIf($style->getFgColor() !== null, 'w:highlight', 'w:val', $style->getFgColor());
 
         // Superscript/subscript
         $xmlWriter->writeElementIf($style->isSuperScript(), 'w:vertAlign', 'w:val', 'superscript');
         $xmlWriter->writeElementIf($style->isSubScript(), 'w:vertAlign', 'w:val', 'subscript');
+
+        // Spacing
+        $xmlWriter->writeElementIf($style->getScale() !== null, 'w:w', 'w:val', $style->getScale());
+        $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
+        $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
         // Background-Color
         $shading = $style->getShading();
@@ -121,11 +138,17 @@ class Font extends AbstractStyle
             $styleWriter->write();
         }
 
+        // RTL
+        if ($this->isInline === true) {
+            $styleName = $style->getStyleName();
+            $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
+        }
+
         $xmlWriter->endElement();
     }
 
     /**
-     * Set is inline
+     * Set is inline.
      *
      * @param bool $value
      */

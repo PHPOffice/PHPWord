@@ -10,14 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\Common\Text as CommonText;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
 
@@ -27,11 +27,11 @@ use PhpOffice\PhpWord\Style\Paragraph;
 class Link extends AbstractElement
 {
     /**
-     * Link target
+     * Link source
      *
      * @var string
      */
-    private $target;
+    private $source;
 
     /**
      * Link text
@@ -54,33 +54,46 @@ class Link extends AbstractElement
      */
     private $paragraphStyle;
 
+    /**
+     * Has media relation flag; true for Link, Image, and Object
+     *
+     * @var bool
+     */
+    protected $mediaRelation = true;
+
+    /**
+     * Has internal flag - anchor to internal bookmark
+     *
+     * @var bool
+     */
+    protected $internal = false;
 
     /**
      * Create a new Link Element
      *
-     * @param string $target
+     * @param string $source
      * @param string $text
      * @param mixed $fontStyle
      * @param mixed $paragraphStyle
+     * @param bool $internal
      */
-    public function __construct($target, $text = null, $fontStyle = null, $paragraphStyle = null)
+    public function __construct($source, $text = null, $fontStyle = null, $paragraphStyle = null, $internal = false)
     {
-        $this->target = String::toUTF8($target);
-        $this->text = is_null($text) ? $this->target : String::toUTF8($text);
-        $this->fontStyle = $this->setStyle(new Font('text'), $fontStyle);
-        $this->paragraphStyle = $this->setStyle(new Paragraph(), $paragraphStyle);
-
-        return $this;
+        $this->source = CommonText::toUTF8($source);
+        $this->text = is_null($text) ? $this->source : CommonText::toUTF8($text);
+        $this->fontStyle = $this->setNewStyle(new Font('text'), $fontStyle);
+        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        $this->internal = $internal;
     }
 
     /**
-     * Get link target
+     * Get link source
      *
      * @return string
      */
-    public function getTarget()
+    public function getSource()
     {
-        return $this->target;
+        return $this->source;
     }
 
     /**
@@ -114,26 +127,54 @@ class Link extends AbstractElement
     }
 
     /**
-     * Get Link source
+     * Get link target
+     *
+     * @deprecated 0.12.0
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getTarget()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Get Link source
+     *
      * @deprecated 0.10.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function getLinkSrc()
     {
-        return $this->getTarget();
+        return $this->getSource();
     }
 
     /**
      * Get Link name
      *
-     * @return string
      * @deprecated 0.10.0
+     *
+     * @return string
+     *
      * @codeCoverageIgnore
      */
     public function getLinkName()
     {
         return $this->getText();
+    }
+
+    /**
+     * is internal
+     *
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->internal;
     }
 }
