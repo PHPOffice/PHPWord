@@ -41,9 +41,8 @@ class ChangedElement extends TrackChange
       */
     public function __construct($changeType, $author, $date)
     {
+        parent::__construct($author, $date);
         $this->changeType = $changeType;
-        $this->author = $author;
-        $this->date = $date;
     }
 
     /**

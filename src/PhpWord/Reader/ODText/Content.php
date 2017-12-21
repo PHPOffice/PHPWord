@@ -48,6 +48,25 @@ class Content extends AbstractPart
                         $section->addTitle($node->nodeValue, $depth);
                         break;
                     case 'text:p': // Paragraph
+                        //\Yii::info($node, 'debug');
+                        //\Yii::info($node->nodeValue, 'debug');
+                        //\Yii::info($node->hasChildNodes(), 'debug');
+                        
+                        $children = $node->childNodes;
+                        foreach ($children as $child) {
+                          switch($child->nodeName){
+                            case 'text:change-start':
+                              \Yii::info($child->getAttribute('text:change-id'), 'debug');
+                              break;
+                            case 'text:change-end':
+                              \Yii::info($child->getAttribute('text:change-id'), 'debug');  
+                              break;
+                            case 'text:change':
+                              \Yii::info($child->getAttribute('text:change-id'), 'debug');  
+                              break;
+                          }
+                        }
+                        
                         $section->addText($node->nodeValue);
                         break;
                     case 'text:list': // List
@@ -56,6 +75,9 @@ class Content extends AbstractPart
                             // $listStyleName = $xmlReader->getAttribute('text:style-name', $listItem);
                             $section->addListItem($listItem->nodeValue, 0);
                         }
+                        break;
+                   case 'text:tracked-changes':
+                        
                         break;
                 }
             }
