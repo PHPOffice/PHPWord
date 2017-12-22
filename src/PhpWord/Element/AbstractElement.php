@@ -98,7 +98,7 @@ abstract class AbstractElement
      *
      * @var object
      */
-    private $changed;
+    public $changed;
 
     /**
      * Parent container type
