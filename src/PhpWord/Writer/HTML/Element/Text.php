@@ -136,8 +136,8 @@ class Text extends AbstractElement
                                                     'id'=>$element->getElementId()));
             $content .= json_encode($changedProp);
             $content .= '\' ';
-            $date_user = $changed->getDate()->format('Y-m-d H:i:s');
-            $content .= 'title="'.$changed->getAuthor().' - '.$date_user.'" ';
+            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+            $content .= 'title="'.$changed->getAuthor().' - '.$dateUser.'" ';
             $content .= '>';
         }
 
