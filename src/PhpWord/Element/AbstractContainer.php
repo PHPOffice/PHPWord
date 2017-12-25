@@ -209,7 +209,7 @@ abstract class AbstractContainer extends AbstractElement
             'Footnote'      => array('Section', 'TextRun', 'Cell'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
             'PreserveText'  => array('Section', 'Header', 'Footer', 'Cell'),
-            'Title'         => array('Section'),
+            'Title'         => array('Section', 'Cell'),
             'TOC'           => array('Section'),
             'PageBreak'     => array('Section'),
             'Chart'         => array('Section', 'Cell'),
