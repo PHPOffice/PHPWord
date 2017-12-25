@@ -10,14 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader;
 
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007
@@ -25,7 +26,7 @@ use PhpOffice\PhpWord\IOFactory;
  * @coversDefaultClass \PhpOffice\PhpWord\Reader\Word2007
  * @runTestsInSeparateProcesses
  */
-class Word2007Test extends \PHPUnit_Framework_TestCase
+class Word2007Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test canRead() method
@@ -54,6 +55,13 @@ class Word2007Test extends \PHPUnit_Framework_TestCase
     {
         $filename = __DIR__ . '/../_files/documents/reader.docx';
         $phpWord = IOFactory::load($filename);
+
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+        $this->assertTrue($phpWord->getSettings()->hasDoNotTrackMoves());
+        $this->assertFalse($phpWord->getSettings()->hasDoNotTrackFormatting());
+        $this->assertEquals(100, $phpWord->getSettings()->getZoom());
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b'));
     }
 }

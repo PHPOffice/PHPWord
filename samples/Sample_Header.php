@@ -12,6 +12,12 @@ define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 Settings::loadConfig();
 
+$dompdfPath = $vendorDirPath . '/dompdf/dompdf';
+if (file_exists($dompdfPath)) {
+    define('DOMPDF_ENABLE_AUTOLOAD', false);
+    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
+}
+
 // Set writers
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
@@ -89,8 +95,8 @@ function getEndingNotes($writers)
 
     // Do not show execution time for index
     if (!IS_INDEX) {
-        $result .= date('H:i:s') . " Done writing file(s)" . EOL;
-        $result .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB" . EOL;
+        $result .= date('H:i:s') . ' Done writing file(s)' . EOL;
+        $result .= date('H:i:s') . ' Peak memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MB' . EOL;
     }
 
     // Return

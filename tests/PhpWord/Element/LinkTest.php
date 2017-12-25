@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Style\Font;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Link
  * @runTestsInSeparateProcesses
  */
-class LinkTest extends \PHPUnit_Framework_TestCase
+class LinkTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance
@@ -49,7 +49,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $oLink = new Link(
             'https://github.com/PHPOffice/PHPWord',
             'PHPWord on GitHub',
-            array('color' => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
+            array('color'      => '0000FF', 'underline' => Font::UNDERLINE_SINGLE),
             array('marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
         );
 

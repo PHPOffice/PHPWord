@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\SimpleType\JcTable;
  *
  * @runTestsInSeparateProcesses
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test class construction
@@ -99,6 +99,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 'FF0000';
         $object->setBorderColor($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Color";
             $values[] = $value;
@@ -121,6 +122,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 4;
         $object->setBorderSize($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Size";
             $values[] = $value;
@@ -143,6 +145,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 240;
         $object->setCellMargin($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getCellMargin{$part}";
             $values[] = $value;

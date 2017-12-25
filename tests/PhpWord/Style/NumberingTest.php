@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,28 +22,28 @@ namespace PhpOffice\PhpWord\Style;
  *
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Numbering
  */
-class NumberingTest extends \PHPUnit_Framework_TestCase
+class NumberingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test get/set
      */
     public function testGetSetProperties()
     {
-        $this->object = new Numbering();
-        $this->properties = array(
+        $object = new Numbering();
+        $properties = array(
             'numId' => array(null, 1),
             'type'  => array(null, 'singleLevel'),
         );
-        foreach ($this->properties as $property => $value) {
+        foreach ($properties as $property => $value) {
             list($default, $expected) = $value;
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $this->object->$get()); // Default value
+            $this->assertEquals($default, $object->$get()); // Default value
 
-            $this->object->$set($expected);
+            $object->$set($expected);
 
-            $this->assertEquals($expected, $this->object->$get()); // New value
+            $this->assertEquals($expected, $object->$get()); // New value
         }
     }
 
@@ -52,8 +52,8 @@ class NumberingTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLevels()
     {
-        $this->object = new Numbering();
+        $object = new Numbering();
 
-        $this->assertEmpty($this->object->getLevels());
+        $this->assertEmpty($object->getLevels());
     }
 }

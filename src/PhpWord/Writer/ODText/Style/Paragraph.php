@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,8 +26,6 @@ class Paragraph extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -37,8 +35,8 @@ class Paragraph extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = is_null($style->getSpaceBefore()) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
-        $marginBottom = is_null($style->getSpaceAfter()) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
+        $marginTop = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
+        $marginBottom = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
 
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());

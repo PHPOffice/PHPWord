@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Section
  * @runTestsInSeparateProcesses
  */
-class SectionTest extends \PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers ::setStyle
@@ -127,6 +127,17 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Element\\{$element}", $object->$method());
         }
         $this->assertFalse($object->hasDifferentFirstPage());
+    }
+
+    /**
+     * @covers ::addHeader
+     * @covers ::hasDifferentFirstPage
+     */
+    public function testHasDifferentFirstPageFooter()
+    {
+        $object = new Section(1);
+        $object->addFooter(Header::FIRST);
+        $this->assertTrue($object->hasDifferentFirstPage());
     }
 
     /**
