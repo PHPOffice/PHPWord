@@ -110,6 +110,7 @@ class ODTextTest extends \PHPUnit\Framework\TestCase
         $section->addText('Test');
         $writer = new ODText($phpWord);
         $writer->save('php://output');
+        $this->assertNotNull($this->getActualOutput());
     }
 
     /**
