@@ -46,7 +46,7 @@
         ]
     },
     "require": {
-        "php": "^5.3.3 || 7.0.* || 7.1.*",
+        "php": "^5.3.3 || ^7.0",
         "ext-xml": "*",
         "zendframework/zend-escaper": "^2.2",
         "zendframework/zend-stdlib": "^2.2 || ^3.0",
