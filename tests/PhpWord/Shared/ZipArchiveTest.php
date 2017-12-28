@@ -27,13 +27,13 @@ use PhpOffice\PhpWord\Settings;
  */
 class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test close method exception: Working in local, not working in Travis
-     *
-     * expectedException \PhpOffice\PhpWord\Exception\Exception
-     * expectedExceptionMessage Could not close zip file
-     * covers ::close
-     */
+//     /**
+//      * Test close method exception: Working in local, not working in Travis
+//      *
+//      * expectedException \PhpOffice\PhpWord\Exception\Exception
+//      * expectedExceptionMessage Could not close zip file
+//      * covers ::close
+//      */
 //     public function testCloseException()
 //     {
 //         $zipFile = __DIR__ . "/../_files/documents/ziptest.zip";
