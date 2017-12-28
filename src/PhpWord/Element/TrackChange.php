@@ -52,8 +52,6 @@ class TrackChange extends AbstractContainer
     {
         $this->author = $author;
         $this->date = $date;
-
-        return $this;
     }
 
     /**

@@ -228,7 +228,7 @@ abstract class AbstractElement
     /**
      * Get element unique ID
      *
-     * @return int
+     * @return string
      */
     public function getElementId()
     {
@@ -425,9 +425,9 @@ abstract class AbstractElement
     /**
      * Set enum value
      *
-     * @param mixed $value
-     * @param array $enum
-     * @param mixed $default
+     * @param string|null $value
+     * @param string[] $enum
+     * @param string|null $default
      *
      * @throws \InvalidArgumentException
      * @return mixed

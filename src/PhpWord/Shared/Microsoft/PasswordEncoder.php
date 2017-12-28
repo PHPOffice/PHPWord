@@ -165,7 +165,7 @@ class PasswordEncoder
     /**
      * Returns the algorithm ID
      *
-     * @param sting $algorithmName
+     * @param string $algorithmName
      * @return int
      */
     public static function getAlgorithmId($algorithmName)
