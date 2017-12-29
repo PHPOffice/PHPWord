@@ -152,7 +152,7 @@ class Settings extends AbstractPart
         $revisionView = new TrackChangesView();
         $revisionView->setMarkup(filter_var($xmlReader->getAttribute('w:markup', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setComments($xmlReader->getAttribute('w:comments', $node));
-        $revisionView->setInsDel($xmlReader->getAttribute('w:insDel', $node));
+        $revisionView->setInsDel(filter_var($xmlReader->getAttribute('w:insDel', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setFormatting(filter_var($xmlReader->getAttribute('w:formatting', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setInkAnnotations(filter_var($xmlReader->getAttribute('w:inkAnnotations', $node), FILTER_VALIDATE_BOOLEAN));
         $phpWord->getSettings()->setRevisionView($revisionView);

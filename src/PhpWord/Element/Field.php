@@ -211,7 +211,7 @@ class Field extends AbstractElement
      * @throws \InvalidArgumentException
      * @return null|string|TextRun
      */
-    public function setText($text)
+    public function setText($text = null)
     {
         if (isset($text)) {
             if (is_string($text) || $text instanceof TextRun) {

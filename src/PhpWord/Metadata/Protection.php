@@ -182,7 +182,7 @@ class Protection
     /**
      * Set salt. Salt HAS to be 16 characters, or an exception will be thrown.
      *
-     * @param $salt
+     * @param string $salt
      * @throws \InvalidArgumentException
      * @return self
      */

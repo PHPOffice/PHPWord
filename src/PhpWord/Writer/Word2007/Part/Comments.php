@@ -29,7 +29,7 @@ class Comments extends AbstractPart
     /**
      * Comments collection to be written
      *
-     * @var \PhpOffice\PhpWord\Collection\Comments
+     * @var \PhpOffice\PhpWord\Element\Comment[]
      */
     protected $elements;
 
@@ -92,7 +92,7 @@ class Comments extends AbstractPart
     /**
      * Set element
      *
-     * @param \PhpOffice\PhpWord\Collection\Comments $elements
+     * @param \PhpOffice\PhpWord\Element\Comment[] $elements
      * @return self
      */
     public function setElements($elements)

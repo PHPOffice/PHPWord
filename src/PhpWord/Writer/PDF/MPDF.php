@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -27,12 +29,14 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
-    /**
-     * Name of renderer include file
-     *
-     * @var string
-     */
-    protected $includeFile = 'mpdf.php';
+    public function __construct(PhpWord $phpWord)
+    {
+        if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
+            // MPDF version 5.* needs this file to be included, later versions not
+            $this->includeFile = 'mpdf.php';
+        }
+        parent::__construct($phpWord);
+    }
 
     /**
      * Save PhpWord to file.
@@ -48,7 +52,13 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
-        $pdf = new \mpdf();
+        if ($this->includeFile != null) {
+            // MPDF version 5.*
+            $pdf = new \mpdf();
+        } else {
+            // MPDF version > 6.*
+            $pdf = new \Mpdf\Mpdf();
+        }
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 

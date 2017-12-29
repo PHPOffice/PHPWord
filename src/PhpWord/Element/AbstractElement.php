@@ -228,7 +228,7 @@ abstract class AbstractElement
     /**
      * Get element unique ID
      *
-     * @return int
+     * @return string
      */
     public function getElementId()
     {
@@ -425,18 +425,18 @@ abstract class AbstractElement
     /**
      * Set enum value
      *
-     * @param mixed $value
-     * @param array $enum
-     * @param mixed $default
+     * @param string|null $value
+     * @param string[] $enum
+     * @param string|null $default
      *
      * @throws \InvalidArgumentException
-     * @return mixed
+     * @return string|null
      *
      * @todo Merge with the same method in AbstractStyle
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+        if ($value !== null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
             throw new \InvalidArgumentException("Invalid style value: {$value}");
         } elseif ($value === null || trim($value) == '') {
             $value = $default;

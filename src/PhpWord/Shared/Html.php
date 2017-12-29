@@ -518,6 +518,7 @@ class Html
     private static function parseImage($node, $element)
     {
         $style = array();
+        $src = null;
         foreach ($node->attributes as $attribute) {
             switch ($attribute->name) {
                 case 'src':

@@ -27,34 +27,34 @@ use PhpOffice\PhpWord\Settings;
  */
 class ZipArchiveTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Test close method exception: Working in local, not working in Travis
-     *
-     * expectedException \PhpOffice\PhpWord\Exception\Exception
-     * expectedExceptionMessage Could not close zip file
-     * covers ::close
-     */
-    public function testCloseException()
-    {
-        // $zipFile = __DIR__ . "/../_files/documents/ziptest.zip";
+//     /**
+//      * Test close method exception: Working in local, not working in Travis
+//      *
+//      * expectedException \PhpOffice\PhpWord\Exception\Exception
+//      * expectedExceptionMessage Could not close zip file
+//      * covers ::close
+//      */
+//     public function testCloseException()
+//     {
+//         $zipFile = __DIR__ . "/../_files/documents/ziptest.zip";
 
-        // $object = new ZipArchive();
-        // $object->open($zipFile, ZipArchive::CREATE);
-        // $object->addFromString('content/string.txt', 'Test');
+//         $object = new ZipArchive();
+//         $object->open($zipFile, ZipArchive::CREATE);
+//         $object->addFromString('content/string.txt', 'Test');
 
-        // // Lock the file
-        // $resource = fopen($zipFile, "w");
-        // flock($resource, LOCK_EX);
+//         // Lock the file
+//         $resource = fopen($zipFile, "w");
+//         flock($resource, LOCK_EX);
 
-        // // Closing the file should throws an exception
-        // $object->close();
+//         // Closing the file should throws an exception
+//         $object->close();
 
-        // // Unlock the file
-        // flock($resource, LOCK_UN);
-        // fclose($resource);
+//         // Unlock the file
+//         flock($resource, LOCK_UN);
+//         fclose($resource);
 
-        // @unlink($zipFile);
-    }
+//         @unlink($zipFile);
+//     }
 
     /**
      * Test all methods

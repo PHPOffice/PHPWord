@@ -111,5 +111,6 @@ class RTFTest extends \PHPUnit\Framework\TestCase
         $section->addText(htmlspecialchars('Test', ENT_COMPAT, 'UTF-8'));
         $writer = new RTF($phpWord);
         $writer->save('php://output');
+        $this->assertNotNull($this->getActualOutput());
     }
 }
