@@ -85,6 +85,8 @@ class Html
                     case 'style':
                         $styles = self::parseStyle($attribute, $styles);
                         break;
+                    case 'align':
+                        $styles['alignment'] = self::mapAlign($attribute->value);
                 }
             }
         }
@@ -431,20 +433,7 @@ class Html
                     }
                     break;
                 case 'text-align':
-                    switch ($cValue) {
-                        case 'left':
-                            $styles['alignment'] = Jc::START;
-                            break;
-                        case 'right':
-                            $styles['alignment'] = Jc::END;
-                            break;
-                        case 'center':
-                            $styles['alignment'] = Jc::CENTER;
-                            break;
-                        case 'justify':
-                            $styles['alignment'] = Jc::BOTH;
-                            break;
-                    }
+                    $styles['alignment'] = self::mapAlign($cValue);
                     break;
                 case 'font-size':
                     $styles['size'] = Converter::cssToPoint($cValue);
@@ -582,6 +571,28 @@ class Html
             default:
                 return 'single';
         }
+    }
+
+    /**
+     * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc
+     *
+     * @param string $cssAlignment
+     * @return string|null
+     */
+    private static function mapAlign($cssAlignment)
+    {
+        switch ($cssAlignment) {
+            case 'left':
+                return Jc::START;
+            case 'right':
+                return Jc::END;
+            case 'center':
+                return Jc::CENTER;
+            case 'justify':
+                return Jc::BOTH;
+        }
+
+        return null;
     }
 
     /**
