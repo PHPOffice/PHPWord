@@ -74,5 +74,10 @@
         "psr-4": {
             "PhpOffice\\PhpWord\\": "src/PhpWord"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.15.0-dev"
+        }
     }
 }
