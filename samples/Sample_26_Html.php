@@ -28,7 +28,7 @@ $html .= '<ul>
                 </li>
             </ul>';
 
-$html .= '<table style="width: 50%; border: 6px #0000FF double;">
+$html .= '<table align="center" style="width: 50%; border: 6px #0000FF double;">
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
                         <th style="width: 50pt">header a</th>

@@ -3,6 +3,13 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+v0.15.0 (?? ??? 2018)
+----------------------
+### Added
+- Parsing of "align" HTML attribute - @troosan
+
+### Fixed
+
 v0.14.0 (29 Dec 2017)
 ----------------------
 This release fixes several bugs and adds some new features.
