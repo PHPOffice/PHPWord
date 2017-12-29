@@ -35,15 +35,27 @@
         }
     ],
     "scripts": {
+        "test": [
+            "./vendor/bin/phpunit --color=always"
+        ],
+        "test-no-coverage": [
+            "./vendor/bin/phpunit --color=always --no-coverage"
+        ],
         "check": [
             "./vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
             "./vendor/bin/phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-            "./vendor/bin/phpunit --color=always"
+            "@test"
         ],
         "fix": [
             "./vendor/bin/php-cs-fixer fix --ansi"
         ]
+    },
+    "scripts-descriptions": {
+        "test": "Runs all unit tests",
+        "test-no-coverage": "Runs all unit tests, without code coverage",
+        "check": "Runs PHP CheckStyle and PHP Mess detector",
+        "fix": "Fixes issues found by PHP-CS"
     },
     "require": {
         "php": "^5.3.3 || ^7.0",
