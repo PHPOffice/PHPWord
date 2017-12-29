@@ -16,6 +16,11 @@ matrix:
         - php: 5.6
           env: COVERAGE=1
     allow_failures:
+<<<<<<< HEAD
+=======
+        - php: 7.0
+        - php: 7.1
+>>>>>>> branch 'php72_support_object_classes' of https://github.com/SailorMax/PHPWord
         - php: 7.2
 
 cache:
