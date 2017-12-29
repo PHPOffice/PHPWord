@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.15.0 (?? ??? 2018)
 ----------------------
 ### Added
-- Parsing of "align" HTML attribute - @troosan
+- Parsing of "align" HTML attribute - @troosan #1231
 
 ### Fixed
 
