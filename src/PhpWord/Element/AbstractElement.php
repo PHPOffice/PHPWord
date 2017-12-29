@@ -430,13 +430,13 @@ abstract class AbstractElement
      * @param string|null $default
      *
      * @throws \InvalidArgumentException
-     * @return mixed
+     * @return string|null
      *
      * @todo Merge with the same method in AbstractStyle
      */
     protected function setEnumVal($value = null, $enum = array(), $default = null)
     {
-        if ($value != null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
+        if ($value !== null && trim($value) != '' && !empty($enum) && !in_array($value, $enum)) {
             throw new \InvalidArgumentException("Invalid style value: {$value}");
         } elseif ($value === null || trim($value) == '') {
             $value = $default;
