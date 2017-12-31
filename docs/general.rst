@@ -167,7 +167,6 @@ Use mirror margins to set up facing pages for double-sided documents, such as bo
 
     $phpWord->getSettings()->setMirrorMargins(true);
 
-
 Spelling and grammatical checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
