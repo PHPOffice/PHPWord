@@ -191,7 +191,7 @@ You can also specify the status of the spell and grammar checks, marking spellin
 
 Track Revisions
 ~~~~~~~~~~~~~~~
-Track changes can be activated using ``setTrackRevisions``, you can furture specify 
+Track changes can be activated using ``setTrackRevisions``, you can furture specify
 
 -  Not to use move syntax, instead moved items will be seen as deleted in one place and added in another
 -  Not track formatting revisions
