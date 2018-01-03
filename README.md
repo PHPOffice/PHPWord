@@ -22,7 +22,6 @@ Read more about PHPWord:
 - [Getting started](#getting-started)
 - [Contributing](#contributing)
 - [Developers' Documentation](http://phpword.readthedocs.org/)
-- [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/)
 
 ## Features
 
