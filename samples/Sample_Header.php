@@ -84,11 +84,6 @@ function write($phpWord, $filename, $writers)
     }
 
     $result .= getEndingNotes($writers);
-    $result .= '<pre><code>';
-    if (file_exists($filename . '.php')) {
-        $result .= highlight_file($filename . '.php', true);
-    }
-    $result .= '</code></pre>';
 
     return $result;
 }
@@ -127,6 +122,12 @@ function getEndingNotes($writers)
                 }
             }
             $result .= '</p>';
+
+            $result .= '<pre>';
+            if (file_exists($filename . '.php')) {
+                $result .= highlight_file($filename . '.php', true);
+            }
+            $result .= '</pre>';
         }
     }
 
