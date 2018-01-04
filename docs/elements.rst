@@ -160,7 +160,7 @@ Parameters:
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
-- ``$listStyle``. List style of the current element TYPE\_NUMBER, 
+- ``$listStyle``. List style of the current element TYPE\_NUMBER,
   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
@@ -345,7 +345,7 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
 .. code-block:: php
 
     $fp = new PhpWord\SimpleType\FootnoteProperties();
-    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd) 
+    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd)
     $fp->setPos(FootnoteProperties::POSITION_DOC_END);
     //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
     $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
@@ -353,7 +353,6 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
     $fp->setNumStart(2);
     //when to restart counting (continuous (default), eachSect, eachPage)
     $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
-    
     //And finaly, set it on the Section
     $section->setFootnoteProperties($properties);
 
@@ -379,7 +378,7 @@ To be completed
 Fields
 ------
 
-Currently the following fields are supported: 
+Currently the following fields are supported:
 
 - PAGE
 - NUMPAGES
