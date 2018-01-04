@@ -77,7 +77,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
-- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis 
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.
@@ -105,8 +105,6 @@ so installation via ZIP-archive download is not an option anymore. To install PH
 - Corrupted OOXML template issue in case when its names is broken immediately after `$` sign.
 That case wasn't taken into account in implementation of `TemplateProcessor::fixBrokenMacros()`. - @RomanSyroeshko @d-damien #548
 
-
-
 v0.12.1 (30 August 2015)
 -----------------------
 Maintenance release. This release is focused primarily on `TemplateProcessor`.
@@ -118,8 +116,6 @@ Maintenance release. This release is focused primarily on `TemplateProcessor`.
 ### Bugfixes
 - Fixed issue with "Access denied" message while opening `Sample_07_TemplateCloneRow.docx` and `Sample_23_TemplateBlock.docx` result files on Windows platform. - @RomanSyroeshko @AshSat #532
 - Fixed `PreserveText` element alignment in footer (see `Sample_12_HeaderFooter.php`). - @RomanSyroeshko @SSchwaiger #495
-
-
 
 v0.12.0 (3 January 2015)
 -----------------------
@@ -178,15 +174,11 @@ This release added form fields (textinput, checkbox, and dropdown), drawing shap
 - Renamed `Template` into `TemplateProcessor` - @RomanSyroeshko #216
 - Reverted #51. All text escaping must be performed out of the library - @RomanSyroeshko #51
 
-
-
 v0.11.1 (2 June 2014)
 --------------------
 This is an immediate bugfix release for HTML reader.
 
 - HTML Reader: `<p>` and header tags puts no output - @canyildiz @ivanlanin #257
-
-
 
 v0.11.0 (1 June 2014)
 --------------------
@@ -250,15 +242,11 @@ This release marked the change of PHPWord license from LGPL 2.1 to LGPL 3. Four 
 - Docs: Create VERSION file - @ivanlanin
 - QA: Improve dan update requirement check in `samples` folder - @ivanlanin
 
-
-
 v0.10.1 (21 May 2014)
 --------------------
 This is a bugfix release for `php-zip` requirement in Composer.
 
 - Change Composer requirements for php-zip from `require` to `suggest` - @bskrtich #246
-
-
 
 v0.10.0 (4 May 2014)
 -------------------
@@ -342,15 +330,11 @@ This release marked heavy refactorings on internal code structure with the creat
 - Refactor: Split `AbstractContainer` from `AbstractElement` - @ivanlanin
 - Refactor: Apply composite pattern for Word2007 reader - @ivanlanin
 
-
-
 v0.9.1 (27 Mar 2014)
 -------------------
 This is a bugfix release for PSR-4 compatibility.
 
 - Fixed PSR-4 composer autoloader - @AntonTyutin
-
-
 
 v0.9.0 (26 Mar 2014)
 -------------------
@@ -372,15 +356,11 @@ This release marked the transformation to namespaces (PHP 5.3+).
 - Merge Style\TableFull into Style\Table. Style\TableFull is deprecated - @ivanlanin #160
 - Merge Section\MemoryImage into Section\Image. Section\Image is deprecated - @ivanlanin #160
 
-
-
 v0.8.1 (17 Mar 2014)
 -------------------
 This is a bugfix release for image detection functionality.
 
 - Added fallback for computers that do not have exif_imagetype - @bskrtich, @gabrielbull
-
-
 
 v0.8.0 (15 Mar 2014)
 -------------------
@@ -427,8 +407,6 @@ This release merged a lot of improvements from the community. Unit tests introdu
 
 ### Miscellaneous
 - UnitTests - @Progi1984
-
-
 
 v0.7.0 (28 Jan 2014)
 -------------------
