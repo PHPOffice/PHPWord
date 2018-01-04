@@ -80,8 +80,8 @@ class Settings extends AbstractPart
 
         $themeFontLang = new Language();
         $themeFontLang->setLatin($val);
-        $themeFontLang->setLatin($eastAsia);
-        $themeFontLang->setLatin($bidi);
+        $themeFontLang->setEastAsia($eastAsia);
+        $themeFontLang->setBidirectional($bidi);
 
         $phpWord->getSettings()->setThemeFontLang($themeFontLang);
     }

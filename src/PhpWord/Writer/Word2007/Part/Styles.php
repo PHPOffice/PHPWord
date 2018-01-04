@@ -18,7 +18,6 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
-use PhpOffice\PhpWord\Settings as PhpWordSettings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font as FontStyle;
 use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
@@ -82,9 +81,10 @@ class Styles extends AbstractPart
      */
     private function writeDefaultStyles(XMLWriter $xmlWriter, $styles)
     {
-        $fontName = PhpWordSettings::getDefaultFontName();
-        $fontSize = PhpWordSettings::getDefaultFontSize();
-        $language = $this->getParentWriter()->getPhpWord()->getSettings()->getThemeFontLang();
+        $phpWord = $this->getParentWriter()->getPhpWord();
+        $fontName = $phpWord->getDefaultFontName();
+        $fontSize = $phpWord->getDefaultFontSize();
+        $language = $phpWord->getSettings()->getThemeFontLang();
         $latinLanguage = ($language == null || $language->getLatin() === null) ? 'en-US' : $language->getLatin();
 
         // Default font
@@ -123,7 +123,18 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('w:val', 'Normal');
         $xmlWriter->endElement(); // w:name
         if (isset($styles['Normal'])) {
-            $styleWriter = new ParagraphStyleWriter($xmlWriter, $styles['Normal']);
+            $normalStyle = $styles['Normal'];
+            // w:pPr
+            if ($normalStyle instanceof Fontstyle && $normalStyle->getParagraph() != null) {
+                $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle->getParagraph());
+                $styleWriter->write();
+            } elseif ($normalStyle instanceof ParagraphStyle) {
+                $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle);
+                $styleWriter->write();
+            }
+
+            // w:rPr
+            $styleWriter = new FontStyleWriter($xmlWriter, $normalStyle);
             $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style
