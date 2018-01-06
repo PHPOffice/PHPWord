@@ -217,11 +217,10 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $html = '<ul>
-                <li>Some text before
+                <li>
                     <span style="font-family: arial,helvetica,sans-serif;">
                         <span style="font-size: 12px;">list item1</span>
                     </span>
-                    and some after
                 </li>
                 <li>
                     <span style="font-family: arial,helvetica,sans-serif;">
