@@ -248,7 +248,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $html = '<ul>
                 <li>Some text before
                     <span style="font-family: arial,helvetica,sans-serif;">
-                        <span style="font-size: 12px;">list item1</span> <b>bold</b> with text after bold
+                        <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
                     </span>
                     and some after
                 </li>
