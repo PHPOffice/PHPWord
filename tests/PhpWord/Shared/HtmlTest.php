@@ -237,7 +237,6 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
     }
 
-
     /**
      * Tests parsing of ul/li
      */
