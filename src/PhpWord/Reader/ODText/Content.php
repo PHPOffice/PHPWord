@@ -37,7 +37,7 @@ class Content extends AbstractPart
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
         
-        $trackedChanges = [];
+        $trackedChanges = array();
 
         $nodes = $xmlReader->getElements('office:body/office:text/*');
         if ($nodes->length > 0) {
@@ -52,29 +52,29 @@ class Content extends AbstractPart
                     case 'text:p': // Paragraph
                         $children = $node->childNodes;
                         foreach ($children as $child) {
-                          switch($child->nodeName){
-                            case 'text:change-start':
-                                $changeId = $child->getAttribute('text:change-id');
-                                if(isset($trackedChanges[$changeId])) {
-                                    $changed = $trackedChanges[$changeId];
-                                }
+                            switch ($child->nodeName){
+                                case 'text:change-start':
+                                    $changeId = $child->getAttribute('text:change-id');
+                                    if (isset($trackedChanges[$changeId])) {
+                                        $changed = $trackedChanges[$changeId];
+                                    }
                                 break;
-                            case 'text:change-end':
-                                unset($changed);
+                                case 'text:change-end':
+                                    unset($changed);
                                 break;
-                            case 'text:change':
-                                $changeId = $child->getAttribute('text:change-id');
-                                if(isset($trackedChanges[$changeId])) {
-                                    $changed = $trackedChanges[$changeId];
-                                }
+                                case 'text:change':
+                                    $changeId = $child->getAttribute('text:change-id');
+                                    if (isset($trackedChanges[$changeId])) {
+                                        $changed = $trackedChanges[$changeId];
+                                    }
                                 break;
-                          }
+                            }
                         }
                         
                         $element = $section->addText($node->nodeValue);
-                        if(isset($changed)) {
+                        if (isset($changed)) {
                             $element->changed = $changed['changed'];
-                            if(isset($changed['textNodes'])) {
+                            if (isset($changed['textNodes'])) {
                                 foreach ($changed['textNodes'] as $changedNode) {
                                     $element = $section->addText($changedNode->nodeValue);
                                     $element->changed = $changed['changed'];
@@ -82,15 +82,15 @@ class Content extends AbstractPart
                             }
                         }
                         
-                        break;
+                    break;
                     case 'text:list': // List
                         $listItems = $xmlReader->getElements('text:list-item/text:p', $node);
                         foreach ($listItems as $listItem) {
                             // $listStyleName = $xmlReader->getAttribute('text:style-name', $listItem);
                             $section->addListItem($listItem->nodeValue, 0);
                         }
-                        break;
-                   case 'text:tracked-changes':
+                    break;
+                    case 'text:tracked-changes':
                         $changedRegions = $xmlReader->getElements('text:changed-region', $node);
                         foreach ($changedRegions as $changedRegion) {
                             $type = ($changedRegion->firstChild->nodeName == 'text:insertion')?\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED:\PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED;
@@ -103,7 +103,7 @@ class Content extends AbstractPart
                             $trackedChanges[$changedRegion->getAttribute('text:id')] = ['changed'=>$changed,
                                                                                         'textNodes'=>$textNodes];
                         }
-                        break;
+                    break;
                 }
             }
         }

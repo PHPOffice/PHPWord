@@ -98,8 +98,8 @@ abstract class AbstractPart
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
-    {   // Paragraph style
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document') {
+        // Paragraph style
         $paragraphStyle = null;
         $headingMatches = array();
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
@@ -186,7 +186,7 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
-        if (in_array($domNode->nodeName, ['w:ins', 'w:del'])) {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del'))) {
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
                 return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
@@ -236,16 +236,16 @@ abstract class AbstractPart
                 }
             } else {
                 // TextRun
-                if($domNode->parentNode->nodeName == 'w:del') {
+                if ($domNode->parentNode->nodeName == 'w:del') {
                     $textContent = $xmlReader->getValue('w:delText', $domNode);
-                } else { 
+                } else {
                     $textContent = $xmlReader->getValue('w:t', $domNode);
                 }
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 if (in_array($domNode->parentNode->nodeName, ['w:ins', 'w:del'])) {
                     $type = ($domNode->parentNode->nodeName == 'w:del')?\PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED:\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED;
                     $author=$domNode->parentNode->getAttribute('w:author');
-                    $date = \DateTime::createFromFormat ('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
+                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
                     $element->setChanged($type, $author, $date);
                 }
             }

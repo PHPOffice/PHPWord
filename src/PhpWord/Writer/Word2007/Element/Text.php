@@ -39,7 +39,7 @@ class Text extends AbstractElement
 
         $changed = $element->getChanged();
         if ($changed) {
-          $this->writeOpeningChanged();
+            $this->writeOpeningChanged();
         }
 
         $xmlWriter->startElement('w:r');
@@ -49,7 +49,7 @@ class Text extends AbstractElement
         $textElement = 'w:t';
         //'w:delText' in case of deleted text
         if (($changed) && ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED)) {
-          $textElement = 'w:delText';
+            $textElement = 'w:delText';
         }
         $xmlWriter->startElement($textElement);
 
