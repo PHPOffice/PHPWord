@@ -101,8 +101,8 @@ class Content extends AbstractPart
                             $date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
                             $changed = new \PhpOffice\PhpWord\Element\ChangedElement($type, $author, $date);
                             $textNodes = $xmlReader->getElements('text:deletion/text:p', $changedRegion);
-                            $trackedChanges[$changedRegion->getAttribute('text:id')] = ['changed'=>$changed,
-                                                                                        'textNodes'=>$textNodes];
+                            $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'=>$changed,
+                                                                                             'textNodes'=>$textNodes);
                         }
                         break;
                 }
