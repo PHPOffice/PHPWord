@@ -7,6 +7,7 @@ v0.15.0 (?? ??? 2018)
 ----------------------
 ### Added
 - Parsing of "align" HTML attribute - @troosan #1231
+- Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
 
 ### Fixed
 
