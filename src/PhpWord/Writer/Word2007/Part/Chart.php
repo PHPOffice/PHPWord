@@ -107,8 +107,6 @@ class Chart extends AbstractPart
 
         $this->writePlotArea($xmlWriter);
 
-        $xmlWriter->writeElementBlock('c:plotVisOnly', 'val', 1);
-
         $xmlWriter->endElement(); // c:chart
     }
 
@@ -160,6 +158,8 @@ class Chart extends AbstractPart
 
         // Series
         $this->writeSeries($xmlWriter, isset($this->options['scatter']));
+
+        $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
         // Axes
         if (isset($this->options['axes'])) {
