@@ -184,8 +184,6 @@ class Chart extends AbstractPart
     {
         $series = $this->element->getSeries();
 
-        print_r($series);
-
         $index = 0;
         foreach ($series as $seriesItem) {
             $categories = $seriesItem['categories'];
@@ -238,7 +236,13 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
             $xmlWriter->startElement('c:v');
-            $this->writeText($value);
+            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                $xmlWriter->writeElement('c:v', $value);
+            } else {
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($value);
+                $xmlWriter->endElement();
+            }
             $xmlWriter->endElement(); // c:v
             $xmlWriter->endElement(); // c:pt
             $index++;
