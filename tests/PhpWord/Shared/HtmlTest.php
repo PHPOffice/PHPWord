@@ -279,7 +279,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<ul>
+        $html = preg_replace('/\s+/', ' ', '<ul>
                 <li>Some text before
                     <span style="font-family: arial,helvetica,sans-serif;">
                         <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
@@ -291,14 +291,15 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                         <span style="font-size: 12px;">list item2</span>
                     </span>
                 </li>
-            </ul>';
+            </ul>');
         Html::addHtml($section, $html, false, false);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
-        $this->assertEquals('Some text before list item1 bold with text after bold and some after', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
         $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r[3]/w:rPr/w:b'));
+        $this->assertEquals('bold', $doc->getElement('/w:document/w:body/w:p[1]/w:r[3]/w:t')->nodeValue);
     }
 
     /**
