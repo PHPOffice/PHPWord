@@ -9,6 +9,9 @@ v0.15.0 (?? ??? 2018)
 - Parsing of "align" HTML attribute - @troosan #1231
 
 ### Fixed
+- fix reading of docx default style - @troosan #1238
+
+
 
 v0.14.0 (29 Dec 2017)
 ----------------------
@@ -58,6 +61,8 @@ This version brings compatibility with PHP 7.0 & 7.1
 ### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
 
+
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
@@ -77,7 +82,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
-- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis 
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.
