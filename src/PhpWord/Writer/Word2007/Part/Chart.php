@@ -234,6 +234,10 @@ class Chart extends AbstractPart
         $xmlWriter->startElement($itemLit);
 
         $index = 0;
+        $xmlWriter->startElement("c:ptCount");
+        $xmlWriter->writeAttribute('val', count($values));
+        $xmlWriter->endElement(); // c:ptCount
+
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
