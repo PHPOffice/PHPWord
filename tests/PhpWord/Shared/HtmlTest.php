@@ -273,6 +273,35 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests parsing of ul/li
+     */
+    public function testParseListWithFormat()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ul>
+                <li>Some text before
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
+                    </span>
+                    and some after
+                </li>
+                <li>
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item2</span>
+                    </span>
+                </li>
+            </ul>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('Some text before list item1 bold with text after bold and some after', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+    }
+
+    /**
      * Tests parsing of br
      */
     public function testParseLineBreak()
