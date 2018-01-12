@@ -107,6 +107,8 @@ class Chart extends AbstractPart
 
         $this->writePlotArea($xmlWriter);
 
+        $xmlWriter->writeElementBlock('c:plotVisOnly', 'val', 1);
+
         $xmlWriter->endElement(); // c:chart
     }
 
@@ -172,8 +174,6 @@ class Chart extends AbstractPart
             $this->writeAxis($xmlWriter, 'cat');
             $this->writeAxis($xmlWriter, 'val');
         }
-
-        $xmlWriter->writeElementBlock('c:plotVisOnly', 'val', 1);
 
         $xmlWriter->endElement(); // c:plotArea
     }
