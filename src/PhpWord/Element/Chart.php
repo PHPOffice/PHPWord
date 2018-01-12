@@ -86,7 +86,7 @@ class Chart extends AbstractElement
      */
     public function setType($value)
     {
-        $enum = array('pie', 'doughnut', 'line', 'bar', 'column', 'area', 'radar', 'scatter');
+        $enum = array('pie', 'doughnut', 'line', 'bar', 'stacked_bar', 'column', 'stacked_column' 'area', 'radar', 'scatter');
         $this->type = $this->setEnumVal($value, $enum, 'pie');
     }
 
