@@ -173,6 +173,8 @@ class Chart extends AbstractPart
             $this->writeAxis($xmlWriter, 'val');
         }
 
+        $xmlWriter->writeElementBlock('c:plotVisOnly', 'val', 1);
+
         $xmlWriter->endElement(); // c:plotArea
     }
 
@@ -232,12 +234,9 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
+        $xmlWriter->writeElementBlock('c:ptCount', 'val', count($values));
 
         $index = 0;
-        $xmlWriter->startElement("c:ptCount");
-        $xmlWriter->writeAttribute('val', count($values));
-        $xmlWriter->endElement(); // c:ptCount
-
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
