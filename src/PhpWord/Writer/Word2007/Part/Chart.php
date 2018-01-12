@@ -184,6 +184,8 @@ class Chart extends AbstractPart
     {
         $series = $this->element->getSeries();
 
+        print_r($series);
+
         $index = 0;
         foreach ($series as $seriesItem) {
             $categories = $seriesItem['categories'];
