@@ -41,14 +41,16 @@ class Chart extends AbstractPart
      * @var array
      */
     private $types = array(
-        'pie'       => array('type' => 'pie', 'colors' => 1),
-        'doughnut'  => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
-        'bar'       => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar'),
-        'column'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col'),
-        'line'      => array('type' => 'line', 'colors' => 0, 'axes' => true),
-        'area'      => array('type' => 'area', 'colors' => 0, 'axes' => true),
-        'radar'     => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter'   => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
+        'pie'            => array('type' => 'pie', 'colors' => 1),
+        'doughnut'       => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
+        'bar'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
+        'stacked_bar'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
+        'column'         => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
+        'stacked_column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
+        'line'           => array('type' => 'line', 'colors' => 0, 'axes' => true),
+        'area'           => array('type' => 'area', 'colors' => 0, 'axes' => true),
+        'radar'          => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
+        'scatter'        => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
     );
 
     /**
@@ -145,7 +147,7 @@ class Chart extends AbstractPart
         }
         if (isset($this->options['bar'])) {
             $xmlWriter->writeElementBlock('c:barDir', 'val', $this->options['bar']); // bar|col
-            $xmlWriter->writeElementBlock('c:grouping', 'val', 'clustered'); // 3d; standard = percentStacked
+            $xmlWriter->writeElementBlock('c:grouping', 'val', $this->options['grouping']); // 3d; standard = percentStacked
         }
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElementBlock('c:radarStyle', 'val', $this->options['radar']);
@@ -156,6 +158,8 @@ class Chart extends AbstractPart
 
         // Series
         $this->writeSeries($xmlWriter, isset($this->options['scatter']));
+
+        $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
         // Axes
         if (isset($this->options['axes'])) {
@@ -230,14 +234,19 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
+        $xmlWriter->writeElementBlock('c:ptCount', 'val', count($values));
 
         $index = 0;
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
-            $xmlWriter->startElement('c:v');
-            $this->writeText($value);
-            $xmlWriter->endElement(); // c:v
+            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                $xmlWriter->writeElement('c:v', $value);
+            } else {
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($value);
+                $xmlWriter->endElement(); // c:v
+            }
             $xmlWriter->endElement(); // c:pt
             $index++;
         }
