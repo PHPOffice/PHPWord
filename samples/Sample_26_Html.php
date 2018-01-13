@@ -31,6 +31,11 @@ $html .= '<ol>
                     <li>sub list 1</li>
                     <li>sub list 2</li>
                 </ol>
+                <li>List 2 item 3</li>
+                <ol>
+                    <li>sub list 1, restarts with a</li>
+                    <li>sub list 2</li>
+                </ol>
             </ol>';
 
 $html .= '<p style="margin-top: 240pt;">List with formatted content:</p>';
