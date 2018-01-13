@@ -405,8 +405,10 @@ For instance for the INDEX field, you can do the following (See `Index Field for
     $fieldText->addText('My ');
     $fieldText->addText('bold index', ['bold' => true]);
     $fieldText->addText(' entry');
+    $section->addField('XE', array(), array(), $fieldText);
 
-    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
+    //this actually adds the index
+    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), 'right click to update index');
 
 Line
 ----

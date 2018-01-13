@@ -18,10 +18,10 @@
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
-use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Common Html functions
@@ -30,6 +30,8 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  */
 class Html
 {
+    private static $listIndex = 0;
+
     /**
      * Add HTML parts.
      *
@@ -135,8 +137,8 @@ class Html
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
             'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
-            'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
+            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
+            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
             'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
             'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
@@ -330,7 +332,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return Cell $element
+     * @return \PhpOffice\PhpWord\Element\Cell $element
      */
     private static function parseCell($node, $element, &$styles)
     {
@@ -365,18 +367,56 @@ class Html
     /**
      * Parse list node
      *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param array &$data
-     * @param string $argument1 List type
      */
-    private static function parseList(&$styles, &$data, $argument1)
+    private static function parseList($node, $element, &$styles, &$data)
     {
+        $isOrderedList = $node->nodeName == 'ol';
         if (isset($data['listdepth'])) {
             $data['listdepth']++;
         } else {
             $data['listdepth'] = 0;
+            $styles['list'] = 'listStyle_' . self::$listIndex++;
+            $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
         }
-        $styles['list']['listType'] = $argument1;
+    }
+
+    private static function getListStyle($isOrderedList)
+    {
+        if ($isOrderedList) {
+            return array(
+                'type'   => 'multilevel',
+                'levels' => array(
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%1.', 'alignment' => 'left',  'tabPos' => 720,  'left' => 720,  'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left',  'tabPos' => 1440, 'left' => 1440, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%3.', 'alignment' => 'right', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%4.', 'alignment' => 'left',  'tabPos' => 2880, 'left' => 2880, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%5.', 'alignment' => 'left',  'tabPos' => 3600, 'left' => 3600, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%6.', 'alignment' => 'right', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%7.', 'alignment' => 'left',  'tabPos' => 5040, 'left' => 5040, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%8.', 'alignment' => 'left',  'tabPos' => 5760, 'left' => 5760, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%9.', 'alignment' => 'right', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 180),
+                ),
+            );
+        }
+
+        return array(
+            'type'   => 'hybridMultilevel',
+            'levels' => array(
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+            ),
+        );
     }
 
     /**
@@ -394,17 +434,10 @@ class Html
     {
         $cNodes = $node->childNodes;
         if (!empty($cNodes)) {
-            $text = '';
+            $listRun = $element->addListItemRun($data['listdepth'], $styles['list'], $styles['paragraph']);
             foreach ($cNodes as $cNode) {
-                if ($cNode->nodeName == '#text') {
-                    $text = $cNode->nodeValue;
-                }
+                self::parseNode($cNode, $listRun, $styles, $data);
             }
-            //ideally we should be parsing child nodes for any style, for now just take the text
-            if ('' == trim($text) && '' != trim($node->textContent)) {
-                $text = trim($node->textContent);
-            }
-            $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
         }
     }
 
@@ -461,6 +494,12 @@ class Html
                         $tValue = true;
                     }
                     $styles['italic'] = $tValue;
+                    break;
+                case 'margin-top':
+                    $styles['spaceBefore'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'margin-bottom':
+                    $styles['spaceAfter'] = Converter::cssToPoint($cValue);
                     break;
                 case 'border-color':
                     $styles['color'] = trim($cValue, '#');
@@ -582,14 +621,14 @@ class Html
     private static function mapAlign($cssAlignment)
     {
         switch ($cssAlignment) {
-            case 'left':
-                return Jc::START;
             case 'right':
                 return Jc::END;
             case 'center':
                 return Jc::CENTER;
             case 'justify':
                 return Jc::BOTH;
+            default:
+                return Jc::START;
         }
 
         return null;
