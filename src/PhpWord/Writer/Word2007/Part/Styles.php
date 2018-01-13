@@ -176,6 +176,8 @@ class Styles extends AbstractPart
 
         $xmlWriter->startElement('w:style');
         $xmlWriter->writeAttribute('w:type', $type);
+        $xmlWriter->writeAttribute('w:customStyle', '1');
+        $xmlWriter->writeAttribute('w:styleId', $styleName);
 
         // Heading style
         if ($styleType == 'title') {
