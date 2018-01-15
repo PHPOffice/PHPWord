@@ -36,7 +36,7 @@ class Content extends AbstractPart
     {
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        
+
         $trackedChanges = array();
 
         $nodes = $xmlReader->getElements('office:body/office:text/*');
@@ -101,11 +101,11 @@ class Content extends AbstractPart
                             $date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
                             $changed = new \PhpOffice\PhpWord\Element\ChangedElement($type, $author, $date);
                             $textNodes = $xmlReader->getElements('text:deletion/text:p', $changedRegion);
-                            $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'=>$changed,
-                                                                                             'textNodes'=>$textNodes, );
+                            $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'  => $changed,
+                                                                                             'textNodes'=> $textNodes, );
                         }
                         break;
-                }
+                }   
             }
         }
     }

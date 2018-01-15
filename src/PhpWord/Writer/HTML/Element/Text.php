@@ -131,9 +131,9 @@ class Text extends AbstractElement
                 $content .= '<del data-phpword-prop=\'';
             }
 
-            $changedProp = array('changed' => array('author'=>$changed->getAuthor(),
-                                                    'date'=>$changed->getDate()->format('Y-m-d\TH:i:s\Z'),
-                                                    'id'=>$element->getElementId(), ));
+            $changedProp = array('changed' => array('author'=> $changed->getAuthor(),
+                                                    'date'  => $changed->getDate()->format('Y-m-d\TH:i:s\Z'),
+                                                    'id'    => $element->getElementId(), ));
             $content .= json_encode($changedProp);
             $content .= '\' ';
             $dateUser = $changed->getDate()->format('Y-m-d H:i:s');

@@ -30,7 +30,7 @@ class ChangedElement extends TrackChange
     private $changeType;
 
     const TYPE_INSERTED = 1;
-    const TYPE_DELETED  = 2;
+    const TYPE_DELETED = 2;
 
     /**
      * Create a new Changed Element
