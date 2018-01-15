@@ -98,7 +98,8 @@ abstract class AbstractPart
      *
      * @todo Get font style for preserve text
      */
-    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document') {
+    protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
+    {
         // Paragraph style
         $paragraphStyle = null;
         $headingMatches = array();
