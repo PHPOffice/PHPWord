@@ -64,8 +64,8 @@ class Text extends AbstractElement
     }
 
     /**
-      * Write opening of changed element
-      */
+     * Write opening of changed element
+     */
     protected function writeOpeningChanged()
     {
         $element = $this->getElement();
@@ -86,8 +86,8 @@ class Text extends AbstractElement
     }
 
     /**
-      * Write ending
-      */
+     * Write ending
+     */
     protected function writeClosingChanged()
     {
         $element = $this->getElement();

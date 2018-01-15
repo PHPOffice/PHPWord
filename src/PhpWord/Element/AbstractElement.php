@@ -450,7 +450,7 @@ abstract class AbstractElement
     {
         return $this->changed;
     }
-    
+
     /**
      * Set enum value
      *

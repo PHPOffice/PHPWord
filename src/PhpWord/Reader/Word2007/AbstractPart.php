@@ -244,7 +244,7 @@ abstract class AbstractPart
                 }
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
-                    $type = ($domNode->parentNode->nodeName == 'w:del')?\PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED:\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED;
+                    $type = ($domNode->parentNode->nodeName == 'w:del') ? \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED : \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED;
                     $author=$domNode->parentNode->getAttribute('w:author');
                     $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
                     $element->setChanged($type, $author, $date);

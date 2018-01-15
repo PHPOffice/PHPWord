@@ -133,11 +133,11 @@ class Text extends AbstractElement
 
             $changedProp = array('changed' => array('author'=>$changed->getAuthor(),
                                                     'date'=>$changed->getDate()->format('Y-m-d\TH:i:s\Z'),
-                                                    'id'=>$element->getElementId()));
+                                                    'id'=>$element->getElementId(), ));
             $content .= json_encode($changedProp);
             $content .= '\' ';
             $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
-            $content .= 'title="'.$changed->getAuthor().' - '.$dateUser.'" ';
+            $content .= 'title="' . $changed->getAuthor() . ' - ' . $dateUser . '" ';
             $content .= '>';
         }
 

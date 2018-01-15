@@ -92,7 +92,7 @@ class Content extends AbstractPart
                     case 'text:tracked-changes':
                         $changedRegions = $xmlReader->getElements('text:changed-region', $node);
                         foreach ($changedRegions as $changedRegion) {
-                            $type = ($changedRegion->firstChild->nodeName == 'text:insertion')?\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED:\PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED;
+                            $type = ($changedRegion->firstChild->nodeName == 'text:insertion') ? \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED : \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED;
                             $creatorNode = $xmlReader->getElements('office:change-info/dc:creator', $changedRegion->firstChild);
                             $author = $creatorNode[0]->nodeValue;
                             $dateNode = $xmlReader->getElements('office:change-info/dc:date', $changedRegion->firstChild);
@@ -102,7 +102,7 @@ class Content extends AbstractPart
                             $changed = new \PhpOffice\PhpWord\Element\ChangedElement($type, $author, $date);
                             $textNodes = $xmlReader->getElements('text:deletion/text:p', $changedRegion);
                             $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'=>$changed,
-                                                                                             'textNodes'=>$textNodes);
+                                                                                             'textNodes'=>$textNodes, );
                         }
                         break;
                 }
