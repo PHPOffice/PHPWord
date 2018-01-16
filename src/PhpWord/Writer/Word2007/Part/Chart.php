@@ -198,6 +198,22 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
+            $xmlWriter->startElement('c:dLbls');
+            if ($this->options['type'] == "pie")
+            {
+                    $xmlWriter->writeElementBlock('c:showVal', 'val', 0);
+            }
+            else{
+                    $xmlWriter->writeElementBlock('c:showVal', 'val', 1);
+            }
+            $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showCatName', 'val', 1);
+            $xmlWriter->writeElementBlock('c:showSerName', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showPercent', 'val', 1);
+            $xmlWriter->writeElementBlock('c:showBubbleSize', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showLeaderLines', 'val', 1);
+            $xmlWriter->endElement(); // c:dLbls
+
             if (isset($this->options['scatter'])) {
                 $this->writeShape($xmlWriter);
             }
