@@ -45,6 +45,14 @@ class Chart extends AbstractStyle
      */
     private $is3d = false;
 
+
+    /**
+     * A list of colors to use in the chart
+     *
+     * @var array
+     */
+    private $colors = [];
+
     /**
      * Create a new instance
      *
@@ -122,5 +130,19 @@ class Chart extends AbstractStyle
         $this->is3d = $this->setBoolVal($value, $this->is3d);
 
         return $this;
+    }
+
+    /**
+     * get a list of colors to use in the chart.
+     * @return array
+     */
+    public function getColors()
+    {
+        return $this->colors;
+    }
+
+    public function setColors($value = [])
+    {
+        $this->colors = $value;
     }
 }

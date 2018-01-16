@@ -157,7 +157,7 @@ class Chart extends AbstractPart
         }
 
         // Series
-        $this->writeSeries($xmlWriter, isset($this->options['scatter']));
+        $this->writeSeries($xmlWriter, isset($this->options['scatter']), $style->getColors());
 
         $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
@@ -184,7 +184,7 @@ class Chart extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $scatter
      */
-    private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
+    private function writeSeries(XMLWriter $xmlWriter, $scatter = false, $colors = null)
     {
         $series = $this->element->getSeries();
 
@@ -208,6 +208,22 @@ class Chart extends AbstractPart
             } else {
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
+
+                $chartColors = $style = $this->element->getStyle()->getColors();
+                if(is_array($chartColors) && count($chartColors)) {
+                    $colorIndex = 0;
+                    foreach ($elementColors as $color) {
+                            $xmlWriter->startElement('c:dPt');
+                            $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
+                            $xmlWriter->startElement('c:spPr');
+                            $xmlWriter->startElement('a:solidFill');
+                            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+                            $xmlWriter->endElement(); // a:solidFill
+                            $xmlWriter->endElement(); // c:spPr
+                            $xmlWriter->endElement(); // c:dPt
+                            $colorIndex++;
+                    }
+                }
             }
 
             $xmlWriter->endElement(); // c:ser
