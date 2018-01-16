@@ -209,10 +209,9 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
-                $chartColors = $style = $this->element->getStyle()->getColors();
-                if(is_array($chartColors) && count($chartColors)) {
+                if(is_array($colors) && count($colors)) {
                     $colorIndex = 0;
-                    foreach ($elementColors as $color) {
+                    foreach ($colors as $color) {
                             $xmlWriter->startElement('c:dPt');
                             $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
                             $xmlWriter->startElement('c:spPr');
