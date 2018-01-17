@@ -300,6 +300,7 @@ class Chart extends AbstractPart
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
+        $style = $this->element->getStyle();
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
