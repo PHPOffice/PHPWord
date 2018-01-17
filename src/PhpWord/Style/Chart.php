@@ -133,7 +133,8 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * get a list of colors to use in the chart.
+     * Get the list of colors to use in a chart.
+     *
      * @return array
      */
     public function getColors()
@@ -141,8 +142,15 @@ class Chart extends AbstractStyle
         return $this->colors;
     }
 
+    /**
+     * Set the colors to use in a chart.
+     *
+     * @param array $value a list of colors to use in the chart
+     */
     public function setColors($value = [])
     {
         $this->colors = $value;
     }
+
+    public function
 }

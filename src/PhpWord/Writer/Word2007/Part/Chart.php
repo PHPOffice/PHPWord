@@ -225,10 +225,9 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
-                // this was taken from a comment on github.
-                // credit it?
+                // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
                 if(is_array($colors) && count($colors)) {
-                    // This is a gross workaround to make each series in a stack chart use a different color
+                    // This is a workaround to make each series in a stack chart use a different color
                     if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
                         array_shift($colors);
                     }
@@ -316,9 +315,9 @@ class Chart extends AbstractPart
 
         if (isset($this->options['axes'])) {
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
-            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'none');
+            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'inside'); // SG edit: switched from none to inside
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none'); // nextTo
+            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
         if (isset($this->options['radar'])) {
