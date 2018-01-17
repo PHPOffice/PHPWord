@@ -105,7 +105,7 @@ class Content extends AbstractPart
                                                                                              'textNodes'=> $textNodes, );
                         }
                         break;
-                }   
+                }
             }
         }
     }
