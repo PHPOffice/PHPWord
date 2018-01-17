@@ -230,7 +230,7 @@ class Chart extends AbstractPart
                 if(is_array($colors) && count($colors)) {
                     // This is a gross workaround to make each series in a stack chart use a different color
                     if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
-                        $colors = array_shift($colors);
+                        array_shift($colors);
                     }
                     $colorIndex = 0;
                     foreach ($colors as $color) {
