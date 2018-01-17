@@ -198,6 +198,8 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
+            // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
+            // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
             if ($this->options['type'] == "pie")
             {
@@ -225,7 +227,12 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
+                // this was taken from a comment on github.
+                // credit it?
                 if(is_array($colors) && count($colors)) {
+                    if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
+                        $colors = array_slice($colors, $index);
+                    }
                     $colorIndex = 0;
                     foreach ($colors as $color) {
                             $xmlWriter->startElement('c:dPt');
