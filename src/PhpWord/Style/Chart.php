@@ -62,7 +62,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private xAxisLabels = "none";
+    private $xAxisLabels = "none";
 
     /**
      * A string that tells the writer to either
@@ -73,28 +73,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private yAxisLabels = "none";
-
-    /**
-     * Get the xAxis Labels setting
-     *
-     * @return string
-     */
-    public function getXAxisLabels()
-    {
-        return $this->xAxisLabels;
-    }
-
-    /**
-     * Get the yAxis Labels setting
-     *
-     * @return string
-     */
-    public function getYAxisLabels()
-    {
-        return $this->yAxisLabels;
-    }
-
+    private $yAxisLabels = "none";
 
     /**
      * Create a new instance
