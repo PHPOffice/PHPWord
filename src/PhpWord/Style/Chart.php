@@ -151,6 +151,4 @@ class Chart extends AbstractStyle
     {
         $this->colors = $value;
     }
-
-    public function
 }
