@@ -320,6 +320,20 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
+
+        echo "Rendering the axis";
+        echo $style->getXAxisLabels();
+
+        // if($axisType){
+
+        //     $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getXAxisLabels());
+        // }
+
+        // if($axisType){
+
+        //     $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getYAxisLabels());
+        // }
+
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElement('c:majorGridlines');
         }

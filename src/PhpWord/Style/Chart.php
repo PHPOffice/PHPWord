@@ -54,6 +54,49 @@ class Chart extends AbstractStyle
     private $colors = [];
 
     /**
+     * A string that tells the writer to either
+     * "none" - skips writing axis labels
+     * "nextTo" - sets labels next to the axis (bar graphs on the left)
+     * "low" - labels on the left side of the graph
+     * "high" - labels on the right side of the graph
+     *
+     * @var string
+     */
+    private xAxisLabels = "none";
+
+    /**
+     * A string that tells the writer to either
+     * "none" - skips writing axis labels
+     * "nextTo" - sets labels next to the axis (bar graphs on the bottom)
+     * "low" - labels are below the graph
+     * "high" - labels above the graph
+     *
+     * @var string
+     */
+    private yAxisLabels = "none";
+
+    /**
+     * Get the xAxis Labels setting
+     *
+     * @return string
+     */
+    public function getXAxisLabels()
+    {
+        return $this->xAxisLabels;
+    }
+
+    /**
+     * Get the yAxis Labels setting
+     *
+     * @return string
+     */
+    public function getYAxisLabels()
+    {
+        return $this->yAxisLabels;
+    }
+
+
+    /**
      * Create a new instance
      *
      * @param array $style
@@ -150,5 +193,25 @@ class Chart extends AbstractStyle
     public function setColors($value = [])
     {
         $this->colors = $value;
+    }
+
+    /**
+     * Get the xAxis Labels setting
+     *
+     * @return string
+     */
+    public function getXAxisLabels()
+    {
+        return $this->xAxisLabels;
+    }
+
+    /**
+     * Get the yAxis Labels setting
+     *
+     * @return string
+     */
+    public function getYAxisLabels()
+    {
+        return $this->yAxisLabels;
     }
 }
