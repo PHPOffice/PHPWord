@@ -201,11 +201,9 @@ class Chart extends AbstractPart
             // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
             // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
-            if ($this->options['type'] == "pie")
-            {
+            if ($this->options['type'] == "pie") {
                     $xmlWriter->writeElementBlock('c:showVal', 'val', 0);
-            }
-            else{
+            } else {
                     $xmlWriter->writeElementBlock('c:showVal', 'val', 1);
             }
             $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
@@ -230,8 +228,9 @@ class Chart extends AbstractPart
                 // this was taken from a comment on github.
                 // credit it?
                 if(is_array($colors) && count($colors)) {
+                    // This is a gross workaround to make each series in a stack chart use a different color
                     if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
-                        $colors = array_slice($colors, $index);
+                        $colors = array_shift($colors);
                     }
                     $colorIndex = 0;
                     foreach ($colors as $color) {
