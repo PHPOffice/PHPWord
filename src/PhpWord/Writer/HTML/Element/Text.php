@@ -163,7 +163,7 @@ class Text extends AbstractElement
                 $content .= '</del>';
             }
         }
-        
+
         if (!$this->withoutP) {
             if (Settings::isOutputEscapingEnabled()) {
                 $content .= $this->escaper->escapeHtml($this->closingText);
