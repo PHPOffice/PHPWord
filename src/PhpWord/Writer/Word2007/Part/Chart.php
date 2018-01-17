@@ -321,8 +321,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
 
-        echo "Rendering the axis";
-        // echo $style->getXAxisLabels();
+        echo "Rendering the axis\n";
+        echo $style->getXAxisLabels();
+        echo "\n";
 
         // if($axisType){
 
