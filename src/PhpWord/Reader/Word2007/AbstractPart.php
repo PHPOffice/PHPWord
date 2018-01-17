@@ -14,7 +14,6 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
@@ -193,7 +192,7 @@ abstract class AbstractPart
                 return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
             }
         }
-        
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
