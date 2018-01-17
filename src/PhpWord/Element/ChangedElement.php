@@ -37,7 +37,7 @@ class ChangedElement extends TrackChange
      *
      * @param int $changeType
      * @param string $author
-     * @param \DateTime $date 
+     * @param \DateTime $date
      */
     public function __construct($changeType, $author, $date)
     {
