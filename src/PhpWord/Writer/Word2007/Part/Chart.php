@@ -319,27 +319,16 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'in'); // SG edit: switched from none to inside
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
 
-            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
+            if($axisType == "c:catAx"){
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getXAxisLabels());
+            } else if($axisType == "c:valAx"){
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getYAxisLabels());
+            } else {
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
+            }
 
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
-
-        echo "Rendering the axis\n";
-        echo $style->getXAxisLabels();
-        echo "\n";
-        echo $axisType;
-        echo "\n";
-
-
-        // if($axisType){
-
-        //     $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getXAxisLabels());
-        // }
-
-        // if($axisType){
-
-        //     $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getYAxisLabels());
-        // }
 
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElement('c:majorGridlines');

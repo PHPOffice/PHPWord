@@ -185,6 +185,20 @@ class Chart extends AbstractStyle
     }
 
     /**
+     * Set the xAxis Labels setting
+     * "none" - skips writing axis labels
+     * "nextTo" - sets labels next to the axis (bar graphs on the left)
+     * "low" - labels on the left side of the graph
+     * "high" - labels on the right side of the graph
+     *
+     * @return string
+     */
+    public function setXAxisLabels($label_position)
+    {
+        $this->xAxisLabels = $label_position;
+    }
+
+    /**
      * Get the yAxis Labels setting
      *
      * @return string
@@ -192,5 +206,19 @@ class Chart extends AbstractStyle
     public function getYAxisLabels()
     {
         return $this->yAxisLabels;
+    }
+
+        /**
+     * Set the yAxis Labels setting
+     * "none" - skips writing axis labels
+     * "nextTo" - sets labels next to the axis (bar graphs on the bottom)
+     * "low" - labels are below the graph
+     * "high" - labels above the graph
+     *
+     * @var string
+     */
+    public function setYAxisLabels($label_position)
+    {
+        $this->yAxisLabels = $label_position;
     }
 }
