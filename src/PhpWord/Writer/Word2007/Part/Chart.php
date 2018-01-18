@@ -157,7 +157,7 @@ class Chart extends AbstractPart
         }
 
         // Series
-        $this->writeSeries($xmlWriter, isset($this->options['scatter']), $style->getColors());
+        $this->writeSeries($xmlWriter, isset($this->options['scatter']));
 
         $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
@@ -184,9 +184,11 @@ class Chart extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $scatter
      */
-    private function writeSeries(XMLWriter $xmlWriter, $scatter = false, $colors = null)
+    private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
     {
         $series = $this->element->getSeries();
+        $style = $this->element->getStyle();
+        $colors = $style->getColors();
 
         $index = 0;
         foreach ($series as $seriesItem) {
@@ -217,17 +219,11 @@ class Chart extends AbstractPart
             // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
             // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
-            if ($this->options['type'] == "pie") {
-                    $xmlWriter->writeElementBlock('c:showVal', 'val', 0);
-            } else {
-                    $xmlWriter->writeElementBlock('c:showVal', 'val', 1);
+
+            foreach($style->getDataLabelOptions() as $option => $val) {
+                $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
             }
-            // $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
-            $xmlWriter->writeElementBlock('c:showCatName', 'val', 1);
-            $xmlWriter->writeElementBlock('c:showSerName', 'val', 0);
-            $xmlWriter->writeElementBlock('c:showPercent', 'val', 1);
-            // $xmlWriter->writeElementBlock('c:showBubbleSize', 'val', 0);
-            // $xmlWriter->writeElementBlock('c:showLeaderLines', 'val', 1);
+
             $xmlWriter->endElement(); // c:dLbls
 
             if (isset($this->options['scatter'])) {

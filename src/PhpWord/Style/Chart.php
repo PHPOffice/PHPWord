@@ -59,10 +59,10 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $dataLabelOptions = array(
-        "showCatName"      => true,
-        "showVal"          => true,
+        "showVal"          => true, // value
+        "showCatName"      => true, // category name
         "showLegendKey"    => false,
-        "showSeriesName"   => false,
+        "showSerName"      => false, // series name
         "showPercent"      => false,
         "showLeaderLines"  => false,
         "showBubbleSize"   => false,
