@@ -87,7 +87,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $yAxisLabels = "Cool y axis";
+    private $yAxisTitle = "Cool y axis";
 
     /**
      * Create a new instance
