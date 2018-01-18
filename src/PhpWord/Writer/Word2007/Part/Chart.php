@@ -222,12 +222,12 @@ class Chart extends AbstractPart
             } else {
                     $xmlWriter->writeElementBlock('c:showVal', 'val', 1);
             }
-            $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
+            // $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
             $xmlWriter->writeElementBlock('c:showCatName', 'val', 1);
             $xmlWriter->writeElementBlock('c:showSerName', 'val', 0);
             $xmlWriter->writeElementBlock('c:showPercent', 'val', 1);
-            $xmlWriter->writeElementBlock('c:showBubbleSize', 'val', 0);
-            $xmlWriter->writeElementBlock('c:showLeaderLines', 'val', 1);
+            // $xmlWriter->writeElementBlock('c:showBubbleSize', 'val', 0);
+            // $xmlWriter->writeElementBlock('c:showLeaderLines', 'val', 1);
             $xmlWriter->endElement(); // c:dLbls
 
             if (isset($this->options['scatter'])) {
