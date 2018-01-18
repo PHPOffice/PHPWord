@@ -193,7 +193,7 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getXAxisLabelsPosition()
+    public function getXAxisLabelPosition()
     {
         return $this->xAxisLabelsPosition;
     }
@@ -207,7 +207,7 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function setXAxisLabelsPosition($label_position)
+    public function setXAxisLabelPosition($label_position)
     {
         $this->xAxisLabelsPosition = $label_position;
     }
@@ -217,7 +217,7 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getYAxisLabelsPosition()
+    public function getYAxisLabelPosition()
     {
         return $this->yAxisLabelsPosition;
     }
@@ -231,7 +231,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    public function setYAxisLabelsPosition($label_position)
+    public function setYAxisLabelPosition($label_position)
     {
         $this->yAxisLabelsPosition = $label_position;
     }
