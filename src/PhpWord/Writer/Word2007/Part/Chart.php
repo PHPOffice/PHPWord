@@ -312,16 +312,16 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:axId', 'val', $axisId);
         $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
 
-        $xAxisTitle = $style->getXAxisTitle();
-        $yAxisTitle = $style->getYAxisTitle();
+        $categoryAxisTitle = $style->getCategoryAxisTitle();
+        $valueAxisTitle = $style->getValueAxisTitle();
 
         if($axisType == "c:catAx"){
-            if(isset($xAxisTitle)){
-                $this->writeAxisTitle($xmlWriter, $xAxisTitle);
+            if(isset($categoryAxisTitle)){
+                $this->writeAxisTitle($xmlWriter, $categoryAxisTitle);
             }
         } else if ($axisType == "c:valAx"){
-            if(isset($yAxisTitle)){
-                $this->writeAxisTitle($xmlWriter, $yAxisTitle);
+            if(isset($valueAxisTitle)){
+                $this->writeAxisTitle($xmlWriter, $valueAxisTitle);
             }
         }
 
