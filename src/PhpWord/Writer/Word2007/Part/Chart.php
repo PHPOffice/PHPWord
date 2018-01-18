@@ -198,20 +198,21 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
-            // can I change series names?
-            $xmlWriter->startElement('c:tx');
-            $xmlWriter->startElement('c:strRef');
-            $xmlWriter->startElement('c:strCache');
-            $xmlWriter->writeElementBlock('c:ptCount', 'val', 1);
-            $xmlWriter->startElement('c:pt');
-            $xmlWriter->writeAttribute('idx', 0);
-            $xmlWriter->startElement('c:v');
-            $xmlWriter->writeRaw("THIS AM SERIES " . rand(0,10));
-            $xmlWriter->endElement(); // c:v
-            $xmlWriter->endElement(); // c:pt
-            $xmlWriter->endElement(); // c:strCache
-            $xmlWriter->endElement(); // c:strRef
-            $xmlWriter->endElement(); // c:tx
+            if(!is_null($seriesItem['name']) && $seriesItem['name'] != "") {
+                $xmlWriter->startElement('c:tx');
+                $xmlWriter->startElement('c:strRef');
+                $xmlWriter->startElement('c:strCache');
+                $xmlWriter->writeElementBlock('c:ptCount', 'val', 1);
+                $xmlWriter->startElement('c:pt');
+                $xmlWriter->writeAttribute('idx', 0);
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($seriesItem['name']);
+                $xmlWriter->endElement(); // c:v
+                $xmlWriter->endElement(); // c:pt
+                $xmlWriter->endElement(); // c:strCache
+                $xmlWriter->endElement(); // c:strRef
+                $xmlWriter->endElement(); // c:tx
+            }
 
             // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
             // This section needs to be made configurable before a pull request is made
