@@ -323,9 +323,9 @@ class Chart extends AbstractPart
                             $xmlWriter->writeElementBlock('a:defRPr');
                         $xmlWriter->endElement(); // end a:pPr
                         $xmlWriter->startElement('a:r');
-                            // $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
+                            $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
 
-                            $xmlWriter->startElement('<a:t>');
+                            $xmlWriter->startElement('a:t');
                             $xmlWriter->writeRaw('Cool Axis Title');
                             $xmlWriter->endElement(); //end a:t
 
