@@ -152,6 +152,10 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
+            $smartTags = $xmlReader->getElements('w:smartTag', $domNode);
+            foreach ($smartTags as $smartTag) {
+                $textContent .= $xmlReader->getAttribute('w:val', $smartTag, 'w:smartTagPr/w:attr');
+            }
             $parent->addTitle($textContent, $headingMatches[1]);
         } else {
             // Text and TextRun
