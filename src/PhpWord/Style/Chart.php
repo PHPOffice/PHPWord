@@ -62,7 +62,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $xAxisLabels = "none";
+    private $xAxisLabelsPosition = "none";
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -73,7 +73,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $yAxisLabels = "none";
+    private $yAxisLabelsPosition = "none";
 
 
     /**
@@ -193,9 +193,9 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getXAxisLabels()
+    public function getXAxisLabelsPosition()
     {
-        return $this->xAxisLabels;
+        return $this->xAxisLabelsPosition;
     }
 
     /**
@@ -207,9 +207,9 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function setXAxisLabels($label_position)
+    public function setXAxisLabelsPosition($label_position)
     {
-        $this->xAxisLabels = $label_position;
+        $this->xAxisLabelsPosition = $label_position;
     }
 
     /**
@@ -217,9 +217,9 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getYAxisLabels()
+    public function getYAxisLabelsPosition()
     {
-        return $this->yAxisLabels;
+        return $this->yAxisLabelsPosition;
     }
 
         /**
@@ -231,9 +231,9 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    public function setYAxisLabels($label_position)
+    public function setYAxisLabelsPosition($label_position)
     {
-        $this->yAxisLabels = $label_position;
+        $this->yAxisLabelsPosition = $label_position;
     }
 
     /**
@@ -241,7 +241,7 @@ class Chart extends AbstractStyle
      * @return string
      */
     public function getXAxisTitle(){
-        return $this->$xAxisTitle;
+        return $this->xAxisTitle;
     }
 
     /**
@@ -250,7 +250,7 @@ class Chart extends AbstractStyle
      */
     public function setXAxisTitle($axis_title)
     {
-        $this->$xAxisTitle = $axis_title;
+        $this->xAxisTitle = $axis_title;
     }
 
     /**
@@ -258,7 +258,7 @@ class Chart extends AbstractStyle
      * @return string
      */
     public function getYAxisTitle(){
-        return $this->$yAxisTitle;
+        return $this->yAxisTitle;
     }
 
     /**
@@ -267,7 +267,7 @@ class Chart extends AbstractStyle
      */
     public function setYAxisTitle($axis_title)
     {
-        $this->$yAxisTitle = $axis_title;
+        $this->yAxisTitle = $axis_title;
     }
 
 }
