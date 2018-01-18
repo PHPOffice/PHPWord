@@ -190,5 +190,7 @@ class Chart extends AbstractStyle
                 $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
             }
         }
+
+        return $this;
     }
 }
