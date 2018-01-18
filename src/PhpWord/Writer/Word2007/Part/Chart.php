@@ -337,25 +337,6 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // end c:title
         //END TITLE
 
-        // <c:title>
-        //     <c:tx>
-        //         <c:rich>
-        //             <a:bodyPr/>
-        //             <a:lstStyle/>
-        //             <a:p>
-        //                 <a:pPr>
-        //                     <a:defRPr/>
-        //                 </a:pPr>
-        //                 <a:r>
-        //                     <a:rPr lang="en-US"/>
-        //                     <a:t> Cool Axis Title </a:t>
-        //                 </a:r>
-        //             </a:p>
-        //         </c:rich>
-        //     </c:tx>
-        //     <c:overlay val="0"/>
-        // </c:title>
-
 
         $xmlWriter->writeElementBlock('c:crossAx', 'val', $axisCross);
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
