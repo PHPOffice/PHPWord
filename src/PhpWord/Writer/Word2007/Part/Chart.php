@@ -311,6 +311,16 @@ class Chart extends AbstractPart
 
         $xmlWriter->writeElementBlock('c:axId', 'val', $axisId);
         $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
+
+        //TITLE
+        $xmlWriter->startElement('c:title'); //start title
+
+        // $value = "<c:tx><c:rich><a:bodyPr/><a:lstStyle/><a:p><a:pPr><a:defRPr/></a:pPr><a:r><a:rPr lang=\"en-US\"/><a:t>Cool Axis Title</a:t></a:r></a:p></c:rich></c:tx><c:overlay val=\"0\"/>"
+
+        // $xmlWriter->writeRaw($value);
+        $xmlWriter->endElement(); // end title
+        //END TITLE
+
         $xmlWriter->writeElementBlock('c:crossAx', 'val', $axisCross);
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
@@ -326,14 +336,6 @@ class Chart extends AbstractPart
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
             }
-
-            $xmlWriter->startElement('c:title'); //start title
-
-            $value = "<c:tx><c:rich><a:bodyPr/><a:lstStyle/><a:p><a:pPr><a:defRPr/></a:pPr><a:r><a:rPr lang=\"en-US\"/><a:t>Cool Axis Title</a:t></a:r></a:p></c:rich></c:tx><c:overlay val=\"0\"/>"
-
-            $xmlWriter->writeRaw($value);
-            $xmlWriter->endElement(); // end title
-
 
             // <c:title>
             //     <c:tx>
