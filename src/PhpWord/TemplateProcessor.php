@@ -300,9 +300,9 @@ class TemplateProcessor
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
         $extTransform = array(
             'image/jpeg' => 'jpeg',
-            'image/png' => 'png',
-            'image/bmp' => 'bmp',
-            'image/gif' => 'gif'
+            'image/png'  => 'png',
+            'image/bmp'  => 'bmp',
+            'image/gif'  => 'gif',
         );
 
         $searchParts = array(
@@ -344,10 +344,10 @@ class TemplateProcessor
                 list($actualWidth, $actualHeight, $imageType) = $imageData;
                 $imageMimeType = image_type_to_mime_type($imageType);
 
-                if(!isset($width)) {
+                if (!isset($width)) {
                     $width = $actualWidth;
                 }
-                if(!isset($height)) {
+                if (!isset($height)) {
                     $height = $actualHeight;
                 }
 
