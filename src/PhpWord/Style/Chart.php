@@ -81,13 +81,13 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $xAxisTitle = "default x title";
+    private $xAxisTitle;
 
     /**
      *
      * @var string
      */
-    private $yAxisTitle = "default y title";
+    private $yAxisTitle;
 
     /**
      * Create a new instance
