@@ -51,7 +51,22 @@ class Chart extends AbstractStyle
      *
      * @var array
      */
-    private $colors = [];
+    private $colors = array();
+
+    /**
+     * A list of display options for data labels
+     *
+     * @var array
+     */
+    private $dataLabelOptions = array(
+        "showVal"          => true, // value
+        "showCatName"      => true, // category name
+        "showLegendKey"    => false,
+        "showSerName"      => false, // series name
+        "showPercent"      => false,
+        "showLeaderLines"  => false,
+        "showBubbleSize"   => false,
+    );
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -186,6 +201,33 @@ class Chart extends AbstractStyle
     public function setColors($value = [])
     {
         $this->colors = $value;
+
+        return $this;
+    }
+
+    /**
+     * get the list of options for data labels
+     *
+     * @return array
+     */
+    public function getDataLabelOptions() {
+        return $this->dataLabelOptions;
+    }
+
+    /**
+     * Set values for data label options.
+     * This will only change values for options defined in $this->dataLabelOptions, and cannot create new ones.
+     *
+     * @param array $values [description]
+     */
+    public function setDataLabelOptions($values = array()) {
+        foreach(array_keys($this->dataLabelOptions) as $option) {
+            if(isset($values[$option])) {
+                $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
+            }
+        }
+
+        return $this;
     }
 
     /**
