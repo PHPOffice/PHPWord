@@ -299,11 +299,11 @@ class TemplateProcessor
         $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
         $extTransform = array(
-                            'jpg' => 'jpeg',
-                            'JPG' => 'jpeg',
-                            'png' => 'png',
-                            'PNG' => 'png',
-                            );
+            'image/jpeg' => 'jpeg',
+            'image/png' => 'png',
+            'image/bmp' => 'bmp',
+            'image/gif' => 'gif'
+        );
 
         $searchParts = array(
                             $this->getMainPartName() => &$this->tempDocumentMainPart,
@@ -325,8 +325,6 @@ class TemplateProcessor
                 }
 
                 // get image path and size
-                $width = 115;
-                $height = 70;
                 if (is_array($replace) && isset($replace['path'])) {
                     $imgPath = $replace['path'];
                     if (isset($replace['width'])) {
@@ -339,6 +337,20 @@ class TemplateProcessor
                     $imgPath = $replace;
                 }
 
+                $imageData = @getimagesize($imgPath);
+                if (!is_array($imageData)) {
+                    throw new Exception(sprintf('Invalid image: %s', $imgPath));
+                }
+                list($actualWidth, $actualHeight, $imageType) = $imageData;
+                $imageMimeType = image_type_to_mime_type($imageType);
+
+                if(!isset($width)) {
+                    $width = $actualWidth;
+                }
+                if(!isset($height)) {
+                    $height = $actualHeight;
+                }
+
                 // get image index
                 $imgIndex = $this->getNextRelationsIndex($partFileName);
                 $rid = 'rId' . $imgIndex;
@@ -348,9 +360,10 @@ class TemplateProcessor
                     $imgName = $this->tempDocumentNewImages[$imgPath];
                 } else {
                     // transform extension
-                    $imgExt = pathinfo($imgPath, PATHINFO_EXTENSION);
-                    if (isset($extTransform)) {
-                        $imgExt = $extTransform[$imgExt];
+                    if (isset($extTransform[$imageMimeType])) {
+                        $imgExt = $extTransform[$imageMimeType];
+                    } else {
+                        throw new Exception("Unsupported image type $imageMimeType");
                     }
 
                     // add image to document
