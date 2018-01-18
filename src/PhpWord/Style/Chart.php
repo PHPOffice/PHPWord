@@ -54,8 +54,8 @@ class Chart extends AbstractStyle
     private $colors = [];
 
     /**
-     * A string that tells the writer to either
-     * "none" - skips writing axis labels
+     * A string that tells the writer where to write chart labels or to skip
+     * "none" - skips writing axis labels (default)
      * "nextTo" - sets labels next to the axis (bar graphs on the left)
      * "low" - labels on the left side of the graph
      * "high" - labels on the right side of the graph
@@ -65,8 +65,8 @@ class Chart extends AbstractStyle
     private $xAxisLabels = "none";
 
     /**
-     * A string that tells the writer to either
-     * "none" - skips writing axis labels
+     * A string that tells the writer where to write chart labels or to skip
+     * "none" - skips writing axis labels (default)
      * "nextTo" - sets labels next to the axis (bar graphs on the bottom)
      * "low" - labels are below the graph
      * "high" - labels above the graph
@@ -74,6 +74,20 @@ class Chart extends AbstractStyle
      * @var string
      */
     private $yAxisLabels = "none";
+
+
+    /**
+     *
+     *
+     * @var string
+     */
+    private $xAxisTitle = "Cool x Axis";
+
+    /**
+     *
+     * @var string
+     */
+    private $yAxisLabels = "Cool y axis";
 
     /**
      * Create a new instance
@@ -221,4 +235,39 @@ class Chart extends AbstractStyle
     {
         $this->yAxisLabels = $label_position;
     }
+
+    /**
+     * Get the xAxisTitle
+     * @return string
+     */
+    public function getXAxisTitle(){
+        return $this->$xAxisTitle;
+    }
+
+    /**
+     * Set the xAxis title for the a chart
+     * @var $axis_title string
+     */
+    public function setXAxisTitle($axis_title)
+    {
+        $this->$xAxisTitle = $axis_title;
+    }
+
+    /**
+     * Get the yAxisTitle
+     * @return string
+     */
+    public function getYAxisTitle(){
+        return $this->$yAxisTitle;
+    }
+
+    /**
+     * Set the yAxis title for the a chart
+     * @var $axis_title string
+     */
+    public function setYAxisTitle($axis_title)
+    {
+        $this->$yAxisTitle = $axis_title;
+    }
+
 }

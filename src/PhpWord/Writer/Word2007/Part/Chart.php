@@ -314,26 +314,26 @@ class Chart extends AbstractPart
 
         //TITLE
         $xmlWriter->startElement('c:title'); //start c:title
-            $xmlWriter->startElement('c:tx'); //start c:tx
-                $xmlWriter->startElement('c:rich'); // start c:rich
-                    $xmlWriter->writeElementBlock('a:bodyPr');
-                    $xmlWriter->writeElementBlock('a:lstStyle');
-                    $xmlWriter->startElement('a:p');
-                        $xmlWriter->startElement('a:pPr');
-                            $xmlWriter->writeElementBlock('a:defRPr');
-                        $xmlWriter->endElement(); // end a:pPr
-                        $xmlWriter->startElement('a:r');
-                            $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
+        $xmlWriter->startElement('c:tx'); //start c:tx
+        $xmlWriter->startElement('c:rich'); // start c:rich
+        $xmlWriter->writeElementBlock('a:bodyPr');
+        $xmlWriter->writeElementBlock('a:lstStyle');
+        $xmlWriter->startElement('a:p');
+        $xmlWriter->startElement('a:pPr');
+        $xmlWriter->writeElementBlock('a:defRPr');
+        $xmlWriter->endElement(); // end a:pPr
+        $xmlWriter->startElement('a:r');
+        $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
 
-                            $xmlWriter->startElement('a:t');
-                            $xmlWriter->writeRaw('Cool Axis Title');
-                            $xmlWriter->endElement(); //end a:t
+        $xmlWriter->startElement('a:t');
+        $xmlWriter->writeRaw('Cool Axis Title');
+        $xmlWriter->endElement(); //end a:t
 
-                        $xmlWriter->endElement(); // end a:r
-                    $xmlWriter->endElement(); //end a:p
-                $xmlWriter->endElement(); //end c:rich
-            $xmlWriter->endElement(); // end c:tx
-            $xmlWriter->writeElementBlock('c:overlay', 'val', '0');
+        $xmlWriter->endElement(); // end a:r
+        $xmlWriter->endElement(); //end a:p
+        $xmlWriter->endElement(); //end c:rich
+        $xmlWriter->endElement(); // end c:tx
+        $xmlWriter->writeElementBlock('c:overlay', 'val', '0');
         $xmlWriter->endElement(); // end c:title
         //END TITLE
 
