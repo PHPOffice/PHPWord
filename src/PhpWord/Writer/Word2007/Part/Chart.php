@@ -194,6 +194,20 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
+            $xmlWriter->startElement('c:tx');
+            $xmlWriter->startElement('c:strRef');
+            $xmlWriter->startElement('c:strCache');
+            $xmlWriter->writeElementBlock('c:ptCount', 'val', 1);
+            $xmlWriter->startElement('c:pt');
+            $xmlWriter->writeAttribute('idx', 0);
+            $xmlWriter->startElement('c:v');
+            $this->writeText("THIS AM SERIES " . rand(0,10));
+            $xmlWriter->endElement(); // c:v
+            $xmlWriter->endElement(); // c:pt
+            $xmlWriter->endElement(); // c:strCache
+            $xmlWriter->endElement(); // c:strRef
+            $xmlWriter->endElement(); // c:tx
+
             if (isset($this->options['scatter'])) {
                 $this->writeShape($xmlWriter);
             }
