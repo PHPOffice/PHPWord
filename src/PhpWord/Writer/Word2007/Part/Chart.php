@@ -206,7 +206,7 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', 0);
             $xmlWriter->startElement('c:v');
-            $this->writeText("THIS AM SERIES " . rand(0,10));
+            $this->writeRaw("THIS AM SERIES " . rand(0,10));
             $xmlWriter->endElement(); // c:v
             $xmlWriter->endElement(); // c:pt
             $xmlWriter->endElement(); // c:strCache
