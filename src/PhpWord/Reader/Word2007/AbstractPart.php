@@ -152,6 +152,10 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
+            $smartTags = $xmlReader->getElements('w:smartTag', $domNode);
+            foreach ($smartTags as $smartTag) {
+                $textContent .= $xmlReader->getAttribute('w:val', $smartTag, 'w:smartTagPr/w:attr');
+            }
             $parent->addTitle($textContent, $headingMatches[1]);
         } else {
             // Text and TextRun
@@ -185,7 +189,7 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
-        if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
+        if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink', 'w:smartTag'))) {
             return;
         }
         $fontStyle = $this->readFontStyle($xmlReader, $domNode);
@@ -226,6 +230,9 @@ abstract class AbstractPart
                     $textContent = "&lt;Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
+            } elseif ($domNode->nodeName === 'w:smartTag') {
+                $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
+                $parent->addText($textContent, $fontStyle, $paragraphStyle);
             } else {
                 // TextRun
                 $textContent = $xmlReader->getValue('w:t', $domNode);
@@ -339,7 +346,7 @@ abstract class AbstractPart
             return null;
         }
         // Hyperlink has an extra w:r child
-        if ('w:hyperlink' == $domNode->nodeName) {
+        if (in_array($domNode->nodeName, array('w:hyperlink', 'w:smartTag'))) {
             $domNode = $xmlReader->getElement('w:r', $domNode);
         }
         if (!$xmlReader->elementExists('w:rPr', $domNode)) {
