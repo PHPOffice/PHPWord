@@ -313,9 +313,9 @@ class Chart extends AbstractPart
         $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
 
         //TITLE
-        $xmlWriter->startElement('c:title'); //start title
-            $xmlWriter->startElement('c:tx');
-                $xmlWriter->startElement('c:rich');
+        $xmlWriter->startElement('c:title'); //start c:title
+            $xmlWriter->startElement('c:tx'); //start c:tx
+                $xmlWriter->startElement('c:rich'); // start c:rich
                     $xmlWriter->writeElementBlock('a:bodyPr');
                     $xmlWriter->writeElementBlock('a:lstStyle');
                     $xmlWriter->startElement('a:p');
@@ -323,10 +323,12 @@ class Chart extends AbstractPart
                             $xmlWriter->writeElementBlock('a:defRPr');
                         $xmlWriter->endElement(); // end a:pPr
                         $xmlWriter->startElement('a:r');
-                            $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
+                            // $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
+
                             $xmlWriter->startElement('<a:t>');
-                                $xmlWriter->writeRaw('Cool Axis Title');
+                            $xmlWriter->writeRaw('Cool Axis Title');
                             $xmlWriter->endElement(); //end a:t
+
                         $xmlWriter->endElement(); // end a:r
                     $xmlWriter->endElement(); //end a:p
                 $xmlWriter->endElement(); //end c:rich
