@@ -189,7 +189,7 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * Get the categoryLabelsPosition setting
+     * Get the categoryLabelPosition setting
      *
      * @return string
      */
@@ -199,7 +199,7 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * Set the category Labels setting
+     * Set the categoryLabelPosition setting
      * "none" - skips writing  labels
      * "nextTo" - sets labels next to the  (bar graphs on the left)
      * "low" - labels on the left side of the graph
