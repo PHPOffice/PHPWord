@@ -312,6 +312,7 @@ class Chart extends AbstractPart
      */
     private function writeAxis(XMLWriter $xmlWriter, $type)
     {
+        $style = $this->element->getStyle();
         $types = array(
             'cat' => array('c:catAx', 1, 'b', 2),
             'val' => array('c:valAx', 2, 'l', 1),
@@ -322,6 +323,21 @@ class Chart extends AbstractPart
 
         $xmlWriter->writeElementBlock('c:axId', 'val', $axisId);
         $xmlWriter->writeElementBlock('c:axPos', 'val', $axisPos);
+
+        $categoryAxisTitle = $style->getCategoryAxisTitle();
+        $valueAxisTitle = $style->getValueAxisTitle();
+
+        if($axisType == "c:catAx"){
+            if(isset($categoryAxisTitle)){
+                $this->writeAxisTitle($xmlWriter, $categoryAxisTitle);
+            }
+        } else if ($axisType == "c:valAx"){
+            if(isset($valueAxisTitle)){
+                $this->writeAxisTitle($xmlWriter, $valueAxisTitle);
+            }
+        }
+
+
         $xmlWriter->writeElementBlock('c:crossAx', 'val', $axisCross);
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
 
@@ -329,9 +345,18 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'in'); // SG edit: switched from none to inside
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
+
+            if($axisType == "c:catAx"){
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
+            } else if($axisType == "c:valAx"){
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
+            } else {
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
+            }
+
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
+
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElement('c:majorGridlines');
         }
@@ -344,6 +369,8 @@ class Chart extends AbstractPart
 
         $xmlWriter->endElement(); // $axisType
     }
+
+
 
     /**
      * Write shape
@@ -363,5 +390,31 @@ class Chart extends AbstractPart
         }
         $xmlWriter->endElement(); // a:ln
         $xmlWriter->endElement(); // c:spPr
+    }
+
+
+    private function writeAxisTitle(XMLWriter $xmlWriter, $title){
+        $xmlWriter->startElement('c:title'); //start c:title
+        $xmlWriter->startElement('c:tx'); //start c:tx
+        $xmlWriter->startElement('c:rich'); // start c:rich
+        $xmlWriter->writeElementBlock('a:bodyPr');
+        $xmlWriter->writeElementBlock('a:lstStyle');
+        $xmlWriter->startElement('a:p');
+        $xmlWriter->startElement('a:pPr');
+        $xmlWriter->writeElementBlock('a:defRPr');
+        $xmlWriter->endElement(); // end a:pPr
+        $xmlWriter->startElement('a:r');
+        $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');
+
+        $xmlWriter->startElement('a:t');
+        $xmlWriter->writeRaw($title);
+        $xmlWriter->endElement(); //end a:t
+
+        $xmlWriter->endElement(); // end a:r
+        $xmlWriter->endElement(); //end a:p
+        $xmlWriter->endElement(); //end c:rich
+        $xmlWriter->endElement(); // end c:tx
+        $xmlWriter->writeElementBlock('c:overlay', 'val', '0');
+        $xmlWriter->endElement(); // end c:title
     }
 }
