@@ -41,14 +41,16 @@ class Chart extends AbstractPart
      * @var array
      */
     private $types = array(
-        'pie'       => array('type' => 'pie', 'colors' => 1),
-        'doughnut'  => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
-        'bar'       => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar'),
-        'column'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col'),
-        'line'      => array('type' => 'line', 'colors' => 0, 'axes' => true),
-        'area'      => array('type' => 'area', 'colors' => 0, 'axes' => true),
-        'radar'     => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter'   => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
+        'pie'            => array('type' => 'pie', 'colors' => 1),
+        'doughnut'       => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
+        'bar'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
+        'stacked_bar'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
+        'column'         => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
+        'stacked_column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
+        'line'           => array('type' => 'line', 'colors' => 0, 'axes' => true),
+        'area'           => array('type' => 'area', 'colors' => 0, 'axes' => true),
+        'radar'          => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
+        'scatter'        => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
     );
 
     /**
@@ -145,7 +147,7 @@ class Chart extends AbstractPart
         }
         if (isset($this->options['bar'])) {
             $xmlWriter->writeElementBlock('c:barDir', 'val', $this->options['bar']); // bar|col
-            $xmlWriter->writeElementBlock('c:grouping', 'val', 'clustered'); // 3d; standard = percentStacked
+            $xmlWriter->writeElementBlock('c:grouping', 'val', $this->options['grouping']); // 3d; standard = percentStacked
         }
         if (isset($this->options['radar'])) {
             $xmlWriter->writeElementBlock('c:radarStyle', 'val', $this->options['radar']);
@@ -155,7 +157,9 @@ class Chart extends AbstractPart
         }
 
         // Series
-        $this->writeSeries($xmlWriter, isset($this->options['scatter']));
+        $this->writeSeries($xmlWriter, isset($this->options['scatter']), $style->getColors());
+
+        $xmlWriter->writeElementBlock('c:overlap', 'val', '100');
 
         // Axes
         if (isset($this->options['axes'])) {
@@ -180,7 +184,7 @@ class Chart extends AbstractPart
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param bool $scatter
      */
-    private function writeSeries(XMLWriter $xmlWriter, $scatter = false)
+    private function writeSeries(XMLWriter $xmlWriter, $scatter = false, $colors = null)
     {
         $series = $this->element->getSeries();
 
@@ -194,6 +198,7 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
+            // can I change series names?
             $xmlWriter->startElement('c:tx');
             $xmlWriter->startElement('c:strRef');
             $xmlWriter->startElement('c:strCache');
@@ -208,6 +213,22 @@ class Chart extends AbstractPart
             $xmlWriter->endElement(); // c:strRef
             $xmlWriter->endElement(); // c:tx
 
+            // The c:dLbls was added to make word charts look more like the reports in SurveyGizmo
+            // This section needs to be made configurable before a pull request is made
+            $xmlWriter->startElement('c:dLbls');
+            if ($this->options['type'] == "pie") {
+                    $xmlWriter->writeElementBlock('c:showVal', 'val', 0);
+            } else {
+                    $xmlWriter->writeElementBlock('c:showVal', 'val', 1);
+            }
+            $xmlWriter->writeElementBlock('c:showLegendKey', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showCatName', 'val', 1);
+            $xmlWriter->writeElementBlock('c:showSerName', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showPercent', 'val', 1);
+            $xmlWriter->writeElementBlock('c:showBubbleSize', 'val', 0);
+            $xmlWriter->writeElementBlock('c:showLeaderLines', 'val', 1);
+            $xmlWriter->endElement(); // c:dLbls
+
             if (isset($this->options['scatter'])) {
                 $this->writeShape($xmlWriter);
             }
@@ -218,6 +239,26 @@ class Chart extends AbstractPart
             } else {
                 $this->writeSeriesItem($xmlWriter, 'cat', $categories);
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
+
+                // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
+                if(is_array($colors) && count($colors)) {
+                    // This is a workaround to make each series in a stack chart use a different color
+                    if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
+                        array_shift($colors);
+                    }
+                    $colorIndex = 0;
+                    foreach ($colors as $color) {
+                            $xmlWriter->startElement('c:dPt');
+                            $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
+                            $xmlWriter->startElement('c:spPr');
+                            $xmlWriter->startElement('a:solidFill');
+                            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+                            $xmlWriter->endElement(); // a:solidFill
+                            $xmlWriter->endElement(); // c:spPr
+                            $xmlWriter->endElement(); // c:dPt
+                            $colorIndex++;
+                    }
+                }
             }
 
             $xmlWriter->endElement(); // c:ser
@@ -244,14 +285,19 @@ class Chart extends AbstractPart
 
         $xmlWriter->startElement($itemType);
         $xmlWriter->startElement($itemLit);
+        $xmlWriter->writeElementBlock('c:ptCount', 'val', count($values));
 
         $index = 0;
         foreach ($values as $value) {
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
-            $xmlWriter->startElement('c:v');
-            $this->writeText($value);
-            $xmlWriter->endElement(); // c:v
+            if (\PhpOffice\PhpWord\Settings::isOutputEscapingEnabled()) {
+                $xmlWriter->writeElement('c:v', $value);
+            } else {
+                $xmlWriter->startElement('c:v');
+                $xmlWriter->writeRaw($value);
+                $xmlWriter->endElement(); // c:v
+            }
             $xmlWriter->endElement(); // c:pt
             $index++;
         }
@@ -284,9 +330,9 @@ class Chart extends AbstractPart
 
         if (isset($this->options['axes'])) {
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
-            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'none');
+            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'in'); // SG edit: switched from none to inside
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none'); // nextTo
+            $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
         if (isset($this->options['radar'])) {
