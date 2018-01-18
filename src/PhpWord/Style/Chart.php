@@ -252,6 +252,8 @@ class Chart extends AbstractStyle
     public function setCategoryLabelPosition($label_position)
     {
         $this->categoryLabelPosition = $label_position;
+
+        return $this;
     }
 
     /**
@@ -276,6 +278,8 @@ class Chart extends AbstractStyle
     public function setValueLabelPosition($label_position)
     {
         $this->valueLabelPosition = $label_position;
+
+        return $this;
     }
 
     /**
@@ -293,6 +297,8 @@ class Chart extends AbstractStyle
     public function setCategoryAxisTitle($axis_title)
     {
         $this->categoryAxisTitle = $axis_title;
+
+        return $this;
     }
 
     /**
@@ -310,6 +316,8 @@ class Chart extends AbstractStyle
     public function setValueAxisTitle($axis_title)
     {
         $this->valueAxisTitle = $axis_title;
+
+        return $this;
     }
 
 }
