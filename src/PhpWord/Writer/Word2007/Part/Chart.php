@@ -335,9 +335,9 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
 
             if($axisType == "c:catAx"){
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getXAxisLabelPosition());
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
             } else if($axisType == "c:valAx"){
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getYAxisLabelPosition());
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
             }

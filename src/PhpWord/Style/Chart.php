@@ -62,7 +62,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $categoryAxisLabelsPosition = "none";
+    private $categoryLabelPosition = "none";
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -73,7 +73,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $valueAxisLabelsPosition = "none";
+    private $valueLabelPosition = "none";
 
 
     /**
@@ -189,27 +189,27 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * Get the categoryAxisLabelsPosition setting
+     * Get the categoryLabelsPosition setting
      *
      * @return string
      */
-    public function getCategoryAxisLabelsPosition()
+    public function getCategoryLabelPosition()
     {
-        return $this->categoryAxisLabelsPosition;
+        return $this->categoryLabelPosition;
     }
 
     /**
-     * Set the categoryAxis Labels setting
-     * "none" - skips writing axis labels
-     * "nextTo" - sets labels next to the axis (bar graphs on the left)
+     * Set the category Labels setting
+     * "none" - skips writing  labels
+     * "nextTo" - sets labels next to the  (bar graphs on the left)
      * "low" - labels on the left side of the graph
      * "high" - labels on the right side of the graph
      *
      * @return string
      */
-    public function setCategoryAxisLabelsPosition($label_position)
+    public function setCategoryLabelPosition($label_position)
     {
-        $this->categoryAxisLabelsPosition = $label_position;
+        $this->categoryLabelPosition = $label_position;
     }
 
     /**
@@ -217,23 +217,23 @@ class Chart extends AbstractStyle
      *
      * @return string
      */
-    public function getValueAxisLabelPosition()
+    public function getValueLabelPosition()
     {
-        return $this->valueAxisLabelsPosition;
+        return $this->valueLabelPosition;
     }
 
     /**
-     * Set the valueAxisLabelPosition setting
-     * "none" - skips writing axis labels
-     * "nextTo" - sets labels next to the axis (bar graphs on the bottom)
-     * "low" - labels are below the graph
-     * "high" - labels above the graph
+     * Set the valueLabelPosition setting
+     * "none" - skips writing labels
+     * "nextTo" - sets labels next to the value
+     * "low" - sets labels are below the graph
+     * "high" - sets labels above the graph
      *
      * @var string
      */
-    public function setValueAxisLabelPosition($label_position)
+    public function setValueLabelPosition($label_position)
     {
-        $this->valueAxisLabelsPosition = $label_position;
+        $this->valueLabelPosition = $label_position;
     }
 
     /**
@@ -245,7 +245,7 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * Set the categoryAxisTitle title for the chart
+     * Set the title that appears on the category side of the chart
      * @var $axis_title string
      */
     public function setCategoryAxisTitle($axis_title)
@@ -262,7 +262,7 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * Set the valueAxisTitle for the chart
+     * Set the title that appears on the value side of the chart
      * @var $axis_title string
      */
     public function setValueAxisTitle($axis_title)
