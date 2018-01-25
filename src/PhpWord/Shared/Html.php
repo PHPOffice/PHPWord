@@ -142,6 +142,7 @@ class Html
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
             'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
             'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
+            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -642,5 +643,27 @@ class Html
     private static function parseLineBreak($element)
     {
         $element->addTextBreak();
+    }
+
+    /**
+     * Parse link node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     */
+    private static function parseLink($node, $element, &$styles)
+    {
+        $target = null;
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'href':
+                    $target = $attribute->value;
+                    break;
+            }
+        }
+        self::parseInlineStyle($node, $styles['font']);
+
+        return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
 }
