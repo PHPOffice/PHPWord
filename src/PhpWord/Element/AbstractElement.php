@@ -96,9 +96,9 @@ abstract class AbstractElement
     /**
      * changed element info
      *
-     * @var object
+     * @var TrackChange
      */
-    public $changed;
+    private $trackChange;
 
     /**
      * Parent container type
@@ -430,25 +430,35 @@ abstract class AbstractElement
     }
 
     /**
-     * Set changed
+     * Sets the trackChange information
      *
-     * @param int $type TYPE_INSERTED|TYPE_DELETED
-     * @param string $author
-     * @param timestamp $date allways in UTC
+     * @param TrackChange $trackChange
      */
-    public function setChanged($type, $author, $date)
+    public function setTrackChange(TrackChange $trackChange)
     {
-        $this->changed = new ChangedElement($type, $author, $date);
+        $this->trackChange = $trackChange;
     }
 
     /**
-     * Get changed
+     * Gets the trackChange information
      *
-     * @return object
+     * @return TrackChange
      */
-    public function getChanged()
+    public function getTrackChange()
     {
-        return $this->changed;
+        return $this->trackChange;
+    }
+
+    /**
+     * Set changed
+     *
+     * @param string $type INSERTED|DELETED
+     * @param string $author
+     * @param null|int|\DateTime $date allways in UTC
+     */
+    public function setChangeInfo($type, $author, $date = null)
+    {
+        $this->trackChange = new TrackChange($type, $author, $date);
     }
 
     /**

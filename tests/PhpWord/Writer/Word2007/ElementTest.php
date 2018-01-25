@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
@@ -414,5 +415,21 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeStart'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:commentRangeEnd'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
+    }
+
+    public function testTrackChange()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text = $section->addText('my dummy text');
+        $text->setChangeInfo(TrackChange::INSERTED, 'author name');
+        $text2 = $section->addText('my other text');
+        $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        echo $doc->printXml();
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
+        $this->assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));
     }
 }

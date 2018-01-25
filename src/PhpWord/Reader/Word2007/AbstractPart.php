@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWord\Element\AbstractElement;
 
 /**
  * Abstract part reader
@@ -193,7 +195,7 @@ abstract class AbstractPart
                 return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
             }
         }
-        
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -242,12 +244,13 @@ abstract class AbstractPart
                 } else {
                     $textContent = $xmlReader->getValue('w:t', $domNode);
                 }
+                /** @var AbstractElement $element */
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
-                    $type = ($domNode->parentNode->nodeName == 'w:del') ? \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED : \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED;
+                    $type = ($domNode->parentNode->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
                     $author = $domNode->parentNode->getAttribute('w:author');
                     $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
-                    $element->setChanged($type, $author, $date);
+                    $element->setChangeInfo($type, $author, $date);
                 }
             }
         }

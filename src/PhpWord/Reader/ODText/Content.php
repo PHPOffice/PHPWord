@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\ODText;
 
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
  * Content reader
@@ -70,14 +71,14 @@ class Content extends AbstractPart
                                     break;
                             }
                         }
-                        
+
                         $element = $section->addText($node->nodeValue);
-                        if (isset($changed)) {
-                            $element->changed = $changed['changed'];
+                        if (isset($changed) && is_array($changed)) {
+                            $element->trackChange = $changed['changed'];
                             if (isset($changed['textNodes'])) {
                                 foreach ($changed['textNodes'] as $changedNode) {
                                     $element = $section->addText($changedNode->nodeValue);
-                                    $element->changed = $changed['changed'];
+                                    $element->trackChange = $changed['changed'];
                                 }
                             }
                         }
@@ -92,20 +93,19 @@ class Content extends AbstractPart
                     case 'text:tracked-changes':
                         $changedRegions = $xmlReader->getElements('text:changed-region', $node);
                         foreach ($changedRegions as $changedRegion) {
-                            $type = ($changedRegion->firstChild->nodeName == 'text:insertion') ? \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED : \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED;
+                            $type = ($changedRegion->firstChild->nodeName == 'text:insertion') ? TrackChange::INSERTED : TrackChange::DELETED;
                             $creatorNode = $xmlReader->getElements('office:change-info/dc:creator', $changedRegion->firstChild);
                             $author = $creatorNode[0]->nodeValue;
                             $dateNode = $xmlReader->getElements('office:change-info/dc:date', $changedRegion->firstChild);
                             $date = $dateNode[0]->nodeValue;
                             $date = preg_replace('/\.\d+$/', '', $date);
                             $date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
-                            $changed = new \PhpOffice\PhpWord\Element\ChangedElement($type, $author, $date);
+                            $changed = new TrackChange($type, $author, $date);
                             $textNodes = $xmlReader->getElements('text:deletion/text:p', $changedRegion);
-                            $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'  => $changed,
-                                                                                             'textNodes'=> $textNodes, );
+                            $trackedChanges[$changedRegion->getAttribute('text:id')] = array('changed'  => $changed, 'textNodes'=> $textNodes);
                         }
                         break;
-                }   
+                }
             }
         }
     }

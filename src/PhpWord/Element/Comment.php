@@ -55,12 +55,12 @@ class Comment extends TrackChange
      * Create a new Comment Element
      *
      * @param string $author
-     * @param \DateTime $date
+     * @param null|\DateTime $date
      * @param string $initials
      */
     public function __construct($author, $date = null, $initials = null)
     {
-        parent::__construct($author, $date);
+        parent::__construct(null, $author, $date);
         $this->initials = $initials;
     }
 
