@@ -94,8 +94,9 @@ class Text extends AbstractElement
         if ($trackChange == null || $trackChange->getChangeType() != TrackChange::INSERTED) {
             return;
         }
+        $xmlWriter = $this->getXmlWriter();
         $xmlWriter->startElement('text:change-' . ($start ? 'start' : 'end'));
-        $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
+        $xmlWriter->writeAttribute('text:change-id', $trackChange->getElementId());
         $xmlWriter->endElement();
     }
 }
