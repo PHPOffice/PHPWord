@@ -341,4 +341,17 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
     }
+
+    public function testParseLink()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a href="http://phpword.readthedocs.io/" style="text-decoration: underline">link text</a></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+    }
 }
