@@ -118,14 +118,14 @@ class Paper extends AbstractStyle
     /**
      * Width
      *
-     * @var int (twip)
+     * @var float (twip)
      */
     private $width;
 
     /**
      * Height
      *
-     * @var int (twip)
+     * @var float (twip)
      */
     private $height;
 
@@ -175,7 +175,7 @@ class Paper extends AbstractStyle
     /**
      * Get width
      *
-     * @return int
+     * @return float
      */
     public function getWidth()
     {
@@ -185,7 +185,7 @@ class Paper extends AbstractStyle
     /**
      * Get height
      *
-     * @return int
+     * @return float
      */
     public function getHeight()
     {

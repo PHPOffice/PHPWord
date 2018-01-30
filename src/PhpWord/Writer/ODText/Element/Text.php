@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
-use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWord\Exception\Exception;
 
 /**
  * Text element writer
@@ -57,7 +57,6 @@ class Text extends AbstractElement
             $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
             $xmlWriter->endElement();
         } else {
-            $isInsertion = $element->getTrackChange() != null && $element->getTrackChange()->getChangeType() == TrackChange::INSERTED;
             if (empty($fontStyle)) {
                 if (empty($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', 'P1');

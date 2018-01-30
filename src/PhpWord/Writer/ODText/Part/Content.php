@@ -18,10 +18,12 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -29,8 +31,6 @@ use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\ODText\Element\Container;
 use PhpOffice\PhpWord\Writer\ODText\Style\Paragraph as ParagraphStyleWriter;
-use PhpOffice\PhpWord\Element\AbstractContainer;
-use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
  * ODText content part writer: content.xml
@@ -280,6 +280,7 @@ class Content extends AbstractPart
     }
 
     /**
+     * Finds all tracked changes
      *
      * @param AbstractContainer $container
      * @param \PhpOffice\PhpWord\Element\AbstractElement[] $trackedChanges

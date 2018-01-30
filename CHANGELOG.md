@@ -3,10 +3,21 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.14.0 (?? Dec 2017)
+v0.15.0 (?? ??? 2018)
+----------------------
+### Added
+- Parsing of "align" HTML attribute - @troosan #1231
+- Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
+
+### Fixed
+- fix reading of docx default style - @troosan #1238
+
+
+
+v0.14.0 (29 Dec 2017)
 ----------------------
 This release fixes several bugs and adds some new features.
-This is the last version to support PHP 5.3
+This version brings compatibility with PHP 7.0 & 7.1
 
 ### Added
 - Possibility to control the footnote numbering - @troosan #1068
@@ -30,7 +41,8 @@ This is the last version to support PHP 5.3
 ### Fixed
 - Loosen dependency to Zend
 - Images are not being printed when generating PDF - @hubertinio #1074 #431
-- Fixed some PHP 7 warnings - @likeuntomurphy #927
+- Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed PHP 7.2 compatibility (renamed `Object` class names to `ObjectElement`) - @SailorMax #1185
 - Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
 - Fixed image loading over https - @troosan #988
 - Impossibility to set different even and odd page headers - @troosan #981
@@ -49,6 +61,8 @@ This is the last version to support PHP 5.3
 
 ### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
+
+
 
 v0.13.0 (31 July 2016)
 -------------------
@@ -69,7 +83,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
-- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis 
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.

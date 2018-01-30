@@ -19,11 +19,10 @@ namespace PhpOffice\PhpWord\Writer\Word2007;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Comment;
-use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Element\TrackChange;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\Word2007\Element subnamespace
@@ -45,7 +44,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $elements = array(
             'CheckBox', 'Container', 'Footnote', 'Image', 'Link', 'ListItem', 'ListItemRun',
-            'Object', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
+            'OLEObject', 'PreserveText', 'Table', 'Text', 'TextBox', 'TextBreak', 'Title', 'TOC',
             'Field', 'Line', 'Shape', 'Chart', 'FormField', 'SDT', 'Bookmark',
         );
         foreach ($elements as $element) {
@@ -427,7 +426,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
-        echo $doc->printXml();
+
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
         $this->assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));

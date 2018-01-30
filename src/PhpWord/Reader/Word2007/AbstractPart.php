@@ -14,12 +14,12 @@
  * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\TrackChange;
-use PhpOffice\PhpWord\Element\AbstractElement;
+use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Abstract part reader
@@ -328,7 +328,7 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'         => array(self::READ_VALUE, 'w:pStyle'),
+            'styleName'         => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
             'alignment'         => array(self::READ_VALUE, 'w:jc'),
             'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
             'next'              => array(self::READ_VALUE, 'w:next'),
@@ -370,9 +370,9 @@ abstract class AbstractPart
         $styleNode = $xmlReader->getElement('w:rPr', $domNode);
         $styleDefs = array(
             'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
-            'name'                => array(self::READ_VALUE, 'w:rFonts', 'w:ascii'),
+            'name'                => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
             'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
-            'size'                => array(self::READ_SIZE,  'w:sz'),
+            'size'                => array(self::READ_SIZE,  array('w:sz', 'w:szCs')),
             'color'               => array(self::READ_VALUE, 'w:color'),
             'underline'           => array(self::READ_VALUE, 'w:u'),
             'bold'                => array(self::READ_TRUE,  'w:b'),
@@ -385,9 +385,7 @@ abstract class AbstractPart
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
-            'font-latin'          => array(self::READ_VALUE,  'w:font', 'w:val'),
-            'font-eastAsia'       => array(self::READ_VALUE,  'w:font', 'w:eastAsia'),
-            'font-bidi'           => array(self::READ_VALUE,  'w:font', 'w:bidi'),
+            'lang'                => array(self::READ_VALUE, 'w:lang'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -421,6 +419,7 @@ abstract class AbstractPart
                     $ucfSide = ucfirst($side);
                     $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
                     $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
+                    $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:val');
                 }
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
             }
@@ -450,6 +449,54 @@ abstract class AbstractPart
     }
 
     /**
+     * Returns the first child element found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param string|array $elements
+     * @return string|null
+     */
+    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    {
+        if (is_array($elements)) {
+            //if element is an array, we take the first element that exists in the XML
+            foreach ($elements as $possibleElement) {
+                if ($xmlReader->elementExists($possibleElement, $parentNode)) {
+                    return $possibleElement;
+                }
+            }
+        } else {
+            return $elements;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first attribute found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param string|array $attributes
+     * @return string|null
+     */
+    private function findPossibleAttribute(XMLReader $xmlReader, \DOMElement $node, $attributes)
+    {
+        //if attribute is an array, we take the first attribute that exists in the XML
+        if (is_array($attributes)) {
+            foreach ($attributes as $possibleAttribute) {
+                if ($xmlReader->getAttribute($possibleAttribute, $node)) {
+                    return $possibleAttribute;
+                }
+            }
+        } else {
+            return $attributes;
+        }
+
+        return null;
+    }
+
+    /**
      * Read style definition
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
@@ -463,10 +510,17 @@ abstract class AbstractPart
         $styles = array();
 
         foreach ($styleDefs as $styleProp => $styleVal) {
-            @list($method, $element, $attribute, $expected) = $styleVal;
+            list($method, $element, $attribute, $expected) = array_pad($styleVal, 4, null);
+
+            $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
+            if ($element === null) {
+                continue;
+            }
 
             if ($xmlReader->elementExists($element, $parentNode)) {
                 $node = $xmlReader->getElement($element, $parentNode);
+
+                $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
 
                 // Use w:val as default if no attribute assigned
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;

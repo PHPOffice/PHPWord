@@ -21,9 +21,9 @@ use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
- * Object element
+ * OLEObject element
  */
-class Object extends AbstractElement
+class OLEObject extends AbstractElement
 {
     /**
      * Ole-Object Src

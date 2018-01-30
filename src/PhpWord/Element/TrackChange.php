@@ -67,8 +67,6 @@ class TrackChange extends AbstractContainer
         if ($date != null) {
             $this->date = ($date instanceof \DateTime) ? $date : new \DateTime('@' . $date);
         }
-
-        return $this;
     }
 
     /**
