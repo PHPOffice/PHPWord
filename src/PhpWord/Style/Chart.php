@@ -10,9 +10,9 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
- * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ * @copyright 2010-2017 PHPWord contributors
+ * @license   http://www.gnu.org/licenses/lgpl.txt LGPL version 3
+ * @see       https://github.com/PHPOffice/PHPWord
  */
 
 namespace PhpOffice\PhpWord\Style;
@@ -61,7 +61,7 @@ class Chart extends AbstractStyle
     private $dataLabelOptions = array(
         "showVal"          => true, // value
         "showCatName"      => true, // category name
-        "showLegendKey"    => false,
+        "showLegendKey"    => false, //show the cart legend
         "showSerName"      => false, // series name
         "showPercent"      => false,
         "showLeaderLines"  => false,
@@ -126,7 +126,6 @@ class Chart extends AbstractStyle
 
     /**
      * Set width
-     *
      * @param int $value
      * @return self
      */
@@ -172,7 +171,6 @@ class Chart extends AbstractStyle
 
     /**
      * Set 3D
-     *
      * @param bool $value
      * @return self
      */

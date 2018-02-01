@@ -25,6 +25,9 @@ namespace PhpOffice\PhpWord\Style;
  */
 class ChartTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Testing getter and setter for chart width
+     */
     public function testSetGetWidth() {
 
         $chart = new Chart();
@@ -37,6 +40,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
 
     }
 
+    /**
+     * Testing getter and setter for chart height
+     */
     public function testSetGetHeight() {
         $chart = new Chart();
 
@@ -47,6 +53,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($chart->getHeight(), 200);
     }
 
+    /**
+     * Testing getter and setter for is3d
+     */
     public function testSetIs3d() {
         $chart = new Chart();
 
@@ -57,6 +66,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($chart->is3d(), true);
     }
 
+    /**
+     * Testing getter and setter for chart colors
+     */
     public function testSetGetColors() {
         $chart = new Chart();
 
@@ -69,6 +81,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($chart->getColors(), ['FFFFFFFF', 'FF000000', 'FFFF0000']);
     }
 
+    /**
+     * Testing getter and setter for dataLabelOptions
+     */
     public function testSetGetDataLabelOptions() {
 
         $chart = new Chart();
@@ -108,6 +123,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($chart->getDataLabelOptions(), $changedDataLabelOptions);
     }
 
+    /**
+     * Testing categoryLabelPosition getter and setter
+     */
     public function testSetGetCategoryLabelPosition() {
         $chart = new Chart();
 
@@ -119,8 +137,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
 
     }
     /**
-     * DOOD WRITE THESSSE
-     * @return [type] [description]
+     * Testing valueLabelPosition getter and setter
      */
     public function testSetGetValueLabelPosition() {
         $chart = new Chart();
@@ -133,6 +150,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
 
     }
 
+    /**
+     * Testing categoryAxisTitle getter and setter
+     */
     public function testSetGetCategoryAxisTitle() {
         $chart = new Chart();
 
@@ -145,6 +165,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($chart->getCategoryAxisTitle(), "Test Category Axis Title");
     }
 
+    /**
+     * Testing valueAxisTitle getter and setter
+     */
     public function testSetGetValueAxisTitle() {
         $chart = new Chart();
 
