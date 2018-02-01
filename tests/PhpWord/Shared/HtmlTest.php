@@ -243,7 +243,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing of ul/li
      */
-    public function tesOrderedListNumbering()
+    public function testOrderedListNumbering()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
