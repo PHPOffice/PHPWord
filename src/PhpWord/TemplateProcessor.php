@@ -260,7 +260,7 @@ class TemplateProcessor
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      */
-    public function cloneRow($search, $numberOfClones)
+ public function cloneRow($search, $numberOfClones)
     {
         if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
             $search = '${' . $search . '}';
@@ -268,7 +268,7 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            throw new Exception('Can not clone row, template variable not found or variable contains markup.');
+            throw new Exception("Can not clone row, template variable not found or variable contains markup.");
         }
 
         $rowStart = $this->findRowStart($tagPos);
@@ -279,6 +279,7 @@ class TemplateProcessor
         if (preg_match('#<w:vMerge w:val="restart"/>#', $xmlRow)) {
             // $extraRowStart = $rowEnd;
             $extraRowEnd = $rowEnd;
+            $saveExtraRowStart = -1;//NEW
             while (true) {
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
@@ -294,8 +295,12 @@ class TemplateProcessor
                     !preg_match('#<w:vMerge w:val="continue" />#', $tmpXmlRow)) {
                     break;
                 }
+                if ($saveExtraRowStart == $extraRowStart){//NEW
+                    break;//NEW
+                }//NEW
                 // This row was a spanned row, update $rowEnd and search for the next row.
                 $rowEnd = $extraRowEnd;
+                $saveExtraRowStart = $extraRowStart;//NEW
             }
             $xmlRow = $this->getSlice($rowStart, $rowEnd);
         }
@@ -308,7 +313,6 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $result;
     }
-
     /**
      * Clone a block.
      *
