@@ -121,6 +121,26 @@ class Text extends AbstractElement
             $content .= "<p{$style}>";
         }
 
+        //open changed tag
+        $element = $this->element;
+        $changed = $element->getChanged();
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $content .= '<ins data-phpword-prop=\'';
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $content .= '<del data-phpword-prop=\'';
+            }
+
+            $changedProp = array('changed' => array('author'=> $changed->getAuthor(),
+                                                    'date'  => $changed->getDate()->format('Y-m-d\TH:i:s\Z'),
+                                                    'id'    => $element->getElementId(), ));
+            $content .= json_encode($changedProp);
+            $content .= '\' ';
+            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+            $content .= 'title="' . $changed->getAuthor() . ' - ' . $dateUser . '" ';
+            $content .= '>';
+        }
+
         return $content;
     }
 
@@ -132,6 +152,18 @@ class Text extends AbstractElement
     protected function writeClosing()
     {
         $content = '';
+
+        //close changed tag
+        $element = $this->element;
+        $changed = $element->getChanged();
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $content .= '</ins>';
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $content .= '</del>';
+            }
+        }
+
         if (!$this->withoutP) {
             if (Settings::isOutputEscapingEnabled()) {
                 $content .= $this->escaper->escapeHtml($this->closingText);

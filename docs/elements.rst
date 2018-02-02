@@ -77,6 +77,13 @@ italics, etc) or other elements, e.g. images or links. The syntaxes are as follo
 
 For available styling options see :ref:`font-style` and :ref:`paragraph-style`.
 
+If you want to enable track changes on added text you can mark it as INSERTED or DELETED by a specific user at a given time:
+
+.. code-block:: php
+
+    $text = $section->addText('Hello World!');
+    $text->setChanged(\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED, 'Fred', (new \DateTime()));
+
 Titles
 ~~~~~~
 

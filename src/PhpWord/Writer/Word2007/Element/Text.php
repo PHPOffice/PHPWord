@@ -37,16 +37,66 @@ class Text extends AbstractElement
 
         $this->startElementP();
 
+        $changed = $element->getChanged();
+        if ($changed) {
+            $this->writeOpeningChanged();
+        }
+
         $xmlWriter->startElement('w:r');
 
         $this->writeFontStyle();
 
-        $xmlWriter->startElement('w:t');
+        $textElement = 'w:t';
+        //'w:delText' in case of deleted text
+        if (($changed) && ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED)) {
+            $textElement = 'w:delText';
+        }
+        $xmlWriter->startElement($textElement);
+
         $xmlWriter->writeAttribute('xml:space', 'preserve');
         $this->writeText($this->getText($element->getText()));
         $xmlWriter->endElement();
         $xmlWriter->endElement(); // w:r
 
+        $this->writeClosingChanged();
+
         $this->endElementP(); // w:p
+    }
+
+    /**
+     * Write opening of changed element
+     */
+    protected function writeOpeningChanged()
+    {
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            if (($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED)) {
+                $xmlWriter->startElement('w:ins');
+            } elseif ($changed->getChangeType() == \PhpOffice\PhpWord\Element\ChangedElement::TYPE_DELETED) {
+                $xmlWriter->startElement('w:del');
+            }
+            $xmlWriter->writeAttribute('w:author', $changed->getAuthor());
+            $xmlWriter->writeAttribute('w:date', $changed->getDate()->format('Y-m-d\TH:i:s\Z'));
+            $xmlWriter->writeAttribute('w:id', $element->getElementId());
+        }
+    }
+
+    /**
+     * Write ending
+     */
+    protected function writeClosingChanged()
+    {
+        $element = $this->getElement();
+        $changed = $element->getChanged();
+
+        $xmlWriter = $this->getXmlWriter();
+
+        if ($changed instanceof \PhpOffice\PhpWord\Element\ChangedElement) {
+            $xmlWriter->endElement(); // w:ins|w:del
+        }
     }
 }
