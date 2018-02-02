@@ -31,7 +31,7 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 11    | Watermark       | -         | v        | -        | -       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 12    | Object          | v         | v        | v        | v       | v          | v          |
+| 12    | OLEObject       | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 13    | TOC             | v         | -        | -        | -       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
@@ -283,11 +283,11 @@ Objects
 -------
 
 You can add OLE embeddings, such as Excel spreadsheets or PowerPoint
-presentations to the document by using ``addObject`` method.
+presentations to the document by using ``addOLEObject`` method.
 
 .. code-block:: php
 
-    $section->addObject($src, [$style]);
+    $section->addOLEObject($src, [$style]);
 
 Table of contents
 -----------------
@@ -316,7 +316,7 @@ Footnotes & endnotes
 You can create footnotes with ``addFootnote`` and endnotes with
 ``addEndnote`` in texts or textruns, but it's recommended to use textrun
 to have better layout. You can use ``addText``, ``addLink``,
-``addTextBreak``, ``addImage``, ``addObject`` on footnotes and endnotes.
+``addTextBreak``, ``addImage``, ``addOLEObject`` on footnotes and endnotes.
 
 On textrun:
 
