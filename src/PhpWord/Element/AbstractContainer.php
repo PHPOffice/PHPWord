@@ -157,7 +157,7 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Get all elements
      *
-     * @return array[\PhpOffice\PhpWord\Element\AbstractElement]
+     * @return \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     public function getElements()
     {

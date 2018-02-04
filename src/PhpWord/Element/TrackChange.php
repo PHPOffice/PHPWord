@@ -64,7 +64,7 @@ class TrackChange extends AbstractContainer
     {
         $this->changeType = $changeType;
         $this->author = $author;
-        if ($date != null) {
+        if ($date !== null) {
             $this->date = ($date instanceof \DateTime) ? $date : new \DateTime('@' . $date);
         }
     }

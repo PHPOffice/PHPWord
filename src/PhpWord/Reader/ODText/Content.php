@@ -74,11 +74,11 @@ class Content extends AbstractPart
 
                         $element = $section->addText($node->nodeValue);
                         if (isset($changed) && is_array($changed)) {
-                            $element->trackChange = $changed['changed'];
+                            $element->setTrackChange($changed['changed']);
                             if (isset($changed['textNodes'])) {
                                 foreach ($changed['textNodes'] as $changedNode) {
                                     $element = $section->addText($changedNode->nodeValue);
-                                    $element->trackChange = $changed['changed'];
+                                    $element->setTrackChange($changed['changed']);
                                 }
                             }
                         }
