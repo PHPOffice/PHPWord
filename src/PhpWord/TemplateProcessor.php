@@ -265,17 +265,7 @@ class TemplateProcessor
      */
     public function getVariables()
     {
-        $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
-
-        foreach ($this->tempDocumentHeaders as $headerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
-        }
-
-        foreach ($this->tempDocumentFooters as $footerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
-        }
-
-        return array_unique($variables);
+        return array_keys($this->getVariableCount());
     }
 
     /**
