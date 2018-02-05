@@ -233,6 +233,32 @@ class TemplateProcessor
     }
 
     /**
+     * Returns count of all variables in template.
+     *
+     * @return array
+     */
+    public function getVariableCount()
+    {
+        $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
+
+        foreach ($this->tempDocumentHeaders as $headerXML) {
+            $variables = array_merge(
+                $variables,
+                $this->getVariablesForPart($headerXML)
+            );
+        }
+
+        foreach ($this->tempDocumentFooters as $footerXML) {
+            $variables = array_merge(
+                $variables,
+                $this->getVariablesForPart($footerXML)
+            );
+        }
+
+        return array_count_values($variables);
+    }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]

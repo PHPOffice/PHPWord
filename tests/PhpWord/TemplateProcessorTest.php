@@ -223,4 +223,41 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($docName);
         $this->assertTrue($docFound);
     }
+
+    /**
+     * @covers ::getVariableCount
+     * @test
+     */
+    public function getVariableCountCountsHowManyTimesEachPlaceholderIsPresent()
+    {
+        // create template with placeholders
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $header = $section->addHeader();
+        $header->addText('${a_field_that_is_present_three_times}');
+        $footer = $section->addFooter();
+        $footer->addText('${a_field_that_is_present_twice}');
+        $section2 = $phpWord->addSection();
+        $section2->addText('
+                ${a_field_that_is_present_one_time}
+                  ${a_field_that_is_present_three_times}
+              ${a_field_that_is_present_twice}
+                   ${a_field_that_is_present_three_times}
+        ');
+        $objWriter = IOFactory::createWriter($phpWord);
+        $templatePath = 'test.docx';
+        $objWriter->save($templatePath);
+
+        $variableCount = (new TemplateProcessor($templatePath))->getVariableCount();
+        unlink($templatePath);
+
+        $this->assertEquals(
+            array(
+                'a_field_that_is_present_three_times' => 3,
+                'a_field_that_is_present_twice'       => 2,
+                'a_field_that_is_present_one_time'    => 1,
+            ),
+            $variableCount
+        );
+    }
 }
