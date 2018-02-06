@@ -273,6 +273,43 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests parsing of nested ul/li
+     */
+    public function testOrderedNestedListNumbering()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ol>
+                <li>List 1 item 1</li>
+                <li>List 1 item 2</li>
+            </ol>
+            <p>Some Text</p>
+            <ol>
+                <li>List 2 item 1</li>
+                <li>
+                    <ol>
+                        <li>sub list 1</li>
+                        <li>sub list 2</li>
+                    </ol>
+                </li>
+            </ol>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        echo $doc->printXml();
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+
+        $this->assertEquals('List 1 item 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('List 2 item 1', $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:t')->nodeValue);
+
+        $firstListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId', 'w:val');
+        $secondListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:numPr/w:numId', 'w:val');
+
+        $this->assertNotEquals($firstListnumId, $secondListnumId);
+    }
+
+    /**
      * Tests parsing of ul/li
      */
     public function testParseListWithFormat()
