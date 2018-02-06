@@ -248,7 +248,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templatePath = 'test.docx';
         $objWriter->save($templatePath);
 
-        $variableCount = (new TemplateProcessor($templatePath))->getVariableCount();
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $variableCount = $templateProcessor->getVariableCount();
         unlink($templatePath);
 
         $this->assertEquals(
