@@ -259,7 +259,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         Html::addHtml($section, $html, false, false);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        echo $doc->printXml();
+
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
 
@@ -336,8 +336,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
         $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        $this->assertStringMatchesFormat('%Swidth:150pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        $this->assertStringMatchesFormat('%Sheight:200pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
     }

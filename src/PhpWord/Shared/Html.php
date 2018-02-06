@@ -31,6 +31,7 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
 class Html
 {
     private static $listIndex = 0;
+    private static $xpath;
 
     /**
      * Add HTML parts.
@@ -65,6 +66,7 @@ class Html
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
+        self::$xpath = new \DOMXpath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -89,6 +91,10 @@ class Html
                         break;
                     case 'align':
                         $styles['alignment'] = self::mapAlign($attribute->value);
+                        break;
+                    case 'lang':
+                        $styles['lang'] = $attribute->value;
+                        break;
                 }
             }
         }
@@ -343,8 +349,33 @@ class Html
         if (!empty($colspan)) {
             $cellStyles['gridSpan'] = $colspan - 0;
         }
+        $cell = $element->addCell(null, $cellStyles);
 
-        return $element->addCell(null, $cellStyles);
+        if (self::shouldAddTextRun($node)) {
+            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+        }
+
+        return $cell;
+    }
+
+    /**
+     * Checks if $node contains an HTML element that cannot be added to TextRun
+     *
+     * @param \DOMNode $node
+     * @return bool Returns true if the node contains an HTML element that cannot be added to TextRun
+     */
+    private static function shouldAddTextRun(\DOMNode $node)
+    {
+        if (!$node->hasChildNodes()) {
+            return false;
+        }
+
+        $containsBlockElement = self::$xpath->query('.//table|./p', $node)->length > 0;
+        if ($containsBlockElement) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -469,6 +500,9 @@ class Html
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
+                case 'direction':
+                    $styles['rtl'] = $cValue === 'rtl';
+                    break;
                 case 'font-size':
                     $styles['size'] = Converter::cssToPoint($cValue);
                     break;
@@ -556,10 +590,12 @@ class Html
                 case 'width':
                     $width = $attribute->value;
                     $style['width'] = $width;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'height':
                     $height = $attribute->value;
                     $style['height'] = $height;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'style':
                     $styleattr = explode(';', $attribute->value);

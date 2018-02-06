@@ -8,9 +8,11 @@ v0.15.0 (?? ??? 2018)
 ### Added
 - Parsing of "align" HTML attribute - @troosan #1231
 - Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
+- Parsing of CSS `direction` instruction, HTML `lang` attribute, formatting inside table cell - @troosan #
 
 ### Fixed
 - fix reading of docx default style - @troosan #1238
+- fix the size unit of when parsing html images - @troosan #1254
 
 
 
