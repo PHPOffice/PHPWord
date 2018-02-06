@@ -151,6 +151,33 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test direction style
+     */
+    public function testParseTextDirection()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span style="direction: rtl">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:rtl'));
+    }
+
+    /**
+     * Test html lang
+     */
+    public function testParseLang()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span lang="fr-BE">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:lang'));
+        $this->assertEquals('fr-BE', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:lang', 'w:val'));
+    }
+
+    /**
      * Test font-family style
      */
     public function testParseFontFamily()
@@ -199,7 +226,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                 </thead>
                 <tbody>
                     <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
-                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                    <tr><td>This is <b>bold</b> text</td><td>5</td><td><p>6</p></td></tr>
                 </tbody>
             </table>';
         Html::addHtml($section, $html);
