@@ -339,7 +339,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return \PhpOffice\PhpWord\Element\Cell $element
+     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
      */
     private static function parseCell($node, $element, &$styles)
     {
