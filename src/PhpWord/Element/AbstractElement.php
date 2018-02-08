@@ -94,6 +94,13 @@ abstract class AbstractElement
     private $nestedLevel = 0;
 
     /**
+     * A reference to the parent
+     *
+     * @var \PhpOffice\PhpWord\Element\AbstractElement
+     */
+    private $parent;
+
+    /**
      * Parent container type
      *
      * @var string
@@ -321,6 +328,11 @@ abstract class AbstractElement
         $this->commentRangeEnd->setEndElement($this);
     }
 
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
     /**
      * Set parent container
      *
@@ -331,6 +343,7 @@ abstract class AbstractElement
     public function setParentContainer(AbstractElement $container)
     {
         $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
+        $this->parent = $container;
 
         // Set nested level
         $this->nestedLevel = $container->getNestedLevel();

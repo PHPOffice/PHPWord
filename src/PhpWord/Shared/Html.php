@@ -366,7 +366,7 @@ class Html
      */
     private static function shouldAddTextRun(\DOMNode $node)
     {
-        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./li', $node)->length > 0;
+        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
         if ($containsBlockElement) {
             return false;
         }
@@ -402,13 +402,16 @@ class Html
      */
     private static function parseList($node, $element, &$styles, &$data)
     {
-        $isOrderedList = $node->nodeName == 'ol';
+        $isOrderedList = $node->nodeName === 'ol';
         if (isset($data['listdepth'])) {
             $data['listdepth']++;
         } else {
             $data['listdepth'] = 0;
             $styles['list'] = 'listStyle_' . self::$listIndex++;
             $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
+        }
+        if ($node->parentNode->nodeName === 'li') {
+            return $element->getParent();
         }
     }
 
