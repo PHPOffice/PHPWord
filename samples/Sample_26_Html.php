@@ -31,10 +31,13 @@ $html .= '<ol>
             <ol>
                 <li>List 2 item 1</li>
                 <li>List 2 item 2</li>
-                <ol>
-                    <li>sub list 1</li>
-                    <li>sub list 2</li>
-                </ol>
+                <li>
+                    <ol>
+                        <li>sub list 1</li>
+                        <li>sub list 2</li>
+                    </ol>
+                </li>
+                
                 <li>List 2 item 3</li>
                 <ol>
                     <li>sub list 1, restarts with a</li>
