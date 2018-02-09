@@ -591,7 +591,7 @@ class Table extends Border
 
     public function setFixedColsWidth($value = true)
     {
-        $this->cantSplit = $this->setBoolVal($value, $this->fixedColsWidth);
+        $this->fixedColsWidth = $this->setBoolVal($value, $this->fixedColsWidth);
 
         return $this;
     }
