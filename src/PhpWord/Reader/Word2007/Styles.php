@@ -56,7 +56,7 @@ class Styles extends AbstractPart
         if ($paragraphDefaults !== null) {
             $paragraphDefaultStyle = $this->readParagraphStyle($xmlReader, $paragraphDefaults);
             if ($paragraphDefaultStyle != null) {
-                $phpWord->setDefaultParagraphStyle();
+                $phpWord->setDefaultParagraphStyle($paragraphDefaultStyle);
             }
         }
 
