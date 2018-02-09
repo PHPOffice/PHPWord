@@ -7,10 +7,12 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 $section = $phpWord->addSection();
 $html = '<h1>Adding element via HTML</h1>';
-$html .= '<p>Some well formed HTML snippet needs to be used</p>';
+$html .= '<p>Some well-formed HTML snippet needs to be used</p>';
 $html .= '<p>With for example <strong>some<sup>1</sup> <em>inline</em> formatting</strong><sub>1</sub></p>';
 
 $html .= '<p>A link to <a href="http://phpword.readthedocs.io/">Read the docs</a></p>';
+
+$html .= '<p lang="he-IL" style="text-align: right; direction: rtl">היי, זה פסקה מימין לשמאל</p>';
 
 $html .= '<p style="margin-top: 240pt;">Unordered (bulleted) list:</p>';
 $html .= '<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</li></ul></ul>';
@@ -29,10 +31,12 @@ $html .= '<ol>
             <ol>
                 <li>List 2 item 1</li>
                 <li>List 2 item 2</li>
-                <ol>
-                    <li>sub list 1</li>
-                    <li>sub list 2</li>
-                </ol>
+                <li>
+                    <ol>
+                        <li>sub list 1</li>
+                        <li>sub list 2</li>
+                    </ol>
+                </li>
                 <li>List 2 item 3</li>
                 <ol>
                     <li>sub list 1, restarts with a</li>
@@ -65,9 +69,19 @@ $html .= '<table align="center" style="width: 50%; border: 6px #0000FF double;">
                 </thead>
                 <tbody>
                     <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
-                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                    <tr><td>This is <b>bold</b> text</td><td></td><td>6</td></tr>
                 </tbody>
             </table>';
+
+$html .= '<p style="margin-top: 240pt;">Table inside another table:</p>';
+$html .= '<table align="center" style="width: 80%; border: 6px #0000FF double;">
+    <tr><td>
+        <table style="width: 100%; border: 4px #FF0000 dotted;">
+            <tr><td>column 1</td><td>column 2</td></tr>
+        </table>
+    </td></tr>
+    <tr><td style="text-align: center;">Cell in parent table</td></tr>
+</table>';
 
 \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
 

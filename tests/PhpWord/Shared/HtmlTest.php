@@ -151,6 +151,33 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test direction style
+     */
+    public function testParseTextDirection()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span style="direction: rtl">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:rtl'));
+    }
+
+    /**
+     * Test html lang
+     */
+    public function testParseLang()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span lang="fr-BE">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:lang'));
+        $this->assertEquals('fr-BE', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:lang', 'w:val'));
+    }
+
+    /**
      * Test font-family style
      */
     public function testParseFontFamily()
@@ -199,7 +226,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                 </thead>
                 <tbody>
                     <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
-                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                    <tr><td>This is <b>bold</b> text</td><td>5</td><td><p>6</p></td></tr>
                 </tbody>
             </table>';
         Html::addHtml($section, $html);
@@ -255,6 +282,43 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
             <ol>
                 <li>List 2 item 1</li>
                 <li>List 2 item 2</li>
+            </ol>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+
+        $this->assertEquals('List 1 item 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('List 2 item 1', $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:t')->nodeValue);
+
+        $firstListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId', 'w:val');
+        $secondListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:numPr/w:numId', 'w:val');
+
+        $this->assertNotEquals($firstListnumId, $secondListnumId);
+    }
+
+    /**
+     * Tests parsing of nested ul/li
+     */
+    public function testOrderedNestedListNumbering()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ol>
+                <li>List 1 item 1</li>
+                <li>List 1 item 2</li>
+            </ol>
+            <p>Some Text</p>
+            <ol>
+                <li>List 2 item 1</li>
+                <li>
+                    <ol>
+                        <li>sub list 1</li>
+                        <li>sub list 2</li>
+                    </ol>
+                </li>
             </ol>';
         Html::addHtml($section, $html, false, false);
 
@@ -336,8 +400,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $baseXpath = '/w:document/w:body/w:p/w:r';
         $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
-        $this->assertStringMatchesFormat('%Swidth:150pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
-        $this->assertStringMatchesFormat('%Sheight:200pt%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
     }
