@@ -259,7 +259,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         Html::addHtml($section, $html, false, false);
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        echo $doc->printXml();
+
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
 

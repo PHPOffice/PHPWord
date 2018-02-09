@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -156,8 +157,10 @@ abstract class AbstractPart
         } else {
             // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
+            $insCount = $xmlReader->countElements('w:ins', $domNode);
+            $delCount = $xmlReader->countElements('w:del', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
-            $runLinkCount = $runCount + $linkCount;
+            $runLinkCount = $runCount + $insCount + $delCount + $linkCount;
             if (0 == $runLinkCount) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
@@ -185,6 +188,13 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del'))) {
+            $nodes = $xmlReader->getElements('*', $domNode);
+            foreach ($nodes as $node) {
+                return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+            }
+        }
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -228,8 +238,19 @@ abstract class AbstractPart
                 }
             } else {
                 // TextRun
-                $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                if ($domNode->parentNode->nodeName == 'w:del') {
+                    $textContent = $xmlReader->getValue('w:delText', $domNode);
+                } else {
+                    $textContent = $xmlReader->getValue('w:t', $domNode);
+                }
+                /** @var AbstractElement $element */
+                $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
+                    $type = ($domNode->parentNode->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
+                    $author = $domNode->parentNode->getAttribute('w:author');
+                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
+                    $element->setChangeInfo($type, $author, $date);
+                }
             }
         }
     }

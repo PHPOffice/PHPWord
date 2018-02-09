@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
@@ -51,29 +52,50 @@ class Text extends AbstractElement
         if (!$this->withoutP) {
             $xmlWriter->startElement('text:p'); // text:p
         }
-        if (empty($fontStyle)) {
-            if (empty($paragraphStyle)) {
-                $xmlWriter->writeAttribute('text:style-name', 'P1');
-            } elseif (is_string($paragraphStyle)) {
-                $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-            }
-            $this->writeText($element->getText());
-        } else {
-            if (empty($paragraphStyle)) {
-                $xmlWriter->writeAttribute('text:style-name', 'Standard');
-            } elseif (is_string($paragraphStyle)) {
-                $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
-            }
-            // text:span
-            $xmlWriter->startElement('text:span');
-            if (is_string($fontStyle)) {
-                $xmlWriter->writeAttribute('text:style-name', $fontStyle);
-            }
-            $this->writeText($element->getText());
+        if ($element->getTrackChange() != null && $element->getTrackChange()->getChangeType() == TrackChange::DELETED) {
+            $xmlWriter->startElement('text:change');
+            $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
             $xmlWriter->endElement();
+        } else {
+            if (empty($fontStyle)) {
+                if (empty($paragraphStyle)) {
+                    $xmlWriter->writeAttribute('text:style-name', 'P1');
+                } elseif (is_string($paragraphStyle)) {
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
+                }
+                $this->writeChangeInsertion(true, $element->getTrackChange());
+                $this->writeText($element->getText());
+                $this->writeChangeInsertion(false, $element->getTrackChange());
+            } else {
+                if (empty($paragraphStyle)) {
+                    $xmlWriter->writeAttribute('text:style-name', 'Standard');
+                } elseif (is_string($paragraphStyle)) {
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
+                }
+                // text:span
+                $xmlWriter->startElement('text:span');
+                if (is_string($fontStyle)) {
+                    $xmlWriter->writeAttribute('text:style-name', $fontStyle);
+                }
+                $this->writeChangeInsertion(true, $element->getTrackChange());
+                $this->writeText($element->getText());
+                $this->writeChangeInsertion(false, $element->getTrackChange());
+                $xmlWriter->endElement();
+            }
         }
         if (!$this->withoutP) {
             $xmlWriter->endElement(); // text:p
         }
+    }
+
+    private function writeChangeInsertion($start = true, TrackChange $trackChange = null)
+    {
+        if ($trackChange == null || $trackChange->getChangeType() != TrackChange::INSERTED) {
+            return;
+        }
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('text:change-' . ($start ? 'start' : 'end'));
+        $xmlWriter->writeAttribute('text:change-id', $trackChange->getElementId());
+        $xmlWriter->endElement();
     }
 }
