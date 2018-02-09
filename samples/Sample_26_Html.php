@@ -37,7 +37,6 @@ $html .= '<ol>
                         <li>sub list 2</li>
                     </ol>
                 </li>
-                
                 <li>List 2 item 3</li>
                 <ol>
                     <li>sub list 1, restarts with a</li>
