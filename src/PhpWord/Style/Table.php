@@ -122,6 +122,13 @@ class Table extends Border
     private $unit = self::WIDTH_AUTO;
 
     /**
+     * Fixes the width of columns with long text without delimiters
+     *
+     * @var bool
+     */
+    private $fixedColsWidth = true;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -580,6 +587,18 @@ class Table extends Border
         $this->unit = $this->setEnumVal($value, $enum, $this->unit);
 
         return $this;
+    }
+
+    public function setFixedColsWidth($value = true)
+    {
+        $this->cantSplit = $this->setBoolVal($value, $this->fixedColsWidth);
+
+        return $this;
+    }
+
+    public function isFixedColsWidth()
+    {
+        return $this->fixedColsWidth;
     }
 
     /**

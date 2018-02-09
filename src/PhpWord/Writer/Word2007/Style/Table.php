@@ -76,6 +76,13 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
+        // Table fixed columns width
+        if ($style->isFixedColsWidth()) {
+            $xmlWriter->startElement('w:tblLayout');
+            $xmlWriter->writeAttribute('w:type', 'fixed');
+            $xmlWriter->endElement();
+        }
+
         $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
