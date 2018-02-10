@@ -11,10 +11,11 @@ v0.15.0 (?? ??? 2018)
 - Parsing of CSS `direction` instruction, HTML `lang` attribute, formatting inside table cell - @troosan #1273 #1252 #1254
 
 ### Fixed
-- fix reading of docx default style - @troosan #1238
-- fix the size unit of when parsing html images - @troosan #1254
-- fixed HTML parsing of nested lists - @troosan #1265
+- Fix reading of docx default style - @troosan #1238
+- Fix the size unit of when parsing html images - @troosan #1254
+- Fixed HTML parsing of nested lists - @troosan #1265
 - Save PNG alpha information when using remote images. @samsullivan #779
+- fix parsing of `<w:br/>` tag. @troosan #1274
 
 
 
