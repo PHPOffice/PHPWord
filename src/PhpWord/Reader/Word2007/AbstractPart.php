@@ -93,7 +93,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      *
      * @todo Get font style for preserve text
@@ -177,7 +177,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      *
@@ -226,7 +226,11 @@ abstract class AbstractPart
                     $textContent = "&lt;Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
-            } else {
+            }
+            if ($xmlReader->elementExists('w:br', $domNode)) {
+                $parent->addTextBreak();
+            }
+            if ($xmlReader->elementExists('w:t', $domNode)) {
                 // TextRun
                 $textContent = $xmlReader->getValue('w:t', $domNode);
                 $parent->addText($textContent, $fontStyle, $paragraphStyle);
