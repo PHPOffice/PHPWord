@@ -17,33 +17,27 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
- * Link element HTML writer
+ * Bookmark element HTML writer
  *
- * @since 0.10.0
+ * @since 0.15.0
  */
-class Link extends Text
+class Bookmark extends Text
 {
     /**
-     * Write link
+     * Write bookmark
      *
      * @return string
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Link) {
+        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Bookmark) {
             return '';
         }
 
-        $prefix = $this->element->isInternal() ? '#' : '';
-        $content = $this->writeOpening();
-        if (Settings::isOutputEscapingEnabled()) {
-            $content .= "<a href=\"{$prefix}{$this->escaper->escapeHtmlAttr($this->element->getSource())}\">{$this->escaper->escapeHtml($this->element->getText())}</a>";
-        } else {
-            $content .= "<a href=\"{$prefix}{$this->element->getSource()}\">{$this->element->getText()}</a>";
-        }
+        $content = '';
+        $content .= $this->writeOpening();
+        $content .= "<a name=\"{$this->element->getName()}\"/>";
         $content .= $this->writeClosing();
 
         return $content;

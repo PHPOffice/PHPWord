@@ -15,7 +15,8 @@ v0.15.0 (?? ??? 2018)
 - Fix the size unit of when parsing html images - @troosan #1254
 - Fixed HTML parsing of nested lists - @troosan #1265
 - Save PNG alpha information when using remote images. @samsullivan #779
-- fix parsing of `<w:br/>` tag. @troosan #1274
+- Fix parsing of `<w:br/>` tag. @troosan #1274
+- Bookmark are not writton as internal link in html writer @troosan #1263
 
 
 
