@@ -319,14 +319,32 @@ class Word2007 extends AbstractWriter implements WriterInterface
     {
         foreach ($media as $medium) {
             $mediumType = $medium['type'];
+            $pathSource = pathinfo($medium['source']);
+            $mediumExtension = $pathSource['extension'];
             if ($mediumType == 'image') {
                 $extension = $medium['imageExtension'];
                 if (!isset($this->contentTypes['default'][$extension])) {
                     $this->contentTypes['default'][$extension] = $medium['imageType'];
                 }
             } elseif ($mediumType == 'object') {
-                if (!isset($this->contentTypes['default']['bin'])) {
-                    $this->contentTypes['default']['bin'] = 'application/vnd.openxmlformats-officedocument.oleObject';
+                switch ($mediumExtension) {
+                    case "docx":
+                        if (!isset($this->contentTypes['default']['docx'])) {
+                            $this->contentTypes['default']['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        }
+                        break;
+                    
+                    case "pptx":
+                        if (!isset($this->contentTypes['default']['pptx'])) {
+                            $this->contentTypes['default']['pptx'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                        }
+                        break;
+                    
+                    case "xlsx":
+                        if (!isset($this->contentTypes['default']['xlsx'])) {
+                            $this->contentTypes['default']['xlsx'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                        }
+                        break;
                 }
             }
         }

@@ -85,7 +85,7 @@ class Media
                     break;
                 // Objects
                 case 'object':
-                    $target = "{$container}_oleObject{$mediaTypeCount}.bin";
+                    $target = "{$container}_oleObject{$mediaTypeCount}.".pathinfo($source)['extension']."";
                     break;
                 // Links
                 case 'link':
