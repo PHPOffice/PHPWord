@@ -313,7 +313,7 @@ class Image extends AbstractElement
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
-                if ($zip->locateName($imageFilename)) {
+                if ($zip->locateName($imageFilename) !== false) {
                     $isTemp = true;
                     $zip->extractTo(Settings::getTempDir(), $imageFilename);
                     $actualSource = Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
@@ -458,7 +458,7 @@ class Image extends AbstractElement
 
         $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
-            if ($zip->locateName($imageFilename)) {
+            if ($zip->locateName($imageFilename) !== false) {
                 $imageContent = $zip->getFromName($imageFilename);
                 if ($imageContent !== false) {
                     file_put_contents($tempFilename, $imageContent);
