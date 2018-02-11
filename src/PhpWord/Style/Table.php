@@ -28,6 +28,8 @@ class Table extends Border
     const WIDTH_AUTO = 'auto'; // Automatically determined width
     const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
     const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
+    const STRETCH_AUTO = 'autofit'; // Automatically stretch the table to fit the page width
+    const STRETCH_FIXED = 'fixed'; // Do not stretch the table to fit the page width
 
     /**
      * Is this a first row style?
@@ -120,6 +122,11 @@ class Table extends Border
      * @var string Width unit
      */
     private $unit = self::WIDTH_AUTO;
+
+    /**
+     * @var string Stretch the table to the page width
+     */
+    private $stretch = self::STRETCH_AUTO;
 
     /**
      * Create new table style
@@ -578,6 +585,32 @@ class Table extends Border
     {
         $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
         $this->unit = $this->setEnumVal($value, $enum, $this->unit);
+
+        return $this;
+    }
+
+    /**
+     * Get stretch
+     *
+     * @return string
+     */
+    public function getStretch()
+    {
+        return $this->stretch;
+    }
+
+    /**
+     * Set stretch
+     *
+     * Stretch the table to the page width
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setStretch($value = null)
+    {
+        $enum = array(self::STRETCH_AUTO, self::STRETCH_FIXED);
+        $this->stretch = $this->setEnumVal($value, $enum, $this->stretch);
 
         return $this;
     }
