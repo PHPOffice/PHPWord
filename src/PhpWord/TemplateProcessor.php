@@ -198,7 +198,21 @@ class TemplateProcessor
 
         return $subject;
     }
+    
+    public function setImageValue($search, $replace)
+    {
+        // Sanity check
+        if (!file_exists($replace))
+        {
+            return;
+        }
 
+        // Delete current image
+        $this->zipClass->deleteName('word/media/' . $search);
+
+        // Add a new one
+        $this->zipClass->addFile($replace, 'word/media/' . $search);
+    }
     /**
      * @param mixed $search
      * @param mixed $replace
