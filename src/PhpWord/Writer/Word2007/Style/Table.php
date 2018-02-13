@@ -110,7 +110,7 @@ class Table extends AbstractStyle
     /**
      * Enable/Disable automatic resizing of the table
      *
-     * @param \PhpOffice\PhpWord\Shared\XMLWriter $xmlWriter
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $layout autofit / fixed
      * @return void
      */
