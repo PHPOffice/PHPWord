@@ -28,8 +28,20 @@ class Table extends Border
     const WIDTH_AUTO = 'auto'; // Automatically determined width
     const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
     const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
-    const STRETCH_AUTO = 'autofit'; // Automatically stretch the table to fit the page width
-    const STRETCH_FIXED = 'fixed'; // Do not stretch the table to fit the page width
+
+    //values for http://www.datypic.com/sc/ooxml/t-w_ST_TblLayoutType.html
+    /**
+     * AutoFit Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_AUTO = 'autofit';
+    /**
+     * Fixed Width Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_FIXED = 'fixed';
 
     /**
      * Is this a first row style?
@@ -124,9 +136,9 @@ class Table extends Border
     private $unit = self::WIDTH_AUTO;
 
     /**
-     * @var string Stretch the table to the page width
+     * @var string Table Layout
      */
-    private $stretch = self::STRETCH_AUTO;
+    private $layout = self::LAYOUT_AUTO;
 
     /**
      * Create new table style
@@ -590,27 +602,25 @@ class Table extends Border
     }
 
     /**
-     * Get stretch
+     * Get layout
      *
      * @return string
      */
-    public function getStretch()
+    public function getLayout()
     {
-        return $this->stretch;
+        return $this->layout;
     }
 
     /**
-     * Set stretch
-     *
-     * Stretch the table to the page width
+     * Set layout
      *
      * @param string $value
      * @return self
      */
-    public function setStretch($value = null)
+    public function setLayout($value = null)
     {
-        $enum = array(self::STRETCH_AUTO, self::STRETCH_FIXED);
-        $this->stretch = $this->setEnumVal($value, $enum, $this->stretch);
+        $enum = array(self::LAYOUT_AUTO, self::LAYOUT_FIXED);
+        $this->layout = $this->setEnumVal($value, $enum, $this->layout);
 
         return $this;
     }

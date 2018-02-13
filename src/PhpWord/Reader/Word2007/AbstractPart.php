@@ -425,6 +425,7 @@ abstract class AbstractPart
                     $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
                     $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:val');
                 }
+                $styleDefs['layout'] = array(self::READ_VALUE, 'w:tblLayout', 'w:type');
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
             }
         }

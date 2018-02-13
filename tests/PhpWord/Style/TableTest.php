@@ -172,4 +172,15 @@ class TableTest extends \PHPUnit\Framework\TestCase
             $object->getBorderColor()
         );
     }
+
+    /**
+     * Tests table layout
+     */
+    public function testTableLayout()
+    {
+        $object = new Table();
+        $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
+        $object->setLayout(Table::LAYOUT_FIXED);
+        $this->assertEquals(Table::LAYOUT_FIXED, $object->getLayout());
+    }
 }
