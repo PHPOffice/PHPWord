@@ -103,6 +103,7 @@ Available Table style options:
 - ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
 - ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in twips.
 - ``width``. Table width in percent.
+- ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 
 Available Row style options:
 

@@ -211,6 +211,27 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test construct from GD
+     */
+    public function testConstructFromGd()
+    {
+        $source = 'http://php.net/images/logos/php-icon.png';
+
+        $image = new Image($source);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        $this->assertEquals($source, $image->getSource());
+        $this->assertEquals(md5($source), $image->getMediaId());
+        $this->assertEquals('image/png', $image->getImageType());
+        $this->assertEquals('png', $image->getImageExtension());
+        $this->assertEquals('imagecreatefrompng', $image->getImageCreateFunction());
+        $this->assertEquals('imagepng', $image->getImageFunction());
+        $this->assertTrue($image->isMemImage());
+
+        $this->assertNotNull($image->getImageStringData());
+        $this->assertNotNull($image->getImageStringData(true));
+    }
+
+    /**
      * Test invalid string image
      *
      * @expectedException \PhpOffice\PhpWord\Exception\InvalidImageException
