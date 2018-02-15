@@ -17,13 +17,13 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\ZipArchive;
-use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
@@ -192,7 +192,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!StringUtils::isValidUtf8($subject)) {
+        if (!Text::isUTF8($subject)) {
             $subject = utf8_encode($subject);
         }
 
