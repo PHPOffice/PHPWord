@@ -174,7 +174,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
         $element = $doc->getElement($path, $file);
 
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
@@ -193,7 +193,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
@@ -247,7 +247,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
@@ -290,7 +290,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
@@ -309,7 +309,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
@@ -328,7 +328,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     public function testAutoHyphenation()
@@ -344,7 +344,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     public function testConsecutiveHyphenLimit()
@@ -392,6 +392,6 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path, $file));
 
         $element = $doc->getElement($path, $file);
-        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 }
