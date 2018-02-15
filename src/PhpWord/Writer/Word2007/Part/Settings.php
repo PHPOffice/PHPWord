@@ -174,11 +174,8 @@ class Settings extends AbstractPart
             return;
         }
 
-        if ($booleanValue) {
-            $this->settings[$settingName] = array('@attributes' => array());
-        } else {
-            $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
-        }
+        $value = $booleanValue ? 'true' : 'false';
+        $this->settings[$settingName] = array('@attributes' => array('w:val' => $value));
     }
 
     /**
