@@ -172,4 +172,17 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings->setUpdateFields(true);
         $this->assertTrue($oSettings->hasUpdateFields());
     }
+
+    public function testAutoHyphenation()
+    {
+        $oSettings = new Settings();
+        $oSettings->setAutoHyphenation(true);
+        $this->assertTrue($oSettings->hasAutoHyphenation());
+    }
+
+    public function testDefaultAutoHyphenation()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->hasAutoHyphenation());
+    }
 }

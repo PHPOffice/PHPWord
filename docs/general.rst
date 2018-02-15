@@ -290,3 +290,16 @@ To force an update of the fields present in the document, set updateFields to tr
 .. code-block:: php
 
     $phpWord->getSettings()->setUpdateFields(true);
+
+Hyphenation
+-----------
+Hyphenation describes the process of breaking words with hyphens. There are several options to control hyphenation.
+
+Auto hyphenation
+~~~~~~~~~~~~~~~~
+
+To automatically hyphenate text set ``autoHyphenation`` to ``true``.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setAutoHyphenation(true);
