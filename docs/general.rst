@@ -217,10 +217,10 @@ The default language of the document can be change with the following.
 
     $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_BE));
 
-``Languge`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
+``Language`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
 A couple of language codes are provided in the ``PhpOffice\PhpWord\ComplexType\Language`` class but any valid code/ID can be used.
 
-In case you are generating an RTF document the Language need to be set differently.
+In case you are generating an RTF document the language need to be set differently.
 
 .. code-block:: php
 
