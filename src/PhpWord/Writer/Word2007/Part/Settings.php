@@ -167,12 +167,14 @@ class Settings extends AbstractPart
      */
     private function setOnOffValue($settingName, $booleanValue)
     {
-        if ($booleanValue !== null && is_bool($booleanValue)) {
-            if ($booleanValue) {
-                $this->settings[$settingName] = array('@attributes' => array());
-            } else {
-                $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
-            }
+        if (!is_bool($booleanValue)) {
+            return;
+        }
+
+        if ($booleanValue) {
+            $this->settings[$settingName] = array('@attributes' => array());
+        } else {
+            $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
         }
     }
 
