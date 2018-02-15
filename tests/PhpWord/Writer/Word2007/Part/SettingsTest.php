@@ -196,6 +196,22 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
+    public function testUpdateFields()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setUpdateFields(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:updateFields';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('true', $element->getAttribute('w:val'));
+    }
+
     /**
      * Test zoom percentage
      */
@@ -272,6 +288,38 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement($path, $file);
         $this->assertEquals('false', $element->getAttribute('w:formatting'));
         $this->assertEquals('true', $element->getAttribute('w:comments'));
+    }
+
+    public function testHideSpellingErrors()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setHideSpellingErrors(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:hideSpellingErrors';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('true', $element->getAttribute('w:val'));
+    }
+
+    public function testHideGrammaticalErrors()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setHideGrammaticalErrors(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:hideGrammaticalErrors';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('true', $element->getAttribute('w:val'));
     }
 
     /**
