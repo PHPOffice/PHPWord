@@ -131,6 +131,13 @@ class Settings
     private $decimalSymbol = '.';
 
     /**
+     * Automatically hyphenate document contents when displayed
+     *
+     * @var bool|null
+     */
+    private $autoHyphenation;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -386,5 +393,21 @@ class Settings
     public function setDecimalSymbol($decimalSymbol)
     {
         $this->decimalSymbol = $decimalSymbol;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasAutoHyphenation()
+    {
+        return $this->autoHyphenation;
+    }
+
+    /**
+     * @param bool $autoHyphenation
+     */
+    public function setAutoHyphenation($autoHyphenation)
+    {
+        $this->autoHyphenation = (bool) $autoHyphenation;
     }
 }
