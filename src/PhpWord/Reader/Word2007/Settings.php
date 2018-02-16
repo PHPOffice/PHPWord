@@ -29,7 +29,17 @@ use PhpOffice\PhpWord\Style\Language;
  */
 class Settings extends AbstractPart
 {
-    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'trackRevisions', 'doNotTrackMoves', 'doNotTrackFormatting', 'evenAndOddHeaders');
+    private static $booleanProperties = array(
+        'mirrorMargins',
+        'hideSpellingErrors',
+        'hideGrammaticalErrors',
+        'trackRevisions',
+        'doNotTrackMoves',
+        'doNotTrackFormatting',
+        'evenAndOddHeaders',
+        'updateFields',
+        'autoHyphenation',
+    );
 
     /**
      * Read settings.xml.
