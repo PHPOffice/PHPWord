@@ -391,7 +391,11 @@ class TemplateProcessor
                 $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
                 // collect prepared replaces
-                $partSearchReplaces['<w:t>' . self::ensureMacroCompleted($search) . '</w:t>'] = $xmlImage;
+                $search = self::ensureMacroCompleted($search);
+                $matches = array();
+                if (preg_match('/<[^<]+' . preg_quote($search) . '[^>]+>/u', $partContent, $matches)) {
+                    $partSearchReplaces[$matches[0]] = $xmlImage;
+                }
             }
 
             if ($partSearchReplaces) {
