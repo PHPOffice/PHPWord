@@ -70,15 +70,15 @@ Available Paragraph style options:
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
    See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``basedOn``. Parent style.
-- ``hanging``. Hanging by how much.
-- ``indent``. Indent by how much.
+- ``hanging``. Hanging in *twip*.
+- ``indent``. Indent in *twip*.
 - ``keepLines``. Keep all lines on one page, *true* or *false*.
 - ``keepNext``. Keep paragraph with next paragraph, *true* or *false*.
 - ``lineHeight``. Text line height, e.g. *1.0*, *1.5*, etc.
 - ``next``. Style for next paragraph.
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
-- ``spaceBefore``. Space before paragraph.
-- ``spaceAfter``. Space after paragraph.
+- ``spaceBefore``. Space before paragraph in *twip*.
+- ``spaceAfter``. Space after paragraph in *twip*.
 - ``spacing``. Space between lines.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
 - ``tabs``. Set of custom tab stops.
