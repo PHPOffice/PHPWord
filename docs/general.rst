@@ -255,7 +255,7 @@ The base length unit in Open Office XML is twip. Twip means "TWentieth
 of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
 You can use PHPWord helper functions to convert inches, centimeters, or
-points to twips.
+points to twip.
 
 .. code-block:: php
 

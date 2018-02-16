@@ -307,8 +307,8 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 Options for ``$tocStyle``:
 
 - ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
-- ``tabPos``. The position of the tab where the page number appears in twips.
-- ``indent``. The indent factor of the titles in twips.
+- ``tabPos``. The position of the tab where the page number appears in twip.
+- ``indent``. The indent factor of the titles in twip.
 
 Footnotes & endnotes
 --------------------
@@ -429,7 +429,7 @@ Line elements can be added to sections by using ``addLine``.
 
 Available line style attributes:
 
-- ``weight``. Line width in twips.
+- ``weight``. Line width in twip.
 - ``color``. Defines the color of stroke.
 - ``dash``. Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot.
 - ``beginArrow``. Start type of arrow: block, open, classic, diamond, oval.
