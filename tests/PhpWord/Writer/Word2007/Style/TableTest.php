@@ -55,4 +55,25 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
         $this->assertEquals(Table::LAYOUT_FIXED, $doc->getElementAttribute($path, 'w:type'));
     }
+
+    /**
+     * Test write styles
+     */
+    public function testCellSpacing()
+    {
+        $tableStyle = new Table();
+        $tableStyle->setCellSpacing(10.3);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals(10.3, $doc->getElementAttribute($path, 'w:w'));
+        $this->assertEquals(\PhpOffice\PhpWord\SimpleType\TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+    }
 }

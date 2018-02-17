@@ -6,11 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.15.0 (?? ??? 2018)
 ----------------------
 ### Added
-- Parsing of "align" HTML attribute - @troosan #1231
+- Parsing of `align` HTML attribute - @troosan #1231
 - Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
 - Parsing of CSS `direction` instruction, HTML `lang` attribute, formatting inside table cell - @troosan #1273 #1252 #1254
 - Add support for Track changes @Cip @troosan #354 #1262
 - Add support for fixed Table Layout @aoloe @ekopach @troosan #841 #1276
+- Add support for Cell Spacing @dox07 @troosan #1040
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238

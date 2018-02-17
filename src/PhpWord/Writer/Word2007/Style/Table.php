@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment;
 
@@ -49,7 +50,7 @@ class Table extends AbstractStyle
             $xmlWriter->writeAttribute('w:val', $style);
             $xmlWriter->endElement();
             if (null !== $this->width) {
-                $this->writeWidth($xmlWriter, $this->width, 'pct');
+                $this->writeTblWidth($xmlWriter, 'w:tblW', TblWidth::PERCENT, $this->width);
             }
             $xmlWriter->endElement();
         }
@@ -76,7 +77,8 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
+        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
+        $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeLayout($xmlWriter, $style->getLayout());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
@@ -90,21 +92,6 @@ class Table extends AbstractStyle
         if ($firstRow instanceof TableStyle) {
             $this->writeFirstRow($xmlWriter, $firstRow);
         }
-    }
-
-    /**
-     * Write width.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param int $width
-     * @param string $unit
-     */
-    private function writeWidth(XMLWriter $xmlWriter, $width, $unit)
-    {
-        $xmlWriter->startElement('w:tblW');
-        $xmlWriter->writeAttribute('w:w', $width);
-        $xmlWriter->writeAttribute('w:type', $unit);
-        $xmlWriter->endElement(); // w:tblW
     }
 
     /**
@@ -157,6 +144,25 @@ class Table extends AbstractStyle
 
             $xmlWriter->endElement(); // w:tblBorders
         }
+    }
+
+    /**
+     * Writes a table width
+     *
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param string $elementName
+     * @param string $unit
+     * @param int|float $width
+     */
+    private function writeTblWidth(XMLWriter $xmlWriter, $elementName, $unit, $width = null)
+    {
+        if (null === $width) {
+            return;
+        }
+        $xmlWriter->startElement($elementName);
+        $xmlWriter->writeAttributeIf(null !== $width, 'w:w', $width);
+        $xmlWriter->writeAttribute('w:type', $unit);
+        $xmlWriter->endElement();
     }
 
     /**
