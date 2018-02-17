@@ -50,7 +50,7 @@ class Table extends AbstractStyle
             $xmlWriter->writeAttribute('w:val', $style);
             $xmlWriter->endElement();
             if (null !== $this->width) {
-                $this->writeTblWidth($xmlWriter, 'w:tblW', $this->width, TblWidth::PERCENT);
+                $this->writeTblWidth($xmlWriter, 'w:tblW', TblWidth::PERCENT, $this->width);
             }
             $xmlWriter->endElement();
         }
@@ -77,8 +77,8 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getWidth(), $style->getUnit());
-        $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', $style->getCellSpacing(), TblWidth::TWIP);
+        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getUnit(), $style->getWidth());
+        $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', TblWidth::TWIP, $style->getCellSpacing());
         $this->writeLayout($xmlWriter, $style->getLayout());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
@@ -151,10 +151,10 @@ class Table extends AbstractStyle
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string $elementName
-     * @param int|float $width
      * @param string $unit
+     * @param int|float $width
      */
-    private function writeTblWidth(XMLWriter $xmlWriter, $elementName, $width = null, $unit)
+    private function writeTblWidth(XMLWriter $xmlWriter, $elementName, $unit, $width = null)
     {
         if (null === $width) {
             return;
