@@ -415,6 +415,10 @@ class Html
         }
     }
 
+    /**
+     * @param bool $isOrderedList
+     * @return array
+     */
     private static function getListStyle($isOrderedList)
     {
         if ($isOrderedList) {
@@ -547,13 +551,13 @@ class Html
                 case 'width':
                     if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
                         $styles['width'] = Converter::cssToTwip($matches[1]);
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_TWIP;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
                     } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
                         $styles['width'] = $matches[1] * 50;
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                     } elseif (preg_match('/([0-9]+)/', $cValue, $matches)) {
                         $styles['width'] = $matches[1];
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_AUTO;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
                     break;
                 case 'border':

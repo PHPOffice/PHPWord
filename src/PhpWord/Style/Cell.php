@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\TblWidth;
+
 /**
  * Table cell style
  */
@@ -123,7 +125,7 @@ class Cell extends Border
      *
      * @var string
      */
-    private $unit = Table::WIDTH_TWIP;
+    private $unit = TblWidth::TWIP;
 
     /**
      * Get vertical align.
@@ -308,7 +310,7 @@ class Cell extends Border
      */
     public function setUnit($value)
     {
-        $this->unit = $this->setEnumVal($value, array(Table::WIDTH_AUTO, Table::WIDTH_PERCENT, Table::WIDTH_TWIP), Table::WIDTH_TWIP);
+        $this->unit = $this->setEnumVal($value, array(TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP), TblWidth::TWIP);
 
         return $this;
     }
