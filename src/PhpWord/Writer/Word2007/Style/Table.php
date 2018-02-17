@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 use PhpOffice\PhpWord\Writer\Word2007\Element\TableAlignment;
 
@@ -49,7 +50,7 @@ class Table extends AbstractStyle
             $xmlWriter->writeAttribute('w:val', $style);
             $xmlWriter->endElement();
             if (null !== $this->width) {
-                $this->writeWidth($xmlWriter, $this->width, 'pct');
+                $this->writeTblWidth($xmlWriter, 'w:tblW', $this->width, TblWidth::PERCENT);
             }
             $xmlWriter->endElement();
         }
@@ -76,12 +77,8 @@ class Table extends AbstractStyle
             $xmlWriter->endElement();
         }
 
-        if(null != $style->getCellSpacing())
-        {
-            $this->writeTblCellSpacing($xmlWriter, $style->getCellSpacing(), 'dxa');
-        }
-
-        $this->writeWidth($xmlWriter, $style->getWidth(), $style->getUnit());
+        $this->writeTblWidth($xmlWriter, 'w:tblW', $style->getWidth(), $style->getUnit());
+        $this->writeTblWidth($xmlWriter, 'w:tblCellSpacing', $style->getCellSpacing(), TblWidth::TWIP);
         $this->writeLayout($xmlWriter, $style->getLayout());
         $this->writeMargin($xmlWriter, $style);
         $this->writeBorder($xmlWriter, $style);
@@ -95,37 +92,6 @@ class Table extends AbstractStyle
         if ($firstRow instanceof TableStyle) {
             $this->writeFirstRow($xmlWriter, $firstRow);
         }
-    }
-
-    /**
-     * Write width.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param int $width
-     * @param string $unit
-     */
-    private function writeWidth(XMLWriter $xmlWriter, $width, $unit)
-    {
-        $xmlWriter->startElement('w:tblW');
-        $xmlWriter->writeAttribute('w:w', $width);
-        $xmlWriter->writeAttribute('w:type', $unit);
-        $xmlWriter->endElement(); // w:tblW
-    }
-
-    /**
-     * Write cell spacing.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param int $size
-     * @param string $unit
-     * @return void
-     */
-    private function writeTblCellSpacing(XMLWriter $xmlWriter, $size, $unit)
-    {
-        $xmlWriter->startElement('w:tblCellSpacing');
-        $xmlWriter->writeAttribute('w:w', $size);
-        $xmlWriter->writeAttribute('w:type', $unit);
-        $xmlWriter->endElement(); // w:
     }
 
     /**
@@ -178,6 +144,25 @@ class Table extends AbstractStyle
 
             $xmlWriter->endElement(); // w:tblBorders
         }
+    }
+
+    /**
+     * Writes a table width
+     *
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param string $elementName
+     * @param int|float $width
+     * @param string $unit
+     */
+    private function writeTblWidth(XMLWriter $xmlWriter, $elementName, $width = null, $unit)
+    {
+        if (null === $width) {
+            return;
+        }
+        $xmlWriter->startElement($elementName);
+        $xmlWriter->writeAttributeIf(null !== $width, 'w:w', $width);
+        $xmlWriter->writeAttribute('w:type', $unit);
+        $xmlWriter->endElement();
     }
 
     /**

@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\JcTable;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table
@@ -38,15 +39,24 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $styleTable = array('bgColor' => 'FF0000');
         $styleFirstRow = array('borderBottomSize' => 3);
 
-        $object = new Table();
-        $this->assertNull($object->getBgColor());
-
         $object = new Table($styleTable, $styleFirstRow);
         $this->assertEquals('FF0000', $object->getBgColor());
 
         $firstRow = $object->getFirstRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $firstRow);
         $this->assertEquals(3, $firstRow->getBorderBottomSize());
+    }
+
+    /**
+     * Test default values when passing no style
+     */
+    public function testDefaultValues()
+    {
+        $object = new Table();
+
+        $this->assertNull($object->getBgColor());
+        $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
+        $this->assertEquals(TblWidth::AUTO, $object->getUnit());
     }
 
     /**
@@ -77,6 +87,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
             'alignment'          => JcTable::CENTER,
             'width'              => 100,
             'unit'               => 'pct',
+            'layout'             => Table::LAYOUT_FIXED,
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
@@ -174,13 +185,14 @@ class TableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests table layout
+     * Tests table cell spacing
      */
-    public function testTableLayout()
+    public function testTableCellSpacing()
     {
         $object = new Table();
-        $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
-        $object->setLayout(Table::LAYOUT_FIXED);
-        $this->assertEquals(Table::LAYOUT_FIXED, $object->getLayout());
+        $this->assertNull($object->getCellSpacing());
+
+        $object = new Table(array('cellSpacing' => 20));
+        $this->assertEquals(20, $object->getCellSpacing());
     }
 }

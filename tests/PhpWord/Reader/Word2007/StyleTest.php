@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\AbstractTestReader;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
 
 /**
@@ -42,5 +43,27 @@ class StyleTest extends AbstractTestReader
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         $this->assertEquals(Table::LAYOUT_FIXED, $elements[0]->getStyle()->getLayout());
+    }
+
+    /**
+     * Test reading of cell spacing
+     */
+    public function testReadCellSpacing()
+    {
+        $documentXml = '<w:tbl>
+            <w:tblPr>
+                <w:tblCellSpacing w:w="10.5" w:type="dxa"/>
+            </w:tblPr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString($documentXml);
+
+        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        $this->assertEquals(TblWidth::AUTO, $elements[0]->getStyle()->getUnit());
+        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        $tableStyle = $elements[0]->getStyle();
+        $this->assertEquals(10.5, $tableStyle->getCellSpacing());
     }
 }
