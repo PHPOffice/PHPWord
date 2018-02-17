@@ -29,6 +29,20 @@ class Table extends Border
     const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
     const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
 
+    //values for http://www.datypic.com/sc/ooxml/t-w_ST_TblLayoutType.html
+    /**
+     * AutoFit Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_AUTO = 'autofit';
+    /**
+     * Fixed Width Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_FIXED = 'fixed';
+
     /**
      * Is this a first row style?
      *
@@ -125,6 +139,11 @@ class Table extends Border
      * @var int cell spacing value
      */
     protected $cellSpacing = null;
+
+    /**
+     * @var string Table Layout
+     */
+    private $layout = self::LAYOUT_AUTO;
 
     /**
      * Create new table style
@@ -599,6 +618,30 @@ class Table extends Border
     {
         $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
         $this->unit = $this->setEnumVal($value, $enum, $this->unit);
+
+        return $this;
+    }
+
+    /**
+     * Get layout
+     *
+     * @return string
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * Set layout
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setLayout($value = null)
+    {
+        $enum = array(self::LAYOUT_AUTO, self::LAYOUT_FIXED);
+        $this->layout = $this->setEnumVal($value, $enum, $this->layout);
 
         return $this;
     }

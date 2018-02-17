@@ -101,7 +101,7 @@ class SDT extends Text
      */
     private function writeDropDownList(XMLWriter $xmlWriter, SDTElement $element)
     {
-        $this->writecomboBox($xmlWriter, $element);
+        $this->writeComboBox($xmlWriter, $element);
     }
 
     /**

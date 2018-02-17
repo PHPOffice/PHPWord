@@ -35,7 +35,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $content = '';
 
         // Default
-        $section = new Section(1);
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
         $this->assertCount(0, $section->getElements());
 
         // Heading
@@ -57,7 +58,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(7, $section->getElements());
 
         // Other parts
-        $section = new Section(1);
+        $section = $phpWord->addSection();
         $content = '';
         $content .= '<table><tr><th>Header</th><td>Content</td></tr></table>';
         $content .= '<ul><li>Bullet</li><ul><li>Bullet</li></ul></ul>';
@@ -150,6 +151,33 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test direction style
+     */
+    public function testParseTextDirection()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span style="direction: rtl">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:rtl'));
+    }
+
+    /**
+     * Test html lang
+     */
+    public function testParseLang()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<span lang="fr-BE">test</span>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:lang'));
+        $this->assertEquals('fr-BE', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:lang', 'w:val'));
+    }
+
+    /**
      * Test font-family style
      */
     public function testParseFontFamily()
@@ -172,10 +200,11 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        Html::addHtml($section, '<p style="text-align: center;"><span style="text-decoration: underline;">test</span></p>');
+        Html::addHtml($section, '<p style="text-align: center; margin-top: 15px; margin-bottom: 15px;"><span style="text-decoration: underline;">test</span></p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:jc'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:spacing'));
         $this->assertEquals(Jc::CENTER, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:jc', 'w:val'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:r/w:rPr/w:u', 'w:val'));
     }
@@ -187,7 +216,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
-        $html = '<table style="width: 50%; border: 6px #0000FF solid;">
+        $html = '<table align="left" style="width: 50%; border: 6px #0000FF solid;">
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
                         <th style="width: 50pt">header a</th>
@@ -197,7 +226,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                 </thead>
                 <tbody>
                     <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
-                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                    <tr><td>This is <b>bold</b> text</td><td>5</td><td><p>6</p></td></tr>
                 </tbody>
             </table>';
         Html::addHtml($section, $html);
@@ -205,6 +234,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr/w:jc'));
+        $this->assertEquals(Jc::START, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tblPr/w:jc', 'w:val'));
     }
 
     /**
@@ -222,7 +253,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                 </li>
                 <li>
                     <span style="font-family: arial,helvetica,sans-serif;">
-                        <span style="font-size: 12px;">list item2</span>
+                        <span style="font-size: 10px; font-weight: bold;">list item2</span>
                     </span>
                 </li>
             </ul>';
@@ -233,5 +264,158 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
         $this->assertEquals('list item1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
         $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:b'));
+    }
+
+    /**
+     * Tests parsing of ul/li
+     */
+    public function testOrderedListNumbering()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ol>
+                <li>List 1 item 1</li>
+                <li>List 1 item 2</li>
+            </ol>
+            <p>Some Text</p>
+            <ol>
+                <li>List 2 item 1</li>
+                <li>List 2 item 2</li>
+            </ol>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+
+        $this->assertEquals('List 1 item 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('List 2 item 1', $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:t')->nodeValue);
+
+        $firstListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId', 'w:val');
+        $secondListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:numPr/w:numId', 'w:val');
+
+        $this->assertNotEquals($firstListnumId, $secondListnumId);
+    }
+
+    /**
+     * Tests parsing of nested ul/li
+     */
+    public function testOrderedNestedListNumbering()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<ol>
+                <li>List 1 item 1</li>
+                <li>List 1 item 2</li>
+            </ol>
+            <p>Some Text</p>
+            <ol>
+                <li>List 2 item 1</li>
+                <li>
+                    <ol>
+                        <li>sub list 1</li>
+                        <li>sub list 2</li>
+                    </ol>
+                </li>
+            </ol>';
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+
+        $this->assertEquals('List 1 item 1', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+        $this->assertEquals('List 2 item 1', $doc->getElement('/w:document/w:body/w:p[4]/w:r/w:t')->nodeValue);
+
+        $firstListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:numPr/w:numId', 'w:val');
+        $secondListnumId = $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:numPr/w:numId', 'w:val');
+
+        $this->assertNotEquals($firstListnumId, $secondListnumId);
+    }
+
+    /**
+     * Tests parsing of ul/li
+     */
+    public function testParseListWithFormat()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = preg_replace('/\s+/', ' ', '<ul>
+                <li>Some text before
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item1 <b>bold</b> with text after bold</span>
+                    </span>
+                    and some after
+                </li>
+                <li>
+                    <span style="font-family: arial,helvetica,sans-serif;">
+                        <span style="font-size: 12px;">list item2</span>
+                    </span>
+                </li>
+            </ul>');
+        Html::addHtml($section, $html, false, false);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:numPr/w:numId'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('list item2', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r[3]/w:rPr/w:b'));
+        $this->assertEquals('bold', $doc->getElement('/w:document/w:body/w:p[1]/w:r[3]/w:t')->nodeValue);
+    }
+
+    /**
+     * Tests parsing of br
+     */
+    public function testParseLineBreak()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p>This is some text<br/>with a linebreak.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:br'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('This is some text', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
+        $this->assertEquals('with a linebreak.', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
+    }
+
+    /**
+     * Test parsing of img
+     */
+    public function testParseImage()
+    {
+        $src = __DIR__ . '/../_files/images/firefox.png';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+        $this->assertStringMatchesFormat('%Swidth:150px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
+        $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+    }
+
+    public function testParseLink()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><a href="http://phpword.readthedocs.io/" style="text-decoration: underline">link text</a></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
     }
 }

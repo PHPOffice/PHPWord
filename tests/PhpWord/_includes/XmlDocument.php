@@ -97,6 +97,7 @@ class XmlDocument
 
         if (null === $this->xpath) {
             $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
         return $this->xpath->query($path);

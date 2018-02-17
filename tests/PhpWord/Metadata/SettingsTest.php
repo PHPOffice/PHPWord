@@ -63,11 +63,20 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     public function testDocumentProtection()
     {
         $oSettings = new Settings();
-        $oSettings->setDocumentProtection(new Protection());
+        $oSettings->setDocumentProtection(new Protection('trackedChanges'));
         $this->assertNotNull($oSettings->getDocumentProtection());
 
-        $oSettings->getDocumentProtection()->setEditing('trackedChanges');
         $this->assertEquals('trackedChanges', $oSettings->getDocumentProtection()->getEditing());
+    }
+
+    /**
+     * Test setting an invalid salt
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidSalt()
+    {
+        $protection = new Protection();
+        $protection->setSalt('123');
     }
 
     /**
@@ -152,5 +161,15 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Settings();
         $oSettings->setZoom(Zoom::FULL_PAGE);
         $this->assertEquals('fullPage', $oSettings->getZoom());
+    }
+
+    /**
+     * Test Update Fields on update
+     */
+    public function testUpdateFields()
+    {
+        $oSettings = new Settings();
+        $oSettings->setUpdateFields(true);
+        $this->assertTrue($oSettings->hasUpdateFields());
     }
 }

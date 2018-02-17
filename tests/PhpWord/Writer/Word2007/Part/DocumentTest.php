@@ -58,7 +58,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $docInfo->setCustomProperty('key6', new \DateTime());
         $docInfo->setCustomProperty('key7', time(), DocInfo::PROPERTY_TYPE_DATE);
 
-        TestHelperDOCX::getDocument($phpWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertNotNull($doc);
 
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));

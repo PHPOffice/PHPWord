@@ -154,12 +154,12 @@ class Shape extends AbstractElement
             case 'arc':
             case 'line':
                 $points = explode(' ', $value);
-                @list($start, $end) = $points;
+                list($start, $end) = array_pad($points, 2, null);
                 $points = array('start' => $start, 'end' => $end);
                 break;
             case 'curve':
                 $points = explode(' ', $value);
-                @list($start, $end, $point1, $point2) = $points;
+                list($start, $end, $point1, $point2) = array_pad($points, 4, null);
                 $points = array('start' => $start, 'end' => $end, 'point1' => $point1, 'point2' => $point2);
                 break;
         }

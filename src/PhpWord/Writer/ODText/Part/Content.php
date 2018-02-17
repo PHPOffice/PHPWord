@@ -18,10 +18,12 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Image;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
@@ -73,6 +75,40 @@ class Content extends AbstractPart
         // Body
         $xmlWriter->startElement('office:body');
         $xmlWriter->startElement('office:text');
+
+        // Tracked changes declarations
+        $trackedChanges = array();
+        $sections = $phpWord->getSections();
+        foreach ($sections as $section) {
+            $this->collectTrackedChanges($section, $trackedChanges);
+        }
+        $xmlWriter->startElement('text:tracked-changes');
+        foreach ($trackedChanges as $trackedElement) {
+            $trackedChange = $trackedElement->getTrackChange();
+            $xmlWriter->startElement('text:changed-region');
+            $trackedChange->setElementId();
+            $xmlWriter->writeAttribute('text:id', $trackedChange->getElementId());
+
+            if (($trackedChange->getChangeType() == TrackChange::INSERTED)) {
+                $xmlWriter->startElement('text:insertion');
+            } elseif ($trackedChange->getChangeType() == TrackChange::DELETED) {
+                $xmlWriter->startElement('text:deletion');
+            }
+
+            $xmlWriter->startElement('office:change-info');
+            $xmlWriter->writeElement('dc:creator', $trackedChange->getAuthor());
+            if ($trackedChange->getDate() != null) {
+                $xmlWriter->writeElement('dc:date', $trackedChange->getDate()->format('Y-m-d\TH:i:s\Z'));
+            }
+            $xmlWriter->endElement(); // office:change-info
+            if ($trackedChange->getChangeType() == TrackChange::DELETED) {
+                $xmlWriter->writeElement('text:p', $trackedElement->getText());
+            }
+
+            $xmlWriter->endElement(); // text:insertion|text:deletion
+            $xmlWriter->endElement(); // text:changed-region
+        }
+        $xmlWriter->endElement(); // text:tracked-changes
 
         // Sequence declarations
         $sequences = array('Illustration', 'Table', 'Text', 'Drawing');
@@ -240,6 +276,25 @@ class Content extends AbstractPart
             $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
             $style->setAuto();
             $element->setParagraphStyle("P{$paragraphStyleCount}");
+        }
+    }
+
+    /**
+     * Finds all tracked changes
+     *
+     * @param AbstractContainer $container
+     * @param \PhpOffice\PhpWord\Element\AbstractElement[] $trackedChanges
+     */
+    private function collectTrackedChanges(AbstractContainer $container, &$trackedChanges = array())
+    {
+        $elements = $container->getElements();
+        foreach ($elements as $element) {
+            if ($element->getTrackChange() != null) {
+                $trackedChanges[] = $element;
+            }
+            if (is_callable(array($element, 'getElements'))) {
+                $this->collectTrackedChanges($element, $trackedChanges);
+            }
         }
     }
 }

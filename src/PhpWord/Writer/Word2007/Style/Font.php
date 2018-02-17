@@ -90,6 +90,10 @@ class Font extends AbstractStyle
             $xmlWriter->writeAttributeIf($language->getLatin() !== null, 'w:val', $language->getLatin());
             $xmlWriter->writeAttributeIf($language->getEastAsia() !== null, 'w:eastAsia', $language->getEastAsia());
             $xmlWriter->writeAttributeIf($language->getBidirectional() !== null, 'w:bidi', $language->getBidirectional());
+            //if bidi is not set but we are writing RTL, write the latin language in the bidi tag
+            if ($style->isRTL() && $language->getBidirectional() === null && $language->getLatin() !== null) {
+                $xmlWriter->writeAttribute('w:bidi', $language->getLatin());
+            }
             $xmlWriter->endElement();
         }
 
@@ -104,6 +108,7 @@ class Font extends AbstractStyle
 
         // Bold, italic
         $xmlWriter->writeElementIf($style->isBold(), 'w:b');
+        $xmlWriter->writeElementIf($style->isBold(), 'w:bCs');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:i');
         $xmlWriter->writeElementIf($style->isItalic(), 'w:iCs');
 

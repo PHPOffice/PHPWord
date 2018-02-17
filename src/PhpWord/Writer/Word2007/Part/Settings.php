@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
+use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -76,7 +77,7 @@ class Settings extends AbstractPart
     {
         if ($settingValue == '') {
             $xmlWriter->writeElement($settingKey);
-        } else {
+        } elseif (is_array($settingValue) && !empty($settingValue)) {
             $xmlWriter->startElement($settingKey);
 
             /** @var array $settingValue Type hint */
@@ -147,13 +148,14 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackMoves', $documentSettings->hasDoNotTrackMoves());
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
+        $this->setOnOffValue('w:updateFields', $documentSettings->hasUpdateFields());
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
-        $this->getCompatibility();
+        $this->setCompatibility();
     }
 
     /**
@@ -180,13 +182,33 @@ class Settings extends AbstractPart
      */
     private function setDocumentProtection($documentProtection)
     {
-        if ($documentProtection != null && $documentProtection->getEditing() !== null) {
-            $this->settings['w:documentProtection'] = array(
-                '@attributes' => array(
-                    'w:enforcement' => 1,
-                    'w:edit'        => $documentProtection->getEditing(),
-                ),
-            );
+        if ($documentProtection->getEditing() !== null) {
+            if ($documentProtection->getPassword() == null) {
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement' => 1,
+                        'w:edit'        => $documentProtection->getEditing(),
+                    ),
+                );
+            } else {
+                if ($documentProtection->getSalt() == null) {
+                    $documentProtection->setSalt(openssl_random_pseudo_bytes(16));
+                }
+                $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getAlgorithm(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement'         => 1,
+                        'w:edit'                => $documentProtection->getEditing(),
+                        'w:cryptProviderType'   => 'rsaFull',
+                        'w:cryptAlgorithmClass' => 'hash',
+                        'w:cryptAlgorithmType'  => 'typeAny',
+                        'w:cryptAlgorithmSid'   => PasswordEncoder::getAlgorithmId($documentProtection->getAlgorithm()),
+                        'w:cryptSpinCount'      => $documentProtection->getSpinCount(),
+                        'w:hash'                => $passwordHash,
+                        'w:salt'                => base64_encode($documentProtection->getSalt()),
+                    ),
+                );
+            }
         }
     }
 
@@ -215,6 +237,7 @@ class Settings extends AbstractPart
     private function setRevisionView(TrackChangesView $trackChangesView = null)
     {
         if ($trackChangesView != null) {
+            $revisionView = array();
             $revisionView['w:markup'] = $trackChangesView->hasMarkup() ? 'true' : 'false';
             $revisionView['w:comments'] = $trackChangesView->hasComments() ? 'true' : 'false';
             $revisionView['w:insDel'] = $trackChangesView->hasInsDel() ? 'true' : 'false';
@@ -258,15 +281,17 @@ class Settings extends AbstractPart
     /**
      * Get compatibility setting.
      */
-    private function getCompatibility()
+    private function setCompatibility()
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
-            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
-                'w:name'    => 'compatibilityMode',
-                'w:uri'     => 'http://schemas.microsoft.com/office/word',
-                'w:val'     => $compatibility->getOoxmlVersion(),
-            ));
+            $this->settings['w:compat']['w:compatSetting'] = array(
+                '@attributes' => array(
+                    'w:name' => 'compatibilityMode',
+                    'w:uri'  => 'http://schemas.microsoft.com/office/word',
+                    'w:val'  => $compatibility->getOoxmlVersion(),
+                ),
+            );
         }
     }
 }

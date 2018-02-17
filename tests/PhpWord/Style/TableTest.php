@@ -99,6 +99,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 'FF0000';
         $object->setBorderColor($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Color";
             $values[] = $value;
@@ -121,6 +122,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 4;
         $object->setBorderSize($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Size";
             $values[] = $value;
@@ -143,6 +145,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $value = 240;
         $object->setCellMargin($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getCellMargin{$part}";
             $values[] = $value;
@@ -168,5 +171,16 @@ class TableTest extends \PHPUnit\Framework\TestCase
             array('999999', '999999', '999999', '999999', '999999', '999999'),
             $object->getBorderColor()
         );
+    }
+
+    /**
+     * Tests table layout
+     */
+    public function testTableLayout()
+    {
+        $object = new Table();
+        $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
+        $object->setLayout(Table::LAYOUT_FIXED);
+        $this->assertEquals(Table::LAYOUT_FIXED, $object->getLayout());
     }
 }

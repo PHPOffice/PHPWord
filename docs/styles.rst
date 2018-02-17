@@ -11,26 +11,26 @@ Section
 Available Section style options:
 
 - ``borderBottomColor``. Border bottom color.
-- ``borderBottomSize``. Border bottom size (in twips).
+- ``borderBottomSize``. Border bottom size in *twip*.
 - ``borderLeftColor``. Border left color.
-- ``borderLeftSize``. Border left size (in twips).
+- ``borderLeftSize``. Border left size in *twip*.
 - ``borderRightColor``. Border right color.
-- ``borderRightSize``. Border right size (in twips).
+- ``borderRightSize``. Border right size in *twip*.
 - ``borderTopColor``. Border top color.
-- ``borderTopSize``. Border top size (in twips).
+- ``borderTopSize``. Border top size in *twip*.
 - ``breakType``. Section break type (nextPage, nextColumn, continuous, evenPage, oddPage).
 - ``colsNum``. Number of columns.
 - ``colsSpace``. Spacing between columns.
 - ``footerHeight``. Spacing to bottom of footer.
 - ``gutter``. Page gutter spacing.
 - ``headerHeight``. Spacing to top of header.
-- ``marginTop``. Page margin top (in twips).
-- ``marginLeft``. Page margin left (in twips).
-- ``marginRight``. Page margin right (in twips).
-- ``marginBottom``. Page margin bottom (in twips).
+- ``marginTop``. Page margin top in *twip*.
+- ``marginLeft``. Page margin left in *twip*.
+- ``marginRight``. Page margin right in *twip*.
+- ``marginBottom``. Page margin bottom in *twip*.
 - ``orientation``. Page orientation (``portrait``, which is default, or ``landscape``).
-- ``pageSizeH``. Page height (in twips). Implicitly defined by ``orientation`` option. Any changes are discouraged.
-- ``pageSizeW``. Page width (in twips). Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 
 .. _font-style:
 
@@ -70,15 +70,15 @@ Available Paragraph style options:
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
    See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``basedOn``. Parent style.
-- ``hanging``. Hanging by how much.
-- ``indent``. Indent by how much.
+- ``hanging``. Hanging in *twip*.
+- ``indent``. Indent in *twip*.
 - ``keepLines``. Keep all lines on one page, *true* or *false*.
 - ``keepNext``. Keep paragraph with next paragraph, *true* or *false*.
 - ``lineHeight``. Text line height, e.g. *1.0*, *1.5*, etc.
 - ``next``. Style for next paragraph.
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
-- ``spaceBefore``. Space before paragraph.
-- ``spaceAfter``. Space after paragraph.
+- ``spaceBefore``. Space before paragraph in *twip*.
+- ``spaceAfter``. Space after paragraph in *twip*.
 - ``spacing``. Space between lines.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
 - ``tabs``. Set of custom tab stops.
@@ -100,9 +100,10 @@ Available Table style options:
    See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` classes for the details.
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
-- ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
-- ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in twips.
+- ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
+- ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in *twip*.
 - ``width``. Table width in percent.
+- ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 
 Available Row style options:
 
@@ -114,13 +115,13 @@ Available Cell style options:
 
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
-- ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
+- ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
 - ``gridSpan``. Number of columns spanned.
 - ``textDirection(btLr|tbRl)``. Direction of text.
    You can use constants ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR`` and ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_TBRL``
 - ``valign``. Vertical alignment, *top*, *center*, *both*, *bottom*.
 - ``vMerge``. *restart* or *continue*.
-- ``width``. Cell width in twips.
+- ``width``. Cell width in *twip*.
 
 .. _image-style:
 

@@ -140,7 +140,8 @@ class ZipArchive
         } else {
             $zip = new \PclZip($this->filename);
             $this->tempDir = Settings::getTempDir();
-            $this->numFiles = count($zip->listContent());
+            $zipContent = $zip->listContent();
+            $this->numFiles = is_array($zipContent) ? count($zipContent) : 0;
         }
         $this->zip = $zip;
 
@@ -160,7 +161,7 @@ class ZipArchive
     {
         if (!$this->usePclzip) {
             if ($this->zip->close() === false) {
-                throw new Exception("Could not close zip file {$this->filename}.");
+                throw new Exception("Could not close zip file {$this->filename}: ");
             }
         }
 
@@ -351,7 +352,7 @@ class ZipArchive
      * Returns the name of an entry using its index (emulate \ZipArchive)
      *
      * @param int $index
-     * @return string
+     * @return string|bool
      * @since 0.10.0
      */
     public function pclzipGetNameIndex($index)

@@ -73,6 +73,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         );
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
+        $section->addBookmark('top');
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText(
@@ -128,6 +129,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         $cell->addFootnote();
         $cell->addEndnote();
         $cell = $table->addRow()->addCell();
+        $section->addLink('top', 'back to top', null, null, true);
 
         $writer = new HTML($phpWord);
 
