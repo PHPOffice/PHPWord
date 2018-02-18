@@ -43,4 +43,44 @@ class ElementTest extends AbstractTestReader
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[1]);
         $this->assertEquals('test string', $elements[1]->getText());
     }
+
+    /**
+     * Test reading of textbreak
+     */
+    public function testReadListItemRunWithFormatting()
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="0"/>
+                    <w:numId w:val="11"/>
+                </w:numPr>
+            </w:pPr>
+            <w:r>
+                <w:t>Two</w:t>
+            </w:r>
+            <w:r>
+                <w:t xml:space="preserve"> with </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:b/>
+                </w:rPr>
+                <w:t>bold</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString($documentXml);
+
+        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\ListItemRun', $elements[0]);
+        $this->assertEquals(0, $elements[0]->getDepth());
+
+        $listElements = $this->get($elements, 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $listElements[0]);
+        $this->assertEquals('Two', $listElements[0]->getText());
+        $this->assertEquals(' with ', $listElements[1]->getText());
+        $this->assertEquals('bold', $listElements[2]->getText());
+        $this->assertTrue($listElements[2]->getFontStyle()->getBold());
+    }
 }
