@@ -138,14 +138,15 @@ abstract class AbstractPart
             $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
             // List item
-            $textContent = '';
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
             $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
-            $nodes = $xmlReader->getElements('w:r', $domNode);
+            $nodes = $xmlReader->getElements('*', $domNode);
+
+            $listItemRun = $parent->addListItemRun($levelId, "PHPWordList{$numId}", $paragraphStyle);
+
             foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
+                $this->readRun($xmlReader, $node, $listItemRun, $docPart, $paragraphStyle);
             }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
         } elseif (!empty($headingMatches)) {
             // Heading
             $textContent = '';
