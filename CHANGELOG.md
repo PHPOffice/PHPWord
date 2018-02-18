@@ -12,6 +12,7 @@ v0.15.0 (?? ??? 2018)
 - Add support for Track changes @Cip @troosan #354 #1262
 - Add support for fixed Table Layout @aoloe @ekopach @troosan #841 #1276
 - Add support for Cell Spacing @dox07 @troosan #1040
+- Add parsing of formatting inside lists @atomicalnet @troosan #594
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
@@ -22,6 +23,8 @@ v0.15.0 (?? ??? 2018)
 - Bookmark are not writton as internal link in html writer @troosan #1263
 - It should be possible to add a Footnote in a ListItemRun @troosan #1287 #1287
 
+### Changed
+- Remove zend-stdlib dependency @Trainmaster #1284
 
 
 v0.14.0 (29 Dec 2017)
