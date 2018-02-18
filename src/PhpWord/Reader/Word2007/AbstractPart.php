@@ -10,14 +10,15 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -36,9 +37,9 @@ abstract class AbstractPart
      */
     const READ_VALUE = 'attributeValue';            // Read attribute value
     const READ_EQUAL = 'attributeEquals';           // Read `true` when attribute value equals specified value
-    const READ_TRUE  = 'attributeTrue';             // Read `true` when element exists
+    const READ_TRUE = 'attributeTrue';              // Read `true` when element exists
     const READ_FALSE = 'attributeFalse';            // Read `false` when element exists
-    const READ_SIZE  = 'attributeMultiplyByTwo';    // Read special attribute value for Font::$size
+    const READ_SIZE = 'attributeMultiplyByTwo';     // Read special attribute value for Font::$size
 
     /**
      * Document file
@@ -82,7 +83,6 @@ abstract class AbstractPart
      * Set relationships.
      *
      * @param array $value
-     * @return void
      */
     public function setRels($value)
     {
@@ -94,9 +94,8 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
-     * @return void
      *
      * @todo Get font style for preserve text
      */
@@ -137,44 +136,41 @@ abstract class AbstractPart
                 }
             }
             $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
-
-        // List item
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
-            $textContent = '';
+            // List item
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
             $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
-            $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
-            }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
+            $nodes = $xmlReader->getElements('*', $domNode);
 
-        // Heading
+            $listItemRun = $parent->addListItemRun($levelId, "PHPWordList{$numId}", $paragraphStyle);
+
+            foreach ($nodes as $node) {
+                $this->readRun($xmlReader, $node, $listItemRun, $docPart, $paragraphStyle);
+            }
         } elseif (!empty($headingMatches)) {
+            // Heading
             $textContent = '';
             $nodes = $xmlReader->getElements('w:r', $domNode);
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
             $parent->addTitle($textContent, $headingMatches[1]);
-
-        // Text and TextRun
         } else {
+            // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
+            $insCount = $xmlReader->countElements('w:ins', $domNode);
+            $delCount = $xmlReader->countElements('w:del', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
-            $runLinkCount = $runCount + $linkCount;
+            $runLinkCount = $runCount + $insCount + $delCount + $linkCount;
             if (0 == $runLinkCount) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
+                if ($runLinkCount > 1) {
+                    $parent = $parent->addTextRun($paragraphStyle);
+                }
                 foreach ($nodes as $node) {
-                    $this->readRun(
-                        $xmlReader,
-                        $node,
-                        ($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent,
-                        $docPart,
-                        $paragraphStyle
-                    );
+                    $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
                 }
             }
         }
@@ -185,15 +181,21 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
-     * @return void
      *
      * @todo Footnote paragraph style
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del'))) {
+            $nodes = $xmlReader->getElements('*', $domNode);
+            foreach ($nodes as $node) {
+                return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+            }
+        }
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -208,37 +210,52 @@ abstract class AbstractPart
                 $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
             }
         } else {
-            // Footnote
             if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
+                // Footnote
                 $parent->addFootnote();
-
-            // Endnote
             } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
+                // Endnote
                 $parent->addEndnote();
-
-            // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
+                // Image
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $imageSource = "zip://{$this->docFile}#{$target}";
+                    if ('External' == $this->getTargetMode($docPart, $rId)) {
+                        $imageSource = $target;
+                    } else {
+                        $imageSource = "zip://{$this->docFile}#{$target}";
+                    }
                     $parent->addImage($imageSource);
                 }
-
-            // Object
             } elseif ($xmlReader->elementExists('w:object', $domNode)) {
+                // Object
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
-                    $textContent = "<Object: {$target}>";
+                    $textContent = "&lt;Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
-
-            // TextRun
-            } else {
-                $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+            }
+            if ($xmlReader->elementExists('w:br', $domNode)) {
+                $parent->addTextBreak();
+            }
+            if ($xmlReader->elementExists('w:t', $domNode)) {
+                // TextRun
+                if ($domNode->parentNode->nodeName == 'w:del') {
+                    $textContent = $xmlReader->getValue('w:delText', $domNode);
+                } else {
+                    $textContent = $xmlReader->getValue('w:t', $domNode);
+                }
+                /** @var AbstractElement $element */
+                $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
+                    $type = ($domNode->parentNode->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
+                    $author = $domNode->parentNode->getAttribute('w:author');
+                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
+                    $element->setChangeInfo($type, $author, $date);
+                }
             }
         }
     }
@@ -250,7 +267,6 @@ abstract class AbstractPart
      * @param \DOMElement $domNode
      * @param mixed $parent
      * @param string $docPart
-     * @return void
      */
     protected function readTable(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {
@@ -266,7 +282,6 @@ abstract class AbstractPart
         foreach ($tblNodes as $tblNode) {
             if ('w:tblGrid' == $tblNode->nodeName) { // Column
                 // @todo Do something with table columns
-
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
@@ -282,7 +297,6 @@ abstract class AbstractPart
                 foreach ($rowNodes as $rowNode) {
                     if ('w:trPr' == $rowNode->nodeName) { // Row style
                         // @todo Do something with row style
-
                     } elseif ('w:tc' == $rowNode->nodeName) { // Cell
                         $cellWidth = $xmlReader->getAttribute('w:w', $rowNode, 'w:tcPr/w:tcW');
                         $cellStyle = null;
@@ -319,18 +333,20 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'       => array(self::READ_VALUE, 'w:pStyle'),
-            'alignment'       => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'         => array(self::READ_VALUE, 'w:basedOn'),
-            'next'            => array(self::READ_VALUE, 'w:next'),
-            'indent'          => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'         => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'      => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'     => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'    => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'        => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'       => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore' => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'styleName'         => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
+            'alignment'         => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
+            'next'              => array(self::READ_VALUE, 'w:next'),
+            'indent'            => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'           => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'        => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'       => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'      => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'          => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'         => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore'   => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'contextualSpacing' => array(self::READ_TRUE,  'w:contextualSpacing'),
+            'bidi'              => array(self::READ_TRUE,  'w:bidi'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -359,9 +375,9 @@ abstract class AbstractPart
         $styleNode = $xmlReader->getElement('w:rPr', $domNode);
         $styleDefs = array(
             'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
-            'name'                => array(self::READ_VALUE, 'w:rFonts', 'w:ascii'),
+            'name'                => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
             'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
-            'size'                => array(self::READ_SIZE,  'w:sz'),
+            'size'                => array(self::READ_SIZE,  array('w:sz', 'w:szCs')),
             'color'               => array(self::READ_VALUE, 'w:color'),
             'underline'           => array(self::READ_VALUE, 'w:u'),
             'bold'                => array(self::READ_TRUE,  'w:b'),
@@ -374,6 +390,7 @@ abstract class AbstractPart
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
+            'lang'                => array(self::READ_VALUE, 'w:lang'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -391,7 +408,7 @@ abstract class AbstractPart
     {
         $style = null;
         $margins = array('top', 'left', 'bottom', 'right');
-        $borders = $margins + array('insideH', 'insideV');
+        $borders = array_merge($margins, array('insideH', 'insideV'));
 
         if ($xmlReader->elementExists('w:tblPr', $domNode)) {
             if ($xmlReader->elementExists('w:tblPr/w:tblStyle', $domNode)) {
@@ -407,7 +424,10 @@ abstract class AbstractPart
                     $ucfSide = ucfirst($side);
                     $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
                     $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
+                    $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:val');
                 }
+                $styleDefs['layout'] = array(self::READ_VALUE, 'w:tblLayout', 'w:type');
+                $styleDefs['cellSpacing'] = array(self::READ_VALUE, 'w:tblCellSpacing', 'w:w');
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
             }
         }
@@ -429,10 +449,58 @@ abstract class AbstractPart
             'textDirection' => array(self::READ_VALUE, 'w:textDirection'),
             'gridSpan'      => array(self::READ_VALUE, 'w:gridSpan'),
             'vMerge'        => array(self::READ_VALUE, 'w:vMerge'),
-            'bgColor'       => array(self::READ_VALUE, 'w:shd/w:fill'),
+            'bgColor'       => array(self::READ_VALUE, 'w:shd', 'w:fill'),
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+    }
+
+    /**
+     * Returns the first child element found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param string|array $elements
+     * @return string|null
+     */
+    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    {
+        if (is_array($elements)) {
+            //if element is an array, we take the first element that exists in the XML
+            foreach ($elements as $possibleElement) {
+                if ($xmlReader->elementExists($possibleElement, $parentNode)) {
+                    return $possibleElement;
+                }
+            }
+        } else {
+            return $elements;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first attribute found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param string|array $attributes
+     * @return string|null
+     */
+    private function findPossibleAttribute(XMLReader $xmlReader, \DOMElement $node, $attributes)
+    {
+        //if attribute is an array, we take the first attribute that exists in the XML
+        if (is_array($attributes)) {
+            foreach ($attributes as $possibleAttribute) {
+                if ($xmlReader->getAttribute($possibleAttribute, $node)) {
+                    return $possibleAttribute;
+                }
+            }
+        } else {
+            return $attributes;
+        }
+
+        return null;
     }
 
     /**
@@ -449,10 +517,17 @@ abstract class AbstractPart
         $styles = array();
 
         foreach ($styleDefs as $styleProp => $styleVal) {
-            @list($method, $element, $attribute, $expected) = $styleVal;
+            list($method, $element, $attribute, $expected) = array_pad($styleVal, 4, null);
+
+            $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
+            if ($element === null) {
+                continue;
+            }
 
             if ($xmlReader->elementExists($element, $parentNode)) {
                 $node = $xmlReader->getElement($element, $parentNode);
+
+                $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
 
                 // Use w:val as default if no attribute assigned
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
@@ -484,14 +559,26 @@ abstract class AbstractPart
         if (self::READ_SIZE == $method) {
             $style = $attributeValue / 2;
         } elseif (self::READ_TRUE == $method) {
-            $style = true;
+            $style = $this->isOn($attributeValue);
         } elseif (self::READ_FALSE == $method) {
-            $style = false;
+            $style = !$this->isOn($attributeValue);
         } elseif (self::READ_EQUAL == $method) {
             $style = $attributeValue == $expected;
         }
 
         return $style;
+    }
+
+    /**
+     * Parses the value of the on/off value, null is considered true as it means the w:val attribute was not present
+     *
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_OnOff.html
+     * @param string $value
+     * @return bool
+     */
+    private function isOn($value = null)
+    {
+        return $value == null || $value == '1' || $value == 'true' || $value == 'on';
     }
 
     /**
@@ -510,5 +597,23 @@ abstract class AbstractPart
         }
 
         return $target;
+    }
+
+    /**
+     * Returns the target mode
+     *
+     * @param string $docPart
+     * @param string $rId
+     * @return string|null
+     */
+    private function getTargetMode($docPart, $rId)
+    {
+        $mode = null;
+
+        if (isset($this->rels[$docPart]) && isset($this->rels[$docPart][$rId])) {
+            $mode = $this->rels[$docPart][$rId]['targetMode'];
+        }
+
+        return $mode;
     }
 }

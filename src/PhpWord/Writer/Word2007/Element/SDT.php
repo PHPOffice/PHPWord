@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,15 +24,13 @@ use PhpOffice\PhpWord\Element\SDT as SDTElement;
  * Structured document tag element writer
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtBlock.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtBlock.html
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class SDT extends Text
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -43,6 +41,12 @@ class SDT extends Text
         }
         $type = $element->getType();
         $writeFormField = "write{$type}";
+        $alias = $element->getAlias();
+        $tag = $element->getTag();
+        $value = $element->getValue();
+        if ($value === null) {
+            $value = 'Pick value';
+        }
 
         $this->startElementP();
 
@@ -50,15 +54,17 @@ class SDT extends Text
 
         // Properties
         $xmlWriter->startElement('w:sdtPr');
-        $xmlWriter->writeElementBlock('w:id', 'w:val', rand(100000000, 999999999));
+        $xmlWriter->writeElementIf($alias != null, 'w:alias', 'w:val', $alias);
         $xmlWriter->writeElementBlock('w:lock', 'w:val', 'sdtLocked');
+        $xmlWriter->writeElementBlock('w:id', 'w:val', rand(100000000, 999999999));
+        $xmlWriter->writeElementIf($tag != null, 'w:tag', 'w:val', $tag);
         $this->$writeFormField($xmlWriter, $element);
         $xmlWriter->endElement(); // w:sdtPr
 
         // Content
         $xmlWriter->startElement('w:sdtContent');
         $xmlWriter->startElement('w:r');
-        $xmlWriter->writeElement('w:t', 'Pick value');
+        $xmlWriter->writeElement('w:t', $value);
         $xmlWriter->endElement(); // w:r
         $xmlWriter->endElement(); // w:sdtContent
 
@@ -70,10 +76,9 @@ class SDT extends Text
     /**
      * Write combo box.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtComboBox.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtComboBox.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\SDT $element
-     * @return void
      */
     private function writeComboBox(XMLWriter $xmlWriter, SDTElement $element)
     {
@@ -90,23 +95,21 @@ class SDT extends Text
     /**
      * Write drop down list.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDropDownList.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtDropDownList.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\SDT $element
-     * @return void
      */
     private function writeDropDownList(XMLWriter $xmlWriter, SDTElement $element)
     {
-        $this->writecomboBox($xmlWriter, $element);
+        $this->writeComboBox($xmlWriter, $element);
     }
 
     /**
      * Write date.
      *
-     * @link http://www.datypic.com/sc/ooxml/t-w_CT_SdtDate.html
+     * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtDate.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\SDT $element
-     * @return void
      */
     private function writeDate(XMLWriter $xmlWriter, SDTElement $element)
     {

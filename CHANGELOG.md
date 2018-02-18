@@ -3,6 +3,80 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+v0.15.0 (?? ??? 2018)
+----------------------
+### Added
+- Parsing of `align` HTML attribute - @troosan #1231
+- Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
+- Parsing of CSS `direction` instruction, HTML `lang` attribute, formatting inside table cell - @troosan #1273 #1252 #1254
+- Add support for Track changes @Cip @troosan #354 #1262
+- Add support for fixed Table Layout @aoloe @ekopach @troosan #841 #1276
+- Add support for Cell Spacing @dox07 @troosan #1040
+- Add parsing of formatting inside lists @atomicalnet @troosan #594
+
+### Fixed
+- Fix reading of docx default style - @troosan #1238
+- Fix the size unit of when parsing html images - @troosan #1254
+- Fixed HTML parsing of nested lists - @troosan #1265
+- Save PNG alpha information when using remote images. @samsullivan #779
+- Fix parsing of `<w:br/>` tag. @troosan #1274
+- Bookmark are not writton as internal link in html writer @troosan #1263
+- It should be possible to add a Footnote in a ListItemRun @troosan #1287 #1287
+
+### Changed
+- Remove zend-stdlib dependency @Trainmaster #1284
+
+
+v0.14.0 (29 Dec 2017)
+----------------------
+This release fixes several bugs and adds some new features.
+This version brings compatibility with PHP 7.0 & 7.1
+
+### Added
+- Possibility to control the footnote numbering - @troosan #1068
+- Image creation from string - @troosan #937
+- Introduced the `\PhpOffice\PhpWord\SimpleType\NumberFormat` simple type. - @troosan
+- Support for ContextualSpacing - @postHawk #1088
+- Possiblity to hide spelling and/or grammatical errors - @troosan #542
+- Possiblity to set default document language as well as changing the language for each text element - @troosan #1108
+- Support for Comments - @troosan #1067
+- Support for paragraph textAlignment - @troosan #1165
+- Add support for HTML underline tag <u> in addHtml - @zNightFalLz #1186
+- Add support for HTML <br> in addHtml - @anrikun @troosan #659
+- Allow to change cell width unit - guillaume-ro-fr #986
+- Allow to change the line height rule @troosan
+- Implement PageBreak for odt writer @cookiekiller #863 #824
+- Allow to force an update of all fields on opening a document - @troosan #951
+- Allow adding a CheckBox in a TextRun - @irond #727
+- Add support for HTML img tag - @srggroup #934
+- Add support for password protection for docx - @mariahaubner #1019
+
+### Fixed
+- Loosen dependency to Zend
+- Images are not being printed when generating PDF - @hubertinio #1074 #431
+- Fixed some PHP 7 warnings - @	likeuntomurphy #927
+- Fixed PHP 7.2 compatibility (renamed `Object` class names to `ObjectElement`) - @SailorMax #1185
+- Fixed Word 97 reader - @alsofronie @Benpxpx @mario-rivera #912 #920 #892
+- Fixed image loading over https - @troosan #988
+- Impossibility to set different even and odd page headers - @troosan #981
+- Fixed Word2007 reader where unnecessary paragraphs were being created - @donghaobo #1043 #620
+- Fixed Word2007 reader where margins were not being read correctly - @slowprog #885 #1008
+- Impossible to add element PreserveText in Section - @rvanlaak #452
+- Added missing options for numbering format - @troosan #1041
+- Fixed impossibility to set a different footer for first page - @ctrlaltca #1116, @aoloe #875
+- Fixed styles not being applied by HTML writer, better pdf output - @sarke #1047 #500 #1139
+- Fixed read docx error when document contains image from remote url - @FBnil #1173 #1176
+- Padded the $args array to remove error - @kaigoh #1150, @reformed #870
+- Fix incorrect image size between windows and mac - @bskrtich #874
+- Fix adding HTML table to document - @mogilvie @arivanbastos #324
+- Fix parsing on/off values (w:val="true|false|1|0|on|off") - @troosan #1221 #1219
+- Fix error on Empty Dropdown Entry - @ComputerTinker #592
+
+### Deprecated
+- PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
+
+
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
@@ -22,6 +96,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.

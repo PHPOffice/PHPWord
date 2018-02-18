@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Metadata\DocInfo;
  *
  * @runTestsInSeparateProcesses
  */
-class PhpWordTest extends \PHPUnit_Framework_TestCase
+class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test object creation
@@ -99,7 +99,6 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
             $phpWord->$method($styleId, array());
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
-
     }
 
     /**
@@ -139,7 +138,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadTemplateException()
     {
-        $templateFqfn = join(
+        $templateFqfn = implode(
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
         );
@@ -152,6 +151,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
+        $this->setOutputCallback(function () {
+        });
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Hello world!');

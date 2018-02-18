@@ -34,7 +34,7 @@ Example:
 
     {
         "require": {
-           "phpoffice/phpword": "v0.13.*"
+           "phpoffice/phpword": "v0.14.*"
         }
     }
 
@@ -50,7 +50,6 @@ Example:
            "phpoffice/phpword": "dev-develop"
         }
     }
-
 
 Using samples
 -------------

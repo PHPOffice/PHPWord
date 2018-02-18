@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -40,7 +40,6 @@ class Document extends AbstractPart
      * Read document.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      */
     public function read(PhpWord $phpWord)
     {
@@ -66,7 +65,6 @@ class Document extends AbstractPart
      *
      * @param array $settings
      * @param \PhpOffice\PhpWord\Element\Section &$section
-     * @return void
      */
     private function readHeaderFooter($settings, Section &$section)
     {
@@ -113,10 +111,10 @@ class Document extends AbstractPart
             'orientation'   => array(self::READ_VALUE, 'w:pgSz', 'w:orient'),
             'colsNum'       => array(self::READ_VALUE, 'w:cols', 'w:num'),
             'colsSpace'     => array(self::READ_VALUE, 'w:cols', 'w:space'),
-            'topMargin'     => array(self::READ_VALUE, 'w:pgMar', 'w:top'),
-            'leftMargin'    => array(self::READ_VALUE, 'w:pgMar', 'w:left'),
-            'bottomMargin'  => array(self::READ_VALUE, 'w:pgMar', 'w:bottom'),
-            'rightMargin'   => array(self::READ_VALUE, 'w:pgMar', 'w:right'),
+            'marginTop'     => array(self::READ_VALUE, 'w:pgMar', 'w:top'),
+            'marginLeft'    => array(self::READ_VALUE, 'w:pgMar', 'w:left'),
+            'marginBottom'  => array(self::READ_VALUE, 'w:pgMar', 'w:bottom'),
+            'marginRight'   => array(self::READ_VALUE, 'w:pgMar', 'w:right'),
             'headerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:header'),
             'footerHeight'  => array(self::READ_VALUE, 'w:pgMar', 'w:footer'),
             'gutter'        => array(self::READ_VALUE, 'w:pgMar', 'w:gutter'),
@@ -131,7 +129,7 @@ class Document extends AbstractPart
                 $id = $xmlReader->getAttribute('r:id', $node);
                 $styles['hf'][$id] = array(
                     'method' => str_replace('w:', '', str_replace('Reference', '', $node->nodeName)),
-                    'type' => $xmlReader->getAttribute('w:type', $node),
+                    'type'   => $xmlReader->getAttribute('w:type', $node),
                 );
             }
         }
@@ -145,7 +143,6 @@ class Document extends AbstractPart
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
-     * @return void
      *
      * @todo <w:lastRenderedPageBreak>
      */
@@ -175,7 +172,6 @@ class Document extends AbstractPart
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $node
      * @param \PhpOffice\PhpWord\Element\Section &$section
-     * @return void
      */
     private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {

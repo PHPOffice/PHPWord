@@ -12,6 +12,12 @@ define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 Settings::loadConfig();
 
+$dompdfPath = $vendorDirPath . '/dompdf/dompdf';
+if (file_exists($dompdfPath)) {
+    define('DOMPDF_ENABLE_AUTOLOAD', false);
+    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
+}
+
 // Set writers
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
@@ -37,13 +43,19 @@ $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
 // Populate samples
 $files = '';
 if ($handle = opendir('.')) {
-    while (false !== ($file = readdir($handle))) {
+    $sampleFiles = array();
+    while (false !== ($sampleFile = readdir($handle))) {
+        $sampleFiles[] = $sampleFile;
+    }
+    sort($sampleFiles);
+    closedir($handle);
+
+    foreach ($sampleFiles as $file) {
         if (preg_match('/^Sample_\d+_/', $file)) {
             $name = str_replace('_', ' ', preg_replace('/(Sample_|\.php)/', '', $file));
             $files .= "<li><a href='{$file}'>{$name}</a></li>";
         }
     }
-    closedir($handle);
 }
 
 /**
@@ -89,8 +101,8 @@ function getEndingNotes($writers)
 
     // Do not show execution time for index
     if (!IS_INDEX) {
-        $result .= date('H:i:s') . " Done writing file(s)" . EOL;
-        $result .= date('H:i:s') . " Peak memory usage: " . (memory_get_peak_usage(true) / 1024 / 1024) . " MB" . EOL;
+        $result .= date('H:i:s') . ' Done writing file(s)' . EOL;
+        $result .= date('H:i:s') . ' Peak memory usage: ' . (memory_get_peak_usage(true) / 1024 / 1024) . ' MB' . EOL;
     }
 
     // Return
@@ -110,6 +122,12 @@ function getEndingNotes($writers)
                 }
             }
             $result .= '</p>';
+
+            $result .= '<pre>';
+            if (file_exists($filename . '.php')) {
+                $result .= highlight_file($filename . '.php', true);
+            }
+            $result .= '</pre>';
         }
     }
 

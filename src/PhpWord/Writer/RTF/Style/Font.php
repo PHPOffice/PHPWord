@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -62,7 +62,7 @@ class Font extends AbstractStyle
         $content .= $this->getValueIf($style->isSuperScript(), '\super');
         $content .= $this->getValueIf($style->isSubScript(), '\sub');
 
-        return $content .  ' ';
+        return $content . ' ';
     }
 
     /**
@@ -70,7 +70,6 @@ class Font extends AbstractStyle
      *
      *
      * @param int $value
-     * @return void
      */
     public function setNameIndex($value = 0)
     {
@@ -81,7 +80,6 @@ class Font extends AbstractStyle
      * Set font color index.
      *
      * @param int $value
-     * @return void
      */
     public function setColorIndex($value = 0)
     {

@@ -14,7 +14,7 @@ $phpWord->addParagraphStyle(
             new \PhpOffice\PhpWord\Style\Tab('left', 1550),
             new \PhpOffice\PhpWord\Style\Tab('center', 3200),
             new \PhpOffice\PhpWord\Style\Tab('right', 5300),
-        )
+        ),
     )
 );
 

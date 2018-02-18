@@ -10,10 +10,11 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
+
 namespace PhpOffice\PhpWord\Writer\ODText\Part;
 
 use PhpOffice\PhpWord\PhpWord;
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * @coversDefaultClass \PhpOffice\PhpWord\Writer\ODText\Part\Content
  * @runTestsInSeparateProcesses
  */
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Executed before each method of the class
@@ -82,6 +83,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $cell->addObject($objectSrc);
         $textrun = $cell->addTextRun();
         $textrun->addText('Test text run');
+        $section->addPageBreak();
 
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}');
