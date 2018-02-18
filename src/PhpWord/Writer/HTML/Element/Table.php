@@ -47,7 +47,7 @@ class Table extends AbstractElement
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 foreach ($row->getCells() as $cell) {
-                    $writer = new Container($this->parentWriter, $cell);
+                    $writer = new Container($this->parentWriter, $cell, true);
                     $cellTag = $tblHeader ? 'th' : 'td';
                     $content .= "<{$cellTag}>" . PHP_EOL;
                     $content .= $writer->write();
