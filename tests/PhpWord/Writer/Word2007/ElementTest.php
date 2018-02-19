@@ -323,6 +323,37 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test writing the macrobutton field
+     */
+    public function testMacroButtonField()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $macroText = new TextRun();
+        $macroText->addText('Double click', array('bold' => true));
+        $macroText->addText(' to ');
+        $macroText->addText('zoom to 100%', array('italic' => true));
+
+        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), $macroText);
+        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), 'double click to zoom');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p[1]/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' MACROBUTTON Zoom100 ', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p[1]/w:r[3]/';
+        $this->assertTrue($doc->elementExists($element . 'w:t'));
+        $this->assertEquals('Double click', $doc->getElement($element . 'w:t')->textContent);
+        $this->assertTrue($doc->elementExists($element . 'w:rPr/w:b'));
+
+        $element = '/w:document/w:body/w:p[2]/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' MACROBUTTON Zoom100 double click to zoom ', $doc->getElement($element)->textContent);
+    }
+
+    /**
      * Test form fields
      */
     public function testFormFieldElements()

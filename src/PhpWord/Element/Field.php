@@ -57,7 +57,7 @@ class Field extends AbstractElement
             'options' => array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat'),
         ),
         'MACROBUTTON' => array(
-            'properties' => array('macroname' => '', 'displaytext' => '')
+            'properties' => array('macroname' => ''),
         ),
         'XE' => array(
             'properties' => array(),
@@ -248,6 +248,7 @@ class Field extends AbstractElement
         if ($this->fontStyle == null) {
             $font = new Font();
             $font->setNoProof(true);
+
             return $font;
         }
 

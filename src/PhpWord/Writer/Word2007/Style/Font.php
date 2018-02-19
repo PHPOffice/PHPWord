@@ -135,9 +135,8 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
         $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
-
         // noProof
-        $xmlWriter->writeElementIf($style->getNoProof() !== false, 'w:noProof');
+        $xmlWriter->writeElementIf($style->isNoProof() !== false, 'w:noProof');
 
         // Background-Color
         $shading = $style->getShading();
