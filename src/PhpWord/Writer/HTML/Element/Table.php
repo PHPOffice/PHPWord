@@ -40,21 +40,22 @@ class Table extends AbstractElement
         $rowCount = count($rows);
         if ($rowCount > 0) {
             $content .= '<table>' . PHP_EOL;
-            for ($i = 0; $i < count($rows); $i++) {
+            for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $rows[$i]->getStyle();
                 // $height = $row->getHeight();
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
                 $rowCells = $rows[$i]->getCells();
-                for ($j = 0; $j < count($rowCells); $j++) {
+                $rowCellCount = count($rowCells);
+                for ($j = 0; $j < $rowCellCount; $j++) {
                     $cellStyle = $rowCells[$j]->getStyle();
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
                     $cellVMerge = $cellStyle->getVMerge();
                     // If this is the first cell of the vertical merge, find out how man rows it spans
                     if ($cellVMerge === 'restart') {
-                        for ($k = $i + 1; $k < count($rows); $k++) {
+                        for ($k = $i + 1; $k < $rowCount; $k++) {
                             $kRowCells = $rows[$k]->getCells();
                             if (isset($kRowCells[$j])) {
                                 if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
@@ -70,14 +71,14 @@ class Table extends AbstractElement
                     // Ignore cells that are merged vertically with previous rows
                     if ($cellVMerge !== 'continue') {
                         $cellTag = $tblHeader ? 'th' : 'td';
-                        $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : "");
-                        $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : "");
+                        $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
+                        $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
                         $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
                             // There shouldn't be any content in the subsequent merged cells, but lets check anyway
-                            for ($k = $i + 1; $k < count($rows); $k++) {
+                            for ($k = $i + 1; $k < $rowCount; $k++) {
                                 $kRowCells = $rows[$k]->getCells();
                                 if (isset($kRowCells[$j])) {
                                     if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
