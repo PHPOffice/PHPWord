@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles
@@ -65,5 +66,31 @@ class StyleTest extends AbstractTestReader
         /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
         $tableStyle = $elements[0]->getStyle();
         $this->assertEquals(10.5, $tableStyle->getCellSpacing());
+    }
+
+    /**
+     * Test reading of position
+     */
+    public function testReadPosition()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:rPr>
+                    <w:position w:val="15"/>
+                </w:rPr>
+                <w:t xml:space="preserve">This text is lowered</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString($documentXml);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        echo $doc->printXml();
+
+        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $elements[0]->getFontStyle());
+        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
+        $fontStyle = $elements[0]->getFontStyle();
+        $this->assertEquals(15, $fontStyle->getPosition());
     }
 }

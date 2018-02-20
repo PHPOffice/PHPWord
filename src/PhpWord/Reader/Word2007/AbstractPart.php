@@ -391,6 +391,7 @@ abstract class AbstractPart
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
             'lang'                => array(self::READ_VALUE, 'w:lang'),
+            'position'            => array(self::READ_VALUE, 'w:position'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

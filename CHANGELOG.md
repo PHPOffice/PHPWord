@@ -13,6 +13,7 @@ v0.15.0 (?? ??? 2018)
 - Add support for fixed Table Layout @aoloe @ekopach @troosan #841 #1276
 - Add support for Cell Spacing @dox07 @troosan #1040
 - Add parsing of formatting inside lists @atomicalnet @troosan #594
+- Added support for Vertically Raised or Lowered Text (w:position) @anrikun @troosan #640
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
