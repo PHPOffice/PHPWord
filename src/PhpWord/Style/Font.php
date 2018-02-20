@@ -248,7 +248,7 @@ class Font extends AbstractStyle
      * Vertically Raised or Lowered Text
      *
      * @var int Signed Half-Point Measurement
-     * @link http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
      */
     private $position;
 

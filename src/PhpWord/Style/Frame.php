@@ -173,8 +173,9 @@ class Frame extends AbstractStyle
 
     /**
      * Vertically raised or lowered text
+     *
      * @var int
-     * @link http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
      */
     private $position;
 

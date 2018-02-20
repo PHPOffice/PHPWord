@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles
@@ -83,8 +82,6 @@ class StyleTest extends AbstractTestReader
         </w:p>';
 
         $phpWord = $this->getDocumentFromString($documentXml);
-        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        echo $doc->printXml();
 
         $elements = $this->get($phpWord->getSections(), 0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]);
