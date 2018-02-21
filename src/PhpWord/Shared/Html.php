@@ -452,8 +452,10 @@ class Html
     private static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+        
         foreach ($properties as $property) {
-            list($cKey, $cValue) = explode(':', $property, 2);
+          
+            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
