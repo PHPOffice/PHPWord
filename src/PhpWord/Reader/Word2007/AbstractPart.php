@@ -151,7 +151,7 @@ abstract class AbstractPart
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r', $domNode);
             if (count($nodes) === 1) {
-                $textContent = $xmlReader->getValue('w:t', $nodes[0]);
+                $textContent = $xmlReader->getValue('w:t', $nodes->item(0));
             } else {
                 $textContent = new TextRun($paragraphStyle);
                 foreach ($nodes as $node) {
