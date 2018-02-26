@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 
@@ -103,12 +104,10 @@ abstract class AbstractPart
     {
         // Paragraph style
         $paragraphStyle = null;
-        $headingMatches = array();
+        $headingDepth = null;
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
-                preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
-            }
+            $headingDepth = $this->getHeadingDepth($paragraphStyle);
         }
 
         // PreserveText
@@ -147,22 +146,19 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $this->readRun($xmlReader, $node, $listItemRun, $docPart, $paragraphStyle);
             }
-        } elseif (!empty($headingMatches)) {
-            // Heading
-            $textContent = '';
+        } elseif ($headingDepth !== null) {
+            // Heading or Title
+            $textContent = null;
             $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
+            if (count($nodes) === 1) {
+                $textContent = $xmlReader->getValue('w:t', $nodes[0]);
+            } else {
+                $textContent = new TextRun($paragraphStyle);
+                foreach ($nodes as $node) {
+                    $this->readRun($xmlReader, $node, $textContent, $docPart, $paragraphStyle);
+                }
             }
-            $parent->addTitle($textContent, $headingMatches[1]);
-        } elseif ($paragraphStyle['styleName'] == 'Title') {
-            // Title
-            $textContent = '';
-            $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
-            }
-            $parent->addTitle($textContent, 1);
+            $parent->addTitle($textContent, $headingDepth);
         } else {
             // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
@@ -182,6 +178,29 @@ abstract class AbstractPart
                 }
             }
         }
+    }
+
+    /**
+     * Returns the depth of the Heading, returns 0 for a Title
+     *
+     * @param array $paragraphStyle
+     * @return number|null
+     */
+    private function getHeadingDepth(array $paragraphStyle = null)
+    {
+        if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
+            if ('Title' === $paragraphStyle['styleName']) {
+                return 0;
+            }
+
+            $headingMatches = array();
+            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            if (!empty($headingMatches)) {
+                return $headingMatches[1];
+            }
+        }
+
+        return null;
     }
 
     /**

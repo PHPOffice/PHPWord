@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Reader\Word2007\Document;
+use PhpOffice\PhpWord\Reader\Word2007\Styles;
 
 /**
  * Base class for Word2007 reader tests
@@ -28,16 +29,24 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
      * Builds a PhpWord instance based on the xml passed
      *
      * @param string $documentXml
+     * @param null|string $stylesXml
      * @return \PhpOffice\PhpWord\PhpWord
      */
-    protected function getDocumentFromString($documentXml)
+    protected function getDocumentFromString($documentXml, $stylesXml = null)
     {
-        $phpWord = new PhpWord();
         $file = __DIR__ . '/../_files/temp.docx';
         $zip = new \ZipArchive();
         $zip->open($file, \ZipArchive::CREATE);
         $zip->addFromString('document.xml', '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' . $documentXml . '</w:body></w:document>');
+        if ($stylesXml !== null) {
+            $zip->addFromString('styles.xml', '<w:styles xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:sz w:val="24"/></w:rPr></w:rPrDefault></w:docDefaults>' . $stylesXml . '</w:styles>');
+        }
         $zip->close();
+        $phpWord = new PhpWord();
+        if ($stylesXml !== null) {
+            $stylesReader = new Styles($file, 'styles.xml');
+            $stylesReader->read($phpWord);
+        }
         $documentReader = new Document($file, 'document.xml');
         $documentReader->read($phpWord);
         unlink($file);

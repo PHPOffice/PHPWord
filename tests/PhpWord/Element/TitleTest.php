@@ -45,4 +45,25 @@ class TitleTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNull($oTitle->getStyle());
     }
+
+    /**
+     * Create new instance with TextRun
+     */
+    public function testConstructWithTextRun()
+    {
+        $oTextRun = new TextRun();
+        $oTextRun->addText('text');
+        $oTitle = new Title($oTextRun);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTitle->getText());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructWithInvalidArgument()
+    {
+        $oPageBreak = new PageBreak();
+        $oTitle = new Title($oPageBreak);
+    }
 }

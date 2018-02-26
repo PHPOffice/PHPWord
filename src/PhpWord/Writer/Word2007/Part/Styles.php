@@ -180,9 +180,15 @@ class Styles extends AbstractPart
         // Heading style
         if ($styleType == 'title') {
             $arrStyle = explode('_', $styleName);
-            $styleId = 'Heading' . $arrStyle[1];
-            $styleName = 'heading ' . $arrStyle[1];
-            $styleLink = 'Heading' . $arrStyle[1] . 'Char';
+            if (count($arrStyle) > 1) {
+                $styleId = 'Heading' . $arrStyle[1];
+                $styleName = 'heading ' . $arrStyle[1];
+                $styleLink = 'Heading' . $arrStyle[1] . 'Char';
+            } else {
+                $styleId = $styleName;
+                $styleName = strtolower($styleName);
+                $styleLink = $styleName . 'Char';
+            }
             $xmlWriter->writeAttribute('w:styleId', $styleId);
 
             $xmlWriter->startElement('w:link');

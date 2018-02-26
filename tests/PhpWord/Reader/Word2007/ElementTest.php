@@ -83,4 +83,59 @@ class ElementTest extends AbstractTestReader
         $this->assertEquals('bold', $listElements[2]->getText());
         $this->assertTrue($listElements[2]->getFontStyle()->getBold());
     }
+
+    /**
+     * Test reading Title style
+     */
+    public function testReadTitleStyle()
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:pStyle w:val="Title"/>
+            </w:pPr>
+            <w:r>
+                <w:t>This is a non formatted title</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:pPr>
+                <w:pStyle w:val="Title"/>
+            </w:pPr>
+            <w:r>
+                <w:t>This is a </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:b/>
+                </w:rPr>
+                <w:t>bold</w:t>
+            </w:r>
+            <w:r>
+                <w:t> title</w:t>
+            </w:r>
+        </w:p>';
+
+        $stylesXml = '<w:style w:type="paragraph" w:styleId="Title">
+            <w:name w:val="Title"/>
+            <w:link w:val="TitleChar"/>
+            <w:rPr>
+                <w:i/>
+            </w:rPr>
+        </w:style>';
+
+        $phpWord = $this->getDocumentFromString($documentXml, $stylesXml);
+
+        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        $this->assertEquals('Title', $title->getStyle());
+        $this->assertEquals('This is a non formatted title', $title->getText());
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
+        /** @var \PhpOffice\PhpWord\Element\Title $formattedTitle */
+        $formattedTitle = $elements[1];
+        $this->assertEquals('Title', $formattedTitle->getStyle());
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
+    }
 }
