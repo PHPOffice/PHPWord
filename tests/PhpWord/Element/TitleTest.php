@@ -64,6 +64,6 @@ class TitleTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithInvalidArgument()
     {
         $oPageBreak = new PageBreak();
-        $oTitle = new Title($oPageBreak);
+        new Title($oPageBreak);
     }
 }
