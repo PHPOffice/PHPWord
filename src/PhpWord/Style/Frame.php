@@ -565,7 +565,7 @@ class Frame extends AbstractStyle
      */
     public function setPosition($value = null)
     {
-        $this->position = $this->setNumericVal($value, null);
+        $this->position = $this->setIntVal($value, null);
 
         return $this;
     }
