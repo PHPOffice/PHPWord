@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
-
 /**
  * TextRun element writer
  *
