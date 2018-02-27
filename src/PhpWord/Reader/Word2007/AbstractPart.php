@@ -150,7 +150,7 @@ abstract class AbstractPart
             // Heading or Title
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r', $domNode);
-            if (count($nodes) === 1) {
+            if ($nodes->length === 1) {
                 $textContent = $xmlReader->getValue('w:t', $nodes->item(0));
             } else {
                 $textContent = new TextRun($paragraphStyle);

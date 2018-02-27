@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+
 /**
  * TextRun element writer
  *
@@ -59,14 +60,15 @@ class Title extends AbstractElement
         }
 
         // Actual text
-        if (is_string($element->getText())) {
+        $text = $element->getText();
+        if (is_string($text)) {
             $xmlWriter->startElement('w:r');
             $xmlWriter->startElement('w:t');
-            $this->writeText($element->getText());
+            $this->writeText($text);
             $xmlWriter->endElement(); // w:t
             $xmlWriter->endElement(); // w:r
-        } else {
-            $containerWriter = new Container($xmlWriter, $element->getText());
+        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            $containerWriter = new Container($xmlWriter, $text);
             $containerWriter->write();
         }
 
