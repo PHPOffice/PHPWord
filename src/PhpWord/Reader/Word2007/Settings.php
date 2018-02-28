@@ -167,4 +167,18 @@ class Settings extends AbstractPart
         $revisionView->setInkAnnotations(filter_var($xmlReader->getAttribute('w:inkAnnotations', $node), FILTER_VALIDATE_BOOLEAN));
         $phpWord->getSettings()->setRevisionView($revisionView);
     }
+
+    /**
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMElement $node
+     */
+    protected function setConsecutiveHyphenLimit(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
+    {
+        $value = $xmlReader->getAttribute('w:val', $node);
+
+        if ($value !== null) {
+            $phpWord->getSettings()->setConsecutiveHyphenLimit($value);
+        }
+    }
 }

@@ -14,7 +14,7 @@ v0.15.0 (?? ??? 2018)
 - Add support for Cell Spacing @dox07 @troosan #1040
 - Add parsing of formatting inside lists @atomicalnet @troosan #594
 - Add support for MACROBUTTON field @phryneas @troosan #1021
-- Add support for Hyphenation @Trainmaster (Document: `autoHyphenation`)
+- Add support for Hyphenation @Trainmaster (Document: `autoHyphenation`, `consecutiveHyphenLimit`)
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238

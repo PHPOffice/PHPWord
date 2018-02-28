@@ -138,6 +138,13 @@ class Settings
     private $autoHyphenation;
 
     /**
+     * Maximum number of consecutively hyphenated lines
+     *
+     * @var int|null
+     */
+    private $consecutiveHyphenLimit;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -409,5 +416,21 @@ class Settings
     public function setAutoHyphenation($autoHyphenation)
     {
         $this->autoHyphenation = (bool) $autoHyphenation;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getConsecutiveHyphenLimit()
+    {
+        return $this->consecutiveHyphenLimit;
+    }
+
+    /**
+     * @param int $consecutiveHyphenLimit
+     */
+    public function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
+    {
+        $this->consecutiveHyphenLimit = (int) $consecutiveHyphenLimit;
     }
 }

@@ -303,3 +303,13 @@ To automatically hyphenate text set ``autoHyphenation`` to ``true``.
 .. code-block:: php
 
     $phpWord->getSettings()->setAutoHyphenation(true);
+
+Consecutive Hyphen Limit
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The maximum number of consecutive lines of text ending with a hyphen can be controlled by the ``consecutiveHyphenLimit`` option.
+There is no limit if the option is not set or the provided value is ``0``.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setConsecutiveHyphenLimit(2);

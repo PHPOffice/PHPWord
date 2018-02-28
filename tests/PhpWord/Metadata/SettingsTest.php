@@ -185,4 +185,18 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Settings();
         $this->assertNull($oSettings->hasAutoHyphenation());
     }
+
+    public function testConsecutiveHyphenLimit()
+    {
+        $consecutiveHypenLimit = 2;
+        $oSettings = new Settings();
+        $oSettings->setConsecutiveHyphenLimit($consecutiveHypenLimit);
+        $this->assertSame($consecutiveHypenLimit, $oSettings->getConsecutiveHyphenLimit());
+    }
+
+    public function testDefaultConsecutiveHyphenLimit()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->getConsecutiveHyphenLimit());
+    }
 }
