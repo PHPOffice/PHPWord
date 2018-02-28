@@ -151,6 +151,12 @@ class Settings
     private $hyphenationZone;
 
     /**
+     * Do not hyphenate words in all capital letters
+     * @var bool|null
+     */
+    private $doNotHyphenateCaps;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -454,5 +460,21 @@ class Settings
     public function setHyphenationZone($hyphenationZone)
     {
         $this->hyphenationZone = $hyphenationZone;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function hasDoNotHyphenateCaps()
+    {
+        return $this->doNotHyphenateCaps;
+    }
+
+    /**
+     * @param bool $doNotHyphenateCaps
+     */
+    public function setDoNotHyphenateCaps($doNotHyphenateCaps)
+    {
+        $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
     }
 }

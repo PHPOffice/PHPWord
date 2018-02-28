@@ -39,6 +39,7 @@ class Settings extends AbstractPart
         'evenAndOddHeaders',
         'updateFields',
         'autoHyphenation',
+        'doNotHyphenateCaps',
     );
 
     /**
