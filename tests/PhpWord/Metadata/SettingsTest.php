@@ -213,4 +213,17 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Settings();
         $this->assertNull($oSettings->getHyphenationZone());
     }
+
+    public function testDoNotHyphenateCaps()
+    {
+        $oSettings = new Settings();
+        $oSettings->setDoNotHyphenateCaps(true);
+        $this->assertTrue($oSettings->hasDoNotHyphenateCaps());
+    }
+
+    public function testDefaultDoNotHyphenateCaps()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->hasDoNotHyphenateCaps());
+    }
 }

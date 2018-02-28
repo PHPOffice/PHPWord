@@ -323,3 +323,12 @@ The smaller the hyphenation zone the more words are hyphenated. Or in other word
 .. code-block:: php
 
     $phpWord->getSettings()->setHyphenationZone(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(1));
+
+Hyphenate Caps
+~~~~~~~~~~~~~~
+
+To control whether or not words in all capital letters shall be hyphenated use the `doNotHyphenateCaps` option.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setDoNotHyphenateCaps(true);
