@@ -418,4 +418,14 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
     }
+
+    public function testParseMalformedStyleIsIgnored()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="">text</p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:jc'));
+    }
 }
