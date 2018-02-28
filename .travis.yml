@@ -35,7 +35,7 @@ before_script:
     - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
     ## Composer
     - composer self-update
-    - travis_wait composer install --prefer-dist
+    - travis_wait composer install --prefer-source
     ## PHPDocumentor
     - mkdir -p build/docs
     - mkdir -p build/coverage
