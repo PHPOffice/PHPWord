@@ -181,4 +181,18 @@ class Settings extends AbstractPart
             $phpWord->getSettings()->setConsecutiveHyphenLimit($value);
         }
     }
+
+    /**
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMElement $node
+     */
+    protected function setHyphenationZone(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
+    {
+        $value = $xmlReader->getAttribute('w:val', $node);
+
+        if ($value !== null) {
+            $phpWord->getSettings()->setHyphenationZone($value);
+        }
+    }
 }

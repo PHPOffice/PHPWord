@@ -199,4 +199,18 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings = new Settings();
         $this->assertNull($oSettings->getConsecutiveHyphenLimit());
     }
+
+    public function testHyphenationZone()
+    {
+        $hyphenationZoneInTwip = 100;
+        $oSettings = new Settings();
+        $oSettings->setHyphenationZone($hyphenationZoneInTwip);
+        $this->assertSame($hyphenationZoneInTwip, $oSettings->getHyphenationZone());
+    }
+
+    public function testDefaultHyphenationZone()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->getHyphenationZone());
+    }
 }

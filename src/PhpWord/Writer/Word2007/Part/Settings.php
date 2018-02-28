@@ -157,6 +157,7 @@ class Settings extends AbstractPart
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
         $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
+        $this->setHyphenationZOne($documentSettings->getHyphenationZone());
         $this->setCompatibility();
     }
 
@@ -293,6 +294,20 @@ class Settings extends AbstractPart
 
         $this->settings['w:consecutiveHyphenLimit'] = array(
             '@attributes' => array('w:val' => $consecutiveHyphenLimit),
+        );
+    }
+
+    /**
+     * @param float|null $hyphenationZone
+     */
+    private function setHyphenationZone($hyphenationZone)
+    {
+        if ($hyphenationZone === null) {
+            return;
+        }
+
+        $this->settings['w:hyphenationZone'] = array(
+            '@attributes' => array('w:val' => $hyphenationZone),
         );
     }
 
