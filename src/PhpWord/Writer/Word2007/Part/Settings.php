@@ -156,6 +156,7 @@ class Settings extends AbstractPart
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
+        $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
         $this->setCompatibility();
     }
 
@@ -279,6 +280,20 @@ class Settings extends AbstractPart
             $attr = is_int($zoom) ? 'w:percent' : 'w:val';
             $this->settings['w:zoom'] = array('@attributes' => array($attr => $zoom));
         }
+    }
+
+    /**
+     * @param int|null $consecutiveHyphenLimit
+     */
+    private function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
+    {
+        if ($consecutiveHyphenLimit === null) {
+            return;
+        }
+
+        $this->settings['w:consecutiveHyphenLimit'] = array(
+            '@attributes' => array('w:val' => $consecutiveHyphenLimit),
+        );
     }
 
     /**

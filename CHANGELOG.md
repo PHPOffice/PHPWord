@@ -15,7 +15,7 @@ v0.15.0 (?? ??? 2018)
 - Add parsing of formatting inside lists @atomicalnet @troosan #594
 - Added support for Vertically Raised or Lowered Text (w:position) @anrikun @troosan #640
 - Add support for MACROBUTTON field @phryneas @troosan #1021
-- Add support for Hyphenation @Trainmaster (Document: `autoHyphenation`)
+- Add support for Hyphenation @Trainmaster (Document: `autoHyphenation`, `consecutiveHyphenLimit`)
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
