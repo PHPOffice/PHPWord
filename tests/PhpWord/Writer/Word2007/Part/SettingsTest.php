@@ -362,4 +362,20 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement($path, $file);
         $this->assertSame('2', $element->getAttribute('w:val'));
     }
+
+    public function testHyphenationZone()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setHyphenationZone(100);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:hyphenationZone';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('100', $element->getAttribute('w:val'));
+    }
 }

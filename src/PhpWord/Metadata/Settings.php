@@ -145,6 +145,12 @@ class Settings
     private $consecutiveHyphenLimit;
 
     /**
+     * The allowed amount of whitespace before hyphenation is applied
+     * @var float|null
+     */
+    private $hyphenationZone;
+
+    /**
      * @return Protection
      */
     public function getDocumentProtection()
@@ -432,5 +438,21 @@ class Settings
     public function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
     {
         $this->consecutiveHyphenLimit = (int) $consecutiveHyphenLimit;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getHyphenationZone()
+    {
+        return $this->hyphenationZone;
+    }
+
+    /**
+     * @param float $hyphenationZone Measurement unit is twip
+     */
+    public function setHyphenationZone($hyphenationZone)
+    {
+        $this->hyphenationZone = $hyphenationZone;
     }
 }

@@ -313,3 +313,13 @@ There is no limit if the option is not set or the provided value is ``0``.
 .. code-block:: php
 
     $phpWord->getSettings()->setConsecutiveHyphenLimit(2);
+
+Hyphenation Zone
+~~~~~~~~~~~~~~~~
+
+The hyphenation zone (in *twip*) is the allowed amount of whitespace before hyphenation is applied.
+The smaller the hyphenation zone the more words are hyphenated. Or in other words, the wider the hyphenation zone the less words are hyphenated.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setHyphenationZone(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(1));
