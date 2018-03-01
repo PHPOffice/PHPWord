@@ -242,7 +242,7 @@ class Chart extends AbstractPart
                 // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
                 if(is_array($colors) && count($colors)) {
                     // This is a workaround to make each series in a stack chart use a different color
-                    if($this->options['type'] == 'bar' && strstr($this->options['grouping'], 'stacked')) {
+                    if ($this->options['type'] == 'bar' && stristr($this->options['grouping'], 'stacked')) {
                         array_shift($colors);
                     }
                     $colorIndex = 0;
