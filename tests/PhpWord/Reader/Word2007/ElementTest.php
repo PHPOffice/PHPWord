@@ -83,4 +83,22 @@ class ElementTest extends AbstractTestReader
         $this->assertEquals('bold', $listElements[2]->getText());
         $this->assertTrue($listElements[2]->getFontStyle()->getBold());
     }
+
+    /**
+     * Test reading of tab
+     */
+    public function testReadTab()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:tab/>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString($documentXml);
+
+        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]);
+        $this->assertEquals("\t", $elements[0]->getText());
+    }
 }
