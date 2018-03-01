@@ -242,20 +242,20 @@ class Chart extends AbstractPart
                 // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
                 if(is_array($colors) && count($colors)) {
                     // This is a workaround to make each series in a stack chart use a different color
-                    if($this->options['type'] == 'bar' && $this->options['grouping'] == 'stacked') {
+                    if($this->options['type'] == 'bar' && strstr($this->options['grouping'], 'stacked')) {
                         array_shift($colors);
                     }
                     $colorIndex = 0;
                     foreach ($colors as $color) {
-                            $xmlWriter->startElement('c:dPt');
-                            $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
-                            $xmlWriter->startElement('c:spPr');
-                            $xmlWriter->startElement('a:solidFill');
-                            $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
-                            $xmlWriter->endElement(); // a:solidFill
-                            $xmlWriter->endElement(); // c:spPr
-                            $xmlWriter->endElement(); // c:dPt
-                            $colorIndex++;
+                        $xmlWriter->startElement('c:dPt');
+                        $xmlWriter->writeElementBlock('c:idx', 'val', $colorIndex);
+                        $xmlWriter->startElement('c:spPr');
+                        $xmlWriter->startElement('a:solidFill');
+                        $xmlWriter->writeElementBlock('a:srgbClr', 'val', $color);
+                        $xmlWriter->endElement(); // a:solidFill
+                        $xmlWriter->endElement(); // c:spPr
+                        $xmlWriter->endElement(); // c:dPt
+                        $colorIndex++;
                     }
                 }
             }
