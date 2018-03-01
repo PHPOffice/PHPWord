@@ -41,16 +41,18 @@ class Chart extends AbstractPart
      * @var array
      */
     private $types = array(
-        'pie'            => array('type' => 'pie', 'colors' => 1),
-        'doughnut'       => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
-        'bar'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
-        'stacked_bar'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
-        'column'         => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
-        'stacked_column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
-        'line'           => array('type' => 'line', 'colors' => 0, 'axes' => true),
-        'area'           => array('type' => 'area', 'colors' => 0, 'axes' => true),
-        'radar'          => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter'        => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
+        'pie'               => array('type' => 'pie', 'colors' => 1),
+        'doughnut'          => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
+        'bar'               => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
+        'stacked_bar'       => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
+        'percent_stacked_bar' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'percentStacked'),
+        'column'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
+        'stacked_column'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
+        'percent_stacked_column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'percentStacked'),
+        'line'              => array('type' => 'line', 'colors' => 0, 'axes' => true),
+        'area'              => array('type' => 'area', 'colors' => 0, 'axes' => true),
+        'radar'             => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
+        'scatter'           => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
     );
 
     /**
