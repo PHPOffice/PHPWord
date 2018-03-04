@@ -241,14 +241,18 @@ abstract class AbstractPart
             if ($xmlReader->elementExists('w:br', $domNode)) {
                 $parent->addTextBreak();
             }
-            if ($xmlReader->elementExists('w:t', $domNode) || $xmlReader->elementExists('w:tab', $domNode)) {
+            if ($xmlReader->elementExists('w:t', $domNode) || $xmlReader->elementExists('w:tab', $domNode) || $xmlReader->elementExists('w:delText', $domNode)) {
                 // TextRun
-                if ($xmlReader->elementExists('w:tab', $domNode)) {
-                    $textContent = "\t";
-                } elseif ($domNode->parentNode->nodeName == 'w:del') {
-                    $textContent = $xmlReader->getValue('w:delText', $domNode);
-                } else {
-                    $textContent = $xmlReader->getValue('w:t', $domNode);
+                $textContent = '';
+                $nodes = $xmlReader->getElements('w:t|w:delText|w:tab', $domNode);
+                foreach ($nodes as $node) {
+                    if ($node->nodeName == 'w:t') {
+                        $textContent .= $node->nodeValue;
+                    } elseif ($node->nodeName == 'w:delText') {
+                        $textContent .= $node->nodeValue;
+                    } elseif ($node->nodeName == 'w:tab') {
+                        $textContent .= "\t";
+                    }
                 }
                 /** @var AbstractElement $element */
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);

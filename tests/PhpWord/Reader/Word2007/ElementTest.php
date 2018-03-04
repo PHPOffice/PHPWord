@@ -91,7 +91,9 @@ class ElementTest extends AbstractTestReader
     {
         $documentXml = '<w:p>
             <w:r>
+                <w:t>One</w:t>
                 <w:tab/>
+                <w:t>Two</w:t>
             </w:r>
         </w:p>';
 
@@ -99,6 +101,6 @@ class ElementTest extends AbstractTestReader
 
         $elements = $this->get($phpWord->getSections(), 0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]);
-        $this->assertEquals("\t", $elements[0]->getText());
+        $this->assertEquals("One\tTwo", $elements[0]->getText());
     }
 }
