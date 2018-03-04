@@ -63,6 +63,13 @@ class TemplateProcessor
     protected $tempDocumentFooters = array();
 
     /**
+     * Content of body (in XML format) of the temporary document
+     *
+     * @var string[]
+     */
+    protected $tempDocumentBody;
+
+    /**
      * @since 0.12.0 Throws CreateTemporaryFileException and CopyFileException instead of Exception
      *
      * @param string $documentTemplate The fully qualified template filename
@@ -101,6 +108,9 @@ class TemplateProcessor
             $index++;
         }
         $this->tempDocumentMainPart = $this->fixBrokenMacros($this->zipClass->getFromName($this->getMainPartName()));
+
+        // Document body extraction
+        $this->tempDocumentBody = preg_replace('/.*<w:body>(.*)<\/w:body>.*/s', '$1', $this->tempDocumentMainPart);
     }
 
     /**
@@ -192,6 +202,8 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
+        $subject = str_replace('&', '&amp;', $subject);
+
         if (!Text::isUTF8($subject)) {
             $subject = utf8_encode($subject);
         }
@@ -571,5 +583,12 @@ class TemplateProcessor
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
+    }
+
+    /**
+     * Add new page.
+     */
+    public function addPage() {
+        $this->tempDocumentMainPart = preg_replace('/<\/w:body>/', '<w:br w:type="page"/>'.$this->tempDocumentBody.'</w:body>/', $this->tempDocumentMainPart);
     }
 }
