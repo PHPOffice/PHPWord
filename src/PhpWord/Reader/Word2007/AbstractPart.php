@@ -239,10 +239,14 @@ abstract class AbstractPart
         } else {
             if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
                 // Footnote
-                $parent->addFootnote();
+                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:footnoteReference');
+                $footnote = $parent->addFootnote();
+                $footnote->setRelationId($wId);
             } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
                 // Endnote
-                $parent->addEndnote();
+                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:endnoteReference');
+                $endnote = $parent->addEndnote();
+                $endnote->setRelationId($wId);
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
                 // Image
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
@@ -523,11 +527,9 @@ abstract class AbstractPart
                     return $possibleAttribute;
                 }
             }
-        } else {
-            return $attributes;
         }
 
-        return null;
+        return $attributes;
     }
 
     /**
@@ -605,7 +607,7 @@ abstract class AbstractPart
      */
     private function isOn($value = null)
     {
-        return $value == null || $value == '1' || $value == 'true' || $value == 'on';
+        return $value === null || $value === '1' || $value === 'true' || $value === 'on';
     }
 
     /**

@@ -28,7 +28,7 @@ class Title extends AbstractElement
     /**
      * Title Text content
      *
-     * @var string
+     * @var string|TextRun
      */
     private $text;
 
