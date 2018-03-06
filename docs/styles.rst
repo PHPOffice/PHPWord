@@ -59,6 +59,7 @@ Available Font style options:
    See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
+- ``position``. The text position, raised or lowered, in half points
 
 .. _paragraph-style:
 

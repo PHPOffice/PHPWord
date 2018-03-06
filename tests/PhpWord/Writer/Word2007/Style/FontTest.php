@@ -65,4 +65,19 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:p/w:r/w:rPr/w:lang';
         $this->assertTrue($doc->elementExists($path, $file));
     }
+
+    /**
+     * Test writing position
+     */
+    public function testPosition()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('This text is lowered', array('position' => -20));
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:r/w:rPr/w:position';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals(-20, $doc->getElementAttribute($path, 'w:val'));
+    }
 }

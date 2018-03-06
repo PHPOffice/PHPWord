@@ -232,6 +232,7 @@ class Font extends AbstractStyle
 
     /**
      * Right to left languages
+     *
      * @var bool
      */
     private $rtl = false;
@@ -246,9 +247,18 @@ class Font extends AbstractStyle
 
     /**
      * Languages
+     *
      * @var \PhpOffice\PhpWord\Style\Language
      */
     private $lang;
+
+    /**
+     * Vertically Raised or Lowered Text
+     *
+     * @var int Signed Half-Point Measurement
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
 
     /**
      * Create new font style
@@ -294,6 +304,7 @@ class Font extends AbstractStyle
                 'scale'     => $this->getScale(),
                 'spacing'   => $this->getSpacing(),
                 'kerning'   => $this->getKerning(),
+                'position'  => $this->getPosition(),
             ),
             'paragraph'     => $this->getParagraph(),
             'rtl'           => $this->isRTL(),
@@ -925,5 +936,28 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setIntVal($value, null);
+
+        return $this;
     }
 }

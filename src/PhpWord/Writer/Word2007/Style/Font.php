@@ -151,6 +151,9 @@ class Font extends AbstractStyle
             $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
         }
 
+        // Position
+        $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
+
         $xmlWriter->endElement();
     }
 
