@@ -184,11 +184,11 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     public function testRemoveElementByElement()
     {
         $section = new Section(1);
-        $fistText = $section->addText('firstText');
+        $firstText = $section->addText('firstText');
         $secondText = $section->addText('secondText');
 
         $this->assertEquals(2, $section->countElements());
-        $section->removeElement($fistText);
+        $section->removeElement($firstText);
 
         $this->assertEquals(1, $section->countElements());
         $this->assertEquals($secondText->getElementId(), $section->getElement(1)->getElementId());

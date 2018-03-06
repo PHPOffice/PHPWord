@@ -378,7 +378,7 @@ abstract class AbstractPart
             'pageBreakBefore'     => array(self::READ_TRUE,  'w:pageBreakBefore'),
             'contextualSpacing'   => array(self::READ_TRUE,  'w:contextualSpacing'),
             'bidi'                => array(self::READ_TRUE,  'w:bidi'),
-            'suppressAutoHyphens' => array(self::READ_TRUE, 'w:suppressAutoHyphens'),
+            'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

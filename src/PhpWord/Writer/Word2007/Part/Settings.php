@@ -158,7 +158,7 @@ class Settings extends AbstractPart
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
         $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
-        $this->setHyphenationZOne($documentSettings->getHyphenationZone());
+        $this->setHyphenationZone($documentSettings->getHyphenationZone());
         $this->setCompatibility();
     }
 
