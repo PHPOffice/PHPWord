@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * TablePosition style
  *
- * @link http://www.datypic.com/sc/ooxml/e-w_tblpPr-1.html
+ * @see http://www.datypic.com/sc/ooxml/e-w_tblpPr-1.html
  */
 class TablePosition extends AbstractStyle
 {
@@ -28,7 +28,7 @@ class TablePosition extends AbstractStyle
      * Vertical anchor constants
      *
      * @const string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
      */
     const VANCHOR_TEXT = 'text'; // Relative to vertical text extents
     const VANCHOR_MARGIN = 'margin'; // Relative to margin
@@ -38,7 +38,7 @@ class TablePosition extends AbstractStyle
      * Horizontal anchor constants
      *
      * @const string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
      */
     const HANCHOR_TEXT = 'text'; // Relative to text extents
     const HANCHOR_MARGIN = 'margin'; // Relative to margin
@@ -48,7 +48,7 @@ class TablePosition extends AbstractStyle
      * Horizontal alignment constants
      *
      * @const string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
      */
     const XALIGN_LEFT = 'left'; // Left aligned horizontally
     const XALIGN_CENTER = 'center'; // Centered horizontally
@@ -60,7 +60,7 @@ class TablePosition extends AbstractStyle
      * Vertical alignment constants
      *
      * @const string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
      */
     const YALIGN_INLINE = 'inline'; // In line with text
     const YALIGN_TOP = 'top'; // Top
@@ -101,7 +101,7 @@ class TablePosition extends AbstractStyle
      * Table vertical anchor
      *
      * @var string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_VAnchor.html
      */
     private $vertAnchor;
 
@@ -109,7 +109,7 @@ class TablePosition extends AbstractStyle
      * Table horizontal anchor
      *
      * @var string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_HAnchor.html
      */
     private $horzAnchor;
 
@@ -117,7 +117,7 @@ class TablePosition extends AbstractStyle
      * Relative horizontal alignment from anchor
      *
      * @var string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_XAlign.html
      */
     private $tblpXSpec;
 
@@ -132,7 +132,7 @@ class TablePosition extends AbstractStyle
      * Relative vertical alignment from anchor
      *
      * @var string
-     * @link http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
+     * @see http://www.datypic.com/sc/ooxml/t-w_ST_YAlign.html
      */
     private $tblpYSpec;
 

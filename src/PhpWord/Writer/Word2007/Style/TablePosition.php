@@ -24,8 +24,6 @@ class TablePosition extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
