@@ -579,7 +579,7 @@ abstract class AbstractPart
      *
      * @param string $method
      * @ignoreScrutinizerPatch
-     * @param mixed $attributeValue
+     * @param string|null $attributeValue
      * @param mixed $expected
      * @return mixed
      */

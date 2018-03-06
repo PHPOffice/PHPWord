@@ -252,7 +252,7 @@ class Html
         $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
         //alignment applies on paragraph, not on font. Let's copy it there
-        if (isset($styles['font']['alignment'])) {
+        if (isset($styles['font']['alignment']) && is_array($styles['paragraph'])) {
             $styles['paragraph']['alignment'] = $styles['font']['alignment'];
         }
 

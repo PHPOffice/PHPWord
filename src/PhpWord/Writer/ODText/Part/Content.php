@@ -222,8 +222,8 @@ class Content extends AbstractPart
      * Table style can be null or string of the style name
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
-     * @param int &$paragraphStyleCount
-     * @param int &$fontStyleCount
+     * @param int $paragraphStyleCount
+     * @param int $fontStyleCount
      * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
@@ -254,9 +254,9 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text &$element
-     * @param int &$paragraphStyleCount
-     * @param int &$fontStyleCount
+     * @param \PhpOffice\PhpWord\Element\Text $element
+     * @param int $paragraphStyleCount
+     * @param int $fontStyleCount
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
     {

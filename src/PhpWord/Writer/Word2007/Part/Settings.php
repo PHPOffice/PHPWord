@@ -166,7 +166,7 @@ class Settings extends AbstractPart
      * Adds a boolean attribute to the settings array
      *
      * @param string $settingName
-     * @param bool $booleanValue
+     * @param bool|null $booleanValue
      */
     private function setOnOffValue($settingName, $booleanValue)
     {
