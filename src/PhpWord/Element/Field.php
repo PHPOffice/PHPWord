@@ -17,8 +17,6 @@
 
 namespace PhpOffice\PhpWord\Element;
 
-use PhpOffice\PhpWord\Style\Font;
-
 /**
  * Field element
  *
@@ -213,46 +211,6 @@ class Field extends AbstractElement
     public function getOptions()
     {
         return $this->options;
-    }
-
-    /**
-     * Set Text style
-     *
-     * @param \PhpOffice\PhpWord\Style\Font $style
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function setFontStyle($style = null)
-    {
-        if (!$style instanceof Font) {
-            throw new \InvalidArgumentException('font style must be of type Font');
-        }
-
-        if ($style->isNoProof()) {
-            $this->fontStyle = $style;
-        } else {
-            // make a copy of the font so the original is not altered
-            $this->fontStyle = clone $style;
-            $this->fontStyle->setNoProof(true);
-        }
-
-        return $this->fontStyle;
-    }
-
-    /**
-     * Get Text style
-     *
-     * @return \PhpOffice\PhpWord\Style\Font
-     */
-    public function getFontStyle()
-    {
-        if ($this->fontStyle == null) {
-            $font = new Font();
-            $font->setNoProof(true);
-
-            return $font;
-        }
-
-        return $this->fontStyle;
     }
 
     /**

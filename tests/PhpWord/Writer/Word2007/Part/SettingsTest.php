@@ -330,4 +330,68 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $element = $doc->getElement($path, $file);
         $this->assertNotEquals('false', $element->getAttribute('w:val'));
     }
+
+    public function testAutoHyphenation()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setAutoHyphenation(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:autoHyphenation';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+    }
+
+    public function testConsecutiveHyphenLimit()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setConsecutiveHyphenLimit(2);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:consecutiveHyphenLimit';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('2', $element->getAttribute('w:val'));
+    }
+
+    public function testHyphenationZone()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setHyphenationZone(100);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:hyphenationZone';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertSame('100', $element->getAttribute('w:val'));
+    }
+
+    public function testDoNotHyphenateCaps()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->getSettings()->setDoNotHyphenateCaps(true);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:doNotHyphenateCaps';
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement($path, $file);
+        $this->assertNotEquals('false', $element->getAttribute('w:val'));
+    }
 }

@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -47,6 +48,20 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:numPr/w:ilvl';
+        $this->assertTrue($doc->elementExists($path));
+    }
+
+    public function testSuppressAutoHyphens()
+    {
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setSuppressAutoHyphens(true);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, $paragraphStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:suppressAutoHyphens';
         $this->assertTrue($doc->elementExists($path));
     }
 }

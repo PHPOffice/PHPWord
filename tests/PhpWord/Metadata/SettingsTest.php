@@ -172,4 +172,58 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $oSettings->setUpdateFields(true);
         $this->assertTrue($oSettings->hasUpdateFields());
     }
+
+    public function testAutoHyphenation()
+    {
+        $oSettings = new Settings();
+        $oSettings->setAutoHyphenation(true);
+        $this->assertTrue($oSettings->hasAutoHyphenation());
+    }
+
+    public function testDefaultAutoHyphenation()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->hasAutoHyphenation());
+    }
+
+    public function testConsecutiveHyphenLimit()
+    {
+        $consecutiveHypenLimit = 2;
+        $oSettings = new Settings();
+        $oSettings->setConsecutiveHyphenLimit($consecutiveHypenLimit);
+        $this->assertSame($consecutiveHypenLimit, $oSettings->getConsecutiveHyphenLimit());
+    }
+
+    public function testDefaultConsecutiveHyphenLimit()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->getConsecutiveHyphenLimit());
+    }
+
+    public function testHyphenationZone()
+    {
+        $hyphenationZoneInTwip = 100;
+        $oSettings = new Settings();
+        $oSettings->setHyphenationZone($hyphenationZoneInTwip);
+        $this->assertSame($hyphenationZoneInTwip, $oSettings->getHyphenationZone());
+    }
+
+    public function testDefaultHyphenationZone()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->getHyphenationZone());
+    }
+
+    public function testDoNotHyphenateCaps()
+    {
+        $oSettings = new Settings();
+        $oSettings->setDoNotHyphenateCaps(true);
+        $this->assertTrue($oSettings->hasDoNotHyphenateCaps());
+    }
+
+    public function testDefaultDoNotHyphenateCaps()
+    {
+        $oSettings = new Settings();
+        $this->assertNull($oSettings->hasDoNotHyphenateCaps());
+    }
 }

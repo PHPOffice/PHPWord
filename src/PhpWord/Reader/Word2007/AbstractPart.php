@@ -364,20 +364,21 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'         => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
-            'alignment'         => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
-            'next'              => array(self::READ_VALUE, 'w:next'),
-            'indent'            => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'           => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'        => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'       => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'      => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'          => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'         => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore'   => array(self::READ_TRUE,  'w:pageBreakBefore'),
-            'contextualSpacing' => array(self::READ_TRUE,  'w:contextualSpacing'),
-            'bidi'              => array(self::READ_TRUE,  'w:bidi'),
+            'styleName'           => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
+            'alignment'           => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'             => array(self::READ_VALUE, 'w:basedOn'),
+            'next'                => array(self::READ_VALUE, 'w:next'),
+            'indent'              => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'             => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'          => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'         => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'        => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'            => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'           => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore'     => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'contextualSpacing'   => array(self::READ_TRUE,  'w:contextualSpacing'),
+            'bidi'                => array(self::READ_TRUE,  'w:bidi'),
+            'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -578,7 +579,7 @@ abstract class AbstractPart
      *
      * @param string $method
      * @ignoreScrutinizerPatch
-     * @param mixed $attributeValue
+     * @param string|null $attributeValue
      * @param mixed $expected
      * @return mixed
      */

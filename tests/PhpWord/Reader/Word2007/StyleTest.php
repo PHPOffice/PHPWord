@@ -81,9 +81,9 @@ class StyleTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString($documentXml);
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
-        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $elements = $phpWord->getSection(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $elements[0]->getFontStyle());
         /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */

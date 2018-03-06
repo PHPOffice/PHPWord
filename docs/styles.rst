@@ -82,6 +82,7 @@ Available Paragraph style options:
 - ``spaceAfter``. Space after paragraph in *twip*.
 - ``spacing``. Space between lines.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
+- ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
