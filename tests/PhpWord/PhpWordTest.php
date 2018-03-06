@@ -171,4 +171,58 @@ class PhpWordTest extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $phpWord->undefinedMethod();
     }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::getSection
+     */
+    public function testGetNotExistingSection()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->getSection(0);
+
+        $this->assertNull($section);
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::getSection
+     */
+    public function testGetSection()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addSection();
+        $section = $phpWord->getSection(0);
+
+        $this->assertNotNull($section);
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::sortSections
+     */
+    public function testSortSections()
+    {
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('test1');
+        $section2 = $phpWord->addSection();
+        $section2->addText('test2');
+        $section2->addText('test3');
+
+        $this->assertEquals(1, $phpWord->getSection(0)->countElements());
+        $this->assertEquals(2, $phpWord->getSection(1)->countElements());
+
+        $phpWord->sortSections(function ($a, $b) {
+            $numElementsInA = $a->countElements();
+            $numElementsInB = $b->countElements();
+            if ($numElementsInA === $numElementsInB) {
+                return 0;
+            } elseif ($numElementsInA > $numElementsInB) {
+                return -1;
+            }
+
+            return 1;
+        });
+
+        $this->assertEquals(2, $phpWord->getSection(0)->countElements());
+        $this->assertEquals(1, $phpWord->getSection(1)->countElements());
+    }
 }

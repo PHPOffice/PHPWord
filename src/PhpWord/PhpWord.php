@@ -243,6 +243,17 @@ class PhpWord
     }
 
     /**
+     * Sorts the sections using the callable passed
+     *
+     * @see http://php.net/manual/en/function.usort.php for usage
+     * @param callable $sorter
+     */
+    public function sortSections($sorter)
+    {
+        usort($this->sections, $sorter);
+    }
+
+    /**
      * Get default font name
      *
      * @return string
