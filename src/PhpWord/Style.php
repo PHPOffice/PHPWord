@@ -95,7 +95,13 @@ class Style
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        return self::setStyleValues("Heading_{$depth}", new Font('title', $paragraphStyle), $fontStyle);
+        if ($depth == null) {
+            $styleName = 'Title';
+        } else {
+            $styleName = "Heading_{$depth}";
+        }
+
+        return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**

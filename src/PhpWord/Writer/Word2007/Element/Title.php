@@ -47,27 +47,36 @@ class Title extends AbstractElement
             $xmlWriter->endElement();
         }
 
-        $rId = $element->getRelationId();
-        $bookmarkRId = $element->getPhpWord()->addBookmark();
+        if ($element->getDepth() !== 0) {
+            $rId = $element->getRelationId();
+            $bookmarkRId = $element->getPhpWord()->addBookmark();
 
-        // Bookmark start for TOC
-        $xmlWriter->startElement('w:bookmarkStart');
-        $xmlWriter->writeAttribute('w:id', $bookmarkRId);
-        $xmlWriter->writeAttribute('w:name', "_Toc{$rId}");
-        $xmlWriter->endElement();
+            // Bookmark start for TOC
+            $xmlWriter->startElement('w:bookmarkStart');
+            $xmlWriter->writeAttribute('w:id', $bookmarkRId);
+            $xmlWriter->writeAttribute('w:name', "_Toc{$rId}");
+            $xmlWriter->endElement(); //w:bookmarkStart
+        }
 
         // Actual text
-        $xmlWriter->startElement('w:r');
-        $xmlWriter->startElement('w:t');
-        $this->writeText($this->getText($element->getText()));
-        $xmlWriter->endElement(); // w:t
-        $xmlWriter->endElement(); // w:r
+        $text = $element->getText();
+        if (is_string($text)) {
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:t');
+            $this->writeText($text);
+            $xmlWriter->endElement(); // w:t
+            $xmlWriter->endElement(); // w:r
+        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            $containerWriter = new Container($xmlWriter, $text);
+            $containerWriter->write();
+        }
 
-        // Bookmark end
-        $xmlWriter->startElement('w:bookmarkEnd');
-        $xmlWriter->writeAttribute('w:id', $bookmarkRId);
-        $xmlWriter->endElement();
-
-        $xmlWriter->endElement();
+        if ($element->getDepth() !== 0) {
+            // Bookmark end
+            $xmlWriter->startElement('w:bookmarkEnd');
+            $xmlWriter->writeAttribute('w:id', $bookmarkRId);
+            $xmlWriter->endElement(); //w:bookmarkEnd
+        }
+        $xmlWriter->endElement(); //w:p
     }
 }

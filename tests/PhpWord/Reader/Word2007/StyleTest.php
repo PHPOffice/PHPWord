@@ -37,9 +37,9 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString($documentXml);
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
-        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $elements = $phpWord->getSection(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         $this->assertEquals(Table::LAYOUT_FIXED, $elements[0]->getStyle()->getLayout());
@@ -56,9 +56,9 @@ class StyleTest extends AbstractTestReader
             </w:tblPr>
         </w:tbl>';
 
-        $phpWord = $this->getDocumentFromString($documentXml);
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
-        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $elements = $phpWord->getSection(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
         $this->assertEquals(TblWidth::AUTO, $elements[0]->getStyle()->getUnit());

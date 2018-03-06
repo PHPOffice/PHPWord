@@ -1,3 +1,8 @@
+build:
+    nodes:
+        analysis:
+            tests:
+                override: [php-scrutinizer-run]
 filter:
     excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
 

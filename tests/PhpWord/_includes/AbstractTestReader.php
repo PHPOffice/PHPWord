@@ -17,43 +17,48 @@
 
 namespace PhpOffice\PhpWord;
 
-use PhpOffice\PhpWord\Reader\Word2007\Document;
-
 /**
  * Base class for Word2007 reader tests
  */
 abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
 {
+    private $parts = array(
+        'styles'     => array('class' => 'PhpOffice\PhpWord\Reader\Word2007\Styles',      'xml' => '<w:styles xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:sz w:val="24"/></w:rPr></w:rPrDefault></w:docDefaults>{toReplace}</w:styles>'),
+        'document'   => array('class' => 'PhpOffice\PhpWord\Reader\Word2007\Document',    'xml' => '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>{toReplace}</w:body></w:document>'),
+        'footnotes'  => array('class' => 'PhpOffice\PhpWord\Reader\Word2007\Footnotes',   'xml' => '<w:footnotes xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">{toReplace}</w:footnotes>'),
+        'endnotes'   => array('class' => 'PhpOffice\PhpWord\Reader\Word2007\Endnotes',    'xml' => '<w:endnotes xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">{toReplace}</w:endnotes>'),
+        'settings'   => array('class' => 'PhpOffice\PhpWord\Reader\Word2007\Settings',    'xml' => '<w:comments xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">{toReplace}</w:comments>'),
+    );
+
     /**
      * Builds a PhpWord instance based on the xml passed
      *
      * @param string $documentXml
+     * @param null|string $stylesXml
      * @return \PhpOffice\PhpWord\PhpWord
      */
-    protected function getDocumentFromString($documentXml)
+    protected function getDocumentFromString(array $partXmls = array())
     {
-        $phpWord = new PhpWord();
         $file = __DIR__ . '/../_files/temp.docx';
         $zip = new \ZipArchive();
         $zip->open($file, \ZipArchive::CREATE);
-        $zip->addFromString('document.xml', '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' . $documentXml . '</w:body></w:document>');
+        foreach ($this->parts as $partName => $part) {
+            if (array_key_exists($partName, $partXmls)) {
+                $zip->addFromString("{$partName}.xml", str_replace('{toReplace}', $partXmls[$partName], $this->parts[$partName]['xml']));
+            }
+        }
         $zip->close();
-        $documentReader = new Document($file, 'document.xml');
-        $documentReader->read($phpWord);
+
+        $phpWord = new PhpWord();
+        foreach ($this->parts as $partName => $part) {
+            if (array_key_exists($partName, $partXmls)) {
+                $className = $this->parts[$partName]['class'];
+                $reader = new $className($file, "{$partName}.xml");
+                $reader->read($phpWord);
+            }
+        }
         unlink($file);
 
         return $phpWord;
-    }
-
-    /**
-     * Returns the element at position $index in the array
-     *
-     * @param array $array
-     * @param number $index
-     * @return mixed
-     */
-    protected function get(array $array, $index = 0)
-    {
-        return $array[$index];
     }
 }

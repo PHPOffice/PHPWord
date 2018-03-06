@@ -36,9 +36,9 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString($documentXml);
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
-        $elements = $this->get($phpWord->getSections(), 0)->getElements();
+        $elements = $phpWord->getSection(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextBreak', $elements[0]);
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $elements[1]);
         $this->assertEquals('test string', $elements[1]->getText());
@@ -70,17 +70,73 @@ class ElementTest extends AbstractTestReader
             </w:r>
         </w:p>';
 
-        $phpWord = $this->getDocumentFromString($documentXml);
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
 
-        $elements = $this->get($phpWord->getSections(), 0)->getElements();
-        $this->assertInstanceOf('PhpOffice\PhpWord\Element\ListItemRun', $elements[0]);
-        $this->assertEquals(0, $elements[0]->getDepth());
+        $sections = $phpWord->getSection(0);
+        $this->assertNull($sections->getElement(999));
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\ListItemRun', $sections->getElement(0));
+        $this->assertEquals(0, $sections->getElement(0)->getDepth());
 
-        $listElements = $this->get($elements, 0)->getElements();
+        $listElements = $sections->getElement(0)->getElements();
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $listElements[0]);
         $this->assertEquals('Two', $listElements[0]->getText());
         $this->assertEquals(' with ', $listElements[1]->getText());
         $this->assertEquals('bold', $listElements[2]->getText());
         $this->assertTrue($listElements[2]->getFontStyle()->getBold());
+    }
+
+    /**
+     * Test reading Title style
+     */
+    public function testReadTitleStyle()
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:pStyle w:val="Title"/>
+            </w:pPr>
+            <w:r>
+                <w:t>This is a non formatted title</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:pPr>
+                <w:pStyle w:val="Title"/>
+            </w:pPr>
+            <w:r>
+                <w:t>This is a </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:b/>
+                </w:rPr>
+                <w:t>bold</w:t>
+            </w:r>
+            <w:r>
+                <w:t> title</w:t>
+            </w:r>
+        </w:p>';
+
+        $stylesXml = '<w:style w:type="paragraph" w:styleId="Title">
+            <w:name w:val="Title"/>
+            <w:link w:val="TitleChar"/>
+            <w:rPr>
+                <w:i/>
+            </w:rPr>
+        </w:style>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml, 'styles' => $stylesXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        $this->assertEquals('Title', $title->getStyle());
+        $this->assertEquals('This is a non formatted title', $title->getText());
+
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[1]);
+        /** @var \PhpOffice\PhpWord\Element\Title $formattedTitle */
+        $formattedTitle = $elements[1];
+        $this->assertEquals('Title', $formattedTitle->getStyle());
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $formattedTitle->getText());
     }
 }

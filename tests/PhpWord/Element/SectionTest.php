@@ -162,4 +162,35 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $object = new Section(1);
         $object->addHeader('ODD');
     }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
+     */
+    public function testRemoveElementByIndex()
+    {
+        $section = new Section(1);
+        $section->addText('firstText');
+        $section->addText('secondText');
+
+        $this->assertEquals(2, $section->countElements());
+        $section->removeElement(1);
+
+        $this->assertEquals(1, $section->countElements());
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
+     */
+    public function testRemoveElementByElement()
+    {
+        $section = new Section(1);
+        $fistText = $section->addText('firstText');
+        $secondText = $section->addText('secondText');
+
+        $this->assertEquals(2, $section->countElements());
+        $section->removeElement($fistText);
+
+        $this->assertEquals(1, $section->countElements());
+        $this->assertEquals($secondText->getElementId(), $section->getElement(1)->getElementId());
+    }
 }

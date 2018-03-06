@@ -89,6 +89,7 @@ Titles
 
 If you want to structure your document or build table of contents, you need titles or headings.
 To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` method.
+If `depth` is 0, a Title will be inserted, otherwise a Heading1, Heading2, ...
 
 .. code-block:: php
 
@@ -98,7 +99,7 @@ To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` metho
 - ``depth``.
 - ``$fontStyle``. See :ref:`font-style`.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
-- ``$text``. Text to be displayed in the document.
+- ``$text``. Text to be displayed in the document. This can be `string` or a `\PhpOffice\PhpWord\Element\TextRun`
 
 It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.
 

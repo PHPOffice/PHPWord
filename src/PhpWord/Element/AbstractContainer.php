@@ -54,7 +54,7 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Elements collection
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     protected $elements = array();
 
@@ -162,6 +162,41 @@ abstract class AbstractContainer extends AbstractElement
     public function getElements()
     {
         return $this->elements;
+    }
+
+    /**
+     * Returns the element at the requested position
+     *
+     * @param int $index
+     * @return \PhpOffice\PhpWord\Element\AbstractElement|null
+     */
+    public function getElement($index)
+    {
+        if (array_key_exists($index, $this->elements)) {
+            return $this->elements[$index];
+        }
+
+        return null;
+    }
+
+    /**
+     * Removes the element at requested index
+     *
+     * @param int|\PhpOffice\PhpWord\Element\AbstractElement $toRemove
+     */
+    public function removeElement($toRemove)
+    {
+        if (is_int($toRemove) && array_key_exists($toRemove, $this->elements)) {
+            unset($this->elements[$toRemove]);
+        } elseif ($toRemove instanceof \PhpOffice\PhpWord\Element\AbstractElement) {
+            foreach ($this->elements as $key => $element) {
+                if ($element->getElementId() === $toRemove->getElementId()) {
+                    unset($this->elements[$key]);
+
+                    return;
+                }
+            }
+        }
     }
 
     /**
