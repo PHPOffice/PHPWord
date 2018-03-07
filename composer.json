@@ -36,19 +36,19 @@
     ],
     "scripts": {
         "test": [
-            "./vendor/bin/phpunit --color=always"
+            "phpunit --color=always"
         ],
         "test-no-coverage": [
-            "./vendor/bin/phpunit --color=always --no-coverage"
+            "phpunit --color=always --no-coverage"
         ],
         "check": [
-            "./vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
-            "./vendor/bin/phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
-            "./vendor/bin/phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
+            "php-cs-fixer fix --ansi --dry-run --diff",
+            "phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+            "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
             "@test"
         ],
         "fix": [
-            "./vendor/bin/php-cs-fixer fix --ansi"
+            "php-cs-fixer fix --ansi"
         ]
     },
     "scripts-descriptions": {
