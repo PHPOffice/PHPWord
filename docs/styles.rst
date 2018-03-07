@@ -108,6 +108,20 @@ Available Table style options:
 - ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
 - ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 - ``cellSpacing`` Cell spacing in *twip*
+- ``position`` Floating Table Positioning, see below for options
+
+Floating Table Positioning options:
+
+- ``leftFromText`` Distance From Left of Table to Text in *twip*
+- ``rightFromText`` Distance From Right of Table to Text in *twip*
+- ``topFromText`` Distance From Top of Table to Text in *twip*
+- ``bottomFromText`` Distance From Top of Table to Text in *twip*
+- ``vertAnchor`` Table Vertical Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::VANCHOR_*``
+- ``horzAnchor`` Table Horizontal Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::HANCHOR_*``
+- ``tblpXSpec`` Relative Horizontal Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::XALIGN_*``
+- ``tblpX`` Absolute Horizontal Distance From Anchorin *twip*
+- ``tblpYSpec`` Relative Vertical Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::YALIGN_*``
+- ``tblpY`` Absolute Vertical Distance From Anchorin *twip*
 
 Available Row style options:
 

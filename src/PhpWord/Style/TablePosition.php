@@ -321,8 +321,8 @@ class TablePosition extends AbstractStyle
     {
         $enum = array(
             self::XALIGN_LEFT,
-            self::YALIGN_CENTER,
-            self::YALIGN_RIGHT,
+            self::XALIGN_CENTER,
+            self::XALIGN_RIGHT,
             self::XALIGN_INSIDE,
             self::XALIGN_OUTSIDE,
         );
