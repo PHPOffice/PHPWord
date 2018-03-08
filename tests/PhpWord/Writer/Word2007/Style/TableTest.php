@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -75,5 +76,46 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
         $this->assertEquals(10.3, $doc->getElementAttribute($path, 'w:w'));
         $this->assertEquals(\PhpOffice\PhpWord\SimpleType\TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+    }
+
+    /**
+     * Test write table position
+     */
+    public function testTablePosition()
+    {
+        $tablePosition = array(
+            'leftFromText'   => 10,
+            'rightFromText'  => 20,
+            'topFromText'    => 30,
+            'bottomFromText' => 40,
+            'vertAnchor'     => TablePosition::VANCHOR_PAGE,
+            'horzAnchor'     => TablePosition::HANCHOR_MARGIN,
+            'tblpXSpec'      => TablePosition::XALIGN_CENTER,
+            'tblpX'          => 50,
+            'tblpYSpec'      => TablePosition::YALIGN_TOP,
+            'tblpY'          => 60,
+        );
+        $tableStyle = new Table();
+        $tableStyle->setPosition($tablePosition);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblpPr';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals(10, $doc->getElementAttribute($path, 'w:leftFromText'));
+        $this->assertEquals(20, $doc->getElementAttribute($path, 'w:rightFromText'));
+        $this->assertEquals(30, $doc->getElementAttribute($path, 'w:topFromText'));
+        $this->assertEquals(40, $doc->getElementAttribute($path, 'w:bottomFromText'));
+        $this->assertEquals(TablePosition::VANCHOR_PAGE, $doc->getElementAttribute($path, 'w:vertAnchor'));
+        $this->assertEquals(TablePosition::HANCHOR_MARGIN, $doc->getElementAttribute($path, 'w:horzAnchor'));
+        $this->assertEquals(TablePosition::XALIGN_CENTER, $doc->getElementAttribute($path, 'w:tblpXSpec'));
+        $this->assertEquals(50, $doc->getElementAttribute($path, 'w:tblpX'));
+        $this->assertEquals(TablePosition::YALIGN_TOP, $doc->getElementAttribute($path, 'w:tblpYSpec'));
+        $this->assertEquals(60, $doc->getElementAttribute($path, 'w:tblpY'));
     }
 }

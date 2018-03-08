@@ -16,6 +16,7 @@ v0.15.0 (?? ??? 2018)
 - Added support for Vertically Raised or Lowered Text (w:position) @anrikun @troosan #640
 - Add support for MACROBUTTON field @phryneas @troosan #1021
 - Add support for Hyphenation @Trainmaster #1282 (Document: `autoHyphenation`, `consecutiveHyphenLimit`, `hyphenationZone`, `doNotHyphenateCaps`, Paragraph: `suppressAutoHyphens`)
+- Added support for Floating Table Positioning (tblpPr) @anrikun #639
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238

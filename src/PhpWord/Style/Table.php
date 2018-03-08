@@ -153,6 +153,13 @@ class Table extends Border
     private $layout = self::LAYOUT_AUTO;
 
     /**
+     * Position
+     *
+     * @var \PhpOffice\PhpWord\Style\TablePosition
+     */
+    private $position;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -691,6 +698,29 @@ class Table extends Border
                 $this->$property = $value;
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return \PhpOffice\PhpWord\Style\TablePosition
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->setObjectVal($value, 'TablePosition', $this->position);
 
         return $this;
     }

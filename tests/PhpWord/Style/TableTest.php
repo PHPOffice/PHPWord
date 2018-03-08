@@ -195,4 +195,17 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $object = new Table(array('cellSpacing' => 20));
         $this->assertEquals(20, $object->getCellSpacing());
     }
+
+    /**
+     * Tests table floating position
+     */
+    public function testTablePosition()
+    {
+        $object = new Table();
+        $this->assertNull($object->getPosition());
+
+        $object->setPosition(array('vertAnchor' => TablePosition::VANCHOR_PAGE));
+        $this->assertNotNull($object->getPosition());
+        $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getPosition()->getVertAnchor());
+    }
 }

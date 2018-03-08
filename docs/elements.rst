@@ -482,6 +482,7 @@ Track changes can be set on text elements. There are 2 ways to set the change in
 Either by calling the `setChangeInfo()`, or by setting the `TrackChange` instance on the element with `setTrackChange()`.
 
 .. code-block:: php
+
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
     // New portrait section
