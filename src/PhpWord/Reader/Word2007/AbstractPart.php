@@ -462,10 +462,40 @@ abstract class AbstractPart
                 $styleDefs['layout'] = array(self::READ_VALUE, 'w:tblLayout', 'w:type');
                 $styleDefs['cellSpacing'] = array(self::READ_VALUE, 'w:tblCellSpacing', 'w:w');
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+
+                $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
+                if ($tablePositionNode !== null) {
+                    $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
+                }
             }
         }
 
         return $style;
+    }
+
+    /**
+     * Read w:tblpPr
+     *
+     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return array
+     */
+    private function readTablePosition(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+        $styleDefs = array(
+            'leftFromText'   => array(self::READ_VALUE, '.', 'w:leftFromText'),
+            'rightFromText'  => array(self::READ_VALUE, '.', 'w:rightFromText'),
+            'topFromText'    => array(self::READ_VALUE, '.', 'w:topFromText'),
+            'bottomFromText' => array(self::READ_VALUE, '.', 'w:bottomFromText'),
+            'vertAnchor'     => array(self::READ_VALUE, '.', 'w:vertAnchor'),
+            'horzAnchor'     => array(self::READ_VALUE, '.', 'w:horzAnchor'),
+            'tblpXSpec'      => array(self::READ_VALUE, '.', 'w:tblpXSpec'),
+            'tblpX'          => array(self::READ_VALUE, '.', 'w:tblpX'),
+            'tblpYSpec'      => array(self::READ_VALUE, '.', 'w:tblpYSpec'),
+            'tblpY'          => array(self::READ_VALUE, '.', 'w:tblpY'),
+        );
+
+        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
     }
 
     /**
