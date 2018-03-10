@@ -59,6 +59,9 @@ final class Language extends AbstractStyle
     const HI_IN = 'hi-IN';
     const HI_IN_ID = 1081;
 
+    const PT_BR = 'pt-BR';
+    const PT_BR_ID = 1046;
+
     /**
      * Language ID, used for RTF document generation
      *
