@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML;
 
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TrackChange;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Element\Text;
 
