@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -222,8 +222,8 @@ class Content extends AbstractPart
      * Table style can be null or string of the style name
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $container
-     * @param int &$paragraphStyleCount
-     * @param int &$fontStyleCount
+     * @param int $paragraphStyleCount
+     * @param int $fontStyleCount
      * @todo Simplify the logic
      */
     private function getContainerStyle($container, &$paragraphStyleCount, &$fontStyleCount)
@@ -254,9 +254,9 @@ class Content extends AbstractPart
     /**
      * Get style of individual element
      *
-     * @param \PhpOffice\PhpWord\Element\Text &$element
-     * @param int &$paragraphStyleCount
-     * @param int &$fontStyleCount
+     * @param \PhpOffice\PhpWord\Element\Text $element
+     * @param int $paragraphStyleCount
+     * @param int $fontStyleCount
      */
     private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
     {

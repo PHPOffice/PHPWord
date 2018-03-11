@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -194,5 +194,18 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
         $object = new Table(array('cellSpacing' => 20));
         $this->assertEquals(20, $object->getCellSpacing());
+    }
+
+    /**
+     * Tests table floating position
+     */
+    public function testTablePosition()
+    {
+        $object = new Table();
+        $this->assertNull($object->getPosition());
+
+        $object->setPosition(array('vertAnchor' => TablePosition::VANCHOR_PAGE));
+        $this->assertNotNull($object->getPosition());
+        $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getPosition()->getVertAnchor());
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -43,7 +43,7 @@ class Bookmark extends AbstractElement
      *
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name = '')
     {
         $this->name = CommonText::toUTF8($name);
     }

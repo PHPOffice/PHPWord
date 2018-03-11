@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -170,6 +170,42 @@ class Frame extends AbstractStyle
      * @var string
      */
     private $wrap;
+
+    /**
+     * Top wrap distance
+     *
+     * @var float
+     */
+    private $wrapDistanceTop;
+
+    /**
+     * Bottom wrap distance
+     *
+     * @var float
+     */
+    private $wrapDistanceBottom;
+
+    /**
+     * Left wrap distance
+     *
+     * @var float
+     */
+    private $wrapDistanceLeft;
+
+    /**
+     * Right wrap distance
+     *
+     * @var float
+     */
+    private $wrapDistanceRight;
+
+    /**
+     * Vertically raised or lowered text
+     *
+     * @var int
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
 
     /**
      * Create a new instance
@@ -535,6 +571,121 @@ class Frame extends AbstractStyle
             self::WRAP_INFRONT,
         );
         $this->wrap = $this->setEnumVal($value, $enum, $this->wrap);
+
+        return $this;
+    }
+
+    /**
+     * Get top distance from text wrap
+     *
+     * @return float
+     */
+    public function getWrapDistanceTop()
+    {
+        return $this->wrapDistanceTop;
+    }
+
+    /**
+     * Set top distance from text wrap
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setWrapDistanceTop($value = null)
+    {
+        $this->wrapDistanceTop = $this->setFloatVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get bottom distance from text wrap
+     *
+     * @return float
+     */
+    public function getWrapDistanceBottom()
+    {
+        return $this->wrapDistanceBottom;
+    }
+
+    /**
+     * Set bottom distance from text wrap
+     *
+     * @param float $value
+     * @return self
+     */
+    public function setWrapDistanceBottom($value = null)
+    {
+        $this->wrapDistanceBottom = $this->setFloatVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get left distance from text wrap
+     *
+     * @return float
+     */
+    public function getWrapDistanceLeft()
+    {
+        return $this->wrapDistanceLeft;
+    }
+
+    /**
+     * Set left distance from text wrap
+     *
+     * @param float $value
+     * @return self
+     */
+    public function setWrapDistanceLeft($value = null)
+    {
+        $this->wrapDistanceLeft = $this->setFloatVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get right distance from text wrap
+     *
+     * @return float
+     */
+    public function getWrapDistanceRight()
+    {
+        return $this->wrapDistanceRight;
+    }
+
+    /**
+     * Set right distance from text wrap
+     *
+     * @param float $value
+     * @return self
+     */
+    public function setWrapDistanceRight($value = null)
+    {
+        $this->wrapDistanceRight = $this->setFloatVal($value, null);
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setIntVal($value, null);
 
         return $this;
     }

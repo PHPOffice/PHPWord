@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -151,6 +151,13 @@ class Table extends Border
      * @var string Table Layout
      */
     private $layout = self::LAYOUT_AUTO;
+
+    /**
+     * Position
+     *
+     * @var \PhpOffice\PhpWord\Style\TablePosition
+     */
+    private $position;
 
     /**
      * Create new table style
@@ -691,6 +698,29 @@ class Table extends Border
                 $this->$property = $value;
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return \PhpOffice\PhpWord\Style\TablePosition
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->setObjectVal($value, 'TablePosition', $this->position);
 
         return $this;
     }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -150,6 +150,9 @@ class Font extends AbstractStyle
             $styleName = $style->getStyleName();
             $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
         }
+
+        // Position
+        $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
 
         $xmlWriter->endElement();
     }
