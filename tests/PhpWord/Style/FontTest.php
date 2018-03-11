@@ -115,6 +115,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'spacing'             => 240,
             'kerning'             => 10,
             'rtl'                 => true,
+            'noProof'             => true,
             'lang'                => new Language(Language::EN_US),
         );
         $object->setStyleByArray($attributes);
