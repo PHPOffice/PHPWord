@@ -105,7 +105,7 @@ class Chart extends AbstractStyle
     private $valueAxisTitle;
 
 
-    private $majorTickMarkPos = "none"
+    private $majorTickMarkPos = "none";
 
     /**
      * Create a new instance
