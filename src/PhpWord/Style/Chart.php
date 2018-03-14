@@ -104,6 +104,9 @@ class Chart extends AbstractStyle
      */
     private $valueAxisTitle;
 
+
+    private $majorTickMarkPos = "none"
+
     /**
      * Create a new instance
      *
@@ -249,7 +252,8 @@ class Chart extends AbstractStyle
      */
     public function setCategoryLabelPosition($label_position)
     {
-        $this->categoryLabelPosition = $label_position;
+        $enum = array("none", "nextTo", "low", "high");
+        $this->categoryLabelPosition = $this->setEnumVal($label_position, $enum, $this->categoryLabelPosition);
 
         return $this;
     }
@@ -271,11 +275,12 @@ class Chart extends AbstractStyle
      * "low" - sets labels are below the graph
      * "high" - sets labels above the graph
      *
-     * @var string
+     * @param string
      */
     public function setValueLabelPosition($label_position)
     {
-        $this->valueLabelPosition = $label_position;
+        $enum = array("none", "nextTo", "low", "high");
+        $this->valueLabelPosition = $this->setEnumVal($label_position, $enum, $this->valueLabelPosition);
 
         return $this;
     }
@@ -290,7 +295,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set the title that appears on the category side of the chart
-     * @var $axis_title string
+     * @param string $axis_title
      */
     public function setCategoryAxisTitle($axis_title)
     {
@@ -309,13 +314,28 @@ class Chart extends AbstractStyle
 
     /**
      * Set the title that appears on the value side of the chart
-     * @var $axis_title string
+     * @param string $axis_title
      */
     public function setValueAxisTitle($axis_title)
     {
         $this->valueAxisTitle = $axis_title;
 
         return $this;
+    }
+
+    public function getMajorTickPosition()
+    {
+        return $this->majorTickMarkPos;
+    }
+
+    /**
+     * set the position for major tick marks
+     * @param string $position [description]
+     */
+    public function setMajorTickPosition($position)
+    {
+        $enum = array("in", "out", "cross", "none");
+        $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
     }
 
 }
