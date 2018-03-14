@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -95,7 +95,13 @@ class Style
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        return self::setStyleValues("Heading_{$depth}", new Font('title', $paragraphStyle), $fontStyle);
+        if ($depth == null) {
+            $styleName = 'Title';
+        } else {
+            $styleName = "Heading_{$depth}";
+        }
+
+        return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**

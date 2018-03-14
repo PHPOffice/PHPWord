@@ -67,6 +67,8 @@ $listItemRun->addText(' in bold', array('bold' => true));
 $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 2');
 $listItemRun->addText(' in italic', array('italic' => true));
+$footnote = $listItemRun->addFootnote();
+$footnote->addText('this is a footnote on a list item');
 $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 3');
 $listItemRun->addText(' underlined', array('underline' => 'dash'));

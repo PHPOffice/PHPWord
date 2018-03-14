@@ -1,4 +1,7 @@
 <?php
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style\TablePosition;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -27,7 +30,7 @@ $section->addTextBreak(1);
 $section->addText('Fancy table', $header);
 
 $fancyTableStyleName = 'Fancy Table';
-$fancyTableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER);
+$fancyTableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
 $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
 $fancyTableCellStyle = array('valign' => 'center');
 $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
@@ -138,6 +141,15 @@ $cell = $table->addRow()->addCell();
 $cell->addText('This cell contains nested table.');
 $innerCell = $cell->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER))->addRow()->addCell();
 $innerCell->addText('Inside nested table');
+
+// 6. Table with floating position
+
+$section->addTextBreak(2);
+$section->addText('Table with floating positioning.', $header);
+
+$table = $section->addTable(array('borderSize' => 6, 'borderColor' => '999999', 'position' => array('vertAnchor' => TablePosition::VANCHOR_TEXT, 'bottomFromText' => Converter::cmToTwip(1))));
+$cell = $table->addRow()->addCell();
+$cell->addText('This is a single cell.');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

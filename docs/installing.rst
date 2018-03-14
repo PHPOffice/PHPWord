@@ -51,7 +51,6 @@ Example:
         }
     }
 
-
 Using samples
 -------------
 

@@ -11,13 +11,15 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\Element\TextRun;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -93,7 +95,7 @@ abstract class AbstractPart
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      *
      * @todo Get font style for preserve text
@@ -102,12 +104,10 @@ abstract class AbstractPart
     {
         // Paragraph style
         $paragraphStyle = null;
-        $headingMatches = array();
+        $headingDepth = null;
         if ($xmlReader->elementExists('w:pPr', $domNode)) {
             $paragraphStyle = $this->readParagraphStyle($xmlReader, $domNode);
-            if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
-                preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
-            }
+            $headingDepth = $this->getHeadingDepth($paragraphStyle);
         }
 
         // PreserveText
@@ -137,27 +137,35 @@ abstract class AbstractPart
             $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
             // List item
-            $textContent = '';
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
             $levelId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:ilvl');
-            $nodes = $xmlReader->getElements('w:r', $domNode);
+            $nodes = $xmlReader->getElements('*', $domNode);
+
+            $listItemRun = $parent->addListItemRun($levelId, "PHPWordList{$numId}", $paragraphStyle);
+
             foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
+                $this->readRun($xmlReader, $node, $listItemRun, $docPart, $paragraphStyle);
             }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
-        } elseif (!empty($headingMatches)) {
-            // Heading
-            $textContent = '';
+        } elseif ($headingDepth !== null) {
+            // Heading or Title
+            $textContent = null;
             $nodes = $xmlReader->getElements('w:r', $domNode);
-            foreach ($nodes as $node) {
-                $textContent .= $xmlReader->getValue('w:t', $node);
+            if ($nodes->length === 1) {
+                $textContent = $xmlReader->getValue('w:t', $nodes->item(0));
+            } else {
+                $textContent = new TextRun($paragraphStyle);
+                foreach ($nodes as $node) {
+                    $this->readRun($xmlReader, $node, $textContent, $docPart, $paragraphStyle);
+                }
             }
-            $parent->addTitle($textContent, $headingMatches[1]);
+            $parent->addTitle($textContent, $headingDepth);
         } else {
             // Text and TextRun
             $runCount = $xmlReader->countElements('w:r', $domNode);
+            $insCount = $xmlReader->countElements('w:ins', $domNode);
+            $delCount = $xmlReader->countElements('w:del', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
-            $runLinkCount = $runCount + $linkCount;
+            $runLinkCount = $runCount + $insCount + $delCount + $linkCount;
             if (0 == $runLinkCount) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
@@ -173,11 +181,34 @@ abstract class AbstractPart
     }
 
     /**
+     * Returns the depth of the Heading, returns 0 for a Title
+     *
+     * @param array $paragraphStyle
+     * @return number|null
+     */
+    private function getHeadingDepth(array $paragraphStyle = null)
+    {
+        if (is_array($paragraphStyle) && isset($paragraphStyle['styleName'])) {
+            if ('Title' === $paragraphStyle['styleName']) {
+                return 0;
+            }
+
+            $headingMatches = array();
+            preg_match('/Heading(\d)/', $paragraphStyle['styleName'], $headingMatches);
+            if (!empty($headingMatches)) {
+                return $headingMatches[1];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Read w:r.
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
      * @param \DOMElement $domNode
-     * @param mixed $parent
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $parent
      * @param string $docPart
      * @param mixed $paragraphStyle
      *
@@ -185,6 +216,13 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del'))) {
+            $nodes = $xmlReader->getElements('*', $domNode);
+            foreach ($nodes as $node) {
+                return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+            }
+        }
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -201,10 +239,14 @@ abstract class AbstractPart
         } else {
             if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
                 // Footnote
-                $parent->addFootnote();
+                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:footnoteReference');
+                $footnote = $parent->addFootnote();
+                $footnote->setRelationId($wId);
             } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
                 // Endnote
-                $parent->addEndnote();
+                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:endnoteReference');
+                $endnote = $parent->addEndnote();
+                $endnote->setRelationId($wId);
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
                 // Image
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
@@ -226,10 +268,25 @@ abstract class AbstractPart
                     $textContent = "&lt;Object: {$target}>";
                     $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
-            } else {
+            }
+            if ($xmlReader->elementExists('w:br', $domNode)) {
+                $parent->addTextBreak();
+            }
+            if ($xmlReader->elementExists('w:t', $domNode)) {
                 // TextRun
-                $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                if ($domNode->parentNode->nodeName == 'w:del') {
+                    $textContent = $xmlReader->getValue('w:delText', $domNode);
+                } else {
+                    $textContent = $xmlReader->getValue('w:t', $domNode);
+                }
+                /** @var AbstractElement $element */
+                $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
+                    $type = ($domNode->parentNode->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
+                    $author = $domNode->parentNode->getAttribute('w:author');
+                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
+                    $element->setChangeInfo($type, $author, $date);
+                }
             }
         }
     }
@@ -307,20 +364,21 @@ abstract class AbstractPart
 
         $styleNode = $xmlReader->getElement('w:pPr', $domNode);
         $styleDefs = array(
-            'styleName'         => array(self::READ_VALUE, 'w:pStyle'),
-            'alignment'         => array(self::READ_VALUE, 'w:jc'),
-            'basedOn'           => array(self::READ_VALUE, 'w:basedOn'),
-            'next'              => array(self::READ_VALUE, 'w:next'),
-            'indent'            => array(self::READ_VALUE, 'w:ind', 'w:left'),
-            'hanging'           => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
-            'spaceAfter'        => array(self::READ_VALUE, 'w:spacing', 'w:after'),
-            'spaceBefore'       => array(self::READ_VALUE, 'w:spacing', 'w:before'),
-            'widowControl'      => array(self::READ_FALSE, 'w:widowControl'),
-            'keepNext'          => array(self::READ_TRUE,  'w:keepNext'),
-            'keepLines'         => array(self::READ_TRUE,  'w:keepLines'),
-            'pageBreakBefore'   => array(self::READ_TRUE,  'w:pageBreakBefore'),
-            'contextualSpacing' => array(self::READ_TRUE,  'w:contextualSpacing'),
-            'bidi'              => array(self::READ_TRUE,  'w:bidi'),
+            'styleName'           => array(self::READ_VALUE, array('w:pStyle', 'w:name')),
+            'alignment'           => array(self::READ_VALUE, 'w:jc'),
+            'basedOn'             => array(self::READ_VALUE, 'w:basedOn'),
+            'next'                => array(self::READ_VALUE, 'w:next'),
+            'indent'              => array(self::READ_VALUE, 'w:ind', 'w:left'),
+            'hanging'             => array(self::READ_VALUE, 'w:ind', 'w:hanging'),
+            'spaceAfter'          => array(self::READ_VALUE, 'w:spacing', 'w:after'),
+            'spaceBefore'         => array(self::READ_VALUE, 'w:spacing', 'w:before'),
+            'widowControl'        => array(self::READ_FALSE, 'w:widowControl'),
+            'keepNext'            => array(self::READ_TRUE,  'w:keepNext'),
+            'keepLines'           => array(self::READ_TRUE,  'w:keepLines'),
+            'pageBreakBefore'     => array(self::READ_TRUE,  'w:pageBreakBefore'),
+            'contextualSpacing'   => array(self::READ_TRUE,  'w:contextualSpacing'),
+            'bidi'                => array(self::READ_TRUE,  'w:bidi'),
+            'suppressAutoHyphens' => array(self::READ_TRUE,  'w:suppressAutoHyphens'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -349,9 +407,9 @@ abstract class AbstractPart
         $styleNode = $xmlReader->getElement('w:rPr', $domNode);
         $styleDefs = array(
             'styleName'           => array(self::READ_VALUE, 'w:rStyle'),
-            'name'                => array(self::READ_VALUE, 'w:rFonts', 'w:ascii'),
+            'name'                => array(self::READ_VALUE, 'w:rFonts', array('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs')),
             'hint'                => array(self::READ_VALUE, 'w:rFonts', 'w:hint'),
-            'size'                => array(self::READ_SIZE,  'w:sz'),
+            'size'                => array(self::READ_SIZE,  array('w:sz', 'w:szCs')),
             'color'               => array(self::READ_VALUE, 'w:color'),
             'underline'           => array(self::READ_VALUE, 'w:u'),
             'bold'                => array(self::READ_TRUE,  'w:b'),
@@ -364,9 +422,8 @@ abstract class AbstractPart
             'subScript'           => array(self::READ_EQUAL, 'w:vertAlign', 'w:val', 'subscript'),
             'fgColor'             => array(self::READ_VALUE, 'w:highlight'),
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
-            'font-latin'          => array(self::READ_VALUE,  'w:font', 'w:val'),
-            'font-eastAsia'       => array(self::READ_VALUE,  'w:font', 'w:eastAsia'),
-            'font-bidi'           => array(self::READ_VALUE,  'w:font', 'w:bidi'),
+            'lang'                => array(self::READ_VALUE, 'w:lang'),
+            'position'            => array(self::READ_VALUE, 'w:position'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
@@ -400,12 +457,45 @@ abstract class AbstractPart
                     $ucfSide = ucfirst($side);
                     $styleDefs["border{$ucfSide}Size"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:sz');
                     $styleDefs["border{$ucfSide}Color"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:color');
+                    $styleDefs["border{$ucfSide}Style"] = array(self::READ_VALUE, "w:tblBorders/w:$side", 'w:val');
                 }
+                $styleDefs['layout'] = array(self::READ_VALUE, 'w:tblLayout', 'w:type');
+                $styleDefs['cellSpacing'] = array(self::READ_VALUE, 'w:tblCellSpacing', 'w:w');
                 $style = $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);
+
+                $tablePositionNode = $xmlReader->getElement('w:tblpPr', $styleNode);
+                if ($tablePositionNode !== null) {
+                    $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
+                }
             }
         }
 
         return $style;
+    }
+
+    /**
+     * Read w:tblpPr
+     *
+     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return array
+     */
+    private function readTablePosition(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+        $styleDefs = array(
+            'leftFromText'   => array(self::READ_VALUE, '.', 'w:leftFromText'),
+            'rightFromText'  => array(self::READ_VALUE, '.', 'w:rightFromText'),
+            'topFromText'    => array(self::READ_VALUE, '.', 'w:topFromText'),
+            'bottomFromText' => array(self::READ_VALUE, '.', 'w:bottomFromText'),
+            'vertAnchor'     => array(self::READ_VALUE, '.', 'w:vertAnchor'),
+            'horzAnchor'     => array(self::READ_VALUE, '.', 'w:horzAnchor'),
+            'tblpXSpec'      => array(self::READ_VALUE, '.', 'w:tblpXSpec'),
+            'tblpX'          => array(self::READ_VALUE, '.', 'w:tblpX'),
+            'tblpYSpec'      => array(self::READ_VALUE, '.', 'w:tblpYSpec'),
+            'tblpY'          => array(self::READ_VALUE, '.', 'w:tblpY'),
+        );
+
+        return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
     }
 
     /**
@@ -429,6 +519,52 @@ abstract class AbstractPart
     }
 
     /**
+     * Returns the first child element found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $parentNode
+     * @param string|array $elements
+     * @return string|null
+     */
+    private function findPossibleElement(XMLReader $xmlReader, \DOMElement $parentNode = null, $elements)
+    {
+        if (is_array($elements)) {
+            //if element is an array, we take the first element that exists in the XML
+            foreach ($elements as $possibleElement) {
+                if ($xmlReader->elementExists($possibleElement, $parentNode)) {
+                    return $possibleElement;
+                }
+            }
+        } else {
+            return $elements;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first attribute found
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param string|array $attributes
+     * @return string|null
+     */
+    private function findPossibleAttribute(XMLReader $xmlReader, \DOMElement $node, $attributes)
+    {
+        //if attribute is an array, we take the first attribute that exists in the XML
+        if (is_array($attributes)) {
+            foreach ($attributes as $possibleAttribute) {
+                if ($xmlReader->getAttribute($possibleAttribute, $node)) {
+                    return $possibleAttribute;
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
      * Read style definition
      *
      * @param \PhpOffice\Common\XMLReader $xmlReader
@@ -442,10 +578,17 @@ abstract class AbstractPart
         $styles = array();
 
         foreach ($styleDefs as $styleProp => $styleVal) {
-            @list($method, $element, $attribute, $expected) = $styleVal;
+            list($method, $element, $attribute, $expected) = array_pad($styleVal, 4, null);
+
+            $element = $this->findPossibleElement($xmlReader, $parentNode, $element);
+            if ($element === null) {
+                continue;
+            }
 
             if ($xmlReader->elementExists($element, $parentNode)) {
                 $node = $xmlReader->getElement($element, $parentNode);
+
+                $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
 
                 // Use w:val as default if no attribute assigned
                 $attribute = ($attribute === null) ? 'w:val' : $attribute;
@@ -466,7 +609,7 @@ abstract class AbstractPart
      *
      * @param string $method
      * @ignoreScrutinizerPatch
-     * @param mixed $attributeValue
+     * @param string|null $attributeValue
      * @param mixed $expected
      * @return mixed
      */
@@ -496,7 +639,7 @@ abstract class AbstractPart
      */
     private function isOn($value = null)
     {
-        return $value == null || $value == '1' || $value == 'true' || $value == 'on';
+        return $value === null || $value === '1' || $value === 'true' || $value === 'on';
     }
 
     /**
