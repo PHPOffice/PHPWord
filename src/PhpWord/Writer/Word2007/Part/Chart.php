@@ -345,15 +345,13 @@ class Chart extends AbstractPart
 
         if (isset($this->options['axes'])) {
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
-            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', 'in'); // SG edit: switched from none to inside
+            $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
 
             if($axisType == "c:catAx"){
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
-            } else if($axisType == "c:valAx"){
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
             } else {
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'nextTo'); // nextTo // SG edit: switched from none to nextTo
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
             }
 
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');

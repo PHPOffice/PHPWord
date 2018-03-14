@@ -76,9 +76,9 @@ class ChartTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(count($chart->getColors()), 0);
 
-        $chart->setColors(['FFFFFFFF', 'FF000000', 'FFFF0000']);
+        $chart->setColors(array('FFFFFFFF', 'FF000000', 'FFFF0000'));
 
-        $this->assertEquals($chart->getColors(), ['FFFFFFFF', 'FF000000', 'FFFF0000']);
+        $this->assertEquals($chart->getColors(), array('FFFFFFFF', 'FF000000', 'FFFF0000'));
     }
 
     /**
