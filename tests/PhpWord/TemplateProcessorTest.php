@@ -247,8 +247,43 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $this->assertTrue(strpos($expectedFooterRelationsXml, 'media/image5_document.jpeg') > 0, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
 
             unlink($docName);
-        }
-    }
+        } else {
+            throw new \Exception("Generated file '{$docName}' not found!");
+		}
+
+
+		// dynamic generated doc
+        $testFileName = 'images-test-sample.docx';
+		$phpWord = new \PhpOffice\PhpWord\PhpWord();
+		$section = $phpWord->addSection();
+		$section->addText('${Test} --- ${Test}');
+		$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+		$objWriter->save($testFileName);
+        if (!file_exists($testFileName)) {
+            throw new \Exception("Generated file '{$testFileName}' not found!");
+			return;
+		}
+
+        $resultFileName = 'images-test-result.docx';
+		$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
+//		unlink($testFileName);
+		$templateProcessor->setImageValue("Test", $imagePath);
+		$templateProcessor->saveAs($resultFileName);
+        if (!file_exists($resultFileName)) {
+            throw new \Exception("Generated file '{$resultFileName}' not found!");
+			return;
+		}
+
+		$expectedDocumentZip = new \ZipArchive();
+		$expectedDocumentZip->open($resultFileName);
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+            if (false === $expectedDocumentZip->close()) {
+                throw new \Exception("Could not close zip file \"{$resultFileName}\".");
+            }
+//		unlink($resultFileName);
+
+        $this->assertTrue(strpos($expectedMainPartXml, '${Test}') === false, 'word/document.xml has no image.');
+	}
 
     /**
      * @covers ::cloneBlock

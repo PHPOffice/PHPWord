@@ -393,7 +393,8 @@ class TemplateProcessor
                 // collect prepared replaces
                 $search = self::ensureMacroCompleted($search);
                 $matches = array();
-                if (preg_match('/<[^<]+' . preg_quote($search) . '[^>]+>/u', $partContent, $matches)) {
+				// just find substring. It not necessary to be alone in a tag
+                if (preg_match('/' . preg_quote($search) . '/u', $partContent, $matches)) {
                     $partSearchReplaces[$matches[0]] = $xmlImage;
                 }
             }
