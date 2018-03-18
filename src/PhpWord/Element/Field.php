@@ -46,8 +46,8 @@ class Field extends AbstractElement
            ),
            'options' => array('PreserveFormat'),
         ),
-        'DATE'=>array(
-            'properties'=> array(
+        'DATE' => array(
+            'properties' => array(
                 'dateformat' => array(
                     /* Generic formats */
                     'yyyy-MM-dd', 'yyyy-MM', 'MMM-yy', 'MMM-yyyy', 'h:mm am/pm', 'h:mm:ss am/pm', 'HH:mm', 'HH:mm:ss',
