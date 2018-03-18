@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
@@ -161,20 +162,14 @@ abstract class AbstractPart
             $parent->addTitle($textContent, $headingDepth);
         } else {
             // Text and TextRun
-            $runCount = $xmlReader->countElements('w:r', $domNode);
-            $insCount = $xmlReader->countElements('w:ins', $domNode);
-            $delCount = $xmlReader->countElements('w:del', $domNode);
-            $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
-            $runLinkCount = $runCount + $insCount + $delCount + $linkCount;
-            if (0 == $runLinkCount) {
+            $textRunContainers = $xmlReader->countElements('w:r|w:ins|w:del|w:hyperlink|w:smartTag', $domNode);
+            if (0 === $textRunContainers) {
                 $parent->addTextBreak(null, $paragraphStyle);
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
-                if ($runLinkCount > 1) {
-                    $parent = $parent->addTextRun($paragraphStyle);
-                }
+                $paragraph = $parent->addTextRun($paragraphStyle);
                 foreach ($nodes as $node) {
-                    $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+                    $this->readRun($xmlReader, $node, $paragraph, $docPart, $paragraphStyle);
                 }
             }
         }
@@ -216,75 +211,85 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
     {
-        if (in_array($domNode->nodeName, array('w:ins', 'w:del'))) {
+        if (in_array($domNode->nodeName, array('w:ins', 'w:del', 'w:smartTag', 'w:hyperlink'))) {
             $nodes = $xmlReader->getElements('*', $domNode);
             foreach ($nodes as $node) {
-                return $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+                $this->readRun($xmlReader, $node, $parent, $docPart, $paragraphStyle);
+            }
+        } elseif ($domNode->nodeName == 'w:r') {
+            $fontStyle = $this->readFontStyle($xmlReader, $domNode);
+            $nodes = $xmlReader->getElements('*', $domNode);
+            foreach ($nodes as $node) {
+                $this->readRunChild($xmlReader, $node, $parent, $docPart, $paragraphStyle, $fontStyle);
             }
         }
+    }
 
-        if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
-            return;
-        }
-        $fontStyle = $this->readFontStyle($xmlReader, $domNode);
-
-        // Link
-        if ('w:hyperlink' == $domNode->nodeName) {
-            $rId = $xmlReader->getAttribute('r:id', $domNode);
-            $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
+    /**
+     * Parses nodes under w:r
+     *
+     * @param XMLReader $xmlReader
+     * @param \DOMElement $node
+     * @param AbstractContainer $parent
+     * @param string $docPart
+     * @param mixed $paragraphStyle
+     * @param mixed $fontStyle
+     */
+    protected function readRunChild(XMLReader $xmlReader, \DOMElement $node, AbstractContainer $parent, $docPart, $paragraphStyle = null, $fontStyle = null)
+    {
+        $runParent = $node->parentNode->parentNode;
+        if ($node->nodeName == 'w:footnoteReference') {
+            // Footnote
+            $wId = $xmlReader->getAttribute('w:id', $node);
+            $footnote = $parent->addFootnote();
+            $footnote->setRelationId($wId);
+        } elseif ($node->nodeName == 'w:endnoteReference') {
+            // Endnote
+            $wId = $xmlReader->getAttribute('w:id', $node);
+            $endnote = $parent->addEndnote();
+            $endnote->setRelationId($wId);
+        } elseif ($node->nodeName == 'w:pict') {
+            // Image
+            $rId = $xmlReader->getAttribute('r:id', $node, 'v:shape/v:imagedata');
             $target = $this->getMediaTarget($docPart, $rId);
             if (!is_null($target)) {
-                $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
-            }
-        } else {
-            if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
-                // Footnote
-                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:footnoteReference');
-                $footnote = $parent->addFootnote();
-                $footnote->setRelationId($wId);
-            } elseif ($xmlReader->elementExists('w:endnoteReference', $domNode)) {
-                // Endnote
-                $wId = $xmlReader->getAttribute('w:id', $domNode, 'w:endnoteReference');
-                $endnote = $parent->addEndnote();
-                $endnote->setRelationId($wId);
-            } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
-                // Image
-                $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
-                $target = $this->getMediaTarget($docPart, $rId);
-                if (!is_null($target)) {
-                    if ('External' == $this->getTargetMode($docPart, $rId)) {
-                        $imageSource = $target;
-                    } else {
-                        $imageSource = "zip://{$this->docFile}#{$target}";
-                    }
-                    $parent->addImage($imageSource);
-                }
-            } elseif ($xmlReader->elementExists('w:object', $domNode)) {
-                // Object
-                $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
-                // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
-                $target = $this->getMediaTarget($docPart, $rId);
-                if (!is_null($target)) {
-                    $textContent = "&lt;Object: {$target}>";
-                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
-                }
-            }
-            if ($xmlReader->elementExists('w:br', $domNode)) {
-                $parent->addTextBreak();
-            }
-            if ($xmlReader->elementExists('w:t', $domNode)) {
-                // TextRun
-                if ($domNode->parentNode->nodeName == 'w:del') {
-                    $textContent = $xmlReader->getValue('w:delText', $domNode);
+                if ('External' == $this->getTargetMode($docPart, $rId)) {
+                    $imageSource = $target;
                 } else {
-                    $textContent = $xmlReader->getValue('w:t', $domNode);
+                    $imageSource = "zip://{$this->docFile}#{$target}";
                 }
+                $parent->addImage($imageSource);
+            }
+        } elseif ($node->nodeName == 'w:object') {
+            // Object
+            $rId = $xmlReader->getAttribute('r:id', $node, 'o:OLEObject');
+            // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
+            $target = $this->getMediaTarget($docPart, $rId);
+            if (!is_null($target)) {
+                $textContent = "&lt;Object: {$target}>";
+                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+            }
+        } elseif ($node->nodeName == 'w:br') {
+            $parent->addTextBreak();
+        } elseif ($node->nodeName == 'w:tab') {
+            $parent->addText("\t");
+        } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
+            // TextRun
+            $textContent = $xmlReader->getValue('.', $node);
+
+            if ($runParent->nodeName == 'w:hyperlink') {
+                $rId = $xmlReader->getAttribute('r:id', $runParent);
+                $target = $this->getMediaTarget($docPart, $rId);
+                if (!is_null($target)) {
+                    $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                }
+            } else {
                 /** @var AbstractElement $element */
                 $element = $parent->addText($textContent, $fontStyle, $paragraphStyle);
-                if (in_array($domNode->parentNode->nodeName, array('w:ins', 'w:del'))) {
-                    $type = ($domNode->parentNode->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
-                    $author = $domNode->parentNode->getAttribute('w:author');
-                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $domNode->parentNode->getAttribute('w:date'));
+                if (in_array($runParent->nodeName, array('w:ins', 'w:del'))) {
+                    $type = ($runParent->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
+                    $author = $runParent->getAttribute('w:author');
+                    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $runParent->getAttribute('w:date'));
                     $element->setChangeInfo($type, $author, $date);
                 }
             }
