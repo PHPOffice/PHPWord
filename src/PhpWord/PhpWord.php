@@ -95,7 +95,7 @@ class PhpWord
     public function __construct()
     {
         // Reset Media and styles
-        Media::resetStyles();
+        Media::resetElements();
         Style::resetStyles();
 
         // Collection
