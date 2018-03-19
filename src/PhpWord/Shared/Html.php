@@ -521,7 +521,18 @@ class Html
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
                 case 'line-height':
-                    $styles['lineHeight'] = Html::toMultiplier($cValue);
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
+                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = ((int) $matches[1]) / 100;
+                    } else {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = $cValue;
+                    }
+                    $styles['spacingLineRule'] = $spacingLineRule;
+                    $styles['lineHeight'] = $spacing;
                     break;
                 case 'text-indent':
                     $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
@@ -679,15 +690,6 @@ class Html
         }
 
         return null;
-    }
-
-    private static function toMultiplier($cssValue)
-    {
-        if (preg_match('/([0-9]+)%/', $cssValue, $matches)) {
-            return ((int) $matches[1]) / 100;
-        }
-
-        return $cssValue;
     }
 
     /**
