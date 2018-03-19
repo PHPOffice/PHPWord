@@ -521,7 +521,7 @@ class Html
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
                 case 'line-height':
-                    $styles['lineHeight'] = $cValue;
+                    $styles['lineHeight'] = Html::toMultiplier($cValue);
                     break;
                 case 'text-indent':
                     $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
@@ -679,6 +679,15 @@ class Html
         }
 
         return null;
+    }
+
+    private static function toMultiplier($cssValue)
+    {
+        if (preg_match('/([0-9]+)%/', $cssValue, $matches)) {
+            return ((int) $matches[1]) / 100;
+        }
+
+        return $cssValue;
     }
 
     /**
