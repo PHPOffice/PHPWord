@@ -18,6 +18,7 @@ v0.15.0 (?? ??? 2018)
 - Add support for Hyphenation @Trainmaster #1282 (Document: `autoHyphenation`, `consecutiveHyphenLimit`, `hyphenationZone`, `doNotHyphenateCaps`, Paragraph: `suppressAutoHyphens`)
 - Added support for Floating Table Positioning (tblpPr) @anrikun #639
 - Added support for Image text wrapping distance @troosan #1310
+- Added parsing of CSS line-height and text-indent in HTML reader @troosan #1316
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238

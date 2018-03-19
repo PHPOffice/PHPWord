@@ -520,6 +520,12 @@ class Html
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
+                case 'line-height':
+                    $styles['lineHeight'] = $cValue;
+                    break;
+                case 'text-indent':
+                    $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
+                    break;
                 case 'font-weight':
                     $tValue = false;
                     if (preg_match('#bold#', $cValue)) {

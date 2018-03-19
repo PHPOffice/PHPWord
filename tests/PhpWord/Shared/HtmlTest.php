@@ -115,6 +115,34 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test line-height style
+     */
+    public function testParseLineHeight()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:spacing'));
+        $this->assertEquals(240 * 1.5, $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:spacing', 'w:line'));
+    }
+
+    /**
+     * Test text-indent style
+     */
+    public function testParseTextIndent()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="text-indent: 50px;">test</p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:ind'));
+        $this->assertEquals(750, $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:ind', 'w:firstLine'));
+    }
+
+    /**
      * Test text-align style
      */
     public function testParseTextAlign()
