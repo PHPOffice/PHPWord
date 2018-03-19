@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\TestHelperDOCX;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Shared\Html
