@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
+use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 
 /**
  * Test class for PhpOffice\PhpWord\Shared\Html
@@ -122,10 +124,16 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
+        Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
-        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:spacing'));
-        $this->assertEquals(240 * 1.5, $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:spacing', 'w:line'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
+        $this->assertEquals(Paragraph::LINE_HEIGHT * 1.5, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:lineRule'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:spacing'));
+        $this->assertEquals(300, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     /**
