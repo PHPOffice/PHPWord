@@ -22,6 +22,7 @@ v0.15.0 (?? ??? 2018)
 - Fix parsing of `<w:br/>` tag. @troosan #1274
 - Bookmark are not writton as internal link in html writer @troosan #1263
 - It should be possible to add a Footnote in a ListItemRun @troosan #1287 #1287
+- Fix colspan and rowspan for tables in HTML Writer @mattbolt #1292
 
 ### Changed
 - Remove zend-stdlib dependency @Trainmaster #1284
