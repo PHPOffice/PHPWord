@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -252,7 +252,7 @@ class Html
         $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
         //alignment applies on paragraph, not on font. Let's copy it there
-        if (isset($styles['font']['alignment'])) {
+        if (isset($styles['font']['alignment']) && is_array($styles['paragraph'])) {
             $styles['paragraph']['alignment'] = $styles['font']['alignment'];
         }
 
@@ -486,8 +486,9 @@ class Html
     private static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+
         foreach ($properties as $property) {
-            list($cKey, $cValue) = explode(':', $property, 2);
+            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
@@ -518,6 +519,23 @@ class Html
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
+                    break;
+                case 'line-height':
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
+                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = ((int) $matches[1]) / 100;
+                    } else {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = $cValue;
+                    }
+                    $styles['spacingLineRule'] = $spacingLineRule;
+                    $styles['lineHeight'] = $spacing;
+                    break;
+                case 'text-indent':
+                    $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
                     break;
                 case 'font-weight':
                     $tValue = false;

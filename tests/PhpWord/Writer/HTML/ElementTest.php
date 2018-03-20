@@ -11,13 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Element\Text;
@@ -57,6 +58,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test write TrackChange
+     */
+    public function testWriteTrackChanges()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $text = $section->addText('my dummy text');
+        $text->setChangeInfo(TrackChange::INSERTED, 'author name');
+        $text2 = $section->addText('my other text');
+        $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXpath($dom);
+
+        $this->assertTrue($xpath->query('/html/body/p[1]/ins')->length == 1);
+        $this->assertTrue($xpath->query('/html/body/p[2]/del')->length == 1);
+    }
+
+    /**
      * Tests writing table with col span
      */
     public function testWriteColSpan()
@@ -74,8 +94,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $cell22->addText('second cell');
 
         $dom = $this->getAsHTML($phpWord);
-        echo $dom->saveHTML();
-
         $xpath = new \DOMXpath($dom);
 
         $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 1);
@@ -105,8 +123,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $row3->addCell(500)->addText('third cell being spanned');
 
         $dom = $this->getAsHTML($phpWord);
-        echo $dom->saveHTML();
-
         $xpath = new \DOMXpath($dom);
 
         $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 2);

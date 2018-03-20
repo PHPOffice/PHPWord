@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -112,6 +114,40 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
+    }
+
+    /**
+     * Test line-height style
+     */
+    public function testParseLineHeight()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
+        Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
+        $this->assertEquals(Paragraph::LINE_HEIGHT * 1.5, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:spacing', 'w:lineRule'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:spacing'));
+        $this->assertEquals(300, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:lineRule'));
+    }
+
+    /**
+     * Test text-indent style
+     */
+    public function testParseTextIndent()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, '<p style="text-indent: 50px;">test</p>');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:ind'));
+        $this->assertEquals(750, $doc->getElementAttribute('/w:document/w:body/w:p/w:pPr/w:ind', 'w:firstLine'));
     }
 
     /**
@@ -417,5 +453,15 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+    }
+
+    public function testParseMalformedStyleIsIgnored()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="">text</p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:jc'));
     }
 }

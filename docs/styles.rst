@@ -59,6 +59,7 @@ Available Font style options:
    See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
+- ``position``. The text position, raised or lowered, in half points
 
 .. _paragraph-style:
 
@@ -81,6 +82,7 @@ Available Paragraph style options:
 - ``spaceAfter``. Space after paragraph in *twip*.
 - ``spacing``. Space between lines.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
+- ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
@@ -106,6 +108,20 @@ Available Table style options:
 - ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
 - ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 - ``cellSpacing`` Cell spacing in *twip*
+- ``position`` Floating Table Positioning, see below for options
+
+Floating Table Positioning options:
+
+- ``leftFromText`` Distance From Left of Table to Text in *twip*
+- ``rightFromText`` Distance From Right of Table to Text in *twip*
+- ``topFromText`` Distance From Top of Table to Text in *twip*
+- ``bottomFromText`` Distance From Top of Table to Text in *twip*
+- ``vertAnchor`` Table Vertical Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::VANCHOR_*``
+- ``horzAnchor`` Table Horizontal Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::HANCHOR_*``
+- ``tblpXSpec`` Relative Horizontal Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::XALIGN_*``
+- ``tblpX`` Absolute Horizontal Distance From Anchorin *twip*
+- ``tblpYSpec`` Relative Vertical Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::YALIGN_*``
+- ``tblpY`` Absolute Vertical Distance From Anchorin *twip*
 
 Available Row style options:
 
@@ -138,6 +154,10 @@ Available Image style options:
 - ``marginTop``. Top margin in inches, can be negative.
 - ``width``. Width in pixels.
 - ``wrappingStyle``. Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*.
+- ``wrapDistanceTop``. Top text wrapping in pixels.
+- ``wrapDistanceBottom``. Bottom text wrapping in pixels.
+- ``wrapDistanceLeft``. Left text wrapping in pixels.
+- ``wrapDistanceRight``. Right text wrapping in pixels.
 
 .. _numbering-level-style:
 

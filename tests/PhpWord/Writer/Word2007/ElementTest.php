@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -323,6 +323,37 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test writing the macrobutton field
+     */
+    public function testMacroButtonField()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $macroText = new TextRun();
+        $macroText->addText('Double click', array('bold' => true));
+        $macroText->addText(' to ');
+        $macroText->addText('zoom to 100%', array('italic' => true));
+
+        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), $macroText);
+        $section->addField('MACROBUTTON', array('macroname' => 'Zoom100'), array(), 'double click to zoom');
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = '/w:document/w:body/w:p[1]/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' MACROBUTTON Zoom100 ', $doc->getElement($element)->textContent);
+
+        $element = '/w:document/w:body/w:p[1]/w:r[3]/';
+        $this->assertTrue($doc->elementExists($element . 'w:t'));
+        $this->assertEquals('Double click', $doc->getElement($element . 'w:t')->textContent);
+        $this->assertTrue($doc->elementExists($element . 'w:rPr/w:b'));
+
+        $element = '/w:document/w:body/w:p[2]/w:r[2]/w:instrText';
+        $this->assertTrue($doc->elementExists($element));
+        $this->assertEquals(' MACROBUTTON Zoom100 double click to zoom ', $doc->getElement($element)->textContent);
+    }
+
+    /**
      * Test form fields
      */
     public function testFormFieldElements()
@@ -416,6 +447,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:commentReference'));
     }
 
+    /**
+     * Test Track changes
+     */
     public function testTrackChange()
     {
         $phpWord = new PhpWord();
@@ -430,5 +464,31 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:ins/w:r'));
         $this->assertEquals('author name', $doc->getElementAttribute('/w:document/w:body/w:p/w:ins', 'w:author'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:del/w:r/w:delText'));
+    }
+
+    /**
+     * Test Title and Headings
+     */
+    public function testTitleAndHeading()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addTitleStyle(0, array('size' => 14, 'italic' => true));
+        $phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
+
+        $section = $phpWord->addSection();
+        $section->addTitle('This is a title', 0);
+        $section->addTitle('Heading 1', 1);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
+        $this->assertEquals('This is a title', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
+        $this->assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
+        $this->assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
+        $this->assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
     }
 }

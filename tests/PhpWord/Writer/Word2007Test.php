@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -75,7 +75,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     public function testSave()
     {
         $localImage = __DIR__ . '/../_files/images/earth.jpg';
-        $remoteImage = 'http://php.net//images/logos/php-med-trans-light.gif';
+        $remoteImage = 'http://php.net/images/logos/new-php-logo.png';
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));

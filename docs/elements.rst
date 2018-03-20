@@ -89,6 +89,7 @@ Titles
 
 If you want to structure your document or build table of contents, you need titles or headings.
 To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` method.
+If `depth` is 0, a Title will be inserted, otherwise a Heading1, Heading2, ...
 
 .. code-block:: php
 
@@ -98,7 +99,7 @@ To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` metho
 - ``depth``.
 - ``$fontStyle``. See :ref:`font-style`.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
-- ``$text``. Text to be displayed in the document.
+- ``$text``. Text to be displayed in the document. This can be `string` or a `\PhpOffice\PhpWord\Element\TextRun`
 
 It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.
 
@@ -481,6 +482,7 @@ Track changes can be set on text elements. There are 2 ways to set the change in
 Either by calling the `setChangeInfo()`, or by setting the `TrackChange` instance on the element with `setTrackChange()`.
 
 .. code-block:: php
+
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
     // New portrait section
