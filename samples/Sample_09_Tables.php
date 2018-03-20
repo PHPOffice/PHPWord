@@ -116,20 +116,20 @@ $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
 
 $row = $table->addRow();
-
-$row->addCell(null, array('vMerge' => 'restart'))->addText('A');
-$row->addCell(null, array('gridSpan' => 2, 'vMerge' => 'restart'))->addText('B');
-$row->addCell()->addText('1');
+$row->addCell(1000, array('vMerge' => 'restart'))->addText('A');
+$row->addCell(1000, array('gridSpan' => 2, 'vMerge' => 'restart'))->addText('B');
+$row->addCell(1000)->addText('1');
 
 $row = $table->addRow();
-$row->addCell(null, array('vMerge' => 'continue'));
-$row->addCell(null, array('vMerge' => 'continue', 'gridSpan' => 2));
-$row->addCell()->addText('2');
+$row->addCell(1000, array('vMerge' => 'continue'));
+$row->addCell(1000, array('vMerge' => 'continue', 'gridSpan' => 2));
+$row->addCell(1000)->addText('2');
+
 $row = $table->addRow();
-$row->addCell(null, array('vMerge' => 'continue'));
-$row->addCell()->addText('C');
-$row->addCell()->addText('D');
-$row->addCell()->addText('3');
+$row->addCell(1000, array('vMerge' => 'continue'));
+$row->addCell(1000)->addText('C');
+$row->addCell(1000)->addText('D');
+$row->addCell(1000)->addText('3');
 
 // 5. Nested table
 

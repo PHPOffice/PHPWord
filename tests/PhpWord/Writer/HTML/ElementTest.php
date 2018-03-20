@@ -69,12 +69,73 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $text2 = $section->addText('my other text');
         $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
 
-        $htmlWriter = new HTML($phpWord);
-        $dom = new \DOMDocument();
-        $dom->loadHTML($htmlWriter->getContent());
+        $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXpath($dom);
 
         $this->assertTrue($xpath->query('/html/body/p[1]/ins')->length == 1);
         $this->assertTrue($xpath->query('/html/body/p[2]/del')->length == 1);
+    }
+
+    /**
+     * Tests writing table with col span
+     */
+    public function testWriteColSpan()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+        $row1 = $table->addRow();
+        $cell11 = $row1->addCell(1000, array('gridSpan' => 2));
+        $cell11->addText('cell spanning 2 bellow');
+        $row2 = $table->addRow();
+        $cell21 = $row2->addCell(500);
+        $cell21->addText('first cell');
+        $cell22 = $row2->addCell(500);
+        $cell22->addText('second cell');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXpath($dom);
+
+        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 1);
+        $this->assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
+        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 2);
+    }
+
+    /**
+     * Tests writing table with row span
+     */
+    public function testWriteRowSpan()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable();
+
+        $row1 = $table->addRow();
+        $row1->addCell(1000, array('vMerge' => 'restart'))->addText('row spanning 3 bellow');
+        $row1->addCell(500)->addText('first cell being spanned');
+
+        $row2 = $table->addRow();
+        $row2->addCell(null, array('vMerge' => 'continue'));
+        $row2->addCell(500)->addText('second cell being spanned');
+
+        $row3 = $table->addRow();
+        $row3->addCell(null, array('vMerge' => 'continue'));
+        $row3->addCell(500)->addText('third cell being spanned');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXpath($dom);
+
+        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 2);
+        $this->assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
+        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 1);
+    }
+
+    private function getAsHTML(PhpWord $phpWord)
+    {
+        $htmlWriter = new HTML($phpWord);
+        $dom = new \DOMDocument();
+        $dom->loadHTML($htmlWriter->getContent());
+
+        return $dom;
     }
 }
