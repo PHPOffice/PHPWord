@@ -135,7 +135,7 @@ abstract class AbstractPart
                     }
                 }
             }
-            $parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES | ENT_XML1), $fontStyle, $paragraphStyle);
+            $parent->addPreserveText(htmlspecialchars($textContent, ENT_QUOTES, 'UTF-8'), $fontStyle, $paragraphStyle);
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
             // List item
             $numId = $xmlReader->getAttribute('w:val', $domNode, 'w:pPr/w:numPr/w:numId');
@@ -152,7 +152,7 @@ abstract class AbstractPart
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r', $domNode);
             if ($nodes->length === 1) {
-                $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES | ENT_XML1);
+                $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
             } else {
                 $textContent = new TextRun($paragraphStyle);
                 foreach ($nodes as $node) {
@@ -275,7 +275,7 @@ abstract class AbstractPart
             $parent->addText("\t");
         } elseif ($node->nodeName == 'w:t' || $node->nodeName == 'w:delText') {
             // TextRun
-            $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES | ENT_XML1);
+            $textContent = htmlspecialchars($xmlReader->getValue('.', $node), ENT_QUOTES, 'UTF-8');
 
             if ($runParent->nodeName == 'w:hyperlink') {
                 $rId = $xmlReader->getAttribute('r:id', $runParent);
