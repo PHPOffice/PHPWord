@@ -178,3 +178,17 @@ Available NumberingLevel style options:
 - ``suffix``. Content between numbering symbol and paragraph text tab\|space\|nothing.
 - ``tabPos``. See paragraph style.
 - ``text``. Numbering level text e.g. %1 for nonbullet or bullet character.
+
+.. _chart-style:
+
+Chart
+-----
+
+Available Chart style options:
+
+- ``width``. Width (in EMU).
+- ``height``. Height (in EMU).
+- ``3d``. Is 3D; applies to pie, bar, line, area, *true* or *false*.
+- ``showAxisLabels``. Show labels for axis, *true* or *false*.
+- ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
+- ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.
