@@ -49,8 +49,14 @@ $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous
 
 $chartTypes = array('pie', 'bar', 'column', 'line', 'area');
 $multiSeries = array('bar', 'column', 'line', 'area');
-$style = array('width' => Converter::cmToEmu(5), 'height' => Converter::cmToEmu(4), '3d' => true, 
-                'showAxisLabels' => $showAxisLabels, 'showGridX' => $showGridLines, 'showGridY' => $showGridLines);
+$style = array(
+    'width'          => Converter::cmToEmu(5),
+    'height'         => Converter::cmToEmu(4),
+    '3d'             => true,
+    'showAxisLabels' => $showAxisLabels,
+    'showGridX'      => $showGridLines,
+    'showGridY'      => $showGridLines,
+);
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
     $chart = $section->addChart($chartType, $categories, $series1, $style);

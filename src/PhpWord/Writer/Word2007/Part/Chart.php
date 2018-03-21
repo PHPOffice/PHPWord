@@ -280,7 +280,7 @@ class Chart extends AbstractPart
             }
             $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
         }
-        if (isset($this->options['radar']) || ($type == "cat" && $style->showGridX()) || ($type == "val" && $style->showGridY())) {
+        if (isset($this->options['radar']) || ($type == 'cat' && $style->showGridX()) || ($type == 'val' && $style->showGridY())) {
             $xmlWriter->writeElement('c:majorGridlines');
         }
 
