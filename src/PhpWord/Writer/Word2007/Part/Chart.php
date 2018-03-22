@@ -236,7 +236,7 @@ class Chart extends AbstractPart
             $xmlWriter->startElement('c:pt');
             $xmlWriter->writeAttribute('idx', $index);
             $xmlWriter->startElement('c:v');
-            $xmlWriter->writeText($value);
+            $xmlWriter->text($value);
             $xmlWriter->endElement(); // c:v
             $xmlWriter->endElement(); // c:pt
             $index++;
