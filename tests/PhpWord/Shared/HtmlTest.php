@@ -421,6 +421,21 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests parsing of invalid HTML
+     */
+    public function testParseInvalidHtml()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p>This is some text with a paragraph</p><p>And another one that is not closed';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertEquals('This is some text with a paragraphAnd another one that is not closed', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
+    }
+
+    /**
      * Test parsing of img
      */
     public function testParseImage()
