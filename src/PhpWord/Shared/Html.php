@@ -65,7 +65,11 @@ class Html
         // Load DOM
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadXML($html);
+        try {
+            $dom->loadXML($html);
+        } catch (\Exception $e) {
+            $dom->loadXML(strip_tags($html, '<body>'));
+        }
         self::$xpath = new \DOMXpath($dom);
         $node = $dom->getElementsByTagName('body');
 
