@@ -134,6 +134,7 @@ class Image extends AbstractElement
      * @param string $source
      * @param mixed $style
      * @param bool $watermark
+     * @param string $name
      *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
@@ -141,9 +142,9 @@ class Image extends AbstractElement
     public function __construct($source, $style = null, $watermark = false, $name = null)
     {
         $this->source = $source;
-        $this->setIsWatermark($watermark);
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
-        $this->name = $name;
+        $this->setIsWatermark($watermark);
+        $this->setName($name);
 
         $this->checkImage();
     }
@@ -176,6 +177,16 @@ class Image extends AbstractElement
     public function getSourceType()
     {
         return $this->sourceType;
+    }
+
+    /**
+     * Sets the image name
+     *
+     * @param string $value
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
     }
 
     /**
