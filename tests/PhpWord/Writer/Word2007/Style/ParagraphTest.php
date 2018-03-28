@@ -11,12 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\Style\Paragraph as ParagraphStyle;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -47,6 +48,20 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $path = '/w:document/w:body/w:p/w:pPr/w:numPr/w:ilvl';
+        $this->assertTrue($doc->elementExists($path));
+    }
+
+    public function testSuppressAutoHyphens()
+    {
+        $paragraphStyle = new ParagraphStyle();
+        $paragraphStyle->setSuppressAutoHyphens(true);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, $paragraphStyle);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:suppressAutoHyphens';
         $this->assertTrue($doc->elementExists($path));
     }
 }

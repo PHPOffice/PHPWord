@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
@@ -182,6 +181,13 @@ class Paragraph extends Border
     private $textAlignment;
 
     /**
+     * Suppress hyphenation for paragraph
+     *
+     * @var bool
+     */
+    private $suppressAutoHyphens = false;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -213,27 +219,28 @@ class Paragraph extends Border
     public function getStyleValues()
     {
         $styles = array(
-            'name'              => $this->getStyleName(),
-            'basedOn'           => $this->getBasedOn(),
-            'next'              => $this->getNext(),
-            'alignment'         => $this->getAlignment(),
-            'indentation'       => $this->getIndentation(),
-            'spacing'           => $this->getSpace(),
-            'pagination'        => array(
-                'widowControl'  => $this->hasWidowControl(),
-                'keepNext'      => $this->isKeepNext(),
-                'keepLines'     => $this->isKeepLines(),
-                'pageBreak'     => $this->hasPageBreakBefore(),
+            'name'                => $this->getStyleName(),
+            'basedOn'             => $this->getBasedOn(),
+            'next'                => $this->getNext(),
+            'alignment'           => $this->getAlignment(),
+            'indentation'         => $this->getIndentation(),
+            'spacing'             => $this->getSpace(),
+            'pagination'          => array(
+                'widowControl'    => $this->hasWidowControl(),
+                'keepNext'        => $this->isKeepNext(),
+                'keepLines'       => $this->isKeepLines(),
+                'pageBreak'       => $this->hasPageBreakBefore(),
             ),
-            'numbering'         => array(
-                'style'         => $this->getNumStyle(),
-                'level'         => $this->getNumLevel(),
+            'numbering'           => array(
+                'style'           => $this->getNumStyle(),
+                'level'           => $this->getNumLevel(),
             ),
-            'tabs'              => $this->getTabs(),
-            'shading'           => $this->getShading(),
-            'contextualSpacing' => $this->hasContextualSpacing(),
-            'bidi'              => $this->isBidi(),
-            'textAlignment'     => $this->getTextAlignment(),
+            'tabs'                => $this->getTabs(),
+            'shading'             => $this->getShading(),
+            'contextualSpacing'   => $this->hasContextualSpacing(),
+            'bidi'                => $this->isBidi(),
+            'textAlignment'       => $this->getTextAlignment(),
+            'suppressAutoHyphens' => $this->hasSuppressAutoHyphens(),
         );
 
         return $styles;
@@ -848,5 +855,21 @@ class Paragraph extends Border
         $this->textAlignment = $textAlignment;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSuppressAutoHyphens()
+    {
+        return $this->suppressAutoHyphens;
+    }
+
+    /**
+     * @param bool $suppressAutoHyphens
+     */
+    public function setSuppressAutoHyphens($suppressAutoHyphens)
+    {
+        $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
     }
 }

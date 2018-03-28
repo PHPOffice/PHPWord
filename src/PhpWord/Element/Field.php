@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -54,6 +54,9 @@ class Field extends AbstractElement
             ),
             'options' => array('PreserveFormat', 'LunarCalendar', 'SakaEraCalendar', 'LastUsedFormat'),
         ),
+        'MACROBUTTON' => array(
+            'properties' => array('macroname' => ''),
+        ),
         'XE' => array(
             'properties' => array(),
             'options'    => array('Bold', 'Italic'),
@@ -91,6 +94,13 @@ class Field extends AbstractElement
      * @var array
      */
     protected $options = array();
+
+    /**
+     * Font style
+     *
+     * @var \PhpOffice\PhpWord\Style\Font
+     */
+    protected $fontStyle;
 
     /**
      * Create a new Field Element

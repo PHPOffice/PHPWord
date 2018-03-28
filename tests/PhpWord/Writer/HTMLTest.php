@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -73,6 +73,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         );
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
+        $section->addBookmark('top');
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText(
@@ -128,6 +129,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         $cell->addFootnote();
         $cell->addEndnote();
         $cell = $table->addRow()->addCell();
+        $section->addLink('top', 'back to top', null, null, true);
 
         $writer = new HTML($phpWord);
 

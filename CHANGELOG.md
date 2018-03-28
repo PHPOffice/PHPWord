@@ -6,9 +6,32 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.15.0 (?? ??? 2018)
 ----------------------
 ### Added
-- Parsing of "align" HTML attribute - @troosan #1231
+- Parsing of `align` HTML attribute - @troosan #1231
+- Parse formatting inside HTML lists - @troosan @samimussbach #1239 #945 #1215 #508
+- Parsing of CSS `direction` instruction, HTML `lang` attribute, formatting inside table cell - @troosan #1273 #1252 #1254
+- Add support for Track changes @Cip @troosan #354 #1262
+- Add support for fixed Table Layout @aoloe @ekopach @troosan #841 #1276
+- Add support for Cell Spacing @dox07 @troosan #1040
+- Add parsing of formatting inside lists @atomicalnet @troosan #594
+- Added support for Vertically Raised or Lowered Text (w:position) @anrikun @troosan #640
+- Add support for MACROBUTTON field @phryneas @troosan #1021
+- Add support for Hyphenation @Trainmaster #1282 (Document: `autoHyphenation`, `consecutiveHyphenLimit`, `hyphenationZone`, `doNotHyphenateCaps`, Paragraph: `suppressAutoHyphens`)
+- Added support for Floating Table Positioning (tblpPr) @anrikun #639
+- Added support for Image text wrapping distance @troosan #1310
 
 ### Fixed
+- Fix reading of docx default style - @troosan #1238
+- Fix the size unit of when parsing html images - @troosan #1254
+- Fixed HTML parsing of nested lists - @troosan #1265
+- Save PNG alpha information when using remote images. @samsullivan #779
+- Fix parsing of `<w:br/>` tag. @troosan #1274
+- Bookmark are not writton as internal link in html writer @troosan #1263
+- It should be possible to add a Footnote in a ListItemRun @troosan #1287 #1287
+- Fix parsing of Heading and Title formating @troosan @gthomas2 #465
+
+### Changed
+- Remove zend-stdlib dependency @Trainmaster #1284
+
 
 v0.14.0 (29 Dec 2017)
 ----------------------
@@ -58,6 +81,8 @@ This version brings compatibility with PHP 7.0 & 7.1
 ### Deprecated
 - PhpWord->getProtection(), get it from the settings instead PhpWord->getSettings()->getDocumentProtection();
 
+
+
 v0.13.0 (31 July 2016)
 -------------------
 This release brings several improvements in `TemplateProcessor`, automatic output escaping feature for OOXML, ODF, HTML, and RTF (turned off, by default).
@@ -77,7 +102,7 @@ Manual installation feature has been dropped since the release. Please, use [Com
 - Improved error message for the case when `autoload.php` is not found. - @RomanSyroeshko #371
 - Renamed the `align` option of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles into `alignment`. - @RomanSyroeshko
 - Improved performance of `TemplateProcessor::setValue()`. - @kazitanvirahsan #614, #617
-- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis 
+- Fixed some HTML tags not rendering any output (p, header & table) - #257, #324 - @twmobius and @garethellis
 
 ### Deprecated
 - `getAlign` and `setAlign` methods of `NumberingLevel`, `Frame`, `Table`, and `Paragraph` styles.

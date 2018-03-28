@@ -11,17 +11,17 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
-use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Common Html functions
@@ -30,6 +30,9 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  */
 class Html
 {
+    private static $listIndex = 0;
+    private static $xpath;
+
     /**
      * Add HTML parts.
      *
@@ -63,6 +66,7 @@ class Html
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
+        self::$xpath = new \DOMXpath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -87,6 +91,10 @@ class Html
                         break;
                     case 'align':
                         $styles['alignment'] = self::mapAlign($attribute->value);
+                        break;
+                    case 'lang':
+                        $styles['lang'] = $attribute->value;
+                        break;
                 }
             }
         }
@@ -135,11 +143,12 @@ class Html
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
             'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
-            'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
-            'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
+            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
+            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
             'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
             'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
+            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -243,7 +252,7 @@ class Html
         $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
         //alignment applies on paragraph, not on font. Let's copy it there
-        if (isset($styles['font']['alignment'])) {
+        if (isset($styles['font']['alignment']) && is_array($styles['paragraph'])) {
             $styles['paragraph']['alignment'] = $styles['font']['alignment'];
         }
 
@@ -330,7 +339,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return Cell $element
+     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
      */
     private static function parseCell($node, $element, &$styles)
     {
@@ -340,8 +349,29 @@ class Html
         if (!empty($colspan)) {
             $cellStyles['gridSpan'] = $colspan - 0;
         }
+        $cell = $element->addCell(null, $cellStyles);
 
-        return $element->addCell(null, $cellStyles);
+        if (self::shouldAddTextRun($node)) {
+            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+        }
+
+        return $cell;
+    }
+
+    /**
+     * Checks if $node contains an HTML element that cannot be added to TextRun
+     *
+     * @param \DOMNode $node
+     * @return bool Returns true if the node contains an HTML element that cannot be added to TextRun
+     */
+    private static function shouldAddTextRun(\DOMNode $node)
+    {
+        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
+        if ($containsBlockElement) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -365,18 +395,63 @@ class Html
     /**
      * Parse list node
      *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param array &$data
-     * @param string $argument1 List type
      */
-    private static function parseList(&$styles, &$data, $argument1)
+    private static function parseList($node, $element, &$styles, &$data)
     {
+        $isOrderedList = $node->nodeName === 'ol';
         if (isset($data['listdepth'])) {
             $data['listdepth']++;
         } else {
             $data['listdepth'] = 0;
+            $styles['list'] = 'listStyle_' . self::$listIndex++;
+            $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
         }
-        $styles['list']['listType'] = $argument1;
+        if ($node->parentNode->nodeName === 'li') {
+            return $element->getParent();
+        }
+    }
+
+    /**
+     * @param bool $isOrderedList
+     * @return array
+     */
+    private static function getListStyle($isOrderedList)
+    {
+        if ($isOrderedList) {
+            return array(
+                'type'   => 'multilevel',
+                'levels' => array(
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%1.', 'alignment' => 'left',  'tabPos' => 720,  'left' => 720,  'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left',  'tabPos' => 1440, 'left' => 1440, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%3.', 'alignment' => 'right', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%4.', 'alignment' => 'left',  'tabPos' => 2880, 'left' => 2880, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%5.', 'alignment' => 'left',  'tabPos' => 3600, 'left' => 3600, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%6.', 'alignment' => 'right', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%7.', 'alignment' => 'left',  'tabPos' => 5040, 'left' => 5040, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%8.', 'alignment' => 'left',  'tabPos' => 5760, 'left' => 5760, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%9.', 'alignment' => 'right', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 180),
+                ),
+            );
+        }
+
+        return array(
+            'type'   => 'hybridMultilevel',
+            'levels' => array(
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+            ),
+        );
     }
 
     /**
@@ -394,17 +469,10 @@ class Html
     {
         $cNodes = $node->childNodes;
         if (!empty($cNodes)) {
-            $text = '';
+            $listRun = $element->addListItemRun($data['listdepth'], $styles['list'], $styles['paragraph']);
             foreach ($cNodes as $cNode) {
-                if ($cNode->nodeName == '#text') {
-                    $text = $cNode->nodeValue;
-                }
+                self::parseNode($cNode, $listRun, $styles, $data);
             }
-            //ideally we should be parsing child nodes for any style, for now just take the text
-            if ('' == trim($text) && '' != trim($node->textContent)) {
-                $text = trim($node->textContent);
-            }
-            $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
         }
     }
 
@@ -418,8 +486,9 @@ class Html
     private static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+
         foreach ($properties as $property) {
-            list($cKey, $cValue) = explode(':', $property, 2);
+            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
@@ -434,6 +503,9 @@ class Html
                     break;
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
+                    break;
+                case 'direction':
+                    $styles['rtl'] = $cValue === 'rtl';
                     break;
                 case 'font-size':
                     $styles['size'] = Converter::cssToPoint($cValue);
@@ -462,6 +534,12 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'margin-top':
+                    $styles['spaceBefore'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'margin-bottom':
+                    $styles['spaceAfter'] = Converter::cssToPoint($cValue);
+                    break;
                 case 'border-color':
                     $styles['color'] = trim($cValue, '#');
                     break;
@@ -474,13 +552,13 @@ class Html
                 case 'width':
                     if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
                         $styles['width'] = Converter::cssToTwip($matches[1]);
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_TWIP;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
                     } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
                         $styles['width'] = $matches[1] * 50;
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                     } elseif (preg_match('/([0-9]+)/', $cValue, $matches)) {
                         $styles['width'] = $matches[1];
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_AUTO;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
                     break;
                 case 'border':
@@ -516,10 +594,12 @@ class Html
                 case 'width':
                     $width = $attribute->value;
                     $style['width'] = $width;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'height':
                     $height = $attribute->value;
                     $style['height'] = $height;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'style':
                     $styleattr = explode(';', $attribute->value);
@@ -582,14 +662,14 @@ class Html
     private static function mapAlign($cssAlignment)
     {
         switch ($cssAlignment) {
-            case 'left':
-                return Jc::START;
             case 'right':
                 return Jc::END;
             case 'center':
                 return Jc::CENTER;
             case 'justify':
                 return Jc::BOTH;
+            default:
+                return Jc::START;
         }
 
         return null;
@@ -603,5 +683,27 @@ class Html
     private static function parseLineBreak($element)
     {
         $element->addTextBreak();
+    }
+
+    /**
+     * Parse link node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     */
+    private static function parseLink($node, $element, &$styles)
+    {
+        $target = null;
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'href':
+                    $target = $attribute->value;
+                    break;
+            }
+        }
+        self::parseInlineStyle($node, $styles['font']);
+
+        return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
 }

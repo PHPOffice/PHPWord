@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -313,7 +313,7 @@ class Image extends AbstractElement
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
-                if ($zip->locateName($imageFilename)) {
+                if ($zip->locateName($imageFilename) !== false) {
                     $isTemp = true;
                     $zip->extractTo(Settings::getTempDir(), $imageFilename);
                     $actualSource = Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
@@ -334,6 +334,10 @@ class Image extends AbstractElement
         // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {
             $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            if ($this->imageType === 'image/png') {
+                // PNG images need to preserve alpha channel information
+                imagesavealpha($imageResource, true);
+            }
             ob_start();
             call_user_func($this->imageFunc, $imageResource);
             $imageBinary = ob_get_contents();
@@ -454,7 +458,7 @@ class Image extends AbstractElement
 
         $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
-            if ($zip->locateName($imageFilename)) {
+            if ($zip->locateName($imageFilename) !== false) {
                 $imageContent = $zip->getFromName($imageFilename);
                 if ($imageContent !== false) {
                     file_put_contents($tempFilename, $imageContent);
