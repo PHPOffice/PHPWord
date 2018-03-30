@@ -140,8 +140,8 @@ class ListItem extends AbstractStyle
     }
 
     /**
-     * Set numbering Id, to force list to restart counting. Same num id means same list
-     * @param int
+     * Set numbering Id. Same numId means same list
+     * @param mixed
      */
     public function setNumId($numInt)
     {
