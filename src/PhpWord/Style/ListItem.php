@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2018 PHPWord contributors
+ * @copyright   2010-2017 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -140,6 +140,16 @@ class ListItem extends AbstractStyle
     }
 
     /**
+     * Set numbering Id, to force list to restart counting. Same num id means same list
+     * @param int
+     */
+    public function setNumId($numInt)
+    {
+        $this->numId = $numInt;
+        $this->getListTypeStyle();
+    }
+
+    /**
      * Get legacy numbering definition
      *
      * @return array
@@ -148,7 +158,12 @@ class ListItem extends AbstractStyle
     private function getListTypeStyle()
     {
         // Check if legacy style already registered in global Style collection
-        $numStyle = "PHPWordList{$this->listType}";
+        $numStyle = "PHPWordList_" . $this->listType;
+        
+        if ($this->numId) {
+            $numStyle .= '_' . $this->numId;
+        }
+        
         if (Style::getStyle($numStyle) !== null) {
             $this->setNumStyle($numStyle);
 
