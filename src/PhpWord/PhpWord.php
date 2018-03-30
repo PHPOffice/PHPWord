@@ -240,7 +240,7 @@ class PhpWord
         return null;
     }
 
-   /**
+    /**
      * Create new section
      *
      * @param array $style
