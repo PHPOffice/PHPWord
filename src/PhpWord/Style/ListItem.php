@@ -141,7 +141,7 @@ class ListItem extends AbstractStyle
 
     /**
      * Set numbering Id. Same numId means same list
-     * @param mixed
+     * @param mixed $numInt
      */
     public function setNumId($numInt)
     {
@@ -158,12 +158,12 @@ class ListItem extends AbstractStyle
     private function getListTypeStyle()
     {
         // Check if legacy style already registered in global Style collection
-        $numStyle = "PHPWordList_" . $this->listType;
-        
+        $numStyle = 'PHPWordListType' . $this->listType;
+
         if ($this->numId) {
-            $numStyle .= '_' . $this->numId;
+            $numStyle .= 'NumId' . $this->numId;
         }
-        
+
         if (Style::getStyle($numStyle) !== null) {
             $this->setNumStyle($numStyle);
 
