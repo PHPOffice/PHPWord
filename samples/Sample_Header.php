@@ -83,7 +83,7 @@ function write($phpWord, $filename, $writers)
         $result .= EOL;
     }
 
-    $result .= getEndingNotes($writers);
+    $result .= getEndingNotes($writers, $filename);
 
     return $result;
 }
@@ -95,7 +95,7 @@ function write($phpWord, $filename, $writers)
  *
  * @return string
  */
-function getEndingNotes($writers)
+function getEndingNotes($writers, $filename)
 {
     $result = '';
 
