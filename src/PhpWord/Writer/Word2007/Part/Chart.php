@@ -41,18 +41,18 @@ class Chart extends AbstractPart
      * @var array
      */
     private $types = array(
-        'pie'               => array('type' => 'pie', 'colors' => 1),
-        'doughnut'          => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
-        'bar'               => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
-        'stacked_bar'       => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
-        'percent_stacked_bar' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'percentStacked'),
-        'column'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
-        'stacked_column'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
+        'pie'                    => array('type' => 'pie', 'colors' => 1),
+        'doughnut'               => array('type' => 'doughnut', 'colors' => 1, 'hole' => 75, 'no3d' => true),
+        'bar'                    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'clustered'),
+        'stacked_bar'            => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'stacked'),
+        'percent_stacked_bar'    => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'bar', 'grouping' => 'percentStacked'),
+        'column'                 => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'clustered'),
+        'stacked_column'         => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'stacked'),
         'percent_stacked_column' => array('type' => 'bar', 'colors' => 0, 'axes' => true, 'bar' => 'col', 'grouping' => 'percentStacked'),
-        'line'              => array('type' => 'line', 'colors' => 0, 'axes' => true),
-        'area'              => array('type' => 'area', 'colors' => 0, 'axes' => true),
-        'radar'             => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
-        'scatter'           => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
+        'line'                   => array('type' => 'line', 'colors' => 0, 'axes' => true),
+        'area'                   => array('type' => 'area', 'colors' => 0, 'axes' => true),
+        'radar'                  => array('type' => 'radar', 'colors' => 0, 'axes' => true, 'radar' => 'standard', 'no3d' => true),
+        'scatter'                => array('type' => 'scatter', 'colors' => 0, 'axes' => true, 'scatter' => 'marker', 'no3d' => true),
     );
 
     /**
@@ -202,7 +202,7 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:idx', 'val', $index);
             $xmlWriter->writeElementBlock('c:order', 'val', $index);
 
-            if(!is_null($seriesItem['name']) && $seriesItem['name'] != "") {
+            if (!is_null($seriesItem['name']) && $seriesItem['name'] != '') {
                 $xmlWriter->startElement('c:tx');
                 $xmlWriter->startElement('c:strRef');
                 $xmlWriter->startElement('c:strCache');
@@ -222,7 +222,7 @@ class Chart extends AbstractPart
             // This section needs to be made configurable before a pull request is made
             $xmlWriter->startElement('c:dLbls');
 
-            foreach($style->getDataLabelOptions() as $option => $val) {
+            foreach ($style->getDataLabelOptions() as $option => $val) {
                 $xmlWriter->writeElementBlock("c:{$option}", 'val', (int) $val);
             }
 
@@ -240,7 +240,7 @@ class Chart extends AbstractPart
                 $this->writeSeriesItem($xmlWriter, 'val', $values);
 
                 // setting the chart colors was taken from https://github.com/PHPOffice/PHPWord/issues/494
-                if(is_array($colors) && count($colors)) {
+                if (is_array($colors) && count($colors)) {
                     // This is a workaround to make each series in a stack chart use a different color
                     if ($this->options['type'] == 'bar' && stristr($this->options['grouping'], 'stacked')) {
                         array_shift($colors);
@@ -329,16 +329,15 @@ class Chart extends AbstractPart
         $categoryAxisTitle = $style->getCategoryAxisTitle();
         $valueAxisTitle = $style->getValueAxisTitle();
 
-        if($axisType == "c:catAx"){
-            if(isset($categoryAxisTitle)){
+        if ($axisType == 'c:catAx') {
+            if (isset($categoryAxisTitle)) {
                 $this->writeAxisTitle($xmlWriter, $categoryAxisTitle);
             }
-        } else if ($axisType == "c:valAx"){
-            if(isset($valueAxisTitle)){
+        } elseif ($axisType == 'c:valAx') {
+            if (isset($valueAxisTitle)) {
                 $this->writeAxisTitle($xmlWriter, $valueAxisTitle);
             }
         }
-
 
         $xmlWriter->writeElementBlock('c:crossAx', 'val', $axisCross);
         $xmlWriter->writeElementBlock('c:auto', 'val', 1);
@@ -348,7 +347,7 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
 
-            if($axisType == "c:catAx"){
+            if ($axisType == 'c:catAx') {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
             } else {
                 $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
@@ -358,6 +357,18 @@ class Chart extends AbstractPart
         }
 
         if (isset($this->options['radar'])) {
+            if ($style->showAxisLabels()) {
+                if ($axisType == 'c:catAx') {
+                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
+                } else {
+                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
+                }
+            } else {
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
+            }
+            $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
+        }
+        if (isset($this->options['radar']) || ($type == 'cat' && $style->showGridX()) || ($type == 'val' && $style->showGridY())) {
             $xmlWriter->writeElement('c:majorGridlines');
         }
 
@@ -369,8 +380,6 @@ class Chart extends AbstractPart
 
         $xmlWriter->endElement(); // $axisType
     }
-
-
 
     /**
      * Write shape
@@ -392,8 +401,8 @@ class Chart extends AbstractPart
         $xmlWriter->endElement(); // c:spPr
     }
 
-
-    private function writeAxisTitle(XMLWriter $xmlWriter, $title){
+    private function writeAxisTitle(XMLWriter $xmlWriter, $title)
+    {
         $xmlWriter->startElement('c:title'); //start c:title
         $xmlWriter->startElement('c:tx'); //start c:tx
         $xmlWriter->startElement('c:rich'); // start c:rich

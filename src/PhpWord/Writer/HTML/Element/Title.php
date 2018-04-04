@@ -38,11 +38,17 @@ class Title extends AbstractElement
         }
 
         $tag = 'h' . $this->element->getDepth();
-        if (Settings::isOutputEscapingEnabled()) {
-            $text = $this->escaper->escapeHtml($this->element->getText());
-        } else {
-            $text = $this->element->getText();
+
+        $text = $this->element->getText();
+        if (is_string($text)) {
+            if (Settings::isOutputEscapingEnabled()) {
+                $text = $this->escaper->escapeHtml($text);
+            }
+        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            $writer = new Container($this->parentWriter, $this->element);
+            $text = $writer->write();
         }
+
         $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
 
         return $content;

@@ -34,7 +34,7 @@ class Text extends AbstractElement
         /** @var \PhpOffice\PhpWord\Element\Text $element Type hint */
         $element = $this->element;
         $elementClass = str_replace('\\Writer\\RTF', '', get_class($this));
-        if (!$element instanceof $elementClass) {
+        if (!$element instanceof $elementClass || !is_string($element->getText())) {
             return '';
         }
 

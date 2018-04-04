@@ -52,8 +52,17 @@ class PhpWord
      * @const string|int
      */
     const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
@@ -85,6 +94,10 @@ class PhpWord
      */
     public function __construct()
     {
+        // Reset Media and styles
+        Media::resetElements();
+        Style::resetStyles();
+
         // Collection
         $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
         foreach ($collections as $collection) {

@@ -75,7 +75,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     public function testSave()
     {
         $localImage = __DIR__ . '/../_files/images/earth.jpg';
-        $remoteImage = 'http://php.net//images/logos/php-med-trans-light.gif';
+        $remoteImage = 'http://php.net/images/logos/new-php-logo.png';
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));

@@ -37,7 +37,13 @@ class Title extends AbstractElement
 
         $xmlWriter->startElement('text:h');
         $xmlWriter->writeAttribute('text:outline-level', $element->getDepth());
-        $this->writeText($element->getText());
+        $text = $element->getText();
+        if (is_string($text)) {
+            $this->writeText($text);
+        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
+            $containerWriter = new Container($xmlWriter, $text);
+            $containerWriter->write();
+        }
         $xmlWriter->endElement(); // text:h
     }
 }
