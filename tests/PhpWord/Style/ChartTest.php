@@ -133,11 +133,11 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $this->assertEquals($chart->getCategoryLabelPosition(), 'none');
-
-        $chart->setCategoryLabelPosition('nextTo');
-
         $this->assertEquals($chart->getCategoryLabelPosition(), 'nextTo');
+
+        $chart->setCategoryLabelPosition('high');
+
+        $this->assertEquals($chart->getCategoryLabelPosition(), 'high');
     }
 
     /**
@@ -147,7 +147,7 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $this->assertEquals($chart->getValueLabelPosition(), 'none');
+        $this->assertEquals($chart->getValueLabelPosition(), 'nextTo');
 
         $chart->setValueLabelPosition('low');
 

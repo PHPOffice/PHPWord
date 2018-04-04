@@ -4,7 +4,7 @@ This is:
 - [ ] a feature request
 - [ ] **not** a usage question (ask them on https://stackoverflow.com/questions/tagged/phpword)
 
-# Expected Behavior
+### Expected Behavior
 
 Please describe the behavior you are expecting.
 

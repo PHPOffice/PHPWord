@@ -448,7 +448,9 @@ Charts can be added using
 
     $categories = array('A', 'B', 'C', 'D', 'E');
     $series = array(1, 3, 2, 5, 4);
-    $chart = $section->addChart('line', $categories, $series);
+    $chart = $section->addChart('line', $categories, $series, $style);
+
+For available styling options see :ref:`chart-style`.
 
 check out the Sample_32_Chart.php for more options and styling.
 

@@ -18,6 +18,8 @@ v0.15.0 (?? ??? 2018)
 - Add support for Hyphenation @Trainmaster #1282 (Document: `autoHyphenation`, `consecutiveHyphenLimit`, `hyphenationZone`, `doNotHyphenateCaps`, Paragraph: `suppressAutoHyphens`)
 - Added support for Floating Table Positioning (tblpPr) @anrikun #639
 - Added support for Image text wrapping distance @troosan #1310
+- Added parsing of CSS line-height and text-indent in HTML reader @troosan #1316
+- Added the ability to enable gridlines and axislabels on charts @FrankMeyer #576
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
@@ -27,7 +29,9 @@ v0.15.0 (?? ??? 2018)
 - Fix parsing of `<w:br/>` tag. @troosan #1274
 - Bookmark are not writton as internal link in html writer @troosan #1263
 - It should be possible to add a Footnote in a ListItemRun @troosan #1287 #1287
+- Fix colspan and rowspan for tables in HTML Writer @mattbolt #1292
 - Fix parsing of Heading and Title formating @troosan @gthomas2 #465
+- Fix Dateformat typo, fix hours casing, add Month-Day-Year formats @ComputerTinker #591
 
 ### Changed
 - Remove zend-stdlib dependency @Trainmaster #1284

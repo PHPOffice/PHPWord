@@ -357,6 +357,18 @@ class Chart extends AbstractPart
         }
 
         if (isset($this->options['radar'])) {
+            if ($style->showAxisLabels()) {
+                if ($axisType == 'c:catAx') {
+                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
+                } else {
+                    $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
+                }
+            } else {
+                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', 'none');
+            }
+            $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
+        }
+        if (isset($this->options['radar']) || ($type == 'cat' && $style->showGridX()) || ($type == 'val' && $style->showGridY())) {
             $xmlWriter->writeElement('c:majorGridlines');
         }
 

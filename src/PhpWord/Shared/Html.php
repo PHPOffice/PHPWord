@@ -520,6 +520,23 @@ class Html
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
+                case 'line-height':
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
+                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = ((int) $matches[1]) / 100;
+                    } else {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = $cValue;
+                    }
+                    $styles['spacingLineRule'] = $spacingLineRule;
+                    $styles['lineHeight'] = $spacing;
+                    break;
+                case 'text-indent':
+                    $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
+                    break;
                 case 'font-weight':
                     $tValue = false;
                     if (preg_match('#bold#', $cValue)) {

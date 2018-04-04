@@ -69,25 +69,23 @@ class Chart extends AbstractStyle
 
     /**
      * A string that tells the writer where to write chart labels or to skip
-     * "none" - skips writing axis labels (default)
-     * "nextTo" - sets labels next to the axis (bar graphs on the left)
+     * "nextTo" - sets labels next to the axis (bar graphs on the left) (default)
      * "low" - labels on the left side of the graph
      * "high" - labels on the right side of the graph
      *
      * @var string
      */
-    private $categoryLabelPosition = 'none';
+    private $categoryLabelPosition = 'nextTo';
 
     /**
      * A string that tells the writer where to write chart labels or to skip
-     * "none" - skips writing axis labels (default)
-     * "nextTo" - sets labels next to the axis (bar graphs on the bottom)
+     * "nextTo" - sets labels next to the axis (bar graphs on the bottom) (default)
      * "low" - labels are below the graph
      * "high" - labels above the graph
      *
      * @var string
      */
-    private $valueLabelPosition = 'none';
+    private $valueLabelPosition = 'nextTo';
 
     /**
      * @var string
@@ -100,6 +98,27 @@ class Chart extends AbstractStyle
     private $valueAxisTitle;
 
     private $majorTickMarkPos = 'none';
+
+    /*
+     * Show labels for axis
+     *
+     * @var bool
+     */
+    private $showAxisLabels = false;
+
+    /**
+     * Show Gridlines for Y-Axis
+     *
+     * @var bool
+     */
+    private $gridY = false;
+
+    /**
+     * Show Gridlines for X-Axis
+     *
+     * @var bool
+     */
+    private $gridX = false;
 
     /**
      * Create a new instance
@@ -200,6 +219,29 @@ class Chart extends AbstractStyle
         return $this;
     }
 
+    /*
+     * Show labels for axis
+     *
+     * @return bool
+     */
+    public function showAxisLabels()
+    {
+        return $this->showAxisLabels;
+    }
+
+    /**
+     * Set show Gridlines for Y-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowAxisLabels($value = true)
+    {
+        $this->showAxisLabels = $this->setBoolVal($value, $this->showAxisLabels);
+
+        return $this;
+    }
+
     /**
      * get the list of options for data labels
      *
@@ -223,6 +265,27 @@ class Chart extends AbstractStyle
                 $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
             }
         }
+    }
+
+    /*
+     * Show Gridlines for Y-Axis
+     *
+     * @return bool
+     */
+    public function showGridY()
+    {
+        return $this->gridY;
+    }
+
+    /**
+     * Set show Gridlines for Y-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowGridY($value = true)
+    {
+        $this->gridY = $this->setBoolVal($value, $this->gridY);
 
         return $this;
     }
@@ -249,7 +312,7 @@ class Chart extends AbstractStyle
      */
     public function setCategoryLabelPosition($labelPosition)
     {
-        $enum = array('none', 'nextTo', 'low', 'high');
+        $enum = array('nextTo', 'low', 'high');
         $this->categoryLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->categoryLabelPosition);
 
         return $this;
@@ -277,7 +340,7 @@ class Chart extends AbstractStyle
      */
     public function setValueLabelPosition($labelPosition)
     {
-        $enum = array('none', 'nextTo', 'low', 'high');
+        $enum = array('nextTo', 'low', 'high');
         $this->valueLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->valueLabelPosition);
 
         return $this;
@@ -336,5 +399,28 @@ class Chart extends AbstractStyle
     {
         $enum = array('in', 'out', 'cross', 'none');
         $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
+    }
+
+    /*
+     * Show Gridlines for X-Axis
+     *
+     * @return bool
+     */
+    public function showGridX()
+    {
+        return $this->gridX;
+    }
+
+    /**
+     * Set show Gridlines for X-Axis
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setShowGridX($value = true)
+    {
+        $this->gridX = $this->setBoolVal($value, $this->gridX);
+
+        return $this;
     }
 }
