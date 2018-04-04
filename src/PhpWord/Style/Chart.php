@@ -244,7 +244,7 @@ class Chart extends AbstractStyle
      * "low" - labels on the left side of the graph
      * "high" - labels on the right side of the graph
      *
-     * @param mixed $label_position
+     * @param mixed $labelPosition
      * @return string
      */
     public function setCategoryLabelPosition($labelPosition)
@@ -273,7 +273,7 @@ class Chart extends AbstractStyle
      * "high" - sets labels above the graph
      *
      * @param string
-     * @param mixed $label_position
+     * @param mixed $labelPosition
      */
     public function setValueLabelPosition($labelPosition)
     {
@@ -294,7 +294,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set the title that appears on the category side of the chart
-     * @param string $axis_title
+     * @param string $axisTitle
      */
     public function setCategoryAxisTitle($axisTitle)
     {
@@ -314,7 +314,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set the title that appears on the value side of the chart
-     * @param string $axis_title
+     * @param string $axisTitle
      */
     public function setValueAxisTitle($axisTitle)
     {
