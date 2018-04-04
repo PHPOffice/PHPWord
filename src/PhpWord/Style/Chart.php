@@ -15,7 +15,6 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -46,7 +45,6 @@ class Chart extends AbstractStyle
      */
     private $is3d = false;
 
-
     /**
      * A list of colors to use in the chart
      *
@@ -60,13 +58,13 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $dataLabelOptions = array(
-        "showVal"          => true, // value
-        "showCatName"      => true, // category name
-        "showLegendKey"    => false, //show the cart legend
-        "showSerName"      => false, // series name
-        "showPercent"      => false,
-        "showLeaderLines"  => false,
-        "showBubbleSize"   => false,
+        'showVal'          => true, // value
+        'showCatName'      => true, // category name
+        'showLegendKey'    => false, //show the cart legend
+        'showSerName'      => false, // series name
+        'showPercent'      => false,
+        'showLeaderLines'  => false,
+        'showBubbleSize'   => false,
     );
 
     /**
@@ -78,7 +76,7 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $categoryLabelPosition = "none";
+    private $categoryLabelPosition = 'none';
 
     /**
      * A string that tells the writer where to write chart labels or to skip
@@ -89,24 +87,19 @@ class Chart extends AbstractStyle
      *
      * @var string
      */
-    private $valueLabelPosition = "none";
-
+    private $valueLabelPosition = 'none';
 
     /**
-     *
-     *
      * @var string
      */
     private $categoryAxisTitle;
 
     /**
-     *
      * @var string
      */
     private $valueAxisTitle;
 
-
-    private $majorTickMarkPos = "none";
+    private $majorTickMarkPos = 'none';
 
     /**
      * Create a new instance
@@ -200,7 +193,7 @@ class Chart extends AbstractStyle
      *
      * @param array $value a list of colors to use in the chart
      */
-    public function setColors($value = [])
+    public function setColors($value = array())
     {
         $this->colors = $value;
 
@@ -212,7 +205,8 @@ class Chart extends AbstractStyle
      *
      * @return array
      */
-    public function getDataLabelOptions() {
+    public function getDataLabelOptions()
+    {
         return $this->dataLabelOptions;
     }
 
@@ -222,9 +216,10 @@ class Chart extends AbstractStyle
      *
      * @param array $values [description]
      */
-    public function setDataLabelOptions($values = array()) {
-        foreach(array_keys($this->dataLabelOptions) as $option) {
-            if(isset($values[$option])) {
+    public function setDataLabelOptions($values = array())
+    {
+        foreach (array_keys($this->dataLabelOptions) as $option) {
+            if (isset($values[$option])) {
                 $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
             }
         }
@@ -249,12 +244,13 @@ class Chart extends AbstractStyle
      * "low" - labels on the left side of the graph
      * "high" - labels on the right side of the graph
      *
+     * @param mixed $label_position
      * @return string
      */
-    public function setCategoryLabelPosition($label_position)
+    public function setCategoryLabelPosition($labelPosition)
     {
-        $enum = array("none", "nextTo", "low", "high");
-        $this->categoryLabelPosition = $this->setEnumVal($label_position, $enum, $this->categoryLabelPosition);
+        $enum = array('none', 'nextTo', 'low', 'high');
+        $this->categoryLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->categoryLabelPosition);
 
         return $this;
     }
@@ -277,11 +273,12 @@ class Chart extends AbstractStyle
      * "high" - sets labels above the graph
      *
      * @param string
+     * @param mixed $label_position
      */
-    public function setValueLabelPosition($label_position)
+    public function setValueLabelPosition($labelPosition)
     {
-        $enum = array("none", "nextTo", "low", "high");
-        $this->valueLabelPosition = $this->setEnumVal($label_position, $enum, $this->valueLabelPosition);
+        $enum = array('none', 'nextTo', 'low', 'high');
+        $this->valueLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->valueLabelPosition);
 
         return $this;
     }
@@ -290,7 +287,8 @@ class Chart extends AbstractStyle
      * Get the categoryAxisTitle
      * @return string
      */
-    public function getCategoryAxisTitle(){
+    public function getCategoryAxisTitle()
+    {
         return $this->categoryAxisTitle;
     }
 
@@ -298,9 +296,9 @@ class Chart extends AbstractStyle
      * Set the title that appears on the category side of the chart
      * @param string $axis_title
      */
-    public function setCategoryAxisTitle($axis_title)
+    public function setCategoryAxisTitle($axisTitle)
     {
-        $this->categoryAxisTitle = $axis_title;
+        $this->categoryAxisTitle = $axisTitle;
 
         return $this;
     }
@@ -309,7 +307,8 @@ class Chart extends AbstractStyle
      * Get the valueAxisTitle
      * @return string
      */
-    public function getValueAxisTitle(){
+    public function getValueAxisTitle()
+    {
         return $this->valueAxisTitle;
     }
 
@@ -317,9 +316,9 @@ class Chart extends AbstractStyle
      * Set the title that appears on the value side of the chart
      * @param string $axis_title
      */
-    public function setValueAxisTitle($axis_title)
+    public function setValueAxisTitle($axisTitle)
     {
-        $this->valueAxisTitle = $axis_title;
+        $this->valueAxisTitle = $axisTitle;
 
         return $this;
     }
@@ -335,8 +334,7 @@ class Chart extends AbstractStyle
      */
     public function setMajorTickPosition($position)
     {
-        $enum = array("in", "out", "cross", "none");
+        $enum = array('in', 'out', 'cross', 'none');
         $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
     }
-
 }
