@@ -15,7 +15,6 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-
 namespace PhpOffice\PhpWord\Style;
 
 /**
@@ -130,6 +129,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set width
+     *
      * @param int $value
      * @return self
      */
@@ -175,6 +175,7 @@ class Chart extends AbstractStyle
 
     /**
      * Set 3D
+     *
      * @param bool $value
      * @return self
      */
