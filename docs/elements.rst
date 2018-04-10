@@ -435,8 +435,8 @@ Available line style attributes:
 - ``dash``. Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot.
 - ``beginArrow``. Start type of arrow: block, open, classic, diamond, oval.
 - ``endArrow``. End type of arrow: block, open, classic, diamond, oval.
-- ``width``. Line-object width in pt.
-- ``height``. Line-object height in pt.
+- ``width``. Line-object width in *pt*.
+- ``height``. Line-object height in *pt*.
 - ``flip``. Flip the line element: true, false.
 
 Chart
