@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 
@@ -57,6 +58,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($object->getBgColor());
         $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
         $this->assertEquals(TblWidth::AUTO, $object->getUnit());
+        $this->assertNull($object->getIndent());
     }
 
     /**
@@ -207,5 +209,14 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $object->setPosition(array('vertAnchor' => TablePosition::VANCHOR_PAGE));
         $this->assertNotNull($object->getPosition());
         $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getPosition()->getVertAnchor());
+    }
+
+    public function testIndent()
+    {
+        $indent = new TblWidthComplexType(100, TblWidth::TWIP);
+
+        $table = new Table(array('indent' => $indent));
+
+        $this->assertSame($indent, $table->getIndent());
     }
 }

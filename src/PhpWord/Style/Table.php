@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
@@ -158,6 +159,9 @@ class Table extends Border
      * @var \PhpOffice\PhpWord\Style\TablePosition
      */
     private $position;
+
+    /** @var TblWidthComplexType|null */
+    private $indent;
 
     /**
      * Create new table style
@@ -721,6 +725,26 @@ class Table extends Border
     public function setPosition($value = null)
     {
         $this->setObjectVal($value, 'TablePosition', $this->position);
+
+        return $this;
+    }
+
+    /**
+     * @return TblWidthComplexType
+     */
+    public function getIndent()
+    {
+        return $this->indent;
+    }
+
+    /**
+     * @param TblWidthComplexType $indent
+     * @return self
+     * @see http://www.datypic.com/sc/ooxml/e-w_tblInd-1.html
+     */
+    public function setIndent(TblWidthComplexType $indent)
+    {
+        $this->indent = $indent;
 
         return $this;
     }
