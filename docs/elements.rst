@@ -242,7 +242,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string. Warning: Do not pass user-generated strings here, as that would allow an attacker to read arbitrary files or perform server-side request forgery by passing file paths or URLs instead of image data.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
