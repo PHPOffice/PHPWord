@@ -242,7 +242,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string. Warning: Do not pass user-generated strings here, as that would allow an attacker to read arbitrary files or perform server-side request forgery by passing file paths or URLs instead of image data.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
@@ -435,8 +435,8 @@ Available line style attributes:
 - ``dash``. Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot.
 - ``beginArrow``. Start type of arrow: block, open, classic, diamond, oval.
 - ``endArrow``. End type of arrow: block, open, classic, diamond, oval.
-- ``width``. Line-object width in pt.
-- ``height``. Line-object height in pt.
+- ``width``. Line-object width in *pt*.
+- ``height``. Line-object height in *pt*.
 - ``flip``. Flip the line element: true, false.
 
 Chart

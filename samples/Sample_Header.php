@@ -93,7 +93,6 @@ function write($phpWord, $filename, $writers)
  *
  * @param array $writers
  * @param mixed $filename
- *
  * @return string
  */
 function getEndingNotes($writers, $filename)
