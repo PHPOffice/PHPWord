@@ -31,8 +31,8 @@ final class TblWidth
     private $value;
 
     /**
-     * @param int $value If omitted, then its value shall be assumed to be 0.
-     * @param string $type If omitted, then its value shall be assumed to be dxa.
+     * @param int $value If omitted, then its value shall be assumed to be 0
+     * @param string $type If omitted, then its value shall be assumed to be dxa
      */
     public function __construct($value = 0, $type = TblWidthSimpleType::TWIP)
     {
