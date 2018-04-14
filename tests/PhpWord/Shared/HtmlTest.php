@@ -125,6 +125,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
         Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
+        Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -134,6 +135,10 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:spacing'));
         $this->assertEquals(300, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:line'));
         $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:spacing', 'w:lineRule'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:pPr/w:spacing'));
+        $this->assertEquals(Paragraph::LINE_HEIGHT * 1.2, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     /**
@@ -453,6 +458,17 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addBookmark('bookmark');
+        $html = '<p><a href="#bookmark">internal link text</a></p>';
+        Html::addHtml($section, $html);
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
+        $this->assertTrue($doc->getElement('/w:document/w:body/w:p/w:hyperlink')->hasAttribute('w:anchor'));
+        $this->assertEquals('bookmark', $doc->getElement('/w:document/w:body/w:p/w:hyperlink')->getAttribute('w:anchor'));
     }
 
     public function testParseMalformedStyleIsIgnored()

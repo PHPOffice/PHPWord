@@ -37,6 +37,8 @@ class Html
      * Add HTML parts.
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
+     * Warning: Do not pass user-generated HTML here, as that would allow an attacker to read arbitrary
+     * files or perform server-side request forgery by passing local file paths or URLs in <img>.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
@@ -720,6 +722,10 @@ class Html
             }
         }
         self::parseInlineStyle($node, $styles['font']);
+
+        if (strpos($target, '#') === 0) {
+            return $element->addLink(substr($target, 1), $node->textContent, $styles['font'], $styles['paragraph'], true);
+        }
 
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
