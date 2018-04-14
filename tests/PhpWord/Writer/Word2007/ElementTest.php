@@ -256,7 +256,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array('width' => 1000000, 'height' => 1000000);
+        $style = array('width' => 1000000, 'height' => 1000000, 'showAxisLabels' => true, 'showGridX' => true, 'showGridY' => true);
 
         $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
         $categories = array('A', 'B', 'C', 'D', 'E');
