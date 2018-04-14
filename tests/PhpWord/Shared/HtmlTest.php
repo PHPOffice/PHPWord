@@ -453,7 +453,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
-        
+
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $section->addBookmark('bookmark');
@@ -464,7 +464,6 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertTrue($doc->getElement('/w:document/w:body/w:p/w:hyperlink')->hasAttribute('w:anchor'));
         $this->assertEquals('bookmark', $doc->getElement('/w:document/w:body/w:p/w:hyperlink')->getAttribute('w:anchor'));
-        
     }
 
     public function testParseMalformedStyleIsIgnored()
