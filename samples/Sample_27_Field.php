@@ -6,14 +6,19 @@ include_once 'Sample_Header.php';
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
+PhpOffice\PhpWord\Style::addTitleStyle(1, array('size' => 14));
 
 // New section
 $section = $phpWord->addSection();
+$section->addTitle('This page demos fields');
 
 // Add Field elements
 // See Element/Field.php for all options
 $section->addText('Date field:');
 $section->addField('DATE', array('dateformat' => 'dddd d MMMM yyyy H:mm:ss'), array('PreserveFormat'));
+
+$section->addText('Style Ref field:');
+$section->addField('STYLEREF', array('StyleIdentifier' => 'Heading 1'));
 
 $section->addText('Page field:');
 $section->addField('PAGE', array('format' => 'Arabic'));

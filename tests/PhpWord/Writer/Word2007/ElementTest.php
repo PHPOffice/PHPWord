@@ -288,6 +288,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addField('DATE', array(), array('LunarCalendar'));
         $section->addField('DATE', array(), array('SakaEraCalendar'));
         $section->addField('NUMPAGES', array('format' => 'roman', 'numformat' => '0,00'), array('SakaEraCalendar'));
+        $section->addField('STYLEREF', array('StyleIdentifier' => 'Heading 1'));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:instrText';
