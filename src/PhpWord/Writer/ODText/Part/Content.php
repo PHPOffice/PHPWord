@@ -246,6 +246,7 @@ class Content extends AbstractPart
                     $style = Style::getStyle($style);
                 }
                 $style->setStyleName($element->getElementId());
+                $style->setColumnWidths($element->findFirstDefinedCellWidths());
                 $this->autoStyles['Table'][] = $style;
             }
         }
