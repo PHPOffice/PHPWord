@@ -20,6 +20,7 @@ v0.15.0 (?? ??? 2018)
 - Added support for Image text wrapping distance @troosan #1310
 - Added parsing of CSS line-height and text-indent in HTML reader @troosan #1316
 - Added the ability to enable gridlines and axislabels on charts @FrankMeyer #576
+- Several improvements to charts @JAEK-S #1332
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
