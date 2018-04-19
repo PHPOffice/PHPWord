@@ -723,6 +723,10 @@ class Html
         }
         self::parseInlineStyle($node, $styles['font']);
 
+        if (strpos($target, '#') === 0) {
+            return $element->addLink(substr($target, 1), $node->textContent, $styles['font'], $styles['paragraph'], true);
+        }
+
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
 }
