@@ -406,11 +406,11 @@ class Chart extends AbstractPart
         $xmlWriter->startElement('c:title'); //start c:title
         $xmlWriter->startElement('c:tx'); //start c:tx
         $xmlWriter->startElement('c:rich'); // start c:rich
-        $xmlWriter->writeElementBlock('a:bodyPr');
-        $xmlWriter->writeElementBlock('a:lstStyle');
+        $xmlWriter->writeElement('a:bodyPr');
+        $xmlWriter->writeElement('a:lstStyle');
         $xmlWriter->startElement('a:p');
         $xmlWriter->startElement('a:pPr');
-        $xmlWriter->writeElementBlock('a:defRPr');
+        $xmlWriter->writeElement('a:defRPr');
         $xmlWriter->endElement(); // end a:pPr
         $xmlWriter->startElement('a:r');
         $xmlWriter->writeElementBlock('a:rPr', 'lang', 'en-US');

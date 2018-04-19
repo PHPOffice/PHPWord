@@ -310,7 +310,7 @@ class Chart extends AbstractStyle
      * "high" - labels on the right side of the graph
      *
      * @param mixed $labelPosition
-     * @return string
+     * @return self
      */
     public function setCategoryLabelPosition($labelPosition)
     {
