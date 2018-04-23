@@ -337,7 +337,7 @@ class TemplateProcessor
 
             if ($replace)
             {
-                $this->temporaryDocumentMainPart = str_replace
+                $this->tempDocumentMainPart = str_replace
                 (
                     $matches[0],
                     implode('', $cloned),
@@ -361,11 +361,11 @@ class TemplateProcessor
         
         if (isset($matches[1]))
         {
-            $this->temporaryDocumentMainPart = str_replace
+            $this->tempDocumentMainPart = str_replace
                 (
                     $matches[0],
                     $replacement,
-                    $this->temporaryDocumentMainPart
+                    $this->tempDocumentMainPart
                 );
         }
     }
@@ -577,7 +577,7 @@ class TemplateProcessor
     private function findBlock($blockname)
     {
         // Parse the XML
-        $xml = new \SimpleXMLElement($this->temporaryDocumentMainPart);
+        $xml = new \SimpleXMLElement($this->tempDocumentMainPart);
         
         // Find the starting and ending tags
         $startNode = false; $endNode = false;
@@ -663,14 +663,14 @@ class TemplateProcessor
          * ```
          */
         
-        $this->temporaryDocumentMainPart = $xml->asXml();
+        $this->tempDocumentMainPart = $xml->asXml();
         
         // Find the xml in between the tags
         $xmlBlock = null;
         preg_match
         (
             '/'.preg_quote($startNode->asXml(), '/').'(.*?)'.preg_quote($endNode->asXml(), '/').'/is',
-            $this->temporaryDocumentMainPart,
+            $this->tempDocumentMainPart,
             $matches
         );
         
