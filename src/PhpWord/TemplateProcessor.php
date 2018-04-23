@@ -321,28 +321,26 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        
-        $matches = $this->findBlock($blockname);
-        
-        if (isset($matches[1]))
-        {
-            $xmlBlock = $matches[1];
 
-            $cloned = array();
+        $matches = $this->findBlocks($blockname);
 
-            for ($i = 1; $i <= $clones; $i++)
-            {
-                $cloned[] = preg_replace('/\${(.*?)}/','${$1_'.$i.'}', $xmlBlock);
-            }
+        foreach ($matches as $match) {
+            if (isset($match[1])) {
+                $xmlBlock = $match[1];
 
-            if ($replace)
-            {
-                $this->tempDocumentMainPart = str_replace
-                (
-                    $matches[0],
-                    implode('', $cloned),
-                    $this->tempDocumentMainPart
-                );
+                $cloned = array();
+
+                for ($i = 1; $i <= $clones; $i++) {
+                    $cloned[] = preg_replace('/\${(.*?)}/', '${$1_' . $i . '}', $xmlBlock);
+                }
+
+                if ($replace) {
+                    $this->tempDocumentMainPart = str_replace(
+                        $match[0],
+                        implode('', $cloned),
+                        $this->tempDocumentMainPart
+                    );
+                }
             }
         }
 
@@ -357,16 +355,16 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
-        $matches = $this->findBlock($blockname);
-        
-        if (isset($matches[1]))
-        {
-            $this->tempDocumentMainPart = str_replace
-                (
-                    $matches[0],
+        $matches = $this->findBlocks($blockname);
+
+        foreach ($matches as $match) {
+            if (isset($match[1])) {
+                $this->tempDocumentMainPart = str_replace(
+                    $match[0],
                     $replacement,
                     $this->tempDocumentMainPart
                 );
+            }
         }
     }
 
@@ -573,59 +571,62 @@ class TemplateProcessor
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
     }
-    
-    private function findBlock($blockname)
+
+    private function findBlocks($blockname)
     {
         // Parse the XML
         $xml = new \SimpleXMLElement($this->tempDocumentMainPart);
-        
+
         // Find the starting and ending tags
-        $startNode = false; $endNode = false;
-        foreach ($xml->xpath('//w:t') as $node)
-        {
-            if (strpos($node, '${'.$blockname.'}') !== false)
-            {
+        $startNode = false;
+        $endNode = false;
+        $state = 'outside';
+        $pairs = array();
+        foreach ($xml->xpath('//w:t') as $node) {
+            if (strpos($node, '${' . $blockname . '}') !== false) {
                 $startNode = $node;
+                $state = 'inside';
                 continue;
             }
-        
-            if (strpos($node, '${/'.$blockname.'}') !== false)
-            {
+
+            if ($state === 'inside' && strpos($node, '${/' . $blockname . '}') !== false) {
                 $endNode = $node;
-                break;
+                $pairs[] = array($startNode, $endNode);
+                $startNode = false;
+                $endNode = false;
+                $state = 'outside';
             }
         }
-        
+
         // Make sure we found the tags
-        if ($startNode === false || $endNode === false)
-        {
+        if (count($pairs) === 0) {
             return null;
         }
-        
-        // Find the parent <w:p> node for the start tag
-        $node = $startNode; $startNode = null;
-        while (is_null($startNode))
-        {
-            $node = $node->xpath('..')[0];
-        
-            if ($node->getName() == 'p')
-            {
-                $startNode = $node;
-            }
+
+        $result = array();
+        foreach ($pairs as $pair) {
+            $result[] = $this->findEnclosing($pair[0], $pair[1], $xml);
         }
-        
-        // Find the parent <w:p> node for the end tag
-        $node = $endNode; $endNode = null;
-        while (is_null($endNode))
-        {
+
+        return $result;
+    }
+
+    private static function getParentByName($node, $name)
+    {
+        while ($node->getName() !== $name) {
+            // $node = $node->parent();
             $node = $node->xpath('..')[0];
-        
-            if ($node->getName() == 'p')
-            {
-                $endNode = $node;
-            }
         }
-        
+
+        return $node;
+    }
+
+    private function findEnclosing($startNode, $endNode, $xml)
+    {
+        // Find the parent <w:p> nodes for startNode & endNode
+        $startNode = self::getParentByName($startNode, 'p');
+        $endNode = self::getParentByName($endNode, 'p');
+
         /*
          * NOTE: Because SimpleXML reduces empty tags to "self-closing" tags.
          * We need to replace the original XML with the version of XML as
@@ -662,18 +663,16 @@ class TemplateProcessor
          *  </w:p>
          * ```
          */
-        
+
         $this->tempDocumentMainPart = $xml->asXml();
-        
+
         // Find the xml in between the tags
-        $xmlBlock = null;
-        preg_match
-        (
-            '/'.preg_quote($startNode->asXml(), '/').'(.*?)'.preg_quote($endNode->asXml(), '/').'/is',
+        preg_match(
+            '/' . preg_quote($startNode->asXml(), '/') . '(.*?)' . preg_quote($endNode->asXml(), '/') . '/is',
             $this->tempDocumentMainPart,
             $matches
         );
-        
+
         return $matches;
     }
 }
