@@ -126,4 +126,23 @@ class StyleTest extends AbstractTestReader
         $fontStyle = $textRun->getElement(0)->getFontStyle();
         $this->assertEquals(15, $fontStyle->getPosition());
     }
+
+    public function testReadIndent()
+    {
+        $documentXml = '<w:tbl>
+            <w:tblPr>
+                <w:tblInd w:w="2160" w:type="dxa"/>
+            </w:tblPr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        $tableStyle = $elements[0]->getStyle();
+        $this->assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
+        $this->assertSame(2160, $tableStyle->getIndent()->getValue());
+    }
 }
