@@ -458,6 +458,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink'));
         $this->assertEquals('link text', $doc->getElement('/w:document/w:body/w:p/w:hyperlink/w:r/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u'));
+        $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:hyperlink/w:r/w:rPr/w:u', 'w:val'));
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
