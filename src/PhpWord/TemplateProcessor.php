@@ -318,33 +318,19 @@ class TemplateProcessor
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    public function cloneBlock($blockname, $clones = 1)
     {
-        $xmlBlock = null;
-
-        $matches = $this->findBlocks($blockname);
-
-        foreach ($matches as $match) {
-            if (isset($match[1])) {
-                $xmlBlock = $match[1];
-
-                $cloned = array();
-
-                for ($i = 1; $i <= $clones; $i++) {
-                    $cloned[] = preg_replace('/\${(.*?)}/', '${$1_' . $i . '}', $xmlBlock);
-                }
-
-                if ($replace) {
-                    $this->tempDocumentMainPart = str_replace(
-                        $match[0],
-                        implode('', $cloned),
-                        $this->tempDocumentMainPart
-                    );
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $nodeSets = $this->findBlocks($blockname, $dom, 'inner');
+        foreach ($nodeSets as $nodeSet) {
+            for ($i = 1; $i < $clones; $i++ ) {
+                foreach ($nodeSet as $node) {
+                    $nodeSet[0]->parentNode->insertBefore($node->cloneNode(true), $nodeSet[0]);
                 }
             }
         }
-
-        return $xmlBlock;
+        $this->deleteNodeSets($this->findBlocks($blockname, $dom, 'outer'));
+        $this->tempDocumentMainPart = $dom->saveXML();
     }
 
     /**
@@ -355,17 +341,19 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
-        $matches = $this->findBlocks($blockname);
-
-        foreach ($matches as $match) {
-            if (isset($match[1])) {
-                $this->tempDocumentMainPart = str_replace(
-                    $match[0],
-                    $replacement,
-                    $this->tempDocumentMainPart
-                );
-            }
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $nodeSets = $this->findBlocks($blockname, $dom);
+        foreach ($nodeSets as $nodeSet) {
+            $newNode = $dom->createElement('t:marker');
+            $nodeSet[0]->parentNode->insertBefore($newNode, $nodeSet[0]);
         }
+        $this->deleteNodeSets($nodeSets);
+        $xml = $dom->saveXML();
+        $this->tempDocumentMainPart = str_replace(
+            '<t:marker/>',
+            $replacement,
+            $xml
+        );
     }
 
     /**
@@ -375,7 +363,17 @@ class TemplateProcessor
      */
     public function deleteBlock($blockname)
     {
-        $this->replaceBlock($blockname, '');
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $this->deleteNodeSets($this->findBlocks($blockname, $dom));
+        $this->tempDocumentMainPart = $dom->saveXML();
+    }
+
+    private function deleteNodeSets($nodeSets) {
+        foreach ($nodeSets as $nodeSet) {
+            foreach ($nodeSet as $node) {
+                $node->parentNode->removeChild($node);
+            }
+        }
     }
 
     /**
@@ -572,107 +570,45 @@ class TemplateProcessor
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
     }
 
-    private function findBlocks($blockname)
+    private function findBlocks($blockname, $domDoc, $type = 'complete')
     {
-        // Parse the XML
-        $xml = new \SimpleXMLElement($this->tempDocumentMainPart);
+        $domXpath = new \DOMXpath($domDoc);
+        $max = $domXpath->query('//w:p[contains(., "${'.$blockname.'}")]')->length;
+        $nodeLists = array();
+        for ($i = 1; $i <= $max; $i++) {
+            $query = join(' | ', self::getQueryByType($type));
 
-        // Find the starting and ending tags
-        $startNode = false;
-        $endNode = false;
-        $state = 'outside';
-        $pairs = array();
-        foreach ($xml->xpath('//w:t') as $node) {
-            if (strpos($node, '${' . $blockname . '}') !== false) {
-                $startNode = $node;
-                $state = 'inside';
-                continue;
-            }
-
-            if ($state === 'inside' && strpos($node, '${/' . $blockname . '}') !== false) {
-                $endNode = $node;
-                $pairs[] = array($startNode, $endNode);
-                $startNode = false;
-                $endNode = false;
-                $state = 'outside';
-            }
+            $data = array(
+                'BLOCKNAME' => $blockname,
+                'INDEX' => $i
+            );
+            $findFromTo = str_replace(array_keys($data), array_values($data), $query);
+            $nodelist = $domXpath->query($findFromTo);
+            $nodeLists[] = $nodelist;
         }
-
-        // Make sure we found the tags
-        if (count($pairs) === 0) {
-            return null;
-        }
-
-        $result = array();
-        foreach ($pairs as $pair) {
-            $result[] = $this->findEnclosing($pair[0], $pair[1], $xml);
-        }
-
-        return $result;
+        return $nodeLists;
     }
 
-    private static function getParentByName($node, $name)
+    private static function getQueryByType($type)
     {
-        while ($node->getName() !== $name) {
-            // $node = $node->parent();
-            $node = $node->xpath('..')[0];
-        }
-
-        return $node;
-    }
-
-    private function findEnclosing($startNode, $endNode, $xml)
-    {
-        // Find the parent <w:p> nodes for startNode & endNode
-        $startNode = self::getParentByName($startNode, 'p');
-        $endNode = self::getParentByName($endNode, 'p');
-
-        /*
-         * NOTE: Because SimpleXML reduces empty tags to "self-closing" tags.
-         * We need to replace the original XML with the version of XML as
-         * SimpleXML sees it. The following example should show the issue
-         * we are facing.
-         *
-         * This is the XML that my document contained orginally.
-         *
-         * ```xml
-         *  <w:p>
-         *      <w:pPr>
-         *          <w:pStyle w:val="TextBody"/>
-         *          <w:rPr></w:rPr>
-         *      </w:pPr>
-         *      <w:r>
-         *          <w:rPr></w:rPr>
-         *          <w:t>${CLONEME}</w:t>
-         *      </w:r>
-         *  </w:p>
-         * ```
-         *
-         * This is the XML that SimpleXML returns from asXml().
-         *
-         * ```xml
-         *  <w:p>
-         *      <w:pPr>
-         *          <w:pStyle w:val="TextBody"/>
-         *          <w:rPr/>
-         *      </w:pPr>
-         *      <w:r>
-         *          <w:rPr/>
-         *          <w:t>${CLONEME}</w:t>
-         *      </w:r>
-         *  </w:p>
-         * ```
-         */
-
-        $this->tempDocumentMainPart = $xml->asXml();
-
-        // Find the xml in between the tags
-        preg_match(
-            '/' . preg_quote($startNode->asXml(), '/') . '(.*?)' . preg_quote($endNode->asXml(), '/') . '/is',
-            $this->tempDocumentMainPart,
-            $matches
+        $parts = array(
+            '//w:p[contains(., "${BLOCKNAME}")][INDEX]',
+            // https://stackoverflow.com/questions/3428104/selecting-siblings-between-two-nodes-using-xpath
+            '//w:p[contains(., "${BLOCKNAME}")][INDEX]/
+                following-sibling::w:p[contains(., "${/BLOCKNAME}")][1]/
+                preceding-sibling::w:p[
+                    preceding-sibling::w:p[contains(., "${BLOCKNAME}")][INDEX]
+                ]',
+            '//w:p[contains(., "${/BLOCKNAME}")][INDEX]'
         );
-
-        return $matches;
+        switch ($type) {
+            case 'complete':
+                return $parts;
+            case 'inner':
+                return array($parts[1]);
+            case 'outer':
+                return array($parts[0], $parts[2]);
+        }
     }
+
 }
