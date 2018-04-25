@@ -346,17 +346,6 @@ class Chart extends AbstractPart
             $xmlWriter->writeElementBlock('c:delete', 'val', 0);
             $xmlWriter->writeElementBlock('c:majorTickMark', 'val', $style->getMajorTickPosition());
             $xmlWriter->writeElementBlock('c:minorTickMark', 'val', 'none');
-
-            if ($axisType == 'c:catAx') {
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
-            } else {
-                $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getValueLabelPosition());
-            }
-
-            $xmlWriter->writeElementBlock('c:crosses', 'val', 'autoZero');
-        }
-
-        if (isset($this->options['radar'])) {
             if ($style->showAxisLabels()) {
                 if ($axisType == 'c:catAx') {
                     $xmlWriter->writeElementBlock('c:tickLblPos', 'val', $style->getCategoryLabelPosition());
