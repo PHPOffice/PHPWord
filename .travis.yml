@@ -55,7 +55,5 @@ script:
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
 after_script:
-    ## PHPDocumentor
-    - bash .travis_shell_after_success.sh
     ## Scrutinizer
     - if [ -n "$COVERAGE" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml ; fi
