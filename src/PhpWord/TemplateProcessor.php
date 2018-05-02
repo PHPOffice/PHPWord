@@ -426,6 +426,29 @@ class TemplateProcessor
     }
 
     /**
+     * Replace a block - alternative function
+     *
+     * @param string $blockname
+     * @param string $replacement
+     */
+    public function replaceBlockString($blockname, $replacement)
+    {
+        preg_match(
+                '/(\${' . $blockname . '})(.*)(\${\/' . $blockname . '})/is',
+                $this->tempDocumentMainPart,
+                $matches
+        );
+
+        if (isset($matches[2])) {
+            $this->tempDocumentMainPart = str_replace(
+                    $matches[1] . $matches[2] . $matches[3],
+                    $replacement,
+                    $this->tempDocumentMainPart
+            );
+        }
+    }
+
+    /**
      * Delete a block of text.
      *
      * @param string $blockname
@@ -433,6 +456,16 @@ class TemplateProcessor
     public function deleteBlock($blockname)
     {
         $this->replaceBlock($blockname, '');
+    }
+
+    /**
+     * Delete a block of text - alternative function
+     *
+     * @param string $blockname
+     */
+    public function deleteBlockString($blockname)
+    {
+        $this->replaceBlockString($blockname, '');
     }
 
     /**
