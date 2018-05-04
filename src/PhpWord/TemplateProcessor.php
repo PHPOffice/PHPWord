@@ -34,7 +34,7 @@ class TemplateProcessor
      *
      * @var mixed
      */
-    protected $zipClass;
+    public $zipClass;
 
     /**
      * @var string Temporary document filename (with path)
