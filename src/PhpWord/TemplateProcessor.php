@@ -268,7 +268,7 @@ class TemplateProcessor
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
-            throw new Exception('Can not clone row, template variable not found or variable contains markup.');
+            return;
         }
 
         $rowStart = $this->findRowStart($tagPos);
