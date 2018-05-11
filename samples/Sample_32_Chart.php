@@ -16,8 +16,8 @@ $section = $phpWord->addSection();
 $section->addTitle('2D charts', 1);
 $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
 
-$chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar');
-$twoSeries = array('bar', 'column', 'line', 'area', 'scatter', 'radar');
+$chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
+$twoSeries = array('bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
 $threeSeries = array('bar', 'line');
 $categories = array('A', 'B', 'C', 'D', 'E');
 $series1 = array(1, 3, 2, 5, 4);

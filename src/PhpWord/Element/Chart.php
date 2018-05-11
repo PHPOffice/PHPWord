@@ -61,11 +61,12 @@ class Chart extends AbstractElement
      * @param array $categories
      * @param array $values
      * @param array $style
+     * @param null|mixed $seriesName
      */
-    public function __construct($type, $categories, $values, $style = null)
+    public function __construct($type, $categories, $values, $style = null, $seriesName = null)
     {
         $this->setType($type);
-        $this->addSeries($categories, $values);
+        $this->addSeries($categories, $values, $seriesName);
         $this->style = $this->setNewStyle(new ChartStyle(), $style, true);
     }
 
@@ -86,7 +87,7 @@ class Chart extends AbstractElement
      */
     public function setType($value)
     {
-        $enum = array('pie', 'doughnut', 'line', 'bar', 'column', 'area', 'radar', 'scatter');
+        $enum = array('pie', 'doughnut', 'line', 'bar', 'stacked_bar', 'percent_stacked_bar', 'column', 'stacked_column', 'percent_stacked_column', 'area', 'radar', 'scatter');
         $this->type = $this->setEnumVal($value, $enum, 'pie');
     }
 
@@ -95,10 +96,15 @@ class Chart extends AbstractElement
      *
      * @param array $categories
      * @param array $values
+     * @param null|mixed $name
      */
-    public function addSeries($categories, $values)
+    public function addSeries($categories, $values, $name = null)
     {
-        $this->series[] = array('categories' => $categories, 'values' => $values);
+        $this->series[] = array(
+            'categories' => $categories,
+            'values'     => $values,
+            'name'       => $name,
+        );
     }
 
     /**
