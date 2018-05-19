@@ -61,7 +61,8 @@
         "php": "^5.3.3 || ^7.0",
         "ext-xml": "*",
         "zendframework/zend-escaper": "^2.2",
-        "phpoffice/common": "^0.2"
+        "phpoffice/common": "^0.2",
+        "php-coveralls/php-coveralls": "1.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.36 || ^5.0",
