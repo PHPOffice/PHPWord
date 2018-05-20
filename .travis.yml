@@ -56,4 +56,4 @@ script:
 
 after_success:
     ## Coveralls
-    - if [ -z "$COVERAGE" ]; then travis_retry php vendor/bin/php-coveralls -v ; fi
+    - if [ -n "$COVERAGE" ]; then travis_retry php vendor/bin/php-coveralls -v ; fi
