@@ -39,6 +39,8 @@ v0.15.0 (?? ??? 2018)
 - Remove zend-stdlib dependency @Trainmaster #1284
 - The default unit for `\PhpOffice\PhpWord\Style\Image` changed from `px` to `pt`.
 
+### Miscelaneous
+- Drop GitHub pages, switch to coveralls for code coverage analysis @czosel #1360
 
 v0.14.0 (29 Dec 2017)
 ----------------------
