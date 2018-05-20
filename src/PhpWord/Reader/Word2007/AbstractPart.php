@@ -588,6 +588,8 @@ abstract class AbstractPart
                     return $possibleAttribute;
                 }
             }
+
+            return null;
         }
 
         return $attributes;
