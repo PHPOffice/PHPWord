@@ -26,6 +26,8 @@ use PhpOffice\PhpWord\Settings;
  */
 class Title extends AbstractElement
 {
+    use TrackChangeTrait;
+
     /**
      * Write heading
      *
@@ -49,7 +51,11 @@ class Title extends AbstractElement
             $text = $writer->write();
         }
 
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
+        $content = "<{$tag}>";
+        $content .= $this->writeTrackChangeOpening();
+        $content .= "{$text}";
+        $content .= $this->writeTrackChangeClosing();
+        $content .= "</{$tag}>" . PHP_EOL;
 
         return $content;
     }
