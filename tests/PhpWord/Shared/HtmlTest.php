@@ -115,6 +115,20 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
     }
+    /**
+     * Test font
+     */
+    public function testParseFont()
+    {
+        $html = '<font style="font-family: Arial;">test</font>';
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr'));
+        //TODO check style
+    }
 
     /**
      * Test line-height style
@@ -445,6 +459,46 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertStringMatchesFormat('%Sheight:200px%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:right%S', $doc->getElementAttribute($baseXpath . '[1]/w:pict/v:shape', 'style'));
         $this->assertStringMatchesFormat('%Smso-position-horizontal:left%S', $doc->getElementAttribute($baseXpath . '[2]/w:pict/v:shape', 'style'));
+    }
+
+    /**
+     * Test parsing of remote img
+     */
+    public function testParseRemoteImage()
+    {
+        $src = 'https://phpword.readthedocs.io/en/latest/_images/phpword.png';
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/><img src="' . $src . '" style="float: left;"/></p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
+    }
+    /**
+     * Test parsing of remote img that can be found locally
+     */
+    public function testParseRemoteLocalImage()
+    {
+        $src = 'https://fakedomain.io/images/firefox.png';
+        $localPath = __DIR__ . '/../_files/images/';
+        $options= [
+          'IMG_SRC_SEARCH'=> 'https://fakedomain.io/images/',
+          'IMG_SRC_REPLACE'=> $localPath
+        ];
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/></p>';
+        Html::addHtml($section, $html, false, true, $options);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $baseXpath = '/w:document/w:body/w:p/w:r';
+        $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
     }
 
     public function testParseLink()

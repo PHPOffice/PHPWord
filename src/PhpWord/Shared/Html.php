@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Settings;
 
 /**
  * Common Html functions
@@ -32,6 +33,7 @@ class Html
 {
     private static $listIndex = 0;
     private static $xpath;
+    private static $options;
 
     /**
      * Add HTML parts.
@@ -44,13 +46,17 @@ class Html
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
+     * @param array $options:
+     *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
+     *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null )
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
+        self::$options = $options;
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -141,6 +147,7 @@ class Html
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
@@ -296,8 +303,9 @@ class Html
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles)
+    private static function parseTable($node, $element, &$styles )
     {
+
         $elementStyles = self::parseInlineStyle($node, $styles['table']);
 
         $newElement = $element->addTable($elementStyles);
@@ -648,6 +656,45 @@ class Html
                     break;
             }
         }
+        if( strpos( $src, "data:image" ) !== false ){
+  				if( ! is_dir( self::$imgdir ) )
+  					mkdir( self::$imgdir ) ;
+
+  				$match = array();
+  				preg_match( '/data:image\/(\w+);base64,(.+)/', $src, $match );
+
+  				$src = $imgFile = self::$imgdir . uniqid() . "." . $match[1];
+
+  				$ifp = fopen( $imgFile, "wb");
+
+  			  fwrite($ifp, base64_decode( $match[2] ) );
+  			  fclose($ifp);
+
+  			}
+  			$src= urldecode($src);
+
+  			if( ! is_file( $src )
+            && !is_null(self::$options)
+            && isset(self::$options['IMG_SRC_SEARCH'])
+            && isset(self::$options['IMG_SRC_REPLACE'])){
+  				$src = str_replace( self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src );
+  			}
+
+  			if(! is_file($src)){
+  				if($imgBlob=file_get_contents($src)){
+            $tmpDir= Settings::getTempDir().'/';
+  					if( ! is_dir( $tmpDir ) )
+  						mkdir( $tmpDir ) ;
+  					$match = array();
+  					preg_match( '/.+\.(\w+)$/', $src, $match );
+  					$src = $tmpDir . uniqid() . "." . $match[1];
+
+  					$ifp = fopen( $src, "wb");
+
+  				  fwrite($ifp, $imgBlob );
+  				  fclose($ifp);
+  				}
+  			}
         $newElement = $element->addImage($src, $style);
 
         return $newElement;
