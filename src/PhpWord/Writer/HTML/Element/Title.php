@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Settings;
 
 /**
