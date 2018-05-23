@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
 /**
  * ListItemRun element HTML writer
- *
  */
 class ListItemRun extends TextRun
 {
