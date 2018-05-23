@@ -22,5 +22,4 @@ namespace PhpOffice\PhpWord\Writer\HTML\Element;
  */
 class ListItemRun extends TextRun
 {
-
 }
