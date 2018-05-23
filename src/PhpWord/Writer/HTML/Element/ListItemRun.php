@@ -17,12 +17,11 @@
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
-use PhpOffice\PhpWord\Settings;
-
 /**
  * ListItemRun element HTML writer
  *
  */
-class ListItemRun extends TextRun {
+class ListItemRun extends TextRun
+{
 
 }

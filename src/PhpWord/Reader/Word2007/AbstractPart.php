@@ -153,7 +153,7 @@ abstract class AbstractPart
             $textContent = null;
             $nodes = $xmlReader->getElements('w:r|w:ins/w:r|w:del/w:r', $domNode);
             if ($nodes->length === 1) {
-                if($xmlReader->elementExists('w:delText', $nodes->item(0))) {
+                if ($xmlReader->elementExists('w:delText', $nodes->item(0))) {
                     $textContent = htmlspecialchars($xmlReader->getValue('w:delText', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
                 } else {
                     $textContent = htmlspecialchars($xmlReader->getValue('w:t', $nodes->item(0)), ENT_QUOTES, 'UTF-8');
@@ -167,7 +167,7 @@ abstract class AbstractPart
             $element = $parent->addTitle($textContent, $headingDepth);
             //add track changes to title
             if ($xmlReader->elementExists('w:ins|w:del', $domNode)) {
-                $nodesInsDel  = $xmlReader->getElements('w:ins|w:del', $domNode);
+                $nodesInsDel = $xmlReader->getElements('w:ins|w:del', $domNode);
                 $nodeChanges = $nodesInsDel->item(0);
                 $type = ($nodeChanges->nodeName == 'w:del') ? TrackChange::DELETED : TrackChange::INSERTED;
                 $author = $nodeChanges->getAttribute('w:author');
