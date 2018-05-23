@@ -115,6 +115,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:u'));
         $this->assertEquals('single', $doc->getElementAttribute('/w:document/w:body/w:p/w:r/w:rPr/w:u', 'w:val'));
     }
+
     /**
      * Test font
      */
@@ -478,6 +479,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $baseXpath = '/w:document/w:body/w:p/w:r';
         $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
     }
+
     /**
      * Test parsing of remote img that can be found locally
      */
@@ -485,9 +487,9 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $src = 'https://fakedomain.io/images/firefox.png';
         $localPath = __DIR__ . '/../_files/images/';
-        $options= array(
-          'IMG_SRC_SEARCH'=> 'https://fakedomain.io/images/',
-          'IMG_SRC_REPLACE'=> $localPath
+        $options = array(
+          'IMG_SRC_SEARCH'  => 'https://fakedomain.io/images/',
+          'IMG_SRC_REPLACE' => $localPath,
         );
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
