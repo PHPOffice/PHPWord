@@ -485,10 +485,10 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     {
         $src = 'https://fakedomain.io/images/firefox.png';
         $localPath = __DIR__ . '/../_files/images/';
-        $options= [
+        $options= array(
           'IMG_SRC_SEARCH'=> 'https://fakedomain.io/images/',
           'IMG_SRC_REPLACE'=> $localPath
-        ];
+        );
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
