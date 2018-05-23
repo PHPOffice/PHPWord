@@ -30,8 +30,6 @@ use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
  */
 class Text extends AbstractElement
 {
-    use TrackChangeTrait;
-
     /**
      * Text written after opening
      *
@@ -205,5 +203,62 @@ class Text extends AbstractElement
             $this->openingTags = "<span {$attribute}=\"{$style}\">";
             $this->closingTags = '</span>';
         }
+    }
+
+    /**
+     * writes the track change opening tag
+     *
+     * @return string the HTML, an empty string if no track change information
+     */
+    private function writeTrackChangeOpening()
+    {
+        $changed = $this->element->getTrackChange();
+        if ($changed == null) {
+            return '';
+        }
+
+        $content = '';
+        if (($changed->getChangeType() == TrackChange::INSERTED)) {
+            $content .= '<ins data-phpword-prop=\'';
+        } elseif ($changed->getChangeType() == TrackChange::DELETED) {
+            $content .= '<del data-phpword-prop=\'';
+        }
+
+        $changedProp = array('changed' => array('author'=> $changed->getAuthor(), 'id'    => $this->element->getElementId()));
+        if ($changed->getDate() != null) {
+            $changedProp['changed']['date'] = $changed->getDate()->format('Y-m-d\TH:i:s\Z');
+        }
+        $content .= json_encode($changedProp);
+        $content .= '\' ';
+        $content .= 'title="' . $changed->getAuthor();
+        if ($changed->getDate() != null) {
+            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+            $content .= ' - ' . $dateUser;
+        }
+        $content .= '">';
+
+        return $content;
+    }
+
+    /**
+     * writes the track change closing tag
+     *
+     * @return string the HTML, an empty string if no track change information
+     */
+    private function writeTrackChangeClosing()
+    {
+        $changed = $this->element->getTrackChange();
+        if ($changed == null) {
+            return '';
+        }
+
+        $content = '';
+        if (($changed->getChangeType() == TrackChange::INSERTED)) {
+            $content .= '</ins>';
+        } elseif ($changed->getChangeType() == TrackChange::DELETED) {
+            $content .= '</del>';
+        }
+
+        return $content;
     }
 }
