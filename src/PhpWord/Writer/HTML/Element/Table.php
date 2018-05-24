@@ -53,10 +53,10 @@ class Table extends AbstractElement
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
                     if ($cellBgColor) {
-                        $r = hexdec(substr($cellBgColor, 0, 2));
-                        $g = hexdec(substr($cellBgColor, 2, 2));
-                        $b = hexdec(substr($cellBgColor, 4, 2));
-                        $cellFgColor = (($r * 0.299 + $g * 0.587 + $b * 0.114) > 186) ? null : 'ffffff';
+                        $red = hexdec(substr($cellBgColor, 0, 2));
+                        $green = hexdec(substr($cellBgColor, 2, 2));
+                        $blue = hexdec(substr($cellBgColor, 4, 2));
+                        $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
                     }
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
