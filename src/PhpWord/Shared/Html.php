@@ -656,14 +656,12 @@ class Html
             }
         }
         if (strpos($src, 'data:image') !== false) {
-            if (!is_dir(self::$imgdir)) {
-                mkdir(self::$imgdir);
-            }
+            $tmpDir = Settings::getTempDir() . '/';
 
             $match = array();
             preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
 
-            $src = $imgFile = self::$imgdir . uniqid() . '.' . $match[1];
+            $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
 
             $ifp = fopen($imgFile, 'wb');
 
@@ -682,9 +680,6 @@ class Html
         if (!is_file($src)) {
             if ($imgBlob = file_get_contents($src)) {
                 $tmpDir = Settings::getTempDir() . '/';
-                if (!is_dir($tmpDir)) {
-                    mkdir($tmpDir);
-                }
                 $match = array();
                 preg_match('/.+\.(\w+)$/', $src, $match);
                 $src = $tmpDir . uniqid() . '.' . $match[1];
