@@ -11,13 +11,15 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\ODText\Element subnamespace
@@ -39,5 +41,22 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
             $this->assertEquals('', $xmlWriter->getData());
         }
+    }
+
+    /**
+     * Test PageBreak
+     */
+    public function testPageBreak()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test');
+        $section->addPageBreak();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'ODText');
+
+        $element = '/office:document-content/office:body/office:text/text:section/text:p[2]';
+        $this->assertTrue($doc->elementExists($element, 'content.xml'));
+        $this->assertEquals('P1', $doc->getElementAttribute($element, 'text:style-name', 'content.xml'));
     }
 }

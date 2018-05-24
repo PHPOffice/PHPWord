@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -410,7 +410,7 @@ class DocInfo
      * Get a Custom Property Value
      *
      * @param string $propertyName
-     * @return string
+     * @return mixed
      */
     public function getCustomPropertyValue($propertyName)
     {
@@ -467,6 +467,8 @@ class DocInfo
                 $propertyType = self::PROPERTY_TYPE_INTEGER;
             } elseif (is_bool($propertyValue)) {
                 $propertyType = self::PROPERTY_TYPE_BOOLEAN;
+            } elseif ($propertyValue instanceof \DateTime) {
+                $propertyType = self::PROPERTY_TYPE_DATE;
             } else {
                 $propertyType = self::PROPERTY_TYPE_STRING;
             }

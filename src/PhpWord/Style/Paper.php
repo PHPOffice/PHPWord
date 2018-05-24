@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -118,14 +118,14 @@ class Paper extends AbstractStyle
     /**
      * Width
      *
-     * @var int (twip)
+     * @var float (twip)
      */
     private $width;
 
     /**
      * Height
      *
-     * @var int (twip)
+     * @var float (twip)
      */
     private $height;
 
@@ -175,7 +175,7 @@ class Paper extends AbstractStyle
     /**
      * Get width
      *
-     * @return int
+     * @return float
      */
     public function getWidth()
     {
@@ -185,7 +185,7 @@ class Paper extends AbstractStyle
     /**
      * Get height
      *
-     * @return int
+     * @return float
      */
     public function getHeight()
     {

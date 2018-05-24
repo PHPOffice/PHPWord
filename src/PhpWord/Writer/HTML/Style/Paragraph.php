@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -44,11 +44,6 @@ class Paragraph extends AbstractStyle
             $textAlign = '';
 
             switch ($style->getAlignment()) {
-                case Jc::START:
-                case Jc::NUM_TAB:
-                case Jc::LEFT:
-                    $textAlign = 'left';
-                    break;
                 case Jc::CENTER:
                     $textAlign = 'center';
                     break;
@@ -65,7 +60,7 @@ class Paragraph extends AbstractStyle
                 case Jc::JUSTIFY:
                     $textAlign = 'justify';
                     break;
-                default:
+                default: //all others, align left
                     $textAlign = 'left';
                     break;
             }

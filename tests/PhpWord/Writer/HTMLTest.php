@@ -11,13 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
 /**
@@ -72,6 +73,7 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         );
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER, 'spaceAfter' => 20, 'spaceBefore' => 20));
         $section = $phpWord->addSection();
+        $section->addBookmark('top');
         $section->addText(htmlspecialchars('Test 1', ENT_COMPAT, 'UTF-8'), 'Font', 'Paragraph');
         $section->addTextBreak();
         $section->addText(
@@ -94,6 +96,15 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         $textrun = $section->addTextRun(array('alignment' => Jc::CENTER));
         $textrun->addText(htmlspecialchars('Test 3', ENT_COMPAT, 'UTF-8'));
         $textrun->addTextBreak();
+
+        $textrun = $section->addTextRun(array('alignment' => Jc::START));
+        $textrun->addText(htmlspecialchars('Text left aligned', ENT_COMPAT, 'UTF-8'));
+
+        $textrun = $section->addTextRun(array('alignment' => Jc::BOTH));
+        $textrun->addText(htmlspecialchars('Text justified', ENT_COMPAT, 'UTF-8'));
+
+        $textrun = $section->addTextRun(array('alignment' => Jc::END));
+        $textrun->addText(htmlspecialchars('Text right aligned', ENT_COMPAT, 'UTF-8'));
 
         $textrun = $section->addTextRun('Paragraph');
         $textrun->addLink('https://github.com/PHPOffice/PHPWord');
@@ -118,12 +129,17 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         $cell->addFootnote();
         $cell->addEndnote();
         $cell = $table->addRow()->addCell();
+        $section->addLink('top', 'back to top', null, null, true);
 
         $writer = new HTML($phpWord);
+
         $writer->save($file);
-
         $this->assertFileExists($file);
+        unlink($file);
 
+        Settings::setOutputEscapingEnabled(true);
+        $writer->save($file);
+        $this->assertFileExists($file);
         unlink($file);
     }
 }

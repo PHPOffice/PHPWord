@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 /**
  * Table cell style
@@ -32,13 +34,31 @@ class Cell extends Border
     const VALIGN_BOTTOM = 'bottom';
     const VALIGN_BOTH = 'both';
 
+    //Text direction constants
     /**
-     * Text direction constants
-     *
-     * @const string
+     * Left to Right, Top to Bottom
+     */
+    const TEXT_DIR_LRTB = 'lrTb';
+    /**
+     * Top to Bottom, Right to Left
+     */
+    const TEXT_DIR_TBRL = 'tbRl';
+    /**
+     * Bottom to Top, Left to Right
      */
     const TEXT_DIR_BTLR = 'btLr';
-    const TEXT_DIR_TBRL = 'tbRl';
+    /**
+     * Left to Right, Top to Bottom Rotated
+     */
+    const TEXT_DIR_LRTBV = 'lrTbV';
+    /**
+     * Top to Bottom, Right to Left Rotated
+     */
+    const TEXT_DIR_TBRLV = 'tbRlV';
+    /**
+     * Top to Bottom, Left to Right Rotated
+     */
+    const TEXT_DIR_TBLRV = 'tbLrV';
 
     /**
      * Vertical merge (rowspan) constants
@@ -92,6 +112,20 @@ class Cell extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+
+    /**
+     * Width
+     *
+     * @var int
+     */
+    private $width;
+
+    /**
+     * Width unit
+     *
+     * @var string
+     */
+    private $unit = TblWidth::TWIP;
 
     /**
      * Get vertical align.
@@ -232,6 +266,51 @@ class Cell extends Border
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get cell width
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set cell width
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setWidth($value)
+    {
+        $this->setIntVal($value);
+
+        return $this;
+    }
+
+    /**
+     * Get width unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * Set width unit
+     *
+     * @param string $value
+     */
+    public function setUnit($value)
+    {
+        $this->unit = $this->setEnumVal($value, array(TblWidth::AUTO, TblWidth::PERCENT, TblWidth::TWIP), TblWidth::TWIP);
 
         return $this;
     }

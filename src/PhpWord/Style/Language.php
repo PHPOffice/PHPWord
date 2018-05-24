@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -58,6 +58,9 @@ final class Language extends AbstractStyle
 
     const HI_IN = 'hi-IN';
     const HI_IN_ID = 1081;
+
+    const PT_BR = 'pt-BR';
+    const PT_BR_ID = 1046;
 
     /**
      * Language ID, used for RTF document generation

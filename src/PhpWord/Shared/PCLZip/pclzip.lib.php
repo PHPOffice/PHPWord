@@ -1244,9 +1244,9 @@ class PclZip
     {
         if (PCLZIP_ERROR_EXTERNAL == 1) {
             return (PclErrorCode());
-        } else {
-            return ($this->error_code);
         }
+
+        return ($this->error_code);
     }
     // --------------------------------------------------------------------------------
 
@@ -1289,9 +1289,9 @@ class PclZip
 
         if ($p_with_code) {
             return ($v_value . ' (' . $this->error_code . ')');
-        } else {
-            return ($v_value);
         }
+
+        return ($v_value);
     }
     // --------------------------------------------------------------------------------
 
@@ -1304,13 +1304,13 @@ class PclZip
     {
         if (PCLZIP_ERROR_EXTERNAL == 1) {
             return (PclErrorString());
-        } else {
-            if ($p_full) {
-                return ($this->errorName(true) . " : " . $this->error_string);
-            } else {
-                return ($this->error_string . " [code " . $this->error_code . "]");
-            }
         }
+
+        if ($p_full) {
+            return ($this->errorName(true) . " : " . $this->error_string);
+        }
+
+        return ($this->error_string . " [code " . $this->error_code . "]");
     }
     // --------------------------------------------------------------------------------
 
@@ -3790,7 +3790,7 @@ class PclZip
         }
 
         // ----- Write gz file format header
-        $v_binary_data = pack('va1a1Va1a1', 0x8b1f, Chr($p_entry['compression']), Chr(0x00), time(), Chr(0x00), Chr(3));
+        $v_binary_data = pack('va1a1Va1a1', 0x8b1f, chr($p_entry['compression']), chr(0x00), time(), chr(0x00), chr(3));
         @fwrite($v_dest_file, $v_binary_data, 10);
 
         // ----- Read the file by PCLZIP_READ_BLOCK_SIZE octets blocks
@@ -4383,7 +4383,7 @@ class PclZip
                 //$v_bytes = ($v_bytes << 8) | Ord($v_byte);
                 // Note we mask the old value down such that once shifted we can never end up with more than a 32bit number
                 // Otherwise on systems where we have 64bit integers the check below for the magic number will fail.
-                $v_bytes = (($v_bytes & 0xFFFFFF) << 8) | Ord($v_byte);
+                $v_bytes = (($v_bytes & 0xFFFFFF) << 8) | ord($v_byte);
 
                 // ----- Compare the bytes
                 if ($v_bytes == 0x504b0506) {

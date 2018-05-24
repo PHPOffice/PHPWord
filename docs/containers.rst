@@ -79,7 +79,7 @@ Below are the properties of the line numbering style.
 
 -  ``start`` Line numbering starting value
 -  ``increment`` Line number increments
--  ``distance`` Distance between text and line numbering in twip
+-  ``distance`` Distance between text and line numbering in *twip*
 -  ``restart`` Line numbering restart setting
    continuous\|newPage\|newSection
 

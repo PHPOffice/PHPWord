@@ -11,14 +11,17 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Element\AbstractContainer;
+use PhpOffice\PhpWord\Element\Row;
+use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
 /**
  * Common Html functions
@@ -27,16 +30,22 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  */
 class Html
 {
+    private static $listIndex = 0;
+    private static $xpath;
+
     /**
      * Add HTML parts.
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
+     * Warning: Do not pass user-generated HTML here, as that would allow an attacker to read arbitrary
+     * files or perform server-side request forgery by passing local file paths or URLs in <img>.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
+     * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
      */
-    public static function addHtml($element, $html, $fullHTML = false)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
@@ -57,8 +66,9 @@ class Html
 
         // Load DOM
         $dom = new \DOMDocument();
-        $dom->preserveWhiteSpace = true;
+        $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
+        self::$xpath = new \DOMXpath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -81,6 +91,12 @@ class Html
                     case 'style':
                         $styles = self::parseStyle($attribute, $styles);
                         break;
+                    case 'align':
+                        $styles['alignment'] = self::mapAlign($attribute->value);
+                        break;
+                    case 'lang':
+                        $styles['lang'] = $attribute->value;
+                        break;
                 }
             }
         }
@@ -99,7 +115,7 @@ class Html
     protected static function parseNode($node, $element, $styles = array(), $data = array())
     {
         // Populate styles array
-        $styleTypes = array('font', 'paragraph', 'list');
+        $styleTypes = array('font', 'paragraph', 'list', 'table', 'row', 'cell');
         foreach ($styleTypes as $styleType) {
             if (!isset($styles[$styleType])) {
                 $styles[$styleType] = array();
@@ -124,13 +140,17 @@ class Html
             'u'         => array('Property',    null,   null,       $styles,    null,   'underline',    'single'),
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
-            'span'      => array('Property',    null,   null,       $styles,    null,   'span',         $node),
-            'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
-            'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
-            'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
-            'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
-            'ol'        => array('List',        null,   null,       $styles,    $data,  7,              null),
+            'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
+            'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
+            'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'th'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
+            'ul'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
+            'ol'        => array('List',        $node,  $element,   $styles,    $data,  null,           null),
             'li'        => array('ListItem',    $node,  $element,   $styles,    $data,  null,           null),
+            'img'       => array('Image',       $node,  $element,   $styles,    null,   null,           null),
+            'br'        => array('LineBreak',   null,   $element,   $styles,    null,   null,           null),
+            'a'         => array('Link',        $node,  $element,   $styles,    null,   null,           null),
         );
 
         $newElement = null;
@@ -177,9 +197,9 @@ class Html
     {
         if ('li' != $node->nodeName) {
             $cNodes = $node->childNodes;
-            if (count($cNodes) > 0) {
+            if (!empty($cNodes)) {
                 foreach ($cNodes as $cNode) {
-                    if ($element instanceof AbstractContainer) {
+                    if ($element instanceof AbstractContainer || $element instanceof Table || $element instanceof Row) {
                         self::parseNode($cNode, $element, $styles, $data);
                     }
                 }
@@ -197,7 +217,7 @@ class Html
      */
     private static function parseParagraph($node, $element, &$styles)
     {
-        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
         $newElement = $element->addTextRun($styles['paragraph']);
 
         return $newElement;
@@ -231,13 +251,16 @@ class Html
      */
     private static function parseText($node, $element, &$styles)
     {
-        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+        $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
-        // Commented as source of bug #257. `method_exists` doesn't seems to work properly in this case.
-        // @todo Find better error checking for this one
-        // if (method_exists($element, 'addText')) {
-        $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
-        // }
+        //alignment applies on paragraph, not on font. Let's copy it there
+        if (isset($styles['font']['alignment']) && is_array($styles['paragraph'])) {
+            $styles['paragraph']['alignment'] = $styles['font']['alignment'];
+        }
+
+        if (is_callable(array($element, 'addText'))) {
+            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+        }
     }
 
     /**
@@ -249,16 +272,18 @@ class Html
      */
     private static function parseProperty(&$styles, $argument1, $argument2)
     {
-        if ($argument1 !== 'span') {
-            $styles['font'][$argument1] = $argument2;
-        } else {
-            if (!is_null($argument2->attributes)) {
-                $nodeAttr = $argument2->attributes->getNamedItem('style');
-                if (!is_null($nodeAttr) && property_exists($nodeAttr, 'value')) {
-                    $styles['font'] = self::parseStyle($nodeAttr, $styles['font']);
-                }
-            }
-        }
+        $styles['font'][$argument1] = $argument2;
+    }
+
+    /**
+     * Parse span node
+     *
+     * @param \DOMNode $node
+     * @param array &$styles
+     */
+    private static function parseSpan($node, &$styles)
+    {
+        self::parseInlineStyle($node, $styles['font']);
     }
 
     /**
@@ -267,16 +292,15 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
-     * @param string $argument1 Method name
-     * @return \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @return Table $element
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles, $argument1)
+    private static function parseTable($node, $element, &$styles)
     {
-        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        $elementStyles = self::parseInlineStyle($node, $styles['table']);
 
-        $newElement = $element->$argument1();
+        $newElement = $element->addTable($elementStyles);
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {
@@ -294,20 +318,142 @@ class Html
     }
 
     /**
+     * Parse a table row
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array &$styles
+     * @return Row $element
+     */
+    private static function parseRow($node, $element, &$styles)
+    {
+        $rowStyles = self::parseInlineStyle($node, $styles['row']);
+        if ($node->parentNode->nodeName == 'thead') {
+            $rowStyles['tblHeader'] = true;
+        }
+
+        return $element->addRow(null, $rowStyles);
+    }
+
+    /**
+     * Parse table cell
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\Table $element
+     * @param array &$styles
+     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
+     */
+    private static function parseCell($node, $element, &$styles)
+    {
+        $cellStyles = self::recursiveParseStylesInHierarchy($node, $styles['cell']);
+
+        $colspan = $node->getAttribute('colspan');
+        if (!empty($colspan)) {
+            $cellStyles['gridSpan'] = $colspan - 0;
+        }
+        $cell = $element->addCell(null, $cellStyles);
+
+        if (self::shouldAddTextRun($node)) {
+            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+        }
+
+        return $cell;
+    }
+
+    /**
+     * Checks if $node contains an HTML element that cannot be added to TextRun
+     *
+     * @param \DOMNode $node
+     * @return bool Returns true if the node contains an HTML element that cannot be added to TextRun
+     */
+    private static function shouldAddTextRun(\DOMNode $node)
+    {
+        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
+        if ($containsBlockElement) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Recursively parses styles on parent nodes
+     * TODO if too slow, add caching of parent nodes, !! everything is static here so watch out for concurrency !!
+     *
+     * @param \DOMNode $node
+     * @param array &$styles
+     */
+    private static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
+    {
+        $parentStyle = self::parseInlineStyle($node, array());
+        $style = array_merge($parentStyle, $style);
+        if ($node->parentNode != null && XML_ELEMENT_NODE == $node->parentNode->nodeType) {
+            $style = self::recursiveParseStylesInHierarchy($node->parentNode, $style);
+        }
+
+        return $style;
+    }
+
+    /**
      * Parse list node
      *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param array &$data
-     * @param string $argument1 List type
      */
-    private static function parseList(&$styles, &$data, $argument1)
+    private static function parseList($node, $element, &$styles, &$data)
     {
+        $isOrderedList = $node->nodeName === 'ol';
         if (isset($data['listdepth'])) {
             $data['listdepth']++;
         } else {
             $data['listdepth'] = 0;
+            $styles['list'] = 'listStyle_' . self::$listIndex++;
+            $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
         }
-        $styles['list']['listType'] = $argument1;
+        if ($node->parentNode->nodeName === 'li') {
+            return $element->getParent();
+        }
+    }
+
+    /**
+     * @param bool $isOrderedList
+     * @return array
+     */
+    private static function getListStyle($isOrderedList)
+    {
+        if ($isOrderedList) {
+            return array(
+                'type'   => 'multilevel',
+                'levels' => array(
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%1.', 'alignment' => 'left',  'tabPos' => 720,  'left' => 720,  'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%2.', 'alignment' => 'left',  'tabPos' => 1440, 'left' => 1440, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%3.', 'alignment' => 'right', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%4.', 'alignment' => 'left',  'tabPos' => 2880, 'left' => 2880, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%5.', 'alignment' => 'left',  'tabPos' => 3600, 'left' => 3600, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%6.', 'alignment' => 'right', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 180),
+                    array('format' => NumberFormat::DECIMAL,      'text' => '%7.', 'alignment' => 'left',  'tabPos' => 5040, 'left' => 5040, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_LETTER, 'text' => '%8.', 'alignment' => 'left',  'tabPos' => 5760, 'left' => 5760, 'hanging' => 360),
+                    array('format' => NumberFormat::LOWER_ROMAN,  'text' => '%9.', 'alignment' => 'right', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 180),
+                ),
+            );
+        }
+
+        return array(
+            'type'   => 'hybridMultilevel',
+            'levels' => array(
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 720,  'left' => 720,  'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 1440, 'left' => 1440, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2160, 'left' => 2160, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 2880, 'left' => 2880, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 3600, 'left' => 3600, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 4320, 'left' => 4320, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 5040, 'left' => 5040, 'hanging' => 360, 'font' => 'Symbol',      'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => 'o',  'alignment' => 'left', 'tabPos' => 5760, 'left' => 5760, 'hanging' => 360, 'font' => 'Courier New', 'hint' => 'default'),
+                array('format' => NumberFormat::BULLET, 'text' => '', 'alignment' => 'left', 'tabPos' => 6480, 'left' => 6480, 'hanging' => 360, 'font' => 'Wingdings',   'hint' => 'default'),
+            ),
+        );
     }
 
     /**
@@ -324,14 +470,11 @@ class Html
     private static function parseListItem($node, $element, &$styles, $data)
     {
         $cNodes = $node->childNodes;
-        if (count($cNodes) > 0) {
-            $text = '';
+        if (!empty($cNodes)) {
+            $listRun = $element->addListItemRun($data['listdepth'], $styles['list'], $styles['paragraph']);
             foreach ($cNodes as $cNode) {
-                if ($cNode->nodeName == '#text') {
-                    $text = $cNode->nodeValue;
-                }
+                self::parseNode($cNode, $listRun, $styles, $data);
             }
-            $element->addListItem($text, $data['listdepth'], $styles['font'], $styles['list'], $styles['paragraph']);
         }
     }
 
@@ -345,8 +488,9 @@ class Html
     private static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+
         foreach ($properties as $property) {
-            list($cKey, $cValue) = explode(':', $property, 2);
+            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
@@ -360,26 +504,40 @@ class Html
                     }
                     break;
                 case 'text-align':
-                    switch ($cValue) {
-                        case 'left':
-                            $styles['alignment'] = Jc::START;
-                            break;
-                        case 'right':
-                            $styles['alignment'] = Jc::END;
-                            break;
-                        case 'center':
-                            $styles['alignment'] = Jc::CENTER;
-                            break;
-                        case 'justify':
-                            $styles['alignment'] = Jc::BOTH;
-                            break;
-                    }
+                    $styles['alignment'] = self::mapAlign($cValue);
+                    break;
+                case 'direction':
+                    $styles['rtl'] = $cValue === 'rtl';
+                    break;
+                case 'font-size':
+                    $styles['size'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'font-family':
+                    $cValue = array_map('trim', explode(',', $cValue));
+                    $styles['name'] = ucwords($cValue[0]);
                     break;
                 case 'color':
                     $styles['color'] = trim($cValue, '#');
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
+                    break;
+                case 'line-height':
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
+                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = ((int) $matches[1]) / 100;
+                    } else {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = $cValue;
+                    }
+                    $styles['spacingLineRule'] = $spacingLineRule;
+                    $styles['lineHeight'] = $spacing;
+                    break;
+                case 'text-indent':
+                    $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
                     break;
                 case 'font-weight':
                     $tValue = false;
@@ -395,9 +553,180 @@ class Html
                     }
                     $styles['italic'] = $tValue;
                     break;
+                case 'margin-top':
+                    $styles['spaceBefore'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'margin-bottom':
+                    $styles['spaceAfter'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'border-color':
+                    $styles['color'] = trim($cValue, '#');
+                    break;
+                case 'border-width':
+                    $styles['borderSize'] = Converter::cssToPoint($cValue);
+                    break;
+                case 'border-style':
+                    $styles['borderStyle'] = self::mapBorderStyle($cValue);
+                    break;
+                case 'width':
+                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                        $styles['width'] = Converter::cssToTwip($matches[1]);
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $styles['width'] = $matches[1] * 50;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
+                    } elseif (preg_match('/([0-9]+)/', $cValue, $matches)) {
+                        $styles['width'] = $matches[1];
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
+                    }
+                    break;
+                case 'border':
+                    if (preg_match('/([0-9]+[^0-9]*)\s+(\#[a-fA-F0-9]+)\s+([a-z]+)/', $cValue, $matches)) {
+                        $styles['borderSize'] = Converter::cssToPoint($matches[1]);
+                        $styles['borderColor'] = trim($matches[2], '#');
+                        $styles['borderStyle'] = self::mapBorderStyle($matches[3]);
+                    }
+                    break;
             }
         }
 
         return $styles;
+    }
+
+    /**
+     * Parse image node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     *
+     * @return \PhpOffice\PhpWord\Element\Image
+     **/
+    private static function parseImage($node, $element)
+    {
+        $style = array();
+        $src = null;
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'src':
+                    $src = $attribute->value;
+                    break;
+                case 'width':
+                    $width = $attribute->value;
+                    $style['width'] = $width;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
+                    break;
+                case 'height':
+                    $height = $attribute->value;
+                    $style['height'] = $height;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
+                    break;
+                case 'style':
+                    $styleattr = explode(';', $attribute->value);
+                    foreach ($styleattr as $attr) {
+                        if (strpos($attr, ':')) {
+                            list($k, $v) = explode(':', $attr);
+                            switch ($k) {
+                                case 'float':
+                                    if (trim($v) == 'right') {
+                                        $style['hPos'] = \PhpOffice\PhpWord\Style\Image::POS_RIGHT;
+                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+                                        $style['pos'] = \PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
+                                        $style['wrap'] = \PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
+                                        $style['overlap'] = true;
+                                    }
+                                    if (trim($v) == 'left') {
+                                        $style['hPos'] = \PhpOffice\PhpWord\Style\Image::POS_LEFT;
+                                        $style['hPosRelTo'] = \PhpOffice\PhpWord\Style\Image::POS_RELTO_PAGE;
+                                        $style['pos'] = \PhpOffice\PhpWord\Style\Image::POS_RELATIVE;
+                                        $style['wrap'] = \PhpOffice\PhpWord\Style\Image::WRAP_TIGHT;
+                                        $style['overlap'] = true;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        $newElement = $element->addImage($src, $style);
+
+        return $newElement;
+    }
+
+    /**
+     * Transforms a CSS border style into a word border style
+     *
+     * @param string $cssBorderStyle
+     * @return null|string
+     */
+    private static function mapBorderStyle($cssBorderStyle)
+    {
+        switch ($cssBorderStyle) {
+            case 'none':
+            case 'dashed':
+            case 'dotted':
+            case 'double':
+                return $cssBorderStyle;
+            default:
+                return 'single';
+        }
+    }
+
+    /**
+     * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc
+     *
+     * @param string $cssAlignment
+     * @return string|null
+     */
+    private static function mapAlign($cssAlignment)
+    {
+        switch ($cssAlignment) {
+            case 'right':
+                return Jc::END;
+            case 'center':
+                return Jc::CENTER;
+            case 'justify':
+                return Jc::BOTH;
+            default:
+                return Jc::START;
+        }
+
+        return null;
+    }
+
+    /**
+     * Parse line break
+     *
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     */
+    private static function parseLineBreak($element)
+    {
+        $element->addTextBreak();
+    }
+
+    /**
+     * Parse link node
+     *
+     * @param \DOMNode $node
+     * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
+     * @param array $styles
+     */
+    private static function parseLink($node, $element, &$styles)
+    {
+        $target = null;
+        foreach ($node->attributes as $attribute) {
+            switch ($attribute->name) {
+                case 'href':
+                    $target = $attribute->value;
+                    break;
+            }
+        }
+        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+
+        if (strpos($target, '#') === 0) {
+            return $element->addLink(substr($target, 1), $node->textContent, $styles['font'], $styles['paragraph'], true);
+        }
+
+        return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }
 }

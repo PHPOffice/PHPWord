@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -305,10 +305,10 @@ class Settings
      */
     public static function getTempDir()
     {
-        $tempDir = sys_get_temp_dir();
-
         if (!empty(self::$tempDir)) {
             $tempDir = self::$tempDir;
+        } else {
+            $tempDir = sys_get_temp_dir();
         }
 
         return $tempDir;
@@ -318,8 +318,6 @@ class Settings
      * @since 0.13.0
      *
      * @return bool
-     *
-     * @codeCoverageIgnore
      */
     public static function isOutputEscapingEnabled()
     {
@@ -330,8 +328,6 @@ class Settings
      * @since 0.13.0
      *
      * @param bool $outputEscapingEnabled
-     *
-     * @codeCoverageIgnore
      */
     public static function setOutputEscapingEnabled($outputEscapingEnabled)
     {

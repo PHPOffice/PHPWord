@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -73,7 +73,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pixelToPoint($value);
             $this->assertEquals($value / 96 * 72, $result);
 
-            $result = Converter::pixelToEMU($value);
+            $result = Converter::pixelToEmu($value);
             $this->assertEquals(round($value * 9525), $result);
 
             $result = Converter::pointToTwip($value);
@@ -82,11 +82,14 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pointToPixel($value);
             $this->assertEquals($value / 72 * 96, $result);
 
-            $result = Converter::pointToEMU($value);
+            $result = Converter::pointToEmu($value);
             $this->assertEquals(round($value / 72 * 96 * 9525), $result);
 
             $result = Converter::emuToPixel($value);
             $this->assertEquals(round($value / 9525), $result);
+
+            $result = Converter::picaToPoint($value);
+            $this->assertEquals($value / 6 * 72, $result, '', 0.00001);
 
             $result = Converter::degreeToAngle($value);
             $this->assertEquals((int) round($value * 60000), $result);
@@ -108,8 +111,23 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $values[] = array('0F9D', false); // 4 characters
         // Conduct test
         foreach ($values as $value) {
-            $result = Converter::htmlToRGB($value[0]);
+            $result = Converter::htmlToRgb($value[0]);
             $this->assertEquals($value[1], $result);
         }
+    }
+
+    /**
+     * Test css size to point
+     */
+    public function testCssSizeParser()
+    {
+        $this->assertNull(Converter::cssToPoint('10em'));
+        $this->assertEquals(0, Converter::cssToPoint('0'));
+        $this->assertEquals(10, Converter::cssToPoint('10pt'));
+        $this->assertEquals(7.5, Converter::cssToPoint('10px'));
+        $this->assertEquals(720, Converter::cssToPoint('10in'));
+        $this->assertEquals(120, Converter::cssToPoint('10pc'));
+        $this->assertEquals(28.346457, Converter::cssToPoint('10mm'), '', 0.000001);
+        $this->assertEquals(283.464567, Converter::cssToPoint('10cm'), '', 0.000001);
     }
 }

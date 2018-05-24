@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -31,10 +31,10 @@ class SpacingTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Spacing();
         $properties = array(
-            'before' => array(null, 10),
-            'after'  => array(null, 10),
-            'line'   => array(null, 10),
-            'rule'   => array('auto', 'exact'),
+            'before'   => array(null, 10),
+            'after'    => array(null, 10),
+            'line'     => array(null, 10),
+            'lineRule' => array('auto', 'exact'),
         );
         foreach ($properties as $property => $value) {
             list($default, $expected) = $value;

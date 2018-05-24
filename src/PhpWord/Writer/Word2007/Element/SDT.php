@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -101,7 +101,7 @@ class SDT extends Text
      */
     private function writeDropDownList(XMLWriter $xmlWriter, SDTElement $element)
     {
-        $this->writecomboBox($xmlWriter, $element);
+        $this->writeComboBox($xmlWriter, $element);
     }
 
     /**

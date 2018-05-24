@@ -31,7 +31,7 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 11    | Watermark       | -         | v        | -        | -       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 12    | Object          | v         | v        | v        | v       | v          | v          |
+| 12    | OLEObject       | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 13    | TOC             | v         | -        | -        | -       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
@@ -39,13 +39,15 @@ column shows the containers while the rows lists the elements.
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 15    | Endnote         | v         | -        | -        | v\*\*   | v\*\*      | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
-| 16    | CheckBox        | v         | v        | v        | v       | -          | -          |
+| 16    | CheckBox        | v         | v        | v        | v       | v          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 17    | TextBox         | v         | v        | v        | v       | -          | -          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 18    | Field           | v         | v        | v        | v       | v          | v          |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 | 19    | Line            | v         | v        | v        | v       | v          | v          |
++-------+-----------------+-----------+----------+----------+---------+------------+------------+
+| 20    | Chart           | v         |          |          | v       |            |            |
 +-------+-----------------+-----------+----------+----------+---------+------------+------------+
 
 Legend:
@@ -75,11 +77,19 @@ italics, etc) or other elements, e.g. images or links. The syntaxes are as follo
 
 For available styling options see :ref:`font-style` and :ref:`paragraph-style`.
 
+If you want to enable track changes on added text you can mark it as INSERTED or DELETED by a specific user at a given time:
+
+.. code-block:: php
+
+    $text = $section->addText('Hello World!');
+    $text->setChanged(\PhpOffice\PhpWord\Element\ChangedElement::TYPE_INSERTED, 'Fred', (new \DateTime()));
+
 Titles
 ~~~~~~
 
 If you want to structure your document or build table of contents, you need titles or headings.
 To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` method.
+If `depth` is 0, a Title will be inserted, otherwise a Heading1, Heading2, ...
 
 .. code-block:: php
 
@@ -89,7 +99,7 @@ To add a title to the document, use the ``addTitleStyle`` and ``addTitle`` metho
 - ``depth``.
 - ``$fontStyle``. See :ref:`font-style`.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
-- ``$text``. Text to be displayed in the document.
+- ``$text``. Text to be displayed in the document. This can be `string` or a `\PhpOffice\PhpWord\Element\TextRun`
 
 It's necessary to add a title style to your document because otherwise the title won't be detected as a real title.
 
@@ -158,7 +168,7 @@ Parameters:
 - ``$text``. Text that appears in the document.
 - ``$depth``. Depth of list item.
 - ``$fontStyle``. See :ref:`font-style`.
-- ``$listStyle``. List style of the current element TYPE\_NUMBER, 
+- ``$listStyle``. List style of the current element TYPE\_NUMBER,
   TYPE\_ALPHANUM, TYPE\_BULLET\_FILLED, etc. See list of constants in PHPWord\\Style\\ListItem.
 - ``$paragraphStyle``. See :ref:`paragraph-style`.
 
@@ -232,7 +242,7 @@ To add an image, use the ``addImage`` method to sections, headers, footers, text
 
     $section->addImage($src, [$style]);
 
-- ``$src``. String path to a local image, URL of a remote image or the image data, as a string.
+- ``$src``. String path to a local image, URL of a remote image or the image data, as a string. Warning: Do not pass user-generated strings here, as that would allow an attacker to read arbitrary files or perform server-side request forgery by passing file paths or URLs instead of image data.
 - ``$style``. See :ref:`image-style`.
 
 Examples:
@@ -274,11 +284,11 @@ Objects
 -------
 
 You can add OLE embeddings, such as Excel spreadsheets or PowerPoint
-presentations to the document by using ``addObject`` method.
+presentations to the document by using ``addOLEObject`` method.
 
 .. code-block:: php
 
-    $section->addObject($src, [$style]);
+    $section->addOLEObject($src, [$style]);
 
 Table of contents
 -----------------
@@ -297,9 +307,9 @@ Your TOC can only be generated if you have add at least one title (See "Titles")
 
 Options for ``$tocStyle``:
 
-- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in PHPWord\\Style\\TOC.
-- ``tabPos``. The position of the tab where the page number appears in twips.
-- ``indent``. The indent factor of the titles in twips.
+- ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
+- ``tabPos``. The position of the tab where the page number appears in *twip*.
+- ``indent``. The indent factor of the titles in *twip*.
 
 Footnotes & endnotes
 --------------------
@@ -307,7 +317,7 @@ Footnotes & endnotes
 You can create footnotes with ``addFootnote`` and endnotes with
 ``addEndnote`` in texts or textruns, but it's recommended to use textrun
 to have better layout. You can use ``addText``, ``addLink``,
-``addTextBreak``, ``addImage``, ``addObject`` on footnotes and endnotes.
+``addTextBreak``, ``addImage``, ``addOLEObject`` on footnotes and endnotes.
 
 On textrun:
 
@@ -343,7 +353,7 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
 .. code-block:: php
 
     $fp = new PhpWord\SimpleType\FootnoteProperties();
-    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd) 
+    //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd)
     $fp->setPos(FootnoteProperties::POSITION_DOC_END);
     //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
     $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
@@ -351,7 +361,6 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
     $fp->setNumStart(2);
     //when to restart counting (continuous (default), eachSect, eachPage)
     $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
-    
     //And finaly, set it on the Section
     $section->setFootnoteProperties($properties);
 
@@ -377,7 +386,7 @@ To be completed
 Fields
 ------
 
-Currently the following fields are supported: 
+Currently the following fields are supported:
 
 - PAGE
 - NUMPAGES
@@ -404,32 +413,49 @@ For instance for the INDEX field, you can do the following (See `Index Field for
     $fieldText->addText('My ');
     $fieldText->addText('bold index', ['bold' => true]);
     $fieldText->addText(' entry');
+    $section->addField('XE', array(), array(), $fieldText);
 
-    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), $fieldText);
+    //this actually adds the index
+    $section->addField('INDEX', array(), array('\\e "	" \\h "A" \\c "3"'), 'right click to update index');
 
 Line
-------
+----
 
 Line elements can be added to sections by using ``addLine``.
 
 .. code-block:: php
 
     $lineStyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 635552);
-    $section->addLine($lineStyle)
+    $section->addLine($lineStyle);
 
 Available line style attributes:
 
-- ``weight``. Line width in twips.
+- ``weight``. Line width in *twip*.
 - ``color``. Defines the color of stroke.
 - ``dash``. Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot.
 - ``beginArrow``. Start type of arrow: block, open, classic, diamond, oval.
 - ``endArrow``. End type of arrow: block, open, classic, diamond, oval.
-- ``width``. Line-object width in pt.
-- ``height``. Line-object height in pt.
+- ``width``. Line-object width in *pt*.
+- ``height``. Line-object height in *pt*.
 - ``flip``. Flip the line element: true, false.
 
+Chart
+-----
+
+Charts can be added using
+
+.. code-block:: php
+
+    $categories = array('A', 'B', 'C', 'D', 'E');
+    $series = array(1, 3, 2, 5, 4);
+    $chart = $section->addChart('line', $categories, $series, $style);
+
+For available styling options see :ref:`chart-style`.
+
+check out the Sample_32_Chart.php for more options and styling.
+
 Comments
----------
+--------
 
 Comments can be added to a document by using ``addComment``.
 The comment can contain formatted text. Once the comment has been added, it can be linked to any element with ``setCommentStart``.
@@ -450,3 +476,28 @@ The comment can contain formatted text. Once the comment has been added, it can 
     $text->setCommentStart($comment);
 
 If no end is set for a comment using the ``setCommentEnd``, the comment will be ended automatically at the end of the element it is started on.
+
+Track Changes
+-------------
+
+Track changes can be set on text elements. There are 2 ways to set the change information on an element.
+Either by calling the `setChangeInfo()`, or by setting the `TrackChange` instance on the element with `setTrackChange()`.
+
+.. code-block:: php
+
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+    // New portrait section
+    $section = $phpWord->addSection();
+    $textRun = $section->addTextRun();
+
+    $text = $textRun->addText('Hello World! Time to ');
+
+    $text = $textRun->addText('wake ', array('bold' => true));
+    $text->setChangeInfo(TrackChange::INSERTED, 'Fred', time() - 1800);
+
+    $text = $textRun->addText('up');
+    $text->setTrackChange(new TrackChange(TrackChange::INSERTED, 'Fred'));
+
+    $text = $textRun->addText('go to sleep');
+    $text->setChangeInfo(TrackChange::DELETED, 'Barney', new \DateTime('@' . (time() - 3600)));
