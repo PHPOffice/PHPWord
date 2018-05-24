@@ -12,6 +12,12 @@ define('IS_INDEX', SCRIPT_FILENAME == 'index');
 
 Settings::loadConfig();
 
+$dompdfPath = $vendorDirPath . '/dompdf/dompdf';
+if (file_exists($dompdfPath)) {
+    define('DOMPDF_ENABLE_AUTOLOAD', false);
+    Settings::setPdfRenderer(Settings::PDF_RENDERER_DOMPDF, $vendorDirPath . '/dompdf/dompdf');
+}
+
 // Set writers
 $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
@@ -37,13 +43,19 @@ $pageHeading = IS_INDEX ? '' : "<h1>{$pageHeading}</h1>";
 // Populate samples
 $files = '';
 if ($handle = opendir('.')) {
-    while (false !== ($file = readdir($handle))) {
+    $sampleFiles = array();
+    while (false !== ($sampleFile = readdir($handle))) {
+        $sampleFiles[] = $sampleFile;
+    }
+    sort($sampleFiles);
+    closedir($handle);
+
+    foreach ($sampleFiles as $file) {
         if (preg_match('/^Sample_\d+_/', $file)) {
             $name = str_replace('_', ' ', preg_replace('/(Sample_|\.php)/', '', $file));
             $files .= "<li><a href='{$file}'>{$name}</a></li>";
         }
     }
-    closedir($handle);
 }
 
 /**
@@ -71,7 +83,7 @@ function write($phpWord, $filename, $writers)
         $result .= EOL;
     }
 
-    $result .= getEndingNotes($writers);
+    $result .= getEndingNotes($writers, $filename);
 
     return $result;
 }
@@ -80,10 +92,10 @@ function write($phpWord, $filename, $writers)
  * Get ending notes
  *
  * @param array $writers
- *
+ * @param mixed $filename
  * @return string
  */
-function getEndingNotes($writers)
+function getEndingNotes($writers, $filename)
 {
     $result = '';
 
@@ -110,6 +122,12 @@ function getEndingNotes($writers)
                 }
             }
             $result .= '</p>';
+
+            $result .= '<pre>';
+            if (file_exists($filename . '.php')) {
+                $result .= highlight_file($filename . '.php', true);
+            }
+            $result .= '</pre>';
         }
     }
 

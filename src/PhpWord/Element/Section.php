@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -85,8 +85,6 @@ class Section extends AbstractContainer
      * Get section style
      *
      * @return \PhpOffice\PhpWord\Style\Section
-     *
-     * @codeCoverageIgnore
      */
     public function getStyle()
     {
@@ -125,8 +123,6 @@ class Section extends AbstractContainer
      * Get header elements
      *
      * @return Header[]
-     *
-     * @codeCoverageIgnore
      */
     public function getHeaders()
     {
@@ -137,8 +133,6 @@ class Section extends AbstractContainer
      * Get footer elements
      *
      * @return Footer[]
-     *
-     * @codeCoverageIgnore
      */
     public function getFooters()
     {
@@ -148,7 +142,7 @@ class Section extends AbstractContainer
     /**
      * Get the footnote properties
      *
-     * @return \PhpOffice\PhpWord\Element\FooterProperties
+     * @return FootnoteProperties
      */
     public function getFootnotePropoperties()
     {

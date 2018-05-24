@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -91,7 +91,7 @@ class Settings
     /**
      * Spelling and Grammatical Checking State
      *
-     * @var \PhpOffice\PhpWord\Metadata\ProofState
+     * @var \PhpOffice\PhpWord\ComplexType\ProofState
      */
     private $proofState;
 
@@ -117,11 +117,44 @@ class Settings
     private $themeFontLang;
 
     /**
+     * Automatically Recalculate Fields on Open
+     *
+     * @var bool
+     */
+    private $updateFields = false;
+
+    /**
      * Radix Point for Field Code Evaluation
      *
      * @var string
      */
     private $decimalSymbol = '.';
+
+    /**
+     * Automatically hyphenate document contents when displayed
+     *
+     * @var bool|null
+     */
+    private $autoHyphenation;
+
+    /**
+     * Maximum number of consecutively hyphenated lines
+     *
+     * @var int|null
+     */
+    private $consecutiveHyphenLimit;
+
+    /**
+     * The allowed amount of whitespace before hyphenation is applied
+     * @var float|null
+     */
+    private $hyphenationZone;
+
+    /**
+     * Do not hyphenate words in all capital letters
+     * @var bool|null
+     */
+    private $doNotHyphenateCaps;
 
     /**
      * @return Protection
@@ -346,6 +379,22 @@ class Settings
     }
 
     /**
+     * @return bool
+     */
+    public function hasUpdateFields()
+    {
+        return $this->updateFields;
+    }
+
+    /**
+     * @param bool $updateFields
+     */
+    public function setUpdateFields($updateFields)
+    {
+        $this->updateFields = $updateFields === null ? false : $updateFields;
+    }
+
+    /**
      * Returns the Radix Point for Field Code Evaluation
      *
      * @return string
@@ -363,5 +412,69 @@ class Settings
     public function setDecimalSymbol($decimalSymbol)
     {
         $this->decimalSymbol = $decimalSymbol;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasAutoHyphenation()
+    {
+        return $this->autoHyphenation;
+    }
+
+    /**
+     * @param bool $autoHyphenation
+     */
+    public function setAutoHyphenation($autoHyphenation)
+    {
+        $this->autoHyphenation = (bool) $autoHyphenation;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getConsecutiveHyphenLimit()
+    {
+        return $this->consecutiveHyphenLimit;
+    }
+
+    /**
+     * @param int $consecutiveHyphenLimit
+     */
+    public function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
+    {
+        $this->consecutiveHyphenLimit = (int) $consecutiveHyphenLimit;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getHyphenationZone()
+    {
+        return $this->hyphenationZone;
+    }
+
+    /**
+     * @param float $hyphenationZone Measurement unit is twip
+     */
+    public function setHyphenationZone($hyphenationZone)
+    {
+        $this->hyphenationZone = $hyphenationZone;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function hasDoNotHyphenateCaps()
+    {
+        return $this->doNotHyphenateCaps;
+    }
+
+    /**
+     * @param bool $doNotHyphenateCaps
+     */
+    public function setDoNotHyphenateCaps($doNotHyphenateCaps)
+    {
+        $this->doNotHyphenateCaps = (bool) $doNotHyphenateCaps;
     }
 }

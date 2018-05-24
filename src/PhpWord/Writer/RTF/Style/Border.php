@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -48,7 +48,7 @@ class Border extends AbstractStyle
         $content = '';
 
         $sides = array('top', 'left', 'right', 'bottom');
-        $sizeCount = count($this->sizes) - 1;
+        $sizeCount = count($this->sizes);
 
         // Page border measure
         // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off

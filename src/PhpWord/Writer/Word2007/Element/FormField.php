@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,7 +19,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\FormField as FormFieldElement;
-use PhpOffice\PhpWord\Settings;
 
 /**
  * FormField element writer
@@ -90,11 +89,7 @@ class FormField extends Text
         $this->writeFontStyle();
         $xmlWriter->startElement('w:t');
         $xmlWriter->writeAttribute('xml:space', 'preserve');
-        if (Settings::isOutputEscapingEnabled()) {
-            $xmlWriter->text($value);
-        } else {
-            $xmlWriter->writeRaw($value);
-        }
+        $this->writeText($value);
         $xmlWriter->endElement(); // w:t
         $xmlWriter->endElement(); // w:r
 
@@ -165,6 +160,9 @@ class FormField extends Text
         $xmlWriter->writeElementBlock('w:result', 'w:val', $value);
         $xmlWriter->writeElementBlock('w:default', 'w:val', $default);
         foreach ($entries as $entry) {
+            if ($entry == null || $entry == '') {
+                $entry = str_repeat(' ', self::FILLER_LENGTH);
+            }
             $xmlWriter->writeElementBlock('w:listEntry', 'w:val', $entry);
         }
         $xmlWriter->endElement();

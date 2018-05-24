@@ -11,16 +11,16 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
 
 /**
- * Test class for PhpOffice\PhpWord\Element\Object
+ * Test class for PhpOffice\PhpWord\Element\OLEObject
  *
- * @coversDefaultClass \PhpOffice\PhpWord\Element\Object
+ * @coversDefaultClass \PhpOffice\PhpWord\Element\OLEObject
  * @runTestsInSeparateProcesses
  */
 class ObjectTest extends \PHPUnit\Framework\TestCase
@@ -31,9 +31,9 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithSupportedFiles()
     {
         $src = __DIR__ . '/../_files/documents/reader.docx';
-        $oObject = new Object($src);
+        $oObject = new OLEObject($src);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         $this->assertEquals($src, $oObject->getSource());
     }
@@ -44,9 +44,9 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithSupportedFilesLong()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
-        $oObject = new Object($src);
+        $oObject = new OLEObject($src);
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         $this->assertEquals($src, $oObject->getSource());
     }
@@ -59,7 +59,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithNotSupportedFiles()
     {
         $src = __DIR__ . '/../_files/xsl/passthrough.xsl';
-        $oObject = new Object($src);
+        $oObject = new OLEObject($src);
         $oObject->getSource();
     }
 
@@ -69,9 +69,9 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithSupportedFilesAndStyle()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
-        $oObject = new Object($src, array('width' => '230px'));
+        $oObject = new OLEObject($src, array('width' => '230px'));
 
-        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Object', $oObject);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());
         $this->assertEquals($src, $oObject->getSource());
     }
@@ -82,7 +82,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testRelationId()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
-        $oObject = new Object($src);
+        $oObject = new OLEObject($src);
 
         $iVal = rand(1, 1000);
         $oObject->setRelationId($iVal);
@@ -95,7 +95,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testImageRelationId()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
-        $oObject = new Object($src);
+        $oObject = new OLEObject($src);
 
         $iVal = rand(1, 1000);
         $oObject->setImageRelationId($iVal);

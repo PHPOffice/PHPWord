@@ -11,26 +11,26 @@ Section
 Available Section style options:
 
 - ``borderBottomColor``. Border bottom color.
-- ``borderBottomSize``. Border bottom size (in twips).
+- ``borderBottomSize``. Border bottom size in *twip*.
 - ``borderLeftColor``. Border left color.
-- ``borderLeftSize``. Border left size (in twips).
+- ``borderLeftSize``. Border left size in *twip*.
 - ``borderRightColor``. Border right color.
-- ``borderRightSize``. Border right size (in twips).
+- ``borderRightSize``. Border right size in *twip*.
 - ``borderTopColor``. Border top color.
-- ``borderTopSize``. Border top size (in twips).
+- ``borderTopSize``. Border top size in *twip*.
 - ``breakType``. Section break type (nextPage, nextColumn, continuous, evenPage, oddPage).
 - ``colsNum``. Number of columns.
 - ``colsSpace``. Spacing between columns.
 - ``footerHeight``. Spacing to bottom of footer.
 - ``gutter``. Page gutter spacing.
 - ``headerHeight``. Spacing to top of header.
-- ``marginTop``. Page margin top (in twips).
-- ``marginLeft``. Page margin left (in twips).
-- ``marginRight``. Page margin right (in twips).
-- ``marginBottom``. Page margin bottom (in twips).
+- ``marginTop``. Page margin top in *twip*.
+- ``marginLeft``. Page margin left in *twip*.
+- ``marginRight``. Page margin right in *twip*.
+- ``marginBottom``. Page margin bottom in *twip*.
 - ``orientation``. Page orientation (``portrait``, which is default, or ``landscape``).
-- ``pageSizeH``. Page height (in twips). Implicitly defined by ``orientation`` option. Any changes are discouraged.
-- ``pageSizeW``. Page width (in twips). Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 
 .. _font-style:
 
@@ -59,6 +59,7 @@ Available Font style options:
    See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
+- ``position``. The text position, raised or lowered, in half points
 
 .. _paragraph-style:
 
@@ -70,15 +71,18 @@ Available Paragraph style options:
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
    See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
 - ``basedOn``. Parent style.
-- ``hanging``. Hanging by how much.
-- ``indent``. Indent by how much.
+- ``hanging``. Hanging in *twip*.
+- ``indent``. Indent in *twip*.
 - ``keepLines``. Keep all lines on one page, *true* or *false*.
 - ``keepNext``. Keep paragraph with next paragraph, *true* or *false*.
 - ``lineHeight``. Text line height, e.g. *1.0*, *1.5*, etc.
 - ``next``. Style for next paragraph.
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
-- ``spaceBefore``. Space before paragraph.
-- ``spaceAfter``. Space after paragraph.
+- ``spaceBefore``. Space before paragraph in *twip*.
+- ``spaceAfter``. Space after paragraph in *twip*.
+- ``spacing``. Space between lines.
+- ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
+- ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
 - ``contextualSpacing``. Ignore Spacing Above and Below When Using Identical Styles, *true* or *false*.
@@ -98,9 +102,27 @@ Available Table style options:
    See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` classes for the details.
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
-- ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
-- ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in twips.
+- ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
+- ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in *twip*.
+- ``indent``. Table indent from leading margin. Must be an instance of ``\PhpOffice\PhpWord\ComplexType\TblWidth``.
 - ``width``. Table width in percent.
+- ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
+- ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
+- ``cellSpacing`` Cell spacing in *twip*
+- ``position`` Floating Table Positioning, see below for options
+
+Floating Table Positioning options:
+
+- ``leftFromText`` Distance From Left of Table to Text in *twip*
+- ``rightFromText`` Distance From Right of Table to Text in *twip*
+- ``topFromText`` Distance From Top of Table to Text in *twip*
+- ``bottomFromText`` Distance From Top of Table to Text in *twip*
+- ``vertAnchor`` Table Vertical Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::VANCHOR_*``
+- ``horzAnchor`` Table Horizontal Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::HANCHOR_*``
+- ``tblpXSpec`` Relative Horizontal Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::XALIGN_*``
+- ``tblpX`` Absolute Horizontal Distance From Anchorin *twip*
+- ``tblpYSpec`` Relative Vertical Alignment From Anchor, one of ``\PhpOffice\PhpWord\Style\TablePosition::YALIGN_*``
+- ``tblpY`` Absolute Vertical Distance From Anchorin *twip*
 
 Available Row style options:
 
@@ -112,13 +134,13 @@ Available Cell style options:
 
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
-- ``border(Top|Right|Bottom|Left)Size``. Border size in twips.
+- ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
 - ``gridSpan``. Number of columns spanned.
 - ``textDirection(btLr|tbRl)``. Direction of text.
    You can use constants ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR`` and ``\PhpOffice\PhpWord\Style\Cell::TEXT_DIR_TBRL``
 - ``valign``. Vertical alignment, *top*, *center*, *both*, *bottom*.
 - ``vMerge``. *restart* or *continue*.
-- ``width``. Cell width in twips.
+- ``width``. Cell width in *twip*.
 
 .. _image-style:
 
@@ -128,11 +150,15 @@ Image
 Available Image style options:
 
 - ``alignment``. See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
-- ``height``. Height in pixels.
+- ``height``. Height in *pt*.
 - ``marginLeft``. Left margin in inches, can be negative.
 - ``marginTop``. Top margin in inches, can be negative.
-- ``width``. Width in pixels.
+- ``width``. Width in *pt*.
 - ``wrappingStyle``. Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*.
+- ``wrapDistanceTop``. Top text wrapping in pixels.
+- ``wrapDistanceBottom``. Bottom text wrapping in pixels.
+- ``wrapDistanceLeft``. Left text wrapping in pixels.
+- ``wrapDistanceRight``. Right text wrapping in pixels.
 
 .. _numbering-level-style:
 
@@ -153,3 +179,17 @@ Available NumberingLevel style options:
 - ``suffix``. Content between numbering symbol and paragraph text tab\|space\|nothing.
 - ``tabPos``. See paragraph style.
 - ``text``. Numbering level text e.g. %1 for nonbullet or bullet character.
+
+.. _chart-style:
+
+Chart
+-----
+
+Available Chart style options:
+
+- ``width``. Width (in EMU).
+- ``height``. Height (in EMU).
+- ``3d``. Is 3D; applies to pie, bar, line, area, *true* or *false*.
+- ``showAxisLabels``. Show labels for axis, *true* or *false*.
+- ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
+- ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.

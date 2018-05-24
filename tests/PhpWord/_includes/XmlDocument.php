@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -97,6 +97,7 @@ class XmlDocument
 
         if (null === $this->xpath) {
             $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
         return $this->xpath->query($path);
@@ -170,12 +171,20 @@ class XmlDocument
      * @param string $file
      * @return string
      */
-    public function printXml($path = '/w:document', $file = 'word/document.xml')
+    public function printXml($path = '/', $file = 'word/document.xml')
     {
+        $element = $this->getElement($path, $file);
+        if ($element instanceof \DOMDocument) {
+            $element->formatOutput = true;
+            $element->preserveWhiteSpace = false;
+
+            return $element->saveXML();
+        }
+
         $newdoc = new \DOMDocument();
         $newdoc->formatOutput = true;
         $newdoc->preserveWhiteSpace = false;
-        $node = $newdoc->importNode($this->getElement($path, $file), true);
+        $node = $newdoc->importNode($element, true);
         $newdoc->appendChild($node);
 
         return $newdoc->saveXML($node);

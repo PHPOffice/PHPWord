@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
 
@@ -52,8 +52,17 @@ class PhpWord
      * @const string|int
      */
     const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
@@ -85,6 +94,10 @@ class PhpWord
      */
     public function __construct()
     {
+        // Reset Media and styles
+        Media::resetElements();
+        Style::resetStyles();
+
         // Collection
         $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
         foreach ($collections as $collection) {
@@ -213,6 +226,21 @@ class PhpWord
     }
 
     /**
+     * Returns the section at the requested position
+     *
+     * @param int $index
+     * @return \PhpOffice\PhpWord\Element\Section|null
+     */
+    public function getSection($index)
+    {
+        if (array_key_exists($index, $this->sections)) {
+            return $this->sections[$index];
+        }
+
+        return null;
+    }
+
+    /**
      * Create new section
      *
      * @param array $style
@@ -225,6 +253,17 @@ class PhpWord
         $this->sections[] = $section;
 
         return $section;
+    }
+
+    /**
+     * Sorts the sections using the callable passed
+     *
+     * @see http://php.net/manual/en/function.usort.php for usage
+     * @param callable $sorter
+     */
+    public function sortSections($sorter)
+    {
+        usort($this->sections, $sorter);
     }
 
     /**

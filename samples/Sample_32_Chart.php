@@ -16,18 +16,23 @@ $section = $phpWord->addSection();
 $section->addTitle('2D charts', 1);
 $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous'));
 
-$chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar');
-$twoSeries = array('bar', 'column', 'line', 'area', 'scatter', 'radar');
+$chartTypes = array('pie', 'doughnut', 'bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
+$twoSeries = array('bar', 'column', 'line', 'area', 'scatter', 'radar', 'stacked_bar', 'percent_stacked_bar', 'stacked_column', 'percent_stacked_column');
 $threeSeries = array('bar', 'line');
 $categories = array('A', 'B', 'C', 'D', 'E');
 $series1 = array(1, 3, 2, 5, 4);
 $series2 = array(3, 1, 7, 2, 6);
 $series3 = array(8, 3, 2, 5, 4);
+$showGridLines = false;
+$showAxisLabels = false;
 
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
     $chart = $section->addChart($chartType, $categories, $series1);
     $chart->getStyle()->setWidth(Converter::inchToEmu(2.5))->setHeight(Converter::inchToEmu(2));
+    $chart->getStyle()->setShowGridX($showGridLines);
+    $chart->getStyle()->setShowGridY($showGridLines);
+    $chart->getStyle()->setShowAxisLabels($showAxisLabels);
     if (in_array($chartType, $twoSeries)) {
         $chart->addSeries($categories, $series2);
     }
@@ -44,7 +49,14 @@ $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous
 
 $chartTypes = array('pie', 'bar', 'column', 'line', 'area');
 $multiSeries = array('bar', 'column', 'line', 'area');
-$style = array('width' => Converter::cmToEmu(5), 'height' => Converter::cmToEmu(4), '3d' => true);
+$style = array(
+    'width'          => Converter::cmToEmu(5),
+    'height'         => Converter::cmToEmu(4),
+    '3d'             => true,
+    'showAxisLabels' => $showAxisLabels,
+    'showGridX'      => $showGridLines,
+    'showGridY'      => $showGridLines,
+);
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
     $chart = $section->addChart($chartType, $categories, $series1, $style);

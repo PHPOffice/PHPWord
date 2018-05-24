@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -52,8 +52,10 @@ class Styles extends AbstractPart
         // Automatic styles
         $xmlWriter->startElement('office:automatic-styles');
         $this->writePageLayout($xmlWriter);
+        $xmlWriter->endElement(); // office:automatic-styles
+
+        // Master style
         $this->writeMaster($xmlWriter);
-        $xmlWriter->endElement();
 
         $xmlWriter->endElement(); // office:document-styles
 

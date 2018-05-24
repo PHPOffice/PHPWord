@@ -11,12 +11,14 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
@@ -28,11 +30,19 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
 class MPDF extends AbstractRenderer implements WriterInterface
 {
     /**
-     * Name of renderer include file
+     * Overridden to set the correct includefile, only needed for MPDF 5
      *
-     * @var string
+     * @codeCoverageIgnore
+     * @param PhpWord $phpWord
      */
-    protected $includeFile = 'mpdf.php';
+    public function __construct(PhpWord $phpWord)
+    {
+        if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
+            // MPDF version 5.* needs this file to be included, later versions not
+            $this->includeFile = 'mpdf.php';
+        }
+        parent::__construct($phpWord);
+    }
 
     /**
      * Save PhpWord to file.
@@ -48,7 +58,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
-        $pdf = new \mpdf();
+        $mPdfClass = $this->getMPdfClassName();
+        $pdf = new $mPdfClass();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 
@@ -67,5 +78,22 @@ class MPDF extends AbstractRenderer implements WriterInterface
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    /**
+     * Return classname of MPDF to instantiate
+     *
+     * @codeCoverageIgnore
+     * @return string
+     */
+    private function getMPdfClassName()
+    {
+        if ($this->includeFile != null) {
+            // MPDF version 5.*
+            return '\mpdf';
+        }
+
+        // MPDF version > 6.*
+        return '\Mpdf\Mpdf';
     }
 }

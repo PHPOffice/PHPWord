@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,9 +21,9 @@ use PhpOffice\PhpWord\Exception\InvalidObjectException;
 use PhpOffice\PhpWord\Style\Image as ImageStyle;
 
 /**
- * Object element
+ * OLEObject element
  */
-class Object extends AbstractElement
+class OLEObject extends AbstractElement
 {
     /**
      * Ole-Object Src

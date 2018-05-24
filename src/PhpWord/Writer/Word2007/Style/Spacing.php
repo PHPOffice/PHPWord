@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -46,7 +46,7 @@ class Spacing extends AbstractStyle
         $line = $style->getLine();
         $xmlWriter->writeAttributeIf(!is_null($line), 'w:line', $line);
 
-        $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getRule());
+        $xmlWriter->writeAttributeIf(!is_null($line), 'w:lineRule', $style->getLineRule());
 
         $xmlWriter->endElement();
     }

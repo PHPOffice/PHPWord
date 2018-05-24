@@ -11,14 +11,13 @@
 * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
 *
 * @see         https://github.com/PHPOffice/PHPWord
-* @copyright   2010-2017 PHPWord contributors
+* @copyright   2010-2018 PHPWord contributors
 * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
 
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * List item element
@@ -61,7 +60,7 @@ class ListItemRun extends TextRun
         } else {
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        parent::__construct($paragraphStyle);
     }
 
     /**

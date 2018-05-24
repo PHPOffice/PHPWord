@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -55,5 +55,25 @@ class MsDocTest extends \PHPUnit\Framework\TestCase
         $filename = __DIR__ . '/../_files/documents/reader.doc';
         $phpWord = IOFactory::load($filename, 'MsDoc');
         $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+    }
+
+    /**
+     * Test exception on not existing file
+     * @expectedException \Exception
+     */
+    public function testFailIfFileNotReadable()
+    {
+        $filename = __DIR__ . '/../_files/documents/not_existing_reader.doc';
+        IOFactory::load($filename, 'MsDoc');
+    }
+
+    /**
+     * Test exception on non OLE document
+     * @expectedException \Exception
+     */
+    public function testFailIfFileNotOle()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader.odt';
+        IOFactory::load($filename, 'MsDoc');
     }
 }

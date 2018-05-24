@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -2224,7 +2224,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
     {
         foreach ($this->arraySections as $itmSection) {
             $oSection = $this->phpWord->addSection();
-            $oSection->setSettings($itmSection->styleSection);
+            $oSection->setStyle($itmSection->styleSection);
 
             $sHYPERLINK = '';
             foreach ($this->arrayParagraphs as $itmParagraph) {

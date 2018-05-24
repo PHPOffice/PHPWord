@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -45,10 +45,14 @@ class Cell extends AbstractStyle
         $xmlWriter->startElement('w:tcPr');
 
         // Width
-        $xmlWriter->startElement('w:tcW');
-        $xmlWriter->writeAttribute('w:w', $this->width);
-        $xmlWriter->writeAttribute('w:type', 'dxa');
-        $xmlWriter->endElement(); // w:tcW
+        if (!is_null($this->width) || !is_null($style->getWidth())) {
+            $width = is_null($this->width) ? $style->getWidth() : $this->width;
+
+            $xmlWriter->startElement('w:tcW');
+            $xmlWriter->writeAttribute('w:w', $width);
+            $xmlWriter->writeAttribute('w:type', $style->getUnit());
+            $xmlWriter->endElement(); // w:tcW
+        }
 
         // Text direction
         $textDir = $style->getTextDirection();
@@ -65,6 +69,7 @@ class Cell extends AbstractStyle
             $styleWriter = new MarginBorder($xmlWriter);
             $styleWriter->setSizes($style->getBorderSize());
             $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setStyles($style->getBorderStyle());
             $styleWriter->setAttributes(array('defaultColor' => CellStyle::DEFAULT_BORDER_COLOR));
             $styleWriter->write();
 
