@@ -88,7 +88,7 @@ class Style
     /**
      * Add title style
      *
-     * @param int $depth
+     * @param int|null $depth Provide null to set title font
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
