@@ -403,6 +403,55 @@ class TemplateProcessor
         return $imageAttrs;
     }
 
+    private function addImageToRelations($partFileName, $rid, $imgPath, $imageMimeType)
+    {
+        // define templates
+        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
+        $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
+        $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
+        $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
+        $extTransform = array(
+            'image/jpeg' => 'jpeg',
+            'image/png'  => 'png',
+            'image/bmp'  => 'bmp',
+            'image/gif'  => 'gif',
+        );
+
+        // get image embed name
+        if (isset($this->tempDocumentNewImages[$imgPath])) {
+            $imgName = $this->tempDocumentNewImages[$imgPath];
+        } else {
+            // transform extension
+            if (isset($extTransform[$imageMimeType])) {
+                $imgExt = $extTransform[$imageMimeType];
+            } else {
+                throw new Exception("Unsupported image type $imageMimeType");
+            }
+
+            // add image to document
+            $imgName = 'image_' . $rid . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
+            $this->zipClass->pclzipAddFile($imgPath, 'word/media/' . $imgName);
+            $this->tempDocumentNewImages[$imgPath] = $imgName;
+
+            // setup type for image
+            $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl);
+            $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
+        }
+
+        $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
+
+        if (!isset($this->tempDocumentRelations[$partFileName])) {
+            // create new relations file
+            $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
+            // and add it to content types
+            $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), $newRelationsTypeTpl);
+            $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+        }
+
+        // add image to relations
+        $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
+    }
+
     /**
      * @param mixed $search
      * @param mixed $replace Path to image, or array("path" => xx, "width" => yy, "height" => zz)
@@ -427,20 +476,7 @@ class TemplateProcessor
             $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
         }
 
-        // define templates
-        // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
-        $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
-        $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
-        $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
-        $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
-        $extTransform = array(
-            'image/jpeg' => 'jpeg',
-            'image/png'  => 'png',
-            'image/bmp'  => 'bmp',
-            'image/gif'  => 'gif',
-        );
-
+        // collect document parts
         $searchParts = array(
                             $this->getMainPartName() => &$this->tempDocumentMainPart,
                             );
@@ -450,6 +486,10 @@ class TemplateProcessor
         foreach (array_keys($this->tempDocumentFooters) as $headerIndex) {
             $searchParts[$this->getFooterName($headerIndex)] = &$this->tempDocumentFooters[$headerIndex];
         }
+
+        // define templates
+        // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
 
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
@@ -463,46 +503,14 @@ class TemplateProcessor
                     $varInlineArgs = $this->getImageArgs($varNameWithArgs);
                     $preparedImageAttrs = $this->prepareImageAttrs($replaceImage, $varInlineArgs);
                     $imgPath = $preparedImageAttrs['src'];
-                    $imageMimeType = $preparedImageAttrs['mime'];
 
                     // get image index
                     $imgIndex = $this->getNextRelationsIndex($partFileName);
                     $rid = 'rId' . $imgIndex;
 
-                    // get image embed name
-                    if (isset($this->tempDocumentNewImages[$imgPath])) {
-                        $imgName = $this->tempDocumentNewImages[$imgPath];
-                    } else {
-                        // transform extension
-                        if (isset($extTransform[$imageMimeType])) {
-                            $imgExt = $extTransform[$imageMimeType];
-                        } else {
-                            throw new Exception("Unsupported image type $imageMimeType");
-                        }
-
-                        // add image to document
-                        $imgName = 'image' . $imgIndex . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
-                        $this->zipClass->pclzipAddFile($imgPath, 'word/media/' . $imgName);
-                        $this->tempDocumentNewImages[$imgPath] = $imgName;
-
-                        // setup type for image
-                        $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl);
-                        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
-                    }
-
+                    // replace preparations
+                    $this->addImageToRelations($partFileName, $rid, $imgPath, $preparedImageAttrs['mime']);
                     $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']), $imgTpl);
-                    $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
-
-                    if (!isset($this->tempDocumentRelations[$partFileName])) {
-                        // create new relations file
-                        $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
-                        // and add it to content types
-                        $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), $newRelationsTypeTpl);
-                        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
-                    }
-
-                    // add image to relations
-                    $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
                     // replace variable
                     $varNameWithArgsFixed = self::ensureMacroCompleted($varNameWithArgs);
