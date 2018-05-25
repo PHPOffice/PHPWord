@@ -458,7 +458,6 @@ class TemplateProcessor
         foreach ($searchParts as $partFileName => &$partContent) {
             $partVariables = $this->getVariablesForPart($partContent);
 
-            $partSearchReplaces = array();
             foreach ($searchReplace as $searchString => $replaceImage) {
                 $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
                     return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
@@ -512,15 +511,15 @@ class TemplateProcessor
                     // collect prepared replaces
                     $varNameWithArgsFixed = self::ensureMacroCompleted($varNameWithArgs);
                     $matches = array();
-                    // just find substring. It not necessary to be alone in a tag
-                    if (preg_match('/' . preg_quote($varNameWithArgsFixed) . '/u', $partContent, $matches)) {
-                        $partSearchReplaces[$matches[0]] = $xmlImage;
+                    if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
+                        $wholeTag = $matches[0];
+                        array_shift($matches);
+                        list($openTag, $prefix, , $postfix, $closeTag) = $matches;
+                        $replaceXml = $openTag . $prefix . $closeTag . $xmlImage . $openTag . $postfix . $closeTag;
+                        // replace on each iteration, because in one tag we can have 2+ inline variables => before proceed next variable we need to change $partContent
+                        $partContent = $this->setValueForPart($wholeTag, $replaceXml, $partContent, $limit);
                     }
                 }
-            }
-
-            if ($partSearchReplaces) {
-                $partContent = $this->setValueForPart(array_keys($partSearchReplaces), $partSearchReplaces, $partContent, $limit);
             }
         }
     }
