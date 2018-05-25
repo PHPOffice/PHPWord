@@ -373,6 +373,13 @@ class TemplateProcessor
                         $imgPath = $replace;
                     }
 
+                    $imageData = @getimagesize($imgPath);
+                    if (!is_array($imageData)) {
+                        throw new Exception(sprintf('Invalid image: %s', $imgPath));
+                    }
+                    list($actualWidth, $actualHeight, $imageType) = $imageData;
+                    $imageMimeType = image_type_to_mime_type($imageType);
+
                     // choose width
                     if (is_null($width) && isset($varInlineArgs['width'])) {
                         $width = $varInlineArgs['width'];
@@ -403,12 +410,11 @@ class TemplateProcessor
 
                     // fix aspect ratio (by default)
                     if ($varInlineArgs['ratio'] !== 'f') {
-                        $imageInfo = getimagesize($imgPath);
-                        $imageRatio = $imageInfo[0] / $imageInfo[1];
+                        $imageRatio = $actualWidth / $actualHeight;
 
                         if (($width === '') && ($height === '')) { // defined size are empty
-                            $width = $imageInfo[0] . 'px';
-                            $height = $imageInfo[1] . 'px';
+                            $width = $actualWidth . 'px';
+                            $height = $actualHeight . 'px';
                         } elseif ($width === '') { // defined width is empty
                             $heightFloat = (float) $height;
                             $widthFloat = $heightFloat * $imageRatio;
