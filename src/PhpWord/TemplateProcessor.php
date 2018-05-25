@@ -303,10 +303,67 @@ class TemplateProcessor
         return $varInlineArgs;
     }
 
+    private function chooseImageDimension($baseValue, $inlineValue, $defaultValue)
+    {
+        $value = $baseValue;
+        if (is_null($value) && isset($inlineValue)) {
+            $value = $inlineValue;
+        }
+        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
+            $value = null;
+        }
+        if (is_null($value)) {
+            $value = $defaultValue;
+        }
+        if (is_numeric($value)) {
+            $value .= 'px';
+        }
+
+        return $value;
+    }
+
+    private function fixImageWidthHeightRatio(&$width, &$height, $actualWidth, $actualHeight)
+    {
+        $imageRatio = $actualWidth / $actualHeight;
+
+        if (($width === '') && ($height === '')) { // defined size are empty
+            $width = $actualWidth . 'px';
+            $height = $actualHeight . 'px';
+        } elseif ($width === '') { // defined width is empty
+            $heightFloat = (float) $height;
+            $widthFloat = $heightFloat * $imageRatio;
+            $matches = array();
+            preg_match("/\d([a-z%]+)$/", $height, $matches);
+            $width = $widthFloat . $matches[1];
+        } elseif ($height === '') { // defined height is empty
+            $widthFloat = (float) $width;
+            $heightFloat = $widthFloat / $imageRatio;
+            $matches = array();
+            preg_match("/\d([a-z%]+)$/", $width, $matches);
+            $height = $heightFloat . $matches[1];
+        } else { // we have defined size, but we need also check it aspect ratio
+            $widthMatches = array();
+            preg_match("/\d([a-z%]+)$/", $width, $widthMatches);
+            $heightMatches = array();
+            preg_match("/\d([a-z%]+)$/", $height, $heightMatches);
+            // try to fix only if dimensions are same
+            if ($widthMatches[1] == $heightMatches[1]) {
+                $dimention = $widthMatches[1];
+                $widthFloat = (float) $width;
+                $heightFloat = (float) $height;
+                $definedRatio = $widthFloat / $heightFloat;
+
+                if ($imageRatio > $definedRatio) { // image wider than defined box
+                    $height = ($widthFloat / $imageRatio) . $dimention;
+                } elseif ($imageRatio < $definedRatio) { // image higher than defined box
+                    $width = ($heightFloat * $imageRatio) . $dimention;
+                }
+            }
+        }
+    }
+
     private function prepareImageAttrs($replaceImage, $varInlineArgs)
     {
-        $sizeRegexp = '/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i';
-
         // get image path and size
         $width = null;
         $height = null;
@@ -322,84 +379,23 @@ class TemplateProcessor
             $imgPath = $replaceImage;
         }
 
+        $width = $this->chooseImageDimension($width, isset($varInlineArgs['width']) ? $varInlineArgs['width'] : null, 115);
+        $height = $this->chooseImageDimension($height, isset($varInlineArgs['height']) ? $varInlineArgs['height'] : null, 70);
+
         $imageData = @getimagesize($imgPath);
         if (!is_array($imageData)) {
             throw new Exception(sprintf('Invalid image: %s', $imgPath));
         }
         list($actualWidth, $actualHeight, $imageType) = $imageData;
-        $imageMimeType = image_type_to_mime_type($imageType);
-
-        // choose width
-        if (is_null($width) && isset($varInlineArgs['width'])) {
-            $width = $varInlineArgs['width'];
-        }
-        if (!preg_match($sizeRegexp, $width)) {
-            $width = null;
-        }
-        if (is_null($width)) {
-            $width = 115;
-        }
-        if (is_numeric($width)) {
-            $width .= 'px';
-        }
-
-        // choose height
-        if (is_null($height) && isset($varInlineArgs['height'])) {
-            $height = $varInlineArgs['height'];
-        }
-        if (!preg_match($sizeRegexp, $height)) {
-            $height = null;
-        }
-        if (is_null($height)) {
-            $height = 70;
-        }
-        if (is_numeric($height)) {
-            $height .= 'px';
-        }
 
         // fix aspect ratio (by default)
         if (empty($varInlineArgs['ratio']) || $varInlineArgs['ratio'] !== 'f') {
-            $imageRatio = $actualWidth / $actualHeight;
-
-            if (($width === '') && ($height === '')) { // defined size are empty
-                $width = $actualWidth . 'px';
-                $height = $actualHeight . 'px';
-            } elseif ($width === '') { // defined width is empty
-                $heightFloat = (float) $height;
-                $widthFloat = $heightFloat * $imageRatio;
-                $matches = array();
-                preg_match("/\d([a-z%]+)$/", $height, $matches);
-                $width = $widthFloat . $matches[1];
-            } elseif ($height === '') { // defined height is empty
-                $widthFloat = (float) $width;
-                $heightFloat = $widthFloat / $imageRatio;
-                $matches = array();
-                preg_match("/\d([a-z%]+)$/", $width, $matches);
-                $height = $heightFloat . $matches[1];
-            } else { // we have defined size, but we need also check it aspect ratio
-                $widthMatches = array();
-                preg_match("/\d([a-z%]+)$/", $width, $widthMatches);
-                $heightMatches = array();
-                preg_match("/\d([a-z%]+)$/", $height, $heightMatches);
-                // try to fix only if dimensions are same
-                if ($widthMatches[1] == $heightMatches[1]) {
-                    $dimention = $widthMatches[1];
-                    $widthFloat = (float) $width;
-                    $heightFloat = (float) $height;
-                    $definedRatio = $widthFloat / $heightFloat;
-
-                    if ($imageRatio > $definedRatio) { // image wider than defined box
-                        $height = ($widthFloat / $imageRatio) . $dimention;
-                    } elseif ($imageRatio < $definedRatio) { // image higher than defined box
-                        $width = ($heightFloat * $imageRatio) . $dimention;
-                    }
-                }
-            }
+            $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight);
         }
 
         $imageAttrs = array(
             'src'    => $imgPath,
-            'mime'   => $imageMimeType,
+            'mime'   => image_type_to_mime_type($imageType),
             'width'  => $width,
             'height' => $height,
         );
@@ -508,7 +504,7 @@ class TemplateProcessor
                     // add image to relations
                     $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
-                    // collect prepared replaces
+                    // replace variable
                     $varNameWithArgsFixed = self::ensureMacroCompleted($varNameWithArgs);
                     $matches = array();
                     if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
