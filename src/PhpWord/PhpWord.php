@@ -35,7 +35,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method int addChart(Element\Chart $chart)
  * @method int addComment(Element\Comment $comment)
  *
- * @method Style\Paragraph addParagraphStyle(string $styleName, array $styles)
+ * @method Style\Paragraph addParagraphStyle(string $styleName, mixed $styles)
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
  * @method Style\Font addLinkStyle(string $styleName, mixed $styles)
  * @method Style\Font addTitleStyle(mixed $depth, mixed $fontStyle, mixed $paragraphStyle = null)
