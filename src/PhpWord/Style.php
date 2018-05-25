@@ -95,7 +95,7 @@ class Style
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        if ($depth == null) {
+        if ($depth === null) {
             $styleName = 'Title';
         } else {
             $styleName = "Heading_{$depth}";
