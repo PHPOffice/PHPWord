@@ -519,6 +519,20 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($baseXpath . '/w:pict/v:shape'));
     }
 
+    /**
+     * Test parsing of remote img that can be found locally
+     */
+    public function testCouldNotLoadImage()
+    {
+        $src = 'https://fakedomain.io/images/firefox.png';
+        $this->expectException(\Exception::class);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p><img src="' . $src . '" width="150" height="200" style="float: right;"/></p>';
+        Html::addHtml($section, $html, false, true);
+    }
+
     public function testParseLink()
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();

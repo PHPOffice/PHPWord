@@ -655,6 +655,7 @@ class Html
                     break;
             }
         }
+        $origin_src= $src;
         if (strpos($src, 'data:image') !== false) {
             $tmpDir = Settings::getTempDir() . '/';
 
@@ -678,7 +679,7 @@ class Html
         }
 
         if (!is_file($src)) {
-            if ($imgBlob = file_get_contents($src)) {
+            if ($imgBlob = @file_get_contents($src)) {
                 $tmpDir = Settings::getTempDir() . '/';
                 $match = array();
                 preg_match('/.+\.(\w+)$/', $src, $match);
@@ -690,7 +691,12 @@ class Html
                 fclose($ifp);
             }
         }
-        $newElement = $element->addImage($src, $style);
+
+        if (is_file($src)){
+          $newElement = $element->addImage($src, $style);
+        }else{
+          throw new \Exception("Could not load image $origin_src");
+        }
 
         return $newElement;
     }
