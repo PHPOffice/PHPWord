@@ -267,6 +267,146 @@ class TemplateProcessor
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
     }
 
+    private function getImageArgs($varNameWithArgs)
+    {
+        $varElements = explode(':', $varNameWithArgs);
+        array_shift($varElements); // first element is name of variable => remove it
+
+        $varInlineArgs = array();
+        // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
+        foreach ($varElements as $argIdx => $varArg) {
+            if (strpos($varArg, '=')) { // arg=value
+                list($argName, $argValue) = explode('=', $varArg, 2);
+                $argName = strtolower($argName);
+                if ($argName == 'size') {
+                    list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
+                } else {
+                    $varInlineArgs[strtolower($argName)] = $argValue;
+                }
+            } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
+                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
+            } else { // :60:40:f
+                switch ($argIdx) {
+                    case 0:
+                        $varInlineArgs['width'] = $varArg;
+                        break;
+                    case 1:
+                        $varInlineArgs['height'] = $varArg;
+                        break;
+                    case 2:
+                        $varInlineArgs['ratio'] = $varArg;
+                        break;
+                }
+            }
+        }
+
+        return $varInlineArgs;
+    }
+
+    private function prepareImageAttrs($replaceImage, $varInlineArgs)
+    {
+        $sizeRegexp = '/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i';
+
+        // get image path and size
+        $width = null;
+        $height = null;
+        if (is_array($replaceImage) && isset($replaceImage['path'])) {
+            $imgPath = $replaceImage['path'];
+            if (isset($replaceImage['width'])) {
+                $width = $replaceImage['width'];
+            }
+            if (isset($replaceImage['height'])) {
+                $height = $replaceImage['height'];
+            }
+        } else {
+            $imgPath = $replaceImage;
+        }
+
+        $imageData = @getimagesize($imgPath);
+        if (!is_array($imageData)) {
+            throw new Exception(sprintf('Invalid image: %s', $imgPath));
+        }
+        list($actualWidth, $actualHeight, $imageType) = $imageData;
+        $imageMimeType = image_type_to_mime_type($imageType);
+
+        // choose width
+        if (is_null($width) && isset($varInlineArgs['width'])) {
+            $width = $varInlineArgs['width'];
+        }
+        if (!preg_match($sizeRegexp, $width)) {
+            $width = null;
+        }
+        if (is_null($width)) {
+            $width = 115;
+        }
+        if (is_numeric($width)) {
+            $width .= 'px';
+        }
+
+        // choose height
+        if (is_null($height) && isset($varInlineArgs['height'])) {
+            $height = $varInlineArgs['height'];
+        }
+        if (!preg_match($sizeRegexp, $height)) {
+            $height = null;
+        }
+        if (is_null($height)) {
+            $height = 70;
+        }
+        if (is_numeric($height)) {
+            $height .= 'px';
+        }
+
+        // fix aspect ratio (by default)
+        if (empty($varInlineArgs['ratio']) || $varInlineArgs['ratio'] !== 'f') {
+            $imageRatio = $actualWidth / $actualHeight;
+
+            if (($width === '') && ($height === '')) { // defined size are empty
+                $width = $actualWidth . 'px';
+                $height = $actualHeight . 'px';
+            } elseif ($width === '') { // defined width is empty
+                $heightFloat = (float) $height;
+                $widthFloat = $heightFloat * $imageRatio;
+                $matches = array();
+                preg_match("/\d([a-z%]+)$/", $height, $matches);
+                $width = $widthFloat . $matches[1];
+            } elseif ($height === '') { // defined height is empty
+                $widthFloat = (float) $width;
+                $heightFloat = $widthFloat / $imageRatio;
+                $matches = array();
+                preg_match("/\d([a-z%]+)$/", $width, $matches);
+                $height = $heightFloat . $matches[1];
+            } else { // we have defined size, but we need also check it aspect ratio
+                $widthMatches = array();
+                preg_match("/\d([a-z%]+)$/", $width, $widthMatches);
+                $heightMatches = array();
+                preg_match("/\d([a-z%]+)$/", $height, $heightMatches);
+                // try to fix only if dimensions are same
+                if ($widthMatches[1] == $heightMatches[1]) {
+                    $dimention = $widthMatches[1];
+                    $widthFloat = (float) $width;
+                    $heightFloat = (float) $height;
+                    $definedRatio = $widthFloat / $heightFloat;
+
+                    if ($imageRatio > $definedRatio) { // image wider than defined box
+                        $height = ($widthFloat / $imageRatio) . $dimention;
+                    } elseif ($imageRatio < $definedRatio) { // image higher than defined box
+                        $width = ($heightFloat * $imageRatio) . $dimention;
+                    }
+                }
+            }
+        }
+
+        $imageAttrs = array(
+            'src'    => $imgPath,
+            'mime'   => $imageMimeType,
+            'width'  => $width,
+            'height' => $height,
+        );
+
+        return $imageAttrs;
+    }
+
     /**
      * @param mixed $search
      * @param mixed $replace Path to image, or array("path" => xx, "width" => yy, "height" => zz)
@@ -298,7 +438,6 @@ class TemplateProcessor
         $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
         $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
-        $sizeRegexp = '/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i';
         $extTransform = array(
             'image/jpeg' => 'jpeg',
             'image/png'  => 'png',
@@ -326,126 +465,10 @@ class TemplateProcessor
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
-                    // extract variable args
-                    $varElements = explode(':', $varNameWithArgs);
-                    array_shift($varElements);
-                    $varInlineArgs = array();
-                    // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
-                    foreach ($varElements as $argIdx => $varArg) {
-                        if (strpos($varArg, '=')) { // arg=value
-                            list($argName, $argValue) = explode('=', $varArg, 2);
-                            $argName = strtolower($argName);
-                            if ($argName == 'size') {
-                                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
-                            } else {
-                                $varInlineArgs[strtolower($argName)] = $argValue;
-                            }
-                        } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
-                            list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
-                        } else { // :60:40:f
-                            switch ($argIdx) {
-                                case 0:
-                                    $varInlineArgs['width'] = $varArg;
-                                    break;
-                                case 1:
-                                    $varInlineArgs['height'] = $varArg;
-                                    break;
-                                case 2:
-                                    $varInlineArgs['ratio'] = $varArg;
-                                    break;
-                            }
-                        }
-                    }
-
-                    // get image path and size
-                    $width = null;
-                    $height = null;
-                    if (is_array($replaceImage) && isset($replaceImage['path'])) {
-                        $imgPath = $replaceImage['path'];
-                        if (isset($replaceImage['width'])) {
-                            $width = $replaceImage['width'];
-                        }
-                        if (isset($replaceImage['height'])) {
-                            $height = $replaceImage['height'];
-                        }
-                    } else {
-                        $imgPath = $replaceImage;
-                    }
-
-                    $imageData = @getimagesize($imgPath);
-                    if (!is_array($imageData)) {
-                        throw new Exception(sprintf('Invalid image: %s', $imgPath));
-                    }
-                    list($actualWidth, $actualHeight, $imageType) = $imageData;
-                    $imageMimeType = image_type_to_mime_type($imageType);
-
-                    // choose width
-                    if (is_null($width) && isset($varInlineArgs['width'])) {
-                        $width = $varInlineArgs['width'];
-                    }
-                    if (!preg_match($sizeRegexp, $width)) {
-                        $width = null;
-                    }
-                    if (is_null($width)) {
-                        $width = 115;
-                    }
-                    if (is_numeric($width)) {
-                        $width .= 'px';
-                    }
-
-                    // choose height
-                    if (is_null($height) && isset($varInlineArgs['height'])) {
-                        $height = $varInlineArgs['height'];
-                    }
-                    if (!preg_match($sizeRegexp, $height)) {
-                        $height = null;
-                    }
-                    if (is_null($height)) {
-                        $height = 70;
-                    }
-                    if (is_numeric($height)) {
-                        $height .= 'px';
-                    }
-
-                    // fix aspect ratio (by default)
-                    if ($varInlineArgs['ratio'] !== 'f') {
-                        $imageRatio = $actualWidth / $actualHeight;
-
-                        if (($width === '') && ($height === '')) { // defined size are empty
-                            $width = $actualWidth . 'px';
-                            $height = $actualHeight . 'px';
-                        } elseif ($width === '') { // defined width is empty
-                            $heightFloat = (float) $height;
-                            $widthFloat = $heightFloat * $imageRatio;
-                            $matches = array();
-                            preg_match("/\d([a-z%]+)$/", $height, $matches);
-                            $width = $widthFloat . $matches[1];
-                        } elseif ($height === '') { // defined height is empty
-                            $widthFloat = (float) $width;
-                            $heightFloat = $widthFloat / $imageRatio;
-                            $matches = array();
-                            preg_match("/\d([a-z%]+)$/", $width, $matches);
-                            $height = $heightFloat . $matches[1];
-                        } else { // we have defined size, but we need also check it aspect ratio
-                            $widthMatches = array();
-                            preg_match("/\d([a-z%]+)$/", $width, $widthMatches);
-                            $heightMatches = array();
-                            preg_match("/\d([a-z%]+)$/", $height, $heightMatches);
-                            // try to fix only if dimensions are same
-                            if ($widthMatches[1] == $heightMatches[1]) {
-                                $dimention = $widthMatches[1];
-                                $widthFloat = (float) $width;
-                                $heightFloat = (float) $height;
-                                $definedRatio = $widthFloat / $heightFloat;
-
-                                if ($imageRatio > $definedRatio) { // image wider than defined box
-                                    $height = ($widthFloat / $imageRatio) . $dimention;
-                                } elseif ($imageRatio < $definedRatio) { // image higher than defined box
-                                    $width = ($heightFloat * $imageRatio) . $dimention;
-                                }
-                            }
-                        }
-                    }
+                    $varInlineArgs = $this->getImageArgs($varNameWithArgs);
+                    $preparedImageAttrs = $this->prepareImageAttrs($replaceImage, $varInlineArgs);
+                    $imgPath = $preparedImageAttrs['src'];
+                    $imageMimeType = $preparedImageAttrs['mime'];
 
                     // get image index
                     $imgIndex = $this->getNextRelationsIndex($partFileName);
@@ -472,7 +495,7 @@ class TemplateProcessor
                         $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
                     }
 
-                    $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl);
+                    $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']), $imgTpl);
                     $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
 
                     if (!isset($this->tempDocumentRelations[$partFileName])) {
