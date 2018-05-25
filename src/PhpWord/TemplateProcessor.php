@@ -320,13 +320,12 @@ class TemplateProcessor
             $partVariables = $this->getVariablesForPart($partContent);
 
             $partSearchReplaces = array();
-            foreach ($searchReplace as $search => $replace) {
-                $varsToReplace = array_filter($partVariables, function ($partVar) use ($search) {
-                    return ($partVar == $search) || preg_match('/^' . preg_quote($search) . ':/', $partVar);
+            foreach ($searchReplace as $searchString => $replaceImage) {
+                $varsToReplace = array_filter($partVariables, function ($partVar) use ($searchString) {
+                    return ($partVar == $searchString) || preg_match('/^' . preg_quote($searchString) . ':/', $partVar);
                 });
 
                 foreach ($varsToReplace as $varNameWithArgs) {
-                    $search = $varNameWithArgs;
                     // extract variable args
                     $varElements = explode(':', $varNameWithArgs);
                     array_shift($varElements);
@@ -361,16 +360,16 @@ class TemplateProcessor
                     // get image path and size
                     $width = null;
                     $height = null;
-                    if (is_array($replace) && isset($replace['path'])) {
-                        $imgPath = $replace['path'];
-                        if (isset($replace['width'])) {
-                            $width = $replace['width'];
+                    if (is_array($replaceImage) && isset($replaceImage['path'])) {
+                        $imgPath = $replaceImage['path'];
+                        if (isset($replaceImage['width'])) {
+                            $width = $replaceImage['width'];
                         }
-                        if (isset($replace['height'])) {
-                            $height = $replace['height'];
+                        if (isset($replaceImage['height'])) {
+                            $height = $replaceImage['height'];
                         }
                     } else {
-                        $imgPath = $replace;
+                        $imgPath = $replaceImage;
                     }
 
                     $imageData = @getimagesize($imgPath);
@@ -488,10 +487,10 @@ class TemplateProcessor
                     $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
                     // collect prepared replaces
-                    $search = self::ensureMacroCompleted($search);
+                    $varNameWithArgFixed = self::ensureMacroCompleted($varNameWithArg);
                     $matches = array();
                     // just find substring. It not necessary to be alone in a tag
-                    if (preg_match('/' . preg_quote($search) . '/u', $partContent, $matches)) {
+                    if (preg_match('/' . preg_quote($varNameWithArgFixed) . '/u', $partContent, $matches)) {
                         $partSearchReplaces[$matches[0]] = $xmlImage;
                     }
                 }
