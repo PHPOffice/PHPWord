@@ -293,11 +293,12 @@ class TemplateProcessor
 
         // define templates
         // result can be verified via "Open XML SDK 2.5 Productivity Tool" (http://www.microsoft.com/en-us/download/details.aspx?id=30425)
-        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH}px;height:{HEIGHT}px"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
+        $imgTpl = '<w:pict><v:shape type="#_x0000_t75" style="width:{WIDTH};height:{HEIGHT}"><v:imagedata r:id="{RID}" o:title=""/></v:shape></w:pict>';
         $typeTpl = '<Override PartName="/word/media/{IMG}" ContentType="image/{EXT}"/>';
         $relationTpl = '<Relationship Id="{RID}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/{IMG}"/>';
         $newRelationsTpl = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" . '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
+        $sizeRegexp = '/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i';
         $extTransform = array(
             'image/jpeg' => 'jpeg',
             'image/png'  => 'png',
@@ -320,82 +321,173 @@ class TemplateProcessor
 
             $partSearchReplaces = array();
             foreach ($searchReplace as $search => $replace) {
-                if (!in_array($search, $partVariables)) {
-                    continue;
-                }
+                $varsToReplace = array_filter($partVariables, function ($partVar) use ($search) {
+                    return ($partVar == $search) || preg_match('/^' . preg_quote($search) . ':/', $partVar);
+                });
 
-                // get image path and size
-                if (is_array($replace) && isset($replace['path'])) {
-                    $imgPath = $replace['path'];
-                    if (isset($replace['width'])) {
-                        $width = $replace['width'];
+                foreach ($varsToReplace as $varNameWithArgs) {
+                    $search = $varNameWithArgs;
+                    // extract variable args
+                    $varElements = explode(':', $varNameWithArgs);
+                    array_shift($varElements);
+                    $varInlineArgs = array();
+                    // size format documentation: https://msdn.microsoft.com/en-us/library/documentformat.openxml.vml.shape%28v=office.14%29.aspx?f=255&MSPPError=-2147217396
+                    foreach ($varElements as $argIdx => $varArg) {
+                        if (strpos($varArg, '=')) { // arg=value
+                            list($argName, $argValue) = explode('=', $varArg, 2);
+                            $argName = strtolower($argName);
+                            if ($argName == 'size') {
+                                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
+                            } else {
+                                $varInlineArgs[strtolower($argName)] = $argValue;
+                            }
+                        } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
+                            list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
+                        } else { // :60:40:f
+                            switch ($argIdx) {
+                                case 0:
+                                    $varInlineArgs['width'] = $varArg;
+                                    break;
+                                case 1:
+                                    $varInlineArgs['height'] = $varArg;
+                                    break;
+                                case 2:
+                                    $varInlineArgs['ratio'] = $varArg;
+                                    break;
+                            }
+                        }
                     }
-                    if (isset($replace['height'])) {
-                        $height = $replace['height'];
-                    }
-                } else {
-                    $imgPath = $replace;
-                }
 
-                $imageData = @getimagesize($imgPath);
-                if (!is_array($imageData)) {
-                    throw new Exception(sprintf('Invalid image: %s', $imgPath));
-                }
-                list($actualWidth, $actualHeight, $imageType) = $imageData;
-                $imageMimeType = image_type_to_mime_type($imageType);
-
-                if (!isset($width)) {
-                    $width = $actualWidth;
-                }
-                if (!isset($height)) {
-                    $height = $actualHeight;
-                }
-
-                // get image index
-                $imgIndex = $this->getNextRelationsIndex($partFileName);
-                $rid = 'rId' . $imgIndex;
-
-                // get image embed name
-                if (isset($this->tempDocumentNewImages[$imgPath])) {
-                    $imgName = $this->tempDocumentNewImages[$imgPath];
-                } else {
-                    // transform extension
-                    if (isset($extTransform[$imageMimeType])) {
-                        $imgExt = $extTransform[$imageMimeType];
+                    // get image path and size
+                    $width = null;
+                    $height = null;
+                    if (is_array($replace) && isset($replace['path'])) {
+                        $imgPath = $replace['path'];
+                        if (isset($replace['width'])) {
+                            $width = $replace['width'];
+                        }
+                        if (isset($replace['height'])) {
+                            $height = $replace['height'];
+                        }
                     } else {
-                        throw new Exception("Unsupported image type $imageMimeType");
+                        $imgPath = $replace;
                     }
 
-                    // add image to document
-                    $imgName = 'image' . $imgIndex . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
-                    $this->zipClass->pclzipAddFile($imgPath, 'word/media/' . $imgName);
-                    $this->tempDocumentNewImages[$imgPath] = $imgName;
+                    // choose width
+                    if (is_null($width) && isset($varInlineArgs['width'])) {
+                        $width = $varInlineArgs['width'];
+                    }
+                    if (!preg_match($sizeRegexp, $width)) {
+                        $width = null;
+                    }
+                    if (is_null($width)) {
+                        $width = 115;
+                    }
+                    if (is_numeric($width)) {
+                        $width .= 'px';
+                    }
 
-                    // setup type for image
-                    $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl);
-                    $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
-                }
+                    // choose height
+                    if (is_null($height) && isset($varInlineArgs['height'])) {
+                        $height = $varInlineArgs['height'];
+                    }
+                    if (!preg_match($sizeRegexp, $height)) {
+                        $height = null;
+                    }
+                    if (is_null($height)) {
+                        $height = 70;
+                    }
+                    if (is_numeric($height)) {
+                        $height .= 'px';
+                    }
 
-                $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl);
-                $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
+                    // fix aspect ratio (by default)
+                    if ($varInlineArgs['ratio'] !== 'f') {
+                        $imageInfo = getimagesize($imgPath);
+                        $imageRatio = $imageInfo[0] / $imageInfo[1];
 
-                if (!isset($this->tempDocumentRelations[$partFileName])) {
-                    // create new relations file
-                    $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
-                    // and add it to content types
-                    $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), $newRelationsTypeTpl);
-                    $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
-                }
+                        if (($width === '') && ($height === '')) { // defined size are empty
+                            $width = $imageInfo[0] . 'px';
+                            $height = $imageInfo[1] . 'px';
+                        } elseif ($width === '') { // defined width is empty
+                            $heightFloat = (float) $height;
+                            $widthFloat = $heightFloat * $imageRatio;
+                            $matches = array();
+                            preg_match("/\d([a-z%]+)$/", $height, $matches);
+                            $width = $widthFloat . $matches[1];
+                        } elseif ($height === '') { // defined height is empty
+                            $widthFloat = (float) $width;
+                            $heightFloat = $widthFloat / $imageRatio;
+                            $matches = array();
+                            preg_match("/\d([a-z%]+)$/", $width, $matches);
+                            $height = $heightFloat . $matches[1];
+                        } else { // we have defined size, but we need also check it aspect ratio
+                            $widthMatches = array();
+                            preg_match("/\d([a-z%]+)$/", $width, $widthMatches);
+                            $heightMatches = array();
+                            preg_match("/\d([a-z%]+)$/", $height, $heightMatches);
+                            // try to fix only if dimensions are same
+                            if ($widthMatches[1] == $heightMatches[1]) {
+                                $dimention = $widthMatches[1];
+                                $widthFloat = (float) $width;
+                                $heightFloat = (float) $height;
+                                $definedRatio = $widthFloat / $heightFloat;
 
-                // add image to relations
-                $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
+                                if ($imageRatio > $definedRatio) { // image wider than defined box
+                                    $height = ($widthFloat / $imageRatio) . $dimention;
+                                } elseif ($imageRatio < $definedRatio) { // image higher than defined box
+                                    $width = ($heightFloat * $imageRatio) . $dimention;
+                                }
+                            }
+                        }
+                    }
 
-                // collect prepared replaces
-                $search = self::ensureMacroCompleted($search);
-                $matches = array();
-                // just find substring. It not necessary to be alone in a tag
-                if (preg_match('/' . preg_quote($search) . '/u', $partContent, $matches)) {
-                    $partSearchReplaces[$matches[0]] = $xmlImage;
+                    // get image index
+                    $imgIndex = $this->getNextRelationsIndex($partFileName);
+                    $rid = 'rId' . $imgIndex;
+
+                    // get image embed name
+                    if (isset($this->tempDocumentNewImages[$imgPath])) {
+                        $imgName = $this->tempDocumentNewImages[$imgPath];
+                    } else {
+                        // transform extension
+                        if (isset($extTransform[$imageMimeType])) {
+                            $imgExt = $extTransform[$imageMimeType];
+                        } else {
+                            throw new Exception("Unsupported image type $imageMimeType");
+                        }
+
+                        // add image to document
+                        $imgName = 'image' . $imgIndex . '_' . pathinfo($partFileName, PATHINFO_FILENAME) . '.' . $imgExt;
+                        $this->zipClass->pclzipAddFile($imgPath, 'word/media/' . $imgName);
+                        $this->tempDocumentNewImages[$imgPath] = $imgName;
+
+                        // setup type for image
+                        $xmlImageType = str_replace(array('{IMG}', '{EXT}'), array($imgName, $imgExt), $typeTpl);
+                        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlImageType, $this->tempDocumentContentTypes) . '</Types>';
+                    }
+
+                    $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $width, $height), $imgTpl);
+                    $xmlImageRelation = str_replace(array('{RID}', '{IMG}'), array($rid, $imgName), $relationTpl);
+
+                    if (!isset($this->tempDocumentRelations[$partFileName])) {
+                        // create new relations file
+                        $this->tempDocumentRelations[$partFileName] = $newRelationsTpl;
+                        // and add it to content types
+                        $xmlRelationsType = str_replace('{RELS}', $this->getRelationsName($partFileName), $newRelationsTypeTpl);
+                        $this->tempDocumentContentTypes = str_replace('</Types>', $xmlRelationsType, $this->tempDocumentContentTypes) . '</Types>';
+                    }
+
+                    // add image to relations
+                    $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
+
+                    // collect prepared replaces
+                    $search = self::ensureMacroCompleted($search);
+                    $matches = array();
+                    // just find substring. It not necessary to be alone in a tag
+                    if (preg_match('/' . preg_quote($search) . '/u', $partContent, $matches)) {
+                        $partSearchReplaces[$matches[0]] = $xmlImage;
+                    }
                 }
             }
 
