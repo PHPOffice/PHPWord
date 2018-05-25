@@ -367,6 +367,7 @@ class TemplateProcessor
         // get image path and size
         $width = null;
         $height = null;
+        $ratio = null;
         if (is_array($replaceImage) && isset($replaceImage['path'])) {
             $imgPath = $replaceImage['path'];
             if (isset($replaceImage['width'])) {
@@ -374,6 +375,9 @@ class TemplateProcessor
             }
             if (isset($replaceImage['height'])) {
                 $height = $replaceImage['height'];
+            }
+            if (isset($replaceImage['ratio'])) {
+                $ratio = $replaceImage['ratio'];
             }
         } else {
             $imgPath = $replaceImage;
@@ -389,7 +393,10 @@ class TemplateProcessor
         list($actualWidth, $actualHeight, $imageType) = $imageData;
 
         // fix aspect ratio (by default)
-        if (empty($varInlineArgs['ratio']) || $varInlineArgs['ratio'] !== 'f') {
+        if (is_null($ratio) && isset($varInlineArgs['ratio'])) {
+            $ratio = $varInlineArgs['ratio'];
+        }
+        if (is_null($ratio) || !in_array(strtolower($ratio), array('', '-', 'f', 'false'))) {
             $this->fixImageWidthHeightRatio($width, $height, $actualWidth, $actualHeight);
         }
 
