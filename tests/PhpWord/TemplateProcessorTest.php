@@ -187,7 +187,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/header-footer.docx');
 
-        $this->assertEquals(array('documentContent', 'headerValue', 'footerValue'), $templateProcessor->getVariables());
+        $this->assertEquals(array('documentContent', 'headerValue:100:100', 'footerValue'), $templateProcessor->getVariables());
 
         $macroNames = array('headerValue', 'documentContent', 'footerValue');
         $macroValues = array('Header Value', 'Document text.', 'Footer Value');
@@ -212,7 +212,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $variablesReplace = array(
                                 'headerValue'       => $imagePath,
                                 'documentContent'   => array('path' => $imagePath, 'width' => 500, 'height' => 500),
-                                'footerValue'       => array('path' => $imagePath, 'width' => 50, 'height' => 50),
+                                'footerValue'       => array('path' => $imagePath, 'width' => 100, 'height' => 50, 'ratio' => false),
         );
         $templateProcessor->setImageValue(array_keys($variablesReplace), $variablesReplace);
 
@@ -230,21 +230,21 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
             $expectedHeaderPartXml = $expectedDocumentZip->getFromName('word/header1.xml');
             $expectedFooterPartXml = $expectedDocumentZip->getFromName('word/footer1.xml');
-            $expectedImage = $expectedDocumentZip->getFromName('word/media/image5_document.jpeg');
+            $expectedImage = $expectedDocumentZip->getFromName('word/media/image_rId11_document.jpeg');
             if (false === $expectedDocumentZip->close()) {
                 throw new \Exception("Could not close zip file \"{$docName}\".");
             }
 
             $this->assertTrue(!empty($expectedImage), 'Embed image doesn\'t found.');
-            $this->assertTrue(strpos($expectedContentTypesXml, '/word/media/image5_document.jpeg') > 0, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+            $this->assertTrue(strpos($expectedContentTypesXml, '/word/media/image_rId11_document.jpeg') > 0, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
             $this->assertTrue(strpos($expectedContentTypesXml, '/word/_rels/header1.xml.rels') > 0, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
             $this->assertTrue(strpos($expectedContentTypesXml, '/word/_rels/footer1.xml.rels') > 0, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
             $this->assertTrue(strpos($expectedMainPartXml, '${documentContent}') === false, 'word/document.xml has no image.');
             $this->assertTrue(strpos($expectedHeaderPartXml, '${headerValue}') === false, 'word/header1.xml has no image.');
             $this->assertTrue(strpos($expectedFooterPartXml, '${footerValue}') === false, 'word/footer1.xml has no image.');
-            $this->assertTrue(strpos($expectedDocumentRelationsXml, 'media/image5_document.jpeg') > 0, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
-            $this->assertTrue(strpos($expectedHeaderRelationsXml, 'media/image5_document.jpeg') > 0, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
-            $this->assertTrue(strpos($expectedFooterRelationsXml, 'media/image5_document.jpeg') > 0, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
+            $this->assertTrue(strpos($expectedDocumentRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+            $this->assertTrue(strpos($expectedHeaderRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
+            $this->assertTrue(strpos($expectedFooterRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
 
             unlink($docName);
         } else {
@@ -265,7 +265,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
-        //		unlink($testFileName);
+        unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
         $templateProcessor->saveAs($resultFileName);
         if (!file_exists($resultFileName)) {
@@ -279,7 +279,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         if (false === $expectedDocumentZip->close()) {
             throw new \Exception("Could not close zip file \"{$resultFileName}\".");
         }
-        //		unlink($resultFileName);
+        unlink($resultFileName);
 
         $this->assertTrue(strpos($expectedMainPartXml, '${Test}') === false, 'word/document.xml has no image.');
     }
