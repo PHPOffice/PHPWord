@@ -487,10 +487,10 @@ class TemplateProcessor
                     $this->tempDocumentRelations[$partFileName] = str_replace('</Relationships>', $xmlImageRelation, $this->tempDocumentRelations[$partFileName]) . '</Relationships>';
 
                     // collect prepared replaces
-                    $varNameWithArgFixed = self::ensureMacroCompleted($varNameWithArg);
+                    $varNameWithArgsFixed = self::ensureMacroCompleted($varNameWithArgs);
                     $matches = array();
                     // just find substring. It not necessary to be alone in a tag
-                    if (preg_match('/' . preg_quote($varNameWithArgFixed) . '/u', $partContent, $matches)) {
+                    if (preg_match('/' . preg_quote($varNameWithArgsFixed) . '/u', $partContent, $matches)) {
                         $partSearchReplaces[$matches[0]] = $xmlImage;
                     }
                 }
