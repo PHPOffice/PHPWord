@@ -109,7 +109,9 @@ class Settings extends AbstractPart
         $documentProtection = $phpWord->getSettings()->getDocumentProtection();
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
-        $documentProtection->setEditing($edit);
+        if ($edit !== null) {
+            $documentProtection->setEditing($edit);
+        }
     }
 
     /**

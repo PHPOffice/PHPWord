@@ -22,6 +22,7 @@ v0.15.0 (?? ??? 2018)
 - Added the ability to enable gridlines and axislabels on charts @FrankMeyer #576
 - Add support for table indent (tblInd) @Trainmaster #1343
 - Added parsing of internal links in HTML reader @lalop #1336
+- Several improvements to charts @JAEK-S #1332
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238

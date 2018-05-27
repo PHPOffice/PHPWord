@@ -46,6 +46,60 @@ class Chart extends AbstractStyle
     private $is3d = false;
 
     /**
+     * A list of colors to use in the chart
+     *
+     * @var array
+     */
+    private $colors = array();
+
+    /**
+     * A list of display options for data labels
+     *
+     * @var array
+     */
+    private $dataLabelOptions = array(
+        'showVal'          => true, // value
+        'showCatName'      => true, // category name
+        'showLegendKey'    => false, //show the cart legend
+        'showSerName'      => false, // series name
+        'showPercent'      => false,
+        'showLeaderLines'  => false,
+        'showBubbleSize'   => false,
+    );
+
+    /**
+     * A string that tells the writer where to write chart labels or to skip
+     * "nextTo" - sets labels next to the axis (bar graphs on the left) (default)
+     * "low" - labels on the left side of the graph
+     * "high" - labels on the right side of the graph
+     *
+     * @var string
+     */
+    private $categoryLabelPosition = 'nextTo';
+
+    /**
+     * A string that tells the writer where to write chart labels or to skip
+     * "nextTo" - sets labels next to the axis (bar graphs on the bottom) (default)
+     * "low" - labels are below the graph
+     * "high" - labels above the graph
+     *
+     * @var string
+     */
+    private $valueLabelPosition = 'nextTo';
+
+    /**
+     * @var string
+     */
+    private $categoryAxisTitle;
+
+    /**
+     * @var string
+     */
+    private $valueAxisTitle;
+
+    private $majorTickMarkPos = 'none';
+
+    /*
      * Show labels for axis
      *
      * @var bool
@@ -146,6 +200,28 @@ class Chart extends AbstractStyle
     }
 
     /**
+     * Get the list of colors to use in a chart.
+     *
+     * @return array
+     */
+    public function getColors()
+    {
+        return $this->colors;
+    }
+
+    /**
+     * Set the colors to use in a chart.
+     *
+     * @param array $value a list of colors to use in the chart
+     */
+    public function setColors($value = array())
+    {
+        $this->colors = $value;
+
+        return $this;
+    }
+
+    /*
      * Show labels for axis
      *
      * @return bool
@@ -169,6 +245,31 @@ class Chart extends AbstractStyle
     }
 
     /**
+     * get the list of options for data labels
+     *
+     * @return array
+     */
+    public function getDataLabelOptions()
+    {
+        return $this->dataLabelOptions;
+    }
+
+    /**
+     * Set values for data label options.
+     * This will only change values for options defined in $this->dataLabelOptions, and cannot create new ones.
+     *
+     * @param array $values [description]
+     */
+    public function setDataLabelOptions($values = array())
+    {
+        foreach (array_keys($this->dataLabelOptions) as $option) {
+            if (isset($values[$option])) {
+                $this->dataLabelOptions[$option] = $this->setBoolVal($values[$option], $this->dataLabelOptions[$option]);
+            }
+        }
+    }
+
+    /*
      * Show Gridlines for Y-Axis
      *
      * @return bool
@@ -192,6 +293,117 @@ class Chart extends AbstractStyle
     }
 
     /**
+     * Get the categoryLabelPosition setting
+     *
+     * @return string
+     */
+    public function getCategoryLabelPosition()
+    {
+        return $this->categoryLabelPosition;
+    }
+
+    /**
+     * Set the categoryLabelPosition setting
+     * "none" - skips writing  labels
+     * "nextTo" - sets labels next to the  (bar graphs on the left)
+     * "low" - labels on the left side of the graph
+     * "high" - labels on the right side of the graph
+     *
+     * @param mixed $labelPosition
+     * @return self
+     */
+    public function setCategoryLabelPosition($labelPosition)
+    {
+        $enum = array('nextTo', 'low', 'high');
+        $this->categoryLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->categoryLabelPosition);
+
+        return $this;
+    }
+
+    /**
+     * Get the valueAxisLabelPosition setting
+     *
+     * @return string
+     */
+    public function getValueLabelPosition()
+    {
+        return $this->valueLabelPosition;
+    }
+
+    /**
+     * Set the valueLabelPosition setting
+     * "none" - skips writing labels
+     * "nextTo" - sets labels next to the value
+     * "low" - sets labels are below the graph
+     * "high" - sets labels above the graph
+     *
+     * @param string
+     * @param mixed $labelPosition
+     */
+    public function setValueLabelPosition($labelPosition)
+    {
+        $enum = array('nextTo', 'low', 'high');
+        $this->valueLabelPosition = $this->setEnumVal($labelPosition, $enum, $this->valueLabelPosition);
+
+        return $this;
+    }
+
+    /**
+     * Get the categoryAxisTitle
+     * @return string
+     */
+    public function getCategoryAxisTitle()
+    {
+        return $this->categoryAxisTitle;
+    }
+
+    /**
+     * Set the title that appears on the category side of the chart
+     * @param string $axisTitle
+     */
+    public function setCategoryAxisTitle($axisTitle)
+    {
+        $this->categoryAxisTitle = $axisTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get the valueAxisTitle
+     * @return string
+     */
+    public function getValueAxisTitle()
+    {
+        return $this->valueAxisTitle;
+    }
+
+    /**
+     * Set the title that appears on the value side of the chart
+     * @param string $axisTitle
+     */
+    public function setValueAxisTitle($axisTitle)
+    {
+        $this->valueAxisTitle = $axisTitle;
+
+        return $this;
+    }
+
+    public function getMajorTickPosition()
+    {
+        return $this->majorTickMarkPos;
+    }
+
+    /**
+     * set the position for major tick marks
+     * @param string $position [description]
+     */
+    public function setMajorTickPosition($position)
+    {
+        $enum = array('in', 'out', 'cross', 'none');
+        $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
+    }
+
+    /*
      * Show Gridlines for X-Axis
      *
      * @return bool
