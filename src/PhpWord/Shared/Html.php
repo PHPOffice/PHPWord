@@ -666,8 +666,10 @@ class Html
 
             $ifp = fopen($imgFile, 'wb');
 
-            fwrite($ifp, base64_decode($match[2]));
-            fclose($ifp);
+            if ($ifp !== false) {
+                fwrite($ifp, base64_decode($match[2]));
+                fclose($ifp);
+            }
         }
         $src = urldecode($src);
 
@@ -687,8 +689,10 @@ class Html
 
                 $ifp = fopen($src, 'wb');
 
-                fwrite($ifp, $imgBlob);
-                fclose($ifp);
+                if ($ifp !== false) {
+                    fwrite($ifp, $imgBlob);
+                    fclose($ifp);
+                }
             }
         }
 
