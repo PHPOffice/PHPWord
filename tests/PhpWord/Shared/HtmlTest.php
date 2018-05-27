@@ -521,11 +521,12 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test parsing of remote img that can be found locally
+     *
+     * @expectedException \Exception
      */
     public function testCouldNotLoadImage()
     {
         $src = 'https://fakedomain.io/images/firefox.png';
-        $this->expectException(\Exception::class);
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
