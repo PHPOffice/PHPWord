@@ -347,7 +347,7 @@ abstract class AbstractElement
      *
      * @param \PhpOffice\PhpWord\Element\AbstractElement $container
      */
-    public function setParentContainer(AbstractElement $container)
+    public function setParentContainer(self $container)
     {
         $this->parentContainer = substr(get_class($container), strrpos(get_class($container), '\\') + 1);
         $this->parent = $container;

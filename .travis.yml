@@ -37,7 +37,7 @@ before_script:
     - composer self-update
     - travis_wait composer install --prefer-source
     ## PHPDocumentor
-    - mkdir -p build/docs
+    ##- mkdir -p build/docs
     - mkdir -p build/coverage
 
 script:
@@ -52,7 +52,7 @@ script:
     ## PHPLOC
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
-    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
+    ##- if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
 after_success:
     ## Coveralls
