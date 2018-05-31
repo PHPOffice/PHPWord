@@ -336,11 +336,9 @@ class TemplateProcessor
                 implode('', $cloned),
                 $this->tempDocumentMainPart
             );
-
         }
 
         return $xmlBlock;
-
     }
 
     /**
