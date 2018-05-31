@@ -46,6 +46,9 @@ final class Language extends AbstractStyle
 
     const HE_IL = 'he-IL';
     const HE_IL_ID = 1037;
+    
+    const IT_IT = 'it-IT';
+    const IT_IT_ID = 1040;
 
     const JA_JP = 'ja-JP';
     const JA_JP_ID = 1041;
