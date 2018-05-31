@@ -309,6 +309,40 @@ class TemplateProcessor
         $this->tempDocumentMainPart = $result;
     }
 
+    public function repeatBlock($blockname, $replacements)
+    {
+
+        $xmlBlock = null;
+        preg_match(
+            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $this->tempDocumentMainPart,
+            $matches
+        );
+
+        if (isset($matches[3])) {
+            $xmlBlock = $matches[3];
+            $cloned = array();
+            foreach ($replacements as $replacement_array) {
+                $local_xmlBlock = $xmlBlock;
+                foreach($replacement_array as $search => $replacement){
+                    $local_xmlBlock = $this->setValueForPart( self::ensureMacroCompleted($search), $replacement, $local_xmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
+                }
+
+                $cloned[] = $local_xmlBlock;
+            }
+
+            $this->tempDocumentMainPart = str_replace(
+                $matches[2] . $matches[3] . $matches[4],
+                implode('', $cloned),
+                $this->tempDocumentMainPart
+            );
+
+        }
+
+        return $xmlBlock;
+
+    }
+
     /**
      * Clone a block.
      *

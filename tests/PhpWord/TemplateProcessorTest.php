@@ -223,4 +223,38 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($docName);
         $this->assertTrue($docFound);
     }
+
+    public function testRepeatBlock()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/repeat-block.docx');
+
+        $this->assertEquals(
+            array('REPEATME', 'FORENAME', 'LASTNAME', '/REPEATME'),
+            $templateProcessor->getVariables()
+        );
+
+        $docName = 'repeat-block-result.docx';
+        $templateProcessor->repeatBlock('REPEATME', array(
+            array('FORENAME' => 'John', 'LASTNAME' => 'Donut'),
+            array('FORENAME' => 'Cat', 'LASTNAME' => 'Stefano')
+        ));
+        $templateProcessor->saveAs($docName);
+        $docFound = file_exists($docName);
+        $this->assertTrue($docFound);
+
+        $actualDocumentZip = new \ZipArchive();
+        $actualDocumentZip->open($docName);
+        $actualMainPartXml = $actualDocumentZip->getFromName('word/document.xml');
+
+        if (false === $actualDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$docName}\".");
+        }
+
+        $this->assertRegexp('/John/', $actualMainPartXml);
+        $this->assertRegexp('/Cat/', $actualMainPartXml);
+        $this->assertRegexp('/Donut/', $actualMainPartXml);
+        $this->assertRegexp('/Stefano/', $actualMainPartXml);
+
+        unlink($docName);
+    }
 }
