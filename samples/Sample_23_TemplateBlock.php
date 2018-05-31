@@ -11,6 +11,12 @@ $templateProcessor->cloneBlock('CLONEME', 3);
 // Everything between ${tag} and ${/tag}, will be deleted/erased.
 $templateProcessor->deleteBlock('DELETEME');
 
+// Everything between ${tag} and ${/tag}, will be repeated and macros within the block will be filled.
+$templateProcessor->repeatBlock('REPEATME', array(
+    array('FORENAME' => 'John', 'LASTNAME' => 'Donut'),
+    array('FORENAME' => 'Cat', 'LASTNAME' => 'Stefano')
+));
+
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_23_TemplateBlock.docx');
 

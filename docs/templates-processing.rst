@@ -23,3 +23,17 @@ multirow from a single row in a template by using ``TemplateProcessor::cloneRow`
 See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
 of text using ``TemplateProcessor::cloneBlock`` and delete a block of text using
 ``TemplateProcessor::deleteBlock``.
+
+It is also possible to repeat a block with macros in the block (aka foreach).
+
+Example:
+
+.. code-block:: php
+
+    $templateProcessor = new TemplateProcessor('Template.docx');
+    $templateProcessor->repeatBlock('REPEATME', array(
+        array('FORENAME' => 'John', 'LASTNAME' => 'Donut'),
+        array('FORENAME' => 'Cat', 'LASTNAME' => 'Stefano')
+    ));
+
+See ``Sample_23_TemplateBlock.php`` for example on how to repeat a block.
