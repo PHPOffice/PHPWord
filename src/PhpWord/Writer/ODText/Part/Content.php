@@ -239,6 +239,7 @@ class Content extends AbstractPart
                 $style->setStyleName('fr' . $element->getMediaIndex());
                 $this->autoStyles['Image'][] = $style;
             } elseif ($element instanceof Table) {
+                /** @var \PhpOffice\PhpWord\Style\Table $style */
                 $style = $element->getStyle();
                 if ($style === null) {
                     $style = new TableStyle();

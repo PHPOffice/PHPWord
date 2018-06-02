@@ -47,8 +47,9 @@ class Table extends AbstractStyle
         $xmlWriter->endElement(); // style:style
 
         $cellWidths = $style->getColumnWidths();
+        $countCellWidths = count($cellWidths);
 
-        for ($i = 0; $i < count($cellWidths); $i++) {
+        for ($i = 0; $i < $countCellWidths; $i++) {
             $width = $cellWidths[$i];
             $xmlWriter->startElement('style:style');
             $xmlWriter->writeAttribute('style:name', $style->getStyleName() . '.' . $i);
