@@ -20,7 +20,6 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;

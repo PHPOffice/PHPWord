@@ -164,6 +164,13 @@ class Table extends Border
     private $indent;
 
     /**
+     * The width of each column, computed based on the max cell width of each column
+     *
+     * @var int[]
+     */
+    private $columnWidths;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -747,5 +754,25 @@ class Table extends Border
         $this->indent = $indent;
 
         return $this;
+    }
+
+    /**
+     * Get the columnWidths
+     *
+     * @return number[]
+     */
+    public function getColumnWidths()
+    {
+        return $this->columnWidths;
+    }
+
+    /**
+     * The column widths
+     *
+     * @param int[] $value
+     */
+    public function setColumnWidths(array $value = null)
+    {
+        $this->columnWidths = $value;
     }
 }
