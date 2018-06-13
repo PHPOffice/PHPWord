@@ -23,6 +23,7 @@ v0.15.0 (?? ??? 2018)
 - Add support for table indent (tblInd) @Trainmaster #1343
 - Added parsing of internal links in HTML reader @lalop #1336
 - Several improvements to charts @JAEK-S #1332
+- Add parsing of html image in base64 format @jgpATs2w #1382
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
