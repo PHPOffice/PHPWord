@@ -141,6 +141,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         Html::addHtml($section, '<p style="line-height: 1.5;">test</p>');
         Html::addHtml($section, '<p style="line-height: 15pt;">test</p>');
         Html::addHtml($section, '<p style="line-height: 120%;">test</p>');
+        Html::addHtml($section, '<p style="line-height: 0.17in;">test</p>');
 
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:spacing'));
@@ -154,6 +155,10 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:pPr/w:spacing'));
         $this->assertEquals(Paragraph::LINE_HEIGHT * 1.2, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:line'));
         $this->assertEquals(LineSpacingRule::AUTO, $doc->getElementAttribute('/w:document/w:body/w:p[3]/w:pPr/w:spacing', 'w:lineRule'));
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[4]/w:pPr/w:spacing'));
+        $this->assertEquals(244.8, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:line'));
+        $this->assertEquals(LineSpacingRule::EXACT, $doc->getElementAttribute('/w:document/w:body/w:p[4]/w:pPr/w:spacing', 'w:lineRule'));
     }
 
     /**
