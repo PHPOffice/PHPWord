@@ -42,7 +42,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('landscape', $style->getOrientation());
     }
 
-    public function testConstorWithObjectStyle()
+    public function testConstructorWithObjectStyle()
     {
         $style = new SectionStyle();
         $section = new Section(0, $style);
