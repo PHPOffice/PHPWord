@@ -65,8 +65,10 @@ class Section extends AbstractContainer
     {
         $this->sectionId = $sectionCount;
         $this->setDocPart($this->container, $this->sectionId);
-        $this->style = new SectionStyle();
-        $this->setStyle($style);
+        if (null === $style) {
+            $style = new SectionStyle();
+        }
+        $this->style = $this->setNewStyle(new SectionStyle(), $style);
     }
 
     /**
