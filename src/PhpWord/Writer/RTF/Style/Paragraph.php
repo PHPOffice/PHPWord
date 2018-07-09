@@ -82,8 +82,7 @@ class Paragraph extends AbstractStyle
     {
         $content = '';
         if (!empty($tabs)) {
-    
-           foreach ($tabs as $tab) {
+            foreach ($tabs as $tab) {
                 $styleWriter = new Tab($tab);
                 $content .= $styleWriter->write();
             }
