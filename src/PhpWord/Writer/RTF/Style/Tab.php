@@ -37,18 +37,17 @@ class Tab extends AbstractStyle
         }
         $content = '';
         $type = $style->getType();
-        if($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT){
-        	$content .= '\tqr';
-        }else if($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER){
-        	$content .= '\tqc';
+        if ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT) {
+            $content .= '\tqr';
+        } else if ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER) {
+            $content .= '\tqc';
         }
         $pos = $style->getPosition();
-        if(isset($pos)){
-        	$content .= '\tx'.$pos;
-        }else{
-        	$content .= '\tx';
+        if (isset($pos)) {
+            $content .= '\tx'.$pos;
+        } else {
+            $content .= '\tx';
         }
-		
         return $content;
     }
 }

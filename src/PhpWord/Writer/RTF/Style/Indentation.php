@@ -17,7 +17,6 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
-
 /**
  * RTF indentation style writer
  *
@@ -33,17 +32,14 @@ class Indentation extends AbstractStyle
      */
     public function write()
     {
-
         $style = $this->getStyle();
         if (!$style instanceof \PhpOffice\PhpWord\Style\Indentation) {
-        	return;
+            return;
         }
-		$content = '';
-		$content .= '\fi'.$style->getFirstLine();
+        $content = '';
+        $content .= '\fi'.$style->getFirstLine();
         $content .= '\li'.$style->getLeft();
         $content .= '\ri'.$style->getRight();
         return $content .  ' ';
-    }
-
-    
+    }   
 }
