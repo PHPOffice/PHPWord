@@ -10,12 +10,12 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2014 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\CustomRTF\Style;
+namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
  * Line numbering style writer
@@ -26,8 +26,6 @@ class Tab extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -39,15 +37,16 @@ class Tab extends AbstractStyle
         $type = $style->getType();
         if ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT) {
             $content .= '\tqr';
-        } else if ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER) {
+        } elseif ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER) {
             $content .= '\tqc';
         }
         $pos = $style->getPosition();
         if (isset($pos)) {
-            $content .= '\tx'.$pos;
+            $content .= '\tx' . $pos;
         } else {
             $content .= '\tx';
         }
+
         return $content;
     }
 }

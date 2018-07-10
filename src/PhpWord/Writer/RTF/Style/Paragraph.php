@@ -71,7 +71,7 @@ class Paragraph extends AbstractStyle
         }
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);
-        
+
         $styles = $style->getStyleValues();
         $content .= $this->writeTabs($styles['tabs']);
 
@@ -87,9 +87,10 @@ class Paragraph extends AbstractStyle
                 $content .= $styleWriter->write();
             }
         }
+
         return $content;
     }
-    
+
     /**
      * Set nested level.
      *
