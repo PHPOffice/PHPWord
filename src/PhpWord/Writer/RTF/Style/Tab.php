@@ -39,13 +39,10 @@ class Tab extends AbstractStyle
             $content .= '\tqr';
         } elseif ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER) {
             $content .= '\tqc';
+        } elseif ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL) {
+            $content .= '\tqdec';
         }
-        $pos = $style->getPosition();
-        if (isset($pos)) {
-            $content .= '\tx' . $pos;
-        } else {
-            $content .= '\tx';
-        }
+        $content .= '\tx' . $style->getPosition();
 
         return $content;
     }

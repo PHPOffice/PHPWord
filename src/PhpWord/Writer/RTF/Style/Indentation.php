@@ -35,8 +35,8 @@ class Indentation extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Indentation) {
             return;
         }
-        $content = '';
-        $content .= '\fi' . $style->getFirstLine();
+
+        $content = '\fi' . $style->getFirstLine();
         $content .= '\li' . $style->getLeft();
         $content .= '\ri' . $style->getRight();
 
