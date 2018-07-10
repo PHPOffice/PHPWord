@@ -41,5 +41,5 @@ class Indentation extends AbstractStyle
         $content .= '\li'.$style->getLeft();
         $content .= '\ri'.$style->getRight();
         return $content .  ' ';
-    }   
+    }
 }
