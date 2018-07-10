@@ -17,9 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF;
 
-use PHPUnit\Framework\Assert;
 use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Border;
+use PHPUnit\Framework\Assert;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace
