@@ -1,4 +1,7 @@
 <?php
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style\TablePosition;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -27,7 +30,7 @@ $section->addTextBreak(1);
 $section->addText('Fancy table', $header);
 
 $fancyTableStyleName = 'Fancy Table';
-$fancyTableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER);
+$fancyTableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
 $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
 $fancyTableCellStyle = array('valign' => 'center');
 $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
@@ -46,11 +49,11 @@ for ($i = 1; $i <= 8; $i++) {
     $table->addCell(2000)->addText("Cell {$i}");
     $table->addCell(2000)->addText("Cell {$i}");
     $table->addCell(2000)->addText("Cell {$i}");
-    $text = (0== $i % 2) ? 'X' : '';
+    $text = (0 == $i % 2) ? 'X' : '';
     $table->addCell(500)->addText($text);
 }
 
-/**
+/*
  *  3. colspan (gridSpan) and rowspan (vMerge)
  *  ---------------------
  *  |     |   B    |    |
@@ -93,7 +96,7 @@ $table->addCell(2000, $cellVCentered)->addText('C', null, $cellHCentered);
 $table->addCell(2000, $cellVCentered)->addText('D', null, $cellHCentered);
 $table->addCell(null, $cellRowContinue);
 
-/**
+/*
  *  4. colspan (gridSpan) and rowspan (vMerge)
  *  ---------------------
  *  |     |   B    |  1 |
@@ -104,28 +107,29 @@ $table->addCell(null, $cellRowContinue);
  *  ---------------------
  * @see https://github.com/PHPOffice/PHPWord/issues/806
  */
+
 $section->addPageBreak();
 $section->addText('Table with colspan and rowspan', $header);
 
-$styleTable = ['borderSize' => 6, 'borderColor' => '999999'];
+$styleTable = array('borderSize' => 6, 'borderColor' => '999999');
 $phpWord->addTableStyle('Colspan Rowspan', $styleTable);
 $table = $section->addTable('Colspan Rowspan');
 
 $row = $table->addRow();
-
-$row->addCell(null, ['vMerge' => 'restart'])->addText('A');
-$row->addCell(null, ['gridSpan' => 2, 'vMerge' => 'restart',])->addText('B');
-$row->addCell()->addText('1');
+$row->addCell(1000, array('vMerge' => 'restart'))->addText('A');
+$row->addCell(1000, array('gridSpan' => 2, 'vMerge' => 'restart'))->addText('B');
+$row->addCell(1000)->addText('1');
 
 $row = $table->addRow();
-$row->addCell(null, ['vMerge' => 'continue']);
-$row->addCell(null, ['vMerge' => 'continue','gridSpan' => 2,]);
-$row->addCell()->addText('2');
+$row->addCell(1000, array('vMerge' => 'continue'));
+$row->addCell(1000, array('vMerge' => 'continue', 'gridSpan' => 2));
+$row->addCell(1000)->addText('2');
+
 $row = $table->addRow();
-$row->addCell(null, ['vMerge' => 'continue']);
-$row->addCell()->addText('C');
-$row->addCell()->addText('D');
-$row->addCell()->addText('3');
+$row->addCell(1000, array('vMerge' => 'continue'));
+$row->addCell(1000)->addText('C');
+$row->addCell(1000)->addText('D');
+$row->addCell(1000)->addText('3');
 
 // 5. Nested table
 
@@ -137,6 +141,15 @@ $cell = $table->addRow()->addCell();
 $cell->addText('This cell contains nested table.');
 $innerCell = $cell->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER))->addRow()->addCell();
 $innerCell->addText('Inside nested table');
+
+// 6. Table with floating position
+
+$section->addTextBreak(2);
+$section->addText('Table with floating positioning.', $header);
+
+$table = $section->addTable(array('borderSize' => 6, 'borderColor' => '999999', 'position' => array('vertAnchor' => TablePosition::VANCHOR_TEXT, 'bottomFromText' => Converter::cmToTwip(1))));
+$cell = $table->addRow()->addCell();
+$cell->addText('This is a single cell.');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

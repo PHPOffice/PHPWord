@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -21,7 +21,7 @@ namespace PhpOffice\PhpWord\Metadata;
  * Compatibility setting class
  *
  * @since 0.12.0
- * @link http://www.datypic.com/sc/ooxml/t-w_CT_Compat.html
+ * @see  http://www.datypic.com/sc/ooxml/t-w_CT_Compat.html
  */
 class Compatibility
 {
@@ -33,7 +33,7 @@ class Compatibility
      * 15 = 2013
      *
      * @var int
-     * @link http://msdn.microsoft.com/en-us/library/dd909048%28v=office.12%29.aspx
+     * @see  http://msdn.microsoft.com/en-us/library/dd909048%28v=office.12%29.aspx
      */
     private $ooxmlVersion = 12;
 

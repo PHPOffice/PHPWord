@@ -10,13 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
 
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -89,7 +90,6 @@ class Text extends AbstractElement
      * Set opening text.
      *
      * @param string $value
-     * @return void
      */
     public function setOpeningText($value)
     {
@@ -100,7 +100,6 @@ class Text extends AbstractElement
      * Set closing text.
      *
      * @param string $value
-     * @return void
      */
     public function setClosingText($value)
     {
@@ -123,6 +122,9 @@ class Text extends AbstractElement
             $content .= "<p{$style}>";
         }
 
+        //open track change tag
+        $content .= $this->writeTrackChangeOpening();
+
         return $content;
     }
 
@@ -134,6 +136,10 @@ class Text extends AbstractElement
     protected function writeClosing()
     {
         $content = '';
+
+        //close track change tag
+        $content .= $this->writeTrackChangeClosing();
+
         if (!$this->withoutP) {
             if (Settings::isOutputEscapingEnabled()) {
                 $content .= $this->escaper->escapeHtml($this->closingText);
@@ -141,7 +147,64 @@ class Text extends AbstractElement
                 $content .= $this->closingText;
             }
 
-            $content .= "</p>" . PHP_EOL;
+            $content .= '</p>' . PHP_EOL;
+        }
+
+        return $content;
+    }
+
+    /**
+     * writes the track change opening tag
+     *
+     * @return string the HTML, an empty string if no track change information
+     */
+    private function writeTrackChangeOpening()
+    {
+        $changed = $this->element->getTrackChange();
+        if ($changed == null) {
+            return '';
+        }
+
+        $content = '';
+        if (($changed->getChangeType() == TrackChange::INSERTED)) {
+            $content .= '<ins data-phpword-prop=\'';
+        } elseif ($changed->getChangeType() == TrackChange::DELETED) {
+            $content .= '<del data-phpword-prop=\'';
+        }
+
+        $changedProp = array('changed' => array('author'=> $changed->getAuthor(), 'id'    => $this->element->getElementId()));
+        if ($changed->getDate() != null) {
+            $changedProp['changed']['date'] = $changed->getDate()->format('Y-m-d\TH:i:s\Z');
+        }
+        $content .= json_encode($changedProp);
+        $content .= '\' ';
+        $content .= 'title="' . $changed->getAuthor();
+        if ($changed->getDate() != null) {
+            $dateUser = $changed->getDate()->format('Y-m-d H:i:s');
+            $content .= ' - ' . $dateUser;
+        }
+        $content .= '">';
+
+        return $content;
+    }
+
+    /**
+     * writes the track change closing tag
+     *
+     * @return string the HTML, an empty string if no track change information
+     */
+    private function writeTrackChangeClosing()
+    {
+        $changed = $this->element->getTrackChange();
+        if ($changed == null) {
+            return '';
+        }
+
+        $content = '';
+        if (($changed->getChangeType() == TrackChange::INSERTED)) {
+            $content .= '</ins>';
+        } elseif ($changed->getChangeType() == TrackChange::DELETED) {
+            $content .= '</del>';
         }
 
         return $content;
@@ -166,6 +229,8 @@ class Text extends AbstractElement
         if ($pStyleIsObject) {
             $styleWriter = new ParagraphStyleWriter($paragraphStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($paragraphStyle)) {
+            $style = $paragraphStyle;
         }
         if ($style) {
             $attribute = $pStyleIsObject ? 'style' : 'class';
@@ -177,8 +242,6 @@ class Text extends AbstractElement
 
     /**
      * Get font style.
-     *
-     * @return void
      */
     private function getFontStyle()
     {
@@ -190,11 +253,13 @@ class Text extends AbstractElement
         if ($fStyleIsObject) {
             $styleWriter = new FontStyleWriter($fontStyle);
             $style = $styleWriter->write();
+        } elseif (is_string($fontStyle)) {
+            $style = $fontStyle;
         }
         if ($style) {
             $attribute = $fStyleIsObject ? 'style' : 'class';
             $this->openingTags = "<span {$attribute}=\"{$style}\">";
-            $this->closingTags = "</span>";
+            $this->closingTags = '</span>';
         }
     }
 }

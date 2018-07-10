@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -36,8 +36,6 @@ class Table extends AbstractElement
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -75,25 +73,10 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Table $element
-     * @return void
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
-        $rows = $element->getRows();
-        $rowCount = count($rows);
-
-        $cellWidths = array();
-        for ($i = 0; $i < $rowCount; $i++) {
-            $row = $rows[$i];
-            $cells = $row->getCells();
-            if (count($cells) <= count($cellWidths)) {
-                continue;
-            }
-            $cellWidths = array();
-            foreach ($cells as $cell) {
-                $cellWidths[] = $cell->getWidth();
-            }
-        }
+        $cellWidths = $element->findFirstDefinedCellWidths();
 
         $xmlWriter->startElement('w:tblGrid');
         foreach ($cellWidths as $width) {
@@ -112,7 +95,6 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Row $row
-     * @return void
      */
     private function writeRow(XMLWriter $xmlWriter, RowElement $row)
     {
@@ -139,11 +121,9 @@ class Table extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\Cell $cell
-     * @return void
      */
     private function writeCell(XMLWriter $xmlWriter, CellElement $cell)
     {
-
         $xmlWriter->startElement('w:tc');
 
         // Write style

@@ -3,14 +3,16 @@
 [![Latest Stable Version](https://poser.pugx.org/phpoffice/phpword/v/stable.png)](https://packagist.org/packages/phpoffice/phpword)
 [![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=master)](https://travis-ci.org/PHPOffice/PHPWord)
 [![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/quality-score.png?s=b5997ce59ac2816b4514f3a38de9900f6d492c1d)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
-[![Code Coverage](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/coverage.png?s=742a98745725c562955440edc8d2c39d7ff5ae25)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/)
+[![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=develop)](https://coveralls.io/github/PHPOffice/PHPWord?branch=develop)
 [![Total Downloads](https://poser.pugx.org/phpoffice/phpword/downloads.png)](https://packagist.org/packages/phpoffice/phpword)
 [![License](https://poser.pugx.org/phpoffice/phpword/license.png)](https://packagist.org/packages/phpoffice/phpword)
 [![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
 
 PHPWord is a library written in pure PHP that provides a set of classes to write to and read from different document file formats. The current version of PHPWord supports Microsoft [Office Open XML](http://en.wikipedia.org/wiki/Office_Open_XML) (OOXML or OpenXML), OASIS [Open Document Format for Office Applications](http://en.wikipedia.org/wiki/OpenDocument) (OpenDocument or ODF), [Rich Text Format](http://en.wikipedia.org/wiki/Rich_Text_Format) (RTF), HTML, and PDF.
 
-PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/develop/).
+PHPWord is an open source project licensed under the terms of [LGPL version 3](https://github.com/PHPOffice/PHPWord/blob/develop/COPYING.LESSER). PHPWord is aimed to be a high quality software product by incorporating [continuous integration](https://travis-ci.org/PHPOffice/PHPWord) and [unit testing](http://phpoffice.github.io/PHPWord/coverage/develop/). You can learn more about PHPWord by reading the [Developers' Documentation](http://phpword.readthedocs.org/).
+
+If you have any questions, please ask on [StackOverFlow](https://stackoverflow.com/questions/tagged/phpword)
 
 Read more about PHPWord:
 
@@ -20,7 +22,6 @@ Read more about PHPWord:
 - [Getting started](#getting-started)
 - [Contributing](#contributing)
 - [Developers' Documentation](http://phpword.readthedocs.org/)
-- [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/)
 
 ## Features
 
@@ -55,8 +56,7 @@ PHPWord requires the following:
 - PHP 5.3.3+
 - [XML Parser extension](http://www.php.net/manual/en/xml.installation.php)
 - [Zend\Escaper component](http://framework.zend.com/manual/current/en/modules/zend.escaper.introduction.html)
-- Zend\Stdlib component
-- [Zend\Validator component](http://framework.zend.com/manual/current/en/modules/zend.validator.html)
+- [Zend\Stdlib component](http://framework.zend.com/manual/current/en/modules/zend.stdlib.hydrator.html)
 - [Zip extension](http://php.net/manual/en/book.zip.php) (optional, used to write OOXML and ODF)
 - [GD extension](http://php.net/manual/en/book.image.php) (optional, used to add images)
 - [XMLWriter extension](http://php.net/manual/en/book.xmlwriter.php) (optional, used to write OOXML and ODF)
@@ -66,14 +66,22 @@ PHPWord requires the following:
 ## Installation
 
 PHPWord is installed via [Composer](https://getcomposer.org/).
-You just need to [add dependency](https://getcomposer.org/doc/04-schema.md#package-links>) on PHPWord into your package.
+To [add a dependency](https://getcomposer.org/doc/04-schema.md#package-links>) to PHPWord in your project, either
 
-Example:
+Run the following to use the latest stable version
+```sh
+    composer require phpoffice/phpword
+```
+or if you want the latest master version
+```sh
+    composer require phpoffice/phpword:dev-master
+```
 
+You can of course also manually edit your composer.json file
 ```json
 {
     "require": {
-       "phpoffice/phpword": "v0.13.*"
+       "phpoffice/phpword": "v0.14.*"
     }
 }
 ```
@@ -152,7 +160,8 @@ $objWriter->save('helloWorld.html');
 /* Note: we skip PDF, because "HTML-to-PDF" approach is used to create PDF documents. */
 ```
 
-More examples are provided in the [samples folder](samples/). You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
+More examples are provided in the [samples folder](samples/). For an easy access to those samples launch `php -S localhost:8000` in the samples directory then browse to [http://localhost:8000](http://localhost:8000) to view the samples.
+You can also read the [Developers' Documentation](http://phpword.readthedocs.org/) and the [API Documentation](http://phpoffice.github.io/PHPWord/docs/master/) for more detail.
 
 ## Contributing
 

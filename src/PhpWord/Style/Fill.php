@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,9 +20,9 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Fill style
  *
- * There are still lot of interesting things for this style that can be added, including gradient. See @link.
+ * There are still lot of interesting things for this style that can be added, including gradient. See @see .
  *
- * @link http://www.schemacentral.com/sc/ooxml/t-v_CT_Fill.html
+ * @see  http://www.schemacentral.com/sc/ooxml/t-v_CT_Fill.html
  * @since 0.12.0
  */
 class Fill extends AbstractStyle

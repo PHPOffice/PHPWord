@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
 
@@ -27,16 +27,18 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method Collection\Footnotes getFootnotes()
  * @method Collection\Endnotes getEndnotes()
  * @method Collection\Charts getCharts()
+ * @method Collection\Comments getComments()
  * @method int addBookmark(Element\Bookmark $bookmark)
  * @method int addTitle(Element\Title $title)
  * @method int addFootnote(Element\Footnote $footnote)
  * @method int addEndnote(Element\Endnote $endnote)
  * @method int addChart(Element\Chart $chart)
+ * @method int addComment(Element\Comment $comment)
  *
- * @method Style\Paragraph addParagraphStyle(string $styleName, array $styles)
+ * @method Style\Paragraph addParagraphStyle(string $styleName, mixed $styles)
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
  * @method Style\Font addLinkStyle(string $styleName, mixed $styles)
- * @method Style\Font addTitleStyle(int $depth, mixed $fontStyle, mixed $paragraphStyle = null)
+ * @method Style\Font addTitleStyle(mixed $depth, mixed $fontStyle, mixed $paragraphStyle = null)
  * @method Style\Table addTableStyle(string $styleName, mixed $styleTable, mixed $styleFirstRow = null)
  * @method Style\Numbering addNumberingStyle(string $styleName, mixed $styles)
  */
@@ -50,8 +52,17 @@ class PhpWord
      * @const string|int
      */
     const DEFAULT_FONT_NAME = Settings::DEFAULT_FONT_NAME;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_SIZE = Settings::DEFAULT_FONT_SIZE;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_COLOR = Settings::DEFAULT_FONT_COLOR;
+    /**
+     * @deprecated 0.11.0 Use Settings constants
+     */
     const DEFAULT_FONT_CONTENT_TYPE = Settings::DEFAULT_FONT_CONTENT_TYPE;
 
     /**
@@ -83,15 +94,19 @@ class PhpWord
      */
     public function __construct()
     {
+        // Reset Media and styles
+        Media::resetElements();
+        Style::resetStyles();
+
         // Collection
-        $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts');
+        $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
         foreach ($collections as $collection) {
             $class = 'PhpOffice\\PhpWord\\Collection\\' . $collection;
             $this->collections[$collection] = new $class();
         }
 
         // Metadata
-        $metadata = array('DocInfo', 'Protection', 'Compatibility');
+        $metadata = array('DocInfo', 'Settings', 'Compatibility');
         foreach ($metadata as $meta) {
             $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
             $this->metadata[$meta] = new $class();
@@ -106,9 +121,9 @@ class PhpWord
      * @param mixed $function
      * @param mixed $args
      *
-     * @return mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return mixed
      */
     public function __call($function, $args)
     {
@@ -118,7 +133,7 @@ class PhpWord
         $addCollection = array();
         $addStyle = array();
 
-        $collections = array('Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart');
+        $collections = array('Bookmark', 'Title', 'Footnote', 'Endnote', 'Chart', 'Comment');
         foreach ($collections as $collection) {
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
@@ -170,10 +185,12 @@ class PhpWord
      *
      * @return \PhpOffice\PhpWord\Metadata\Protection
      * @since 0.12.0
+     * @deprecated Get the Document protection from PhpWord->getSettings()->getDocumentProtection();
+     * @codeCoverageIgnore
      */
     public function getProtection()
     {
-        return $this->metadata['Protection'];
+        return $this->getSettings()->getDocumentProtection();
     }
 
     /**
@@ -188,6 +205,17 @@ class PhpWord
     }
 
     /**
+     * Get compatibility
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Settings
+     * @since 0.14.0
+     */
+    public function getSettings()
+    {
+        return $this->metadata['Settings'];
+    }
+
+    /**
      * Get all sections
      *
      * @return \PhpOffice\PhpWord\Element\Section[]
@@ -195,6 +223,21 @@ class PhpWord
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * Returns the section at the requested position
+     *
+     * @param int $index
+     * @return \PhpOffice\PhpWord\Element\Section|null
+     */
+    public function getSection($index)
+    {
+        if (array_key_exists($index, $this->sections)) {
+            return $this->sections[$index];
+        }
+
+        return null;
     }
 
     /**
@@ -213,6 +256,17 @@ class PhpWord
     }
 
     /**
+     * Sorts the sections using the callable passed
+     *
+     * @see http://php.net/manual/en/function.usort.php for usage
+     * @param callable $sorter
+     */
+    public function sortSections($sorter)
+    {
+        usort($this->sections, $sorter);
+    }
+
+    /**
      * Get default font name
      *
      * @return string
@@ -226,7 +280,6 @@ class PhpWord
      * Set default font name.
      *
      * @param string $fontName
-     * @return void
      */
     public function setDefaultFontName($fontName)
     {
@@ -236,7 +289,7 @@ class PhpWord
     /**
      * Get default font size
      *
-     * @return integer
+     * @return int
      */
     public function getDefaultFontSize()
     {
@@ -247,7 +300,6 @@ class PhpWord
      * Set default font size.
      *
      * @param int $fontSize
-     * @return void
      */
     public function setDefaultFontSize($fontSize)
     {
@@ -270,11 +322,11 @@ class PhpWord
      *
      * @deprecated 0.12.0 Use `new TemplateProcessor($documentTemplate)` instead.
      *
-     * @param  string $filename Fully qualified filename.
-     *
-     * @return TemplateProcessor
+     * @param  string $filename Fully qualified filename
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return TemplateProcessor
      *
      * @codeCoverageIgnore
      */
@@ -282,9 +334,8 @@ class PhpWord
     {
         if (file_exists($filename)) {
             return new TemplateProcessor($filename);
-        } else {
-            throw new Exception("Template file {$filename} not found.");
         }
+        throw new Exception("Template file {$filename} not found.");
     }
 
     /**
@@ -310,7 +361,7 @@ class PhpWord
         $writer = IOFactory::createWriter($this, $format);
 
         if ($download === true) {
-            header("Content-Description: File Transfer");
+            header('Content-Description: File Transfer');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Content-Type: ' . $mime[$format]);
             header('Content-Transfer-Encoding: binary');

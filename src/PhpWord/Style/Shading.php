@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Shading style
  *
- * @link http://www.schemacentral.com/sc/ooxml/t-w_CT_Shd.html
+ * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_Shd.html
  * @since 0.10.0
  */
 class Shading extends AbstractStyle
@@ -29,7 +29,7 @@ class Shading extends AbstractStyle
      * Pattern constants (partly)
      *
      * @const string
-     * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
+     * @see  http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
      */
     const PATTERN_CLEAR = 'clear'; // No pattern
     const PATTERN_SOLID = 'solid'; // 100% fill pattern
@@ -43,7 +43,7 @@ class Shading extends AbstractStyle
      * Shading pattern
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
+     * @see  http://www.schemacentral.com/sc/ooxml/t-w_ST_Shd.html
      */
     private $pattern = self::PATTERN_CLEAR;
 
@@ -91,7 +91,7 @@ class Shading extends AbstractStyle
     {
         $enum = array(
             self::PATTERN_CLEAR, self::PATTERN_SOLID, self::PATTERN_HSTRIPE,
-            self::PATTERN_VSTRIPE, self::PATTERN_DSTRIPE, self::PATTERN_HCROSS, self::PATTERN_DCROSS
+            self::PATTERN_VSTRIPE, self::PATTERN_DSTRIPE, self::PATTERN_HCROSS, self::PATTERN_DCROSS,
         );
         $this->pattern = $this->setEnumVal($value, $enum, $this->pattern);
 

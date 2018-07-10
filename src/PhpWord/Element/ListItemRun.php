@@ -10,15 +10,14 @@
 * file that was distributed with this source code. For the full list of
 * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
 *
-* @link        https://github.com/PHPOffice/PHPWord
-* @copyright   2010-2016 PHPWord contributors
+* @see         https://github.com/PHPOffice/PHPWord
+* @copyright   2010-2018 PHPWord contributors
 * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
 */
 
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\ListItem as ListItemStyle;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * List item element
@@ -61,7 +60,7 @@ class ListItemRun extends TextRun
         } else {
             $this->style = $this->setNewStyle(new ListItemStyle(), $listStyle, true);
         }
-        $this->paragraphStyle = $this->setNewStyle(new Paragraph(), $paragraphStyle);
+        parent::__construct($paragraphStyle);
     }
 
     /**
@@ -74,10 +73,10 @@ class ListItemRun extends TextRun
         return $this->style;
     }
 
-     /**
+    /**
      * Get ListItem depth.
-      *
-      * @return int
+     *
+     * @return int
      */
     public function getDepth()
     {

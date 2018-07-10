@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -30,8 +30,8 @@ class Settings
      * @const string
      */
     const ZIPARCHIVE = 'ZipArchive';
-    const PCLZIP     = 'PclZip';
-    const OLD_LIB    = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
+    const PCLZIP = 'PclZip';
+    const OLD_LIB = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
 
     /**
      * PDF rendering libraries
@@ -39,8 +39,8 @@ class Settings
      * @const string
      */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
-    const PDF_RENDERER_TCPDF  = 'TCPDF';
-    const PDF_RENDERER_MPDF   = 'MPDF';
+    const PDF_RENDERER_TCPDF = 'TCPDF';
+    const PDF_RENDERER_MPDF = 'MPDF';
 
     /**
      * Measurement units multiplication factor
@@ -53,12 +53,12 @@ class Settings
      *
      * @const string
      */
-    const UNIT_TWIP  = 'twip'; // = 1/20 point
-    const UNIT_CM    = 'cm';
-    const UNIT_MM    = 'mm';
-    const UNIT_INCH  = 'inch';
+    const UNIT_TWIP = 'twip'; // = 1/20 point
+    const UNIT_CM = 'cm';
+    const UNIT_MM = 'mm';
+    const UNIT_INCH = 'inch';
     const UNIT_POINT = 'point'; // = 1/72 inch
-    const UNIT_PICA  = 'pica'; // = 1/6 inch = 12 points
+    const UNIT_PICA = 'pica'; // = 1/6 inch = 12 points
 
     /**
      * Default font settings
@@ -133,7 +133,7 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
-    
+
     /**
      * Return the compatibility option used by the XMLWriter
      *
@@ -154,7 +154,7 @@ class Settings
      */
     public static function setCompatibility($compatibility)
     {
-        $compatibility = (bool)$compatibility;
+        $compatibility = (bool) $compatibility;
         self::$xmlWriterCompatibility = $compatibility;
 
         return true;
@@ -180,6 +180,7 @@ class Settings
     {
         if (in_array($zipClass, array(self::PCLZIP, self::ZIPARCHIVE, self::OLD_LIB))) {
             self::$zipClass = $zipClass;
+
             return true;
         }
 
@@ -229,7 +230,6 @@ class Settings
         return true;
     }
 
-
     /**
      * Return the directory path to the PDF Rendering Library.
      *
@@ -275,7 +275,7 @@ class Settings
     public static function setMeasurementUnit($value)
     {
         $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH,
-            self::UNIT_POINT, self::UNIT_PICA);
+            self::UNIT_POINT, self::UNIT_PICA, );
         if (!in_array($value, $units)) {
             return false;
         }
@@ -289,9 +289,7 @@ class Settings
      *
      * @since 0.12.0
      *
-     * @param string $tempDir The user defined path to temporary directory.
-     *
-     * @return void
+     * @param string $tempDir The user defined path to temporary directory
      */
     public static function setTempDir($tempDir)
     {
@@ -307,10 +305,10 @@ class Settings
      */
     public static function getTempDir()
     {
-        $tempDir = sys_get_temp_dir();
-
         if (!empty(self::$tempDir)) {
             $tempDir = self::$tempDir;
+        } else {
+            $tempDir = sys_get_temp_dir();
         }
 
         return $tempDir;
@@ -318,10 +316,8 @@ class Settings
 
     /**
      * @since 0.13.0
-     * 
-     * @return boolean
      *
-     * @codeCoverageIgnore
+     * @return bool
      */
     public static function isOutputEscapingEnabled()
     {
@@ -330,10 +326,8 @@ class Settings
 
     /**
      * @since 0.13.0
-     * 
-     * @param boolean $outputEscapingEnabled
      *
-     * @codeCoverageIgnore
+     * @param bool $outputEscapingEnabled
      */
     public static function setOutputEscapingEnabled($outputEscapingEnabled)
     {
@@ -360,6 +354,7 @@ class Settings
     {
         if (is_string($value) && trim($value) !== '') {
             self::$defaultFontName = $value;
+
             return true;
         }
 
@@ -369,7 +364,7 @@ class Settings
     /**
      * Get default font size
      *
-     * @return integer
+     * @return int
      */
     public static function getDefaultFontSize()
     {
@@ -384,9 +379,10 @@ class Settings
      */
     public static function setDefaultFontSize($value)
     {
-        $value = intval($value);
+        $value = (int) $value;
         if ($value > 0) {
             self::$defaultFontSize = $value;
+
             return true;
         }
 

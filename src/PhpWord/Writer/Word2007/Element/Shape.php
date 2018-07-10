@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -32,8 +32,6 @@ class Shape extends AbstractElement
 {
     /**
      * Write element.
-     *
-     * @return void
      */
     public function write()
     {
@@ -55,6 +53,7 @@ class Shape extends AbstractElement
         if (!$this->withoutP) {
             $xmlWriter->startElement('w:p');
         }
+        $this->writeCommentRangeStart();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
@@ -80,7 +79,6 @@ class Shape extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
-     * @return void
      */
     private function writeArc(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -95,7 +93,6 @@ class Shape extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
-     * @return void
      */
     private function writeCurve(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -111,7 +108,6 @@ class Shape extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
-     * @return void
      */
     private function writeLine(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -126,7 +122,6 @@ class Shape extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
-     * @return void
      */
     private function writePolyline(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -138,7 +133,6 @@ class Shape extends AbstractElement
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Shape $style
-     * @return void
      */
     private function writeRoundRect(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -160,12 +154,12 @@ class Shape extends AbstractElement
             case 'arc':
             case 'line':
                 $points = explode(' ', $value);
-                @list($start, $end) = $points;
+                list($start, $end) = array_pad($points, 2, null);
                 $points = array('start' => $start, 'end' => $end);
                 break;
             case 'curve':
                 $points = explode(' ', $value);
-                @list($start, $end, $point1, $point2) = $points;
+                list($start, $end, $point1, $point2) = array_pad($points, 4, null);
                 $points = array('start' => $start, 'end' => $end, 'point1' => $point1, 'point2' => $point2);
                 break;
         }

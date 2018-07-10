@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -60,7 +60,11 @@ class DocPropsCustom extends AbstractPart
                     $xmlWriter->writeElement('vt:bool', ($propertyValue) ? 'true' : 'false');
                     break;
                 case 'd':
-                    $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                    if ($propertyValue instanceof \DateTime) {
+                        $xmlWriter->writeElement('vt:filetime', $propertyValue->format($this->dateFormat));
+                    } else {
+                        $xmlWriter->writeElement('vt:filetime', date($this->dateFormat, $propertyValue));
+                    }
                     break;
                 default:
                     $xmlWriter->writeElement('vt:lpwstr', $propertyValue);

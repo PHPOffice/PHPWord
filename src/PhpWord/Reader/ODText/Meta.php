@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -31,7 +31,6 @@ class Meta extends AbstractPart
      * Read meta.xml.
      *
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
-     * @return void
      * @todo Process property type
      */
     public function read(PhpWord $phpWord)
@@ -70,9 +69,8 @@ class Meta extends AbstractPart
             if (in_array($property, array('Category', 'Company', 'Manager'))) {
                 $method = "set{$property}";
                 $docProps->$method($propertyNode->nodeValue);
-
-            // Set other custom properties
             } else {
+                // Set other custom properties
                 $docProps->setCustomProperty($property, $propertyNode->nodeValue);
             }
         }

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,8 +26,6 @@ class Shading extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -38,9 +36,9 @@ class Shading extends AbstractStyle
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startElement('w:shd');
-        $xmlWriter->writeAttribute('w:val', $style->getPattern());
-        $xmlWriter->writeAttribute('w:color', $style->getColor());
-        $xmlWriter->writeAttribute('w:fill', $style->getFill());
+        $xmlWriter->writeAttributeIf(!is_null($style->getPattern()), 'w:val', $style->getPattern());
+        $xmlWriter->writeAttributeIf(!is_null($style->getColor()), 'w:color', $style->getColor());
+        $xmlWriter->writeAttributeIf(!is_null($style->getFill()), 'w:fill', $style->getFill());
         $xmlWriter->endElement();
     }
 }
