@@ -36,7 +36,7 @@ class Tab extends AbstractStyle
         $tabs = array(
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT   => '\tqr',
             \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER  => '\tqc',
-            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec'
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec',
         );
         $content = '';
         if (isset($tabs[$style->getType()])) {
