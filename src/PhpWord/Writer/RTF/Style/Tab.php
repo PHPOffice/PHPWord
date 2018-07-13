@@ -33,14 +33,14 @@ class Tab extends AbstractStyle
         if (!$style instanceof \PhpOffice\PhpWord\Style\Tab) {
             return;
         }
+        $tabs = array(
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT   => '\tqr',
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER  => '\tqc',
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec'
+        );
         $content = '';
-        $type = $style->getType();
-        if ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT) {
-            $content .= '\tqr';
-        } elseif ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER) {
-            $content .= '\tqc';
-        } elseif ($type == \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL) {
-            $content .= '\tqdec';
+        if (isset($tabs[$style->getType()])) {
+            $content .= $tabs[$style->getType()];
         }
         $content .= '\tx' . $style->getPosition();
 
