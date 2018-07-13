@@ -71,6 +71,7 @@ class Html
         }
 
         // Load DOM
+        libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
