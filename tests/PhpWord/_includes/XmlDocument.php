@@ -76,8 +76,10 @@ class XmlDocument
         $this->file = $file;
 
         $file = $this->path . '/' . $file;
+        libxml_disable_entity_loader(false);
         $this->dom = new \DOMDocument();
         $this->dom->load($file);
+        libxml_disable_entity_loader(true);
 
         return $this->dom;
     }

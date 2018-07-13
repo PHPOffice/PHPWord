@@ -113,6 +113,7 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
+        libxml_disable_entity_loader(true);
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
