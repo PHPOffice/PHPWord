@@ -37,6 +37,7 @@ v0.15.0 (?? ??? 2018)
 - Fix parsing of Heading and Title formating @troosan @gthomas2 #465
 - Fix Dateformat typo, fix hours casing, add Month-Day-Year formats @ComputerTinker #591
 - Fix missing column width in ODText writer @potofcoffee #413
+- Disable entity loader before parsing XML to avoid XXE injection @Tom4t0 #1427
 
 ### Changed
 - Remove zend-stdlib dependency @Trainmaster #1284
