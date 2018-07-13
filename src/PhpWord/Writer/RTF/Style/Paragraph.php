@@ -64,11 +64,7 @@ class Paragraph extends AbstractStyle
         if (isset($alignments[$style->getAlignment()])) {
             $content .= $alignments[$style->getAlignment()];
         }
-        $indent = $style->getIndentation();
-        if (isset($indent) && $indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
-            $writer = new Indentation($indent);
-            $content .= $writer->write();
-        }
+        $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);
 
@@ -78,7 +74,30 @@ class Paragraph extends AbstractStyle
         return $content;
     }
 
-    private function writeTabs($tabs)
+    /**
+     * Writes an \PhpOffice\PhpWord\Style\Indentation
+     *
+     * @param null|\PhpOffice\PhpWord\Style\Indentation $indent
+     * @return string
+     */
+    private function writeIndentation($indent = null)
+    {
+        if (isset($indent) && $indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
+            $writer = new Indentation($indent);
+
+            return $writer->write();
+        }
+
+        return '';
+    }
+
+    /**
+     * Writes tabs
+     *
+     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     * @return string
+     */
+    private function writeTabs($tabs = null)
     {
         $content = '';
         if (!empty($tabs)) {
