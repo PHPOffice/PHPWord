@@ -64,6 +64,8 @@
         "phpoffice/common": "^0.2"
     },
     "require-dev": {
+        "ext-zip": "*",
+        "ext-gd": "*",
         "phpunit/phpunit": "^4.8.36 || ^5.0",
         "squizlabs/php_codesniffer": "^2.9",
         "friendsofphp/php-cs-fixer": "^2.2",
