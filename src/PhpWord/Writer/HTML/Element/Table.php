@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -40,18 +40,60 @@ class Table extends AbstractElement
         $rowCount = count($rows);
         if ($rowCount > 0) {
             $content .= '<table>' . PHP_EOL;
-            foreach ($rows as $row) {
+            for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
-                $rowStyle = $row->getStyle();
+                $rowStyle = $rows[$i]->getStyle();
                 // $height = $row->getHeight();
                 $tblHeader = $rowStyle->isTblHeader();
                 $content .= '<tr>' . PHP_EOL;
-                foreach ($row->getCells() as $cell) {
-                    $writer = new Container($this->parentWriter, $cell);
-                    $cellTag = $tblHeader ? 'th' : 'td';
-                    $content .= "<{$cellTag}>" . PHP_EOL;
-                    $content .= $writer->write();
-                    $content .= "</{$cellTag}>" . PHP_EOL;
+                $rowCells = $rows[$i]->getCells();
+                $rowCellCount = count($rowCells);
+                for ($j = 0; $j < $rowCellCount; $j++) {
+                    $cellStyle = $rowCells[$j]->getStyle();
+                    $cellColSpan = $cellStyle->getGridSpan();
+                    $cellRowSpan = 1;
+                    $cellVMerge = $cellStyle->getVMerge();
+                    // If this is the first cell of the vertical merge, find out how man rows it spans
+                    if ($cellVMerge === 'restart') {
+                        for ($k = $i + 1; $k < $rowCount; $k++) {
+                            $kRowCells = $rows[$k]->getCells();
+                            if (isset($kRowCells[$j])) {
+                                if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                    $cellRowSpan++;
+                                } else {
+                                    break;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    // Ignore cells that are merged vertically with previous rows
+                    if ($cellVMerge !== 'continue') {
+                        $cellTag = $tblHeader ? 'th' : 'td';
+                        $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
+                        $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
+                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}>" . PHP_EOL;
+                        $writer = new Container($this->parentWriter, $rowCells[$j]);
+                        $content .= $writer->write();
+                        if ($cellRowSpan > 1) {
+                            // There shouldn't be any content in the subsequent merged cells, but lets check anyway
+                            for ($k = $i + 1; $k < $rowCount; $k++) {
+                                $kRowCells = $rows[$k]->getCells();
+                                if (isset($kRowCells[$j])) {
+                                    if ($kRowCells[$j]->getStyle()->getVMerge() === 'continue') {
+                                        $writer = new Container($this->parentWriter, $kRowCells[$j]);
+                                        $content .= $writer->write();
+                                    } else {
+                                        break;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                        $content .= "</{$cellTag}>" . PHP_EOL;
+                    }
                 }
                 $content .= '</tr>' . PHP_EOL;
             }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -90,6 +90,10 @@ class Font extends AbstractStyle
             $xmlWriter->writeAttributeIf($language->getLatin() !== null, 'w:val', $language->getLatin());
             $xmlWriter->writeAttributeIf($language->getEastAsia() !== null, 'w:eastAsia', $language->getEastAsia());
             $xmlWriter->writeAttributeIf($language->getBidirectional() !== null, 'w:bidi', $language->getBidirectional());
+            //if bidi is not set but we are writing RTL, write the latin language in the bidi tag
+            if ($style->isRTL() && $language->getBidirectional() === null && $language->getLatin() !== null) {
+                $xmlWriter->writeAttribute('w:bidi', $language->getLatin());
+            }
             $xmlWriter->endElement();
         }
 
@@ -131,6 +135,9 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->getSpacing() !== null, 'w:spacing', 'w:val', $style->getSpacing());
         $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
+        // noProof
+        $xmlWriter->writeElementIf($style->isNoProof() !== false, 'w:noProof');
+
         // Background-Color
         $shading = $style->getShading();
         if (!is_null($shading)) {
@@ -143,6 +150,9 @@ class Font extends AbstractStyle
             $styleName = $style->getStyleName();
             $xmlWriter->writeElementIf($styleName === null && $style->isRTL(), 'w:rtl');
         }
+
+        // Position
+        $xmlWriter->writeElementIf($style->getPosition() !== null, 'w:position', 'w:val', $style->getPosition());
 
         $xmlWriter->endElement();
     }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -63,5 +63,19 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
 
         $doc = TestHelperDOCX::getDocument($phpWord);
         $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b'));
+    }
+
+    /**
+     * Load a Word 2011 file
+     */
+    public function testLoadWord2011()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader-2011.docx';
+        $phpWord = IOFactory::load($filename);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:pict/v:shape/v:imagedata'));
     }
 }

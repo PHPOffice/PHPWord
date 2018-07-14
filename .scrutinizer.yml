@@ -1,3 +1,8 @@
+build:
+    nodes:
+        analysis:
+            tests:
+                override: [php-scrutinizer-run]
 filter:
     excluded_paths: [ 'vendor/*', 'tests/*', 'samples/*', 'src/PhpWord/Shared/PCLZip/*' ]
 
@@ -14,7 +19,7 @@ tools:
         config:
             ruleset: phpmd.xml.dist
     external_code_coverage:
-        enabled: true
+        enabled: false
         timeout: 1200
     php_cpd: true
     # php_sim: # Temporarily disabled to allow focus on things other than duplicates

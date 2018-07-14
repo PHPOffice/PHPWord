@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -33,11 +33,10 @@ namespace PhpOffice\PhpWord\Element;
  * @method CheckBox addCheckBox(string $name, $text, mixed $fStyle = null, mixed $pStyle = null)
  * @method Title addTitle(string $text, int $depth = 1)
  * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
- *
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
- * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
- * @method \PhpOffice\PhpWord\Element\Object addObject(string $source, mixed $style = null)
+ * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null)
+ * @method OLEObject addOLEObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
@@ -46,6 +45,8 @@ namespace PhpOffice\PhpWord\Element;
  * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  * @method SDT addSDT(string $type)
  *
+ * @method \PhpOffice\PhpWord\Element\OLEObject addObject(string $source, mixed $style = null) deprecated, use addOLEObject instead
+ *
  * @since 0.10.0
  */
 abstract class AbstractContainer extends AbstractElement
@@ -53,7 +54,7 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Elements collection
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     protected $elements = array();
 
@@ -80,14 +81,14 @@ abstract class AbstractContainer extends AbstractElement
     {
         $elements = array(
             'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
-            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
         );
         $functions = array();
         foreach ($elements as $element) {
-            $functions['add' . strtolower($element)] = $element;
+            $functions['add' . strtolower($element)] = $element == 'Object' ? 'OLEObject' : $element;
         }
 
         // Run valid `add` command
@@ -156,11 +157,46 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Get all elements
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     public function getElements()
     {
         return $this->elements;
+    }
+
+    /**
+     * Returns the element at the requested position
+     *
+     * @param int $index
+     * @return \PhpOffice\PhpWord\Element\AbstractElement|null
+     */
+    public function getElement($index)
+    {
+        if (array_key_exists($index, $this->elements)) {
+            return $this->elements[$index];
+        }
+
+        return null;
+    }
+
+    /**
+     * Removes the element at requested index
+     *
+     * @param int|\PhpOffice\PhpWord\Element\AbstractElement $toRemove
+     */
+    public function removeElement($toRemove)
+    {
+        if (is_int($toRemove) && array_key_exists($toRemove, $this->elements)) {
+            unset($this->elements[$toRemove]);
+        } elseif ($toRemove instanceof \PhpOffice\PhpWord\Element\AbstractElement) {
+            foreach ($this->elements as $key => $element) {
+                if ($element->getElementId() === $toRemove->getElementId()) {
+                    unset($this->elements[$key]);
+
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -193,20 +229,20 @@ abstract class AbstractContainer extends AbstractElement
             'Link'          => $generalContainers,
             'TextBreak'     => $generalContainers,
             'Image'         => $generalContainers,
-            'Object'        => $generalContainers,
+            'OLEObject'     => $generalContainers,
             'Field'         => $generalContainers,
             'Line'          => $generalContainers,
             'Shape'         => $generalContainers,
             'FormField'     => $generalContainers,
             'SDT'           => $generalContainers,
             'TrackChange'   => $generalContainers,
-            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox', 'TrackChange'),
+            'TextRun'       => array('Section', 'Header', 'Footer', 'Cell', 'TextBox', 'TrackChange', 'ListItemRun'),
             'ListItem'      => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'ListItemRun'   => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell', 'TextRun'),
             'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
-            'Footnote'      => array('Section', 'TextRun', 'Cell'),
+            'Footnote'      => array('Section', 'TextRun', 'Cell', 'ListItemRun'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
             'PreserveText'  => array('Section', 'Header', 'Footer', 'Cell'),
             'Title'         => array('Section', 'Cell'),

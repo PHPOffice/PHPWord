@@ -6,6 +6,6 @@ Fixes # (issue)
 
 ### Checklist:
 
-- [ ] I have run `composer check` and no errors were reported
-- [ ] The new code is covered by unit tests
+- [ ] I have run `composer run-script check --timeout=0` and no errors were reported
+- [ ] The new code is covered by unit tests (check build/coverage for coverage report)
 - [ ] I have update the documentation to describe the changes

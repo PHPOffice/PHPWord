@@ -11,11 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PHPUnit\Framework\Assert;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Language
@@ -57,6 +59,19 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
     public function testWrongLanguage()
     {
         $language = new Language();
+        $language->setLatin('fra');
+    }
+
+    /**
+     * Tests that a language can be set with just a 2 char code
+     */
+    public function testShortLanguage()
+    {
+        //when
+        $language = new Language();
         $language->setLatin('fr');
+
+        //then
+        Assert::assertEquals('fr-FR', $language->getLatin());
     }
 }

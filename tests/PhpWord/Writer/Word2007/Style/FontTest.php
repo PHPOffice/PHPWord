@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -43,7 +43,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $textrun = $section->addTextRun();
-        $textrun->addText('سلام این یک پاراگراف راست به چپ است', array('rtl' => true));
+        $textrun->addText('سلام این یک پاراگراف راست به چپ است', array('rtl' => true, 'lang' => 'ar-DZ'));
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
 
         $file = 'word/document.xml';
@@ -64,5 +64,20 @@ class FontTest extends \PHPUnit\Framework\TestCase
         $file = 'word/document.xml';
         $path = '/w:document/w:body/w:p/w:r/w:rPr/w:lang';
         $this->assertTrue($doc->elementExists($path, $file));
+    }
+
+    /**
+     * Test writing position
+     */
+    public function testPosition()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('This text is lowered', array('position' => -20));
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:r/w:rPr/w:position';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals(-20, $doc->getElementAttribute($path, 'w:val'));
     }
 }

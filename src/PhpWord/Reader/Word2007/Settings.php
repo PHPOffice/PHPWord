@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,7 +29,18 @@ use PhpOffice\PhpWord\Style\Language;
  */
 class Settings extends AbstractPart
 {
-    private static $booleanProperties = array('hideSpellingErrors', 'hideGrammaticalErrors', 'trackRevisions', 'doNotTrackMoves', 'doNotTrackFormatting', 'evenAndOddHeaders');
+    private static $booleanProperties = array(
+        'mirrorMargins',
+        'hideSpellingErrors',
+        'hideGrammaticalErrors',
+        'trackRevisions',
+        'doNotTrackMoves',
+        'doNotTrackFormatting',
+        'evenAndOddHeaders',
+        'updateFields',
+        'autoHyphenation',
+        'doNotHyphenateCaps',
+    );
 
     /**
      * Read settings.xml.
@@ -70,7 +81,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -80,8 +91,8 @@ class Settings extends AbstractPart
 
         $themeFontLang = new Language();
         $themeFontLang->setLatin($val);
-        $themeFontLang->setLatin($eastAsia);
-        $themeFontLang->setLatin($bidi);
+        $themeFontLang->setEastAsia($eastAsia);
+        $themeFontLang->setBidirectional($bidi);
 
         $phpWord->getSettings()->setThemeFontLang($themeFontLang);
     }
@@ -91,14 +102,16 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
         $documentProtection = $phpWord->getSettings()->getDocumentProtection();
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
-        $documentProtection->setEditing($edit);
+        if ($edit !== null) {
+            $documentProtection->setEditing($edit);
+        }
     }
 
     /**
@@ -106,7 +119,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -128,7 +141,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -145,7 +158,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setRevisionView(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -156,5 +169,33 @@ class Settings extends AbstractPart
         $revisionView->setFormatting(filter_var($xmlReader->getAttribute('w:formatting', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setInkAnnotations(filter_var($xmlReader->getAttribute('w:inkAnnotations', $node), FILTER_VALIDATE_BOOLEAN));
         $phpWord->getSettings()->setRevisionView($revisionView);
+    }
+
+    /**
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMElement $node
+     */
+    protected function setConsecutiveHyphenLimit(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
+    {
+        $value = $xmlReader->getAttribute('w:val', $node);
+
+        if ($value !== null) {
+            $phpWord->getSettings()->setConsecutiveHyphenLimit($value);
+        }
+    }
+
+    /**
+     * @param XMLReader $xmlReader
+     * @param PhpWord $phpWord
+     * @param \DOMElement $node
+     */
+    protected function setHyphenationZone(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
+    {
+        $value = $xmlReader->getAttribute('w:val', $node);
+
+        if ($value !== null) {
+            $phpWord->getSettings()->setHyphenationZone($value);
+        }
     }
 }

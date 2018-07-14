@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,6 +29,12 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
+    /**
+     * Overridden to set the correct includefile, only needed for MPDF 5
+     *
+     * @codeCoverageIgnore
+     * @param PhpWord $phpWord
+     */
     public function __construct(PhpWord $phpWord)
     {
         if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
@@ -52,13 +58,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
-        if ($this->includeFile != null) {
-            // MPDF version 5.*
-            $pdf = new \mpdf();
-        } else {
-            // MPDF version > 6.*
-            $pdf = new \Mpdf\Mpdf();
-        }
+        $mPdfClass = $this->getMPdfClassName();
+        $pdf = new $mPdfClass();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 
@@ -77,5 +78,22 @@ class MPDF extends AbstractRenderer implements WriterInterface
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    /**
+     * Return classname of MPDF to instantiate
+     *
+     * @codeCoverageIgnore
+     * @return string
+     */
+    private function getMPdfClassName()
+    {
+        if ($this->includeFile != null) {
+            // MPDF version 5.*
+            return '\mpdf';
+        }
+
+        // MPDF version > 6.*
+        return '\Mpdf\Mpdf';
     }
 }
