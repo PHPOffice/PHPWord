@@ -37,9 +37,9 @@ class XmlDocument
     private $dom;
 
     /**
-     * DOMXpath object
+     * DOMXPath object
      *
-     * @var \DOMXpath
+     * @var \DOMXPath
      */
     private $xpath;
 
@@ -98,7 +98,7 @@ class XmlDocument
         }
 
         if (null === $this->xpath) {
-            $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath = new \DOMXPath($this->dom);
             $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 

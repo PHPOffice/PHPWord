@@ -75,7 +75,7 @@ class Html
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
-        self::$xpath = new \DOMXpath($dom);
+        self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
