@@ -135,18 +135,40 @@ class Table extends AbstractElement
     public function countColumns()
     {
         $columnCount = 0;
-        if (is_array($this->rows)) {
-            $rowCount = count($this->rows);
-            for ($i = 0; $i < $rowCount; $i++) {
-                /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
-                $row = $this->rows[$i];
-                $cellCount = count($row->getCells());
-                if ($columnCount < $cellCount) {
-                    $columnCount = $cellCount;
-                }
+
+        $rowCount = count($this->rows);
+        for ($i = 0; $i < $rowCount; $i++) {
+            /** @var \PhpOffice\PhpWord\Element\Row $row Type hint */
+            $row = $this->rows[$i];
+            $cellCount = count($row->getCells());
+            if ($columnCount < $cellCount) {
+                $columnCount = $cellCount;
             }
         }
 
         return $columnCount;
+    }
+
+    /**
+     * The first declared cell width for each column
+     *
+     * @return int[]
+     */
+    public function findFirstDefinedCellWidths()
+    {
+        $cellWidths = array();
+
+        foreach ($this->rows as $row) {
+            $cells = $row->getCells();
+            if (count($cells) <= count($cellWidths)) {
+                continue;
+            }
+            $cellWidths = array();
+            foreach ($cells as $cell) {
+                $cellWidths[] = $cell->getWidth();
+            }
+        }
+
+        return $cellWidths;
     }
 }

@@ -24,6 +24,7 @@ v0.15.0 (?? ??? 2018)
 - Added parsing of internal links in HTML reader @lalop #1336
 - Several improvements to charts @JAEK-S #1332
 - Add parsing of html image in base64 format @jgpATs2w #1382
+- Added Support for Indentation & Tabs on RTF Writer. @smaug1985 #1405
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
@@ -36,6 +37,9 @@ v0.15.0 (?? ??? 2018)
 - Fix colspan and rowspan for tables in HTML Writer @mattbolt #1292
 - Fix parsing of Heading and Title formating @troosan @gthomas2 #465
 - Fix Dateformat typo, fix hours casing, add Month-Day-Year formats @ComputerTinker #591
+- Support reading of w:drawing for documents produced by word 2011+ @gthomas2 #464 #1324
+- Fix missing column width in ODText writer @potofcoffee #413
+- Disable entity loader before parsing XML to avoid XXE injection @Tom4t0 #1427
 
 ### Changed
 - Remove zend-stdlib dependency @Trainmaster #1284
