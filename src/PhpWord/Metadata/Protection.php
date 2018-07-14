@@ -113,7 +113,7 @@ class Protection
     /**
      * Set password
      *
-     * @param $password
+     * @param string $password
      * @return self
      */
     public function setPassword($password)
@@ -136,7 +136,7 @@ class Protection
     /**
      * Set count for hash iterations
      *
-     * @param $spinCount
+     * @param int $spinCount
      * @return self
      */
     public function setSpinCount($spinCount)
@@ -159,7 +159,7 @@ class Protection
     /**
      * Set algorithm
      *
-     * @param $algorithm
+     * @param string $algorithm
      * @return self
      */
     public function setAlgorithm($algorithm)

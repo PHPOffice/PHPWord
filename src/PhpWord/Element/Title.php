@@ -74,8 +74,6 @@ class Title extends AbstractElement
         if (array_key_exists($styleName, Style::getStyles())) {
             $this->style = str_replace('_', '', $styleName);
         }
-
-        return $this;
     }
 
     /**
