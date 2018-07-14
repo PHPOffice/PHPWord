@@ -104,6 +104,7 @@ Available Table style options:
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
 - ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in *twip*.
+- ``indent``. Table indent from leading margin. Must be an instance of ``\PhpOffice\PhpWord\ComplexType\TblWidth``.
 - ``width``. Table width in percent.
 - ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
 - ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
@@ -149,10 +150,10 @@ Image
 Available Image style options:
 
 - ``alignment``. See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
-- ``height``. Height in pixels.
+- ``height``. Height in *pt*.
 - ``marginLeft``. Left margin in inches, can be negative.
 - ``marginTop``. Top margin in inches, can be negative.
-- ``width``. Width in pixels.
+- ``width``. Width in *pt*.
 - ``wrappingStyle``. Wrapping style, *inline*, *square*, *tight*, *behind*, or *infront*.
 - ``wrapDistanceTop``. Top text wrapping in pixels.
 - ``wrapDistanceBottom``. Bottom text wrapping in pixels.

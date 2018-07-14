@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
@@ -32,23 +33,30 @@ class Html
 {
     private static $listIndex = 0;
     private static $xpath;
+    private static $options;
 
     /**
      * Add HTML parts.
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
+     * Warning: Do not pass user-generated HTML here, as that would allow an attacker to read arbitrary
+     * files or perform server-side request forgery by passing local file paths or URLs in <img>.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
+     * @param array $options:
+     *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
+     *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
+        self::$options = $options;
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -63,10 +71,11 @@ class Html
         }
 
         // Load DOM
+        libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
-        self::$xpath = new \DOMXpath($dom);
+        self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -139,6 +148,7 @@ class Html
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
@@ -646,7 +656,52 @@ class Html
                     break;
             }
         }
-        $newElement = $element->addImage($src, $style);
+        $originSrc = $src;
+        if (strpos($src, 'data:image') !== false) {
+            $tmpDir = Settings::getTempDir() . '/';
+
+            $match = array();
+            preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
+
+            $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
+
+            $ifp = fopen($imgFile, 'wb');
+
+            if ($ifp !== false) {
+                fwrite($ifp, base64_decode($match[2]));
+                fclose($ifp);
+            }
+        }
+        $src = urldecode($src);
+
+        if (!is_file($src)
+            && !is_null(self::$options)
+            && isset(self::$options['IMG_SRC_SEARCH'])
+            && isset(self::$options['IMG_SRC_REPLACE'])) {
+            $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
+        }
+
+        if (!is_file($src)) {
+            if ($imgBlob = @file_get_contents($src)) {
+                $tmpDir = Settings::getTempDir() . '/';
+                $match = array();
+                preg_match('/.+\.(\w+)$/', $src, $match);
+                $src = $tmpDir . uniqid() . '.' . $match[1];
+
+                $ifp = fopen($src, 'wb');
+
+                if ($ifp !== false) {
+                    fwrite($ifp, $imgBlob);
+                    fclose($ifp);
+                }
+            }
+        }
+
+        if (is_file($src)) {
+            $newElement = $element->addImage($src, $style);
+        } else {
+            throw new \Exception("Could not load image $originSrc");
+        }
 
         return $newElement;
     }
@@ -719,7 +774,11 @@ class Html
                     break;
             }
         }
-        self::parseInlineStyle($node, $styles['font']);
+        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+
+        if (strpos($target, '#') === 0) {
+            return $element->addLink(substr($target, 1), $node->textContent, $styles['font'], $styles['paragraph'], true);
+        }
 
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }

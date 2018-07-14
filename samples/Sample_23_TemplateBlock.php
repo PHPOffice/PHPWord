@@ -14,7 +14,7 @@ $templateProcessor->deleteBlock('DELETEME');
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_23_TemplateBlock.docx');
 
-echo getEndingNotes(array('Word2007' => 'docx'));
+echo getEndingNotes(array('Word2007' => 'docx'), 'results/Sample_23_TemplateBlock.docx');
 if (!CLI) {
     include_once 'Sample_Footer.php';
 }

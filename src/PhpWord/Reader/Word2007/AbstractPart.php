@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\Common\XMLReader;
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
@@ -486,6 +487,11 @@ abstract class AbstractPart
                 if ($tablePositionNode !== null) {
                     $style['position'] = $this->readTablePosition($xmlReader, $tablePositionNode);
                 }
+
+                $indentNode = $xmlReader->getElement('w:tblInd', $styleNode);
+                if ($indentNode !== null) {
+                    $style['indent'] = $this->readTableIndent($xmlReader, $indentNode);
+                }
             }
         }
 
@@ -515,6 +521,24 @@ abstract class AbstractPart
         );
 
         return $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+    }
+
+    /**
+     * Read w:tblInd
+     *
+     * @param \PhpOffice\Common\XMLReader $xmlReader
+     * @param \DOMElement $domNode
+     * @return TblWidthComplexType
+     */
+    private function readTableIndent(XMLReader $xmlReader, \DOMElement $domNode)
+    {
+        $styleDefs = array(
+            'value' => array(self::READ_VALUE, '.', 'w:w'),
+            'type'  => array(self::READ_VALUE, '.', 'w:type'),
+        );
+        $styleDefs = $this->readStyleDefs($xmlReader, $domNode, $styleDefs);
+
+        return new TblWidthComplexType((int) $styleDefs['value'], $styleDefs['type']);
     }
 
     /**

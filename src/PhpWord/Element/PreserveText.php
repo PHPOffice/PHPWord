@@ -29,7 +29,7 @@ class PreserveText extends AbstractElement
     /**
      * Text content
      *
-     * @var string
+     * @var string|array
      */
     private $text;
 
@@ -64,8 +64,6 @@ class PreserveText extends AbstractElement
         if (isset($matches[0])) {
             $this->text = $matches;
         }
-
-        return $this;
     }
 
     /**
@@ -91,7 +89,7 @@ class PreserveText extends AbstractElement
     /**
      * Get Text content
      *
-     * @return string
+     * @return string|array
      */
     public function getText()
     {
