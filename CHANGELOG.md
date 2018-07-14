@@ -3,7 +3,7 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.15.0 (?? ??? 2018)
+v0.15.0 (14 Jul 2018)
 ----------------------
 ### Added
 - Parsing of `align` HTML attribute - @troosan #1231
@@ -25,6 +25,7 @@ v0.15.0 (?? ??? 2018)
 - Several improvements to charts @JAEK-S #1332
 - Add parsing of html image in base64 format @jgpATs2w #1382
 - Added Support for Indentation & Tabs on RTF Writer. @smaug1985 #1405
+- Allows decimal numbers in HTML line-height style @jgpATs2w #1413
 
 ### Fixed
 - Fix reading of docx default style - @troosan #1238
