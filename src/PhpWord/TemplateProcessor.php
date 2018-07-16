@@ -217,10 +217,10 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = self::ensureUtf8Encoded($item);
+                $item = static::ensureUtf8Encoded($item);
             }
         } else {
-            $replace = self::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
