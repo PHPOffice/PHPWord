@@ -21,9 +21,7 @@ use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
-
 use PhpOffice\PhpWord\Style;
-
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles
