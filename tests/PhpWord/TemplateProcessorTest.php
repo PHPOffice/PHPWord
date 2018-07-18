@@ -260,6 +260,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         // and the placeholders have been replaced correctly
         $phpWord = IOFactory::load($templatePath);
         $sections = $phpWord->getSections();
+        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
         $actualElements = $sections[0]->getElements();
         unlink($templatePath);
         $expectedElements = array(
@@ -271,7 +272,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         foreach ($expectedElements as $i => $expectedElement) {
             $this->assertEquals(
                 $expectedElement,
-                $actualElements[$i]->getText()
+                $actualElements[$i]->getElement(0)->getText()
             );
         }
     }
