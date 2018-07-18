@@ -223,4 +223,57 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         unlink($docName);
         $this->assertTrue($docFound);
     }
+
+    /**
+     * @covers ::cloneBlock
+     * @test
+     */
+    public function cloneBlockCanCloneABlockTwice()
+    {
+        // create template with placeholders and block
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $documentElements = array(
+            'Title: ${title}',
+            '${subreport}',
+            '${subreport.id}: ${subreport.text}. ',
+            '${/subreport}',
+        );
+        foreach ($documentElements as $documentElement) {
+            $section->addText($documentElement);
+        }
+        $objWriter = IOFactory::createWriter($phpWord);
+        $templatePath = 'test.docx';
+        $objWriter->save($templatePath);
+
+        // replace placeholders and save the file
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor->setValue('title', 'Some title');
+        $templateProcessor->cloneBlock('subreport', 2);
+        $templateProcessor->setValue('subreport.id', '123', 1);
+        $templateProcessor->setValue('subreport.text', 'Some text', 1);
+        $templateProcessor->setValue('subreport.id', '456', 1);
+        $templateProcessor->setValue('subreport.text', 'Some other text', 1);
+        $templateProcessor->saveAs($templatePath);
+
+        // assert the block has been cloned twice
+        // and the placeholders have been replaced correctly
+        $phpWord = IOFactory::load($templatePath);
+        $sections = $phpWord->getSections();
+        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        $actualElements = $sections[0]->getElements();
+        unlink($templatePath);
+        $expectedElements = array(
+            'Title: Some title',
+            '123: Some text. ',
+            '456: Some other text. ',
+        );
+        $this->assertCount(count($expectedElements), $actualElements);
+        foreach ($expectedElements as $i => $expectedElement) {
+            $this->assertEquals(
+                $expectedElement,
+                $actualElements[$i]->getElement(0)->getText()
+            );
+        }
+    }
 }
