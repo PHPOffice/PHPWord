@@ -13,7 +13,7 @@ php:
 
 matrix:
     include:
-        - php: 5.6
+        - php: 7.0
           env: COVERAGE=1
 
 cache:
@@ -37,7 +37,7 @@ before_script:
     - composer self-update
     - travis_wait composer install --prefer-source
     ## PHPDocumentor
-    - mkdir -p build/docs
+    ##- mkdir -p build/docs
     - mkdir -p build/coverage
 
 script:
@@ -52,10 +52,8 @@ script:
     ## PHPLOC
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
-    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
+    ##- if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
-after_script:
-    ## PHPDocumentor
-    - bash .travis_shell_after_success.sh
-    ## Scrutinizer
-    - if [ -n "$COVERAGE" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml ; fi
+after_success:
+    ## Coveralls
+    - if [ -n "$COVERAGE" ]; then travis_retry php vendor/bin/php-coveralls -v ; fi

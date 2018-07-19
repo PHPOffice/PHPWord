@@ -15,41 +15,34 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML\Element;
-
-use PhpOffice\PhpWord\Settings;
+namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
- * TextRun element HTML writer
+ * Line numbering style writer
  *
  * @since 0.10.0
  */
-class Title extends AbstractElement
+class Tab extends AbstractStyle
 {
     /**
-     * Write heading
-     *
-     * @return string
+     * Write style.
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
-            return '';
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Tab) {
+            return;
         }
-
-        $tag = 'h' . $this->element->getDepth();
-
-        $text = $this->element->getText();
-        if (is_string($text)) {
-            if (Settings::isOutputEscapingEnabled()) {
-                $text = $this->escaper->escapeHtml($text);
-            }
-        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
-            $writer = new Container($this->parentWriter, $text);
-            $text = $writer->write();
+        $tabs = array(
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT   => '\tqr',
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER  => '\tqc',
+            \PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL => '\tqdec',
+        );
+        $content = '';
+        if (isset($tabs[$style->getType()])) {
+            $content .= $tabs[$style->getType()];
         }
-
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
+        $content .= '\tx' . $style->getPosition();
 
         return $content;
     }

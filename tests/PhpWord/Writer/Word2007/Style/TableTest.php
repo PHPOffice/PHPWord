@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -75,7 +77,7 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
         $this->assertTrue($doc->elementExists($path));
         $this->assertEquals(10.3, $doc->getElementAttribute($path, 'w:w'));
-        $this->assertEquals(\PhpOffice\PhpWord\SimpleType\TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
+        $this->assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
     }
 
     /**
@@ -117,5 +119,26 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $doc->getElementAttribute($path, 'w:tblpX'));
         $this->assertEquals(TablePosition::YALIGN_TOP, $doc->getElementAttribute($path, 'w:tblpYSpec'));
         $this->assertEquals(60, $doc->getElementAttribute($path, 'w:tblpY'));
+    }
+
+    public function testIndent()
+    {
+        $value = 100;
+        $type = TblWidth::TWIP;
+
+        $tableStyle = new Table();
+        $tableStyle->setIndent(new TblWidthComplexType($value, $type));
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblInd';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertSame($value, (int) $doc->getElementAttribute($path, 'w:w'));
+        $this->assertSame($type, $doc->getElementAttribute($path, 'w:type'));
     }
 }
