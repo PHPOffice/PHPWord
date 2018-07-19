@@ -323,13 +323,13 @@ class TemplateProcessor
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
             $cloned = array();
-            foreach ($replacements as $replacement_array) {
-                $local_xmlBlock = $xmlBlock;
-                foreach ($replacement_array as $search => $replacement) {
-                    $local_xmlBlock = $this->setValueForPart(self::ensureMacroCompleted($search), $replacement, $local_xmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
+            foreach ($replacements as $replacementArray) {
+                $localXmlBlock = $xmlBlock;
+                foreach ($replacementArray as $search => $replacement) {
+                    $localXmlBlock = $this->setValueForPart(self::ensureMacroCompleted($search), $replacement, $localXmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
                 }
 
-                $cloned[] = $local_xmlBlock;
+                $cloned[] = $localXmlBlock;
             }
 
             $this->tempDocumentMainPart = str_replace(
