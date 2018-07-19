@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PHPUnit\Framework\Assert;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Language
  *
@@ -57,6 +59,19 @@ class LanguageTest extends \PHPUnit\Framework\TestCase
     public function testWrongLanguage()
     {
         $language = new Language();
+        $language->setLatin('fra');
+    }
+
+    /**
+     * Tests that a language can be set with just a 2 char code
+     */
+    public function testShortLanguage()
+    {
+        //when
+        $language = new Language();
         $language->setLatin('fr');
+
+        //then
+        Assert::assertEquals('fr-FR', $language->getLatin());
     }
 }

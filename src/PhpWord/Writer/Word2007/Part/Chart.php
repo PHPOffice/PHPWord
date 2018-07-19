@@ -330,11 +330,11 @@ class Chart extends AbstractPart
         $valueAxisTitle = $style->getValueAxisTitle();
 
         if ($axisType == 'c:catAx') {
-            if (isset($categoryAxisTitle)) {
+            if (!is_null($categoryAxisTitle)) {
                 $this->writeAxisTitle($xmlWriter, $categoryAxisTitle);
             }
         } elseif ($axisType == 'c:valAx') {
-            if (isset($valueAxisTitle)) {
+            if (!is_null($valueAxisTitle)) {
                 $this->writeAxisTitle($xmlWriter, $valueAxisTitle);
             }
         }

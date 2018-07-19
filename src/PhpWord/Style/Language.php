@@ -47,6 +47,9 @@ final class Language extends AbstractStyle
     const HE_IL = 'he-IL';
     const HE_IL_ID = 1037;
 
+    const IT_IT = 'it-IT';
+    const IT_IT_ID = 1040;
+
     const JA_JP = 'ja-JP';
     const JA_JP_ID = 1041;
 
@@ -120,8 +123,7 @@ final class Language extends AbstractStyle
      */
     public function setLatin($latin)
     {
-        $this->validateLocale($latin);
-        $this->latin = $latin;
+        $this->latin = $this->validateLocale($latin);
 
         return $this;
     }
@@ -170,8 +172,7 @@ final class Language extends AbstractStyle
      */
     public function setEastAsia($eastAsia)
     {
-        $this->validateLocale($eastAsia);
-        $this->eastAsia = $eastAsia;
+        $this->eastAsia = $this->validateLocale($eastAsia);
 
         return $this;
     }
@@ -195,8 +196,7 @@ final class Language extends AbstractStyle
      */
     public function setBidirectional($bidirectional)
     {
-        $this->validateLocale($bidirectional);
-        $this->bidirectional = $bidirectional;
+        $this->bidirectional = $this->validateLocale($bidirectional);
 
         return $this;
     }
@@ -215,12 +215,18 @@ final class Language extends AbstractStyle
      * Validates that the language passed is in the format xx-xx
      *
      * @param string $locale
-     * @return bool
+     * @return string
      */
     private function validateLocale($locale)
     {
+        if (strlen($locale) === 2) {
+            return strtolower($locale) . '-' . strtoupper($locale);
+        }
+
         if ($locale !== null && strstr($locale, '-') === false) {
             throw new \InvalidArgumentException($locale . ' is not a valid language code');
         }
+
+        return $locale;
     }
 }

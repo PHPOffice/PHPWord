@@ -17,7 +17,9 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF;
 
+use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Border;
+use PHPUnit\Framework\Assert;
 
 /**
  * Test class for PhpOffice\PhpWord\Writer\RTF\Style subnamespace
@@ -29,7 +31,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyStyles()
     {
-        $styles = array('Font', 'Paragraph', 'Section');
+        $styles = array('Font', 'Paragraph', 'Section', 'Tab', 'Indentation');
         foreach ($styles as $style) {
             $objectClass = 'PhpOffice\\PhpWord\\Writer\\RTF\\Style\\' . $style;
             $object = new $objectClass();
@@ -54,5 +56,56 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $expected .= '\pgbrdrb\brdrs\brdrw20\brdrcf0\brsp480 ';
 
         $this->assertEquals($expected, $content);
+    }
+
+    public function testIndentation()
+    {
+        $indentation = new \PhpOffice\PhpWord\Style\Indentation();
+        $indentation->setLeft(1);
+        $indentation->setRight(2);
+        $indentation->setFirstLine(3);
+
+        $indentWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Indentation($indentation);
+        $indentWriter->setParentWriter(new RTF());
+        $result = $indentWriter->write();
+
+        Assert::assertEquals('\fi3\li1\ri2 ', $result);
+    }
+
+    public function testRightTab()
+    {
+        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
+        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT);
+        $tabRight->setPosition(5);
+
+        $tabWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Tab($tabRight);
+        $tabWriter->setParentWriter(new RTF());
+        $result = $tabWriter->write();
+
+        Assert::assertEquals('\tqr\tx5', $result);
+    }
+
+    public function testCenterTab()
+    {
+        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
+        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_CENTER);
+
+        $tabWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Tab($tabRight);
+        $tabWriter->setParentWriter(new RTF());
+        $result = $tabWriter->write();
+
+        Assert::assertEquals('\tqc\tx0', $result);
+    }
+
+    public function testDecimalTab()
+    {
+        $tabRight = new \PhpOffice\PhpWord\Style\Tab();
+        $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_DECIMAL);
+
+        $tabWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Tab($tabRight);
+        $tabWriter->setParentWriter(new RTF());
+        $result = $tabWriter->write();
+
+        Assert::assertEquals('\tqdec\tx0', $result);
     }
 }

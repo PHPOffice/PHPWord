@@ -76,21 +76,7 @@ class Table extends AbstractElement
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
-        $rows = $element->getRows();
-        $rowCount = count($rows);
-
-        $cellWidths = array();
-        for ($i = 0; $i < $rowCount; $i++) {
-            $row = $rows[$i];
-            $cells = $row->getCells();
-            if (count($cells) <= count($cellWidths)) {
-                continue;
-            }
-            $cellWidths = array();
-            foreach ($cells as $cell) {
-                $cellWidths[] = $cell->getWidth();
-            }
-        }
+        $cellWidths = $element->findFirstDefinedCellWidths();
 
         $xmlWriter->startElement('w:tblGrid');
         foreach ($cellWidths as $width) {

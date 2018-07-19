@@ -15,42 +15,31 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Writer\HTML\Element;
-
-use PhpOffice\PhpWord\Settings;
+namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
 /**
- * TextRun element HTML writer
+ * RTF indentation style writer
  *
- * @since 0.10.0
+ * @since 0.11.0
  */
-class Title extends AbstractElement
+class Indentation extends AbstractStyle
 {
     /**
-     * Write heading
+     * Write style
      *
      * @return string
      */
     public function write()
     {
-        if (!$this->element instanceof \PhpOffice\PhpWord\Element\Title) {
+        $style = $this->getStyle();
+        if (!$style instanceof \PhpOffice\PhpWord\Style\Indentation) {
             return '';
         }
 
-        $tag = 'h' . $this->element->getDepth();
+        $content = '\fi' . $style->getFirstLine();
+        $content .= '\li' . $style->getLeft();
+        $content .= '\ri' . $style->getRight();
 
-        $text = $this->element->getText();
-        if (is_string($text)) {
-            if (Settings::isOutputEscapingEnabled()) {
-                $text = $this->escaper->escapeHtml($text);
-            }
-        } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
-            $writer = new Container($this->parentWriter, $text);
-            $text = $writer->write();
-        }
-
-        $content = "<{$tag}>{$text}</{$tag}>" . PHP_EOL;
-
-        return $content;
+        return $content . ' ';
     }
 }

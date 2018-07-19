@@ -81,7 +81,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setThemeFontLang(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -102,7 +102,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -119,7 +119,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -141,7 +141,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setZoom(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
@@ -158,7 +158,7 @@ class Settings extends AbstractPart
      *
      * @param XMLReader $xmlReader
      * @param PhpWord $phpWord
-     * @param \DOMNode $node
+     * @param \DOMElement $node
      */
     protected function setRevisionView(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {

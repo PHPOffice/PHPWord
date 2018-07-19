@@ -47,6 +47,7 @@ class Title extends AbstractElement
             $xmlWriter->endElement();
         }
 
+        $bookmarkRId = null;
         if ($element->getDepth() !== 0) {
             $rId = $element->getRelationId();
             $bookmarkRId = $element->getPhpWord()->addBookmark();

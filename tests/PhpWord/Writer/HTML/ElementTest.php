@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
@@ -70,7 +71,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
         $this->assertTrue($xpath->query('/html/body/p[1]/ins')->length == 1);
         $this->assertTrue($xpath->query('/html/body/p[2]/del')->length == 1);
@@ -94,7 +95,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $cell22->addText('second cell');
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
         $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 1);
         $this->assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
@@ -123,7 +124,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $row3->addCell(500)->addText('third cell being spanned');
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
         $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 2);
         $this->assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
@@ -137,5 +138,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom->loadHTML($htmlWriter->getContent());
 
         return $dom;
+    }
+
+    public function testWriteTitleTextRun()
+    {
+        $expected = 'Title with TextRun';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $textRun = new TextRun();
+        $textRun->addText($expected);
+
+        $section->addTitle($textRun);
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        $this->assertTrue(strpos($content, $expected) !== false);
     }
 }

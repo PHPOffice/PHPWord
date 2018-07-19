@@ -64,4 +64,18 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
         $doc = TestHelperDOCX::getDocument($phpWord);
         $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:r[w:t/node()="italics"]/w:rPr/w:b'));
     }
+
+    /**
+     * Load a Word 2011 file
+     */
+    public function testLoadWord2011()
+    {
+        $filename = __DIR__ . '/../_files/documents/reader-2011.docx';
+        $phpWord = IOFactory::load($filename);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\PhpWord', $phpWord);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[3]/w:r/w:pict/v:shape/v:imagedata'));
+    }
 }
