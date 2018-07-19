@@ -9,6 +9,7 @@ v0.16.0 (xx xxx 2018)
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269
+- HTML Title Writer loses text when Title contains a TextRun instead a string. @begnini #1436
 
 v0.15.0 (14 Jul 2018)
 ----------------------
