@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
@@ -137,5 +138,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom->loadHTML($htmlWriter->getContent());
 
         return $dom;
+    }
+
+    public function testWriteTitleTextRun()
+    {
+        $expected = 'Title with TextRun';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $textRun = new TextRun();
+        $textRun->addText($expected);
+
+        $section->addTitle($textRun);
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        $this->assertTrue(strpos($content, $expected) !== false);
     }
 }
