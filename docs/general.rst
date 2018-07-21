@@ -217,10 +217,10 @@ The default language of the document can be change with the following.
 
     $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_BE));
 
-``Languge`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
+``Language`` has 3 parameters, one for Latin languages, one for East Asian languages and one for Complex (Bi-Directional) languages.
 A couple of language codes are provided in the ``PhpOffice\PhpWord\ComplexType\Language`` class but any valid code/ID can be used.
 
-In case you are generating an RTF document the Language need to be set differently.
+In case you are generating an RTF document the language need to be set differently.
 
 .. code-block:: php
 
@@ -255,7 +255,7 @@ The base length unit in Open Office XML is twip. Twip means "TWentieth
 of an Inch Point", i.e. 1 twip = 1/1440 inch.
 
 You can use PHPWord helper functions to convert inches, centimeters, or
-points to twips.
+points to twip.
 
 .. code-block:: php
 
@@ -290,3 +290,45 @@ To force an update of the fields present in the document, set updateFields to tr
 .. code-block:: php
 
     $phpWord->getSettings()->setUpdateFields(true);
+
+Hyphenation
+-----------
+Hyphenation describes the process of breaking words with hyphens. There are several options to control hyphenation.
+
+Auto hyphenation
+~~~~~~~~~~~~~~~~
+
+To automatically hyphenate text set ``autoHyphenation`` to ``true``.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setAutoHyphenation(true);
+
+Consecutive Hyphen Limit
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The maximum number of consecutive lines of text ending with a hyphen can be controlled by the ``consecutiveHyphenLimit`` option.
+There is no limit if the option is not set or the provided value is ``0``.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setConsecutiveHyphenLimit(2);
+
+Hyphenation Zone
+~~~~~~~~~~~~~~~~
+
+The hyphenation zone (in *twip*) is the allowed amount of whitespace before hyphenation is applied.
+The smaller the hyphenation zone the more words are hyphenated. Or in other words, the wider the hyphenation zone the less words are hyphenated.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setHyphenationZone(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(1));
+
+Hyphenate Caps
+~~~~~~~~~~~~~~
+
+To control whether or not words in all capital letters shall be hyphenated use the `doNotHyphenateCaps` option.
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setDoNotHyphenateCaps(true);

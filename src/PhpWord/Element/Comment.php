@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -55,12 +55,12 @@ class Comment extends TrackChange
      * Create a new Comment Element
      *
      * @param string $author
-     * @param \DateTime $date
+     * @param null|\DateTime $date
      * @param string $initials
      */
     public function __construct($author, $date = null, $initials = null)
     {
-        parent::__construct($author, $date);
+        parent::__construct(null, $author, $date);
         $this->initials = $initials;
     }
 

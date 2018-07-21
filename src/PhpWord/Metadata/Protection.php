@@ -11,13 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Metadata;
 
-use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
+use PhpOffice\Common\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\SimpleType\DocProtect;
 
 /**
@@ -113,7 +113,7 @@ class Protection
     /**
      * Set password
      *
-     * @param $password
+     * @param string $password
      * @return self
      */
     public function setPassword($password)
@@ -136,7 +136,7 @@ class Protection
     /**
      * Set count for hash iterations
      *
-     * @param $spinCount
+     * @param int $spinCount
      * @return self
      */
     public function setSpinCount($spinCount)
@@ -159,7 +159,7 @@ class Protection
     /**
      * Set algorithm
      *
-     * @param $algorithm
+     * @param string $algorithm
      * @return self
      */
     public function setAlgorithm($algorithm)

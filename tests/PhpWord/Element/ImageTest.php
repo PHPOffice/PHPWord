@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -204,6 +204,27 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('jpg', $image->getImageExtension());
         $this->assertEquals('imagecreatefromstring', $image->getImageCreateFunction());
         $this->assertEquals('imagejpeg', $image->getImageFunction());
+        $this->assertTrue($image->isMemImage());
+
+        $this->assertNotNull($image->getImageStringData());
+        $this->assertNotNull($image->getImageStringData(true));
+    }
+
+    /**
+     * Test construct from GD
+     */
+    public function testConstructFromGd()
+    {
+        $source = 'http://php.net/images/logos/php-icon.png';
+
+        $image = new Image($source);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $image);
+        $this->assertEquals($source, $image->getSource());
+        $this->assertEquals(md5($source), $image->getMediaId());
+        $this->assertEquals('image/png', $image->getImageType());
+        $this->assertEquals('png', $image->getImageExtension());
+        $this->assertEquals('imagecreatefrompng', $image->getImageCreateFunction());
+        $this->assertEquals('imagepng', $image->getImageFunction());
         $this->assertTrue($image->isMemImage());
 
         $this->assertNotNull($image->getImageStringData());

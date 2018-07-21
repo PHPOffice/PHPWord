@@ -11,15 +11,15 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
-use PhpOffice\PhpWord\Shared\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\Style\Language;
 
 /**
@@ -149,12 +149,16 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
         $this->setOnOffValue('w:updateFields', $documentSettings->hasUpdateFields());
+        $this->setOnOffValue('w:autoHyphenation', $documentSettings->hasAutoHyphenation());
+        $this->setOnOffValue('w:doNotHyphenateCaps', $documentSettings->hasDoNotHyphenateCaps());
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
+        $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
+        $this->setHyphenationZone($documentSettings->getHyphenationZone());
         $this->setCompatibility();
     }
 
@@ -162,17 +166,16 @@ class Settings extends AbstractPart
      * Adds a boolean attribute to the settings array
      *
      * @param string $settingName
-     * @param bool $booleanValue
+     * @param bool|null $booleanValue
      */
     private function setOnOffValue($settingName, $booleanValue)
     {
-        if ($booleanValue !== null && is_bool($booleanValue)) {
-            if ($booleanValue) {
-                $this->settings[$settingName] = array('@attributes' => array());
-            } else {
-                $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
-            }
+        if (!is_bool($booleanValue)) {
+            return;
         }
+
+        $value = $booleanValue ? 'true' : 'false';
+        $this->settings[$settingName] = array('@attributes' => array('w:val' => $value));
     }
 
     /**
@@ -276,6 +279,34 @@ class Settings extends AbstractPart
             $attr = is_int($zoom) ? 'w:percent' : 'w:val';
             $this->settings['w:zoom'] = array('@attributes' => array($attr => $zoom));
         }
+    }
+
+    /**
+     * @param int|null $consecutiveHyphenLimit
+     */
+    private function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
+    {
+        if ($consecutiveHyphenLimit === null) {
+            return;
+        }
+
+        $this->settings['w:consecutiveHyphenLimit'] = array(
+            '@attributes' => array('w:val' => $consecutiveHyphenLimit),
+        );
+    }
+
+    /**
+     * @param float|null $hyphenationZone
+     */
+    private function setHyphenationZone($hyphenationZone)
+    {
+        if ($hyphenationZone === null) {
+            return;
+        }
+
+        $this->settings['w:hyphenationZone'] = array(
+            '@attributes' => array('w:val' => $hyphenationZone),
+        );
     }
 
     /**

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 
@@ -31,23 +32,31 @@ use PhpOffice\PhpWord\SimpleType\NumberFormat;
 class Html
 {
     private static $listIndex = 0;
+    private static $xpath;
+    private static $options;
 
     /**
      * Add HTML parts.
      *
      * Note: $stylesheet parameter is removed to avoid PHPMD error for unused parameter
+     * Warning: Do not pass user-generated HTML here, as that would allow an attacker to read arbitrary
+     * files or perform server-side request forgery by passing local file paths or URLs in <img>.
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element Where the parts need to be added
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
+     * @param array $options:
+     *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
+     *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
+        self::$options = $options;
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -62,9 +71,11 @@ class Html
         }
 
         // Load DOM
+        libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
+        self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -89,6 +100,10 @@ class Html
                         break;
                     case 'align':
                         $styles['alignment'] = self::mapAlign($attribute->value);
+                        break;
+                    case 'lang':
+                        $styles['lang'] = $attribute->value;
+                        break;
                 }
             }
         }
@@ -133,6 +148,7 @@ class Html
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
@@ -246,7 +262,7 @@ class Html
         $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
         //alignment applies on paragraph, not on font. Let's copy it there
-        if (isset($styles['font']['alignment'])) {
+        if (isset($styles['font']['alignment']) && is_array($styles['paragraph'])) {
             $styles['paragraph']['alignment'] = $styles['font']['alignment'];
         }
 
@@ -333,7 +349,7 @@ class Html
      * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\Table $element
      * @param array &$styles
-     * @return \PhpOffice\PhpWord\Element\Cell $element
+     * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
      */
     private static function parseCell($node, $element, &$styles)
     {
@@ -343,8 +359,29 @@ class Html
         if (!empty($colspan)) {
             $cellStyles['gridSpan'] = $colspan - 0;
         }
+        $cell = $element->addCell(null, $cellStyles);
 
-        return $element->addCell(null, $cellStyles);
+        if (self::shouldAddTextRun($node)) {
+            return $cell->addTextRun(self::parseInlineStyle($node, $styles['paragraph']));
+        }
+
+        return $cell;
+    }
+
+    /**
+     * Checks if $node contains an HTML element that cannot be added to TextRun
+     *
+     * @param \DOMNode $node
+     * @return bool Returns true if the node contains an HTML element that cannot be added to TextRun
+     */
+    private static function shouldAddTextRun(\DOMNode $node)
+    {
+        $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
+        if ($containsBlockElement) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -375,7 +412,7 @@ class Html
      */
     private static function parseList($node, $element, &$styles, &$data)
     {
-        $isOrderedList = $node->nodeName == 'ol';
+        $isOrderedList = $node->nodeName === 'ol';
         if (isset($data['listdepth'])) {
             $data['listdepth']++;
         } else {
@@ -383,8 +420,15 @@ class Html
             $styles['list'] = 'listStyle_' . self::$listIndex++;
             $element->getPhpWord()->addNumberingStyle($styles['list'], self::getListStyle($isOrderedList));
         }
+        if ($node->parentNode->nodeName === 'li') {
+            return $element->getParent();
+        }
     }
 
+    /**
+     * @param bool $isOrderedList
+     * @return array
+     */
     private static function getListStyle($isOrderedList)
     {
         if ($isOrderedList) {
@@ -452,8 +496,9 @@ class Html
     private static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
+
         foreach ($properties as $property) {
-            list($cKey, $cValue) = explode(':', $property, 2);
+            list($cKey, $cValue) = array_pad(explode(':', $property, 2), 2, null);
             $cValue = trim($cValue);
             switch (trim($cKey)) {
                 case 'text-decoration':
@@ -469,6 +514,9 @@ class Html
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
+                case 'direction':
+                    $styles['rtl'] = $cValue === 'rtl';
+                    break;
                 case 'font-size':
                     $styles['size'] = Converter::cssToPoint($cValue);
                     break;
@@ -481,6 +529,23 @@ class Html
                     break;
                 case 'background-color':
                     $styles['bgColor'] = trim($cValue, '#');
+                    break;
+                case 'line-height':
+                    if (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
+                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                    } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = ((int) $matches[1]) / 100;
+                    } else {
+                        $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
+                        $spacing = $cValue;
+                    }
+                    $styles['spacingLineRule'] = $spacingLineRule;
+                    $styles['lineHeight'] = $spacing;
+                    break;
+                case 'text-indent':
+                    $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
                     break;
                 case 'font-weight':
                     $tValue = false;
@@ -514,13 +579,13 @@ class Html
                 case 'width':
                     if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
                         $styles['width'] = Converter::cssToTwip($matches[1]);
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_TWIP;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP;
                     } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
                         $styles['width'] = $matches[1] * 50;
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT;
                     } elseif (preg_match('/([0-9]+)/', $cValue, $matches)) {
                         $styles['width'] = $matches[1];
-                        $styles['unit'] = \PhpOffice\PhpWord\Style\Table::WIDTH_AUTO;
+                        $styles['unit'] = \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO;
                     }
                     break;
                 case 'border':
@@ -556,10 +621,12 @@ class Html
                 case 'width':
                     $width = $attribute->value;
                     $style['width'] = $width;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'height':
                     $height = $attribute->value;
                     $style['height'] = $height;
+                    $style['unit'] = \PhpOffice\PhpWord\Style\Image::UNIT_PX;
                     break;
                 case 'style':
                     $styleattr = explode(';', $attribute->value);
@@ -589,7 +656,52 @@ class Html
                     break;
             }
         }
-        $newElement = $element->addImage($src, $style);
+        $originSrc = $src;
+        if (strpos($src, 'data:image') !== false) {
+            $tmpDir = Settings::getTempDir() . '/';
+
+            $match = array();
+            preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
+
+            $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
+
+            $ifp = fopen($imgFile, 'wb');
+
+            if ($ifp !== false) {
+                fwrite($ifp, base64_decode($match[2]));
+                fclose($ifp);
+            }
+        }
+        $src = urldecode($src);
+
+        if (!is_file($src)
+            && !is_null(self::$options)
+            && isset(self::$options['IMG_SRC_SEARCH'])
+            && isset(self::$options['IMG_SRC_REPLACE'])) {
+            $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
+        }
+
+        if (!is_file($src)) {
+            if ($imgBlob = @file_get_contents($src)) {
+                $tmpDir = Settings::getTempDir() . '/';
+                $match = array();
+                preg_match('/.+\.(\w+)$/', $src, $match);
+                $src = $tmpDir . uniqid() . '.' . $match[1];
+
+                $ifp = fopen($src, 'wb');
+
+                if ($ifp !== false) {
+                    fwrite($ifp, $imgBlob);
+                    fclose($ifp);
+                }
+            }
+        }
+
+        if (is_file($src)) {
+            $newElement = $element->addImage($src, $style);
+        } else {
+            throw new \Exception("Could not load image $originSrc");
+        }
 
         return $newElement;
     }
@@ -662,7 +774,11 @@ class Html
                     break;
             }
         }
-        self::parseInlineStyle($node, $styles['font']);
+        $styles['font'] = self::parseInlineStyle($node, $styles['font']);
+
+        if (strpos($target, '#') === 0) {
+            return $element->addLink(substr($target, 1), $node->textContent, $styles['font'], $styles['paragraph'], true);
+        }
 
         return $element->addLink($target, $node->textContent, $styles['font'], $styles['paragraph']);
     }

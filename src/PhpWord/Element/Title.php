@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -28,7 +28,7 @@ class Title extends AbstractElement
     /**
      * Title Text content
      *
-     * @var string
+     * @var string|TextRun
      */
     private $text;
 
@@ -56,18 +56,24 @@ class Title extends AbstractElement
     /**
      * Create a new Title Element
      *
-     * @param string $text
+     * @param string|TextRun $text
      * @param int $depth
      */
     public function __construct($text, $depth = 1)
     {
-        $this->text = CommonText::toUTF8($text);
-        $this->depth = $depth;
-        if (array_key_exists("Heading_{$this->depth}", Style::getStyles())) {
-            $this->style = "Heading{$this->depth}";
+        if (is_string($text)) {
+            $this->text = CommonText::toUTF8($text);
+        } elseif ($text instanceof TextRun) {
+            $this->text = $text;
+        } else {
+            throw new \InvalidArgumentException('Invalid text, should be a string or a TextRun');
         }
 
-        return $this;
+        $this->depth = $depth;
+        $styleName = $depth === 0 ? 'Title' : "Heading_{$this->depth}";
+        if (array_key_exists($styleName, Style::getStyles())) {
+            $this->style = str_replace('_', '', $styleName);
+        }
     }
 
     /**

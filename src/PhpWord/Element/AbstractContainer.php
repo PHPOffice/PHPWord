@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -35,7 +35,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
- * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false)
+ * @method Image addImage(string $source, mixed $style = null, bool $isWatermark = false, $name = null)
  * @method OLEObject addOLEObject(string $source, mixed $style = null)
  * @method TextBox addTextBox(mixed $style = null)
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
@@ -54,7 +54,7 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Elements collection
      *
-     * @var array
+     * @var \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     protected $elements = array();
 
@@ -81,7 +81,7 @@ abstract class AbstractContainer extends AbstractElement
     {
         $elements = array(
             'Text', 'TextRun', 'Bookmark', 'Link', 'PreserveText', 'TextBreak',
-            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object',
+            'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
             'Chart', 'FormField', 'SDT', 'Comment',
@@ -157,11 +157,46 @@ abstract class AbstractContainer extends AbstractElement
     /**
      * Get all elements
      *
-     * @return array
+     * @return \PhpOffice\PhpWord\Element\AbstractElement[]
      */
     public function getElements()
     {
         return $this->elements;
+    }
+
+    /**
+     * Returns the element at the requested position
+     *
+     * @param int $index
+     * @return \PhpOffice\PhpWord\Element\AbstractElement|null
+     */
+    public function getElement($index)
+    {
+        if (array_key_exists($index, $this->elements)) {
+            return $this->elements[$index];
+        }
+
+        return null;
+    }
+
+    /**
+     * Removes the element at requested index
+     *
+     * @param int|\PhpOffice\PhpWord\Element\AbstractElement $toRemove
+     */
+    public function removeElement($toRemove)
+    {
+        if (is_int($toRemove) && array_key_exists($toRemove, $this->elements)) {
+            unset($this->elements[$toRemove]);
+        } elseif ($toRemove instanceof \PhpOffice\PhpWord\Element\AbstractElement) {
+            foreach ($this->elements as $key => $element) {
+                if ($element->getElementId() === $toRemove->getElementId()) {
+                    unset($this->elements[$key]);
+
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -207,7 +242,7 @@ abstract class AbstractContainer extends AbstractElement
             'Table'         => array('Section', 'Header', 'Footer', 'Cell', 'TextBox'),
             'CheckBox'      => array('Section', 'Header', 'Footer', 'Cell', 'TextRun'),
             'TextBox'       => array('Section', 'Header', 'Footer', 'Cell'),
-            'Footnote'      => array('Section', 'TextRun', 'Cell'),
+            'Footnote'      => array('Section', 'TextRun', 'Cell', 'ListItemRun'),
             'Endnote'       => array('Section', 'TextRun', 'Cell'),
             'PreserveText'  => array('Section', 'Header', 'Footer', 'Cell'),
             'Title'         => array('Section', 'Cell'),

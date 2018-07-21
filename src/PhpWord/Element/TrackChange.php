@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,13 +20,24 @@ namespace PhpOffice\PhpWord\Element;
 /**
  * TrackChange element
  * @see http://datypic.com/sc/ooxml/t-w_CT_TrackChange.html
+ * @see http://datypic.com/sc/ooxml/t-w_CT_RunTrackChange.html
  */
 class TrackChange extends AbstractContainer
 {
+    const INSERTED = 'INSERTED';
+    const DELETED = 'DELETED';
+
     /**
      * @var string Container type
      */
     protected $container = 'TrackChange';
+
+    /**
+     * The type of change, (insert or delete), not applicable for PhpOffice\PhpWord\Element\Comment
+     *
+     * @var string
+     */
+    private $changeType;
 
     /**
      * Author
@@ -45,13 +56,17 @@ class TrackChange extends AbstractContainer
     /**
      * Create a new TrackChange Element
      *
+     * @param string $changeType
      * @param string $author
-     * @param \DateTime $date
+     * @param null|int|\DateTime $date
      */
-    public function __construct($author, \DateTime $date = null)
+    public function __construct($changeType = null, $author = null, $date = null)
     {
+        $this->changeType = $changeType;
         $this->author = $author;
-        $this->date = $date;
+        if ($date !== null) {
+            $this->date = ($date instanceof \DateTime) ? $date : new \DateTime('@' . $date);
+        }
     }
 
     /**
@@ -72,5 +87,15 @@ class TrackChange extends AbstractContainer
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Get the Change type
+     *
+     * @return string
+     */
+    public function getChangeType()
+    {
+        return $this->changeType;
     }
 }

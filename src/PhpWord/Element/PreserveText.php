@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,7 +29,7 @@ class PreserveText extends AbstractElement
     /**
      * Text content
      *
-     * @var string
+     * @var string|array
      */
     private $text;
 
@@ -64,8 +64,6 @@ class PreserveText extends AbstractElement
         if (isset($matches[0])) {
             $this->text = $matches;
         }
-
-        return $this;
     }
 
     /**
@@ -91,7 +89,7 @@ class PreserveText extends AbstractElement
     /**
      * Get Text content
      *
-     * @return string
+     * @return string|array
      */
     public function getText()
     {

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -83,7 +83,7 @@ class OLEObject extends AbstractElement
             $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
             $this->icon = realpath(__DIR__ . "/../resources/{$ext}.png");
 
-            return $this;
+            return;
         }
 
         throw new InvalidObjectException();

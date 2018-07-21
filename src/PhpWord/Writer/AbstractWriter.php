@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -216,7 +216,7 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $this->setTempDir(Settings::getTempDir() . uniqid('/PHPWordWriter_') . '/');
+        $this->setTempDir(Settings::getTempDir() . uniqid('/PHPWordWriter_', true) . '/');
 
         // Temporary file
         $this->originalFilename = $filename;
@@ -352,6 +352,10 @@ abstract class AbstractWriter implements WriterInterface
             // Retrive GD image content or get local media
             if (isset($element['isMemImage']) && $element['isMemImage']) {
                 $image = call_user_func($element['createFunction'], $element['source']);
+                if ($element['imageType'] === 'image/png') {
+                    // PNG images need to preserve alpha channel information
+                    imagesavealpha($image, true);
+                }
                 ob_start();
                 call_user_func($element['imageFunction'], $image);
                 $imageContents = ob_get_contents();

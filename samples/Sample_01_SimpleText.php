@@ -1,6 +1,5 @@
 <?php
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 
 include_once 'Sample_Header.php';
 

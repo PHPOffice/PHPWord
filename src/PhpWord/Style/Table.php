@@ -11,23 +11,45 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 class Table extends Border
 {
     /**
-     * @const string Table width units http://www.schemacentral.com/sc/ooxml/t-w_ST_TblWidth.html
+     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO instead
      */
     const WIDTH_AUTO = 'auto'; // Automatically determined width
+    /**
+     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT instead
+     */
     const WIDTH_PERCENT = 'pct'; // Width in fiftieths (1/50) of a percent (1% = 50 unit)
+    /**
+     * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::TWIP instead
+     */
     const WIDTH_TWIP = 'dxa'; // Width in twentieths (1/20) of a point (twip)
+
+    //values for http://www.datypic.com/sc/ooxml/t-w_ST_TblLayoutType.html
+    /**
+     * AutoFit Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_AUTO = 'autofit';
+    /**
+     * Fixed Width Table Layout
+     *
+     * @var string
+     */
+    const LAYOUT_FIXED = 'fixed';
 
     /**
      * Is this a first row style?
@@ -119,7 +141,34 @@ class Table extends Border
     /**
      * @var string Width unit
      */
-    private $unit = self::WIDTH_AUTO;
+    private $unit = TblWidth::AUTO;
+
+    /**
+     * @var int|float cell spacing value
+     */
+    protected $cellSpacing = null;
+
+    /**
+     * @var string Table Layout
+     */
+    private $layout = self::LAYOUT_AUTO;
+
+    /**
+     * Position
+     *
+     * @var \PhpOffice\PhpWord\Style\TablePosition
+     */
+    private $position;
+
+    /** @var TblWidthComplexType|null */
+    private $indent;
+
+    /**
+     * The width of each column, computed based on the max cell width of each column
+     *
+     * @var int[]
+     */
+    private $columnWidths;
 
     /**
      * Create new table style
@@ -133,13 +182,29 @@ class Table extends Border
         if ($firstRowStyle !== null && is_array($firstRowStyle)) {
             $this->firstRowStyle = clone $this;
             $this->firstRowStyle->isFirstRow = true;
-            unset($this->firstRowStyle->firstRowStyle, $this->firstRowStyle->borderInsideHSize, $this->firstRowStyle->borderInsideHColor, $this->firstRowStyle->borderInsideVSize, $this->firstRowStyle->borderInsideVColor, $this->firstRowStyle->cellMarginTop, $this->firstRowStyle->cellMarginLeft, $this->firstRowStyle->cellMarginRight, $this->firstRowStyle->cellMarginBottom);
+            unset($this->firstRowStyle->firstRowStyle, $this->firstRowStyle->borderInsideHSize, $this->firstRowStyle->borderInsideHColor, $this->firstRowStyle->borderInsideVSize, $this->firstRowStyle->borderInsideVColor, $this->firstRowStyle->cellMarginTop, $this->firstRowStyle->cellMarginLeft, $this->firstRowStyle->cellMarginRight, $this->firstRowStyle->cellMarginBottom, $this->firstRowStyle->cellSpacing);
             $this->firstRowStyle->setStyleByArray($firstRowStyle);
         }
 
         if ($tableStyle !== null && is_array($tableStyle)) {
             $this->setStyleByArray($tableStyle);
         }
+    }
+
+    /**
+     * @param float|int $cellSpacing
+     */
+    public function setCellSpacing($cellSpacing = null)
+    {
+        $this->cellSpacing = $cellSpacing;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getCellSpacing()
+    {
+        return $this->cellSpacing;
     }
 
     /**
@@ -576,8 +641,32 @@ class Table extends Border
      */
     public function setUnit($value = null)
     {
-        $enum = array(self::WIDTH_AUTO, self::WIDTH_PERCENT, self::WIDTH_TWIP);
-        $this->unit = $this->setEnumVal($value, $enum, $this->unit);
+        TblWidth::validate($value);
+        $this->unit = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get layout
+     *
+     * @return string
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * Set layout
+     *
+     * @param string $value
+     * @return self
+     */
+    public function setLayout($value = null)
+    {
+        $enum = array(self::LAYOUT_AUTO, self::LAYOUT_FIXED);
+        $this->layout = $this->setEnumVal($value, $enum, $this->layout);
 
         return $this;
     }
@@ -622,5 +711,68 @@ class Table extends Border
         }
 
         return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return \PhpOffice\PhpWord\Style\TablePosition
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->setObjectVal($value, 'TablePosition', $this->position);
+
+        return $this;
+    }
+
+    /**
+     * @return TblWidthComplexType
+     */
+    public function getIndent()
+    {
+        return $this->indent;
+    }
+
+    /**
+     * @param TblWidthComplexType $indent
+     * @return self
+     * @see http://www.datypic.com/sc/ooxml/e-w_tblInd-1.html
+     */
+    public function setIndent(TblWidthComplexType $indent)
+    {
+        $this->indent = $indent;
+
+        return $this;
+    }
+
+    /**
+     * Get the columnWidths
+     *
+     * @return number[]
+     */
+    public function getColumnWidths()
+    {
+        return $this->columnWidths;
+    }
+
+    /**
+     * The column widths
+     *
+     * @param int[] $value
+     */
+    public function setColumnWidths(array $value = null)
+    {
+        $this->columnWidths = $value;
     }
 }

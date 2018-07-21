@@ -11,19 +11,19 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\ZipArchive;
-use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
@@ -113,6 +113,7 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
+        libxml_disable_entity_loader(true);
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -192,7 +193,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!StringUtils::isValidUtf8($subject)) {
+        if (!Text::isUTF8($subject)) {
             $subject = utf8_encode($subject);
         }
 
@@ -338,7 +339,7 @@ class TemplateProcessor
     {
         $xmlBlock = null;
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );

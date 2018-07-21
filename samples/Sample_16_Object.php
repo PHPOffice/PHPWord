@@ -9,7 +9,7 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $section->addText('You can open this OLE object by double clicking on the icon:');
 $section->addTextBreak(2);
-$section->addObject('resources/_sheet.xls');
+$section->addOLEObject('resources/_sheet.xls');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

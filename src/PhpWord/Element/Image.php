@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -64,6 +64,13 @@ class Image extends AbstractElement
      * @var bool
      */
     private $watermark;
+
+    /**
+     * Name of image
+     *
+     * @var string
+     */
+    private $name;
 
     /**
      * Image type
@@ -127,15 +134,17 @@ class Image extends AbstractElement
      * @param string $source
      * @param mixed $style
      * @param bool $watermark
+     * @param string $name
      *
      * @throws \PhpOffice\PhpWord\Exception\InvalidImageException
      * @throws \PhpOffice\PhpWord\Exception\UnsupportedImageTypeException
      */
-    public function __construct($source, $style = null, $watermark = false)
+    public function __construct($source, $style = null, $watermark = false, $name = null)
     {
         $this->source = $source;
-        $this->setIsWatermark($watermark);
         $this->style = $this->setNewStyle(new ImageStyle(), $style, true);
+        $this->setIsWatermark($watermark);
+        $this->setName($name);
 
         $this->checkImage();
     }
@@ -168,6 +177,26 @@ class Image extends AbstractElement
     public function getSourceType()
     {
         return $this->sourceType;
+    }
+
+    /**
+     * Sets the image name
+     *
+     * @param string $value
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
+    }
+
+    /**
+     * Get image name
+     *
+     * @return null|string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -313,7 +342,7 @@ class Image extends AbstractElement
 
             $zip = new ZipArchive();
             if ($zip->open($zipFilename) !== false) {
-                if ($zip->locateName($imageFilename)) {
+                if ($zip->locateName($imageFilename) !== false) {
                     $isTemp = true;
                     $zip->extractTo(Settings::getTempDir(), $imageFilename);
                     $actualSource = Settings::getTempDir() . DIRECTORY_SEPARATOR . $imageFilename;
@@ -334,6 +363,10 @@ class Image extends AbstractElement
         // Read image binary data and convert to hex/base64 string
         if ($this->sourceType == self::SOURCE_GD) {
             $imageResource = call_user_func($this->imageCreateFunc, $actualSource);
+            if ($this->imageType === 'image/png') {
+                // PNG images need to preserve alpha channel information
+                imagesavealpha($imageResource, true);
+            }
             ob_start();
             call_user_func($this->imageFunc, $imageResource);
             $imageBinary = ob_get_contents();
@@ -454,7 +487,7 @@ class Image extends AbstractElement
 
         $zip = new ZipArchive();
         if ($zip->open($zipFilename) !== false) {
-            if ($zip->locateName($imageFilename)) {
+            if ($zip->locateName($imageFilename) !== false) {
                 $imageContent = $zip->getFromName($imageFilename);
                 if ($imageContent !== false) {
                     file_put_contents($tempFilename, $imageContent);

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -76,21 +76,7 @@ class Table extends AbstractElement
      */
     private function writeColumns(XMLWriter $xmlWriter, TableElement $element)
     {
-        $rows = $element->getRows();
-        $rowCount = count($rows);
-
-        $cellWidths = array();
-        for ($i = 0; $i < $rowCount; $i++) {
-            $row = $rows[$i];
-            $cells = $row->getCells();
-            if (count($cells) <= count($cellWidths)) {
-                continue;
-            }
-            $cellWidths = array();
-            foreach ($cells as $cell) {
-                $cellWidths[] = $cell->getWidth();
-            }
-        }
+        $cellWidths = $element->findFirstDefinedCellWidths();
 
         $xmlWriter->startElement('w:tblGrid');
         foreach ($cellWidths as $width) {

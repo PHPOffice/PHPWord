@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -64,8 +64,48 @@ class Paragraph extends AbstractStyle
         if (isset($alignments[$style->getAlignment()])) {
             $content .= $alignments[$style->getAlignment()];
         }
+        $content .= $this->writeIndentation($style->getIndentation());
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . $spaceBefore);
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . $spaceAfter);
+
+        $styles = $style->getStyleValues();
+        $content .= $this->writeTabs($styles['tabs']);
+
+        return $content;
+    }
+
+    /**
+     * Writes an \PhpOffice\PhpWord\Style\Indentation
+     *
+     * @param null|\PhpOffice\PhpWord\Style\Indentation $indent
+     * @return string
+     */
+    private function writeIndentation($indent = null)
+    {
+        if (isset($indent) && $indent instanceof \PhpOffice\PhpWord\Style\Indentation) {
+            $writer = new Indentation($indent);
+
+            return $writer->write();
+        }
+
+        return '';
+    }
+
+    /**
+     * Writes tabs
+     *
+     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     * @return string
+     */
+    private function writeTabs($tabs = null)
+    {
+        $content = '';
+        if (!empty($tabs)) {
+            foreach ($tabs as $tab) {
+                $styleWriter = new Tab($tab);
+                $content .= $styleWriter->write();
+            }
+        }
 
         return $content;
     }
