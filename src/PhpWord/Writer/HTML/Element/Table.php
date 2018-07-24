@@ -41,7 +41,7 @@ class Table extends AbstractElement
         if ($rowCount > 0) {
             $tableStyle = $this->element->getStyle();
             $tableLayout = $tableStyle === null ? '' : $tableStyle->getLayout();
-            $content .= '<table'. (empty($tableLayout) ? '' : ' style="table-layout: '.$tableLayout.'"') .'>'. PHP_EOL;
+            $content .= '<table' . (empty($tableLayout) ? '' : ' style="table-layout: ' . $tableLayout . '"') . '>' . PHP_EOL;
             for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $rows[$i]->getStyle();
