@@ -157,4 +157,23 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(strpos($content, $expected) !== false);
     }
+
+    /**
+     * Tests writing table with layout
+     */
+    public function testWriteTableLayout()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTable();
+        $table = $section->addTable(array('layout' => 'fixed'));
+
+        $row1 = $table->addRow();
+        $row1->addCell()->addText('fixed layout table');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXPath($dom);
+
+        $this->assertEquals('table-layout: fixed', $xpath->query('/html/body/table')->item(0)->attributes->getNamedItem('style')->textContent);
+    }
 }
