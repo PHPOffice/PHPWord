@@ -133,6 +133,7 @@ class Html
         $nodes = array(
                               // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
+            'div'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
             'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     null),
             'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     null),
             'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     null),
@@ -141,6 +142,7 @@ class Html
             'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
+            's'         => array('Property',    null,   null,       $styles,    null,   'strikethrough',true),
             'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'em'        => array('Property',    null,   null,       $styles,    null,   'italic',       true),
             'i'         => array('Property',    null,   null,       $styles,    null,   'italic',       true),

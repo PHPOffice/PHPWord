@@ -135,7 +135,8 @@ class Word2007 extends AbstractWriter implements WriterInterface
         // Write parts
         foreach ($this->parts as $partName => $fileName) {
             if ($fileName != '') {
-                $zip->addFromString($fileName, $this->getWriterPart($partName)->write());
+                $data = $this->getWriterPart($partName)->write();
+                $zip->addFromString($fileName, $data);
             }
         }
 
