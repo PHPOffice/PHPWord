@@ -281,7 +281,7 @@ class Section extends Border
      */
     public function getPageSizeW()
     {
-        return $this->pageSizeW;
+        return round($this->pageSizeW);
     }
 
     /**
@@ -307,7 +307,7 @@ class Section extends Border
      */
     public function getPageSizeH()
     {
-        return $this->pageSizeH;
+        return round($this->pageSizeH);
     }
 
     /**
