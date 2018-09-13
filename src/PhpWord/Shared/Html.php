@@ -267,7 +267,8 @@ class Html
         }
 
         if (is_callable(array($element, 'addText'))) {
-            $element->addText($node->nodeValue, $styles['font'], $styles['paragraph']);
+            $textContent = htmlspecialchars($node->nodeValue, ENT_QUOTES, 'UTF-8');
+            $element->addText($textContent, $styles['font'], $styles['paragraph']);
         }
     }
 
