@@ -322,14 +322,16 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
+
+        $blockClone = substr($this->tempDocumentMainPart,strripos(substr($this->tempDocumentMainPart,0,stripos($this->tempDocumentMainPart,'${' . $blockname . '}')),"<w:p "));
+
+        preg_match('/(<w:p .*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p .*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+                $blockClone,
+                $matches
         );
 
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
+        if (isset($matches[2])) {
+            $xmlBlock = $matches[2];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
                 $cloned[] = $xmlBlock;
@@ -337,7 +339,7 @@ class TemplateProcessor
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
+                    $matches[1] . $matches[2] . $matches[3],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
                 );
