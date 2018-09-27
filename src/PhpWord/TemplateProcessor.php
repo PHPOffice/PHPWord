@@ -323,7 +323,7 @@ class TemplateProcessor
     {
         $xmlBlock = null;
 
-        $blockClone = substr($this->tempDocumentMainPart, strripos(substr($this->tempDocumentMainPart, 0, stripos($this->tempDocumentMainPart, '${' . $blockname . '}')), "<w:p "));
+        $blockClone = substr($this->tempDocumentMainPart, strripos(substr($this->tempDocumentMainPart, 0, stripos($this->tempDocumentMainPart, '${' . $blockname . '}')), '<w:p '));
 
         preg_match(
             '/(<w:p .*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p .*\${\/' . $blockname . '}<\/w:.*?p>)/is',
