@@ -103,7 +103,9 @@ class Image extends AbstractElement
         $style->setPositioning('absolute');
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
-        $xmlWriter->startElement('w:p');
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('w:p');
+        }
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
@@ -118,6 +120,8 @@ class Image extends AbstractElement
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:p
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
     }
 }
