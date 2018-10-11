@@ -503,6 +503,8 @@ class TemplateProcessor
     }
 
     /**
+     * Usually, the name of main part document will be 'document.xml'. However, some .docx files (possibly those from Office 365, experienced also on documents from Word Online created from blank templates) have file 'document22.xml' in their zip archive instead of 'document.xml'. This method searches content types file to correctly determine the file name.
+     *
      * @return string
      */
     protected function getMainPartName()
