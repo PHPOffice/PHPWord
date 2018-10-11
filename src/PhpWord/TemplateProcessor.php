@@ -507,7 +507,13 @@ class TemplateProcessor
      */
     protected function getMainPartName()
     {
-        return 'word/document.xml';
+        $contentTypes = $this->zipClass->getFromName('[Content_Types].xml');
+
+        $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
+
+        preg_match($pattern, $contentTypes, $m);
+        
+        return (array_key_exists(1, $m) ? $m[1] : 'word/document.xml');
     }
 
     /**
