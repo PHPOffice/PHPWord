@@ -332,7 +332,8 @@ class TemplateProcessor
             $xmlBlock = $matches[3];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
-                $cloned[] = $xmlBlock;
+                $tmp = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+                $cloned[] = $tmp;
             }
 
             if ($replace) {
