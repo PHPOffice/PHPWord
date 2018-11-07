@@ -56,6 +56,8 @@ class Text extends AbstractElement
      */
     public function __construct($text = null, $fontStyle = null, $paragraphStyle = null)
     {
+        // escape ampersand. It could be here because $domElement->nodeValue returns as a simple ampersand (& instead of &amp;), or a user could have added ampersands with the addText method
+        $text = preg_replace('/(&)(?![0-9a-z]+;)/i', '&amp;', $text);
         $this->setText($text);
         $paragraphStyle = $this->setParagraphStyle($paragraphStyle);
         $this->setFontStyle($fontStyle, $paragraphStyle);
