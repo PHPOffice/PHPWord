@@ -323,7 +323,7 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
-        preg_match(
+       /* preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
@@ -343,8 +343,19 @@ class TemplateProcessor
                     $this->tempDocumentMainPart
                 );
             }
+        }*/
+        $xmlBlock = $this->_GetInnerBlock($blockname);
+        $cloned = array();
+        for ($i = 1; $i <= $clones; $i++) {
+            $cloned[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
         }
-
+        if ($replace) {
+            $this->tempDocumentMainPart = str_replace(
+                '${'.$blockname.'}'.$xmlBlock.'${/'.$blockname.'}',
+                implode('', $cloned),
+                $this->tempDocumentMainPart
+            );
+        }
         return $xmlBlock;
     }
     private function _GetInnerBlock( $blockname){
