@@ -37,7 +37,11 @@ before_script:
     ## Deactivate xdebug if we don't do code coverage
     - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer (update only of not running php 5.3
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.3" ]]; then composer self-update; fi
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.3" ]]; then 
+        composer self-update --rollback;
+    else
+        composer self-update; 
+    fi
     - travis_wait composer install --prefer-source
     ## PHPDocumentor
     ##- mkdir -p build/docs
