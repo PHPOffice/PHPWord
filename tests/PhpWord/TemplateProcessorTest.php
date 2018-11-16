@@ -279,8 +279,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
     public function testMainPartNameDetection()
     {
-        $templatePath = 'templates/document22-xml.docx';
-        $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
 
         $variables = array('test');
 
