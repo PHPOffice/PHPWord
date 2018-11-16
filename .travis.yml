@@ -17,7 +17,7 @@ matrix:
         - php: 7.0
           env: COVERAGE=1
         - php: 5.3
-          env: COMPOSER_MEMORY_LIMIT=1G
+          env: COMPOSER_MEMORY_LIMIT=2G
     exclude:
         - php: 7.0
         - php: 5.3
