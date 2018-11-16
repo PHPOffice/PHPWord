@@ -33,7 +33,7 @@ before_install:
 
 before_script:
     ## Deactivate xdebug if we don't do code coverage
-    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
+    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer
     - composer self-update
     - travis_wait composer install --prefer-source
