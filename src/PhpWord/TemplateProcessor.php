@@ -514,7 +514,7 @@ class TemplateProcessor
         $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
 
         preg_match($pattern, $contentTypes, $matches);
-        
+
         return (array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml');
     }
 
