@@ -10,11 +10,19 @@ php:
     - 7.0
     - 7.1
     - 7.2
+    - 7.3
 
 matrix:
     include:
         - php: 7.0
           env: COVERAGE=1
+        - php: 5.3
+          env: COMPOSER_MEMORY_LIMIT=2G
+    exclude:
+        - php: 7.0
+        - php: 5.3
+    allow_failures:
+        - php: 7.3
 
 cache:
     directories:
@@ -32,7 +40,7 @@ before_install:
 
 before_script:
     ## Deactivate xdebug if we don't do code coverage
-    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
+    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer
     - composer self-update
     - travis_wait composer install --prefer-source
