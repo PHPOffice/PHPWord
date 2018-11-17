@@ -80,7 +80,7 @@ Available Paragraph style options:
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
 - ``spaceBefore``. Space before paragraph in *twip*.
 - ``spaceAfter``. Space after paragraph in *twip*.
-- ``spacing``. Space between lines.
+- ``spacing``. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
 - ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
