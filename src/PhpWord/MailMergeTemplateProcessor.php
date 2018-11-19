@@ -53,10 +53,6 @@ class MailMergeTemplateProcessor extends TemplateProcessor
         return $this->parseMergeSection([$matches[1]]);
     }
 
-    public function setMailMergeValue($find, $replace) {
-
-    }
-
     public function setMergeData($data) {
         $this->mergeData = $data;
     }
@@ -64,6 +60,7 @@ class MailMergeTemplateProcessor extends TemplateProcessor
     public function getMergeSuccess() {
         return $this->mergeSuccess;
     }
+
     public function getMergeFailure() {
         return $this->mergeFailure;
     }
@@ -131,5 +128,4 @@ class MailMergeTemplateProcessor extends TemplateProcessor
         $final = preg_replace('/(<w:t.*?>)(.+?)(<\/w:t>)/si', '${1}'.$newval.'${3}', $final);
         return $final;
     }
-
 }
