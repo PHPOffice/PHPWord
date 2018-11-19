@@ -65,6 +65,7 @@ class MailMergeTemplateProcessor extends TemplateProcessor
 
         $this->temporarySectionName = 'document';
         $this->tempDocumentMainPart = $this->doMergeForPart($this->tempDocumentMainPart);
+
         foreach ($this->tempDocumentFooters as $index => $headerXML) {
             $this->temporarySectionName = 'footer' . $index;
             $this->tempDocumentFooters[$index] = $this->doMergeForPart($this->tempDocumentFooters[$index]);
@@ -76,7 +77,7 @@ class MailMergeTemplateProcessor extends TemplateProcessor
      */
     protected function getMailMergeVariablesForPart($documentPartXML)
     {
-        preg_match_all('/(?:<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(?:\"*\s+<\/w:instrText>)/uim', $documentPartXML, $matches);
+        preg_match_all('/(?:<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(?:\"*\s+<\/w:instrText>)/uis', $documentPartXML, $matches);
 
         return $this->parseMergeSection([$matches[1]]);
     }
@@ -99,11 +100,11 @@ class MailMergeTemplateProcessor extends TemplateProcessor
     protected function parseMergeSection($replace)
     {
         $section = $replace[0];
-        $section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/uim',
+        $section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/uis',
             '', $section);
 
         return preg_replace_callback(
-            "/(<w:r[\s>]((?!<\/w:r>).)*?<w:fldChar\s+w:fldCharType=\"begin\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?\s+MERGEFIELD\s+\"*\w+\"*\s+.+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"separate\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"end\"\/>.*?<\/w:r>)/uim",
+            "/(<w:r[\s>]((?!<\/w:r>).)*?<w:fldChar\s+w:fldCharType=\"begin\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?\s+MERGEFIELD\s+\"*\w+\"*\s+.+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"separate\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"end\"\/>.*?<\/w:r>)/uis",
             array($this, 'parseMergeReplace'), $section);
     }
 
