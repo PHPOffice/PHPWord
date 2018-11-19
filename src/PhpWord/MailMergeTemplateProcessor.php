@@ -39,30 +39,34 @@ class MailMergeTemplateProcessor extends TemplateProcessor
         return array_unique($variables);
     }
 
-    public function setMergeData($data) {
+    public function setMergeData($data)
+    {
         $this->mergeData = $data;
     }
 
-    public function getMergeSuccess() {
+    public function getMergeSuccess()
+    {
         return $this->mergeSuccess;
     }
 
-    public function getMergeFailure() {
+    public function getMergeFailure()
+    {
         return $this->mergeFailure;
     }
 
-    public function doMerge() {
+    public function doMerge()
+    {
         $this->mergeData = array_change_key_case($this->mergeData, CASE_UPPER);
 
         foreach ($this->tempDocumentHeaders as $index => $headerXML) {
-            $this->temporarySectionName = 'header'.$index;
+            $this->temporarySectionName = 'header' . $index;
             $this->tempDocumentHeaders[$index] = $this->doMergeForPart($this->tempDocumentHeaders[$index]);
         }
 
         $this->temporarySectionName = 'document';
         $this->tempDocumentMainPart = $this->doMergeForPart($this->tempDocumentMainPart);
         foreach ($this->tempDocumentFooters as $index => $headerXML) {
-            $this->temporarySectionName = 'footer'.$index;
+            $this->temporarySectionName = 'footer' . $index;
             $this->tempDocumentFooters[$index] = $this->doMergeForPart($this->tempDocumentFooters[$index]);
         }
     }
@@ -81,7 +85,8 @@ class MailMergeTemplateProcessor extends TemplateProcessor
      * Find and replace merge fields in the given XML section.
      * @return string
      */
-    protected function doMergeForPart($documentPartXML) {
+    protected function doMergeForPart($documentPartXML)
+    {
         // break down major sections <w:p>
         return preg_replace_callback("/<w:p[\s>].+?<\/w:p>/si", array($this, 'parseMergeSection'),
             $documentPartXML);
@@ -91,7 +96,8 @@ class MailMergeTemplateProcessor extends TemplateProcessor
      * Find and replace merge fields in the given XML section.
      * @return string[]
      */
-    protected function parseMergeSection($replace) {
+    protected function parseMergeSection($replace)
+    {
         $section = $replace[0];
         $section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/uim',
             '', $section);
@@ -101,7 +107,8 @@ class MailMergeTemplateProcessor extends TemplateProcessor
             array($this, 'parseMergeReplace'), $section);
     }
 
-    protected function parseMergeReplace($replace) {
+    protected function parseMergeReplace($replace)
+    {
         /* $replace: array 1..x corresponds to () matches in preg_replace */
         $field = $replace[3];
         $final = $replace[5];
@@ -112,19 +119,19 @@ class MailMergeTemplateProcessor extends TemplateProcessor
             return $replace[0];
         }
 
-        $sec = $this->temporarySectionName.'/'.$key;
+        $sec = $this->temporarySectionName . '/' . $key;
 
         if (isset($this->mergeData[$key])) {
             /* success */
             $newval = $this->mergeData[$key];
-            $this->mergeSuccess[$sec] = (isset($this->mergeSuccess[$sec])?$this->mergeSuccess[$sec]:0) + 1;
+            $this->mergeSuccess[$sec] = (isset($this->mergeSuccess[$sec]) ? $this->mergeSuccess[$sec] : 0) + 1;
         } else {
             /* failure */
             $newval = $key;
-            $this->mergeFailure[$sec] = (isset($this->mergeFailure[$sec])?$this->mergeFailure[$sec]:0) + 1;
+            $this->mergeFailure[$sec] = (isset($this->mergeFailure[$sec]) ? $this->mergeFailure[$sec] : 0) + 1;
         }
 
-        $final = preg_replace('/(<w:t.*?>)(.+?)(<\/w:t>)/si', '${1}'.$newval.'${3}', $final);
+        $final = preg_replace('/(<w:t.*?>)(.+?)(<\/w:t>)/si', '${1}' . $newval . '${3}', $final);
         return $final;
     }
 }
