@@ -61,7 +61,7 @@ class Paragraph extends Border
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array('line-height' => 'lineHeight', 'line-spacing' => 'spacing');
 
     /**
      * Parent style
@@ -545,7 +545,8 @@ class Paragraph extends Border
         }
 
         $this->lineHeight = $lineHeight;
-        $this->setSpacing($lineHeight * self::LINE_HEIGHT);
+        $this->setSpacing(($lineHeight -1) * self::LINE_HEIGHT);
+        $this->setSpacingLineRule(\PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO);
 
         return $this;
     }
