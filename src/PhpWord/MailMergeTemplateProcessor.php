@@ -35,7 +35,11 @@ class MailMergeTemplateProcessor extends TemplateProcessor
     {
         // only care about body
         $variables = $this->getMailMergeVariablesForPart($this->tempDocumentMainPart);
-        return array_unique($variables);
+        if (is_array($variables)) {
+            $variables = array_unique($variables);
+        }
+
+        return $variables;
     }
 
     protected function getMailMergeVariablesForPart($documentPartXML)
@@ -86,7 +90,6 @@ class MailMergeTemplateProcessor extends TemplateProcessor
         $section = $replace[0];
         $section = preg_replace('/<\/w:instrText><\/w:r><w:r\s+w:rsidR="\w+"><w:instrText\s+xml:space="preserve">/uim',
             '', $section);
-        $a =1; // TODO REMOVE
 
         return preg_replace_callback(
             "/(<w:r[\s>]((?!<\/w:r>).)*?<w:fldChar\s+w:fldCharType=\"begin\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?\s+MERGEFIELD\s+\"*\w+\"*\s+.+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"separate\"\/>.*?<\/w:r>)\s*(<w:r[\s>].+?<\/w:r>)\s*(<w:r[\s>].*?<w:fldChar\s+w:fldCharType=\"end\"\/>.*?<\/w:r>)/uim",
