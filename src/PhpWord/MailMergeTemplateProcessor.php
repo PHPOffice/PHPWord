@@ -17,15 +17,6 @@
 
 namespace PhpOffice\PhpWord;
 
-use FG\ASN1\TemplateParser;
-use PhpOffice\PhpWord\Escaper\RegExp;
-use PhpOffice\PhpWord\Escaper\Xml;
-use PhpOffice\PhpWord\Exception\CopyFileException;
-use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
-use PhpOffice\PhpWord\Exception\Exception;
-use PhpOffice\PhpWord\Shared\ZipArchive;
-use Zend\Stdlib\StringUtils;
-
 class MailMergeTemplateProcessor extends TemplateProcessor
 {
     /**
