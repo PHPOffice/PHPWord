@@ -163,7 +163,7 @@ class XmlDocument
     {
         $nodeList = $this->getNodeList($path, $file);
 
-        return !($nodeList->length == 0);
+        return $nodeList->length != 0;
     }
 
     /**
