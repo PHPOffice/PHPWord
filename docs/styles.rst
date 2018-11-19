@@ -29,6 +29,7 @@ Available Section style options:
 - ``marginRight``. Page margin right in *twip*.
 - ``marginBottom``. Page margin bottom in *twip*.
 - ``orientation``. Page orientation (``portrait``, which is default, or ``landscape``).
+   See ``\PhpOffice\PhpWord\Style\Section::ORIENTATION_...`` class constants for possible values
 - ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 - ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 
@@ -45,7 +46,7 @@ Available Font style options:
 - ``color``. Font color, e.g. *FF0000*.
 - ``doubleStrikethrough``. Double strikethrough, *true* or *false*.
 - ``fgColor``. Font highlight color, e.g. *yellow*, *green*, *blue*.
-   See ``\PhpOffice\PhpWord\Style\Font::FGCOLOR_...`` constants for more values
+   See ``\PhpOffice\PhpWord\Style\Font::FGCOLOR_...`` class constants for possible values
 - ``hint``. Font content type, *default*, *eastAsia*, or *cs*.
 - ``italic``. Italic, *true* or *false*.
 - ``name``. Font name, e.g. *Arial*.
@@ -56,7 +57,7 @@ Available Font style options:
 - ``subScript``. Subscript, *true* or *false*.
 - ``superScript``. Superscript, *true* or *false*.
 - ``underline``. Underline, *single*, *dash*, *dotted*, etc.
-   See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
+   See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` class constants for possible values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
 - ``position``. The text position, raised or lowered, in half points
@@ -69,7 +70,7 @@ Paragraph
 Available Paragraph style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``basedOn``. Parent style.
 - ``hanging``. Hanging in *twip*.
 - ``indent``. Indent in *twip*.
@@ -82,6 +83,7 @@ Available Paragraph style options:
 - ``spaceAfter``. Space after paragraph in *twip*.
 - ``spacing``. Space between lines.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
+   See ``\PhpOffice\PhpWord\SimpleType\LineSpacingRule`` class constants for possible values.
 - ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
@@ -89,7 +91,7 @@ Available Paragraph style options:
 - ``bidi``. Right to Left Paragraph Layout, *true* or *false*.
 - ``shading``. Paragraph Shading.
 - ``textAlignment``. Vertical Character Alignment on Line.
-   See ``\PhpOffice\PhpWord\SimpleType\TextAlignment`` class for possible values.
+   See ``\PhpOffice\PhpWord\SimpleType\TextAlignment`` class constants for possible values.
 
 .. _table-style:
 
@@ -99,7 +101,7 @@ Table
 Available Table style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` classes for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
@@ -168,7 +170,7 @@ Numbering level
 Available NumberingLevel style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``font``. Font name.
 - ``format``. Numbering format bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter.
 - ``hanging``. See paragraph style.
