@@ -477,7 +477,7 @@ class Paragraph extends Border
     /**
      * Get spacing between lines
      *
-     * @return int
+     * @return int|float
      */
     public function getSpacing()
     {
@@ -487,7 +487,7 @@ class Paragraph extends Border
     /**
      * Set spacing between lines
      *
-     * @param int $value
+     * @param int|float $value
      * @return self
      */
     public function setSpacing($value = null)
@@ -545,7 +545,7 @@ class Paragraph extends Border
         }
 
         $this->lineHeight = $lineHeight;
-        $this->setSpacing(($lineHeight -1) * self::LINE_HEIGHT);
+        $this->setSpacing(($lineHeight - 1) * self::LINE_HEIGHT);
         $this->setSpacingLineRule(\PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO);
 
         return $this;
