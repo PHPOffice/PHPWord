@@ -39,16 +39,6 @@ class MailMergeTemplateProcessor extends TemplateProcessor
         return array_unique($variables);
     }
 
-    /**
-     * @return string[]
-     */
-    protected function getMailMergeVariablesForPart($documentPartXML)
-    {
-        preg_match_all('/(?:<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(?:\"*\s+<\/w:instrText>)/uim', $documentPartXML, $matches);
-
-        return $this->parseMergeSection([$matches[1]]);
-    }
-
     public function setMergeData($data) {
         $this->mergeData = $data;
     }
@@ -75,6 +65,16 @@ class MailMergeTemplateProcessor extends TemplateProcessor
             $this->temporarySectionName = 'footer'.$index;
             $this->tempDocumentFooters[$index] = $this->doMergeForPart($this->tempDocumentFooters[$index]);
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getMailMergeVariablesForPart($documentPartXML)
+    {
+        preg_match_all('/(?:<w:instrText.+?\s+MERGEFIELD\s+\"*)(\w+)(?:\"*\s+<\/w:instrText>)/uim', $documentPartXML, $matches);
+
+        return $this->parseMergeSection([$matches[1]]);
     }
 
     /**
