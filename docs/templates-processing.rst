@@ -23,3 +23,12 @@ multirow from a single row in a template by using ``TemplateProcessor::cloneRow`
 See ``Sample_23_TemplateBlock.php`` for example on how to clone a block
 of text using ``TemplateProcessor::cloneBlock`` and delete a block of text using
 ``TemplateProcessor::deleteBlock``.
+
+You can also replace text block template with a picture.
+
+Example:
+
+.. code-block:: php
+
+    $templateProcessor = new TemplateProcessor('Template.docx');
+    $templateProcessor->setImg('LOGO',array('src' => '../assets/picture.png','size'=>array(0=>300, 1=>150)));
