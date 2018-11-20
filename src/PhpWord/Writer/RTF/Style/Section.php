@@ -43,8 +43,8 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . $style->getPageSizeW());
-        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . $style->getPageSizeH());
+        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
+        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
         $content .= ' ';
         $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . $style->getMarginTop());
         $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . $style->getMarginRight());
