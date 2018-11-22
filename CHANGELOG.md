@@ -11,6 +11,7 @@ v0.16.0 (xx xxx 2018)
 - Fix regex in `cloneBlock` function @nicoder #1269
 - HTML Title Writer loses text when Title contains a TextRun instead a string. @begnini #1436
 - Fix loading of Sharepoint document @Garrcomm #1498
+- RTF writer: Round getPageSizeW and getPageSizeH to avoid decimals @Patrick64 #1493
 
 v0.15.0 (14 Jul 2018)
 ----------------------
