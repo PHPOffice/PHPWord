@@ -87,6 +87,21 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test HTML entities
+     */
+    public function testParseHtmlEntities()
+    {
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, 'text with entities &lt;my text&gt;');
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
+        $this->assertEquals('text with entities <my text>', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->nodeValue);
+    }
+
+    /**
      * Test underline
      */
     public function testParseUnderline()
