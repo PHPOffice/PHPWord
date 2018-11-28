@@ -65,6 +65,9 @@ final class Language extends AbstractStyle
     const PT_BR = 'pt-BR';
     const PT_BR_ID = 1046;
 
+    const NL_NL = 'nl-NL';
+    const NL_NL_ID = 1043;
+
     /**
      * Language ID, used for RTF document generation
      *
