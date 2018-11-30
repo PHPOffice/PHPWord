@@ -531,6 +531,7 @@ class Html
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
                 case 'line-height':
+                    $matches = array();
                     if (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
                         $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
@@ -743,8 +744,6 @@ class Html
             default:
                 return Jc::START;
         }
-
-        return null;
     }
 
     /**
