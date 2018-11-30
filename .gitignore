@@ -18,6 +18,7 @@ vendor
 /.settings
 phpword.ini
 /.buildpath
+/.scannerwork
 /.project
 /nbproject
 /.php_cs.cache
