@@ -753,8 +753,6 @@ class Html
             default:
                 return Jc::START;
         }
-
-        return null;
     }
 
     /**
