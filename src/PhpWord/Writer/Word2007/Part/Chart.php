@@ -128,12 +128,12 @@ class Chart extends AbstractPart
         $type = $this->element->getType();
         $style = $this->element->getStyle();
         $this->options = $this->types[$type];
-        
-        $title = $style->getTitle();        
-        $showLegend = $style->getShowLegend();
+
+        $title = $style->getTitle();
+        $showLegend = $style->isShowLegend();
 
         //Chart title
-        if($title){            
+        if ($title) {
             $xmlWriter->startElement('c:title');
             $xmlWriter->startElement('c:tx');
             $xmlWriter->startElement('c:rich');
@@ -142,20 +142,18 @@ class Chart extends AbstractPart
                 <a:lstStyle/>
                 <a:p>
                 <a:pPr>
-                <a:defRPr/></a:pPr><a:r><a:rPr/><a:t>'.$title.'</a:t></a:r>
+                <a:defRPr/></a:pPr><a:r><a:rPr/><a:t>' . $title . '</a:t></a:r>
                 <a:endParaRPr/>
                 </a:p>');
-
             $xmlWriter->endElement(); // c:rich
             $xmlWriter->endElement(); // c:tx
             $xmlWriter->endElement(); // c:title
-
-        }else{
+        } else {
             $xmlWriter->writeElementBlock('c:autoTitleDeleted', 'val', 1);
         }
 
         //Chart legend
-        if($showLegend){
+        if ($showLegend) {
             $xmlWriter->writeRaw('<c:legend><c:legendPos val="r"/></c:legend>');
         }
 

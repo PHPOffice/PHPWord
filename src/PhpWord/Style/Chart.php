@@ -51,8 +51,8 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $colors = array();
-    
-     /**
+
+    /**
      * Chart title
      *
      * @var string
@@ -111,9 +111,15 @@ class Chart extends AbstractStyle
      */
     private $valueAxisTitle;
 
+    /**
+     * The position for major tick marks
+     * Possible values are 'in', 'out', 'cross', 'none'
+     *
+     * @var string
+     */
     private $majorTickMarkPos = 'none';
 
-    /*
+    /**
      * Show labels for axis
      *
      * @var bool
@@ -234,7 +240,7 @@ class Chart extends AbstractStyle
 
         return $this;
     }
-    
+
     /**
      * Get the chart title
      *
@@ -248,7 +254,7 @@ class Chart extends AbstractStyle
     /**
      * Set the chart title
      *
-     * @param string $value 
+     * @param string $value
      */
     public function setTitle($value = null)
     {
@@ -262,7 +268,7 @@ class Chart extends AbstractStyle
      *
      * @return bool
      */
-    public function getShowLegend()
+    public function isShowLegend()
     {
         return $this->showLegend;
     }
@@ -270,7 +276,7 @@ class Chart extends AbstractStyle
     /**
      * Set chart legend visibility
      *
-     * @param bool $value 
+     * @param bool $value
      */
     public function setShowLegend($value = false)
     {
@@ -452,8 +458,8 @@ class Chart extends AbstractStyle
     }
 
     /**
-     * set the position for major tick marks
-     * @param string $position [description]
+     * Set the position for major tick marks
+     * @param string $position
      */
     public function setMajorTickPosition($position)
     {
@@ -461,7 +467,7 @@ class Chart extends AbstractStyle
         $this->majorTickMarkPos = $this->setEnumVal($position, $enum, $this->majorTickMarkPos);
     }
 
-    /*
+    /**
      * Show Gridlines for X-Axis
      *
      * @return bool
