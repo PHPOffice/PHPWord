@@ -51,6 +51,20 @@ class Chart extends AbstractStyle
      * @var array
      */
     private $colors = array();
+    
+     /**
+     * Chart title
+     *
+     * @var string
+     */
+    private $title = null;
+
+    /**
+     * Chart legend visibility
+     *
+     * @var bool
+     */
+    private $showLegend = false;
 
     /**
      * A list of display options for data labels
@@ -217,6 +231,50 @@ class Chart extends AbstractStyle
     public function setColors($value = array())
     {
         $this->colors = $value;
+
+        return $this;
+    }
+    
+    /**
+     * Get the chart title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the chart title
+     *
+     * @param string $value 
+     */
+    public function setTitle($value = null)
+    {
+        $this->title = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get chart legend visibility
+     *
+     * @return bool
+     */
+    public function getShowLegend()
+    {
+        return $this->showLegend;
+    }
+
+    /**
+     * Set chart legend visibility
+     *
+     * @param bool $value 
+     */
+    public function setShowLegend($value = false)
+    {
+        $this->showLegend = $value;
 
         return $this;
     }
