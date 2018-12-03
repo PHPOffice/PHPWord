@@ -3,7 +3,7 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-v0.16.0 (xx xxx 2018)
+v0.16.0 (xx dec 2018)
 ----------------------
 ### Added
 - Add setting Chart Title and Legend visibility @Tom-Magill #1433
@@ -11,6 +11,7 @@ v0.16.0 (xx xxx 2018)
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269
 - HTML Title Writer loses text when Title contains a TextRun instead a string. @begnini #1436
+- 240 twips are being added to line spacing, should not happen when using lineRule fixed @troosan #1509 #1505
 - Adding table layout to the generated HTML @aarangara #1441
 - Fix loading of Sharepoint document @Garrcomm #1498
 - RTF writer: Round getPageSizeW and getPageSizeH to avoid decimals @Patrick64 #1493
