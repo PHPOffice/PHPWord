@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,7 +23,7 @@ namespace PhpOffice\PhpWord\Element;
  * @coversDefaultClass \PhpOffice\PhpWord\Element\Title
  * @runTestsInSeparateProcesses
  */
-class TitleTest extends \PHPUnit_Framework_TestCase
+class TitleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Create new instance
@@ -44,5 +44,26 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $oTitle = new Title('text');
 
         $this->assertNull($oTitle->getStyle());
+    }
+
+    /**
+     * Create new instance with TextRun
+     */
+    public function testConstructWithTextRun()
+    {
+        $oTextRun = new TextRun();
+        $oTextRun->addText('text');
+        $oTitle = new Title($oTextRun);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTitle->getText());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructWithInvalidArgument()
+    {
+        $oPageBreak = new PageBreak();
+        new Title($oPageBreak);
     }
 }

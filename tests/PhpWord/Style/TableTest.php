@@ -10,21 +10,23 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
 use PhpOffice\PhpWord\SimpleType\JcTable;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Table
  *
  * @runTestsInSeparateProcesses
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test class construction
@@ -38,15 +40,25 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $styleTable = array('bgColor' => 'FF0000');
         $styleFirstRow = array('borderBottomSize' => 3);
 
-        $object = new Table();
-        $this->assertNull($object->getBgColor());
-
         $object = new Table($styleTable, $styleFirstRow);
         $this->assertEquals('FF0000', $object->getBgColor());
 
         $firstRow = $object->getFirstRow();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Table', $firstRow);
         $this->assertEquals(3, $firstRow->getBorderBottomSize());
+    }
+
+    /**
+     * Test default values when passing no style
+     */
+    public function testDefaultValues()
+    {
+        $object = new Table();
+
+        $this->assertNull($object->getBgColor());
+        $this->assertEquals(Table::LAYOUT_AUTO, $object->getLayout());
+        $this->assertEquals(TblWidth::AUTO, $object->getUnit());
+        $this->assertNull($object->getIndent());
     }
 
     /**
@@ -77,6 +89,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             'alignment'          => JcTable::CENTER,
             'width'              => 100,
             'unit'               => 'pct',
+            'layout'             => Table::LAYOUT_FIXED,
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
@@ -99,6 +112,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 'FF0000';
         $object->setBorderColor($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Color";
             $values[] = $value;
@@ -121,6 +135,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 4;
         $object->setBorderSize($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getBorder{$part}Size";
             $values[] = $value;
@@ -143,6 +158,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $value = 240;
         $object->setCellMargin($value);
+        $values = array();
         foreach ($parts as $part) {
             $get = "getCellMargin{$part}";
             $values[] = $value;
@@ -168,5 +184,39 @@ class TableTest extends \PHPUnit_Framework_TestCase
             array('999999', '999999', '999999', '999999', '999999', '999999'),
             $object->getBorderColor()
         );
+    }
+
+    /**
+     * Tests table cell spacing
+     */
+    public function testTableCellSpacing()
+    {
+        $object = new Table();
+        $this->assertNull($object->getCellSpacing());
+
+        $object = new Table(array('cellSpacing' => 20));
+        $this->assertEquals(20, $object->getCellSpacing());
+    }
+
+    /**
+     * Tests table floating position
+     */
+    public function testTablePosition()
+    {
+        $object = new Table();
+        $this->assertNull($object->getPosition());
+
+        $object->setPosition(array('vertAnchor' => TablePosition::VANCHOR_PAGE));
+        $this->assertNotNull($object->getPosition());
+        $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getPosition()->getVertAnchor());
+    }
+
+    public function testIndent()
+    {
+        $indent = new TblWidthComplexType(100, TblWidth::TWIP);
+
+        $table = new Table(array('indent' => $indent));
+
+        $this->assertSame($indent, $table->getIndent());
     }
 }

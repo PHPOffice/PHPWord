@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ use PhpOffice\PhpWord\SimpleType\Jc;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Image
  * @runTestsInSeparateProcesses
  */
-class TextBoxTest extends \PHPUnit_Framework_TestCase
+class TextBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value
@@ -237,7 +237,6 @@ class TextBoxTest extends \PHPUnit_Framework_TestCase
         $object->setPosVerticalRel($expected);
         $this->assertEquals($expected, $object->getPosVerticalRel());
     }
-
 
     /**
      * Test set/get innerMarginRight

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -26,8 +26,6 @@ class Table extends AbstractStyle
 {
     /**
      * Write style.
-     *
-     * @return void
      */
     public function write()
     {
@@ -47,5 +45,19 @@ class Table extends AbstractStyle
         $xmlWriter->writeAttribute('table:align', 'center');
         $xmlWriter->endElement(); // style:table-properties
         $xmlWriter->endElement(); // style:style
+
+        $cellWidths = $style->getColumnWidths();
+        $countCellWidths = count($cellWidths);
+
+        for ($i = 0; $i < $countCellWidths; $i++) {
+            $width = $cellWidths[$i];
+            $xmlWriter->startElement('style:style');
+            $xmlWriter->writeAttribute('style:name', $style->getStyleName() . '.' . $i);
+            $xmlWriter->writeAttribute('style:family', 'table-column');
+            $xmlWriter->startElement('style:table-column-properties');
+            $xmlWriter->writeAttribute('style:column-width', number_format($width * 0.0017638889, 2, '.', '') . 'cm');
+            $xmlWriter->endElement(); // style:table-column-properties
+            $xmlWriter->endElement(); // style:style
+        }
     }
 }

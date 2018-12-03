@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -29,9 +29,9 @@ abstract class IOFactory
      * @param PhpWord $phpWord
      * @param string $name
      *
-     * @return WriterInterface
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return WriterInterface
      */
     public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
     {
@@ -49,9 +49,9 @@ abstract class IOFactory
      *
      * @param string $name
      *
-     * @return ReaderInterface
-     *
      * @throws Exception
+     *
+     * @return ReaderInterface
      */
     public static function createReader($name = 'Word2007')
     {
@@ -65,19 +65,19 @@ abstract class IOFactory
      * @param string $name
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      *
-     * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
      */
     private static function createObject($type, $name, $phpWord = null)
     {
         $class = "PhpOffice\\PhpWord\\{$type}\\{$name}";
         if (class_exists($class) && self::isConcreteClass($class)) {
             return new $class($phpWord);
-        } else {
-            throw new Exception("\"{$name}\" is not a valid {$type}.");
         }
+        throw new Exception("\"{$name}\" is not a valid {$type}.");
     }
+
     /**
      * Loads PhpWord from file
      *
@@ -89,8 +89,10 @@ abstract class IOFactory
     {
         /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
         $reader = self::createReader($readerName);
+
         return $reader->load($filename);
     }
+
     /**
      * Check if it's a concrete class (not abstract nor interface)
      *
@@ -100,6 +102,7 @@ abstract class IOFactory
     private static function isConcreteClass($class)
     {
         $reflection = new \ReflectionClass($class);
+
         return !$reflection->isAbstract() && !$reflection->isInterface();
     }
 }

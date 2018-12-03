@@ -10,35 +10,44 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PhpWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\PDF;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\WriterInterface;
 
 /**
  * MPDF writer
  *
- * @link http://www.mpdf1.com/
+ * @see  http://www.mpdf1.com/
  * @since 0.11.0
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
     /**
-     * Name of renderer include file
+     * Overridden to set the correct includefile, only needed for MPDF 5
      *
-     * @var string
+     * @codeCoverageIgnore
+     * @param PhpWord $phpWord
      */
-    protected $includeFile = 'mpdf.php';
+    public function __construct(PhpWord $phpWord)
+    {
+        if (file_exists(Settings::getPdfRendererPath() . '/mpdf.php')) {
+            // MPDF version 5.* needs this file to be included, later versions not
+            $this->includeFile = 'mpdf.php';
+        }
+        parent::__construct($phpWord);
+    }
 
     /**
      * Save PhpWord to file.
      *
      * @param string $filename Name of the file to save as
-     * @return void
      */
     public function save($filename = null)
     {
@@ -49,7 +58,8 @@ class MPDF extends AbstractRenderer implements WriterInterface
         $orientation = strtoupper('portrait');
 
         //  Create PDF
-        $pdf = new \mpdf();
+        $mPdfClass = $this->getMPdfClassName();
+        $pdf = new $mPdfClass();
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 
@@ -68,5 +78,22 @@ class MPDF extends AbstractRenderer implements WriterInterface
         fwrite($fileHandle, $pdf->output($filename, 'S'));
 
         parent::restoreStateAfterSave($fileHandle);
+    }
+
+    /**
+     * Return classname of MPDF to instantiate
+     *
+     * @codeCoverageIgnore
+     * @return string
+     */
+    private function getMPdfClassName()
+    {
+        if ($this->includeFile != null) {
+            // MPDF version 5.*
+            return '\mpdf';
+        }
+
+        // MPDF version > 6.*
+        return '\Mpdf\Mpdf';
     }
 }

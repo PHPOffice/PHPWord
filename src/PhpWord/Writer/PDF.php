@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PhpWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PhpWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -47,7 +47,7 @@ class PDF
         $pdfLibraryName = Settings::getPdfRendererName();
         $pdfLibraryPath = Settings::getPdfRendererPath();
         if (is_null($pdfLibraryName) || is_null($pdfLibraryPath)) {
-            throw new Exception("PDF rendering library or library path has not been defined.");
+            throw new Exception('PDF rendering library or library path has not been defined.');
         }
 
         $includePath = str_replace('\\', '/', get_include_path());

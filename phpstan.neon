@@ -1,0 +1,13 @@
+includes:
+	- vendor/phpstan/phpstan/conf/config.level1.neon
+parameters:
+	memory-limit: 20000000
+	autoload_directories:
+		- tests
+	autoload_files:
+		- tests/bootstrap.php
+	excludes_analyse:
+		- */pclzip.lib.php
+		- src/PhpWord/Shared/OLERead.php
+		- src/PhpWord/Reader/MsDoc.php
+		- src/PhpWord/Writer/PDF/MPDF.php

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -35,12 +35,12 @@ abstract class AbstractPart
      * @var \Zend\Escaper\Escaper
      */
     protected $escaper;
-    
+
     public function __construct()
     {
         $this->escaper = new Escaper();
     }
-    
+
     /**
      * @return string
      */
@@ -48,8 +48,6 @@ abstract class AbstractPart
 
     /**
      * @param \PhpOffice\PhpWord\Writer\AbstractWriter $writer
-     * 
-     * @return void
      */
     public function setParentWriter(AbstractWriter $writer = null)
     {
@@ -57,16 +55,15 @@ abstract class AbstractPart
     }
 
     /**
-     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
-     *
      * @throws \PhpOffice\PhpWord\Exception\Exception
+     *
+     * @return \PhpOffice\PhpWord\Writer\AbstractWriter
      */
     public function getParentWriter()
     {
         if ($this->parentWriter !== null) {
             return $this->parentWriter;
-        } else {
-            throw new Exception('No parent WriterInterface assigned.');
         }
+        throw new Exception('No parent WriterInterface assigned.');
     }
 }

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord;
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
  * @runTestsInSeparateProcesses
  */
-final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
+final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Template can be saved in temporary location.
@@ -36,7 +36,7 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
 
         $templateProcessor = new TemplateProcessor($templateFqfn);
         $xslDomDocument = new \DOMDocument();
-        $xslDomDocument->load(__DIR__ . "/_files/xsl/remove_tables_by_needle.xsl");
+        $xslDomDocument->load(__DIR__ . '/_files/xsl/remove_tables_by_needle.xsl');
         foreach (array('${employee.', '${scoreboard.', '${reference.') as $needle) {
             $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }
@@ -222,5 +222,67 @@ final class TemplateProcessorTest extends \PHPUnit_Framework_TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @test
+     */
+    public function cloneBlockCanCloneABlockTwice()
+    {
+        // create template with placeholders and block
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $documentElements = array(
+            'Title: ${title}',
+            '${subreport}',
+            '${subreport.id}: ${subreport.text}. ',
+            '${/subreport}',
+        );
+        foreach ($documentElements as $documentElement) {
+            $section->addText($documentElement);
+        }
+        $objWriter = IOFactory::createWriter($phpWord);
+        $templatePath = 'test.docx';
+        $objWriter->save($templatePath);
+
+        // replace placeholders and save the file
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor->setValue('title', 'Some title');
+        $templateProcessor->cloneBlock('subreport', 2);
+        $templateProcessor->setValue('subreport.id', '123', 1);
+        $templateProcessor->setValue('subreport.text', 'Some text', 1);
+        $templateProcessor->setValue('subreport.id', '456', 1);
+        $templateProcessor->setValue('subreport.text', 'Some other text', 1);
+        $templateProcessor->saveAs($templatePath);
+
+        // assert the block has been cloned twice
+        // and the placeholders have been replaced correctly
+        $phpWord = IOFactory::load($templatePath);
+        $sections = $phpWord->getSections();
+        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        $actualElements = $sections[0]->getElements();
+        unlink($templatePath);
+        $expectedElements = array(
+            'Title: Some title',
+            '123: Some text. ',
+            '456: Some other text. ',
+        );
+        $this->assertCount(count($expectedElements), $actualElements);
+        foreach ($expectedElements as $i => $expectedElement) {
+            $this->assertEquals(
+                $expectedElement,
+                $actualElements[$i]->getElement(0)->getText()
+            );
+        }
+    }
+
+    public function testMainPartNameDetection()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
+
+        $variables = array('test');
+
+        $this->assertEquals($variables, $templateProcessor->getVariables());
     }
 }

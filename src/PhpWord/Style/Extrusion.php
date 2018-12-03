@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,7 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * 3D extrusion style
  *
- * @link http://www.schemacentral.com/sc/ooxml/t-o_CT_Extrusion.html
+ * @see  http://www.schemacentral.com/sc/ooxml/t-o_CT_Extrusion.html
  * @since 0.12.0
  */
 class Extrusion extends AbstractStyle

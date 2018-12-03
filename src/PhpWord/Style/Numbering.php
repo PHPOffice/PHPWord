@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,9 +20,9 @@ namespace PhpOffice\PhpWord\Style;
 /**
  * Numbering style
  *
- * @link http://www.schemacentral.com/sc/ooxml/e-w_numbering.html
- * @link http://www.schemacentral.com/sc/ooxml/e-w_abstractNum-1.html
- * @link http://www.schemacentral.com/sc/ooxml/e-w_num-1.html
+ * @see  http://www.schemacentral.com/sc/ooxml/e-w_numbering.html
+ * @see  http://www.schemacentral.com/sc/ooxml/e-w_abstractNum-1.html
+ * @see  http://www.schemacentral.com/sc/ooxml/e-w_num-1.html
  * @since 0.10.0
  */
 class Numbering extends AbstractStyle
@@ -31,7 +31,7 @@ class Numbering extends AbstractStyle
      * Numbering definition instance ID
      *
      * @var int
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_num-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_num-1.html
      */
     private $numId;
 
@@ -39,7 +39,7 @@ class Numbering extends AbstractStyle
      * Multilevel type singleLevel|multilevel|hybridMultilevel
      *
      * @var string
-     * @link http://www.schemacentral.com/sc/ooxml/a-w_val-67.html
+     * @see  http://www.schemacentral.com/sc/ooxml/a-w_val-67.html
      */
     private $type;
 
@@ -53,7 +53,7 @@ class Numbering extends AbstractStyle
     /**
      * Get Id
      *
-     * @return integer
+     * @return int
      */
     public function getNumId()
     {
@@ -63,7 +63,7 @@ class Numbering extends AbstractStyle
     /**
      * Set Id
      *
-     * @param integer $value
+     * @param int $value
      * @return self
      */
     public function setNumId($value)

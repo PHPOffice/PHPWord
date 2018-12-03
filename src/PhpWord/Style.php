@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -39,7 +39,7 @@ class Style
      * Add paragraph style
      *
      * @param string $styleName
-     * @param array $styles
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function addParagraphStyle($styleName, $styles)
@@ -51,8 +51,8 @@ class Style
      * Add font style
      *
      * @param string $styleName
-     * @param array $fontStyle
-     * @param array $paragraphStyle
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
@@ -64,7 +64,7 @@ class Style
      * Add link style
      *
      * @param string $styleName
-     * @param array $styles
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addLinkStyle($styleName, $styles)
@@ -76,7 +76,7 @@ class Style
      * Add numbering style
      *
      * @param string $styleName
-     * @param array $styleValues
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styleValues
      * @return \PhpOffice\PhpWord\Style\Numbering
      * @since 0.10.0
      */
@@ -88,14 +88,20 @@ class Style
     /**
      * Add title style
      *
-     * @param int $depth
-     * @param array $fontStyle
-     * @param array $paragraphStyle
+     * @param int|null $depth Provide null to set title font
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $fontStyle
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
     public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
-        return self::setStyleValues("Heading_{$depth}", new Font('title', $paragraphStyle), $fontStyle);
+        if (empty($depth)) {
+            $styleName = 'Title';
+        } else {
+            $styleName = "Heading_{$depth}";
+        }
+
+        return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**
@@ -126,8 +132,6 @@ class Style
      * Reset styles.
      *
      * @since 0.10.0
-     *
-     * @return void
      */
     public static function resetStyles()
     {
@@ -137,7 +141,7 @@ class Style
     /**
      * Set default paragraph style
      *
-     * @param array $styles Paragraph style definition
+     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Paragraph style definition
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
     public static function setDefaultParagraphStyle($styles)
@@ -165,9 +169,9 @@ class Style
     {
         if (isset(self::$styles[$styleName])) {
             return self::$styles[$styleName];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

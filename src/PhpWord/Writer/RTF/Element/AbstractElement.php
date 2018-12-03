@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -59,8 +59,6 @@ abstract class AbstractElement extends HTMLAbstractElement
 
     /**
      * Get font and paragraph styles.
-     *
-     * @return void
      */
     protected function getStyles()
     {
@@ -112,6 +110,7 @@ abstract class AbstractElement extends HTMLAbstractElement
 
         $styleWriter = new ParagraphStyleWriter($this->paragraphStyle);
         $styleWriter->setNestedLevel($this->element->getNestedLevel());
+
         return $styleWriter->write();
     }
 
@@ -125,9 +124,9 @@ abstract class AbstractElement extends HTMLAbstractElement
     {
         if (Settings::isOutputEscapingEnabled()) {
             return $this->escaper->escape($text);
-        } else {
-            return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
         }
+
+        return CommonText::toUnicode($text); // todo: replace with `return $text;` later.
     }
 
     /**

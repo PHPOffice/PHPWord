@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -25,7 +25,7 @@ class XmlDocument
     /**
      * Path
      *
-     * @var string $path
+     * @var string
      */
     private $path;
 
@@ -37,9 +37,9 @@ class XmlDocument
     private $dom;
 
     /**
-     * DOMXpath object
+     * DOMXPath object
      *
-     * @var \DOMXpath
+     * @var \DOMXPath
      */
     private $xpath;
 
@@ -76,8 +76,11 @@ class XmlDocument
         $this->file = $file;
 
         $file = $this->path . '/' . $file;
+        libxml_disable_entity_loader(false);
         $this->dom = new \DOMDocument();
         $this->dom->load($file);
+        libxml_disable_entity_loader(true);
+
         return $this->dom;
     }
 
@@ -95,8 +98,8 @@ class XmlDocument
         }
 
         if (null === $this->xpath) {
-            $this->xpath = new \DOMXpath($this->dom);
-
+            $this->xpath = new \DOMXPath($this->dom);
+            $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
         return $this->xpath->query($path);
@@ -159,6 +162,33 @@ class XmlDocument
     public function elementExists($path, $file = 'word/document.xml')
     {
         $nodeList = $this->getNodeList($path, $file);
+
         return !($nodeList->length == 0);
+    }
+
+    /**
+     * Returns the xml, or part of it as a formatted string
+     *
+     * @param string $path
+     * @param string $file
+     * @return string
+     */
+    public function printXml($path = '/', $file = 'word/document.xml')
+    {
+        $element = $this->getElement($path, $file);
+        if ($element instanceof \DOMDocument) {
+            $element->formatOutput = true;
+            $element->preserveWhiteSpace = false;
+
+            return $element->saveXML();
+        }
+
+        $newdoc = new \DOMDocument();
+        $newdoc->formatOutput = true;
+        $newdoc->preserveWhiteSpace = false;
+        $node = $newdoc->importNode($element, true);
+        $newdoc->appendChild($node);
+
+        return $newdoc->saveXML($node);
     }
 }

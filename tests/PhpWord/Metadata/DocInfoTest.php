@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -22,7 +22,7 @@ namespace PhpOffice\PhpWord\Metadata;
  *
  * @runTestsInSeparateProcesses
  */
-class DocInfoTest extends \PHPUnit_Framework_TestCase
+class DocInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Creator
@@ -193,8 +193,7 @@ class DocInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value5', $oProperties->getCustomPropertyValue('key5'));
         $this->assertNull($oProperties->getCustomPropertyValue('key6'));
         $this->assertTrue($oProperties->isCustomPropertySet('key5'));
-        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
-        $this->assertEquals(false, $oProperties->isCustomPropertySet('key6'));
+        $this->assertNotTrue($oProperties->isCustomPropertySet('key6'));
         $this->assertEquals(array('key1', 'key2', 'key3', 'key4', 'key5'), $oProperties->getCustomProperties());
     }
 
@@ -211,8 +210,7 @@ class DocInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('8.3', DocInfo::convertProperty('8.3', 'lpstr'));
         $this->assertEquals(strtotime('10/11/2013'), DocInfo::convertProperty('10/11/2013', 'date'));
         $this->assertTrue(DocInfo::convertProperty('true', 'bool'));
-        // todo: change to assertNotTrue when got upgraded to PHPUnit 4.x
-        $this->assertEquals(false, DocInfo::convertProperty('1', 'bool'));
+        $this->assertNotTrue(DocInfo::convertProperty('1', 'bool'));
         $this->assertEquals('1', DocInfo::convertProperty('1', 'array'));
         $this->assertEquals('1', DocInfo::convertProperty('1', ''));
 

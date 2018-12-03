@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -37,12 +37,12 @@ class Link extends Text
             return '';
         }
 
-        $content = '';
-        $content .= $this->writeOpening();
+        $prefix = $this->element->isInternal() ? '#' : '';
+        $content = $this->writeOpening();
         if (Settings::isOutputEscapingEnabled()) {
-            $content .= "<a href=\"{$this->escaper->escapeHtmlAttr($this->element->getSource())}\">{$this->escaper->escapeHtml($this->element->getText())}</a>";
+            $content .= "<a href=\"{$prefix}{$this->escaper->escapeHtmlAttr($this->element->getSource())}\">{$this->escaper->escapeHtml($this->element->getText())}</a>";
         } else {
-            $content .= "<a href=\"{$this->element->getSource()}\">{$this->element->getText()}</a>";
+            $content .= "<a href=\"{$prefix}{$this->element->getSource()}\">{$this->element->getText()}</a>";
         }
         $content .= $this->writeClosing();
 

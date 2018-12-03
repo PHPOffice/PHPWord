@@ -1,4 +1,7 @@
 <?php
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Shared\Converter;
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -9,39 +12,48 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $section->addText('Local image without any styles:');
 $section->addImage('resources/_mars.jpg');
-$section->addTextBreak(2);
 
+printSeparator($section);
 $section->addText('Local image with styles:');
 $section->addImage('resources/_earth.jpg', array('width' => 210, 'height' => 210, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
-$section->addTextBreak(2);
 
 // Remote image
+printSeparator($section);
 $source = 'http://php.net/images/logos/php-med-trans-light.gif';
 $section->addText("Remote image from: {$source}");
 $section->addImage($source);
 
+// Image from string
+printSeparator($section);
+$source = 'resources/_mars.jpg';
+$fileContent = file_get_contents($source);
+$section->addText('Image from string');
+$section->addImage($fileContent);
+
 //Wrapping style
-$text = str_repeat('Hello World! ', 15);
+printSeparator($section);
+$text = str_repeat('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ', 2);
 $wrappingStyles = array('inline', 'behind', 'infront', 'square', 'tight');
 foreach ($wrappingStyles as $wrappingStyle) {
-    $section->addTextBreak(5);
     $section->addText("Wrapping style {$wrappingStyle}");
     $section->addImage(
         'resources/_earth.jpg',
         array(
-            'positioning'   => 'relative',
-            'marginTop'     => -1,
-            'marginLeft'    => 1,
-            'width'         => 80,
-            'height'        => 80,
-            'wrappingStyle' => $wrappingStyle,
+            'positioning'        => 'relative',
+            'marginTop'          => -1,
+            'marginLeft'         => 1,
+            'width'              => 80,
+            'height'             => 80,
+            'wrappingStyle'      => $wrappingStyle,
+            'wrapDistanceRight'  => Converter::cmToPoint(1),
+            'wrapDistanceBottom' => Converter::cmToPoint(1),
         )
     );
     $section->addText($text);
+    printSeparator($section);
 }
 
 //Absolute positioning
-$section->addTextBreak(3);
 $section->addText('Absolute positioning: see top right corner of page');
 $section->addImage(
     'resources/_mars.jpg',
@@ -58,7 +70,7 @@ $section->addImage(
 );
 
 //Relative positioning
-$section->addTextBreak(3);
+printSeparator($section);
 $section->addText('Relative positioning: Horizontal position center relative to column,');
 $section->addText('Vertical position top relative to line');
 $section->addImage(
@@ -73,6 +85,14 @@ $section->addImage(
         'posVerticalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
     )
 );
+
+function printSeparator(Section $section)
+{
+    $section->addTextBreak();
+    $lineStyle = array('weight' => 0.2, 'width' => 150, 'height' => 0, 'align' => 'center');
+    $section->addLine($lineStyle);
+    $section->addTextBreak(2);
+}
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

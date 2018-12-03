@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -33,8 +33,16 @@ class Font extends AbstractStyle
     const UNDERLINE_DASHLONG = 'dashLong';
     const UNDERLINE_DASHLONGHEAVY = 'dashLongHeavy';
     const UNDERLINE_DOUBLE = 'dbl';
-    const UNDERLINE_DOTHASH = 'dotDash';
-    const UNDERLINE_DOTHASHHEAVY = 'dotDashHeavy';
+    /**
+     * @deprecated use UNDERLINE_DOTHASH instead, TODO remove in version 1.0
+     */
+    const UNDERLINE_DOTHASH = 'dotDash';  // Incorrect spelling, for backwards compatibility
+    /**
+     * @deprecated use UNDERLINE_DOTDASHHEAVY instead, TODO remove in version 1.0
+     */
+    const UNDERLINE_DOTHASHHEAVY = 'dotDashHeavy';  // Incorrect spelling, for backwards compatibility
+    const UNDERLINE_DOTDASH = 'dotDash';
+    const UNDERLINE_DOTDASHHEAVY = 'dotDashHeavy';
     const UNDERLINE_DOTDOTDASH = 'dotDotDash';
     const UNDERLINE_DOTDOTDASHHEAVY = 'dotDotDashHeavy';
     const UNDERLINE_DOTTED = 'dotted';
@@ -162,7 +170,7 @@ class Font extends AbstractStyle
      * Small caps
      *
      * @var bool
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
      */
     private $smallCaps = false;
 
@@ -170,7 +178,7 @@ class Font extends AbstractStyle
      * All caps
      *
      * @var bool
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
     private $allCaps = false;
 
@@ -186,7 +194,7 @@ class Font extends AbstractStyle
      *
      * @var int
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
      */
     private $scale;
 
@@ -195,7 +203,7 @@ class Font extends AbstractStyle
      *
      * @var int|float
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
      */
     private $spacing;
 
@@ -204,7 +212,7 @@ class Font extends AbstractStyle
      *
      * @var int|float
      * @since 0.12.0
-     * @link http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
+     * @see  http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
      */
     private $kerning;
 
@@ -223,16 +231,40 @@ class Font extends AbstractStyle
     private $shading;
 
     /**
-     * Right to left languages 
-     * @var boolean
+     * Right to left languages
+     *
+     * @var bool
      */
     private $rtl = false;
+
+    /**
+     * noProof (disables AutoCorrect)
+     *
+     * @var bool
+     * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
+     */
+    private $noProof = false;
+
+    /**
+     * Languages
+     *
+     * @var \PhpOffice\PhpWord\Style\Language
+     */
+    private $lang;
+
+    /**
+     * Vertically Raised or Lowered Text
+     *
+     * @var int Signed Half-Point Measurement
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
 
     /**
      * Create new font style
      *
      * @param string $type Type of font
-     * @param array $paragraph Paragraph styles definition
+     * @param array|string|\PhpOffice\PhpWord\Style\AbstractStyle $paragraph Paragraph styles definition
      */
     public function __construct($type = 'text', $paragraph = null)
     {
@@ -272,10 +304,12 @@ class Font extends AbstractStyle
                 'scale'     => $this->getScale(),
                 'spacing'   => $this->getSpacing(),
                 'kerning'   => $this->getKerning(),
+                'position'  => $this->getPosition(),
             ),
             'paragraph'     => $this->getParagraph(),
             'rtl'           => $this->isRTL(),
             'shading'       => $this->getShading(),
+            'lang'          => $this->getLang(),
         );
 
         return $styles;
@@ -692,6 +726,29 @@ class Font extends AbstractStyle
     }
 
     /**
+     * Get noProof (disables autocorrect)
+     *
+     * @return bool
+     */
+    public function isNoProof()
+    {
+        return $this->noProof;
+    }
+
+    /**
+     * Set noProof (disables autocorrect)
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setNoProof($value = false)
+    {
+        $this->noProof = $value;
+
+        return $this;
+    }
+
+    /**
      * Get line height
      *
      * @return int|float
@@ -725,7 +782,7 @@ class Font extends AbstractStyle
     }
 
     /**
-     * Set shading
+     * Set Paragraph
      *
      * @param mixed $value
      * @return self
@@ -779,6 +836,32 @@ class Font extends AbstractStyle
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \PhpOffice\PhpWord\Style\Language
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * Set language
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setLang($value = null)
+    {
+        if (is_string($value) && $value != '') {
+            $value = new Language($value);
+        }
+        $this->setObjectVal($value, 'Language', $this->lang);
 
         return $this;
     }
@@ -853,5 +936,28 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setIntVal($value, null);
+
+        return $this;
     }
 }

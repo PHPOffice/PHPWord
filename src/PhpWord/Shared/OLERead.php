@@ -10,11 +10,10 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
-
 namespace PhpOffice\PhpWord\Shared;
 
 use PhpOffice\PhpWord\Exception\Exception;
@@ -111,15 +110,18 @@ class OLERead
 
         $bbdBlocks = $this->numBigBlockDepotBlocks;
 
+        // @codeCoverageIgnoreStart
         if ($this->numExtensionBlocks != 0) {
             $bbdBlocks = (self::BIG_BLOCK_SIZE - self::BIG_BLOCK_DEPOT_BLOCKS_POS)/4;
         }
+        // @codeCoverageIgnoreEnd
 
         for ($i = 0; $i < $bbdBlocks; ++$i) {
             $bigBlockDepotBlocks[$i] = self::getInt4d($this->data, $pos);
             $pos += 4;
         }
 
+        // @codeCoverageIgnoreStart
         for ($j = 0; $j < $this->numExtensionBlocks; ++$j) {
             $pos = ($this->extensionBlock + 1) * self::BIG_BLOCK_SIZE;
             $blocksToRead = min($this->numBigBlockDepotBlocks - $bbdBlocks, self::BIG_BLOCK_SIZE / 4 - 1);
@@ -134,6 +136,7 @@ class OLERead
                 $this->extensionBlock = self::getInt4d($this->data, $pos);
             }
         }
+        // @codeCoverageIgnoreEnd
 
         $pos = 0;
         $this->bigBlockChain = '';
@@ -190,26 +193,26 @@ class OLERead
             }
 
             return $streamData;
-        } else {
-            $numBlocks = $this->props[$stream]['size'] / self::BIG_BLOCK_SIZE;
-            if ($this->props[$stream]['size'] % self::BIG_BLOCK_SIZE != 0) {
-                ++$numBlocks;
-            }
-
-            if ($numBlocks == 0) {
-                return '';
-            }
-
-            $block = $this->props[$stream]['startBlock'];
-
-            while ($block != -2) {
-                $pos = ($block + 1) * self::BIG_BLOCK_SIZE;
-                $streamData .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
-                $block = self::getInt4d($this->bigBlockChain, $block*4);
-            }
-
-            return $streamData;
         }
+
+        $numBlocks = $this->props[$stream]['size'] / self::BIG_BLOCK_SIZE;
+        if ($this->props[$stream]['size'] % self::BIG_BLOCK_SIZE != 0) {
+            ++$numBlocks;
+        }
+
+        if ($numBlocks == 0) {
+            return '';// @codeCoverageIgnore
+        }
+
+        $block = $this->props[$stream]['startBlock'];
+
+        while ($block != -2) {
+            $pos = ($block + 1) * self::BIG_BLOCK_SIZE;
+            $streamData .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
+            $block = self::getInt4d($this->bigBlockChain, $block*4);
+        }
+
+        return $streamData;
     }
 
     /**
@@ -294,7 +297,6 @@ class OLERead
 
             $offset += self::PROPERTY_STORAGE_BLOCK_SIZE;
         }
-
     }
 
     /**

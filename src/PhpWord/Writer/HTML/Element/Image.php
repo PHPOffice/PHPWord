@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -37,21 +37,16 @@ class Image extends Text
         if (!$this->element instanceof ImageElement) {
             return '';
         }
-        /** @var \PhpOffice\PhpWord\Writer\HTML $parentWriter Type hint */
-        $parentWriter = $this->parentWriter;
-
         $content = '';
-        if (!$parentWriter->isPdf()) {
-            $imageData = $this->element->getImageStringData(true);
-            if ($imageData !== null) {
-                $styleWriter = new ImageStyleWriter($this->element->getStyle());
-                $style = $styleWriter->write();
-                $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
+        $imageData = $this->element->getImageStringData(true);
+        if ($imageData !== null) {
+            $styleWriter = new ImageStyleWriter($this->element->getStyle());
+            $style = $styleWriter->write();
+            $imageData = 'data:' . $this->element->getImageType() . ';base64,' . $imageData;
 
-                $content .= $this->writeOpening();
-                $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
-                $content .= $this->writeClosing();
-            }
+            $content .= $this->writeOpening();
+            $content .= "<img border=\"0\" style=\"{$style}\" src=\"{$imageData}\"/>";
+            $content .= $this->writeClosing();
         }
 
         return $content;

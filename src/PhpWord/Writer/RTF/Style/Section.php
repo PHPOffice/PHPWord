@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -43,8 +43,8 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . $style->getPageSizeW());
-        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . $style->getPageSizeH());
+        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
+        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
         $content .= ' ';
         $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . $style->getMarginTop());
         $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . $style->getMarginRight());

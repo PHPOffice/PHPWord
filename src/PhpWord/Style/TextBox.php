@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -70,7 +70,6 @@ class TextBox extends Image
      * Set margin top.
      *
      * @param int $value
-     * @return void
      */
     public function setInnerMarginTop($value = null)
     {
@@ -91,7 +90,6 @@ class TextBox extends Image
      * Set margin left.
      *
      * @param int $value
-     * @return void
      */
     public function setInnerMarginLeft($value = null)
     {
@@ -112,7 +110,6 @@ class TextBox extends Image
      * Set margin right.
      *
      * @param int $value
-     * @return void
      */
     public function setInnerMarginRight($value = null)
     {
@@ -133,7 +130,6 @@ class TextBox extends Image
      * Set margin bottom.
      *
      * @param int $value
-     * @return void
      */
     public function setInnerMarginBottom($value = null)
     {
@@ -154,7 +150,6 @@ class TextBox extends Image
      * Set TLRB cell margin.
      *
      * @param int $value Margin in twips
-     * @return void
      */
     public function setInnerMargin($value = null)
     {
@@ -167,7 +162,7 @@ class TextBox extends Image
     /**
      * Get cell margin
      *
-     * @return integer[]
+     * @return int[]
      */
     public function getInnerMargin()
     {
@@ -183,7 +178,8 @@ class TextBox extends Image
     {
         $hasInnerMargins = false;
         $margins = $this->getInnerMargin();
-        for ($i = 0; $i < count($margins); $i++) {
+        $numMargins = count($margins);
+        for ($i = 0; $i < $numMargins; $i++) {
             if ($margins[$i] !== null) {
                 $hasInnerMargins = true;
             }
@@ -196,7 +192,6 @@ class TextBox extends Image
      * Set border size.
      *
      * @param int $value Size in points
-     * @return void
      */
     public function setBorderSize($value = null)
     {
@@ -217,7 +212,6 @@ class TextBox extends Image
      * Set border color.
      *
      * @param string $value
-     * @return void
      */
     public function setBorderColor($value = null)
     {

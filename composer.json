@@ -20,7 +20,7 @@
         },
         {
             "name": "Franck Lefevre",
-            "homepage": "http://blog.rootslabs.net"
+            "homepage": "https://rootslabs.net/blog/"
         },
         {
             "name": "Ivan Lanin",
@@ -29,25 +29,52 @@
         {
             "name": "Roman Syroeshko",
             "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+        },
+        {
+            "name": "Antoine de Troostembergh"
         }
     ],
+    "scripts": {
+        "test": [
+            "phpunit --color=always"
+        ],
+        "test-no-coverage": [
+            "phpunit --color=always --no-coverage"
+        ],
+        "check": [
+            "php-cs-fixer fix --ansi --dry-run --diff",
+            "phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
+            "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
+            "@test"
+        ],
+        "fix": [
+            "php-cs-fixer fix --ansi"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Runs all unit tests",
+        "test-no-coverage": "Runs all unit tests, without code coverage",
+        "check": "Runs PHP CheckStyle and PHP Mess detector",
+        "fix": "Fixes issues found by PHP-CS"
+    },
     "require": {
-        "php": ">=5.3.3",
+        "php": "^5.3.3 || ^7.0",
         "ext-xml": "*",
-        "zendframework/zend-escaper": "2.4.*",
-        "zendframework/zend-stdlib": "2.4.*",
-        "zendframework/zend-validator": "2.4.*",
-        "phpoffice/common": "0.2.*"
+        "zendframework/zend-escaper": "^2.2",
+        "phpoffice/common": "^0.2.9"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "phpdocumentor/phpdocumentor":"2.*",
-        "squizlabs/php_codesniffer": "1.*",
+        "ext-zip": "*",
+        "ext-gd": "*",
+        "phpunit/phpunit": "^4.8.36 || ^7.0",
+        "squizlabs/php_codesniffer": "^2.9",
+        "friendsofphp/php-cs-fixer": "^2.2",
         "phpmd/phpmd": "2.*",
-        "phploc/phploc": "2.*",
-        "dompdf/dompdf":"0.6.*",
+        "phploc/phploc": "2.* || 3.* || 4.*",
+        "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
-        "mpdf/mpdf": "5.*"
+        "mpdf/mpdf": "5.7.4 || 6.* || 7.*",
+        "php-coveralls/php-coveralls": "1.1.0 || ^2.0"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
@@ -59,6 +86,11 @@
     "autoload": {
         "psr-4": {
             "PhpOffice\\PhpWord\\": "src/PhpWord"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.16-dev"
         }
     }
 }

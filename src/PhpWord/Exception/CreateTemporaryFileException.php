@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -23,8 +23,8 @@ namespace PhpOffice\PhpWord\Exception;
 final class CreateTemporaryFileException extends Exception
 {
     /**
-     * @param integer $code The user defined exception code.
-     * @param \Exception $previous The previous exception used for the exception chaining.
+     * @param int $code The user defined exception code
+     * @param \Exception $previous The previous exception used for the exception chaining
      */
     final public function __construct($code = 0, \Exception $previous = null)
     {

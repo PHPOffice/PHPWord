@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2016 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -20,22 +20,20 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 
 /**
- * Object element writer
+ * OLEObject element writer
  *
  * @since 0.10.0
  */
-class Object extends AbstractElement
+class OLEObject extends AbstractElement
 {
     /**
      * Write object element.
-     *
-     * @return void
      */
     public function write()
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        if (!$element instanceof \PhpOffice\PhpWord\Element\Object) {
+        if (!$element instanceof \PhpOffice\PhpWord\Element\OLEObject) {
             return;
         }
 
@@ -51,6 +49,7 @@ class Object extends AbstractElement
             $xmlWriter->startElement('w:p');
             $styleWriter->writeAlignment();
         }
+        $this->writeCommentRangeStart();
 
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:object');
