@@ -253,6 +253,14 @@ class Font extends AbstractStyle
     private $lang;
 
     /**
+     * Hidden text
+     *
+     * @var bool
+     * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
+     */
+    private $hiddenText = false;
+
+    /**
      * Vertically Raised or Lowered Text
      *
      * @var int Signed Half-Point Measurement
@@ -299,6 +307,7 @@ class Font extends AbstractStyle
                 'smallCaps' => $this->isSmallCaps(),
                 'allCaps'   => $this->isAllCaps(),
                 'fgColor'   => $this->getFgColor(),
+                'hiddenText'=> $this->isHiddenText(),
             ),
             'spacing'       => array(
                 'scale'     => $this->getScale(),
@@ -936,6 +945,28 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get hidden text
+     *
+     * @return bool
+     */
+    public function isHiddenText()
+    {
+        return $this->hiddenText;
+    }
+
+    /**
+     * Set hidden text
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setHiddenText($value = true)
+    {
+        $this->hiddenText = $this->setBoolVal($value, $this->hiddenText);
+        return $this;
     }
 
     /**
