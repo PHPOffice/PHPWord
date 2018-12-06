@@ -966,6 +966,7 @@ class Font extends AbstractStyle
     public function setHiddenText($value = true)
     {
         $this->hiddenText = $this->setBoolVal($value, $this->hiddenText);
+
         return $this;
     }
 
