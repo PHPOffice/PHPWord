@@ -277,6 +277,12 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * Template macros can be fixed.
+     *
+     * @covers ::fixBrokenMacros
+     * @test
+     */
     public function testFixBrokenMacros()
     {
         $templateProcessor = new TestableTemplateProcesor();
