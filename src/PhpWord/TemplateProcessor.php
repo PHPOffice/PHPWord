@@ -217,10 +217,10 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = self::ensureUtf8Encoded($item);
+                $item = static::ensureUtf8Encoded($item);
             }
         } else {
-            $replace = self::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -499,11 +499,19 @@ class TemplateProcessor
     }
 
     /**
+     * Usually, the name of main part document will be 'document.xml'. However, some .docx files (possibly those from Office 365, experienced also on documents from Word Online created from blank templates) have file 'document22.xml' in their zip archive instead of 'document.xml'. This method searches content types file to correctly determine the file name.
+     *
      * @return string
      */
     protected function getMainPartName()
     {
-        return 'word/document.xml';
+        $contentTypes = $this->zipClass->getFromName('[Content_Types].xml');
+
+        $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
+
+        preg_match($pattern, $contentTypes, $matches);
+
+        return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
     }
 
     /**

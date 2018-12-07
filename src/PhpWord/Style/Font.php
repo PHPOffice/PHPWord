@@ -80,7 +80,7 @@ class Font extends AbstractStyle
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array('line-height' => 'lineHeight', 'letter-spacing' => 'spacing');
 
     /**
      * Font style type
