@@ -442,17 +442,13 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $fixedDocumentPart = $documentPart;
-
-        $fixedDocumentPart = preg_replace_callback(
+        return preg_replace_callback(
             '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
             function ($match) {
                 return strip_tags($match[0]);
             },
-            $fixedDocumentPart
+            $documentPart
         );
-
-        return $fixedDocumentPart;
     }
 
     /**
