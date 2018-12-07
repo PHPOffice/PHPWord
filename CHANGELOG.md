@@ -11,6 +11,7 @@ v0.16.0 (xx dec 2018)
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269
 - HTML Title Writer loses text when Title contains a TextRun instead a string. @begnini #1436
+- Fix regex in fixBrokenMacros, make it less greedy @MuriloSo @brainwood @yurii-sio2 #1502 #1345
 - 240 twips are being added to line spacing, should not happen when using lineRule fixed @troosan #1509 #1505
 - Adding table layout to the generated HTML @aarangara #1441
 - Fix loading of Sharepoint document @Garrcomm #1498
