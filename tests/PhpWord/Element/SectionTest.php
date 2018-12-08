@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
  * @covers \PhpOffice\PhpWord\Element\Section
@@ -27,6 +28,27 @@ use PhpOffice\PhpWord\Style;
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {
+    public function testConstructorWithDefaultStyle()
+    {
+        $section = new Section(0);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $section->getStyle());
+    }
+
+    public function testConstructorWithArrayStyle()
+    {
+        $section = new Section(0, array('orientation' => 'landscape'));
+        $style = $section->getStyle();
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $style);
+        $this->assertEquals('landscape', $style->getOrientation());
+    }
+
+    public function testConstructorWithObjectStyle()
+    {
+        $style = new SectionStyle();
+        $section = new Section(0, $style);
+        $this->assertSame($style, $section->getStyle());
+    }
+
     /**
      * @covers ::setStyle
      */

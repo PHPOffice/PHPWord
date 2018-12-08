@@ -492,4 +492,19 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
         $this->assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
     }
+
+    /**
+     * Test correct writing of text with ampersant in it
+     */
+    public function testTextWithAmpersant()
+    {
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('this text contains an & (ampersant)');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('this text contains an & (ampersant)', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
+    }
 }
