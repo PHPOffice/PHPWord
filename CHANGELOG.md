@@ -7,6 +7,7 @@ v0.16.0 (xx dec 2018)
 ----------------------
 ### Added
 - Add setting Chart Title and Legend visibility @Tom-Magill #1433
+- Add ability to pass a Style object in Section constructor @ndench #1416
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269

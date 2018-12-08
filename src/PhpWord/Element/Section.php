@@ -59,7 +59,7 @@ class Section extends AbstractContainer
      * Create new instance
      *
      * @param int $sectionCount
-     * @param array $style
+     * @param null|array|\PhpOffice\PhpWord\Style $style
      */
     public function __construct($sectionCount, $style = null)
     {

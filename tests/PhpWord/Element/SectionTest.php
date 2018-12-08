@@ -39,7 +39,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
         $section = new Section(0, array('orientation' => 'landscape'));
         $style = $section->getStyle();
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $style);
-        $this->assertSame('landscape', $style->getOrientation());
+        $this->assertEquals('landscape', $style->getOrientation());
     }
 
     public function testConstructorWithObjectStyle()
