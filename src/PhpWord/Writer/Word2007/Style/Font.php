@@ -121,7 +121,7 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps');
 
         //Hidden text
-        $xmlWriter->writeElementIf($style->isHiddenText(), 'w:vanish');
+        $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish');
 
         // Underline
         $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());

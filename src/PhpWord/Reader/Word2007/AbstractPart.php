@@ -444,6 +444,7 @@ abstract class AbstractPart
             'rtl'                 => array(self::READ_TRUE,  'w:rtl'),
             'lang'                => array(self::READ_VALUE, 'w:lang'),
             'position'            => array(self::READ_VALUE, 'w:position'),
+            'hidden'              => array(self::READ_TRUE,  'w:vanish'),
         );
 
         return $this->readStyleDefs($xmlReader, $styleNode, $styleDefs);

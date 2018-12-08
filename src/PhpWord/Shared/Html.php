@@ -515,6 +515,9 @@ class Html
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
+                case 'display':
+                    $styles['hidden'] = $cValue === 'none';
+                    break;
                 case 'direction':
                     $styles['rtl'] = $cValue === 'rtl';
                     break;

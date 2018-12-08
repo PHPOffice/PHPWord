@@ -258,7 +258,7 @@ class Font extends AbstractStyle
      * @var bool
      * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
      */
-    private $hiddenText = false;
+    private $hidden = false;
 
     /**
      * Vertically Raised or Lowered Text
@@ -307,7 +307,7 @@ class Font extends AbstractStyle
                 'smallCaps' => $this->isSmallCaps(),
                 'allCaps'   => $this->isAllCaps(),
                 'fgColor'   => $this->getFgColor(),
-                'hiddenText'=> $this->isHiddenText(),
+                'hidden'    => $this->isHidden(),
             ),
             'spacing'       => array(
                 'scale'     => $this->getScale(),
@@ -952,9 +952,9 @@ class Font extends AbstractStyle
      *
      * @return bool
      */
-    public function isHiddenText()
+    public function isHidden()
     {
-        return $this->hiddenText;
+        return $this->hidden;
     }
 
     /**
@@ -963,9 +963,9 @@ class Font extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setHiddenText($value = true)
+    public function setHidden($value = true)
     {
-        $this->hiddenText = $this->setBoolVal($value, $this->hiddenText);
+        $this->hidden = $this->setBoolVal($value, $this->hidden);
 
         return $this;
     }

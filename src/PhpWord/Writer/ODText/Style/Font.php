@@ -75,6 +75,9 @@ class Font extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isSmallCaps(), 'fo:font-variant', 'small-caps');
         $xmlWriter->writeAttributeIf($style->isAllCaps(), 'fo:text-transform', 'uppercase');
 
+        //Hidden text
+        $xmlWriter->writeAttributeIf($style->isHidden(), 'text:display', 'none');
+
         // Superscript/subscript
         $xmlWriter->writeAttributeIf($style->isSuperScript(), 'style:text-position', 'super');
         $xmlWriter->writeAttributeIf($style->isSubScript(), 'style:text-position', 'sub');

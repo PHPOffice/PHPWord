@@ -145,4 +145,28 @@ class StyleTest extends AbstractTestReader
         $this->assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
         $this->assertSame(2160, $tableStyle->getIndent()->getValue());
     }
+
+    public function testReadHidden()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:rPr>
+                    <w:vanish/>
+                </w:rPr>
+                <w:t xml:space="preserve">This text is hidden</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        /** @var \PhpOffice\PhpWord\Element\TextRun $elements */
+        $textRun = $elements[0];
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
+        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
+        $fontStyle = $textRun->getElement(0)->getFontStyle();
+        $this->assertTrue($fontStyle->isHidden());
+    }
 }

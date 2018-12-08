@@ -39,6 +39,9 @@ $textrun->addText(' Sample Object: ');
 $textrun->addObject('resources/_sheet.xls');
 $textrun->addText(' Here is some more text. ');
 
+$textrun = $section->addTextRun();
+$textrun->addText('This text is not visible.', array('hidden' => true));
+
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);
 if (!CLI) {
