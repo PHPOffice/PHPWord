@@ -73,8 +73,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/p[1]/ins')->length == 1);
-        $this->assertTrue($xpath->query('/html/body/p[2]/del')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/p[1]/ins')->length);
+        $this->assertEquals(1, $xpath->query('/html/body/p[2]/del')->length);
     }
 
     /**
@@ -97,9 +97,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/table/tr[1]/td')->length);
         $this->assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 2);
+        $this->assertEquals(2, $xpath->query('/html/body/table/tr[2]/td')->length);
     }
 
     /**
@@ -126,9 +126,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 2);
+        $this->assertEquals(2, $xpath->query('/html/body/table/tr[1]/td')->length);
         $this->assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/table/tr[2]/td')->length);
     }
 
     private function getAsHTML(PhpWord $phpWord)
@@ -155,6 +155,30 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $htmlWriter = new HTML($phpWord);
         $content = $htmlWriter->getContent();
 
-        $this->assertTrue(strpos($content, $expected) !== false);
+        $this->assertContains($expected, $content);
+    }
+
+    /**
+     * Tests writing table with layout
+     */
+    public function testWriteTableLayout()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTable();
+
+        $table1 = $section->addTable(array('layout' => \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED));
+        $row1 = $table1->addRow();
+        $row1->addCell()->addText('fixed layout table');
+
+        $table2 = $section->addTable(array('layout' => \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO));
+        $row2 = $table2->addRow();
+        $row2->addCell()->addText('auto layout table');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXPath($dom);
+
+        $this->assertEquals('table-layout: fixed;', $xpath->query('/html/body/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
+        $this->assertEquals('table-layout: auto;', $xpath->query('/html/body/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
     }
 }

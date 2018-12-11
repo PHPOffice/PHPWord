@@ -51,6 +51,32 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
     }
 
+    public function testLineSpacingExact()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'exact'));
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals('exact', $doc->getElementAttribute($path, 'w:lineRule'));
+        $this->assertEquals('240', $doc->getElementAttribute($path, 'w:line'));
+    }
+
+    public function testLineSpacingAuto()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('test', null, array('spacing' => 240, 'spacingLineRule' => 'auto'));
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:p/w:pPr/w:spacing';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals('auto', $doc->getElementAttribute($path, 'w:lineRule'));
+        $this->assertEquals('480', $doc->getElementAttribute($path, 'w:line'));
+    }
+
     public function testSuppressAutoHyphens()
     {
         $paragraphStyle = new ParagraphStyle();

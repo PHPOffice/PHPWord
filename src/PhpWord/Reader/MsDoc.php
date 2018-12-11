@@ -2185,6 +2185,8 @@ class MsDoc extends AbstractReader implements ReaderInterface
 
                                     $sprmCPicLocation += $embeddedBlipRH['recLen'];
                                     break;
+                                case self::OFFICEARTBLIPPNG:
+                                    break;
                                 default:
                                     // print_r(dechex($embeddedBlipRH['recType']));
                             }
