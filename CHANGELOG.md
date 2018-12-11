@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.16.0 (xx xxx 2018)
 ----------------------
 ### Added
+- Add getVariableCount method in TemplateProcessor. @nicoder #1272
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269
