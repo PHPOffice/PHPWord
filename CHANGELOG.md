@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.16.0 (xx dec 2018)
 ----------------------
 ### Added
+- Add getVariableCount method in TemplateProcessor. @nicoder #1272
 - Add setting Chart Title and Legend visibility @Tom-Magill #1433
 - Add ability to pass a Style object in Section constructor @ndench #1416
 - Add support for hidden text @Alexmg86 #1527
