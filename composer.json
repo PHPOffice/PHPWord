@@ -1,5 +1,5 @@
 {
-    "name": "phpoffice/phpword",
+    "name": "casavoco/phpword",
     "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
     "keywords": [
         "PHP", "PHPOffice", "office", "PHPWord", "word", "template", "template processor", "reader", "writer",
