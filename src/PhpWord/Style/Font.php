@@ -80,7 +80,7 @@ class Font extends AbstractStyle
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array('line-height' => 'lineHeight', 'letter-spacing' => 'spacing');
 
     /**
      * Font style type
@@ -253,6 +253,14 @@ class Font extends AbstractStyle
     private $lang;
 
     /**
+     * Hidden text
+     *
+     * @var bool
+     * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
+     */
+    private $hidden = false;
+
+    /**
      * Vertically Raised or Lowered Text
      *
      * @var int Signed Half-Point Measurement
@@ -299,6 +307,7 @@ class Font extends AbstractStyle
                 'smallCaps' => $this->isSmallCaps(),
                 'allCaps'   => $this->isAllCaps(),
                 'fgColor'   => $this->getFgColor(),
+                'hidden'    => $this->isHidden(),
             ),
             'spacing'       => array(
                 'scale'     => $this->getScale(),
@@ -936,6 +945,29 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get hidden text
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set hidden text
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setHidden($value = true)
+    {
+        $this->hidden = $this->setBoolVal($value, $this->hidden);
+
+        return $this;
     }
 
     /**

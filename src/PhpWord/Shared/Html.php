@@ -23,6 +23,7 @@ use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Common Html functions
@@ -514,6 +515,9 @@ class Html
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
+                case 'display':
+                    $styles['hidden'] = $cValue === 'none';
+                    break;
                 case 'direction':
                     $styles['rtl'] = $cValue === 'rtl';
                     break;
@@ -531,18 +535,27 @@ class Html
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
                 case 'line-height':
+                    $matches = array();
                     if (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
+                        //matches number with a unit, e.g. 12px, 15pt, 20mm, ...
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
-                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                        $spacing = Converter::cssToTwip($matches[1]);
                     } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        //matches percentages
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                        $spacing = ((int) $matches[1]) / 100;
+                        //we are subtracting 1 line height because the Spacing writer is adding one line
+                        $spacing = ((((int) $matches[1]) / 100) * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                     } else {
+                        //any other, wich is a multiplier. E.g. 1.2
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                        $spacing = $cValue;
+                        //we are subtracting 1 line height because the Spacing writer is adding one line
+                        $spacing = ($cValue * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                     }
                     $styles['spacingLineRule'] = $spacingLineRule;
-                    $styles['lineHeight'] = $spacing;
+                    $styles['line-spacing'] = $spacing;
+                    break;
+                case 'letter-spacing':
+                    $styles['letter-spacing'] = Converter::cssToTwip($cValue);
                     break;
                 case 'text-indent':
                     $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
@@ -743,8 +756,6 @@ class Html
             default:
                 return Jc::START;
         }
-
-        return null;
     }
 
     /**

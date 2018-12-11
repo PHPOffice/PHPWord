@@ -91,8 +91,6 @@ class ParagraphTest extends \PHPUnit\Framework\TestCase
             $object->setStyleValue("$key", $value);
             if ('indent' == $key || 'hanging' == $key) {
                 $value = $value * 720;
-            } elseif ('spacing' == $key) {
-                $value += 240;
             }
             $this->assertEquals($value, $object->$get());
         }

@@ -61,7 +61,7 @@ class Paragraph extends Border
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array('line-height' => 'lineHeight', 'line-spacing' => 'spacing');
 
     /**
      * Parent style
@@ -199,8 +199,6 @@ class Paragraph extends Border
         $key = Text::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
             $value = $value * 720;
-        } elseif ('spacing' == $key) {
-            $value += 240; // because line height of 1 matches 240 twips
         }
 
         return parent::setStyleValue($key, $value);
@@ -479,7 +477,7 @@ class Paragraph extends Border
     /**
      * Get spacing between lines
      *
-     * @return int
+     * @return int|float
      */
     public function getSpacing()
     {
@@ -489,7 +487,7 @@ class Paragraph extends Border
     /**
      * Set spacing between lines
      *
-     * @param int $value
+     * @param int|float $value
      * @return self
      */
     public function setSpacing($value = null)
@@ -547,7 +545,8 @@ class Paragraph extends Border
         }
 
         $this->lineHeight = $lineHeight;
-        $this->setSpacing($lineHeight * self::LINE_HEIGHT);
+        $this->setSpacing(($lineHeight - 1) * self::LINE_HEIGHT);
+        $this->setSpacingLineRule(\PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO);
 
         return $this;
     }

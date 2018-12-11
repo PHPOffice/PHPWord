@@ -217,10 +217,10 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = self::ensureUtf8Encoded($item);
+                $item = static::ensureUtf8Encoded($item);
             }
         } else {
-            $replace = self::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -442,17 +442,13 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $fixedDocumentPart = $documentPart;
-
-        $fixedDocumentPart = preg_replace_callback(
-            '|\$[^{]*\{[^}]*\}|U',
+        return preg_replace_callback(
+            '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
             function ($match) {
                 return strip_tags($match[0]);
             },
-            $fixedDocumentPart
+            $documentPart
         );
-
-        return $fixedDocumentPart;
     }
 
     /**

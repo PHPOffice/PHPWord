@@ -61,6 +61,7 @@ Available Font style options:
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
 - ``position``. The text position, raised or lowered, in half points
+- ``hidden``. Hidden text, *true* or *false*.
 
 .. _paragraph-style:
 
@@ -81,7 +82,7 @@ Available Paragraph style options:
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
 - ``spaceBefore``. Space before paragraph in *twip*.
 - ``spaceAfter``. Space after paragraph in *twip*.
-- ``spacing``. Space between lines.
+- ``spacing``. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
    See ``\PhpOffice\PhpWord\SimpleType\LineSpacingRule`` class constants for possible values.
 - ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
@@ -192,6 +193,14 @@ Available Chart style options:
 - ``width``. Width (in EMU).
 - ``height``. Height (in EMU).
 - ``3d``. Is 3D; applies to pie, bar, line, area, *true* or *false*.
+- ``colors``. A list of colors to use in the chart.
+- ``title``. The title for the chart.
+- ``showLegend``. Show legend, *true* or *false*.
+- ``categoryLabelPosition``. Label position for categories, *nextTo* (default), *low* or *high*.
+- ``valueLabelPosition``. Label position for values, *nextTo* (default), *low* or *high*.
+- ``categoryAxisTitle``. The title for the category axis.
+- ``valueAxisTitle``. The title for the values axis.
+- ``majorTickMarkPos``. The position for major tick marks, *in*, *out*, *cross*, *none* (default).
 - ``showAxisLabels``. Show labels for axis, *true* or *false*.
 - ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
 - ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.

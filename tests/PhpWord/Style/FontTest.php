@@ -76,6 +76,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'spacing'             => null,
             'kerning'             => null,
             'lang'                => null,
+            'hidden'              => false,
         );
         foreach ($attributes as $key => $default) {
             $get = is_bool($default) ? "is{$key}" : "get{$key}";
@@ -117,6 +118,7 @@ class FontTest extends \PHPUnit\Framework\TestCase
             'rtl'                 => true,
             'noProof'             => true,
             'lang'                => new Language(Language::EN_US),
+            'hidden'              => true,
         );
         $object->setStyleByArray($attributes);
         foreach ($attributes as $key => $value) {
