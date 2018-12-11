@@ -217,10 +217,10 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = static::ensureUtf8Encoded($item);
+                $item = self::ensureUtf8Encoded($item);
             }
         } else {
-            $replace = static::ensureUtf8Encoded($replace);
+            $replace = self::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -322,14 +322,17 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true)
     {
         $xmlBlock = null;
+
+        $blockClone = substr($this->tempDocumentMainPart, strripos(substr($this->tempDocumentMainPart, 0, stripos($this->tempDocumentMainPart, '${' . $blockname . '}')), '<w:p '));
+
         preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
+            '/(<w:p .*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p .*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            $blockClone,
             $matches
         );
 
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
+        if (isset($matches[2])) {
+            $xmlBlock = $matches[2];
             $cloned = array();
             for ($i = 1; $i <= $clones; $i++) {
                 $cloned[] = $xmlBlock;
@@ -337,7 +340,7 @@ class TemplateProcessor
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
+                    $matches[1] . $matches[2] . $matches[3],
                     implode('', $cloned),
                     $this->tempDocumentMainPart
                 );
@@ -442,13 +445,17 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        return preg_replace_callback(
-            '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
+        $fixedDocumentPart = $documentPart;
+
+        $fixedDocumentPart = preg_replace_callback(
+            '|\$[^{]*\{[^}]*\}|U',
             function ($match) {
                 return strip_tags($match[0]);
             },
-            $documentPart
+            $fixedDocumentPart
         );
+
+        return $fixedDocumentPart;
     }
 
     /**
@@ -499,19 +506,11 @@ class TemplateProcessor
     }
 
     /**
-     * Usually, the name of main part document will be 'document.xml'. However, some .docx files (possibly those from Office 365, experienced also on documents from Word Online created from blank templates) have file 'document22.xml' in their zip archive instead of 'document.xml'. This method searches content types file to correctly determine the file name.
-     *
      * @return string
      */
     protected function getMainPartName()
     {
-        $contentTypes = $this->zipClass->getFromName('[Content_Types].xml');
-
-        $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
-
-        preg_match($pattern, $contentTypes, $matches);
-
-        return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
+        return 'word/document.xml';
     }
 
     /**
