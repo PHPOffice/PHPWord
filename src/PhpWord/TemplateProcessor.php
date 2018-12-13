@@ -335,32 +335,19 @@ class TemplateProcessor
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    public function cloneBlock($blockname, $clones = 1)
     {
-        $xmlBlock = null;
-        preg_match(
-            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
-        );
-
-        if (isset($matches[3])) {
-            $xmlBlock = $matches[3];
-            $cloned = array();
-            for ($i = 1; $i <= $clones; $i++) {
-                $cloned[] = $xmlBlock;
-            }
-
-            if ($replace) {
-                $this->tempDocumentMainPart = str_replace(
-                    $matches[2] . $matches[3] . $matches[4],
-                    implode('', $cloned),
-                    $this->tempDocumentMainPart
-                );
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $nodeSets = $this->findBlocks($blockname, $dom, 'inner');
+        foreach ($nodeSets as $nodeSet) {
+            for ($i = 1; $i < $clones; $i++ ) {
+                foreach ($nodeSet as $node) {
+                    $nodeSet[0]->parentNode->insertBefore($node->cloneNode(true), $nodeSet[0]);
+                }
             }
         }
-
-        return $xmlBlock;
+        $this->deleteNodeSets($this->findBlocks($blockname, $dom, 'outer'));
+        $this->tempDocumentMainPart = $dom->saveXML();
     }
 
     /**
@@ -371,19 +358,19 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
-        preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
-            $this->tempDocumentMainPart,
-            $matches
-        );
-
-        if (isset($matches[3])) {
-            $this->tempDocumentMainPart = str_replace(
-                $matches[2] . $matches[3] . $matches[4],
-                $replacement,
-                $this->tempDocumentMainPart
-            );
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $nodeSets = $this->findBlocks($blockname, $dom);
+        foreach ($nodeSets as $nodeSet) {
+            $newNode = $dom->createElement('t:marker');
+            $nodeSet[0]->parentNode->insertBefore($newNode, $nodeSet[0]);
         }
+        $this->deleteNodeSets($nodeSets);
+        $xml = $dom->saveXML();
+        $this->tempDocumentMainPart = str_replace(
+            '<t:marker/>',
+            $replacement,
+            $xml
+        );
     }
 
     /**
@@ -393,7 +380,17 @@ class TemplateProcessor
      */
     public function deleteBlock($blockname)
     {
-        $this->replaceBlock($blockname, '');
+        $dom = \DOMDocument::loadXML($this->tempDocumentMainPart);
+        $this->deleteNodeSets($this->findBlocks($blockname, $dom));
+        $this->tempDocumentMainPart = $dom->saveXML();
+    }
+
+    private function deleteNodeSets($nodeSets) {
+        foreach ($nodeSets as $nodeSet) {
+            foreach ($nodeSet as $node) {
+                $node->parentNode->removeChild($node);
+            }
+        }
     }
 
     /**
@@ -593,4 +590,46 @@ class TemplateProcessor
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));
     }
+
+    private function findBlocks($blockname, $domDoc, $type = 'complete')
+    {
+        $domXpath = new \DOMXpath($domDoc);
+        $max = $domXpath->query('//w:p[contains(., "${'.$blockname.'}")]')->length;
+        $nodeLists = array();
+        for ($i = 1; $i <= $max; $i++) {
+            $query = join(' | ', self::getQueryByType($type));
+
+            $data = array(
+                'BLOCKNAME' => $blockname,
+                'INDEX' => $i
+            );
+            $findFromTo = str_replace(array_keys($data), array_values($data), $query);
+            $nodelist = $domXpath->query($findFromTo);
+            $nodeLists[] = $nodelist;
+        }
+        return $nodeLists;
+    }
+
+    private static function getQueryByType($type)
+    {
+        $parts = array(
+            '//w:p[contains(., "${BLOCKNAME}")][INDEX]',
+            // https://stackoverflow.com/questions/3428104/selecting-siblings-between-two-nodes-using-xpath
+            '//w:p[contains(., "${BLOCKNAME}")][INDEX]/
+                following-sibling::w:p[contains(., "${/BLOCKNAME}")][1]/
+                preceding-sibling::w:p[
+                    preceding-sibling::w:p[contains(., "${BLOCKNAME}")][INDEX]
+                ]',
+            '//w:p[contains(., "${/BLOCKNAME}")][INDEX]'
+        );
+        switch ($type) {
+            case 'complete':
+                return $parts;
+            case 'inner':
+                return array($parts[1]);
+            case 'outer':
+                return array($parts[0], $parts[2]);
+        }
+    }
+
 }
