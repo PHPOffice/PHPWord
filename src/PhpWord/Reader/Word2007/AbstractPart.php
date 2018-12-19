@@ -297,6 +297,8 @@ abstract class AbstractPart
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                } else {
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
             } else {
                 /** @var AbstractElement $element */
