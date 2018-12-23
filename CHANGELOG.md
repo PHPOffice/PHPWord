@@ -3,6 +3,9 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added
+- Add support for setting images in TemplateProcessor - @SailorMax #1170
+
 v0.14.0 (?? Dec 2017)
 ----------------------
 This release fixes several bugs and adds some new features.
