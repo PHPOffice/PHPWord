@@ -11,12 +11,13 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
+use PhpOffice\Common\Microsoft\PasswordEncoder;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\Style\Language;
@@ -148,12 +149,16 @@ class Settings extends AbstractPart
         $this->setOnOffValue('w:doNotTrackFormatting', $documentSettings->hasDoNotTrackFormatting());
         $this->setOnOffValue('w:evenAndOddHeaders', $documentSettings->hasEvenAndOddHeaders());
         $this->setOnOffValue('w:updateFields', $documentSettings->hasUpdateFields());
+        $this->setOnOffValue('w:autoHyphenation', $documentSettings->hasAutoHyphenation());
+        $this->setOnOffValue('w:doNotHyphenateCaps', $documentSettings->hasDoNotHyphenateCaps());
 
         $this->setThemeFontLang($documentSettings->getThemeFontLang());
         $this->setRevisionView($documentSettings->getRevisionView());
         $this->setDocumentProtection($documentSettings->getDocumentProtection());
         $this->setProofState($documentSettings->getProofState());
         $this->setZoom($documentSettings->getZoom());
+        $this->setConsecutiveHyphenLimit($documentSettings->getConsecutiveHyphenLimit());
+        $this->setHyphenationZone($documentSettings->getHyphenationZone());
         $this->setCompatibility();
     }
 
@@ -161,17 +166,16 @@ class Settings extends AbstractPart
      * Adds a boolean attribute to the settings array
      *
      * @param string $settingName
-     * @param bool $booleanValue
+     * @param bool|null $booleanValue
      */
     private function setOnOffValue($settingName, $booleanValue)
     {
-        if ($booleanValue !== null && is_bool($booleanValue)) {
-            if ($booleanValue) {
-                $this->settings[$settingName] = array('@attributes' => array());
-            } else {
-                $this->settings[$settingName] = array('@attributes' => array('w:val' => 'false'));
-            }
+        if (!is_bool($booleanValue)) {
+            return;
         }
+
+        $value = $booleanValue ? 'true' : 'false';
+        $this->settings[$settingName] = array('@attributes' => array('w:val' => $value));
     }
 
     /**
@@ -181,13 +185,33 @@ class Settings extends AbstractPart
      */
     private function setDocumentProtection($documentProtection)
     {
-        if ($documentProtection != null && $documentProtection->getEditing() !== null) {
-            $this->settings['w:documentProtection'] = array(
-                '@attributes' => array(
-                    'w:enforcement' => 1,
-                    'w:edit'        => $documentProtection->getEditing(),
-                ),
-            );
+        if ($documentProtection->getEditing() !== null) {
+            if ($documentProtection->getPassword() == null) {
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement' => 1,
+                        'w:edit'        => $documentProtection->getEditing(),
+                    ),
+                );
+            } else {
+                if ($documentProtection->getSalt() == null) {
+                    $documentProtection->setSalt(openssl_random_pseudo_bytes(16));
+                }
+                $passwordHash = PasswordEncoder::hashPassword($documentProtection->getPassword(), $documentProtection->getAlgorithm(), $documentProtection->getSalt(), $documentProtection->getSpinCount());
+                $this->settings['w:documentProtection'] = array(
+                    '@attributes' => array(
+                        'w:enforcement'         => 1,
+                        'w:edit'                => $documentProtection->getEditing(),
+                        'w:cryptProviderType'   => 'rsaFull',
+                        'w:cryptAlgorithmClass' => 'hash',
+                        'w:cryptAlgorithmType'  => 'typeAny',
+                        'w:cryptAlgorithmSid'   => PasswordEncoder::getAlgorithmId($documentProtection->getAlgorithm()),
+                        'w:cryptSpinCount'      => $documentProtection->getSpinCount(),
+                        'w:hash'                => $passwordHash,
+                        'w:salt'                => base64_encode($documentProtection->getSalt()),
+                    ),
+                );
+            }
         }
     }
 
@@ -258,17 +282,47 @@ class Settings extends AbstractPart
     }
 
     /**
+     * @param int|null $consecutiveHyphenLimit
+     */
+    private function setConsecutiveHyphenLimit($consecutiveHyphenLimit)
+    {
+        if ($consecutiveHyphenLimit === null) {
+            return;
+        }
+
+        $this->settings['w:consecutiveHyphenLimit'] = array(
+            '@attributes' => array('w:val' => $consecutiveHyphenLimit),
+        );
+    }
+
+    /**
+     * @param float|null $hyphenationZone
+     */
+    private function setHyphenationZone($hyphenationZone)
+    {
+        if ($hyphenationZone === null) {
+            return;
+        }
+
+        $this->settings['w:hyphenationZone'] = array(
+            '@attributes' => array('w:val' => $hyphenationZone),
+        );
+    }
+
+    /**
      * Get compatibility setting.
      */
     private function setCompatibility()
     {
         $compatibility = $this->getParentWriter()->getPhpWord()->getCompatibility();
         if ($compatibility->getOoxmlVersion() !== null) {
-            $this->settings['w:compat']['w:compatSetting'] = array('@attributes' => array(
-                'w:name'    => 'compatibilityMode',
-                'w:uri'     => 'http://schemas.microsoft.com/office/word',
-                'w:val'     => $compatibility->getOoxmlVersion(),
-            ));
+            $this->settings['w:compat']['w:compatSetting'] = array(
+                '@attributes' => array(
+                    'w:name' => 'compatibilityMode',
+                    'w:uri'  => 'http://schemas.microsoft.com/office/word',
+                    'w:val'  => $compatibility->getOoxmlVersion(),
+                ),
+            );
         }
     }
 }

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -45,10 +45,14 @@ class Frame extends AbstractStyle
         $zIndices = array(FrameStyle::WRAP_INFRONT => $maxZIndex, FrameStyle::WRAP_BEHIND => -$maxZIndex);
 
         $properties = array(
-            'width'     => 'width',
-            'height'    => 'height',
-            'left'      => 'margin-left',
-            'top'       => 'margin-top',
+            'width'              => 'width',
+            'height'             => 'height',
+            'left'               => 'margin-left',
+            'top'                => 'margin-top',
+            'wrapDistanceTop'    => 'mso-wrap-distance-top',
+            'wrapDistanceBottom' => 'mso-wrap-distance-bottom',
+            'wrapDistanceLeft'   => 'mso-wrap-distance-left',
+            'wrapDistanceRight'  => 'mso-wrap-distance-right',
         );
         $sizeStyles = $this->getStyles($style, $properties, $style->getUnit());
 

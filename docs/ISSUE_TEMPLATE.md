@@ -1,28 +1,35 @@
-Issue tracker is **ONLY** used for reporting bugs. NO NEW FEATURE ACCEPTED! Use [stackoverflow](https://stackoverflow.com/questions/tagged/phpword) for supporting issues.
+This is:
 
-# Expected Behavior
+- [ ] a bug report
+- [ ] a feature request
+- [ ] **not** a usage question (ask them on https://stackoverflow.com/questions/tagged/phpword)
+
+### Expected Behavior
 
 Please describe the behavior you are expecting.
 
-# Current Behavior
+### Current Behavior
 
 What is the current behavior?
 
-# Failure Information
+### Failure Information
 
 Please help provide information about the failure.
 
-## How to Reproduce
+### How to Reproduce
 
 Please provide a code sample that reproduces the issue.
 
 ```php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
 $section = $phpWord->addSection();
 $section->...
 ```
 
-## Context
+### Context
 
 * PHP version:
 * PHPWord version: 0.14

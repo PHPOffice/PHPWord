@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -126,6 +126,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, Converter::cssToPoint('10pt'));
         $this->assertEquals(7.5, Converter::cssToPoint('10px'));
         $this->assertEquals(720, Converter::cssToPoint('10in'));
+        $this->assertEquals(7.2, Converter::cssToPoint('0.1in'));
         $this->assertEquals(120, Converter::cssToPoint('10pc'));
         $this->assertEquals(28.346457, Converter::cssToPoint('10mm'), '', 0.000001);
         $this->assertEquals(283.464567, Converter::cssToPoint('10cm'), '', 0.000001);

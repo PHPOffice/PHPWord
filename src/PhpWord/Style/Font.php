@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -80,7 +80,7 @@ class Font extends AbstractStyle
      *
      * @var array
      */
-    protected $aliases = array('line-height' => 'lineHeight');
+    protected $aliases = array('line-height' => 'lineHeight', 'letter-spacing' => 'spacing');
 
     /**
      * Font style type
@@ -232,21 +232,47 @@ class Font extends AbstractStyle
 
     /**
      * Right to left languages
+     *
      * @var bool
      */
     private $rtl = false;
 
     /**
+     * noProof (disables AutoCorrect)
+     *
+     * @var bool
+     * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
+     */
+    private $noProof = false;
+
+    /**
      * Languages
+     *
      * @var \PhpOffice\PhpWord\Style\Language
      */
     private $lang;
 
     /**
+     * Hidden text
+     *
+     * @var bool
+     * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
+     */
+    private $hidden = false;
+
+    /**
+     * Vertically Raised or Lowered Text
+     *
+     * @var int Signed Half-Point Measurement
+     * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
+     */
+    private $position;
+
+    /**
      * Create new font style
      *
      * @param string $type Type of font
-     * @param array $paragraph Paragraph styles definition
+     * @param array|string|\PhpOffice\PhpWord\Style\AbstractStyle $paragraph Paragraph styles definition
      */
     public function __construct($type = 'text', $paragraph = null)
     {
@@ -281,11 +307,13 @@ class Font extends AbstractStyle
                 'smallCaps' => $this->isSmallCaps(),
                 'allCaps'   => $this->isAllCaps(),
                 'fgColor'   => $this->getFgColor(),
+                'hidden'    => $this->isHidden(),
             ),
             'spacing'       => array(
                 'scale'     => $this->getScale(),
                 'spacing'   => $this->getSpacing(),
                 'kerning'   => $this->getKerning(),
+                'position'  => $this->getPosition(),
             ),
             'paragraph'     => $this->getParagraph(),
             'rtl'           => $this->isRTL(),
@@ -707,6 +735,29 @@ class Font extends AbstractStyle
     }
 
     /**
+     * Get noProof (disables autocorrect)
+     *
+     * @return bool
+     */
+    public function isNoProof()
+    {
+        return $this->noProof;
+    }
+
+    /**
+     * Set noProof (disables autocorrect)
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setNoProof($value = false)
+    {
+        $this->noProof = $value;
+
+        return $this;
+    }
+
+    /**
      * Get line height
      *
      * @return int|float
@@ -894,5 +945,51 @@ class Font extends AbstractStyle
     public function getParagraphStyle()
     {
         return $this->getParagraph();
+    }
+
+    /**
+     * Get hidden text
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set hidden text
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function setHidden($value = true)
+    {
+        $this->hidden = $this->setBoolVal($value, $this->hidden);
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value = null)
+    {
+        $this->position = $this->setIntVal($value, null);
+
+        return $this;
     }
 }

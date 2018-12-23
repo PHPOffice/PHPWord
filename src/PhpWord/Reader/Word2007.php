@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -62,6 +62,9 @@ class Word2007 extends AbstractReader implements ReaderInterface
         foreach ($steps as $step) {
             $stepPart = $step['stepPart'];
             $stepItems = $step['stepItems'];
+            if (!isset($relationships[$stepPart])) {
+                continue;
+            }
             foreach ($relationships[$stepPart] as $relItem) {
                 $relType = $relItem['type'];
                 if (isset($stepItems[$relType])) {

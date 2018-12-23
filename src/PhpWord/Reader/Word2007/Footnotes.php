@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -48,9 +48,6 @@ class Footnotes extends AbstractPart
      */
     public function read(PhpWord $phpWord)
     {
-        $getMethod = "get{$this->collection}";
-        $collection = $phpWord->$getMethod()->getItems();
-
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
         $nodes = $xmlReader->getElements('*');
@@ -60,17 +57,41 @@ class Footnotes extends AbstractPart
                 $type = $xmlReader->getAttribute('w:type', $node);
 
                 // Avoid w:type "separator" and "continuationSeparator"
-                // Only look for <footnote> or <endnote> without w:type attribute
-                if (is_null($type) && isset($collection[$id])) {
-                    $element = $collection[$id];
-                    $pNodes = $xmlReader->getElements('w:p/*', $node);
-                    foreach ($pNodes as $pNode) {
-                        $this->readRun($xmlReader, $pNode, $element, $this->collection);
+                // Only look for <footnote> or <endnote> without w:type attribute, or with w:type = normal
+                if ((is_null($type) || $type === 'normal')) {
+                    $element = $this->getElement($phpWord, $id);
+                    if ($element !== null) {
+                        $pNodes = $xmlReader->getElements('w:p/*', $node);
+                        foreach ($pNodes as $pNode) {
+                            $this->readRun($xmlReader, $pNode, $element, $this->collection);
+                        }
+                        $addMethod = "add{$this->element}";
+                        $phpWord->$addMethod($element);
                     }
-                    $addMethod = "add{$this->element}";
-                    $phpWord->$addMethod($element);
                 }
             }
         }
+    }
+
+    /**
+     * Searches for the element with the given relationId
+     *
+     * @param PhpWord $phpWord
+     * @param int $relationId
+     * @return \PhpOffice\PhpWord\Element\AbstractContainer|null
+     */
+    private function getElement(PhpWord $phpWord, $relationId)
+    {
+        $getMethod = "get{$this->collection}";
+        $collection = $phpWord->$getMethod()->getItems();
+
+        //not found by key, looping to search by relationId
+        foreach ($collection as $collectionElement) {
+            if ($collectionElement->getRelationId() == $relationId) {
+                return $collectionElement;
+            }
+        }
+
+        return null;
     }
 }

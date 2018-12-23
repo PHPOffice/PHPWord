@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -306,5 +306,138 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::getVariableCount
+     * @test
+     */
+    public function getVariableCountCountsHowManyTimesEachPlaceholderIsPresent()
+    {
+        // create template with placeholders
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $header = $section->addHeader();
+        $header->addText('${a_field_that_is_present_three_times}');
+        $footer = $section->addFooter();
+        $footer->addText('${a_field_that_is_present_twice}');
+        $section2 = $phpWord->addSection();
+        $section2->addText('
+                ${a_field_that_is_present_one_time}
+                  ${a_field_that_is_present_three_times}
+              ${a_field_that_is_present_twice}
+                   ${a_field_that_is_present_three_times}
+        ');
+        $objWriter = IOFactory::createWriter($phpWord);
+        $templatePath = 'test.docx';
+        $objWriter->save($templatePath);
+
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $variableCount = $templateProcessor->getVariableCount();
+        unlink($templatePath);
+
+        $this->assertEquals(
+            array(
+                'a_field_that_is_present_three_times' => 3,
+                'a_field_that_is_present_twice'       => 2,
+                'a_field_that_is_present_one_time'    => 1,
+            ),
+            $variableCount
+        );
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @test
+     */
+    public function cloneBlockCanCloneABlockTwice()
+    {
+        // create template with placeholders and block
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $documentElements = array(
+            'Title: ${title}',
+            '${subreport}',
+            '${subreport.id}: ${subreport.text}. ',
+            '${/subreport}',
+        );
+        foreach ($documentElements as $documentElement) {
+            $section->addText($documentElement);
+        }
+
+        $objWriter = IOFactory::createWriter($phpWord);
+        $templatePath = 'test.docx';
+        $objWriter->save($templatePath);
+
+        // replace placeholders and save the file
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor->setValue('title', 'Some title');
+        $templateProcessor->cloneBlock('subreport', 2);
+        $templateProcessor->setValue('subreport.id', '123', 1);
+        $templateProcessor->setValue('subreport.text', 'Some text', 1);
+        $templateProcessor->setValue('subreport.id', '456', 1);
+        $templateProcessor->setValue('subreport.text', 'Some other text', 1);
+        $templateProcessor->saveAs($templatePath);
+
+        // assert the block has been cloned twice
+        // and the placeholders have been replaced correctly
+        $phpWord = IOFactory::load($templatePath);
+        $sections = $phpWord->getSections();
+        /** @var \PhpOffice\PhpWord\Element\TextRun[] $actualElements */
+        $actualElements = $sections[0]->getElements();
+        unlink($templatePath);
+        $expectedElements = array(
+            'Title: Some title',
+            '123: Some text. ',
+            '456: Some other text. ',
+        );
+        $this->assertCount(count($expectedElements), $actualElements);
+        foreach ($expectedElements as $i => $expectedElement) {
+            $this->assertEquals(
+                $expectedElement,
+                $actualElements[$i]->getElement(0)->getText()
+            );
+        }
+    }
+
+    /**
+     * Template macros can be fixed.
+     *
+     * @covers ::fixBrokenMacros
+     * @test
+     */
+    public function testFixBrokenMacros()
+    {
+        $templateProcessor = new TestableTemplateProcesor();
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>normal text</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>normal text</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>${documentContent}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>${documentContent}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>$</w:t><w:t>{documentContent}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>${documentContent}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>$1500</w:t><w:t>${documentContent}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>$1500</w:t><w:t>${documentContent}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>$1500</w:t><w:t>$</w:t><w:t>{documentContent}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>$1500</w:t><w:t>${documentContent}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:r><w:t>25$ plus some info {hint}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:t>25$ plus some info {hint}</w:t></w:r>', $fixed);
+
+        $fixed = $templateProcessor->fixBrokenMacros('<w:t>$</w:t></w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/><w:r><w:t xml:space="preserve">15,000.00. </w:t></w:r><w:r w:rsidR="0056499B"><w:t>$</w:t></w:r><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>{</w:t></w:r><w:proofErr w:type="spellStart"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>variable_name</w:t></w:r><w:proofErr w:type="spellEnd"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>}</w:t></w:r>');
+        $this->assertEquals('<w:t>$</w:t></w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/><w:r><w:t xml:space="preserve">15,000.00. </w:t></w:r><w:r w:rsidR="0056499B"><w:t>${variable_name}</w:t></w:r>', $fixed);
+    }
+
+    public function testMainPartNameDetection()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/document22-xml.docx');
+
+        $variables = array('test');
+
+        $this->assertEquals($variables, $templateProcessor->getVariables());
     }
 }

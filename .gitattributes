@@ -1,0 +1,21 @@
+# build config
+/.scrutinizer.yml export-ignore
+/.travis.yml export-ignore
+/php_cs.dist export-ignore
+/phpmd.xml.dist export-ignore
+/phpstan.neon export-ignore
+
+/composer.lock export-ignore
+
+# git files
+/.gitignore export-ignore
+/.gitattributes export-ignore
+
+# project directories
+/build export-ignore
+/docs export-ignore
+/samples export-ignore
+
+# tests
+/phpunit.xml.dist export-ignore
+/tests export-ignore

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -27,13 +27,13 @@ class ListItemRunTest extends \PHPUnit\Framework\TestCase
     /**
      * New instance
      */
-    public function testConstructNull()
+    public function testConstruct()
     {
         $oListItemRun = new ListItemRun();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\ListItemRun', $oListItemRun);
         $this->assertCount(0, $oListItemRun->getElements());
-        $this->assertNull($oListItemRun->getParagraphStyle());
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oListItemRun->getParagraphStyle());
     }
 
     /**

@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -37,9 +37,9 @@ class XmlDocument
     private $dom;
 
     /**
-     * DOMXpath object
+     * DOMXPath object
      *
-     * @var \DOMXpath
+     * @var \DOMXPath
      */
     private $xpath;
 
@@ -76,8 +76,10 @@ class XmlDocument
         $this->file = $file;
 
         $file = $this->path . '/' . $file;
+        libxml_disable_entity_loader(false);
         $this->dom = new \DOMDocument();
         $this->dom->load($file);
+        libxml_disable_entity_loader(true);
 
         return $this->dom;
     }
@@ -96,7 +98,8 @@ class XmlDocument
         }
 
         if (null === $this->xpath) {
-            $this->xpath = new \DOMXpath($this->dom);
+            $this->xpath = new \DOMXPath($this->dom);
+            $this->xpath->registerNamespace('w14', 'http://schemas.microsoft.com/office/word/2010/wordml');
         }
 
         return $this->xpath->query($path);

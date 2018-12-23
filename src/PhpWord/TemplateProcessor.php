@@ -11,19 +11,19 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\ZipArchive;
-use Zend\Stdlib\StringUtils;
 
 class TemplateProcessor
 {
@@ -148,6 +148,7 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
+        libxml_disable_entity_loader(true);
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -227,7 +228,7 @@ class TemplateProcessor
      */
     protected static function ensureUtf8Encoded($subject)
     {
-        if (!StringUtils::isValidUtf8($subject)) {
+        if (!Text::isUTF8($subject)) {
             $subject = utf8_encode($subject);
         }
 
@@ -251,10 +252,10 @@ class TemplateProcessor
 
         if (is_array($replace)) {
             foreach ($replace as &$item) {
-                $item = self::ensureUtf8Encoded($item);
+                $item = static::ensureUtf8Encoded($item);
             }
         } else {
-            $replace = self::ensureUtf8Encoded($replace);
+            $replace = static::ensureUtf8Encoded($replace);
         }
 
         if (Settings::isOutputEscapingEnabled()) {
@@ -536,23 +537,39 @@ class TemplateProcessor
     }
 
     /**
+     * Returns count of all variables in template.
+     *
+     * @return array
+     */
+    public function getVariableCount()
+    {
+        $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
+
+        foreach ($this->tempDocumentHeaders as $headerXML) {
+            $variables = array_merge(
+                $variables,
+                $this->getVariablesForPart($headerXML)
+            );
+        }
+
+        foreach ($this->tempDocumentFooters as $footerXML) {
+            $variables = array_merge(
+                $variables,
+                $this->getVariablesForPart($footerXML)
+            );
+        }
+
+        return array_count_values($variables);
+    }
+
+    /**
      * Returns array of all variables in template.
      *
      * @return string[]
      */
     public function getVariables()
     {
-        $variables = $this->getVariablesForPart($this->tempDocumentMainPart);
-
-        foreach ($this->tempDocumentHeaders as $headerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($headerXML));
-        }
-
-        foreach ($this->tempDocumentFooters as $footerXML) {
-            $variables = array_merge($variables, $this->getVariablesForPart($footerXML));
-        }
-
-        return array_unique($variables);
+        return array_keys($this->getVariableCount());
     }
 
     /**
@@ -625,7 +642,7 @@ class TemplateProcessor
     {
         $xmlBlock = null;
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -740,7 +757,7 @@ class TemplateProcessor
         }
 
         /*
-         * Note: we do not use `rename` function here, because it looses file ownership data on Windows platform.
+         * Note: we do not use `rename` function here, because it loses file ownership data on Windows platform.
          * As a result, user cannot open the file directly getting "Access denied" message.
          *
          * @see https://github.com/PHPOffice/PHPWord/issues/532
@@ -759,17 +776,13 @@ class TemplateProcessor
      */
     protected function fixBrokenMacros($documentPart)
     {
-        $fixedDocumentPart = $documentPart;
-
-        $fixedDocumentPart = preg_replace_callback(
-            '|\$[^{]*\{[^}]*\}|U',
+        return preg_replace_callback(
+            '/\$(?:\{|[^{$]*\>\{)[^}$]*\}/U',
             function ($match) {
                 return strip_tags($match[0]);
             },
-            $fixedDocumentPart
+            $documentPart
         );
-
-        return $fixedDocumentPart;
     }
 
     /**
@@ -820,11 +833,19 @@ class TemplateProcessor
     }
 
     /**
+     * Usually, the name of main part document will be 'document.xml'. However, some .docx files (possibly those from Office 365, experienced also on documents from Word Online created from blank templates) have file 'document22.xml' in their zip archive instead of 'document.xml'. This method searches content types file to correctly determine the file name.
+     *
      * @return string
      */
     protected function getMainPartName()
     {
-        return 'word/document.xml';
+        $contentTypes = $this->zipClass->getFromName('[Content_Types].xml');
+
+        $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
+
+        preg_match($pattern, $contentTypes, $matches);
+
+        return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
     }
 
     /**

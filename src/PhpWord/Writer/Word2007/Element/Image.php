@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\Image as ImageElement;
+use PhpOffice\PhpWord\Style\Font as FontStyle;
+use PhpOffice\PhpWord\Style\Frame as FrameStyle;
+use PhpOffice\PhpWord\Writer\Word2007\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\Word2007\Style\Image as ImageStyleWriter;
 
 /**
@@ -62,6 +65,16 @@ class Image extends AbstractElement
         $this->writeCommentRangeStart();
 
         $xmlWriter->startElement('w:r');
+
+        // Write position
+        $position = $style->getPosition();
+        if ($position && $style->getWrap() == FrameStyle::WRAP_INLINE) {
+            $fontStyle = new FontStyle('text');
+            $fontStyle->setPosition($position);
+            $fontStyleWriter = new FontStyleWriter($xmlWriter, $fontStyle);
+            $fontStyleWriter->write();
+        }
+
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
         $xmlWriter->writeAttribute('type', '#_x0000_t75');
@@ -90,7 +103,9 @@ class Image extends AbstractElement
         $style->setPositioning('absolute');
         $styleWriter = new ImageStyleWriter($xmlWriter, $style);
 
-        $xmlWriter->startElement('w:p');
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('w:p');
+        }
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:pict');
         $xmlWriter->startElement('v:shape');
@@ -105,6 +120,8 @@ class Image extends AbstractElement
         $xmlWriter->endElement(); // v:shape
         $xmlWriter->endElement(); // w:pict
         $xmlWriter->endElement(); // w:r
-        $xmlWriter->endElement(); // w:p
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // w:p
+        }
     }
 }

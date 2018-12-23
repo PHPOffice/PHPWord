@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,6 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\Style\Cell;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -58,7 +57,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $docInfo->setCustomProperty('key6', new \DateTime());
         $docInfo->setCustomProperty('key7', time(), DocInfo::PROPERTY_TYPE_DATE);
 
-        TestHelperDOCX::getDocument($phpWord);
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertNotNull($doc);
 
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key1"]/vt:lpwstr'));
 //         $this->assertTrue($doc->elementExists('/Properties/property[name="key2"]/vt:bool'));

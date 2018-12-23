@@ -11,7 +11,7 @@
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
  * @see         https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2017 PHPWord contributors
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Style\Section as SectionStyle;
 
 /**
  * @covers \PhpOffice\PhpWord\Element\Section
@@ -27,6 +28,27 @@ use PhpOffice\PhpWord\Style;
  */
 class SectionTest extends \PHPUnit\Framework\TestCase
 {
+    public function testConstructorWithDefaultStyle()
+    {
+        $section = new Section(0);
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $section->getStyle());
+    }
+
+    public function testConstructorWithArrayStyle()
+    {
+        $section = new Section(0, array('orientation' => 'landscape'));
+        $style = $section->getStyle();
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Section', $style);
+        $this->assertEquals('landscape', $style->getOrientation());
+    }
+
+    public function testConstructorWithObjectStyle()
+    {
+        $style = new SectionStyle();
+        $section = new Section(0, $style);
+        $this->assertSame($style, $section->getStyle());
+    }
+
     /**
      * @covers ::setStyle
      */
@@ -70,7 +92,7 @@ class SectionTest extends \PHPUnit\Framework\TestCase
             'PageBreak',
             'Table',
             'ListItem',
-            'Object',
+            'OLEObject',
             'Image',
             'Title',
             'TextRun',
@@ -161,5 +183,36 @@ class SectionTest extends \PHPUnit\Framework\TestCase
     {
         $object = new Section(1);
         $object->addHeader('ODD');
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
+     */
+    public function testRemoveElementByIndex()
+    {
+        $section = new Section(1);
+        $section->addText('firstText');
+        $section->addText('secondText');
+
+        $this->assertEquals(2, $section->countElements());
+        $section->removeElement(1);
+
+        $this->assertEquals(1, $section->countElements());
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Element\AbstractContainer::removeElement
+     */
+    public function testRemoveElementByElement()
+    {
+        $section = new Section(1);
+        $firstText = $section->addText('firstText');
+        $secondText = $section->addText('secondText');
+
+        $this->assertEquals(2, $section->countElements());
+        $section->removeElement($firstText);
+
+        $this->assertEquals(1, $section->countElements());
+        $this->assertEquals($secondText->getElementId(), $section->getElement(1)->getElementId());
     }
 }

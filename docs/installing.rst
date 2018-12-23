@@ -51,11 +51,8 @@ Example:
         }
     }
 
-
 Using samples
 -------------
 
-After installation, you can browse and use the samples that we've
-provided, either by command line or using browser. If you can access
-your PHPWord library folder using browser, point your browser to the
-``samples`` folder, e.g. ``http://localhost/PhpWord/samples/``.
+More examples are provided in the ``samples`` directory.
+For an easy access to those samples launch ``php -S localhost:8000`` in the samples directory then browse to http://localhost:8000 to view the samples.
