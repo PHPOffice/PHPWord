@@ -260,7 +260,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $objWriter->save($testFileName);
         if (!file_exists($testFileName)) {
             throw new \Exception("Generated file '{$testFileName}' not found!");
-            return;
         }
 
         $resultFileName = 'images-test-result.docx';
@@ -270,7 +269,6 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor->saveAs($resultFileName);
         if (!file_exists($resultFileName)) {
             throw new \Exception("Generated file '{$resultFileName}' not found!");
-            return;
         }
 
         $expectedDocumentZip = new \ZipArchive();
