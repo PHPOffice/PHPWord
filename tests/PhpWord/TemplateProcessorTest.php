@@ -218,38 +218,35 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $docName = 'header-footer-images-test-result.docx';
         $templateProcessor->saveAs($docName);
-        $docFound = file_exists($docName);
 
-        if ($docFound) {
-            $expectedDocumentZip = new \ZipArchive();
-            $expectedDocumentZip->open($docName);
-            $expectedContentTypesXml = $expectedDocumentZip->getFromName('[Content_Types].xml');
-            $expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
-            $expectedHeaderRelationsXml = $expectedDocumentZip->getFromName('word/_rels/header1.xml.rels');
-            $expectedFooterRelationsXml = $expectedDocumentZip->getFromName('word/_rels/footer1.xml.rels');
-            $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
-            $expectedHeaderPartXml = $expectedDocumentZip->getFromName('word/header1.xml');
-            $expectedFooterPartXml = $expectedDocumentZip->getFromName('word/footer1.xml');
-            $expectedImage = $expectedDocumentZip->getFromName('word/media/image_rId11_document.jpeg');
-            if (false === $expectedDocumentZip->close()) {
-                throw new \Exception("Could not close zip file \"{$docName}\".");
-            }
+        $this->assertFileExists($docName, "Generated file '{$docName}' not found!");
 
-            $this->assertTrue(!empty($expectedImage), 'Embed image doesn\'t found.');
-            $this->assertTrue(strpos($expectedContentTypesXml, '/word/media/image_rId11_document.jpeg') > 0, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
-            $this->assertTrue(strpos($expectedContentTypesXml, '/word/_rels/header1.xml.rels') > 0, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
-            $this->assertTrue(strpos($expectedContentTypesXml, '/word/_rels/footer1.xml.rels') > 0, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
-            $this->assertTrue(strpos($expectedMainPartXml, '${documentContent}') === false, 'word/document.xml has no image.');
-            $this->assertTrue(strpos($expectedHeaderPartXml, '${headerValue}') === false, 'word/header1.xml has no image.');
-            $this->assertTrue(strpos($expectedFooterPartXml, '${footerValue}') === false, 'word/footer1.xml has no image.');
-            $this->assertTrue(strpos($expectedDocumentRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
-            $this->assertTrue(strpos($expectedHeaderRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
-            $this->assertTrue(strpos($expectedFooterRelationsXml, 'media/image_rId11_document.jpeg') > 0, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
-
-            unlink($docName);
-        } else {
-            throw new \Exception("Generated file '{$docName}' not found!");
+        $expectedDocumentZip = new \ZipArchive();
+        $expectedDocumentZip->open($docName);
+        $expectedContentTypesXml = $expectedDocumentZip->getFromName('[Content_Types].xml');
+        $expectedDocumentRelationsXml = $expectedDocumentZip->getFromName('word/_rels/document.xml.rels');
+        $expectedHeaderRelationsXml = $expectedDocumentZip->getFromName('word/_rels/header1.xml.rels');
+        $expectedFooterRelationsXml = $expectedDocumentZip->getFromName('word/_rels/footer1.xml.rels');
+        $expectedMainPartXml = $expectedDocumentZip->getFromName('word/document.xml');
+        $expectedHeaderPartXml = $expectedDocumentZip->getFromName('word/header1.xml');
+        $expectedFooterPartXml = $expectedDocumentZip->getFromName('word/footer1.xml');
+        $expectedImage = $expectedDocumentZip->getFromName('word/media/image_rId11_document.jpeg');
+        if (false === $expectedDocumentZip->close()) {
+            throw new \Exception("Could not close zip file \"{$docName}\".");
         }
+
+        $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
+        $this->assertStringContainsString('/word/media/image_rId11_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+        $this->assertStringContainsString('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
+        $this->assertStringContainsString('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
+        $this->assertStringNotContainsString('${documentContent}', $expectedMainPartXml, 'word/document.xml has no image.');
+        $this->assertStringNotContainsString('${headerValue}', $expectedHeaderPartXml, 'word/header1.xml has no image.');
+        $this->assertStringNotContainsString('${footerValue}', $expectedFooterPartXml, 'word/footer1.xml has no image.');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
+
+        unlink($docName);
 
         // dynamic generated doc
         $testFileName = 'images-test-sample.docx';
@@ -258,18 +255,14 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $section->addText('${Test} --- ${Test}');
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($testFileName);
-        if (!file_exists($testFileName)) {
-            throw new \Exception("Generated file '{$testFileName}' not found!");
-        }
+        $this->assertFileExists($testFileName, "Generated file '{$testFileName}' not found!");
 
         $resultFileName = 'images-test-result.docx';
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($testFileName);
         unlink($testFileName);
         $templateProcessor->setImageValue('Test', $imagePath);
         $templateProcessor->saveAs($resultFileName);
-        if (!file_exists($resultFileName)) {
-            throw new \Exception("Generated file '{$resultFileName}' not found!");
-        }
+        $this->assertFileExists($resultFileName, "Generated file '{$resultFileName}' not found!");
 
         $expectedDocumentZip = new \ZipArchive();
         $expectedDocumentZip->open($resultFileName);
@@ -279,7 +272,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        $this->assertTrue(strpos($expectedMainPartXml, '${Test}') === false, 'word/document.xml has no image.');
+        $this->assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
     }
 
     /**
