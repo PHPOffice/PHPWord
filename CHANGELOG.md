@@ -11,6 +11,7 @@ v0.16.0 (xx dec 2018)
 - Add ability to pass a Style object in Section constructor @ndench #1416
 - Add support for hidden text @Alexmg86 #1527
 - Add support for setting images in TemplateProcessor @SailorMax #1170
+- Add "Plain Text" type to SDT (Structured Document Tags) @morrisdj #1541
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269

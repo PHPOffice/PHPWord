@@ -29,8 +29,8 @@ class SDTTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct()
     {
-        $types = array('comboBox', 'dropDownList', 'date');
-        $type = $types[rand(0, 2)];
+        $types = array('plainText', 'comboBox', 'dropDownList', 'date');
+        $type = $types[rand(0, 3)];
         $value = rand(0, 100);
         $alias = 'alias';
         $tag = 'my_tag';
