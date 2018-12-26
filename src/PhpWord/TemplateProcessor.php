@@ -244,10 +244,10 @@ class TemplateProcessor
     {
         if (is_array($search)) {
             foreach ($search as &$item) {
-                $item = self::ensureMacroCompleted($item);
+                $item = static::ensureMacroCompleted($item);
             }
         } else {
-            $search = self::ensureMacroCompleted($search);
+            $search = static::ensureMacroCompleted($search);
         }
 
         if (is_array($replace)) {
@@ -582,9 +582,7 @@ class TemplateProcessor
      */
     public function cloneRow($search, $numberOfClones)
     {
-        if ('${' !== substr($search, 0, 2) && '}' !== substr($search, -1)) {
-            $search = '${' . $search . '}';
-        }
+        $search = static::ensureMacroCompleted($search);
 
         $tagPos = strpos($this->tempDocumentMainPart, $search);
         if (!$tagPos) {
