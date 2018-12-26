@@ -394,6 +394,36 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::cloneBlock
+     * @test
+     */
+    public function testCloneBlock()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:rPr></w:rPr>
+                <w:t>${CLONEME}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">This block will be cloned</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r w:rsidRPr="00204FED">
+                <w:t>${/CLONEME}</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->cloneBlock('CLONEME', 3);
+
+        $this->assertEquals(3, substr_count($templateProcessor->getMainPart(), 'This block will be cloned'));
+    }
+
+    /**
      * Template macros can be fixed.
      *
      * @covers ::fixBrokenMacros
