@@ -78,13 +78,13 @@ class SDT extends Text
      *
      * @see  http://www.datypic.com/sc/ooxml/t-w_CT_SdtText.html
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\SDT $element
      */
-    private function writePlainText(XMLWriter $xmlWriter, SDTElement $element)
+    private function writePlainText(XMLWriter $xmlWriter)
     {
-        $xmlWriter->startElement("w:text");
-        $xmlWriter->endElement(); // w:{$type}
+        $xmlWriter->startElement('w:text');
+        $xmlWriter->endElement(); // w:text
     }
+
     /**
      * Write combo box.
      *
