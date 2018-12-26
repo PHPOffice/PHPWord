@@ -92,7 +92,7 @@ class Border extends AbstractStyle
 
         $content .= '\pgbrdr' . substr($side, 0, 1);
         $content .= '\brdrs'; // Single-thickness border; @todo Get other type of border
-        $content .= '\brdrw' . $width; // Width
+        $content .= '\brdrw' . round($width); // Width
         $content .= '\brdrcf' . $colorIndex; // Color
         $content .= '\brsp480'; // Space in twips between borders and the paragraph (24pt, following OOXML)
         $content .= ' ';
