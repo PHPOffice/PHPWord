@@ -258,7 +258,7 @@ class ZipArchive
             unlink($this->tempDir . DIRECTORY_SEPARATOR . $localnameParts['basename']);
         }
 
-        return ($res == 0) ? false : true;
+        return $res != 0;
     }
 
     /**
@@ -289,7 +289,7 @@ class ZipArchive
         // Remove temp file
         @unlink($this->tempDir . DIRECTORY_SEPARATOR . $filenameParts['basename']);
 
-        return ($res == 0) ? false : true;
+        return $res != 0;
     }
 
     /**
@@ -309,7 +309,7 @@ class ZipArchive
         if (is_null($entries)) {
             $result = $zip->extract(PCLZIP_OPT_PATH, $destination);
 
-            return ($result > 0) ? true : false;
+            return $result > 0;
         }
 
         // Extract by entries
