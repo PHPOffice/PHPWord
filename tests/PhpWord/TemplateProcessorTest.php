@@ -236,15 +236,15 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertNotEmpty($expectedImage, 'Embed image doesn\'t found.');
-        $this->assertStringContainsString('/word/media/image_rId11_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
-        $this->assertStringContainsString('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
-        $this->assertStringContainsString('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
-        $this->assertStringNotContainsString('${documentContent}', $expectedMainPartXml, 'word/document.xml has no image.');
-        $this->assertStringNotContainsString('${headerValue}', $expectedHeaderPartXml, 'word/header1.xml has no image.');
-        $this->assertStringNotContainsString('${footerValue}', $expectedFooterPartXml, 'word/footer1.xml has no image.');
-        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
-        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
-        $this->assertStringContainsString('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertContains('/word/media/image_rId11_document.jpeg', $expectedContentTypesXml, '[Content_Types].xml missed "/word/media/image5_document.jpeg"');
+        $this->assertContains('/word/_rels/header1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/header1.xml.rels"');
+        $this->assertContains('/word/_rels/footer1.xml.rels', $expectedContentTypesXml, '[Content_Types].xml missed "/word/_rels/footer1.xml.rels"');
+        $this->assertNotContains('${documentContent}', $expectedMainPartXml, 'word/document.xml has no image.');
+        $this->assertNotContains('${headerValue}', $expectedHeaderPartXml, 'word/header1.xml has no image.');
+        $this->assertNotContains('${footerValue}', $expectedFooterPartXml, 'word/footer1.xml has no image.');
+        $this->assertContains('media/image_rId11_document.jpeg', $expectedDocumentRelationsXml, 'word/_rels/document.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertContains('media/image_rId11_document.jpeg', $expectedHeaderRelationsXml, 'word/_rels/header1.xml.rels missed "media/image5_document.jpeg"');
+        $this->assertContains('media/image_rId11_document.jpeg', $expectedFooterRelationsXml, 'word/_rels/footer1.xml.rels missed "media/image5_document.jpeg"');
 
         unlink($docName);
 
@@ -274,7 +274,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         }
         unlink($resultFileName);
 
-        $this->assertStringNotContainsString('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
+        $this->assertNotContains('${Test}', $expectedMainPartXml, 'word/document.xml has no image.');
     }
 
     /**
