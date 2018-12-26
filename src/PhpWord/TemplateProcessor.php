@@ -521,7 +521,7 @@ class TemplateProcessor
                     $xmlImage = str_replace(array('{RID}', '{WIDTH}', '{HEIGHT}'), array($rid, $preparedImageAttrs['width'], $preparedImageAttrs['height']), $imgTpl);
 
                     // replace variable
-                    $varNameWithArgsFixed = self::ensureMacroCompleted($varNameWithArgs);
+                    $varNameWithArgsFixed = static::ensureMacroCompleted($varNameWithArgs);
                     $matches = array();
                     if (preg_match('/(<[^<]+>)([^<]*)(' . preg_quote($varNameWithArgsFixed) . ')([^>]*)(<[^>]+>)/Uu', $partContent, $matches)) {
                         $wholeTag = $matches[0];
