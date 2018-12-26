@@ -22,6 +22,9 @@ v0.16.0 (xx dec 2018)
 - RTF writer: Round getPageSizeW and getPageSizeH to avoid decimals @Patrick64 #1493
 - Fix parsing of Office 365 documents @Timanx #1485
 
+### Miscelaneous
+- Get rid of duplicated code in TemplateProcessor @abcdmitry #1161
+
 v0.15.0 (14 Jul 2018)
 ----------------------
 ### Added
