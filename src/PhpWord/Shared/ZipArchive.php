@@ -129,6 +129,7 @@ class ZipArchive
     {
         $result = true;
         $this->filename = $filename;
+        $this->tempDir = Settings::getTempDir();
 
         if (!$this->usePclzip) {
             $zip = new \ZipArchive();
@@ -139,7 +140,6 @@ class ZipArchive
             $this->numFiles = $zip->numFiles;
         } else {
             $zip = new \PclZip($this->filename);
-            $this->tempDir = Settings::getTempDir();
             $zipContent = $zip->listContent();
             $this->numFiles = is_array($zipContent) ? count($zipContent) : 0;
         }
@@ -245,7 +245,13 @@ class ZipArchive
         $pathRemoved = $filenameParts['dirname'];
         $pathAdded = $localnameParts['dirname'];
 
-        $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
+        if (!$this->usePclzip) {
+            $pathAdded = $pathAdded . '/' . ltrim(str_replace('\\', '/', substr($filename, strlen($pathRemoved))), '/');
+            //$res = $zip->addFile($filename, $pathAdded);
+            $res = $zip->addFromString($pathAdded, file_get_contents($filename));       // addFile can't use subfolders in some cases
+        } else {
+            $res = $zip->add($filename, PCLZIP_OPT_REMOVE_PATH, $pathRemoved, PCLZIP_OPT_ADD_PATH, $pathAdded);
+        }
 
         if ($tempFile) {
             // Remove temp file, if created

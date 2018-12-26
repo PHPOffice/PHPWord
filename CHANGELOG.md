@@ -10,6 +10,7 @@ v0.16.0 (xx dec 2018)
 - Add setting Chart Title and Legend visibility @Tom-Magill #1433
 - Add ability to pass a Style object in Section constructor @ndench #1416
 - Add support for hidden text @Alexmg86 #1527
+- Add support for setting images in TemplateProcessor @SailorMax #1170
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269
