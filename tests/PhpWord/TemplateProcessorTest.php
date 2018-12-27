@@ -288,13 +288,14 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-delete-block.docx');
 
         $this->assertEquals(
-            array('DELETEME', '/DELETEME', 'CLONEME', '/CLONEME'),
+            array('DELETEME', '/DELETEME', 'CLONEME', 'blockVariable', '/CLONEME'),
             $templateProcessor->getVariables()
         );
 
         $docName = 'clone-delete-block-result.docx';
         $templateProcessor->cloneBlock('CLONEME', 3);
         $templateProcessor->deleteBlock('DELETEME');
+        $templateProcessor->setValue('blockVariable#3', 'Test');
         $templateProcessor->saveAs($docName);
         $docFound = file_exists($docName);
         unlink($docName);
