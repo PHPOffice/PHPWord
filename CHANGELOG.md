@@ -13,6 +13,7 @@ v0.16.0 (xx dec 2018)
 - Add support for setting images in TemplateProcessor @SailorMax #1170
 - Add "Plain Text" type to SDT (Structured Document Tags) @morrisdj #1541
 - Added possibility to index variables inside cloned block in TemplateProcessor @JPBetley #817
+- Added possibility to replace variables inside cloned block with values in TemplateProcessor @DIDoS #1392
 
 ### Fixed
 - Fix regex in `cloneBlock` function @nicoder #1269

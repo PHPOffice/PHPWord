@@ -456,6 +456,39 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertContains('Address ${address#3}, Street ${street#3}', $templateProcessor->getMainPart());
     }
 
+    public function testCloneBlockWithVariableReplacements()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:rPr></w:rPr>
+                <w:t>${CLONEME}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">City: ${city}, Street: ${street}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r w:rsidRPr="00204FED">
+                <w:t>${/CLONEME}</w:t>
+            </w:r>
+        </w:p>';
+
+        $replacements = array(
+            array('city' => 'London', 'street' => 'Baker Street'),
+            array('city' => 'New York', 'street' => '5th Avenue'),
+            array('city' => 'Rome', 'street' => 'Via della Conciliazione'),
+        );
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->cloneBlock('CLONEME', 0, true, false, $replacements);
+
+        $this->assertContains('City: London, Street: Baker Street', $templateProcessor->getMainPart());
+        $this->assertContains('City: New York, Street: 5th Avenue', $templateProcessor->getMainPart());
+        $this->assertContains('City: Rome, Street: Via della Conciliazione', $templateProcessor->getMainPart());
+    }
+
     /**
      * Template macros can be fixed.
      *

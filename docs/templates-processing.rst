@@ -79,10 +79,33 @@ The result will be
 
     Customer: ${customer_name#1}
     Address: ${customer_address#1}
+    
     Customer: ${customer_name#2}
     Address: ${customer_address#2}
+    
     Customer: ${customer_name#3}
     Address: ${customer_address#3}
+
+It is also possible to pass an array with the values to replace the marcros with.
+If an array with replacements is passed, the ``count`` argument is ignored, it is the size of the array that counts.
+
+.. code-block:: php
+
+    $replacements = array(
+        array('customer_name' => 'Batman', 'customer_address' => 'Gotham City'),
+        array('customer_name' => 'Superman', 'customer_address' => 'Metropolis'),
+    );
+    $templateProcessor->cloneBlock('block_name', 0, true, false, $replacements);
+
+The result will then be
+
+.. code-block:: clean
+
+    Customer: Batman
+    Address: Gotham City
+    
+    Customer: Superman
+    Address: Metropolis
 
 replaceBlock
 """"""""""""

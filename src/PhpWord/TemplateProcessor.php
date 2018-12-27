@@ -632,10 +632,11 @@ class TemplateProcessor
      * @param int $clones How many time the block should be cloned
      * @param bool $replace
      * @param bool $indexVariables If true, any variables inside the block will be indexed (postfixed with #1, #2, ...)
+     * @param array $variableReplacements Array containing replacements for macros found inside the block to clone
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
     {
         $xmlBlock = null;
         preg_match(
@@ -648,6 +649,8 @@ class TemplateProcessor
             $xmlBlock = $matches[3];
             if ($indexVariables) {
                 $cloned = $this->indexClonedVariables($clones, $xmlBlock);
+            } elseif ($variableReplacements !== null && is_array($variableReplacements)) {
+                $cloned = $this->replaceClonedVariables($variableReplacements, $xmlBlock);
             } else {
                 $cloned = array();
                 for ($i = 1; $i <= $clones; $i++) {
@@ -956,6 +959,28 @@ class TemplateProcessor
         $results = array();
         for ($i = 1; $i <= $count; $i++) {
             $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
+        }
+
+        return $results;
+    }
+
+    /**
+     * Raplaces variables with values from array, array keys are the variable names
+     *
+     * @param array $variableReplacements
+     * @param string $xmlBlock
+     *
+     * @return string[]
+     */
+    protected function replaceClonedVariables($variableReplacements, $xmlBlock)
+    {
+        $results = array();
+        foreach ($variableReplacements as $replacementArray) {
+            $localXmlBlock = $xmlBlock;
+            foreach ($replacementArray as $search => $replacement) {
+                $localXmlBlock = $this->setValueForPart(self::ensureMacroCompleted($search), $replacement, $localXmlBlock, self::MAXIMUM_REPLACEMENTS_DEFAULT);
+            }
+            $results[] = $localXmlBlock;
         }
 
         return $results;
