@@ -107,8 +107,8 @@ You can pass an optional parameter to specify where the header/footer should be 
 To change the evenAndOddHeaders use the ``getSettings`` method to return the Settings object, and then call the ``setEvenAndOddHeaders`` method:
 
 .. code-block:: php
+
     $phpWord->getSettings()->setEvenAndOddHeaders(true);
-    
 
 Footers
 -------
