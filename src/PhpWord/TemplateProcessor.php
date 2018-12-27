@@ -629,12 +629,13 @@ class TemplateProcessor
      * Clone a block.
      *
      * @param string $blockname
-     * @param int $clones
+     * @param int $clones How many time the block should be cloned
      * @param bool $replace
+     * @param bool $indexVariables If true, any variables inside the block will be indexed (postfixed with #1, #2, ...)
      *
      * @return string|null
      */
-    public function cloneBlock($blockname, $clones = 1, $replace = true)
+    public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false)
     {
         $xmlBlock = null;
         preg_match(
@@ -645,7 +646,14 @@ class TemplateProcessor
 
         if (isset($matches[3])) {
             $xmlBlock = $matches[3];
-            $cloned = $this->indexClonedVariables($clones, $xmlBlock);
+            if ($indexVariables) {
+                $cloned = $this->indexClonedVariables($clones, $xmlBlock);
+            } else {
+                $cloned = array();
+                for ($i = 1; $i <= $clones; $i++) {
+                    $cloned[] = $xmlBlock;
+                }
+            }
 
             if ($replace) {
                 $this->tempDocumentMainPart = str_replace(
@@ -935,10 +943,10 @@ class TemplateProcessor
     }
 
     /**
-     * Replaces variable names in cloned 
+     * Replaces variable names in cloned
      * rows/blocks with indexed names
      *
-     * @param integer $count
+     * @param int $count
      * @param string $xmlBlock
      *
      * @return string
@@ -949,6 +957,7 @@ class TemplateProcessor
         for ($i = 1; $i <= $count; $i++) {
             $results[] = preg_replace('/\$\{(.*?)\}/', '\${\\1#' . $i . '}', $xmlBlock);
         }
+
         return $results;
     }
 }

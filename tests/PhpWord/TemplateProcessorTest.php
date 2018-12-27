@@ -409,7 +409,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         </w:p>
         <w:p>
             <w:r>
-                <w:t xml:space="preserve">This block will be cloned</w:t>
+                <w:t xml:space="preserve">This block will be cloned with ${variable}</w:t>
             </w:r>
         </w:p>
         <w:p>
@@ -421,7 +421,39 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $templateProcessor = new TestableTemplateProcesor($mainPart);
         $templateProcessor->cloneBlock('CLONEME', 3);
 
-        $this->assertEquals(3, substr_count($templateProcessor->getMainPart(), 'This block will be cloned'));
+        $this->assertEquals(3, substr_count($templateProcessor->getMainPart(), 'This block will be cloned with ${variable}'));
+    }
+
+    /**
+     * @covers ::cloneBlock
+     * @test
+     */
+    public function testCloneBlockWithVariables()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:rPr></w:rPr>
+                <w:t>${CLONEME}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Address ${address}, Street ${street}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r w:rsidRPr="00204FED">
+                <w:t>${/CLONEME}</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->cloneBlock('CLONEME', 3, true, true);
+
+        $this->assertContains('Address ${address#1}, Street ${street#1}', $templateProcessor->getMainPart());
+        $this->assertContains('Address ${address#2}, Street ${street#2}', $templateProcessor->getMainPart());
+        $this->assertContains('Address ${address#3}, Street ${street#3}', $templateProcessor->getMainPart());
     }
 
     /**
