@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 
@@ -168,5 +169,30 @@ class StyleTest extends AbstractTestReader
         /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
         $fontStyle = $textRun->getElement(0)->getFontStyle();
         $this->assertTrue($fontStyle->isHidden());
+    }
+
+    public function testReadHeading()
+    {
+        Style::resetStyles();
+
+        $documentXml = '<w:style w:type="paragraph" w:styleId="Ttulo1">
+            <w:name w:val="heading 1"/>
+            <w:basedOn w:val="Normal"/>
+            <w:uiPriority w:val="1"/>
+            <w:qFormat/>
+            <w:pPr>
+                <w:outlineLvl w:val="0"/>
+            </w:pPr>
+            <w:rPr>
+                <w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/>
+                <w:b/>
+                <w:bCs/>
+            </w:rPr>
+        </w:style>';
+
+        $name = 'Heading_1';
+
+        $this->getDocumentFromString(array('styles' => $documentXml));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
     }
 }
