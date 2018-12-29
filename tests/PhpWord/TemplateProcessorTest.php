@@ -197,7 +197,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      * @test
      */
     public function testCloneNotExistingRowShouldThrowException()
@@ -243,7 +243,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             array('tableHeader', 'userId', 'userLocation'),
             $templateProcessor->getVariables()
-            );
+        );
     }
 
     /**
