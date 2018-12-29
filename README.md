@@ -10,7 +10,7 @@ Master:
 [![Join the chat at https://gitter.im/PHPOffice/PHPWord](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PHPWord)
 
 Develop:
-[![Latest Development Version](https://poser.pugx.org/phpoffice/phpword/v/unstable.png)](https://packagist.org/packages/phpoffice/phpword#dev-master)
+[![Latest Development Version](https://img.shields.io/badge/unstable-dev--develop-orange.svg)](https://packagist.org/packages/phpoffice/phpword#dev-develop)
 [![Build Status](https://travis-ci.org/PHPOffice/PHPWord.svg?branch=develop)](https://travis-ci.org/PHPOffice/PHPWord/branches)
 [![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/PHPOffice/PHPWord/?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/PHPOffice/PHPWord/badge.svg?branch=develop)](https://coveralls.io/github/PHPOffice/PHPWord?branch=develop)
