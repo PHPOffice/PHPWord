@@ -96,12 +96,12 @@ class TemplateProcessor
         // Temporary document filename initialization
         $this->tempDocumentFilename = tempnam(Settings::getTempDir(), 'PhpWord');
         if (false === $this->tempDocumentFilename) {
-            throw new CreateTemporaryFileException();
+            throw new CreateTemporaryFileException(); // @codeCoverageIgnore
         }
 
         // Template file cloning
         if (false === copy($documentTemplate, $this->tempDocumentFilename)) {
-            throw new CopyFileException($documentTemplate, $this->tempDocumentFilename);
+            throw new CopyFileException($documentTemplate, $this->tempDocumentFilename); // @codeCoverageIgnore
         }
 
         // Temporary document content extraction
@@ -120,6 +120,19 @@ class TemplateProcessor
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
+    }
+
+    /**
+     * Expose zip class
+     *
+     * To replace an image: $templateProcessor->zip()->AddFromString("word/media/image1.jpg", file_get_contents($file));<br>
+     * To read a file: $templateProcessor->zip()->getFromName("word/media/image1.jpg");
+     *
+     * @return \PhpOffice\PhpWord\Shared\ZipArchive
+     */
+    public function zip()
+    {
+        return $this->zipClass;
     }
 
     /**
@@ -729,7 +742,7 @@ class TemplateProcessor
 
         // Close zip file
         if (false === $this->zipClass->close()) {
-            throw new Exception('Could not close zip file.');
+            throw new Exception('Could not close zip file.'); // @codeCoverageIgnore
         }
 
         return $this->tempDocumentFilename;

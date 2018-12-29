@@ -25,9 +25,23 @@ namespace PhpOffice\PhpWord;
 final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * Construct test
+     *
+     * @covers ::__construct
+     * @test
+     */
+    public function testTheConstruct()
+    {
+        $object = new TemplateProcessor(__DIR__ . '/_files/templates/blank.docx');
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\TemplateProcessor', $object);
+        $this->assertEquals(array(), $object->getVariables());
+    }
+
+    /**
      * Template can be saved in temporary location.
      *
      * @covers ::save
+     * @covers ::zip
      * @test
      */
     final public function testTemplateCanBeSavedInTemporaryLocation()
@@ -41,6 +55,8 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             $templateProcessor->applyXslStyleSheet($xslDomDocument, array('needle' => $needle));
         }
 
+        $embeddingText = 'The quick Brown Fox jumped over the lazy^H^H^H^Htired unitTester';
+        $templateProcessor->zip()->AddFromString('word/embeddings/fox.bin', $embeddingText);
         $documentFqfn = $templateProcessor->save();
 
         $this->assertNotEmpty($documentFqfn, 'FQFN of the saved document is empty.');
@@ -60,6 +76,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $documentHeaderXml = $documentZip->getFromName('word/header1.xml');
         $documentMainPartXml = $documentZip->getFromName('word/document.xml');
         $documentFooterXml = $documentZip->getFromName('word/footer1.xml');
+        $documentEmbedding = $documentZip->getFromName('word/embeddings/fox.bin');
         if (false === $documentZip->close()) {
             throw new \Exception("Could not close zip file \"{$documentZip}\".");
         }
@@ -67,6 +84,7 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals($templateHeaderXml, $documentHeaderXml);
         $this->assertNotEquals($templateMainPartXml, $documentMainPartXml);
         $this->assertNotEquals($templateFooterXml, $documentFooterXml);
+        $this->assertEquals($embeddingText, $documentEmbedding);
 
         return $documentFqfn;
     }
@@ -179,6 +197,18 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @expectedException Exception
+     * @test
+     */
+    public function testCloneNotExistingRowShouldThrowException()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?><w:p><w:r><w:rPr></w:rPr><w:t>text</w:t></w:r></w:p>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        $templateProcessor->cloneRow('fake_search', 2);
+    }
+
+    /**
      * @covers ::setValue
      * @covers ::saveAs
      * @test
@@ -198,6 +228,22 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $docFound = file_exists($docName);
         unlink($docName);
         $this->assertTrue($docFound);
+    }
+
+    /**
+     * @covers ::setValue
+     * @test
+     */
+    public function testSetValue()
+    {
+        $templateProcessor = new TemplateProcessor(__DIR__ . '/_files/templates/clone-merge.docx');
+        Settings::setOutputEscapingEnabled(true);
+        $helloworld = "hello\nworld";
+        $templateProcessor->setValue('userName', $helloworld);
+        $this->assertEquals(
+            array('tableHeader', 'userId', 'userLocation'),
+            $templateProcessor->getVariables()
+            );
     }
 
     /**
