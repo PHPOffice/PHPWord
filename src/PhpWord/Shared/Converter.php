@@ -198,7 +198,7 @@ class Converter
     /**
      * Convert point to pixel
      *
-     * @param int $point
+     * @param float $point
      * @return float
      */
     public static function pointToPixel($point = 1)
@@ -220,7 +220,7 @@ class Converter
     /**
      * Convert point to cm
      *
-     * @param int $point
+     * @param float $point
      * @return float
      */
     public static function pointToCm($point = 1)
