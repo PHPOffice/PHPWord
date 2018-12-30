@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -26,7 +27,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  *
  * @runTestsInSeparateProcesses
  */
-class Word2007Test extends \PHPUnit\Framework\TestCase
+class Word2007Test extends AbstractWebServerEmbeddedTest
 {
     /**
      * Tear down after each test
@@ -75,7 +76,7 @@ class Word2007Test extends \PHPUnit\Framework\TestCase
     public function testSave()
     {
         $localImage = __DIR__ . '/../_files/images/earth.jpg';
-        $remoteImage = 'http://php.net/images/logos/new-php-logo.png';
+        $remoteImage = self::getRemoteGifImageUrl();
         $phpWord = new PhpWord();
         $phpWord->addFontStyle('Font', array('size' => 11));
         $phpWord->addParagraphStyle('Paragraph', array('alignment' => Jc::CENTER));
