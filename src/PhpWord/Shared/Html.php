@@ -70,6 +70,9 @@ class Html
             $html = '<body>' . $html . '</body>';
         }
 
+        //need to remove whitespaces between tags, as loadHTML seems to take those into account
+        $html = preg_replace('/(\>)\s*(\<)/m', '$1$2', $html);
+
         // Load DOM
         libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
@@ -77,6 +80,7 @@ class Html
         $dom->loadHTML($html, LIBXML_NOWARNING);       
         self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
+
         self::parseNode($node->item(0), $element);
     }
 
