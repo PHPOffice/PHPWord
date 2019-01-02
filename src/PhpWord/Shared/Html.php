@@ -77,7 +77,7 @@ class Html
         libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
-        $dom->loadHTML($html, LIBXML_NOWARNING);       
+        $dom->loadHTML($html, LIBXML_NOWARNING);
         self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
