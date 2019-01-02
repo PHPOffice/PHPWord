@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
@@ -27,7 +28,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Shared\Html
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
-class HtmlTest extends \PHPUnit\Framework\TestCase
+class HtmlTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * Test unit conversion functions with various numbers
@@ -487,7 +488,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
      */
     public function testParseRemoteImage()
     {
-        $src = 'https://phpword.readthedocs.io/en/latest/_images/phpword.png';
+        $src = self::getRemoteImageUrl();
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();

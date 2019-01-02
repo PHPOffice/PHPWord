@@ -3,6 +3,15 @@ Change Log
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+v0.17.0 (?? ??? 2019)
+----------------------
+### Added
+
+### Fixed
+
+### Miscelaneous
+- Use embedded http server to test loading of remote images @troosan #
+
 v0.16.0 (30 dec 2018)
 ----------------------
 ### Added

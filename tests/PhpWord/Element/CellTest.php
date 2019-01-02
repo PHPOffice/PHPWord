@@ -17,12 +17,14 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
+
 /**
  * Test class for PhpOffice\PhpWord\Element\Cell
  *
  * @runTestsInSeparateProcesses
  */
-class CellTest extends \PHPUnit\Framework\TestCase
+class CellTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * New instance
@@ -165,7 +167,7 @@ class CellTest extends \PHPUnit\Framework\TestCase
     public function testAddImageSectionByUrl()
     {
         $oCell = new Cell();
-        $element = $oCell->addImage('http://php.net/images/logos/php-med-trans-light.gif');
+        $element = $oCell->addImage(self::getRemoteGifImageUrl());
 
         $this->assertCount(1, $oCell->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
