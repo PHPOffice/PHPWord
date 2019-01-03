@@ -147,6 +147,24 @@ class StyleTest extends AbstractTestReader
         $this->assertSame(2160, $tableStyle->getIndent()->getValue());
     }
 
+    public function testReadTableRTL()
+    {
+        $documentXml = '<w:tbl>
+            <w:tblPr>
+                <w:bidiVisual w:val="1"/>
+            </w:tblPr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        $tableStyle = $elements[0]->getStyle();
+        $this->assertTrue($tableStyle->isBidiVisual());
+    }
+
     public function testReadHidden()
     {
         $documentXml = '<w:p>

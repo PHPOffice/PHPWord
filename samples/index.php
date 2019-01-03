@@ -22,7 +22,7 @@ if (!CLI) {
     <a class="btn btn-lg btn-primary" href="http://phpword.readthedocs.org/" role="button"><i class="fa fa-book fa-lg" title="Docs"></i>  Read the Docs</a>
 </p>
 </div>
-<?php
+    <?php
 }
 if (!CLI) {
     echo '<h3>Requirement check:</h3>';
