@@ -17,13 +17,23 @@ Given a template containing
 
 .. code-block:: clean
 
-    Hello ${name}!
+    Hello ${firstname} ${lastname}!
 
-The following will replace ``${name}`` with ``World``. The resulting document will now contain ``Hello World!``
+The following will replace ``${firstname}`` with ``John``, and ``${lastname}`` with ``Doe`` .
+The resulting document will now contain ``Hello John Doe!``
 
 .. code-block:: php
 
-    $templateProcessor->setValue('name', 'World');
+    $templateProcessor->setValue('firstname', 'John');
+    $templateProcessor->setValue('lastname', 'Doe');
+
+setValues
+"""""""""
+You can also set multiple values by passing all of them in an array.
+
+.. code-block:: php
+
+    $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
 
 setImageValue
 """""""""""""
@@ -138,11 +148,11 @@ See ``Sample_07_TemplateCloneRow.php`` for an example.
 
 .. code-block:: clean
 
-    ------------------------------
+    +-----------+----------------+
     | ${userId} | ${userName}    |
-    |           |----------------|
+    |           |----------------+
     |           | ${userAddress} |
-    ------------------------------
+    +-----------+----------------+
 
 .. code-block:: php
 
@@ -152,15 +162,49 @@ Will result in
 
 .. code-block:: clean
 
-    ----------------------------------
+    +-------------+------------------+
     | ${userId#1} | ${userName#1}    |
-    |             |------------------|
+    |             |------------------+
     |             | ${userAddress#1} |
-    ---------------------------------|
+    +-------------+------------------+
     | ${userId#2} | ${userName#2}    |
-    |             |------------------|
+    |             |------------------+
     |             | ${userAddress#2} |
-    ----------------------------------
+    +-------------+------------------+
+
+cloneRowAndSetValues
+""""""""""""""""""""
+Finds a row in a table row identified by `$search` param and clones it as many times as there are entries in `$values`.
+
+.. code-block:: clean
+
+    +-----------+----------------+
+    | ${userId} | ${userName}    |
+    |           |----------------+
+    |           | ${userAddress} |
+    +-----------+----------------+
+
+.. code-block:: php
+
+    $values = [
+        ['userId' => 1, 'userName' => 'Batman', 'userAddress' => 'Gotham City'],
+        ['userId' => 2, 'userName' => 'Superman', 'userAddress' => 'Metropolis'],
+    ];
+    $templateProcessor->cloneRowAndSetValues('userId', );
+
+Will result in
+
+.. code-block:: clean
+
+    +---+-------------+
+    | 1 | Batman      |
+    |   |-------------+
+    |   | Gotham City |
+    +---+-------------+
+    | 2 | Superman    |
+    |   |-------------+
+    |   | Metropolis  |
+    +---+-------------+
 
 applyXslStyleSheet
 """"""""""""""""""

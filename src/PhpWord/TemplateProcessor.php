@@ -284,6 +284,18 @@ class TemplateProcessor
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
     }
 
+    /**
+     * Set values from a one-dimensional array of "variable => value"-pairs.
+     *
+     * @param array $values
+     */
+    public function setValues(array $values)
+    {
+        foreach ($values as $macro => $replace) {
+            $this->setValue($macro, $replace);
+        }
+    }
+
     private function getImageArgs($varNameWithArgs)
     {
         $varElements = explode(':', $varNameWithArgs);
@@ -639,6 +651,24 @@ class TemplateProcessor
         $result .= $this->getSlice($rowEnd);
 
         $this->tempDocumentMainPart = $result;
+    }
+
+    /**
+     * Clones a table row and populates it's values from a two-dimensional array in a template document.
+     *
+     * @param string $search
+     * @param array $values
+     */
+    public function cloneRowAndSetValues($search, $values)
+    {
+        $this->cloneRow($search, count($values));
+
+        foreach ($values as $rowKey => $rowData) {
+            $rowNumber = $rowKey + 1;
+            foreach ($rowData as $macro => $replace) {
+                $this->setValue($macro . '#' . $rowNumber, $replace);
+            }
+        }
     }
 
     /**

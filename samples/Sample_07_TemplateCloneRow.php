@@ -36,22 +36,46 @@ $templateProcessor->setValue('rowNumber#9', '9');
 $templateProcessor->setValue('rowNumber#10', '10');
 
 // Table with a spanned cell
-$templateProcessor->cloneRow('userId', 3);
+$values = array(
+    array(
+        'userId'        => 1,
+        'userFirstName' => 'James',
+        'userName'      => 'Taylor',
+        'userPhone'     => '+1 428 889 773',
+    ),
+    array(
+        'userId'        => 2,
+        'userFirstName' => 'Robert',
+        'userName'      => 'Bell',
+        'userPhone'     => '+1 428 889 774',
+    ),
+    array(
+        'userId'        => 3,
+        'userFirstName' => 'Michael',
+        'userName'      => 'Ray',
+        'userPhone'     => '+1 428 889 775',
+    ),
+);
 
-$templateProcessor->setValue('userId#1', '1');
-$templateProcessor->setValue('userFirstName#1', 'James');
-$templateProcessor->setValue('userName#1', 'Taylor');
-$templateProcessor->setValue('userPhone#1', '+1 428 889 773');
+$templateProcessor->cloneRowAndSetValues('userId', $values);
 
-$templateProcessor->setValue('userId#2', '2');
-$templateProcessor->setValue('userFirstName#2', 'Robert');
-$templateProcessor->setValue('userName#2', 'Bell');
-$templateProcessor->setValue('userPhone#2', '+1 428 889 774');
+//this is equivalent to cloning and settings values with cloneRowAndSetValues
+// $templateProcessor->cloneRow('userId', 3);
 
-$templateProcessor->setValue('userId#3', '3');
-$templateProcessor->setValue('userFirstName#3', 'Michael');
-$templateProcessor->setValue('userName#3', 'Ray');
-$templateProcessor->setValue('userPhone#3', '+1 428 889 775');
+// $templateProcessor->setValue('userId#1', '1');
+// $templateProcessor->setValue('userFirstName#1', 'James');
+// $templateProcessor->setValue('userName#1', 'Taylor');
+// $templateProcessor->setValue('userPhone#1', '+1 428 889 773');
+
+// $templateProcessor->setValue('userId#2', '2');
+// $templateProcessor->setValue('userFirstName#2', 'Robert');
+// $templateProcessor->setValue('userName#2', 'Bell');
+// $templateProcessor->setValue('userPhone#2', '+1 428 889 774');
+
+// $templateProcessor->setValue('userId#3', '3');
+// $templateProcessor->setValue('userFirstName#3', 'Michael');
+// $templateProcessor->setValue('userName#3', 'Ray');
+// $templateProcessor->setValue('userPhone#3', '+1 428 889 775');
 
 echo date('H:i:s'), ' Saving the result document...', EOL;
 $templateProcessor->saveAs('results/Sample_07_TemplateCloneRow.docx');
