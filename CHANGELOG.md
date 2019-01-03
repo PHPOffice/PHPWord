@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 v0.17.0 (?? ??? 2019)
 ----------------------
 ### Added
+- Add RightToLeft table presentation. @troosan #1550
 
 ### Fixed
 

@@ -108,11 +108,12 @@ Available Table style options:
 - ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
 - ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in *twip*.
 - ``indent``. Table indent from leading margin. Must be an instance of ``\PhpOffice\PhpWord\ComplexType\TblWidth``.
-- ``width``. Table width in percent.
+- ``width``. Table width in Fiftieths of a Percent or Twentieths of a Point.
 - ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
 - ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 - ``cellSpacing`` Cell spacing in *twip*
 - ``position`` Floating Table Positioning, see below for options
+- ``bidiVisual`` Present table as Right-To-Left
 
 Floating Table Positioning options:
 
