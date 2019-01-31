@@ -215,3 +215,32 @@ Applies the XSL stylesheet passed to header part, footer part and main part
     $xslDomDocument = new \DOMDocument();
     $xslDomDocument->load('/path/to/my/stylesheet.xsl');
     $templateProcessor->applyXslStyleSheet($xslDomDocument);
+
+setComplexValue
+"""""""""""""""
+Raplaces a ${macro} with the ComplexType passed.
+See ``Sample_40_TemplateSetComplexValue.php`` for examples.
+
+.. code-block:: php
+
+    $inline = new TextRun();
+    $inline->addText('by a red italic text', array('italic' => true, 'color' => 'red'));
+    $templateProcessor->setComplexValue('inline', $inline);
+
+setComplexBlock
+"""""""""""""""
+Raplaces a ${macro} with the ComplexType passed.
+See ``Sample_40_TemplateSetComplexValue.php`` for examples.
+
+.. code-block:: php
+
+    $table = new Table(array('borderSize' => 12, 'borderColor' => 'green', 'width' => 6000, 'unit' => TblWidth::TWIP));
+    $table->addRow();
+    $table->addCell(150)->addText('Cell A1');
+    $table->addCell(150)->addText('Cell A2');
+    $table->addCell(150)->addText('Cell A3');
+    $table->addRow();
+    $table->addCell(150)->addText('Cell B1');
+    $table->addCell(150)->addText('Cell B2');
+    $table->addCell(150)->addText('Cell B3');
+    $templateProcessor->setComplexBlock('table', $table);
