@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\Common\Text;
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
@@ -247,6 +248,46 @@ class TemplateProcessor
         }
 
         return $subject;
+    }
+
+    /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setComplexValue($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
+    {
+        $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        $xmlWriter = new XMLWriter();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        $elementWriter = new $objectClass($xmlWriter, $complexType, true);
+        $elementWriter->write();
+
+        $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
+        $block = $this->getSlice($where['start'], $where['end']);
+        $textParts = $this->splitTextIntoTexts($block);
+        $this->replaceXmlBlock($search, $textParts, 'w:r');
+
+        $search = static::ensureMacroCompleted($search);
+        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:r');
+    }
+
+    /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setComplexBlock($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
+    {
+        $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        $xmlWriter = new XMLWriter();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        $elementWriter = new $objectClass($xmlWriter, $complexType, false);
+        $elementWriter->write();
+
+        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
     }
 
     /**
@@ -685,6 +726,7 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
     {
         $xmlBlock = null;
+        $matches = array();
         preg_match(
             '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
@@ -724,6 +766,7 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
+        $matches = array();
         preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
@@ -865,6 +908,7 @@ class TemplateProcessor
      */
     protected function getVariablesForPart($documentPartXML)
     {
+        $matches = array();
         preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
 
         return $matches[1];
@@ -893,6 +937,7 @@ class TemplateProcessor
 
         $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
 
+        $matches = array();
         preg_match($pattern, $contentTypes, $matches);
 
         return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
@@ -1030,5 +1075,172 @@ class TemplateProcessor
         }
 
         return $results;
+    }
+
+    /**
+     * Replace an XML block surrounding a macro with a new block
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     */
+    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    {
+        $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
+        if (false !== $where) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $where['start']) . $block . $this->getSlice($where['end']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return bool|int[] FALSE if not found, otherwise array with start and end
+     */
+    protected function findContainingXmlBlockForMacro($macro, $blockType = 'w:p')
+    {
+        $macroPos = $this->findMacro($macro);
+        if (false === $macroPos) {
+            return false;
+        }
+        $start = $this->findXmlBlockStart($macroPos, $blockType);
+        if (0 > $start) {
+            return false;
+        }
+        $end = $this->findXmlBlockEnd($start, $blockType);
+        if (0 > $end) {
+            return false;
+        }
+
+        return array('start' => $start, 'end' => $end);
+    }
+
+    /**
+     * Find start and end of XML block containing the given block macro
+     * e.g. <w:p>...${macro}...${/macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return bool|int[] FALSE if not found, otherwise array with start and end
+     */
+    protected function findContainingXmlBlockForBlockMacro($macro, $blockType = 'w:p')
+    {
+        $macroStartPos = $this->findMacro($macro);
+        if (0 > $macroStartPos) {
+            return false;
+        }
+        $macroEndPos = $this->findMacro('/' . $macro, $macroStartPos);
+        if (0 > $macroEndPos) {
+            return false;
+        }
+        $start = $this->findXmlBlockStart($macroStartPos, $blockType);
+        if (0 > $start) {
+            return false;
+        }
+        $end = $this->findXmlBlockEnd($macroEndPos, $blockType);
+        if (0 > $end) {
+            return false;
+        }
+
+        return array('start' => $start, 'end' => $end);
+    }
+
+    /**
+     * Find the position of (the start of) a macro
+     *
+     * Returns -1 if not found, otherwise position of opening $
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $search Macro name
+     * @param string $offset Offset from which to start searching
+     * @return int -1 if macro not found
+     */
+    protected function findMacro($search, $offset = 0)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $pos = strpos($this->tempDocumentMainPart, $search, $offset);
+
+        return ($pos === false) ? -1 : $pos;
+    }
+
+    /**
+     * Find the start position of the nearest XML block start before $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return int -1 if block start not found
+     */
+    protected function findXmlBlockStart($offset, $blockType)
+    {
+        // first try XML tag with attributes
+        $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . ' ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        // if not found, or if found but contains the XML tag without attribute
+        if (false === $blockStart || strrpos($this->getSlice($blockStart, $offset), '<' . $blockType . '>')) {
+            // also try XML tag without attributes
+            $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . '>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        }
+
+        return ($blockStart === false) ? -1 : $blockStart;
+    }
+
+    /**
+     * Find the nearest block end position after $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return int -1 if block end not found
+     */
+    protected function findXmlBlockEnd($offset, $blockType)
+    {
+        $blockEndStart = strpos($this->tempDocumentMainPart, '</' . $blockType . '>', $offset);
+        // return position of end of tag if found, otherwise -1
+
+        return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
+    }
+
+    /**
+     * Splits a w:r/w:t into a list of w:r where each ${macro} is in a separate w:r
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function splitTextIntoTexts($text)
+    {
+        if (!$this->textNeedsSplitting($text)) {
+            return $text;
+        }
+        $matches = array();
+        if (preg_match('/(<w:rPr.*<\/w:rPr>)/i', $text, $matches)) {
+            $extractedStyle = $matches[0];
+        } else {
+            $extractedStyle = '';
+        }
+
+        $unformattedText = preg_replace('/>\s+</', '><', $text);
+        $result = str_replace(array('${', '}'), array('</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'), $unformattedText);
+
+        return str_replace(array('<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'), array('', '', '<w:t xml:space="preserve">'), $result);
+    }
+
+    /**
+     * Returns true if string contains a macro that is not in it's own w:r
+     *
+     * @param string $text
+     * @return bool
+     */
+    protected function textNeedsSplitting($text)
+    {
+        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
     }
 }
