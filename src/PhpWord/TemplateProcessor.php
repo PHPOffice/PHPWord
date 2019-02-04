@@ -1108,7 +1108,7 @@ class TemplateProcessor
     protected function findContainingXmlBlockForMacro($macro, $blockType = 'w:p')
     {
         $macroPos = $this->findMacro($macro);
-        if (false === $macroPos) {
+        if (0 > $macroPos) {
             return false;
         }
         $start = $this->findXmlBlockStart($macroPos, $blockType);
@@ -1116,39 +1116,8 @@ class TemplateProcessor
             return false;
         }
         $end = $this->findXmlBlockEnd($start, $blockType);
-        if (0 > $end) {
-            return false;
-        }
-
-        return array('start' => $start, 'end' => $end);
-    }
-
-    /**
-     * Find start and end of XML block containing the given block macro
-     * e.g. <w:p>...${macro}...${/macro}...</w:p>
-     *
-     * Note that only the first instance of the macro will be found
-     *
-     * @param string $macro Name of macro
-     * @param string $blockType XML tag for block
-     * @return bool|int[] FALSE if not found, otherwise array with start and end
-     */
-    protected function findContainingXmlBlockForBlockMacro($macro, $blockType = 'w:p')
-    {
-        $macroStartPos = $this->findMacro($macro);
-        if (0 > $macroStartPos) {
-            return false;
-        }
-        $macroEndPos = $this->findMacro('/' . $macro, $macroStartPos);
-        if (0 > $macroEndPos) {
-            return false;
-        }
-        $start = $this->findXmlBlockStart($macroStartPos, $blockType);
-        if (0 > $start) {
-            return false;
-        }
-        $end = $this->findXmlBlockEnd($macroEndPos, $blockType);
-        if (0 > $end) {
+        //if not found or if resulting string does not contain the macro we are searching for
+        if (0 > $end || strstr($this->getSlice($start, $end), $macro) === false) {
             return false;
         }
 
@@ -1183,12 +1152,13 @@ class TemplateProcessor
      */
     protected function findXmlBlockStart($offset, $blockType)
     {
+        $reverseOffset = (strlen($this->tempDocumentMainPart) - $offset) * -1;
         // first try XML tag with attributes
-        $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . ' ', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+        $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . ' ', $reverseOffset);
         // if not found, or if found but contains the XML tag without attribute
         if (false === $blockStart || strrpos($this->getSlice($blockStart, $offset), '<' . $blockType . '>')) {
             // also try XML tag without attributes
-            $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . '>', ((strlen($this->tempDocumentMainPart) - $offset) * -1));
+            $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . '>', $reverseOffset);
         }
 
         return ($blockStart === false) ? -1 : $blockStart;

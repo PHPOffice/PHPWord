@@ -803,4 +803,31 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($toFind, $templateProcessor->getSlice($position['start'], $position['end']));
     }
+
+    public function testShouldReturnFalseIfXmlBlockNotFound()
+    {
+        $mainPart = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>
+                <w:r>
+                    <w:rPr>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t xml:space="preserve">this is my text containing a ${macro}</w:t>
+                </w:r>
+            </w:p>
+        </w:document>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        //non-existing macro
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${fake-macro}', 'w:p');
+        $this->assertFalse($result);
+
+        //existing macro but not inside node looked for
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${macro}', 'w:fake-node');
+        $this->assertFalse($result);
+
+        //existing macro but end tag not found after macro
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${macro}', 'w:rPr');
+        $this->assertFalse($result);
+    }
 }
