@@ -13,7 +13,6 @@ composer.phar
 vendor
 /report
 /build
-/samples/resources
 /samples/results
 /.settings
 phpword.ini

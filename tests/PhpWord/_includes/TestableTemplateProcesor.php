@@ -35,6 +35,16 @@ class TestableTemplateProcesor extends TemplateProcessor
         return parent::fixBrokenMacros($documentPart);
     }
 
+    public function splitTextIntoTexts($text)
+    {
+        return parent::splitTextIntoTexts($text);
+    }
+
+    public function textNeedsSplitting($text)
+    {
+        return parent::textNeedsSplitting($text);
+    }
+
     public function getVariablesForPart($documentPartXML)
     {
         $documentPartXML = parent::fixBrokenMacros($documentPartXML);
@@ -42,6 +52,24 @@ class TestableTemplateProcesor extends TemplateProcessor
         return parent::getVariablesForPart($documentPartXML);
     }
 
+    public function findXmlBlockStart($offset, $blockType)
+    {
+        return parent::findXmlBlockStart($offset, $blockType);
+    }
+
+    public function findContainingXmlBlockForMacro($macro, $blockType = 'w:p')
+    {
+        return parent::findContainingXmlBlockForMacro($macro, $blockType);
+    }
+
+    public function getSlice($startPosition, $endPosition = 0)
+    {
+        return parent::getSlice($startPosition, $endPosition);
+    }
+
+    /**
+     * @return string
+     */
     public function getMainPart()
     {
         return $this->tempDocumentMainPart;
