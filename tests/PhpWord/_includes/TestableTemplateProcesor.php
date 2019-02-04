@@ -25,9 +25,10 @@ namespace PhpOffice\PhpWord;
  */
 class TestableTemplateProcesor extends TemplateProcessor
 {
-    public function __construct($mainPart = null)
+    public function __construct($mainPart = null, $settingsPart = null)
     {
         $this->tempDocumentMainPart = $mainPart;
+        $this->tempDocumentSettingsPart = $settingsPart;
     }
 
     public function fixBrokenMacros($documentPart)
@@ -73,5 +74,13 @@ class TestableTemplateProcesor extends TemplateProcessor
     public function getMainPart()
     {
         return $this->tempDocumentMainPart;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSettingsPart()
+    {
+        return $this->tempDocumentSettingsPart;
     }
 }

@@ -50,6 +50,13 @@ class TemplateProcessor
     protected $tempDocumentMainPart;
 
     /**
+     * Content of settings part (in XML format) of the temporary document
+     *
+     * @var string
+     */
+    protected $tempDocumentSettingsPart;
+
+    /**
      * Content of headers (in XML format) of the temporary document
      *
      * @var string[]
@@ -120,6 +127,7 @@ class TemplateProcessor
         }
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
+        $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
@@ -793,6 +801,22 @@ class TemplateProcessor
     }
 
     /**
+     * Automatically Recalculate Fields on Open
+     *
+     * @param bool $update
+     */
+    public function setUpdateFields($update = true)
+    {
+        $string = $update ? 'true' : 'false';
+        $matches = array();
+        if (preg_match('/<w:updateFields w:val=\"(true|false|1|0|on|off)\"\/>/', $this->tempDocumentSettingsPart, $matches)) {
+            $this->tempDocumentSettingsPart = str_replace($matches[0], '<w:updateFields w:val="' . $string . '"/>', $this->tempDocumentSettingsPart);
+        } else {
+            $this->tempDocumentSettingsPart = str_replace('</w:settings>', '<w:updateFields w:val="' . $string . '"/></w:settings>', $this->tempDocumentSettingsPart);
+        }
+    }
+
+    /**
      * Saves the result document.
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
@@ -806,6 +830,7 @@ class TemplateProcessor
         }
 
         $this->savePartWithRels($this->getMainPartName(), $this->tempDocumentMainPart);
+        $this->savePartWithRels($this->getSettingsPartName(), $this->tempDocumentSettingsPart);
 
         foreach ($this->tempDocumentFooters as $index => $xml) {
             $this->savePartWithRels($this->getFooterName($index), $xml);
@@ -941,6 +966,16 @@ class TemplateProcessor
         preg_match($pattern, $contentTypes, $matches);
 
         return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
+    }
+
+    /**
+     * The name of the file containing the Settings part
+     *
+     * @return string
+     */
+    protected function getSettingsPartName()
+    {
+        return 'word/settings.xml';
     }
 
     /**

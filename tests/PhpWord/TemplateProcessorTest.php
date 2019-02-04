@@ -830,4 +830,18 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
         $result = $templateProcessor->findContainingXmlBlockForMacro('${macro}', 'w:rPr');
         $this->assertFalse($result);
     }
+
+    public function testShouldMakeFieldsUpdateOnOpen()
+    {
+        $settingsPart = '<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:zoom w:percent="100"/>
+        </w:settings>';
+        $templateProcessor = new TestableTemplateProcesor(null, $settingsPart);
+
+        $templateProcessor->setUpdateFields(true);
+        $this->assertContains('<w:updateFields w:val="true"/>', $templateProcessor->getSettingsPart());
+
+        $templateProcessor->setUpdateFields(false);
+        $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
+    }
 }
