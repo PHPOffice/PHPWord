@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 /**
  * Test class for PhpOffice\PhpWord\Reader\Word2007\Styles
@@ -212,5 +213,17 @@ class StyleTest extends AbstractTestReader
 
         $this->getDocumentFromString(array('styles' => $documentXml));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
+    }
+
+    public function testPageVerticalAlign()
+    {
+        $documentXml = '<w:sectPr>
+            <w:vAlign w:val="center"/>
+        </w:sectPr>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $sectionStyle = $phpWord->getSection(0)->getStyle();
+        $this->assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
     }
 }
