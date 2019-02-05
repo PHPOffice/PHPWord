@@ -613,7 +613,7 @@ class Section extends Border
     /**
      * Get vertical alignment
      *
-     * @return \PhpOffice\PhpWord\SimpleType\VerticalJc
+     * @return string
      */
     public function getVAlign()
     {
