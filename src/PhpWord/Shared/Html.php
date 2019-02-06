@@ -581,7 +581,7 @@ class Html
                     $styles['spaceAfter'] = Converter::cssToPoint($cValue);
                     break;
                 case 'border-color':
-                    $styles['color'] = trim($cValue, '#');
+                    self::mapBorderColor($styles, $cValue);
                     break;
                 case 'border-width':
                     $styles['borderSize'] = Converter::cssToPoint($cValue);
@@ -735,6 +735,20 @@ class Html
                 return $cssBorderStyle;
             default:
                 return 'single';
+        }
+    }
+
+    private static function mapBorderColor(&$styles, $cssBorderColor)
+    {
+        $numColors = substr_count($cssBorderColor, '#');
+        if ($numColors === 1) {
+            $styles['borderColor'] = trim($cssBorderColor, '#');
+        } elseif ($numColors > 1) {
+            $colors = explode(' ', $cssBorderColor);
+            $borders = array('borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor');
+            for ($i = 0; $i < min(4, $numColors, count($colors)); $i++) {
+                $styles[$borders[$i]] = $colors[$i];
+            }
         }
     }
 

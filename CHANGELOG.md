@@ -7,9 +7,11 @@ v0.17.0 (?? ??? 2019)
 ----------------------
 ### Added
 - Add RightToLeft table presentation. @troosan #1550
+- Set complex type in template @troosan #1565
 - Add support for page vertical alignment. @troosan #672 #1569
 
 ### Fixed
+- Fix HTML border-color parsing. @troosan #1551 #1570
 
 ### Miscelaneous
 - Use embedded http server to test loading of remote images @troosan #

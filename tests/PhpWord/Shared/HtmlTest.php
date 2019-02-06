@@ -298,7 +298,7 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
                         <th style="width: 50pt">header a</th>
                         <th style="width: 50">header b</th>
-                        <th style="border-color: #00FF00; border-width: 3px">header c</th>
+                        <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -313,6 +313,11 @@ class HtmlTest extends AbstractWebServerEmbeddedTest
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr/w:jc'));
         $this->assertEquals(Jc::START, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tblPr/w:jc', 'w:val'));
+        //check border colors
+        $this->assertEquals('#00AA00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        $this->assertEquals('#00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
+        $this->assertEquals('#00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
+        $this->assertEquals('#00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
     }
 
     /**
