@@ -516,7 +516,7 @@ class Html
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
                 case 'display':
-                    $styles['hidden'] = $cValue === 'none';
+                    $styles['hidden'] = $cValue === 'none' || $cValue === 'hidden';
                     break;
                 case 'direction':
                     $styles['rtl'] = $cValue === 'rtl';
@@ -747,7 +747,7 @@ class Html
             $colors = explode(' ', $cssBorderColor);
             $borders = array('borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor');
             for ($i = 0; $i < min(4, $numColors, count($colors)); $i++) {
-                $styles[$borders[$i]] = $colors[$i];
+                $styles[$borders[$i]] = trim($colors[$i], '#');
             }
         }
     }
