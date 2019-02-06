@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Section
  *
@@ -327,5 +329,19 @@ class SectionTest extends \PHPUnit\Framework\TestCase
 
         $oSettings->setBreakType();
         $this->assertNull($oSettings->getBreakType());
+    }
+
+    /**
+     * Vertical page alignment
+     */
+    public function testVerticalAlign()
+    {
+        // Section Settings
+        $oSettings = new Section();
+
+        $this->assertNull($oSettings->getVAlign());
+
+        $oSettings->setVAlign(VerticalJc::BOTH);
+        $this->assertEquals('both', $oSettings->getVAlign());
     }
 }

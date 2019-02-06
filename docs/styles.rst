@@ -32,6 +32,8 @@ Available Section style options:
    See ``\PhpOffice\PhpWord\Style\Section::ORIENTATION_...`` class constants for possible values
 - ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 - ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``vAlign``. Vertical Page Alignment
+   See ``\PhpOffice\PhpWord\SimpleType\VerticalJc`` for possible values
 
 .. _font-style:
 

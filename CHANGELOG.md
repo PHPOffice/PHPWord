@@ -7,6 +7,7 @@ v0.17.0 (?? ??? 2019)
 ----------------------
 ### Added
 - Add RightToLeft table presentation. @troosan #1550
+- Add support for page vertical alignment. @troosan #672 #1569
 
 ### Fixed
 
