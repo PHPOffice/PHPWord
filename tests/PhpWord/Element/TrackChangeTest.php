@@ -41,7 +41,7 @@ class TrackChangeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($date, $oTrackChange->getDate());
         $this->assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
     }
-    
+
     /**
      * New instance with invalid \DateTime (produced by \DateTime::createFromFormat(...))
      */
