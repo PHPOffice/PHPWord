@@ -58,13 +58,13 @@ class TrackChange extends AbstractContainer
      *
      * @param string $changeType
      * @param string $author
-     * @param null|int|\DateTime $date
+     * @param null|int|bool|\DateTime $date
      */
     public function __construct($changeType = null, $author = null, $date = null)
     {
         $this->changeType = $changeType;
         $this->author = $author;
-        if ($date !== null) {
+        if ($date !== null && $date !== false) {
             $this->date = ($date instanceof \DateTime) ? $date : new \DateTime('@' . $date);
         }
     }
