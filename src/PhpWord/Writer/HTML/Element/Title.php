@@ -45,7 +45,7 @@ class Title extends AbstractElement
                 $text = $this->escaper->escapeHtml($text);
             }
         } elseif ($text instanceof \PhpOffice\PhpWord\Element\AbstractContainer) {
-            $writer = new Container($this->parentWriter, $this->element);
+            $writer = new Container($this->parentWriter, $text);
             $text = $writer->write();
         }
 

@@ -74,7 +74,7 @@ $html .= '<table align="center" style="width: 50%; border: 6px #0000FF double;">
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td style="border-style: dotted;">1</td><td colspan="2">2</td></tr>
+                    <tr><td style="border-style: dotted; border-color: #FF0000">1</td><td colspan="2">2</td></tr>
                     <tr><td>This is <b>bold</b> text</td><td></td><td>6</td></tr>
                 </tbody>
             </table>';
@@ -88,6 +88,9 @@ $html .= '<table align="center" style="width: 80%; border: 6px #0000FF double;">
     </td></tr>
     <tr><td style="text-align: center;">Cell in parent table</td></tr>
 </table>';
+
+$html .= '<p style="margin-top: 240pt;">The text below is not visible, click on show/hide to reveil it:</p>';
+$html .= '<p style="display: none">This is hidden text</p>';
 
 \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
 

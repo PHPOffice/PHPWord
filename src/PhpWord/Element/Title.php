@@ -61,14 +61,12 @@ class Title extends AbstractElement
      */
     public function __construct($text, $depth = 1)
     {
-        if (isset($text)) {
-            if (is_string($text)) {
-                $this->text = CommonText::toUTF8($text);
-            } elseif ($text instanceof TextRun) {
-                $this->text = $text;
-            } else {
-                throw new \InvalidArgumentException('Invalid text, should be a string or a TextRun');
-            }
+        if (is_string($text)) {
+            $this->text = CommonText::toUTF8($text);
+        } elseif ($text instanceof TextRun) {
+            $this->text = $text;
+        } else {
+            throw new \InvalidArgumentException('Invalid text, should be a string or a TextRun');
         }
 
         $this->depth = $depth;
@@ -76,8 +74,6 @@ class Title extends AbstractElement
         if (array_key_exists($styleName, Style::getStyles())) {
             $this->style = str_replace('_', '', $styleName);
         }
-
-        return $this;
     }
 
     /**

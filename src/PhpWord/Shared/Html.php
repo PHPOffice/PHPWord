@@ -20,8 +20,10 @@ namespace PhpOffice\PhpWord\Shared;
 use PhpOffice\PhpWord\Element\AbstractContainer;
 use PhpOffice\PhpWord\Element\Row;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
  * Common Html functions
@@ -32,6 +34,7 @@ class Html
 {
     private static $listIndex = 0;
     private static $xpath;
+    private static $options;
 
     /**
      * Add HTML parts.
@@ -44,13 +47,17 @@ class Html
      * @param string $html The code to parse
      * @param bool $fullHTML If it's a full HTML, no need to add 'body' tag
      * @param bool $preserveWhiteSpace If false, the whitespaces between nodes will be removed
+     * @param array $options:
+     *                + IMG_SRC_SEARCH: optional to speed up images loading from remote url when files can be found locally
+     *                + IMG_SRC_REPLACE: optional to speed up images loading from remote url when files can be found locally
      */
-    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true)
+    public static function addHtml($element, $html, $fullHTML = false, $preserveWhiteSpace = true, $options = null)
     {
         /*
          * @todo parse $stylesheet for default styles.  Should result in an array based on id, class and element,
          * which could be applied when such an element occurs in the parseNode function.
          */
+        self::$options = $options;
 
         // Preprocess: remove all line ends, decode HTML entity,
         // fix ampersand and angle brackets and add body tag for HTML fragments
@@ -65,10 +72,11 @@ class Html
         }
 
         // Load DOM
+        libxml_disable_entity_loader(true);
         $dom = new \DOMDocument();
         $dom->preserveWhiteSpace = $preserveWhiteSpace;
         $dom->loadXML($html);
-        self::$xpath = new \DOMXpath($dom);
+        self::$xpath = new \DOMXPath($dom);
         $node = $dom->getElementsByTagName('body');
 
         self::parseNode($node->item(0), $element);
@@ -141,6 +149,7 @@ class Html
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'span'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
+            'font'      => array('Span',        $node,  null,       $styles,    null,   null,           null),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   null,           null),
             'tr'        => array('Row',         $node,  $element,   $styles,    null,   null,           null),
             'td'        => array('Cell',        $node,  $element,   $styles,    null,   null,           null),
@@ -506,6 +515,9 @@ class Html
                 case 'text-align':
                     $styles['alignment'] = self::mapAlign($cValue);
                     break;
+                case 'display':
+                    $styles['hidden'] = $cValue === 'none' || $cValue === 'hidden';
+                    break;
                 case 'direction':
                     $styles['rtl'] = $cValue === 'rtl';
                     break;
@@ -523,18 +535,27 @@ class Html
                     $styles['bgColor'] = trim($cValue, '#');
                     break;
                 case 'line-height':
-                    if (preg_match('/([0-9]+[a-z]+)/', $cValue, $matches)) {
+                    $matches = array();
+                    if (preg_match('/([0-9]+\.?[0-9]*[a-z]+)/', $cValue, $matches)) {
+                        //matches number with a unit, e.g. 12px, 15pt, 20mm, ...
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::EXACT;
-                        $spacing = Converter::cssToTwip($matches[1]) / \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;
+                        $spacing = Converter::cssToTwip($matches[1]);
                     } elseif (preg_match('/([0-9]+)%/', $cValue, $matches)) {
+                        //matches percentages
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                        $spacing = ((int) $matches[1]) / 100;
+                        //we are subtracting 1 line height because the Spacing writer is adding one line
+                        $spacing = ((((int) $matches[1]) / 100) * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                     } else {
+                        //any other, wich is a multiplier. E.g. 1.2
                         $spacingLineRule = \PhpOffice\PhpWord\SimpleType\LineSpacingRule::AUTO;
-                        $spacing = $cValue;
+                        //we are subtracting 1 line height because the Spacing writer is adding one line
+                        $spacing = ($cValue * Paragraph::LINE_HEIGHT) - Paragraph::LINE_HEIGHT;
                     }
                     $styles['spacingLineRule'] = $spacingLineRule;
-                    $styles['lineHeight'] = $spacing;
+                    $styles['line-spacing'] = $spacing;
+                    break;
+                case 'letter-spacing':
+                    $styles['letter-spacing'] = Converter::cssToTwip($cValue);
                     break;
                 case 'text-indent':
                     $styles['indentation']['firstLine'] = Converter::cssToTwip($cValue);
@@ -560,7 +581,7 @@ class Html
                     $styles['spaceAfter'] = Converter::cssToPoint($cValue);
                     break;
                 case 'border-color':
-                    $styles['color'] = trim($cValue, '#');
+                    self::mapBorderColor($styles, $cValue);
                     break;
                 case 'border-width':
                     $styles['borderSize'] = Converter::cssToPoint($cValue);
@@ -648,7 +669,52 @@ class Html
                     break;
             }
         }
-        $newElement = $element->addImage($src, $style);
+        $originSrc = $src;
+        if (strpos($src, 'data:image') !== false) {
+            $tmpDir = Settings::getTempDir() . '/';
+
+            $match = array();
+            preg_match('/data:image\/(\w+);base64,(.+)/', $src, $match);
+
+            $src = $imgFile = $tmpDir . uniqid() . '.' . $match[1];
+
+            $ifp = fopen($imgFile, 'wb');
+
+            if ($ifp !== false) {
+                fwrite($ifp, base64_decode($match[2]));
+                fclose($ifp);
+            }
+        }
+        $src = urldecode($src);
+
+        if (!is_file($src)
+            && !is_null(self::$options)
+            && isset(self::$options['IMG_SRC_SEARCH'])
+            && isset(self::$options['IMG_SRC_REPLACE'])) {
+            $src = str_replace(self::$options['IMG_SRC_SEARCH'], self::$options['IMG_SRC_REPLACE'], $src);
+        }
+
+        if (!is_file($src)) {
+            if ($imgBlob = @file_get_contents($src)) {
+                $tmpDir = Settings::getTempDir() . '/';
+                $match = array();
+                preg_match('/.+\.(\w+)$/', $src, $match);
+                $src = $tmpDir . uniqid() . '.' . $match[1];
+
+                $ifp = fopen($src, 'wb');
+
+                if ($ifp !== false) {
+                    fwrite($ifp, $imgBlob);
+                    fclose($ifp);
+                }
+            }
+        }
+
+        if (is_file($src)) {
+            $newElement = $element->addImage($src, $style);
+        } else {
+            throw new \Exception("Could not load image $originSrc");
+        }
 
         return $newElement;
     }
@@ -672,6 +738,20 @@ class Html
         }
     }
 
+    private static function mapBorderColor(&$styles, $cssBorderColor)
+    {
+        $numColors = substr_count($cssBorderColor, '#');
+        if ($numColors === 1) {
+            $styles['borderColor'] = trim($cssBorderColor, '#');
+        } elseif ($numColors > 1) {
+            $colors = explode(' ', $cssBorderColor);
+            $borders = array('borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor');
+            for ($i = 0; $i < min(4, $numColors, count($colors)); $i++) {
+                $styles[$borders[$i]] = trim($colors[$i], '#');
+            }
+        }
+    }
+
     /**
      * Transforms a HTML/CSS alignment into a \PhpOffice\PhpWord\SimpleType\Jc
      *
@@ -690,8 +770,6 @@ class Html
             default:
                 return Jc::START;
         }
-
-        return null;
     }
 
     /**

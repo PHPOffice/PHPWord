@@ -29,8 +29,11 @@ Available Section style options:
 - ``marginRight``. Page margin right in *twip*.
 - ``marginBottom``. Page margin bottom in *twip*.
 - ``orientation``. Page orientation (``portrait``, which is default, or ``landscape``).
+   See ``\PhpOffice\PhpWord\Style\Section::ORIENTATION_...`` class constants for possible values
 - ``pageSizeH``. Page height in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
 - ``pageSizeW``. Page width in *twip*. Implicitly defined by ``orientation`` option. Any changes are discouraged.
+- ``vAlign``. Vertical Page Alignment
+   See ``\PhpOffice\PhpWord\SimpleType\VerticalJc`` for possible values
 
 .. _font-style:
 
@@ -45,7 +48,7 @@ Available Font style options:
 - ``color``. Font color, e.g. *FF0000*.
 - ``doubleStrikethrough``. Double strikethrough, *true* or *false*.
 - ``fgColor``. Font highlight color, e.g. *yellow*, *green*, *blue*.
-   See ``\PhpOffice\PhpWord\Style\Font::FGCOLOR_...`` constants for more values
+   See ``\PhpOffice\PhpWord\Style\Font::FGCOLOR_...`` class constants for possible values
 - ``hint``. Font content type, *default*, *eastAsia*, or *cs*.
 - ``italic``. Italic, *true* or *false*.
 - ``name``. Font name, e.g. *Arial*.
@@ -56,10 +59,11 @@ Available Font style options:
 - ``subScript``. Subscript, *true* or *false*.
 - ``superScript``. Superscript, *true* or *false*.
 - ``underline``. Underline, *single*, *dash*, *dotted*, etc.
-   See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` constants for more values
+   See ``\PhpOffice\PhpWord\Style\Font::UNDERLINE_...`` class constants for possible values
 - ``lang``. Language, either a language code like *en-US*, *fr-BE*, etc. or an object (or as an array) if you need to set eastAsian or bidirectional languages
    See ``\PhpOffice\PhpWord\Style\Language`` class for some language codes.
 - ``position``. The text position, raised or lowered, in half points
+- ``hidden``. Hidden text, *true* or *false*.
 
 .. _paragraph-style:
 
@@ -69,7 +73,7 @@ Paragraph
 Available Paragraph style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``basedOn``. Parent style.
 - ``hanging``. Hanging in *twip*.
 - ``indent``. Indent in *twip*.
@@ -80,8 +84,9 @@ Available Paragraph style options:
 - ``pageBreakBefore``. Start paragraph on next page, *true* or *false*.
 - ``spaceBefore``. Space before paragraph in *twip*.
 - ``spaceAfter``. Space after paragraph in *twip*.
-- ``spacing``. Space between lines.
+- ``spacing``. Space between lines in *twip*. If spacingLineRule is auto, 240 (height of 1 line) will be added, so if you want a double line height, set this to 240.
 - ``spacingLineRule``. Line Spacing Rule. *auto*, *exact*, *atLeast*
+   See ``\PhpOffice\PhpWord\SimpleType\LineSpacingRule`` class constants for possible values.
 - ``suppressAutoHyphens``. Hyphenation for paragraph, *true* or *false*.
 - ``tabs``. Set of custom tab stops.
 - ``widowControl``. Allow first/last line to display on a separate page, *true* or *false*.
@@ -89,7 +94,7 @@ Available Paragraph style options:
 - ``bidi``. Right to Left Paragraph Layout, *true* or *false*.
 - ``shading``. Paragraph Shading.
 - ``textAlignment``. Vertical Character Alignment on Line.
-   See ``\PhpOffice\PhpWord\SimpleType\TextAlignment`` class for possible values.
+   See ``\PhpOffice\PhpWord\SimpleType\TextAlignment`` class constants for possible values.
 
 .. _table-style:
 
@@ -99,17 +104,18 @@ Table
 Available Table style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` classes for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\JcTable`` and ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``bgColor``. Background color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Color``. Border color, e.g. '9966CC'.
 - ``border(Top|Right|Bottom|Left)Size``. Border size in *twip*.
 - ``cellMargin(Top|Right|Bottom|Left)``. Cell margin in *twip*.
 - ``indent``. Table indent from leading margin. Must be an instance of ``\PhpOffice\PhpWord\ComplexType\TblWidth``.
-- ``width``. Table width in percent.
+- ``width``. Table width in Fiftieths of a Percent or Twentieths of a Point.
 - ``unit``. The unit to use for the width. One of ``\PhpOffice\PhpWord\SimpleType\TblWidth``. Defaults to *auto*.
 - ``layout``. Table layout, either *fixed* or *autofit*  See ``\PhpOffice\PhpWord\Style\Table`` for constants.
 - ``cellSpacing`` Cell spacing in *twip*
 - ``position`` Floating Table Positioning, see below for options
+- ``bidiVisual`` Present table as Right-To-Left
 
 Floating Table Positioning options:
 
@@ -168,7 +174,7 @@ Numbering level
 Available NumberingLevel style options:
 
 - ``alignment``. Supports all alignment modes since 1st Edition of ECMA-376 standard up till ISO/IEC 29500:2012.
-   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class for the details.
+   See ``\PhpOffice\PhpWord\SimpleType\Jc`` class constants for possible values.
 - ``font``. Font name.
 - ``format``. Numbering format bullet\|decimal\|upperRoman\|lowerRoman\|upperLetter\|lowerLetter.
 - ``hanging``. See paragraph style.
@@ -190,6 +196,14 @@ Available Chart style options:
 - ``width``. Width (in EMU).
 - ``height``. Height (in EMU).
 - ``3d``. Is 3D; applies to pie, bar, line, area, *true* or *false*.
+- ``colors``. A list of colors to use in the chart.
+- ``title``. The title for the chart.
+- ``showLegend``. Show legend, *true* or *false*.
+- ``categoryLabelPosition``. Label position for categories, *nextTo* (default), *low* or *high*.
+- ``valueLabelPosition``. Label position for values, *nextTo* (default), *low* or *high*.
+- ``categoryAxisTitle``. The title for the category axis.
+- ``valueAxisTitle``. The title for the values axis.
+- ``majorTickMarkPos``. The position for major tick marks, *in*, *out*, *cross*, *none* (default).
 - ``showAxisLabels``. Show labels for axis, *true* or *false*.
 - ``gridX``. Show Gridlines for X-Axis, *true* or *false*.
 - ``gridY``. Show Gridlines for Y-Axis, *true* or *false*.

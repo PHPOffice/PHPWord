@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Cell
  *
@@ -33,7 +35,7 @@ class CellTest extends \PHPUnit\Framework\TestCase
         $object = new Cell();
 
         $attributes = array(
-            'valign'            => Cell::VALIGN_TOP,
+            'valign'            => VerticalJc::TOP,
             'textDirection'     => Cell::TEXT_DIR_BTLR,
             'bgColor'           => 'FFFF00',
             'borderTopSize'     => 120,

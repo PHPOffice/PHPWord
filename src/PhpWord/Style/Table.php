@@ -164,6 +164,21 @@ class Table extends Border
     private $indent;
 
     /**
+     * The width of each column, computed based on the max cell width of each column
+     *
+     * @var int[]
+     */
+    private $columnWidths;
+
+    /**
+     * Visually Right to Left Table
+     *
+     * @see  http://www.datypic.com/sc/ooxml/e-w_bidiVisual-1.html
+     * @var bool
+     */
+    private $bidiVisual = false;
+
+    /**
      * Create new table style
      *
      * @param mixed $tableStyle
@@ -745,6 +760,50 @@ class Table extends Border
     public function setIndent(TblWidthComplexType $indent)
     {
         $this->indent = $indent;
+
+        return $this;
+    }
+
+    /**
+     * Get the columnWidths
+     *
+     * @return null|int[]
+     */
+    public function getColumnWidths()
+    {
+        return $this->columnWidths;
+    }
+
+    /**
+     * The column widths
+     *
+     * @param int[] $value
+     */
+    public function setColumnWidths(array $value = null)
+    {
+        $this->columnWidths = $value;
+    }
+
+    /**
+     * Get bidiVisual
+     *
+     * @return bool
+     */
+    public function isBidiVisual()
+    {
+        return $this->bidiVisual;
+    }
+
+    /**
+     * Set bidiVisual
+     *
+     * @param bool $bidi
+     *            Set to true to visually present table as Right to Left
+     * @return self
+     */
+    public function setBidiVisual($bidi)
+    {
+        $this->bidiVisual = $bidi;
 
         return $this;
     }

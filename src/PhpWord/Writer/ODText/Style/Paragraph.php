@@ -54,6 +54,10 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
         }
+
+        //Right to left
+        $xmlWriter->writeAttributeIf($style->isBidi(), 'style:writing-mode', 'rl-tb');
+
         $xmlWriter->endElement(); //style:paragraph-properties
 
         $xmlWriter->endElement(); //style:style

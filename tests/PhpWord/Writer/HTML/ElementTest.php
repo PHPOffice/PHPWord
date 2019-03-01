@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\HTML;
 
 use PhpOffice\PhpWord\Element\Text as TextElement;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\HTML;
@@ -70,10 +71,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $text2->setTrackChange(new TrackChange(TrackChange::DELETED, 'another author', new \DateTime()));
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/p[1]/ins')->length == 1);
-        $this->assertTrue($xpath->query('/html/body/p[2]/del')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/p[1]/ins')->length);
+        $this->assertEquals(1, $xpath->query('/html/body/p[2]/del')->length);
     }
 
     /**
@@ -94,11 +95,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $cell22->addText('second cell');
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/table/tr[1]/td')->length);
         $this->assertEquals('2', $xpath->query('/html/body/table/tr/td[1]')->item(0)->attributes->getNamedItem('colspan')->textContent);
-        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 2);
+        $this->assertEquals(2, $xpath->query('/html/body/table/tr[2]/td')->length);
 
         $this->assertEquals('#6086B8', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
         $this->assertEquals('#ffffff', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
@@ -128,11 +129,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $row3->addCell(500)->addText('third cell being spanned');
 
         $dom = $this->getAsHTML($phpWord);
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
-        $this->assertTrue($xpath->query('/html/body/table/tr[1]/td')->length == 2);
+        $this->assertEquals(2, $xpath->query('/html/body/table/tr[1]/td')->length);
         $this->assertEquals('3', $xpath->query('/html/body/table/tr[1]/td[1]')->item(0)->attributes->getNamedItem('rowspan')->textContent);
-        $this->assertTrue($xpath->query('/html/body/table/tr[2]/td')->length == 1);
+        $this->assertEquals(1, $xpath->query('/html/body/table/tr[2]/td')->length);
     }
 
     private function getAsHTML(PhpWord $phpWord)
@@ -142,5 +143,47 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $dom->loadHTML($htmlWriter->getContent());
 
         return $dom;
+    }
+
+    public function testWriteTitleTextRun()
+    {
+        $expected = 'Title with TextRun';
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+
+        $textRun = new TextRun();
+        $textRun->addText($expected);
+
+        $section->addTitle($textRun);
+
+        $htmlWriter = new HTML($phpWord);
+        $content = $htmlWriter->getContent();
+
+        $this->assertContains($expected, $content);
+    }
+
+    /**
+     * Tests writing table with layout
+     */
+    public function testWriteTableLayout()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addTable();
+
+        $table1 = $section->addTable(array('layout' => \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED));
+        $row1 = $table1->addRow();
+        $row1->addCell()->addText('fixed layout table');
+
+        $table2 = $section->addTable(array('layout' => \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO));
+        $row2 = $table2->addRow();
+        $row2->addCell()->addText('auto layout table');
+
+        $dom = $this->getAsHTML($phpWord);
+        $xpath = new \DOMXPath($dom);
+
+        $this->assertEquals('table-layout: fixed;', $xpath->query('/html/body/table[1]')->item(0)->attributes->getNamedItem('style')->textContent);
+        $this->assertEquals('table-layout: auto;', $xpath->query('/html/body/table[2]')->item(0)->attributes->getNamedItem('style')->textContent);
     }
 }

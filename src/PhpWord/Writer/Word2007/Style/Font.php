@@ -107,18 +107,21 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($size !== null, 'w:szCs', 'w:val', $size * 2);
 
         // Bold, italic
-        $xmlWriter->writeElementIf($style->isBold(), 'w:b');
-        $xmlWriter->writeElementIf($style->isBold(), 'w:bCs');
-        $xmlWriter->writeElementIf($style->isItalic(), 'w:i');
-        $xmlWriter->writeElementIf($style->isItalic(), 'w:iCs');
+        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:b', 'w:val', $this->writeOnOf($style->isBold()));
+        $xmlWriter->writeElementIf($style->isBold() !== null, 'w:bCs', 'w:val', $this->writeOnOf($style->isBold()));
+        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:i', 'w:val', $this->writeOnOf($style->isItalic()));
+        $xmlWriter->writeElementIf($style->isItalic() !== null, 'w:iCs', 'w:val', $this->writeOnOf($style->isItalic()));
 
         // Strikethrough, double strikethrough
-        $xmlWriter->writeElementIf($style->isStrikethrough(), 'w:strike');
-        $xmlWriter->writeElementIf($style->isDoubleStrikethrough(), 'w:dstrike');
+        $xmlWriter->writeElementIf($style->isStrikethrough() !== null, 'w:strike', 'w:val', $this->writeOnOf($style->isStrikethrough()));
+        $xmlWriter->writeElementIf($style->isDoubleStrikethrough() !== null, 'w:dstrike', 'w:val', $this->writeOnOf($style->isDoubleStrikethrough()));
 
         // Small caps, all caps
-        $xmlWriter->writeElementIf($style->isSmallCaps(), 'w:smallCaps');
-        $xmlWriter->writeElementIf($style->isAllCaps(), 'w:caps');
+        $xmlWriter->writeElementIf($style->isSmallCaps() !== null, 'w:smallCaps', 'w:val', $this->writeOnOf($style->isSmallCaps()));
+        $xmlWriter->writeElementIf($style->isAllCaps() !== null, 'w:caps', 'w:val', $this->writeOnOf($style->isAllCaps()));
+
+        //Hidden text
+        $xmlWriter->writeElementIf($style->isHidden(), 'w:vanish', 'w:val', $this->writeOnOf($style->isHidden()));
 
         // Underline
         $xmlWriter->writeElementIf($style->getUnderline() != 'none', 'w:u', 'w:val', $style->getUnderline());
@@ -136,7 +139,7 @@ class Font extends AbstractStyle
         $xmlWriter->writeElementIf($style->getKerning() !== null, 'w:kern', 'w:val', $style->getKerning() * 2);
 
         // noProof
-        $xmlWriter->writeElementIf($style->isNoProof() !== false, 'w:noProof');
+        $xmlWriter->writeElementIf($style->isNoProof() !== null, 'w:noProof', $this->writeOnOf($style->isNoProof()));
 
         // Background-Color
         $shading = $style->getShading();

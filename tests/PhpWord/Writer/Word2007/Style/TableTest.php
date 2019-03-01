@@ -141,4 +141,21 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, (int) $doc->getElementAttribute($path, 'w:w'));
         $this->assertSame($type, $doc->getElementAttribute($path, 'w:type'));
     }
+
+    public function testRigthToLeft()
+    {
+        $tableStyle = new Table();
+        $tableStyle->setBidiVisual(true);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $path = '/w:document/w:body/w:tbl/w:tblPr/w:bidiVisual';
+        $this->assertTrue($doc->elementExists($path));
+        $this->assertEquals('1', $doc->getElementAttribute($path, 'w:val'));
+    }
 }

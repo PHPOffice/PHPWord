@@ -19,6 +19,8 @@ namespace PhpOffice\PhpWord\Reader\Word2007;
 
 use PhpOffice\PhpWord\AbstractTestReader;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 
@@ -144,5 +146,84 @@ class StyleTest extends AbstractTestReader
         $tableStyle = $elements[0]->getStyle();
         $this->assertSame(TblWidth::TWIP, $tableStyle->getIndent()->getType());
         $this->assertSame(2160, $tableStyle->getIndent()->getValue());
+    }
+
+    public function testReadTableRTL()
+    {
+        $documentXml = '<w:tbl>
+            <w:tblPr>
+                <w:bidiVisual w:val="1"/>
+            </w:tblPr>
+        </w:tbl>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Table', $elements[0]);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Table', $elements[0]->getStyle());
+        /** @var \PhpOffice\PhpWord\Style\Table $tableStyle */
+        $tableStyle = $elements[0]->getStyle();
+        $this->assertTrue($tableStyle->isBidiVisual());
+    }
+
+    public function testReadHidden()
+    {
+        $documentXml = '<w:p>
+            <w:r>
+                <w:rPr>
+                    <w:vanish/>
+                </w:rPr>
+                <w:t xml:space="preserve">This text is hidden</w:t>
+            </w:r>
+        </w:p>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        /** @var \PhpOffice\PhpWord\Element\TextRun $elements */
+        $textRun = $elements[0];
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\TextRun', $textRun);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $textRun->getElement(0));
+        $this->assertInstanceOf('PhpOffice\PhpWord\Style\Font', $textRun->getElement(0)->getFontStyle());
+        /** @var \PhpOffice\PhpWord\Style\Font $fontStyle */
+        $fontStyle = $textRun->getElement(0)->getFontStyle();
+        $this->assertTrue($fontStyle->isHidden());
+    }
+
+    public function testReadHeading()
+    {
+        Style::resetStyles();
+
+        $documentXml = '<w:style w:type="paragraph" w:styleId="Ttulo1">
+            <w:name w:val="heading 1"/>
+            <w:basedOn w:val="Normal"/>
+            <w:uiPriority w:val="1"/>
+            <w:qFormat/>
+            <w:pPr>
+                <w:outlineLvl w:val="0"/>
+            </w:pPr>
+            <w:rPr>
+                <w:rFonts w:ascii="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/>
+                <w:b/>
+                <w:bCs/>
+            </w:rPr>
+        </w:style>';
+
+        $name = 'Heading_1';
+
+        $this->getDocumentFromString(array('styles' => $documentXml));
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', Style::getStyle($name));
+    }
+
+    public function testPageVerticalAlign()
+    {
+        $documentXml = '<w:sectPr>
+            <w:vAlign w:val="center"/>
+        </w:sectPr>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml));
+
+        $sectionStyle = $phpWord->getSection(0)->getStyle();
+        $this->assertEquals(VerticalJc::CENTER, $sectionStyle->getVAlign());
     }
 }

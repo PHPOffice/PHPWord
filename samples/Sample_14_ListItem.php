@@ -64,7 +64,7 @@ $section->addText('List with inline formatting.');
 $listItemRun = $section->addListItemRun();
 $listItemRun->addText('List item 1');
 $listItemRun->addText(' in bold', array('bold' => true));
-$listItemRun = $section->addListItemRun();
+$listItemRun = $section->addListItemRun(1, $predefinedMultilevelStyle, $paragraphStyleName);
 $listItemRun->addText('List item 2');
 $listItemRun->addText(' in italic', array('italic' => true));
 $footnote = $listItemRun->addFootnote();

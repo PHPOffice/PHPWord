@@ -41,4 +41,22 @@ class TrackChangeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($date, $oTrackChange->getDate());
         $this->assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
     }
+
+    /**
+     * New instance with invalid \DateTime (produced by \DateTime::createFromFormat(...))
+     */
+    public function testConstructDefaultWithInvalidDate()
+    {
+        $author = 'Test User';
+        $date = false;
+        $oTrackChange = new TrackChange(TrackChange::INSERTED, $author, $date);
+
+        $oText = new Text('dummy text');
+        $oText->setTrackChange($oTrackChange);
+
+        $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TrackChange', $oTrackChange);
+        $this->assertEquals($author, $oTrackChange->getAuthor());
+        $this->assertEquals($date, null);
+        $this->assertEquals(TrackChange::INSERTED, $oTrackChange->getChangeType());
+    }
 }

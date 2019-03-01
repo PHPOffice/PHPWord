@@ -10,11 +10,20 @@ php:
     - 7.0
     - 7.1
     - 7.2
+    - 7.3
 
 matrix:
     include:
-        - php: 5.6
+        - php: 7.0
           env: COVERAGE=1
+        - php: 5.3
+          env: COMPOSER_MEMORY_LIMIT=2G
+        - php: 7.3
+          env: DEPENDENCIES="--ignore-platform-reqs"
+    exclude:
+        - php: 5.3
+        - php: 7.0
+        - php: 7.3
 
 cache:
     directories:
@@ -32,12 +41,12 @@ before_install:
 
 before_script:
     ## Deactivate xdebug if we don't do code coverage
-    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini ; fi
+    - if [ -z "$COVERAGE" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available" ; fi
     ## Composer
     - composer self-update
-    - travis_wait composer install --prefer-source
+    - travis_wait composer install --prefer-source $(if [ -n "$DEPENDENCIES" ]; then echo $DEPENDENCIES; fi)
     ## PHPDocumentor
-    - mkdir -p build/docs
+    ##- mkdir -p build/docs
     - mkdir -p build/coverage
 
 script:
@@ -52,7 +61,7 @@ script:
     ## PHPLOC
     - if [ -z "$COVERAGE" ]; then ./vendor/bin/phploc src/ ; fi
     ## PHPDocumentor
-    - if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
+    ##- if [ -z "$COVERAGE" ]; then ./vendor/bin/phpdoc -q -d ./src -t ./build/docs --ignore "*/src/PhpWord/Shared/*/*" --template="responsive-twig" ; fi
 
 after_success:
     ## Coveralls

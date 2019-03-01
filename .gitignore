@@ -13,11 +13,11 @@ composer.phar
 vendor
 /report
 /build
-/samples/resources
 /samples/results
 /.settings
 phpword.ini
 /.buildpath
+/.scannerwork
 /.project
 /nbproject
 /.php_cs.cache

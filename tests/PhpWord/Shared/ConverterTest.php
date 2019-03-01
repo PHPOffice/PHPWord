@@ -29,6 +29,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnitConversions()
     {
+        $values = array();
         $values[] = 0; // zero value
         $values[] = rand(1, 100) / 100; // fraction number
         $values[] = rand(1, 100); // integer
@@ -79,6 +80,9 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pointToTwip($value);
             $this->assertEquals($value * 20, $result);
 
+            $result = Converter::pointToCm($value);
+            $this->assertEquals($value * 0.035277778, $result, '', 0.00001);
+
             $result = Converter::pointToPixel($value);
             $this->assertEquals($value / 72 * 96, $result);
 
@@ -105,6 +109,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
     public function testHtmlToRGB()
     {
         // Prepare test values [ original, expected ]
+        $values = array();
         $values[] = array('#FF99DD', array(255, 153, 221)); // With #
         $values[] = array('FF99DD', array(255, 153, 221)); // 6 characters
         $values[] = array('F9D', array(255, 153, 221)); // 3 characters
@@ -126,6 +131,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, Converter::cssToPoint('10pt'));
         $this->assertEquals(7.5, Converter::cssToPoint('10px'));
         $this->assertEquals(720, Converter::cssToPoint('10in'));
+        $this->assertEquals(7.2, Converter::cssToPoint('0.1in'));
         $this->assertEquals(120, Converter::cssToPoint('10pc'));
         $this->assertEquals(28.346457, Converter::cssToPoint('10mm'), '', 0.000001);
         $this->assertEquals(283.464567, Converter::cssToPoint('10cm'), '', 0.000001);

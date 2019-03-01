@@ -387,6 +387,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addSDT('comboBox')->setListItems(array('1' => 'Choice 1', '2' => 'Choice 2'))->setValue('select value');
         $section->addSDT('dropDownList');
         $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
+        $section->addSDT('plainText');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -405,6 +406,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
+
+        $this->assertTrue($doc->elementExists($path . '[4]/w:sdt/w:sdtPr/w:text'));
     }
 
     /**
@@ -491,5 +494,20 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
         $this->assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
+    }
+
+    /**
+     * Test correct writing of text with ampersant in it
+     */
+    public function testTextWithAmpersant()
+    {
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText('this text contains an & (ampersant)');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
+        $this->assertEquals('this text contains an & (ampersant)', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -20,6 +22,12 @@ $section = $phpWord->addSection(
     array('paperSize' => 'Folio', 'marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
 );
 $section->addText('This section uses other margins with folio papersize.');
+
+// The text of this section is vertically centered
+$section = $phpWord->addSection(
+    array('vAlign' => VerticalJc::CENTER)
+);
+$section->addText('This section is vertically centered.');
 
 // New portrait section with Header & Footer
 $section = $phpWord->addSection(

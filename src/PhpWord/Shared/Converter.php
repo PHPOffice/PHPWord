@@ -198,7 +198,7 @@ class Converter
     /**
      * Convert point to pixel
      *
-     * @param int $point
+     * @param float $point
      * @return float
      */
     public static function pointToPixel($point = 1)
@@ -215,6 +215,17 @@ class Converter
     public static function pointToEmu($point = 1)
     {
         return round($point / self::INCH_TO_POINT * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+    }
+
+    /**
+     * Convert point to cm
+     *
+     * @param float $point
+     * @return float
+     */
+    public static function pointToCm($point = 1)
+    {
+        return $point / self::INCH_TO_POINT * self::INCH_TO_CM;
     }
 
     /**
@@ -299,6 +310,7 @@ class Converter
         if ($value == '0') {
             return 0;
         }
+        $matches = array();
         if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
             $size = $matches[1];
             $unit = $matches[2];
@@ -331,5 +343,38 @@ class Converter
     public static function cssToTwip($value)
     {
         return self::pointToTwip(self::cssToPoint($value));
+    }
+
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to pixel
+     *
+     * @param string $value
+     * @return float
+     */
+    public static function cssToPixel($value)
+    {
+        return self::pointToPixel(self::cssToPoint($value));
+    }
+
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to cm
+     *
+     * @param string $value
+     * @return float
+     */
+    public static function cssToCm($value)
+    {
+        return self::pointToCm(self::cssToPoint($value));
+    }
+
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to emu
+     *
+     * @param string $value
+     * @return float
+     */
+    public static function cssToEmu($value)
+    {
+        return self::pointToEmu(self::cssToPoint($value));
     }
 }
