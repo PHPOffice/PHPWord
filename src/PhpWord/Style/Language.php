@@ -70,7 +70,7 @@ final class Language extends AbstractStyle
 
     const UK_UA = 'uk-UA';
     const UK_UA_ID = 1058;
-    
+
     const RU_RU = 'ru-RU';
     const RU_RU_ID = 1049;
 
