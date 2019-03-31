@@ -152,6 +152,7 @@ class Style
     /**
      * Set default title style
      *
+     * @param int $depth
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Title style definition
      * @return \PhpOffice\PhpWord\Style\Title
      */
@@ -163,7 +164,7 @@ class Style
             3 => array('size' => 12, 'color' => '1F4D78'),
             4 => array('size' => 12, 'color' => '2E74B5', 'italic' => true),
             5 => array('size' => 12, 'color' => '2E74B5'),
-            6 => array('size' => 12, 'color' => '1F4D78')
+            6 => array('size' => 12, 'color' => '1F4D78'),
         );
 
         return self::addTitleStyle($depth, $titleFontStyles[$depth]);

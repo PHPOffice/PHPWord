@@ -135,12 +135,12 @@ class Html
         $nodes = array(
                               // $method        $node   $element    $styles     $data   $argument1      $argument2
             'p'         => array('Paragraph',   $node,  $element,   $styles,    null,   null,           null),
-            'h1'        => array('Heading',     null,   $element,   $styles,    null,   'Heading1',     1),
-            'h2'        => array('Heading',     null,   $element,   $styles,    null,   'Heading2',     2),
-            'h3'        => array('Heading',     null,   $element,   $styles,    null,   'Heading3',     3),
-            'h4'        => array('Heading',     null,   $element,   $styles,    null,   'Heading4',     4),
-            'h5'        => array('Heading',     null,   $element,   $styles,    null,   'Heading5',     5),
-            'h6'        => array('Heading',     null,   $element,   $styles,    null,   'Heading6',     6),
+            'h1'        => array('Heading',     $node,  $element,   $styles,    null,   1,              null),
+            'h2'        => array('Heading',     $node,  $element,   $styles,    null,   2,              null),
+            'h3'        => array('Heading',     $node,  $element,   $styles,    null,   3,              null),
+            'h4'        => array('Heading',     $node,  $element,   $styles,    null,   4,              null),
+            'h5'        => array('Heading',     $node,  $element,   $styles,    null,   5,              null),
+            'h6'        => array('Heading',     $node,  $element,   $styles,    null,   6,              null),
             '#text'     => array('Text',        $node,  $element,   $styles,    null,   null,           null),
             'strong'    => array('Property',    null,   null,       $styles,    null,   'bold',         true),
             'b'         => array('Property',    null,   null,       $styles,    null,   'bold',         true),
@@ -236,6 +236,7 @@ class Html
     /**
      * Parse heading node
      *
+     * @param \DOMNode $node
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      * @param string $argument1 Name of heading style
@@ -244,13 +245,14 @@ class Html
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    private static function parseHeading($element, &$styles, $argument1, $argument2)
+    private static function parseHeading($node, $element, &$styles, $argument1)
     {
-        $styles['paragraph'] = $argument1;
-        $newElement = $element->addTextRun($styles['paragraph']);
+        $styles['styleName'] = "Heading{$argument1}";
+        $styles = self::parseInlineStyle($node, $styles);
+        $newElement = $element->addTextRun($styles);
 
-        if ( empty(\PhpOffice\PhpWord\Style::getStyle("Heading_{$argument2}")) ) {
-            \PhpOffice\PhpWord\Style::setDefaultTitleStyle($argument2);
+        if (empty(\PhpOffice\PhpWord\Style::getStyle("Heading_{$argument1}"))) {
+            \PhpOffice\PhpWord\Style::setDefaultTitleStyle($argument1);
         }
 
         return $newElement;
