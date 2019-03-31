@@ -170,7 +170,7 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
-        libxml_disable_entity_loader(true);
+        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -180,6 +180,7 @@ class TemplateProcessor
         if (false === $transformedXml) {
             throw new Exception('Could not transform the given XML document.');
         }
+        libxml_disable_entity_loader($orignalLibEntityLoader);
 
         return $transformedXml;
     }
