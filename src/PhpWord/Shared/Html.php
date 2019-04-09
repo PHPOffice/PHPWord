@@ -192,7 +192,7 @@ class Html
             $newElement = $element;
         }
 
-        self::parseChildNodes($node, $newElement, $styles, $data);
+        static::parseChildNodes($node, $newElement, $styles, $data);
     }
 
     /**
