@@ -39,7 +39,8 @@ class Table extends AbstractElement
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table>' . PHP_EOL;
+            $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+
             for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */
                 $rowStyle = $rows[$i]->getStyle();
@@ -101,5 +102,30 @@ class Table extends AbstractElement
         }
 
         return $content;
+    }
+
+    /**
+     * Translates Table style in CSS equivalent
+     *
+     * @param string|\PhpOffice\PhpWord\Style\Table|null $tableStyle
+     * @return string
+     */
+    private function getTableStyle($tableStyle = null)
+    {
+        if ($tableStyle == null) {
+            return '';
+        }
+        if (is_string($tableStyle)) {
+            $style = ' class="' . $tableStyle;
+        } else {
+            $style = ' style="';
+            if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
+                $style .= 'table-layout: fixed;';
+            } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
+                $style .= 'table-layout: auto;';
+            }
+        }
+
+        return $style . '"';
     }
 }

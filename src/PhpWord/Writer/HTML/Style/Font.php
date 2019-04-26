@@ -60,6 +60,7 @@ class Font extends AbstractStyle
         $css['text-decoration'] .= $this->getValueIf($lineThrough, 'line-through ');
         $css['text-transform'] = $this->getValueIf($style->isAllCaps(), 'uppercase');
         $css['font-variant'] = $this->getValueIf($style->isSmallCaps(), 'small-caps');
+        $css['display'] = $this->getValueIf($style->isHidden(), 'none');
 
         $spacing = $style->getSpacing();
         $css['letter-spacing'] = $this->getValueIf(!is_null($spacing), ($spacing / 20) . 'pt');

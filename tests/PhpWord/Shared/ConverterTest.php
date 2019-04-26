@@ -29,6 +29,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnitConversions()
     {
+        $values = array();
         $values[] = 0; // zero value
         $values[] = rand(1, 100) / 100; // fraction number
         $values[] = rand(1, 100); // integer
@@ -79,6 +80,9 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
             $result = Converter::pointToTwip($value);
             $this->assertEquals($value * 20, $result);
 
+            $result = Converter::pointToCm($value);
+            $this->assertEquals($value * 0.035277778, $result, '', 0.00001);
+
             $result = Converter::pointToPixel($value);
             $this->assertEquals($value / 72 * 96, $result);
 
@@ -105,6 +109,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
     public function testHtmlToRGB()
     {
         // Prepare test values [ original, expected ]
+        $values = array();
         $values[] = array('#FF99DD', array(255, 153, 221)); // With #
         $values[] = array('FF99DD', array(255, 153, 221)); // 6 characters
         $values[] = array('F9D', array(255, 153, 221)); // 3 characters

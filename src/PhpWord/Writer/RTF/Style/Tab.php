@@ -42,7 +42,7 @@ class Tab extends AbstractStyle
         if (isset($tabs[$style->getType()])) {
             $content .= $tabs[$style->getType()];
         }
-        $content .= '\tx' . $style->getPosition();
+        $content .= '\tx' . round($style->getPosition());
 
         return $content;
     }

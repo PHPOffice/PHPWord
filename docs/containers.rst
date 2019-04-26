@@ -104,6 +104,12 @@ You can pass an optional parameter to specify where the header/footer should be 
 -  ``Footer::FIRST`` each first page of the section
 -  ``Footer::EVEN`` each even page of the section. Will only be applied if the evenAndOddHeaders is set to true in phpWord->settings
 
+To change the evenAndOddHeaders use the ``getSettings`` method to return the Settings object, and then call the ``setEvenAndOddHeaders`` method:
+
+.. code-block:: php
+
+    $phpWord->getSettings()->setEvenAndOddHeaders(true);
+
 Footers
 -------
 

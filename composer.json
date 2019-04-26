@@ -45,7 +45,7 @@
             "php-cs-fixer fix --ansi --dry-run --diff",
             "phpcs --report-width=200 --report-summary  --report-full samples/ src/ tests/ --ignore=src/PhpWord/Shared/PCLZip --standard=PSR2 -n",
             "phpmd src/,tests/ text ./phpmd.xml.dist --exclude pclzip.lib.php",
-            "@test"
+            "@test-no-coverage"
         ],
         "fix": [
             "php-cs-fixer fix --ansi"
@@ -90,7 +90,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.16-dev"
+            "dev-develop": "0.17-dev"
         }
     }
 }
