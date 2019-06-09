@@ -163,7 +163,7 @@ class PhpWord
 
         // Run add style method
         if (in_array($function, $addStyle)) {
-            return forward_static_call_array(array('PhpOffice\\PhpWord\\Style', $function), $args);
+            return forward_static_call_array(array(\PhpOffice\PhpWord\Style::class, $function), $args);
         }
 
         // Exception

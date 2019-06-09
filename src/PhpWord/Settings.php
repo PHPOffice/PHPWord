@@ -29,9 +29,9 @@ class Settings
      *
      * @const string
      */
-    const ZIPARCHIVE = 'ZipArchive';
-    const PCLZIP = 'PclZip';
-    const OLD_LIB = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
+    const ZIPARCHIVE = \ZipArchive::class;
+    const PCLZIP = \PclZip::class;
+    const OLD_LIB = \PhpOffice\PhpWord\Shared\ZipArchive::class; // @deprecated 0.11
 
     /**
      * PDF rendering libraries
@@ -39,7 +39,7 @@ class Settings
      * @const string
      */
     const PDF_RENDERER_DOMPDF = 'DomPDF';
-    const PDF_RENDERER_TCPDF = 'TCPDF';
+    const PDF_RENDERER_TCPDF = \TCPDF::class;
     const PDF_RENDERER_MPDF = 'MPDF';
 
     /**

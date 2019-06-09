@@ -80,7 +80,7 @@ class ZipArchive
      */
     public function __construct()
     {
-        $this->usePclzip = (Settings::getZipClass() != 'ZipArchive');
+        $this->usePclzip = (Settings::getZipClass() != \ZipArchive::class);
         if ($this->usePclzip) {
             if (!defined('PCLZIP_TEMPORARY_DIR')) {
                 define('PCLZIP_TEMPORARY_DIR', Settings::getTempDir() . '/');
