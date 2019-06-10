@@ -68,7 +68,7 @@ class Document extends AbstractPart
         $content .= '{';
         $content .= '\info';
         foreach ($properties as $property) {
-            $method = 'get' . (isset($mapping[$property]) ? $mapping[$property] : $property);
+            $method = 'get' . ($mapping[$property] ?? $property);
             if (!in_array($property, $dateFields) && Settings::isOutputEscapingEnabled()) {
                 $value = $this->escaper->escape($docProps->$method());
             } else {

@@ -158,7 +158,7 @@ class PhpWord
             /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
             $collectionObject = $this->collections[$key];
 
-            return $collectionObject->addItem(isset($args[0]) ? $args[0] : null);
+            return $collectionObject->addItem($args[0] ?? null);
         }
 
         // Run add style method

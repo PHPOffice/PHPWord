@@ -4150,7 +4150,7 @@ class PclZip
             $v_day   = $p_header['mdate'] & 0x001F;
 
             // ----- Get UNIX date format
-            $p_header['mtime'] = @mktime($v_hour, $v_minute, $v_seconde, $v_month, $v_day, $v_year);
+            $p_header['mtime'] = @time($v_hour, $v_minute, $v_seconde, $v_month, $v_day, $v_year);
 
         } else {
             $p_header['mtime'] = time();
@@ -4251,7 +4251,7 @@ class PclZip
             $v_day   = $p_header['mdate'] & 0x001F;
 
             // ----- Get UNIX date format
-            $p_header['mtime'] = @mktime($v_hour, $v_minute, $v_seconde, $v_month, $v_day, $v_year);
+            $p_header['mtime'] = @time($v_hour, $v_minute, $v_seconde, $v_month, $v_day, $v_year);
 
         } else {
             $p_header['mtime'] = time();

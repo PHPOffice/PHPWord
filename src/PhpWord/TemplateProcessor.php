@@ -358,12 +358,12 @@ class TemplateProcessor
                 list($argName, $argValue) = explode('=', $varArg, 2);
                 $argName = strtolower($argName);
                 if ($argName == 'size') {
-                    list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $argValue, 2);
+                    list($varInlineArgs['width'], $varInlineArgs['height']) = array_reverse(explode('x', $argValue, 2));
                 } else {
                     $varInlineArgs[strtolower($argName)] = $argValue;
                 }
             } elseif (preg_match('/^([0-9]*[a-z%]{0,2}|auto)x([0-9]*[a-z%]{0,2}|auto)$/i', $varArg)) { // 60x40
-                list($varInlineArgs['width'], $varInlineArgs['height']) = explode('x', $varArg, 2);
+                list($varInlineArgs['width'], $varInlineArgs['height']) = array_reverse(explode('x', $varArg, 2));
             } else { // :60:40:f
                 switch ($argIdx) {
                     case 0:
@@ -462,8 +462,8 @@ class TemplateProcessor
             $imgPath = $replaceImage;
         }
 
-        $width = $this->chooseImageDimension($width, isset($varInlineArgs['width']) ? $varInlineArgs['width'] : null, 115);
-        $height = $this->chooseImageDimension($height, isset($varInlineArgs['height']) ? $varInlineArgs['height'] : null, 70);
+        $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
+        $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
         $imageData = @getimagesize($imgPath);
         if (!is_array($imageData)) {
@@ -559,7 +559,7 @@ class TemplateProcessor
 
         $searchReplace = array();
         foreach ($search as $searchIdx => $searchString) {
-            $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
+            $searchReplace[$searchString] = $replacesList[$searchIdx] ?? $replacesList[0];
         }
 
         // collect document parts

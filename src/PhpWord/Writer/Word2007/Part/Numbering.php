@@ -196,6 +196,6 @@ class Numbering extends AbstractPart
      */
     private function getRandomHexNumber($length = 8)
     {
-        return strtoupper(substr(md5(rand()), 0, $length));
+        return strtoupper(substr(md5(random_int(0, mt_getrandmax())), 0, $length));
     }
 }

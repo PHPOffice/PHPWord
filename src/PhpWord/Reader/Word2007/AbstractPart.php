@@ -640,7 +640,7 @@ abstract class AbstractPart
                 $attribute = $this->findPossibleAttribute($xmlReader, $node, $attribute);
 
                 // Use w:val as default if no attribute assigned
-                $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                $attribute = $attribute ?? 'w:val';
                 $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
                 $styleValue = $this->readStyleDef($method, $attributeValue, $expected);

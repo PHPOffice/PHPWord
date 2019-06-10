@@ -262,8 +262,8 @@ class Settings extends AbstractPart
         $lang = array();
         $lang['w:val'] = $latinLanguage;
         if ($language != null) {
-            $lang['w:eastAsia'] = $language->getEastAsia() === null ? 'x-none' : $language->getEastAsia();
-            $lang['w:bidi'] = $language->getBidirectional() === null ? 'x-none' : $language->getBidirectional();
+            $lang['w:eastAsia'] = $language->getEastAsia() ?? 'x-none';
+            $lang['w:bidi'] = $language->getBidirectional() ?? 'x-none';
         }
         $this->settings['w:themeFontLang'] = array('@attributes' => $lang);
     }

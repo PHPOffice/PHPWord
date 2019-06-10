@@ -213,7 +213,7 @@ class Settings
      */
     public function setHideSpellingErrors($hideSpellingErrors)
     {
-        $this->hideSpellingErrors = $hideSpellingErrors === null ? true : $hideSpellingErrors;
+        $this->hideSpellingErrors = $hideSpellingErrors ?? true;
     }
 
     /**
@@ -233,7 +233,7 @@ class Settings
      */
     public function setHideGrammaticalErrors($hideGrammaticalErrors)
     {
-        $this->hideGrammaticalErrors = $hideGrammaticalErrors === null ? true : $hideGrammaticalErrors;
+        $this->hideGrammaticalErrors = $hideGrammaticalErrors ?? true;
     }
 
     /**
@@ -249,7 +249,7 @@ class Settings
      */
     public function setEvenAndOddHeaders($evenAndOddHeaders)
     {
-        $this->evenAndOddHeaders = $evenAndOddHeaders === null ? true : $evenAndOddHeaders;
+        $this->evenAndOddHeaders = $evenAndOddHeaders ?? true;
     }
 
     /**
@@ -285,7 +285,7 @@ class Settings
      */
     public function setTrackRevisions($trackRevisions)
     {
-        $this->trackRevisions = $trackRevisions === null ? true : $trackRevisions;
+        $this->trackRevisions = $trackRevisions ?? true;
     }
 
     /**
@@ -301,7 +301,7 @@ class Settings
      */
     public function setDoNotTrackMoves($doNotTrackMoves)
     {
-        $this->doNotTrackMoves = $doNotTrackMoves === null ? true : $doNotTrackMoves;
+        $this->doNotTrackMoves = $doNotTrackMoves ?? true;
     }
 
     /**
@@ -317,7 +317,7 @@ class Settings
      */
     public function setDoNotTrackFormatting($doNotTrackFormatting)
     {
-        $this->doNotTrackFormatting = $doNotTrackFormatting === null ? true : $doNotTrackFormatting;
+        $this->doNotTrackFormatting = $doNotTrackFormatting ?? true;
     }
 
     /**
@@ -391,7 +391,7 @@ class Settings
      */
     public function setUpdateFields($updateFields)
     {
-        $this->updateFields = $updateFields === null ? false : $updateFields;
+        $this->updateFields = $updateFields ?? false;
     }
 
     /**
