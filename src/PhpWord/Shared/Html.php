@@ -178,7 +178,7 @@ class Html
                 }
             }
             $method = "parse{$method}";
-            $newElement = call_user_func_array(array(\PhpOffice\PhpWord\Shared\Html::class, $method), $arguments);
+            $newElement = call_user_func_array(array(self::class, $method), $arguments);
 
             // Retrieve back variables from arguments
             foreach ($keys as $key) {
