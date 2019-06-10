@@ -66,7 +66,7 @@
     "require-dev": {
         "ext-zip": "*",
         "ext-gd": "*",
-        "phpunit/phpunit": "^4.8.36 || ^7.0",
+        "phpunit/phpunit": "^7.0|^8.0",
         "squizlabs/php_codesniffer": "^2.9",
         "friendsofphp/php-cs-fixer": "^2.2",
         "phpmd/phpmd": "2.*",
@@ -74,7 +74,7 @@
         "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.7.4 || 6.* || 7.*",
-        "php-coveralls/php-coveralls": "1.1.0 || ^2.0"
+        "php-coveralls/php-coveralls": "^2.0"
     },
     "suggest": {
         "ext-zip": "Allows writing OOXML and ODF",
