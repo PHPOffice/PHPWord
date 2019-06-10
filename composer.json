@@ -66,11 +66,11 @@
     "require-dev": {
         "ext-zip": "*",
         "ext-gd": "*",
-        "phpunit/phpunit": "^7.0|^8.0",
+        "phpunit/phpunit": "^7.0 || ^8.0",
         "squizlabs/php_codesniffer": "^2.9",
         "friendsofphp/php-cs-fixer": "^2.2",
         "phpmd/phpmd": "2.*",
-        "phploc/phploc": "2.* || 3.* || 4.*",
+        "phploc/phploc": "^4.0 || ^5.0",
         "dompdf/dompdf":"0.8.*",
         "tecnickcom/tcpdf": "6.*",
         "mpdf/mpdf": "5.7.4 || 6.* || 7.*",
