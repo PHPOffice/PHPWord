@@ -3,27 +3,20 @@ language: php
 dist: precise
 
 php:
-    - 5.3
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
-    - 7.1
-    - 7.2
-    - 7.3
+    - '7.0'
+    - '7.1'
+    - '7.2'
+    - '7.3'
 
 matrix:
     include:
-        - php: 7.0
+        - php: '7.0'
           env: COVERAGE=1
-        - php: 5.3
-          env: COMPOSER_MEMORY_LIMIT=2G
-        - php: 7.3
+        - php: '7.3'
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
-        - php: 5.3
-        - php: 7.0
-        - php: 7.3
+        - php: '7.0'
+        - php: '7.3'
 
 cache:
     directories:
