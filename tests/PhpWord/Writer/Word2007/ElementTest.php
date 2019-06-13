@@ -510,4 +510,25 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:t'));
         $this->assertEquals('this text contains an & (ampersant)', $doc->getElement('/w:document/w:body/w:p/w:r/w:t')->nodeValue);
     }
+
+    /**
+     * Test ListItemRun paragraph style writing
+     */
+    public function testListItemRunStyleWriting()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addParagraphStyle('MyParagraphStyle', array('spaceBefore' => 400));
+
+        $section = $phpWord->addSection();
+        $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');
+        $listItemRun->addText('List item');
+        $listItemRun->addText(' in bold', array('bold' => true));
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+        $this->assertFalse($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pPr'));
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:pPr/w:pStyle'));
+        $this->assertEquals('List item', $doc->getElement('/w:document/w:body/w:p/w:r[1]/w:t')->nodeValue);
+        $this->assertEquals(' in bold', $doc->getElement('/w:document/w:body/w:p/w:r[2]/w:t')->nodeValue);
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r[2]/w:rPr/w:b'));
+    }
 }
