@@ -29,6 +29,9 @@ use PhpOffice\PhpWord\Writer\WriterInterface;
  */
 class MPDF extends AbstractRenderer implements WriterInterface
 {
+    const MPDF_5 = '\mpdf';
+    const MPDF_6 = '\Mpdf\Mpdf';
+
     /**
      * Overridden to set the correct includefile, only needed for MPDF 5
      *
@@ -59,7 +62,12 @@ class MPDF extends AbstractRenderer implements WriterInterface
 
         //  Create PDF
         $mPdfClass = $this->getMPdfClassName();
-        $pdf = new $mPdfClass();
+        if (self::MPDF_5 === $mPdfClass) {
+            $pdf = new $mPdfClass();
+        } else {
+            $mPdfConfig = Settings::getPdfRendererConfig() ?: array();
+            $pdf = new $mPdfClass($mPdfConfig);
+        }
         $pdf->_setPageSize($paperSize, $orientation);
         $pdf->addPage($orientation);
 
@@ -90,10 +98,10 @@ class MPDF extends AbstractRenderer implements WriterInterface
     {
         if ($this->includeFile != null) {
             // MPDF version 5.*
-            return '\mpdf';
+            return self::MPDF_5;
         }
 
         // MPDF version > 6.*
-        return '\Mpdf\Mpdf';
+        return self::MPDF_6;
     }
 }
