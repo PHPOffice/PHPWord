@@ -24,7 +24,7 @@ Once you have an issue you want to start working on, you'll need to write tests 
 - `composer test-no-coverage` to run all of the tests
 - `composer test` to run all of the tests and generate test coverage reports
 
-When you're ready to submit your new (and fully tested) feature, [submit a pull request to PHPWord](https://github.com/PHPOffice/PHPWord/issues/new).
+When you're ready to submit your new (and fully tested) feature, ensure `composer check` passes and [submit a pull request to PHPWord](https://github.com/PHPOffice/PHPWord/issues/new).
 
 That's it. Thank you for your interest in PHPWord, and welcome!
 
