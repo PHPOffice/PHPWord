@@ -28,7 +28,7 @@ use PhpOffice\PhpWord\Style\Paragraph;
 /**
  * Common Html functions
  *
- * @SuppressWarnings(PHPMD.UnusedprotectedMethod) For readWPNode
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
  */
 class Html
 {
