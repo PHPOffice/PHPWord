@@ -34,7 +34,7 @@ use ReflectionClass;
  * @method Footnote addFootnote(mixed $pStyle = null)
  * @method Endnote addEndnote(mixed $pStyle = null)
  * @method CheckBox addCheckBox(string $name, $text, mixed $fStyle = null, mixed $pStyle = null)
- * @method Title addTitle(mixed $text, int $depth = 1)
+ * @method Title addTitle(mixed $text, int $depth = 1, int $pageNumber = null)
  * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)

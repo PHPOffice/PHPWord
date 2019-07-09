@@ -461,32 +461,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test Title and Headings.
-     */
-    public function testTitleAndHeading(): void
-    {
-        $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(0, ['size' => 14, 'italic' => true]);
-        $phpWord->addTitleStyle(1, ['size' => 20, 'color' => '333333', 'bold' => true]);
-
-        $section = $phpWord->addSection();
-        $section->addTitle('This is a title', 0);
-        $section->addTitle('Heading 1', 1);
-
-        $doc = TestHelperDOCX::getDocument($phpWord);
-
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:r/w:t'));
-        self::assertEquals('This is a title', $doc->getElement('/w:document/w:body/w:p[1]/w:r/w:t')->textContent);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:pStyle'));
-        self::assertEquals('Title', $doc->getElementAttribute('/w:document/w:body/w:p[1]/w:pPr/w:pStyle', 'w:val'));
-
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:r/w:t'));
-        self::assertEquals('Heading 1', $doc->getElement('/w:document/w:body/w:p[2]/w:r/w:t')->textContent);
-        self::assertTrue($doc->elementExists('/w:document/w:body/w:p[2]/w:pPr/w:pStyle'));
-        self::assertEquals('Heading1', $doc->getElementAttribute('/w:document/w:body/w:p[2]/w:pPr/w:pStyle', 'w:val'));
-    }
-
-    /**
      * Test correct writing of text with ampersant in it.
      */
     public function testTextWithAmpersant(): void
