@@ -54,12 +54,20 @@ class Title extends AbstractElement
     protected $collectionRelation = true;
 
     /**
+     * Bookmark page number
+     *
+     * @var int
+     */
+    private $pageNum;
+
+    /**
      * Create a new Title Element
      *
      * @param string|TextRun $text
      * @param int $depth
+     * @param int|null $pageNum
      */
-    public function __construct($text, $depth = 1)
+    public function __construct($text, $depth = 1, $pageNum = null)
     {
         if (is_string($text)) {
             $this->text = CommonText::toUTF8($text);
@@ -73,6 +81,10 @@ class Title extends AbstractElement
         $styleName = $depth === 0 ? 'Title' : "Heading_{$this->depth}";
         if (array_key_exists($styleName, Style::getStyles())) {
             $this->style = str_replace('_', '', $styleName);
+        }
+
+        if($pageNum !== null) {
+            $this->pageNum = $pageNum;
         }
     }
 
@@ -104,5 +116,15 @@ class Title extends AbstractElement
     public function getStyle()
     {
         return $this->style;
+    }
+
+    /**
+     * Get page number
+     *
+     * @return int
+     */
+    public function getPageNum()
+    {
+        return $this->pageNum;
     }
 }

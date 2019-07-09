@@ -31,7 +31,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Footnote addFootnote(mixed $pStyle = null)
  * @method Endnote addEndnote(mixed $pStyle = null)
  * @method CheckBox addCheckBox(string $name, $text, mixed $fStyle = null, mixed $pStyle = null)
- * @method Title addTitle(mixed $text, int $depth = 1)
+ * @method Title addTitle(mixed $text, int $depth = 1, $pageNum = null)
  * @method TOC addTOC(mixed $fontStyle = null, mixed $tocStyle = null, int $minDepth = 1, int $maxDepth = 9)
  * @method PageBreak addPageBreak()
  * @method Table addTable(mixed $style = null)
@@ -41,7 +41,7 @@ namespace PhpOffice\PhpWord\Element;
  * @method Field addField(string $type = null, array $properties = array(), array $options = array(), mixed $text = null)
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addShape(string $type, mixed $style = null)
- * @method Chart addChart(string $type, array $categories, array $values, array $style = null)
+ * @method Chart addChart(string $type, array $categories, array $values, array $style = null, $seriesName = null)
  * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  * @method SDT addSDT(string $type)
  *

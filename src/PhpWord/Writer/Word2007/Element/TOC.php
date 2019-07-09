@@ -118,6 +118,20 @@ class TOC extends AbstractElement
         $xmlWriter->endElement();
         $xmlWriter->endElement();
 
+        if($title->getPageNum() !== null) {
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:fldChar');
+            $xmlWriter->writeAttribute('w:fldCharType', 'separate');
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+
+            $xmlWriter->startElement('w:r');
+            $xmlWriter->startElement('w:t');
+            $xmlWriter->text($title->getPageNum());
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
+        }
+
         $xmlWriter->startElement('w:r');
         $xmlWriter->startElement('w:fldChar');
         $xmlWriter->writeAttribute('w:fldCharType', 'end');
