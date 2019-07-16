@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Shared;
 
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
@@ -27,7 +28,7 @@ use PhpOffice\PhpWord\TestHelperDOCX;
  * Test class for PhpOffice\PhpWord\Shared\Html
  * @coversDefaultClass \PhpOffice\PhpWord\Shared\Html
  */
-class HtmlTest extends \PHPUnit\Framework\TestCase
+class HtmlTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * Test unit conversion functions with various numbers
@@ -296,8 +297,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
                 <thead>
                     <tr style="background-color: #FF0000; text-align: center; color: #FFFFFF; font-weight: bold; ">
                         <th style="width: 50pt">header a</th>
-                        <th style="width: 50">header b</th>
-                        <th style="border-color: #00FF00; border-width: 3px">header c</th>
+                        <th style="width: 50; border-color: #00EE00">header b</th>
+                        <th style="border-color: #00AA00 #00BB00 #00CC00 #00DD00; border-width: 3px">header c</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -312,6 +313,17 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tr/w:tc'));
         $this->assertTrue($doc->elementExists('/w:document/w:body/w:tbl/w:tblPr/w:jc'));
         $this->assertEquals(Jc::START, $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tblPr/w:jc', 'w:val'));
+
+        //check border colors
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:right', 'w:color'));
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
+        $this->assertEquals('00EE00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[2]/w:tcPr/w:tcBorders/w:left', 'w:color'));
+
+        $this->assertEquals('00AA00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:top', 'w:color'));
+        $this->assertEquals('00BB00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:right', 'w:color'));
+        $this->assertEquals('00CC00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:bottom', 'w:color'));
+        $this->assertEquals('00DD00', $doc->getElementAttribute('/w:document/w:body/w:tbl/w:tr[1]/w:tc[3]/w:tcPr/w:tcBorders/w:left', 'w:color'));
     }
 
     /**
@@ -487,7 +499,7 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
      */
     public function testParseRemoteImage()
     {
-        $src = 'https://phpword.readthedocs.io/en/latest/_images/phpword.png';
+        $src = self::getRemoteImageUrl();
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -588,5 +600,36 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         Html::addHtml($section, $html);
         $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
         $this->assertFalse($doc->elementExists('/w:document/w:body/w:p[1]/w:pPr/w:jc'));
+    }
+
+    /**
+     * Tests parsing hidden text
+     */
+    public function testParseHiddenText()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="display: hidden">This is some hidden text.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:vanish'));
+    }
+
+    /**
+     * Tests parsing letter spacing
+     */
+    public function testParseLetterSpacing()
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $html = '<p style="letter-spacing: 150px">This is some text with letter spacing.</p>';
+        Html::addHtml($section, $html);
+
+        $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+        $this->assertTrue($doc->elementExists('/w:document/w:body/w:p/w:r/w:rPr/w:spacing'));
+        $this->assertEquals(150 * 15, $doc->getElement('/w:document/w:body/w:p/w:r/w:rPr/w:spacing')->getAttribute('w:val'));
     }
 }

@@ -73,7 +73,7 @@ PHPWord requires the following:
 ## Installation
 
 PHPWord is installed via [Composer](https://getcomposer.org/).
-To [add a dependency](https://getcomposer.org/doc/04-schema.md#package-links>) to PHPWord in your project, either
+To [add a dependency](https://getcomposer.org/doc/04-schema.md#package-links) to PHPWord in your project, either
 
 Run the following to use the latest stable version
 ```sh

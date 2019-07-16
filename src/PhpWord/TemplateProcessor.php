@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\Common\Text;
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Escaper\RegExp;
 use PhpOffice\PhpWord\Escaper\Xml;
 use PhpOffice\PhpWord\Exception\CopyFileException;
@@ -47,6 +48,13 @@ class TemplateProcessor
      * @var string
      */
     protected $tempDocumentMainPart;
+
+    /**
+     * Content of settings part (in XML format) of the temporary document
+     *
+     * @var string
+     */
+    protected $tempDocumentSettingsPart;
 
     /**
      * Content of headers (in XML format) of the temporary document
@@ -119,6 +127,7 @@ class TemplateProcessor
         }
 
         $this->tempDocumentMainPart = $this->readPartWithRels($this->getMainPartName());
+        $this->tempDocumentSettingsPart = $this->readPartWithRels($this->getSettingsPartName());
         $this->tempDocumentContentTypes = $this->zipClass->getFromName($this->getDocumentContentTypesName());
     }
 
@@ -161,7 +170,7 @@ class TemplateProcessor
      */
     protected function transformSingleXml($xml, $xsltProcessor)
     {
-        libxml_disable_entity_loader(true);
+        $orignalLibEntityLoader = libxml_disable_entity_loader(true);
         $domDocument = new \DOMDocument();
         if (false === $domDocument->loadXML($xml)) {
             throw new Exception('Could not load the given XML document.');
@@ -171,6 +180,7 @@ class TemplateProcessor
         if (false === $transformedXml) {
             throw new Exception('Could not transform the given XML document.');
         }
+        libxml_disable_entity_loader($orignalLibEntityLoader);
 
         return $transformedXml;
     }
@@ -250,6 +260,46 @@ class TemplateProcessor
     }
 
     /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setComplexValue($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
+    {
+        $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        $xmlWriter = new XMLWriter();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        $elementWriter = new $objectClass($xmlWriter, $complexType, true);
+        $elementWriter->write();
+
+        $where = $this->findContainingXmlBlockForMacro($search, 'w:r');
+        $block = $this->getSlice($where['start'], $where['end']);
+        $textParts = $this->splitTextIntoTexts($block);
+        $this->replaceXmlBlock($search, $textParts, 'w:r');
+
+        $search = static::ensureMacroCompleted($search);
+        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:r');
+    }
+
+    /**
+     * @param string $search
+     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
+     */
+    public function setComplexBlock($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
+    {
+        $elementName = substr(get_class($complexType), strrpos(get_class($complexType), '\\') + 1);
+        $objectClass = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $elementName;
+
+        $xmlWriter = new XMLWriter();
+        /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $elementWriter */
+        $elementWriter = new $objectClass($xmlWriter, $complexType, false);
+        $elementWriter->write();
+
+        $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
+    }
+
+    /**
      * @param mixed $search
      * @param mixed $replace
      * @param int $limit
@@ -282,6 +332,18 @@ class TemplateProcessor
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
         $this->tempDocumentFooters = $this->setValueForPart($search, $replace, $this->tempDocumentFooters, $limit);
+    }
+
+    /**
+     * Set values from a one-dimensional array of "variable => value"-pairs.
+     *
+     * @param array $values
+     */
+    public function setValues(array $values)
+    {
+        foreach ($values as $macro => $replace) {
+            $this->setValue($macro, $replace);
+        }
     }
 
     private function getImageArgs($varNameWithArgs)
@@ -642,6 +704,24 @@ class TemplateProcessor
     }
 
     /**
+     * Clones a table row and populates it's values from a two-dimensional array in a template document.
+     *
+     * @param string $search
+     * @param array $values
+     */
+    public function cloneRowAndSetValues($search, $values)
+    {
+        $this->cloneRow($search, count($values));
+
+        foreach ($values as $rowKey => $rowData) {
+            $rowNumber = $rowKey + 1;
+            foreach ($rowData as $macro => $replace) {
+                $this->setValue($macro . '#' . $rowNumber, $replace);
+            }
+        }
+    }
+
+    /**
      * Clone a block.
      *
      * @param string $blockname
@@ -655,6 +735,7 @@ class TemplateProcessor
     public function cloneBlock($blockname, $clones = 1, $replace = true, $indexVariables = false, $variableReplacements = null)
     {
         $xmlBlock = null;
+        $matches = array();
         preg_match(
             '/(<\?xml.*)(<w:p\b.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p\b.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
@@ -694,6 +775,7 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
+        $matches = array();
         preg_match(
             '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
@@ -720,6 +802,22 @@ class TemplateProcessor
     }
 
     /**
+     * Automatically Recalculate Fields on Open
+     *
+     * @param bool $update
+     */
+    public function setUpdateFields($update = true)
+    {
+        $string = $update ? 'true' : 'false';
+        $matches = array();
+        if (preg_match('/<w:updateFields w:val=\"(true|false|1|0|on|off)\"\/>/', $this->tempDocumentSettingsPart, $matches)) {
+            $this->tempDocumentSettingsPart = str_replace($matches[0], '<w:updateFields w:val="' . $string . '"/>', $this->tempDocumentSettingsPart);
+        } else {
+            $this->tempDocumentSettingsPart = str_replace('</w:settings>', '<w:updateFields w:val="' . $string . '"/></w:settings>', $this->tempDocumentSettingsPart);
+        }
+    }
+
+    /**
      * Saves the result document.
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
@@ -733,6 +831,7 @@ class TemplateProcessor
         }
 
         $this->savePartWithRels($this->getMainPartName(), $this->tempDocumentMainPart);
+        $this->savePartWithRels($this->getSettingsPartName(), $this->tempDocumentSettingsPart);
 
         foreach ($this->tempDocumentFooters as $index => $xml) {
             $this->savePartWithRels($this->getFooterName($index), $xml);
@@ -835,6 +934,7 @@ class TemplateProcessor
      */
     protected function getVariablesForPart($documentPartXML)
     {
+        $matches = array();
         preg_match_all('/\$\{(.*?)}/i', $documentPartXML, $matches);
 
         return $matches[1];
@@ -863,9 +963,20 @@ class TemplateProcessor
 
         $pattern = '~PartName="\/(word\/document.*?\.xml)" ContentType="application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document\.main\+xml"~';
 
+        $matches = array();
         preg_match($pattern, $contentTypes, $matches);
 
         return array_key_exists(1, $matches) ? $matches[1] : 'word/document.xml';
+    }
+
+    /**
+     * The name of the file containing the Settings part
+     *
+     * @return string
+     */
+    protected function getSettingsPartName()
+    {
+        return 'word/settings.xml';
     }
 
     /**
@@ -1000,5 +1111,142 @@ class TemplateProcessor
         }
 
         return $results;
+    }
+
+    /**
+     * Replace an XML block surrounding a macro with a new block
+     *
+     * @param string $macro Name of macro
+     * @param string $block New block content
+     * @param string $blockType XML tag type of block
+     * @return \PhpOffice\PhpWord\TemplateProcessor Fluent interface
+     */
+    protected function replaceXmlBlock($macro, $block, $blockType = 'w:p')
+    {
+        $where = $this->findContainingXmlBlockForMacro($macro, $blockType);
+        if (is_array($where)) {
+            $this->tempDocumentMainPart = $this->getSlice(0, $where['start']) . $block . $this->getSlice($where['end']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Find start and end of XML block containing the given macro
+     * e.g. <w:p>...${macro}...</w:p>
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $macro Name of macro
+     * @param string $blockType XML tag for block
+     * @return bool|int[] FALSE if not found, otherwise array with start and end
+     */
+    protected function findContainingXmlBlockForMacro($macro, $blockType = 'w:p')
+    {
+        $macroPos = $this->findMacro($macro);
+        if (0 > $macroPos) {
+            return false;
+        }
+        $start = $this->findXmlBlockStart($macroPos, $blockType);
+        if (0 > $start) {
+            return false;
+        }
+        $end = $this->findXmlBlockEnd($start, $blockType);
+        //if not found or if resulting string does not contain the macro we are searching for
+        if (0 > $end || strstr($this->getSlice($start, $end), $macro) === false) {
+            return false;
+        }
+
+        return array('start' => $start, 'end' => $end);
+    }
+
+    /**
+     * Find the position of (the start of) a macro
+     *
+     * Returns -1 if not found, otherwise position of opening $
+     *
+     * Note that only the first instance of the macro will be found
+     *
+     * @param string $search Macro name
+     * @param int $offset Offset from which to start searching
+     * @return int -1 if macro not found
+     */
+    protected function findMacro($search, $offset = 0)
+    {
+        $search = static::ensureMacroCompleted($search);
+        $pos = strpos($this->tempDocumentMainPart, $search, $offset);
+
+        return ($pos === false) ? -1 : $pos;
+    }
+
+    /**
+     * Find the start position of the nearest XML block start before $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return int -1 if block start not found
+     */
+    protected function findXmlBlockStart($offset, $blockType)
+    {
+        $reverseOffset = (strlen($this->tempDocumentMainPart) - $offset) * -1;
+        // first try XML tag with attributes
+        $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . ' ', $reverseOffset);
+        // if not found, or if found but contains the XML tag without attribute
+        if (false === $blockStart || strrpos($this->getSlice($blockStart, $offset), '<' . $blockType . '>')) {
+            // also try XML tag without attributes
+            $blockStart = strrpos($this->tempDocumentMainPart, '<' . $blockType . '>', $reverseOffset);
+        }
+
+        return ($blockStart === false) ? -1 : $blockStart;
+    }
+
+    /**
+     * Find the nearest block end position after $offset
+     *
+     * @param int $offset    Search position
+     * @param string  $blockType XML Block tag
+     * @return int -1 if block end not found
+     */
+    protected function findXmlBlockEnd($offset, $blockType)
+    {
+        $blockEndStart = strpos($this->tempDocumentMainPart, '</' . $blockType . '>', $offset);
+        // return position of end of tag if found, otherwise -1
+
+        return ($blockEndStart === false) ? -1 : $blockEndStart + 3 + strlen($blockType);
+    }
+
+    /**
+     * Splits a w:r/w:t into a list of w:r where each ${macro} is in a separate w:r
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function splitTextIntoTexts($text)
+    {
+        if (!$this->textNeedsSplitting($text)) {
+            return $text;
+        }
+        $matches = array();
+        if (preg_match('/(<w:rPr.*<\/w:rPr>)/i', $text, $matches)) {
+            $extractedStyle = $matches[0];
+        } else {
+            $extractedStyle = '';
+        }
+
+        $unformattedText = preg_replace('/>\s+</', '><', $text);
+        $result = str_replace(array('${', '}'), array('</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">${', '}</w:t></w:r><w:r>' . $extractedStyle . '<w:t xml:space="preserve">'), $unformattedText);
+
+        return str_replace(array('<w:r>' . $extractedStyle . '<w:t xml:space="preserve"></w:t></w:r>', '<w:r><w:t xml:space="preserve"></w:t></w:r>', '<w:t>'), array('', '', '<w:t xml:space="preserve">'), $result);
+    }
+
+    /**
+     * Returns true if string contains a macro that is not in it's own w:r
+     *
+     * @param string $text
+     * @return bool
+     */
+    protected function textNeedsSplitting($text)
+    {
+        return preg_match('/[^>]\${|}[^<]/i', $text) == 1;
     }
 }

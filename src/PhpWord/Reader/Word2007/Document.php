@@ -106,6 +106,7 @@ class Document extends AbstractPart
     {
         $styleDefs = array(
             'breakType'     => array(self::READ_VALUE, 'w:type'),
+            'vAlign'        => array(self::READ_VALUE, 'w:vAlign'),
             'pageSizeW'     => array(self::READ_VALUE, 'w:pgSz', 'w:w'),
             'pageSizeH'     => array(self::READ_VALUE, 'w:pgSz', 'w:h'),
             'orientation'   => array(self::READ_VALUE, 'w:pgSz', 'w:orient'),

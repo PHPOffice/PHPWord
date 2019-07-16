@@ -17,6 +17,9 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
+
 /**
  * @covers \PhpOffice\PhpWord\TemplateProcessor
  * @coversDefaultClass \PhpOffice\PhpWord\TemplateProcessor
@@ -197,6 +200,67 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @covers ::setValue
+     * @covers ::cloneRow
+     * @covers ::saveAs
+     * @test
+     */
+    public function testCloneRowAndSetValues()
+    {
+        $mainPart = '<w:tbl>
+            <w:tr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:vMerge w:val="restart"/>
+                    </w:tcPr>
+                    <w:p>
+                        <w:r>
+                            <w:t>${userId}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t>${userName}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <w:tr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:vMerge/>
+                    </w:tcPr>
+                    <w:p/>
+                </w:tc>
+                <w:tc>
+                    <w:p>
+                        <w:r>
+                            <w:t>${userLocation}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        $this->assertEquals(
+            array('userId', 'userName', 'userLocation'),
+            $templateProcessor->getVariables()
+        );
+
+        $values = array(
+            array('userId' => 1, 'userName' => 'Batman', 'userLocation' => 'Gotham City'),
+            array('userId' => 2, 'userName' => 'Superman', 'userLocation' => 'Metropolis'),
+        );
+        $templateProcessor->setValue('tableHeader', 'My clonable table');
+        $templateProcessor->cloneRowAndSetValues('userId', $values);
+        $this->assertContains('<w:t>Superman</w:t>', $templateProcessor->getMainPart());
+        $this->assertContains('<w:t>Metropolis</w:t>', $templateProcessor->getMainPart());
+    }
+
+    /**
      * @expectedException \Exception
      * @test
      */
@@ -244,6 +308,78 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
             array('tableHeader', 'userId', 'userLocation'),
             $templateProcessor->getVariables()
         );
+    }
+
+    public function testSetComplexValue()
+    {
+        $title = new TextRun();
+        $title->addText('This is my title');
+
+        $firstname = new Text('Donald');
+        $lastname = new Text('Duck');
+
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${document-title}</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $result = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:pPr/>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">This is my title</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">Donald</w:t>
+            </w:r>
+            <w:r>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr/>
+                <w:t xml:space="preserve">Duck</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setComplexBlock('document-title', $title);
+        $templateProcessor->setComplexValue('firstname', $firstname);
+        $templateProcessor->setComplexValue('lastname', $lastname);
+
+        $this->assertEquals(preg_replace('/>\s+</', '><', $result), preg_replace('/>\s+</', '><', $templateProcessor->getMainPart()));
+    }
+
+    /**
+     * @covers ::setValues
+     * @test
+     */
+    public function testSetValues()
+    {
+        $mainPart = '<?xml version="1.0" encoding="UTF-8"?>
+        <w:p>
+            <w:r>
+                <w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t>
+            </w:r>
+        </w:p>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $templateProcessor->setValues(array('firstname' => 'John', 'lastname' => 'Doe'));
+
+        $this->assertContains('Hello John Doe', $templateProcessor->getMainPart());
     }
 
     /**
@@ -594,5 +730,118 @@ final class TemplateProcessorTest extends \PHPUnit\Framework\TestCase
 
         $variables = $templateProcessor->getVariablesForPart('<w:t>$</w:t></w:r><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/><w:r><w:t xml:space="preserve">15,000.00. </w:t></w:r><w:r w:rsidR="0056499B"><w:t>$</w:t></w:r><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>{</w:t></w:r><w:proofErr w:type="spellStart"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>variable_name</w:t></w:r><w:proofErr w:type="spellEnd"/><w:r w:rsidR="00573DFD" w:rsidRPr="00573DFD"><w:rPr><w:iCs/></w:rPr><w:t>}</w:t></w:r>');
         $this->assertEquals(array('variable_name'), $variables);
+    }
+
+    /**
+     * @covers ::textNeedsSplitting
+     */
+    public function testTextNeedsSplitting()
+    {
+        $templateProcessor = new TestableTemplateProcesor();
+
+        $this->assertFalse($templateProcessor->textNeedsSplitting('<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">${nothing-to-replace}</w:t></w:r>'));
+
+        $text = '<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t></w:r>';
+        $this->assertTrue($templateProcessor->textNeedsSplitting($text));
+        $splitText = $templateProcessor->splitTextIntoTexts($text);
+        $this->assertFalse($templateProcessor->textNeedsSplitting($splitText));
+    }
+
+    /**
+     * @covers ::splitTextIntoTexts
+     */
+    public function testSplitTextIntoTexts()
+    {
+        $templateProcessor = new TestableTemplateProcesor();
+
+        $splitText = $templateProcessor->splitTextIntoTexts('<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">${nothing-to-replace}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">${nothing-to-replace}</w:t></w:r>', $splitText);
+
+        $splitText = $templateProcessor->splitTextIntoTexts('<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">Hello ${firstname} ${lastname}</w:t></w:r>');
+        $this->assertEquals('<w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">Hello </w:t></w:r><w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">${firstname}</w:t></w:r><w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:b/><w:i/></w:rPr><w:t xml:space="preserve">${lastname}</w:t></w:r>', $splitText);
+    }
+
+    public function testFindXmlBlockStart()
+    {
+        $toFind = '<w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>This whole paragraph will be replaced with my ${title}</w:t>
+                </w:r>';
+        $mainPart = '<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid wp14">
+            <w:p w14:paraId="165D45AF" w14:textId="7FEC9B41" w:rsidR="005B1098" w:rsidRDefault="005B1098">
+                <w:r w:rsidR="00A045B2">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t xml:space="preserve"> ${value1} ${value2}</w:t>
+                </w:r>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t>.</w:t>
+                </w:r>
+            </w:p>
+            <w:p w14:paraId="330D1954" w14:textId="0AB1D347" w:rsidR="00156568" w:rsidRDefault="00156568">
+                <w:pPr>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                </w:pPr>
+                ' . $toFind . '
+            </w:p>
+        </w:document>';
+
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+        $position = $templateProcessor->findContainingXmlBlockForMacro('${title}', 'w:r');
+
+        $this->assertEquals($toFind, $templateProcessor->getSlice($position['start'], $position['end']));
+    }
+
+    public function testShouldReturnFalseIfXmlBlockNotFound()
+    {
+        $mainPart = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:p>
+                <w:r>
+                    <w:rPr>
+                        <w:lang w:val="en-GB"/>
+                    </w:rPr>
+                    <w:t xml:space="preserve">this is my text containing a ${macro}</w:t>
+                </w:r>
+            </w:p>
+        </w:document>';
+        $templateProcessor = new TestableTemplateProcesor($mainPart);
+
+        //non-existing macro
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${fake-macro}', 'w:p');
+        $this->assertFalse($result);
+
+        //existing macro but not inside node looked for
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${macro}', 'w:fake-node');
+        $this->assertFalse($result);
+
+        //existing macro but end tag not found after macro
+        $result = $templateProcessor->findContainingXmlBlockForMacro('${macro}', 'w:rPr');
+        $this->assertFalse($result);
+    }
+
+    public function testShouldMakeFieldsUpdateOnOpen()
+    {
+        $settingsPart = '<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:zoom w:percent="100"/>
+        </w:settings>';
+        $templateProcessor = new TestableTemplateProcesor(null, $settingsPart);
+
+        $templateProcessor->setUpdateFields(true);
+        $this->assertContains('<w:updateFields w:val="true"/>', $templateProcessor->getSettingsPart());
+
+        $templateProcessor->setUpdateFields(false);
+        $this->assertContains('<w:updateFields w:val="false"/>', $templateProcessor->getSettingsPart());
     }
 }

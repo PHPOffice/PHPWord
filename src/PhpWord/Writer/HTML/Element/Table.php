@@ -51,6 +51,14 @@ class Table extends AbstractElement
                 $rowCellCount = count($rowCells);
                 for ($j = 0; $j < $rowCellCount; $j++) {
                     $cellStyle = $rowCells[$j]->getStyle();
+                    $cellBgColor = $cellStyle->getBgColor();
+                    $cellFgColor = null;
+                    if ($cellBgColor) {
+                        $red = hexdec(substr($cellBgColor, 0, 2));
+                        $green = hexdec(substr($cellBgColor, 2, 2));
+                        $blue = hexdec(substr($cellBgColor, 4, 2));
+                        $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
+                    }
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
                     $cellVMerge = $cellStyle->getVMerge();
@@ -74,7 +82,9 @@ class Table extends AbstractElement
                         $cellTag = $tblHeader ? 'th' : 'td';
                         $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
-                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}>" . PHP_EOL;
+                        $cellBgColorAttr = (is_null($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
+                        $cellFgColorAttr = (is_null($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
+                        $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);
                         $content .= $writer->write();
                         if ($cellRowSpan > 1) {
