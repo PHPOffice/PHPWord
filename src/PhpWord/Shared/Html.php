@@ -686,7 +686,6 @@ class Html
                 fclose($ifp);
             }
         }
-        $src = urldecode($src);
 
         if (!is_file($src)
             && !is_null(self::$options)
