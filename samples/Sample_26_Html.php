@@ -4,7 +4,6 @@ include_once 'Sample_Header.php';
 // New Word Document
 echo date('H:i:s') , ' Create new PhpWord object' , EOL;
 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-$phpWord->addParagraphStyle('Heading2', array('alignment' => 'center'));
 
 $section = $phpWord->addSection();
 $html = '<h1>Adding element via HTML</h1>';
@@ -21,7 +20,7 @@ $html .= '<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</l
 $html .= '<p style="margin-top: 240pt;">1.5 line height with first line text indent:</p>';
 $html .= '<p style="text-align: justify; text-indent: 70.9pt; line-height: 150%;">Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 
-$html .= '<h2 style="align: center">centered title</h2>';
+$html .= '<h2 style="text-align: center">centered title</h2>';
 
 $html .= '<p style="margin-top: 240pt;">Ordered (numbered) list:</p>';
 $html .= '<ol>
