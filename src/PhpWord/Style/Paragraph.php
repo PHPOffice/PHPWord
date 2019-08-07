@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Style;
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\WordWrap;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 
 /**
@@ -39,6 +40,7 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  * OpenOffice:
  * - Indents & spacing
  * - Alignment
+ * - WordWrap
  * - Text flow
  * - Outline & numbering
  * - Tabs
@@ -81,6 +83,11 @@ class Paragraph extends Border
      * @var string
      */
     private $alignment = '';
+
+    /**
+     * @var string
+     */
+    private $wordWrap = '';
 
     /**
      * Indentation
@@ -221,6 +228,7 @@ class Paragraph extends Border
             'basedOn'             => $this->getBasedOn(),
             'next'                => $this->getNext(),
             'alignment'           => $this->getAlignment(),
+            'wordWrap'           => $this->getWordWrap(),
             'indentation'         => $this->getIndentation(),
             'spacing'             => $this->getSpace(),
             'pagination'          => array(
@@ -265,6 +273,33 @@ class Paragraph extends Border
     {
         if (Jc::isValid($value)) {
             $this->alignment = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @since 0.17.0
+     *
+     * @return string
+     */
+    public function getWordWrap()
+    {
+        return $this->wordWrap;
+    }
+
+
+    /**
+     * @since 0.17.0
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setWordWrap($value)
+    {
+        if (WordWrap::isValid($value)) {
+            $this->wordWrap = $value;
         }
 
         return $this;
