@@ -8,7 +8,7 @@
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-only",
     "authors": [
         {
             "name": "Mark Baker"
