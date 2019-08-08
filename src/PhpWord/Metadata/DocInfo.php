@@ -507,7 +507,7 @@ class DocInfo
             case 'date': // Date
                 return strtotime($propertyValue);
             case 'bool': // Boolean
-                return ($propertyValue == 'true') ? true : false;
+                return $propertyValue == 'true';
         }
 
         return $propertyValue;

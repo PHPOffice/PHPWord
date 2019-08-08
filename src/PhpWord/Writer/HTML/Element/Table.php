@@ -107,19 +107,23 @@ class Table extends AbstractElement
     /**
      * Translates Table style in CSS equivalent
      *
-     * @param \PhpOffice\PhpWord\Style\Table|null $tableStyle
+     * @param string|\PhpOffice\PhpWord\Style\Table|null $tableStyle
      * @return string
      */
-    private function getTableStyle(\PhpOffice\PhpWord\Style\Table $tableStyle = null)
+    private function getTableStyle($tableStyle = null)
     {
         if ($tableStyle == null) {
             return '';
         }
-        $style = ' style="';
-        if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
-            $style .= 'table-layout: fixed;';
-        } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
-            $style .= 'table-layout: auto;';
+        if (is_string($tableStyle)) {
+            $style = ' class="' . $tableStyle;
+        } else {
+            $style = ' style="';
+            if ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED) {
+                $style .= 'table-layout: fixed;';
+            } elseif ($tableStyle->getLayout() == \PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO) {
+                $style .= 'table-layout: auto;';
+            }
         }
 
         return $style . '"';

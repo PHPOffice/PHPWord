@@ -122,6 +122,21 @@ abstract class AbstractStyle
     }
 
     /**
+     * Writes boolean as 0 or 1
+     *
+     * @param bool $value
+     * @return null|string
+     */
+    protected function writeOnOf($value = null)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return $value ? '1' : '0';
+    }
+
+    /**
      * Assemble style array into style string
      *
      * @param array $styles

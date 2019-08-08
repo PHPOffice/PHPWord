@@ -160,4 +160,76 @@ class PartTest extends AbstractTestReader
         $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $endnote->getElement(0));
         $this->assertEquals('This is an endnote', $endnote->getElement(0)->getText());
     }
+
+    public function testReadHeadingWithOverriddenStyle()
+    {
+        $documentXml = '<w:p>
+            <w:pPr>
+                <w:pStyle w:val="Heading1"/>
+            </w:pPr>
+            <w:r>
+                <w:t>This is a bold </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00377798">
+                <w:rPr>
+                    <w:b w:val="0"/>
+                </w:rPr>
+                <w:t>heading</w:t>
+            </w:r>
+            <w:r>
+                <w:t xml:space="preserve"> but with parts not in bold</w:t>
+            </w:r>
+            </w:p>';
+
+        $stylesXml = '<w:style w:type="paragraph" w:default="1" w:styleId="Normal">
+                <w:name w:val="Normal"/>
+                <w:qFormat/>
+            </w:style>
+            <w:style w:type="paragraph" w:styleId="Heading1">
+                <w:name w:val="heading 1"/>
+                <w:basedOn w:val="Normal"/>
+                <w:next w:val="Normal"/>
+                <w:link w:val="Heading1Char"/>
+                <w:uiPriority w:val="9"/>
+                <w:qFormat/>
+                <w:rsid w:val="00377798"/>
+                <w:pPr>
+                    <w:keepNext/>
+                    <w:keepLines/>
+                    <w:spacing w:before="240"/>
+                    <w:outlineLvl w:val="0"/>
+                </w:pPr>
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="majorHAnsi" w:eastAsiaTheme="majorEastAsia" w:hAnsiTheme="majorHAnsi" w:cstheme="majorBidi"/>
+                    <w:b/>
+                    <w:color w:val="2F5496" w:themeColor="accent1" w:themeShade="BF"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:style>';
+
+        $phpWord = $this->getDocumentFromString(array('document' => $documentXml, 'styles' => $stylesXml));
+
+        $elements = $phpWord->getSection(0)->getElements();
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Title', $elements[0]);
+        /** @var \PhpOffice\PhpWord\Element\Title $title */
+        $title = $elements[0];
+        $this->assertEquals('Heading1', $title->getStyle());
+
+        /** @var \PhpOffice\PhpWord\Element\Text $text */
+        $text = $title->getText()->getElement(0);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text);
+        $this->assertEquals('This is a bold ', $text->getText());
+
+        /** @var \PhpOffice\PhpWord\Element\Text $text */
+        $text = $title->getText()->getElement(1);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text);
+        $this->assertEquals('heading', $text->getText());
+        $this->assertFalse($text->getFontStyle()->isBold());
+
+        /** @var \PhpOffice\PhpWord\Element\Text $text */
+        $text = $title->getText()->getElement(2);
+        $this->assertInstanceOf('PhpOffice\PhpWord\Element\Text', $text);
+        $this->assertEquals(' but with parts not in bold', $text->getText());
+    }
 }

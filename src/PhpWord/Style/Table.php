@@ -759,7 +759,7 @@ class Table extends Border
     /**
      * Get the columnWidths
      *
-     * @return number[]
+     * @return null|int[]
      */
     public function getColumnWidths()
     {

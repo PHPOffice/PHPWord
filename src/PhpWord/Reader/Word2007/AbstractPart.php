@@ -297,6 +297,8 @@ abstract class AbstractPart
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                } else {
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
             } else {
                 /** @var AbstractElement $element */
@@ -336,7 +338,7 @@ abstract class AbstractPart
             } elseif ('w:tr' == $tblNode->nodeName) { // Row
                 $rowHeight = $xmlReader->getAttribute('w:val', $tblNode, 'w:trPr/w:trHeight');
                 $rowHRule = $xmlReader->getAttribute('w:hRule', $tblNode, 'w:trPr/w:trHeight');
-                $rowHRule = $rowHRule == 'exact' ? true : false;
+                $rowHRule = $rowHRule == 'exact';
                 $rowStyle = array(
                     'tblHeader'   => $xmlReader->elementExists('w:trPr/w:tblHeader', $tblNode),
                     'cantSplit'   => $xmlReader->elementExists('w:trPr/w:cantSplit', $tblNode),
