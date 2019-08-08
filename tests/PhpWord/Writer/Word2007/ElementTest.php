@@ -387,7 +387,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addSDT('comboBox')->setListItems(array('1' => 'Choice 1', '2' => 'Choice 2'))->setValue('select value');
         $section->addSDT('dropDownList');
         $section->addSDT('date')->setAlias('date_alias')->setTag('my_tag');
-        $section->addSDT('plainText');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -406,8 +405,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:date'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:alias'));
         $this->assertTrue($doc->elementExists($path . '[3]/w:sdt/w:sdtPr/w:tag'));
-
-        $this->assertTrue($doc->elementExists($path . '[4]/w:sdt/w:sdtPr/w:text'));
     }
 
     /**

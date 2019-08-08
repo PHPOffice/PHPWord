@@ -17,33 +17,14 @@
 
 namespace PhpOffice\PhpWord;
 
-/**
- * This class is used to expose publicly methods that are otherwise private or protected.
- * This makes testing those methods easier
- *
- * @author troosan
- */
 class TestableTemplateProcesor extends TemplateProcessor
 {
-    public function __construct($mainPart = null)
+    public function __construct()
     {
-        $this->tempDocumentMainPart = $mainPart;
     }
 
     public function fixBrokenMacros($documentPart)
     {
         return parent::fixBrokenMacros($documentPart);
-    }
-
-    public function getVariablesForPart($documentPartXML)
-    {
-        $documentPartXML = parent::fixBrokenMacros($documentPartXML);
-
-        return parent::getVariablesForPart($documentPartXML);
-    }
-
-    public function getMainPart()
-    {
-        return $this->tempDocumentMainPart;
     }
 }

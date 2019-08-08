@@ -90,7 +90,7 @@ class SDT extends Text
      */
     public function setType($value)
     {
-        $enum = array('plainText', 'comboBox', 'dropDownList', 'date');
+        $enum = array('comboBox', 'dropDownList', 'date');
         $this->type = $this->setEnumVal($value, $enum, 'comboBox');
 
         return $this;
