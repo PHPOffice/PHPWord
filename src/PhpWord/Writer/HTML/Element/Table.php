@@ -39,7 +39,7 @@ class Table extends AbstractElement
         $rows = $this->element->getRows();
         $rowCount = count($rows);
         if ($rowCount > 0) {
-            $content .= '<table' . self::getTableStyle($this->element->getStyle()) . '>' . PHP_EOL;
+            $content .= '<table' . self::getTableStyle($this->element->getStyle(true)) . '>' . PHP_EOL;
 
             for ($i = 0; $i < $rowCount; $i++) {
                 /** @var $row \PhpOffice\PhpWord\Element\Row Type hint */

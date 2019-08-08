@@ -102,8 +102,11 @@ class Table extends AbstractElement
      *
      * @return \PhpOffice\PhpWord\Style\Table
      */
-    public function getStyle()
+    public function getStyle($isobj=false)
     {
+        if($isobj && $this->style && !is_object($this->style)){
+            return $this->setNewStyle(new TableStyle(), $this->style, true);
+        }
         return $this->style;
     }
 
