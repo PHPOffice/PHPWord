@@ -308,6 +308,7 @@ class Chart extends AbstractStyle
      * "b" - bottom of chart
      * "t" - top of chart
      * "l" - left of chart
+     * "tr" - top right of chart
      *
      * default: right
      *
