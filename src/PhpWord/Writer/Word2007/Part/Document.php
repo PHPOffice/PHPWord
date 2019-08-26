@@ -126,28 +126,64 @@ class Document extends AbstractPart
             $xmlWriter->endElement();
         }
 
-        //footnote properties
-        if ($section->getFootnotePropoperties() !== null) {
-            $xmlWriter->startElement('w:footnotePr');
-            if ($section->getFootnotePropoperties()->getPos() != null) {
-                $xmlWriter->startElement('w:pos');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getPos());
-                $xmlWriter->endElement();
+        $noteTypes = array(
+            'footnote', 'endnote',
+        );
+
+        // Footnote and Endnote properties
+        foreach ($noteTypes as $noteType) {
+            $isFootnote = $noteType === 'footnote';
+
+            $propertyCollections = array();
+
+            $propertyCollections[] = $isFootnote ? $section->getFootnoteProperties() : $section->getEndnoteProperties();
+
+            $phpWord = $section->getPhpWord();
+            $propertyCollections[] = $isFootnote ? $phpWord->getDefaultFootnoteProperties() : $phpWord->getDefaultEndnoteProperties();
+
+            $propertyCollections = array_filter($propertyCollections);
+
+            if (empty($propertyCollections)) {
+                continue;
             }
-            if ($section->getFootnotePropoperties()->getNumFmt() != null) {
-                $xmlWriter->startElement('w:numFmt');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumFmt());
-                $xmlWriter->endElement();
-            }
-            if ($section->getFootnotePropoperties()->getNumStart() != null) {
-                $xmlWriter->startElement('w:numStart');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumStart());
-                $xmlWriter->endElement();
-            }
-            if ($section->getFootnotePropoperties()->getNumRestart() != null) {
-                $xmlWriter->startElement('w:numRestart');
-                $xmlWriter->writeAttribute('w:val', $section->getFootnotePropoperties()->getNumRestart());
-                $xmlWriter->endElement();
+
+            $propertyKeys = array(
+                'pos',
+                'numFmt',
+                'numStart',
+                'numRestart',
+            );
+
+            $propertyValues = array_fill_keys($propertyKeys, null);
+
+            $startElement = $isFootnote ? 'w:footnotePr' : 'w:endnotePr';
+            $xmlWriter->startElement($startElement);
+
+            // Write properties, local ones having precedence over default ones.
+            // Default properties will also be written to settings.xml,
+            // writing them in both places gives better results.
+            foreach ($propertyCollections as $propertyCollection) {
+                foreach ($propertyValues as $propertyKey => $propertyValue) {
+                    if ($propertyValue != null) {
+                        // Already set before, don't touch it
+                        continue;
+                    }
+
+                    $getMethod = 'get' . ucfirst($propertyKey);
+                    $value = $propertyCollection->$getMethod();
+
+                    if ($value == null) {
+                        continue;
+                    }
+
+                    $elementName = 'w:' . $propertyKey;
+
+                    $xmlWriter->startElement($elementName);
+                    $xmlWriter->writeAttribute('w:val', $value);
+                    $xmlWriter->endElement();
+
+                    $propertyValues[$propertyKey] = $value;
+                }
             }
             $xmlWriter->endElement();
         }

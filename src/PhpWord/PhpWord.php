@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 
@@ -315,6 +316,46 @@ class PhpWord
     public function setDefaultParagraphStyle($styles)
     {
         return Style::setDefaultParagraphStyle($styles);
+    }
+
+    /**
+     * Set default Footnote properties to settings.xml
+     *
+     * @param FootnoteProperties $properties
+     */
+    public function setDefaultFootnoteProperties(FootnoteProperties $properties)
+    {
+        Settings::setDefaultFootnoteProperties($properties);
+    }
+
+    /**
+     * Get default Footnote properties
+     *
+     * @return FootnoteProperties
+     */
+    public function getDefaultFootnoteProperties()
+    {
+        return Settings::getDefaultFootnoteProperties();
+    }
+
+    /**
+     * Set default Endnote properties to settings.xml
+     *
+     * @param FootnoteProperties $properties
+     */
+    public function setDefaultEndnoteProperties(FootnoteProperties $properties)
+    {
+        Settings::setDefaultEndnoteProperties($properties);
+    }
+
+    /**
+     * Get default Endnote properties
+     *
+     * @return FootnoteProperties
+     */
+    public function getDefaultEndnoteProperties()
+    {
+        return Settings::getDefaultEndnoteProperties();
     }
 
     /**

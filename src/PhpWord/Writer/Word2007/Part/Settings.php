@@ -79,10 +79,9 @@ class Settings extends AbstractPart
             $xmlWriter->writeElement($settingKey);
         } elseif (is_array($settingValue) && !empty($settingValue)) {
             $xmlWriter->startElement($settingKey);
-
             /** @var array $settingValue Type hint */
             foreach ($settingValue as $childKey => $childValue) {
-                if ($childKey == '@attributes') {
+                if ($childKey === '@attributes') {
                     foreach ($childValue as $key => $val) {
                         $xmlWriter->writeAttribute($key, $val);
                     }
@@ -140,6 +139,9 @@ class Settings extends AbstractPart
                 ),
             ),
         );
+
+        $this->setDefaultNoteProperties('footnote');
+        $this->setDefaultNoteProperties('endnote');
 
         $this->setOnOffValue('w:mirrorMargins', $documentSettings->hasMirrorMargins());
         $this->setOnOffValue('w:hideSpellingErrors', $documentSettings->hasHideSpellingErrors());
@@ -322,6 +324,54 @@ class Settings extends AbstractPart
                     'w:uri'  => 'http://schemas.microsoft.com/office/word',
                     'w:val'  => $compatibility->getOoxmlVersion(),
                 ),
+            );
+        }
+    }
+
+    private function setDefaultNoteProperties($noteType = 'footnote')
+    {
+        $phpWord = $this->getParentWriter()->getPhpWord();
+        $isFootnote = $noteType !== 'endnote';
+
+        /* @var \PhpOffice\PhpWord\Collection\Footnotes $noteProperties */
+        $notesCollection = $isFootnote ? $phpWord->getFootnotes() : $phpWord->getEndnotes();
+
+        $hasNotes = (bool) $notesCollection->countItems();
+
+        if (!$hasNotes) {
+            // Do not write the default properties if there are no Footnotes/Endnotes,
+            // otherwise Word will complain that the file is broken.
+            return;
+        }
+
+        $startElement = $isFootnote ? 'w:footnotePr' : 'w:endnotePr';
+
+        /* @var \PhpOffice\PhpWord\ComplexType\FootnoteProperties|null $noteProperties */
+        $noteProperties = $isFootnote ? $phpWord->getDefaultFootnoteProperties() : $phpWord->getDefaultEndnoteProperties();
+
+        if ($noteProperties === null) {
+            // No default properties to write
+            return;
+        }
+
+        if ($noteProperties->getPos() != null) {
+            $this->settings[$startElement]['w:pos'] = array(
+                '@attributes' => array('w:val' => $noteProperties->getPos()),
+            );
+        }
+        if ($noteProperties->getNumFmt() != null) {
+            $this->settings[$startElement]['w:numFmt'] = array(
+                '@attributes' => array('w:val' => $noteProperties->getNumFmt()),
+            );
+        }
+        if ($noteProperties->getNumStart() != null) {
+            $this->settings[$startElement]['w:numStart'] = array(
+                '@attributes' => array('w:val' => $noteProperties->getNumStart()),
+            );
+        }
+        if ($noteProperties->getNumRestart() != null) {
+            $this->settings[$startElement]['w:numRestart'] = array(
+                '@attributes' => array('w:val' => $noteProperties->getNumRestart()),
             );
         }
     }

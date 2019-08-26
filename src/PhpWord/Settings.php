@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
+
 /**
  * PHPWord settings class
  *
@@ -133,6 +135,20 @@ class Settings
      * @var bool
      */
     private static $outputEscapingEnabled = false;
+
+    /**
+     * Default properties for the Footnotes
+     *
+     * @var FootnoteProperties
+     */
+    private static $defaultFootnoteProperties = null;
+
+    /**
+     * Default properties for the Endnotes
+     *
+     * @var FootnoteProperties
+     */
+    private static $defaultEndnoteProperties = null;
 
     /**
      * Return the compatibility option used by the XMLWriter
@@ -442,5 +458,45 @@ class Settings
     public static function getCompatibility()
     {
         return self::hasCompatibility();
+    }
+
+    /**
+     * Set default Footnote properties.
+     *
+     * @param FootnoteProperties $properties
+     */
+    public static function setDefaultFootnoteProperties(FootnoteProperties $properties)
+    {
+        self::$defaultFootnoteProperties = $properties;
+    }
+
+    /**
+     * Get default Footnote properties
+     *
+     * @return FootnoteProperties
+     */
+    public static function getDefaultFootnoteProperties()
+    {
+        return self::$defaultFootnoteProperties;
+    }
+
+    /**
+     * Set default Endnote properties.
+     *
+     * @param FootnoteProperties $properties
+     */
+    public static function setDefaultEndnoteProperties(FootnoteProperties $properties)
+    {
+        self::$defaultEndnoteProperties = $properties;
+    }
+
+    /**
+     * Get default Endnote properties
+     *
+     * @return FootnoteProperties
+     */
+    public static function getDefaultEndnoteProperties()
+    {
+        return self::$defaultEndnoteProperties;
     }
 }

@@ -141,6 +141,24 @@ default font by using the following two functions:
     $phpWord->setDefaultFontName('Times New Roman');
     $phpWord->setDefaultFontSize(12);
 
+Default footnote and endnote properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, footnotes are displayed at the bottom of the page, numbered continuously from 1.
+Endnotes are displayed at the end of the document, numbered continuously in lower roman numerals starting from 1.
+
+Default properties will apply to all footnotes and endnotes in the document, unless overriden at the section level.
+
+You can change the default properties using ``$phpWord->setDefaultFootnoteProperties()`` and ``$phpWord->setDefaultEndnoteProperties()``:
+
+.. code-block:: php
+
+    $defaultProperties = new \PhpOffice\PhpWord\ComplexType\FootnoteProperties();
+    $defaultProperties->setPos(\PhpOffice\PhpWord\ComplexType\FootnoteProperties::POSITION_SECTION_END);
+    $defaultProperties->setNumFmt(\PhpOffice\PhpWord\SimpleType\NumberFormat::ORDINAL);
+    $defaultProperties->setNumStart(4);
+    $phpWord->setDefaultEndnoteProperties($defaultProperties);
+
 Document settings
 -----------------
 Settings for the generated document can be set using ``$phpWord->getSettings()``

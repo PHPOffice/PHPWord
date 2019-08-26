@@ -56,7 +56,7 @@ class Word2007Test extends AbstractWebServerEmbeddedTest
             'Header'       => 'Header',
             'Footer'       => 'Footer',
             'Footnotes'    => 'Footnotes',
-            'Endnotes'     => 'Footnotes',
+            'Endnotes'     => 'Endnotes',
         );
         foreach ($writerParts as $part => $type) {
             $this->assertInstanceOf(

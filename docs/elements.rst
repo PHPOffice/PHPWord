@@ -359,17 +359,21 @@ The footnote numbering can be controlled by setting the FootnoteProperties on th
 
 .. code-block:: php
 
-    $fp = new PhpWord\SimpleType\FootnoteProperties();
+    $fp = new \PhpOffice\PhpWord\ComplexType\FootnoteProperties();
     //sets the position of the footnote (pageBottom (default), beneathText, sectEnd, docEnd)
-    $fp->setPos(FootnoteProperties::POSITION_DOC_END);
+    $fp->setPos(\PhpOffice\PhpWord\ComplexType\FootnoteProperties::POSITION_BENEATH_TEXT);
     //set the number format to use (decimal (default), upperRoman, upperLetter, ...)
-    $fp->setNumFmt(FootnoteProperties::NUMBER_FORMAT_LOWER_ROMAN);
+    $fp->setNumFmt(\PhpOffice\PhpWord\SimpleType\NumberFormat::LOWER_ROMAN);
     //force starting at other than 1
     $fp->setNumStart(2);
     //when to restart counting (continuous (default), eachSect, eachPage)
-    $fp->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+    $fp->setNumRestart(\PhpOffice\PhpWord\ComplexType\FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
     //And finaly, set it on the Section
-    $section->setFootnoteProperties($properties);
+    $section->setFootnoteProperties($fp);
+
+To set endnote properties, use the ``setEndnoteProperties`` method instead.
+You can also use ``$phpWord->setDefaultFootnoteProperties()`` and ``$phpWord->setDefaultEndnoteProperties()``
+to set the properties for all the footnotes/endnotes in the document.
 
 Checkboxes
 ----------

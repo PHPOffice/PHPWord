@@ -18,9 +18,11 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\Microsoft\PasswordEncoder;
+use PhpOffice\PhpWord\ComplexType\FootnoteProperties;
 use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\NumberFormat;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -440,5 +442,85 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
 
         $element = $doc->getElement($path, $file);
         $this->assertSame('true', $element->getAttribute('w:val'));
+    }
+
+    public function testDefaultFootnoteProperties()
+    {
+        $properties = new FootnoteProperties();
+        $properties->setPos(FootnoteProperties::POSITION_BENEATH_TEXT);
+        $properties->setNumFmt(NumberFormat::LOWER_ROMAN);
+        $properties->setNumStart(1);
+        $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+
+        $phpWord = new PhpWord();
+        $phpWord->setDefaultFootnoteProperties($properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:footnotePr';
+
+        $this->assertFalse($doc->elementExists($path, $file));
+
+        $section = $phpWord->addSection();
+        $footnote = $section->addFootnote();
+        $footnote->addText('There has to be at least one footnote for the default properties to be written to the settings.xml file.');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement('/w:settings/w:footnotePr/w:pos', $file);
+        $this->assertEquals(FootnoteProperties::POSITION_BENEATH_TEXT, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:footnotePr/w:numFmt', $file);
+        $this->assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:footnotePr/w:numStart', $file);
+        $this->assertEquals(1, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:footnotePr/w:numRestart', $file);
+        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
+    }
+
+    public function testDefaultEndnoteProperties()
+    {
+        $properties = new FootnoteProperties();
+        $properties->setPos(FootnoteProperties::POSITION_SECTION_END);
+        $properties->setNumFmt(NumberFormat::CHICAGO);
+        $properties->setNumStart(2);
+        $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_SECTION);
+
+        $phpWord = new PhpWord();
+        $phpWord->setDefaultEndnoteProperties($properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $file = 'word/settings.xml';
+
+        $path = '/w:settings/w:endnotePr';
+
+        $this->assertFalse($doc->elementExists($path, $file));
+
+        $section = $phpWord->addSection();
+        $footnote = $section->addEndnote();
+        $footnote->addText('There has to be at least one endnote for the default properties to be written to the settings.xml file.');
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $this->assertTrue($doc->elementExists($path, $file));
+
+        $element = $doc->getElement('/w:settings/w:endnotePr/w:pos', $file);
+        $this->assertEquals(FootnoteProperties::POSITION_SECTION_END, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:endnotePr/w:numFmt', $file);
+        $this->assertEquals(NumberFormat::CHICAGO, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:endnotePr/w:numStart', $file);
+        $this->assertEquals(2, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:settings/w:endnotePr/w:numRestart', $file);
+        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_SECTION, $element->getAttribute('w:val'));
     }
 }

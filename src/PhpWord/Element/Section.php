@@ -56,6 +56,13 @@ class Section extends AbstractContainer
     private $footnoteProperties;
 
     /**
+     * The properties for the endnote of this section
+     *
+     * @var FootnoteProperties
+     */
+    private $endnoteProperties;
+
+    /**
      * Create new instance
      *
      * @param int $sectionCount
@@ -146,6 +153,18 @@ class Section extends AbstractContainer
      *
      * @return FootnoteProperties
      */
+    public function getFootnoteProperties()
+    {
+        return $this->footnoteProperties;
+    }
+
+    /**
+     * Get the footnote properties
+     *
+     * @deprecated Use the `getFootnoteProperties` method instead
+     *
+     * @return FootnoteProperties
+     */
     public function getFootnotePropoperties()
     {
         return $this->footnoteProperties;
@@ -159,6 +178,26 @@ class Section extends AbstractContainer
     public function setFootnoteProperties(FootnoteProperties $footnoteProperties = null)
     {
         $this->footnoteProperties = $footnoteProperties;
+    }
+
+    /**
+     * Get the endnote properties
+     *
+     * @return FootnoteProperties
+     */
+    public function getEndnoteProperties()
+    {
+        return $this->endnoteProperties;
+    }
+
+    /**
+     * Set the endnote properties
+     *
+     * @param FootnoteProperties $endnoteProperties
+     */
+    public function setEndnoteProperties(FootnoteProperties $endnoteProperties = null)
+    {
+        $this->endnoteProperties = $endnoteProperties;
     }
 
     /**

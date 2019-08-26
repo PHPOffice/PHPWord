@@ -119,6 +119,36 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Write section endnote properties
+     */
+    public function testSectionEndnoteProperties()
+    {
+        $properties = new FootnoteProperties();
+        $properties->setPos(FootnoteProperties::POSITION_DOC_END);
+        $properties->setNumFmt(NumberFormat::LOWER_ROMAN);
+        $properties->setNumStart(1);
+        $properties->setNumRestart(FootnoteProperties::RESTART_NUMBER_EACH_PAGE);
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->setEndnoteProperties($properties);
+
+        $doc = TestHelperDOCX::getDocument($phpWord);
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:endnotePr/w:pos');
+        $this->assertEquals(FootnoteProperties::POSITION_DOC_END, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:endnotePr/w:numFmt');
+        $this->assertEquals(NumberFormat::LOWER_ROMAN, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:endnotePr/w:numStart');
+        $this->assertEquals(1, $element->getAttribute('w:val'));
+
+        $element = $doc->getElement('/w:document/w:body/w:sectPr/w:endnotePr/w:numRestart');
+        $this->assertEquals(FootnoteProperties::RESTART_NUMBER_EACH_PAGE, $element->getAttribute('w:val'));
+    }
+
+    /**
      * Write elements
      */
     public function testElements()
