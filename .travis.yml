@@ -19,7 +19,7 @@ matrix:
           env: COVERAGE=1
         - php: 5.3
           dist: precise
-          env: COMPOSER_MEMORY_LIMIT=2G
+          env: COMPOSER_MEMORY_LIMIT=3G
         - php: 7.3
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
@@ -38,6 +38,7 @@ env:
 
 before_install:
     ## Packages
+    - sudo rm -f /etc/apt/sources.list.d/mongodb.list  # Makes apt crash on Precise, and we don't need MongoDB
     - sudo apt-get update -qq
     - sudo apt-get install -y graphviz
 

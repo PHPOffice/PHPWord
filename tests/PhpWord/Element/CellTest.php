@@ -233,7 +233,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddPreserveTextException()
     {
         $oCell = new Cell();
-        $oCell->setDocPart('Section', 1);
+        $oCell->setDocPart('TextRun', 1);
         $oCell->addPreserveText('text');
     }
 

@@ -32,9 +32,9 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 class Html
 {
-    private static $listIndex = 0;
-    private static $xpath;
-    private static $options;
+    protected static $listIndex = 0;
+    protected static $xpath;
+    protected static $options;
 
     /**
      * Add HTML parts.
@@ -203,7 +203,7 @@ class Html
      * @param array $styles
      * @param array $data
      */
-    private static function parseChildNodes($node, $element, $styles, $data)
+    protected static function parseChildNodes($node, $element, $styles, $data)
     {
         if ('li' != $node->nodeName) {
             $cNodes = $node->childNodes;
@@ -225,7 +225,7 @@ class Html
      * @param array &$styles
      * @return \PhpOffice\PhpWord\Element\TextRun
      */
-    private static function parseParagraph($node, $element, &$styles)
+    protected static function parseParagraph($node, $element, &$styles)
     {
         $styles['paragraph'] = self::recursiveParseStylesInHierarchy($node, $styles['paragraph']);
         $newElement = $element->addTextRun($styles['paragraph']);
@@ -244,7 +244,7 @@ class Html
      * @todo Think of a clever way of defining header styles, now it is only based on the assumption, that
      * Heading1 - Heading6 are already defined somewhere
      */
-    private static function parseHeading($element, &$styles, $argument1)
+    protected static function parseHeading($element, &$styles, $argument1)
     {
         $styles['paragraph'] = $argument1;
         $newElement = $element->addTextRun($styles['paragraph']);
@@ -259,7 +259,7 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array &$styles
      */
-    private static function parseText($node, $element, &$styles)
+    protected static function parseText($node, $element, &$styles)
     {
         $styles['font'] = self::recursiveParseStylesInHierarchy($node, $styles['font']);
 
@@ -280,7 +280,7 @@ class Html
      * @param string $argument1 Style name
      * @param string $argument2 Style value
      */
-    private static function parseProperty(&$styles, $argument1, $argument2)
+    protected static function parseProperty(&$styles, $argument1, $argument2)
     {
         $styles['font'][$argument1] = $argument2;
     }
@@ -291,7 +291,7 @@ class Html
      * @param \DOMNode $node
      * @param array &$styles
      */
-    private static function parseSpan($node, &$styles)
+    protected static function parseSpan($node, &$styles)
     {
         self::parseInlineStyle($node, $styles['font']);
     }
@@ -306,7 +306,7 @@ class Html
      *
      * @todo As soon as TableItem, RowItem and CellItem support relative width and height
      */
-    private static function parseTable($node, $element, &$styles)
+    protected static function parseTable($node, $element, &$styles)
     {
         $elementStyles = self::parseInlineStyle($node, $styles['table']);
 
@@ -335,7 +335,7 @@ class Html
      * @param array &$styles
      * @return Row $element
      */
-    private static function parseRow($node, $element, &$styles)
+    protected static function parseRow($node, $element, &$styles)
     {
         $rowStyles = self::parseInlineStyle($node, $styles['row']);
         if ($node->parentNode->nodeName == 'thead') {
@@ -353,7 +353,7 @@ class Html
      * @param array &$styles
      * @return \PhpOffice\PhpWord\Element\Cell|\PhpOffice\PhpWord\Element\TextRun $element
      */
-    private static function parseCell($node, $element, &$styles)
+    protected static function parseCell($node, $element, &$styles)
     {
         $cellStyles = self::recursiveParseStylesInHierarchy($node, $styles['cell']);
 
@@ -376,7 +376,7 @@ class Html
      * @param \DOMNode $node
      * @return bool Returns true if the node contains an HTML element that cannot be added to TextRun
      */
-    private static function shouldAddTextRun(\DOMNode $node)
+    protected static function shouldAddTextRun(\DOMNode $node)
     {
         $containsBlockElement = self::$xpath->query('.//table|./p|./ul|./ol', $node)->length > 0;
         if ($containsBlockElement) {
@@ -393,7 +393,7 @@ class Html
      * @param \DOMNode $node
      * @param array &$styles
      */
-    private static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
+    protected static function recursiveParseStylesInHierarchy(\DOMNode $node, array $style)
     {
         $parentStyle = self::parseInlineStyle($node, array());
         $style = array_merge($parentStyle, $style);
@@ -412,7 +412,7 @@ class Html
      * @param array &$styles
      * @param array &$data
      */
-    private static function parseList($node, $element, &$styles, &$data)
+    protected static function parseList($node, $element, &$styles, &$data)
     {
         $isOrderedList = $node->nodeName === 'ol';
         if (isset($data['listdepth'])) {
@@ -431,7 +431,7 @@ class Html
      * @param bool $isOrderedList
      * @return array
      */
-    private static function getListStyle($isOrderedList)
+    protected static function getListStyle($isOrderedList)
     {
         if ($isOrderedList) {
             return array(
@@ -477,7 +477,7 @@ class Html
      * @todo This function is almost the same like `parseChildNodes`. Merged?
      * @todo As soon as ListItem inherits from AbstractContainer or TextRun delete parsing part of childNodes
      */
-    private static function parseListItem($node, $element, &$styles, $data)
+    protected static function parseListItem($node, $element, &$styles, $data)
     {
         $cNodes = $node->childNodes;
         if (!empty($cNodes)) {
@@ -495,7 +495,7 @@ class Html
      * @param array $styles
      * @return array
      */
-    private static function parseStyle($attribute, $styles)
+    protected static function parseStyle($attribute, $styles)
     {
         $properties = explode(';', trim($attribute->value, " \t\n\r\0\x0B;"));
 
@@ -623,7 +623,7 @@ class Html
      *
      * @return \PhpOffice\PhpWord\Element\Image
      **/
-    private static function parseImage($node, $element)
+    protected static function parseImage($node, $element)
     {
         $style = array();
         $src = null;
@@ -726,7 +726,7 @@ class Html
      * @param string $cssBorderStyle
      * @return null|string
      */
-    private static function mapBorderStyle($cssBorderStyle)
+    protected static function mapBorderStyle($cssBorderStyle)
     {
         switch ($cssBorderStyle) {
             case 'none':
@@ -739,7 +739,7 @@ class Html
         }
     }
 
-    private static function mapBorderColor(&$styles, $cssBorderColor)
+    protected static function mapBorderColor(&$styles, $cssBorderColor)
     {
         $numColors = substr_count($cssBorderColor, '#');
         if ($numColors === 1) {
@@ -759,7 +759,7 @@ class Html
      * @param string $cssAlignment
      * @return string|null
      */
-    private static function mapAlign($cssAlignment)
+    protected static function mapAlign($cssAlignment)
     {
         switch ($cssAlignment) {
             case 'right':
@@ -778,7 +778,7 @@ class Html
      *
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      */
-    private static function parseLineBreak($element)
+    protected static function parseLineBreak($element)
     {
         $element->addTextBreak();
     }
@@ -790,7 +790,7 @@ class Html
      * @param \PhpOffice\PhpWord\Element\AbstractContainer $element
      * @param array $styles
      */
-    private static function parseLink($node, $element, &$styles)
+    protected static function parseLink($node, $element, &$styles)
     {
         $target = null;
         foreach ($node->attributes as $attribute) {
