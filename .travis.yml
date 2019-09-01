@@ -15,17 +15,25 @@ php:
 
 matrix:
     include:
-        - php: 7.0
-          env: COVERAGE=1
         - php: 5.3
           dist: precise
           env: COMPOSER_MEMORY_LIMIT=3G
+        - php: 5.4
+          dist: trusty
+        - php: 5.5
+          dist: trusty
+        - php: 7.0
+          env: COVERAGE=1
         - php: 7.3
           env: DEPENDENCIES="--ignore-platform-reqs"
     exclude:
         - php: 5.3
+        - php: 5.4
+        - php: 5.5
         - php: 7.0
         - php: 7.3
+    allow_failures:
+        - php: 7.4snapshot
 
 cache:
     directories:
