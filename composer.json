@@ -1,5 +1,5 @@
 {
-    "name": "phpoffice/phpword",
+    "name": "casavoco/phpword",
     "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
     "keywords": [
         "PHP", "PHPOffice", "office", "PHPWord", "word", "template", "template processor", "reader", "writer",
@@ -8,7 +8,7 @@
     ],
     "homepage": "http://phpoffice.github.io",
     "type": "library",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-only",
     "authors": [
         {
             "name": "Mark Baker"
@@ -90,7 +90,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.17-dev"
+            "dev-develop": "0.16-dev"
         }
     }
 }

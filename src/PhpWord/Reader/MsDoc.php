@@ -1619,7 +1619,7 @@ class MsDoc extends AbstractReader implements ReaderInterface
                             break;
                         // sprmCFData
                         case 0x06:
-                            $sprmCFData = dechex($operand) != 0x00;
+                            $sprmCFData = dechex($operand) == 0x00 ? false : true;
                             break;
                         // sprmCFItalic
                         case 0x36:

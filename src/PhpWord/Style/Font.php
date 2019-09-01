@@ -122,14 +122,14 @@ class Font extends AbstractStyle
      *
      * @var bool
      */
-    private $bold;
+    private $bold = false;
 
     /**
      * Italic
      *
      * @var bool
      */
-    private $italic;
+    private $italic = false;
 
     /**
      * Undeline
@@ -157,14 +157,14 @@ class Font extends AbstractStyle
      *
      * @var bool
      */
-    private $strikethrough;
+    private $strikethrough = false;
 
     /**
      * Double strikethrough
      *
      * @var bool
      */
-    private $doubleStrikethrough;
+    private $doubleStrikethrough = false;
 
     /**
      * Small caps
@@ -172,7 +172,7 @@ class Font extends AbstractStyle
      * @var bool
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_smallCaps-1.html
      */
-    private $smallCaps;
+    private $smallCaps = false;
 
     /**
      * All caps
@@ -180,7 +180,7 @@ class Font extends AbstractStyle
      * @var bool
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_caps-1.html
      */
-    private $allCaps;
+    private $allCaps = false;
 
     /**
      * Foreground/highlight
@@ -235,7 +235,7 @@ class Font extends AbstractStyle
      *
      * @var bool
      */
-    private $rtl;
+    private $rtl = false;
 
     /**
      * noProof (disables AutoCorrect)
@@ -243,7 +243,7 @@ class Font extends AbstractStyle
      * @var bool
      * http://www.datypic.com/sc/ooxml/e-w_noProof-1.html
      */
-    private $noProof;
+    private $noProof = false;
 
     /**
      * Languages
@@ -258,7 +258,7 @@ class Font extends AbstractStyle
      * @var bool
      * @see  http://www.datypic.com/sc/ooxml/e-w_vanish-1.html
      */
-    private $hidden;
+    private $hidden = false;
 
     /**
      * Vertically Raised or Lowered Text
