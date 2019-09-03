@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -29,6 +30,8 @@ use PhpOffice\PhpWord\Writer\Word2007\Element\ParagraphAlignment;
  */
 class Paragraph extends AbstractStyle
 {
+    use Border;
+
     /**
      * Without w:pPr
      *
@@ -127,16 +130,7 @@ class Paragraph extends AbstractStyle
         $this->writeNumbering($xmlWriter, $styles['numbering']);
 
         // Border
-        if ($style->hasBorder()) {
-            $xmlWriter->startElement('w:pBdr');
-
-            $styleWriter = new MarginBorder($xmlWriter);
-            $styleWriter->setSizes($style->getBorderSize());
-            $styleWriter->setColors($style->getBorderColor());
-            $styleWriter->write();
-
-            $xmlWriter->endElement();
-        }
+        $this->writeBorders($xmlWriter, $style);
 
         if (!$this->withoutPPR) {
             $xmlWriter->endElement(); // w:pPr
@@ -146,7 +140,6 @@ class Paragraph extends AbstractStyle
     /**
      * Write tabs.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
      */
     private function writeTabs(XMLWriter $xmlWriter, $tabs)
@@ -164,7 +157,6 @@ class Paragraph extends AbstractStyle
     /**
      * Write numbering.
      *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param array $numbering
      */
     private function writeNumbering(XMLWriter $xmlWriter, $numbering)
@@ -188,6 +180,25 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('w:val', $numLevel);
             $xmlWriter->endElement(); // w:outlineLvl
         }
+    }
+
+    /**
+     * Writes paragraph borders
+     * @see http://officeopenxml.com/WPborders.php
+     */
+    private function writeBorders(XMLWriter $xmlWriter, ParagraphStyle $style)
+    {
+        if (!$style->hasBorder()) {
+            return;
+        }
+
+        $xmlWriter->startElement('w:pBdr');
+
+        foreach ($style->getBorders() as $side => $border) {
+            $this->writeBorder($xmlWriter, $side, $border);
+        }
+
+        $xmlWriter->endElement();
     }
 
     /**

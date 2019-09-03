@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Image
@@ -52,8 +54,8 @@ class ImageTest extends AbstractWebServerEmbeddedTest
         $oImage = new Image(
             $src,
             array(
-                'width'         => 210,
-                'height'        => 210,
+                'width'         => Absolute::from('twip', 210),
+                'height'        => Absolute::from('twip', 210),
                 'alignment'     => Jc::CENTER,
                 'wrappingStyle' => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_BEHIND,
             )
@@ -98,7 +100,7 @@ class ImageTest extends AbstractWebServerEmbeddedTest
     {
         $oImage = new Image(
             __DIR__ . '/../_files/images/earth.jpg',
-            array('height' => 210, 'alignment' => Jc::CENTER)
+            array('height' => Absolute::from('twip', 210), 'alignment' => Jc::CENTER)
         );
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oImage->getStyle());
@@ -149,7 +151,7 @@ class ImageTest extends AbstractWebServerEmbeddedTest
      */
     public function testRelationID()
     {
-        $oImage = new Image(__DIR__ . '/../_files/images/earth.jpg', array('width' => 100));
+        $oImage = new Image(__DIR__ . '/../_files/images/earth.jpg', array('width' => Absolute::from('twip', 100)));
         $iVal = rand(1, 1000);
         $oImage->setRelationId($iVal);
         $this->assertEquals($iVal, $oImage->getRelationId());

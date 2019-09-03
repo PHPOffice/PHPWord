@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -20,6 +21,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\NumberFormat;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -59,9 +61,9 @@ class NumberingTest extends \PHPUnit\Framework\TestCase
                         'suffix'    => 'space',
                         'text'      => '%1.',
                         'alignment' => Jc::START,
-                        'left'      => 360,
-                        'hanging'   => 360,
-                        'tabPos'    => 360,
+                        'left'      => Absolute::from('twip', 360),
+                        'hanging'   => Absolute::from('twip', 360),
+                        'tabPos'    => Absolute::from('twip', 360),
                         'font'      => 'Arial',
                         'hint'      => 'default',
                     ),

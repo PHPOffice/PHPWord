@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -39,7 +40,7 @@ $section->addTextBreak(2);
 $commentOnImage = new \PhpOffice\PhpWord\Element\Comment('Mr Smart', new \DateTime());
 $imageComment = $commentOnImage->addTextRun();
 $imageComment->addText('Hey, Mars does look ');
-$imageComment->addText('red', array('color' => 'FF0000'));
+$imageComment->addText('red', array('color' => new Hex('FF0000')));
 $phpWord->addComment($commentOnImage);
 $image = $section->addImage('resources/_mars.jpg');
 $image->setCommentRangeStart($commentOnImage);

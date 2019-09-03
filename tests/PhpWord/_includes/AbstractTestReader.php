@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -33,8 +34,6 @@ abstract class AbstractTestReader extends \PHPUnit\Framework\TestCase
     /**
      * Builds a PhpWord instance based on the xml passed
      *
-     * @param string $documentXml
-     * @param null|string $stylesXml
      * @return \PhpOffice\PhpWord\PhpWord
      */
     protected function getDocumentFromString(array $partXmls = array())

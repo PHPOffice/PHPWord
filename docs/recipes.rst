@@ -10,9 +10,11 @@ Use absolute positioning relative to margin horizontally and to line vertically.
 
 .. code-block:: php
 
+    use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
     $imageStyle = array(
-        'width' => 40,
-        'height' => 40,
+        'width' => Absolute::from('twip', 40),
+        'height' => Absolute::from('twip', 40),
         'wrappingStyle' => 'square',
         'positioning' => 'absolute',
         'posHorizontalRel' => 'margin',
@@ -72,10 +74,13 @@ Apply 'HeadingN' paragraph style to TextRun or Link. Sample code:
 
 .. code-block:: php
 
+    use PhpOffice\PhpWord\Style\Colors\Hex
+    use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    $phpWord->addTitleStyle(1, array('size' => 16, 'bold' => true));
-    $phpWord->addTitleStyle(2, array('size' => 14, 'bold' => true));
-    $phpWord->addFontStyle('Link', array('color' => '0000FF', 'underline' => 'single'));
+    $phpWord->addTitleStyle(1, array('size' => Absolute::from('pt', 16), 'bold' => true));
+    $phpWord->addTitleStyle(2, array('size' => Absolute::from('pt', 14), 'bold' => true));
+    $phpWord->addFontStyle('Link', array('color' => new Hex('0000FF'), 'underline' => 'single'));
 
     $section = $phpWord->addSection();
 

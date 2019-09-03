@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Element;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\OLEObject
@@ -69,7 +72,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithSupportedFilesAndStyle()
     {
         $src = __DIR__ . '/../_files/documents/sheet.xls';
-        $oObject = new OLEObject($src, array('width' => '230px'));
+        $oObject = new OLEObject($src, array('width' => Absolute::from('in', 230 / 96)));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\OLEObject', $oObject);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Image', $oObject->getStyle());

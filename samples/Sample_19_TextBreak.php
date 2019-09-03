@@ -1,20 +1,24 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Define styles
-$fontStyle24 = array('size' => 24);
+$fontStyle24 = array('size' => Absolute::from('pt', 24));
 
-$paragraphStyle24 = array('spacing' => 240, 'size' => 24);
+$paragraphStyle24 = array('spacing' => Absolute::from('twip', 240), 'size' => Absolute::from('pt', 24));
 
 $fontStyleName = 'fontStyle';
-$phpWord->addFontStyle($fontStyleName, array('size' => 9));
+$phpWord->addFontStyle($fontStyleName, array('size' => Absolute::from('pt', 9)));
 
 $paragraphStyleName = 'paragraphStyle';
-$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => 480));
+$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => Absolute::from('twip', 480)));
 
 // New section
 $section = $phpWord->addSection();

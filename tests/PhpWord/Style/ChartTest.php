@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Chart
  *
@@ -32,11 +35,11 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $this->assertEquals($chart->getWidth(), 1000000);
+        $this->assertEquals($chart->getWidth()->toInt('emu'), 1000000);
 
-        $chart->setWidth(200);
+        $chart->setWidth(Absolute::from('emu', 200));
 
-        $this->assertEquals($chart->getWidth(), 200);
+        $this->assertEquals($chart->getWidth()->toInt('emu'), 200);
     }
 
     /**
@@ -46,11 +49,11 @@ class ChartTest extends \PHPUnit\Framework\TestCase
     {
         $chart = new Chart();
 
-        $this->assertEquals($chart->getHeight(), 1000000);
+        $this->assertEquals($chart->getHeight()->toInt('emu'), 1000000);
 
-        $chart->setHeight(200);
+        $chart->setHeight(Absolute::from('emu', 200));
 
-        $this->assertEquals($chart->getHeight(), 200);
+        $this->assertEquals($chart->getHeight()->toInt('emu'), 200);
     }
 
     /**

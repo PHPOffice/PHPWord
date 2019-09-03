@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,8 +18,10 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
-use PhpOffice\PhpWord\ComplexType\TblWidth as TblWidthComplexType;
-use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Auto;
+use PhpOffice\PhpWord\Style\Lengths\Length;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\TablePosition;
 use PhpOffice\PhpWord\TestHelperDOCX;
@@ -61,11 +64,52 @@ class TableTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test write styles
+     * @expectedException \Exception
+     * @expectedExceptionMessage Unsupported width `class@anonymous
+     */
+    public function testWidths()
+    {
+        $widths = array(
+            array(new Auto(), 'auto', null),
+            array(Absolute::from('twip', 54), 'dxa', 54),
+            array(new Absolute(0), 'nil', ''),
+            array(new Percent(50), 'pct', 50),
+
+            // Invalid class must be last
+            array(new class() extends Length {
+                public function isSpecified(): bool
+                {
+                    return true;
+                }
+            }, null, null),
+        );
+        foreach ($widths as $info) {
+            list($width, $expectedType, $expectedWidth) = $info;
+
+            $tableStyle = new Table();
+            $tableStyle->setWidth($width);
+
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $section = $phpWord->addSection();
+            $table = $section->addTable($tableStyle);
+            $table->addRow();
+
+            $doc = TestHelperDOCX::getDocument($phpWord, 'Word2007');
+
+            $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblW';
+            $this->assertTrue($doc->elementExists($path));
+            $this->assertEquals($expectedType, $doc->getElementAttribute($path, 'w:type'));
+            $this->assertEquals($expectedWidth, $doc->getElementAttribute($path, 'w:w'));
+        }
+    }
+
+    /**
+     * Test write styles
      */
     public function testCellSpacing()
     {
         $tableStyle = new Table();
-        $tableStyle->setCellSpacing(10.3);
+        $tableStyle->setCellSpacing(Absolute::from('twip', 10.3));
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -77,7 +121,6 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblCellSpacing';
         $this->assertTrue($doc->elementExists($path));
         $this->assertEquals(10.3, $doc->getElementAttribute($path, 'w:w'));
-        $this->assertEquals(TblWidth::TWIP, $doc->getElementAttribute($path, 'w:type'));
     }
 
     /**
@@ -86,16 +129,16 @@ class TableTest extends \PHPUnit\Framework\TestCase
     public function testTablePosition()
     {
         $tablePosition = array(
-            'leftFromText'   => 10,
-            'rightFromText'  => 20,
-            'topFromText'    => 30,
-            'bottomFromText' => 40,
+            'leftFromText'   => Absolute::from('twip', 10),
+            'rightFromText'  => Absolute::from('twip', 20),
+            'topFromText'    => Absolute::from('twip', 30),
+            'bottomFromText' => Absolute::from('twip', 40),
             'vertAnchor'     => TablePosition::VANCHOR_PAGE,
             'horzAnchor'     => TablePosition::HANCHOR_MARGIN,
             'tblpXSpec'      => TablePosition::XALIGN_CENTER,
-            'tblpX'          => 50,
+            'tblpX'          => Absolute::from('twip', 50),
             'tblpYSpec'      => TablePosition::YALIGN_TOP,
-            'tblpY'          => 60,
+            'tblpY'          => Absolute::from('twip', 60),
         );
         $tableStyle = new Table();
         $tableStyle->setPosition($tablePosition);
@@ -124,10 +167,9 @@ class TableTest extends \PHPUnit\Framework\TestCase
     public function testIndent()
     {
         $value = 100;
-        $type = TblWidth::TWIP;
 
         $tableStyle = new Table();
-        $tableStyle->setIndent(new TblWidthComplexType($value, $type));
+        $tableStyle->setIndent(Absolute::from('twip', $value));
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -139,10 +181,10 @@ class TableTest extends \PHPUnit\Framework\TestCase
         $path = '/w:document/w:body/w:tbl/w:tblPr/w:tblInd';
         $this->assertTrue($doc->elementExists($path));
         $this->assertSame($value, (int) $doc->getElementAttribute($path, 'w:w'));
-        $this->assertSame($type, $doc->getElementAttribute($path, 'w:type'));
+        $this->assertSame('dxa', $doc->getElementAttribute($path, 'w:type'));
     }
 
-    public function testRigthToLeft()
+    public function testRightToLeft()
     {
         $tableStyle = new Table();
         $tableStyle->setBidiVisual(true);

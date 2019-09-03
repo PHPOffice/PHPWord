@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -13,12 +14,13 @@
  * @see         https://github.com/PHPOffice/PHPWord
  * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
-*/
+ */
 
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * PHPWord main class
@@ -118,12 +120,8 @@ class PhpWord
      *
      * @since 0.12.0
      *
-     * @param mixed $function
-     * @param mixed $args
      *
      * @throws \BadMethodCallException
-     *
-     * @return mixed
      */
     public function __call($function, $args)
     {
@@ -158,7 +156,7 @@ class PhpWord
             /** @var \PhpOffice\PhpWord\Collection\AbstractCollection $collectionObject */
             $collectionObject = $this->collections[$key];
 
-            return $collectionObject->addItem(isset($args[0]) ? $args[0] : null);
+            return $collectionObject->addItem($args[0] ?? null);
         }
 
         // Run add style method
@@ -288,20 +286,16 @@ class PhpWord
 
     /**
      * Get default font size
-     *
-     * @return int
      */
-    public function getDefaultFontSize()
+    public function getDefaultFontSize(): Absolute
     {
         return Settings::getDefaultFontSize();
     }
 
     /**
      * Set default font size.
-     *
-     * @param int $fontSize
      */
-    public function setDefaultFontSize($fontSize)
+    public function setDefaultFontSize(Absolute $fontSize)
     {
         Settings::setDefaultFontSize($fontSize);
     }

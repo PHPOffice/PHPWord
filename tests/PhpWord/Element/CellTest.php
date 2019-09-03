@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Cell
@@ -34,7 +36,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
         $oCell = new Cell();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Cell', $oCell);
-        $this->assertNull($oCell->getWidth());
+        $this->assertNull($oCell->getWidth()->toInt('twip'));
     }
 
     /**
@@ -45,7 +47,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
         $oCell = new Cell(null, array('valign' => 'center'));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Cell', $oCell->getStyle());
-        $this->assertNull($oCell->getWidth());
+        $this->assertNull($oCell->getWidth()->toInt('twip'));
     }
 
     /**
@@ -141,7 +143,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddImageHeader()
     {
         $src = __DIR__ . '/../_files/images/earth.jpg';
-        $oCell = new Cell('header', 1);
+        $oCell = new Cell(Absolute::from('twip', 1), 'header');
         $element = $oCell->addImage($src);
 
         $this->assertCount(1, $oCell->getElements());
@@ -154,7 +156,7 @@ class CellTest extends AbstractWebServerEmbeddedTest
     public function testAddImageFooter()
     {
         $src = __DIR__ . '/../_files/images/earth.jpg';
-        $oCell = new Cell('footer', 1);
+        $oCell = new Cell(Absolute::from('twip', 1), 'footer');
         $element = $oCell->addImage($src);
 
         $this->assertCount(1, $oCell->getElements());

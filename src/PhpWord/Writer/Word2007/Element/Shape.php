@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -45,7 +46,7 @@ class Shape extends AbstractElement
         $styleWriter = new ShapeStyleWriter($xmlWriter, $style);
 
         $type = $element->getType();
-        if ($type == 'rect' && $style->getRoundness() !== null) {
+        if ($type == 'rect' && $style->getRoundness()->isSpecified()) {
             $type = 'roundrect';
         }
         $method = "write{$type}";
@@ -76,9 +77,6 @@ class Shape extends AbstractElement
 
     /**
      * Write arc.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Shape $style
      */
     private function writeArc(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -90,9 +88,6 @@ class Shape extends AbstractElement
 
     /**
      * Write curve.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Shape $style
      */
     private function writeCurve(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -105,9 +100,6 @@ class Shape extends AbstractElement
 
     /**
      * Write line.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Shape $style
      */
     private function writeLine(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -119,9 +111,6 @@ class Shape extends AbstractElement
 
     /**
      * Write polyline.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Shape $style
      */
     private function writePolyline(XMLWriter $xmlWriter, ShapeStyle $style)
     {
@@ -130,13 +119,10 @@ class Shape extends AbstractElement
 
     /**
      * Write rectangle.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Style\Shape $style
      */
     private function writeRoundRect(XMLWriter $xmlWriter, ShapeStyle $style)
     {
-        $xmlWriter->writeAttribute('arcsize', $style->getRoundness());
+        $xmlWriter->writeAttribute('arcsize', $style->getRoundness()->toFloat() / 100);
     }
 
     /**

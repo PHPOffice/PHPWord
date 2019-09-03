@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Element;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Line
@@ -53,19 +56,19 @@ class LineTest extends \PHPUnit\Framework\TestCase
     {
         $oLine = new Line(
             array(
-                'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(14),
-                'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(4),
+                'width'            => Absolute::from('cm', 14),
+                'height'           => Absolute::from('cm', 4),
                 'positioning'      => 'absolute',
                 'posHorizontalRel' => 'page',
                 'posVerticalRel'   => 'page',
                 'flip'             => true,
-                'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(5),
-                'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+                'marginLeft'       => Absolute::from('cm', 5),
+                'marginTop'        => Absolute::from('cm', 3),
                 'wrappingStyle'    => \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_SQUARE,
                 'beginArrow'       => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_BLOCK,
                 'endArrow'         => \PhpOffice\PhpWord\Style\Line::ARROW_STYLE_OVAL,
                 'dash'             => \PhpOffice\PhpWord\Style\Line::DASH_STYLE_LONG_DASH_DOT_DOT,
-                'weight'           => 10,
+                'weight'           => Absolute::from('pt', 10),
             )
         );
 

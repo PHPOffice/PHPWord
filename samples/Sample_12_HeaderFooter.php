@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word document
@@ -13,20 +17,20 @@ $header = $section->addHeader();
 $header->firstPage();
 $table = $header->addTable();
 $table->addRow();
-$cell = $table->addCell(4500);
+$cell = $table->addCell(Absolute::from('twip', 4500));
 $textrun = $cell->addTextRun();
 $textrun->addText('This is the header with ');
 $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
-$table->addCell(4500)->addImage('resources/PhpWord.png', array('width' => 80, 'height' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+$table->addCell(Absolute::from('twip', 4500))->addImage('resources/PhpWord.png', array('width' => Absolute::from('pt', 80), 'height' => Absolute::from('pt', 80), 'alignment' => Jc::END));
 
 // Add header for all other pages
 $subsequent = $section->addHeader();
 $subsequent->addText('Subsequent pages in Section 1 will Have this!');
-$subsequent->addImage('resources/_mars.jpg', array('width' => 80, 'height' => 80));
+$subsequent->addImage('resources/_mars.jpg', array('width' => Absolute::from('pt', 80), 'height' => Absolute::from('pt', 80)));
 
 // Add footer
 $footer = $section->addFooter();
-$footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', null, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
+$footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', null, array('alignment' => Jc::CENTER));
 $footer->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub');
 
 // Write some text

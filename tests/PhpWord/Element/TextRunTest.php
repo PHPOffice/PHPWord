@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,6 +20,7 @@ namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
@@ -57,7 +59,7 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructArray()
     {
-        $oTextRun = new TextRun(array('spacing' => 100));
+        $oTextRun = new TextRun(array('spacing' => Absolute::from('twip', 100)));
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\TextRun', $oTextRun);
         $this->assertCount(0, $oTextRun->getElements());
@@ -178,7 +180,7 @@ class TextRunTest extends \PHPUnit\Framework\TestCase
         $oText = new TextRun('paragraphStyle');
         $this->assertEquals('paragraphStyle', $oText->getParagraphStyle());
 
-        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => 100));
+        $oText->setParagraphStyle(array('alignment' => Jc::CENTER, 'spaceAfter' => Absolute::from('twip', 100)));
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $oText->getParagraphStyle());
     }
 }

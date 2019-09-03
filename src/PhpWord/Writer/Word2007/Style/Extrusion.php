@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -38,7 +39,7 @@ class Extrusion extends AbstractStyle
         $xmlWriter->startElement('o:extrusion');
         $xmlWriter->writeAttribute('on', 't');
         $xmlWriter->writeAttributeIf($style->getType() !== null, 'type', $style->getType());
-        $xmlWriter->writeAttributeIf($style->getColor() !== null, 'color', $style->getColor());
+        $xmlWriter->writeAttributeIf($style->getColor()->isSpecified(), 'color', $style->getColor()->toHexOrName());
         $xmlWriter->endElement();
     }
 }

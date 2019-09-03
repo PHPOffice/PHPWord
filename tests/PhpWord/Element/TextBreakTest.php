@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Style\Paragraph;
 
 /**
@@ -55,8 +57,8 @@ class TextBreakTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructWithStyleArray()
     {
-        $fStyle = array('size' => 12);
-        $pStyle = array('spacing' => 240);
+        $fStyle = array('size' => Absolute::from('pt', 12));
+        $pStyle = array('spacing' => Absolute::from('eop', 240));
         $object = new TextBreak($fStyle, $pStyle);
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Font', $object->getFontStyle());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\Paragraph', $object->getParagraphStyle());

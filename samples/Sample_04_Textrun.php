@@ -1,22 +1,28 @@
 <?php
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Define styles
 $paragraphStyleName = 'pStyle';
-$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => 100));
+$phpWord->addParagraphStyle($paragraphStyleName, array('spacing' => Absolute::from('twip', 100)));
 
 $boldFontStyleName = 'BoldText';
 $phpWord->addFontStyle($boldFontStyleName, array('bold' => true));
 
 $coloredFontStyleName = 'ColoredText';
-$phpWord->addFontStyle($coloredFontStyleName, array('color' => 'FF8080', 'bgColor' => 'FFFFCC'));
+$phpWord->addFontStyle($coloredFontStyleName, array('color' => new Hex('FF8080'), 'bgColor' => new Hex('FFFFCC')));
 
 $linkFontStyleName = 'NLink';
-$phpWord->addLinkStyle($linkFontStyleName, array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
+$phpWord->addLinkStyle($linkFontStyleName, array('color' => new Hex('0000FF'), 'underline' => Font::UNDERLINE_SINGLE));
 
 // New portrait section
 $section = $phpWord->addSection();
@@ -34,7 +40,7 @@ $textrun->addText(' All elements are placed inside a paragraph with the optional
 $textrun->addText(' Sample Link: ');
 $textrun->addLink('https://github.com/PHPOffice/PHPWord', 'PHPWord on GitHub', $linkFontStyleName);
 $textrun->addText(' Sample Image: ');
-$textrun->addImage('resources/_earth.jpg', array('width' => 18, 'height' => 18));
+$textrun->addImage('resources/_earth.jpg', array('width' => Absolute::from('pt', 18), 'height' => Absolute::from('pt', 18)));
 $textrun->addText(' Sample Object: ');
 $textrun->addObject('resources/_sheet.xls');
 $textrun->addText(' Here is some more text. ');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -31,7 +32,7 @@ class Header extends Footer
      * Add a Watermark Element
      *
      * @param string $src
-     * @param mixed $style
+     * @param null|mixed $style
      * @return Image
      */
     public function addWatermark($src, $style = null)

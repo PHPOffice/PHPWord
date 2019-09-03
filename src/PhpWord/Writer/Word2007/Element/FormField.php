@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -105,8 +106,6 @@ class FormField extends Text
      * Write textinput.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFTextInput.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\FormField $element
      */
     private function writeTextInput(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -121,8 +120,6 @@ class FormField extends Text
      * Write checkbox.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFCheckBox.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\FormField $element
      */
     private function writeCheckBox(XMLWriter $xmlWriter, FormFieldElement $element)
     {
@@ -144,8 +141,6 @@ class FormField extends Text
      * Write dropdown.
      *
      * @see  http://www.datypic.com/sc/ooxml/t-w_CT_FFDDList.html
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\FormField $element
      */
     private function writeDropDown(XMLWriter $xmlWriter, FormFieldElement $element)
     {

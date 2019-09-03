@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -38,7 +39,7 @@ class Tab extends AbstractStyle
         $xmlWriter->startElement('w:tab');
         $xmlWriter->writeAttribute('w:val', $style->getType());
         $xmlWriter->writeAttribute('w:leader', $style->getLeader());
-        $xmlWriter->writeAttribute('w:pos', $this->convertTwip($style->getPosition()));
+        $xmlWriter->writeAttribute('w:pos', $style->getPosition()->toInt('twip'));
         $xmlWriter->endElement();
     }
 }

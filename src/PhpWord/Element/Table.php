@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Element;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Length;
 use PhpOffice\PhpWord\Style\Table as TableStyle;
 
 /**
@@ -41,14 +44,13 @@ class Table extends AbstractElement
     /**
      * Table width
      *
-     * @var int
+     * @var Length
      */
-    private $width = null;
+    private $width;
 
     /**
      * Create a new table
-     *
-     * @param mixed $style
+     * @param null|mixed $style
      */
     public function __construct($style = null)
     {
@@ -58,11 +60,10 @@ class Table extends AbstractElement
     /**
      * Add a row
      *
-     * @param int $height
-     * @param mixed $style
+     * @param null|mixed $style
      * @return \PhpOffice\PhpWord\Element\Row
      */
-    public function addRow($height = null, $style = null)
+    public function addRow(Absolute $height = null, $style = null)
     {
         $row = new Row($height, $style);
         $row->setParentContainer($this);
@@ -74,11 +75,11 @@ class Table extends AbstractElement
     /**
      * Add a cell
      *
-     * @param int $width
-     * @param mixed $style
+     * @param Length $width
+     * @param null|mixed $style
      * @return \PhpOffice\PhpWord\Element\Cell
      */
-    public function addCell($width = null, $style = null)
+    public function addCell(Length $width = null, $style = null)
     {
         $index = count($this->rows) - 1;
         $row = $this->rows[$index];
@@ -109,22 +110,26 @@ class Table extends AbstractElement
 
     /**
      * Get table width
-     *
-     * @return int
      */
-    public function getWidth()
+    public function getWidth(): Length
     {
+        if ($this->width === null) {
+            $this->width = new Absolute(null);
+        }
+
         return $this->width;
     }
 
     /**
      * Set table width.
      *
-     * @param int $width
+     * @param Table $width
      */
-    public function setWidth($width)
+    public function setWidth(Length $width): self
     {
         $this->width = $width;
+
+        return $this;
     }
 
     /**
@@ -152,9 +157,9 @@ class Table extends AbstractElement
     /**
      * The first declared cell width for each column
      *
-     * @return int[]
+     * @return Absolute[]
      */
-    public function findFirstDefinedCellWidths()
+    public function findFirstDefinedCellWidths(): array
     {
         $cellWidths = array();
 

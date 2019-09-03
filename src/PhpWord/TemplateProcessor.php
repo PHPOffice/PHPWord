@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -186,10 +187,7 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $xml
      * @param \XSLTProcessor $xsltProcessor
-     *
-     * @return mixed
      */
     protected function transformXml($xml, $xsltProcessor)
     {
@@ -246,11 +244,9 @@ class TemplateProcessor
     }
 
     /**
-     * @param string $subject
-     *
      * @return string
      */
-    protected static function ensureUtf8Encoded($subject)
+    protected static function ensureUtf8Encoded(string $subject)
     {
         if (!Text::isUTF8($subject)) {
             $subject = utf8_encode($subject);
@@ -261,7 +257,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexValue($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
     {
@@ -284,7 +279,6 @@ class TemplateProcessor
 
     /**
      * @param string $search
-     * @param \PhpOffice\PhpWord\Element\AbstractElement $complexType
      */
     public function setComplexBlock($search, \PhpOffice\PhpWord\Element\AbstractElement $complexType)
     {
@@ -299,12 +293,7 @@ class TemplateProcessor
         $this->replaceXmlBlock($search, $xmlWriter->getData(), 'w:p');
     }
 
-    /**
-     * @param mixed $search
-     * @param mixed $replace
-     * @param int $limit
-     */
-    public function setValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    public function setValue($search, $replace, int $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         if (is_array($search)) {
             foreach ($search as &$item) {
@@ -318,15 +307,20 @@ class TemplateProcessor
         if (is_array($replace)) {
             foreach ($replace as &$item) {
                 $item = static::ensureUtf8Encoded($item);
+
+                if (Settings::isOutputEscapingEnabled()) {
+                    $xmlEscaper = new Xml();
+                    $item = $xmlEscaper->escape($item);
+                }
             }
             unset($item);
         } else {
             $replace = static::ensureUtf8Encoded($replace);
-        }
 
-        if (Settings::isOutputEscapingEnabled()) {
-            $xmlEscaper = new Xml();
-            $replace = $xmlEscaper->escape($replace);
+            if (Settings::isOutputEscapingEnabled()) {
+                $xmlEscaper = new Xml();
+                $replace = $xmlEscaper->escape($replace);
+            }
         }
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
@@ -336,8 +330,6 @@ class TemplateProcessor
 
     /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
-     *
-     * @param array $values
      */
     public function setValues(array $values)
     {
@@ -388,7 +380,7 @@ class TemplateProcessor
         if (is_null($value) && isset($inlineValue)) {
             $value = $inlineValue;
         }
-        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', $value)) {
+        if (!preg_match('/^([0-9]*(cm|mm|in|pt|pc|px|%|em|ex|)|auto)$/i', (string) $value)) {
             $value = null;
         }
         if (is_null($value)) {
@@ -462,8 +454,8 @@ class TemplateProcessor
             $imgPath = $replaceImage;
         }
 
-        $width = $this->chooseImageDimension($width, isset($varInlineArgs['width']) ? $varInlineArgs['width'] : null, 115);
-        $height = $this->chooseImageDimension($height, isset($varInlineArgs['height']) ? $varInlineArgs['height'] : null, 70);
+        $width = $this->chooseImageDimension($width, $varInlineArgs['width'] ?? null, 115);
+        $height = $this->chooseImageDimension($height, $varInlineArgs['height'] ?? null, 70);
 
         $imageData = @getimagesize($imgPath);
         if (!is_array($imageData)) {
@@ -539,7 +531,6 @@ class TemplateProcessor
     }
 
     /**
-     * @param mixed $search
      * @param mixed $replace Path to image, or array("path" => xx, "width" => yy, "height" => zz)
      * @param int $limit
      */
@@ -559,7 +550,7 @@ class TemplateProcessor
 
         $searchReplace = array();
         foreach ($search as $searchIdx => $searchString) {
-            $searchReplace[$searchString] = isset($replacesList[$searchIdx]) ? $replacesList[$searchIdx] : $replacesList[0];
+            $searchReplace[$searchString] = $replacesList[$searchIdx] ?? $replacesList[0];
         }
 
         // collect document parts
@@ -679,8 +670,8 @@ class TemplateProcessor
                 $extraRowStart = $this->findRowStart($extraRowEnd + 1);
                 $extraRowEnd = $this->findRowEnd($extraRowEnd + 1);
 
-                // If extraRowEnd is lower then 7, there was no next row found.
-                if ($extraRowEnd < 7) {
+                // If extraRowEnd is null, there was no next row found.
+                if ($extraRowEnd === null) {
                     break;
                 }
 
@@ -907,8 +898,6 @@ class TemplateProcessor
     /**
      * Find and replace macros in the given XML section.
      *
-     * @param mixed $search
-     * @param mixed $replace
      * @param string $documentPartXML
      * @param int $limit
      *
@@ -1048,25 +1037,31 @@ class TemplateProcessor
      *
      * @param int $offset
      *
-     * @return int
+     * @return int|null
      */
     protected function findRowEnd($offset)
     {
-        return strpos($this->tempDocumentMainPart, '</w:tr>', $offset) + 7;
+        $position = strpos($this->tempDocumentMainPart, '</w:tr>', $offset);
+
+        return $position === false ? null : $position + 7;
     }
 
     /**
      * Get a slice of a string.
-     *
-     * @param int $startPosition
-     * @param int $endPosition
-     *
-     * @return string
      */
-    protected function getSlice($startPosition, $endPosition = 0)
+    protected function getSlice(int $startPosition, int $endPosition = 0): string
     {
+        $length = strlen($this->tempDocumentMainPart);
         if (!$endPosition) {
-            $endPosition = strlen($this->tempDocumentMainPart);
+            $endPosition = $length;
+        }
+
+        if ($startPosition < 0) {
+            throw new Exception(sprintf('Start position must be at least 0. `%s` provided', $startPosition));
+        } elseif ($endPosition < $startPosition) {
+            throw new Exception(sprintf('Provided end position `%s` is smaller than the start position `%s`', $endPosition, $startPosition));
+        } elseif ($endPosition > $length) {
+            throw new Exception(sprintf('Provided end position `%s` is longer than the length `%s`', $endPosition, $length));
         }
 
         return substr($this->tempDocumentMainPart, $startPosition, ($endPosition - $startPosition));

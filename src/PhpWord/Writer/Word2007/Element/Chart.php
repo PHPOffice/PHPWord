@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -50,7 +51,7 @@ class Chart extends AbstractElement
         $xmlWriter->startElement('wp:inline');
 
         // EMU
-        $xmlWriter->writeElementBlock('wp:extent', array('cx' => $style->getWidth(), 'cy' => $style->getHeight()));
+        $xmlWriter->writeElementBlock('wp:extent', array('cx' => $style->getWidth()->toInt('emu'), 'cy' => $style->getHeight()->toInt('emu')));
         $xmlWriter->writeElementBlock('wp:docPr', array('id' => $rId, 'name' => "Chart{$rId}"));
 
         $xmlWriter->startElement('a:graphic');

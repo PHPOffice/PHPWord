@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -22,6 +23,9 @@ use PhpOffice\PhpWord\Element\Comment;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -66,7 +70,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
 
-        $section->addLine(array('width' => 1000, 'height' => 1000, 'positioning' => 'absolute', 'flip' => true));
+        $section->addLine(array('width' => Absolute::from('pt', 1000), 'height' => Absolute::from('pt', 1000), 'positioning' => 'absolute', 'flip' => true));
         $doc = TestHelperDOCX::getDocument($phpWord);
 
         $element = '/w:document/w:body/w:p/w:r/w:pict/v:shapetype';
@@ -121,11 +125,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
 
         $table = $section->addTable(array('alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER));
-        $table->addRow(900);
-        $table->addCell(2000)->addText('Row 1');
-        $table->addCell(2000)->addText('Row 2');
-        $table->addCell(2000)->addText('Row 3');
-        $table->addCell(2000)->addText('Row 4');
+        $table->addRow(Absolute::from('twip', 900));
+        $table->addCell(Absolute::from('twip', 2000))->addText('Row 1');
+        $table->addCell(Absolute::from('twip', 2000))->addText('Row 2');
+        $table->addCell(Absolute::from('twip', 2000))->addText('Row 3');
+        $table->addCell(Absolute::from('twip', 2000))->addText('Row 4');
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -144,8 +148,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
 
         $table = $section->addTable('my_predefined_style');
-        $table->setWidth(75);
-        $table->addRow(900);
+        $table->setWidth(Absolute::from('twip', 75));
+        $table->addRow(Absolute::from('twip', 900));
 
         $doc = TestHelperDOCX::getDocument($phpWord);
 
@@ -167,8 +171,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             'arc',
             array(
                 'points'  => '-90 20',
-                'frame'   => array('width' => 120, 'height' => 120),
-                'outline' => array('color' => '#333333', 'weight' => 2, 'startArrow' => 'oval', 'endArrow' => 'open'),
+                'frame'   => array('width' => Absolute::from('pt', 120), 'height' => Absolute::from('pt', 120)),
+                'outline' => array('color' => new Hex('333333'), 'weight' => Absolute::from('pt', 2), 'startArrow' => 'oval', 'endArrow' => 'open'),
             )
         );
 
@@ -176,10 +180,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addShape(
             'curve',
             array(
-                'points'  => '1,100 200,1 1,50 200,50', 'connector' => 'elbow',
-                'outline' => array(
-                    'color'      => '#66cc00',
-                    'weight'     => 2,
+                'points'    => '1,100 200,1 1,50 200,50',
+                'connector' => 'elbow',
+                'outline'   => array(
+                    'color'      => new Hex('66cc00'),
+                    'weight'     => Absolute::from('emu', 2),
                     'dash'       => 'dash',
                     'startArrow' => 'diamond',
                     'endArrow'   => 'block',
@@ -193,9 +198,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             array(
                 'points'  => '1,1 150,30',
                 'outline' => array(
-                    'color'      => '#cc00ff',
+                    'color'      => new Hex('cc00ff'),
                     'line'       => 'thickThin',
-                    'weight'     => 3,
+                    'weight'     => Absolute::from('emu', 3),
                     'startArrow' => 'oval',
                     'endArrow'   => 'classic',
                     'endCap'     => 'round',
@@ -209,8 +214,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
             array(
                 'points'  => '1,30 20,10 55,20 75,10 100,40 115,50, 120,15 200,50',
                 'outline' => array(
-                    'color'      => '#cc6666',
-                    'weight'     => 2,
+                    'color'      => new Hex('cc6666'),
+                    'weight'     => Absolute::from('emu', 2),
                     'startArrow' => 'none',
                     'endArrow'   => 'classic',
                 ),
@@ -221,11 +226,11 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addShape(
             'rect',
             array(
-                'roundness' => 0.2,
-                'frame'     => array('width' => 100, 'height' => 100, 'left' => 1, 'top' => 1),
-                'fill'      => array('color' => '#FFCC33'),
-                'outline'   => array('color' => '#990000', 'weight' => 1),
-                'shadow'    => array('color' => '#EEEEEE', 'offset' => '3pt,3pt'),
+                'roundness' => new Percent(20),
+                'frame'     => array('width' => Absolute::from('pt', 100), 'height' => Absolute::from('pt', 100), 'left' => Absolute::from('pt', 1), 'top' => Absolute::from('pt', 1)),
+                'fill'      => array('color' => new Hex('FFCC33')),
+                'outline'   => array('color' => new Hex('990000'), 'weight' => Absolute::from('emu', 1)),
+                'shadow'    => array('color' => new Hex('EEEEEE'), 'offset' => '3pt,3pt'),
             )
         );
 
@@ -233,10 +238,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section->addShape(
             'oval',
             array(
-                'frame'     => array('width' => 100, 'height' => 70, 'left' => 1, 'top' => 1),
-                'fill'      => array('color' => '#33CC99'),
-                'outline'   => array('color' => '#333333', 'weight' => 2),
-                'extrusion' => array('type' => 'perspective', 'color' => '#EEEEEE'),
+                'frame'     => array('width' => Absolute::from('pt', 100), 'height' => Absolute::from('pt', 70), 'left' => Absolute::from('pt', 1), 'top' => Absolute::from('pt', 1)),
+                'fill'      => array('color' => new Hex('33CC99')),
+                'outline'   => array('color' => new Hex('333333'), 'weight' => Absolute::from('emu', 2)),
+                'extrusion' => array('type' => 'perspective', 'color' => new Hex('EEEEEE')),
             )
         );
 
@@ -256,7 +261,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
-        $style = array('width' => 1000000, 'height' => 1000000, 'showAxisLabels' => true, 'showGridX' => true, 'showGridY' => true);
+        $style = array('width' => Absolute::from('emu', 1000000), 'height' => Absolute::from('emu', 1000000), 'showAxisLabels' => true, 'showGridX' => true, 'showGridY' => true);
 
         $chartTypes = array('pie', 'doughnut', 'bar', 'line', 'area', 'scatter', 'radar');
         $categories = array('A', 'B', 'C', 'D', 'E');
@@ -476,8 +481,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     public function testTitleAndHeading()
     {
         $phpWord = new PhpWord();
-        $phpWord->addTitleStyle(0, array('size' => 14, 'italic' => true));
-        $phpWord->addTitleStyle(1, array('size' => 20, 'color' => '333333', 'bold' => true));
+        $phpWord->addTitleStyle(0, array('size' => Absolute::from('pt', 14), 'italic' => true));
+        $phpWord->addTitleStyle(1, array('size' => Absolute::from('pt', 20), 'color' => new Hex('333333'), 'bold' => true));
 
         $section = $phpWord->addSection();
         $section->addTitle('This is a title', 0);
@@ -517,7 +522,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     public function testListItemRunStyleWriting()
     {
         $phpWord = new PhpWord();
-        $phpWord->addParagraphStyle('MyParagraphStyle', array('spaceBefore' => 400));
+        $phpWord->addParagraphStyle('MyParagraphStyle', array('spaceBefore' => Absolute::from('twip', 400)));
 
         $section = $phpWord->addSection();
         $listItemRun = $section->addListItemRun(0, null, 'MyParagraphStyle');

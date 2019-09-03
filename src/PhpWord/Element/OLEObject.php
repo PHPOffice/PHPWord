@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -64,7 +65,7 @@ class OLEObject extends AbstractElement
      * Create a new Ole-Object Element
      *
      * @param string $source
-     * @param mixed $style
+     * @param null|mixed $style
      *
      * @throws \PhpOffice\PhpWord\Exception\InvalidObjectException
      */

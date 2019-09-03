@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\LineNumbering
  *
@@ -33,7 +36,7 @@ class LineNumberingTest extends \PHPUnit\Framework\TestCase
         $properties = array(
             'start'     => array(1, 2),
             'increment' => array(1, 10),
-            'distance'  => array(null, 10),
+            'distance'  => array(null, Absolute::from('twip', 10)),
             'restart'   => array(null, 'continuous'),
         );
         foreach ($properties as $property => $value) {
@@ -41,11 +44,20 @@ class LineNumberingTest extends \PHPUnit\Framework\TestCase
             $get = "get{$property}";
             $set = "set{$property}";
 
-            $this->assertEquals($default, $object->$get()); // Default value
+            $result = $object->$get();
+            if ($expected instanceof Absolute) {
+                $result = $result->toInt('twip');
+            }
+            $this->assertEquals($default, $result); // Default value
 
             $object->$set($expected);
 
-            $this->assertEquals($expected, $object->$get()); // New value
+            $result = $object->$get();
+            if ($expected instanceof Absolute) {
+                $expected = $expected->toInt('twip');
+                $result = $result->toInt('twip');
+            }
+            $this->assertEquals($expected, $result); // New value
         }
     }
 }

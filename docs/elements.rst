@@ -218,11 +218,11 @@ Table style can be defined with ``addTableStyle``:
 .. code-block:: php
 
     $tableStyle = array(
-        'borderColor' => '006699',
-        'borderSize'  => 6,
-        'cellMargin'  => 50
+        'borderColor' => new Hex('006699'),
+        'borderSize'  => Absolute::from('twip', 6),
+        'cellMargin'  => Absolute::from('twip', 50)
     );
-    $firstRowStyle = array('bgColor' => '66BBFF');
+    $firstRowStyle = array('bgColor' => new Hex('66BBFF'));
     $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
     $table = $section->addTable('myTable');
 
@@ -235,7 +235,7 @@ You can span a cell on multiple columns by using ``gridSpan`` or multiple rows b
 
 .. code-block:: php
 
-    $cell = $table->addCell(200);
+    $cell = $table->addCell(Absolute::from('twip', 200));
     $cell->getStyle()->setGridSpan(5);
 
 See ``Sample_09_Tables.php`` for more code sample.
@@ -260,10 +260,10 @@ Examples:
     $section->addImage(
         'mars.jpg',
         array(
-            'width'         => 100,
-            'height'        => 100,
-            'marginTop'     => -1,
-            'marginLeft'    => -1,
+            'width'         => Absolute::from('twip', 100),
+            'height'        => Absolute::from('twip', 100),
+            'marginTop'     => Absolute::from('twip', -1),
+            'marginLeft'    => Absolute::from('twip', -1),
             'wrappingStyle' => 'behind'
         )
     );
@@ -285,7 +285,7 @@ header reference. After creating a header, you can use the
 
     $section = $phpWord->addSection();
     $header = $section->addHeader();
-    $header->addWatermark('resources/_earth.jpg', array('marginTop' => 200, 'marginLeft' => 55));
+    $header->addWatermark('resources/_earth.jpg', array('marginTop' => Absolute::from('twip', 200), 'marginLeft' => Absolute::from('twip', 55)));
 
 Objects
 -------
@@ -316,7 +316,7 @@ Options for ``$tocStyle``:
 
 - ``tabLeader``. Fill type between the title text and the page number. Use the defined constants in ``\PhpOffice\PhpWord\Style\TOC``.
 - ``tabPos``. The position of the tab where the page number appears in *twip*.
-- ``indent``. The indent factor of the titles in *twip*.
+- ``indent``. The indent factor of the titles (``\PhpOffice\PhpWord\Style\Lengths\Absolute``).
 
 Footnotes & endnotes
 --------------------
@@ -437,13 +437,13 @@ Line elements can be added to sections by using ``addLine``.
 
 Available line style attributes:
 
-- ``weight``. Line width in *twip*.
-- ``color``. Defines the color of stroke.
+- ``weight``. Line width (``\PhpOffice\PhpWord\Style\Lengths\Absolute``).
+- ``color``. Defines the color of stroke (``\PhpOffice\PhpWord\Style\Colors\BasicColor``).
 - ``dash``. Line types: dash, rounddot, squaredot, dashdot, longdash, longdashdot, longdashdotdot.
 - ``beginArrow``. Start type of arrow: block, open, classic, diamond, oval.
 - ``endArrow``. End type of arrow: block, open, classic, diamond, oval.
-- ``width``. Line-object width in *pt*.
-- ``height``. Line-object height in *pt*.
+- ``width``. Line-object width (``\PhpOffice\PhpWord\Style\Lengths\Absolute``).
+- ``height``. Line-object height (``\PhpOffice\PhpWord\Style\Lengths\Absolute``).
 - ``flip``. Flip the line element: true, false.
 
 Chart

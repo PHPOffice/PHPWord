@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -79,9 +80,6 @@ class Document extends AbstractPart
 
     /**
      * Write begin section.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Section $section
      */
     private function writeSection(XMLWriter $xmlWriter, Section $section)
     {
@@ -94,9 +92,6 @@ class Document extends AbstractPart
 
     /**
      * Write end section.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
-     * @param \PhpOffice\PhpWord\Element\Section $section
      */
     private function writeSectionSettings(XMLWriter $xmlWriter, Section $section)
     {

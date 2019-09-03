@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -254,7 +255,7 @@ abstract class AbstractElement
      */
     public function setElementId()
     {
-        $this->elementId = substr(md5(rand()), 0, 6);
+        $this->elementId = substr(md5((string) rand()), 0, 6);
     }
 
     /**
@@ -299,8 +300,6 @@ abstract class AbstractElement
 
     /**
      * Set comment start
-     *
-     * @param Comment $value
      */
     public function setCommentRangeStart(Comment $value)
     {
@@ -323,8 +322,6 @@ abstract class AbstractElement
 
     /**
      * Set comment end
-     *
-     * @param Comment $value
      */
     public function setCommentRangeEnd(Comment $value)
     {
@@ -431,7 +428,6 @@ abstract class AbstractElement
      * @param mixed $styleObject Style object
      * @param mixed $styleValue Style value
      * @param bool $returnObject Always return object
-     * @return mixed
      */
     protected function setNewStyle($styleObject, $styleValue = null, $returnObject = false)
     {
@@ -439,7 +435,8 @@ abstract class AbstractElement
             $styleObject->setStyleByArray($styleValue);
             $style = $styleObject;
         } else {
-            $style = $returnObject ? $styleObject : $styleValue;
+            $class = get_class($styleObject);
+            $style = $returnObject && !($styleValue instanceof $class) ? $styleObject : $styleValue;
         }
 
         return $style;
@@ -447,8 +444,6 @@ abstract class AbstractElement
 
     /**
      * Sets the trackChange information
-     *
-     * @param TrackChange $trackChange
      */
     public function setTrackChange(TrackChange $trackChange)
     {

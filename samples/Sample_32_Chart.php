@@ -1,15 +1,17 @@
 <?php
-include_once 'Sample_Header.php';
+declare(strict_types=1);
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
-use PhpOffice\PhpWord\Shared\Converter;
+include_once 'Sample_Header.php';
 
 // New Word document
 echo date('H:i:s'), ' Create new PhpWord object', EOL;
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$phpWord = new PhpWord();
 
 // Define styles
-$phpWord->addTitleStyle(1, array('size' => 14, 'bold' => true), array('keepNext' => true, 'spaceBefore' => 240));
-$phpWord->addTitleStyle(2, array('size' => 14, 'bold' => true), array('keepNext' => true, 'spaceBefore' => 240));
+$phpWord->addTitleStyle(1, array('size' => Absolute::from('pt', 14), 'bold' => true), array('keepNext' => true, 'spaceBefore' => Absolute::from('twip', 240)));
+$phpWord->addTitleStyle(2, array('size' => Absolute::from('pt', 14), 'bold' => true), array('keepNext' => true, 'spaceBefore' => Absolute::from('twip', 240)));
 
 // 2D charts
 $section = $phpWord->addSection();
@@ -29,7 +31,7 @@ $showAxisLabels = false;
 foreach ($chartTypes as $chartType) {
     $section->addTitle(ucfirst($chartType), 2);
     $chart = $section->addChart($chartType, $categories, $series1);
-    $chart->getStyle()->setWidth(Converter::inchToEmu(2.5))->setHeight(Converter::inchToEmu(2));
+    $chart->getStyle()->setWidth(Absolute::from('in', 2.5))->setHeight(Absolute::from('in', 2));
     $chart->getStyle()->setShowGridX($showGridLines);
     $chart->getStyle()->setShowGridY($showGridLines);
     $chart->getStyle()->setShowAxisLabels($showAxisLabels);
@@ -50,8 +52,8 @@ $section = $phpWord->addSection(array('colsNum' => 2, 'breakType' => 'continuous
 $chartTypes = array('pie', 'bar', 'column', 'line', 'area');
 $multiSeries = array('bar', 'column', 'line', 'area');
 $style = array(
-    'width'          => Converter::cmToEmu(5),
-    'height'         => Converter::cmToEmu(4),
+    'width'          => Absolute::from('cm', 5),
+    'height'         => Absolute::from('cm', 4),
     '3d'             => true,
     'showAxisLabels' => $showAxisLabels,
     'showGridX'      => $showGridLines,

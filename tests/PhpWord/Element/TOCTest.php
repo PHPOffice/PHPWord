@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Element;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\TOC
@@ -32,11 +34,11 @@ class TOCTest extends \PHPUnit\Framework\TestCase
     public function testConstructWithStyleArray()
     {
         $expected = array(
-            'position' => 9062,
+            'position' => Absolute::from('twip', 9062),
             'leader'   => \PhpOffice\PhpWord\Style\Tab::TAB_LEADER_DOT,
-            'indent'   => 200,
+            'indent'   => Absolute::from('twip', 200),
         );
-        $object = new TOC(array('size' => 11), array('position' => $expected['position']));
+        $object = new TOC(array('size' => Absolute::from('pt', 11)), array('position' => $expected['position']));
         $tocStyle = $object->getStyleTOC();
 
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Style\\TOC', $tocStyle);

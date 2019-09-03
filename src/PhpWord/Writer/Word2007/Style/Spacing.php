@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -37,13 +38,14 @@ class Spacing extends AbstractStyle
 
         $xmlWriter->startElement('w:spacing');
 
-        $before = $style->getBefore();
-        $xmlWriter->writeAttributeIf(!is_null($before), 'w:before', $this->convertTwip($before));
+        $before = $style->getBefore()->toInt('twip');
+        $xmlWriter->writeAttributeIf(!is_null($before), 'w:before', $before);
 
-        $after = $style->getAfter();
-        $xmlWriter->writeAttributeIf(!is_null($after), 'w:after', $this->convertTwip($after));
+        $after = $style->getAfter()->toInt('twip');
+        $xmlWriter->writeAttributeIf(!is_null($after), 'w:after', $after);
 
-        $line = $style->getLine();
+        $line = $style->getLine()->toInt('twip');
+        // @see http://www.datypic.com/sc/ooxml/a-w_line-1.html
         //if linerule is auto, the spacing is supposed to include the height of the line itself, which is 240 twips
         if (null !== $line && 'auto' === $style->getLineRule()) {
             $line += \PhpOffice\PhpWord\Style\Paragraph::LINE_HEIGHT;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -64,8 +65,6 @@ class Styles extends AbstractPart
 
     /**
      * Write default styles.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeDefault(XMLWriter $xmlWriter)
     {
@@ -91,16 +90,16 @@ class Styles extends AbstractPart
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
         $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
-        $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize()->toInt('pt') . 'pt');
         $xmlWriter->writeAttribute('fo:language', $latinLang[0]);
         $xmlWriter->writeAttribute('fo:country', $latinLang[1]);
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
         $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
-        $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize()->toInt('pt') . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', $asianLang[0]);
         $xmlWriter->writeAttribute('style:country-asian', $asianLang[1]);
         $xmlWriter->writeAttribute('style:font-name-complex', Settings::getDefaultFontName() . '2');
-        $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize()->toInt('pt') . 'pt');
         $xmlWriter->writeAttribute('style:language-complex', $complexLang[0]);
         $xmlWriter->writeAttribute('style:country-complex', $complexLang[1]);
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');
@@ -113,8 +112,6 @@ class Styles extends AbstractPart
 
     /**
      * Write named styles.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeNamed(XMLWriter $xmlWriter)
     {
@@ -135,8 +132,6 @@ class Styles extends AbstractPart
 
     /**
      * Write page layout styles.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writePageLayout(XMLWriter $xmlWriter)
     {
@@ -186,8 +181,6 @@ class Styles extends AbstractPart
 
     /**
      * Write master style.
-     *
-     * @param \PhpOffice\Common\XMLWriter $xmlWriter
      */
     private function writeMaster(XMLWriter $xmlWriter)
     {

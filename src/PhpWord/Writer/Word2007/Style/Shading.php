@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -37,8 +38,8 @@ class Shading extends AbstractStyle
 
         $xmlWriter->startElement('w:shd');
         $xmlWriter->writeAttributeIf(!is_null($style->getPattern()), 'w:val', $style->getPattern());
-        $xmlWriter->writeAttributeIf(!is_null($style->getColor()), 'w:color', $style->getColor());
-        $xmlWriter->writeAttributeIf(!is_null($style->getFill()), 'w:fill', $style->getFill());
+        $xmlWriter->writeAttributeIf(!is_null($style->getColor()->toHexOrName()), 'w:color', $style->getColor()->toHexOrName());
+        $xmlWriter->writeAttributeIf(!is_null($style->getFill()), 'w:fill', $style->getFill()->toHexOrName());
         $xmlWriter->endElement();
     }
 }

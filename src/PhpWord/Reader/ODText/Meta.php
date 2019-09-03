@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -30,7 +31,6 @@ class Meta extends AbstractPart
     /**
      * Read meta.xml.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @todo Process property type
      */
     public function read(PhpWord $phpWord)

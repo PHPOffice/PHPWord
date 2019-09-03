@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -51,9 +52,9 @@ class ListItem extends AbstractElement
      *
      * @param string $text
      * @param int $depth
-     * @param mixed $fontStyle
      * @param array|string|null $listStyle
-     * @param mixed $paragraphStyle
+     * @param null|mixed $fontStyle
+     * @param null|mixed $paragraphStyle
      */
     public function __construct($text, $depth = 0, $fontStyle = null, $listStyle = null, $paragraphStyle = null)
     {

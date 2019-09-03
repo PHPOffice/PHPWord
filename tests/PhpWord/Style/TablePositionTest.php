@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+
 /**
  * Test class for PhpOffice\PhpWord\Style\Table
  *
@@ -29,11 +32,11 @@ class TablePositionTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstruct()
     {
-        $styleTable = array('vertAnchor' => TablePosition::VANCHOR_PAGE, 'bottomFromText' => 20);
+        $styleTable = array('vertAnchor' => TablePosition::VANCHOR_PAGE, 'bottomFromText' => Absolute::from('twip', 20));
 
         $object = new TablePosition($styleTable);
         $this->assertEquals(TablePosition::VANCHOR_PAGE, $object->getVertAnchor());
-        $this->assertEquals(20, $object->getBottomFromText());
+        $this->assertEquals(20, $object->getBottomFromText()->toInt('twip'));
     }
 
     /**
@@ -44,22 +47,53 @@ class TablePositionTest extends \PHPUnit\Framework\TestCase
         $object = new TablePosition();
 
         $attributes = array(
-            'leftFromText'   => 4,
-            'rightFromText'  => 4,
-            'topFromText'    => 4,
-            'bottomFromText' => 4,
+            'leftFromText'   => Absolute::from('twip', 4),
+            'rightFromText'  => Absolute::from('twip', 4),
+            'topFromText'    => Absolute::from('twip', 4),
+            'bottomFromText' => Absolute::from('twip', 4),
             'vertAnchor'     => TablePosition::VANCHOR_PAGE,
             'horzAnchor'     => TablePosition::HANCHOR_TEXT,
             'tblpXSpec'      => TablePosition::XALIGN_CENTER,
-            'tblpX'          => 5,
+            'tblpX'          => Absolute::from('twip', 5),
             'tblpYSpec'      => TablePosition::YALIGN_OUTSIDE,
-            'tblpY'          => 6,
+            'tblpY'          => Absolute::from('twip', 6),
         );
         foreach ($attributes as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($value instanceof Absolute) {
+                $value = $value->toInt('twip');
+                $result = $result->toInt('twip');
+            }
+            $this->assertEquals($value, $result, "Read value for attribute $key should be the same as the written value");
+        }
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\Style\TablePosition
+     */
+    public function testSetGetAbsolute()
+    {
+        $attributes = array(
+            'TopFromText',
+            'BottomFromText',
+            'LeftFromText',
+            'RightFromText',
+            'TblpX',
+            'TblpY',
+        );
+
+        $level = new TablePosition();
+        foreach ($attributes as $attribute) {
+            $get = "get$attribute";
+            $set = "set$attribute";
+
+            $this->assertEquals(new Absolute(null), $level->$get());
+            $level->$set(Absolute::from('pt', 5));
+            $this->assertNotEquals(new Absolute(null), $level->$get());
+            $this->assertEquals(Absolute::from('pt', 5), $level->$get());
         }
     }
 }

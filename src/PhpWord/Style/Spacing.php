@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Spacing between lines and above/below paragraph style
@@ -28,23 +30,23 @@ use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 class Spacing extends AbstractStyle
 {
     /**
-     * Spacing above paragraph (twip)
+     * Spacing above paragraph
      *
-     * @var int|float
+     * @var Absolute
      */
     private $before;
 
     /**
-     * Spacing below paragraph (twip)
+     * Spacing below paragraph
      *
-     * @var int|float
+     * @var Absolute
      */
     private $after;
 
     /**
-     * Spacing between lines in paragraph (twip)
+     * Spacing between lines in paragraph
      *
-     * @var int|float
+     * @var Absolute
      */
     private $line;
 
@@ -67,69 +69,70 @@ class Spacing extends AbstractStyle
 
     /**
      * Get before
-     *
-     * @return int|float
      */
-    public function getBefore()
+    public function getBefore(): Absolute
     {
+        if ($this->before === null) {
+            $this->before = new Absolute(null);
+        }
+
         return $this->before;
     }
 
     /**
      * Set before
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setBefore($value = null)
+    public function setBefore(Absolute $value): self
     {
-        $this->before = $this->setNumericVal($value, $this->before);
+        $this->before = $value;
 
         return $this;
     }
 
     /**
      * Get after
-     *
-     * @return int|float
      */
-    public function getAfter()
+    public function getAfter(): Absolute
     {
+        if ($this->after === null) {
+            $this->after = new Absolute(null);
+        }
+
         return $this->after;
     }
 
     /**
      * Set after
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setAfter($value = null)
+    public function setAfter(Absolute $value): self
     {
-        $this->after = $this->setNumericVal($value, $this->after);
+        $this->after = $value;
 
         return $this;
     }
 
     /**
-     * Get line
-     *
-     * @return int|float
+     * Get vertical spacing between lines of text within paragraph.
+     * Spacing may vary for same value depending on value of line rule.
+     * See `getLineRule()``.
      */
-    public function getLine()
+    public function getLine(): Absolute
     {
+        if ($this->line === null) {
+            $this->line = new Absolute(null);
+        }
+
         return $this->line;
     }
 
     /**
-     * Set distance
-     *
-     * @param int|float $value
-     * @return self
+     * Set vertical spacing between lines of text within paragraph.
+     * Spacing may vary for same value depending on value of line rule.
+     * See `setLineRule()``.
      */
-    public function setLine($value = null)
+    public function setLine(Absolute $value): self
     {
-        $this->line = $this->setNumericVal($value, $this->line);
+        $this->line = $value;
 
         return $this;
     }

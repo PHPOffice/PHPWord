@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\HTML\Element;
+
+use PhpOffice\PhpWord\Style\Colors\StaticColorInterface;
 
 /**
  * Table element HTML writer
@@ -53,11 +56,11 @@ class Table extends AbstractElement
                     $cellStyle = $rowCells[$j]->getStyle();
                     $cellBgColor = $cellStyle->getBgColor();
                     $cellFgColor = null;
-                    if ($cellBgColor) {
-                        $red = hexdec(substr($cellBgColor, 0, 2));
-                        $green = hexdec(substr($cellBgColor, 2, 2));
-                        $blue = hexdec(substr($cellBgColor, 4, 2));
-                        $cellFgColor = (($red * 0.299 + $green * 0.587 + $blue * 0.114) > 186) ? null : 'ffffff';
+                    if ($cellBgColor instanceof StaticColorInterface) {
+                        list($red, $green, $blue) = $cellBgColor->toRgb();
+                        if (($red * 0.299 + $green * 0.587 + $blue * 0.114) <= 186) {
+                            $cellFgColor = 'FFFFFF';
+                        }
                     }
                     $cellColSpan = $cellStyle->getGridSpan();
                     $cellRowSpan = 1;
@@ -82,7 +85,7 @@ class Table extends AbstractElement
                         $cellTag = $tblHeader ? 'th' : 'td';
                         $cellColSpanAttr = (is_numeric($cellColSpan) && ($cellColSpan > 1) ? " colspan=\"{$cellColSpan}\"" : '');
                         $cellRowSpanAttr = ($cellRowSpan > 1 ? " rowspan=\"{$cellRowSpan}\"" : '');
-                        $cellBgColorAttr = (is_null($cellBgColor) ? '' : " bgcolor=\"#{$cellBgColor}\"");
+                        $cellBgColorAttr = (is_null($cellBgColor->toHex()) ? '' : " bgcolor=\"{$cellBgColor->toHex(true)}\"");
                         $cellFgColorAttr = (is_null($cellFgColor) ? '' : " color=\"#{$cellFgColor}\"");
                         $content .= "<{$cellTag}{$cellColSpanAttr}{$cellRowSpanAttr}{$cellBgColorAttr}{$cellFgColorAttr}>" . PHP_EOL;
                         $writer = new Container($this->parentWriter, $rowCells[$j]);

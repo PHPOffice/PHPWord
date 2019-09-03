@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -63,7 +64,7 @@ class TestableTemplateProcesor extends TemplateProcessor
         return parent::findContainingXmlBlockForMacro($macro, $blockType);
     }
 
-    public function getSlice($startPosition, $endPosition = 0)
+    public function getSlice(int $startPosition, int $endPosition = 0): string
     {
         return parent::getSlice($startPosition, $endPosition);
     }

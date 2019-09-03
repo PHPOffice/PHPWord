@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,8 @@ use PhpOffice\PhpWord\Element\Text as TextElement;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Writer\HTML\Element\Text;
 
@@ -86,12 +89,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $section = $phpWord->addSection();
         $table = $section->addTable();
         $row1 = $table->addRow();
-        $cell11 = $row1->addCell(1000, array('gridSpan' => 2, 'bgColor' => '6086B8'));
+        $cell11 = $row1->addCell(Absolute::from('twip', 1000), array('gridSpan' => 2, 'bgColor' => new Hex('6086B8')));
         $cell11->addText('cell spanning 2 bellow');
         $row2 = $table->addRow();
-        $cell21 = $row2->addCell(500, array('bgColor' => 'ffffff'));
+        $cell21 = $row2->addCell(Absolute::from('twip', 500), array('bgColor' => new Hex('ffffff')));
         $cell21->addText('first cell');
-        $cell22 = $row2->addCell(500);
+        $cell22 = $row2->addCell(Absolute::from('twip', 500));
         $cell22->addText('second cell');
 
         $dom = $this->getAsHTML($phpWord);
@@ -102,8 +105,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $xpath->query('/html/body/table/tr[2]/td')->length);
 
         $this->assertEquals('#6086B8', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
-        $this->assertEquals('#ffffff', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
-        $this->assertEquals('#ffffff', $xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
+        $this->assertEquals('#FFFFFF', $xpath->query('/html/body/table/tr[1]/td')->item(0)->attributes->getNamedItem('color')->textContent);
+        $this->assertEquals('#FFFFFF', $xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('bgcolor')->textContent);
         $this->assertNull($xpath->query('/html/body/table/tr[2]/td')->item(0)->attributes->getNamedItem('color'));
     }
 
@@ -117,16 +120,16 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $table = $section->addTable();
 
         $row1 = $table->addRow();
-        $row1->addCell(1000, array('vMerge' => 'restart'))->addText('row spanning 3 bellow');
-        $row1->addCell(500)->addText('first cell being spanned');
+        $row1->addCell(Absolute::from('twip', 1000), array('vMerge' => 'restart'))->addText('row spanning 3 bellow');
+        $row1->addCell(Absolute::from('twip', 500))->addText('first cell being spanned');
 
         $row2 = $table->addRow();
         $row2->addCell(null, array('vMerge' => 'continue'));
-        $row2->addCell(500)->addText('second cell being spanned');
+        $row2->addCell(Absolute::from('twip', 500))->addText('second cell being spanned');
 
         $row3 = $table->addRow();
         $row3->addCell(null, array('vMerge' => 'continue'));
-        $row3->addCell(500)->addText('third cell being spanned');
+        $row3->addCell(Absolute::from('twip', 500))->addText('third cell being spanned');
 
         $dom = $this->getAsHTML($phpWord);
         $xpath = new \DOMXPath($dom);

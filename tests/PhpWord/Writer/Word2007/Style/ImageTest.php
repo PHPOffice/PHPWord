@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\PhpWord\Style\Image;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
 /**
@@ -43,10 +45,10 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     {
         $styles = array(
             'wrap'               => Image::WRAP_INLINE,
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
-            'wrapDistanceBottom' => 40,
+            'wrapDistanceLeft'   => Absolute::from('pt', 10),
+            'wrapDistanceRight'  => Absolute::from('pt', 20),
+            'wrapDistanceTop'    => Absolute::from('pt', 30),
+            'wrapDistanceBottom' => Absolute::from('pt', 40),
         );
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -61,9 +63,9 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($doc->elementExists($path));
         $style = $doc->getElement($path)->getAttribute('style');
         $this->assertNotNull($style);
-        $this->assertContains('mso-wrap-distance-left:10pt;', $style);
-        $this->assertContains('mso-wrap-distance-right:20pt;', $style);
-        $this->assertContains('mso-wrap-distance-top:30pt;', $style);
-        $this->assertContains('mso-wrap-distance-bottom:40pt;', $style);
+        $this->assertContains('mso-wrap-distance-left:13px;', $style);
+        $this->assertContains('mso-wrap-distance-right:27px;', $style);
+        $this->assertContains('mso-wrap-distance-top:40px;', $style);
+        $this->assertContains('mso-wrap-distance-bottom:53px;', $style);
     }
 }

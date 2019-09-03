@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -18,6 +19,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Image
@@ -35,22 +37,27 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $object = new Image();
 
         $properties = array(
-            'width'              => 200,
-            'height'             => 200,
+            'width'              => Absolute::from('twip', 200),
+            'height'             => Absolute::from('twip', 200),
             'alignment'          => Jc::START,
-            'marginTop'          => 240,
-            'marginLeft'         => 240,
+            'marginTop'          => Absolute::from('twip', 240),
+            'marginLeft'         => Absolute::from('twip', 240),
             'wrappingStyle'      => 'inline',
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
-            'wrapDistanceBottom' => 40,
+            'wrapDistanceLeft'   => Absolute::from('twip', 10),
+            'wrapDistanceRight'  => Absolute::from('twip', 20),
+            'wrapDistanceTop'    => Absolute::from('twip', 30),
+            'wrapDistanceBottom' => Absolute::from('twip', 40),
         );
         foreach ($properties as $key => $value) {
             $set = "set{$key}";
             $get = "get{$key}";
             $object->$set($value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($result instanceof Absolute) {
+                $result = $result->toInt('twip');
+                $value = $value->toInt('twip');
+            }
+            $this->assertEquals($value, $result);
         }
     }
 
@@ -62,26 +69,31 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $object = new Image();
 
         $properties = array(
-            'width'              => 200,
-            'height'             => 200,
+            'width'              => Absolute::from('twip', 200),
+            'height'             => Absolute::from('twip', 200),
             'alignment'          => Jc::START,
-            'marginTop'          => 240,
-            'marginLeft'         => 240,
-            'position'           => 10,
+            'marginTop'          => Absolute::from('twip', 240),
+            'marginLeft'         => Absolute::from('twip', 240),
+            'position'           => Absolute::from('twip', 10),
             'positioning'        => \PhpOffice\PhpWord\Style\Image::POSITION_ABSOLUTE,
             'posHorizontal'      => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
             'posVertical'        => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
             'posHorizontalRel'   => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
             'posVerticalRel'     => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_IMARGIN,
-            'wrapDistanceLeft'   => 10,
-            'wrapDistanceRight'  => 20,
-            'wrapDistanceTop'    => 30,
-            'wrapDistanceBottom' => 40,
+            'wrapDistanceLeft'   => Absolute::from('twip', 10),
+            'wrapDistanceRight'  => Absolute::from('twip', 20),
+            'wrapDistanceTop'    => Absolute::from('twip', 30),
+            'wrapDistanceBottom' => Absolute::from('twip', 40),
         );
         foreach ($properties as $key => $value) {
             $get = "get{$key}";
             $object->setStyleValue("{$key}", $value);
-            $this->assertEquals($value, $object->$get());
+            $result = $object->$get();
+            if ($result instanceof Absolute) {
+                $result = $result->toInt('twip');
+                $value = $value->toInt('twip');
+            }
+            $this->assertEquals($value, $result);
         }
     }
 

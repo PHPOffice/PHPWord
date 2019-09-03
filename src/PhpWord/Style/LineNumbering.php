@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Line numbering style
@@ -47,7 +50,7 @@ class LineNumbering extends AbstractStyle
     /**
      * Distance between text and line numbering in twip
      *
-     * @var int|float
+     * @var Absolute
      */
     private $distance;
 
@@ -117,23 +120,22 @@ class LineNumbering extends AbstractStyle
 
     /**
      * Get distance
-     *
-     * @return int|float
      */
-    public function getDistance()
+    public function getDistance(): Absolute
     {
+        if ($this->distance === null) {
+            $this->distance = new Absolute(null);
+        }
+
         return $this->distance;
     }
 
     /**
      * Set distance
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setDistance($value = null)
+    public function setDistance(Absolute $value): self
     {
-        $this->distance = $this->setNumericVal($value, $this->distance);
+        $this->distance = $value;
 
         return $this;
     }

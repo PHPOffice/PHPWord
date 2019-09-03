@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -19,7 +20,9 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Style\Colors;
 use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Style\Paragraph;
 use PhpOffice\PhpWord\TestHelperDOCX;
 
@@ -49,9 +52,9 @@ class StylesTest extends \PHPUnit\Framework\TestCase
         $pStyle = array('alignment' => Jc::BOTH);
         $pBase = array('basedOn' => 'Normal');
         $pNew = array('basedOn' => 'Base Style', 'next' => 'Normal');
-        $rStyle = array('size' => 20);
-        $tStyle = array('bgColor' => 'FF0000', 'cellMargin' => 120, 'borderSize' => 120);
-        $firstRowStyle = array('bgColor' => '0000FF', 'borderSize' => 120, 'borderColor' => '00FF00');
+        $rStyle = array('size' => Absolute::from('pt', 20));
+        $tStyle = array('bgColor' => new Colors\Hex('FF0000'), 'cellMargin' => Absolute::from('eop', 120), 'borderSize' => Absolute::from('eop', 120));
+        $firstRowStyle = array('bgColor' => new Colors\Hex('0000FF'), 'borderSize' => Absolute::from('eop', 120), 'borderColor' => new Colors\Hex('00FF00'));
         $phpWord->setDefaultParagraphStyle($pStyle);
         $phpWord->addParagraphStyle('Base Style', $pBase);
         $phpWord->addParagraphStyle('New Style', $pNew);
@@ -88,11 +91,11 @@ class StylesTest extends \PHPUnit\Framework\TestCase
 
         $childFont = new Font();
         $childFont->setParagraph($baseParagraphStyle);
-        $childFont->setSize(16);
+        $childFont->setSize(Absolute::from('pt', 16));
         $childFont = $phpWord->addFontStyle('ChildFontStyle', $childFont);
 
         $otherFont = new Font();
-        $otherFont->setSize(20);
+        $otherFont->setSize(Absolute::from('pt', 20));
         $otherFont = $phpWord->addFontStyle('OtherFontStyle', $otherFont);
 
         $doc = TestHelperDOCX::getDocument($phpWord);
@@ -124,7 +127,7 @@ class StylesTest extends \PHPUnit\Framework\TestCase
 
         $styleGeneration = new Font();
         $styleGeneration->setParagraph($styleGenerationP);
-        $styleGeneration->setSize(9.5);
+        $styleGeneration->setSize(Absolute::from('pt', 9.5));
         $phpWord->addFontStyle('Generation', $styleGeneration);
 
         $styleGenerationEteinteP = new Paragraph();
@@ -132,7 +135,7 @@ class StylesTest extends \PHPUnit\Framework\TestCase
 
         $styleGenerationEteinte = new Font();
         $styleGenerationEteinte->setParagraph($styleGenerationEteinteP);
-        $styleGenerationEteinte->setSize(8.5);
+        $styleGenerationEteinte->setSize(Absolute::from('pt', 8.5));
         $phpWord->addFontStyle('GeneratEteinte', $styleGenerationEteinte);
 
         $doc = TestHelperDOCX::getDocument($phpWord);

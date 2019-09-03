@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -43,24 +44,23 @@ class Section extends AbstractStyle
         $content .= '\sectd ';
 
         // Size & margin
-        $content .= $this->getValueIf($style->getPageSizeW() !== null, '\pgwsxn' . round($style->getPageSizeW()));
-        $content .= $this->getValueIf($style->getPageSizeH() !== null, '\pghsxn' . round($style->getPageSizeH()));
+        $content .= $this->getValueIf($style->getPageSizeW()->toInt('twip') !== null, '\pgwsxn' . $style->getPageSizeW()->toInt('twip'));
+        $content .= $this->getValueIf($style->getPageSizeH()->toInt('twip') !== null, '\pghsxn' . $style->getPageSizeH()->toInt('twip'));
         $content .= ' ';
-        $content .= $this->getValueIf($style->getMarginTop() !== null, '\margtsxn' . round($style->getMarginTop()));
-        $content .= $this->getValueIf($style->getMarginRight() !== null, '\margrsxn' . round($style->getMarginRight()));
-        $content .= $this->getValueIf($style->getMarginBottom() !== null, '\margbsxn' . round($style->getMarginBottom()));
-        $content .= $this->getValueIf($style->getMarginLeft() !== null, '\marglsxn' . round($style->getMarginLeft()));
-        $content .= $this->getValueIf($style->getHeaderHeight() !== null, '\headery' . round($style->getHeaderHeight()));
-        $content .= $this->getValueIf($style->getFooterHeight() !== null, '\footery' . round($style->getFooterHeight()));
-        $content .= $this->getValueIf($style->getGutter() !== null, '\guttersxn' . round($style->getGutter()));
+        $content .= $this->getValueIf($style->getMarginTop()->toInt('twip') !== null, '\margtsxn' . $style->getMarginTop()->toInt('twip'));
+        $content .= $this->getValueIf($style->getMarginRight()->toInt('twip') !== null, '\margrsxn' . $style->getMarginRight()->toInt('twip'));
+        $content .= $this->getValueIf($style->getMarginBottom()->toInt('twip') !== null, '\margbsxn' . $style->getMarginBottom()->toInt('twip'));
+        $content .= $this->getValueIf($style->getMarginLeft()->toInt('twip') !== null, '\marglsxn' . $style->getMarginLeft()->toInt('twip'));
+        $content .= $this->getValueIf($style->getHeaderHeight()->toInt('twip') !== null, '\headery' . $style->getHeaderHeight()->toInt('twip'));
+        $content .= $this->getValueIf($style->getFooterHeight()->toInt('twip') !== null, '\footery' . $style->getFooterHeight()->toInt('twip'));
+        $content .= $this->getValueIf($style->getGutter()->toInt('twip') !== null, '\guttersxn' . $style->getGutter()->toInt('twip'));
         $content .= ' ';
 
         // Borders
         if ($style->hasBorder()) {
             $styleWriter = new Border($style);
             $styleWriter->setParentWriter($this->getParentWriter());
-            $styleWriter->setSizes($style->getBorderSize());
-            $styleWriter->setColors($style->getBorderColor());
+            $styleWriter->setBorders($style->getBorders());
             $content .= $styleWriter->write();
         }
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -54,9 +55,6 @@ class Paragraph extends AbstractStyle
             Jc::BOTH   => '\qj',
         );
 
-        $spaceAfter = $style->getSpaceAfter();
-        $spaceBefore = $style->getSpaceBefore();
-
         $content = '';
         if ($this->nestedLevel == 0) {
             $content .= '\pard\nowidctlpar ';
@@ -65,7 +63,9 @@ class Paragraph extends AbstractStyle
             $content .= $alignments[$style->getAlignment()];
         }
         $content .= $this->writeIndentation($style->getIndentation());
+        $spaceBefore = $style->getSpaceBefore()->toInt('twip');
         $content .= $this->getValueIf($spaceBefore !== null, '\sb' . round($spaceBefore));
+        $spaceAfter = $style->getSpaceAfter()->toInt('twip');
         $content .= $this->getValueIf($spaceAfter !== null, '\sa' . round($spaceAfter));
 
         $styles = $style->getStyleValues();

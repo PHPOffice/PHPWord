@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -21,6 +22,7 @@ use PhpOffice\PhpWord\ComplexType\ProofState;
 use PhpOffice\PhpWord\ComplexType\TrackChangesView;
 use PhpOffice\PhpWord\SimpleType\Zoom;
 use PhpOffice\PhpWord\Style\Language;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Setting class
@@ -146,7 +148,7 @@ class Settings
 
     /**
      * The allowed amount of whitespace before hyphenation is applied
-     * @var float|null
+     * @var Absolute
      */
     private $hyphenationZone;
 
@@ -320,17 +322,11 @@ class Settings
         $this->doNotTrackFormatting = $doNotTrackFormatting === null ? true : $doNotTrackFormatting;
     }
 
-    /**
-     * @return mixed
-     */
     public function getZoom()
     {
         return $this->zoom;
     }
 
-    /**
-     * @param mixed $zoom
-     */
     public function setZoom($zoom)
     {
         if (is_numeric($zoom)) {
@@ -446,20 +442,20 @@ class Settings
         $this->consecutiveHyphenLimit = (int) $consecutiveHyphenLimit;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getHyphenationZone()
+    public function getHyphenationZone(): Absolute
     {
+        if ($this->hyphenationZone === null) {
+            $this->hyphenationZone = new Absolute(null);
+        }
+
         return $this->hyphenationZone;
     }
 
-    /**
-     * @param float $hyphenationZone Measurement unit is twip
-     */
-    public function setHyphenationZone($hyphenationZone)
+    public function setHyphenationZone(Absolute $hyphenationZone): self
     {
         $this->hyphenationZone = $hyphenationZone;
+
+        return $this;
     }
 
     /**

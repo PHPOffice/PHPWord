@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -408,11 +409,8 @@ class DocInfo
 
     /**
      * Get a Custom Property Value
-     *
-     * @param string $propertyName
-     * @return mixed
      */
-    public function getCustomPropertyValue($propertyName)
+    public function getCustomPropertyValue(string $propertyName)
     {
         if ($this->isCustomPropertySet($propertyName)) {
             return $this->customProperties[$propertyName]['value'];
@@ -440,7 +438,6 @@ class DocInfo
      * Set a Custom Property
      *
      * @param string $propertyName
-     * @param mixed $propertyValue
      * @param string $propertyType
      *   'i': Integer
      *   'f': Floating Point
@@ -487,7 +484,6 @@ class DocInfo
      *
      * @param string $propertyValue
      * @param string $propertyType
-     * @return mixed
      */
     public static function convertProperty($propertyValue, $propertyType)
     {
@@ -539,10 +535,6 @@ class DocInfo
 
     /**
      * Set default for null and empty value
-     *
-     * @param mixed $value
-     * @param mixed $default
-     * @return mixed
      */
     private function setValue($value, $default)
     {

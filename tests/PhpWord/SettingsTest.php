@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Settings
@@ -108,9 +111,9 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetGetDefaultFontSize()
     {
-        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize());
-        $this->assertTrue(Settings::setDefaultFontSize(12));
-        $this->assertFalse(Settings::setDefaultFontSize(null));
+        $this->assertEquals(Settings::DEFAULT_FONT_SIZE, Settings::getDefaultFontSize()->toInt('pt'));
+        $this->assertTrue(Settings::setDefaultFontSize(Absolute::from('pt', 12)));
+        $this->assertFalse(Settings::setDefaultFontSize(Absolute::from('pt', null)));
     }
 
     /**
@@ -136,5 +139,15 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
 
         // Test with invalid file
         $this->assertEmpty(Settings::loadConfig(__DIR__ . '/../../phpunit.xml.dist'));
+    }
+
+    /**
+     * Test loading bad config
+     * @expectedException \Exception
+     * @expectedExceptionMessage No method found for key `defaultFontClr` to set config value
+     */
+    public function testLoadBadConfig()
+    {
+        Settings::loadConfig(__DIR__ . '/_files/broken-phpword.ini');
     }
 }

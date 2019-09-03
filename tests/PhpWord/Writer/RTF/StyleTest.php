@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF;
 
+use PhpOffice\PhpWord\Style\BorderSide;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 use PhpOffice\PhpWord\Writer\RTF;
 use PhpOffice\PhpWord\Writer\RTF\Style\Border;
 use PHPUnit\Framework\Assert;
@@ -43,9 +47,30 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testBorderWithNonRegisteredColors()
     {
         $border = new Border();
-        $border->setSizes(array(1, 2, 3, 4));
-        $border->setColors(array('#FF0000', '#FF0000', '#FF0000', '#FF0000'));
-        $border->setSizes(array(20, 20, 20, 20));
+        $border->setBorder('top', new BorderSide(
+            Absolute::from('pt', 1),
+            new Hex('FF0000'),
+            null,
+            Absolute::from('twip', 20)
+        ));
+        $border->setBorder('left', new BorderSide(
+            Absolute::from('pt', 1),
+            new Hex('FF0000'),
+            null,
+            Absolute::from('twip', 20)
+        ));
+        $border->setBorder('right', new BorderSide(
+            Absolute::from('pt', 1),
+            new Hex('FF0000'),
+            null,
+            Absolute::from('twip', 20)
+        ));
+        $border->setBorder('bottom', new BorderSide(
+            Absolute::from('pt', 1),
+            new Hex('FF0000'),
+            null,
+            Absolute::from('twip', 20)
+        ));
 
         $content = $border->write();
 
@@ -61,9 +86,9 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testIndentation()
     {
         $indentation = new \PhpOffice\PhpWord\Style\Indentation();
-        $indentation->setLeft(1);
-        $indentation->setRight(2);
-        $indentation->setFirstLine(3);
+        $indentation->setLeft(Absolute::from('twip', 1));
+        $indentation->setRight(Absolute::from('twip', 2));
+        $indentation->setFirstLine(Absolute::from('twip', 3));
 
         $indentWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Indentation($indentation);
         $indentWriter->setParentWriter(new RTF());
@@ -76,7 +101,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $tabRight = new \PhpOffice\PhpWord\Style\Tab();
         $tabRight->setType(\PhpOffice\PhpWord\Style\Tab::TAB_STOP_RIGHT);
-        $tabRight->setPosition(5);
+        $tabRight->setPosition(Absolute::from('twip', 5));
 
         $tabWriter = new \PhpOffice\PhpWord\Writer\RTF\Style\Tab($tabRight);
         $tabWriter->setParentWriter(new RTF());

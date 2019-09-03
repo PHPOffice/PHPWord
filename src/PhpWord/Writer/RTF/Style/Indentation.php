@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -36,9 +37,9 @@ class Indentation extends AbstractStyle
             return '';
         }
 
-        $content = '\fi' . round($style->getFirstLine());
-        $content .= '\li' . round($style->getLeft());
-        $content .= '\ri' . round($style->getRight());
+        $content = '\fi' . $style->getFirstLine()->toInt('twip');
+        $content .= '\li' . $style->getLeft()->toInt('twip');
+        $content .= '\ri' . $style->getRight()->toInt('twip');
 
         return $content . ' ';
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 include_once 'Sample_Header.php';
 
 use PhpOffice\PhpWord\Settings;

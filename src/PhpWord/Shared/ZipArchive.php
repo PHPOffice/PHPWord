@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -93,10 +94,6 @@ class ZipArchive
      * Catch function calls: pass to ZipArchive or PCLZip
      *
      * `call_user_func_array` can only used for public function, hence the `public` in all `pcl...` methods
-     *
-     * @param mixed $function
-     * @param mixed $args
-     * @return mixed
      */
     public function __call($function, $args)
     {
@@ -125,7 +122,7 @@ class ZipArchive
      * @param int $flags The mode to use to open the archive
      * @return bool
      */
-    public function open($filename, $flags = null)
+    public function open(string $filename, int $flags = null)
     {
         $result = true;
         $this->filename = $filename;
@@ -133,7 +130,11 @@ class ZipArchive
 
         if (!$this->usePclzip) {
             $zip = new \ZipArchive();
-            $result = $zip->open($this->filename, $flags);
+            if ($flags === null) {
+                $result = $zip->open($this->filename);
+            } else {
+                $result = $zip->open($this->filename, $flags);
+            }
 
             // Scrutizer will report the property numFiles does not exist
             // See https://github.com/scrutinizer-ci/php-analyzer/issues/190

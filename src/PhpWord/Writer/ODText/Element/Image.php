@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,8 +17,6 @@
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
-
-use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Image element writer
@@ -40,8 +39,8 @@ class Image extends AbstractElement
         $mediaIndex = $element->getMediaIndex();
         $target = 'Pictures/' . $element->getTarget();
         $style = $element->getStyle();
-        $width = Converter::pixelToCm($style->getWidth());
-        $height = Converter::pixelToCm($style->getHeight());
+        $width = $style->getWidth()->toInt('cm');
+        $height = $style->getHeight()->toInt('cm');
 
         $xmlWriter->startElement('text:p');
         $xmlWriter->writeAttribute('text:style-name', 'Standard');

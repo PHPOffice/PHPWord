@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,8 @@
  */
 
 namespace PhpOffice\PhpWord\Element;
+
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footnote
@@ -51,7 +54,7 @@ class FootnoteTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructArray()
     {
-        $oFootnote = new Footnote(array('spacing' => 100));
+        $oFootnote = new Footnote(array('spacing' => Absolute::from('twip', 100)));
 
         $this->assertInstanceOf(
             'PhpOffice\\PhpWord\\Style\\Paragraph',

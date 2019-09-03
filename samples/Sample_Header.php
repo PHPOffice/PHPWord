@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 require_once __DIR__ . '/../bootstrap.php';
 
 use PhpOffice\PhpWord\Settings;
@@ -92,7 +92,6 @@ function write($phpWord, $filename, $writers)
  * Get ending notes
  *
  * @param array $writers
- * @param mixed $filename
  * @return string
  */
 function getEndingNotes($writers, $filename)

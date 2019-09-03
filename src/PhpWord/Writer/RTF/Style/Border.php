@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -17,6 +18,9 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Style;
 
+use PhpOffice\PhpWord\Exception\Exception;
+use PhpOffice\PhpWord\Style\BorderSide;
+
 /**
  * Border style writer
  *
@@ -27,16 +31,9 @@ class Border extends AbstractStyle
     /**
      * Sizes
      *
-     * @var array
+     * @var BorderSide[]
      */
-    private $sizes = array();
-
-    /**
-     * Colors
-     *
-     * @var array
-     */
-    private $colors = array();
+    private $borders = array();
 
     /**
      * Write style
@@ -47,21 +44,12 @@ class Border extends AbstractStyle
     {
         $content = '';
 
-        $sides = array('top', 'left', 'right', 'bottom');
-        $sizeCount = count($this->sizes);
-
         // Page border measure
         // 8 = from text, infront off; 32 = from edge, infront on; 40 = from edge, infront off
         $content .= '\pgbrdropt32';
 
-        for ($i = 0; $i < $sizeCount; $i++) {
-            if ($this->sizes[$i] !== null) {
-                $color = null;
-                if (isset($this->colors[$i])) {
-                    $color = $this->colors[$i];
-                }
-                $content .= $this->writeSide($sides[$i], $this->sizes[$i], $color);
-            }
+        foreach ($this->borders as $side => $border) {
+            $content .= $this->writeSide($side, $border);
         }
 
         return $content;
@@ -69,20 +57,19 @@ class Border extends AbstractStyle
 
     /**
      * Write side
-     *
-     * @param string $side
-     * @param int $width
-     * @param string $color
-     * @return string
      */
-    private function writeSide($side, $width, $color = '')
+    private function writeSide(string $side, BorderSide $border): string
     {
+        if (!in_array($side, array('top', 'bottom', 'left', 'right'))) {
+            throw new Exception(sprintf('Invalid side `%s` provided', $side));
+        }
+
         /** @var \PhpOffice\PhpWord\Writer\RTF $rtfWriter */
         $rtfWriter = $this->getParentWriter();
         $colorIndex = 0;
         if ($rtfWriter !== null) {
             $colorTable = $rtfWriter->getColorTable();
-            $index = array_search($color, $colorTable);
+            $index = array_search($border->getColor()->toHexOrName(), $colorTable);
             if ($index !== false && $colorIndex !== null) {
                 $colorIndex = $index + 1;
             }
@@ -92,7 +79,7 @@ class Border extends AbstractStyle
 
         $content .= '\pgbrdr' . substr($side, 0, 1);
         $content .= '\brdrs'; // Single-thickness border; @todo Get other type of border
-        $content .= '\brdrw' . round($width); // Width
+        $content .= '\brdrw' . $border->getSize()->toInt('twip'); // Width
         $content .= '\brdrcf' . $colorIndex; // Color
         $content .= '\brsp480'; // Space in twips between borders and the paragraph (24pt, following OOXML)
         $content .= ' ';
@@ -101,22 +88,28 @@ class Border extends AbstractStyle
     }
 
     /**
-     * Set sizes.
-     *
-     * @param int[] $value
+     * @param BorderSide[] $borders
      */
-    public function setSizes($value)
+    public function setBorders(array $borders): self
     {
-        $this->sizes = $value;
+        foreach ($borders as $side => $border) {
+            $this->setBorder($side, $border);
+        }
+
+        return $this;
     }
 
     /**
-     * Set colors.
-     *
-     * @param string[] $value
+     * Set sizes.
      */
-    public function setColors($value)
+    public function setBorder(string $side, BorderSide $border): self
     {
-        $this->colors = $value;
+        if (!in_array($side, array('top', 'bottom', 'left', 'right'))) {
+            throw new Exception(sprintf('Invalid side `%s` provided', $side));
+        }
+
+        $this->borders[$side] = $border;
+
+        return $this;
     }
 }

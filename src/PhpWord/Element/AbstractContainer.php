@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -73,8 +74,6 @@ abstract class AbstractContainer extends AbstractElement
      *
      * Warning: This makes capitalization matters, e.g. addCheckbox or addcheckbox won't work.
      *
-     * @param mixed $function
-     * @param mixed $args
      * @return \PhpOffice\PhpWord\Element\AbstractElement
      */
     public function __call($function, $args)
@@ -286,11 +285,11 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @deprecated 0.10.0
      *
-     * @param mixed $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Element\TextRun
      *
      * @codeCoverageIgnore
+     * @param null|mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\TextRun
      */
     public function createTextRun($paragraphStyle = null)
     {
@@ -302,11 +301,11 @@ abstract class AbstractContainer extends AbstractElement
      *
      * @deprecated 0.10.0
      *
-     * @param mixed $paragraphStyle
      *
-     * @return \PhpOffice\PhpWord\Element\Footnote
      *
      * @codeCoverageIgnore
+     * @param null|mixed $paragraphStyle
+     * @return \PhpOffice\PhpWord\Element\Footnote
      */
     public function createFootnote($paragraphStyle = null)
     {

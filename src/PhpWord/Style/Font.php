@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -16,6 +17,12 @@
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\Style\Colors\BasicColor;
+use PhpOffice\PhpWord\Style\Colors\Hex;
+use PhpOffice\PhpWord\Style\Colors\HighlightColor;
+use PhpOffice\PhpWord\Style\Lengths\Absolute;
+use PhpOffice\PhpWord\Style\Lengths\Percent;
 
 /**
  * Font style
@@ -55,27 +62,6 @@ class Font extends AbstractStyle
     const UNDERLINE_WORDS = 'words';
 
     /**
-     * Foreground colors
-     *
-     * @const string
-     */
-    const FGCOLOR_YELLOW = 'yellow';
-    const FGCOLOR_LIGHTGREEN = 'green';
-    const FGCOLOR_CYAN = 'cyan';
-    const FGCOLOR_MAGENTA = 'magenta';
-    const FGCOLOR_BLUE = 'blue';
-    const FGCOLOR_RED = 'red';
-    const FGCOLOR_DARKBLUE = 'darkBlue';
-    const FGCOLOR_DARKCYAN = 'darkCyan';
-    const FGCOLOR_DARKGREEN = 'darkGreen';
-    const FGCOLOR_DARKMAGENTA = 'darkMagenta';
-    const FGCOLOR_DARKRED = 'darkRed';
-    const FGCOLOR_DARKYELLOW = 'darkYellow';
-    const FGCOLOR_DARKGRAY = 'darkGray';
-    const FGCOLOR_LIGHTGRAY = 'lightGray';
-    const FGCOLOR_BLACK = 'black';
-
-    /**
      * Aliases
      *
      * @var array
@@ -106,14 +92,14 @@ class Font extends AbstractStyle
     /**
      * Font size
      *
-     * @var int|float
+     * @var Absolute
      */
     private $size;
 
     /**
      * Font color
      *
-     * @var string
+     * @var BasicColor
      */
     private $color;
 
@@ -185,34 +171,37 @@ class Font extends AbstractStyle
     /**
      * Foreground/highlight
      *
-     * @var string
+     * @var HighlightColor
      */
     private $fgColor;
 
     /**
      * Expanded/compressed text: 0-600 (percent)
      *
-     * @var int
+     * @var Percent
      * @since 0.12.0
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_w-1.html
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
     private $scale;
 
     /**
      * Character spacing adjustment: twip
      *
-     * @var int|float
+     * @var Absolute
      * @since 0.12.0
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_spacing-2.html
      */
     private $spacing;
 
     /**
-     * Font kerning: halfpoint
+     * The smallest font size
+     * which should have kerning automatically adjusted.
      *
-     * @var int|float
+     * @var Absolute
      * @since 0.12.0
      * @see  http://www.schemacentral.com/sc/ooxml/e-w_kern-1.html
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
     private $kerning;
 
@@ -263,7 +252,7 @@ class Font extends AbstractStyle
     /**
      * Vertically Raised or Lowered Text
      *
-     * @var int Signed Half-Point Measurement
+     * @var Absolute
      * @see http://www.datypic.com/sc/ooxml/e-w_position-1.html
      */
     private $position;
@@ -382,44 +371,42 @@ class Font extends AbstractStyle
 
     /**
      * Get font size
-     *
-     * @return int|float
      */
-    public function getSize()
+    public function getSize(): Absolute
     {
+        if ($this->size === null) {
+            $this->size = new Absolute(null);
+        }
+
         return $this->size;
     }
 
     /**
      * Set font size
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setSize($value = null)
+    public function setSize(Absolute $value): self
     {
-        $this->size = $this->setNumericVal($value, $this->size);
+        $this->size = $value;
 
         return $this;
     }
 
     /**
      * Get font color
-     *
-     * @return string
      */
-    public function getColor()
+    public function getColor(): BasicColor
     {
+        if ($this->color === null) {
+            $this->color = new Hex(null);
+        }
+
         return $this->color;
     }
 
     /**
      * Set font color
-     *
-     * @param string $value
-     * @return self
      */
-    public function setColor($value = null)
+    public function setColor(BasicColor $value): self
     {
         $this->color = $value;
 
@@ -623,21 +610,22 @@ class Font extends AbstractStyle
 
     /**
      * Get foreground/highlight color
-     *
-     * @return string
      */
-    public function getFgColor()
+    public function getFgColor(): HighlightColor
     {
+        if ($this->fgColor === null) {
+            $this->fgColor = new HighlightColor(null);
+        }
+
         return $this->fgColor;
     }
 
     /**
      * Set foreground/highlight color
      *
-     * @param string $value
      * @return self
      */
-    public function setFgColor($value = null)
+    public function setFgColor(HighlightColor $value)
     {
         $this->fgColor = $value;
 
@@ -651,85 +639,96 @@ class Font extends AbstractStyle
      */
     public function getBgColor()
     {
-        return $this->getChildStyleValue($this->shading, 'fill');
+        $value = $this->getChildStyleValue($this->shading, 'fill');
+
+        if ($value === null) {
+            $this->setShading(array());
+            $value = $this->getChildStyleValue($this->shading, 'fill');
+        }
+
+        return $value;
     }
 
     /**
      * Set background
      *
-     * @param string $value
-     * @return \PhpOffice\PhpWord\Style\Table
+     * @param BasicColor $value
      */
-    public function setBgColor($value = null)
+    public function setBgColor(BasicColor $value = null): self
     {
         $this->setShading(array('fill' => $value));
+
+        return $this;
     }
 
     /**
-     * Get scale
-     *
-     * @return int
+     * Get horizontal scaling of characters
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
-    public function getScale()
+    public function getScale(): Percent
     {
+        if ($this->scale === null) {
+            $this->scale = new Percent(null);
+        }
+
         return $this->scale;
     }
 
     /**
-     * Set scale
-     *
-     * @param int $value
-     * @return self
+     * Set horizontal scaling of characters
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
-    public function setScale($value = null)
+    public function setScale(Percent $value): self
     {
-        $this->scale = $this->setIntVal($value, null);
+        $this->scale = $value;
 
         return $this;
     }
 
     /**
      * Get font spacing
-     *
-     * @return int|float
      */
-    public function getSpacing()
+    public function getSpacing(): Absolute
     {
+        if ($this->spacing === null) {
+            $this->spacing = new Absolute(null);
+        }
+
         return $this->spacing;
     }
 
     /**
      * Set font spacing
-     *
-     * @param int|float $value
-     * @return self
      */
-    public function setSpacing($value = null)
+    public function setSpacing(Absolute $value): self
     {
-        $this->spacing = $this->setNumericVal($value, null);
+        $this->spacing = $value;
 
         return $this;
     }
 
     /**
-     * Get font kerning
-     *
-     * @return int|float
+     * Get the smallest font size
+     * which should have kerning automatically adjusted.
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
-    public function getKerning()
+    public function getKerning(): Absolute
     {
+        if ($this->kerning === null) {
+            $this->kerning = new Absolute(null);
+        }
+
         return $this->kerning;
     }
 
     /**
-     * Set font kerning
-     *
-     * @param int|float $value
-     * @return self
+     * Set the smallest font size
+     * which should have kerning automatically adjusted.
+     * @see http://www.officeopenxml.com/WPtextSpacing.php
      */
-    public function setKerning($value = null)
+    public function setKerning(Absolute $value): self
     {
-        $this->kerning = $this->setNumericVal($value, null);
+        $this->kerning = $value;
 
         return $this;
     }
@@ -759,21 +758,16 @@ class Font extends AbstractStyle
 
     /**
      * Get line height
-     *
-     * @return int|float
      */
-    public function getLineHeight()
+    public function getLineHeight(): Percent
     {
         return $this->getParagraph()->getLineHeight();
     }
 
     /**
-     * Set lineheight
-     *
-     * @param int|float|string $value
-     * @return self
+     * Set line height
      */
-    public function setLineHeight($value)
+    public function setLineHeight(Percent $value): self
     {
         $this->setParagraph(array('lineHeight' => $value));
 
@@ -793,7 +787,7 @@ class Font extends AbstractStyle
     /**
      * Set Paragraph
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setParagraph($value = null)
@@ -833,13 +827,17 @@ class Font extends AbstractStyle
      */
     public function getShading()
     {
+        if ($this->shading === null) {
+            $this->setShading(array());
+        }
+
         return $this->shading;
     }
 
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setShading($value = null)
@@ -862,7 +860,7 @@ class Font extends AbstractStyle
     /**
      * Set language
      *
-     * @param mixed $value
+     * @param null|mixed $value
      * @return self
      */
     public function setLang($value = null)
@@ -972,23 +970,22 @@ class Font extends AbstractStyle
 
     /**
      * Get position
-     *
-     * @return int
      */
-    public function getPosition()
+    public function getPosition(): Absolute
     {
+        if ($this->position === null) {
+            $this->position = new Absolute(null);
+        }
+
         return $this->position;
     }
 
     /**
      * Set position
-     *
-     * @param int $value
-     * @return self
      */
-    public function setPosition($value = null)
+    public function setPosition(Absolute $value): self
     {
-        $this->position = $this->setIntVal($value, null);
+        $this->position = $value;
 
         return $this;
     }

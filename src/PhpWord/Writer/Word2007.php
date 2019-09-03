@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of PHPWord - A pure PHP library for reading and writing
  * word processing documents.
@@ -167,7 +168,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add header/footer media files, e.g. footer1.xml.rels.
      *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $docPart
      */
     private function addHeaderFooterMedia(ZipArchive $zip, $docPart)
@@ -193,7 +193,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
      * Add header/footer content.
      *
      * @param \PhpOffice\PhpWord\Element\Section &$section
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param string $elmType header|footer
      * @param int &$rId
      */
@@ -219,7 +218,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add footnotes/endnotes
      *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param int &$rId
      * @param string $noteType
      */
@@ -256,7 +254,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add comments
      *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param int &$rId
      */
     private function addComments(ZipArchive $zip, &$rId)
@@ -279,7 +276,6 @@ class Word2007 extends AbstractWriter implements WriterInterface
     /**
      * Add chart.
      *
-     * @param \PhpOffice\PhpWord\Shared\ZipArchive $zip
      * @param int &$rId
      */
     private function addChart(ZipArchive $zip, &$rId)
