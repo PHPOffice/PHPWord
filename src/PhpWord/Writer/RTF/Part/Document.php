@@ -127,7 +127,8 @@ class Document extends AbstractPart
             $content .= $styleWriter->write();
 
             // Append headers / footers
-            foreach (array('Header', 'Footer') as $sectionPart) {
+            $sectionParts = array('Header', 'Footer');
+            foreach ($sectionParts as $sectionPart) {
                 $getFunction = 'get' . $sectionPart . 's';
                 $className = 'PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Section' . $sectionPart;
                 foreach ($section->$getFunction() as &$part) {
