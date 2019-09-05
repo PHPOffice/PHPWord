@@ -17,6 +17,7 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
+use PhpOffice\PhpWord\Element\Header;
 use PhpOffice\PhpWord\Writer\RTF\Element\Container;
 
 /**
@@ -47,6 +48,12 @@ class SectionHeader extends AbstractPart
     {
         $content = '{';
         $content .= $this->rootElement;
+        $type = $this->element->getType();
+        if ($type == Header::FIRST) {
+            $content .= 'f';
+        } elseif ($type == Header::EVEN) {
+            $content .= 'r';
+        }
 
         $containerWriter = new Container($this->getParentWriter(), $this->element);
         $content .= $containerWriter->write();

@@ -131,7 +131,8 @@ class Document extends AbstractPart
             foreach ($sectionParts as $sectionPart) {
                 $getFunction = 'get' . $sectionPart . 's';
                 $className = 'PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Section' . $sectionPart;
-                foreach ($section->$getFunction() as &$part) {
+                $parts = $section->$getFunction();
+                foreach ($parts as $part) {
                     $partWriter = new $className();
                     $partWriter->setParentWriter($this->getParentWriter());
                     $partWriter->setElement($part);
