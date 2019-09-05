@@ -17,10 +17,13 @@
 
 namespace PhpOffice\PhpWord\Writer\RTF\Part;
 
+use PhpOffice\PhpWord\Element\Footer;
+use PhpOffice\PhpWord\Writer\RTF\Element\Container;
+
 /**
  * RTF page footer writer
  */
-class SectionFooter extends SectionHeader
+class SectionFooter extends AbstractPart
 {
     /**
      * Root element name
@@ -28,4 +31,48 @@ class SectionFooter extends SectionHeader
      * @var string
      */
     protected $rootElement = '\footer';
+
+    /**
+     * Footer/header element to be written
+     *
+     * @var \PhpOffice\PhpWord\Element\Footer|\PhpOffice\PhpWord\Element\Header
+     */
+    protected $element;
+
+    /**
+     * Write part
+     *
+     * @return string
+     */
+    public function write()
+    {
+        $content = '{';
+        $content .= $this->rootElement;
+        $type = $this->element->getType();
+        if ($type == Footer::FIRST) {
+            $content .= 'f';
+        } elseif ($type == Footer::EVEN) {
+            $content .= 'r';
+        }
+
+        $containerWriter = new Container($this->getParentWriter(), $this->element);
+        $content .= $containerWriter->write();
+
+        $content .= '}' . PHP_EOL;
+
+        return $content;
+    }
+
+    /**
+     * Set element
+     *
+     * @param \PhpOffice\PhpWord\Element\Footer|\PhpOffice\PhpWord\Element\Header $element
+     * @return self
+     */
+    public function setElement($element)
+    {
+        $this->element = $element;
+
+        return $this;
+    }
 }
