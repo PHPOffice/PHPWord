@@ -121,10 +121,24 @@ class Document extends AbstractPart
 
         $sections = $this->getParentWriter()->getPhpWord()->getSections();
         foreach ($sections as $section) {
+            // Write styles
             $styleWriter = new SectionStyleWriter($section->getStyle());
             $styleWriter->setParentWriter($this->getParentWriter());
             $content .= $styleWriter->write();
 
+            // Append headers / footers
+            foreach (array('Header', 'Footer') as $sectionPart) {
+                $getFunction = 'get' . $sectionPart . 's';
+                $className = 'PhpOffice\\PhpWord\\Writer\\RTF\\Part\\Section' . $sectionPart;
+                foreach ($section->$getFunction() as &$part) {
+                    $partWriter = new $className();
+                    $partWriter->setParentWriter($this->getParentWriter());
+                    $partWriter->setElement($part);
+                    $content .= $partWriter->write();
+                }
+            }
+
+            // Write content
             $elementWriter = new Container($this->getParentWriter(), $section);
             $content .= $elementWriter->write();
 
