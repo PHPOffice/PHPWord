@@ -447,6 +447,13 @@ class TemplateProcessor
         $width = null;
         $height = null;
         $ratio = null;
+
+        // a closure can be passed as replacement value which after resolving, can contain the replacement info for the image
+        // use case: only when a image if found, the replacement tags can be generated
+        if (is_callable($replaceImage)) {
+            $replaceImage = $replaceImage();
+        }
+
         if (is_array($replaceImage) && isset($replaceImage['path'])) {
             $imgPath = $replaceImage['path'];
             if (isset($replaceImage['width'])) {
