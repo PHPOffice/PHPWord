@@ -52,7 +52,7 @@ class Table extends AbstractElement
             $xmlWriter->startElement('w:tbl');
 
             // Write columns
-            //$this->writeColumns($xmlWriter, $element);
+            $this->writeColumns($xmlWriter, $element);
 
             // Write style
             $styleWriter = new TableStyleWriter($xmlWriter, $element->getStyle());

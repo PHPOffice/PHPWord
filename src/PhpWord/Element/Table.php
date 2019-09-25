@@ -157,17 +157,40 @@ class Table extends AbstractElement
     public function findFirstDefinedCellWidths()
     {
         $cellWidths = array();
+        $maxCells = 0;
 
         foreach ($this->rows as $row) {
             $cells = $row->getCells();
-            if (count($cells) <= count($cellWidths)) {
-                continue;
-            }
-            $cellWidths = array();
-            foreach ($cells as $cell) {
-                $cellWidths[] = $cell->getWidth();
+            $delta = 0;
+            if($maxCells < count($cells)) {
+                $maxCells = count($cells);
+                foreach ($cells as $cellIndex => $cell) {
+
+                    if((int)$cell->getStyle()->getVMerge() > 1)
+                        $delta += (int)$cell->getStyle()->getVMerge() - 1;
+                    else
+                        $cellWidths[$cellIndex + $delta] = $cell->getWidth() ?? $cellWidths[$cellIndex + $delta] ?? null;
+
+                }
             }
         }
+
+        $countOfNulls = count(array_filter($cellWidths,'is_null'));
+        $cellWidthsTotal = array_sum($cellWidths);
+        $badTableCondition = ($cellWidthsTotal > 5000) || (($countOfNulls > 0) && (intval((5000 - $cellWidthsTotal) / $countOfNulls) < 50));
+
+        foreach($cellWidths as &$cellWidth) {
+            if($badTableCondition)
+                $cellWidth = intval(5000 / count($cellWidths));
+
+            if(!$cellWidth)
+                $cellWidth = intval((5000 - $cellWidthsTotal) / $countOfNulls) ?: 50;
+        }
+
+        if($badTableCondition)
+            $this->style->setLayout(\PhpOffice\PhpWord\Style\Table::LAYOUT_AUTO);
+        else
+            $this->style->setLayout(\PhpOffice\PhpWord\Style\Table::LAYOUT_FIXED);
 
         return $cellWidths;
     }
