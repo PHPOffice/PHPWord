@@ -175,7 +175,9 @@ class Table extends AbstractElement
             }
         }
 
-        $countOfNulls = count(array_filter($cellWidths,'is_null'));
+        $countOfNulls = count(array_filter($cellWidths, function($v, $k) {
+            return !$v;
+        }, ARRAY_FILTER_USE_BOTH));
         $cellWidthsTotal = array_sum($cellWidths);
         $badTableCondition = ($cellWidthsTotal > 5000) || (($countOfNulls > 0) && (intval((5000 - $cellWidthsTotal) / $countOfNulls) < 50));
 
